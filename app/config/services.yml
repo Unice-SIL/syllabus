@@ -29,7 +29,11 @@ services:
         public: true
         tags: ['controller.service_arguments']
 
-    # add more services, or override services that need manual wiring
-    # AppBundle\Service\ExampleService:
-    #     arguments:
-    #         $someArgument: 'some_value'
+
+    # AUTHENTICATORS
+    AppBundle\Security\Authenticator\TestAuthenticator:
+        arguments: [%test_authenticator%]
+
+    # PROVIDERS
+    AppBundle\Security\Provider\TestUserProvider:
+            arguments: [%test_authenticator%]

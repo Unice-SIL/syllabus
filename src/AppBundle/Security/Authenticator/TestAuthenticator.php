@@ -1,14 +1,15 @@
 <?php
 
-namespace AppBundle\Security;
+namespace AppBundle\Security\Authenticator;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
@@ -17,18 +18,26 @@ use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
  * Class TestAuthAuthenticator
  * @package AppBundle\Security
  */
-class TestAuthAuthenticator extends AbstractGuardAuthenticator
+class TestAuthenticator extends AbstractGuardAuthenticator
 {
-
+    /**
+     * @var array
+     */
     private $config;
-    private $tokenStorage;
 
+    /**
+     * @var TokenStorageInterface
+     */
+    private $tokenStorage;
 
     /**
      * TestAuthAuthenticator constructor.
-     * @param $config
+     * @param array $config
+     * @param TokenStorageInterface $tokenStorage
      */
-    public function __construct($config, TokenStorage $tokenStorage)
+    public function __construct(
+        array $config = array(),
+        TokenStorageInterface $tokenStorage)
     {
         $this->config = $config;
         $this->tokenStorage = $tokenStorage;
@@ -57,11 +66,20 @@ class TestAuthAuthenticator extends AbstractGuardAuthenticator
 
     /**
      * @param Request $request
-     * @return array|null
+     * @return mixed
      */
     public function getCredentials(Request $request)
     {
-        return array();
+        if(!array_key_exists('current', $this->config)){
+            throw new UsernameNotFoundException("Username not found in test authenticator_configuration");
+        }
+        $username = $this->config['current'];
+        if(!array_key_exists($username, $this->config['users'])){
+            throw new UsernameNotFoundException(sprintf("User %s not found in users configured for test_authenticator", $username));
+        }
+        $credentials = $this->config['users'][$username];
+        $credentials['username'] = $username;
+        return $credentials;
     }
 
     /**
@@ -71,7 +89,10 @@ class TestAuthAuthenticator extends AbstractGuardAuthenticator
      */
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-        return $userProvider->loadUserByUsername("");
+        if(!array_key_exists('username', $credentials)){
+            throw new UsernameNotFoundException("Username not found in credentials");
+        }
+        return $userProvider->loadUserByUsername($credentials['username']);
     }
 
     /**

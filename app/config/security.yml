@@ -4,8 +4,8 @@ security:
 
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
-        in_memory:
-            memory: ~
+        test:
+            id: AppBundle\Security\Provider\TestUserProvider
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
@@ -14,11 +14,12 @@ security:
             security: false
 
         main:
+            pattern: ^/
+            guard:
+                authenticator: AppBundle\Security\Authenticator\TestAuthenticator
+                provider: test
             anonymous: ~
-            # activate different ways to authenticate
 
-            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
-            #http_basic: ~
 
-            # https://symfony.com/doc/current/security/form_login_setup.html
-            #form_login: ~
+    access_control:
+        - { path: ^/, role: ROLE_ADMIN }
