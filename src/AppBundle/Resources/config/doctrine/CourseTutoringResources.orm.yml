@@ -1,0 +1,36 @@
+AppBundle\Entity\CourseTutoringResources:
+    type: entity
+    table: course_tutoring_resources
+    indexes:
+        fk_course_tutoring_resources_course_info1_idx:
+            columns:
+                - course_info_id
+    id:
+        id:
+            type: string
+            nullable: false
+            length: 36
+            options:
+                fixed: true
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        description:
+            type: text
+            nullable: false
+            length: 65535
+            options:
+                fixed: false
+    manyToOne:
+        courseInfo:
+            targetEntity: CourseInfo
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                course_info_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

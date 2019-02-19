@@ -20,6 +20,5 @@ security:
                 provider: test
             anonymous: ~
 
-
     access_control:
         - { path: ^/, role: ROLE_ADMIN }

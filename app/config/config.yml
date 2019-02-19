@@ -39,24 +39,31 @@ twig:
 # Doctrine Configuration
 doctrine:
     dbal:
-        driver: pdo_mysql
-        host: '%database_host%'
-        port: '%database_port%'
-        dbname: '%database_name%'
-        user: '%database_user%'
-        password: '%database_password%'
-        charset: UTF8
-        # if using pdo_sqlite as your database driver:
-        #   1. add the path in parameters.yml
-        #     e.g. database_path: '%kernel.project_dir%/var/data/data.sqlite'
-        #   2. Uncomment database_path in parameters.yml.dist
-        #   3. Uncomment next line:
-        #path: '%database_path%'
-
+        default_connection: syllabus
+        connections:
+            syllabus:
+                driver: '%syllabus_database_driver%'
+                host: '%syllabus_database_host%'
+                port: '%syllabus_database_port%'
+                dbname: '%syllabus_database_name%'
+                user: '%syllabus_database_user%'
+                password: '%syllabus_database_password%'
+                charset: '%syllabus_database_charset%'
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
-        naming_strategy: doctrine.orm.naming_strategy.underscore
-        auto_mapping: true
+        #naming_strategy: doctrine.orm.naming_strategy.underscore
+        #auto_mapping: true
+        default_entity_manager: syllabus
+        entity_managers:
+            syllabus:
+                connection: syllabus
+                auto_mapping: true
+                #mappings:
+                    #entity:
+                        #type: annotation
+                        #prefix: AppBundle\Model
+                        #dir: '%kernel.project_dir%/app/config/doctrine/app'
+                        #alias: Syllabus
 
 # Swiftmailer Configuration
 swiftmailer:

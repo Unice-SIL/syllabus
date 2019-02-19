@@ -1,0 +1,49 @@
+AppBundle\Entity\CourseResourceEquipment:
+    type: entity
+    table: course_resource_equipment
+    indexes:
+        fk_course_resource_equipment_course_info1_idx:
+            columns:
+                - course_info_id
+        fk_course_resource_equipment_equipment1_idx:
+            columns:
+                - equipment_id
+    id:
+        id:
+            type: string
+            nullable: false
+            length: 36
+            options:
+                fixed: true
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        description:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+    manyToOne:
+        courseInfo:
+            targetEntity: CourseInfo
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                course_info_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        equipment:
+            targetEntity: Equipment
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                equipment_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }
