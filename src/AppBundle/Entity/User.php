@@ -65,26 +65,29 @@ class User implements UserInterface
     private $salt;
 
     /**
-     * @var string|null
+     * @var array|null
      *
-     * @ORM\Column(name="roles", type="text", length=0, nullable=true)
+     * @ORM\Column(name="roles", type="array", nullable=true)
      */
     private $roles;
 
     /**
      * @return string
      */
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }
 
     /**
      * @param string $id
+     * @return User
      */
-    public function setId($id)
+    public function setId(string $id): User
     {
         $this->id = $id;
+
+        return $this;
     }
 
     /**
@@ -97,10 +100,13 @@ class User implements UserInterface
 
     /**
      * @param null|string $username
+     * @return User
      */
     public function setUsername($username)
     {
         $this->username = $username;
+
+        return $this;
     }
 
     /**
@@ -113,10 +119,13 @@ class User implements UserInterface
 
     /**
      * @param null|string $firstname
+     * @return User
      */
     public function setFirstname($firstname)
     {
         $this->firstname = $firstname;
+
+        return $this;
     }
 
     /**
@@ -129,10 +138,13 @@ class User implements UserInterface
 
     /**
      * @param null|string $lastname
+     * @return User
      */
     public function setLastname($lastname)
     {
         $this->lastname = $lastname;
+
+        return $this;
     }
 
     /**
@@ -145,10 +157,13 @@ class User implements UserInterface
 
     /**
      * @param null|string $email
+     * @return User
      */
     public function setEmail($email)
     {
         $this->email = $email;
+
+        return $this;
     }
 
     /**
@@ -161,10 +176,13 @@ class User implements UserInterface
 
     /**
      * @param null|string $password
+     * @return User
      */
     public function setPassword($password)
     {
         $this->password = $password;
+
+        return $this;
     }
 
     /**
@@ -177,14 +195,17 @@ class User implements UserInterface
 
     /**
      * @param null|string $salt
+     * @return User
      */
     public function setSalt($salt)
     {
         $this->salt = $salt;
+
+        return $this;
     }
 
     /**
-     * @return null|string
+     * @return null|array
      */
     public function getRoles()
     {
@@ -192,13 +213,15 @@ class User implements UserInterface
     }
 
     /**
-     * @param null|string $roles
+     * @param null|array $roles
+     * @return User
      */
     public function setRoles($roles)
     {
         $this->roles = $roles;
-    }
 
+        return $this;
+    }
 
     /**
      * Removes sensitive data from the user.

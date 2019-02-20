@@ -17,7 +17,7 @@ AppBundle\Entity\Permission:
                 fixed: true
             id: true
             generator:
-                strategy: IDENTITY
+                strategy: NONE
     fields:
         role:
             type: string

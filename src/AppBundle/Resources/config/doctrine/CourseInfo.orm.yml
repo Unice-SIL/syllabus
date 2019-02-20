@@ -26,7 +26,7 @@ AppBundle\Entity\CourseInfo:
                 fixed: true
             id: true
             generator:
-                strategy: IDENTITY
+                strategy: NONE
     fields:
         title:
             type: string

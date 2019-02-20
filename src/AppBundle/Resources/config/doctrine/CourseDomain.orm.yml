@@ -14,7 +14,7 @@ AppBundle\Entity\CourseDomain:
                 fixed: true
             id: true
             generator:
-                strategy: IDENTITY
+                strategy: NONE
     fields:
         domain:
             type: string

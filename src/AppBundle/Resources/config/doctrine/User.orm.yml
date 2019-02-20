@@ -14,7 +14,7 @@ AppBundle\Entity\User:
                 fixed: true
             id: true
             generator:
-                strategy: IDENTITY
+                strategy: NONE
     fields:
         username:
             type: string
@@ -53,9 +53,6 @@ AppBundle\Entity\User:
             options:
                 fixed: false
         roles:
-            type: text
+            type: array
             nullable: true
-            length: 0
-            options:
-                fixed: false
     lifecycleCallbacks: {  }

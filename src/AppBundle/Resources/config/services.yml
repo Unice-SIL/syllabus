@@ -1,0 +1,21 @@
+services:
+    # GENERAL
+    _instanceof:
+        AppBundle\Port\Action\ActionInterface:
+            public: true
+            autowire: true
+            tags: ['controller.service_arguments']
+
+    # ALIAS
+    AppBundle\Port\Repository\UserRepositoryInterface: '@user_doctrine_repository'
+
+    # ENTITY MANAGER
+    syllabus_entity_manager:
+        class: Doctrine\ORM\EntityManager
+        factory: ['@doctrine', getManager]
+        arguments: ['syllabus']
+
+    # REPOSITORY
+    user_doctrine_repository:
+        class: AppBundle\Repository\Doctrine\UserDoctrineRepository
+        arguments: ['@syllabus_entity_manager']

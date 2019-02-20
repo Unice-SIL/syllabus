@@ -14,7 +14,7 @@ AppBundle\Entity\Course:
                 fixed: true
             id: true
             generator:
-                strategy: IDENTITY
+                strategy: NONE
     fields:
         type:
             type: string

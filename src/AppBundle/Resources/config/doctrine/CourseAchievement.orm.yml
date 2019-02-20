@@ -14,7 +14,7 @@ AppBundle\Entity\CourseAchievement:
                 fixed: true
             id: true
             generator:
-                strategy: IDENTITY
+                strategy: NONE
     fields:
         description:
             type: text

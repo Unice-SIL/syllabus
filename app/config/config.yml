@@ -58,12 +58,6 @@ doctrine:
             syllabus:
                 connection: syllabus
                 auto_mapping: true
-                #mappings:
-                    #entity:
-                        #type: annotation
-                        #prefix: AppBundle\Model
-                        #dir: '%kernel.project_dir%/app/config/doctrine/app'
-                        #alias: Syllabus
 
 # Swiftmailer Configuration
 swiftmailer:

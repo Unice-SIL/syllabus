@@ -10,7 +10,7 @@ AppBundle\Entity\Equipment:
                 fixed: true
             id: true
             generator:
-                strategy: IDENTITY
+                strategy: NONE
     fields:
         label:
             type: string

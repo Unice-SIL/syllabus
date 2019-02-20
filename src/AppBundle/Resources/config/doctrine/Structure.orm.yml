@@ -10,7 +10,7 @@ AppBundle\Entity\Structure:
                 fixed: true
             id: true
             generator:
-                strategy: IDENTITY
+                strategy: NONE
     fields:
         etbCode:
             type: string
