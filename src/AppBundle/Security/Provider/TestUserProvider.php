@@ -2,7 +2,7 @@
 
 namespace AppBundle\Security\Provider;
 
-use AppBundle\Model\User;
+use AppBundle\Entity\User;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;

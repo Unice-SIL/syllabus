@@ -17,3 +17,12 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret: ThisTokenIsNotSoSecretChangeIt
+
+    test_authenticator:
+        current: test1
+        users:
+            test1:
+              firstname: Test1
+              lastname: TEST1
+              email: test1@unice.fr
+              roles: [ ROLE_USER ]
