@@ -3,8 +3,9 @@
 namespace AppBundle\Query\User;
 
 use AppBundle\Entity\User;
-use AppBundle\Port\Query\QueryInterface;
-use AppBundle\Port\Repository\UserRepositoryInterface;
+use AppBundle\Exception\UserNotFoundException;
+use AppBundle\Query\QueryInterface;
+use AppBundle\Repository\UserRepositoryInterface;
 
 /**
  * Class FindUserByUsernameQuery
@@ -52,6 +53,9 @@ class FindUserByIdQuery implements QueryInterface
         $user = null;
         try{
             $user = $this->userRepository->find($this->id);
+            if(is_null($user)){
+                throw new UserNotFoundException(sprintf("User with id %s not found", $this->id));
+            }
         }catch (\Exception $e){
             throw $e;
         }

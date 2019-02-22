@@ -24,16 +24,16 @@ class Equipment
     /**
      * @var string|null
      *
-     * @ORM\Column(name="label", type="string", length=100, nullable=true)
+     * @ORM\Column(name="label", type="string", length=100, nullable=false)
      */
     private $label;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="label_visibility", type="boolean", nullable=false, options={"default"="1"})
+     * @ORM\Column(name="label_visibility", type="boolean", nullable=false)
      */
-    private $labelVisibility = '1';
+    private $labelVisibility = true;
 
     /**
      * @var string|null
@@ -47,14 +47,128 @@ class Equipment
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
      */
-    private $obsolete = '0';
+    private $obsolete = false;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="order", type="integer", nullable=false)
+     * @ORM\Column(name="ord", type="integer", nullable=false)
      */
-    private $order = '0';
+    private $ord = 0;
+
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param string $id
+     * @return Equipment
+     */
+    public function setId(string $id): Equipment
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getLabel()
+    {
+        return $this->label;
+    }
+
+    /**
+     * @param null|string $label
+     * @return Equipment
+     */
+    public function setLabel($label)
+    {
+        $this->label = $label;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLabelVisibility(): bool
+    {
+        return $this->labelVisibility;
+    }
+
+    /**
+     * @param bool $labelVisibility
+     * @return Equipment
+     */
+    public function setLabelVisibility(bool $labelVisibility): Equipment
+    {
+        $this->labelVisibility = $labelVisibility;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getIcon()
+    {
+        return $this->icon;
+    }
+
+    /**
+     * @param null|string $icon
+     * @return Equipment
+     */
+    public function setIcon($icon)
+    {
+        $this->icon = $icon;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isObsolete(): bool
+    {
+        return $this->obsolete;
+    }
+
+    /**
+     * @param bool $obsolete
+     * @return Equipment
+     */
+    public function setObsolete(bool $obsolete): Equipment
+    {
+        $this->obsolete = $obsolete;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getOrd(): int
+    {
+        return $this->ord;
+    }
+
+    /**
+     * @param int $ord
+     * @return Equipment
+     */
+    public function setOrd(int $ord): Equipment
+    {
+        $this->ord = $ord;
+
+        return $this;
+    }
 
 
 }

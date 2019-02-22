@@ -4,8 +4,8 @@ namespace AppBundle\Query\User;
 
 use AppBundle\Entity\User;
 use AppBundle\Exception\UserNotFoundException;
-use AppBundle\Port\Query\QueryInterface;
-use AppBundle\Port\Repository\UserRepositoryInterface;
+use AppBundle\Query\QueryInterface;
+use AppBundle\Repository\UserRepositoryInterface;
 
 /**
  * Class FindUserByUsernameQuery

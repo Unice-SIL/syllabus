@@ -3,7 +3,7 @@
 namespace AppBundle\Repository\Doctrine;
 
 use AppBundle\Entity\User;
-use AppBundle\Port\Repository\UserRepositoryInterface;
+use AppBundle\Repository\UserRepositoryInterface;
 use Doctrine\ORM\EntityManager;
 
 /**

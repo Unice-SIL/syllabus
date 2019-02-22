@@ -372,5 +372,935 @@ class CourseInfo
      */
     private $year;
 
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param string $id
+     * @return CourseInfo
+     */
+    public function setId(string $id): CourseInfo
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string $title
+     * @return CourseInfo
+     */
+    public function setTitle(string $title): CourseInfo
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getEcts()
+    {
+        return $this->ects;
+    }
+
+    /**
+     * @param int|null $ects
+     * @return CourseInfo
+     */
+    public function setEcts($ects)
+    {
+        $this->ects = $ects;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getLevel()
+    {
+        return $this->level;
+    }
+
+    /**
+     * @param null|string $level
+     * @return CourseInfo
+     */
+    public function setLevel($level)
+    {
+        $this->level = $level;
+
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getSemester()
+    {
+        return $this->semester;
+    }
+
+    /**
+     * @param int|null $semester
+     * @return CourseInfo
+     */
+    public function setSemester($semester)
+    {
+        $this->semester = $semester;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getSummary()
+    {
+        return $this->summary;
+    }
+
+    /**
+     * @param null|string $summary
+     * @return CourseInfo
+     */
+    public function setSummary($summary)
+    {
+        $this->summary = $summary;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getPeriod()
+    {
+        return $this->period;
+    }
+
+    /**
+     * @param null|string $period
+     * @return CourseInfo
+     */
+    public function setPeriod($period)
+    {
+        $this->period = $period;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param null|string $image
+     * @return CourseInfo
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getVideo()
+    {
+        return $this->video;
+    }
+
+    /**
+     * @param null|string $video
+     * @return CourseInfo
+     */
+    public function setVideo($video)
+    {
+        $this->video = $video;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getTeachingMode()
+    {
+        return $this->teachingMode;
+    }
+
+    /**
+     * @param null|string $teachingMode
+     * @return CourseInfo
+     */
+    public function setTeachingMode($teachingMode)
+    {
+        $this->teachingMode = $teachingMode;
+
+        return $this;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getTeachingCmClass()
+    {
+        return $this->teachingCmClass;
+    }
+
+    /**
+     * @param float|null $teachingCmClass
+     * @return CourseInfo
+     */
+    public function setTeachingCmClass($teachingCmClass)
+    {
+        $this->teachingCmClass = $teachingCmClass;
+
+        return $this;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getTeachingTdClass()
+    {
+        return $this->teachingTdClass;
+    }
+
+    /**
+     * @param float|null $teachingTdClass
+     * @return CourseInfo
+     */
+    public function setTeachingTdClass($teachingTdClass)
+    {
+        $this->teachingTdClass = $teachingTdClass;
+
+        return $this;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getTeachingTpClass()
+    {
+        return $this->teachingTpClass;
+    }
+
+    /**
+     * @param float|null $teachingTpClass
+     * @return CourseInfo
+     */
+    public function setTeachingTpClass($teachingTpClass)
+    {
+        $this->teachingTpClass = $teachingTpClass;
+
+        return $this;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getTeachingOtherClass()
+    {
+        return $this->teachingOtherClass;
+    }
+
+    /**
+     * @param float|null $teachingOtherClass
+     * @return CourseInfo
+     */
+    public function setTeachingOtherClass($teachingOtherClass)
+    {
+        $this->teachingOtherClass = $teachingOtherClass;
+
+        return $this;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getTeachingCmHybridClass()
+    {
+        return $this->teachingCmHybridClass;
+    }
+
+    /**
+     * @param float|null $teachingCmHybridClass
+     * @return CourseInfo
+     */
+    public function setTeachingCmHybridClass($teachingCmHybridClass)
+    {
+        $this->teachingCmHybridClass = $teachingCmHybridClass;
+
+        return $this;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getTeachingTdHybridClass()
+    {
+        return $this->teachingTdHybridClass;
+    }
+
+    /**
+     * @param float|null $teachingTdHybridClass
+     * @return CourseInfo
+     */
+    public function setTeachingTdHybridClass($teachingTdHybridClass)
+    {
+        $this->teachingTdHybridClass = $teachingTdHybridClass;
+
+        return $this;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getTeachingTpHybridClass()
+    {
+        return $this->teachingTpHybridClass;
+    }
+
+    /**
+     * @param float|null $teachingTpHybridClass
+     * @return CourseInfo
+     */
+    public function setTeachingTpHybridClass($teachingTpHybridClass)
+    {
+        $this->teachingTpHybridClass = $teachingTpHybridClass;
+
+        return $this;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getTeachingOtherHybridClass()
+    {
+        return $this->teachingOtherHybridClass;
+    }
+
+    /**
+     * @param float|null $teachingOtherHybridClass
+     * @return CourseInfo
+     */
+    public function setTeachingOtherHybridClass($teachingOtherHybridClass)
+    {
+        $this->teachingOtherHybridClass = $teachingOtherHybridClass;
+
+        return $this;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getTeachingCmHybridDist()
+    {
+        return $this->teachingCmHybridDist;
+    }
+
+    /**
+     * @param float|null $teachingCmHybridDist
+     * @return CourseInfo
+     */
+    public function setTeachingCmHybridDist($teachingCmHybridDist)
+    {
+        $this->teachingCmHybridDist = $teachingCmHybridDist;
+
+        return $this;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getTeachingTdHybridDist()
+    {
+        return $this->teachingTdHybridDist;
+    }
+
+    /**
+     * @param float|null $teachingTdHybridDist
+     * @return CourseInfo
+     */
+    public function setTeachingTdHybridDist($teachingTdHybridDist)
+    {
+        $this->teachingTdHybridDist = $teachingTdHybridDist;
+
+        return $this;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getTeachingOtherHybridDist()
+    {
+        return $this->teachingOtherHybridDist;
+    }
+
+    /**
+     * @param float|null $teachingOtherHybridDist
+     * @return CourseInfo
+     */
+    public function setTeachingOtherHybridDist($teachingOtherHybridDist)
+    {
+        $this->teachingOtherHybridDist = $teachingOtherHybridDist;
+
+        return $this;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getMccWeight()
+    {
+        return $this->mccWeight;
+    }
+
+    /**
+     * @param float|null $mccWeight
+     * @return CourseInfo
+     */
+    public function setMccWeight($mccWeight)
+    {
+        $this->mccWeight = $mccWeight;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isMccCapitalizable(): bool
+    {
+        return $this->mccCapitalizable;
+    }
+
+    /**
+     * @param bool $mccCapitalizable
+     * @return CourseInfo
+     */
+    public function setMccCapitalizable(bool $mccCapitalizable): CourseInfo
+    {
+        $this->mccCapitalizable = $mccCapitalizable;
+
+        return $this;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getMccCcCoeffSession1()
+    {
+        return $this->mccCcCoeffSession1;
+    }
+
+    /**
+     * @param float|null $mccCcCoeffSession1
+     * @return CourseInfo
+     */
+    public function setMccCcCoeffSession1($mccCcCoeffSession1)
+    {
+        $this->mccCcCoeffSession1 = $mccCcCoeffSession1;
+
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getMccCcNbEvalSession1()
+    {
+        return $this->mccCcNbEvalSession1;
+    }
+
+    /**
+     * @param int|null $mccCcNbEvalSession1
+     * @return CourseInfo
+     */
+    public function setMccCcNbEvalSession1($mccCcNbEvalSession1)
+    {
+        $this->mccCcNbEvalSession1 = $mccCcNbEvalSession1;
+
+        return $this;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getMccCtCoeffSession1()
+    {
+        return $this->mccCtCoeffSession1;
+    }
+
+    /**
+     * @param float|null $mccCtCoeffSession1
+     * @return CourseInfo
+     */
+    public function setMccCtCoeffSession1($mccCtCoeffSession1)
+    {
+        $this->mccCtCoeffSession1 = $mccCtCoeffSession1;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getMccCtNatSession1()
+    {
+        return $this->mccCtNatSession1;
+    }
+
+    /**
+     * @param null|string $mccCtNatSession1
+     * @return CourseInfo
+     */
+    public function setMccCtNatSession1($mccCtNatSession1)
+    {
+        $this->mccCtNatSession1 = $mccCtNatSession1;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getMccCtDurationSession1()
+    {
+        return $this->mccCtDurationSession1;
+    }
+
+    /**
+     * @param null|string $mccCtDurationSession1
+     * @return CourseInfo
+     */
+    public function setMccCtDurationSession1($mccCtDurationSession1)
+    {
+        $this->mccCtDurationSession1 = $mccCtDurationSession1;
+
+        return $this;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getMccCtCoeffSession2()
+    {
+        return $this->mccCtCoeffSession2;
+    }
+
+    /**
+     * @param float|null $mccCtCoeffSession2
+     * @return CourseInfo
+     */
+    public function setMccCtCoeffSession2($mccCtCoeffSession2)
+    {
+        $this->mccCtCoeffSession2 = $mccCtCoeffSession2;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getMccCtNatSession2()
+    {
+        return $this->mccCtNatSession2;
+    }
+
+    /**
+     * @param null|string $mccCtNatSession2
+     * @return CourseInfo
+     */
+    public function setMccCtNatSession2($mccCtNatSession2)
+    {
+        $this->mccCtNatSession2 = $mccCtNatSession2;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getMccCtDurationSession2()
+    {
+        return $this->mccCtDurationSession2;
+    }
+
+    /**
+     * @param null|string $mccCtDurationSession2
+     * @return CourseInfo
+     */
+    public function setMccCtDurationSession2($mccCtDurationSession2)
+    {
+        $this->mccCtDurationSession2 = $mccCtDurationSession2;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getMccAdvice()
+    {
+        return $this->mccAdvice;
+    }
+
+    /**
+     * @param null|string $mccAdvice
+     * @return CourseInfo
+     */
+    public function setMccAdvice($mccAdvice)
+    {
+        $this->mccAdvice = $mccAdvice;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTutoring(): bool
+    {
+        return $this->tutoring;
+    }
+
+    /**
+     * @param bool $tutoring
+     * @return CourseInfo
+     */
+    public function setTutoring(bool $tutoring): CourseInfo
+    {
+        $this->tutoring = $tutoring;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTutoringTeacher(): bool
+    {
+        return $this->tutoringTeacher;
+    }
+
+    /**
+     * @param bool $tutoringTeacher
+     * @return CourseInfo
+     */
+    public function setTutoringTeacher(bool $tutoringTeacher): CourseInfo
+    {
+        $this->tutoringTeacher = $tutoringTeacher;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTutoringStudent(): bool
+    {
+        return $this->tutoringStudent;
+    }
+
+    /**
+     * @param bool $tutoringStudent
+     * @return CourseInfo
+     */
+    public function setTutoringStudent(bool $tutoringStudent): CourseInfo
+    {
+        $this->tutoringStudent = $tutoringStudent;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getTutoringDescription()
+    {
+        return $this->tutoringDescription;
+    }
+
+    /**
+     * @param null|string $tutoringDescription
+     * @return CourseInfo
+     */
+    public function setTutoringDescription($tutoringDescription)
+    {
+        $this->tutoringDescription = $tutoringDescription;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getEducationalResources()
+    {
+        return $this->educationalResources;
+    }
+
+    /**
+     * @param null|string $educationalResources
+     * @return CourseInfo
+     */
+    public function setEducationalResources($educationalResources)
+    {
+        $this->educationalResources = $educationalResources;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getBibliographicResources()
+    {
+        return $this->bibliographicResources;
+    }
+
+    /**
+     * @param null|string $bibliographicResources
+     * @return CourseInfo
+     */
+    public function setBibliographicResources($bibliographicResources)
+    {
+        $this->bibliographicResources = $bibliographicResources;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getAgenda()
+    {
+        return $this->agenda;
+    }
+
+    /**
+     * @param null|string $agenda
+     * @return CourseInfo
+     */
+    public function setAgenda($agenda)
+    {
+        $this->agenda = $agenda;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getOrganization()
+    {
+        return $this->organization;
+    }
+
+    /**
+     * @param null|string $organization
+     * @return CourseInfo
+     */
+    public function setOrganization($organization)
+    {
+        $this->organization = $organization;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getClosingRemarks()
+    {
+        return $this->closingRemarks;
+    }
+
+    /**
+     * @param null|string $closingRemarks
+     * @return CourseInfo
+     */
+    public function setClosingRemarks($closingRemarks)
+    {
+        $this->closingRemarks = $closingRemarks;
+
+        return $this;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getModificationDate()
+    {
+        return $this->modificationDate;
+    }
+
+    /**
+     * @param \DateTime|null $modificationDate
+     * @return CourseInfo
+     */
+    public function setModificationDate($modificationDate)
+    {
+        $this->modificationDate = $modificationDate;
+
+        return $this;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getPublicationDate()
+    {
+        return $this->publicationDate;
+    }
+
+    /**
+     * @param \DateTime|null $publicationDate
+     * @return CourseInfo
+     */
+    public function setPublicationDate($publicationDate)
+    {
+        $this->publicationDate = $publicationDate;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getMediaType()
+    {
+        return $this->mediaType;
+    }
+
+    /**
+     * @param null|string $mediaType
+     * @return CourseInfo
+     */
+    public function setMediaType($mediaType)
+    {
+        $this->mediaType = $mediaType;
+
+        return $this;
+    }
+
+    /**
+     * @return Course
+     */
+    public function getCourse(): Course
+    {
+        return $this->course;
+    }
+
+    /**
+     * @param Course $course
+     * @return CourseInfo
+     */
+    public function setCourse(Course $course): CourseInfo
+    {
+        $this->course = $course;
+
+        return $this;
+    }
+
+    /**
+     * @return Structure
+     */
+    public function getStructure(): Structure
+    {
+        return $this->structure;
+    }
+
+    /**
+     * @param Structure $structure
+     * @return CourseInfo
+     */
+    public function setStructure(Structure $structure): CourseInfo
+    {
+        $this->structure = $structure;
+
+        return $this;
+    }
+
+    /**
+     * @return User
+     */
+    public function getLastUpdater(): User
+    {
+        return $this->lastUpdater;
+    }
+
+    /**
+     * @param User $lastUpdater
+     * @return CourseInfo
+     */
+    public function setLastUpdater(User $lastUpdater): CourseInfo
+    {
+        $this->lastUpdater = $lastUpdater;
+
+        return $this;
+    }
+
+    /**
+     * @return User
+     */
+    public function getPublisher(): User
+    {
+        return $this->publisher;
+    }
+
+    /**
+     * @param User $publisher
+     * @return CourseInfo
+     */
+    public function setPublisher(User $publisher): CourseInfo
+    {
+        $this->publisher = $publisher;
+
+        return $this;
+    }
+
+    /**
+     * @return Year
+     */
+    public function getYear(): Year
+    {
+        return $this->year;
+    }
+
+    /**
+     * @param Year $year
+     * @return CourseInfo
+     */
+    public function setYear(Year $year): CourseInfo
+    {
+        $this->year = $year;
+
+        return $this;
+    }
 
 }

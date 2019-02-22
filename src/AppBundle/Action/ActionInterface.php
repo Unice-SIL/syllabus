@@ -1,5 +1,5 @@
 <?php
-namespace AppBundle\Port\Action;
+namespace AppBundle\Action;
 
 /**
  * Interface ActionInterface

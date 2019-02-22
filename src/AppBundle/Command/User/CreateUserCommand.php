@@ -3,7 +3,7 @@
 namespace AppBundle\Command\User;
 
 use AppBundle\Entity\User;
-use AppBundle\Port\Command\CommandInterface;
+use AppBundle\Command\CommandInterface;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 

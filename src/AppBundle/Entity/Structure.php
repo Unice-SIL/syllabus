@@ -49,5 +49,99 @@ class Structure
      */
     private $obsolete = '0';
 
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param string $id
+     * @return Structure
+     */
+    public function setId(string $id): Structure
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEtbCode(): string
+    {
+        return $this->etbCode;
+    }
+
+    /**
+     * @param string $etbCode
+     * @return Structure
+     */
+    public function setEtbCode(string $etbCode): Structure
+    {
+        $this->etbCode = $etbCode;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getLabel()
+    {
+        return $this->label;
+    }
+
+    /**
+     * @param null|string $label
+     * @return Structure
+     */
+    public function setLabel($label)
+    {
+        $this->label = $label;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getCampus()
+    {
+        return $this->campus;
+    }
+
+    /**
+     * @param null|string $campus
+     * @return Structure
+     */
+    public function setCampus($campus)
+    {
+        $this->campus = $campus;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isObsolete(): bool
+    {
+        return $this->obsolete;
+    }
+
+    /**
+     * @param bool $obsolete
+     * @return Structure
+     */
+    public function setObsolete(bool $obsolete): Structure
+    {
+        $this->obsolete = $obsolete;
+
+        return $this;
+    }
 
 }

@@ -25,7 +25,7 @@ AppBundle\Entity\CourseSectionActivity:
             length: 255
             options:
                 fixed: false
-        order:
+        ord:
             type: integer
             nullable: false
             options:

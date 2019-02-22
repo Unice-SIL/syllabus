@@ -19,11 +19,12 @@ AppBundle\Entity\Permission:
             generator:
                 strategy: NONE
     fields:
-        role:
+        permission:
             type: string
-            nullable: true
+            nullable: false
             length: 45
             options:
+                default: 'READ'
                 fixed: true
     manyToOne:
         courseInfo:

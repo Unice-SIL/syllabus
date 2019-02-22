@@ -3,8 +3,7 @@
 namespace AppBundle\Command\User;
 
 use AppBundle\Entity\User;
-use AppBundle\Port\Command\CommandInterface;
-use Ramsey\Uuid\UuidInterface;
+use AppBundle\Command\CommandInterface;
 
 /**
  * Class EditUserCommand

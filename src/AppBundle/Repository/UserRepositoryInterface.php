@@ -1,12 +1,12 @@
 <?php
 
-namespace AppBundle\Port\Repository;
+namespace AppBundle\Repository;
 
 use AppBundle\Entity\User;
 
 /**
  * Interface UserRepositoryInterface
- * @package AppBundle\Port
+ * @package AppBundle\Repository
  */
 interface UserRepositoryInterface
 {

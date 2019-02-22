@@ -34,8 +34,12 @@
         "twig/twig": "^1.0||^2.0"
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^3.1",
+        "phpunit/phpunit": "^5.7",
         "sensio/generator-bundle": "^3.0",
-        "symfony/phpunit-bridge": "^3.0"
+        "symfony/browser-kit": "^4.2",
+        "symfony/css-selector": "^4.2",
+        "symfony/phpunit-bridge": "*"
     },
     "scripts": {
         "symfony-scripts": [

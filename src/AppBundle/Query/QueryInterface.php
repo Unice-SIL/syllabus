@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Port\Query;
+namespace AppBundle\Query;
 
 /**
  * Interface QueryInterface

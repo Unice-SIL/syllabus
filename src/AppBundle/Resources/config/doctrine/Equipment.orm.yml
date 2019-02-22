@@ -14,7 +14,7 @@ AppBundle\Entity\Equipment:
     fields:
         label:
             type: string
-            nullable: true
+            nullable: false
             length: 100
             options:
                 fixed: false
@@ -22,7 +22,7 @@ AppBundle\Entity\Equipment:
             type: boolean
             nullable: false
             options:
-                default: '1'
+                default: true
             column: label_visibility
         icon:
             type: text
@@ -34,11 +34,11 @@ AppBundle\Entity\Equipment:
             type: boolean
             nullable: false
             options:
-                default: '0'
-        order:
+                default: false
+        ord:
             type: integer
             nullable: false
             options:
                 unsigned: false
-                default: '0'
+                default: 0
     lifecycleCallbacks: {  }

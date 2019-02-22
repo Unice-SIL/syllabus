@@ -40,28 +40,161 @@ class Activity
      *
      * @ORM\Column(name="distant", type="boolean", nullable=false)
      */
-    private $distant = '0';
+    private $distant = false;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="teacher", type="boolean", nullable=false)
      */
-    private $teacher = '0';
+    private $teacher = false;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
      */
-    private $obsolete = '0';
+    private $obsolete = false;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="order", type="integer", nullable=false)
+     * @ORM\Column(name="ord", type="integer", nullable=false)
      */
-    private $order = '0';
+    private $ord = 0;
+
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param string $id
+     * @return Activity
+     */
+    public function setId(string $id): Activity
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLabel(): string
+    {
+        return $this->label;
+    }
+
+    /**
+     * @param string $label
+     * @return Activity
+     */
+    public function setLabel(string $label): Activity
+    {
+        $this->label = $label;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLabelVisibility(): bool
+    {
+        return $this->labelVisibility;
+    }
+
+    /**
+     * @param bool $labelVisibility
+     * @return Activity
+     */
+    public function setLabelVisibility(bool $labelVisibility): Activity
+    {
+        $this->labelVisibility = $labelVisibility;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDistant(): bool
+    {
+        return $this->distant;
+    }
+
+    /**
+     * @param bool $distant
+     * @return Activity
+     */
+    public function setDistant(bool $distant): Activity
+    {
+        $this->distant = $distant;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTeacher(): bool
+    {
+        return $this->teacher;
+    }
+
+    /**
+     * @param bool $teacher
+     * @return Activity
+     */
+    public function setTeacher(bool $teacher): Activity
+    {
+        $this->teacher = $teacher;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isObsolete(): bool
+    {
+        return $this->obsolete;
+    }
+
+    /**
+     * @param bool $obsolete
+     * @return Activity
+     */
+    public function setObsolete(bool $obsolete): Activity
+    {
+        $this->obsolete = $obsolete;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getOrd(): int
+    {
+        return $this->ord;
+    }
+
+    /**
+     * @param int $ord
+     * @return Activity
+     */
+    public function setOrd(int $ord): Activity
+    {
+        $this->ord = $ord;
+
+        return $this;
+    }
 
 
 }

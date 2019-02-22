@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Port\Command;
+namespace AppBundle\Command;
 
 /**
  * Class CommandInterface

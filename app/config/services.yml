@@ -22,35 +22,32 @@ services:
         # but if a service is unused, it's removed anyway
         exclude: '../../src/AppBundle/{Entity,Repository,Tests}'
 
-    # controllers are imported separately to make sure they're public
-    # and have a tag that allows actions to type-hint services
-    AppBundle\Controller\:
-        resource: '../../src/AppBundle/Controller'
-        public: true
-        tags: ['controller.service_arguments']
-
 
     # GENERAL
     _instanceof:
-        AppBundle\Port\Action\ActionInterface:
+        AppBundle\Action\ActionInterface:
             public: true
             autowire: true
             tags: ['controller.service_arguments']
 
 
     # ALIAS
-    AppBundle\Port\Repository\UserRepositoryInterface: '@user_doctrine_repository'
+    AppBundle\Repository\UserRepositoryInterface: '@user_doctrine_repository'
 
 
     # AUTHENTICATORS
     AppBundle\Security\Authenticator\TestAuthenticator:
-        arguments: [%test_authenticator%]
+        arguments: ['%test_authenticator%']
 
     # ENTITY MANAGER
     syllabus_entity_manager:
         class: Doctrine\ORM\EntityManager
         factory: ['@doctrine', getManager]
         arguments: ['syllabus']
+
+    # FIXTURE
+    AppBundle\Fixture\CourseFixture:
+        tags: ['doctrine.fixture.orm']
 
     # REPOSITORY
     user_doctrine_repository:
@@ -59,4 +56,4 @@ services:
 
     # PROVIDERS
     AppBundle\Security\Provider\TestUserProvider:
-            arguments: [%test_authenticator%]
+            arguments: ['%test_authenticator%']

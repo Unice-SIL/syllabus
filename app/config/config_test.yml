@@ -1,6 +1,15 @@
 imports:
     - { resource: config_dev.yml }
 
+parameters:
+    syllabus_database_driver: '%syllabus_test_database_driver%'
+    syllabus_database_host: '%syllabus_test_database_host%'
+    syllabus_database_port: '%syllabus_test_database_port%'
+    syllabus_database_name: '%syllabus_test_database_name%'
+    syllabus_database_user: '%syllabus_test_database_user%'
+    syllabus_database_password: '%syllabus_test_database_password%'
+    syllabus_database_charset: '%syllabus_test_database_charset%'
+
 framework:
     test: ~
     session:

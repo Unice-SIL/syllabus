@@ -33,7 +33,7 @@ class CourseSectionActivity
      *
      * @ORM\Column(name="order", type="integer", nullable=false)
      */
-    private $order = '0';
+    private $ord = 0;
 
     /**
      * @var \AppBundle\Entity\Activity
@@ -55,5 +55,99 @@ class CourseSectionActivity
      */
     private $courseSection;
 
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param string $id
+     * @return CourseSectionActivity
+     */
+    public function setId(string $id): CourseSectionActivity
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param null|string $description
+     * @return CourseSectionActivity
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getOrd(): int
+    {
+        return $this->ord;
+    }
+
+    /**
+     * @param int $ord
+     * @return CourseSectionActivity
+     */
+    public function setOrd(int $ord): CourseSectionActivity
+    {
+        $this->ord = $ord;
+
+        return $this;
+    }
+
+    /**
+     * @return Activity
+     */
+    public function getActivity(): Activity
+    {
+        return $this->activity;
+    }
+
+    /**
+     * @param Activity $activity
+     * @return CourseSectionActivity
+     */
+    public function setActivity(Activity $activity): CourseSectionActivity
+    {
+        $this->activity = $activity;
+
+        return $this;
+    }
+
+    /**
+     * @return CourseSection
+     */
+    public function getCourseSection(): CourseSection
+    {
+        return $this->courseSection;
+    }
+
+    /**
+     * @param CourseSection $courseSection
+     * @return CourseSectionActivity
+     */
+    public function setCourseSection(CourseSection $courseSection): CourseSectionActivity
+    {
+        $this->courseSection = $courseSection;
+
+        return $this;
+    }
 
 }
