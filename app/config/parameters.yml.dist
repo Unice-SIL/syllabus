@@ -5,7 +5,7 @@ parameters:
     syllabus_database_driver: pdo_mysql
     syllabus_database_host: 127.0.0.1
     syllabus_database_port: null
-    syllabus_database_name: symfony
+    syllabus_database_name: syllabus
     syllabus_database_user: root
     syllabus_database_password: null
     syllabus_database_charset: UTF8
