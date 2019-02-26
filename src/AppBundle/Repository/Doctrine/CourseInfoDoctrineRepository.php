@@ -10,12 +10,8 @@ use Doctrine\ORM\EntityManager;
  * Class CourseInfoDoctrineRepository
  * @package AppBundle\Repository\Doctrine
  */
-class CourseInfoDoctrineRepository implements CourseInfoRepositoryInterface
+class CourseInfoDoctrineRepository  extends AbstractDoctrineRepository implements CourseInfoRepositoryInterface
 {
-    /**
-     * @var EntityManager
-     */
-    private $entityManager;
 
     /**
      * UserDoctrineRepository constructor.
@@ -44,4 +40,41 @@ class CourseInfoDoctrineRepository implements CourseInfoRepositoryInterface
         }
         return $courseInfo;
     }
+
+    /**
+     * Find course info by id and year
+     * @param $id
+     * @param $year
+     * @return CourseInfo|null
+     * @throws \Exception
+     */
+    public function findByIdAndYear($id, $year): ?CourseInfo
+    {
+        $courseInfo = null;
+        try{
+            $courseInfo = $this->entityManager->getRepository(CourseInfo::class)->findOneBy([
+                'id' => $id,
+                'year' => $year,
+            ]);
+        }catch (\Exception $e){
+            throw $e;
+        }
+        return $courseInfo;
+    }
+
+    /**
+     * Update course info
+     * @param CourseInfo $courseInfo
+     * @throws \Exception
+     */
+    public function update(CourseInfo $courseInfo): void
+    {
+        try{
+            $this->entityManager->persist($courseInfo);
+            $this->entityManager->flush();
+        }catch (\Exception $e){
+            throw $e;
+        }
+    }
+
 }

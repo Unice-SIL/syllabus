@@ -33,7 +33,8 @@ services:
 
     # ALIAS
     AppBundle\Repository\UserRepositoryInterface: '@user_doctrine_repository'
-
+    AppBundle\Repository\CourseInfoRepositoryInterface: '@course_info_doctrine_repository'
+    AppBundle\Repository\CourseTeacherRepositoryInterface: '@course_teacher_doctrine_repository'
 
     # AUTHENTICATORS
     AppBundle\Security\Authenticator\TestAuthenticator:
@@ -52,6 +53,14 @@ services:
     # REPOSITORY
     user_doctrine_repository:
         class: AppBundle\Repository\Doctrine\UserDoctrineRepository
+        arguments: ['@syllabus_entity_manager']
+
+    course_info_doctrine_repository:
+        class: AppBundle\Repository\Doctrine\CourseInfoDoctrineRepository
+        arguments: ['@syllabus_entity_manager']
+
+    course_teacher_doctrine_repository:
+        class: AppBundle\Repository\Doctrine\CourseTeacherDoctrineRepository
         arguments: ['@syllabus_entity_manager']
 
     # PROVIDERS

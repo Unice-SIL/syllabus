@@ -51,11 +51,18 @@ class Course
     private $courseParent;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Course", mappedBy="courseParent")
+     */
+    private $courseChild;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->courseParent = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->courseChild = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -152,6 +159,47 @@ class Course
     public function removeCourseParent(Course $courseParent): Course
     {
         $this->courseParent->removeElement($courseParent);
+
+        return $this;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCourseChild(): \Doctrine\Common\Collections\Collection
+    {
+        return $this->courseChild;
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection $courseChild
+     * @return Course
+     */
+    public function setCourseChild(\Doctrine\Common\Collections\Collection $courseChild): Course
+    {
+        $this->courseChild = $courseChild;
+
+        return $this;
+    }
+
+    /**
+     * @param Course $courseCild
+     * @return Course
+     */
+    public function addCourseChild(Course $courseCild): Course
+    {
+        $this->courseChild->add($courseCild);
+
+        return $this;
+    }
+
+    /**
+     * @param Course $courseChild
+     * @return Course
+     */
+    public function removeCourseChild(Course $courseChild): Course
+    {
+        $this->courseChild->removeElement($courseChild);
 
         return $this;
     }
