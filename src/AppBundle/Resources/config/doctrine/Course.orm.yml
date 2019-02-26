@@ -47,4 +47,7 @@ AppBundle\Entity\Course:
                         name: course_parent_id
                         referencedColumnName: id
             orderBy: null
+        courseChild:
+            targetEntity: Course
+            mappedBy: courseParent
     lifecycleCallbacks: {  }

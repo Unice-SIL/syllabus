@@ -341,4 +341,10 @@ AppBundle\Entity\CourseInfo:
                 year_id:
                     referencedColumnName: id
             orphanRemoval: false
+    oneToMany:
+        courseTeachers:
+            targetEntity: CourseTeacher
+            mappedBy: courseInfo
+            cascade: [ 'persist' ]
+            orderBy: { 'lastname': 'ASC', 'firstname': 'ASC' }
     lifecycleCallbacks: {  }
