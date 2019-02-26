@@ -20,7 +20,6 @@ security:
                 provider: test
             logout_on_user_change: true
             anonymous: ~
-            logout_on_user_change: true
 
     access_control:
         - { path: ^/, role: ROLE_USER }
