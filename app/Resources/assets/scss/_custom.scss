@@ -1,0 +1,30 @@
+/*
+        Boostrap theme file.
+
+    https://getbootstrap.com/docs/4.0/getting-started/theming/
+
+*/
+
+
+
+/*
+    Bootstrap variables overrides.
+*/
+
+// SASS options
+$enable-rounded: false;
+$enable-shadows: false;
+$enable-print-styles: false;
+
+// Settings
+$gray-100: #f8f9fa;
+$body-bg: $gray-100;
+
+
+
+/*
+    Bootstrap (full)
+*/
+
+@import "~bootstrap/scss/bootstrap";
+

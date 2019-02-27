@@ -26,16 +26,48 @@
     {{ encore_entry_link_tags('app') }}
 {% endblock %}
 
-        <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+        <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+        <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
 
     </head>
 
     <body>
 
-{% block body %}
+        <header>
+        </header>
+
+        <div class="grid-container">
+
+{% block messages %}
+            <div class="container">
+                {% for type, messages in app.flashes %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ type }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+{% endblock %}
+
+            <main class="container" role="main">
+{% block main %}
 
 {% endblock %}
+            </main>
+
+        </div>
+
+        <footer>
+            <a href="http://univ-cotedazur.fr/"
+               title="Aller sur le site UCA."
+               target="_blank">
+                <img src="/images/uca-logo.svg" />
+            </a>
+        </footer>
 
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}

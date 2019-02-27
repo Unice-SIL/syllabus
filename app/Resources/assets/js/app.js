@@ -1,8 +1,18 @@
 /*
+        Main JS file.
+
 
 */
+
 
 require('../scss/app.scss');
 
 
-console.log( "WebpackEncore is working :-) ." );
+const $ = require('jquery');
+
+import('bootstrap');
+
+
+$( document ).ready( function( ) {
+    console.log( "WebpackEncore is working." );
+} );
