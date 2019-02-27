@@ -5,6 +5,7 @@ namespace AppBundle\Action;
 use AppBundle\Action\ActionInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
 
@@ -15,6 +16,7 @@ use Twig\Environment;
  */
 class HomeAction implements ActionInterface
 {
+
     /**
      * @var Environment
      */
@@ -24,8 +26,13 @@ class HomeAction implements ActionInterface
      * HomeAction constructor.
      * @param Environment $templating
      */
-    public function __construct(Environment $templating)
+    public function __construct(
+            SessionInterface $session,
+            Environment $templating
+        )
     {
+
+        $this->session = $session;
         $this->templating = $templating;
     }
 
@@ -35,6 +42,9 @@ class HomeAction implements ActionInterface
      */
     public function __invoke(Request $request)
     {
+
+        $this->session->getFlashBag()->add('success', "Check your brower console…");
+
         return new Response($this->templating->render('default/index.html.twig'));
     }
 }
