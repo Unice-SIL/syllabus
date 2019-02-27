@@ -7,6 +7,11 @@
 
 -->
 {% spaceless %}
+
+{% if in_iframe is not defined %}
+    {% set in_iframe = false %}
+{% endif %}
+
 <html lang="{{ app.request.locale|lower }}">
 
     <head>
@@ -61,6 +66,7 @@
 
         </div>
 
+{% if in_iframe == false %}
         <footer>
             <a href="http://univ-cotedazur.fr/"
                title="Aller sur le site UCA."
@@ -68,6 +74,7 @@
                 <img src="/images/uca-logo.svg" />
             </a>
         </footer>
+{% endif %}
 
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}
