@@ -1,9 +1,8 @@
 ## [Assets management][1]
 
-1. [Install “Yarn”][2] on your system.
-2. Install “WebpackEncore” into your project via Yarn: `yarn add @symfony/webpack-encore --dev`.
-3. Run `yarn add sass-loader@^7.0.1 node-sass --dev` to enable SASS preprocessing.
-4. To process assets:
+1. Install “[Yarn][2]” on your system.
+2. Install all dependencies in “./node_modules” folder: `yarn install`.
+3. To process assets:
     * once: `yarn encore dev`,
     * to *automatically process assets* when files change: `yarn encore dev --watch`.
 
@@ -11,5 +10,4 @@
 
 [1]: https://symfony.com/doc/3.4/frontend.html
 [2]: https://yarnpkg.com/lang/fr/docs/install/
-
 
