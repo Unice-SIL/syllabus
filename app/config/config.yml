@@ -58,6 +58,8 @@ doctrine:
             syllabus:
                 connection: syllabus
                 auto_mapping: true
+                mappings:
+                    AppBundle: ~
 
 # Swiftmailer Configuration
 swiftmailer:
