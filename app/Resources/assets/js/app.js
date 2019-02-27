@@ -2,6 +2,7 @@
 
 */
 
-//require('../css/app.css');
+require('../scss/app.scss');
+
 
 console.log( "WebpackEncore is working :-) ." );
