@@ -5,7 +5,9 @@ namespace AppBundle\Action;
 use AppBundle\Action\ActionInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
+
 
 /**
  * Class HomeAction
@@ -28,6 +30,7 @@ class HomeAction implements ActionInterface
     }
 
     /**
+     * @Route("/", name="homepage", methods={"GET"})
      * @return Response
      */
     public function __invoke(Request $request)

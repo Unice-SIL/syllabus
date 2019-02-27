@@ -2,6 +2,3 @@ app:
     resource: '@AppBundle/Action/'
     type: annotation
 
-home:
-    path: /
-    defaults: { _controller: 'Appbundle\Action\HomeAction' }
