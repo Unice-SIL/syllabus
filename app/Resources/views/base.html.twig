@@ -1,23 +1,47 @@
 <!DOCTYPE html>
+<!--
+
+        Syllabus L@UCA version {{ app_version }}
+
+            ©2019 UNS\DSI\SIL
+
+-->
+{% spaceless %}
 <html lang="{{ app.request.locale|lower }}">
+
     <head>
-        <meta charset="UTF-8" />
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="language" content="{{ app.request.locale|upper }}">
+        <meta name="description" content="Présentation générale des cours de licence de l'Université Côte d'Azur.">
+
         <title>
 {% block title %}
             Syllabus UCA
 {% endblock %}
         </title>
+
 {% block stylesheets %}
     {{ encore_entry_link_tags('app') }}
 {% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+
+        <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+
     </head>
+
     <body>
+
 {% block body %}
 
 {% endblock %}
+
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}
 {% endblock %}
+
     </body>
+
 </html>
+{% endspaceless %}
