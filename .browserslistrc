@@ -2,6 +2,10 @@
 #   Supported browsers
 #       https://github.com/browserslist/browserslist#full-list
 #
+#   Empty the babel cache directory
+#       node_modules/.cache/babel-loader/
+#   on change.
+#
 > 1% in FR
 last 5 versions
 Firefox ESR
