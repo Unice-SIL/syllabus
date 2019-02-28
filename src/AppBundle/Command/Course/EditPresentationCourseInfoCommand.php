@@ -6,6 +6,7 @@ use AppBundle\Command\CommandInterface;
 use AppBundle\Command\Teacher\TeacherCommand;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseTeacher;
+use AppBundle\Entity\Year;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -19,11 +20,6 @@ class EditPresentationCourseInfoCommand implements CommandInterface
      * @var string
      */
     private $id;
-
-    /**
-     * @var string
-     */
-    private $year;
 
     /**
      * @var null|string
@@ -110,7 +106,6 @@ class EditPresentationCourseInfoCommand implements CommandInterface
      */
     private $teachingOtherHybridDist;
 
-
     /**
      * @var array
      */
@@ -123,7 +118,6 @@ class EditPresentationCourseInfoCommand implements CommandInterface
     public function __construct(CourseInfo $courseInfo)
     {
         $this->id = $courseInfo->getId();
-        $this->year = $courseInfo->getYear()->getId();
         $this->period = $courseInfo->getPeriod();
         $this->summary = $courseInfo->getSummary();
         $this->mediaType = $courseInfo->getMediaType();
@@ -135,7 +129,7 @@ class EditPresentationCourseInfoCommand implements CommandInterface
         $this->teachingTpClass = $courseInfo->getTeachingTpClass();
         $this->teachingOtherClass = $courseInfo->getTeachingOtherClass();
         $this->teachingCmHybridClass = $courseInfo->getTeachingCmHybridClass();
-        $this->teachingTdHybridClass = $courseInfo->getTeachingTpHybridClass();
+        $this->teachingTdHybridClass = $courseInfo->getTeachingTdHybridClass();
         $this->teachingTpHybridClass = $courseInfo->getTeachingTpHybridClass();
         $this->teachingOtherHybridClass = $courseInfo->getTeachingOtherHybridClass();
         $this->teachingCmHybridDist = $courseInfo->getTeachingCmHybridDist();
@@ -165,26 +159,6 @@ class EditPresentationCourseInfoCommand implements CommandInterface
 
         return $this;
     }
-
-    /**
-     * @return string
-     */
-    public function getYear(): string
-    {
-        return $this->year;
-    }
-
-    /**
-     * @param string $year
-     * @return EditPresentationCourseInfoCommand
-     */
-    public function setYear(string $year): EditPresentationCourseInfoCommand
-    {
-        $this->year = $year;
-
-        return $this;
-    }
-
 
     /**
      * @return null|string
@@ -588,8 +562,8 @@ class EditPresentationCourseInfoCommand implements CommandInterface
             if(!$courseTeacher){
                 $courseTeacher = new CourseTeacher();
             }
+            $teacher->setCourseInfo($entity);
             $courseTeacher = $teacher->filledEntity($courseTeacher);
-            $courseTeacher->setCourseInfo($entity);
             $courseTeachers->add($courseTeacher);
         }
         $entity->setCourseTeachers($courseTeachers);

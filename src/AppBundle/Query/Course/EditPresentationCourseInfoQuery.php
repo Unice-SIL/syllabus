@@ -72,7 +72,6 @@ class EditPresentationCourseInfoQuery implements QueryInterface
                     $this->courseTeacherRepository->delete($courseTeacher);
                 }
             }
-            dump($courseInfo);
             $this->courseInfoRepository->update($courseInfo);
             $this->courseInfoRepository->commit();
         }catch (\Exception $e){
