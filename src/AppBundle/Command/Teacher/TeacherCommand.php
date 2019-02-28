@@ -3,6 +3,7 @@
 namespace AppBundle\Command\Teacher;
 
 use AppBundle\Command\CommandInterface;
+use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseTeacher;
 use Ramsey\Uuid\Uuid;
 
@@ -33,8 +34,10 @@ class TeacherCommand implements CommandInterface
      */
     private $manager;
 
-
-    private $courseInfoId;
+    /**
+     * @var CourseInfo
+     */
+    private $courseInfo;
 
     /**
      * TeacherCommand constructor.
@@ -51,7 +54,7 @@ class TeacherCommand implements CommandInterface
             $this->lastname = $courseTeacher->getLastname();
             $this->email = $courseTeacher->getEmail();
             $this->manager = $courseTeacher->isManager();
-            $this->courseInfoId = $courseTeacher->getCourseInfo()->getId();
+            $this->courseInfo = $courseTeacher->getCourseInfo();
         }
     }
 
@@ -151,6 +154,25 @@ class TeacherCommand implements CommandInterface
     }
 
     /**
+     * @return CourseInfo|null
+     */
+    public function getCourseInfo(): ?CourseInfo
+    {
+        return $this->courseInfo;
+    }
+
+    /**
+     * @param CourseInfo $courseInfo
+     * @return $this
+     */
+    public function setCourseInfo(CourseInfo $courseInfo)
+    {
+        $this->courseInfo = $courseInfo;
+
+        return $this;
+    }
+
+    /**
      * @param CourseTeacher $entity
      * @return CourseTeacher
      */
@@ -160,7 +182,8 @@ class TeacherCommand implements CommandInterface
             ->setFirstname($this->getFirstname())
             ->setLastname($this->getLastname())
             ->setEmail($this->getEmail())
-            ->setManager($this->isManager());
+            ->setManager($this->isManager())
+            ->setCourseInfo($this->getCourseInfo());
         return $entity;
     }
 }

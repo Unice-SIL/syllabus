@@ -46,6 +46,11 @@ class UserDoctrineRepositoryTest extends WebTestCase
     /**
      * @var User
      */
+    private static $userid;
+
+    /**
+     * @var User
+     */
     private $user;
 
     /**
@@ -66,12 +71,15 @@ class UserDoctrineRepositoryTest extends WebTestCase
             self::$application->run(new StringInput("doctrine:database:create --env=test --quiet"));
             self::$application->run(new StringInput("doctrine:schema:update --force --env=test --quiet"));
             self::$application->run(new StringInput("doctrine:fixtures:load --env=test --quiet"));
+
+            $users = $this->em->getRepository(User::class)->findAll();
+            if(count($users) > 0) {
+                $this->user = $users[0];
+                self::$userid = $this->user->getId();
+            }
         }
 
-        $users = $this->em->getRepository(User::class)->findAll();
-        if(count($users) > 0) {
-            $this->user = $users[0];
-        }
+        $this->user = $this->em->getRepository(User::class)->find(self::$userid);
     }
 
     /**
@@ -152,7 +160,6 @@ class UserDoctrineRepositoryTest extends WebTestCase
      */
     protected function tearDown(): void
     {
-        echo 'down';
         unset($this->client);
         unset($this->container);
         unset($this->em);
