@@ -1,5 +1,5 @@
 /*
-
+    Webpack Encore configuration.
 
 */
 
@@ -40,6 +40,16 @@ Encore
 
     // uncomment if you use Sass/SCSS files
     .enableSassLoader()
+
+    // uncomment to use PostCSSLoader
+    .enablePostCssLoader(
+        (options) => {
+            options.config = {
+                // the directory where the postcss.config.js file is stored
+                path: 'app/Resources/assets'
+            };
+        }
+    )
 
     // uncomment if you're having problems with a jQuery plugin
     //.autoProvidejQuery()
