@@ -12,6 +12,6 @@
     "popper.js": "^1.14.7"
   },
   "browserslist": [
-	  "defaults"
-	]
+    "defaults"
+  ]
 }
