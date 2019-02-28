@@ -1,0 +1,8 @@
+##
+#   Supported browsers
+#       https://github.com/browserslist/browserslist#full-list
+#
+> 1% in FR
+last 5 versions
+Firefox ESR
+not dead
