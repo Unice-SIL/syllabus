@@ -31,8 +31,8 @@
     {{ encore_entry_link_tags('app') }}
 {% endblock %}
 
-        <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
-        <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+        <link rel="apple-touch-icon" href="{{ asset('images/apple-touch-icon.png') }}">
+        <link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.ico') }}">
 
     </head>
 
@@ -71,7 +71,7 @@
             <a href="http://univ-cotedazur.fr/"
                title="Aller sur le site UCA."
                target="_blank">
-                <img src="/images/uca-logo.svg" />
+                <img src={{ asset('images/uca-logo.svg') }}>
             </a>
         </footer>
 {% endif %}
