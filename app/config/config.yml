@@ -6,7 +6,7 @@ imports:
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: en
+    locale: fr
 
 framework:
     #esi: ~
@@ -35,6 +35,8 @@ framework:
 twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    globals:
+        app_version: prototype
 
 # Doctrine Configuration
 doctrine:
@@ -68,5 +70,17 @@ swiftmailer:
     spool: { type: memory }
 
 sensio_framework_extra:
-   router:
+    router:
         annotations: false
+
+webpack_encore:
+    # The path where Encore is building the assets - i.e. Encore.setOutputPath()
+    #output_path: '%kernel.public_dir%/build' -> S4 syntax…
+    output_path: '%kernel.project_dir%/web/build'
+
+    # if you have multiple builds:
+    # builds:
+        # pass "frontend" as the 3rg arg to the Twig functions
+        # {{ encore_entry_script_tags('entry1', null, 'frontend') }}
+
+        # frontend: '%kernel.public_dir%/frontend/build'

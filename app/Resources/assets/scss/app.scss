@@ -1,0 +1,36 @@
+/*
+        Main SASS file.
+
+
+*/
+
+
+@import "custom";
+
+
+
+html {
+    height: 100%;
+}
+
+body {
+    position: relative;
+    min-height: 100%;
+    padding-bottom: 11rem;
+}
+
+header {
+    min-height: 5rem;
+    margin-bottom: 1rem;
+    background-color: theme-color('info');
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    font-size: 0.8em;
+    text-align: center;
+    padding: 1rem 3rem 2rem;
+    background-color: $gray-300;
+}
