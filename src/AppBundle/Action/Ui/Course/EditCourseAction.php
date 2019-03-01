@@ -66,7 +66,7 @@ class EditCourseAction implements ActionInterface
 
         return new Response(
             $this->templating->render(
-                'course/edit_course.html.twig',
+                'course/edit_presentation_course_test.html.twig',
                 [
                     'id' => $id,
                     'form' => $form->createView()
