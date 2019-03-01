@@ -3,10 +3,9 @@
 namespace AppBundle\Command\Course;
 
 use AppBundle\Command\CommandInterface;
-use AppBundle\Command\Teacher\TeacherCommand;
+use AppBundle\Command\CourseTeacher\CourseTeacherCommand;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseTeacher;
-use AppBundle\Entity\Year;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -137,7 +136,7 @@ class EditPresentationCourseInfoCommand implements CommandInterface
         $this->teachingOtherHybridDist = $courseInfo->getTeachingOtherHybridDist();
         $this->teachers = new ArrayCollection();
         foreach ($courseInfo->getCourseTeachers() as $teacher){
-            $this->teachers->add(new TeacherCommand($teacher));
+            $this->teachers->add(new CourseTeacherCommand($teacher));
         }
     }
 
@@ -504,10 +503,10 @@ class EditPresentationCourseInfoCommand implements CommandInterface
     }
 
     /**
-     * @param TeacherCommand $teacher
+     * @param CourseTeacherCommand $teacher
      * @return EditPresentationCourseInfoCommand
      */
-    public function addTeacher(TeacherCommand $teacher): EditPresentationCourseInfoCommand
+    public function addTeacher(CourseTeacherCommand $teacher): EditPresentationCourseInfoCommand
     {
         if(!$this->teachers->contains($teacher)) {
             $this->teachers->add($teacher);
@@ -517,10 +516,10 @@ class EditPresentationCourseInfoCommand implements CommandInterface
     }
 
     /**
-     * @param TeacherCommand $teacher
+     * @param CourseTeacherCommand $teacher
      * @return EditPresentationCourseInfoCommand
      */
-    public function removeTeacher(TeacherCommand $teacher): EditPresentationCourseInfoCommand
+    public function removeTeacher(CourseTeacherCommand $teacher): EditPresentationCourseInfoCommand
     {
         $this->teachers->removeElement($teacher);
 

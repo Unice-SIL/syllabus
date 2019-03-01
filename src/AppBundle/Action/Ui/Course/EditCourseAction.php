@@ -5,12 +5,11 @@ namespace AppBundle\Action\Ui\Course;
 use AppBundle\Action\ActionInterface;
 use AppBundle\Command\Course\EditPresentationCourseInfoCommand;
 use AppBundle\Form\Course\EditPresentationCourseInfoType;
-use AppBundle\Query\Course\FindCourseInfoByIdAndYearQuery;
 use AppBundle\Query\Course\FindCourseInfoByIdQuery;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
 
 /**

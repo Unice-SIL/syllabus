@@ -27,10 +27,24 @@ parameters:
     secret: ThisTokenIsNotSoSecretChangeIt
 
     test_authenticator:
-        current: test1
+        current: user1
         users:
-            test1:
-              firstname: Test1
-              lastname: TEST1
-              email: test1@unice.fr
-              roles: [ ROLE_USER ]
+            user1:
+                firstname: User1
+                lastname: USER1
+                email: user1@unice.fr
+                roles:
+                    - ROLE_USER
+
+    course_teacher_factory:
+        sources:
+            ldap:
+                name: Annuaire Ldap UNS
+                service: LdapBundle\Repository\PeopleRepositoryInterface
+
+    ldap_host: ldap.domain.com
+    ldap_port: 389
+    ldap_encryption: tls
+    ldap_options:
+        protocol_version: 3
+        referrals: false

@@ -1,12 +1,10 @@
 <?php
 
-namespace tests\Repository\Doctrine;
+namespace tests\AppBundle\Repository\Doctrine;
 
 use AppBundle\Entity\CourseTeacher;
-use AppBundle\Entity\User;
 use AppBundle\Repository\Doctrine\CourseTeacherDoctrineRepository;
 use Doctrine\ORM\EntityManager;
-use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;

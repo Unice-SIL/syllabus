@@ -1,13 +1,13 @@
 <?php
 
-namespace AppBundle\Command\Teacher;
+namespace AppBundle\Command\CourseTeacher;
 
 use AppBundle\Command\CommandInterface;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseTeacher;
 use Ramsey\Uuid\Uuid;
 
-class TeacherCommand implements CommandInterface
+class CourseTeacherCommand implements CommandInterface
 {
     /**
      * @var string
@@ -68,9 +68,9 @@ class TeacherCommand implements CommandInterface
 
     /**
      * @param string $id
-     * @return TeacherCommand
+     * @return CourseTeacherCommand
      */
-    public function setId(string $id): TeacherCommand
+    public function setId(string $id): CourseTeacherCommand
     {
         $this->id = $id;
 
@@ -87,7 +87,7 @@ class TeacherCommand implements CommandInterface
 
     /**
      * @param null|string $firstname
-     * @return TeacherCommand
+     * @return CourseTeacherCommand
      */
     public function setFirstname($firstname)
     {
@@ -106,7 +106,7 @@ class TeacherCommand implements CommandInterface
 
     /**
      * @param null|string $lastname
-     * @return TeacherCommand
+     * @return CourseTeacherCommand
      */
     public function setLastname($lastname)
     {
@@ -125,7 +125,7 @@ class TeacherCommand implements CommandInterface
 
     /**
      * @param null|string $email
-     * @return TeacherCommand
+     * @return CourseTeacherCommand
      */
     public function setEmail($email)
     {
@@ -144,9 +144,9 @@ class TeacherCommand implements CommandInterface
 
     /**
      * @param bool $manager
-     * @return TeacherCommand
+     * @return CourseTeacherCommand
      */
-    public function setManager(bool $manager): TeacherCommand
+    public function setManager(bool $manager): CourseTeacherCommand
     {
         $this->manager = $manager;
 

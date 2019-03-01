@@ -1,6 +1,6 @@
 <?php
 
-namespace tests\Query\User;
+namespace tests\AppBundle\Query\User;
 
 use AppBundle\Command\User\CreateUserCommand;
 use AppBundle\Entity\User;

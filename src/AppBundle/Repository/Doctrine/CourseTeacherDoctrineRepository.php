@@ -67,6 +67,7 @@ class CourseTeacherDoctrineRepository extends AbstractDoctrineRepository impleme
     {
         try {
             $this->entityManager->remove($courseTeacher);
+            $this->entityManager->flush();
         }catch (\Exception $e){
             throw $e;
         }

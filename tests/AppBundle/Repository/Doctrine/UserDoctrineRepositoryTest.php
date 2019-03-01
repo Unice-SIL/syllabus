@@ -1,6 +1,6 @@
 <?php
 
-namespace tests\Repository\Doctrine;
+namespace tests\AppBundle\Repository\Doctrine;
 
 use AppBundle\Entity\User;
 use AppBundle\Repository\Doctrine\UserDoctrineRepository;
