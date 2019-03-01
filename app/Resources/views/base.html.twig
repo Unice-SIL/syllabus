@@ -12,6 +12,10 @@
     {% set in_iframe = false %}
 {% endif %}
 
+{% if form is defined and form is not null %}
+    {% form_theme form 'bootstrap_4_layout.html.twig' %}
+{% endif %}
+
 <html lang="{{ app.request.locale|lower }}">
 
     <head>
