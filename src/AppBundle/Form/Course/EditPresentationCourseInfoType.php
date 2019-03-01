@@ -3,7 +3,7 @@
 namespace AppBundle\Form\Course;
 
 use AppBundle\Command\Course\EditPresentationCourseInfoCommand;
-use AppBundle\Form\Teacher\TeacherType;
+use AppBundle\Form\CourseTeacher\CourseTeacherType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -44,7 +44,7 @@ class EditPresentationCourseInfoType extends AbstractType
                 ]
             ])
         ->add('teachers', CollectionType::class, [
-            'entry_type' => TeacherType::class,
+            'entry_type' => CourseTeacherType::class,
             'entry_options' => [
                 'label' => false,
             ],

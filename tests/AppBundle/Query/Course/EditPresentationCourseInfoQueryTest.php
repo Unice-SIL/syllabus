@@ -1,6 +1,6 @@
 <?php
 
-namespace tests\Query\User;
+namespace tests\AppBundle\Query\User;
 
 use AppBundle\Command\Course\EditPresentationCourseInfoCommand;
 use AppBundle\Entity\CourseInfo;

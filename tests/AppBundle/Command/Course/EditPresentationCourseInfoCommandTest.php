@@ -1,9 +1,9 @@
 <?php
 
-namespace tests\Command\User;
+namespace tests\AppBundle\Command\User;
 
 use AppBundle\Command\Course\EditPresentationCourseInfoCommand;
-use AppBundle\Command\Teacher\TeacherCommand;
+use AppBundle\Command\CourseTeacher\CourseTeacherCommand;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseTeacher;
 use AppBundle\Entity\Year;
@@ -94,7 +94,7 @@ class EditPresentationCourseInfoCommandTest extends TestCase
         // TeachersCommands
         $this->teachersCommands = new ArrayCollection();
         foreach ($this->courseTeachers as $courseTeacher){
-            $teacher = new TeacherCommand($courseTeacher);
+            $teacher = new CourseTeacherCommand($courseTeacher);
             $this->teachersCommands->add($teacher);
         }
     }

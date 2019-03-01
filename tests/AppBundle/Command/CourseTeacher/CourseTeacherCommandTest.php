@@ -1,18 +1,18 @@
 <?php
 
-namespace tests\Command\User;
+namespace tests\AppBundle\Command\User;
 
-use AppBundle\Command\Teacher\TeacherCommand;
+use AppBundle\Command\CourseTeacher\CourseTeacherCommand;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseTeacher;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
 
 /**
- * Class TeacherCommandTest
+ * Class CourseTeacherCommandTest
  * @package tests\Command\User
  */
-class TeacherCommandTest extends TestCase
+class CourseTeacherCommandTest extends TestCase
 {
 
     /**
@@ -26,12 +26,12 @@ class TeacherCommandTest extends TestCase
     private $courseInfo;
 
     /**
-     * @var TeacherCommand
+     * @var CourseTeacherCommand
      */
     private $teacherCommand1;
 
     /**
-     * @var TeacherCommand
+     * @var CourseTeacherCommand
      */
     private $teacherCommand2;
 
@@ -54,14 +54,14 @@ class TeacherCommandTest extends TestCase
             ->setManager(true);
 
         // Command 1
-        $this->teacherCommand1 = new TeacherCommand();
+        $this->teacherCommand1 = new CourseTeacherCommand();
         $this->teacherCommand1->setCourseInfo($this->courseInfo)
             ->setFirstname('firstname')
             ->setLastname('lastname')
             ->setEmail('email');
 
         // Command 2
-        $this->teacherCommand2 = new TeacherCommand($this->courseTeacher);
+        $this->teacherCommand2 = new CourseTeacherCommand($this->courseTeacher);
     }
 
     /**

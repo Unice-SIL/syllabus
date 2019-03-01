@@ -4,10 +4,8 @@ namespace AppBundle\Action\Ui\Course;
 
 use AppBundle\Action\ActionInterface;
 use AppBundle\Command\Course\EditPresentationCourseInfoCommand;
-use AppBundle\Entity\CourseInfo;
 use AppBundle\Form\Course\EditPresentationCourseInfoType;
 use AppBundle\Query\Course\EditPresentationCourseInfoQuery;
-use AppBundle\Query\Course\FindCourseInfoByIdAndYearQuery;
 use AppBundle\Query\Course\FindCourseInfoByIdQuery;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;

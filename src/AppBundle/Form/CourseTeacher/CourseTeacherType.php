@@ -1,18 +1,18 @@
 <?php
 
-namespace AppBundle\Form\Teacher;
+namespace AppBundle\Form\CourseTeacher;
 
-use AppBundle\Command\Teacher\TeacherCommand;
+use AppBundle\Command\CourseTeacher\CourseTeacherCommand;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class TeacherType
- * @package AppBundle\Form\Course
+ * Class CourseTeacherType
+ * @package AppBundle\Form\Teacher
  */
-class TeacherType extends AbstractType
+class CourseTeacherType extends AbstractType
 {
 
     /**
@@ -33,7 +33,7 @@ class TeacherType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => TeacherCommand::class
+            'data_class' => CourseTeacherCommand::class
         ]);
     }
 }
