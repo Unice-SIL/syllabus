@@ -182,8 +182,10 @@ class TeacherCommand implements CommandInterface
             ->setFirstname($this->getFirstname())
             ->setLastname($this->getLastname())
             ->setEmail($this->getEmail())
-            ->setManager($this->isManager())
-            ->setCourseInfo($this->getCourseInfo());
+            ->setManager($this->isManager());
+        if(!is_null($this->getCourseInfo())){
+            $entity->setCourseInfo($this->getCourseInfo());
+        }
         return $entity;
     }
 }

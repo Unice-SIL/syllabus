@@ -3,12 +3,10 @@
 namespace AppBundle\Query\Course;
 
 use AppBundle\Command\Course\EditPresentationCourseInfoCommand;
-use AppBundle\Entity\CourseInfo;
-use AppBundle\Entity\CourseTeacher;
+use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Query\QueryInterface;
 use AppBundle\Repository\CourseInfoRepositoryInterface;
 use AppBundle\Repository\CourseTeacherRepositoryInterface;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Class EditPresentationCourseInfoQuery
@@ -57,6 +55,7 @@ class EditPresentationCourseInfoQuery implements QueryInterface
     }
 
     /**
+     * @throws CourseInfoNotFoundException
      * @throws \Exception
      */
     public function execute(): void
@@ -64,6 +63,13 @@ class EditPresentationCourseInfoQuery implements QueryInterface
         try {
             // Find CourseInfo
             $courseInfo = $this->courseInfoRepository->find($this->editPresentationCourseInfoCommand->getId());
+        }catch (\Exception $e){
+            throw $e;
+        }
+        if(is_null($courseInfo)){
+            throw new CourseInfoNotFoundException(sprintf('CourseInfo with id %s not found', $this->editPresentationCourseInfoCommand->getId()));
+        }
+        try{
             $originalCourseTeachers = $courseInfo->getCourseTeachers();
             $courseInfo = $this->editPresentationCourseInfoCommand->filledEntity($courseInfo);
             $this->courseInfoRepository->beginTransaction();

@@ -328,7 +328,7 @@ class CourseInfo
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Course")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="course_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="course_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $course;
@@ -338,7 +338,7 @@ class CourseInfo
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Structure")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="structure_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="structure_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $structure;
@@ -368,7 +368,7 @@ class CourseInfo
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Year")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="year_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="year_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $year;

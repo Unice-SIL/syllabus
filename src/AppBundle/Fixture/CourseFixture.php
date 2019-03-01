@@ -24,22 +24,27 @@ class CourseFixture extends Fixture
      */
     public function load(ObjectManager $manager)
     {
+        // Course 1
+        $course1 = new Course();
+        $course1->setId(Uuid::uuid4())
+            ->setType('ECUE')
+            ->setEtbId('SLEPB111');
+        $this->addReference(self::COURSE_1, $course1);
+
         // Course 2
-        $course = new Course();
-        $course->setId(Uuid::uuid4())
+        $course2 = new Course();
+        $course2->setId(Uuid::uuid4())
             ->setType('UE')
             ->setEtbId('SLUPB11');
-        $this->addReference(self::COURSE_2, $course);
-        $manager->persist($course);
-        // Course 1
-        $course = new Course();
-        $course->setId(Uuid::uuid4())
-            ->setType('ECUE')
-            ->setEtbId('SLEPB111')
-            ->addCourseParent($this->getReference(CourseFixture::COURSE_2));
-        $this->addReference(self::COURSE_1, $course);
-        $manager->persist($course);
-        // flush
+        $this->addReference(self::COURSE_2, $course2);
+
+        // Course hierarchy
+        $course1->addCourseParent($course2);
+        $course2->addCourseChild($course1);
+
+        // Save
+        $manager->persist($course1);
+        $manager->persist($course2);
         $manager->flush();
     }
 

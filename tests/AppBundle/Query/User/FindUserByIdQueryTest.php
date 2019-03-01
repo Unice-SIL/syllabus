@@ -5,7 +5,6 @@ namespace tests\Query\User;
 use AppBundle\Entity\User;
 use AppBundle\Exception\UserNotFoundException;
 use AppBundle\Query\User\FindUserByIdQuery;
-use AppBundle\Repository\Doctrine\UserDoctrineRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
@@ -31,10 +30,11 @@ class FindUserByIdQueryTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->userRepository = $this->getMockBuilder(UserDoctrineRepository::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['find'])
+        // Mock Repository
+        $this->userRepository = $this->getMockBuilder('AppBundle\Repository\UserRepositoryInterface')
             ->getMock();
+
+        // User
         $this->user = new User();
         $this->user
             ->setId(Uuid::uuid4())

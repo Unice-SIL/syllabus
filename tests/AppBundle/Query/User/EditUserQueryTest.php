@@ -6,7 +6,6 @@ use AppBundle\Command\User\EditUserCommand;
 use AppBundle\Entity\User;
 use AppBundle\Exception\UserNotFoundException;
 use AppBundle\Query\User\EditUserQuery;
-use AppBundle\Repository\Doctrine\UserDoctrineRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
@@ -37,10 +36,11 @@ class EditUserQueryTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->userRepository = $this->getMockBuilder(UserDoctrineRepository::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['find', 'update'])
+        // Mock Repository
+        $this->userRepository = $this->getMockBuilder('AppBundle\Repository\UserRepositoryInterface')
             ->getMock();
+
+        // User
         $this->user = new User();
         $this->user
             ->setId(Uuid::uuid4())
@@ -51,6 +51,8 @@ class EditUserQueryTest extends TestCase
             ->setPassword('password')
             ->setSalt('salt')
             ->setRoles(['USER_ROLE']);
+
+        // Command
         $this->editUserCommand = new EditUserCommand($this->user);
     }
 

@@ -5,7 +5,6 @@ namespace tests\Command\User;
 use AppBundle\Command\Teacher\TeacherCommand;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseTeacher;
-use AppBundle\Entity\User;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
 
@@ -20,6 +19,11 @@ class TeacherCommandTest extends TestCase
      * @var CourseTeacher
      */
     private $courseTeacher;
+
+    /**
+     * @var CourseInfo
+     */
+    private $courseInfo;
 
     /**
      * @var TeacherCommand
@@ -37,20 +41,26 @@ class TeacherCommandTest extends TestCase
     protected function setUp(): void
     {
         // CourseInfo
-        $courseInfo = new CourseInfo();
-        $courseInfo->setId(Uuid::uuid4());
+        $this->courseInfo = new CourseInfo();
+        $this->courseInfo->setId(Uuid::uuid4());
 
         // CourseTeacher
         $this->courseTeacher = new CourseTeacher();
         $this->courseTeacher->setId(Uuid::uuid4())
-            ->setCourseInfo($courseInfo)
+            ->setCourseInfo($this->courseInfo)
             ->setFirstname('firstname')
             ->setLastname('lastname')
             ->setEmail('email')
             ->setManager(true);
 
-        // Command
+        // Command 1
         $this->teacherCommand1 = new TeacherCommand();
+        $this->teacherCommand1->setCourseInfo($this->courseInfo)
+            ->setFirstname('firstname')
+            ->setLastname('lastname')
+            ->setEmail('email');
+
+        // Command 2
         $this->teacherCommand2 = new TeacherCommand($this->courseTeacher);
     }
 
@@ -65,80 +75,56 @@ class TeacherCommandTest extends TestCase
     /**
      * @test
      */
-    public function getUsername(){
-        $this->assertNotEmpty($this->tea->getUsername());
-        $this->assertTrue(is_string($this->createUserCommand->getUsername()));
-        $this->assertEquals('username', $this->createUserCommand->getUsername());
-    }
-
-    /**
-     * @test
-     */
     public function getFirstname(){
-        $this->assertNotEmpty($this->createUserCommand->getFirstname());
-        $this->assertTrue(is_string($this->createUserCommand->getFirstname()));
-        $this->assertEquals('firstname', $this->createUserCommand->getFirstname());
+        $this->assertEquals('firstname', $this->teacherCommand1->getFirstname());
+        $this->assertEquals('firstname', $this->teacherCommand2->getFirstname());
     }
 
     /**
      * @test
      */
     public function getLastname(){
-        $this->assertNotEmpty($this->createUserCommand->getLastname());
-        $this->assertTrue(is_string($this->createUserCommand->getLastname()));
-        $this->assertEquals('lastname', $this->createUserCommand->getLastname());
+        $this->assertEquals('lastname', $this->teacherCommand1->getLastname());
+        $this->assertEquals('lastname', $this->teacherCommand2->getLastname());
     }
 
     /**
      * @test
      */
     public function getEmail(){
-        $this->assertNotEmpty($this->createUserCommand->getEmail());
-        $this->assertTrue(is_string($this->createUserCommand->getEmail()));
-        $this->assertEquals('email', $this->createUserCommand->getEmail());
+        $this->assertEquals('email', $this->teacherCommand1->getEmail());
+        $this->assertEquals('email', $this->teacherCommand2->getEmail());
     }
 
     /**
      * @test
      */
-    public function getPassword(){
-        $this->assertNotEmpty($this->createUserCommand->getPassword());
-        $this->assertTrue(is_string($this->createUserCommand->getPassword()));
-        $this->assertEquals('password', $this->createUserCommand->getPassword());
+    public function isManager(){
+        $this->assertFalse($this->teacherCommand1->isManager());
+        $this->assertTrue($this->teacherCommand2->isManager());
     }
 
     /**
      * @test
      */
-    public function getSalt(){
-        $this->assertNotEmpty($this->createUserCommand->getSalt());
-        $this->assertTrue(is_string($this->createUserCommand->getSalt()));
-        $this->assertEquals('salt', $this->createUserCommand->getSalt());
-    }
-
-    /**
-     * @test
-     */
-    public function getRole(){
-        $this->assertNotEmpty($this->createUserCommand->getRoles());
-        $this->assertTrue(is_array($this->createUserCommand->getRoles()));
-        $this->assertEquals(['USER_ROLE'], $this->createUserCommand->getRoles());
+    public function getCourseInfo(){
+        $this->assertEquals($this->courseInfo, $this->teacherCommand1->getCourseInfo());
+        $this->assertEquals($this->courseInfo, $this->teacherCommand2->getCourseInfo());
     }
 
     /**
      * @test
      */
     public function filledEntity(){
-        $user = new User();
-        $user->setId($this->createUserCommand->getId())
-            ->setUsername($this->createUserCommand->getUsername())
-            ->setFirstname($this->createUserCommand->getFirstname())
-            ->setLastname($this->createUserCommand->getLastname())
-            ->setEmail($this->createUserCommand->getEmail())
-            ->setPassword($this->createUserCommand->getPassword())
-            ->setSalt($this->createUserCommand->getSalt())
-            ->setRoles($this->createUserCommand->getRoles());
-        $this->assertEquals($user, $this->createUserCommand->filledEntity(new User()));
+        $courseTeacher = new CourseTeacher();
+        $courseTeacher->setId($this->teacherCommand1->getId())
+            ->setCourseInfo($this->courseInfo)
+            ->setFirstname($this->teacherCommand1->getFirstname())
+            ->setLastname($this->teacherCommand1->getLastname())
+            ->setEmail($this->teacherCommand1->getEmail())
+            ->setManager($this->teacherCommand1->isManager());
+        $this->assertEquals($courseTeacher, $this->teacherCommand1->filledEntity($courseTeacher));
+        $this->assertEquals($this->courseTeacher, $this->teacherCommand2->filledEntity($this->courseTeacher));
     }
 
     /**
