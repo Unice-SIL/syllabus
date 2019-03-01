@@ -66,7 +66,7 @@
             $('.submit').click(function(){
                 $.ajax({
                     type: 'POST',
-                    url: '{{ path('save_presentation_course_info', { 'id': id })|escape('js') }}',
+                    url: '{{ path('save_presentation_course_info', { 'id': courseInfo.id })|escape('js') }}',
                     data: $(this).closest('form').serialize()
                 }).done(function(){
                     alert('done');
