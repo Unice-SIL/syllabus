@@ -5,7 +5,6 @@ namespace tests\Query\User;
 use AppBundle\Command\User\CreateUserCommand;
 use AppBundle\Entity\User;
 use AppBundle\Query\User\CreateUserQuery;
-use AppBundle\Repository\Doctrine\UserDoctrineRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -35,10 +34,11 @@ class CreateUserQueryTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->userRepository = $this->getMockBuilder(UserDoctrineRepository::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['create'])
+        // Mock Reposutory
+        $this->userRepository = $this->getMockBuilder('AppBundle\Repository\UserRepositoryInterface')
             ->getMock();
+
+        // Command
         $this->createUserCommand = new CreateUserCommand();
         $this->createUserCommand->setUsername('username')
             ->setFirstname('firstname')
@@ -47,6 +47,8 @@ class CreateUserQueryTest extends TestCase
             ->setPassword('password')
             ->setSalt('salt')
             ->setRoles(['USER_ROLE']);
+
+        // User
         $this->user = $this->createUserCommand->filledEntity(new User());
     }
 

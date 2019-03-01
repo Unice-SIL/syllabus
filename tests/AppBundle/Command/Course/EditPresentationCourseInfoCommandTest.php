@@ -234,6 +234,33 @@ class EditPresentationCourseInfoCommandTest extends TestCase
     }
 
     /**
+     * @test
+     */
+    public function filledEntity(){
+        $courseInfo = new CourseInfo();
+        $courseInfo->setId($this->editPresentationCourseInfoCommand->getId())
+            ->setPeriod($this->editPresentationCourseInfoCommand->getPeriod())
+            ->setSummary($this->editPresentationCourseInfoCommand->getSummary())
+            ->setMediaType($this->editPresentationCourseInfoCommand->getMediaType())
+            ->setImage($this->editPresentationCourseInfoCommand->getImage())
+            ->setVideo($this->editPresentationCourseInfoCommand->getVideo())
+            ->setTeachingMode($this->editPresentationCourseInfoCommand->getTeachingMode())
+            ->setTeachingCmClass($this->editPresentationCourseInfoCommand->getTeachingCmClass())
+            ->setTeachingTdClass($this->editPresentationCourseInfoCommand->getTeachingTdClass())
+            ->setTeachingTpClass($this->editPresentationCourseInfoCommand->getTeachingTpClass())
+            ->setTeachingOtherClass($this->editPresentationCourseInfoCommand->getTeachingOtherClass())
+            ->setTeachingCmHybridClass($this->editPresentationCourseInfoCommand->getTeachingCmHybridClass())
+            ->setTeachingTdHybridClass($this->editPresentationCourseInfoCommand->getTeachingTdHybridClass())
+            ->setTeachingTpHybridClass($this->editPresentationCourseInfoCommand->getTeachingTpHybridClass())
+            ->setTeachingOtherHybridClass($this->editPresentationCourseInfoCommand->getTeachingOtherHybridClass())
+            ->setTeachingCmHybridDist($this->editPresentationCourseInfoCommand->getTeachingCmHybridDist())
+            ->setTeachingTdHybridDist($this->editPresentationCourseInfoCommand->getTeachingTdHybridDist())
+            ->setTeachingOtherHybridDist($this->editPresentationCourseInfoCommand->getTeachingOtherHybridDist())
+            ->setCourseTeachers($this->courseTeachers);
+        $this->assertEquals($courseInfo, $this->editPresentationCourseInfoCommand->filledEntity($courseInfo));
+    }
+
+    /**
      *
      */
     protected function tearDown(): void

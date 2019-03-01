@@ -12,12 +12,8 @@ use Doctrine\ORM\EntityManager;
  * Class CourseTeacherDoctrineRepository
  * @package AppBundle\Repository\Doctrine
  */
-class CourseTeacherDoctrineRepository implements CourseTeacherRepositoryInterface
+class CourseTeacherDoctrineRepository extends AbstractDoctrineRepository implements CourseTeacherRepositoryInterface
 {
-    /**
-     * @var EntityManager
-     */
-    private $entityManager;
 
     /**
      * UserDoctrineRepository constructor.
@@ -47,6 +43,21 @@ class CourseTeacherDoctrineRepository implements CourseTeacherRepositoryInterfac
         return $courseTeacher;
     }
 
+
+    /**
+     * @param CourseTeacher $courseTeacher
+     * @throws \Exception
+     */
+    public function create(CourseTeacher $courseTeacher): void
+    {
+        try{
+            $this->entityManager->persist($courseTeacher);
+            $this->entityManager->flush();
+        }catch (\Exception $e){
+            throw $e;
+        }
+    }
+
     /**
      * Delete a course teacher
      * @param CourseTeacher $courseTeacher
@@ -60,4 +71,5 @@ class CourseTeacherDoctrineRepository implements CourseTeacherRepositoryInterfac
             throw $e;
         }
     }
+
 }

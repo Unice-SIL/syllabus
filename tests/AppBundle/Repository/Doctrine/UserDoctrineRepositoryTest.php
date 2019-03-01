@@ -49,7 +49,7 @@ class UserDoctrineRepositoryTest extends WebTestCase
     private static $userid;
 
     /**
-     * @var User
+     * @var strinf
      */
     private $user;
 
