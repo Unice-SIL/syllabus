@@ -6,7 +6,13 @@ services:
 
     # ALIAS
     LdapBundle\Repository\TeacherRepositoryInterface:
-        alias: %ldap_uns_teacher_repository_service%
+        #class: LdapBundle\Repository\TeacherRepositoryInterface
+        factory: 'LdapBundle\Factory\TeacherRepositoryFactory:getService'
+
+    # FACTORY
+    LdapBundle\Factory\TeacherRepositoryFactory:
+        autowire: true
+        arguments: [ '%ldap_uns_teacher_repository_service%' ]
 
     # LDAP
     ldap_uns_adapter:
