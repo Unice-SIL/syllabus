@@ -2,7 +2,7 @@
 
 namespace tests\LdapBundle\Repository\Doctrine;
 
-use LdapBundle\Repository\InMemory\PeopleInMemoryRepository;
+use LdapBundle\Repository\InMemory\TeacherInMemoryRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
@@ -12,7 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 class PeopleInMemoryRepositoryTest extends WebTestCase
 {
     /**
-     * @var PeopleInMemoryRepository
+     * @var TeacherInMemoryRepository
      */
     private $peopleInMemoryRepository;
 
@@ -21,7 +21,7 @@ class PeopleInMemoryRepositoryTest extends WebTestCase
      */
     protected function setUp(): void
     {
-        $this->peopleInMemoryRepository = new PeopleInMemoryRepository();
+        $this->peopleInMemoryRepository = new TeacherInMemoryRepository();
     }
 
     /**

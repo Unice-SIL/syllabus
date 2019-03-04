@@ -4,7 +4,7 @@ namespace AppBundle\Query\CourseTeacher\Adapter\Ldap;
 
 use AppBundle\Entity\CourseTeacher;
 use AppBundle\Query\CourseTeacher\Adapter\FindCourseTeacherByIdQueryInterface;
-use LdapBundle\Repository\PeopleRepositoryInterface;
+use LdapBundle\Repository\TeacherRepositoryInterface;
 
 /**
  * Class FindCourseTeacherByIdLdapQuery
@@ -13,9 +13,9 @@ use LdapBundle\Repository\PeopleRepositoryInterface;
 class FindCourseTeacherByIdLdapQuery implements FindCourseTeacherByIdQueryInterface
 {
     /**
-     * @var PeopleRepositoryInterface
+     * @var TeacherRepositoryInterface
      */
-    private $peopleRepository;
+    private $teacherRepository;
 
     /**
      * @var string
@@ -24,13 +24,13 @@ class FindCourseTeacherByIdLdapQuery implements FindCourseTeacherByIdQueryInterf
 
     /**
      * FindCourseTeacherByIdLdapQuery constructor.
-     * @param PeopleRepositoryInterface $peopleRepository
+     * @param TeacherRepositoryInterface $teacherRepository
      */
     public function __construct(
-        PeopleRepositoryInterface $peopleRepository
+        TeacherRepositoryInterface $teacherRepository
     )
     {
-        $this->peopleRepository = $peopleRepository;
+        $this->teacherRepository = $teacherRepository;
     }
 
     /**
@@ -51,13 +51,13 @@ class FindCourseTeacherByIdLdapQuery implements FindCourseTeacherByIdQueryInterf
     {
         $courseTeacher = null;
         try {
-            $people = $this->peopleRepository->find($this->id);
-            if (!is_null($people)){
+            $teacher = $this->teacherRepository->find($this->id);
+            if (!is_null($teacher)){
                 $courseTeacher = new CourseTeacher();
-                $courseTeacher->setId($people->getId())
-                    ->setFirstname($people->getFirstname())
-                    ->setLastname($people->getLastname())
-                    ->setEmail($people->getEmail());
+                $courseTeacher->setId($teacher->getId())
+                    ->setFirstname($teacher->getFirstname())
+                    ->setLastname($teacher->getLastname())
+                    ->setEmail($teacher->getEmail());
             }
         }catch (\Exception $e){
             throw $e;
