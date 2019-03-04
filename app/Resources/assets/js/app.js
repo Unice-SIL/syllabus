@@ -15,6 +15,7 @@ require('../scss/app.scss');
 
 // Defining jQuery client-side.
 const $ = require('jquery');
+global.$ = global.jQuery = $;
 
 
 
