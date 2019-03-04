@@ -3,7 +3,7 @@
 namespace tests\AppBundle\Factory;
 
 use AppBundle\Factory\ImportCourseTeacherFactory;
-use AppBundle\Query\CourseTeacher\Adapter\ImportCourseTeacherQueryInterface;
+use AppBundle\Query\CourseTeacher\Adapter\SearchCourseTeacherQueryInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 
@@ -34,7 +34,7 @@ class ImportCourseTeacherFactoryTest extends KernelTestCase
         $this->courseTeacherFactoryParams['sources'] = [
             'ldap' => [
                 'name' => 'LDAP',
-                'service' => 'AppBundle\Query\CourseTeacher\Adapter\Ldap\ImportCourseTeacherLdapQuery',
+                'service' => 'AppBundle\Query\CourseTeacher\Adapter\Ldap\SearchCourseTeacherLdapQuery',
             ],
             'servicenotset' => [],
         ];
@@ -46,7 +46,7 @@ class ImportCourseTeacherFactoryTest extends KernelTestCase
     public function getQuerySuccessful(){
         $importCourseTeacherFactory = new ImportCourseTeacherFactory($this->courseTeacherFactoryParams, $this->container);
         $importCourseTeacherQuery = $importCourseTeacherFactory->getQuery('ldap');
-        $this->assertInstanceOf(ImportCourseTeacherQueryInterface::class, $importCourseTeacherQuery);
+        $this->assertInstanceOf(SearchCourseTeacherQueryInterface::class, $importCourseTeacherQuery);
     }
 
     /**

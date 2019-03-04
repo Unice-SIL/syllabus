@@ -4,14 +4,14 @@ namespace AppBundle\Query\CourseTeacher\Adapter\Ldap;
 
 use AppBundle\Collection\CourseTeacherCollection;
 use AppBundle\Entity\CourseTeacher;
-use AppBundle\Query\CourseTeacher\Adapter\ImportCourseTeacherQueryInterface;
+use AppBundle\Query\CourseTeacher\Adapter\SearchCourseTeacherQueryInterface;
 use LdapBundle\Repository\PeopleRepositoryInterface;
 
 /**
- * Class ImportCourseTeacherLdapQuery
- * @package AppBundle\Query\Adapter\Ldap
+ * Class SearchCourseTeacherLdapQuery
+ * @package AppBundle\Query\CourseTeacher\Adapter\Ldap
  */
-class ImportCourseTeacherLdapQuery implements ImportCourseTeacherQueryInterface
+class SearchCourseTeacherLdapQuery implements SearchCourseTeacherQueryInterface
 {
     /**
      * @var PeopleRepositoryInterface
@@ -36,9 +36,9 @@ class ImportCourseTeacherLdapQuery implements ImportCourseTeacherQueryInterface
 
     /**
      * @param string $term
-     * @return ImportCourseTeacherLdapQuery
+     * @return SearchCourseTeacherLdapQuery
      */
-    public function setTerm(string $term): ImportCourseTeacherLdapQuery
+    public function setTerm(string $term): SearchCourseTeacherQueryInterface
     {
         $this->term = $term;
         return $this;

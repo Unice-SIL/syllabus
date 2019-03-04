@@ -35,12 +35,19 @@ services:
     Appbundle\Factory\ImportCourseTeacherFactory:
         arguments: [ '%course_teacher_factory%' ]
 
+    # FORM
+    AppBundle\Form\Course\EditPresentationCourseInfoType:
+        arguments: [ '%course_teacher_factory%' ]
+
     # FIXTURE
     AppBundle\Fixture\CourseFixture:
         tags: ['doctrine.fixture.orm']
 
     # QUERY
-    AppBundle\Query\CourseTeacher\Adapter\Ldap\ImportCourseTeacherLdapQuery:
+    AppBundle\Query\CourseTeacher\Adapter\Ldap\SearchCourseTeacherLdapQuery:
+        public: true
+        autowire: true
+    AppBundle\Query\CourseTeacher\Adapter\Ldap\FindCourseTeacherByIdLdapQuery:
         public: true
         autowire: true
 

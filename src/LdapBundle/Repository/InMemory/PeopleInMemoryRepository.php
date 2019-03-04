@@ -20,6 +20,7 @@ class PeopleInMemoryRepository implements PeopleRepositoryInterface
     public function __construct()
     {
         $this->peoples = new PeopleCollection();
+        // Alexis Massé
         $people = new People();
         $people->setId('jmasse')
             ->setUsername('jmasse')
@@ -27,6 +28,7 @@ class PeopleInMemoryRepository implements PeopleRepositoryInterface
             ->setLastname('Massé')
             ->setEmail('Alexis.Masse@unice.fr');
         $this->peoples->append($people);
+        // William Lafrenière
         $people = new People();
         $people->setId('wlafreniere')
             ->setUsername('wlafreniere')
@@ -34,12 +36,16 @@ class PeopleInMemoryRepository implements PeopleRepositoryInterface
             ->setLastname('Lafrenière')
             ->setEmail('William.Lafreniere@unice.fr');
         $this->peoples->append($people);
+        // Marcelle Bousquet
+        $people = new People();
         $people->setId('mbousquet')
             ->setUsername('mbousquet')
             ->setFirstname('Marcelle')
             ->setLastname('Bousquet')
             ->setEmail('Marcelle.Bousquet@unice.fr');
         $this->peoples->append($people);
+        // Jacques Lazure
+        $people = new People();
         $people->setId('jlazure')
             ->setUsername('jlazure')
             ->setFirstname('Jacques')
@@ -49,8 +55,22 @@ class PeopleInMemoryRepository implements PeopleRepositoryInterface
     }
 
     /**
+     * @param $id
+     * @return People|null
+     */
+    public function find($id): ?People
+    {
+        foreach ($this->peoples as $people){
+            if($people->getId() == $id){
+                return $people;
+            }
+        }
+        return null;
+    }
+
+    /**
      * @param $term
-     * @return mixed
+     * @return PeopleCollection
      */
     public function search($term): PeopleCollection
     {

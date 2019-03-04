@@ -15,6 +15,11 @@ class CourseTeacherCommand implements CommandInterface
     private $id;
 
     /**
+     * @var string|null
+     */
+    private $completeName;
+
+    /**
      * @var null|string
      */
     private $firstname;
@@ -50,6 +55,7 @@ class CourseTeacherCommand implements CommandInterface
             $this->manager = false;
         }else{
             $this->id = $courseTeacher->getId();
+            $this->completeName = trim($courseTeacher->getLastname()." ".$courseTeacher->getFirstname());
             $this->firstname = $courseTeacher->getFirstname();
             $this->lastname = $courseTeacher->getLastname();
             $this->email = $courseTeacher->getEmail();
@@ -73,6 +79,25 @@ class CourseTeacherCommand implements CommandInterface
     public function setId(string $id): CourseTeacherCommand
     {
         $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCompleteName(): ?string
+    {
+        return $this->completeName;
+    }
+
+    /**
+     * @param string $completeName
+     * @return CourseTeacherCommand
+     */
+    public function setCompleteName(string $completeName): CourseTeacherCommand
+    {
+        $this->completeName = $completeName;
 
         return $this;
     }

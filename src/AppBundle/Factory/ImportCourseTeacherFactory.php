@@ -2,7 +2,8 @@
 
 namespace AppBundle\Factory;
 
-use AppBundle\Query\CourseTeacher\Adapter\ImportCourseTeacherQueryInterface;
+use AppBundle\Query\CourseTeacher\Adapter\FindCourseTeacherByIdQueryInterface;
+use AppBundle\Query\CourseTeacher\Adapter\SearchCourseTeacherQueryInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 
@@ -45,21 +46,47 @@ class ImportCourseTeacherFactory
 
     /**
      * @param string $sourceId
-     * @return ImportCourseTeacherQueryInterface
+     * @return SearchCourseTeacherQueryInterface
      * @throws \Exception
      */
-    public function getQuery(string $sourceId): ImportCourseTeacherQueryInterface
+    public function getSearchQuery(string $sourceId): SearchCourseTeacherQueryInterface
     {
+        try{
+            return $this->getService($sourceId, 'searchService');
+        }catch (\Exception $e){
+            throw $e;
+        }
+    }
+
+    /**
+     * @param string $sourceId
+     * @return FindCourseTeacherByIdQueryInterface
+     * @throws \Exception
+     */
+    public function getFindByIdQuery(string $sourceId): FindCourseTeacherByIdQueryInterface
+    {
+        try{
+            return $this->getService($sourceId, 'findByIdService');
+        }catch (\Exception $e){
+            throw $e;
+        }
+    }
+
+    /**
+     * @param string $sourceId
+     * @param string $serviceId
+     * @return object
+     * @throws \Exception
+     */
+    private function getService(string $sourceId, string $serviceId){
         if(!array_key_exists($sourceId, $this->sources)){
             throw new \Exception(sprintf('Source %s does not exist in course_teacher_factory.sources parameter', $sourceId));
         }
         $source = $this->sources[$sourceId];
-        $serviceId = null;
-        if(array_key_exists('service', $source)){
-            $serviceId = $source['service'];
-        }else{
-            $serviceId = $sourceId;
+        if(!array_key_exists($serviceId, $source)){
+            throw new \Exception(sprintf('Service %s does not exist for source %s in course_teacher_factory.sources parameter', $serviceId, $sourceId));
         }
+        $serviceId = $source[$serviceId];
         try {
             $service = $this->container->get($serviceId);
         }catch (ServiceNotFoundException $e){

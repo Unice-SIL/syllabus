@@ -4,6 +4,9 @@ namespace AppBundle\Form\CourseTeacher;
 
 use AppBundle\Command\CourseTeacher\CourseTeacherCommand;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -22,8 +25,22 @@ class CourseTeacherType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('firstname', TextType::class, [
-                'label' => 'Firstname'
+            ->add('completeName', TextType::class, [
+                'label' => 'Name',
+                'disabled' => true,
+            ])
+            ->add('manager', CheckboxType::class, [
+                'label' => 'manager',
+                'required' => false,
+                'value' => true,
+            ])
+            ->add('id', HiddenType::class, [
+            ])
+            ->add('firstname', HiddenType::class, [
+            ])
+            ->add('lastname', HiddenType::class, [
+            ])
+            ->add('email', HiddenType::class, [
             ]);
     }
 

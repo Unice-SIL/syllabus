@@ -106,6 +106,11 @@ class EditPresentationCourseInfoCommand implements CommandInterface
     private $teachingOtherHybridDist;
 
     /**
+     * @var string|null
+     */
+    //private $teacherSearch;
+
+    /**
      * @var array
      */
     private $teachers;
