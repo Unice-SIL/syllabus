@@ -51,7 +51,8 @@ Encore
         }
     )
 
-    // uncomment if you're having problems with a jQuery plugin
+    // Fixes jQuery plug-ins that expect jQuery to be global.
+    // https://symfony.com/doc/3.4/frontend/encore/legacy-apps.html
     //.autoProvidejQuery()
 ;
 
