@@ -38,9 +38,10 @@ parameters:
 
     course_teacher_factory:
         sources:
-            ldap:
-                name: Annuaire Ldap UNS
-                service: LdapBundle\Repository\PeopleRepositoryInterface
+            ldap_uns:
+                name: 'Annuaire Ldap UNS'
+                searchService: AppBundle\Query\CourseTeacher\Adapter\Ldap\SearchCourseTeacherLdapQuery
+                findByIdService: AppBundle\Query\CourseTeacher\Adapter\Ldap\FindCourseTeacherByIdLdapQuery
 
     ldap_host: ldap.domain.com
     ldap_port: 389
