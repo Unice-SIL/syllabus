@@ -43,9 +43,22 @@ parameters:
                 searchService: AppBundle\Query\CourseTeacher\Adapter\Ldap\SearchCourseTeacherLdapQuery
                 findByIdService: AppBundle\Query\CourseTeacher\Adapter\Ldap\FindCourseTeacherByIdLdapQuery
 
-    ldap_host: ldap.domain.com
-    ldap_port: 389
-    ldap_encryption: tls
-    ldap_options:
+    ldap_uns_host: ldap.domain.com
+    ldap_uns_port: 389
+    ldap_uns_encryption: tls
+    ldap_uns_options:
         protocol_version: 3
         referrals: false
+    ldap_uns_bind_dn: ~
+    ldap_uns_bind_password: ~
+    ldap_uns_teacher_repository_service: 'teacher_inmemory_repository'
+    ldap_uns_repositories:
+        teacher:
+            base_dn: 'ou=personnel,ou=people,dc=unice,dc=fr'
+            search_query: '(|(supannAliasLogin=*{term}*)(uid=*{term}*)(sn=*{term}*)(givenName=*{term}*)(mail=*{term}*))'
+            find_query: 'uid={id}'
+            mapping:
+                id: uid
+                email: mail
+                firstname: givenName
+                lastname: sn

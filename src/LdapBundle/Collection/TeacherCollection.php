@@ -2,18 +2,18 @@
 
 namespace LdapBundle\Collection;
 
-use LdapBundle\Entity\People;
+use LdapBundle\Entity\Teacher;
 
 /**
- * Class PeopleCollection
+ * Class TeacherCollection
  * @package LdapBundle\Collection
  */
-class PeopleCollection extends GenericCollection
+class TeacherCollection extends GenericCollection
 {
     /**
      *
      */
-    const TYPE = People::class;
+    const TYPE = Teacher::class;
 
     /**
      * PeopleCollection constructor.

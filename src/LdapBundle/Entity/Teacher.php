@@ -3,10 +3,10 @@
 namespace LdapBundle\Entity;
 
 /**
- * Class People
+ * Class Teacher
  * @package LdapBundle\Entity
  */
-class People
+class Teacher
 {
     /**
      * @var string
@@ -19,7 +19,7 @@ class People
     private $username;
 
     /**
-     * @var string
+     * @var string|null
      */
     private $civilite;
 
@@ -34,7 +34,7 @@ class People
     private $lastname;
 
     /**
-     * @var string
+     * @var string|null
      */
     private $email;
 
@@ -48,9 +48,9 @@ class People
 
     /**
      * @param string $id
-     * @return People
+     * @return Teacher
      */
-    public function setId(string $id): People
+    public function setId(string $id): Teacher
     {
         $this->id = $id;
 
@@ -67,9 +67,9 @@ class People
 
     /**
      * @param string $username
-     * @return People
+     * @return Teacher
      */
-    public function setUsername(string $username): People
+    public function setUsername(string $username): Teacher
     {
         $this->username = $username;
 
@@ -77,18 +77,18 @@ class People
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getCivilite(): string
+    public function getCivilite()
     {
         return $this->civilite;
     }
 
     /**
-     * @param string $civilite
-     * @return People
+     * @param null|string $civilite
+     * @return Teacher
      */
-    public function setCivilite(string $civilite): People
+    public function setCivilite($civilite)
     {
         $this->civilite = $civilite;
 
@@ -105,9 +105,9 @@ class People
 
     /**
      * @param string $firstname
-     * @return People
+     * @return Teacher
      */
-    public function setFirstname(string $firstname): People
+    public function setFirstname(string $firstname): Teacher
     {
         $this->firstname = $firstname;
 
@@ -124,9 +124,9 @@ class People
 
     /**
      * @param string $lastname
-     * @return People
+     * @return Teacher
      */
-    public function setLastname(string $lastname): People
+    public function setLastname(string $lastname): Teacher
     {
         $this->lastname = $lastname;
 
@@ -134,22 +134,23 @@ class People
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getEmail(): string
+    public function getEmail()
     {
         return $this->email;
     }
 
     /**
-     * @param string $email
-     * @return People
+     * @param null|string $email
+     * @return Teacher
      */
-    public function setEmail(string $email): People
+    public function setEmail($email)
     {
         $this->email = $email;
 
         return $this;
     }
+
 
 }

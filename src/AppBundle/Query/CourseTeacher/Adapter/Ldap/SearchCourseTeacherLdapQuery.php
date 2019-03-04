@@ -5,7 +5,7 @@ namespace AppBundle\Query\CourseTeacher\Adapter\Ldap;
 use AppBundle\Collection\CourseTeacherCollection;
 use AppBundle\Entity\CourseTeacher;
 use AppBundle\Query\CourseTeacher\Adapter\SearchCourseTeacherQueryInterface;
-use LdapBundle\Repository\PeopleRepositoryInterface;
+use LdapBundle\Repository\TeacherRepositoryInterface;
 
 /**
  * Class SearchCourseTeacherLdapQuery
@@ -14,9 +14,9 @@ use LdapBundle\Repository\PeopleRepositoryInterface;
 class SearchCourseTeacherLdapQuery implements SearchCourseTeacherQueryInterface
 {
     /**
-     * @var PeopleRepositoryInterface
+     * @var TeacherRepositoryInterface
      */
-    private $peopleRepository;
+    private $teacherRepository;
 
     /**
      * @var string
@@ -25,13 +25,13 @@ class SearchCourseTeacherLdapQuery implements SearchCourseTeacherQueryInterface
 
     /**
      * ImportCourseTeacherLdapQuery constructor.
-     * @param PeopleRepositoryInterface $peopleRepository
+     * @param TeacherRepositoryInterface $teacherRepository
      */
     public function __construct(
-        PeopleRepositoryInterface $peopleRepository
+        TeacherRepositoryInterface $teacherRepository
     )
     {
-        $this->peopleRepository = $peopleRepository;
+        $this->teacherRepository = $teacherRepository;
     }
 
     /**
@@ -52,13 +52,13 @@ class SearchCourseTeacherLdapQuery implements SearchCourseTeacherQueryInterface
     {
         $courseTeachers = new CourseTeacherCollection();
         try {
-            $peoples = $this->peopleRepository->search($this->term);
-            foreach ($peoples as $people){
+            $teachers = $this->teacherRepository->search($this->term);
+            foreach ($teachers as $teacher){
                 $courseTeacher = new CourseTeacher();
-                $courseTeacher->setId($people->getId())
-                    ->setFirstname($people->getFirstname())
-                    ->setLastname($people->getLastname())
-                    ->setEmail($people->getEmail());
+                $courseTeacher->setId($teacher->getId())
+                    ->setFirstname($teacher->getFirstname())
+                    ->setLastname($teacher->getLastname())
+                    ->setEmail($teacher->getEmail());
                 $courseTeachers->append($courseTeacher);
             }
         }catch (\Exception $e){
