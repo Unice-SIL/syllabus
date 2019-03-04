@@ -9,6 +9,7 @@ namespace AppBundle\Command;
 interface CommandInterface
 {
     /**
+     * @param $entity
      * @return mixed
      */
     public function filledEntity($entity);

@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+{% block main %}
+
+    {{ form_start(form) }}
+    {{ form_widget(form.teacherSource) }}
+    {{ form_widget(form.teacherSearch) }}
+    <button type="button" id="addTeacherButton" class="btn btn-outline-secondary">Ajouter</button>
+    <ul class="teachers" data-prototype="{{ form_widget(form.teachers.vars.prototype)|e('html_attr') }}">
+        {%  for teacher in form.teachers %}
+            <li>
+                {{ form_row(teacher.completeName) }}
+                {{ form_widget(teacher) }}
+            </li>
+        {% endfor %}
+    </ul>
+    {{ form_widget(form) }}
+    <button class="btn btn-outline-secondary btn-block submit" type="button">
+        Save
+    </button>
+    {{ form_end(form) }}
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    {{ parent() }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+    <script src="{{ asset('bundles/tetranzselect2entity/js/select2entity.js') }}"></script>
+    <script>
+
+        /**
+         *
+         * @param collectionHolder
+         * @param newLink
+         */
+        function addTeacherForm(collectionHolder, teacherData/*, newLink*/){
+            var prototype = collectionHolder.data('prototype');
+            var index = collectionHolder.data('index');
+            var newForm = prototype.replace(/__name__/g, index);
+            collectionHolder.data('index', index+1);
+            var newFormLi = $('<li></li>').append(newForm);
+            newFormLi.find('input[id*=_completeName]').val(teacherData['completeName']);
+            newFormLi.find('input[id*=_id]').val(teacherData['id']);
+            newFormLi.find('input[id*=_firstname]').val(teacherData['firstname']);
+            newFormLi.find('input[id*=_lastname]').val(teacherData['lastname']);
+            newFormLi.find('input[id*=_email]').val(teacherData['email']);
+            //newLink.before(newFormLi);
+            collectionHolder.append(newFormLi);
+            addTeacherFormDeleteLink(newFormLi);
+        }
+
+        /**
+         *
+         * @param teacherForm
+         */
+        function addTeacherFormDeleteLink(teacherForm){
+            var removeFormButton = $('<button type="button">Delete</button>');
+            teacherForm.append(removeFormButton);
+            removeFormButton.click(function(e){
+                teacherForm.remove();
+            });
+        }
+
+        $(document).ready(function(){
+            //var addTeacherButton = $('<button type="button" class="add_teacher_link">Add a teacher</button>');
+            //var newTeacherLink = $('<li></li>').append(addTeacherButton);
+            var teachersCollectionHolder = $('ul.teachers');
+            //teachersCollectionHolder.append(newTeacherLink);
+            teachersCollectionHolder.data('index', teachersCollectionHolder.find('li').length);
+            teachersCollectionHolder.find('li').each(function(){
+                addTeacherFormDeleteLink($(this));
+            });
+
+            $('#addTeacherButton').click(function(){
+                console.log($('#edit_presentation_course_info_teacherSource').val());
+                $.ajax({
+                    url: '{{ path('find_course_teacher_json') }}',
+                    type: 'GET',
+                    data: {
+                        'source': $('#edit_presentation_course_info_teacherSource').val(),
+                        'id': $('#edit_presentation_course_info_teacherSearch').val()
+                    },
+                    success: function(data){
+                        addTeacherForm(teachersCollectionHolder, data/*, newTeacherLink*/);
+                    }
+                });
+            });
+
+
+
+            $('.submit').click(function(){
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ path('save_presentation_course_info', { 'id': courseInfo.id })|escape('js') }}',
+                    data: $(this).closest('form').serialize()
+                }).done(function(){
+                    alert('done');
+                }).fail(function(){
+                    alert('fail');
+                });
+            });
+        });
+    </script>
+{% endblock %}

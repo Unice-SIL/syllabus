@@ -1,13 +1,29 @@
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    AppBundle\:
+        resource: '../../*'
+        exclude: '../../{Entity,Repository,Tests}'
+
     # GENERAL
     _instanceof:
-        AppBundle\Port\Action\ActionInterface:
+        AppBundle\Action\ActionInterface:
             public: true
             autowire: true
             tags: ['controller.service_arguments']
 
+
     # ALIAS
-    AppBundle\Port\Repository\UserRepositoryInterface: '@user_doctrine_repository'
+    AppBundle\Repository\UserRepositoryInterface: '@user_doctrine_repository'
+    AppBundle\Repository\CourseInfoRepositoryInterface: '@course_info_doctrine_repository'
+    AppBundle\Repository\CourseTeacherRepositoryInterface: '@course_teacher_doctrine_repository'
+
+    # AUTHENTICATORS
+    AppBundle\Security\Authenticator\TestAuthenticator:
+        arguments: ['%test_authenticator%']
 
     # ENTITY MANAGER
     syllabus_entity_manager:
@@ -15,7 +31,39 @@ services:
         factory: ['@doctrine', getManager]
         arguments: ['syllabus']
 
+    # FACTORY
+    Appbundle\Factory\ImportCourseTeacherFactory:
+        arguments: [ '%course_teacher_factory%' ]
+
+    # FORM
+    AppBundle\Form\Course\EditPresentationCourseInfoType:
+        arguments: [ '%course_teacher_factory%' ]
+
+    # FIXTURE
+    AppBundle\Fixture\CourseFixture:
+        tags: ['doctrine.fixture.orm']
+
+    # QUERY
+    AppBundle\Query\CourseTeacher\Adapter\Ldap\SearchCourseTeacherLdapQuery:
+        public: true
+        autowire: true
+    AppBundle\Query\CourseTeacher\Adapter\Ldap\FindCourseTeacherByIdLdapQuery:
+        public: true
+        autowire: true
+
     # REPOSITORY
     user_doctrine_repository:
         class: AppBundle\Repository\Doctrine\UserDoctrineRepository
         arguments: ['@syllabus_entity_manager']
+
+    course_info_doctrine_repository:
+        class: AppBundle\Repository\Doctrine\CourseInfoDoctrineRepository
+        arguments: ['@syllabus_entity_manager']
+
+    course_teacher_doctrine_repository:
+        class: AppBundle\Repository\Doctrine\CourseTeacherDoctrineRepository
+        arguments: ['@syllabus_entity_manager']
+
+    # PROVIDERS
+    AppBundle\Security\Provider\TestUserProvider:
+            arguments: ['%test_authenticator%']

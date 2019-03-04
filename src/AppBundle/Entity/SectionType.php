@@ -17,7 +17,7 @@ class SectionType
      *
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue(strategy="NONE")
      */
     private $id;
 

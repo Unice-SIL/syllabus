@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "69fb15542bdd5ec9672f8c847fb1698f",
+    "content-hash": "d92cf764731a43ba343a5a130b6c9d64",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -2085,7 +2085,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "BackEndTea@gmail.com"
+                    "email": "backendtea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
@@ -2443,16 +2443,16 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "v3.4.22",
+            "version": "v3.4.23",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "907d4d1d1a419663c3c37cfb33dd65c48fa62d1b"
+                "reference": "336cf12e5e82d71874e8522e0879794340351b56"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/907d4d1d1a419663c3c37cfb33dd65c48fa62d1b",
-                "reference": "907d4d1d1a419663c3c37cfb33dd65c48fa62d1b",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/336cf12e5e82d71874e8522e0879794340351b56",
+                "reference": "336cf12e5e82d71874e8522e0879794340351b56",
                 "shasum": ""
             },
             "require": {
@@ -2594,7 +2594,54 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2019-02-03T12:23:08+00:00"
+            "time": "2019-03-03T18:52:48+00:00"
+        },
+        {
+            "name": "tetranz/select2entity-bundle",
+            "version": "v2.9.5",
+            "target-dir": "Tetranz/Select2EntityBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tetranz/select2entity-bundle.git",
+                "reference": "c57281f4af06ca0c7e74c27fcc4bf8c95a1beaad"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tetranz/select2entity-bundle/zipball/c57281f4af06ca0c7e74c27fcc4bf8c95a1beaad",
+                "reference": "c57281f4af06ca0c7e74c27fcc4bf8c95a1beaad",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/orm": ">=2.4",
+                "php": ">=5.4.0"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": []
+            },
+            "autoload": {
+                "psr-0": {
+                    "Tetranz\\Select2EntityBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ross Keatinge",
+                    "email": "tetranz@gmail.com"
+                }
+            ],
+            "description": "A Symfony2 bundle that integrates Select2 as a drop-in replacement for a standard entity field on a Symfony form.",
+            "keywords": [
+                "autocomplete",
+                "select2",
+                "symfony",
+                "typeahead"
+            ],
+            "time": "2018-03-05T02:52:46+00:00"
         },
         {
             "name": "twig/twig",
@@ -4229,16 +4276,16 @@
         },
         {
             "name": "symfony/phpunit-bridge",
-            "version": "v4.2.3",
+            "version": "v4.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/phpunit-bridge.git",
-                "reference": "4ea7d80a7512ddc41d5af598978edcd395140edc"
+                "reference": "2cc651a38fcb831a405c14fcb76fcb00320e7ee8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/4ea7d80a7512ddc41d5af598978edcd395140edc",
-                "reference": "4ea7d80a7512ddc41d5af598978edcd395140edc",
+                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/2cc651a38fcb831a405c14fcb76fcb00320e7ee8",
+                "reference": "2cc651a38fcb831a405c14fcb76fcb00320e7ee8",
                 "shasum": ""
             },
             "require": {
@@ -4248,7 +4295,6 @@
                 "phpunit/phpunit": "<4.8.35|<5.4.3,>=5.0"
             },
             "suggest": {
-                "ext-zip": "Zip support is required when using bin/simple-phpunit",
                 "symfony/debug": "For tracking deprecated interfaces usages at runtime with DebugClassLoader"
             },
             "bin": [
@@ -4291,20 +4337,20 @@
             ],
             "description": "Symfony PHPUnit Bridge",
             "homepage": "https://symfony.com",
-            "time": "2019-01-24T21:39:51+00:00"
+            "time": "2019-02-18T06:49:49+00:00"
         },
         {
             "name": "symfony/webpack-encore-bundle",
-            "version": "v1.1.0",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/webpack-encore-bundle.git",
-                "reference": "9c89795a4577c522101206a1a88272660735257c"
+                "reference": "5035f5257927a4151fb0d2d3f3bd1dc5503b7c03"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/webpack-encore-bundle/zipball/9c89795a4577c522101206a1a88272660735257c",
-                "reference": "9c89795a4577c522101206a1a88272660735257c",
+                "url": "https://api.github.com/repos/symfony/webpack-encore-bundle/zipball/5035f5257927a4151fb0d2d3f3bd1dc5503b7c03",
+                "reference": "5035f5257927a4151fb0d2d3f3bd1dc5503b7c03",
                 "shasum": ""
             },
             "require": {
@@ -4345,7 +4391,7 @@
                 }
             ],
             "description": "Integration with your Symfony app & Webpack Encore!",
-            "time": "2019-01-17T02:29:30+00:00"
+            "time": "2019-03-01T18:56:32+00:00"
         },
         {
             "name": "theseer/tokenizer",

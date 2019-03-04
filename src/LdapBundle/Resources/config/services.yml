@@ -1,0 +1,15 @@
+services:
+
+    LdapBundle\:
+        resource: '../../*'
+        exclude: '../../{Entity,Repository,Tests}'
+
+    # ALIAS
+    LdapBundle\Repository\PeopleRepositoryInterface: '@people_inmemory_repository'
+
+    # LDAP
+
+
+    # REPOSITORY
+    people_inmemory_repository:
+        class: 'LdapBundle\Repository\InMemory\PeopleInMemoryRepository'

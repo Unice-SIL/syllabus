@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -17,7 +18,7 @@ class CourseInfo
      *
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue(strategy="NONE")
      */
     private $id;
 
@@ -173,7 +174,7 @@ class CourseInfo
      *
      * @ORM\Column(name="mcc_capitalizable", type="boolean", nullable=false)
      */
-    private $mccCapitalizable = '0';
+    private $mccCapitalizable = false;
 
     /**
      * @var float|null
@@ -243,21 +244,21 @@ class CourseInfo
      *
      * @ORM\Column(name="tutoring", type="boolean", nullable=false)
      */
-    private $tutoring = '0';
+    private $tutoring = false;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="tutoring_teacher", type="boolean", nullable=false)
      */
-    private $tutoringTeacher = '0';
+    private $tutoringTeacher = false;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="tutoring_student", type="boolean", nullable=false)
      */
-    private $tutoringStudent = '0';
+    private $tutoringStudent = false;
 
     /**
      * @var string|null
@@ -327,7 +328,7 @@ class CourseInfo
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Course")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="course_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="course_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $course;
@@ -337,7 +338,7 @@ class CourseInfo
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Structure")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="structure_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="structure_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $structure;
@@ -367,10 +368,26 @@ class CourseInfo
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Year")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="year_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="year_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $year;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="CourseTeacher", mappedBy="courseInfo", cascade={ "persist" })
+     * @ORM\OrderBy({"lastname" = "ASC"})
+     */
+    private $courseTeachers;
+
+    /**
+     * CourseInfo constructor.
+     */
+    public function __construct()
+    {
+        $this->courseTeachers = new ArrayCollection();
+    }
 
     /**
      * @return string
@@ -1299,6 +1316,47 @@ class CourseInfo
     public function setYear(Year $year): CourseInfo
     {
         $this->year = $year;
+
+        return $this;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCourseTeachers(): \Doctrine\Common\Collections\Collection
+    {
+        return $this->courseTeachers;
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection $courseTeachers
+     * @return CourseInfo
+     */
+    public function setCourseTeachers(\Doctrine\Common\Collections\Collection $courseTeachers): CourseInfo
+    {
+        $this->courseTeachers = $courseTeachers;
+
+        return $this;
+    }
+
+    /**
+     * @param CourseTeacher $courseTeacher
+     * @return CourseInfo
+     */
+    public function addCourseTeacher(CourseTeacher $courseTeacher): CourseInfo
+    {
+        $this->courseTeachers->add($courseTeacher);
+
+        return $this;
+    }
+
+    /**
+     * @param CourseTeacher $courseTeacher
+     * @return CourseInfo
+     */
+    public function removeCourseTeacher(CourseTeacher $courseTeacher): CourseInfo
+    {
+        $this->courseTeachers->removeElement($courseTeacher);
 
         return $this;
     }
