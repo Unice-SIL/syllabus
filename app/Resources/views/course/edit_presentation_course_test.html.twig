@@ -6,7 +6,7 @@
     {{ form_start(form) }}
     {{ form_widget(form.teacherSource) }}
     {{ form_widget(form.teacherSearch) }}
-    <button type="button" id="addTeacherButton" class="btn btn-outline-secondary">Ajouter</button>
+    <button type="button" id="addTeacherButton" class="btn btn-outline-primary">Ajouter</button>
     <ul class="teachers" data-prototype="{{ form_widget(form.teachers.vars.prototype)|e('html_attr') }}">
         {%  for teacher in form.teachers %}
             <li>
@@ -28,14 +28,14 @@
     {{ parent() }}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
     <script src="{{ asset('bundles/tetranzselect2entity/js/select2entity.js') }}"></script>
-    <script>
 
+    <script>
         /**
          *
          * @param collectionHolder
-         * @param newLink
+         * @param teacherData
          */
-        function addTeacherForm(collectionHolder, teacherData/*, newLink*/){
+        function addTeacherForm(collectionHolder, teacherData){
             var prototype = collectionHolder.data('prototype');
             var index = collectionHolder.data('index');
             var newForm = prototype.replace(/__name__/g, index);
@@ -46,7 +46,6 @@
             newFormLi.find('input[id*=_firstname]').val(teacherData['firstname']);
             newFormLi.find('input[id*=_lastname]').val(teacherData['lastname']);
             newFormLi.find('input[id*=_email]').val(teacherData['email']);
-            //newLink.before(newFormLi);
             collectionHolder.append(newFormLi);
             addTeacherFormDeleteLink(newFormLi);
         }
@@ -56,25 +55,24 @@
          * @param teacherForm
          */
         function addTeacherFormDeleteLink(teacherForm){
-            var removeFormButton = $('<button type="button">Delete</button>');
+            var removeFormButton = $('<button type="button" class="btn btn-outline-danger">Delete</button>');
             teacherForm.append(removeFormButton);
             removeFormButton.click(function(e){
                 teacherForm.remove();
             });
         }
 
+        /**
+         *
+         */
         $(document).ready(function(){
-            //var addTeacherButton = $('<button type="button" class="add_teacher_link">Add a teacher</button>');
-            //var newTeacherLink = $('<li></li>').append(addTeacherButton);
             var teachersCollectionHolder = $('ul.teachers');
-            //teachersCollectionHolder.append(newTeacherLink);
             teachersCollectionHolder.data('index', teachersCollectionHolder.find('li').length);
             teachersCollectionHolder.find('li').each(function(){
                 addTeacherFormDeleteLink($(this));
             });
 
             $('#addTeacherButton').click(function(){
-                console.log($('#edit_presentation_course_info_teacherSource').val());
                 $.ajax({
                     url: '{{ path('find_course_teacher_json') }}',
                     type: 'GET',
@@ -83,7 +81,9 @@
                         'id': $('#edit_presentation_course_info_teacherSearch').val()
                     },
                     success: function(data){
-                        addTeacherForm(teachersCollectionHolder, data/*, newTeacherLink*/);
+                        addTeacherForm(teachersCollectionHolder, data);
+                        $('#edit_presentation_course_info_teacherSearch').find('option').remove();
+                        $('#select2-edit_presentation_course_info_teacherSearch-container').html('');
                     }
                 });
             });
