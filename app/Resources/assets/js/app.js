@@ -20,6 +20,14 @@ global.$ = global.jQuery = $;
 
 
 /*
+    SortableJS with jQuery binding.
+*/
+
+import 'jquery-sortablejs';
+
+
+
+/*
     Full Bootstrap…
 */
 

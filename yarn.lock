@@ -3586,6 +3586,11 @@ isstream@~0.1.2:
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
   integrity sha1-R+Y/evVa+m+S4VAOaQ64uFKcCZo=
 
+jquery-sortablejs@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/jquery-sortablejs/-/jquery-sortablejs-1.0.1.tgz#0435998a802216a0a8cb07ffdda3ebe743c69c37"
+  integrity sha512-tKSyPMC+VfepxfFngVDmOJeYEGakzGHYh+/FgqzqHYJa29cN8i6LN0xlCI8Oc0ShTBWqra+zOgQmlydAVaeWkg==
+
 jquery@^3.3.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
@@ -5912,6 +5917,11 @@ sockjs@0.3.19:
   dependencies:
     faye-websocket "^0.10.0"
     uuid "^3.0.1"
+
+sortablejs@^1.8.3:
+  version "1.8.3"
+  resolved "https://registry.yarnpkg.com/sortablejs/-/sortablejs-1.8.3.tgz#5ae908ef96300966e95440a143340f5dd565a0df"
+  integrity sha512-AftvD4hdKcR5QlGi7L/JST506zGNGrysE8/QohDpwKXJarHWqCt+TUlrtoMk/wkECB607Q019/OZlJViyWiD6A==
 
 source-list-map@^2.0.0:
   version "2.0.1"
