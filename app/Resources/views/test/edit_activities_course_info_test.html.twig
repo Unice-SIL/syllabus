@@ -1,28 +1,33 @@
 {% extends 'base.html.twig' %}
 
 {% block main %}
-
-    {{ form_start(form) }}
-    <button type="button" id="addSectionButton" class="btn btn-outline-primary btn-sm">Ajouter section</button>
-    <ul id="sections" data-prototype="{{ form_widget(form.sections.vars.prototype)|e('html_attr') }}">
-    {% for section in form.sections %}
-        <li>
-            {{ form_widget(section) }}
-        </li>
-    {% endfor %}
-    </ul>
-    {{ form_widget(form) }}
-    <button class="btn btn-outline-secondary btn-block submit" type="button">
-        Save
-    </button>
-    {{ form_end(form) }}
-
+    <div class="row">
+        <div class="col-sm">
+            {{ form_start(form) }}
+            <button type="button" id="addSectionButton"
+                    class="btn btn-outline-primary btn-block btn-sm">
+                Nouvelle section
+            </button>
+            <ul class="list-group" id="sections"
+                data-prototype="{{ form_widget(form.sections.vars.prototype)|e('html_attr') }}">
+            {% for section in form_row(form.sections) %}
+                <li class="list-group-item">
+                    {{ form_widget(section) }}
+                </li>
+            {% endfor %}
+            </ul>
+            <button class="btn btn-outline-secondary btn-block submit" type="button">
+                Save
+            </button>
+            {{ form_end(form) }}
+        </div>
+    </div>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-
     <script>
+
         /**
          * @param collectionHolder
          */
@@ -31,7 +36,7 @@
             var index = collectionHolder.data('index');
             var newForm = prototype.replace(/__name__/g, index);
             collectionHolder.data('index', index+1);
-            var newFormLi = $('<li></li>').append(newForm);
+            var newFormLi = $('<li class="list-group-item"></li>').append(newForm);
             collectionHolder.append(newFormLi);
             addSectionFormDeleteLink(newFormLi);
         }
@@ -42,7 +47,7 @@
          */
         function addSectionFormDeleteLink(sectionForm){
             var removeFormButton = $('<button type="button" class="btn btn-outline-danger btn-sm">Delete</button>');
-            sectionForm.append(removeFormButton);
+            sectionForm.prepend(removeFormButton);
             removeFormButton.click(function(e){
                 sectionForm.remove();
             });
@@ -74,6 +79,16 @@
                 });
             });
 
+            $('#sections').sortable( {
+                    group: {
+                        name: "sections",
+                    },
+                    //handle: ".sortable_handle",
+                    sort: true,
+                    animation: 150
+                } );
+
         });
+
     </script>
 {% endblock %}
