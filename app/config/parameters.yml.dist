@@ -55,8 +55,9 @@ parameters:
     ldap_uns_repositories:
         teacher:
             base_dn: 'ou=personnel,ou=people,dc=unice,dc=fr'
-            search_query: '(|(supannAliasLogin=*{term}*)(uid=*{term}*)(sn=*{term}*)(givenName=*{term}*)(mail=*{term}*))'
-            find_query: 'uid={id}'
+            queries:
+                search: '(|(supannAliasLogin=*{term}*)(uid=*{term}*)(sn=*{term}*)(givenName=*{term}*)(mail=*{term}*))'
+                find: 'uid={id}'
             mapping:
                 id: uid
                 email: mail
