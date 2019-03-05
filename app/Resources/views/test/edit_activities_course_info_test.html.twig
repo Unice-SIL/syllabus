@@ -21,6 +21,7 @@
 
 {% block javascripts %}
     {{ parent() }}
+
     <script>
         /**
          * @param collectionHolder
@@ -59,6 +60,18 @@
 
             $('#addSectionButton').click(function(){
                 addSectionForm(sectionsCollectionHolder);
+            });
+
+            $('.submit').click(function(){
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ path('save_activities_course_info', { 'id': courseInfo.id })|escape('js') }}',
+                    data: $(this).closest('form').serialize()
+                }).done(function(){
+                    alert('done');
+                }).fail(function(){
+                    alert('fail');
+                });
             });
 
         });

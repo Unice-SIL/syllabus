@@ -19,6 +19,7 @@ services:
     # ALIAS
     AppBundle\Repository\UserRepositoryInterface: '@user_doctrine_repository'
     AppBundle\Repository\CourseInfoRepositoryInterface: '@course_info_doctrine_repository'
+    AppBundle\Repository\CourseSectionRepositoryInterface: '@course_section_doctrine_repository'
     AppBundle\Repository\CourseTeacherRepositoryInterface: '@course_teacher_doctrine_repository'
 
     # AUTHENTICATORS
@@ -32,7 +33,7 @@ services:
         arguments: ['syllabus']
 
     # FACTORY
-    Appbundle\Factory\ImportCourseTeacherFactory:
+    AppBundle\Factory\ImportCourseTeacherFactory:
         arguments: [ '%course_teacher_factory%' ]
 
     # FORM
@@ -61,6 +62,10 @@ services:
 
     course_info_doctrine_repository:
         class: AppBundle\Repository\Doctrine\CourseInfoDoctrineRepository
+        arguments: ['@syllabus_entity_manager']
+
+    course_section_doctrine_repository:
+        class: AppBundle\Repository\Doctrine\CourseSectionDoctrineRepository
         arguments: ['@syllabus_entity_manager']
 
     course_teacher_doctrine_repository:
