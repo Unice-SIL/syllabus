@@ -21,12 +21,12 @@ class CourseSectionCommand implements CommandInterface
 
     private $id;
     /**
-     * @var string
+     * @var string|null
      */
     private $title;
 
     /**
-     * @var SectionType
+     * @var SectionType|null
      */
     private $type;
 
@@ -53,6 +53,7 @@ class CourseSectionCommand implements CommandInterface
     {
         if(is_null($courseSection)) {
             $this->id = Uuid::uuid4();
+            $this->order = 0;
         }else{
             $this->id = $courseSection->getId();
             $this->courseInfo = $courseSection->getCourseInfo();
@@ -84,18 +85,18 @@ class CourseSectionCommand implements CommandInterface
 
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getTitle(): string
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
     /**
-     * @param string $title
+     * @param string|null $title
      * @return CourseSectionCommand
      */
-    public function setTitle(string $title): CourseSectionCommand
+    public function setTitle($title): CourseSectionCommand
     {
         $this->title = $title;
 
@@ -103,18 +104,18 @@ class CourseSectionCommand implements CommandInterface
     }
 
     /**
-     * @return SectionType
+     * @return SectionType|null
      */
-    public function getType(): SectionType
+    public function getType(): ?SectionType
     {
         return $this->type;
     }
 
     /**
-     * @param SectionType $type
+     * @param SectionType|null $type
      * @return CourseSectionCommand
      */
-    public function setType(SectionType $type): CourseSectionCommand
+    public function setType($type): CourseSectionCommand
     {
         $this->type = $type;
 

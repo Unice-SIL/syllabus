@@ -66,10 +66,10 @@ class EditActivitiesCourseInfoCommand implements CommandInterface
     }
 
     /**
-     * @param array $sections
+     * @param ArrayCollection $sections
      * @return EditActivitiesCourseInfoCommand
      */
-    public function setSections(array $sections): EditActivitiesCourseInfoCommand
+    public function setSections(ArrayCollection $sections): EditActivitiesCourseInfoCommand
     {
         $this->sections = $sections;
 
