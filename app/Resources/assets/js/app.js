@@ -15,6 +15,8 @@ require('../scss/app.scss');
 
 // Defining jQuery client-side.
 const $ = require('jquery');
+
+// Defining jQuery for external components (like select2.js).
 global.$ = global.jQuery = $;
 
 
