@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -382,11 +383,20 @@ class CourseInfo
     private $courseTeachers;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="CourseSection", mappedBy="courseInfo", cascade={ "persist" })
+     * @ORM\OrderBy({"ord" = "ASC"})
+     */
+    private $courseSections;
+
+    /**
      * CourseInfo constructor.
      */
     public function __construct()
     {
         $this->courseTeachers = new ArrayCollection();
+        $this->courseSections = new ArrayCollection();
     }
 
     /**
@@ -1321,18 +1331,18 @@ class CourseInfo
     }
 
     /**
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
-    public function getCourseTeachers(): \Doctrine\Common\Collections\Collection
+    public function getCourseTeachers(): Collection
     {
         return $this->courseTeachers;
     }
 
     /**
-     * @param \Doctrine\Common\Collections\Collection $courseTeachers
+     * @param Collection $courseTeachers
      * @return CourseInfo
      */
-    public function setCourseTeachers(\Doctrine\Common\Collections\Collection $courseTeachers): CourseInfo
+    public function setCourseTeachers(Collection $courseTeachers): CourseInfo
     {
         $this->courseTeachers = $courseTeachers;
 
@@ -1361,4 +1371,45 @@ class CourseInfo
         return $this;
     }
 
+
+    /**
+     * @return Collection
+     */
+    public function getCourseSections(): Collection
+    {
+        return $this->courseSections;
+    }
+
+    /**
+     * @param Collection $courseSections
+     * @return CourseInfo
+     */
+    public function setCourseSections(Collection $courseSections): CourseInfo
+    {
+        $this->courseSections = $courseSections;
+
+        return $this;
+    }
+
+    /**
+     * @param CourseSection $courseSection
+     * @return CourseInfo
+     */
+    public function addCourseSection(CourseSection $courseSection): CourseInfo
+    {
+        $this->courseSections->add($courseSection);
+
+        return $this;
+    }
+
+    /**
+     * @param CourseSection $courseSection
+     * @return CourseInfo
+     */
+    public function removeCourseSection(CourseSection $courseSection): CourseInfo
+    {
+        $this->courseSections->removeElement($courseSection);
+
+        return $this;
+    }
 }
