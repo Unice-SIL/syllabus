@@ -30,7 +30,9 @@ services:
     # REPOSITORY
     teacher_inmemory_repository:
         class: 'LdapBundle\Repository\InMemory\TeacherInMemoryRepository'
+        public: true
 
     teacher_ldap_repository:
         class: 'LdapBundle\Repository\Ldap\TeacherLdapRepository'
         arguments: [ '@ldap_uns', '%ldap_uns_repositories%', '%ldap_uns_bind_dn%', '%ldap_uns_bind_password%' ]
+        public: true

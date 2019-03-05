@@ -3,6 +3,7 @@
 namespace tests\AppBundle\Factory;
 
 use AppBundle\Factory\ImportCourseTeacherFactory;
+use AppBundle\Query\CourseTeacher\Adapter\FindCourseTeacherByIdQueryInterface;
 use AppBundle\Query\CourseTeacher\Adapter\SearchCourseTeacherQueryInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
@@ -32,27 +33,42 @@ class ImportCourseTeacherFactoryTest extends KernelTestCase
         $this->container = self::$kernel->getContainer();
 
         $this->courseTeacherFactoryParams['sources'] = [
-            'ldap' => [
-                'name' => 'LDAP',
-                'service' => 'AppBundle\Query\CourseTeacher\Adapter\Ldap\SearchCourseTeacherLdapQuery',
+            'ldap_uns' => [
+                'name' => 'Annuaire Ldap UNS',
+                'searchService' => 'AppBundle\Query\CourseTeacher\Adapter\Ldap\SearchCourseTeacherLdapQuery',
+                'findByIdService' => 'AppBundle\Query\CourseTeacher\Adapter\Ldap\FindCourseTeacherByIdLdapQuery'
             ],
-            'servicenotset' => [],
+            'othersource' => [
+                'name' => 'Other source',
+                'searchService' => 'OtherSearchService',
+                'findByIdService' => 'OtherFindService'
+            ],
+            'sourcenotset' => [],
         ];
     }
 
     /**
      * @test
      */
-    public function getQuerySuccessful(){
+    public function getSearchQuerySuccessful(){
         $importCourseTeacherFactory = new ImportCourseTeacherFactory($this->courseTeacherFactoryParams, $this->container);
-        $importCourseTeacherQuery = $importCourseTeacherFactory->getQuery('ldap');
+        $importCourseTeacherQuery = $importCourseTeacherFactory->getSearchQuery('ldap_uns');
         $this->assertInstanceOf(SearchCourseTeacherQueryInterface::class, $importCourseTeacherQuery);
     }
 
     /**
      * @test
      */
-    public function getQuerySourcesNotFoundException(){
+    public function getFindQuerySuccessful(){
+        $importCourseTeacherFactory = new ImportCourseTeacherFactory($this->courseTeacherFactoryParams, $this->container);
+        $importCourseTeacherQuery = $importCourseTeacherFactory->getFindByIdQuery('ldap_uns');
+        $this->assertInstanceOf(FindCourseTeacherByIdQueryInterface::class, $importCourseTeacherQuery);
+    }
+
+    /**
+     * @test
+     */
+    public function sourcesNotFoundException(){
         $this->expectException(\Exception::class);
         $importCourseTeacherFactory = new ImportCourseTeacherFactory([], $this->container);
         $this->assertNull($importCourseTeacherFactory);
@@ -61,7 +77,7 @@ class ImportCourseTeacherFactoryTest extends KernelTestCase
     /**
      * @test
      */
-    public function getQuerySourcesIsNotArrayException(){
+    public function sourcesIsNotArrayException(){
         $this->expectException(\Exception::class);
         $importCourseTeacherFactory = new ImportCourseTeacherFactory(['sources' => null], $this->container);
         $this->assertNull($importCourseTeacherFactory);
@@ -70,20 +86,40 @@ class ImportCourseTeacherFactoryTest extends KernelTestCase
     /**
      * @test
      */
-    public function getQuerySourceNotFoundException(){
-        $this->expectException(\Exception::class);
+    public function getSearchQueryServiceNotFoundException(){
+        $this->expectException(ServiceNotFoundException::class);
         $importCourseTeacherFactory = new ImportCourseTeacherFactory($this->courseTeacherFactoryParams, $this->container);
-        $importCourseTeacherQuery = $importCourseTeacherFactory->getQuery('servicenotfound');
+        $importCourseTeacherQuery = $importCourseTeacherFactory->getSearchQuery('othersource');
         $this->assertNull($importCourseTeacherQuery);
     }
 
     /**
      * @test
      */
-    public function getQuerySourceNotSetException(){
+    public function getFindQueryServiceNotFoundException(){
         $this->expectException(ServiceNotFoundException::class);
         $importCourseTeacherFactory = new ImportCourseTeacherFactory($this->courseTeacherFactoryParams, $this->container);
-        $importCourseTeacherQuery = $importCourseTeacherFactory->getQuery('servicenotset');
+        $importCourseTeacherQuery = $importCourseTeacherFactory->getFindByIdQuery('othersource');
+        $this->assertNull($importCourseTeacherQuery);
+    }
+
+    /**
+     * @test
+     */
+    public function getSearchQuerySourceNotSetException(){
+        $this->expectException(\Exception::class);
+        $importCourseTeacherFactory = new ImportCourseTeacherFactory($this->courseTeacherFactoryParams, $this->container);
+        $importCourseTeacherQuery = $importCourseTeacherFactory->getSearchQuery('sourcenotset');
+        $this->assertNull($importCourseTeacherQuery);
+    }
+
+    /**
+     * @test
+     */
+    public function getFindQuerySourceNotSetException(){
+        $this->expectException(\Exception::class);
+        $importCourseTeacherFactory = new ImportCourseTeacherFactory($this->courseTeacherFactoryParams, $this->container);
+        $importCourseTeacherQuery = $importCourseTeacherFactory->getFindByIdQuery('sourcenotset');
         $this->assertNull($importCourseTeacherQuery);
     }
 }

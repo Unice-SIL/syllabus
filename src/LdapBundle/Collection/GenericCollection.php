@@ -6,7 +6,7 @@ namespace LdapBundle\Collection;
  * Class GenericCollection
  * @package LdapBundle\Collection
  */
-abstract class GenericCollection implements \ArrayAccess, \IteratorAggregate
+abstract class GenericCollection implements \ArrayAccess, \IteratorAggregate, \Countable
 {
     /**
      * @var string
@@ -64,7 +64,7 @@ abstract class GenericCollection implements \ArrayAccess, \IteratorAggregate
     public function offsetSet($offset, $value)
     {
         if(!is_a($value, $this->type)){
-            throw new \UnexpectedValueException('%s expected instead of %s', $this->type, get_class($value));
+            throw new \UnexpectedValueException(sprintf('%s expected instead of %s', $this->type, get_class($value)));
         }
         $this->container[$offset] = $value;
     }
@@ -82,7 +82,7 @@ abstract class GenericCollection implements \ArrayAccess, \IteratorAggregate
      */
     public function append($value){
         if(!is_a($value, $this->type)){
-            throw new \UnexpectedValueException('%s expected instead of %s', $this->type, get_class($value));
+            throw new \UnexpectedValueException(sprintf('%s expected instead of %s', $this->type, get_class($value)));
         }
         $this->container[] = $value;
     }
@@ -92,12 +92,19 @@ abstract class GenericCollection implements \ArrayAccess, \IteratorAggregate
      */
     public function remove($value){
         if(!is_a($value, $this->type)){
-            throw new \UnexpectedValueException('%s expected instead of %s', $this->type, get_class($value));
+            throw new \UnexpectedValueException(sprintf('%s expected instead of %s', $this->type, get_class($value)));
         }
         $offset = array_search($value, $this->container, true);
         if($offset !== false){
             $this->offsetUnset($offset);
         }
+    }
+
+    /**
+     * @return int
+     */
+    public function count(){
+        return count($this->container);
     }
 
     /**

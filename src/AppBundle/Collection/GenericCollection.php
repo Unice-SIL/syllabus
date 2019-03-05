@@ -6,7 +6,7 @@ namespace AppBundle\Collection;
  * Class GenericCollection
  * @package AppBundle\Collection
  */
-abstract class GenericCollection implements \ArrayAccess, \IteratorAggregate
+abstract class GenericCollection implements \ArrayAccess, \IteratorAggregate, \Countable
 {
     /**
      * @var string
@@ -98,6 +98,13 @@ abstract class GenericCollection implements \ArrayAccess, \IteratorAggregate
         if($offset !== false){
             $this->offsetUnset($offset);
         }
+    }
+
+    /**
+     * @return int
+     */
+    public function count(){
+        return count($this->container);
     }
 
     /**

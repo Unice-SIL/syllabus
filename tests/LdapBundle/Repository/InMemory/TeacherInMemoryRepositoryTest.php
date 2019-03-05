@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  * Class CourseTeacherDoctrineRepositoryTest
  * @package tests\Repository\Doctrine
  */
-class PeopleInMemoryRepositoryTest extends WebTestCase
+class TeacherInMemoryRepositoryTest extends WebTestCase
 {
     /**
      * @var TeacherInMemoryRepository
