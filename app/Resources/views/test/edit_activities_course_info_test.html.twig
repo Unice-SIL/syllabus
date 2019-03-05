@@ -18,3 +18,52 @@
     {{ form_end(form) }}
 
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+    <script src="{{ asset('bundles/tetranzselect2entity/js/select2entity.js') }}"></script>
+
+    <script>
+        /**
+         * @param collectionHolder
+         */
+        function addSectionForm(collectionHolder){
+            var prototype = collectionHolder.data('prototype');
+            var index = collectionHolder.data('index');
+            var newForm = prototype.replace(/__name__/g, index);
+            collectionHolder.data('index', index+1);
+            var newFormLi = $('<li></li>').append(newForm);
+            collectionHolder.append(newFormLi);
+            addSectionFormDeleteLink(newFormLi);
+        }
+
+        /**
+         *
+         * @param sectionForm
+         */
+        function addSectionFormDeleteLink(sectionForm){
+            var removeFormButton = $('<button type="button" class="btn btn-outline-danger">Delete</button>');
+            sectionForm.append(removeFormButton);
+            removeFormButton.click(function(e){
+                sectionForm.remove();
+            });
+        }
+
+        /**
+         *
+         */
+        $(document).ready(function(){
+            var sectionsCollectionHolder = $('ul.sections');
+            sectionsCollectionHolder.data('index', sectionsCollectionHolder.find('li').length);
+            sectionsCollectionHolder.find('li').each(function(){
+                addSectionFormDeleteLink($(this));
+            });
+
+            $('#addSectionButton').click(function(){
+                addSectionForm(sectionsCollectionHolder);
+            });
+
+        });
+    </script>
+{% endblock %}
