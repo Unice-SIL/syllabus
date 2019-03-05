@@ -3,7 +3,9 @@
 namespace AppBundle\Command\CourseSection;
 
 use AppBundle\Command\CommandInterface;
+use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseSection;
+use AppBundle\Entity\SectionType;
 use AppBundle\Form\CourseSection\CourseSectionType;
 use Ramsey\Uuid\Uuid;
 
@@ -24,7 +26,7 @@ class CourseSectionCommand implements CommandInterface
     private $title;
 
     /**
-     * @var string
+     * @var SectionType
      */
     private $type;
 
@@ -32,6 +34,16 @@ class CourseSectionCommand implements CommandInterface
      * @var null|string
      */
     private $description;
+
+    /**
+     * @var int
+     */
+    private $order;
+
+    /**
+     * @var CourseInfo
+     */
+    private $courseInfo;
 
     /**
      * CourseSectionCommand constructor.
@@ -42,9 +54,12 @@ class CourseSectionCommand implements CommandInterface
         if(is_null($courseSection)) {
             $this->id = Uuid::uuid4();
         }else{
+            $this->id = $courseSection->getId();
+            $this->courseInfo = $courseSection->getCourseInfo();
             $this->title = $courseSection->getTitle();
-            $this->type = $courseSection->getSectionType()->getId();
+            $this->type = $courseSection->getSectionType();
             $this->description = $courseSection->getDescription();
+            $this->order = $courseSection->getOrder();
         }
     }
 
@@ -88,18 +103,18 @@ class CourseSectionCommand implements CommandInterface
     }
 
     /**
-     * @return string
+     * @return SectionType
      */
-    public function getType(): string
+    public function getType(): SectionType
     {
         return $this->type;
     }
 
     /**
-     * @param string $type
+     * @param SectionType $type
      * @return CourseSectionCommand
      */
-    public function setType(string $type): CourseSectionCommand
+    public function setType(SectionType $type): CourseSectionCommand
     {
         $this->type = $type;
 
@@ -126,13 +141,58 @@ class CourseSectionCommand implements CommandInterface
         return $this;
     }
 
+    /**
+     * @return int
+     */
+    public function getOrder(): int
+    {
+        return $this->order;
+    }
 
     /**
-     * @param $entity
-     * @return mixed
+     * @param int $order
+     * @return CourseSectionCommand
      */
-    public function filledEntity($entity)
+    public function setOrder(int $order): CourseSectionCommand
     {
-        // TODO: Implement filledEntity() method.
+        $this->order = $order;
+
+        return $this;
+    }
+
+    /**
+     * @return CourseInfo
+     */
+    public function getCourseInfo(): CourseInfo
+    {
+        return $this->courseInfo;
+    }
+
+    /**
+     * @param CourseInfo $courseInfo
+     * @return CourseSectionCommand
+     */
+    public function setCourseInfo(CourseInfo $courseInfo): CourseSectionCommand
+    {
+        $this->courseInfo = $courseInfo;
+
+        return $this;
+    }
+
+    /**
+     * @param CourseSection $entity
+     * @return CourseSection
+     */
+    public function filledEntity($entity): CourseSection
+    {
+        $entity->setId($this->getId())
+            ->setSectionType($this->getType())
+            ->setTitle($this->getTitle())
+            ->setDescription($this->getDescription())
+            ->setOrder($this->getOrder());
+        if(!is_null($this->getCourseInfo())){
+            $entity->setCourseInfo($this->getCourseInfo());
+        }
+        return $entity;
     }
 }

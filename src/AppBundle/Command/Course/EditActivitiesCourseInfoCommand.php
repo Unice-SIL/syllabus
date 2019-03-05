@@ -5,6 +5,7 @@ namespace AppBundle\Command\Course;
 use AppBundle\Command\CommandInterface;
 use AppBundle\Command\CourseSection\CourseSectionCommand;
 use AppBundle\Entity\CourseInfo;
+use AppBundle\Entity\CourseSection;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -13,6 +14,11 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class EditActivitiesCourseInfoCommand implements CommandInterface
 {
+    /**
+     * @var string
+     */
+    private $id;
+
     /**
      * @var ArrayCollection
      */
@@ -24,11 +30,32 @@ class EditActivitiesCourseInfoCommand implements CommandInterface
      */
     public function __construct(CourseInfo $courseInfo)
     {
+        $this->id = $courseInfo->getId();
         $this->sections = new ArrayCollection();
         foreach ($courseInfo->getCourseSections() as $courseSection) {
             $this->sections->add(new CourseSectionCommand($courseSection));
         }
     }
+
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param string $id
+     * @return EditActivitiesCourseInfoCommand
+     */
+    public function setId(string $id): EditActivitiesCourseInfoCommand
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
 
     /**
      * @return array
@@ -74,11 +101,26 @@ class EditActivitiesCourseInfoCommand implements CommandInterface
     }
 
     /**
-     * @param $entity
-     * @return mixed
+     * @param CourseInfo $entity
+     * @return CourseInfo
      */
-    public function filledEntity($entity)
+    public function filledEntity($entity): CourseInfo
     {
+        $courseSections = new ArrayCollection();
+        foreach ($this->sections as $section){
+            $id = $section->getId();
+            $courseSection = $entity->getCourseSections()->filter(function($entry) use ($id){
+                return ($entry->getId() === $id)? true : false;
+            })->first();
+            if(!$courseSection){
+                $courseSection = new CourseSection();
+            }
+            $section->setCourseInfo($entity);
+            $courseSection = $section->filledEntity($courseSection);
+            $courseSections->add($courseSection);
+        }
+        $entity->setCourseSections($courseSections);
 
+        return $entity;
     }
 }

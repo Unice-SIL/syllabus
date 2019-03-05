@@ -31,9 +31,9 @@ class CourseSectionActivity
     /**
      * @var int
      *
-     * @ORM\Column(name="order", type="integer", nullable=false)
+     * @ORM\Column(name="ord", type="integer", nullable=false)
      */
-    private $ord = 0;
+    private $order = 0;
 
     /**
      * @var \AppBundle\Entity\Activity
@@ -96,21 +96,22 @@ class CourseSectionActivity
     /**
      * @return int
      */
-    public function getOrd(): int
+    public function getOrder(): int
     {
-        return $this->ord;
+        return $this->order;
     }
 
     /**
-     * @param int $ord
+     * @param int $order
      * @return CourseSectionActivity
      */
-    public function setOrd(int $ord): CourseSectionActivity
+    public function setOrder(int $order): CourseSectionActivity
     {
-        $this->ord = $ord;
+        $this->order = $order;
 
         return $this;
     }
+
 
     /**
      * @return Activity
