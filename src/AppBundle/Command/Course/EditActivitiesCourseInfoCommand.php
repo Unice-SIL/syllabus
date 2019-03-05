@@ -14,7 +14,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 class EditActivitiesCourseInfoCommand implements CommandInterface
 {
     /**
-     * @var array
+     * @var ArrayCollection
      */
     private $sections;
 
@@ -33,7 +33,7 @@ class EditActivitiesCourseInfoCommand implements CommandInterface
     /**
      * @return array
      */
-    public function getSections(): array
+    public function getSections(): ArrayCollection
     {
         return $this->sections;
     }

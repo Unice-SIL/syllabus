@@ -4,6 +4,8 @@ namespace AppBundle\Command\CourseSection;
 
 use AppBundle\Command\CommandInterface;
 use AppBundle\Entity\CourseSection;
+use AppBundle\Form\CourseSection\CourseSectionType;
+use Ramsey\Uuid\Uuid;
 
 /**
  * Class CourseSectionCommand
@@ -14,7 +16,17 @@ class CourseSectionCommand implements CommandInterface
     /**
      * @var string
      */
+
+    private $id;
+    /**
+     * @var string
+     */
     private $title;
+
+    /**
+     * @var string
+     */
+    private $type;
 
     /**
      * @var null|string
@@ -23,13 +35,38 @@ class CourseSectionCommand implements CommandInterface
 
     /**
      * CourseSectionCommand constructor.
-     * @param CourseSection $courseSection
+     * @param CourseSection|null $courseSection
      */
-    public function __construct(CourseSection $courseSection)
+    public function __construct(CourseSection $courseSection = null)
     {
-        $this->title = $courseSection->getTitle();
-        $this->description = $courseSection->getDescription();
+        if(is_null($courseSection)) {
+            $this->id = Uuid::uuid4();
+        }else{
+            $this->title = $courseSection->getTitle();
+            $this->type = $courseSection->getSectionType()->getId();
+            $this->description = $courseSection->getDescription();
+        }
     }
+
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param string $id
+     * @return CourseSectionCommand
+     */
+    public function setId(string $id): CourseSectionCommand
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
 
     /**
      * @return string
@@ -51,6 +88,26 @@ class CourseSectionCommand implements CommandInterface
     }
 
     /**
+     * @return string
+     */
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string $type
+     * @return CourseSectionCommand
+     */
+    public function setType(string $type): CourseSectionCommand
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+
+    /**
      * @return null|string
      */
     public function getDescription()
@@ -68,6 +125,7 @@ class CourseSectionCommand implements CommandInterface
 
         return $this;
     }
+
 
     /**
      * @param $entity

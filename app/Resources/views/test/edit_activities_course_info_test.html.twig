@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+
+    {{ form_start(form) }}
+    <button type="button" id="addSectionButton" class="btn btn-outline-primary">Ajouter section</button>
+    <ul class="sections" data-prototype="{{ form_widget(form.sections.vars.prototype)|e('html_attr') }}">
+        {%  for section in form.sections %}
+            <li>
+                {{ form_widget(section) }}
+            </li>
+        {% endfor %}
+    </ul>
+    {{ form_widget(form) }}
+    <button class="btn btn-outline-secondary btn-block submit" type="button">
+        Save
+    </button>
+    {{ form_end(form) }}
+
+{% endblock %}
