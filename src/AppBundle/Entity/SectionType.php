@@ -49,5 +49,100 @@ class SectionType
      */
     private $order = '0';
 
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param string $id
+     * @return SectionType
+     */
+    public function setId(string $id): SectionType
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
+     * @param null|string $code
+     * @return SectionType
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLabel(): string
+    {
+        return $this->label;
+    }
+
+    /**
+     * @param string $label
+     * @return SectionType
+     */
+    public function setLabel(string $label): SectionType
+    {
+        $this->label = $label;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isObsolete(): bool
+    {
+        return $this->obsolete;
+    }
+
+    /**
+     * @param bool $obsolete
+     * @return SectionType
+     */
+    public function setObsolete(bool $obsolete): SectionType
+    {
+        $this->obsolete = $obsolete;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getOrder(): int
+    {
+        return $this->order;
+    }
+
+    /**
+     * @param int $order
+     * @return SectionType
+     */
+    public function setOrder(int $order): SectionType
+    {
+        $this->order = $order;
+
+        return $this;
+    }
+
 
 }

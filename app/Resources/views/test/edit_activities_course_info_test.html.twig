@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+
+    {{ form_start(form) }}
+    <button type="button" id="addSectionButton" class="btn btn-outline-primary">Ajouter section</button>
+    <ul class="sections" data-prototype="{{ form_widget(form.sections.vars.prototype)|e('html_attr') }}">
+        {%  for section in form.sections %}
+            <li>
+                {{ form_widget(section) }}
+            </li>
+        {% endfor %}
+    </ul>
+    {{ form_widget(form) }}
+    <button class="btn btn-outline-secondary btn-block submit" type="button">
+        Save
+    </button>
+    {{ form_end(form) }}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+    <script src="{{ asset('bundles/tetranzselect2entity/js/select2entity.js') }}"></script>
+
+    <script>
+        /**
+         * @param collectionHolder
+         */
+        function addSectionForm(collectionHolder){
+            var prototype = collectionHolder.data('prototype');
+            var index = collectionHolder.data('index');
+            var newForm = prototype.replace(/__name__/g, index);
+            collectionHolder.data('index', index+1);
+            var newFormLi = $('<li></li>').append(newForm);
+            collectionHolder.append(newFormLi);
+            addSectionFormDeleteLink(newFormLi);
+        }
+
+        /**
+         *
+         * @param sectionForm
+         */
+        function addSectionFormDeleteLink(sectionForm){
+            var removeFormButton = $('<button type="button" class="btn btn-outline-danger">Delete</button>');
+            sectionForm.append(removeFormButton);
+            removeFormButton.click(function(e){
+                sectionForm.remove();
+            });
+        }
+
+        /**
+         *
+         */
+        $(document).ready(function(){
+            var sectionsCollectionHolder = $('ul.sections');
+            sectionsCollectionHolder.data('index', sectionsCollectionHolder.find('li').length);
+            sectionsCollectionHolder.find('li').each(function(){
+                addSectionFormDeleteLink($(this));
+            });
+
+            $('#addSectionButton').click(function(){
+                addSectionForm(sectionsCollectionHolder);
+            });
+
+        });
+    </script>
+{% endblock %}
