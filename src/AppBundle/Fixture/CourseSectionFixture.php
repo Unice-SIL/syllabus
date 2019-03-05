@@ -2,22 +2,22 @@
 
 namespace AppBundle\Fixture;
 
-use AppBundle\Entity\CourseTeacher;
+use AppBundle\Entity\CourseSection;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Ramsey\Uuid\Uuid;
 
 /**
- * Class CourseTeacherFixture
+ * Class CourseSectionFixture
  * @package AppBundle\Fixture
  */
-class CourseTeacherFixture extends Fixture implements DependentFixtureInterface
+class CourseSectionFixture extends Fixture implements DependentFixtureInterface
 {
     /**
      *
      */
-    const COURSE_TEACHER_1 = 'courseTeacher1';
+    const COURSE_SECTION_1 = 'courseSection1';
 
 
     /**
@@ -25,19 +25,18 @@ class CourseTeacherFixture extends Fixture implements DependentFixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        // CourseTeacher 1
-        $courseTeacher = new CourseTeacher();
-        $courseTeacher->setId(Uuid::uuid4())
+        // CourseSection 1
+        $courseSection = new CourseSection();
+        $courseSection->setId(Uuid::uuid4())
             ->setCourseInfo($this->getReference(CourseInfoFixture::COURSE_INFO_1))
-            ->setFirstname('John')
-            ->setLastname('DOE')
-            ->setEmail('John.Doe@unice.fr')
-            ->setManager(true);
+            ->setTitle('Chapitre 1')
+            ->setDescription('Ceci est le chapitre 1 du cours')
+            ->setSectionType($this->getReference(SectionTypeFixture::SECTION_TYPE_CHAPITRE));
 
-        $this->addReference(self::COURSE_TEACHER_1, $courseTeacher);
+        $this->addReference(self::COURSE_SECTION_1, $courseSection);
 
         // Save
-        $manager->persist($courseTeacher);
+        $manager->persist($courseSection);
         $manager->flush();
     }
 
@@ -48,6 +47,7 @@ class CourseTeacherFixture extends Fixture implements DependentFixtureInterface
     {
         return [
             CourseInfoFixture::class,
+            SectionTypeFixture::class
         ];
     }
 }

@@ -40,7 +40,7 @@ class CourseSection
      *
      * @ORM\Column(name="ord", type="integer", nullable=false)
      */
-    private $ord = 0;
+    private $order = 0;
 
     /**
      * @var \AppBundle\Entity\CourseInfo
@@ -119,6 +119,26 @@ class CourseSection
 
         return $this;
     }
+
+    /**
+     * @return int
+     */
+    public function getOrder(): int
+    {
+        return $this->order;
+    }
+
+    /**
+     * @param int $order
+     * @return CourseSection
+     */
+    public function setOrder(int $order): CourseSection
+    {
+        $this->order = $order;
+
+        return $this;
+    }
+
 
     /**
      * @return CourseInfo
