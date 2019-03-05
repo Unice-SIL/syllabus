@@ -21,8 +21,6 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
-    <script src="{{ asset('bundles/tetranzselect2entity/js/select2entity.js') }}"></script>
 
     <script>
         /**
@@ -64,6 +62,17 @@
                 addSectionForm(sectionsCollectionHolder);
             });
 
+            $('.submit').click(function(){
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ path('save_activities_course_info', { 'id': courseInfo.id })|escape('js') }}',
+                    data: $(this).closest('form').serialize()
+                }).done(function(){
+                    alert('done');
+                }).fail(function(){
+                    alert('fail');
+                });
+            });
         });
     </script>
 {% endblock %}
