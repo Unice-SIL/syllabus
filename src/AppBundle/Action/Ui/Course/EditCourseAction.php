@@ -59,16 +59,12 @@ class EditCourseAction implements ActionInterface
     {
         $id = $request->get('id', null);
         $courseInfo = $this->findCourseInfoByIdQuery->setId($id)->execute();
-        $editPresentationCourseInfoCommand = new EditPresentationCourseInfoCommand($courseInfo);
-        $form = $this->formFactory->create(EditPresentationCourseInfoType::class, $editPresentationCourseInfoCommand);
-        $form->handleRequest($request);
 
         return new Response(
             $this->templating->render(
-                'course/edit_presentation_course_test.html.twig',
+                'course/edit_course.html.twig',
                 [
-                    'courseInfo' => $courseInfo,
-                    'form' => $form->createView()
+                    'courseInfo' => $courseInfo
                 ]
             )
         );
