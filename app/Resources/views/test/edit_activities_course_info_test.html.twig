@@ -10,16 +10,17 @@
             </button>
             <ul class="list-group" id="sections"
                 data-prototype="{{ form_widget(form.sections.vars.prototype)|e('html_attr') }}">
-            {% for section in form_row(form.sections) %}
+            {% for section in form.sections %}
                 <li class="list-group-item">
                     {{ form_widget(section) }}
                 </li>
             {% endfor %}
             </ul>
-            <button class="btn btn-outline-secondary btn-block submit" type="button">
+            {{ form_widget(form._token) }}
+            <button class="btn btn-outline-secondary btn-block submit" type="submit">
                 Save
             </button>
-            {{ form_end(form) }}
+            {{ form_end(form, {'render_rest': false}) }}
         </div>
     </div>
 {% endblock %}
@@ -67,11 +68,12 @@
                 addSectionForm(sectionsCollectionHolder);
             });
 
-            $('.submit').click(function(){
+            $("form[name='edit_activities_course_info']").submit(function(e){
+                e.preventDefault();
                 $.ajax({
                     type: 'POST',
                     url: '{{ path('save_activities_course_info', { 'id': courseInfo.id })|escape('js') }}',
-                    data: $(this).closest('form').serialize()
+                    data: $(this).serialize()
                 }).done(function(){
                     alert('done');
                 }).fail(function(){

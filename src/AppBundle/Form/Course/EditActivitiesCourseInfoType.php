@@ -24,6 +24,7 @@ class EditActivitiesCourseInfoType extends AbstractType
     {
         $builder
             ->add('sections', CollectionType::class, [
+                'label' => false,
                 'entry_type' => CourseSectionType::class,
                 'entry_options' => [
                     'label' => false,
