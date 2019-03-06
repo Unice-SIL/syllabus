@@ -9,6 +9,10 @@
 
 
 
+/*
+    General (non BS) markup.
+*/
+
 html {
     height: 100%;
 }
@@ -33,6 +37,22 @@ footer {
     text-align: center;
     padding: 1rem 3rem 2rem;
     background-color: $gray-300;
+}
+
+
+
+/*
+    Tabs
+*/
+
+.nav-tabs {
+
+    .nav-item {
+
+        .nav-link {
+            max-width: 8rem;
+        }
+    }
 }
 
 
