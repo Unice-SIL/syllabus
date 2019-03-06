@@ -46,6 +46,6 @@ class HomeAction implements ActionInterface
         $this->session->getFlashBag()->add('success', "Check your browser console…");
 
         #return new Response($this->templating->render('default/index.html.twig'));
-        return new Response($this->templating->render('tabs.html.twig'));
+        return new Response($this->templating->render('course/edit_course.html.twig'));
     }
 }
