@@ -65,7 +65,7 @@ class EditActivitiesCourseInfoTestAction implements ActionInterface
 
         return new Response(
             $this->templating->render(
-                'test/edit_activities_course_info_test.html.twig',
+                'course/edit_activities_course_info_tab.html.twig',
                 [
                     'courseInfo' => $courseInfo,
                     'form' => $form->createView()
