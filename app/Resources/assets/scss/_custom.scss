@@ -8,6 +8,29 @@
 
 
 /*
+    Font Awesome (free “solid” family only).
+*/
+
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import '~@fortawesome/fontawesome-free/scss/variables';
+
+@font-face {
+    font-family: font_awesome_free_solid;
+    font-style: normal;
+    font-weight: 900;
+    font-display: $fa-font-display;
+    src: url('/fonts/fa-solid-900.woff2') format('woff2'),
+         url('/fonts/fa-solid-900.woff') format('woff');
+}
+
+.fas {
+    font-family: font_awesome_free_solid;
+    font-weight: 900;
+}
+
+
+
+/*
     Bootstrap variables overrides.
 */
 
