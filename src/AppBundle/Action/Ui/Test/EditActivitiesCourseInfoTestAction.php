@@ -4,9 +4,7 @@ namespace AppBundle\Action\Ui\Test;
 
 use AppBundle\Action\ActionInterface;
 use AppBundle\Command\Course\EditActivitiesCourseInfoCommand;
-use AppBundle\Command\Course\EditPresentationCourseInfoCommand;
 use AppBundle\Form\Course\EditActivitiesCourseInfoType;
-use AppBundle\Form\Course\EditPresentationCourseInfoType;
 use AppBundle\Query\Course\FindCourseInfoByIdQuery;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;

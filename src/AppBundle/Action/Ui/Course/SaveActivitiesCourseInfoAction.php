@@ -63,7 +63,7 @@ class SaveActivitiesCourseInfoAction implements ActionInterface
         $editActivitiesCourseInfoCommand = new EditActivitiesCourseInfoCommand($courseInfo);
         $form = $this->formFactory->create(EditActivitiesCourseInfoType::class, $editActivitiesCourseInfoCommand);
         $form->handleRequest($request);
-        if($form->isSubmitted()){
+        if($form->isSubmitted() && $form->isValid()){
             $editActivitiesCourseInfoCommand = $form->getData();
             $this->editActivitiesCourseInfoQuery->setEditActivitiesCourseInfoCommand($editActivitiesCourseInfoCommand)->execute();
         }
