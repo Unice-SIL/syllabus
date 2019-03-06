@@ -1,0 +1,146 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent() }} • Accueil
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{#
+    https://getbootstrap.com/docs/4.1/components/navs/#using-data-attributes
+#}
+{% block main %}
+
+    <div class="row">
+
+        <div class="col-sm">
+
+            <!--
+                    Tabs
+            -->
+            <ul class="nav nav-tabs">
+
+                <li class="nav-item">
+                    <a class="nav-link active" id="tab-1"
+                       role="tab" data-toggle="tab" href="#tab_panel-1"
+                       aria-controls="tab_panel-1" aria-selected="true">
+                        Présentation générale
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" id="tab-2"
+                       role="tab" data-toggle="tab" href="#tab_panel-2"
+                       aria-controls="tab_panel-2" aria-selected="true">
+                        Contenu et activités
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" id="tab-3"
+                       role="tab" data-toggle="tab" href="#tab_panel-3"
+                       aria-controls="tab_panel-3" aria-selected="true">
+                        Objectifs du cours
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" id="tab-4"
+                       role="tab" data-toggle="tab" href="#tab_panel-4"
+                       aria-controls="tab_panel-4" aria-selected="true">
+                        Modalités d'évaluation
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" id="tab-5"
+                       role="tab" data-toggle="tab" href="#tab_panel-5"
+                       aria-controls="tab_panel-5" aria-selected="true">
+                        Matériel et ressources
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" id="tab-6"
+                       role="tab" data-toggle="tab" href="#tab_panel-6"
+                       aria-controls="tab_panel-6" aria-selected="true">
+                        Informations pratiques
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" id="tab-7"
+                       role="tab" data-toggle="tab" href="#tab_panel-7"
+                       aria-controls="tab_panel-7" aria-selected="true">
+                        Le mot de la fin
+                    </a>
+                </li>
+
+            </ul>
+
+            <!--
+                    Contents
+            -->
+            <div class="tab-content" id="myTabContent">
+
+                <div class="tab-pane fade show active" id="tab_panel-1"
+                     role="tabpanel" aria-labelledby="tab-1">
+                    <p>
+                        Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur. Nulla vitae elit libero, a pharetra augue. Donec ullamcorper nulla non metus auctor fringilla. Nullam id dolor id nibh ultricies vehicula ut id elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+                    </p>
+                </div>
+
+                <div class="tab-pane fade" id="tab_panel-2"
+                     role="tabpanel" aria-labelledby="tab-2">
+                    <p>
+                        Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec id elit non mi porta gravida at eget metus. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Donec sed odio dui. Cras mattis consectetur purus sit amet fermentum.
+                    </p>
+                </div>
+
+                <div class="tab-pane fade" id="tab_panel-3"
+                     role="tabpanel" aria-labelledby="tab-3">
+                    <p>
+                        Curabitur blandit tempus porttitor. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Sed posuere consectetur est at lobortis. Integer posuere erat a ante venenatis dapibus posuere velit aliquet.
+                    </p>
+                </div>
+
+                <div class="tab-pane fade" id="tab_panel-4"
+                     role="tabpanel" aria-labelledby="tab-4">
+                    <p>
+                        Donec id elit non mi porta gravida at eget metus. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Etiam porta sem malesuada magna mollis euismod.
+                    </p>
+                </div>
+
+                <div class="tab-pane fade" id="tab_panel-5"
+                     role="tabpanel" aria-labelledby="tab-5">
+                    <p>
+                        Maecenas faucibus mollis interdum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Nullam quis risus eget urna mollis ornare vel eu leo. Nulla vitae elit libero, a pharetra augue. Aenean lacinia bibendum nulla sed consectetur.
+                    </p>
+                </div>
+
+                <div class="tab-pane fade" id="tab_panel-6"
+                     role="tabpanel" aria-labelledby="tab-6">
+                    <p>
+                        Donec id elit non mi porta gravida at eget metus. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Donec id elit non mi porta gravida at eget metus. Cras justo odio, dapibus ac facilisis in, egestas eget quam.
+                    </p>
+                </div>
+
+                <div class="tab-pane fade" id="tab_panel-7"
+                     role="tabpanel" aria-labelledby="tab-7">
+                    <p>
+                        Curabitur blandit tempus porttitor. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vestibulum id ligula porta felis euismod semper. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
