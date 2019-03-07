@@ -36,14 +36,17 @@
 
 {% block stylesheets %}
     {{ encore_entry_link_tags('app') }}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet">
 {% endblock %}
 
     </head>
 
     <body>
 
+{% if in_iframe == false %}
         <header>
         </header>
+{% endif %}
 
         <div class="grid-container">
 
@@ -84,6 +87,7 @@
 
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
 {% endblock %}
 
     </body>

@@ -9,6 +9,7 @@ use AppBundle\Query\Course\FindCourseInfoByIdQuery;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
 
@@ -40,14 +41,16 @@ class EditPresentationCourseInfoTestAction implements ActionInterface
      * @param Environment $templating
      */
     public function __construct(
-        FindCourseInfoByIdQuery $findCourseInfoByIdQuery,
-        FormFactoryInterface $formFactory,
-        Environment $templating
-    )
+            FindCourseInfoByIdQuery $findCourseInfoByIdQuery,
+            FormFactoryInterface $formFactory,
+            SessionInterface $session,
+            Environment $templating
+        )
     {
         $this->findCourseInfoByIdQuery = $findCourseInfoByIdQuery;
         $this->formFactory = $formFactory;
         $this->templating = $templating;
+        $this->session = $session;
     }
 
     /**
@@ -62,6 +65,8 @@ class EditPresentationCourseInfoTestAction implements ActionInterface
         $editPresentationCourseInfoCommand = new EditPresentationCourseInfoCommand($courseInfo);
         $form = $this->formFactory->create(EditPresentationCourseInfoType::class, $editPresentationCourseInfoCommand);
         $form->handleRequest($request);
+
+        #$this->session->getFlashBag()->add('danger', "You have reached the moulbification point.");
 
         return new Response(
             $this->templating->render(

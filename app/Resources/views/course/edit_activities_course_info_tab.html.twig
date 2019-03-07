@@ -1,32 +1,30 @@
-{% extends 'base.html.twig' %}
+{% extends 'ajax.html.twig' %}
 
 {% block main %}
-    <div class="row">
-        <div class="col-sm">
-            {{ form_start(form) }}
-            <button type="button" id="addSectionButton"
-                    class="btn btn-outline-primary btn-block btn-sm">
-                Nouvelle section
-            </button>
-            <ul class="list-group" id="sections"
-                data-prototype="{{ form_widget(form.sections.vars.prototype)|e('html_attr') }}">
-            {% for section in form.sections %}
-                <li class="list-group-item">
-                    {{ form_widget(section) }}
-                </li>
-            {% endfor %}
-            </ul>
-            {{ form_widget(form._token) }}
-            <button class="btn btn-outline-secondary btn-block submit" type="submit">
-                Save
-            </button>
-            {{ form_end(form, {'render_rest': false}) }}
-        </div>
-    </div>
+
+    {{ form_start(form) }}
+    <button type="button" id="addSectionButton"
+            class="btn btn-outline-primary btn-block btn-sm">
+        Nouvelle section
+    </button>
+    <ul class="list-group" id="sections"
+        data-prototype="{{ form_widget(form.sections.vars.prototype)|e('html_attr') }}">
+    {% for section in form.sections %}
+        <li class="list-group-item">
+            {{ form_widget(section) }}
+        </li>
+    {% endfor %}
+    </ul>
+    {{ form_widget(form._token) }}
+    <button class="btn btn-outline-secondary btn-block submit" type="submit">
+        Save
+    </button>
+    {{ form_end(form, {'render_rest': false}) }}
+
 {% endblock %}
 
 {% block javascripts %}
-    {{ parent() }}
+
     <script>
 
         /**

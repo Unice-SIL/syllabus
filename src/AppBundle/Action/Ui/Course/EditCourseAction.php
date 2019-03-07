@@ -9,6 +9,7 @@ use AppBundle\Query\Course\FindCourseInfoByIdQuery;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
 
@@ -40,14 +41,16 @@ class EditCourseAction implements ActionInterface
      * @param Environment $templating
      */
     public function __construct(
-        FindCourseInfoByIdQuery $findCourseInfoByIdQuery,
-        FormFactoryInterface $formFactory,
-        Environment $templating
-    )
+            FindCourseInfoByIdQuery $findCourseInfoByIdQuery,
+            FormFactoryInterface $formFactory,
+            SessionInterface $session,
+            Environment $templating
+        )
     {
         $this->findCourseInfoByIdQuery = $findCourseInfoByIdQuery;
         $this->formFactory = $formFactory;
         $this->templating = $templating;
+        $this->session = $session;
     }
 
     /**
@@ -60,11 +63,16 @@ class EditCourseAction implements ActionInterface
         $id = $request->get('id', null);
         $courseInfo = $this->findCourseInfoByIdQuery->setId($id)->execute();
 
+        #$this->session->getFlashBag()->add('warning', "The zboub rotomoulber is under breizglubzation…");
+
         return new Response(
             $this->templating->render(
                 'course/edit_course.html.twig',
                 [
-                    'courseInfo' => $courseInfo
+                    'courseInfo' => [
+                        'id' => $id,
+                        'title' => $courseInfo->getTitle()
+                    ]
                 ]
             )
         );
