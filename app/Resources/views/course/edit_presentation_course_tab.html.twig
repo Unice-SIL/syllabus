@@ -55,9 +55,9 @@
          * @param teacherForm
          */
         function addTeacherFormDeleteLink(teacherForm){
-            var removeFormButton = $('<button type="button" class="btn btn-outline-danger">Delete</button>');
-            teacherForm.append(removeFormButton);
-            removeFormButton.click(function(e){
+            var removeFormButton = $('<i class="fas fa-eraser" title="Retirer de la liste."></i>');
+            teacherForm.prepend(removeFormButton);
+            removeFormButton.click(function(){
                 teacherForm.remove();
             });
         }

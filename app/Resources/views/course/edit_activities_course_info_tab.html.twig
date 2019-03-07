@@ -45,9 +45,10 @@
          * @param sectionForm
          */
         function addSectionFormDeleteLink(sectionForm){
-            var removeFormButton = $('<button type="button" class="btn btn-outline-danger btn-sm">Delete</button>');
-            sectionForm.prepend(removeFormButton);
-            removeFormButton.click(function(e){
+            var removeFormButton = $('<i class="fas fa-eraser" title="Retirer de la liste."></i>');
+            sectionForm.prepend( removeFormButton )
+                    .prepend( $( '<i class="fas fa-arrows-alt-v" title="Glisser / déposer pour modifier l\'ordre."></i>' ) );
+            removeFormButton.click(function(){
                 sectionForm.remove();
             });
         }
@@ -86,7 +87,7 @@
                     group: {
                         name: "sections",
                     },
-                    //handle: ".sortable_handle",
+                    handle: ".fa-arrows-alt-v",
                     sort: true,
                     animation: 150
                 } );

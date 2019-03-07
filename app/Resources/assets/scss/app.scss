@@ -96,7 +96,6 @@ form ul.list-group {
     list-style-type: none;
 
     & > li.list-group-item {
-        position: relative;
         margin-top: 1rem;
 
         &:nth-child(2n) {
@@ -104,13 +103,22 @@ form ul.list-group {
         }
 
         &.sortable-chosen {
-            background-color: lighten($yellow, 35%);
+            background-color: lighten($primary, 35%);
         }
 
-        button {
-            position: absolute;
-            top: 0;
-            right: 0;
+        .fas {
+            float: right;
+            font-size: 1.5rem;
+            cursor: pointer;
+
+            &.fa-arrows-alt-v {
+                margin-left: 1rem;
+                color: $primary;
+            }
+
+            &.fa-eraser {
+                color: $red;
+            }
         }
     }
 }
