@@ -148,7 +148,7 @@
                         url: route,
                         context: $( '#panel_' + id )
                     } ).done( function( data ) {
-                        $( this ).html( '<p>Pellentesque ornare sem lacinia quam venenatis vestibulum.</p>' );
+                        $( this ).html( data );
                         tabLink.data( 'route', "" );
                     } ).always( function( ){
                         $( '#loading_spinner' ).fadeOut( 'slow' );
