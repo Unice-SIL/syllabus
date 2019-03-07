@@ -69,8 +69,10 @@ class EditCourseAction implements ActionInterface
             $this->templating->render(
                 'course/edit_course.html.twig',
                 [
-                    'courseId' => $id,
-                    'courseTitle' => $courseInfo->getTitle()
+                    'courseInfo' => [
+                        'id' => $id,
+                        'title' => $courseInfo->getTitle()
+                    ]
                 ]
             )
         );

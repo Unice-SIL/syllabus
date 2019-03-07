@@ -1,7 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{ parent() }} • {{ courseTitle }}
+    {{ parent() }}
+    {% if courseInfo.title is defined %}
+         • {{ courseInfo.title }}
+    {% endif %}
 {% endblock %}
 
 {% block stylesheets %}
@@ -9,18 +12,21 @@
 {% endblock %}
 
 {% block main %}
+    {% if courseInfo.id is defined and courseInfo.id %}
 
     <div class="row">
 
         <div class="col-sm">
 
-            <h3>{{ courseTitle }}</h3>
+        {% if in_iframe == false and courseInfo.title is defined %}
+            <h3>{{ courseInfo.title }}</h3>
+        {% endif %}
 
             <ul class="nav nav-tabs">
 
                 <li class="nav-item">
-                    <a class="nav-link active" id="tab-1"
-                       data-route="{{ path('edit_presentation_course_info_test', { 'id': courseId }) }}"
+                    <a class="nav-link" id="tab-1"
+                       data-route="{{ path('edit_presentation_course_info_test', { 'id': courseInfo.id }) }}"
                        role="tab" data-toggle="tab" href="#panel_tab-1"
                        aria-controls="panel_tab-1" aria-selected="true">
                         Présentation générale
@@ -29,7 +35,7 @@
 
                 <li class="nav-item">
                     <a class="nav-link" id="tab-2"
-                       data-route="{{ path('edit_activities_course_info_test', { 'id': courseId }) }}"
+                       data-route="{{ path('edit_activities_course_info_test', { 'id': courseInfo.id }) }}"
                        role="tab" data-toggle="tab" href="#panel_tab-2"
                        aria-controls="panel_tab-2" aria-selected="false">
                         Contenu et activités
@@ -117,18 +123,18 @@
         </div>
     </div>
 
+    {% endif %}
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
+    {% if courseInfo.id is defined and courseInfo.id %}
     <script>
 
-        $( 'main > .row:first-child > div > ul.nav' )
-                .on( 'click', 'li.nav-item > a', function( ) {
+        function ajaxTabContentLoader( $tabLink ) {
 
-            var tabLink = $( this ),
-                id = tabLink.attr( 'id' ),
-                route = tabLink.data( 'route' );
+            var id = $tabLink.attr( 'id' ),
+                route = $tabLink.data( 'route' );
 
             if ( route !== "" ) {
 
@@ -140,7 +146,7 @@
                         context: $( '#panel_' + id )
                     } ).done( function( data ) {
                         $( this ).html( data );
-                        tabLink.data( 'route', "" );
+                        $tabLink.data( 'route', "" );
                     } ).always( function( ){
                         $( '#loading_spinner' ).fadeOut( 'slow' );
                     } ).fail( function( jqXHR, textStatus ){
@@ -148,11 +154,21 @@
                     } );
 
                 } );
-
             }
+
+        }
+
+        $( 'main > .row:first-child > div > ul.nav' )
+                .on( 'click', 'li.nav-item > a', function( ) {
+
+            ajaxTabContentLoader( $( this ) );
 
         } );
 
+        $( '#tab-1' ).addClass( 'active' );
+        ajaxTabContentLoader( $( '#tab-1' ) );
+
     </script>
+    {% endif %}
 {% endblock %}
 
