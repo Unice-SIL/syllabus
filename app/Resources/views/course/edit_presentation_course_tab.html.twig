@@ -8,10 +8,6 @@
     {{ form_start(form) }}
     {{ form_widget(form.teacherSource) }}
     {{ form_widget(form.teacherSearch) }}
-    <button type="button" id="addTeacherButton"
-            class="btn btn-outline-primary btn-block">
-        Ajouter
-    </button>
     <ul class="list-group" id="teachers"
         data-prototype="{{ form_widget(form.teachers.vars.prototype)|e('html_attr') }}">
     {% for teacher in form.teachers %}
@@ -76,7 +72,7 @@
                 addTeacherFormDeleteLink($(this));
             });
 
-            $('#addTeacherButton').click(function(){
+            $( '#edit_presentation_course_info_teacherSearch' ).on( 'select2:select', function( ) {
                 $.ajax({
                     url: '{{ path('find_course_teacher_json') }}',
                     type: 'GET',
@@ -90,7 +86,7 @@
                         $('#select2-edit_presentation_course_info_teacherSearch-container').html('');
                     }
                 });
-            });
+            } );
 
             $('.submit').click(function(){
                 $.ajax({
