@@ -12,6 +12,12 @@
     {% set in_iframe = false %}
 {% endif %}
 
+{% if in_iframe == false %}
+    {% set container_class = 'container' %}
+{% else %}
+    {% set container_class = 'container-fluid' %}
+{% endif %}
+
 {% if form is defined and form is not null %}
     {% form_theme form 'bootstrap_4_layout.html.twig' %}
 {% endif %}
@@ -51,7 +57,7 @@
         <div class="grid-container">
 
 {% block messages %}
-            <div class="container">
+            <div class="{{ container_class }}">
                 {% for type, messages in app.flashes %}
                     {% for message in messages %}
                         <div class="alert alert-{{ type }} alert-dismissible fade show" role="alert">
@@ -65,7 +71,7 @@
             </div>
 {% endblock %}
 
-            <main class="container" role="main">
+            <main class="{{ container_class }}" role="main">
 {% block main %}
 
 {% endblock %}
