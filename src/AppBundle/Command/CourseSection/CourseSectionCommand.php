@@ -3,10 +3,12 @@
 namespace AppBundle\Command\CourseSection;
 
 use AppBundle\Command\CommandInterface;
+use AppBundle\Command\CourseSectionActivity\CourseSectionActivityCommand;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseSection;
+use AppBundle\Entity\CourseSectionActivity;
 use AppBundle\Entity\SectionType;
-use AppBundle\Form\CourseSection\CourseSectionType;
+use Doctrine\Common\Collections\ArrayCollection;
 use Ramsey\Uuid\Uuid;
 
 /**
@@ -41,9 +43,14 @@ class CourseSectionCommand implements CommandInterface
     private $order;
 
     /**
-     * @var CourseInfo
+     * @var CourseInfo|null
      */
     private $courseInfo;
+
+    /**
+     * @var ArrayCollection
+     */
+    private $activities;
 
     /**
      * CourseSectionCommand constructor.
@@ -53,6 +60,7 @@ class CourseSectionCommand implements CommandInterface
     {
         if(is_null($courseSection)) {
             $this->id = Uuid::uuid4();
+            $this->activities = new ArrayCollection();
             $this->order = 0;
         }else{
             $this->id = $courseSection->getId();
@@ -61,6 +69,10 @@ class CourseSectionCommand implements CommandInterface
             $this->type = $courseSection->getSectionType();
             $this->description = $courseSection->getDescription();
             $this->order = $courseSection->getOrder();
+            $this->activities = new ArrayCollection();
+            foreach ($courseSection->getCourseSectionActivities() as $courseSectionActivity) {
+                $this->activities->add(new CourseSectionActivityCommand($courseSectionActivity));
+            }
         }
     }
 
@@ -162,9 +174,9 @@ class CourseSectionCommand implements CommandInterface
     }
 
     /**
-     * @return CourseInfo
+     * @return CourseInfo|null
      */
-    public function getCourseInfo(): CourseInfo
+    public function getCourseInfo(): ?CourseInfo
     {
         return $this->courseInfo;
     }
@@ -180,6 +192,50 @@ class CourseSectionCommand implements CommandInterface
         return $this;
     }
 
+
+    /**
+     * @return array
+     */
+    public function getActivities(): ArrayCollection
+    {
+        return $this->activities;
+    }
+
+    /**
+     * @param ArrayCollection $sectionActivities
+     * @return CourseSectionCommand
+     */
+    public function setActivities(ArrayCollection $activities): CourseSectionCommand
+    {
+        $this->activities = $activities;
+
+        return $this;
+    }
+
+    /**
+     * @param CourseSectionActivityCommand $activity
+     * @return CourseSectionCommand
+     */
+    public function addActivity(CourseSectionActivityCommand $activity): CourseSectionCommand
+    {
+        if(!$this->activities->contains($activity)) {
+            $this->activities->add($activity);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param CourseSectionActivityCommand $activity
+     * @return CourseSectionCommand
+     */
+    public function removeActivity(CourseSectionActivityCommand $activity): CourseSectionCommand
+    {
+        $this->activities->removeElement($activity);
+
+        return $this;
+    }
+
     /**
      * @param CourseSection $entity
      * @return CourseSection
@@ -187,10 +243,27 @@ class CourseSectionCommand implements CommandInterface
     public function filledEntity($entity): CourseSection
     {
         $entity->setId($this->getId())
-            ->setSectionType($this->getType())
             ->setTitle($this->getTitle())
             ->setDescription($this->getDescription())
             ->setOrder($this->getOrder());
+        $courseSectionActivities = new ArrayCollection();
+        foreach ($this->activities as $activity){
+            $id = $activity->getId();
+            $courseSectionActivity = $entity->getCourseSectionActivities()->filter(function($entry) use ($id){
+                return ($entry->getId() === $id)? true : false;
+            })->first();
+            if(!$courseSectionActivity){
+                $courseSectionActivity = new CourseSectionActivity();
+            }
+            $activity->setCourseSection($entity);
+            $courseSectionActivity = $activity->filledEntity($courseSectionActivity);
+            $courseSectionActivities->add($courseSectionActivity);
+        }
+        $entity->setCourseSectionActivities($courseSectionActivities);
+
+        if(!is_null($this->getType())){
+            $entity->setSectionType($this->getType());
+        }
         if(!is_null($this->getCourseInfo())){
             $entity->setCourseInfo($this->getCourseInfo());
         }

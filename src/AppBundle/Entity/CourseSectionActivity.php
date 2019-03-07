@@ -48,7 +48,7 @@ class CourseSectionActivity
     /**
      * @var \AppBundle\Entity\CourseSection
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CourseSection")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CourseSection", inversedBy="courseSectionActivities",)
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="course_section_id", referencedColumnName="id")
      * })
