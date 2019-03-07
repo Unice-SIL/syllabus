@@ -1,6 +1,6 @@
 <?php
 
-namespace tests\AppBundle\Command\User;
+namespace tests\AppBundle\Command\Course;
 
 use AppBundle\Command\Course\EditPresentationCourseInfoCommand;
 use AppBundle\Command\CourseTeacher\CourseTeacherCommand;

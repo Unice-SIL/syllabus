@@ -3,6 +3,7 @@
 namespace AppBundle\Command\CourseSection;
 
 use AppBundle\Command\CommandInterface;
+use AppBundle\Command\CourseSectionActivity\CourseSectionActivityCommand;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseSection;
 use AppBundle\Entity\CourseSectionActivity;
@@ -42,7 +43,7 @@ class CourseSectionCommand implements CommandInterface
     private $order;
 
     /**
-     * @var CourseInfo
+     * @var CourseInfo|null
      */
     private $courseInfo;
 
@@ -70,7 +71,7 @@ class CourseSectionCommand implements CommandInterface
             $this->order = $courseSection->getOrder();
             $this->activities = new ArrayCollection();
             foreach ($courseSection->getCourseSectionActivities() as $courseSectionActivity) {
-                $this->activities->add(new CourseSectionCommand($courseSectionActivity));
+                $this->activities->add(new CourseSectionActivityCommand($courseSectionActivity));
             }
         }
     }
@@ -173,9 +174,9 @@ class CourseSectionCommand implements CommandInterface
     }
 
     /**
-     * @return CourseInfo
+     * @return CourseInfo|null
      */
-    public function getCourseInfo(): CourseInfo
+    public function getCourseInfo(): ?CourseInfo
     {
         return $this->courseInfo;
     }
@@ -242,7 +243,6 @@ class CourseSectionCommand implements CommandInterface
     public function filledEntity($entity): CourseSection
     {
         $entity->setId($this->getId())
-            ->setSectionType($this->getType())
             ->setTitle($this->getTitle())
             ->setDescription($this->getDescription())
             ->setOrder($this->getOrder());
@@ -261,6 +261,9 @@ class CourseSectionCommand implements CommandInterface
         }
         $entity->setCourseSectionActivities($courseSectionActivities);
 
+        if(!is_null($this->getType())){
+            $entity->setSectionType($this->getType());
+        }
         if(!is_null($this->getCourseInfo())){
             $entity->setCourseInfo($this->getCourseInfo());
         }

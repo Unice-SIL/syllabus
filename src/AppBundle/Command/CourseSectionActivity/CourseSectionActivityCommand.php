@@ -31,12 +31,12 @@ class CourseSectionActivityCommand implements CommandInterface
     private $order;
 
     /**
-     * @var CourseSection
+     * @var CourseSection|null
      */
     private $courseSection;
 
     /**
-     * @var Activity
+     * @var Activity|null
      */
     private $activity;
 
@@ -116,9 +116,9 @@ class CourseSectionActivityCommand implements CommandInterface
     }
 
     /**
-     * @return CourseSection
+     * @return CourseSection|null
      */
-    public function getCourseSection(): CourseSection
+    public function getCourseSection(): ?CourseSection
     {
         return $this->courseSection;
     }
@@ -135,9 +135,9 @@ class CourseSectionActivityCommand implements CommandInterface
     }
 
     /**
-     * @return Activity
+     * @return Activity|null
      */
-    public function getActivity(): Activity
+    public function getActivity(): ?Activity
     {
         return $this->activity;
     }
@@ -154,18 +154,19 @@ class CourseSectionActivityCommand implements CommandInterface
     }
 
     /**
-     * @param CourseSection $entity
-     * @return CourseSection
+     * @param CourseSectionActivity $entity
+     * @return CourseSectionActivity
      */
-    public function filledEntity($entity): CourseSection
+    public function filledEntity($entity): CourseSectionActivity
     {
         $entity->setId($this->getId())
-            ->setSectionType($this->getType())
-            ->setTitle($this->getTitle())
             ->setDescription($this->getDescription())
             ->setOrder($this->getOrder());
-        if(!is_null($this->getCourseInfo())){
-            $entity->setCourseInfo($this->getCourseInfo());
+        if(!is_null($this->getActivity())){
+            $entity->setActivity($this->getActivity());
+        }
+        if(!is_null($this->getCourseSection())){
+            $entity->setCourseSection($this->getCourseSection());
         }
         return $entity;
     }
