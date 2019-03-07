@@ -1,25 +1,21 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{ parent() }} • Accueil
+    {{ parent() }} • {{ courseTitle }}
 {% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
 {% endblock %}
 
-{#
-    https://getbootstrap.com/docs/4.1/components/navs/#using-data-attributes
-#}
 {% block main %}
 
     <div class="row">
 
         <div class="col-sm">
 
-            <!--
-                    Tabs
-            -->
+            <h3>{{ courseTitle }}</h3>
+
             <ul class="nav nav-tabs">
 
                 <li class="nav-item">
@@ -87,9 +83,6 @@
 
             </ul>
 
-            <!--
-                    Contents
-            -->
             <div class="tab-content">
 
                 <div class="tab-pane fade show active" id="panel_tab-1"
@@ -136,8 +129,6 @@
             var tabLink = $( this ),
                 id = tabLink.attr( 'id' ),
                 route = tabLink.data( 'route' );
-
-            //console.log( id + " -> " + route );
 
             if ( route !== "" ) {
 

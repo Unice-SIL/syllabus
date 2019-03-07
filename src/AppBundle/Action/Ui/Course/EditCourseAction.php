@@ -61,7 +61,7 @@ class EditCourseAction implements ActionInterface
     public function __invoke(Request $request)
     {
         $id = $request->get('id', null);
-        #$courseInfo = $this->findCourseInfoByIdQuery->setId($id)->execute();
+        $courseInfo = $this->findCourseInfoByIdQuery->setId($id)->execute();
 
         #$this->session->getFlashBag()->add('warning', "The zboub rotomoulber is under breizglubzation…");
 
@@ -69,7 +69,8 @@ class EditCourseAction implements ActionInterface
             $this->templating->render(
                 'course/edit_course.html.twig',
                 [
-                    'courseId' => $id
+                    'courseId' => $id,
+                    'courseTitle' => $courseInfo->getTitle()
                 ]
             )
         );
