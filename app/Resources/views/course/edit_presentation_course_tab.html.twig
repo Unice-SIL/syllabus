@@ -8,14 +8,18 @@
     {{ form_start(form) }}
     {{ form_widget(form.teacherSource) }}
     {{ form_widget(form.teacherSearch) }}
-    <button type="button" id="addTeacherButton" class="btn btn-outline-primary">Ajouter</button>
-    <ul class="teachers" data-prototype="{{ form_widget(form.teachers.vars.prototype)|e('html_attr') }}">
-        {% for teacher in form.teachers %}
-            <li>
-                {{ form_row(teacher.completeName) }}
-                {{ form_widget(teacher) }}
-            </li>
-        {% endfor %}
+    <button type="button" id="addTeacherButton"
+            class="btn btn-outline-primary btn-block">
+        Ajouter
+    </button>
+    <ul class="list-group" id="teachers"
+        data-prototype="{{ form_widget(form.teachers.vars.prototype)|e('html_attr') }}">
+    {% for teacher in form.teachers %}
+        <li class="list-group-item">
+            {{ form_row(teacher.completeName) }}
+            {{ form_widget(teacher) }}
+        </li>
+    {% endfor %}
     </ul>
     {{ form_widget(form) }}
     <button class="btn btn-outline-secondary btn-block submit" type="button">
@@ -40,7 +44,7 @@
             var index = collectionHolder.data('index');
             var newForm = prototype.replace(/__name__/g, index);
             collectionHolder.data('index', index+1);
-            var newFormLi = $('<li></li>').append(newForm);
+            var newFormLi = $('<li class="list-group-item"></li>').append(newForm);
             newFormLi.find('input[id*=_completeName]').val(teacherData['completeName']);
             newFormLi.find('input[id*=_id]').val(teacherData['id']);
             newFormLi.find('input[id*=_firstname]').val(teacherData['firstname']);
@@ -66,7 +70,7 @@
          *
          */
         $(document).ready(function(){
-            var teachersCollectionHolder = $('ul.teachers');
+            var teachersCollectionHolder = $('#teachers');
             teachersCollectionHolder.data('index', teachersCollectionHolder.find('li').length);
             teachersCollectionHolder.find('li').each(function(){
                 addTeacherFormDeleteLink($(this));
