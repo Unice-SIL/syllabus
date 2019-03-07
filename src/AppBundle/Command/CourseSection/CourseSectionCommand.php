@@ -255,7 +255,7 @@ class CourseSectionCommand implements CommandInterface
             if(!$courseSectionActivity){
                 $courseSectionActivity = new CourseSectionActivity();
             }
-            $activity->setCourseSectionActivity($entity);
+            $activity->setCourseSection($entity);
             $courseSectionActivity = $activity->filledEntity($courseSectionActivity);
             $courseSectionActivities->add($courseSectionActivity);
         }

@@ -33,6 +33,11 @@ class EditActivitiesCourseInfoQueryTest extends TestCase
     private $courseSectionRepository;
 
     /**
+     * @var MockObject
+     */
+    private $courseSectionActivityRepository;
+
+    /**
      * @var CourseInfo
      */
     private $courseInfo;
@@ -48,6 +53,11 @@ class EditActivitiesCourseInfoQueryTest extends TestCase
     private $editActivitiesCourseInfoCommand;
 
     /**
+     * @var EditActivitiesCourseInfoQuery
+     */
+    private $editActivitiesCourseInfoQuery;
+
+    /**
      *
      */
     protected function setUp(): void
@@ -56,6 +66,8 @@ class EditActivitiesCourseInfoQueryTest extends TestCase
         $this->courseInfoRepository = $this->getMockBuilder('AppBundle\Repository\CourseInfoRepositoryInterface')
             ->getMock();
         $this->courseSectionRepository = $this->getMockBuilder('AppBundle\Repository\CourseSectionRepositoryInterface')
+            ->getMock();
+        $this->courseSectionActivityRepository = $this->getMockBuilder('AppBundle\Repository\CourseSectionActivityRepositoryInterface')
             ->getMock();
 
         // CourseInfo
@@ -84,6 +96,12 @@ class EditActivitiesCourseInfoQueryTest extends TestCase
 
         // Command
         $this->editActivitiesCourseInfoCommand = new EditActivitiesCourseInfoCommand($this->courseInfo);
+
+        $this->editActivitiesCourseInfoQuery = new EditActivitiesCourseInfoQuery(
+            $this->courseInfoRepository,
+            $this->courseSectionRepository,
+            $this->courseSectionActivityRepository
+        );
     }
 
     /**
@@ -112,9 +130,8 @@ class EditActivitiesCourseInfoQueryTest extends TestCase
         $this->courseInfoRepository->expects($this->never())
             ->method('rollback');
 
-        $editActivitiesCourseInfoQuery = new EditActivitiesCourseInfoQuery($this->courseInfoRepository, $this->courseSectionRepository);
-        $editActivitiesCourseInfoQuery->setEditActivitiesCourseInfoCommand($this->editActivitiesCourseInfoCommand);
-        $this->assertNull($editActivitiesCourseInfoQuery->execute());
+        $this->editActivitiesCourseInfoQuery->setEditActivitiesCourseInfoCommand($this->editActivitiesCourseInfoCommand);
+        $this->assertNull($this->editActivitiesCourseInfoQuery->execute());
     }
 
     /**
@@ -123,7 +140,7 @@ class EditActivitiesCourseInfoQueryTest extends TestCase
      */
     public function edit2Successful(){
         $sections = $this->editActivitiesCourseInfoCommand->getSections();
-        $sections->removeElement($sections->first());
+        $this->editActivitiesCourseInfoCommand->removeSection($sections->first());
 
         $this->courseInfoRepository->expects($this->once())
             ->method('find')
@@ -146,9 +163,8 @@ class EditActivitiesCourseInfoQueryTest extends TestCase
         $this->courseInfoRepository->expects($this->never())
             ->method('rollback');
 
-        $editActivitiesCourseInfoQuery = new EditActivitiesCourseInfoQuery($this->courseInfoRepository, $this->courseSectionRepository);
-        $editActivitiesCourseInfoQuery->setEditActivitiesCourseInfoCommand($this->editActivitiesCourseInfoCommand);
-        $this->assertNull($editActivitiesCourseInfoQuery->execute());
+        $this->editActivitiesCourseInfoQuery->setEditActivitiesCourseInfoCommand($this->editActivitiesCourseInfoCommand);
+        $this->assertNull($this->editActivitiesCourseInfoQuery->execute());
     }
 
     /**
@@ -180,8 +196,7 @@ class EditActivitiesCourseInfoQueryTest extends TestCase
         $this->courseInfoRepository->expects($this->once())
             ->method('rollback');
 
-        $editActivitiesCourseInfoQuery = new EditActivitiesCourseInfoQuery($this->courseInfoRepository, $this->courseSectionRepository);
-        $editActivitiesCourseInfoQuery->setEditActivitiesCourseInfoCommand($this->editActivitiesCourseInfoCommand)->execute();
+        $this->editActivitiesCourseInfoQuery->setEditActivitiesCourseInfoCommand($this->editActivitiesCourseInfoCommand)->execute();
     }
 
     /**
@@ -190,7 +205,7 @@ class EditActivitiesCourseInfoQueryTest extends TestCase
      */
     public function edit2Exception(){
         $sections = $this->editActivitiesCourseInfoCommand->getSections();
-        $sections->removeElement($sections->first());
+        $this->editActivitiesCourseInfoCommand->removeSection($sections->first());
 
         $this->expectException(\Exception::class);
 
@@ -215,8 +230,7 @@ class EditActivitiesCourseInfoQueryTest extends TestCase
         $this->courseInfoRepository->expects($this->once())
             ->method('rollback');
 
-        $editActivitiesCourseInfoQuery = new EditActivitiesCourseInfoQuery($this->courseInfoRepository, $this->courseSectionRepository);
-        $editActivitiesCourseInfoQuery->setEditActivitiesCourseInfoCommand($this->editActivitiesCourseInfoCommand)->execute();
+        $this->editActivitiesCourseInfoQuery->setEditActivitiesCourseInfoCommand($this->editActivitiesCourseInfoCommand)->execute();
     }
 
 
@@ -245,8 +259,7 @@ class EditActivitiesCourseInfoQueryTest extends TestCase
         $this->courseInfoRepository->expects($this->never())
             ->method('rollback');
 
-        $editActivitiesCourseInfoQuery = new EditActivitiesCourseInfoQuery($this->courseInfoRepository, $this->courseSectionRepository);
-        $editActivitiesCourseInfoQuery->setEditActivitiesCourseInfoCommand($this->editActivitiesCourseInfoCommand)->execute();
+        $this->editActivitiesCourseInfoQuery->setEditActivitiesCourseInfoCommand($this->editActivitiesCourseInfoCommand)->execute();
     }
 
     /**

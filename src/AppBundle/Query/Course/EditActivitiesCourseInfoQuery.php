@@ -6,6 +6,7 @@ use AppBundle\Command\Course\EditActivitiesCourseInfoCommand;
 use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Query\QueryInterface;
 use AppBundle\Repository\CourseInfoRepositoryInterface;
+use AppBundle\Repository\CourseSectionActivityRepositoryInterface;
 use AppBundle\Repository\CourseSectionRepositoryInterface;
 use AppBundle\Repository\CourseTeacherRepositoryInterface;
 
@@ -27,6 +28,11 @@ class EditActivitiesCourseInfoQuery implements QueryInterface
     private $courseSectionRepository;
 
     /**
+     * @var CourseSectionActivityRepositoryInterface
+     */
+    private $courseSectionActivityRepository;
+
+    /**
      * @var EditActivitiesCourseInfoCommand
      */
     private $editActivitiesCourseInfoCommand;
@@ -35,14 +41,17 @@ class EditActivitiesCourseInfoQuery implements QueryInterface
      * EditActivitiesCourseInfoQuery constructor.
      * @param CourseInfoRepositoryInterface $courseInfoRepository
      * @param CourseSectionRepositoryInterface $courseSectionRepository
+     * @param CourseSectionActivityRepositoryInterface $courseSectionActivityRepository
      */
     public function __construct(
         CourseInfoRepositoryInterface $courseInfoRepository,
-        CourseSectionRepositoryInterface $courseSectionRepository
+        CourseSectionRepositoryInterface $courseSectionRepository,
+        CourseSectionActivityRepositoryInterface $courseSectionActivityRepository
     )
     {
         $this->courseInfoRepository = $courseInfoRepository;
         $this->courseSectionRepository = $courseSectionRepository;
+        $this->courseSectionActivityRepository = $courseSectionActivityRepository;
     }
 
     /**
@@ -71,15 +80,34 @@ class EditActivitiesCourseInfoQuery implements QueryInterface
             throw new CourseInfoNotFoundException(sprintf('CourseInfo with id %s not found', $this->editActivitiesCourseInfoCommand->getId()));
         }
         try{
-            $originalCourseSections = $courseInfo->getCourseSections();
+            // Keep an original CourseInfo before update
+            $originalCourseInfo = clone $courseInfo;
+            // Set course infos from command
             $courseInfo = $this->editActivitiesCourseInfoCommand->filledEntity($courseInfo);
+            // Start transaction
             $this->courseInfoRepository->beginTransaction();
-            foreach ($originalCourseSections as $courseSection) {
-                if (!$courseInfo->getCourseSections()->contains($courseSection)) {
-                    $this->courseSectionRepository->delete($courseSection);
+            // Deletes course sections and activities that need to be removed
+            foreach ($originalCourseInfo->getCourseSections() as $originalCourseSection) {
+                // Search original course section in new course sections
+                $courseSectionIndex = $courseInfo->getCourseSections()->indexOf($originalCourseSection);
+                if ($courseSectionIndex === false) {
+                    // If not found delete it
+                    $this->courseSectionRepository->delete($originalCourseSection);
+                }else{
+                    // Get new course section activities
+                    $courseSection = $courseInfo->getCourseSections()->offsetGet($courseSectionIndex);
+                    foreach ($originalCourseSection->getCourseSectionActivities() as $originalCourseSectionActivity){
+                        // Search original course section activity in new course section activities
+                        $courseSectionActivityIndex = $courseSection->getCourseSectionActivities()->indexOf($originalCourseSectionActivity);
+                        if($courseSectionActivityIndex === false){
+                            $this->courseSectionActivityRepository->delete($originalCourseSectionActivity);
+                        }
+                    }
                 }
             }
+            // Update course infos in repository
             $this->courseInfoRepository->update($courseInfo);
+            // Commit
             $this->courseInfoRepository->commit();
         }catch (\Exception $e){
             $this->courseInfoRepository->rollback();
