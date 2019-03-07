@@ -56,7 +56,6 @@ class EditActivitiesCourseInfoCommand implements CommandInterface
         return $this;
     }
 
-
     /**
      * @return array
      */
@@ -80,7 +79,7 @@ class EditActivitiesCourseInfoCommand implements CommandInterface
      * @param CourseSectionCommand $section
      * @return EditActivitiesCourseInfoCommand
      */
-    public function addTeacher(CourseSectionCommand $section): EditActivitiesCourseInfoCommand
+    public function addSection(CourseSectionCommand $section): EditActivitiesCourseInfoCommand
     {
         if(!$this->sections->contains($section)) {
             $this->sections->add($section);

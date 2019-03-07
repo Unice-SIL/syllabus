@@ -205,20 +205,9 @@ class CourseSection
      * @param Collection $courseSectionActivities
      * @return CourseSection
      */
-    public function setCourseSections(Collection $courseSectionActivities): CourseSection
+    public function setCourseSectionActivities(Collection $courseSectionActivities): CourseSection
     {
         $this->courseSectionActivities = $courseSectionActivities;
-
-        return $this;
-    }
-
-    /**
-     * @param CourseSectionActivity $courseSectionActivities
-     * @return CourseSection
-     */
-    public function addCourseSection(CourseSectionActivity $courseSectionActivities): CourseSection
-    {
-        $this->courseSectionActivities->add($courseSectionActivities);
 
         return $this;
     }
@@ -227,7 +216,18 @@ class CourseSection
      * @param CourseSectionActivity $courseSectionActivity
      * @return CourseSection
      */
-    public function removeCourseSection(CourseSectionActivity $courseSectionActivity): CourseSection
+    public function addCourseSectionActivity(CourseSectionActivity $courseSectionActivity): CourseSection
+    {
+        $this->courseSectionActivities->add($courseSectionActivity);
+
+        return $this;
+    }
+
+    /**
+     * @param CourseSectionActivity $courseSectionActivity
+     * @return CourseSection
+     */
+    public function removeCourseSectionActivity(CourseSectionActivity $courseSectionActivity): CourseSection
     {
         $this->courseSectionActivities->removeElement($courseSectionActivity);
 
