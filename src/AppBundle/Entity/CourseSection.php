@@ -2,6 +2,8 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -61,6 +63,19 @@ class CourseSection
      * })
      */
     private $sectionType;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="CourseSectionActivity", mappedBy="courseSection", cascade={ "persist", "remove" })
+     * @ORM\OrderBy({"order" = "ASC"})
+     */
+    private $courseSectionActivities;
+
+    public function __construct()
+    {
+        $this->courseSectionActivities = new ArrayCollection();
+    }
 
     /**
      * @return string
@@ -178,5 +193,45 @@ class CourseSection
         return $this;
     }
 
+    /**
+     * @return Collection
+     */
+    public function getCourseSectionActivities(): Collection
+    {
+        return $this->courseSectionActivities;
+    }
+
+    /**
+     * @param Collection $courseSectionActivities
+     * @return CourseSection
+     */
+    public function setCourseSections(Collection $courseSectionActivities): CourseSection
+    {
+        $this->courseSectionActivities = $courseSectionActivities;
+
+        return $this;
+    }
+
+    /**
+     * @param CourseSectionActivity $courseSectionActivities
+     * @return CourseSection
+     */
+    public function addCourseSection(CourseSectionActivity $courseSectionActivities): CourseSection
+    {
+        $this->courseSectionActivities->add($courseSectionActivities);
+
+        return $this;
+    }
+
+    /**
+     * @param CourseSectionActivity $courseSectionActivity
+     * @return CourseSection
+     */
+    public function removeCourseSection(CourseSectionActivity $courseSectionActivity): CourseSection
+    {
+        $this->courseSectionActivities->removeElement($courseSectionActivity);
+
+        return $this;
+    }
 
 }
