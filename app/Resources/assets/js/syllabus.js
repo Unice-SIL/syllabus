@@ -1,11 +1,11 @@
 /******************************************************************************
 
-        Syllabus namespace & module.
+        Syllabus module.
 
 */
 
 
-var Syllabus = ( function ( Syllabus ) {
+var Syllabus = ( function ( ) {
 
 
     "use strict";
@@ -75,7 +75,7 @@ var Syllabus = ( function ( Syllabus ) {
 
 
 
-} ( Syllabus || { } ) );
+} ) ( );
 
 
 
