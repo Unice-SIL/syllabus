@@ -23,21 +23,21 @@ var Syllabus = ( function ( Syllabus ) {
 
         if ( route !== "" ) {
 
-            $( '#loading_spinner' ).fadeIn( 'slow', function( ) {
-
-                $.ajax( {
-                    type: 'POST',
-                    url: route,
-                    context: $( '#panel_' + $tabLink.attr( 'id' ) )
-                } ).done( function( data ) {
-                    $( this ).html( data );
-                    $tabLink.data( 'route', "" );
-                } ).always( function( ){
-                    $( '#loading_spinner' ).fadeOut( 'slow' );
-                } ).fail( function( jqXHR, textStatus ){
-                    alert( "Request failed: " + textStatus + "." );
-                } );
-
+            $( '#loading_spinner' ).fadeIn( {
+                always: function( ) {
+                    $.ajax( {
+                        type: 'POST',
+                        url: route,
+                        context: $( '#panel_' + $tabLink.attr( 'id' ) )
+                    } ).done( function( data ) {
+                        $( this ).html( data );
+                        $tabLink.data( 'route', "" );
+                    } ).always( function( ){
+                        $( '#loading_spinner' ).fadeOut( );
+                    } ).fail( function( jqXHR, textStatus ){
+                        alert( "Request failed: " + textStatus + "." );
+                    } );
+                }
             } );
         }
 
