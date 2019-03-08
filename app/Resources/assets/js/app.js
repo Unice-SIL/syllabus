@@ -13,11 +13,13 @@
 // SASS / CSS dependencies.
 import '../scss/app.scss';
 
-// Defining jQuery…
+// Importing modules…
 import $ from 'jquery';
+import Syllabus from './syllabus';
 
-// … and make it visible to external components.
+// … and make them visible to external components.
 global.$ = global.jQuery = $;
+global.Syllabus = Syllabus;
 
 
 
