@@ -7,7 +7,7 @@
 
 
 /*
-    Requiring dependencies
+    Importing dependencies
 */
 
 // SASS / CSS dependencies.
