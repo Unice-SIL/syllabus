@@ -131,15 +131,7 @@
     {% if courseInfo.id is defined and courseInfo.id %}
     <script>
 
-        $( 'main > .row:first-child > div > ul.nav' )
-                .on( 'click', 'li.nav-item > a', function( ) {
-
-            Syllabus.tabLoader( $( this ) );
-
-        } );
-
-        $( '#tab-1' ).addClass( 'active' );
-        Syllabus.tabLoader( $( '#tab-1' ) );
+        Syllabus.tabLoaderInit( );
 
     </script>
     {% endif %}

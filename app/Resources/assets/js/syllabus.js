@@ -11,10 +11,15 @@ var Syllabus = ( function ( Syllabus ) {
     "use strict";
 
 
-    function ajaxTabContentLoader( $tabLink ) {
+    /**************************************************************************
 
-        var id = $tabLink.attr( 'id' ),
-            route = $tabLink.data( 'route' );
+            Private items.
+    */
+
+
+    function _ajaxTabContentLoader( $tabLink ) {
+
+        var route = $tabLink.data( 'route' );
 
         if ( route !== "" ) {
 
@@ -23,7 +28,7 @@ var Syllabus = ( function ( Syllabus ) {
                 $.ajax( {
                     type: 'POST',
                     url: route,
-                    context: $( '#panel_' + id )
+                    context: $( '#panel_' + $tabLink.attr( 'id' ) )
                 } ).done( function( data ) {
                     $( this ).html( data );
                     $tabLink.data( 'route', "" );
@@ -39,19 +44,42 @@ var Syllabus = ( function ( Syllabus ) {
     }
 
 
-    function logInfo( text ) {
 
-        console.log( text );
+    /**************************************************************************
+
+            Public items.
+    */
+
+
+    function tabLoaderInit( ) {
+
+        $( 'main > .row:first-child > div > ul.nav' )
+                .on( 'click', 'li.nav-item > a', function( ) {
+
+            _ajaxTabContentLoader( $( this ) );
+
+        } );
+
+        $( '#tab-1' ).addClass( 'active' );
+        _ajaxTabContentLoader( $( '#tab-1' ) );
 
     }
 
 
+
+    /*
+        Public pointers to exposed items.
+    */
+
     return {
-        tabLoader: ajaxTabContentLoader
+        tabLoaderInit: tabLoaderInit
     };
+
 
 
 } ( Syllabus || { } ) );
 
 
+
 export default Syllabus;
+
