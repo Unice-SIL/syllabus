@@ -34,8 +34,6 @@ var Syllabus = ( function ( Syllabus ) {
                         $tabLink.data( 'route', "" );
                     } ).always( function( ){
                         $( '#loading_spinner' ).fadeOut( );
-                    } ).fail( function( jqXHR, textStatus ){
-                        alert( "Request failed: " + textStatus + "." );
                     } );
                 }
             } );

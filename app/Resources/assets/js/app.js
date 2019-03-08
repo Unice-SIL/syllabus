@@ -60,6 +60,20 @@ import 'bootstrap/js/dist/util';
 
 
 /*
+    AJAX error handler.
+*/
+
+$( document ).ajaxError( function( event, jqXHR, ajaxSettings, thrownError ) {
+
+    console.log( { event, jqXHR, ajaxSettings, thrownError } );
+
+    alert( "Une erreur est survenue (" + jqXHR.status + ")." );
+
+} );
+
+
+
+/*
     App specific.
 */
 

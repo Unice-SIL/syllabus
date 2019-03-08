@@ -31,8 +31,8 @@
     {{ parent() }}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
     <script src="{{ asset('bundles/tetranzselect2entity/js/select2entity.js') }}"></script>
-
     <script>
+
         /**
          *
          * @param collectionHolder
@@ -92,7 +92,6 @@
             });
 
 
-
             $('.submit').click(function(){
                 $.ajax({
                     type: 'POST',
@@ -100,10 +99,9 @@
                     data: $(this).closest('form').serialize()
                 }).done(function(){
                     alert('done');
-                }).fail(function(){
-                    alert('fail');
                 });
             });
         });
+
     </script>
 {% endblock %}
