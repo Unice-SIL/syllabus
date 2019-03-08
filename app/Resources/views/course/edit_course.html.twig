@@ -131,44 +131,15 @@
     {% if courseInfo.id is defined and courseInfo.id %}
     <script>
 
-        function ajaxTabContentLoader( $tabLink ) {
-
-            var id = $tabLink.attr( 'id' ),
-                route = $tabLink.data( 'route' );
-
-            Syllabus.logInfo( "The buldgrizmol is still unexpludegged, no worry." );
-
-            if ( route !== "" ) {
-
-                $( '#loading_spinner' ).fadeIn( 'slow', function( ) {
-
-                    $.ajax( {
-                        type: 'POST',
-                        url: route,
-                        context: $( '#panel_' + id )
-                    } ).done( function( data ) {
-                        $( this ).html( data );
-                        $tabLink.data( 'route', "" );
-                    } ).always( function( ){
-                        $( '#loading_spinner' ).fadeOut( 'slow' );
-                    } ).fail( function( jqXHR, textStatus ){
-                        alert( "Request failed: " + textStatus + "." );
-                    } );
-
-                } );
-            }
-
-        }
-
         $( 'main > .row:first-child > div > ul.nav' )
                 .on( 'click', 'li.nav-item > a', function( ) {
 
-            ajaxTabContentLoader( $( this ) );
+            Syllabus.tabLoader( $( this ) );
 
         } );
 
         $( '#tab-1' ).addClass( 'active' );
-        ajaxTabContentLoader( $( '#tab-1' ) );
+        Syllabus.tabLoader( $( '#tab-1' ) );
 
     </script>
     {% endif %}
