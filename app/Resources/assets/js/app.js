@@ -11,12 +11,12 @@
 */
 
 // SASS / CSS dependencies.
-require('../scss/app.scss');
+import '../scss/app.scss';
 
-// Defining jQuery client-side.
-const $ = require('jquery');
+// Defining jQuery…
+import $ from 'jquery';
 
-// Defining jQuery for external components (like select2.js).
+// … and make it visible to external components.
 global.$ = global.jQuery = $;
 
 
