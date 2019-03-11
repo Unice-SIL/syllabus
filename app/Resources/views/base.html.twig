@@ -119,8 +119,12 @@
             if(actions.remove === true) {
                 var removeFormButton = $('<i class="fas fa-eraser" title="Retirer de la liste."></i>');
                 form.prepend(removeFormButton);
-                removeFormButton.click(function () {
-                    form.remove();
+                removeFormButton.click(function(){
+                    form.fadeOut({
+                        always: function(){
+                            form.remove();
+                        }
+                    });
                 });
             }
             // Move
