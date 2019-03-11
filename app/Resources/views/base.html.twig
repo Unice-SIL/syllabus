@@ -96,8 +96,8 @@
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
-    <script src="{{ asset('js/jquery.collection.js') }}"></script>
     <script>
+
         function addFormToCollection(collection, classes){
             var prototype = collection.data('prototype');
             var index = collection.data('index');
@@ -115,6 +115,7 @@
                 remove: true,
                 move: false,
             }, actions);
+
             // Remove
             if(actions.remove === true) {
                 var removeFormButton = $('<i class="fas fa-eraser" title="Retirer de la liste."></i>');
@@ -127,13 +128,12 @@
                     });
                 });
             }
+
             // Move
             if(actions.move) {
                 form.prepend($('<i class="fas fa-arrows-alt-v" title="Glisser / déposer pour modifier l\'ordre."></i>'));
             }
         }
-
-
 
     </script>
 {% endblock %}
