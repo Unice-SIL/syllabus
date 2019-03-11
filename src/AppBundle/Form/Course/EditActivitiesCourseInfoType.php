@@ -44,4 +44,8 @@ class EditActivitiesCourseInfoType extends AbstractType
             'data_class' => EditActivitiesCourseInfoCommand::class,
         ]);
     }
+
+    public function getName(){
+        return EditActivitiesCourseInfoType::class;
+    }
 }

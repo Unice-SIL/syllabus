@@ -4,9 +4,12 @@ namespace AppBundle\Form\CourseSection;
 
 use AppBundle\Command\CourseSection\CourseSectionCommand;
 use AppBundle\Entity\SectionType;
+use AppBundle\Form\CourseSectionActivity\CourseSectionActivityType;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -40,6 +43,7 @@ class CourseSectionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            //->add('id', HiddenType::class)
             ->add('title', TextType::class, [
                 'label' => 'Title',
                 'required' => true,
@@ -54,6 +58,16 @@ class CourseSectionType extends AbstractType
             ->add('description', TextareaType::class, [
                 'label' => 'Description',
             ])
+            ->add('activities', CollectionType::class, [
+                'label' => false,
+                'entry_type' => CourseSectionActivityType::class,
+                'entry_options' => [
+                    'label' => false,
+                ],
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+            ])
             ->add('order', HiddenType::class, [
             ]);
     }
@@ -65,6 +79,11 @@ class CourseSectionType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => CourseSectionCommand::class,
+            ''
         ]);
+    }
+
+    public function getName(){
+        return CourseSectionType::class;
     }
 }

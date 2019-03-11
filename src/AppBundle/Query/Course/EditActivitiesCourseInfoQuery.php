@@ -9,6 +9,7 @@ use AppBundle\Repository\CourseInfoRepositoryInterface;
 use AppBundle\Repository\CourseSectionActivityRepositoryInterface;
 use AppBundle\Repository\CourseSectionRepositoryInterface;
 use AppBundle\Repository\CourseTeacherRepositoryInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Class EditActivitiesCourseInfoQuery
@@ -80,14 +81,19 @@ class EditActivitiesCourseInfoQuery implements QueryInterface
             throw new CourseInfoNotFoundException(sprintf('CourseInfo with id %s not found', $this->editActivitiesCourseInfoCommand->getId()));
         }
         try{
-            // Keep an original CourseInfo before update
-            $originalCourseInfo = clone $courseInfo;
+            // Keep originals CourseSection before update
+            $originalCourseSections = $courseInfo->getCourseSections()->getValues();
+            // Keep originals CourseSectionActivities befor update
+            $originalCourseSectionActivities = [];
+            foreach ($originalCourseSections as $originalCourseSection){
+                $originalCourseSectionActivities[$originalCourseSection->getId()] = $originalCourseSection->getCourseSectionActivities()->getValues();
+            }
             // Set course infos from command
             $courseInfo = $this->editActivitiesCourseInfoCommand->filledEntity($courseInfo);
             // Start transaction
             $this->courseInfoRepository->beginTransaction();
             // Deletes course sections and activities that need to be removed
-            foreach ($originalCourseInfo->getCourseSections() as $originalCourseSection) {
+            foreach ($originalCourseSections as $originalCourseSection) {
                 // Search original course section in new course sections
                 $courseSectionIndex = $courseInfo->getCourseSections()->indexOf($originalCourseSection);
                 if ($courseSectionIndex === false) {
@@ -96,10 +102,11 @@ class EditActivitiesCourseInfoQuery implements QueryInterface
                 }else{
                     // Get new course section activities
                     $courseSection = $courseInfo->getCourseSections()->offsetGet($courseSectionIndex);
-                    foreach ($originalCourseSection->getCourseSectionActivities() as $originalCourseSectionActivity){
+                    foreach ($originalCourseSectionActivities[$courseSection->getId()] as $originalCourseSectionActivity){
                         // Search original course section activity in new course section activities
                         $courseSectionActivityIndex = $courseSection->getCourseSectionActivities()->indexOf($originalCourseSectionActivity);
                         if($courseSectionActivityIndex === false){
+                            // If not found delete it
                             $this->courseSectionActivityRepository->delete($originalCourseSectionActivity);
                         }
                     }

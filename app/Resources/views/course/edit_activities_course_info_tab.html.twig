@@ -9,11 +9,28 @@
     </button>
     <ul class="list-group" id="sections"
         data-prototype="{{ form_widget(form.sections.vars.prototype)|e('html_attr') }}">
-    {% for section in form.sections %}
-        <li class="list-group-item">
-            {{ form_widget(section) }}
-        </li>
-    {% endfor %}
+        {% for section in form.sections %}
+            <li class="list-group-item section">
+                {{ form_row(section.order) }}
+                {{ form_row(section.title) }}
+                {{ form_row(section.type) }}
+                {{ form_row(section.description) }}
+                <ul class="list-group activities"
+                    data-section="{{ section.vars.value.id }}"
+                    data-prototype="{{ form_widget(section.activities.vars.prototype)|e('html_attr') }}">
+                    {% for activity in section.activities %}
+                        <li class="list-group-item activity">
+                            {{ form_row(activity.id) }}
+                            <span>
+                            {{ activity.vars.value.title }}
+                        </span>
+                            {{ form_row(activity.description) }}
+                            {{ form_row(activity.order) }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
     </ul>
     {{ form_widget(form._token) }}
     <button class="btn btn-outline-secondary btn-block submit" type="submit">
@@ -28,50 +45,60 @@
     <script>
 
         /**
-         * @param collectionHolder
-         */
-        function addSectionForm(collectionHolder){
-            var prototype = collectionHolder.data('prototype');
-            var index = collectionHolder.data('index');
-            var newForm = prototype.replace(/__name__/g, index);
-            collectionHolder.data('index', index+1);
-            var newFormLi = $('<li class="list-group-item"></li>').append(newForm);
-            collectionHolder.append(newFormLi);
-            addSectionFormDeleteLink(newFormLi);
-        }
-
-        /**
-         *
-         * @param sectionForm
-         */
-        function addSectionFormDeleteLink(sectionForm){
-            var removeFormButton = $('<i class="fas fa-eraser" title="Retirer de la liste."></i>');
-            sectionForm.prepend( removeFormButton )
-                    .prepend( $( '<i class="fas fa-arrows-alt-v" title="Glisser / déposer pour modifier l\'ordre."></i>' ) );
-            removeFormButton.click(function(){
-                sectionForm.remove();
-            });
-        }
-
-        /**
          *
          */
         $(document).ready(function(){
             var sectionsCollectionHolder = $('#sections');
-            sectionsCollectionHolder.data('index', sectionsCollectionHolder.find('li').length);
-            sectionsCollectionHolder.find('li').each(function(){
-                addSectionFormDeleteLink($(this));
+            var activitiesCollectionHolder = $('.activities');
+
+            sectionsCollectionHolder.data('index', sectionsCollectionHolder.find('li.section').length);
+            activitiesCollectionHolder.data('index', activitiesCollectionHolder.find('li.activity').length);
+
+            sectionsCollectionHolder.find('li.section').each(function(){
+                addActionsToForm($(this), {move: true});
+            });
+            activitiesCollectionHolder.find('li.activity').each(function(){
+                addActionsToForm($(this), {move: true});
             });
 
+            sectionsCollectionHolder.sortable( {
+                group: {
+                    name: "sections",
+                },
+                handle: ".fa-arrows-alt-v",
+                sort: true,
+                animation: 150
+            } );
+            activitiesCollectionHolder.sortable( {
+                group: {
+                    name: "activities",
+                },
+                handle: ".fa-arrows-alt-v",
+                sort: true,
+                animation: 150
+            } );
+
             $('#addSectionButton').click(function(){
-                addSectionForm(sectionsCollectionHolder);
+                var form = addFormToCollection(sectionsCollectionHolder, 'list-group-item section');
+                addActionsToForm(form, {move: true});
             });
 
             $("form[name='edit_activities_course_info']").submit(function(e){
                 e.preventDefault();
-                $("#sections > li").each(function(order){
-                    $(this).find("input[id*='_order']").val(order+1);
+                // Set elements order
+                sectionsCollectionHolder.find('li.section').each(function(order){
+                    // Set section order
+                    $(this).find("input[id$='_order']").each(function(){
+                        if($(this).attr("id").match(/^edit_activities_course_info_sections_[\d]+_order/)){
+                            $(this).val(order+1);
+                        }
+                    });
+                    // Set activities order
+                    $(this).find("li.activity").each(function(order){
+                        $(this).find("input[id$='_order']").val(order+1);
+                    });
                 });
+
                 $.ajax({
                     type: 'POST',
                     url: '{{ path('save_activities_course_info', { 'id': courseInfo.id })|escape('js') }}',
@@ -82,15 +109,6 @@
                     alert('fail');
                 });
             });
-
-            $('#sections').sortable( {
-                    group: {
-                        name: "sections",
-                    },
-                    handle: ".fa-arrows-alt-v",
-                    sort: true,
-                    animation: 150
-                } );
 
         });
 

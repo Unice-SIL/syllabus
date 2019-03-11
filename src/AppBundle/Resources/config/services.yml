@@ -44,6 +44,9 @@ services:
     AppBundle\Form\CourseSection\CourseSectionType:
         arguments: [ '@syllabus_entity_manager' ]
 
+    AppBundle\Form\CourseSectionActivity\CourseSectionActivityType:
+        arguments: [ '@syllabus_entity_manager' ]
+
     # FIXTURE
     AppBundle\Fixture\CourseFixture:
         tags: ['doctrine.fixture.orm']

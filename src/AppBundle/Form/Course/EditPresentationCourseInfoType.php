@@ -91,6 +91,10 @@ class EditPresentationCourseInfoType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
+                'prototype' => true,
+                'attr' => [
+                    'class' => 'teachers_collection'
+                ]
             ]);
     }
 
@@ -104,4 +108,6 @@ class EditPresentationCourseInfoType extends AbstractType
             'allow_extra_fields' => true,
         ]);
     }
+
+
 }
