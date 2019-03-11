@@ -40,7 +40,7 @@ class CourseSectionCommand implements CommandInterface
     /**
      * @var int
      */
-    private $order;
+    private $order = 0;
 
     /**
      * @var CourseInfo|null
@@ -61,7 +61,6 @@ class CourseSectionCommand implements CommandInterface
         if(is_null($courseSection)) {
             $this->id = Uuid::uuid4();
             $this->activities = new ArrayCollection();
-            $this->order = 0;
         }else{
             $this->id = $courseSection->getId();
             $this->courseInfo = $courseSection->getCourseInfo();
@@ -163,10 +162,10 @@ class CourseSectionCommand implements CommandInterface
     }
 
     /**
-     * @param int $order
+     * @param int|null $order
      * @return CourseSectionCommand
      */
-    public function setOrder(int $order): CourseSectionCommand
+    public function setOrder($order = 0): CourseSectionCommand
     {
         $this->order = $order;
 

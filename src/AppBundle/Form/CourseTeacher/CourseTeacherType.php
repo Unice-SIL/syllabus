@@ -53,4 +53,12 @@ class CourseTeacherType extends AbstractType
             'data_class' => CourseTeacherCommand::class
         ]);
     }
+
+    /**
+     * @return string
+     */
+    public function getBlockPrefix()
+    {
+        return 'CourseTeacherType';
+    }
 }

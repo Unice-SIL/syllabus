@@ -4,21 +4,21 @@
 {% endblock %}
 
 {% block main %}
-
+    {% form_theme form 'form/teachers_theme.html.twig' %}
     {{ form_start(form) }}
     {{ form_widget(form.teacherSource) }}
     {{ form_widget(form.teacherSearch) }}
     <ul class="list-group" id="teachers"
         data-prototype="{{ form_widget(form.teachers.vars.prototype)|e('html_attr') }}">
-    {% for teacher in form.teachers %}
-        <li class="list-group-item">
-            {{ form_row(teacher.completeName) }}
-            {{ form_widget(teacher) }}
-        </li>
-    {% endfor %}
+        {% for teacher in form.teachers %}
+            <li class="list-group-item teacher">
+                {{ form_row(teacher.completeName) }}
+                {{ form_widget(teacher) }}
+            </li>
+        {% endfor %}
     </ul>
     {{ form_widget(form) }}
-    <button class="btn btn-outline-secondary btn-block submit" type="button">
+    <button class="btn btn-outline-secondary btn-block submit" type="submit">
         Save
     </button>
     {{ form_end(form) }}
@@ -32,46 +32,13 @@
 
         /**
          *
-         * @param collectionHolder
-         * @param teacherData
-         */
-        function addTeacherForm(collectionHolder, teacherData){
-            var prototype = collectionHolder.data('prototype');
-            var index = collectionHolder.data('index');
-            var newForm = prototype.replace(/__name__/g, index);
-            collectionHolder.data('index', index+1);
-            var newFormLi = $('<li class="list-group-item"></li>').append(newForm);
-            newFormLi.find('input[id*=_completeName]').val(teacherData['completeName']);
-            newFormLi.find('input[id*=_id]').val(teacherData['id']);
-            newFormLi.find('input[id*=_firstname]').val(teacherData['firstname']);
-            newFormLi.find('input[id*=_lastname]').val(teacherData['lastname']);
-            newFormLi.find('input[id*=_email]').val(teacherData['email']);
-            collectionHolder.append(newFormLi);
-            addTeacherFormDeleteLink(newFormLi);
-        }
-
-        /**
-         *
-         * @param teacherForm
-         */
-        function addTeacherFormDeleteLink(teacherForm){
-            var removeFormButton = $('<i class="fas fa-eraser" title="Retirer de la liste."></i>');
-            teacherForm.prepend(removeFormButton);
-            removeFormButton.click(function(){
-                teacherForm.remove();
-            });
-        }
-
-        /**
-         *
          */
         $(document).ready(function(){
             var teachersCollectionHolder = $('#teachers');
             teachersCollectionHolder.data('index', teachersCollectionHolder.find('li').length);
             teachersCollectionHolder.find('li').each(function(){
-                addTeacherFormDeleteLink($(this));
+                addActionsToForm($(this));
             });
-
             $( '#edit_presentation_course_info_teacherSearch' ).on( 'select2:select', function( ) {
                 $.ajax({
                     url: '{{ path('find_course_teacher_json') }}',
@@ -81,14 +48,22 @@
                         'id': $('#edit_presentation_course_info_teacherSearch').val()
                     },
                     success: function(data){
-                        addTeacherForm(teachersCollectionHolder, data);
+                        var form = addFormToCollection(teachersCollectionHolder, data);
+                        addActionsToForm(form, 'list-group-item teacher');
+                        form.find('input[id*=_completeName]').val(data['completeName']);
+                        form.find('input[id*=_id]').val(data['id']);
+                        form.find('input[id*=_firstname]').val(data['firstname']);
+                        form.find('input[id*=_lastname]').val(data['lastname']);
+                        form.find('input[id*=_email]').val(data['email']);
                         $('#edit_presentation_course_info_teacherSearch').find('option').remove();
                         $('#select2-edit_presentation_course_info_teacherSearch-container').html('');
                     }
                 });
             } );
 
-            $('.submit').click(function(){
+
+            $("form[name='edit_presentation_course_info']").submit(function(e){
+                e.preventDefault();
                 $.ajax({
                     type: 'POST',
                     url: '{{ path('save_presentation_course_info', { 'id': courseInfo.id })|escape('js') }}',

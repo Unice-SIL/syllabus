@@ -18,9 +18,11 @@
     {% set container_class = 'container-fluid' %}
 {% endif %}
 
+{#
 {% if form is defined and form is not null %}
     {% form_theme form 'bootstrap_4_layout.html.twig' %}
 {% endif %}
+#}
 
 <html lang="{{ app.request.locale|lower }}">
 
@@ -94,6 +96,42 @@
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+    <script src="{{ asset('js/jquery.collection.js') }}"></script>
+    <script>
+        function addFormToCollection(collection, classes){
+            var prototype = collection.data('prototype');
+            var index = collection.data('index');
+            var newForm = prototype.replace(/__name__/g, index);
+            collection.data('index', index+1);
+            var form = $('<li></li>').addClass(classes).append(newForm);
+            collection.append(form);
+            return form;
+        }
+
+
+        function addActionsToForm(form, actions){
+            actions = actions || {};
+            actions = $.extend({
+                remove: true,
+                move: false,
+            }, actions);
+            // Remove
+            if(actions.remove === true) {
+                var removeFormButton = $('<i class="fas fa-eraser" title="Retirer de la liste."></i>');
+                form.prepend(removeFormButton);
+                removeFormButton.click(function () {
+                    form.remove();
+                });
+            }
+            // Move
+            if(actions.move) {
+                form.prepend($('<i class="fas fa-arrows-alt-v" title="Glisser / déposer pour modifier l\'ordre."></i>'));
+            }
+        }
+
+
+
+    </script>
 {% endblock %}
 
     </body>
