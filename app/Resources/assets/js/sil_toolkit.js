@@ -29,7 +29,8 @@ var SILTools = ( function ( ) {
                 'danger'
             ];
 
-    var _$alertContainer = $( '#js-alerts_container' ),
+    var _$loadingSpinner = $( '#loading_spinner' ),
+        _$alertContainer = $( '#js-alerts_container' ),
         _messages = { };
 
 
@@ -178,6 +179,7 @@ var SILTools = ( function ( ) {
     */
 
     return {
+        spinner: _$loadingSpinner,
         alert: alert
     };
 

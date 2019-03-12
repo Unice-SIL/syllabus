@@ -6,6 +6,7 @@
 
 
 import $ from 'jquery';
+import SILTools from './sil_toolkit';
 
 
 
@@ -27,7 +28,7 @@ var Syllabus = ( function ( ) {
 
         if ( route !== "" ) {
 
-            $( '#loading_spinner' ).fadeIn( {
+            SILTools.spinner.fadeIn( {
                 always: function( ) {
                     $.ajax( {
                         type: 'POST',
@@ -37,7 +38,7 @@ var Syllabus = ( function ( ) {
                         $( this ).html( data );
                         $tabLink.data( 'route', "" );
                     } ).always( function( ){
-                        $( '#loading_spinner' ).fadeOut( );
+                        SILTools.spinner.fadeOut( );
                     } );
                 }
             } );
