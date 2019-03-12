@@ -2,6 +2,7 @@
 # Set parameters here that may be different on each deployment target of the app, e.g. development, staging, production.
 # https://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
 parameters:
+    data_directory: '%kernel.project_dir%/web/data'
     syllabus_database_driver: pdo_mysql
     syllabus_database_host: 127.0.0.1
     syllabus_database_port: null

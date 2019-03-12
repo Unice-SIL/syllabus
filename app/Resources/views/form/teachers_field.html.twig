@@ -1,7 +1,7 @@
 
 {% macro teacher_template(teacher) %}
     <li class="list-group-item teacher">
-        {{ form_row(teacher.completeName) }}
+        {{ form_widget(teacher.completeName) }}
         {{ form_widget(teacher) }}
     </li>
 {% endmacro %}

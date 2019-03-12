@@ -5,15 +5,238 @@
 
 {% block main %}
     {% form_theme form with [
-        'form/teachers_field.html.twig'
+    'form/teachers_field.html.twig'
     ] %}
 
     {{ form_start(form) }}
-    
-    {{ form_widget(form) }}
-    <button class="btn btn-outline-secondary btn-block submit" type="submit">
-        Save
-    </button>
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.period) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            {{ form_widget(form.summary) }}
+        </div>
+        <div class="col-6">
+            <div class="row">
+                <div class="col">
+                    <h6>
+                        Télécharger une vidéo ou une image de présentation du cours qui respecte les droits d'auteur (illustration, photo de votre TD, ...)
+                    </h6>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    {{ form_widget(form.mediaType) }}
+                    {% set imageTabClasses = 'nav-link' %}
+                    {% set imageContentClasses = 'tab-pane fade' %}
+                    {% set videoTabClasses = 'nav-link' %}
+                    {% set videoContentClasses = 'tab-pane fade' %}
+                    {% if form.vars.value.mediaType == 'video' %}
+                        {% set videoTabClasses = videoTabClasses ~' active' %}
+                        {% set videoContentClasses = videoContentClasses ~ ' show active' %}
+                    {% else %}
+                        {% set imageTabClasses = imageTabClasses ~' active' %}
+                        {% set imageContentClasses = imageContentClasses ~ ' show active' %}
+                    {%  endif %}
+                    <ul class="nav nav-tabs" id="media_type" role="tablist">
+                        <li class="nav-item">
+                            <a class="{{ imageTabClasses }}" href="#media_image_container" role="tab" data-toggle="tab" data-media-type="image">
+                                Image
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="{{ videoTabClasses }}" href="#media_video_container" role="tab" data-toggle="tab" data-media-type="video">
+                                Vidéo
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="{{ imageContentClasses }}" id="media_image_container" role="tabpanel">
+                            <div class="row">
+                                <div class="col">
+                                    {{ form_widget(form.image) }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    {% if form.vars.data.image is not null %}
+                                        <img src="{{ asset('data/' ~ form.vars.data.image.filename) }}">
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="{{ videoContentClasses }}" id="media_video_container" role="tabpanel">
+                            <div class="row">
+                                <div class="col">
+                                    {{ form_widget(form.video) }}
+                                </div>
+                                <div class="col-md-auto">
+                                    <button id="media_video_preview" class="btn btn-outline-primary btn-sm" type="button">Prévisualiser</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="embed-responsive embed-responsive-16by9">
+                                        <iframe id="media_video_iframe" class="embed-responsive-item" src="{{ form.vars.value.video }}"></iframe>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row border">
+        <div class="col">
+            <div class="row">
+                <div class="col">
+                    <h6>Equipe pédagogique</h6>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8">
+                    {{ form_widget(form.teacherSearch) }}
+                </div>
+                <div class="col-4">
+                    {{ form_widget(form.teacherSource) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    {{ form_widget(form.teachers) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row border">
+        <div class="col">
+            <div class="row">
+                <div class="col">
+                    <h6>Mode d'enseignement</h6>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="row">
+                        <div class="col-5">
+                            <h6>{{ form_widget(form.teachingMode.children[0]) }}</h6>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2">
+                            {{ form_widget(form.teachingCmClass) }}
+                        </div>
+                        <div class="col">
+                            {{ form_label(form.teachingCmClass) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2">
+                            {{ form_widget(form.teachingTdClass) }}
+                        </div>
+                        <div class="col">
+                            {{ form_label(form.teachingTdClass) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2">
+                            {{ form_widget(form.teachingTpClass) }}
+                        </div>
+                        <div class="col">
+                            {{ form_label(form.teachingTpClass) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2">
+                            {{ form_widget(form.teachingOtherClass) }}
+                        </div>
+                        <div class="col">
+                            {{ form_label(form.teachingOtherClass) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="row">
+                        <div class="col-7">
+                            <h6>{{ form_widget(form.teachingMode.children[1]) }}</h6>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="row">
+                                <div class="col-3">
+                                    {{ form_widget(form.teachingCmHybridClass) }}
+                                </div>
+                                <div class="col">
+                                    {{ form_label(form.teachingCmHybridClass) }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    {{ form_widget(form.teachingTdHybridClass) }}
+                                </div>
+                                <div class="col">
+                                    {{ form_label(form.teachingTdHybridClass) }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    {{ form_widget(form.teachingTpHybridClass) }}
+                                </div>
+                                <div class="col">
+                                    {{ form_label(form.teachingTpHybridClass) }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    {{ form_widget(form.teachingOtherHybridClass) }}
+                                </div>
+                                <div class="col">
+                                    {{ form_label(form.teachingOtherHybridClass) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="row">
+                                <div class="col-3">
+                                    {{ form_widget(form.teachingCmHybridDist) }}
+                                </div>
+                                <div class="col">
+                                    {{ form_label(form.teachingCmHybridDist) }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    {{ form_widget(form.teachingTdHybridDist) }}
+                                </div>
+                                <div class="col">
+                                    {{ form_label(form.teachingTdHybridDist) }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    {{ form_widget(form.teachingOtherHybridDist) }}
+                                </div>
+                                <div class="col">
+                                    {{ form_label(form.teachingOtherHybridDist) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-outline-secondary btn-block submit" type="submit">
+                Save
+            </button>
+        </div>
+    </div>
     {{ form_end(form) }}
 
 {% endblock %}
@@ -54,13 +277,39 @@
                 });
             } );
 
+            $("#media_type > li > a").on('click', function(){
+                $("#edit_presentation_course_info_mediaType").val($(this).data('media-type'));
+            });
 
+            /**
+             * Load video in iframe when click on preview
+             */
+            $("#media_video_preview").on('click', function(){
+                $("#media_video_iframe").attr("src", $("#edit_presentation_course_info_video").val());
+            });
+
+            /**
+             * Submit form
+             */
             $("form[name='edit_presentation_course_info']").submit(function(e){
                 e.preventDefault();
+
+                for ( instance in CKEDITOR.instances ) {
+                    CKEDITOR.instances[instance].updateElement();
+                }
+
+                var form = $(this)[0];
+                var data = new FormData(form);
+
                 $.ajax({
                     type: 'POST',
+                    enctype: 'multipart/form-data',
+                    processData: false,  // Important!
+                    contentType: false,
                     url: '{{ path('save_presentation_course_info', { 'id': courseInfo.id })|escape('js') }}',
-                    data: $(this).closest('form').serialize()
+                    data: data,
+                    cache: false,
+                    timeout: 600000,
                 }).done(function(){
                     alert('done');
                 });

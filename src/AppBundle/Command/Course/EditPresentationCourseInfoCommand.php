@@ -7,6 +7,7 @@ use AppBundle\Command\CourseTeacher\CourseTeacherCommand;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseTeacher;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * Class EditCourseInfoCommand
@@ -36,7 +37,7 @@ class EditPresentationCourseInfoCommand implements CommandInterface
     private $mediaType;
 
     /**
-     * @var null|string
+     * @var mixed
      */
     private $image;
 
@@ -223,7 +224,7 @@ class EditPresentationCourseInfoCommand implements CommandInterface
     }
 
     /**
-     * @return null|string
+     * @return mixed
      */
     public function getImage()
     {
@@ -231,7 +232,7 @@ class EditPresentationCourseInfoCommand implements CommandInterface
     }
 
     /**
-     * @param null|string $image
+     * @param mixed $image
      * @return EditPresentationCourseInfoCommand
      */
     public function setImage($image)

@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.7.2",
+    "ckeditor": "^4.11.3",
     "jquery": "^3.3.1",
     "jquery-sortablejs": "^1.0.1",
     "popper.js": "^1.14.7",

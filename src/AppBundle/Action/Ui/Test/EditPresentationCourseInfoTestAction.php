@@ -5,8 +5,10 @@ namespace AppBundle\Action\Ui\Test;
 use AppBundle\Action\ActionInterface;
 use AppBundle\Command\Course\EditPresentationCourseInfoCommand;
 use AppBundle\Form\Course\EditPresentationCourseInfoType;
+use AppBundle\Helper\FileUploaderHelper;
 use AppBundle\Query\Course\FindCourseInfoByIdQuery;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -35,22 +37,31 @@ class EditPresentationCourseInfoTestAction implements ActionInterface
     private $templating;
 
     /**
-     * EditCourseAction constructor.
+     * @var FileUploaderHelper
+     */
+    private $fileUploaderHelper;
+
+    /**
+     * EditPresentationCourseInfoTestAction constructor.
      * @param FindCourseInfoByIdQuery $findCourseInfoByIdQuery
      * @param FormFactoryInterface $formFactory
+     * @param SessionInterface $session
      * @param Environment $templating
+     * @param FileUploaderHelper $fileUploaderHelper
      */
     public function __construct(
-            FindCourseInfoByIdQuery $findCourseInfoByIdQuery,
-            FormFactoryInterface $formFactory,
-            SessionInterface $session,
-            Environment $templating
-        )
+        FindCourseInfoByIdQuery $findCourseInfoByIdQuery,
+        FormFactoryInterface $formFactory,
+        SessionInterface $session,
+        Environment $templating,
+        FileUploaderHelper $fileUploaderHelper
+    )
     {
         $this->findCourseInfoByIdQuery = $findCourseInfoByIdQuery;
         $this->formFactory = $formFactory;
         $this->templating = $templating;
         $this->session = $session;
+        $this->fileUploaderHelper = $fileUploaderHelper;
     }
 
     /**
@@ -62,7 +73,11 @@ class EditPresentationCourseInfoTestAction implements ActionInterface
     {
         $id = $request->get('id', null);
         $courseInfo = $this->findCourseInfoByIdQuery->setId($id)->execute();
+        if(!is_null($courseInfo->getImage())) {
+            $courseInfo->setImage(new File($this->fileUploaderHelper->getDirectory().'/'.$courseInfo->getImage()));
+        }
         $editPresentationCourseInfoCommand = new EditPresentationCourseInfoCommand($courseInfo);
+        dump($editPresentationCourseInfoCommand);
         $form = $this->formFactory->create(EditPresentationCourseInfoType::class, $editPresentationCourseInfoCommand);
         $form->handleRequest($request);
 
