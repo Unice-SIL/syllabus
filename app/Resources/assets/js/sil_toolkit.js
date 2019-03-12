@@ -21,8 +21,8 @@ var SILTools = ( function ( ) {
     */
 
 
-    const MS_BEFORE_DISMISS = 4000,
-        USER_DISMISSIBLE_ALERTS = [
+    const MS_BEFORE_ALERT_DISMISS = 4000,
+        USER_DISMISSIBLE_ALERT_TYPES = [
                 //'primary',
                 //'success',
                 //'warning',
@@ -56,7 +56,7 @@ var SILTools = ( function ( ) {
     };
 
 
-    var _displayAllAlerts = function( ) {
+    var _displayAllBSAlerts = function( ) {
 
         for ( var key in _messages ) {
 
@@ -66,7 +66,7 @@ var SILTools = ( function ( ) {
 
                 var $alert = null;
 
-                if ( USER_DISMISSIBLE_ALERTS.includes( key ) ) {
+                if ( USER_DISMISSIBLE_ALERT_TYPES.includes( key ) ) {
 
                     var $button = $( "<button>", {
                             'type': "button",
@@ -94,7 +94,7 @@ var SILTools = ( function ( ) {
                         } );
 
                     _$alertContainer.prepend( $alert );
-                    $alert.slideDown( ).delay( MS_BEFORE_DISMISS )
+                    $alert.slideDown( ).delay( MS_BEFORE_ALERT_DISMISS )
                             .slideUp( {
                                 always: _removeItem,
                             } );
@@ -140,7 +140,7 @@ var SILTools = ( function ( ) {
 
         if ( type === true ) {
 
-            _displayAllAlerts( );
+            _displayAllBSAlerts( );
 
         } else {
 
@@ -156,7 +156,7 @@ var SILTools = ( function ( ) {
             _messages[ type ].push( text );
 
             if ( ! keep ) {
-                _displayAllAlerts( );
+                _displayAllBSAlerts( );
             }
 
         }
