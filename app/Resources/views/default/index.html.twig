@@ -23,4 +23,50 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script>
+
+$( document ).ready( function( ) {
+
+    console.log( "Type a/l/p/e/i/s/w/d + <Enter>…" );
+
+    $( 'body' ).on( 'keyup', function( event ) {
+
+        switch (event.keyCode) {
+            case 65: // A
+                SILTools.alert( 'dark', "Fusce dapibus tellus ac cursus commodo.", true );
+                break;
+            case 76: // L
+                SILTools.alert( 'light', "Tortor mauris condimentum nibh.", true );
+                break;
+            case 80: // P
+                SILTools.alert( 'primary', "Ut fermentum massa justo sit amet risus.", true );
+                break;
+            case 69: // E
+                SILTools.alert( 'secondary', "Vivamus sagittis lacus vel augue.", true );
+                break;
+            case 73: // I
+                SILTools.alert( 'info', "Laoreet rutrum faucibus dolor auctor.", true );
+                break;
+            case 83: // S
+                SILTools.alert( 'success', "Donec id elit non mi porta gravida at eget metus.", true );
+                break;
+            case 87: // W
+                SILTools.alert( 'warning', "Aenean lacinia bibendum nulla sed consectetur.", true );
+                break;
+            case 68: // D
+                SILTools.alert( 'danger', "Etiam porta sem malesuada magna mollis euismod.", true );
+                break;
+            case 13:
+                SILTools.alert( true );
+                break;
+            default:
+                console.log( event.keyCode );
+
+        }
+
+    });
+
+} );
+
+    </script>
 {% endblock %}

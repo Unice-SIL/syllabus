@@ -1,0 +1,25 @@
+/*
+        SIL Tools associated SASS file.
+
+
+*/
+
+
+@import 'custom';
+
+
+
+/*
+    Alerts
+*/
+
+#js-alerts_container {
+    position: fixed;
+    top: $alert-margin-bottom;
+    z-index: 100;
+
+    &:not(.container-fluid) {
+        margin-left: 2 * $grid-gutter-width;
+    }
+}
+

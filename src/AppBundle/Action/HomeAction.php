@@ -43,9 +43,8 @@ class HomeAction implements ActionInterface
     public function __invoke(Request $request)
     {
 
-        $this->session->getFlashBag()->add('success', "Check your browser console…");
+        $this->session->getFlashBag()->add('info', "Type <i>nfo / <s>uccess / <w>arning / <d>anger + <Enter>…");
 
-        #return new Response($this->templating->render('default/index.html.twig'));
-        return new Response($this->templating->render('course/edit_course.html.twig'));
+        return new Response($this->templating->render('default/index.html.twig'));
     }
 }

@@ -11,14 +11,17 @@
 */
 
 // SASS / CSS dependencies.
+import '../scss/sil_toolkit.scss';
 import '../scss/app.scss';
 
 // Importing modules…
 import $ from 'jquery';
+import SILTools from './sil_toolkit';
 import Syllabus from './syllabus';
 
 // … and make them visible to external components.
 global.$ = global.jQuery = $;
+global.SILTools = SILTools;
 global.Syllabus = Syllabus;
 
 
@@ -63,23 +66,14 @@ import 'bootstrap/js/dist/util';
     AJAX error handler.
 */
 
-$( document ).ajaxError( function( event, jqXHR, ajaxSettings, thrownError ) {
-
-    console.log( { event, jqXHR, ajaxSettings, thrownError } );
-
-    alert( "Une erreur est survenue (" + jqXHR.status + ")." );
-
-} );
-
-
-
-/*
-    App specific.
-*/
-
 $( document ).ready( function( ) {
 
-    console.log( "WebpackEncore is working." );
+    $( document ).ajaxError( function( event, jqXHR, ajaxSettings, thrownError ) {
+
+        //console.log( { event, jqXHR, ajaxSettings, thrownError } );
+        alert( "Une erreur est survenue (" + jqXHR.status + ")." );
+
+    } );
 
 } );
 

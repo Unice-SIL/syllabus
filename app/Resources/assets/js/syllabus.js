@@ -5,6 +5,10 @@
 */
 
 
+import $ from 'jquery';
+
+
+
 var Syllabus = ( function ( ) {
 
 
@@ -17,7 +21,7 @@ var Syllabus = ( function ( ) {
     */
 
 
-    function _ajaxTabContentLoader( $tabLink ) {
+    var _ajaxTabContentLoader = function( $tabLink ) {
 
         var route = $tabLink.data( 'route' );
 
@@ -39,7 +43,7 @@ var Syllabus = ( function ( ) {
             } );
         }
 
-    }
+    };
 
 
 
@@ -49,7 +53,7 @@ var Syllabus = ( function ( ) {
     */
 
 
-    function tabLoaderInit( ) {
+    var tabLoaderInit = function( ) {
 
         $( 'main > .row:first-child > div > ul.nav' )
                 .on( 'click', 'li.nav-item > a', function( ) {
@@ -61,8 +65,7 @@ var Syllabus = ( function ( ) {
         $( '#tab-1' ).addClass( 'active' );
         _ajaxTabContentLoader( $( '#tab-1' ) );
 
-    }
-
+    };
 
 
     /*
@@ -76,7 +79,6 @@ var Syllabus = ( function ( ) {
 
 
 } ) ( );
-
 
 
 export default Syllabus;
