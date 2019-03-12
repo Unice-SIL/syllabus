@@ -25,7 +25,7 @@ var SILTools = ( function ( ) {
         USER_DISMISSIBLE_ALERT_TYPES = [
                 //'primary',
                 //'success',
-                //'warning',
+                'warning',
                 'danger'
             ];
 
