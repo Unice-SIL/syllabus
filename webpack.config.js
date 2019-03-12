@@ -12,6 +12,7 @@ Encore
     .setOutputPath('web/build/')
     .setPublicPath('/build')
     .addEntry('app', './app/Resources/assets/js/app.js')
+    //.autoProvidejQuery()
     //.enableSingleRuntimeChunk()
     .disableSingleRuntimeChunk()
     .cleanupOutputBeforeBuild()
