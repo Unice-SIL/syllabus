@@ -4,19 +4,12 @@
 {% endblock %}
 
 {% block main %}
-    {% form_theme form 'form/teachers_theme.html.twig' %}
+    {% form_theme form with [
+        'form/teachers_field.html.twig'
+    ] %}
+
     {{ form_start(form) }}
-    {{ form_widget(form.teacherSource) }}
-    {{ form_widget(form.teacherSearch) }}
-    <ul class="list-group" id="teachers"
-        data-prototype="{{ form_widget(form.teachers.vars.prototype)|e('html_attr') }}">
-        {% for teacher in form.teachers %}
-            <li class="list-group-item teacher">
-                {{ form_row(teacher.completeName) }}
-                {{ form_widget(teacher) }}
-            </li>
-        {% endfor %}
-    </ul>
+    
     {{ form_widget(form) }}
     <button class="btn btn-outline-secondary btn-block submit" type="submit">
         Save
@@ -48,7 +41,7 @@
                         'id': $('#edit_presentation_course_info_teacherSearch').val()
                     },
                     success: function(data){
-                        var form = addFormToCollection(teachersCollectionHolder, data);
+                        var form = addFormToCollection(teachersCollectionHolder);
                         addActionsToForm(form, 'list-group-item teacher');
                         form.find('input[id*=_completeName]').val(data['completeName']);
                         form.find('input[id*=_id]').val(data['id']);

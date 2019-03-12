@@ -54,11 +54,4 @@ class CourseTeacherType extends AbstractType
         ]);
     }
 
-    /**
-     * @return string
-     */
-    public function getBlockPrefix()
-    {
-        return 'CourseTeacherType';
-    }
 }

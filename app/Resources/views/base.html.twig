@@ -103,7 +103,7 @@
             var index = collection.data('index');
             var newForm = prototype.replace(/__name__/g, index);
             collection.data('index', index+1);
-            var form = $('<li></li>').addClass(classes).append(newForm);
+            var form = $(newForm);
             collection.append(form);
             return form;
         }
