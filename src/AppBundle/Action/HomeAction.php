@@ -43,7 +43,7 @@ class HomeAction implements ActionInterface
     public function __invoke(Request $request)
     {
 
-        $this->session->getFlashBag()->add('info', "Type Q/L/P/Z/I/S/W/D + <Enter>…");
+        $this->session->getFlashBag()->add('info', "Type <i>nfo / <s>uccess / <w>arning / <d>anger + <Enter>…");
 
         return new Response($this->templating->render('default/index.html.twig'));
     }

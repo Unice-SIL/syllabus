@@ -27,32 +27,34 @@
 
 $( document ).ready( function( ) {
 
+    console.log( "Type a/l/p/e/i/s/w/d + <Enter>…" );
+
     $( 'body' ).on( 'keyup', function( event ) {
 
         switch (event.keyCode) {
-            case 81: // Q
-                Syllabus.alert( 'dark', "You gadda slow workization process.", true );
+            case 65: // A
+                Syllabus.alert( 'dark', "Fusce dapibus tellus ac cursus commodo.", true );
                 break;
             case 76: // L
-                Syllabus.alert( 'light', "You gadda hard workization process.", true );
+                Syllabus.alert( 'light', "Tortor mauris condimentum nibh.", true );
                 break;
             case 80: // P
-                Syllabus.alert( 'primary', "No need to hashify the zbouber anymore.", true );
+                Syllabus.alert( 'primary', "Ut fermentum massa justo sit amet risus.", true );
                 break;
-            case 90: // Z
-                Syllabus.alert( 'secondary', "Stop fizzle the snugger please.", true );
+            case 69: // E
+                Syllabus.alert( 'secondary', "Vivamus sagittis lacus vel augue.", true );
                 break;
             case 73: // I
-                Syllabus.alert( 'info', "The flucker has been zbouberized.", true );
+                Syllabus.alert( 'info', "Laoreet rutrum faucibus dolor auctor.", true );
                 break;
             case 83: // S
-                Syllabus.alert( 'success', "Nobody can wrizzleduck you.", true );
+                Syllabus.alert( 'success', "Donec id elit non mi porta gravida at eget metus.", true );
                 break;
             case 87: // W
-                Syllabus.alert( 'warning', "You gadda guacamole fizz.", true );
+                Syllabus.alert( 'warning', "Aenean lacinia bibendum nulla sed consectetur.", true );
                 break;
             case 68: // D
-                Syllabus.alert( 'danger', "The boudifizzle has been globally snuckerized.", true );
+                Syllabus.alert( 'danger', "Etiam porta sem malesuada magna mollis euismod.", true );
                 break;
             case 13:
                 Syllabus.alert( true );
