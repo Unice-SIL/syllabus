@@ -5,10 +5,12 @@ namespace AppBundle\Form\Course;
 use AppBundle\Command\Course\EditPresentationCourseInfoCommand;
 use AppBundle\Entity\CourseTeacher;
 use AppBundle\Form\CourseTeacher\CourseTeacherType;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -55,7 +57,7 @@ class EditPresentationCourseInfoType extends AbstractType
                 'label' => 'Period',
                 'required' => false,
             ])
-            ->add('summary', TextareaType::class, [
+            ->add('summary', CKEditorType::class, [
                 'label' => 'Summary',
                 'required' => false,
             ])
@@ -68,18 +70,79 @@ class EditPresentationCourseInfoType extends AbstractType
                     'Hybrid' => 'hybrid'
                 ]
             ])
+            ->add('mediaType', HiddenType::class)
+            ->add('image', FileType::class, [
+                'required' => false,
+                'label' => 'Fichier',
+            ])
+            ->add('video', TextType::class, [
+                'required' => false,
+                'label' => 'Url vidéo',
+                'attr' => [
+                    'placeholder' => 'URL de la vidéo'
+                ],
+            ])
+            ->add('teachingCmClass', TextType::class, [
+                'required' => false,
+                'disabled' => true,
+                'label' => 'h Cours Magistraux',
+            ])
+            ->add('teachingTdClass', TextType::class, [
+                'required' => false,
+                'disabled' => true,
+                'label' => 'h Travaux Dirigés',
+            ])
+            ->add('teachingTpClass', TextType::class, [
+                'required' => false,
+                'disabled' => true,
+                'label' => 'h Travaux Pratiques',
+            ])
+            ->add('teachingOtherClass', TextType::class, [
+                'required' => false,
+                'label' => 'h Autre (facultatif)',
+            ])
+            ->add('teachingCmHybridClass', TextType::class, [
+                'required' => false,
+                'label' => 'h Cours Magistraux',
+            ])
+            ->add('teachingTdHybridClass', TextType::class, [
+                'required' => false,
+                'label' => 'h Travaux Dirigés',
+            ])
+            ->add('teachingTpHybridClass', TextType::class, [
+                'required' => false,
+                'label' => 'h Travaux Pratiques',
+            ])
+            ->add('teachingOtherHybridClass', TextType::class, [
+                'required' => false,
+                'label' => 'h Autre (facultatif)',
+            ])
+            ->add('teachingCmHybridDist', TextType::class, [
+                'required' => false,
+                'label' => 'h Cours Magistraux',
+            ])
+            ->add('teachingTdHybridDist', TextType::class, [
+                'required' => false,
+                'label' => 'h Travaux Dirigés',
+            ])
+            ->add('teachingOtherHybridDist', TextType::class, [
+                'required' => false,
+                'label' => 'h Autre (facultatif)',
+            ])
             ->add('teacherSource', ChoiceType::class, [
                 'mapped' => false,
                 'multiple' => false,
                 'expanded' => false,
                 'choices' => $this->teacherSources
             ])
+
             ->add('teacherSearch', Select2EntityType::class, [
                 'required' => false,
                 'mapped' => false,
                 'multiple' => false,
                 'remote_route' => 'search_course_teacher_json',
                 'class' => CourseTeacher::class,
+                'placeholder' => 'Rechercher un individu',
                 'minimum_input_length' => 2,
                 'req_params' => ['source' => 'parent.children[teacherSource]'],
             ])

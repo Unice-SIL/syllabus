@@ -51,6 +51,16 @@ services:
     AppBundle\Fixture\CourseFixture:
         tags: ['doctrine.fixture.orm']
 
+    # HELPER
+    AppBundle\Helper\FileUploaderHelper:
+        arguments: [ '%data_directory%' ]
+
+    # LISTENER
+    AppBundle\Listener\CoursePresentationImageUploadListener:
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: preUpdate }
+
     # QUERY
     AppBundle\Query\CourseTeacher\Adapter\Ldap\SearchCourseTeacherLdapQuery:
         public: true
