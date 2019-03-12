@@ -11,14 +11,17 @@
 */
 
 // SASS / CSS dependencies.
+import '../scss/sil_toolkit.scss';
 import '../scss/app.scss';
 
 // Importing modules…
 import $ from 'jquery';
+import SILTools from './sil_toolkit';
 import Syllabus from './syllabus';
 
 // … and make them visible to external components.
 global.$ = global.jQuery = $;
+global.SILTools = SILTools;
 global.Syllabus = Syllabus;
 
 
