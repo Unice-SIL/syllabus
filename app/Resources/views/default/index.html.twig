@@ -23,4 +23,48 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script>
+
+$( document ).ready( function( ) {
+
+    $( 'body' ).on( 'keyup', function( event ) {
+
+        switch (event.keyCode) {
+            case 81: // Q
+                Syllabus.alert( 'dark', "You gadda slow workization process.", true );
+                break;
+            case 76: // L
+                Syllabus.alert( 'light', "You gadda hard workization process.", true );
+                break;
+            case 80: // P
+                Syllabus.alert( 'primary', "No need to hashify the zbouber anymore.", true );
+                break;
+            case 90: // Z
+                Syllabus.alert( 'secondary', "Stop fizzle the snugger please.", true );
+                break;
+            case 73: // I
+                Syllabus.alert( 'info', "The flucker has been zbouberized.", true );
+                break;
+            case 83: // S
+                Syllabus.alert( 'success', "Nobody can wrizzleduck you.", true );
+                break;
+            case 87: // W
+                Syllabus.alert( 'warning', "You gadda guacamole fizz.", true );
+                break;
+            case 68: // D
+                Syllabus.alert( 'danger', "The boudifizzle has been globally snuckerized.", true );
+                break;
+            case 13:
+                Syllabus.alert( true );
+                break;
+            default:
+                console.log( event.keyCode );
+
+        }
+
+    });
+
+} );
+
+    </script>
 {% endblock %}
