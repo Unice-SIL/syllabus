@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Action\Ui\Test;
+namespace AppBundle\Action\Ui\Course;
 
 use AppBundle\Action\ActionInterface;
 use AppBundle\Command\Course\EditPresentationCourseInfoCommand;
@@ -16,10 +16,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
 
 /**
- * Class EditCourseAction
- * @package AppBundle\Action\Ui\Course
+ * Class EditPresentationCourseInfoAction
+ * @package AppBundle\Action\Ui\Test
  */
-class EditPresentationCourseInfoTestAction implements ActionInterface
+class EditPresentationCourseInfoAction implements ActionInterface
 {
     /**
      * @var FindCourseInfoByIdQuery
@@ -65,7 +65,7 @@ class EditPresentationCourseInfoTestAction implements ActionInterface
     }
 
     /**
-     * @Route("/test/course/presentation/edit/{id}", name="edit_presentation_course_info_test")
+     * @Route("/course/presentation/edit/{id}", name="edit_presentation_course_info")
      * @param Request $request
      * @return Response
      */
