@@ -16,7 +16,7 @@ import '../scss/app.scss';
 
 // Importing modules…
 import $ from 'jquery';
-import bootbox from './bootbox';
+import bootbox from 'bootbox';
 import SILTools from './sil_toolkit';
 import Syllabus from './syllabus';
 
