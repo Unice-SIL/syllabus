@@ -3,14 +3,16 @@
 namespace AppBundle\Action\Ui\Course;
 
 use AppBundle\Action\ActionInterface;
-use AppBundle\Command\Course\EditPresentationCourseInfoCommand;
-use AppBundle\Form\Course\EditPresentationCourseInfoType;
+use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Query\Course\FindCourseInfoByIdQuery;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\RouterInterface;
 use Twig\Environment;
 
 /**
@@ -35,22 +37,36 @@ class EditCourseAction implements ActionInterface
     private $templating;
 
     /**
+     * @var RouterInterface
+     */
+    private $router;
+
+    /**
+     * @var Session
+     */
+    private $session;
+
+    /**
      * EditCourseAction constructor.
      * @param FindCourseInfoByIdQuery $findCourseInfoByIdQuery
      * @param FormFactoryInterface $formFactory
+     * @param SessionInterface $session
      * @param Environment $templating
+     * @param RouterInterface $router
      */
     public function __construct(
             FindCourseInfoByIdQuery $findCourseInfoByIdQuery,
             FormFactoryInterface $formFactory,
             SessionInterface $session,
-            Environment $templating
+            Environment $templating,
+            RouterInterface $router
         )
     {
         $this->findCourseInfoByIdQuery = $findCourseInfoByIdQuery;
         $this->formFactory = $formFactory;
         $this->templating = $templating;
         $this->session = $session;
+        $this->router = $router;
     }
 
     /**
@@ -61,18 +77,18 @@ class EditCourseAction implements ActionInterface
     public function __invoke(Request $request)
     {
         $id = $request->get('id', null);
-        $courseInfo = $this->findCourseInfoByIdQuery->setId($id)->execute();
-
-        #$this->session->getFlashBag()->add('warning', "The zboub rotomoulber is under breizglubzation…");
+        try {
+            $courseInfo = $this->findCourseInfoByIdQuery->setId($id)->execute();
+        }catch (CourseInfoNotFoundException $e){
+            $this->session->getFlashBag()->add('danger', sprintf("Course %s does not exist", $id));
+            return new RedirectResponse($this->router->generate('homepage'));
+        }
 
         return new Response(
             $this->templating->render(
                 'course/edit_course.html.twig',
                 [
-                    'courseInfo' => [
-                        'id' => $id,
-                        'title' => $courseInfo->getTitle()
-                    ]
+                    'courseInfo' => $courseInfo
                 ]
             )
         );
