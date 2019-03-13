@@ -1,7 +1,6 @@
 /.web-server-pid
 /app/config/parameters.yml
 /app/Resources/views/jquery.collection.html.twig
-/web/js/jquery.collection.js
 /build/
 /phpunit.xml
 /var/*
@@ -17,5 +16,6 @@
 !var/SymfonyRequirements.php
 /vendor/
 /web/bundles/
+/web/data/
 /node_modules/
 /.phpunit.result.cache
