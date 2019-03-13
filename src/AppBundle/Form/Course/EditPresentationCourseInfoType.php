@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 
@@ -26,15 +27,18 @@ class EditPresentationCourseInfoType extends AbstractType
      * @var array
      */
     private $teacherSources = [];
+    protected $requestStack;
 
     /**
      * EditPresentationCourseInfoType constructor.
      * @param $courseTeacherFactory
      */
     public function __construct(
-        $courseTeacherFactory
-    )
+            $courseTeacherFactory,
+            RequestStack $requestStack
+        )
     {
+        $this->requestStack = $requestStack;
         if(is_array($courseTeacherFactory) && array_key_exists('sources', $courseTeacherFactory)){
             foreach ($courseTeacherFactory['sources'] as $id => $source){
                 if(is_array($source) && array_key_exists('name', $source)){
@@ -166,6 +170,7 @@ class EditPresentationCourseInfoType extends AbstractType
                 'multiple' => false,
                 'remote_route' => 'search_course_teacher_json',
                 'class' => CourseTeacher::class,
+                'language' => $this->requestStack->getCurrentRequest()->getLocale(),
                 'placeholder' => 'Rechercher un individu',
                 'minimum_input_length' => 2,
                 'req_params' => ['source' => 'parent.children[teacherSource]'],
