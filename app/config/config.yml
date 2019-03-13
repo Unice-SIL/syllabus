@@ -94,5 +94,18 @@ webpack_encore:
         # frontend: '%kernel.public_dir%/frontend/build'
 
 fos_ck_editor:
-    base_path: "build/ckeditor"
-    js_path:   "build/ckeditor/ckeditor.js"
+    base_path: 'build/ckeditor'
+    js_path: 'build/ckeditor/ckeditor.js'
+    default_config: syllabus
+    configs:
+        syllabus:
+            toolbar: course_summary
+            removeButtons:
+            removePlugins: 'elementspath'
+            resize_enabled: false
+    toolbars:
+        configs:
+            course_summary: [ '@basicstyles', '-', '@paragraphs' ]
+        items:
+            basicstyles: [ 'RemoveFormat', '-', 'Bold', 'Italic', 'Underline' ]
+            paragraphs: [ 'Outdent', 'Indent', '-', 'NumberedList', 'BulletedList' ]
