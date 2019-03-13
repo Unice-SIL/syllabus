@@ -248,7 +248,6 @@
 
         function toogleTeachingModeHours(){
             var teachingMode = $("input[name='edit_presentation_course_info[teachingMode]']:checked").val();
-            console.log(teachingMode);
             $("input[data-teaching-mode]").each(function(){
                 if($(this).attr('data-teaching-mode') === teachingMode){
                     $(this).prop('disabled', false);
