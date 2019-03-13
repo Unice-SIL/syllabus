@@ -2,8 +2,8 @@
 
 {% block title %}
     {{ parent() }}
-    {% if courseInfo.title is defined %}
-        • {{ courseInfo.title }}
+    {% if course.title is defined %}
+        • {{ course.title }}
     {% endif %}
 {% endblock %}
 
@@ -13,7 +13,103 @@
 
 {% block main %}
 
-    VUE ETUDIANTE
+    <div class="container-fluid">
+        <div class="row d-flex flex-row m-3">
+            <div class="col-md-6">
+                <h3 class="text-justify text-left font-weight-bold">
+                    {{course.title}}
+                </h3>
+            </div>
+            {# <div class="col-md-6">
+                {{course.ects}}
+                {{course.level}}
+                {{course.semester}}
+            </div>   #}
+        </div>
+        <div class="row d-flex flex-row m-3">
+            <div class="col-md-5">
+                <p class="text-justify text-left">
+                    {{course.summary}}
+                </p>
+                <p class="text-justify text-left">
+                    Equipe enseignante: <span class="font-weight-bold">
+                    <span><u>Laurent Counillon</u></span>,
+                    <span><u>Sandrine Pizette</u></span>,
+                    <span>Nicole Arrighi</span>,
+                    <span>Anny Cupo</span> </span>
+                </p>
+                <p class="text-justify text-left">
+                    Période : <span class="font-weight-bold"> {{course.period}} </span>
+                </p>
+            </div>
+            <div class="col-md-7">
+                {% if course.video != null %}
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" src={{course.video}} allowfullscreen></iframe>
+                    </div>
+                {% endif %}
+                {% if course.image != null %}
+                    <img src={{course.image}} class="img-fluid" alt="Responsive image">
+                {% endif %}
+            </div>
+        </div>
+        <div class="row d-flex flex-row justify-content-around ">
+            <div class="col-md-4 media d-flex align-items-center">
+                <img class="img-thumbnail m-3" src="https://via.placeholder.com/100" alt="...">
+                <span class="font-weight-bold media-body"> {{course.structure.campus}} </span>
+            </div>
+            <div class="col-md-4 media d-flex align-items-center">
+                <img class="img-thumbnail m-3" src="https://via.placeholder.com/100" alt="...">
+                <span class="font-weight-bold media-body"> {{course.teachingMode}} <br>
+                    <span class="font-weight-normal">
+                        {% if course.teachingMode == "class" %}
+                            {% if course.teachingCmClass != null %}
+                                {{ course.teachingCmClass }} CM <br>
+                            {% endif %}
+                            {% if course.teachingTdClass != null %}
+                            {{ course.teachingTdClass}} TD <br>
+                        {% endif %}
+                            {% if course.teachingTpClass != null %}
+                                {{ course.teachingTpClass}} TP
+                            {% endif %}
+                            {% if course.teachingOtherClass != null %}
+                                {{ course.teachingOtherClass}} Autre
+                            {% endif %}
+                        {% endif %}
+                        {% if course.teachingMode == "hybrid" %}
+                            {% if course.teachingCmHybridClass != null %}
+                                {{ course.teachingCmHybridClass }} CM <br>
+                            {% endif %}
+                            {% if course.teachingTdHybridClass != null %}
+                            {{ course.teachingTdHybridClass}} TD <br>
+                        {% endif %}
+                            {% if course.teachingTpHybridClass != null %}
+                            {{ course.teachingTpHybridClass}} TP
+                        {% endif %}
+                            {% if course.teachingOtherHybridClass != null %}
+                            {{ course.teachingOtherHybridClass}} Autre
+                        {% endif %}
+                            {% if course.teachingCmHybridDist != null %}
+                            {{ course.teachingCmHybridDist }} CM <br>
+                        {% endif %}
+                            {% if course.teachingTdHybridDist != null %}
+                            {{ course.teachingTdHybridDist}} TD <br>
+                        {% endif %}
+                            {% if course.teachingOtherHybridDist != null %}
+                                {{ course.teachingOtherHybridDist}} Autre
+                            {% endif %}
+                        {% endif %}
+                    </span>
+                </span>
+            </div>
+            <div class="col-md-4 media d-flex align-items-center">
+                <img class="img-thumbnail m-3" src="https://via.placeholder.com/100" alt="...">
+                <span class="font-weight-bold media-body">Mobilité <br> internationale</span>
+            </div>
+        </div>
+    </div>
+
+
 
 {% endblock %}
 
