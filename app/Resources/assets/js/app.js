@@ -17,12 +17,14 @@ import '../scss/app.scss';
 // Importing modules…
 import $ from 'jquery';
 import bootbox from 'bootbox';
+import select2 from 'select2';
 import SILTools from './sil_toolkit';
 import Syllabus from './syllabus';
 
 // … and make them visible to external components.
 global.$ = global.jQuery = $;
 global.bootbox = bootbox;
+global.select2 = select2;
 global.SILTools = SILTools;
 global.Syllabus = Syllabus;
 
