@@ -22,7 +22,7 @@
             <div class="row">
                 <div class="col">
                     <h6>
-                        Télécharger une vidéo ou une image de présentation du cours qui respecte les droits d'auteur (illustration, photo de votre TD, ...)
+                        Télécharger une vidéo ou une image de présentation du cours qui respecte les droits d'auteur (illustration, photo de votre TD, &hellip;).
                     </h6>
                 </div>
             </div>
@@ -34,12 +34,12 @@
                     {% set videoTabClasses = 'nav-link' %}
                     {% set videoContentClasses = 'tab-pane fade' %}
                     {% if form.vars.value.mediaType == 'video' %}
-                        {% set videoTabClasses = videoTabClasses ~' active' %}
+                        {% set videoTabClasses = videoTabClasses ~ ' active' %}
                         {% set videoContentClasses = videoContentClasses ~ ' show active' %}
                     {% else %}
-                        {% set imageTabClasses = imageTabClasses ~' active' %}
+                        {% set imageTabClasses = imageTabClasses ~ ' active' %}
                         {% set imageContentClasses = imageContentClasses ~ ' show active' %}
-                    {%  endif %}
+                    {% endif %}
                     <ul class="nav nav-tabs" id="media_type" role="tablist">
                         <li class="nav-item">
                             <a class="{{ imageTabClasses }}" href="#media_image_container" role="tab" data-toggle="tab" data-media-type="image">
@@ -61,9 +61,9 @@
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    {% if form.vars.data.image is not null %}
-                                        <img src="{{ asset('data/' ~ form.vars.data.image.filename) }}">
-                                    {% endif %}
+                                {% if form.vars.data.image is not null %}
+                                    <img src="{{ asset('data/' ~ form.vars.data.image.filename) }}">
+                                {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -89,7 +89,7 @@
             </div>
         </div>
     </div>
-    <div class="row border">
+    <div class="row">
         <div class="col">
             <div class="row">
                 <div class="col">
@@ -111,7 +111,7 @@
             </div>
         </div>
     </div>
-    <div class="row border">
+    <div class="row">
         <div class="col">
             <div class="row">
                 <div class="col">
