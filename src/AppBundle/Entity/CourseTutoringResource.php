@@ -31,7 +31,7 @@ class CourseTutoringResource
     /**
      * @var \AppBundle\Entity\CourseInfo
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CourseInfo")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CourseInfo", reversedBy="courseTutoringResources", cascade={ "persist" })
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id")
      * })

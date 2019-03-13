@@ -404,6 +404,12 @@ class CourseInfo
      */
     private $coursePrerequisites;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="CourseTutoringResources", mappedBy="courseInfo", cascade={ "persist" })
+     */
+    private $courseTutoringResources;
 
     /**
      * CourseInfo constructor.
@@ -414,6 +420,7 @@ class CourseInfo
         $this->courseSections = new ArrayCollection();
         $this->courseAchievements = new ArrayCollection();
         $this->coursePrerequisites = new ArrayCollection();
+        $this->courseTutoringResources = new ArrayCollection();
     }
 
     /**
@@ -1508,6 +1515,48 @@ class CourseInfo
     public function removeCoursePrerequisite(CoursePrerequisite $coursePrerequisite): CourseInfo
     {
         $this->coursePrerequisites->removeElement($coursePrerequisite);
+
+        return $this;
+    }
+
+
+    /**
+     * @return Collection
+     */
+    public function getCourseTutoringResources(): Collection
+    {
+        return $this->courseTutoringResources;
+    }
+
+    /**
+     * @param Collection $courseTutoringResources
+     * @return CourseInfo
+     */
+    public function setCourseTutoringResources(Collection $courseTutoringResources): CourseInfo
+    {
+        $this->courseTutoringResources = $courseTutoringResources;
+
+        return $this;
+    }
+
+    /**
+     * @param CourseTutoringResource $courseTutoringResource
+     * @return CourseInfo
+     */
+    public function addCourseTutoringResource(CourseTutoringResource $courseTutoringResource): CourseInfo
+    {
+        $this->courseTutoringResources->add($courseTutoringResource);
+
+        return $this;
+    }
+
+    /**
+     * @param CourseTutoringResource $courseTutoringResource
+     * @return CourseInfo
+     */
+    public function removeCourseTutoringResource(CourseTutoringResource $courseTutoringResource): CourseInfo
+    {
+        $this->courseTutoringResources->removeElement($courseTutoringResource);
 
         return $this;
     }
