@@ -70,8 +70,8 @@ class EditPresentationCourseInfoType extends AbstractType
                 'expanded'  => true,
                 'multiple' => false,
                 'choices' => [
-                    'Classroom' => 'class',
-                    'Hybrid' => 'hybrid'
+                    'Présentiel' => 'class',
+                    'Hybride' => 'hybrid'
                 ]
             ])
             ->add('mediaType', HiddenType::class)
