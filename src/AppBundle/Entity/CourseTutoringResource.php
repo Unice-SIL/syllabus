@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * CourseAchievement
+ * CourseTutoringResource
  *
- * @ORM\Table(name="course_achievement", indexes={@ORM\Index(name="fk_course_achievement_course_info1_idx", columns={"course_info_id"})})
+ * @ORM\Table(name="course_tutoring_resource", indexes={@ORM\Index(name="fk_course_tutoring_resources_course_info1_idx", columns={"course_info_id"})})
  * @ORM\Entity
  */
-class CourseAchievement
+class CourseTutoringResource
 {
     /**
      * @var string
@@ -31,7 +31,7 @@ class CourseAchievement
     /**
      * @var \AppBundle\Entity\CourseInfo
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CourseInfo", inversedBy="courseAchievements", cascade={ "persist" })
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CourseInfo")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id")
      * })
@@ -48,9 +48,9 @@ class CourseAchievement
 
     /**
      * @param string $id
-     * @return CourseAchievement
+     * @return CourseTutoringResource
      */
-    public function setId(string $id): CourseAchievement
+    public function setId(string $id): CourseTutoringResource
     {
         $this->id = $id;
 
@@ -67,9 +67,9 @@ class CourseAchievement
 
     /**
      * @param string $description
-     * @return CourseAchievement
+     * @return CourseTutoringResource
      */
-    public function setDescription(string $description): CourseAchievement
+    public function setDescription(string $description): CourseTutoringResource
     {
         $this->description = $description;
 
@@ -86,13 +86,14 @@ class CourseAchievement
 
     /**
      * @param CourseInfo $courseInfo
-     * @return CourseAchievement
+     * @return CourseTutoringResource
      */
-    public function setCourseInfo(CourseInfo $courseInfo): CourseAchievement
+    public function setCourseInfo(CourseInfo $courseInfo): CourseTutoringResource
     {
         $this->courseInfo = $courseInfo;
 
         return $this;
     }
 
+    
 }

@@ -18,7 +18,6 @@
             <div class="col-md-6">
                 <h3 class="text-justify text-left font-weight-bold">
                     {{course.title}}
-                    {{dump(course)}}
                 </h3>
             </div>
             <div class="col-md-6">
@@ -130,11 +129,53 @@
             <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
         <div class="row d-flex flex-row">
-            <div class="col-md-11 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
+            <div class="col-md-12 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
                 <h5 class="m-0">ACQUIS D'APPRENTISSAGE</h5>
             </div>
-            <div class="col-md-1 ">
-                <img class="img-thumbnail m-1" src="https://via.placeholder.com/50" alt="...">
+        </div>
+        <div class="row d-flex flex-row">
+            <div class="col-md-12 d-flex flex-row justify-content-center align-items-center">
+                <h5 class="m-2">A la fin de ce cours, je serai capable de...</h5>
+            </div>
+        </div>
+        <div class="row d-flex flex-row my-3">
+            {% for achievement in course.courseAchievements %} 
+                <div class="col-md-6 border border-info bg-info text-light rounded d-flex flex-row justify-content-center align-items-center">
+                {{achievement.description}}
+                </div>
+            {% endfor %} 
+        </div>
+        <div class="row d-flex flex-row justify-content-around">
+            <div class="col-md-5 m-1" >
+                <div class="col-md-12 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
+                    <h5 class="m-0">PREREQUIS</h5>
+                </div>
+                <div class="row d-flex flex-row">
+                    <div class="col-md-12 d-flex flex-row justify-content-center align-items-center">
+                        <h5 class="m-2">Avant de suivre ce cours, je dois...</h5>
+                    </div>
+                </div>
+                {% for prerequisite in course.coursePrerequisites %} 
+                    <div class="row m-3 border border-info bg-info text-light rounded d-flex flex-row justify-content-center align-items-center">
+                    {{prerequisite.description}}
+                    </div>
+                {% endfor %} 
+            </div>
+            <div class="col-md-5 m-1" >
+                <div class="col-md-12 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
+                    <h5 class="m-0">REMEDIATION / AIDE A LA REUSSITE</h5>
+                </div>
+                <div class="col-md-12 d-flex flex-row justify-content-center align-items-center">
+                    <h5 class="m-2">Si je rencontre des difficultés, je peux...</h5>
+                </div>
+                    <div class="row m-3 border border-info bg-info text-light rounded d-flex flex-row justify-content-center align-items-center">
+                        {{course.tutoringDescription}}
+                    </div>
+                {# {% for resource in course.courseTutoringResource %} 
+                    <div class="row m-3 border border-info bg-info text-light rounded d-flex flex-row justify-content-center align-items-center">
+                    {{resource.description}}
+                    </div>
+                {% endfor %}  #}
             </div>
         </div>
     </div>

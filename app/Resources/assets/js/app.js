@@ -16,11 +16,13 @@ import '../scss/app.scss';
 
 // Importing modules…
 import $ from 'jquery';
+import bootbox from './bootbox';
 import SILTools from './sil_toolkit';
 import Syllabus from './syllabus';
 
 // … and make them visible to external components.
 global.$ = global.jQuery = $;
+global.bootbox = bootbox;
 global.SILTools = SILTools;
 global.Syllabus = Syllabus;
 
@@ -63,6 +65,20 @@ import 'bootstrap/js/dist/util';
 
 
 /*
+    Bootbox locale (fr).
+        http://bootboxjs.com/documentation.html
+*/
+
+bootbox.addLocale( 'fr', {
+        OK      : 'OK',
+        CANCEL  : 'Annuler',
+        CONFIRM : 'Confirmer'
+    } );
+bootbox.setLocale( 'fr' );
+
+
+
+/*
     AJAX error handler.
 */
 
@@ -70,8 +86,8 @@ $( document ).ready( function( ) {
 
     $( document ).ajaxError( function( event, jqXHR, ajaxSettings, thrownError ) {
 
-        //console.log( { event, jqXHR, ajaxSettings, thrownError } );
-        alert( "Une erreur est survenue (" + jqXHR.status + ")." );
+        console.log( { event, jqXHR, ajaxSettings, thrownError } );
+        SILTools.alert( 'danger', "Une erreur est survenue (" + jqXHR.status + ")." );
 
     } );
 

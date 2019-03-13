@@ -391,12 +391,29 @@ class CourseInfo
     private $courseSections;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="CourseAchievement", mappedBy="courseInfo", cascade={ "persist" })
+     */
+    private $courseAchievements;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="CoursePrerequisite", mappedBy="courseInfo", cascade={ "persist" })
+     */
+    private $coursePrerequisites;
+
+
+    /**
      * CourseInfo constructor.
      */
     public function __construct()
     {
         $this->courseTeachers = new ArrayCollection();
         $this->courseSections = new ArrayCollection();
+        $this->courseAchievements = new ArrayCollection();
+        $this->coursePrerequisites = new ArrayCollection();
     }
 
     /**
@@ -1409,6 +1426,88 @@ class CourseInfo
     public function removeCourseSection(CourseSection $courseSection): CourseInfo
     {
         $this->courseSections->removeElement($courseSection);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getCourseAchievements(): Collection
+    {
+        return $this->courseAchievements;
+    }
+
+    /**
+     * @param Collection $courseAchievements
+     * @return CourseInfo
+     */
+    public function setCourseAchievements(Collection $courseAchievements): CourseInfo
+    {
+        $this->courseAchievements = $courseAchievements;
+
+        return $this;
+    }
+
+    /**
+     * @param CourseAchievement $courseAchievement
+     * @return CourseInfo
+     */
+    public function addCourseAchievement(CourseAchievement $courseAchievement): CourseInfo
+    {
+        $this->courseAchievements->add($courseAchievement);
+
+        return $this;
+    }
+
+    /**
+     * @param CourseAchievement $courseAchievement
+     * @return CourseInfo
+     */
+    public function removeCourseAchievement(CourseAchievement $courseAchievement): CourseInfo
+    {
+        $this->courseAchievements->removeElement($courseAchievement);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getCoursePrerequisites(): Collection
+    {
+        return $this->coursePrerequisites;
+    }
+
+    /**
+     * @param Collection $coursePrerequisites
+     * @return CourseInfo
+     */
+    public function setCoursePrerequisites(Collection $coursePrerequisites): CourseInfo
+    {
+        $this->coursePrerequisites = $coursePrerequisites;
+
+        return $this;
+    }
+
+    /**
+     * @param CoursePrerequisite $coursePrerequisite
+     * @return CourseInfo
+     */
+    public function addCoursePrerequisite(CoursePrerequisite $coursePrerequisite): CourseInfo
+    {
+        $this->coursePrerequisites->add($coursePrerequisite);
+
+        return $this;
+    }
+
+    /**
+     * @param CoursePrerequisite $coursePrerequisite
+     * @return CourseInfo
+     */
+    public function removeCoursePrerequisite(CoursePrerequisite $coursePrerequisite): CourseInfo
+    {
+        $this->coursePrerequisites->removeElement($coursePrerequisite);
 
         return $this;
     }
