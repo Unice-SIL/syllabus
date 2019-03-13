@@ -407,7 +407,7 @@ class CourseInfo
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="CourseTutoringResources", mappedBy="courseInfo", cascade={ "persist" })
+     * @ORM\OneToMany(targetEntity="CourseTutoringResource", mappedBy="courseInfo", cascade={ "persist" })
      */
     private $courseTutoringResources;
 
