@@ -100,34 +100,58 @@ class EditPresentationCourseInfoType extends AbstractType
             ->add('teachingOtherClass', TextType::class, [
                 'required' => false,
                 'label' => 'h Autre (facultatif)',
+                'attr' => [
+                    'data-teaching-mode' => 'class'
+                ]
             ])
             ->add('teachingCmHybridClass', TextType::class, [
                 'required' => false,
                 'label' => 'h Cours Magistraux',
+                'attr' => [
+                    'data-teaching-mode' => 'hybrid'
+                ]
             ])
             ->add('teachingTdHybridClass', TextType::class, [
                 'required' => false,
                 'label' => 'h Travaux Dirigés',
+                'attr' => [
+                    'data-teaching-mode' => 'hybrid'
+                ]
             ])
             ->add('teachingTpHybridClass', TextType::class, [
                 'required' => false,
                 'label' => 'h Travaux Pratiques',
+                'attr' => [
+                    'data-teaching-mode' => 'hybrid'
+                ]
             ])
             ->add('teachingOtherHybridClass', TextType::class, [
                 'required' => false,
                 'label' => 'h Autre (facultatif)',
+                'attr' => [
+                    'data-teaching-mode' => 'hybrid'
+                ]
             ])
             ->add('teachingCmHybridDist', TextType::class, [
                 'required' => false,
                 'label' => 'h Cours Magistraux',
+                'attr' => [
+                    'data-teaching-mode' => 'hybrid'
+                ]
             ])
             ->add('teachingTdHybridDist', TextType::class, [
                 'required' => false,
                 'label' => 'h Travaux Dirigés',
+                'attr' => [
+                    'data-teaching-mode' => 'hybrid'
+                ]
             ])
             ->add('teachingOtherHybridDist', TextType::class, [
                 'required' => false,
                 'label' => 'h Autre (facultatif)',
+                'attr' => [
+                    'data-teaching-mode' => 'hybrid'
+                ]
             ])
             ->add('teacherSource', ChoiceType::class, [
                 'mapped' => false,
