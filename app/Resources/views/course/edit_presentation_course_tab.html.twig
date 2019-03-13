@@ -246,15 +246,39 @@
     <script src="{{ asset('bundles/tetranzselect2entity/js/select2entity.js') }}"></script>
     <script>
 
+        function toogleTeachingModeHours(){
+            var teachingMode = $("input[name='edit_presentation_course_info[teachingMode]']:checked").val();
+            console.log(teachingMode);
+            $("input[data-teaching-mode]").each(function(){
+                if($(this).attr('data-teaching-mode') === teachingMode){
+                    $(this).prop('disabled', false);
+                }else{
+                    $(this).prop('disabled', true);
+                }
+            });
+        }
+
         /**
          *
          */
         $(document).ready(function(){
+            /**
+             * Init pedagogic team
+             */
             var teachersCollectionHolder = $('#teachers');
             teachersCollectionHolder.data('index', teachersCollectionHolder.find('li').length);
             teachersCollectionHolder.find('li').each(function(){
                 addActionsToForm($(this));
             });
+
+            /**
+             * Init teaching mode hours enable/disable
+             */
+            toogleTeachingModeHours();
+
+            /**
+             * Add a teacher to the pedagogic team
+             */
             $( '#edit_presentation_course_info_teacherSearch' ).on( 'select2:select', function( ) {
                 $.ajax({
                     url: '{{ path('find_course_teacher_json') }}',
@@ -277,6 +301,9 @@
                 });
             } );
 
+            /**
+             * Change the media type value when clicking on media tab
+             */
             $("#media_type > li > a").on('click', function(){
                 $("#edit_presentation_course_info_mediaType").val($(this).data('media-type'));
             });
@@ -286,6 +313,13 @@
              */
             $("#media_video_preview").on('click', function(){
                 $("#media_video_iframe").attr("src", $("#edit_presentation_course_info_video").val());
+            });
+
+            /**
+             * Enable/Disable teaching mode hours inputs
+             */
+            $("input[name='edit_presentation_course_info[teachingMode]']").on('change', function(){
+                toogleTeachingModeHours();
             });
 
             /**
