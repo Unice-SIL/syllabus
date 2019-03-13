@@ -30,7 +30,7 @@ class CourseTeacherType extends AbstractType
                 'disabled' => true,
             ])
             ->add('manager', CheckboxType::class, [
-                'label' => 'manager',
+                'label' => false,
                 'required' => false,
                 'value' => true,
             ])

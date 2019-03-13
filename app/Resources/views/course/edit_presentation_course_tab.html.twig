@@ -52,7 +52,7 @@
                             </a>
                         </li>
                     </ul>
-                    <div class="tab-content">
+                    <div class="tab-content border p-2">
                         <div class="{{ imageContentClasses }}" id="media_image_container" role="tabpanel">
                             <div class="row">
                                 <div class="col">
@@ -73,14 +73,16 @@
                                     {{ form_widget(form.video) }}
                                 </div>
                                 <div class="col-md-auto">
-                                    <button id="media_video_preview" class="btn btn-outline-primary btn-sm" type="button">Prévisualiser</button>
+                                    <button id="media_video_preview" class="btn btn-primary btn-sm" type="button">Prévisualiser</button>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    <div class="embed-responsive embed-responsive-16by9">
-                                        <iframe id="media_video_iframe" class="embed-responsive-item" src="{{ form.vars.value.video }}"></iframe>
-                                    </div>
+                                    {% if form.vars.data.image is not null %}
+                                        <div class="embed-responsive embed-responsive-16by9">
+                                            <iframe id="media_video_iframe" class="embed-responsive-item" src="{{ form.vars.value.video }}"></iframe>
+                                        </div>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -89,9 +91,10 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <hr>
+    <div class="row mt-3">
         <div class="col">
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col">
                     <h6>Equipe pédagogique</h6>
                 </div>
@@ -111,15 +114,16 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <hr>
+    <div class="row mt-3">
         <div class="col">
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col">
                     <h6>Mode d'enseignement</h6>
                 </div>
             </div>
             <div class="row">
-                <div class="col">
+                <div class="col border-right">
                     <div class="row">
                         <div class="col-5">
                             <h6>{{ form_widget(form.teachingMode.children[0]) }}</h6>
@@ -129,36 +133,36 @@
                         <div class="col-2">
                             {{ form_widget(form.teachingCmClass) }}
                         </div>
-                        <div class="col">
-                            {{ form_label(form.teachingCmClass) }}
+                        <div class="col p-0">
+                            <small>{{ form_label(form.teachingCmClass) }}</small>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-2">
                             {{ form_widget(form.teachingTdClass) }}
                         </div>
-                        <div class="col">
-                            {{ form_label(form.teachingTdClass) }}
+                        <div class="col p-0">
+                            <small>{{ form_label(form.teachingTdClass) }}</small>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-2">
                             {{ form_widget(form.teachingTpClass) }}
                         </div>
-                        <div class="col">
-                            {{ form_label(form.teachingTpClass) }}
+                        <div class="col p-0">
+                            <small>{{ form_label(form.teachingTpClass) }}</small>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-2">
                             {{ form_widget(form.teachingOtherClass) }}
                         </div>
-                        <div class="col">
-                            {{ form_label(form.teachingOtherClass) }}
+                        <div class="col p-0">
+                            <small>{{ form_label(form.teachingOtherClass) }}</small>
                         </div>
                     </div>
                 </div>
-                <div class="col">
+                <div class="col border-left">
                     <div class="row">
                         <div class="col-7">
                             <h6>{{ form_widget(form.teachingMode.children[1]) }}</h6>
@@ -170,32 +174,32 @@
                                 <div class="col-3">
                                     {{ form_widget(form.teachingCmHybridClass) }}
                                 </div>
-                                <div class="col">
-                                    {{ form_label(form.teachingCmHybridClass) }}
+                                <div class="col p-0">
+                                    <small>{{ form_label(form.teachingCmHybridClass) }}</small>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-3">
                                     {{ form_widget(form.teachingTdHybridClass) }}
                                 </div>
-                                <div class="col">
-                                    {{ form_label(form.teachingTdHybridClass) }}
+                                <div class="col p-0">
+                                    <small>{{ form_label(form.teachingTdHybridClass) }}</small>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-3">
                                     {{ form_widget(form.teachingTpHybridClass) }}
                                 </div>
-                                <div class="col">
-                                    {{ form_label(form.teachingTpHybridClass) }}
+                                <div class="col p-0">
+                                    <small>{{ form_label(form.teachingTpHybridClass) }}</small>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-3">
                                     {{ form_widget(form.teachingOtherHybridClass) }}
                                 </div>
-                                <div class="col">
-                                    {{ form_label(form.teachingOtherHybridClass) }}
+                                <div class="col p-0">
+                                    <small>{{ form_label(form.teachingOtherHybridClass) }}</small>
                                 </div>
                             </div>
                         </div>
@@ -204,24 +208,24 @@
                                 <div class="col-3">
                                     {{ form_widget(form.teachingCmHybridDist) }}
                                 </div>
-                                <div class="col">
-                                    {{ form_label(form.teachingCmHybridDist) }}
+                                <div class="col p-0">
+                                    <small>{{ form_label(form.teachingCmHybridDist) }}</small>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-3">
                                     {{ form_widget(form.teachingTdHybridDist) }}
                                 </div>
-                                <div class="col">
-                                    {{ form_label(form.teachingTdHybridDist) }}
+                                <div class="col p-0">
+                                    <small>{{ form_label(form.teachingTdHybridDist) }}</small>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-3">
                                     {{ form_widget(form.teachingOtherHybridDist) }}
                                 </div>
-                                <div class="col">
-                                    {{ form_label(form.teachingOtherHybridDist) }}
+                                <div class="col p-0">
+                                    <small>{{ form_label(form.teachingOtherHybridDist) }}</small>
                                 </div>
                             </div>
                         </div>
@@ -230,9 +234,9 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row mt-3">
         <div class="col">
-            <button class="btn btn-outline-secondary btn-block submit" type="submit">
+            <button class="btn btn-outline-primary btn-block submit" type="submit">
                 Save
             </button>
         </div>
@@ -266,9 +270,11 @@
              */
             var teachersCollectionHolder = $('#teachers');
             teachersCollectionHolder.data('index', teachersCollectionHolder.find('li').length);
+            /*
             teachersCollectionHolder.find('li').each(function(){
                 addActionsToForm($(this));
             });
+            */
 
             /**
              * Init teaching mode hours enable/disable
@@ -288,7 +294,7 @@
                     },
                     success: function(data){
                         var form = addFormToCollection(teachersCollectionHolder);
-                        addActionsToForm(form, 'list-group-item teacher');
+                        //addActionsToForm(form, 'list-group-item teacher');
                         form.find('input[id*=_completeName]').val(data['completeName']);
                         form.find('input[id*=_id]').val(data['id']);
                         form.find('input[id*=_firstname]').val(data['firstname']);
@@ -299,6 +305,15 @@
                     }
                 });
             } );
+
+            teachersCollectionHolder.on('click', '.teacher-collection-remove', function(){
+                var form = $(this).closest("li.teacher");
+                form.fadeOut({
+                    always: function(){
+                        form.remove();
+                    }
+                });
+            });
 
             /**
              * Change the media type value when clicking on media tab

@@ -1,7 +1,17 @@
 
 {% macro teacher_template(teacher) %}
-    <li class="list-group-item teacher">
-        {{ form_widget(teacher.completeName) }}
+    <li class="list-group-item teacher mt-0">
+        <div class="row">
+            <div class="col col-2">
+                {{ form_widget(teacher.manager) }}
+            </div>
+            <div class="col">
+                {{ form_widget(teacher.completeName) }}
+            </div>
+            <div class="col col-md-auto">
+                <i class="fas fa-eraser teacher-collection-remove" title="Retirer de la liste."></i>
+            </div>
+        </div>
         {{ form_widget(teacher) }}
     </li>
 {% endmacro %}
@@ -10,6 +20,16 @@
     {% import _self as teachersField %}
     <ul class="list-group" id="teachers"
         data-prototype="{{ teachersField.teacher_template(form.vars.prototype)|e }}">
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col-2">
+                    <h6>Responsable</h6>
+                </div>
+                <div class="col">
+                    <h6>Enseignant</h6>
+                </div>
+            </div>
+        </li>
         {% for teacher in form.children %}
             {{ teachersField.teacher_template(teacher) }}
         {% endfor %}
