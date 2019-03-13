@@ -18,13 +18,14 @@
             <div class="col-md-6">
                 <h3 class="text-justify text-left font-weight-bold">
                     {{course.title}}
+                    {{dump(course)}}
                 </h3>
             </div>
-            {# <div class="col-md-6">
+            <div class="col-md-6">
                 {{course.ects}}
                 {{course.level}}
                 {{course.semester}}
-            </div>   #}
+            </div>   
         </div>
         <div class="row d-flex flex-row m-3">
             <div class="col-md-5">
@@ -32,23 +33,34 @@
                     {{course.summary}}
                 </p>
                 <p class="text-justify text-left">
-                    Equipe enseignante: <span class="font-weight-bold">
-                    <span><u>Laurent Counillon</u></span>,
-                    <span><u>Sandrine Pizette</u></span>,
-                    <span>Nicole Arrighi</span>,
-                    <span>Anny Cupo</span> </span>
+                    Equipe enseignante: 
+                    {% for teacher in course.courseTeachers %} 
+                        {% if loop.last %}
+                            {% if teacher.manager == true %}
+                                <span class="font-weight-bold"><u> {{ teacher.firstname ~ ' ' ~ teacher.lastname }}</u>. </span>
+                            {% else %}
+                                <span class="font-weight-bold"> {{ teacher.firstname ~ ' ' ~ teacher.lastname }}. </span>
+                            {% endif %}
+                        {% else %}
+                            {% if teacher.manager == true %}
+                                <span class="font-weight-bold"><u> {{ teacher.firstname ~ ' ' ~ teacher.lastname }}</u>, </span>
+                            {% else %}
+                                <span class="font-weight-bold"> {{ teacher.firstname ~ ' ' ~ teacher.lastname }}, </span>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %} 
                 </p>
                 <p class="text-justify text-left">
                     Période : <span class="font-weight-bold"> {{course.period}} </span>
                 </p>
             </div>
             <div class="col-md-7">
-                {% if course.video != null %}
+                {% if course.mediaType == "video" %}
                     <div class="embed-responsive embed-responsive-16by9">
                         <iframe class="embed-responsive-item" src={{course.video}} allowfullscreen></iframe>
                     </div>
                 {% endif %}
-                {% if course.image != null %}
+                {% if course.mediaType == "image" %}
                     <img src={{course.image}} class="img-fluid" alt="Responsive image">
                 {% endif %}
             </div>
@@ -105,6 +117,24 @@
             <div class="col-md-4 media d-flex align-items-center">
                 <img class="img-thumbnail m-3" src="https://via.placeholder.com/100" alt="...">
                 <span class="font-weight-bold media-body">Mobilité <br> internationale</span>
+            </div>
+        </div>
+        <div class="row d-flex flex-row">
+            <div class="col-md-6">
+                <h3 class="text-justify text-left font-weight-bold">
+                    Objectifs du cours
+                </h3>
+            </div>
+        </div>
+        <div class="progress my-3" style="height: 5px;">
+            <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <div class="row d-flex flex-row">
+            <div class="col-md-11 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
+                <h5 class="m-0">ACQUIS D'APPRENTISSAGE</h5>
+            </div>
+            <div class="col-md-1 ">
+                <img class="img-thumbnail m-1" src="https://via.placeholder.com/50" alt="...">
             </div>
         </div>
     </div>
