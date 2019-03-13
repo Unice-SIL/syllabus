@@ -64,7 +64,16 @@ $( document ).ready( function( ) {
 
         }
 
-    });
+    } );
+
+    // http://bootboxjs.com/documentation.html
+    bootbox.alert( {
+            size: 'small',
+            closeButton: false,
+            title: "Integer ante dapibus",
+            message: "Praesent commodo cursus magna, vel scelerisque nisl consectetur et.",
+            callback: function( ){ /* callback */ }
+        } );
 
 } );
 
