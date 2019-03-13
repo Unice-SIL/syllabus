@@ -31,12 +31,68 @@ class CoursePrerequisite
     /**
      * @var \AppBundle\Entity\CourseInfo
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CourseInfo")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CourseInfo", inversedBy="coursePrerequisites", cascade={ "persist" })
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id")
      * })
      */
     private $courseInfo;
 
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param string $id
+     * @return CoursePrerequisite
+     */
+    public function setId(string $id): CoursePrerequisite
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     * @return CoursePrerequisite
+     */
+    public function setDescription(string $description): CoursePrerequisite
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return CourseInfo
+     */
+    public function getCourseInfo(): CourseInfo
+    {
+        return $this->courseInfo;
+    }
+
+    /**
+     * @param CourseInfo $courseInfo
+     * @return CoursePrerequisite
+     */
+    public function setCourseInfo(CourseInfo $courseInfo): CoursePrerequisite
+    {
+        $this->courseInfo = $courseInfo;
+
+        return $this;
+    }
 
 }
