@@ -18,9 +18,10 @@
     <div class="container-fluid">
         <div class="row d-flex flex-row m-3">
             <div class="col-md-6">
-                <h3 class="text-justify text-left font-weight-bold">
+                <h4 class="text-justify text-left font-weight-bold">
                     {{course.title}}
-                </h3>
+                </h4>
+                {# <span>Domaine disciplinaire: {{course.course_domain.domain}} </span> #}
             </div>
             <div class="col-md-6">
                 {# {% for parentInfo in parent %}
@@ -147,9 +148,9 @@
         </div>
         <div class="row mx-3 d-flex flex-row">
             <div class="col-md-6 p-0">
-                <h3 class="text-justify text-left font-weight-bold">
+                <h4 class="text-justify text-left font-weight-bold">
                     Objectifs du cours
-                </h3>
+                </h4>
             </div>
         </div>
         <div class="progress mb-3" style="height: 5px;">
@@ -165,12 +166,16 @@
                 <h5 class="m-2">A la fin de ce cours, je serai capable de...</h5>
             </div>
         </div>
-        <div class="row mx-3 d-flex flex-row my-3">
-            {% for achievement in course.courseAchievements %} 
-                <div class="col-md-6 border border-info bg-info text-light rounded-pill d-flex flex-row justify-content-between align-items-center">
-                <img src="https://via.placeholder.com/25" class="img-fluid rounded-circle" alt="Responsive image">
-                <span class="my-2">{{achievement.description}} </span>
-                <div></div>
+        <div>
+            {% for row in course.courseAchievements|batch(2) %}
+                <div class="row mx-3 d-flex flex-row my-3">
+                    {% for achievement in row %}
+                        <div class="col-md-6 border border-info bg-info text-light rounded-pill d-flex flex-row justify-content-between align-items-center">
+                            <img src="https://via.placeholder.com/25" class="img-fluid rounded-circle" alt="Responsive image">
+                            <span class="my-2">{{achievement.description}} </span>
+                            <div></div>
+                        </div> 
+                    {% endfor %}
                 </div>
             {% endfor %} 
         </div>
@@ -211,9 +216,9 @@
         </div>
         <div class="row mx-3 d-flex flex-row">
             <div class="col-md-6 p-0">
-                <h3 class="text-justify text-left font-weight-bold">
+                <h4 class="text-justify text-left font-weight-bold">
                     Contenu et activités
-                </h3>
+                </h4>
             </div>
         </div>
         <div class="progress mb-3" style="height: 5px;">
