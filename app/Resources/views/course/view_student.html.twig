@@ -12,19 +12,47 @@
 {% endblock %}
 
 {% block main %}
+{% set parent = course.course.parents[0] %}
+{% set year = '2018' %}
+
 
     <div class="container-fluid">
         <div class="row d-flex flex-row m-3">
             <div class="col-md-6">
-                <h3 class="text-justify text-left font-weight-bold">
+                <h4 class="text-justify text-left font-weight-bold">
                     {{course.title}}
-                    {{dump(course)}}
-                </h3>
+                </h4>
+                {# <span>Domaine disciplinaire: {{course.course_domain.domain}} </span> #}
             </div>
             <div class="col-md-6">
-                {{course.ects}}
-                {{course.level}}
-                {{course.semester}}
+                {# {% for parentInfo in parent %}
+                    {% for parentInfo in parent.courseInfos %}
+                    {% endfor %}
+                {% endfor %}  #}
+                <div class="row d-flex flex-row align-items-stretch ">
+                    {% if course.course.parents|length != 1 %}
+                    {% else %}
+                        <div class="col-md-6 d-flex flex-row border-left border-dark align-items-center">
+                            <span class="font-weight-bold">{{ parent.courseInfos[0].title }}</span>
+                        </div>
+                    <div class="col-md-3 border-left border-dark">
+                        <div class="row d-flex flex-row justify-content-center font-weight-bold"> 
+                            <h2 class="m-0">{{parent.courseInfos[0].ects}}</h2> 
+                        </div>
+                        <div class="row d-flex flex-row justify-content-center"> 
+                            ECTS 
+                        </div>
+                    </div>
+                    <div class="col-md-3 border-left border-dark ">
+                        <div class="row d-flex flex-row justify-content-center font-weight-bold">
+                            <h2 class="m-0">{{ parent.courseInfos[0].course.children|length }}</h2>
+                        </div>
+                        <div class="row d-flex flex-row justify-content-center"> 
+                            UCUE 
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
             </div>   
         </div>
         <div class="row d-flex flex-row m-3">
@@ -119,18 +147,18 @@
                 <span class="font-weight-bold media-body">Mobilité <br> internationale</span>
             </div>
         </div>
-        <div class="row d-flex flex-row">
-            <div class="col-md-6">
-                <h3 class="text-justify text-left font-weight-bold">
+        <div class="row mx-3 d-flex flex-row">
+            <div class="col-md-6 p-0">
+                <h4 class="text-justify text-left font-weight-bold">
                     Objectifs du cours
-                </h3>
+                </h4>
             </div>
         </div>
-        <div class="progress my-3" style="height: 5px;">
+        <div class="progress mb-3" style="height: 5px;">
             <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
-        <div class="row d-flex flex-row">
-            <div class="col-md-12 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
+        <div class="row mx-3 d-flex flex-row">
+            <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
                 <h5 class="m-0">ACQUIS D'APPRENTISSAGE</h5>
             </div>
         </div>
@@ -139,16 +167,22 @@
                 <h5 class="m-2">A la fin de ce cours, je serai capable de...</h5>
             </div>
         </div>
-        <div class="row d-flex flex-row my-3">
-            {% for achievement in course.courseAchievements %} 
-                <div class="col-md-6 border border-info bg-info text-light rounded d-flex flex-row justify-content-center align-items-center">
-                {{achievement.description}}
+        <div>
+            {% for row in course.courseAchievements|batch(2) %}
+                <div class="row mx-3 d-flex flex-row my-3">
+                    {% for achievement in row %}
+                        <div class="col-md-6 border border-info bg-info text-light rounded-pill d-flex flex-row justify-content-between align-items-center">
+                            <img src="https://via.placeholder.com/25" class="img-fluid rounded-circle" alt="Responsive image">
+                            <span class="my-2">{{achievement.description}} </span>
+                            <div></div>
+                        </div> 
+                    {% endfor %}
                 </div>
             {% endfor %} 
         </div>
-        <div class="row d-flex flex-row justify-content-around">
-            <div class="col-md-5 m-1" >
-                <div class="col-md-12 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
+        <div class="row mx-3 d-flex flex-row justify-content-around">
+            <div class="col-md-6 pl-0" >
+                <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
                     <h5 class="m-0">PREREQUIS</h5>
                 </div>
                 <div class="row d-flex flex-row">
@@ -157,27 +191,134 @@
                     </div>
                 </div>
                 {% for prerequisite in course.coursePrerequisites %} 
-                    <div class="row m-3 border border-info bg-info text-light rounded d-flex flex-row justify-content-center align-items-center">
+                    <div class="row m-3 p-2 border border-info bg-info text-light rounded-pill d-flex flex-row justify-content-center align-items-center">
                     {{prerequisite.description}}
                     </div>
                 {% endfor %} 
             </div>
-            <div class="col-md-5 m-1" >
-                <div class="col-md-12 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
+            <div class="col-md-6 pr-0" >
+                <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
                     <h5 class="m-0">REMEDIATION / AIDE A LA REUSSITE</h5>
                 </div>
                 <div class="col-md-12 d-flex flex-row justify-content-center align-items-center">
                     <h5 class="m-2">Si je rencontre des difficultés, je peux...</h5>
                 </div>
-                    <div class="row m-3 border border-info bg-info text-light rounded d-flex flex-row justify-content-center align-items-center">
+                {% if course.tutoringDescription != null %}
+                    <div class="row m-3 p-2 border border-info bg-info text-light rounded-pill d-flex flex-row justify-content-center align-items-center">
                         {{course.tutoringDescription}}
                     </div>
-                {# {% for resource in course.courseTutoringResource %} 
-                    <div class="row m-3 border border-info bg-info text-light rounded d-flex flex-row justify-content-center align-items-center">
+                {% endif %}
+                {% for resource in course.courseTutoringResources %} 
+                    <div class="row m-3 p-2 border border-info bg-info text-light rounded-pill d-flex flex-row justify-content-center align-items-center">
                     {{resource.description}}
                     </div>
-                {% endfor %}  #}
+                {% endfor %} 
             </div>
+        </div>
+        <div class="row mx-3 d-flex flex-row">
+            <div class="col-md-6 p-0">
+                <h4 class="text-justify text-left font-weight-bold">
+                    Contenu et activités
+                </h4>
+            </div>
+        </div>
+        <div class="progress mb-3" style="height: 5px;">
+            <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+                <div class="row mx-3 d-flex flex-row">
+            <div class="col-md-6 p-0">
+                <h4 class="text-justify text-left font-weight-bold">
+                    Modalités d'évaluation
+                </h4>
+            </div>
+        </div>
+        <div class="progress mb-3" style="height: 5px;">
+            <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <div class="row mx-3 d-flex flex-row justify-content-around">
+            <div class="col-md-6 pl-0" >
+                <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
+                    <h5 class="m-0">MODALITE DE CONTROLE DES CONNAISSANCES</h5>
+                </div>
+            </div>
+            <div class="col-md-6 pr-0" >
+                <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
+                    <h5 class="m-0">STRATEGIE D'EVALUATION</h5>
+                </div>
+                <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
+                    <h5 class="m-0">CONSEILS PRATIQUES</h5>
+                </div>
+            </div>
+        </div>
+        <div class="row mx-3 d-flex flex-row">
+            <div class="col-md-6 p-0">
+                <h4 class="text-justify text-left font-weight-bold">
+                    Matériel et ressources
+                </h4>
+            </div>
+        </div>
+        <div class="progress mb-3" style="height: 5px;">
+            <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <div class="row mx-3 d-flex flex-row">
+            <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
+                <h5 class="m-0">MATERIEL OBLIGATOIRE</h5>
+            </div>
+        </div>
+        <div class="row mx-3 d-flex flex-row">
+            <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
+                <h5 class="m-0">RESSOUCRES PEDAGOGIQUES</h5>
+            </div>
+        </div>
+        <div class="row mx-3 d-flex flex-row">
+            <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
+                <h5 class="m-0">ELEMENTS BIBLIOGRAPHIQUES</h5>
+            </div>
+        </div>
+        <div class="row mx-3 d-flex flex-row">
+            <div class="col-md-6 p-0">
+                <h4 class="text-justify text-left font-weight-bold">
+                    Informations pratiques
+                </h4>
+            </div>
+        </div>
+        <div class="progress mb-3" style="height: 5px;">
+            <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <div class="row mx-3 d-flex flex-row">
+            <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
+                <h5 class="m-0">AGENDA / CALENDRIER</h5>
+            </div>
+        </div>
+        <div class="row mx-3 d-flex flex-row">
+            <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
+                <h5 class="m-0">ORGANISATION DU COURS</h5>
+            </div>
+        </div>
+        <div class="row mx-3 d-flex flex-row">
+            <div class="col-md-6 p-0">
+                <h4 class="text-justify text-left font-weight-bold">
+                    Réglementation
+                </h4>
+            </div>
+        </div>
+        <div class="progress mb-3" style="height: 5px;">
+            <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <div class="row d-flex flex-row">
+            <div class="col-md-12 d-flex flex-row justify-content-center align-items-center">
+                <h5 class="m-2">En m'inscrivant à l'université, je m'engage à respecter le règlement des études ci-après :</h5>
+            </div>
+        </div>
+        <div class="row mx-3 d-flex flex-row">
+            <div class="col-md-6 p-0">
+                <h4 class="text-justify text-left font-weight-bold">
+                    Mot de la fin
+                </h4>
+            </div>
+        </div>
+        <div class="progress mb-3" style="height: 5px;">
+            <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
     </div>
 
