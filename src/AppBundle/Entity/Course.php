@@ -2,6 +2,8 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -38,7 +40,7 @@ class Course
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Course", inversedBy="courseChild")
+     * @ORM\ManyToMany(targetEntity="Course", inversedBy="children")
      * @ORM\JoinTable(name="course_hierarchy",
      *   joinColumns={
      *     @ORM\JoinColumn(name="course_child_id", referencedColumnName="id")
@@ -48,21 +50,30 @@ class Course
      *   }
      * )
      */
-    private $courseParent;
+    private $parents;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Course", mappedBy="courseParent")
+     * @ORM\ManyToMany(targetEntity="Course", mappedBy="parents")
      */
-    private $courseChild;
+    private $children;
+
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="CourseInfo", mappedBy="course")
+     */
+    private $courseInfos;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->courseParent = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->courseChild = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->parents = new ArrayCollection();
+        $this->childs = new ArrayCollection();
+        $this->courseInfos = new ArrayCollection();
     }
 
     /**
@@ -123,83 +134,124 @@ class Course
     }
 
     /**
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
-    public function getCourseParent(): \Doctrine\Common\Collections\Collection
+    public function getParents(): Collection
     {
-        return $this->courseParent;
+        return $this->parents;
     }
 
     /**
-     * @param \Doctrine\Common\Collections\Collection $courseParent
+     * @param Collection $parents
      * @return Course
      */
-    public function setCourseParent(\Doctrine\Common\Collections\Collection $courseParent): Course
+    public function setParents(Collection $parents): Course
     {
-        $this->courseParent = $courseParent;
+        $this->parents = $parents;
 
         return $this;
     }
 
     /**
-     * @param Course $courseParent
+     * @param Course $course
      * @return Course
      */
-    public function addCourseParent(Course $courseParent): Course
+    public function addParents(Course $course): Course
     {
-        $this->courseParent->add($courseParent);
+        $this->parents->add($course);
 
         return $this;
     }
 
     /**
-     * @param Course $courseParent
+     * @param Course $course
      * @return Course
      */
-    public function removeCourseParent(Course $courseParent): Course
+    public function removeParent(Course $course): Course
     {
-        $this->courseParent->removeElement($courseParent);
+        $this->parents->removeElement($course);
 
         return $this;
     }
 
     /**
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
-    public function getCourseChild(): \Doctrine\Common\Collections\Collection
+    public function getChildren(): Collection
     {
-        return $this->courseChild;
+        return $this->children;
     }
 
     /**
-     * @param \Doctrine\Common\Collections\Collection $courseChild
+     * @param Collection $children
      * @return Course
      */
-    public function setCourseChild(\Doctrine\Common\Collections\Collection $courseChild): Course
+    public function setChildren(Collection $children): Course
     {
-        $this->courseChild = $courseChild;
+        $this->children = $children;
 
         return $this;
     }
 
     /**
-     * @param Course $courseCild
+     * @param Course $course
      * @return Course
      */
-    public function addCourseChild(Course $courseCild): Course
+    public function addChild(Course $course): Course
     {
-        $this->courseChild->add($courseCild);
+        $this->children->add($course);
 
         return $this;
     }
 
     /**
-     * @param Course $courseChild
+     * @param Course $course
      * @return Course
      */
-    public function removeCourseChild(Course $courseChild): Course
+    public function removeChild(Course $course): Course
     {
-        $this->courseChild->removeElement($courseChild);
+        $this->children->removeElement($course);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getCourseInfos(): Collection
+    {
+        return $this->courseInfos;
+    }
+
+    /**
+     * @param Collection $courseInfos
+     * @return Course
+     */
+    public function setCourseInfos(Collection $courseInfos): Course
+    {
+        $this->courseInfos = $courseInfos;
+
+        return $this;
+    }
+
+    /**
+     * @param CourseInfo $courseInfo
+     * @return Course
+     */
+    public function addCourseInfo(CourseInfo $courseInfo): Course
+    {
+        $this->courseInfos->add($courseInfo);
+
+        return $this;
+    }
+
+    /**
+     * @param CourseInfo $courseInfo
+     * @return Course
+     */
+    public function removeCourseInfo(CourseInfo $courseInfo): Course
+    {
+        $this->courseInfos->removeElement($courseInfo);
 
         return $this;
     }
