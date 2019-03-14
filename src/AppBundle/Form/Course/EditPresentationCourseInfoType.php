@@ -58,15 +58,15 @@ class EditPresentationCourseInfoType extends AbstractType
     {
         $builder
             ->add('period', TextType::class, [
-                'label' => 'Period',
+                'label' => 'Période',
                 'required' => false,
             ])
             ->add('summary', CKEditorType::class, [
-                'label' => 'Summary',
+                'label' => 'Description',
                 'required' => false,
             ])
             ->add('teachingMode', ChoiceType::class, [
-                'label' => 'Teaching mode',
+                'label' => "Mode d'enseignement",
                 'expanded'  => true,
                 'multiple' => false,
                 'choices' => [

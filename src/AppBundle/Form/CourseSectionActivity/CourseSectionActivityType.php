@@ -37,11 +37,6 @@ class CourseSectionActivityType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('id', HiddenType::class)
-            ->add('title', HiddenType::class, [
-                'label' => false,
-                'disabled' => true,
-            ])
             ->add('description', TextType::class, [
                 'label' => false,
                 'required' => false,

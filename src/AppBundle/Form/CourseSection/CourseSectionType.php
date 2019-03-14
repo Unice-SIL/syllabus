@@ -6,6 +6,7 @@ use AppBundle\Command\CourseSection\CourseSectionCommand;
 use AppBundle\Entity\SectionType;
 use AppBundle\Form\CourseSectionActivity\CourseSectionActivityType;
 use Doctrine\ORM\EntityManager;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
@@ -43,7 +44,6 @@ class CourseSectionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            //->add('id', HiddenType::class)
             ->add('title', TextType::class, [
                 'label' => 'Title',
                 'required' => true,
@@ -55,7 +55,7 @@ class CourseSectionType extends AbstractType
                 'choice_label' => 'label',
                 'em' => $this->syllabusEntityManager,
             ])
-            ->add('description', TextareaType::class, [
+            ->add('description', CKEditorType::class, [
                 'label' => 'Description',
             ])
             ->add('activities', CollectionType::class, [

@@ -1,6 +1,14 @@
 {% extends 'ajax.html.twig' %}
 
 {% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .teaching-hours input[type='text']{
+            padding: 0.3rem;
+            height: inherit;
+            width: 40px;
+        }
+    </style>
 {% endblock %}
 
 {% block main %}
@@ -72,7 +80,7 @@
                             <div class="row">
                                 <div class="col">
                                     {% if form.vars.data.image is not null %}
-                                        <img src="{{ asset('data/' ~ form.vars.data.image.filename) }}">
+                                        <img id="media_image" src="{{ asset('data/' ~ form.vars.data.image.filename) }}">
                                     {% endif %}
                                 </div>
                             </div>
@@ -106,7 +114,7 @@
         <div class="col">
             <div class="row mb-3">
                 <div class="col">
-                    <h6>Equipe pédagogique</h6>
+                    <strong>Qui fait partie de l'équipe enseignante ?</strong>
                 </div>
             </div>
             <div class="row">
@@ -129,18 +137,18 @@
         <div class="col">
             <div class="row mb-3">
                 <div class="col">
-                    <h6>Mode d'enseignement</h6>
+                    <strong>Quel est votre mode d'enseignement ?</strong>
                 </div>
             </div>
-            <div class="row">
-                <div class="col border-right">
+            <div class="row teaching-hours">
+                <div class="col-5 border-right">
                     <div class="row">
                         <div class="col-5">
                             <h6>{{ form_widget(form.teachingMode.children[0]) }}</h6>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-2">
+                        <div class="col-md-auto">
                             {{ form_widget(form.teachingCmClass) }}
                         </div>
                         <div class="col p-0">
@@ -148,7 +156,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-2">
+                        <div class="col-md-auto">
                             {{ form_widget(form.teachingTdClass) }}
                         </div>
                         <div class="col p-0">
@@ -156,7 +164,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-2">
+                        <div class="col-md-auto">
                             {{ form_widget(form.teachingTpClass) }}
                         </div>
                         <div class="col p-0">
@@ -164,7 +172,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-2">
+                        <div class="col-md-auto">
                             {{ form_widget(form.teachingOtherClass) }}
                         </div>
                         <div class="col p-0">
@@ -172,7 +180,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col border-left">
+                <div class="col-7 border-left">
                     <div class="row">
                         <div class="col-7">
                             <h6>{{ form_widget(form.teachingMode.children[1]) }}</h6>
@@ -181,7 +189,7 @@
                     <div class="row">
                         <div class="col">
                             <div class="row">
-                                <div class="col-3">
+                                <div class="col-md-auto">
                                     {{ form_widget(form.teachingCmHybridClass) }}
                                 </div>
                                 <div class="col p-0">
@@ -189,7 +197,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-3">
+                                <div class="col-md-auto">
                                     {{ form_widget(form.teachingTdHybridClass) }}
                                 </div>
                                 <div class="col p-0">
@@ -197,7 +205,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-3">
+                                <div class="col-md-auto">
                                     {{ form_widget(form.teachingTpHybridClass) }}
                                 </div>
                                 <div class="col p-0">
@@ -205,7 +213,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-3">
+                                <div class="col-md-auto">
                                     {{ form_widget(form.teachingOtherHybridClass) }}
                                 </div>
                                 <div class="col p-0">
@@ -215,7 +223,7 @@
                         </div>
                         <div class="col">
                             <div class="row">
-                                <div class="col-3">
+                                <div class="col-md-auto">
                                     {{ form_widget(form.teachingCmHybridDist) }}
                                 </div>
                                 <div class="col p-0">
@@ -223,7 +231,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-3">
+                                <div class="col-md-auto">
                                     {{ form_widget(form.teachingTdHybridDist) }}
                                 </div>
                                 <div class="col p-0">
@@ -231,7 +239,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-3">
+                                <div class="col-md-auto">
                                     {{ form_widget(form.teachingOtherHybridDist) }}
                                 </div>
                                 <div class="col p-0">
@@ -247,7 +255,8 @@
     <div class="row mt-3">
         <div class="col">
             <button class="btn btn-outline-primary btn-block submit" type="submit">
-                Save
+                <i class="fas fa-save"></i>
+                Enregistrer
             </button>
         </div>
     </div>
@@ -297,18 +306,30 @@
                         'id': $('#edit_presentation_course_info_teacherSearch').val()
                     },
                     success: function(data){
-                        var form = addFormToCollection(teachersCollectionHolder);
-                        form.find('input[id*=_completeName]').val(data['completeName']);
-                        form.find('input[id*=_id]').val(data['id']);
-                        form.find('input[id*=_firstname]').val(data['firstname']);
-                        form.find('input[id*=_lastname]').val(data['lastname']);
-                        form.find('input[id*=_email]').val(data['email']);
+                        var teacherAlreadyInTeam = false;
+                        teachersCollectionHolder.find("input[id*=_id]").each(function(){
+                            if($(this).val() === data.id){
+                                teacherAlreadyInTeam = true;
+                                SILTools.alert('info', "Cet(te) enseignant(e) fait déjà partie de l'équipe", false);
+                            }
+                        });
+                        if(teacherAlreadyInTeam === false) {
+                            var form = addFormToCollection(teachersCollectionHolder);
+                            form.find('input[id*=_completeName]').val(data['completeName']);
+                            form.find('input[id*=_id]').val(data['id']);
+                            form.find('input[id*=_firstname]').val(data['firstname']);
+                            form.find('input[id*=_lastname]').val(data['lastname']);
+                            form.find('input[id*=_email]').val(data['email']);
+                        }
                         $('#edit_presentation_course_info_teacherSearch').find('option').remove();
                         $('#select2-edit_presentation_course_info_teacherSearch-container').html('');
                     }
                 });
             } );
 
+            /**
+             * Remove a teacher form collection
+             */
             teachersCollectionHolder.on('click', '.teacher-collection-remove', function(){
                 var form = $(this).closest("li.teacher");
                 form.fadeOut({
@@ -323,6 +344,17 @@
              */
             $("#media_type > li > a").on('click', function(){
                 $("#edit_presentation_course_info_mediaType").val($(this).data('media-type'));
+            });
+
+            /**
+             * Change the image preview when change image file
+             */
+            $("#edit_presentation_course_info_image").on('change', function(e){
+                var reader = new FileReader();
+                reader.onload = function(){
+                    $("#media_image").attr('src', reader.result);
+                }
+                reader.readAsDataURL(e.target.files[0]);
             });
 
             /**

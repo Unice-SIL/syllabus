@@ -112,7 +112,7 @@ class SavePresentationCourseInfoAction implements ActionInterface
                 if($editPresentationCourseInfoCommand == $originalEditPresentationCourseInfoCommand){
                     return new JsonResponse([
                         'type' => "info",
-                        'message' => "Rien a sauvegarder"
+                        'message' => "Aucun changement a enregistrer"
                     ]);
                 }
                 // Save changes
@@ -122,12 +122,12 @@ class SavePresentationCourseInfoAction implements ActionInterface
                 // Return message success
                 return new JsonResponse([
                     'type' => "success",
-                    'message' => "Modification enregistrées avec succès"
+                    'message' => "Modifications enregistrées avec succès"
                 ]);
             }
             return new JsonResponse([
                 'type' => "danger",
-                'message' => "Le formulaire l'a pas été soumis"
+                'message' => "Le formulaire n'a pas été soumis"
             ]);
         }catch (\Exception $e) {
             // Log error

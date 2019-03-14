@@ -1,42 +1,49 @@
 {% extends 'ajax.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .fa-caret-down {
+            transform: scale(1.2);
+            margin-top: -4px;
+        }
+        .fa-caret-down[aria-expanded='false'] {
+            transform: scale(1.2) rotate(-90deg);
+        }
+    </style>
+{% endblock %}
+
 {% block main %}
+
+    {% form_theme form with [
+    'form/sections_field.html.twig',
+    'form/activities_field.html.twig'
+    ] %}
 
     {{ form_start(form) }}
     <button type="button" id="addSectionButton"
-            class="btn btn-outline-primary btn-block btn-sm">
-        Nouvelle section
+            class="btn btn-primary btn-block btn-sm">
+        <i class="fas fa-plus-circle"></i>
+        Ajouter une section
     </button>
-    <ul class="list-group" id="sections"
-        data-prototype="{{ form_widget(form.sections.vars.prototype)|e('html_attr') }}">
-        {% for section in form.sections %}
-            <li class="list-group-item section">
-                {{ form_row(section.order) }}
-                {{ form_row(section.title) }}
-                {{ form_row(section.type) }}
-                {{ form_row(section.description) }}
-                <ul class="list-group activities"
-                    data-section="{{ section.vars.value.id }}"
-                    data-prototype="{{ form_widget(section.activities.vars.prototype)|e('html_attr') }}">
-                    {% for activity in section.activities %}
-                        <li class="list-group-item activity">
-                            {{ form_row(activity.id) }}
-                            <span>
-                            {{ activity.vars.value.title }}
-                        </span>
-                            {{ form_row(activity.description) }}
-                            {{ form_row(activity.order) }}
-                        </li>
-                    {% endfor %}
-                </ul>
-            </li>
-        {% endfor %}
-    </ul>
+
+    {{  form_widget(form) }}
+
+    {#
+    {{ form_widget(form.sections) }}
     {{ form_widget(form._token) }}
-    <button class="btn btn-outline-secondary btn-block submit" type="submit">
-        Save
-    </button>
-    {{ form_end(form, {'render_rest': false}) }}
+    #}
+
+    <div class="row mt-3">
+        <div class="col">
+            <button class="btn btn-outline-primary btn-block submit" type="submit">
+                <i class="fas fa-save"></i>
+                Enregistrer
+            </button>
+        </div>
+    </div>
+
+    {{ form_end(form) }}
 
 {% endblock %}
 
@@ -44,48 +51,59 @@
 
     <script>
 
+
         /**
          *
          */
         $(document).ready(function(){
+            /**
+             * Init sections
+             */
             var sectionsCollectionHolder = $('#sections');
-            var activitiesCollectionHolder = $('.activities');
-
             sectionsCollectionHolder.data('index', sectionsCollectionHolder.find('li.section').length);
-            activitiesCollectionHolder.data('index', activitiesCollectionHolder.find('li.activity').length);
-
-            sectionsCollectionHolder.find('li.section').each(function(){
-                addActionsToForm($(this), {move: true});
-            });
-            activitiesCollectionHolder.find('li.activity').each(function(){
-                addActionsToForm($(this), {move: true});
-            });
-
             sectionsCollectionHolder.sortable( {
                 group: {
                     name: "sections",
                 },
-                handle: ".fa-arrows-alt-v",
-                sort: true,
-                animation: 150
-            } );
-            activitiesCollectionHolder.sortable( {
-                group: {
-                    name: "activities",
-                },
-                handle: ".fa-arrows-alt-v",
+                handle: ".section-collection-move",
                 sort: true,
                 animation: 150
             } );
 
+            /**
+             * Add a section when button click
+             */
             $('#addSectionButton').click(function(){
-                var form = addFormToCollection(sectionsCollectionHolder, 'list-group-item section');
-                addActionsToForm(form, {move: true});
+                var form = addFormToCollection(sectionsCollectionHolder);
+                form.find('input[id$=_title]').focus();
             });
 
+            /**
+             * Remove a section form collection
+             */
+            sectionsCollectionHolder.on('click', '.section-collection-remove', function(){
+                var form = $(this).closest("li.section");
+                form.fadeOut({
+                    always: function(){
+                        form.remove();
+                    }
+                });
+            });
+
+            /**
+             * Submit the form
+             */
             $("form[name='edit_activities_course_info']").submit(function(e){
                 e.preventDefault();
-                // Set elements order
+
+                for ( instance in CKEDITOR.instances ) {
+                    CKEDITOR.instances[instance].updateElement();
+                }
+
+                var form = $(this);
+                var data = new FormData(form);
+
+
                 sectionsCollectionHolder.find('li.section').each(function(order){
                     // Set section order
                     $(this).find("input[id$='_order']").each(function(){
@@ -93,18 +111,35 @@
                             $(this).val(order+1);
                         }
                     });
+                    /*
                     // Set activities order
                     $(this).find("li.activity").each(function(order){
                         $(this).find("input[id$='_order']").val(order+1);
                     });
+                    */
                 });
 
-                $.ajax({
-                    type: 'POST',
-                    url: '{{ path('save_activities_course_info', { 'id': courseInfo.id })|escape('js') }}',
-                    data: $(this).serialize()
-                }).done(function(){
-                    alert('done');
+
+                SILTools.spinner.fadeIn( {
+                    always: function(){
+                    $.ajax({
+                        type: 'POST',
+                        //enctype: 'multipart/form-data',
+                        //processData: false,  // Important!
+                        //contentType: false,
+                        url: '{{ path('save_activities_course_info', { 'id': courseInfo.id })|escape('js') }}',
+                        data: form.serialize(),
+                        //cache: false,
+                        //timeout: 600000
+                    }).done(function(response){
+                        console.log('fii');
+                        if(response.type !== undefined && response.message !== undefined) {
+                            SILTools.alert(response.type, response.message, false);
+                        }
+                    }).always(function(){
+                        SILTools.spinner.fadeOut( );
+                    });
+                    }
                 });
             });
 

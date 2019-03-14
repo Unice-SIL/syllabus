@@ -1,0 +1,34 @@
+{% macro activity_template(activity) %}
+    <li class="list-group-item activity mt-0">
+        <div class="row">
+            <div class="col">
+                <div class="row">
+                    <div class="col">
+                        {% if activity.vars.data %}
+                            {{ activity.vars.data.activity.label }}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        {{ form_widget(activity.description) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col col-md-auto">
+                <i class="fas fa-eraser activity-collection-remove" title="Retirer de la liste."></i>
+            </div>
+        </div>
+        {{ form_row(activity) }}
+    </li>
+{% endmacro %}
+
+{% block _edit_activities_course_info_sections_entry_activities_widget %}
+    {% import _self as activitiesField %}
+    <ul class="list-group activities"
+        data-prototype="{{ activitiesField.activity_template(form.vars.prototype)|e }}">
+        {% for activity in form.children %}
+            {{ activitiesField.activity_template(activity) }}
+        {% endfor %}
+    </ul>
+{% endblock %}

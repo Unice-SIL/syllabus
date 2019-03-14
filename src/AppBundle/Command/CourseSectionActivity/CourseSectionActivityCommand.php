@@ -21,11 +21,6 @@ class CourseSectionActivityCommand implements CommandInterface
     private $id;
 
     /**
-     * @var string|null
-     */
-    private $title;
-
-    /**
      * @var null|string
      */
     private $description;
@@ -82,26 +77,6 @@ class CourseSectionActivityCommand implements CommandInterface
 
         return $this;
     }
-
-    /**
-     * @return null|string
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * @param null|string $title
-     * @return CourseSectionActivityCommand
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
 
     /**
      * @return null|string

@@ -24,7 +24,8 @@ class YearFixture extends Fixture
     {
         $year = new Year();
         $year->setId('2018')
-            ->setLabel('2018-2019');
+            ->setLabel('2018-2019')
+            ->setCurrent(true);
         $this->addReference(self::YEAR_2018, $year);
         $manager->persist($year);
         $manager->flush();
