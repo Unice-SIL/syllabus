@@ -4,9 +4,11 @@ namespace AppBundle\Action\Ui\Course;
 
 use AppBundle\Action\ActionInterface;
 use AppBundle\Command\Course\EditPresentationCourseInfoCommand;
+use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Form\Course\EditPresentationCourseInfoType;
 use AppBundle\Helper\FileUploaderHelper;
 use AppBundle\Query\Course\FindCourseInfoByIdQuery;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,19 +44,26 @@ class EditPresentationCourseInfoAction implements ActionInterface
     private $fileUploaderHelper;
 
     /**
-     * EditPresentationCourseInfoTestAction constructor.
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
+     * EditPresentationCourseInfoAction constructor.
      * @param FindCourseInfoByIdQuery $findCourseInfoByIdQuery
      * @param FormFactoryInterface $formFactory
      * @param SessionInterface $session
      * @param Environment $templating
      * @param FileUploaderHelper $fileUploaderHelper
+     * @param LoggerInterface $logger
      */
     public function __construct(
         FindCourseInfoByIdQuery $findCourseInfoByIdQuery,
         FormFactoryInterface $formFactory,
         SessionInterface $session,
         Environment $templating,
-        FileUploaderHelper $fileUploaderHelper
+        FileUploaderHelper $fileUploaderHelper,
+        LoggerInterface $logger
     )
     {
         $this->findCourseInfoByIdQuery = $findCourseInfoByIdQuery;
@@ -62,6 +71,7 @@ class EditPresentationCourseInfoAction implements ActionInterface
         $this->templating = $templating;
         $this->session = $session;
         $this->fileUploaderHelper = $fileUploaderHelper;
+        $this->logger = $logger;
     }
 
     /**
@@ -72,16 +82,17 @@ class EditPresentationCourseInfoAction implements ActionInterface
     public function __invoke(Request $request)
     {
         $id = $request->get('id', null);
-        $courseInfo = $this->findCourseInfoByIdQuery->setId($id)->execute();
+        try {
+            $courseInfo = $this->findCourseInfoByIdQuery->setId($id)->execute();
+        }catch (CourseInfoNotFoundException $e){
+            // TODO
+        }
         if(!is_null($courseInfo->getImage())) {
             $courseInfo->setImage(new File($this->fileUploaderHelper->getDirectory().'/'.$courseInfo->getImage()));
         }
         $editPresentationCourseInfoCommand = new EditPresentationCourseInfoCommand($courseInfo);
-        dump($editPresentationCourseInfoCommand);
         $form = $this->formFactory->create(EditPresentationCourseInfoType::class, $editPresentationCourseInfoCommand);
         $form->handleRequest($request);
-
-        #$this->session->getFlashBag()->add('danger', "You have reached the moulbification point.");
 
         return new Response(
             $this->templating->render(

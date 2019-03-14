@@ -269,11 +269,6 @@
              */
             var teachersCollectionHolder = $('#teachers');
             teachersCollectionHolder.data('index', teachersCollectionHolder.find('li').length);
-            /*
-            teachersCollectionHolder.find('li').each(function(){
-                addActionsToForm($(this));
-            });
-            */
 
             /**
              * Init teaching mode hours enable/disable
@@ -293,7 +288,6 @@
                     },
                     success: function(data){
                         var form = addFormToCollection(teachersCollectionHolder);
-                        //addActionsToForm(form, 'list-group-item teacher');
                         form.find('input[id*=_completeName]').val(data['completeName']);
                         form.find('input[id*=_id]').val(data['id']);
                         form.find('input[id*=_firstname]').val(data['firstname']);
@@ -348,17 +342,25 @@
                 var form = $(this)[0];
                 var data = new FormData(form);
 
-                $.ajax({
-                    type: 'POST',
-                    enctype: 'multipart/form-data',
-                    processData: false,  // Important!
-                    contentType: false,
-                    url: '{{ path('save_presentation_course_info', { 'id': courseInfo.id })|escape('js') }}',
-                    data: data,
-                    cache: false,
-                    timeout: 600000,
-                }).done(function(){
-                    alert('done');
+                SILTools.spinner.fadeIn( {
+                    always: function(){
+                        $.ajax({
+                            type: 'POST',
+                            enctype: 'multipart/form-data',
+                            processData: false,  // Important!
+                            contentType: false,
+                            url: '{{ path('save_presentation_course_info', { 'id': courseInfo.id })|escape('js') }}',
+                            data: data,
+                            cache: false,
+                            timeout: 600000
+                        }).done(function(response){
+                            if(response.type !== undefined && response.message !== undefined) {
+                                SILTools.alert(response.type, response.message, false);
+                            }
+                        }).always(function(){
+                            SILTools.spinner.fadeOut( );
+                        });
+                    }
                 });
             });
         });
