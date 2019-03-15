@@ -101,11 +101,15 @@
 
         <div class="row d-flex flex-row justify-content-around ">
             <div class="col-md-4 media d-flex align-items-center">
-                <img class="img-thumbnail m-3" src="https://via.placeholder.com/100" alt="...">
+                <i class="fas m-3 fa-4x fa-map-marker-alt"></i>
                 <span class="font-weight-bold media-body"> {{course.structure.campus}} </span>
             </div>
             <div class="col-md-4 media d-flex align-items-center">
-                <img class="img-thumbnail m-3" src="https://via.placeholder.com/100" alt="...">
+                {% if course.teachingMode == "class" %}
+                    <img class="w-50 mx-3" src="{{ asset('images/presentiel.png') }}">
+                {% elseif course.teachingMode == "hybrid" %}
+                    <img class="w-100 mx-3" src="{{ asset('images/hybride.png') }}">
+                {% endif %}
                 <span class="font-weight-bold media-body"> {{course.teachingMode}} <br>
                     <span class="font-weight-normal">
                         {% if course.teachingMode == "class" %}
