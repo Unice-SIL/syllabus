@@ -38,6 +38,13 @@ class Activity
     /**
      * @var bool
      *
+     * @ORM\Column(name="evaluation", type="boolean", nullable=false)
+     */
+    private $evaluation = false;
+
+    /**
+     * @var bool
+     *
      * @ORM\Column(name="distant", type="boolean", nullable=false)
      */
     private $distant = false;
@@ -116,6 +123,25 @@ class Activity
     public function setLabelVisibility(bool $labelVisibility): Activity
     {
         $this->labelVisibility = $labelVisibility;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEvaluation(): bool
+    {
+        return $this->evaluation;
+    }
+
+    /**
+     * @param bool $evaluation
+     * @return Activity
+     */
+    public function setEvaluation(bool $evaluation): Activity
+    {
+        $this->evaluation = $evaluation;
 
         return $this;
     }

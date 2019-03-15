@@ -18,12 +18,13 @@ services:
 
     # ALIAS
     AppBundle\Repository\UserRepositoryInterface: '@user_doctrine_repository'
+    AppBundle\Repository\ActivityRepositoryInterface: '@activity_doctrine_repository'
     AppBundle\Repository\CourseInfoRepositoryInterface: '@course_info_doctrine_repository'
     AppBundle\Repository\CourseSectionRepositoryInterface: '@course_section_doctrine_repository'
     AppBundle\Repository\CourseSectionActivityRepositoryInterface: '@course_section_activity_doctrine_repository'
     AppBundle\Repository\CourseTeacherRepositoryInterface: '@course_teacher_doctrine_repository'
 
-    # AUTHENTICATORS
+    # AUTHENTICATOR
     AppBundle\Security\Authenticator\TestAuthenticator:
         arguments: ['%test_authenticator%']
 
@@ -72,6 +73,10 @@ services:
     # REPOSITORY
     user_doctrine_repository:
         class: AppBundle\Repository\Doctrine\UserDoctrineRepository
+        arguments: ['@syllabus_entity_manager']
+
+    activity_doctrine_repository:
+        class: AppBundle\Repository\Doctrine\ActivityDoctrineRepository
         arguments: ['@syllabus_entity_manager']
 
     course_info_doctrine_repository:

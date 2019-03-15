@@ -27,7 +27,7 @@
         Ajouter une section
     </button>
 
-    {{  form_widget(form) }}
+    {{ form_widget(form.sections, { 'activitiesClass': activitiesClass }) }}
 
     <div class="row mt-3">
         <div class="col">
@@ -114,6 +114,7 @@
                     }
                 });
             });
+
 
             /**
              * Submit the form

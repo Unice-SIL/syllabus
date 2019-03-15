@@ -6,6 +6,7 @@ use AppBundle\Action\ActionInterface;
 use AppBundle\Command\Course\EditActivitiesCourseInfoCommand;
 use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Form\Course\EditActivitiesCourseInfoType;
+use AppBundle\Query\Activity\FindActivitiesByCriteriaQuery;
 use AppBundle\Query\Course\FindCourseInfoByIdQuery;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -27,6 +28,11 @@ class EditActivitiesCourseInfoAction implements ActionInterface
     private $findCourseInfoByIdQuery;
 
     /**
+     * @var FindActivitiesByCriteriaQuery
+     */
+    private $findActivitiesByCriteriaQuery;
+
+    /**
      * @var FormFactoryInterface
      */
     private $formFactory;
@@ -44,6 +50,7 @@ class EditActivitiesCourseInfoAction implements ActionInterface
     /**
      * EditActivitiesCourseInfoAction constructor.
      * @param FindCourseInfoByIdQuery $findCourseInfoByIdQuery
+     * @param FindActivitiesByCriteriaQuery $findActivitiesByCriteriaQuery
      * @param FormFactoryInterface $formFactory
      * @param SessionInterface $session
      * @param Environment $templating
@@ -51,6 +58,7 @@ class EditActivitiesCourseInfoAction implements ActionInterface
      */
     public function __construct(
         FindCourseInfoByIdQuery $findCourseInfoByIdQuery,
+        FindActivitiesByCriteriaQuery $findActivitiesByCriteriaQuery,
         FormFactoryInterface $formFactory,
         SessionInterface $session,
         Environment $templating,
@@ -62,6 +70,7 @@ class EditActivitiesCourseInfoAction implements ActionInterface
         $this->templating = $templating;
         $this->session = $session;
         $this->logger = $logger;
+        $this->findActivitiesByCriteriaQuery = $findActivitiesByCriteriaQuery;
     }
 
     /**
@@ -79,6 +88,9 @@ class EditActivitiesCourseInfoAction implements ActionInterface
                 // TODO
                 return new Response("");
             }
+            $activitiesClass = $this->findActivitiesByCriteriaQuery->execute();
+            $activitiesDistant = $this->findActivitiesByCriteriaQuery->setDistant(true)->execute();
+
             $editActivitiesCourseInfoCommand = new EditActivitiesCourseInfoCommand($courseInfo);
             $form = $this->formFactory->create(EditActivitiesCourseInfoType::class, $editActivitiesCourseInfoCommand);
             $form->handleRequest($request);
@@ -88,12 +100,15 @@ class EditActivitiesCourseInfoAction implements ActionInterface
                     'course/edit_activities_course_info_tab.html.twig',
                     [
                         'courseInfo' => $courseInfo,
+                        'activitiesClass' => $activitiesClass,
+                        'activitiesDistant' => $activitiesDistant,
                         'form' => $form->createView()
                     ]
                 )
             );
         }catch (\Exception $e){
             // TODO
+            dump($e);
         }
         return new Response("");
     }

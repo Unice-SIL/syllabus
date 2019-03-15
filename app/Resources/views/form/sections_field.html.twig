@@ -1,4 +1,4 @@
-{% macro section_template(section) %}
+{% macro section_template(section, activitiesClass) %}
     <li class="list-group-item section">
         <div class="row">
             <div class="col-md-auto align-self-center">
@@ -51,6 +51,17 @@
                             </div>
                             <div class="row">
                                 <div class="col m-1 border p-1">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div id="activitiesClass">
+                                                {% for activityClass in activitiesClass %}
+                                                    <div class="activityClass p-1 mt-1 border border-info">
+                                                        {{ activityClass.label }}
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
 
                                 </div>
                                 <div class="col m-1 border p-1">
@@ -70,7 +81,7 @@
     {% import _self as sectionsField %}
     <ul class="list-group" id="sections" data-prototype="{{ sectionsField.section_template(form.vars.prototype)|e }}">
         {% for section in form.children %}
-            {{ sectionsField.section_template(section) }}
+            {{ sectionsField.section_template(section, activitiesClass) }}
         {% endfor %}
     </ul>
 {% endblock %}
