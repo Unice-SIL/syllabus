@@ -17,6 +17,8 @@
 {% endif %}
 {% set year = '2018' %}
 
+{{dump(course)}}
+
 
     <div class="container-fluid">
         <div class="row d-flex flex-row m-3">
@@ -262,6 +264,50 @@
                 <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
                     <h5 class="m-0">MODALITE DE CONTROLE DES CONNAISSANCES</h5>
                 </div>
+                <div class="row m-3 d-flex flex-row justify-content-around">
+                    <div class="col-md-6 pl-0" >
+                    <table class="table table-dark">
+                        <thead>
+                            <tr>
+                            <th scope="col">1ère session</th>
+                            </tr>
+                            <tr>
+                            <th>Type d'évaluation</th>
+                            <th>Coef</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="table-primary">
+                            <td>Contrôle Continu ({{course.mccCcNbEvalSession1}} minimum)</td>
+                            <td> {{course.mccCcCoeffSession1}}%</td>
+                            </tr>
+                            <tr class="table-info">
+                            <td>Contrôle Terminal - {{course.mccCtDurationSession1}} </td>
+                            <td>{{course.mccCtCoeffSession1}}%</td>
+                            </tr>
+                        </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-6 pr-0" >
+                    <table class="table table-dark">
+                        <thead>
+                            <tr>
+                            <th scope="col">2ème session</th>
+                            </tr>
+                            <tr>
+                            <th>Type d'évaluation</th>
+                            <th>Coef</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="table-info">
+                            <td>Contrôle Terminal - {{course.mccCtDurationSession2}} </td>
+                            <td>{{course.mccCtCoeffSession2}}%</td>
+                            </tr>
+                        </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
             <div class="col-md-6 pr-0" >
                 <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
@@ -269,7 +315,28 @@
                 </div>
                 <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
                     <h5 class="m-0">CONSEILS PRATIQUES</h5>
+                    <div>
+                    {{course.mccAdvice}}
+                    </div>
                 </div>
+            </div>
+        </div>
+        <div class="row mx-3 d-flex flex-row justify-content-around">
+            <div class="col-md-4 media d-flex align-items-center">
+                <h3 class="border rounded-circle font-weight-bold h-75 p-3 m-3"> {{course.mccWeight}}% </h3>
+                <span class="font-weight-bold media-body"> Poids de l'ECUE dans l'UE </span>
+            </div>
+            <div class="col-md-4 media d-flex align-items-center">
+                <i class="fas m-3 fa-4x fa-check-circle"></i>
+                <span class="font-weight-bold media-body"> UE compensable </span>
+            </div>
+            <div class="col-md-4 media d-flex align-items-center">
+                {% if course.mccCapitalizable == true %}
+                <i class="fas m-3 fa-4x fa-check-circle"></i>
+                {% elseif course.mccCapitalizable == false %}
+                <i class="fas m-3 fa-4x fa-times-circle"></i>
+                {% endif %}
+                <span class="font-weight-bold media-body"> UE capitalisable </span>
             </div>
         </div>
 
