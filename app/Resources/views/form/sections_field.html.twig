@@ -1,7 +1,7 @@
 {% macro section_template(section) %}
     <li class="list-group-item section">
         <div class="row">
-            <div class="col-md-auto">
+            <div class="col-md-auto align-self-center">
                 <i class="fas fa-caret-down" title="Déplier / Replier."
                    data-toggle="collapse"
                    data-target="#collapse_{{ section.vars.id }}"
@@ -9,16 +9,13 @@
                    aria-controls="collapse_{{ section.vars.id }}"
                 ></i>
             </div>
-            <div class="col"></div>
-            <div class="col-md-auto">
-                <i class="fas fa-arrows-alt-v section-collection-move" title="Glisser / déposer pour modifier l'ordre."></i>
-                <i class="fas fa-eraser section-collection-remove" title="Retirer de la liste."></i>
-            </div>
-        </div>
-        <div class="row">
             <div class="col">
                 {{ form_widget(section.title) }}
                 <label alt="Titre" placeholder="Titre"></label>
+            </div>
+            <div class="col-md-auto align-self-center">
+                <i class="fas fa-arrows-alt-v section-collection-move" title="Glisser / déposer pour modifier l'ordre."></i>
+                <i class="fas fa-eraser section-collection-remove" title="Retirer de la liste."></i>
             </div>
         </div>
         <div class="row">
@@ -53,7 +50,10 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col">
+                                <div class="col m-1 border p-1">
+
+                                </div>
+                                <div class="col m-1 border p-1">
                                     {{ form_row(section.activities) }}
                                 </div>
                             </div>

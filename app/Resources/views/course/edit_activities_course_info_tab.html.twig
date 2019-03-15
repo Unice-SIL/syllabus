@@ -52,7 +52,7 @@
          */
         $(document).ready(function(){
             /**
-             * Init sections
+             * Init sections collection
              */
             var sectionsCollectionHolder = $('#sections');
             sectionsCollectionHolder.data('index', sectionsCollectionHolder.find('li.section').length);
@@ -74,10 +74,40 @@
             });
 
             /**
-             * Remove a section form collection
+             * Remove a section from collection
              */
             sectionsCollectionHolder.on('click', '.section-collection-remove', function(){
                 var form = $(this).closest("li.section");
+                form.fadeOut({
+                    always: function(){
+                        form.remove();
+                    }
+                });
+            });
+
+            /**
+             * Init activities collections
+             */
+            var activitiesCollectionHolders = $('.activities');
+            activitiesCollectionHolders.each(function(){
+                $(this).data('index', $(this).find('.activity').length);
+                console.log($(this).attr('id'));
+                console.log($(this).data('index'));
+                $(this).sortable( {
+                    group: {
+                        name: $(this).attr('id')
+                    },
+                    handle: ".activity-collection-move",
+                    sort: true,
+                    animation: 150
+                } );
+            });
+
+            /**
+             * Remove a activity from collection
+             */
+            activitiesCollectionHolders.on('click', '.activity-collection-remove', function(){
+                var form = $(this).closest(".activity");
                 form.fadeOut({
                     always: function(){
                         form.remove();
