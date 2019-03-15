@@ -77,7 +77,7 @@
                                     {{ form_widget(form.image) }}
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row mt-2">
                                 <div class="col">
                                     {% if form.vars.data.image is not null %}
                                         <img id="media_image" src="{{ asset('data/' ~ form.vars.data.image.filename) }}">
@@ -148,35 +148,42 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-auto">
-                            {{ form_widget(form.teachingCmClass) }}
+                        <div class="col col-4 align-self-center">
+                            <img style="max-width: 130px;" class="w-100" src="{{ asset('images/presentiel.png') }}">
                         </div>
-                        <div class="col p-0">
-                            <small>{{ form_label(form.teachingCmClass) }}</small>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-auto">
-                            {{ form_widget(form.teachingTdClass) }}
-                        </div>
-                        <div class="col p-0">
-                            <small>{{ form_label(form.teachingTdClass) }}</small>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-auto">
-                            {{ form_widget(form.teachingTpClass) }}
-                        </div>
-                        <div class="col p-0">
-                            <small>{{ form_label(form.teachingTpClass) }}</small>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-auto">
-                            {{ form_widget(form.teachingOtherClass) }}
-                        </div>
-                        <div class="col p-0">
-                            <small>{{ form_label(form.teachingOtherClass) }}</small>
+                        <div class="col">
+                            <div class="row">
+                                <div class="col-md-auto">
+                                    {{ form_widget(form.teachingCmClass) }}
+                                </div>
+                                <div class="col p-0">
+                                    <small>{{ form_label(form.teachingCmClass) }}</small>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-auto">
+                                    {{ form_widget(form.teachingTdClass) }}
+                                </div>
+                                <div class="col p-0">
+                                    <small>{{ form_label(form.teachingTdClass) }}</small>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-auto">
+                                    {{ form_widget(form.teachingTpClass) }}
+                                </div>
+                                <div class="col p-0">
+                                    <small>{{ form_label(form.teachingTpClass) }}</small>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-auto">
+                                    {{ form_widget(form.teachingOtherClass) }}
+                                </div>
+                                <div class="col p-0">
+                                    <small>{{ form_label(form.teachingOtherClass) }}</small>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -187,6 +194,9 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col col-3 align-self-center">
+                            <img style="max-width: 130px;" class="w-100" src="{{ asset('images/hybride.png') }}">
+                        </div>
                         <div class="col">
                             <div class="row">
                                 <div class="col-md-auto">
