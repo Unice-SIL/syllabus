@@ -15,6 +15,7 @@
 {% set parent = course.course.parents[0] %}
 {% set year = '2018' %}
 
+{{dump(course)}}
 
     <div class="container-fluid">
         <div class="row d-flex flex-row m-3">
@@ -55,10 +56,12 @@
                 </div>
             </div>   
         </div>
+
+
         <div class="row d-flex flex-row m-3">
             <div class="col-md-5">
                 <p class="text-justify text-left">
-                    {{course.summary}}
+                    {{course.summary|raw}}
                 </p>
                 <p class="text-justify text-left">
                     Equipe enseignante: 
@@ -93,6 +96,8 @@
                 {% endif %}
             </div>
         </div>
+
+
         <div class="row d-flex flex-row justify-content-around ">
             <div class="col-md-4 media d-flex align-items-center">
                 <img class="img-thumbnail m-3" src="https://via.placeholder.com/100" alt="...">
@@ -147,6 +152,8 @@
                 <span class="font-weight-bold media-body">Mobilité <br> internationale</span>
             </div>
         </div>
+
+
         <div class="row mx-3 d-flex flex-row">
             <div class="col-md-6 p-0">
                 <h4 class="text-justify text-left font-weight-bold">
@@ -157,6 +164,8 @@
         <div class="progress mb-3" style="height: 5px;">
             <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
+
+
         <div class="row mx-3 d-flex flex-row">
             <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
                 <h5 class="m-0">ACQUIS D'APPRENTISSAGE</h5>
@@ -180,6 +189,8 @@
                 </div>
             {% endfor %} 
         </div>
+
+
         <div class="row mx-3 d-flex flex-row justify-content-around">
             <div class="col-md-6 pl-0" >
                 <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
@@ -215,6 +226,8 @@
                 {% endfor %} 
             </div>
         </div>
+
+
         <div class="row mx-3 d-flex flex-row">
             <div class="col-md-6 p-0">
                 <h4 class="text-justify text-left font-weight-bold">
@@ -225,7 +238,9 @@
         <div class="progress mb-3" style="height: 5px;">
             <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
-                <div class="row mx-3 d-flex flex-row">
+
+
+        <div class="row mx-3 d-flex flex-row">
             <div class="col-md-6 p-0">
                 <h4 class="text-justify text-left font-weight-bold">
                     Modalités d'évaluation
@@ -235,6 +250,8 @@
         <div class="progress mb-3" style="height: 5px;">
             <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
+
+
         <div class="row mx-3 d-flex flex-row justify-content-around">
             <div class="col-md-6 pl-0" >
                 <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
@@ -250,6 +267,8 @@
                 </div>
             </div>
         </div>
+
+
         <div class="row mx-3 d-flex flex-row">
             <div class="col-md-6 p-0">
                 <h4 class="text-justify text-left font-weight-bold">
@@ -260,21 +279,36 @@
         <div class="progress mb-3" style="height: 5px;">
             <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
+
+
         <div class="row mx-3 d-flex flex-row">
             <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
                 <h5 class="m-0">MATERIEL OBLIGATOIRE</h5>
             </div>
         </div>
+
+
         <div class="row mx-3 d-flex flex-row">
             <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
                 <h5 class="m-0">RESSOUCRES PEDAGOGIQUES</h5>
             </div>
         </div>
         <div class="row mx-3 d-flex flex-row">
+            {% for ressource in course.educationalResources %}
+                <div class="row mx-3 d-flex flex-row">
+                 {{ressource.description}}
+                </div>
+            {% endfor %}
+        </div>
+
+
+        <div class="row mx-3 d-flex flex-row">
             <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
                 <h5 class="m-0">ELEMENTS BIBLIOGRAPHIQUES</h5>
             </div>
         </div>
+
+
         <div class="row mx-3 d-flex flex-row">
             <div class="col-md-6 p-0">
                 <h4 class="text-justify text-left font-weight-bold">
@@ -285,16 +319,22 @@
         <div class="progress mb-3" style="height: 5px;">
             <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
+
+
         <div class="row mx-3 d-flex flex-row">
             <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
                 <h5 class="m-0">AGENDA / CALENDRIER</h5>
             </div>
         </div>
+
+
         <div class="row mx-3 d-flex flex-row">
             <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
                 <h5 class="m-0">ORGANISATION DU COURS</h5>
             </div>
         </div>
+
+
         <div class="row mx-3 d-flex flex-row">
             <div class="col-md-6 p-0">
                 <h4 class="text-justify text-left font-weight-bold">
@@ -310,6 +350,8 @@
                 <h5 class="m-2">En m'inscrivant à l'université, je m'engage à respecter le règlement des études ci-après :</h5>
             </div>
         </div>
+
+
         <div class="row mx-3 d-flex flex-row">
             <div class="col-md-6 p-0">
                 <h4 class="text-justify text-left font-weight-bold">
