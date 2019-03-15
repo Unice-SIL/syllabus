@@ -412,6 +412,13 @@ class CourseInfo
     private $courseTutoringResources;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="CourseResourceEquipment", mappedBy="courseInfo", cascade={ "persist" })
+     */
+    private $courseResourceEquipments;
+
+    /**
      * CourseInfo constructor.
      */
     public function __construct()
@@ -421,6 +428,7 @@ class CourseInfo
         $this->courseAchievements = new ArrayCollection();
         $this->coursePrerequisites = new ArrayCollection();
         $this->courseTutoringResources = new ArrayCollection();
+        $this->courseResourceEquipments = new ArrayCollection();
     }
 
     /**
@@ -1519,7 +1527,6 @@ class CourseInfo
         return $this;
     }
 
-
     /**
      * @return Collection
      */
@@ -1559,5 +1566,47 @@ class CourseInfo
         $this->courseTutoringResources->removeElement($courseTutoringResource);
 
         return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getCourseResourceEquipments(): Collection
+    {
+        return $this->courseResourceEquipments;
+    }
+
+    /**
+     * @param Collection $courseResourceEquipments
+     * @return CourseInfo
+     */
+    public function setCourseResourceEquipments(Collection $courseResourceEquipments): CourseInfo
+    {
+        $this->courseResourceEquipments = $courseResourceEquipments;
+
+        return $this;
+    }
+
+    /**
+     * @param CourseResourceEquipment $courseResourceEquipment
+     * @return CourseInfo
+     */
+    public function addCourseResourceEquipment(CourseResourceEquipment $courseResourceEquipment): CourseInfo
+    {
+        $this->courseResourceEquipments->add($courseResourceEquipment);
+
+        return $this;
+    }
+
+    /**
+     * @param CourseResourceEquipment $courseResourceEquipment
+     * @return CourseInfo
+     */
+    public function removeCourseResourceEquipment(CourseResourceEquipment $courseResourceEquipment): CourseInfo
+    {
+        $this->courseResourceEquipments->removeElement($courseResourceEquipment);
+
+        return $this;
+
     }
 }

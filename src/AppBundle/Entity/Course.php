@@ -72,7 +72,7 @@ class Course
     public function __construct()
     {
         $this->parents = new ArrayCollection();
-        $this->childs = new ArrayCollection();
+        $this->children = new ArrayCollection();
         $this->courseInfos = new ArrayCollection();
     }
 
@@ -156,7 +156,7 @@ class Course
      * @param Course $course
      * @return Course
      */
-    public function addParents(Course $course): Course
+    public function addParent(Course $course): Course
     {
         $this->parents->add($course);
 

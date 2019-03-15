@@ -31,7 +31,7 @@ class CourseResourceEquipment
     /**
      * @var \AppBundle\Entity\CourseInfo
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CourseInfo")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CourseInfo", inversedBy="courseResourceEquipments", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id")
      * })
@@ -48,5 +48,80 @@ class CourseResourceEquipment
      */
     private $equipment;
 
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param string $id
+     * @return CourseResourceEquipment
+     */
+    public function setId(string $id): CourseResourceEquipment
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param null|string $description
+     * @return CourseResourceEquipment
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return CourseInfo
+     */
+    public function getCourseInfo(): CourseInfo
+    {
+        return $this->courseInfo;
+    }
+
+    /**
+     * @param CourseInfo $courseInfo
+     * @return CourseResourceEquipment
+     */
+    public function setCourseInfo(CourseInfo $courseInfo): CourseResourceEquipment
+    {
+        $this->courseInfo = $courseInfo;
+
+        return $this;
+    }
+
+    /**
+     * @return Equipment
+     */
+    public function getEquipment(): Equipment
+    {
+        return $this->equipment;
+    }
+
+    /**
+     * @param Equipment $equipment
+     * @return CourseResourceEquipment
+     */
+    public function setEquipment(Equipment $equipment): CourseResourceEquipment
+    {
+        $this->equipment = $equipment;
+
+        return $this;
+    }
 
 }
