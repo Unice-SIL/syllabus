@@ -39,8 +39,8 @@ class CourseFixture extends Fixture
         $this->addReference(self::COURSE_2, $course2);
 
         // Course hierarchy
-        $course1->addCourseParent($course2);
-        $course2->addCourseChild($course1);
+        $course1->addParent($course2);
+        $course2->addChild($course1);
 
         // Save
         $manager->persist($course1);
