@@ -3,11 +3,54 @@
 {% block stylesheets %}
     {{ parent() }}
     <style>
-        .teaching-hours input[type='text']{
-            padding: 0.3rem;
-            height: inherit;
-            width: 40px;
+
+        /**
+         * POUR TEST
+         */
+        input[type=text],
+        textarea,
+        select {
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            padding: 14px 5px 5px;
+            margin: 0px;
+            -webkit-transition: all 0.30s ease-in-out;
+            -moz-transition: all 0.30s ease-in-out;
+            -ms-transition: all 0.30s ease-in-out;
+            -o-transition: all 0.30s ease-in-out;
+            outline: none;
         }
+
+        input[type="text"] + label[placeholder],
+        select + label[placeholder]{
+            display: block;
+            pointer-events: none;
+            line-height: 46px;
+            margin-top: -46px;
+        }
+
+        input[type="text"] + label[placeholder]:before,
+        select + label[placeholder]:before {
+            content: attr(placeholder);
+            display: inline-block;
+            padding: 0;
+            color: #999999;
+            white-space: nowrap;
+            -webkit-transition: 0.3s ease-in-out;
+            transition: 0.3s ease-in-out;
+            -webkit-transform: translate(8px, -12px);
+            -ms-transform: translate(8px, -12px);
+            transform: translate(8px, -12px);
+            text-transform: uppercase;
+            font-size: 9px;
+            margin: 0 0 0 -2px;
+        }
+
+        /**
+         * FIN TEST
+         */
+
     </style>
 {% endblock %}
 
@@ -29,7 +72,8 @@
     #}
     <div class="row mt-3">
         <div class="col">
-            {{ form_row(form.period) }}
+            {{ form_widget(form.period) }}
+            <label alt="Période" placeholder="Période"></label>
         </div>
     </div>
     <div class="row">
@@ -89,6 +133,7 @@
                             <div class="row">
                                 <div class="col">
                                     {{ form_widget(form.video) }}
+                                    <label alt="URL" placeholder="URL"></label>
                                 </div>
                                 <div class="col-md-auto">
                                     <button id="media_video_preview" class="btn btn-primary btn-sm" type="button">Prévisualiser</button>
@@ -123,6 +168,7 @@
                 </div>
                 <div class="col-4">
                     {{ form_widget(form.teacherSource) }}
+                    <label alt="Source" placeholder="Source"></label>
                 </div>
             </div>
             <div class="row">
@@ -155,33 +201,25 @@
                             <div class="row">
                                 <div class="col-md-auto">
                                     {{ form_widget(form.teachingCmClass) }}
-                                </div>
-                                <div class="col p-0">
-                                    <small>{{ form_label(form.teachingCmClass) }}</small>
+                                    <label alt="Heures CM" placeholder="Heures TP"></label>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-auto">
                                     {{ form_widget(form.teachingTdClass) }}
-                                </div>
-                                <div class="col p-0">
-                                    <small>{{ form_label(form.teachingTdClass) }}</small>
+                                    <label alt="Heures TP" placeholder="Heures TD"></label>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-auto">
                                     {{ form_widget(form.teachingTpClass) }}
-                                </div>
-                                <div class="col p-0">
-                                    <small>{{ form_label(form.teachingTpClass) }}</small>
+                                    <label alt="Heures TP" placeholder="Heures TP"></label>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-auto">
                                     {{ form_widget(form.teachingOtherClass) }}
-                                </div>
-                                <div class="col p-0">
-                                    <small>{{ form_label(form.teachingOtherClass) }}</small>
+                                    <label alt="Heures autre" placeholder="Heures autre"></label>
                                 </div>
                             </div>
                         </div>
@@ -189,8 +227,14 @@
                 </div>
                 <div class="col-7 border-left">
                     <div class="row">
-                        <div class="col-7">
+                        <div class="col-3">
                             <h6>{{ form_widget(form.teachingMode.children[1]) }}</h6>
+                        </div>
+                        <div class="col">
+                            <small>Présentiel</small>
+                        </div>
+                        <div class="col">
+                            <small>Distanciel</small>
                         </div>
                     </div>
                     <div class="row">
@@ -201,33 +245,25 @@
                             <div class="row">
                                 <div class="col-md-auto">
                                     {{ form_widget(form.teachingCmHybridClass) }}
-                                </div>
-                                <div class="col p-0">
-                                    <small>{{ form_label(form.teachingCmHybridClass) }}</small>
+                                    <label alt="Heures CM" placeholder="Heures CM"></label>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-auto">
                                     {{ form_widget(form.teachingTdHybridClass) }}
-                                </div>
-                                <div class="col p-0">
-                                    <small>{{ form_label(form.teachingTdHybridClass) }}</small>
+                                    <label alt="Heures TD" placeholder="Heures TD"></label>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-auto">
                                     {{ form_widget(form.teachingTpHybridClass) }}
-                                </div>
-                                <div class="col p-0">
-                                    <small>{{ form_label(form.teachingTpHybridClass) }}</small>
+                                    <label alt="Heures TP" placeholder="Heures TP"></label>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-auto">
                                     {{ form_widget(form.teachingOtherHybridClass) }}
-                                </div>
-                                <div class="col p-0">
-                                    <small>{{ form_label(form.teachingOtherHybridClass) }}</small>
+                                    <label alt="Heures autre" placeholder="Heures autre"></label>
                                 </div>
                             </div>
                         </div>
@@ -235,25 +271,19 @@
                             <div class="row">
                                 <div class="col-md-auto">
                                     {{ form_widget(form.teachingCmHybridDist) }}
-                                </div>
-                                <div class="col p-0">
-                                    <small>{{ form_label(form.teachingCmHybridDist) }}</small>
+                                    <label alt="Heures autre" placeholder="Heures CM"></label>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-auto">
                                     {{ form_widget(form.teachingTdHybridDist) }}
-                                </div>
-                                <div class="col p-0">
-                                    <small>{{ form_label(form.teachingTdHybridDist) }}</small>
+                                    <label alt="Heures autre" placeholder="Heures TD"></label>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-auto">
                                     {{ form_widget(form.teachingOtherHybridDist) }}
-                                </div>
-                                <div class="col p-0">
-                                    <small>{{ form_label(form.teachingOtherHybridDist) }}</small>
+                                    <label alt="Heures autre" placeholder="Heures autre"></label>
                                 </div>
                             </div>
                         </div>
