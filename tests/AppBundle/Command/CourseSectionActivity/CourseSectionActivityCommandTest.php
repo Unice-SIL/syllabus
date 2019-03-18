@@ -54,7 +54,8 @@ class CourseSectionActivityCommandTest extends TestCase
 
         // Activity
         $this->activity = new Activity();
-        $this->activity->setId(Uuid::uuid4());
+        $this->activity->setId(Uuid::uuid4())
+            ->setLabel('activity');
 
         // CourseSectionActivity
         $this->courseSectionActivity = new CourseSectionActivity();

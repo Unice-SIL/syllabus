@@ -82,9 +82,6 @@ class EditPresentationCourseInfoType extends AbstractType
             ->add('video', TextType::class, [
                 'required' => false,
                 'label' => 'Url vidéo',
-                'attr' => [
-                    'placeholder' => 'URL de la vidéo'
-                ],
             ])
             ->add('teachingCmClass', TextType::class, [
                 'required' => false,

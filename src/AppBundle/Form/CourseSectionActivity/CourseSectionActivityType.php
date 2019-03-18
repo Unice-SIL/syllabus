@@ -40,9 +40,6 @@ class CourseSectionActivityType extends AbstractType
             ->add('description', TextType::class, [
                 'label' => false,
                 'required' => false,
-                'attr' => [
-                    'placeholder' => "Préciser si nécessaire",
-                ]
             ])
             ->add('order', HiddenType::class);
     }
