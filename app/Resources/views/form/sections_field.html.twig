@@ -1,7 +1,7 @@
-{% macro section_template(section) %}
+{% macro section_template(section, activitiesClass) %}
     <li class="list-group-item section">
         <div class="row">
-            <div class="col-md-auto">
+            <div class="col-md-auto align-self-center">
                 <i class="fas fa-caret-down" title="Déplier / Replier."
                    data-toggle="collapse"
                    data-target="#collapse_{{ section.vars.id }}"
@@ -9,16 +9,13 @@
                    aria-controls="collapse_{{ section.vars.id }}"
                 ></i>
             </div>
-            <div class="col"></div>
-            <div class="col-md-auto">
-                <i class="fas fa-arrows-alt-v section-collection-move" title="Glisser / déposer pour modifier l'ordre."></i>
-                <i class="fas fa-eraser section-collection-remove" title="Retirer de la liste."></i>
-            </div>
-        </div>
-        <div class="row">
             <div class="col">
                 {{ form_widget(section.title) }}
                 <label alt="Titre" placeholder="Titre"></label>
+            </div>
+            <div class="col-md-auto align-self-center">
+                <i class="fas fa-arrows-alt-v section-collection-move" title="Glisser / déposer pour modifier l'ordre."></i>
+                <i class="fas fa-eraser section-collection-remove" title="Retirer de la liste."></i>
             </div>
         </div>
         <div class="row">
@@ -52,8 +49,23 @@
                                     <strong>Activité(s) / Evaluation(s) associée(s) au contenu</strong>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col">
+                            <div class="row container-activities">
+                                <div class="col m-1 border p-1">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="list-class-activities">
+                                                {% for activityClass in activitiesClass %}
+                                                    <div class="list-class-activity p-1 mt-1 border border-info">
+                                                        <small class="font-weight-bold activity-label">{{ activityClass.label }}</small>
+                                                        <input type="hidden" value="{{ activityClass.id }}">
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col m-1 border p-1">
                                     {{ form_row(section.activities) }}
                                 </div>
                             </div>
@@ -70,7 +82,7 @@
     {% import _self as sectionsField %}
     <ul class="list-group" id="sections" data-prototype="{{ sectionsField.section_template(form.vars.prototype)|e }}">
         {% for section in form.children %}
-            {{ sectionsField.section_template(section) }}
+            {{ sectionsField.section_template(section, activitiesClass) }}
         {% endfor %}
     </ul>
 {% endblock %}

@@ -1,12 +1,14 @@
 {% macro activity_template(activity) %}
-    <li class="list-group-item activity mt-0">
+    <div class="activity p-1 mt-1 border border-info">
         <div class="row">
             <div class="col">
                 <div class="row">
                     <div class="col">
+                        <small class="font-weight-bold activity-label">
                         {% if activity.vars.data %}
                             {{ activity.vars.data.activity.label }}
                         {% endif %}
+                        </small>
                     </div>
                 </div>
                 <div class="row">
@@ -15,21 +17,25 @@
                         <label alt="Préciser si nécessaire" placeholder="Préciser si nécessaire"></label>
                     </div>
                 </div>
+                {{ form_widget(activity.activity) }}
             </div>
-            <div class="col col-md-auto">
+            <div class="col col-md-auto align-self-center">
+                <i class="fas fa-arrows-alt-v activity-collection-move" title="Glisser / déposer pour modifier l'ordre."></i>
                 <i class="fas fa-eraser activity-collection-remove" title="Retirer de la liste."></i>
             </div>
         </div>
         {{ form_row(activity) }}
-    </li>
+    </div>
 {% endmacro %}
 
 {% block _edit_activities_course_info_sections_entry_activities_widget %}
     {% import _self as activitiesField %}
-    <ul class="list-group activities"
+    <div id="activities_{{ form.parent.vars.name }}"
+         class="activities"
+         data-index=""
         data-prototype="{{ activitiesField.activity_template(form.vars.prototype)|e }}">
         {% for activity in form.children %}
             {{ activitiesField.activity_template(activity) }}
         {% endfor %}
-    </ul>
+    </div>
 {% endblock %}

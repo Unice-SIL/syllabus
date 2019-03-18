@@ -124,7 +124,7 @@
                             <div class="row mt-2">
                                 <div class="col">
                                     {% if form.vars.data.image is not null %}
-                                        <img id="media_image" src="{{ asset('data/' ~ form.vars.data.image.filename) }}">
+                                        <img class="img-thumbnail" id="media_image" src="{{ asset('data/' ~ form.vars.data.image.filename) }}">
                                     {% endif %}
                                 </div>
                             </div>
