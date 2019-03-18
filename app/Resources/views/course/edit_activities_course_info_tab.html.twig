@@ -89,16 +89,38 @@
              * Init activities collections
              */
             var activitiesCollectionHolders = $('.activities');
-            activitiesCollectionHolders.each(function(){
-                $(this).data('index', $(this).find('.activity').length);
-                console.log($(this).attr('id'));
-                console.log($(this).data('index'));
-                $(this).sortable( {
+
+            $(".container-activities").each(function(){
+                var activitiesClassList = $(this).find('.list-class-activities');
+                var activitiesCollectionHolder = $(this).find('.activities');
+                var groupName = activitiesCollectionHolder.attr('id');
+
+                activitiesCollectionHolder.data('index', $(this).find('.activity').length);
+
+                activitiesCollectionHolder.sortable( {
                     group: {
-                        name: $(this).attr('id')
+                        name: groupName
                     },
                     handle: ".activity-collection-move",
                     sort: true,
+                    animation: 150,
+                    onAdd: function(e){
+                        var item = $(e.item);
+                        var form = addFormToCollection(activitiesCollectionHolder);
+                        console.log(item.find("input[type='hidden']").val());
+                        form.find('.activity-label').html(item.find('.activity-label').html());
+                        form.find('select[id$=_activity]').val(item.find("input[type='hidden']").val());
+                        item.replaceWith(form);
+
+                    }
+                } );
+                activitiesClassList.sortable( {
+                    group: {
+                        name: groupName,
+                        pull: 'clone',
+                        put: false
+                    },
+                    sort: false,
                     animation: 150
                 } );
             });
@@ -137,12 +159,11 @@
                             $(this).val(order+1);
                         }
                     });
-                    /*
+                    console.log($(this).find(".activity"));
                     // Set activities order
-                    $(this).find("li.activity").each(function(order){
+                    $(this).find(".activity").each(function(order){
                         $(this).find("input[id$='_order']").val(order+1);
                     });
-                    */
                 });
 
 
@@ -158,7 +179,6 @@
                         //cache: false,
                         //timeout: 600000
                     }).done(function(response){
-                        console.log('fii');
                         if(response.type !== undefined && response.message !== undefined) {
                             SILTools.alert(response.type, response.message, false);
                         }

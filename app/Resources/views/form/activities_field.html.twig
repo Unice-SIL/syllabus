@@ -4,9 +4,11 @@
             <div class="col">
                 <div class="row">
                     <div class="col">
+                        <small class="font-weight-bold activity-label">
                         {% if activity.vars.data %}
-                            <small class="font-weight-bold">{{ activity.vars.data.activity.label }}</small>
+                            {{ activity.vars.data.activity.label }}
                         {% endif %}
+                        </small>
                     </div>
                 </div>
                 <div class="row">
@@ -15,6 +17,7 @@
                         <label alt="Préciser si nécessaire" placeholder="Préciser si nécessaire"></label>
                     </div>
                 </div>
+                {{ form_widget(activity.activity) }}
             </div>
             <div class="col col-md-auto align-self-center">
                 <i class="fas fa-arrows-alt-v activity-collection-move" title="Glisser / déposer pour modifier l'ordre."></i>

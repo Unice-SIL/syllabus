@@ -3,8 +3,11 @@
 namespace AppBundle\Form\CourseSectionActivity;
 
 use AppBundle\Command\CourseSectionActivity\CourseSectionActivityCommand;
+use AppBundle\Entity\Activity;
 use Doctrine\ORM\EntityManager;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -40,6 +43,13 @@ class CourseSectionActivityType extends AbstractType
             ->add('description', TextType::class, [
                 'label' => false,
                 'required' => false,
+            ])
+            ->add('activity', EntityType::class, [
+                'class' => Activity::class,
+                'choice_label' => 'label',
+                'attr' => [
+                    'hidden ' => true
+                ]
             ])
             ->add('order', HiddenType::class);
     }

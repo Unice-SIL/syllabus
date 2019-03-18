@@ -49,14 +49,15 @@
                                     <strong>Activité(s) / Evaluation(s) associée(s) au contenu</strong>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row container-activities">
                                 <div class="col m-1 border p-1">
                                     <div class="row">
                                         <div class="col">
-                                            <div id="activitiesClass">
+                                            <div class="list-class-activities">
                                                 {% for activityClass in activitiesClass %}
-                                                    <div class="activityClass p-1 mt-1 border border-info">
-                                                        {{ activityClass.label }}
+                                                    <div class="list-class-activity p-1 mt-1 border border-info">
+                                                        <small class="font-weight-bold activity-label">{{ activityClass.label }}</small>
+                                                        <input type="hidden" value="{{ activityClass.id }}">
                                                     </div>
                                                 {% endfor %}
                                             </div>
