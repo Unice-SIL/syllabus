@@ -81,27 +81,33 @@ class EditPresentationCourseInfoAction implements ActionInterface
      */
     public function __invoke(Request $request)
     {
-        $id = $request->get('id', null);
-        try {
-            $courseInfo = $this->findCourseInfoByIdQuery->setId($id)->execute();
-        }catch (CourseInfoNotFoundException $e){
+        try{
+            $id = $request->get('id', null);
+            try {
+                $courseInfo = $this->findCourseInfoByIdQuery->setId($id)->execute();
+            }catch (CourseInfoNotFoundException $e){
+                // TODO
+                return new Response("");
+            }
+            if(!is_null($courseInfo->getImage())) {
+                $courseInfo->setImage(new File($this->fileUploaderHelper->getDirectory().'/'.$courseInfo->getImage()));
+            }
+            $editPresentationCourseInfoCommand = new EditPresentationCourseInfoCommand($courseInfo);
+            $form = $this->formFactory->create(EditPresentationCourseInfoType::class, $editPresentationCourseInfoCommand);
+            $form->handleRequest($request);
+
+            return new Response(
+                $this->templating->render(
+                    'course/edit_presentation_course_tab.html.twig',
+                    [
+                        'courseInfo' => $courseInfo,
+                        'form' => $form->createView()
+                    ]
+                )
+            );
+        }catch (\Exception $e){
             // TODO
         }
-        if(!is_null($courseInfo->getImage())) {
-            $courseInfo->setImage(new File($this->fileUploaderHelper->getDirectory().'/'.$courseInfo->getImage()));
-        }
-        $editPresentationCourseInfoCommand = new EditPresentationCourseInfoCommand($courseInfo);
-        $form = $this->formFactory->create(EditPresentationCourseInfoType::class, $editPresentationCourseInfoCommand);
-        $form->handleRequest($request);
-
-        return new Response(
-            $this->templating->render(
-                'course/edit_presentation_course_tab.html.twig',
-                [
-                    'courseInfo' => $courseInfo,
-                    'form' => $form->createView()
-                ]
-            )
-        );
+        return new Response("");
     }
 }

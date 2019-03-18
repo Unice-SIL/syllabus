@@ -47,6 +47,9 @@ class CourseSectionType extends AbstractType
             ->add('title', TextType::class, [
                 'label' => 'Title',
                 'required' => true,
+                'attr' => [
+                    'placeholder' => 'Titre'
+                ]
             ])
             ->add('type', EntityType::class, [
                 'label' => 'Type',
