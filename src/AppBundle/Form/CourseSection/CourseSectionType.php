@@ -51,13 +51,6 @@ class CourseSectionType extends AbstractType
                     'placeholder' => 'Titre'
                 ]
             ])
-            ->add('type', EntityType::class, [
-                'label' => 'Type',
-                'required' =>true,
-                'class' => SectionType::class,
-                'choice_label' => 'label',
-                'em' => $this->syllabusEntityManager,
-            ])
             ->add('description', CKEditorType::class, [
                 'label' => 'Description',
             ])

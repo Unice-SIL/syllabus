@@ -7,7 +7,6 @@ use AppBundle\Command\CourseSectionActivity\CourseSectionActivityCommand;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseSection;
 use AppBundle\Entity\CourseSectionActivity;
-use AppBundle\Entity\SectionType;
 use Doctrine\Common\Collections\ArrayCollection;
 use Ramsey\Uuid\Uuid;
 
@@ -26,11 +25,6 @@ class CourseSectionCommand implements CommandInterface
      * @var string|null
      */
     private $title;
-
-    /**
-     * @var SectionType|null
-     */
-    private $type;
 
     /**
      * @var null|string
@@ -65,7 +59,6 @@ class CourseSectionCommand implements CommandInterface
             $this->id = $courseSection->getId();
             $this->courseInfo = $courseSection->getCourseInfo();
             $this->title = $courseSection->getTitle();
-            $this->type = $courseSection->getSectionType();
             $this->description = $courseSection->getDescription();
             $this->order = $courseSection->getOrder();
             $this->activities = new ArrayCollection();
@@ -113,26 +106,6 @@ class CourseSectionCommand implements CommandInterface
 
         return $this;
     }
-
-    /**
-     * @return SectionType|null
-     */
-    public function getType(): ?SectionType
-    {
-        return $this->type;
-    }
-
-    /**
-     * @param SectionType|null $type
-     * @return CourseSectionCommand
-     */
-    public function setType($type): CourseSectionCommand
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
 
     /**
      * @return null|string
@@ -260,9 +233,6 @@ class CourseSectionCommand implements CommandInterface
         }
         $entity->setCourseSectionActivities($courseSectionActivities);
 
-        if(!is_null($this->getType())){
-            $entity->setSectionType($this->getType());
-        }
         if(!is_null($this->getCourseInfo())){
             $entity->setCourseInfo($this->getCourseInfo());
         }

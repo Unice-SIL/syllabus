@@ -55,16 +55,6 @@ class CourseSection
     private $courseInfo;
 
     /**
-     * @var \AppBundle\Entity\SectionType
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\SectionType")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="section_type_id", referencedColumnName="id")
-     * })
-     */
-    private $sectionType;
-
-    /**
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\OneToMany(targetEntity="CourseSectionActivity", mappedBy="courseSection", cascade={ "persist", "remove" })
@@ -170,25 +160,6 @@ class CourseSection
     public function setCourseInfo(CourseInfo $courseInfo): CourseSection
     {
         $this->courseInfo = $courseInfo;
-
-        return $this;
-    }
-
-    /**
-     * @return SectionType
-     */
-    public function getSectionType(): SectionType
-    {
-        return $this->sectionType;
-    }
-
-    /**
-     * @param SectionType $sectionType
-     * @return CourseSection
-     */
-    public function setSectionType(SectionType $sectionType): CourseSection
-    {
-        $this->sectionType = $sectionType;
 
         return $this;
     }

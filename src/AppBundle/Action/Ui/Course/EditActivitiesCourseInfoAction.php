@@ -107,7 +107,7 @@ class EditActivitiesCourseInfoAction implements ActionInterface
                 )
             );
         }catch (\Exception $e){
-            // TODO
+            $this->logger->error((string)$e);
             dump($e);
         }
         return new Response("");
