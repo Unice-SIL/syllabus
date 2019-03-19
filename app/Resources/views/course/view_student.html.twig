@@ -109,7 +109,7 @@
                 {% if course.teachingMode == "class" %}
                     <img class="w-50 mx-3" src="{{ asset('images/presentiel.png') }}">
                 {% elseif course.teachingMode == "hybrid" %}
-                    <img class="w-100 mx-3" src="{{ asset('images/hybride.png') }}">
+                    <img class="w-50 mx-3" src="{{ asset('images/hybride.png') }}">
                 {% endif %}
                 <span class="font-weight-bold media-body d-flex flex-column justify-content-center align-items-start"> 
                     <span>{{course.teachingMode}}</span>
@@ -247,32 +247,35 @@
         </div>
         <table class="row m-3 d-flex flex-row justify-content-around">
             <div class="col-md-12 p-0" >
-                <table class="table table-dark">
+                <table class="table table-bordered table-dark">
                     <thead>
                         <tr>
-                        <th scope="col">Contenu</th>
-                        <th scope="col">Activité(s)</th>
-                        <th scope="col" class="text-right">Autonomie/ En classe</th>
+                        <th scope="col" class="text-center" colspan='2'>Contenu</th>
+                        <th scope="col" class="row m-0 d-flex flex-row justify-content-between"> 
+                            <div>Activité(s)</div> 
+                            <div>Autonomie / En classe</div>
+                        </th>
                         <th scope="col">Contrôle Continu</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for section in course.courseSections %}
                         <tr>
-                            <td> {{section.title}} {{section.description}}</td>
-                            <td colspan='2'>
+                            <td class="align-middle bg-info"> {{section.title|raw}}</td>
+                            <td class="align-middle">{{section.description|raw}}</td>
+                            <td class="py-0">
                             {% for activity in section.courseSectionActivities %}
-                                <div class="row px-3 d-flex flex-row justify-content-between">
+                                <div class="row p-3 d-flex flex-row justify-content-between {{ loop.index0 is odd ? 'bg-dark' : 'bg-secondary' }}">
                                 <span>{{activity.activity.label}} </span>
                                 {% if activity.activity.distant == true %}
-                                    <i class="fas fa-2x fa-book-reader"></i>
+                                    <i class="fas mr-5 fa-2x fa-book-reader"></i>
                                 {% elseif activity.activity.teacher == false %}
-                                    <i class="fas fa-2x fa-chalkboard-teacher"></i>
+                                    <i class="fas mr-5 fa-2x fa-chalkboard-teacher"></i>
                                 {% endif %}
                                 </div>
                             {% endfor %}
                             </td>
-                            <td>
+                            <td class="align-middle">
                             <span>Modalité du contrôle</span>
                             </td>
                         </tr>
@@ -281,13 +284,6 @@
                 </table>
             </div>
         </div>
-
-        {# {% for section in course.courseSections %}
-        {{dump(section)}}
-                    {% for activity in section.courseSectionActivities %}
-                    {{dump(activity)}}
-                    {% endfor %}
-        {% endfor %} #}
 
 
         <div class="row mx-3 d-flex flex-row">
@@ -359,7 +355,7 @@
                 <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
                     <h5 class="m-0">CONSEILS PRATIQUES</h5>
                     <div>
-                    {{course.mccAdvice}}
+                    {{course.mccAdvice|raw}}
                     </div>
                 </div>
             </div>
