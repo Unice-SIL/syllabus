@@ -41,26 +41,37 @@ class ActivityDoctrineRepository extends AbstractDoctrineRepository implements A
     }
 
     /**
-     * @param bool $evaluation
-     * @param bool $distant
-     * @param bool $teacher
+     * @param $type
+     * @param $mode
+     * @param $size
+     * @param $evaluation
      * @return \ArrayObject
      * @throws \Exception
      */
-    public function findByCriteria(bool $evaluation=false, bool $distant=false, bool $teacher=false): \ArrayObject
+    public function findByCriteria($type, $mode, $size, $evaluation): \ArrayObject
     {
         $activities = new \ArrayObject();
         try{
             $qb = $this->entityManager->getRepository(Activity::class)->createQueryBuilder('a');
             $qb->where($qb->expr()->eq('a.obsolete', ':obsolete'))
-                ->andWhere($qb->expr()->eq('a.evaluation', ':evaluation'))
-                ->andWhere($qb->expr()->eq('a.distant', ':distant'))
-                ->andWhere($qb->expr()->eq('a.teacher', ':teacher'))
-                ->orderBy('a.ord', 'ASC')
                 ->setParameter('obsolete', false)
-                ->setParameter('evaluation', $evaluation)
-                ->setParameter('distant', $distant)
-                ->setParameter('teacher', $teacher);
+                ->orderBy('a.ord', 'ASC');
+            if(!is_null($type)){
+                $qb->andWhere($qb->expr()->eq('a.type', ':type'))
+                    ->setParameter('type', $type);
+            }
+            if(!is_null($mode)){
+                $qb->andWhere($qb->expr()->eq('a.mode', ':mode'))
+                    ->setParameter('mode', $mode);
+            }
+            if(!is_null($size)){
+                $qb->andWhere($qb->expr()->eq('a.size', ':size'))
+                    ->setParameter('size', $size);
+            }
+            if(!is_null($size)){
+                $qb->andWhere($qb->expr()->eq('a.evaluation', ':evaluation'))
+                    ->setParameter('evaluation', $evaluation);;
+            }
             foreach ($qb->getQuery()->getResult() as $activity){
                 $activities->append($activity);
             }

@@ -31,30 +31,37 @@ class Activity
     /**
      * @var bool
      *
-     * @ORM\Column(name="label_visibility", type="boolean", nullable=false, options={"default"="1","comment"="Témoin affichage de l'intitulé de l'activité"})
+     * @ORM\Column(name="label_visibility", type="boolean", nullable=false, options={"comment"="Témoin affichage de l'intitulé de l'activité"})
      */
-    private $labelVisibility = '1';
+    private $labelVisibility = true;
 
     /**
-     * @var bool
+     * @var string
      *
-     * @ORM\Column(name="evaluation", type="boolean", nullable=false)
+     * @ORM\Column(name="type", type="string", length=25, nullable=false)
      */
-    private $evaluation = false;
+    private $type = 'class';
 
     /**
-     * @var bool
+     * @var string
      *
-     * @ORM\Column(name="distant", type="boolean", nullable=false)
+     * @ORM\Column(name="mode", type="string", length=25, nullable=false)
      */
-    private $distant = false;
+    private $mode = 'class';
 
     /**
-     * @var bool
+     * @var string
      *
-     * @ORM\Column(name="teacher", type="boolean", nullable=false)
+     * @ORM\Column(name="size", type="string", length=25, nullable=true)
      */
-    private $teacher = false;
+    private $size;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="evaluation", type="string", length=25, nullable=true)
+     */
+    private $evaluation;
 
     /**
      * @var bool
@@ -128,58 +135,77 @@ class Activity
     }
 
     /**
-     * @return bool
+     * @return string
      */
-    public function isEvaluation(): bool
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string $type
+     * @return Activity
+     */
+    public function setType(string $type): Activity
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMode(): string
+    {
+        return $this->mode;
+    }
+
+    /**
+     * @param string $mode
+     * @return Activity
+     */
+    public function setMode(string $mode): Activity
+    {
+        $this->mode = $mode;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSize(): string
+    {
+        return $this->size;
+    }
+
+    /**
+     * @param string $size
+     * @return Activity
+     */
+    public function setSize(string $size): Activity
+    {
+        $this->size = $size;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEvaluation(): string
     {
         return $this->evaluation;
     }
 
     /**
-     * @param bool $evaluation
+     * @param string $evaluation
      * @return Activity
      */
-    public function setEvaluation(bool $evaluation): Activity
+    public function setEvaluation(string $evaluation): Activity
     {
         $this->evaluation = $evaluation;
-
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isDistant(): bool
-    {
-        return $this->distant;
-    }
-
-    /**
-     * @param bool $distant
-     * @return Activity
-     */
-    public function setDistant(bool $distant): Activity
-    {
-        $this->distant = $distant;
-
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isTeacher(): bool
-    {
-        return $this->teacher;
-    }
-
-    /**
-     * @param bool $teacher
-     * @return Activity
-     */
-    public function setTeacher(bool $teacher): Activity
-    {
-        $this->teacher = $teacher;
 
         return $this;
     }
@@ -221,6 +247,5 @@ class Activity
 
         return $this;
     }
-
 
 }

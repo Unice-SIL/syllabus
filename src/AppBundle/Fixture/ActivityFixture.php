@@ -32,8 +32,9 @@ class ActivityFixture extends Fixture
         $activity1->setId(Uuid::uuid4())
             ->setLabel('Cours Magistraux')
             ->setLabelVisibility(true)
-            ->setDistant(false)
-            ->setTeacher(false)
+            ->setType('activity')
+            ->setMode('class')
+            ->setSize('all')
             ->setOrd(1)
             ->setObsolete(false);
 
@@ -44,8 +45,9 @@ class ActivityFixture extends Fixture
         $activity2->setId(Uuid::uuid4())
             ->setLabel('Projet')
             ->setLabelVisibility(true)
-            ->setDistant(true)
-            ->setTeacher(true)
+            ->setType('activity')
+            ->setMode('class')
+            ->setSize('group')
             ->setOrd(1)
             ->setObsolete(false);
 
