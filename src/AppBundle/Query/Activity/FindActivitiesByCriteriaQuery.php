@@ -17,19 +17,24 @@ class FindActivitiesByCriteriaQuery implements QueryInterface
     private $activityRepository;
 
     /**
-     * @var bool
+     * @var string
      */
-    private $evaluation = false;
+    private $type;
 
     /**
-     * @var bool
+     * @var string
      */
-    private $distant = false;
+    private $mode;
 
     /**
-     * @var bool
+     * @var string
      */
-    private $teacher = false;
+    private $size;
+
+    /**
+     * @var string
+     */
+    private $evaluation;
 
     /**
      * FindCourseInfoByIdQuery constructor.
@@ -43,34 +48,45 @@ class FindActivitiesByCriteriaQuery implements QueryInterface
     }
 
     /**
-     * @param bool $evaluation
+     * @param string $type
      * @return FindActivitiesByCriteriaQuery
      */
-    public function setEvaluation(bool $evaluation): FindActivitiesByCriteriaQuery
+    public function setType(string $type): FindActivitiesByCriteriaQuery
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * @param string $mode
+     * @return FindActivitiesByCriteriaQuery
+     */
+    public function setMode(string $mode): FindActivitiesByCriteriaQuery
+    {
+        $this->mode = $mode;
+
+        return $this;
+    }
+
+    /**
+     * @param string $size
+     * @return FindActivitiesByCriteriaQuery
+     */
+    public function setSize(string $size): FindActivitiesByCriteriaQuery
+    {
+        $this->size = $size;
+
+        return $this;
+    }
+
+    /**
+     * @param string $evaluation
+     * @return FindActivitiesByCriteriaQuery
+     */
+    public function setEvaluation(string $evaluation): FindActivitiesByCriteriaQuery
     {
         $this->evaluation = $evaluation;
-
-        return $this;
-    }
-
-    /**
-     * @param bool $distant
-     * @return FindActivitiesByCriteriaQuery
-     */
-    public function setDistant(bool $distant): FindActivitiesByCriteriaQuery
-    {
-        $this->distant = $distant;
-
-        return $this;
-    }
-
-    /**
-     * @param bool $teacher
-     * @return FindActivitiesByCriteriaQuery
-     */
-    public function setTeacher(bool $teacher): FindActivitiesByCriteriaQuery
-    {
-        $this->teacher = $teacher;
 
         return $this;
     }
@@ -81,12 +97,11 @@ class FindActivitiesByCriteriaQuery implements QueryInterface
      */
     public function execute(): \ArrayObject
     {
-        $activities = new \ArrayObject();
         try{
-            $activities = $this->activityRepository->findByCriteria($this->evaluation, $this->distant, $this->teacher);
+            $activities = $this->activityRepository->findByCriteria($this->type, $this->mode, $this->size, $this->evaluation);
+            return $activities;
         }catch (\Exception $e){
             throw $e;
         }
-        return $activities;
     }
 }

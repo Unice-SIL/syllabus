@@ -89,7 +89,7 @@ class EditActivitiesCourseInfoAction implements ActionInterface
                 return new Response("");
             }
             $activitiesClass = $this->findActivitiesByCriteriaQuery->execute();
-            $activitiesDistant = $this->findActivitiesByCriteriaQuery->setDistant(true)->execute();
+            $activitiesDistant = $this->findActivitiesByCriteriaQuery->setType('activity')->setMode('class')->execute();
 
             $editActivitiesCourseInfoCommand = new EditActivitiesCourseInfoCommand($courseInfo);
             $form = $this->formFactory->create(EditActivitiesCourseInfoType::class, $editActivitiesCourseInfoCommand);

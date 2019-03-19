@@ -19,12 +19,13 @@ interface ActivityRepositoryInterface
 
     /**
      * Find activities by criteria
-     * @param bool $evaluation
-     * @param bool $distant
-     * @param bool $teacher
+     * @param $type
+     * @param $mode
+     * @param $size
+     * @param $evaluation
      * @return \ArrayObject
      */
-    public function findByCriteria(bool $evaluation=false, bool $distant=false, bool $teacher=false): \ArrayObject;
+    public function findByCriteria($type, $mode, $size, $evaluation): \ArrayObject;
 
     /**
      * Create activity
