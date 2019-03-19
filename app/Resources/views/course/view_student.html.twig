@@ -265,18 +265,36 @@
                             <td class="align-middle">{{section.description|raw}}</td>
                             <td class="py-0">
                             {% for activity in section.courseSectionActivities %}
-                                <div class="row p-3 d-flex flex-row justify-content-between {{ loop.index0 is odd ? 'bg-dark' : 'bg-secondary' }}">
-                                <span>{{activity.activity.label}} </span>
-                                {% if activity.activity.distant == true %}
-                                    <i class="fas mr-5 fa-2x fa-book-reader"></i>
-                                {% elseif activity.activity.teacher == false %}
-                                    <i class="fas mr-5 fa-2x fa-chalkboard-teacher"></i>
+                                {% if activity.activity.type == "activity" %}
+                                    <div class="row p-3 d-flex flex-row justify-content-between {{ loop.index0 is odd ? 'bg-dark' : 'bg-secondary' }}">
+                                    <span>{{activity.activity.label}} </span>
+                                    {% if activity.activity.mode == 'distant' %}
+                                        <i class="fas mr-5 fa-2x fa-book-reader"></i>
+                                    {% elseif activity.activity.mode == 'class' %}
+                                        <i class="fas mr-5 fa-2x fa-chalkboard-teacher"></i>
+                                    {% endif %}
+                                    </div>
                                 {% endif %}
-                                </div>
                             {% endfor %}
                             </td>
                             <td class="align-middle">
-                            <span>Modalité du contrôle</span>
+                            {% for activity in section.courseSectionActivities %}
+                                {% if activity.activity.type == "evaluation" %}
+                                    <div class="row p-3 d-flex flex-row justify-content-between }}">
+                                    {% if activity.activity.mode == 'distant' %}
+                                        <u>A distance</u>
+                                    {% elseif activity.activity.mode == 'class' %}
+                                        <u>En classe</u>
+                                    {% endif %}
+                                    {{activity.activity.label}} - 
+                                    {% if activity.acitivity.evaluation == "teacher" %}
+                                        <span class="font-weight-bold font-italic">par l'enseignant</span>
+                                    {% elseif activity.acitivity.evaluation == "student" %}
+                                        <span class="font-weight-bold font-italic">par les pairs</span>
+                                    {% endif %}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
                             </td>
                         </tr>
                         {% endfor %}
@@ -409,7 +427,7 @@
                                 </div>
                         {% endif %}
                         {% if courseResourceEquipment.description != null %}
-                            <div">
+                            <div>
                             {{courseResourceEquipment.description}}
                             </div>
                         {% endif %}
@@ -421,20 +439,13 @@
             {% endfor %} 
         </div>
 
-
-
-
         <div class="row mx-3 d-flex flex-row">
             <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
                 <h5 class="m-0">RESSOUCRES PEDAGOGIQUES</h5>
             </div>
         </div>
         <div class="row mx-3 d-flex flex-row">
-            {% for ressource in course.educationalResources %}
-                <div class="row mx-3 d-flex flex-row">
-                 {{ressource.description|raw}}
-                </div>
-            {% endfor %}
+            {{course.educationalResources|raw}}
         </div>
 
 
@@ -444,11 +455,7 @@
             </div>
         </div>
         <div class="row mx-3 d-flex flex-row">
-            {% for ressource in course.bibliographicResources %}
-                <div class="row mx-3 d-flex flex-row">
-                 {{ressource.description|raw}}
-                </div>
-            {% endfor %}
+            {{course.bibliographicResources|raw}}
         </div>
 
 
