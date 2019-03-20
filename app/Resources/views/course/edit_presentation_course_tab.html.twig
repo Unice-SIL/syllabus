@@ -73,9 +73,11 @@
                             </div>
                             <div class="row mt-2">
                                 <div class="col">
+                                    {% set imgSrc = '' %}
                                     {% if form.vars.data.image is not null %}
-                                        <img class="img-thumbnail" id="media_image" src="{{ asset('data/' ~ form.vars.data.image.filename) }}">
+                                        {% set imgSrc = asset('data/' ~ form.vars.data.image.filename) %}
                                     {% endif %}
+                                    <img class="img-thumbnail" id="media_image" src="{{ imgSrc }}">
                                 </div>
                             </div>
                         </div>
@@ -91,11 +93,9 @@
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    {% if form.vars.data.image is not null %}
-                                        <div class="embed-responsive embed-responsive-16by9">
-                                            <iframe id="media_video_iframe" class="embed-responsive-item" src="{{ form.vars.value.video }}"></iframe>
-                                        </div>
-                                    {% endif %}
+                                    <div class="embed-responsive embed-responsive-16by9">
+                                        <iframe id="media_video_iframe" class="embed-responsive-item" src="{{ form.vars.value.video }}"></iframe>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -351,6 +351,7 @@
              * Load video in iframe when click on preview
              */
             $("#media_video_preview").on('click', function(){
+                console.log($("#edit_presentation_course_info_video").val());
                 $("#media_video_iframe").attr("src", $("#edit_presentation_course_info_video").val());
             });
 
