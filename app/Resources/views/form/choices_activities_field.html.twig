@@ -1,0 +1,30 @@
+{% macro choice_activity_template(choiceActivity, type, color) %}
+    <div class="list-{{ type }} p-1 mt-1 border border-{{ color }}">
+        <small class="font-weight-bold">{{ choiceActivity.data.label }}</small>
+        <input type="hidden" class="activity-label" value="{{ choiceActivity.data.label }}">
+        <input type="hidden" class="activity-id" value="{{ choiceActivity.data.id }}">
+        <input type="hidden" class="activity-type" value="{{ choiceActivity.data.type }}">
+        <input type="hidden" class="activity-mode" value="{{ choiceActivity.data.mode }}">
+        <input type="hidden" class="activity-size" value="{{ choiceActivity.data.size }}">
+        <input type="hidden" class="activity-evaluation" value="{{ choiceActivity.data.evaluation }}">
+        <input type="hidden" class="activity-color" value="{{ color }}">
+    </div>
+{% endmacro %}
+
+{% block _edit_activities_course_info_sections_entry_classActivities_widget %}
+    {% import _self as choicesActivitiesField %}
+    <div class="list-activities list-class-activities">
+        {% for choiceActivity in form.vars.choices %}
+            {{ choicesActivitiesField.choice_activity_template(choiceActivity, 'class-activity', 'info') }}
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block _edit_activities_course_info_sections_entry_distantActivities_widget %}
+    {% import _self as choicesActivitiesField %}
+    <div class="list-activities list-distant-activities">
+        {% for choiceActivity in form.vars.choices %}
+            {{ choicesActivitiesField.choice_activity_template(choiceActivity, 'distant-activity', 'warning') }}
+        {% endfor %}
+    </div>
+{% endblock %}

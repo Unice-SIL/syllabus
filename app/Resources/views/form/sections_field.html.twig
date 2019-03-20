@@ -1,4 +1,4 @@
-{% macro section_template(section, activitiesClass) %}
+{% macro section_template(section) %}
     <li class="list-group-item section">
         <div class="row">
             <div class="col-md-auto align-self-center">
@@ -44,23 +44,30 @@
                                 </div>
                             </div>
                             <div class="row container-activities">
-                                <div class="col m-1 border p-1">
+                                <div class="col">
                                     <div class="row">
-                                        <div class="col">
-                                            <div class="list-class-activities">
-                                                {% for activityClass in activitiesClass %}
-                                                    <div class="list-class-activity p-1 mt-1 border border-info">
-                                                        <small class="font-weight-bold activity-label">{{ activityClass.label }}</small>
-                                                        <input type="hidden" value="{{ activityClass.id }}">
-                                                    </div>
-                                                {% endfor %}
-                                            </div>
+                                        <div class="col ">
+                                            <span class="text-info">Activité(s) à faire en classe</span>
                                         </div>
                                     </div>
-
+                                    <div class="row">
+                                        <div class="col m-2 p-1 border">
+                                            {{ form_widget(section.classActivities) }}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col ">
+                                            <span class="text-warning">Activité(s) à faire en autonomie</span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col m-2 p-1 border">
+                                            {{ form_widget(section.distantActivities) }}
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col m-1 border p-1">
-                                    {{ form_row(section.activities) }}
+                                <div class="col m-2 p-1 border">
+                                    {{ form_widget(section.activities) }}
                                 </div>
                             </div>
                         </div>
@@ -76,7 +83,7 @@
     {% import _self as sectionsField %}
     <ul class="list-group" id="sections" data-prototype="{{ sectionsField.section_template(form.vars.prototype)|e }}">
         {% for section in form.children %}
-            {{ sectionsField.section_template(section, activitiesClass) }}
+            {{ sectionsField.section_template(section) }}
         {% endfor %}
     </ul>
 {% endblock %}

@@ -1,5 +1,15 @@
 {% macro activity_template(activity) %}
-    <div class="activity p-1 mt-1 border border-info">
+    {% set border = '' %}
+    {% if activity.vars.data %}
+        {% if activity.vars.data.activity.type == constant("AppBundle\\Constant\\ActivityType::ACTIVITY") %}
+            {% if activity.vars.data.activity.mode == constant("AppBundle\\Constant\\ActivityMode::CLASSROOM") %}
+                {% set border = 'border-info' %}
+            {% else %}
+                {% set border = 'border-warning' %}
+            {% endif %}
+        {% endif %}
+    {% endif %}
+    <div class="activity p-1 mt-1 border {{ border }}">
         <div class="row">
             <div class="col">
                 <div class="row">
@@ -24,14 +34,14 @@
                 <i class="fas fa-eraser activity-collection-remove" title="Retirer de la liste."></i>
             </div>
         </div>
-        {{ form_row(activity) }}
+        {{ form_widget(activity) }}
     </div>
 {% endmacro %}
 
 {% block _edit_activities_course_info_sections_entry_activities_widget %}
     {% import _self as activitiesField %}
     <div id="activities_{{ form.parent.vars.name }}"
-         class="activities"
+         class="activities h-100"
          data-index=""
         data-prototype="{{ activitiesField.activity_template(form.vars.prototype)|e }}">
         {% for activity in form.children %}

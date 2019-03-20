@@ -42,9 +42,6 @@ services:
     AppBundle\Form\Course\EditPresentationCourseInfoType:
         arguments: [ '%course_teacher_factory%' ]
 
-    AppBundle\Form\CourseSection\CourseSectionType:
-        arguments: [ '@syllabus_entity_manager' ]
-
     AppBundle\Form\CourseSectionActivity\CourseSectionActivityType:
         arguments: [ '@syllabus_entity_manager' ]
 

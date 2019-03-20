@@ -17,7 +17,8 @@
 
     {% form_theme form with [
     'form/sections_field.html.twig',
-    'form/activities_field.html.twig'
+    'form/activities_field.html.twig',
+    'form/choices_activities_field.html.twig'
     ] %}
 
     {{ form_start(form) }}
@@ -27,7 +28,7 @@
         Ajouter une section
     </button>
 
-    {{ form_widget(form.sections, { 'activitiesClass': activitiesClass }) }}
+    {{ form_widget(form.sections) }}
 
     <div class="row mt-3">
         <div class="col">
@@ -46,6 +47,62 @@
 
     <script>
 
+        /**
+         * Init activities elements
+         */
+        function initActivities(container){
+                var activitiesClassList = container.find('.list-activities');
+                var activitiesCollectionHolder = container.find('.activities');
+                var groupName = activitiesCollectionHolder.attr('id');
+
+                // Set data-index
+                activitiesCollectionHolder.data('index', activitiesCollectionHolder.find('.activity').length);
+
+                // Activities collection holder sortable
+                activitiesCollectionHolder.sortable( {
+                    group: {
+                        name: groupName
+                    },
+                    handle: ".activity-collection-move",
+                    sort: true,
+                    animation: 150,
+                    onAdd: function(e){
+                        var item = $(e.item);
+                        var form = addFormToCollection(activitiesCollectionHolder);
+                        var label = item.find('input.activity-label').val();
+                        var id = item.find("input.list-id").val();
+                        var type = item.find("input.list-type").val();
+                        var mode = item.find("input.list-mode").val();
+                        var size = item.find("input.list-size").val();
+                        var evaluation = item.find("input.list-evaluation").val();
+                        form.find('.activity-label').html(label);
+                        form.find('select[id$=_activity]').val(id);
+                        form.addClass('border-'+item.find("input.activity-color").val());
+                        item.replaceWith(form);
+                    }
+                } );
+
+                // Activities lists sortable
+                activitiesClassList.sortable( {
+                    group: {
+                        name: groupName,
+                        pull: 'clone',
+                        put: false
+                    },
+                    sort: false,
+                    animation: 150
+                } );
+
+                // Remove a activity from collection
+                activitiesCollectionHolder.on('click', '.activity-collection-remove', function(){
+                    var form = $(this).closest(".activity");
+                    form.fadeOut({
+                        always: function(){
+                            form.remove();
+                        }
+                    });
+                });
+        }
 
         /**
          *
@@ -70,6 +127,7 @@
              */
             $('#addSectionButton').click(function(){
                 var form = addFormToCollection(sectionsCollectionHolder);
+                initActivities(form.find('.container-activities'));
                 form.find('input[id$=_title]').focus();
             });
 
@@ -86,57 +144,11 @@
             });
 
             /**
-             * Init activities collections
+             * Call initActivities function for all activities container
              */
-            var activitiesCollectionHolders = $('.activities');
-
-            $(".container-activities").each(function(){
-                var activitiesClassList = $(this).find('.list-class-activities');
-                var activitiesCollectionHolder = $(this).find('.activities');
-                var groupName = activitiesCollectionHolder.attr('id');
-
-                activitiesCollectionHolder.data('index', $(this).find('.activity').length);
-
-                activitiesCollectionHolder.sortable( {
-                    group: {
-                        name: groupName
-                    },
-                    handle: ".activity-collection-move",
-                    sort: true,
-                    animation: 150,
-                    onAdd: function(e){
-                        var item = $(e.item);
-                        var form = addFormToCollection(activitiesCollectionHolder);
-                        console.log(item.find("input[type='hidden']").val());
-                        form.find('.activity-label').html(item.find('.activity-label').html());
-                        form.find('select[id$=_activity]').val(item.find("input[type='hidden']").val());
-                        item.replaceWith(form);
-
-                    }
-                } );
-                activitiesClassList.sortable( {
-                    group: {
-                        name: groupName,
-                        pull: 'clone',
-                        put: false
-                    },
-                    sort: false,
-                    animation: 150
-                } );
+            $('.container-activities').each(function(){
+                initActivities($(this));
             });
-
-            /**
-             * Remove a activity from collection
-             */
-            activitiesCollectionHolders.on('click', '.activity-collection-remove', function(){
-                var form = $(this).closest(".activity");
-                form.fadeOut({
-                    always: function(){
-                        form.remove();
-                    }
-                });
-            });
-
 
             /**
              * Submit the form
@@ -149,8 +161,7 @@
                 }
 
                 var form = $(this);
-                var data = new FormData(form);
-
+                //var data = new FormData(form);
 
                 sectionsCollectionHolder.find('li.section').each(function(order){
                     // Set section order

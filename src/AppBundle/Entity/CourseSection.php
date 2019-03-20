@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * CourseSection
  *
- * @ORM\Table(name="course_section", indexes={@ORM\Index(name="fk_course_section_course_info1_idx", columns={"course_info_id"}), @ORM\Index(name="fk_course_section_section_type1_idx", columns={"section_type_id"})})
+ * @ORM\Table(name="course_section", indexes={@ORM\Index(name="fk_course_section_course_info1_idx", columns={"course_info_id"})})
  * @ORM\Entity
  */
 class CourseSection
