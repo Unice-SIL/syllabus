@@ -11,6 +11,7 @@ use AppBundle\Query\Course\FindCourseInfoByIdQuery;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -77,7 +78,7 @@ class EditPresentationCourseInfoAction implements ActionInterface
     /**
      * @Route("/course/presentation/edit/{id}", name="edit_presentation_course_info")
      * @param Request $request
-     * @return Response
+     * @return JsonResponse
      */
     public function __invoke(Request $request)
     {
@@ -86,8 +87,12 @@ class EditPresentationCourseInfoAction implements ActionInterface
             try {
                 $courseInfo = $this->findCourseInfoByIdQuery->setId($id)->execute();
             }catch (CourseInfoNotFoundException $e){
-                // TODO
-                return new Response("");
+                return new JsonResponse([
+                    'alert' => [
+                        'type' => 'danger',
+                        'message' => sprintf("Le cours %s n'existe pas", $id)
+                    ]
+                ]);
             }
             if(!is_null($courseInfo->getImage())) {
                 $courseInfo->setImage(new File($this->fileUploaderHelper->getDirectory().'/'.$courseInfo->getImage()));
@@ -96,18 +101,23 @@ class EditPresentationCourseInfoAction implements ActionInterface
             $form = $this->formFactory->create(EditPresentationCourseInfoType::class, $editPresentationCourseInfoCommand);
             $form->handleRequest($request);
 
-            return new Response(
-                $this->templating->render(
+            return new JsonResponse([
+                'content' => $this->templating->render(
                     'course/edit_presentation_course_tab.html.twig',
                     [
                         'courseInfo' => $courseInfo,
                         'form' => $form->createView()
                     ]
                 )
-            );
+            ]);
         }catch (\Exception $e){
-            // TODO
+            $this->logger->error((string)$e);
+            return new JsonResponse([
+                'alert' => [
+                    'type' => 'danger',
+                    'message' => "Une erreur est survenue pendant le chargement du formulaire"
+                ]
+            ]);
         }
-        return new Response("");
     }
 }

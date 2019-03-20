@@ -30,8 +30,7 @@ class CourseSectionFixture extends Fixture implements DependentFixtureInterface
         $courseSection->setId(Uuid::uuid4())
             ->setCourseInfo($this->getReference(CourseInfoFixture::COURSE_INFO_1))
             ->setTitle('Chapitre 1')
-            ->setDescription('Ceci est le chapitre 1 du cours')
-            ->setSectionType($this->getReference(SectionTypeFixture::SECTION_TYPE_CHAPITRE));
+            ->setDescription('Ceci est le chapitre 1 du cours');
 
         $this->addReference(self::COURSE_SECTION_1, $courseSection);
 
@@ -46,8 +45,7 @@ class CourseSectionFixture extends Fixture implements DependentFixtureInterface
     public function getDependencies()
     {
         return [
-            CourseInfoFixture::class,
-            SectionTypeFixture::class
+            CourseInfoFixture::class
         ];
     }
 }

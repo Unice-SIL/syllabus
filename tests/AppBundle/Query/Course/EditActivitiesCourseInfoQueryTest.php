@@ -75,19 +75,10 @@ class EditActivitiesCourseInfoQueryTest extends TestCase
         $this->courseInfo
             ->setId(Uuid::uuid4());
 
-        // SectionType
-        $sectionType = new SectionType();
-        $sectionType->setId(Uuid::uuid4())
-            ->setCode('chapitre')
-            ->setLabel('Chapitre')
-            ->setOrder(0)
-            ->setObsolete(0);
-
         // CourseSections
         $courseSection = new CourseSection();
         $courseSection->setId(Uuid::uuid4())
             ->setCourseInfo($this->courseInfo)
-            ->setSectionType($sectionType)
             ->setTitle('Chapitre 1')
             ->setDescription('Ceci est le chapitre 1');
         $this->courseSections = new ArrayCollection();

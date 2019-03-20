@@ -10,6 +10,7 @@ use AppBundle\Query\Activity\FindActivitiesByCriteriaQuery;
 use AppBundle\Query\Course\FindCourseInfoByIdQuery;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -85,8 +86,12 @@ class EditActivitiesCourseInfoAction implements ActionInterface
             try {
                 $courseInfo = $this->findCourseInfoByIdQuery->setId($id)->execute();
             } catch (CourseInfoNotFoundException $e) {
-                // TODO
-                return new Response("");
+                return new JsonResponse([
+                    'alert' => [
+                        'type' => 'danger',
+                        'message' => sprintf("Le cours %s n'existe pas", $id)
+                    ]
+                ]);
             }
             $activitiesClass = $this->findActivitiesByCriteriaQuery->execute();
             $activitiesDistant = $this->findActivitiesByCriteriaQuery->setType('activity')->setMode('class')->execute();
@@ -95,8 +100,8 @@ class EditActivitiesCourseInfoAction implements ActionInterface
             $form = $this->formFactory->create(EditActivitiesCourseInfoType::class, $editActivitiesCourseInfoCommand);
             $form->handleRequest($request);
 
-            return new Response(
-                $this->templating->render(
+            return new JsonResponse([
+                'content' => $this->templating->render(
                     'course/edit_activities_course_info_tab.html.twig',
                     [
                         'courseInfo' => $courseInfo,
@@ -105,10 +110,15 @@ class EditActivitiesCourseInfoAction implements ActionInterface
                         'form' => $form->createView()
                     ]
                 )
-            );
+            ]);
         }catch (\Exception $e){
-            // TODO
-            dump($e);
+            $this->logger->error((string)$e);
+            return new JsonResponse([
+                'alert' => [
+                    'type' => 'danger',
+                    'message' => "Une erreur est survenue pendant le chargement du formulaire"
+                ]
+            ]);
         }
         return new Response("");
     }

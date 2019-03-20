@@ -50,14 +50,14 @@ class Activity
     private $mode = 'class';
 
     /**
-     * @var string
+     * @var string|null
      *
      * @ORM\Column(name="size", type="string", length=25, nullable=true)
      */
     private $size;
 
     /**
-     * @var string
+     * @var string|null
      *
      * @ORM\Column(name="evaluation", type="string", length=25, nullable=true)
      */
@@ -173,18 +173,18 @@ class Activity
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getSize(): string
+    public function getSize()
     {
         return $this->size;
     }
 
     /**
-     * @param string $size
+     * @param null|string $size
      * @return Activity
      */
-    public function setSize(string $size): Activity
+    public function setSize($size)
     {
         $this->size = $size;
 
@@ -192,18 +192,18 @@ class Activity
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getEvaluation(): string
+    public function getEvaluation()
     {
         return $this->evaluation;
     }
 
     /**
-     * @param string $evaluation
+     * @param null|string $evaluation
      * @return Activity
      */
-    public function setEvaluation(string $evaluation): Activity
+    public function setEvaluation($evaluation)
     {
         $this->evaluation = $evaluation;
 

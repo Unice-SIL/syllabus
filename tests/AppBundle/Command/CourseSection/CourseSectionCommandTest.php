@@ -22,11 +22,6 @@ class CourseSectionCommandTest extends TestCase
     private $courseSection;
 
     /**
-     * @var SectionType
-     */
-    private $type;
-
-    /**
      * @var ArrayCollection
      */
     private $activities;
@@ -55,9 +50,6 @@ class CourseSectionCommandTest extends TestCase
         $this->courseInfo = new CourseInfo();
         $this->courseInfo->setId(Uuid::uuid4());
 
-        // SectionType
-        $this->type = new SectionType();
-        $this->type->setId(Uuid::uuid4());
 
         // Activities
         $this->activities = new ArrayCollection();
@@ -69,7 +61,6 @@ class CourseSectionCommandTest extends TestCase
             ->setDescription('description')
             ->setOrder(1)
             ->setCourseInfo($this->courseInfo)
-            ->setSectionType($this->type)
             ->setCourseSectionActivities($this->activities);
 
         // Command 1
@@ -117,14 +108,6 @@ class CourseSectionCommandTest extends TestCase
     public function getCourseInfo(){
         $this->assertNull($this->courseSectionCommand1->getCourseInfo());
         $this->assertEquals($this->courseInfo, $this->courseSectionCommand2->getCourseInfo());
-    }
-
-    /**
-     * @test
-     */
-    public function getSectionType(){
-        $this->assertNull($this->courseSectionCommand1->getType());
-        $this->assertEquals($this->type, $this->courseSectionCommand2->getType());
     }
 
     /**

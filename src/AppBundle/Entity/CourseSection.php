@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * CourseSection
  *
- * @ORM\Table(name="course_section", indexes={@ORM\Index(name="fk_course_section_course_info1_idx", columns={"course_info_id"}), @ORM\Index(name="fk_course_section_section_type1_idx", columns={"section_type_id"})})
+ * @ORM\Table(name="course_section", indexes={@ORM\Index(name="fk_course_section_course_info1_idx", columns={"course_info_id"})})
  * @ORM\Entity
  */
 class CourseSection
@@ -53,16 +53,6 @@ class CourseSection
      * })
      */
     private $courseInfo;
-
-    /**
-     * @var \AppBundle\Entity\SectionType
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\SectionType")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="section_type_id", referencedColumnName="id")
-     * })
-     */
-    private $sectionType;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -170,25 +160,6 @@ class CourseSection
     public function setCourseInfo(CourseInfo $courseInfo): CourseSection
     {
         $this->courseInfo = $courseInfo;
-
-        return $this;
-    }
-
-    /**
-     * @return SectionType
-     */
-    public function getSectionType(): SectionType
-    {
-        return $this->sectionType;
-    }
-
-    /**
-     * @param SectionType $sectionType
-     * @return CourseSection
-     */
-    public function setSectionType(SectionType $sectionType): CourseSection
-    {
-        $this->sectionType = $sectionType;
 
         return $this;
     }
