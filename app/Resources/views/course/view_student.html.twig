@@ -155,7 +155,7 @@
                 </span>
             </div>
             <div class="col-md-4 media d-flex align-items-center">
-                <img class="img-thumbnail m-3" src="https://via.placeholder.com/100" alt="...">
+                <i class="fas m-3 fa-4x fa-globe"></i>
                 <span class="font-weight-bold media-body">Mobilité internationale</span>
             </div>
         </div>
@@ -247,59 +247,42 @@
         </div>
         <div class="row m-3 d-flex flex-row justify-content-around">
             <div class="col-md-12 p-0" >
-                <table class="table table-bordered table-dark">
-                    <thead>
-                        <tr>
-                        <th scope="col" class="text-center" colspan='2'>Contenu</th>
-                        <th scope="col" class="row m-0 d-flex flex-row justify-content-between"> 
-                            <div>Activité(s)</div> 
-                            <div>Autonomie / En classe</div>
-                        </th>
-                        <th scope="col">Contrôle Continu</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for section in course.courseSections %}
-                        <tr>
-                            <td class="align-middle bg-info"> {{section.title|raw}}</td>
-                            <td class="align-middle">{{section.description|raw}}</td>
-                            <td class="py-0">
-                            {% for activity in section.courseSectionActivities %}
-                                {% if activity.activity.type == "activity" %}
-                                    <div class="row p-3 d-flex flex-row justify-content-between {{ loop.index0 is odd ? 'bg-dark' : 'bg-secondary' }}">
-                                    <span>{{activity.activity.label}} </span>
-                                    {% if activity.activity.mode == 'distant' %}
-                                        <i class="fas mr-5 fa-2x fa-book-reader"></i>
-                                    {% elseif activity.activity.mode == 'class' %}
-                                        <i class="fas mr-5 fa-2x fa-chalkboard-teacher"></i>
-                                    {% endif %}
-                                    </div>
-                                {% endif %}
-                            {% endfor %}
-                            </td>
-                            <td class="align-middle">
-                            {% for activity in section.courseSectionActivities %}
-                                {% if activity.activity.type == "evaluation" %}
-                                    <div class="row p-3 d-flex flex-row justify-content-between }}">
-                                    {% if activity.activity.mode == 'distant' %}
-                                        <u>A distance</u>
-                                    {% elseif activity.activity.mode == 'class' %}
-                                        <u>En classe</u>
-                                    {% endif %}
-                                    {{activity.activity.label}} - 
+                {% for section in course.courseSections %}
+                    <div class="col p-2 border border-dark bg-light"> 
+                    <h6>{{section.title|raw}} : {{section.description|raw}}</h6>
+                    {% for activity in section.courseSectionActivities %}
+                        {% if activity.activity.type == "activity" %}
+                            <div class="row mx-1 p-3 d-flex flex-row justify-content-between align-items-center text-light {{ loop.index0 is odd ? 'bg-dark' : 'bg-secondary' }}">
+                            <span>{{activity.activity.label}} </span>
+                            {% if activity.activity.mode == 'distant' %}
+                                <div class="d-flex flex-row align-items-center">
+                                <span class="font-weight-bold mx-3"> En autonomie</span>
+                                <i class="fas mr-5 fa-2x fa-book-reader"></i>
+                                </div>
+                            {% elseif activity.activity.mode == 'class' %}
+                                <div class="d-flex flex-row align-items-center">
+                                <span class="font-weight-bold mx-3"> En classe</span>
+                                <i class="fas mr-5 fa-2x fa-chalkboard-teacher"></i>
+                                </div>
+                            {% endif %}
+                            </div>
+                        {% elseif activity.activity.type == "evaluation" %}
+                            <div class="row mx-1 p-3 d-flex flex-row justify-content-between align-items-center text-light bg-info }}">
+                                <div class="d-flex flex-column">
+                                    <span> {{activity.activity.label}} </span>
                                     {% if activity.acitivity.evaluation == "teacher" %}
-                                        <span class="font-weight-bold font-italic">par l'enseignant</span>
+                                        <span class="font-weight-bold font-italic">Evalué par l'enseignant</span>
                                     {% elseif activity.acitivity.evaluation == "student" %}
-                                        <span class="font-weight-bold font-italic">par les pairs</span>
+                                        <span class="font-weight-bold font-italic">Evalué par les pairs</span>
                                     {% endif %}
-                                    </div>
-                                {% endif %}
-                            {% endfor %}
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                                </div>
+                                <i class="fas fa-file-signature"></i>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    </div>
+                {% endfor %}
+
             </div>
         </div>
 
@@ -381,7 +364,9 @@
         </div>
         <div class="row mx-3 d-flex flex-row justify-content-around">
             <div class="col-md-4 media d-flex align-items-center">
-                <h3 class="border rounded-circle font-weight-bold h-75 p-3 m-3"> {{course.mccWeight}}% </h3>
+                <div class="border rounded-circle font-weight-bold  p-3 m-3">
+                    <h3 class="font-weight-bold my-2"> {{course.mccWeight}}% </h3>
+                </div>
                 <span class="font-weight-bold media-body"> Poids de l'ECUE dans l'UE </span>
                 <i class="fas fa-2x fa-info-circle"></i>
             </div>
