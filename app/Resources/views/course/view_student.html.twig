@@ -88,7 +88,7 @@
                 </p>
             </div>
             <div class="col-md-7">
-                {% if course.mediaType == "video" %}
+                {% if course.mediaType == "video" and course.video != null %}
                     <div class="embed-responsive embed-responsive-16by9">
                         <iframe class="embed-responsive-item" src={{course.video}} allowfullscreen></iframe>
                     </div>
@@ -109,7 +109,7 @@
                 {% if course.teachingMode == "class" %}
                     <img class="w-50 mx-3" src="{{ asset('images/presentiel.png') }}">
                 {% elseif course.teachingMode == "hybrid" %}
-                    <img class="w-100 mx-3" src="{{ asset('images/hybride.png') }}">
+                    <img class="w-50 mx-3" src="{{ asset('images/hybride.png') }}">
                 {% endif %}
                 <span class="font-weight-bold media-body d-flex flex-column justify-content-center align-items-start"> 
                     <span>{{course.teachingMode}}</span>
@@ -155,7 +155,7 @@
                 </span>
             </div>
             <div class="col-md-4 media d-flex align-items-center">
-                <img class="img-thumbnail m-3" src="https://via.placeholder.com/100" alt="...">
+                <i class="fas m-3 fa-4x fa-globe"></i>
                 <span class="font-weight-bold media-body">Mobilité internationale</span>
             </div>
         </div>
@@ -245,49 +245,47 @@
         <div class="progress mb-3" style="height: 5px;">
             <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
-        <table class="row m-3 d-flex flex-row justify-content-around">
+        <div class="row m-3 d-flex flex-row justify-content-around">
             <div class="col-md-12 p-0" >
-                <table class="table table-dark">
-                    <thead>
-                        <tr>
-                        <th scope="col">Contenu</th>
-                        <th scope="col">Activité(s)</th>
-                        <th scope="col" class="text-right">Autonomie/ En classe</th>
-                        <th scope="col">Contrôle Continu</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for section in course.courseSections %}
-                        <tr>
-                            <td> {{section.title}} {{section.description}}</td>
-                            <td colspan='2'>
-                            {% for activity in section.courseSectionActivities %}
-                                <div class="row px-3 d-flex flex-row justify-content-between">
-                                <span>{{activity.activity.label}} </span>
-                                {% if activity.activity.distant == true %}
-                                    <i class="fas fa-2x fa-book-reader"></i>
-                                {% elseif activity.activity.teacher == false %}
-                                    <i class="fas fa-2x fa-chalkboard-teacher"></i>
-                                {% endif %}
+                {% for section in course.courseSections %}
+                    <div class="col p-2 border border-dark bg-light"> 
+                    <h6>{{section.title|raw}} : {{section.description|raw}}</h6>
+                    {% for activity in section.courseSectionActivities %}
+                        {% if activity.activity.type == "activity" %}
+                            <div class="row mx-1 p-3 d-flex flex-row justify-content-between align-items-center text-light {{ loop.index0 is odd ? 'bg-dark' : 'bg-secondary' }}">
+                            <span>{{activity.activity.label}} </span>
+                            {% if activity.activity.mode == 'distant' %}
+                                <div class="d-flex flex-row align-items-center">
+                                <span class="font-weight-bold mx-3"> En autonomie</span>
+                                <i class="fas mr-5 fa-2x fa-book-reader"></i>
                                 </div>
-                            {% endfor %}
-                            </td>
-                            <td>
-                            <span>Modalité du contrôle</span>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                            {% elseif activity.activity.mode == 'class' %}
+                                <div class="d-flex flex-row align-items-center">
+                                <span class="font-weight-bold mx-3"> En classe</span>
+                                <i class="fas mr-5 fa-2x fa-chalkboard-teacher"></i>
+                                </div>
+                            {% endif %}
+                            </div>
+                        {% elseif activity.activity.type == "evaluation" %}
+                            <div class="row mx-1 p-3 d-flex flex-row justify-content-between align-items-center text-light bg-info }}">
+                                <div class="d-flex flex-column">
+                                    <span> {{activity.activity.label}} </span>
+                                    {% if activity.acitivity.evaluation == "teacher" %}
+                                        <span class="font-weight-bold font-italic">Evalué par l'enseignant</span>
+                                    {% elseif activity.acitivity.evaluation == "student" %}
+                                        <span class="font-weight-bold font-italic">Evalué par les pairs</span>
+                                    {% endif %}
+                                </div>
+                                <i class="fas fa-file-signature"></i>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    </div>
+                {% endfor %}
+
             </div>
         </div>
 
-        {# {% for section in course.courseSections %}
-        {{dump(section)}}
-                    {% for activity in section.courseSectionActivities %}
-                    {{dump(activity)}}
-                    {% endfor %}
-        {% endfor %} #}
 
 
         <div class="row mx-3 d-flex flex-row">
@@ -354,19 +352,28 @@
             </div>
             <div class="col-md-6 pr-0" >
                 <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
-                    <h5 class="m-0">STRATEGIE D'EVALUATION</h5>
+                    <h5 class="m-0">METHODES D'EVALUATION</h5>
+                </div>
+                <div>
+                {% for section in course.courseSections %}
+                    {% for activity in section.courseSectionActivities if activity.activity.type == "evaluation"%}
+                        <div class="row rounded bg-info" >{{activity.activity.label}}</div>
+                    {% endfor %}
+                {% endfor %}
                 </div>
                 <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
                     <h5 class="m-0">CONSEILS PRATIQUES</h5>
                     <div>
-                    {{course.mccAdvice}}
+                    {{course.mccAdvice|raw}}
                     </div>
                 </div>
             </div>
         </div>
         <div class="row mx-3 d-flex flex-row justify-content-around">
             <div class="col-md-4 media d-flex align-items-center">
-                <h3 class="border rounded-circle font-weight-bold h-75 p-3 m-3"> {{course.mccWeight}}% </h3>
+                <div class="border rounded-circle font-weight-bold  p-3 m-3">
+                    <h3 class="font-weight-bold my-2"> {{course.mccWeight}}% </h3>
+                </div>
                 <span class="font-weight-bold media-body"> Poids de l'ECUE dans l'UE </span>
                 <i class="fas fa-2x fa-info-circle"></i>
             </div>
@@ -413,7 +420,7 @@
                                 </div>
                         {% endif %}
                         {% if courseResourceEquipment.description != null %}
-                            <div">
+                            <div>
                             {{courseResourceEquipment.description}}
                             </div>
                         {% endif %}
@@ -425,20 +432,13 @@
             {% endfor %} 
         </div>
 
-
-
-
         <div class="row mx-3 d-flex flex-row">
             <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
                 <h5 class="m-0">RESSOUCRES PEDAGOGIQUES</h5>
             </div>
         </div>
         <div class="row mx-3 d-flex flex-row">
-            {% for ressource in course.educationalResources %}
-                <div class="row mx-3 d-flex flex-row">
-                 {{ressource.description|raw}}
-                </div>
-            {% endfor %}
+            {{course.educationalResources|raw}}
         </div>
 
 
@@ -448,11 +448,7 @@
             </div>
         </div>
         <div class="row mx-3 d-flex flex-row">
-            {% for ressource in course.bibliographicResources %}
-                <div class="row mx-3 d-flex flex-row">
-                 {{ressource.description|raw}}
-                </div>
-            {% endfor %}
+            {{course.bibliographicResources|raw}}
         </div>
 
 
@@ -515,6 +511,11 @@
         <div class="progress mb-3" style="height: 5px;">
             <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
+
+        <div class="row mx-3 d-flex flex-row">
+            {{course.closingRemarks|raw}}
+        </div>
+
     </div>
 
 
