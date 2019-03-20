@@ -88,7 +88,7 @@
                 </p>
             </div>
             <div class="col-md-7">
-                {% if course.mediaType == "video" %}
+                {% if course.mediaType == "video" and course.video != null %}
                     <div class="embed-responsive embed-responsive-16by9">
                         <iframe class="embed-responsive-item" src={{course.video}} allowfullscreen></iframe>
                     </div>
@@ -352,7 +352,14 @@
             </div>
             <div class="col-md-6 pr-0" >
                 <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
-                    <h5 class="m-0">STRATEGIE D'EVALUATION</h5>
+                    <h5 class="m-0">METHODES D'EVALUATION</h5>
+                </div>
+                <div>
+                {% for section in course.courseSections %}
+                    {% for activity in section.courseSectionActivities if activity.activity.type == "evaluation"%}
+                        <div class="row rounded bg-info" >{{activity.activity.label}}</div>
+                    {% endfor %}
+                {% endfor %}
                 </div>
                 <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
                     <h5 class="m-0">CONSEILS PRATIQUES</h5>
@@ -503,6 +510,10 @@
         </div>
         <div class="progress mb-3" style="height: 5px;">
             <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+
+        <div class="row mx-3 d-flex flex-row">
+            {{course.closingRemarks|raw}}
         </div>
 
     </div>
