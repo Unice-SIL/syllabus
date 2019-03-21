@@ -52,16 +52,9 @@ class Activity
     /**
      * @var string|null
      *
-     * @ORM\Column(name="size", type="string", length=25, nullable=true)
+     * @ORM\Column(name="grp", type="string", length=25, nullable=true)
      */
-    private $size;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="evaluation", type="string", length=25, nullable=true)
-     */
-    private $evaluation;
+    private $grp;
 
     /**
      * @var bool
@@ -175,40 +168,22 @@ class Activity
     /**
      * @return null|string
      */
-    public function getSize()
+    public function getGrp()
     {
-        return $this->size;
+        return $this->grp;
     }
 
     /**
-     * @param null|string $size
+     * @param null|string $grp
      * @return Activity
      */
-    public function setSize($size)
+    public function setGrp($grp)
     {
-        $this->size = $size;
+        $this->grp = $grp;
 
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getEvaluation()
-    {
-        return $this->evaluation;
-    }
-
-    /**
-     * @param null|string $evaluation
-     * @return Activity
-     */
-    public function setEvaluation($evaluation)
-    {
-        $this->evaluation = $evaluation;
-
-        return $this;
-    }
 
     /**
      * @return bool

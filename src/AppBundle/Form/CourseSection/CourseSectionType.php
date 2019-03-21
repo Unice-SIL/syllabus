@@ -54,28 +54,16 @@ class CourseSectionType extends AbstractType
         // Class activities
         $this->classActivities = $this->activityRepository->findByCriteria(
             ActivityType::ACTIVITY,
-            ActivityMode::CLASSROOM,
-            null,
+            ActivityMode::IN_CLASS,
             null
         );
-        /*
-        foreach ($classActivities as $classActivity){
-            $this->classActivities[$classActivity->getLabel()] = $classActivity->getId();
-        }
-        */
 
         // Class activities
         $this->distantActivities = $this->activityRepository->findByCriteria(
             ActivityType::ACTIVITY,
-            ActivityMode::DISTANT,
-            null,
+            ActivityMode::IN_AUTONOMY,
             null
         );
-        /*
-        foreach ($distantActivities as $distantActivity){
-            $this->distantActivities[$distantActivity->getLabel()] = $distantActivity->getId();
-        }
-        */
     }
 
     /**

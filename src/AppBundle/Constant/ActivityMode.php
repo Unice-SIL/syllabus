@@ -8,6 +8,8 @@ namespace AppBundle\Constant;
  */
 final class ActivityMode
 {
-    const CLASSROOM = 'class';
-    const DISTANT = 'distant';
+    const IN_AUTONOMY = 'autonomy';
+    const IN_CLASS = 'class';
+    const EVAL_CC = 'cc';
+    const EVAL_CT = 'ct';
 }
