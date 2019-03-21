@@ -1,5 +1,5 @@
 {% macro choice_activity_template(choiceActivity, type, color) %}
-    <div class="list-{{ type }} p-1 mt-1 border border-{{ color }}">
+    <div class="list-{{ type }} p-1 mt-1 border bg-{{ color }}">
         <small class="font-weight-bold">{{ choiceActivity.data.label }}</small>
         <input type="hidden" class="activity-label" value="{{ choiceActivity.data.label }}">
         <input type="hidden" class="activity-id" value="{{ choiceActivity.data.id }}">
@@ -14,7 +14,7 @@
     {% import _self as choicesActivitiesField %}
     <div class="list-activities list-class-activities">
         {% for choiceActivity in form.vars.choices %}
-            {{ choicesActivitiesField.choice_activity_template(choiceActivity, 'class-activity', 'info') }}
+            {{ choicesActivitiesField.choice_activity_template(choiceActivity, 'class-activity', 'light') }}
         {% endfor %}
     </div>
 {% endblock %}
@@ -23,7 +23,7 @@
     {% import _self as choicesActivitiesField %}
     <div class="list-activities list-distant-activities">
         {% for choiceActivity in form.vars.choices %}
-            {{ choicesActivitiesField.choice_activity_template(choiceActivity, 'distant-activity', 'warning') }}
+            {{ choicesActivitiesField.choice_activity_template(choiceActivity, 'distant-activity', 'light') }}
         {% endfor %}
     </div>
 {% endblock %}

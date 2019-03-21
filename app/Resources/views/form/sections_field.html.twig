@@ -44,30 +44,70 @@
                                 </div>
                             </div>
                             <div class="row container-activities">
-                                <div class="col">
+                                <div class="col m-2 border">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <img src="{{ asset('images/activity_in_class_64.png') }}">
+                                                    <span class="font-weight-bold">Activité(s) réalisée(s) en classe</span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col p-1">
+                                                    {{ form_widget(section.classActivities) }}
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col m-1 border-bottom">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <small>
+                                                                Avec l'ensemble des étudiants
+                                                            </small>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col m-1 border-bottom">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <small>
+                                                                Avec des petits groupes
+                                                            </small>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="row">
                                         <div class="col ">
-                                            <span class="text-info">Activité(s) à faire en classe</span>
+                                            <img src="{{ asset('images/activity_in_autonomy_64.png') }}">
+                                            <span class="font-weight-bold">Activité(s) à faire en autonomie</span>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col m-2 p-1 border">
-                                            {{ form_widget(section.classActivities) }}
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col ">
-                                            <span class="text-warning">Activité(s) à faire en autonomie</span>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col m-2 p-1 border">
+                                        <div class="col p-1">
                                             {{ form_widget(section.distantActivities) }}
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col m-2 p-1 border">
-                                    {{ form_widget(section.activities) }}
+                                <div class="col m-2 border">
+                                    <div class="row">
+                                        <div class="col p-1">
+                                            {{ form_widget(section.activities) }}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

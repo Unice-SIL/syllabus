@@ -3,6 +3,7 @@
 namespace AppBundle\Form\CourseSection;
 
 use AppBundle\Command\CourseSection\CourseSectionCommand;
+use AppBundle\Constant\ActivityGroup;
 use AppBundle\Constant\ActivityMode;
 use AppBundle\Constant\ActivityType;
 use AppBundle\Entity\Activity;
@@ -39,6 +40,16 @@ class CourseSectionType extends AbstractType
     /**
      * @var array
      */
+    private $classTogetherActivities = [];
+
+    /**
+     * @var array
+     */
+    private $classGroupsActivities = [];
+
+    /**
+     * @var array
+     */
     private $distantActivities = [];
 
     /**
@@ -51,11 +62,26 @@ class CourseSectionType extends AbstractType
     {
         $this->activityRepository = $activityRepository;
 
-        // Class activities
+        // in class head activities
         $this->classActivities = $this->activityRepository->findByCriteria(
             ActivityType::ACTIVITY,
             ActivityMode::IN_CLASS,
-            null
+            ActivityGroup::HEAD
+        );
+        dump($this->classActivities);
+
+        // in class together activities
+        $this->classTogetherActivities = $this->activityRepository->findByCriteria(
+            ActivityType::ACTIVITY,
+            ActivityMode::IN_CLASS,
+            ActivityGroup::TOGETHER
+        );
+
+        // in class groups activities
+        $this->classGroupsActivities = $this->activityRepository->findByCriteria(
+            ActivityType::ACTIVITY,
+            ActivityMode::IN_CLASS,
+            ActivityGroup::GROUPS
         );
 
         // Class activities
@@ -83,16 +109,6 @@ class CourseSectionType extends AbstractType
             ->add('description', CKEditorType::class, [
                 'label' => 'Description',
             ])
-            /*
-            ->add('classActivities', ChoiceType::class, [
-                'label' => false,
-                'mapped' => false,
-                'expanded' => false,
-                'multiple' => false,
-                'choices' => $this->classActivities,
-
-            ])
-            */
             ->add('classActivities', EntityType::class, [
                 'label' => false,
                 'mapped' => false,
@@ -100,16 +116,20 @@ class CourseSectionType extends AbstractType
                 'choices' => $this->classActivities,
                 'choice_label' => 'label',
             ])
-            /*
-            ->add('distantActivities', ChoiceType::class, [
+            ->add('classGroupsActivities', EntityType::class, [
                 'label' => false,
                 'mapped' => false,
-                'expanded' => false,
-                'multiple' => false,
-                'choices' => $this->distantActivities,
-
+                'class' => Activity::class,
+                'choices' => $this->classGroupsActivities,
+                'choice_label' => 'label',
             ])
-            */
+            ->add('classTogetherActivities', EntityType::class, [
+                'label' => false,
+                'mapped' => false,
+                'class' => Activity::class,
+                'choices' => $this->classTogetherActivities,
+                'choice_label' => 'label',
+            ])
             ->add('distantActivities', EntityType::class, [
                 'label' => false,
                 'mapped' => false,

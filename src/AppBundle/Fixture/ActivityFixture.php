@@ -40,6 +40,7 @@ class ActivityFixture extends Fixture
             ->setLabelVisibility(true)
             ->setType(ActivityType::ACTIVITY)
             ->setMode(ActivityMode::IN_CLASS)
+            ->setGrp(ActivityGroup::HEAD)
             ->setOrd(1)
             ->setObsolete(false);
 
