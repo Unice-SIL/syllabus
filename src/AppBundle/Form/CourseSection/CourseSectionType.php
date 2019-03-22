@@ -50,7 +50,17 @@ class CourseSectionType extends AbstractType
     /**
      * @var array
      */
-    private $distantActivities = [];
+    private $autonomyActivities = [];
+
+    /**
+     * @var array
+     */
+    private $autonomyIndividualActivities = [];
+
+    /**
+     * @var array
+     */
+    private $autonomyCollectiveActivities = [];
 
     /**
      * CourseSectionType constructor.
@@ -68,7 +78,6 @@ class CourseSectionType extends AbstractType
             ActivityMode::IN_CLASS,
             ActivityGroup::HEAD
         );
-        dump($this->classActivities);
 
         // in class together activities
         $this->classTogetherActivities = $this->activityRepository->findByCriteria(
@@ -85,10 +94,24 @@ class CourseSectionType extends AbstractType
         );
 
         // Class activities
-        $this->distantActivities = $this->activityRepository->findByCriteria(
+        $this->autonomyActivities = $this->activityRepository->findByCriteria(
             ActivityType::ACTIVITY,
             ActivityMode::IN_AUTONOMY,
-            null
+            ActivityGroup::HEAD
+        );
+
+        // Class activities
+        $this->autonomyIndividualActivities = $this->activityRepository->findByCriteria(
+            ActivityType::ACTIVITY,
+            ActivityMode::IN_AUTONOMY,
+            ActivityGroup::INDIVIDUAL
+        );
+
+        // Class activities
+        $this->autonomyCollectiveActivities = $this->activityRepository->findByCriteria(
+            ActivityType::ACTIVITY,
+            ActivityMode::IN_AUTONOMY,
+            ActivityGroup::COLLECTIVE
         );
     }
 
@@ -130,11 +153,25 @@ class CourseSectionType extends AbstractType
                 'choices' => $this->classTogetherActivities,
                 'choice_label' => 'label',
             ])
-            ->add('distantActivities', EntityType::class, [
+            ->add('autonomyActivities', EntityType::class, [
                 'label' => false,
                 'mapped' => false,
                 'class' => Activity::class,
-                'choices' => $this->distantActivities,
+                'choices' => $this->autonomyActivities,
+                'choice_label' => 'label',
+            ])
+            ->add('autonomyIndividualActivities', EntityType::class, [
+                'label' => false,
+                'mapped' => false,
+                'class' => Activity::class,
+                'choices' => $this->autonomyIndividualActivities,
+                'choice_label' => 'label',
+            ])
+            ->add('autonomyCollectiveActivities', EntityType::class, [
+                'label' => false,
+                'mapped' => false,
+                'class' => Activity::class,
+                'choices' => $this->autonomyCollectiveActivities,
                 'choice_label' => 'label',
             ])
             ->add('activities', CollectionType::class, [

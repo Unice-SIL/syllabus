@@ -1,5 +1,5 @@
 {% macro choice_activity_template(choiceActivity, type, color) %}
-    <div class="list-{{ type }} p-1 mt-1 border bg-{{ color }}">
+    <div class="list-{{ type }} p-1 mt-1 border rounded shadow-sm bg-{{ color }}">
         <small class="font-weight-bold">{{ choiceActivity.data.label }}</small>
         <input type="hidden" class="activity-label" value="{{ choiceActivity.data.label }}">
         <input type="hidden" class="activity-id" value="{{ choiceActivity.data.id }}">
@@ -14,16 +14,53 @@
     {% import _self as choicesActivitiesField %}
     <div class="list-activities list-class-activities">
         {% for choiceActivity in form.vars.choices %}
-            {{ choicesActivitiesField.choice_activity_template(choiceActivity, 'class-activity', 'light') }}
+            {{ choicesActivitiesField.choice_activity_template(choiceActivity, 'class-activity', 'none') }}
         {% endfor %}
     </div>
 {% endblock %}
 
-{% block _edit_activities_course_info_sections_entry_distantActivities_widget %}
+{% block _edit_activities_course_info_sections_entry_classTogetherActivities_widget %}
     {% import _self as choicesActivitiesField %}
-    <div class="list-activities list-distant-activities">
+    <div class="list-activities list-class-together-activities">
         {% for choiceActivity in form.vars.choices %}
-            {{ choicesActivitiesField.choice_activity_template(choiceActivity, 'distant-activity', 'light') }}
+            {{ choicesActivitiesField.choice_activity_template(choiceActivity, 'class-activity', 'none') }}
         {% endfor %}
     </div>
 {% endblock %}
+
+{% block _edit_activities_course_info_sections_entry_classGroupsActivities_widget %}
+    {% import _self as choicesActivitiesField %}
+    <div class="list-activities list-class-together-activities">
+        {% for choiceActivity in form.vars.choices %}
+            {{ choicesActivitiesField.choice_activity_template(choiceActivity, 'class-activity', 'none') }}
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block _edit_activities_course_info_sections_entry_autonomyActivities_widget %}
+    {% import _self as choicesActivitiesField %}
+    <div class="list-activities list-distant-activities">
+        {% for choiceActivity in form.vars.choices %}
+            {{ choicesActivitiesField.choice_activity_template(choiceActivity, 'distant-activity', 'none') }}
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block _edit_activities_course_info_sections_entry_autonomyIndividualActivities_widget %}
+    {% import _self as choicesActivitiesField %}
+    <div class="list-activities list-distant-activities">
+        {% for choiceActivity in form.vars.choices %}
+            {{ choicesActivitiesField.choice_activity_template(choiceActivity, 'distant-activity', 'none') }}
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block _edit_activities_course_info_sections_entry_autonomyCollectiveActivities_widget %}
+    {% import _self as choicesActivitiesField %}
+    <div class="list-activities list-distant-activities">
+        {% for choiceActivity in form.vars.choices %}
+            {{ choicesActivitiesField.choice_activity_template(choiceActivity, 'distant-activity', 'none') }}
+        {% endfor %}
+    </div>
+{% endblock %}
+
