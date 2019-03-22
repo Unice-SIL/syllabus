@@ -3,6 +3,7 @@
 namespace AppBundle\Form\CourseSection;
 
 use AppBundle\Command\CourseSection\CourseSectionCommand;
+use AppBundle\Constant\ActivityGroup;
 use AppBundle\Constant\ActivityMode;
 use AppBundle\Constant\ActivityType;
 use AppBundle\Entity\Activity;
@@ -39,7 +40,27 @@ class CourseSectionType extends AbstractType
     /**
      * @var array
      */
-    private $distantActivities = [];
+    private $classTogetherActivities = [];
+
+    /**
+     * @var array
+     */
+    private $classGroupsActivities = [];
+
+    /**
+     * @var array
+     */
+    private $autonomyActivities = [];
+
+    /**
+     * @var array
+     */
+    private $autonomyIndividualActivities = [];
+
+    /**
+     * @var array
+     */
+    private $autonomyCollectiveActivities = [];
 
     /**
      * CourseSectionType constructor.
@@ -51,31 +72,47 @@ class CourseSectionType extends AbstractType
     {
         $this->activityRepository = $activityRepository;
 
-        // Class activities
+        // in class head activities
         $this->classActivities = $this->activityRepository->findByCriteria(
             ActivityType::ACTIVITY,
-            ActivityMode::CLASSROOM,
-            null,
-            null
+            ActivityMode::IN_CLASS,
+            ActivityGroup::HEAD
         );
-        /*
-        foreach ($classActivities as $classActivity){
-            $this->classActivities[$classActivity->getLabel()] = $classActivity->getId();
-        }
-        */
+
+        // in class together activities
+        $this->classTogetherActivities = $this->activityRepository->findByCriteria(
+            ActivityType::ACTIVITY,
+            ActivityMode::IN_CLASS,
+            ActivityGroup::TOGETHER
+        );
+
+        // in class groups activities
+        $this->classGroupsActivities = $this->activityRepository->findByCriteria(
+            ActivityType::ACTIVITY,
+            ActivityMode::IN_CLASS,
+            ActivityGroup::GROUPS
+        );
 
         // Class activities
-        $this->distantActivities = $this->activityRepository->findByCriteria(
+        $this->autonomyActivities = $this->activityRepository->findByCriteria(
             ActivityType::ACTIVITY,
-            ActivityMode::DISTANT,
-            null,
-            null
+            ActivityMode::IN_AUTONOMY,
+            ActivityGroup::HEAD
         );
-        /*
-        foreach ($distantActivities as $distantActivity){
-            $this->distantActivities[$distantActivity->getLabel()] = $distantActivity->getId();
-        }
-        */
+
+        // Class activities
+        $this->autonomyIndividualActivities = $this->activityRepository->findByCriteria(
+            ActivityType::ACTIVITY,
+            ActivityMode::IN_AUTONOMY,
+            ActivityGroup::INDIVIDUAL
+        );
+
+        // Class activities
+        $this->autonomyCollectiveActivities = $this->activityRepository->findByCriteria(
+            ActivityType::ACTIVITY,
+            ActivityMode::IN_AUTONOMY,
+            ActivityGroup::COLLECTIVE
+        );
     }
 
     /**
@@ -95,16 +132,6 @@ class CourseSectionType extends AbstractType
             ->add('description', CKEditorType::class, [
                 'label' => 'Description',
             ])
-            /*
-            ->add('classActivities', ChoiceType::class, [
-                'label' => false,
-                'mapped' => false,
-                'expanded' => false,
-                'multiple' => false,
-                'choices' => $this->classActivities,
-
-            ])
-            */
             ->add('classActivities', EntityType::class, [
                 'label' => false,
                 'mapped' => false,
@@ -112,21 +139,39 @@ class CourseSectionType extends AbstractType
                 'choices' => $this->classActivities,
                 'choice_label' => 'label',
             ])
-            /*
-            ->add('distantActivities', ChoiceType::class, [
-                'label' => false,
-                'mapped' => false,
-                'expanded' => false,
-                'multiple' => false,
-                'choices' => $this->distantActivities,
-
-            ])
-            */
-            ->add('distantActivities', EntityType::class, [
+            ->add('classGroupsActivities', EntityType::class, [
                 'label' => false,
                 'mapped' => false,
                 'class' => Activity::class,
-                'choices' => $this->distantActivities,
+                'choices' => $this->classGroupsActivities,
+                'choice_label' => 'label',
+            ])
+            ->add('classTogetherActivities', EntityType::class, [
+                'label' => false,
+                'mapped' => false,
+                'class' => Activity::class,
+                'choices' => $this->classTogetherActivities,
+                'choice_label' => 'label',
+            ])
+            ->add('autonomyActivities', EntityType::class, [
+                'label' => false,
+                'mapped' => false,
+                'class' => Activity::class,
+                'choices' => $this->autonomyActivities,
+                'choice_label' => 'label',
+            ])
+            ->add('autonomyIndividualActivities', EntityType::class, [
+                'label' => false,
+                'mapped' => false,
+                'class' => Activity::class,
+                'choices' => $this->autonomyIndividualActivities,
+                'choice_label' => 'label',
+            ])
+            ->add('autonomyCollectiveActivities', EntityType::class, [
+                'label' => false,
+                'mapped' => false,
+                'class' => Activity::class,
+                'choices' => $this->autonomyCollectiveActivities,
                 'choice_label' => 'label',
             ])
             ->add('activities', CollectionType::class, [

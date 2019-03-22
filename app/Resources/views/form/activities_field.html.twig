@@ -1,15 +1,15 @@
 {% macro activity_template(activity) %}
-    {% set border = '' %}
+    {% set color = '' %}
     {% if activity.vars.data %}
         {% if activity.vars.data.activity.type == constant("AppBundle\\Constant\\ActivityType::ACTIVITY") %}
-            {% if activity.vars.data.activity.mode == constant("AppBundle\\Constant\\ActivityMode::CLASSROOM") %}
-                {% set border = 'border-info' %}
+            {% if activity.vars.data.activity.mode == constant("AppBundle\\Constant\\ActivityMode::IN_CLASS") %}
+                {% set color = 'info' %}
             {% else %}
-                {% set border = 'border-warning' %}
+                {% set color = 'warning' %}
             {% endif %}
         {% endif %}
     {% endif %}
-    <div class="activity p-1 mt-1 border {{ border }}">
+    <div class="activity p-1 mt-1 border rounded shadow-sm border-{{ color }}">
         <div class="row">
             <div class="col">
                 <div class="row">

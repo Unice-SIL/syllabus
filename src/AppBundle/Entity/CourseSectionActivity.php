@@ -29,6 +29,26 @@ class CourseSectionActivity
     private $description;
 
     /**
+     * @var float|null
+     *
+     * @ORM\Column(name="evaluation_rate", type="float", nullable=true)
+     */
+    private $evaluationRate;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="evaluation_teacher", type="boolean", nullable=false)
+     */
+    private $evaluationTeacher = false;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="evaluation_peer", type="boolean", nullable=false)
+     */
+    private $evaluationPeer = false;
+    /**
      * @var int
      *
      * @ORM\Column(name="ord", type="integer", nullable=false)
@@ -89,6 +109,63 @@ class CourseSectionActivity
     public function setDescription($description)
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getEvaluationRate()
+    {
+        return $this->evaluationRate;
+    }
+
+    /**
+     * @param float|null $evaluationRate
+     * @return CourseSectionActivity
+     */
+    public function setEvaluationRate($evaluationRate)
+    {
+        $this->evaluationRate = $evaluationRate;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEvaluationTeacher(): bool
+    {
+        return $this->evaluationTeacher;
+    }
+
+    /**
+     * @param bool $evaluationTeacher
+     * @return CourseSectionActivity
+     */
+    public function setEvaluationTeacher(bool $evaluationTeacher): CourseSectionActivity
+    {
+        $this->evaluationTeacher = $evaluationTeacher;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEvaluationPeer(): bool
+    {
+        return $this->evaluationPeer;
+    }
+
+    /**
+     * @param bool $evaluationPeer
+     * @return CourseSectionActivity
+     */
+    public function setEvaluationPeer(bool $evaluationPeer): CourseSectionActivity
+    {
+        $this->evaluationPeer = $evaluationPeer;
 
         return $this;
     }

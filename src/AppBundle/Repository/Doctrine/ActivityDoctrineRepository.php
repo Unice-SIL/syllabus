@@ -43,12 +43,11 @@ class ActivityDoctrineRepository extends AbstractDoctrineRepository implements A
     /**
      * @param $type
      * @param $mode
-     * @param $size
-     * @param $evaluation
+     * @param $grp
      * @return \ArrayObject
      * @throws \Exception
      */
-    public function findByCriteria($type, $mode, $size, $evaluation): \ArrayObject
+    public function findByCriteria($type, $mode, $grp): \ArrayObject
     {
         $activities = new \ArrayObject();
         try{
@@ -64,13 +63,9 @@ class ActivityDoctrineRepository extends AbstractDoctrineRepository implements A
                 $qb->andWhere($qb->expr()->eq('a.mode', ':mode'))
                     ->setParameter('mode', $mode);
             }
-            if(!is_null($size)){
-                $qb->andWhere($qb->expr()->eq('a.size', ':size'))
-                    ->setParameter('size', $size);
-            }
-            if(!is_null($size)){
-                $qb->andWhere($qb->expr()->eq('a.evaluation', ':evaluation'))
-                    ->setParameter('evaluation', $evaluation);;
+            if(!is_null($grp)){
+                $qb->andWhere($qb->expr()->eq('a.grp', ':grp'))
+                    ->setParameter('grp', $grp);
             }
             foreach ($qb->getQuery()->getResult() as $activity){
                 $activities->append($activity);

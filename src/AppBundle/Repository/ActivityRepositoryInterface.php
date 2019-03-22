@@ -18,14 +18,12 @@ interface ActivityRepositoryInterface
     public function find(string $id): ?Activity;
 
     /**
-     * Find activities by criteria
      * @param $type
      * @param $mode
-     * @param $size
-     * @param $evaluation
+     * @param $grp
      * @return \ArrayObject
      */
-    public function findByCriteria($type, $mode, $size, $evaluation): \ArrayObject;
+    public function findByCriteria($type, $mode, $grp): \ArrayObject;
 
     /**
      * Create activity

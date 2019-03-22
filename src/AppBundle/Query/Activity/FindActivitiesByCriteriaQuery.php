@@ -29,12 +29,7 @@ class FindActivitiesByCriteriaQuery implements QueryInterface
     /**
      * @var string
      */
-    private $size;
-
-    /**
-     * @var string
-     */
-    private $evaluation;
+    private $group;
 
     /**
      * FindCourseInfoByIdQuery constructor.
@@ -70,23 +65,12 @@ class FindActivitiesByCriteriaQuery implements QueryInterface
     }
 
     /**
-     * @param string $size
+     * @param string $group
      * @return FindActivitiesByCriteriaQuery
      */
-    public function setSize(string $size): FindActivitiesByCriteriaQuery
+    public function setGroup(string $group): FindActivitiesByCriteriaQuery
     {
-        $this->size = $size;
-
-        return $this;
-    }
-
-    /**
-     * @param string $evaluation
-     * @return FindActivitiesByCriteriaQuery
-     */
-    public function setEvaluation(string $evaluation): FindActivitiesByCriteriaQuery
-    {
-        $this->evaluation = $evaluation;
+        $this->group = $group;
 
         return $this;
     }
@@ -98,7 +82,7 @@ class FindActivitiesByCriteriaQuery implements QueryInterface
     public function execute(): \ArrayObject
     {
         try{
-            $activities = $this->activityRepository->findByCriteria($this->type, $this->mode, $this->size, $this->evaluation);
+            $activities = $this->activityRepository->findByCriteria($this->type, $this->mode, $this->group);
             return $activities;
         }catch (\Exception $e){
             throw $e;
