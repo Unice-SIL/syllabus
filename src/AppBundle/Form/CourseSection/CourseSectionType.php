@@ -63,6 +63,11 @@ class CourseSectionType extends AbstractType
     private $autonomyCollectiveActivities = [];
 
     /**
+     * @var array
+     */
+    private $ccEvaluations = [];
+
+    /**
      * CourseSectionType constructor.
      * @param ActivityRepositoryInterface $activityRepository
      */
@@ -93,25 +98,32 @@ class CourseSectionType extends AbstractType
             ActivityGroup::GROUPS
         );
 
-        // Class activities
+        // in autonomy head activities
         $this->autonomyActivities = $this->activityRepository->findByCriteria(
             ActivityType::ACTIVITY,
             ActivityMode::IN_AUTONOMY,
             ActivityGroup::HEAD
         );
 
-        // Class activities
+        // in autonomy individual activities
         $this->autonomyIndividualActivities = $this->activityRepository->findByCriteria(
             ActivityType::ACTIVITY,
             ActivityMode::IN_AUTONOMY,
             ActivityGroup::INDIVIDUAL
         );
 
-        // Class activities
+        // in autonomy collective activities
         $this->autonomyCollectiveActivities = $this->activityRepository->findByCriteria(
             ActivityType::ACTIVITY,
             ActivityMode::IN_AUTONOMY,
             ActivityGroup::COLLECTIVE
+        );
+
+        // CC evaluations
+        $this->ccEvaluations = $this->activityRepository->findByCriteria(
+            ActivityType::EVALUATION,
+            ActivityMode::EVAL_CC,
+            null
         );
     }
 
@@ -172,6 +184,14 @@ class CourseSectionType extends AbstractType
                 'mapped' => false,
                 'class' => Activity::class,
                 'choices' => $this->autonomyCollectiveActivities,
+                'choice_label' => 'label',
+            ])
+
+            ->add('ccEvaluations', EntityType::class, [
+                'label' => false,
+                'mapped' => false,
+                'class' => Activity::class,
+                'choices' => $this->ccEvaluations,
                 'choice_label' => 'label',
             ])
             ->add('activities', CollectionType::class, [

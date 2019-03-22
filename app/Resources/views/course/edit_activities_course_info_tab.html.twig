@@ -4,12 +4,13 @@
     {{ parent() }}
     <style>
         .fa-caret-down {
-            transform: scale(1.2);
+            transform: scale(1.1);
             margin-top: -4px;
         }
         .fa-caret-down[aria-expanded='false'] {
-            transform: scale(1.2) rotate(-90deg);
+            transform: scale(1.1) rotate(-90deg);
         }
+
     </style>
 {% endblock %}
 
@@ -48,60 +49,75 @@
     <script>
 
         /**
+         *
+         */
+        function setActivityInfos(el, data){
+            el.find('.activity-label').html(data['label']);
+            el.find('select[id$=_activity]').val(data['activity_id']);
+            el.addClass('border-secondary bg-'+data['color']);
+            el.find('.collapse').show();
+        }
+
+        /**
          * Init activities elements
          */
         function initActivities(container){
-                var activitiesClassList = container.find('.list-activities');
-                var activitiesCollectionHolder = container.find('.activities');
-                var groupName = activitiesCollectionHolder.attr('id');
+            var activitiesClassList = container.find('.list-activities');
+            var activitiesCollectionHolder = container.find('.activities');
+            var groupName = activitiesCollectionHolder.attr('id');
 
-                // Set data-index
-                activitiesCollectionHolder.data('index', activitiesCollectionHolder.find('.activity').length);
+            // Set data-index
+            activitiesCollectionHolder.data('index', activitiesCollectionHolder.find('.activity').length);
 
-                // Activities collection holder sortable
-                activitiesCollectionHolder.sortable( {
-                    group: {
-                        name: groupName
-                    },
-                    handle: ".activity-collection-move",
-                    sort: true,
-                    animation: 150,
-                    onAdd: function(e){
-                        var item = $(e.item);
-                        var form = addFormToCollection(activitiesCollectionHolder);
-                        var label = item.find('input.activity-label').val();
-                        var id = item.find("input.list-id").val();
-                        var type = item.find("input.list-type").val();
-                        var mode = item.find("input.list-mode").val();
-                        var size = item.find("input.list-size").val();
-                        var evaluation = item.find("input.list-evaluation").val();
-                        form.find('.activity-label').html(label);
-                        form.find('select[id$=_activity]').val(id);
-                        form.addClass('border-'+item.find("input.activity-color").val());
-                        item.replaceWith(form);
-                    }
-                } );
-
-                // Activities lists sortable
-                activitiesClassList.sortable( {
-                    group: {
-                        name: groupName,
-                        pull: 'clone',
-                        put: false
-                    },
-                    sort: false,
-                    animation: 150
-                } );
-
-                // Remove a activity from collection
-                activitiesCollectionHolder.on('click', '.activity-collection-remove', function(){
-                    var form = $(this).closest(".activity");
-                    form.fadeOut({
-                        always: function(){
-                            form.remove();
-                        }
+            // Activities collection holder sortable
+            activitiesCollectionHolder.sortable( {
+                group: {
+                    name: groupName
+                },
+                handle: ".activity-collection-move",
+                sort: true,
+                animation: 150,
+                onAdd: function(e){
+                    var item = $(e.item);
+                    var form = addFormToCollection(activitiesCollectionHolder);
+                    var label = item.find('input.activity-label').val();
+                    var activity_id = item.find("input.activity-id").val();
+                    var type = item.find("input.activity-type").val();
+                    var mode = item.find("input.activity-mode").val();
+                    var size = item.find("input.activity-grp").val();
+                    var color = item.find("input.activity-color").val();
+                    setActivityInfos(form, {
+                        'label': label,
+                        'activity_id': activity_id,
+                        'type': type,
+                        'mode': mode,
+                        'size': size,
+                        'color': color
                     });
+                    item.replaceWith(form);
+                }
+            } );
+
+            // Activities lists sortable
+            activitiesClassList.sortable( {
+                group: {
+                    name: groupName,
+                    pull: 'clone',
+                    put: false
+                },
+                sort: false,
+                animation: 150
+            } );
+
+            // Remove a activity from collection
+            activitiesCollectionHolder.on('click', '.activity-collection-remove', function(){
+                var form = $(this).closest(".activity");
+                form.fadeOut({
+                    always: function(){
+                        form.remove();
+                    }
                 });
+            });
         }
 
         /**
