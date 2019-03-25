@@ -170,39 +170,57 @@
                     <span class="font-weight-normal d-flex flex-column justify-content-center align-items-start">
                         {% if course.teachingMode == "class" %}
                             {% if course.teachingCmClass != null %}
-                                <span>{{ course.teachingCmClass }} CM</span> 
+                                <span>{{ course.teachingCmClass }}h CM</span> 
                             {% endif %}
                             {% if course.teachingTdClass != null %}
-                                <span>{{ course.teachingTdClass}} TD</span> 
+                                <span>{{ course.teachingTdClass}}h TD</span> 
                         {% endif %}
                             {% if course.teachingTpClass != null %}
-                                <span>{{ course.teachingTpClass}} TP</span>
+                                <span>{{ course.teachingTpClass}}h TP</span>
                             {% endif %}
                             {% if course.teachingOtherClass != null %}
-                                <span>{{ course.teachingOtherClass}} Autre</span>
+                                <span>{{ course.teachingOtherClass}}h 
+                                {% if course.teachingOtherTypeClass != null %}
+                                    {{ course.teachingOtherTypeClass }}
+                                {% else %}
+                                    Autre
+                                {% endif %}
+                                </span>
                             {% endif %}
                         {% endif %}
                         {% if course.teachingMode == "hybrid" %}
                             {% if course.teachingCmHybridClass != null %}
-                                <span>{{ course.teachingCmHybridClass }} CM</span> 
+                                <span>{{ course.teachingCmHybridClass }}h CM</span> 
                             {% endif %}
                             {% if course.teachingTdHybridClass != null %}
-                                <span>{{ course.teachingTdHybridClass}} TD</span> 
+                                <span>{{ course.teachingTdHybridClass}}h TD</span> 
                         {% endif %}
                             {% if course.teachingTpHybridClass != null %}
-                                <span>{{ course.teachingTpHybridClass}} TP</span>
+                                <span>{{ course.teachingTpHybridClass}}h TP</span>
                         {% endif %}
                             {% if course.teachingOtherHybridClass != null %}
-                                <span>{{ course.teachingOtherHybridClass}} Autre</span>
+                                <span>{{ course.teachingOtherHybridClass}}h
+                                {% if course.teachingOtherTypeHybridClass != null %}
+                                    {{ course.teachingOtherTypeHybridClass }}
+                                {% else %}
+                                    Autre
+                                {% endif %}
+                                </span>
                         {% endif %}
                             {% if course.teachingCmHybridDist != null %}
-                                <span>{{ course.teachingCmHybridDist }} CM</span> 
+                                <span>{{ course.teachingCmHybridDist }}h CM</span> 
                         {% endif %}
                             {% if course.teachingTdHybridDist != null %}
-                                <span>{{ course.teachingTdHybridDist}} TD</span> 
+                                <span>{{ course.teachingTdHybridDist}}h TD</span> 
                         {% endif %}
                             {% if course.teachingOtherHybridDist != null %}
-                                <span>{{ course.teachingOtherHybridDist}} Autre</span>
+                                <span>{{ course.teachingOtherHybridDist}}h
+                                {% if course.teachingOtherTypeHybridDistant != null %}
+                                    {{ course.teachingOtherTypeHybridDistant }}
+                                {% else %}
+                                    Autre
+                                {% endif %}
+                                </span>
                             {% endif %}
                         {% endif %}
                     </span>
