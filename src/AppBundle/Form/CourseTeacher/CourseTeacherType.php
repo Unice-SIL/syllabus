@@ -29,6 +29,11 @@ class CourseTeacherType extends AbstractType
                 'label' => 'Name',
                 'disabled' => true,
             ])
+            ->add('emailVisibility', CheckboxType::class, [
+                'label' => false,
+                'required' => false,
+                'value' => true,
+            ])
             ->add('manager', CheckboxType::class, [
                 'label' => false,
                 'required' => false,

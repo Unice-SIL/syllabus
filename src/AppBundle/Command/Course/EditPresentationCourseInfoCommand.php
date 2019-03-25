@@ -29,6 +29,16 @@ class EditPresentationCourseInfoCommand implements CommandInterface
     /**
      * @var null|string
      */
+    private $level;
+
+    /**
+     * @var null|string
+     */
+    private $domain;
+
+    /**
+     * @var null|string
+     */
     private $summary;
 
     /**
@@ -72,6 +82,11 @@ class EditPresentationCourseInfoCommand implements CommandInterface
     private $teachingOtherClass;
 
     /**
+     * @var string|null
+     */
+    private $teachingOtherTypeClass;
+
+    /**
      * @var float|null
      */
     private $teachingCmHybridClass;
@@ -92,6 +107,11 @@ class EditPresentationCourseInfoCommand implements CommandInterface
     private $teachingOtherHybridClass;
 
     /**
+     * @var string|null
+     */
+    private $teachingOtherTypeHybridClass;
+
+    /**
      * @var float|null
      */
     private $teachingCmHybridDist;
@@ -105,6 +125,11 @@ class EditPresentationCourseInfoCommand implements CommandInterface
      * @var float|null
      */
     private $teachingOtherHybridDist;
+
+    /**
+     * @var string|null
+     */
+    private $teachingOtherTypeHybridDistant;
 
     /**
      * @var string|null
@@ -124,6 +149,8 @@ class EditPresentationCourseInfoCommand implements CommandInterface
     {
         $this->id = $courseInfo->getId();
         $this->period = $courseInfo->getPeriod();
+        $this->level = $courseInfo->getLevel();
+        $this->domain = $courseInfo->getDomain();
         $this->summary = $courseInfo->getSummary();
         $this->mediaType = $courseInfo->getMediaType();
         $this->image = $courseInfo->getImage();
@@ -133,6 +160,7 @@ class EditPresentationCourseInfoCommand implements CommandInterface
         $this->teachingTdClass = $courseInfo->getTeachingTdClass();
         $this->teachingTpClass = $courseInfo->getTeachingTpClass();
         $this->teachingOtherClass = $courseInfo->getTeachingOtherClass();
+        $this->teachingOtherTypeClass = $courseInfo->getTeachingOtherTypeClass();
         $this->teachingCmHybridClass = $courseInfo->getTeachingCmHybridClass();
         $this->teachingTdHybridClass = $courseInfo->getTeachingTdHybridClass();
         $this->teachingTpHybridClass = $courseInfo->getTeachingTpHybridClass();
@@ -184,6 +212,43 @@ class EditPresentationCourseInfoCommand implements CommandInterface
         return $this;
     }
 
+    /**
+     * @return null|string
+     */
+    public function getLevel()
+    {
+        return $this->level;
+    }
+
+    /**
+     * @param null|string $level
+     * @return EditPresentationCourseInfoCommand
+     */
+    public function setLevel($level)
+    {
+        $this->level = $level;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getDomain()
+    {
+        return $this->domain;
+    }
+
+    /**
+     * @param null|string $domain
+     * @return EditPresentationCourseInfoCommand
+     */
+    public function setDomain($domain)
+    {
+        $this->domain = $domain;
+
+        return $this;
+    }
 
     /**
      * @return null|string
@@ -357,6 +422,25 @@ class EditPresentationCourseInfoCommand implements CommandInterface
     }
 
     /**
+     * @return null|string
+     */
+    public function getTeachingOtherTypeClass()
+    {
+        return $this->teachingOtherTypeClass;
+    }
+
+    /**
+     * @param null|string $teachingOtherTypeClass
+     * @return EditPresentationCourseInfoCommand
+     */
+    public function setTeachingOtherTypeClass($teachingOtherTypeClass)
+    {
+        $this->teachingOtherTypeClass = $teachingOtherTypeClass;
+
+        return $this;
+    }
+
+    /**
      * @return float|null
      */
     public function getTeachingCmHybridClass()
@@ -433,6 +517,25 @@ class EditPresentationCourseInfoCommand implements CommandInterface
     }
 
     /**
+     * @return null|string
+     */
+    public function getTeachingOtherTypeHybridClass()
+    {
+        return $this->teachingOtherTypeHybridClass;
+    }
+
+    /**
+     * @param null|string $teachingOtherTypeHybridClass
+     * @return EditPresentationCourseInfoCommand
+     */
+    public function setTeachingOtherTypeHybridClass($teachingOtherTypeHybridClass)
+    {
+        $this->teachingOtherTypeHybridClass = $teachingOtherTypeHybridClass;
+
+        return $this;
+    }
+
+    /**
      * @return float|null
      */
     public function getTeachingCmHybridDist()
@@ -490,6 +593,25 @@ class EditPresentationCourseInfoCommand implements CommandInterface
     }
 
     /**
+     * @return null|string
+     */
+    public function getTeachingOtherTypeHybridDistant()
+    {
+        return $this->teachingOtherTypeHybridDistant;
+    }
+
+    /**
+     * @param null|string $teachingOtherTypeHybridDistant
+     * @return EditPresentationCourseInfoCommand
+     */
+    public function setTeachingOtherTypeHybridDistant($teachingOtherTypeHybridDistant)
+    {
+        $this->teachingOtherTypeHybridDistant = $teachingOtherTypeHybridDistant;
+
+        return $this;
+    }
+
+    /**
      * @return ArrayCollection
      */
     public function getTeachers(): ArrayCollection
@@ -540,6 +662,8 @@ class EditPresentationCourseInfoCommand implements CommandInterface
     {
         // CourseInfo
         $entity->setPeriod($this->getPeriod())
+            ->setLevel($this->getLevel())
+            ->setDomain($this->getDomain())
             ->setSummary($this->getSummary())
             ->setMediaType($this->getMediaType())
             ->setImage($this->getImage())
@@ -549,6 +673,7 @@ class EditPresentationCourseInfoCommand implements CommandInterface
             ->setTeachingTdClass($this->getTeachingTdClass())
             ->setTeachingTpClass($this->getTeachingTpClass())
             ->setTeachingOtherClass($this->getTeachingOtherClass())
+            ->setTeachingOtherTypeClass($this->getTeachingOtherTypeClass())
             ->setTeachingCmHybridClass($this->getTeachingCmHybridClass())
             ->setTeachingTdHybridClass($this->getTeachingTdHybridClass())
             ->setTeachingTpHybridClass($this->getTeachingTpHybridClass())
@@ -574,5 +699,16 @@ class EditPresentationCourseInfoCommand implements CommandInterface
         $entity->setCourseTeachers($courseTeachers);
 
         return $entity;
+    }
+
+    /**
+     *
+     */
+    public function __clone()
+    {
+        $this->teachers = clone $this->teachers;
+        foreach ($this->teachers as $key => $teacher){
+            $this->teachers->offsetSet($key, clone $teacher);
+        }
     }
 }

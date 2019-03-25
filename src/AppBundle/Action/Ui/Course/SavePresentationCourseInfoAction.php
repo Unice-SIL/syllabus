@@ -96,7 +96,8 @@ class SavePresentationCourseInfoAction implements ActionInterface
             $editPresentationCourseInfoCommand = new EditPresentationCourseInfoCommand($courseInfo);
             // Keep original command before modifications
             $originalEditPresentationCourseInfoCommand = clone $editPresentationCourseInfoCommand;
-            $originalEditPresentationCourseInfoCommand->setTeachers(clone $editPresentationCourseInfoCommand->getTeachers());
+            //$originalEditPresentationCourseInfoCommand->setTeachers(clone $editPresentationCourseInfoCommand->getTeachers());
+            // Générate form
             $form = $this->formFactory->create(
                 EditPresentationCourseInfoType::class,
                 $editPresentationCourseInfoCommand

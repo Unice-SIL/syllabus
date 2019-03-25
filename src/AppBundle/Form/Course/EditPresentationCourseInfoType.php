@@ -3,6 +3,7 @@
 namespace AppBundle\Form\Course;
 
 use AppBundle\Command\Course\EditPresentationCourseInfoCommand;
+use AppBundle\Constant\Level;
 use AppBundle\Entity\CourseTeacher;
 use AppBundle\Form\CourseTeacher\CourseTeacherType;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
@@ -34,9 +35,9 @@ class EditPresentationCourseInfoType extends AbstractType
      * @param $courseTeacherFactory
      */
     public function __construct(
-            $courseTeacherFactory,
-            RequestStack $requestStack
-        )
+        $courseTeacherFactory,
+        RequestStack $requestStack
+    )
     {
         $this->requestStack = $requestStack;
         if(is_array($courseTeacherFactory) && array_key_exists('sources', $courseTeacherFactory)){
@@ -60,6 +61,24 @@ class EditPresentationCourseInfoType extends AbstractType
             ->add('period', TextType::class, [
                 'label' => 'Période',
                 'required' => false,
+                'attr' => [
+                    'placeholder' => 'Ex: Tout le semestre'
+                ]
+            ])
+            ->add('domain', TextType::class, [
+                'label' => 'Domaine',
+                'required' => false,
+                'attr' => [
+                    'placeholder' => 'Ex: Chimie'
+                ]
+            ])
+            ->add('level', ChoiceType::class, [
+                'label' => 'Niveau',
+                'required' => false,
+                'multiple' => false,
+                'expanded' => true,
+                'placeholder' => false,
+                'choices' => Level::CHOICES
             ])
             ->add('summary', CKEditorType::class, [
                 'label' => 'Description',
@@ -105,6 +124,14 @@ class EditPresentationCourseInfoType extends AbstractType
                     'data-teaching-mode' => 'class'
                 ]
             ])
+            ->add('teachingOtherTypeClass', TextType::class, [
+                'required' => false,
+                'label' => 'Type',
+                'attr' => [
+                    'data-teaching-mode' => 'class',
+                    'placeholder' => 'Ex: Tutotrat'
+                ]
+            ])
             ->add('teachingCmHybridClass', TextType::class, [
                 'required' => false,
                 'label' => 'h Cours Magistraux',
@@ -133,6 +160,14 @@ class EditPresentationCourseInfoType extends AbstractType
                     'data-teaching-mode' => 'hybrid'
                 ]
             ])
+            ->add('teachingOtherTypeHybridClass', TextType::class, [
+                'required' => false,
+                'label' => 'Type',
+                'attr' => [
+                    'data-teaching-mode' => 'hybrid',
+                    'placeholder' => 'Ex: Tutotrat'
+                ]
+            ])
             ->add('teachingCmHybridDist', TextType::class, [
                 'required' => false,
                 'label' => 'h Cours Magistraux',
@@ -152,6 +187,14 @@ class EditPresentationCourseInfoType extends AbstractType
                 'label' => 'h Autre (facultatif)',
                 'attr' => [
                     'data-teaching-mode' => 'hybrid'
+                ]
+            ])
+            ->add('teachingOtherTypeHybridDistant', TextType::class, [
+                'required' => false,
+                'label' => 'Type',
+                'attr' => [
+                    'data-teaching-mode' => 'hybrid',
+                    'placeholder' => 'Ex: Tutotrat'
                 ]
             ])
             ->add('teacherSource', ChoiceType::class, [

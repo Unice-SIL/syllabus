@@ -50,6 +50,13 @@ class CourseTeacher
     private $manager = false;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(name="email_visibility", type="boolean", nullable=false)
+     */
+    private $emailVisibility = false;
+
+    /**
      * @var \AppBundle\Entity\CourseInfo
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CourseInfo", inversedBy="courseTeachers", cascade={"persist"})
@@ -150,6 +157,25 @@ class CourseTeacher
     public function setManager(bool $manager): CourseTeacher
     {
         $this->manager = $manager;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEmailVisibility(): bool
+    {
+        return $this->emailVisibility;
+    }
+
+    /**
+     * @param bool $emailVisibility
+     * @return CourseTeacher
+     */
+    public function setEmailVisibility(bool $emailVisibility): CourseTeacher
+    {
+        $this->emailVisibility = $emailVisibility;
 
         return $this;
     }

@@ -1,7 +1,7 @@
 {% macro section_template(section) %}
-    <li class="list-group-item section">
+    <li class="section list-group-item mt-1">
         <div class="row">
-            <div class="col-md-auto align-self-center">
+            <div class="col-md-auto">
                 <i class="fas fa-caret-down" title="Déplier / Replier."
                    data-toggle="collapse"
                    data-target="#collapse_{{ section.vars.id }}"
@@ -13,9 +13,11 @@
                 {{ form_widget(section.title) }}
                 <label alt="Titre" placeholder="Titre"></label>
             </div>
-            <div class="col-md-auto align-self-center">
-                <i class="fas fa-arrows-alt-v section-collection-move" title="Glisser / déposer pour modifier l'ordre."></i>
-                <i class="fas fa-eraser section-collection-remove" title="Retirer de la liste."></i>
+            <div class="col-md-auto pl-0">
+                <i class="fas fa-trash-alt section-collection-remove" title="Retirer de la liste."></i>
+            </div>
+            <div class="col-md-auto pl-0">
+                <i class="fas fa-arrows-alt section-collection-move" title="Glisser / déposer pour modifier l'ordre."></i>
             </div>
         </div>
         <div class="row">
@@ -40,7 +42,7 @@
                         <div class="col container-activities">
                             <div class="row">
                                 <div class="col">
-                                    <strong>Activité(s) / Evaluation(s) associée(s) au contenu</strong>
+                                    <strong>Activité(s) associée(s) au contenu</strong>
                                 </div>
                             </div>
 
@@ -146,6 +148,11 @@
 
 
                                     <!-- EVALUATIONS -->
+                                    <div class="row mt-3">
+                                        <div class="col">
+                                            <strong>Evaluation(s) associée(s) au contenu</strong>
+                                        </div>
+                                    </div>
                                     <div class="row border mt-2">
                                         <div class="col">
                                             <div class="row">
