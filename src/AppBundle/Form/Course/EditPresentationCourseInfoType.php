@@ -4,6 +4,7 @@ namespace AppBundle\Form\Course;
 
 use AppBundle\Command\Course\EditPresentationCourseInfoCommand;
 use AppBundle\Constant\Level;
+use AppBundle\Constant\TeachingMode;
 use AppBundle\Entity\CourseTeacher;
 use AppBundle\Form\CourseTeacher\CourseTeacherType;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
@@ -88,10 +89,11 @@ class EditPresentationCourseInfoType extends AbstractType
                 'label' => "Mode d'enseignement",
                 'expanded'  => true,
                 'multiple' => false,
-                'choices' => [
-                    'Présentiel' => 'class',
-                    'Hybride' => 'hybrid'
-                ]
+                'choices' => TeachingMode::CHOICES,
+                'choice_label' => function($value, $key, $choiceValue){
+                    return mb_strtoupper($key);
+                }
+
             ])
             ->add('mediaType', HiddenType::class)
             ->add('image', FileType::class, [
