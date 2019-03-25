@@ -17,8 +17,6 @@
 {% endif %}
 {% set year = '2018' %}
 
-
-
     <div class="container-fluid">
 
         <div class="row d-flex flex-row m-3">
@@ -58,12 +56,30 @@
             </nav>
         </div>
 
-        <div id="Presentation" class="row d-flex flex-row m-3">
+        <div id="Presentation" class="row d-flex flex-row m-3 align-items-center">
             <div class="col-md-6">
-                <h4 class="text-justify text-left font-weight-bold">
+                <h5 class="text-justify text-left font-weight-bold">
                     {{course.title}}
-                </h4>
-                {# <span>Domaine disciplinaire: {{course.course_domain.domain}} </span> #}
+                </h5>
+                <div class="d-flex flex-row align-items-center">
+                    {% if course.level == "beginner" %}
+                    <i class="fas fa-circle text-info rounded-circle border border-dark"></i>
+                    <i class="mx-1 fas fa-circle text-light rounded-circle border border-dark"></i>
+                    <i class=" fas fa-circle text-light rounded-circle border border-dark"></i>
+                    <span class="px-3 border-right border-dark">Niveau débutant</span>
+                    {% elseif course.level == "intermediate" %}
+                    <i class="fas fa-circle text-info rounded-circle border border-dark"></i>
+                    <i class="mx-1 fas fa-circle text-info rounded-circle border border-dark"></i>
+                    <i class="fas fa-circle text-light rounded-circle border border-dark"></i>
+                    <span class="px-3 border-right border-dark">Niveau intermediare</span>
+                    {% elseif course.level == "advanced" %}
+                    <i class="fas fa-circle text-info rounded-circle border border-dark"></i>
+                    <i class="mx-1 fas fa-circle text-info rounded-circle border border-dark"></i>
+                    <i class="fas fa-circle text-info rounded-circle border border-dark"></i>
+                    <span class="px-3 border-right border-dark" >Niveau avancé</span>
+                    {% endif %}
+                    <span class="mx-3">Domaine disciplinaire : {{course.domain}}</span>
+                </div>
             </div>
             <div class="col-md-6">
                 {# {% for parentInfo in parent %}
@@ -289,48 +305,6 @@
                 {% for section in course.courseSections %}
                     <div class="col p-2 border border-dark bg-light"> 
                     <h6>{{section.title|raw}} : {{section.description|raw}}</h6>
-                    {# {% for activity in section.courseSectionActivities %}
-                        {% if activity.activity.type == "activity" %}
-                            <div class="row mx-1 p-3 d-flex flex-row justify-content-between align-items-center text-light {{ loop.index0 is odd ? 'bg-dark' : 'bg-secondary' }}">
-                            <span>{{activity.activity.label}} </span>
-                            {% if activity.activity.mode == 'autonomy' %}
-                                <div class="d-flex flex-row align-items-center">
-                                <span class="font-weight-bold mx-3"> En autonomie</span>
-                                <i class="fas mr-5 fa-2x fa-book-reader"></i>
-                                </div>
-                            {% elseif activity.activity.mode == 'class' %}
-                                <div class="d-flex flex-row align-items-center">
-                                <span class="font-weight-bold mx-3"> En classe</span>
-                                <i class="fas mr-5 fa-2x fa-chalkboard-teacher"></i>
-                                </div>
-                            {% endif %}
-                            </div>
-                        {% elseif activity.activity.type == "evaluation" %}
-                            <div class="row mx-1 p-3 d-flex flex-row justify-content-between align-items-center text-light bg-info }}">
-                                <div class="d-flex flex-column">
-                                    <span> {{activity.activity.label}} </span>
-                                    {% if activity.evaluationTeacher == true %}
-                                        {% if activity.evaluationPeer == true %}
-                                            <span class="font-weight-bold font-italic">Evalué par l'enseignant et les pairs</span>
-                                        {% else %}
-                                            <span class="font-weight-bold font-italic">Evalué par l'enseignant</span>
-                                        {% endif %}
-                                    {% elseif activity.evaluationPeer == true %}
-                                        <span class="font-weight-bold font-italic">Evalué par les pairs</span>    
-                                    {% endif %}
-                                </div>
-                                <div class = "d-flex flex-row align-items-center">
-                                {% if activity.activity.mode == 'cc' %}
-                                <span class="font-weight-bold mx-3">{{activity.evaluationRate}}% du Contrôle Continu</span>
-                                <i class="fas fa-file-signature"></i>
-                                {% elseif activity.activity.mode == 'ct' %}
-                                <span>Sur le campus</span>
-                                <i class="fas fa-map-marker-alt"></i>
-                                {% endif %}
-                                </div>
-                            </div>
-                        {% endif %}
-                    {% endfor %} #}
                     {% set ActivityHandled = [] %}
                     {% for activity in section.courseSectionActivities %}
                     {% set break = false %}
@@ -349,7 +323,7 @@
                                 </div>
                                 <div class="d-flex flex-row align-items-center">
                                     <span class="font-weight-bold mx-3"> En classe</span>
-                                    <i class="fas mr-5 fa-2x fa-chalkboard-teacher"></i>
+                                    <img src="{{ asset('images/activity_in_class_64.png') }}">
                                 </div>
                                 </div>
                             {% elseif activity.activity.mode == "autonomy" %}
@@ -366,7 +340,7 @@
                                 </div>
                                 <div class="d-flex flex-row align-items-center">
                                     <span class="font-weight-bold mx-3"> En autonomie</span>
-                                    <i class="fas mr-5 fa-2x fa-book-reader"></i>
+                                    <img src="{{ asset('images/activity_in_autonomy_64.png') }}">
                                 </div>
                                 </div>
                             {% elseif activity.activity.mode == "cc" %}
@@ -383,7 +357,7 @@
                                 </div>
                                 <div class = "d-flex flex-row align-items-center">
                                     <span class="font-weight-bold mx-3">{{activity.evaluationRate}}% du Contrôle Continu</span>
-                                    <i class="fas fa-file-signature"></i>
+                                    <img src="{{ asset('images/evaluation_cc_64.png') }}">
                                 </div>
                                 </div>
                             {% elseif activity.activity.mode == "ct" %}
@@ -480,14 +454,22 @@
                 <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
                     <h5 class="m-0">METHODES D'EVALUATION</h5>
                 </div>
-                <div>
+                <div class="d-flex flex-column">
                 {% for section in course.courseSections %}
-                    {% for activity in section.courseSectionActivities if activity.activity.type == "evaluation"%}
-                        {% if activity.activity.mode == 'cc' %}
-                        <div class="row rounded bg-info" >{{activity.activity.label}}</div>
-                        {% elseif activity.activity.mode == 'c' %}
-                        <div class="row rounded bg-primary" >{{activity.activity.label}}</div>
-                        {% endif %}
+                    {% set onlyEvaluations = [] %}
+                    {% for activity in section.courseSectionActivities if activity.activity.type == "evaluation" %}
+                        {% set onlyEvaluations = onlyEvaluations|merge([activity]) %}
+                    {% endfor %}
+                    {% for row in onlyEvaluations|batch(2) %}
+                        <div class="d-flex flex-row justify-content-around">
+                        {% for activity in row %}
+                            {% if activity.activity.mode == 'cc' %}
+                            <div class="d-flex flex-row rounded bg-info px-4 my-2" >{{activity.activity.label}}</div>
+                            {% elseif activity.activity.mode == 'ct' %}
+                            <div class="d-flex flex-row rounded bg-primary px-4 my-2" >{{activity.activity.label}}</div>
+                            {% endif %}
+                        {% endfor %}
+                        </div>
                     {% endfor %}
                 {% endfor %}
                 </div>
