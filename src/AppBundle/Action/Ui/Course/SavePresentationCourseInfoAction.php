@@ -78,6 +78,7 @@ class SavePresentationCourseInfoAction implements ActionInterface
     {
         try {
             $id = $request->get('id', null);
+            // Find course info by id
             try {
                 $courseInfo = $this->findCourseInfoByIdQuery->setId($id)->execute();
             } catch (CourseInfoNotFoundException $e) {
@@ -96,7 +97,8 @@ class SavePresentationCourseInfoAction implements ActionInterface
             $editPresentationCourseInfoCommand = new EditPresentationCourseInfoCommand($courseInfo);
             // Keep original command before modifications
             $originalEditPresentationCourseInfoCommand = clone $editPresentationCourseInfoCommand;
-            $originalEditPresentationCourseInfoCommand->setTeachers(clone $editPresentationCourseInfoCommand->getTeachers());
+            //$originalEditPresentationCourseInfoCommand->setTeachers(clone $editPresentationCourseInfoCommand->getTeachers());
+            // Générate form
             $form = $this->formFactory->create(
                 EditPresentationCourseInfoType::class,
                 $editPresentationCourseInfoCommand

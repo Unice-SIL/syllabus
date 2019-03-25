@@ -54,7 +54,7 @@
         function setActivityInfos(el, data){
             el.find('.activity-label').html(data['label']);
             el.find('select[id$=_activity]').val(data['activity_id']);
-            el.addClass('border-secondary bg-'+data['color']);
+            el.addClass(data['classtype']);
             el.find('.collapse').show();
         }
 
@@ -85,14 +85,15 @@
                     var type = item.find("input.activity-type").val();
                     var mode = item.find("input.activity-mode").val();
                     var size = item.find("input.activity-grp").val();
-                    var color = item.find("input.activity-color").val();
+                    var classtype = item.find("input.activity-class").val();
+                    console.log(classtype);
                     setActivityInfos(form, {
                         'label': label,
                         'activity_id': activity_id,
                         'type': type,
                         'mode': mode,
                         'size': size,
-                        'color': color
+                        'classtype': classtype
                     });
                     item.replaceWith(form);
                 }
@@ -111,12 +112,14 @@
 
             // Remove a activity from collection
             activitiesCollectionHolder.on('click', '.activity-collection-remove', function(){
-                var form = $(this).closest(".activity");
-                form.fadeOut({
-                    always: function(){
-                        form.remove();
-                    }
-                });
+                if(confirm("Êtes-vous sûr(e) de vouloir supprimer cette activité ?")) {
+                    var form = $(this).closest(".activity");
+                    form.fadeOut({
+                        always: function () {
+                            form.remove();
+                        }
+                    });
+                }
             });
         }
 
@@ -151,12 +154,14 @@
              * Remove a section from collection
              */
             sectionsCollectionHolder.on('click', '.section-collection-remove', function(){
-                var form = $(this).closest("li.section");
-                form.fadeOut({
-                    always: function(){
-                        form.remove();
-                    }
-                });
+                if(confirm("Êtes-vous sûr(e) de vouloir supprimer cette section ?")) {
+                    var form = $(this).closest("li.section");
+                    form.fadeOut({
+                        always: function () {
+                            form.remove();
+                        }
+                    });
+                }
             });
 
             /**

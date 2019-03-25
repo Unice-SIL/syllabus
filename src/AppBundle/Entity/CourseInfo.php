@@ -40,9 +40,16 @@ class CourseInfo
     /**
      * @var string|null
      *
-     * @ORM\Column(name="level", type="string", length=4, nullable=true, options={"fixed"=true})
+     * @ORM\Column(name="level", type="string", length=15, nullable=true, options={"fixed"=true})
      */
     private $level;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="domain", type="string", length=100, nullable=true, options={"fixed"=true})
+     */
+    private $domain;
 
     /**
      * @var int|null
@@ -115,6 +122,13 @@ class CourseInfo
     private $teachingOtherClass;
 
     /**
+     * @var string|null
+     *
+     * @ORM\Column(name="teaching_other_type_class", type="string", length=65, nullable=true)
+     */
+    private $teachingOtherTypeClass;
+
+    /**
      * @var float|null
      *
      * @ORM\Column(name="teaching_cm_hybrid_class", type="float", precision=10, scale=0, nullable=true)
@@ -143,6 +157,13 @@ class CourseInfo
     private $teachingOtherHybridClass;
 
     /**
+     * @var string|null
+     *
+     * @ORM\Column(name="teaching_other_type_hybrid_class", type="string", length=65, nullable=true)
+     */
+    private $teachingOtherTypeHybridClass;
+
+    /**
      * @var float|null
      *
      * @ORM\Column(name="teaching_cm_hybrid_dist", type="float", precision=10, scale=0, nullable=true)
@@ -162,6 +183,13 @@ class CourseInfo
      * @ORM\Column(name="teaching_other_hybrid_dist", type="float", precision=10, scale=0, nullable=true)
      */
     private $teachingOtherHybridDist;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="teaching_other_type_hybrid_distant", type="string", length=65, nullable=true)
+     */
+    private $teachingOtherTypeHybridDistant;
 
     /**
      * @var float|null
@@ -393,6 +421,14 @@ class CourseInfo
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
+     * @ORM\OneToMany(targetEntity="CourseEvaluationCt", mappedBy="courseInfo", cascade={ "persist" })
+     * @ORM\OrderBy({"order" = "ASC"})
+     */
+    private $courseEvaluationCts;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
      * @ORM\OneToMany(targetEntity="CourseAchievement", mappedBy="courseInfo", cascade={ "persist" })
      */
     private $courseAchievements;
@@ -425,6 +461,7 @@ class CourseInfo
     {
         $this->courseTeachers = new ArrayCollection();
         $this->courseSections = new ArrayCollection();
+        $this->courseEvaluationCts = new ArrayCollection();
         $this->courseAchievements = new ArrayCollection();
         $this->coursePrerequisites = new ArrayCollection();
         $this->courseTutoringResources = new ArrayCollection();
@@ -503,6 +540,25 @@ class CourseInfo
     public function setLevel($level)
     {
         $this->level = $level;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getDomain()
+    {
+        return $this->domain;
+    }
+
+    /**
+     * @param null|string $domain
+     * @return CourseInfo
+     */
+    public function setDomain($domain)
+    {
+        $this->domain = $domain;
 
         return $this;
     }
@@ -698,6 +754,26 @@ class CourseInfo
     }
 
     /**
+     * @return null|string
+     */
+    public function getTeachingOtherTypeClass()
+    {
+        return $this->teachingOtherTypeClass;
+    }
+
+    /**
+     * @param null|string $teachingOtherTypeClass
+     * @return CourseInfo
+     */
+    public function setTeachingOtherTypeClass($teachingOtherTypeClass)
+    {
+        $this->teachingOtherTypeClass = $teachingOtherTypeClass;
+
+        return $this;
+    }
+
+
+    /**
      * @return float|null
      */
     public function getTeachingCmHybridClass()
@@ -774,6 +850,26 @@ class CourseInfo
     }
 
     /**
+     * @return null|string
+     */
+    public function getTeachingOtherTypeHybridClass()
+    {
+        return $this->teachingOtherTypeHybridClass;
+    }
+
+    /**
+     * @param null|string $teachingOtherTypeHybridClass
+     * @return CourseInfo
+     */
+    public function setTeachingOtherTypeHybridClass($teachingOtherTypeHybridClass)
+    {
+        $this->teachingOtherTypeHybridClass = $teachingOtherTypeHybridClass;
+
+        return $this;
+    }
+
+
+    /**
      * @return float|null
      */
     public function getTeachingCmHybridDist()
@@ -826,6 +922,25 @@ class CourseInfo
     public function setTeachingOtherHybridDist($teachingOtherHybridDist)
     {
         $this->teachingOtherHybridDist = $teachingOtherHybridDist;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getTeachingOtherTypeHybridDistant()
+    {
+        return $this->teachingOtherTypeHybridDistant;
+    }
+
+    /**
+     * @param null|string $teachingOtherTypeHybridDistant
+     * @return CourseInfo
+     */
+    public function setTeachingOtherTypeHybridDistant($teachingOtherTypeHybridDistant)
+    {
+        $this->teachingOtherTypeHybridDistant = $teachingOtherTypeHybridDistant;
 
         return $this;
     }
@@ -1403,7 +1518,6 @@ class CourseInfo
         return $this;
     }
 
-
     /**
      * @return Collection
      */
@@ -1441,6 +1555,47 @@ class CourseInfo
     public function removeCourseSection(CourseSection $courseSection): CourseInfo
     {
         $this->courseSections->removeElement($courseSection);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getCourseEvaluationCts(): Collection
+    {
+        return $this->courseEvaluationCts;
+    }
+
+    /**
+     * @param Collection $courseEvaluationCts
+     * @return CourseInfo
+     */
+    public function setCourseEvaluationCts(Collection $courseEvaluationCts): CourseInfo
+    {
+        $this->courseEvaluationCts = $courseEvaluationCts;
+
+        return $this;
+    }
+
+    /**
+     * @param CourseEvaluationCt $courseEvaluationCt
+     * @return CourseInfo
+     */
+    public function addCourseEvaluationCt(CourseEvaluationCt $courseEvaluationCt): CourseInfo
+    {
+        $this->courseEvaluationCts->add($courseEvaluationCt);
+
+        return $this;
+    }
+
+    /**
+     * @param CourseSection $courseEvaluationCt
+     * @return CourseInfo
+     */
+    public function removeCourseEvaluationCt(CourseSection $courseEvaluationCt): CourseInfo
+    {
+        $this->courseEvaluationCts->removeElement($courseEvaluationCt);
 
         return $this;
     }

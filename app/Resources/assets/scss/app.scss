@@ -81,6 +81,18 @@ input[type=text] {
     -o-transition: all 0.30s ease-in-out;
     outline: none;
 
+    &::placeholder {
+        color: lightgrey;
+        font-size: 0.8em;
+        font-style: italic;
+    }
+
+    &:-ms-input-placeholder {
+        color: lightgrey;
+        font-size: 0.8em;
+        font-style: italic;
+    }
+
     & + label[placeholder] {
         display: block;
         pointer-events: none;
@@ -102,9 +114,7 @@ input[type=text] {
             font-size: 9px;
             margin: 0 0 0 -2px;
         }
-
     }
-
 }
 
 
@@ -113,11 +123,11 @@ input[type=text] {
     Forms sortable lists
 */
 
+
 form ul.list-group {
     list-style-type: none;
 
-    & > li.list-group-item {
-        margin-top: 1rem;
+    &.striped > li.list-group-item {
 
         &:nth-child(2n) {
             background-color: $gray-200;
@@ -126,7 +136,7 @@ form ul.list-group {
         &.sortable-chosen {
             background-color: lighten($primary, 35%);
         }
-
+        /*
         .fas {
             float: right;
             font-size: 1.5rem;
@@ -141,23 +151,89 @@ form ul.list-group {
                 color: $red;
             }
         }
+        */
     }
 }
 
 /*
-    Activities
+    Sections & Activities
 */
 
-.activity-activity {
-    border-color: $secondary;
-    background-color: $light;
+.section {
+
+    & i.fas {
+
+        cursor: pointer;
+
+        &.section-collection-remove {
+            color: $danger;
+        }
+    }
 }
 
-.activity-evaluation {
-    border-color: $secondary;
-    background-color: $info;
+.activity {
 
-    & .card-header{
+    border-color: $secondary !important;
+
+    &.activity-in-class,
+    &.activity-in-autonomy {
+
+        background-color: $light;
+
+    }
+
+    & div.icon {
+        display: inline-block;
+        width: 32px;
+        height: 32px;
+    }
+
+    &.activity-in-class div.icon {
+        background: url("../images/activity_in_class_32.png") no-repeat;
+    }
+
+    &.activity-in-autonomy div.icon {
+        background: url("../images/activity_in_autonomy_32.png") no-repeat;
+    }
+
+
+    &.evaluation-cc,
+    &.evaluation-ct {
+        background-color: $info;
+
+        & .card-header {
+            color: $light;
+        }
+    }
+
+    &.evaluation-cc div.icon {
+        background: url("../images/evaluation_cc_32.png") no-repeat;
+    }
+
+    & i.fas {
+        cursor: pointer;
+    }
+}
+
+.list-activities {
+    max-height: 200px;
+    overflow-y: auto
+}
+
+.list-activity{
+    border-color: $secondary !important;
+    cursor: pointer;
+
+    &.activity-in-class,
+    &.activity-in-autonomy {
+
+        background-color: $light;
+
+    }
+
+    &.evaluation-cc,
+    &.evaluation-ct {
+        background-color: $info;
         color: $light;
     }
 }

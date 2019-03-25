@@ -1,13 +1,12 @@
-{% macro choice_activity_template(choiceActivity, type, color, text) %}
-    <div class="list-{{ type }} p-1 mb-2 border border-secondary rounded shadow-sm bg-{{ color }} text-{{ text }}">
+{% macro choice_activity_template(choiceActivity, class, bgcolor, txtcolor) %}
+    <div class="list-activity {{ class }} p-1 mb-2 border rounded shadow">
         <small class="font-weight-bold">{{ choiceActivity.data.label }}</small>
         <input type="hidden" class="activity-label" value="{{ choiceActivity.data.label }}">
         <input type="hidden" class="activity-id" value="{{ choiceActivity.data.id }}">
         <input type="hidden" class="activity-type" value="{{ choiceActivity.data.type }}">
         <input type="hidden" class="activity-mode" value="{{ choiceActivity.data.mode }}">
         <input type="hidden" class="activity-grp" value="{{ choiceActivity.data.grp }}">
-        <input type="hidden" class="activity-color" value="{{ color }}">
-        <input type="hidden" class="activity-text" value="{{ text }}">
+        <input type="hidden" class="activity-class" value="{{ class }}">
     </div>
 {% endmacro %}
 
@@ -15,7 +14,7 @@
     {% import _self as choicesActivitiesField %}
     <div class="list-activities list-class-activities">
         {% for choiceActivity in form.vars.choices %}
-            {{ choicesActivitiesField.choice_activity_template(choiceActivity, 'class-activity', 'light') }}
+            {{ choicesActivitiesField.choice_activity_template(choiceActivity, 'activity-in-class', 'light') }}
         {% endfor %}
     </div>
 {% endblock %}
@@ -24,7 +23,7 @@
     {% import _self as choicesActivitiesField %}
     <div class="list-activities list-class-together-activities">
         {% for choiceActivity in form.vars.choices %}
-            {{ choicesActivitiesField.choice_activity_template(choiceActivity, 'class-together-activity', 'light') }}
+            {{ choicesActivitiesField.choice_activity_template(choiceActivity, 'activity-in-class', 'light') }}
         {% endfor %}
     </div>
 {% endblock %}
@@ -33,7 +32,7 @@
     {% import _self as choicesActivitiesField %}
     <div class="list-activities list-class-groups-activities">
         {% for choiceActivity in form.vars.choices %}
-            {{ choicesActivitiesField.choice_activity_template(choiceActivity, 'class-groups-activity', 'light') }}
+            {{ choicesActivitiesField.choice_activity_template(choiceActivity, 'activity-in-class', 'light') }}
         {% endfor %}
     </div>
 {% endblock %}
@@ -42,7 +41,7 @@
     {% import _self as choicesActivitiesField %}
     <div class="list-activities list-autonomy-activities">
         {% for choiceActivity in form.vars.choices %}
-            {{ choicesActivitiesField.choice_activity_template(choiceActivity, 'autonomy-activity', 'light') }}
+            {{ choicesActivitiesField.choice_activity_template(choiceActivity, 'activity-in-autonomy', 'light') }}
         {% endfor %}
     </div>
 {% endblock %}
@@ -51,7 +50,7 @@
     {% import _self as choicesActivitiesField %}
     <div class="list-activities list-autonomy-individual-activities">
         {% for choiceActivity in form.vars.choices %}
-            {{ choicesActivitiesField.choice_activity_template(choiceActivity, 'autonomy-individual-activity', 'light') }}
+            {{ choicesActivitiesField.choice_activity_template(choiceActivity, 'activity-in-autonomy', 'light') }}
         {% endfor %}
     </div>
 {% endblock %}
@@ -60,7 +59,7 @@
     {% import _self as choicesActivitiesField %}
     <div class="list-activities list-autonomy-collective-activities">
         {% for choiceActivity in form.vars.choices %}
-            {{ choicesActivitiesField.choice_activity_template(choiceActivity, 'autonomy-collective-activity', 'light') }}
+            {{ choicesActivitiesField.choice_activity_template(choiceActivity, 'activity-in-autonomy', 'light') }}
         {% endfor %}
     </div>
 {% endblock %}
@@ -69,7 +68,7 @@
     {% import _self as choicesActivitiesField %}
     <div class="list-activities list-cc-evaluations">
         {% for choiceActivity in form.vars.choices %}
-            {{ choicesActivitiesField.choice_activity_template(choiceActivity, 'cc-evaluation', 'info', 'light') }}
+            {{ choicesActivitiesField.choice_activity_template(choiceActivity, 'evaluation-cc', 'info', 'light') }}
         {% endfor %}
     </div>
 {% endblock %}

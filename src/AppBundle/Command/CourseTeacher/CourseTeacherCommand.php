@@ -40,6 +40,11 @@ class CourseTeacherCommand implements CommandInterface
     private $manager;
 
     /**
+     * @var bool
+     */
+    private $emailVisibility;
+
+    /**
      * @var CourseInfo
      */
     private $courseInfo;
@@ -53,6 +58,7 @@ class CourseTeacherCommand implements CommandInterface
         if (is_null($courseTeacher)) {
             $this->id = Uuid::uuid4();
             $this->manager = false;
+            $this->emailVisibility = false;
         }else{
             $this->id = $courseTeacher->getId();
             $this->completeName = trim($courseTeacher->getLastname()." ".$courseTeacher->getFirstname());
@@ -60,6 +66,7 @@ class CourseTeacherCommand implements CommandInterface
             $this->lastname = $courseTeacher->getLastname();
             $this->email = $courseTeacher->getEmail();
             $this->manager = $courseTeacher->isManager();
+            $this->emailVisibility = $courseTeacher->isEmailVisibility();
             $this->courseInfo = $courseTeacher->getCourseInfo();
         }
     }
@@ -179,6 +186,25 @@ class CourseTeacherCommand implements CommandInterface
     }
 
     /**
+     * @return bool
+     */
+    public function isEmailVisibility(): bool
+    {
+        return $this->emailVisibility;
+    }
+
+    /**
+     * @param bool $emailVisibility
+     * @return CourseTeacherCommand
+     */
+    public function setEmailVisibility(bool $emailVisibility): CourseTeacherCommand
+    {
+        $this->emailVisibility = $emailVisibility;
+
+        return $this;
+    }
+
+    /**
      * @return CourseInfo|null
      */
     public function getCourseInfo(): ?CourseInfo
@@ -207,7 +233,8 @@ class CourseTeacherCommand implements CommandInterface
             ->setFirstname($this->getFirstname())
             ->setLastname($this->getLastname())
             ->setEmail($this->getEmail())
-            ->setManager($this->isManager());
+            ->setManager($this->isManager())
+            ->setEmailVisibility($this->isEmailVisibility());
         if(!is_null($this->getCourseInfo())){
             $entity->setCourseInfo($this->getCourseInfo());
         }
