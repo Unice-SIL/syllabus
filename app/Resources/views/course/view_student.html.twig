@@ -289,7 +289,7 @@
                 {% for section in course.courseSections %}
                     <div class="col p-2 border border-dark bg-light"> 
                     <h6>{{section.title|raw}} : {{section.description|raw}}</h6>
-                    {% for activity in section.courseSectionActivities %}
+                    {# {% for activity in section.courseSectionActivities %}
                         {% if activity.activity.type == "activity" %}
                             <div class="row mx-1 p-3 d-flex flex-row justify-content-between align-items-center text-light {{ loop.index0 is odd ? 'bg-dark' : 'bg-secondary' }}">
                             <span>{{activity.activity.label}} </span>
@@ -330,6 +330,81 @@
                                 </div>
                             </div>
                         {% endif %}
+                    {% endfor %} #}
+                    {% set ActivityHandled = [] %}
+                    {% for activity in section.courseSectionActivities %}
+                    {% set break = false %}
+                        {% for activity in section.courseSectionActivities if activity not in ActivityHandled and not break %}
+                            {% if activity.activity.mode == "class" %}
+                                <div class="row mx-1 p-3 d-flex flex-row justify-content-between align-items-center text-light bg-secondary }}">
+                                <div class="d-flex flex-column align-items-start">
+                                {% for activity in section.courseSectionActivities if activity not in ActivityHandled and not break %}
+                                    {% if activity.activity.mode == "class"%}
+                                        <span>{{activity.activity.label}} </span>
+                                        {% set ActivityHandled = ActivityHandled|merge([activity]) %}
+                                    {% else %}
+                                        {% set break = true %}
+                                    {% endif %}
+                                {% endfor %}
+                                </div>
+                                <div class="d-flex flex-row align-items-center">
+                                    <span class="font-weight-bold mx-3"> En classe</span>
+                                    <i class="fas mr-5 fa-2x fa-chalkboard-teacher"></i>
+                                </div>
+                                </div>
+                            {% elseif activity.activity.mode == "autonomy" %}
+                                <div class="row mx-1 p-3 d-flex flex-row justify-content-between align-items-center text-light bg-dark }}">
+                                <div class="d-flex flex-column align-items-start">
+                                {% for activity in section.courseSectionActivities if activity not in ActivityHandled and not break %}
+                                    {% if activity.activity.mode == "autonomy"%}
+                                        <span>{{activity.activity.label}} </span>
+                                        {% set ActivityHandled = ActivityHandled|merge([activity]) %}
+                                    {% else %}
+                                        {% set break = true %}
+                                    {% endif %}
+                                {% endfor %}
+                                </div>
+                                <div class="d-flex flex-row align-items-center">
+                                    <span class="font-weight-bold mx-3"> En autonomie</span>
+                                    <i class="fas mr-5 fa-2x fa-book-reader"></i>
+                                </div>
+                                </div>
+                            {% elseif activity.activity.mode == "cc" %}
+                                <div class="row mx-1 p-3 d-flex flex-row justify-content-between align-items-center text-light bg-info }}">
+                                <div class="d-flex flex-column align-items-start">
+                                {% for activity in section.courseSectionActivities if activity not in ActivityHandled and not break %}
+                                    {% if activity.activity.mode == "cc"%}
+                                        <span>{{activity.activity.label}} </span>
+                                        {% set ActivityHandled = ActivityHandled|merge([activity]) %}
+                                    {% else %}
+                                        {% set break = true %}
+                                    {% endif %}
+                                {% endfor %}
+                                </div>
+                                <div class = "d-flex flex-row align-items-center">
+                                    <span class="font-weight-bold mx-3">{{activity.evaluationRate}}% du Contrôle Continu</span>
+                                    <i class="fas fa-file-signature"></i>
+                                </div>
+                                </div>
+                            {% elseif activity.activity.mode == "ct" %}
+                                <div class="row mx-1 p-3 d-flex flex-row justify-content-between align-items-center text-light bg-primary }}">
+                                <div class="d-flex flex-column align-items-start">
+                                {% for activity in section.courseSectionActivities if activity not in ActivityHandled and not break %}
+                                    {% if activity.activity.mode == "ct"%}
+                                        <span>{{activity.activity.label}} </span>
+                                        {% set ActivityHandled = ActivityHandled|merge([activity]) %}
+                                    {% else %}
+                                        {% set break = true %}
+                                    {% endif %}
+                                {% endfor %}
+                                </div>
+                                <div class = "d-flex flex-row align-items-center">
+                                    <span>Sur le campus</span>
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                </div>                                
+                            {% endif %}
+                        {% endfor %}
                     {% endfor %}
                     </div>
                 {% endfor %}
