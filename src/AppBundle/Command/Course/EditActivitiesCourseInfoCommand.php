@@ -122,4 +122,15 @@ class EditActivitiesCourseInfoCommand implements CommandInterface
 
         return $entity;
     }
+
+    /**
+     *
+     */
+    public function __clone()
+    {
+        $this->sections = clone $this->sections;
+        foreach ($this->sections as $key => $section){
+            $this->sections->offsetSet($key, clone $section);
+        }
+    }
 }

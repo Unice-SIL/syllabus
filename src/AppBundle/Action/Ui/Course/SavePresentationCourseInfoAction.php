@@ -78,6 +78,7 @@ class SavePresentationCourseInfoAction implements ActionInterface
     {
         try {
             $id = $request->get('id', null);
+            // Find course info by id
             try {
                 $courseInfo = $this->findCourseInfoByIdQuery->setId($id)->execute();
             } catch (CourseInfoNotFoundException $e) {

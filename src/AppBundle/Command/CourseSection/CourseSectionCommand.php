@@ -238,4 +238,15 @@ class CourseSectionCommand implements CommandInterface
         }
         return $entity;
     }
+
+    /**
+     *
+     */
+    public function __clone()
+    {
+        $this->activities = clone $this->activities;
+        foreach ($this->activities as $key => $activity){
+            $this->activities->offsetSet($key, clone $activity);
+        }
+    }
 }

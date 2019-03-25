@@ -421,6 +421,14 @@ class CourseInfo
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
+     * @ORM\OneToMany(targetEntity="CourseEvaluationCt", mappedBy="courseInfo", cascade={ "persist" })
+     * @ORM\OrderBy({"order" = "ASC"})
+     */
+    private $courseEvaluationCts;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
      * @ORM\OneToMany(targetEntity="CourseAchievement", mappedBy="courseInfo", cascade={ "persist" })
      */
     private $courseAchievements;
@@ -453,6 +461,7 @@ class CourseInfo
     {
         $this->courseTeachers = new ArrayCollection();
         $this->courseSections = new ArrayCollection();
+        $this->courseEvaluationCts = new ArrayCollection();
         $this->courseAchievements = new ArrayCollection();
         $this->coursePrerequisites = new ArrayCollection();
         $this->courseTutoringResources = new ArrayCollection();
@@ -1509,7 +1518,6 @@ class CourseInfo
         return $this;
     }
 
-
     /**
      * @return Collection
      */
@@ -1547,6 +1555,47 @@ class CourseInfo
     public function removeCourseSection(CourseSection $courseSection): CourseInfo
     {
         $this->courseSections->removeElement($courseSection);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getCourseEvaluationCts(): Collection
+    {
+        return $this->courseEvaluationCts;
+    }
+
+    /**
+     * @param Collection $courseEvaluationCts
+     * @return CourseInfo
+     */
+    public function setCourseEvaluationCts(Collection $courseEvaluationCts): CourseInfo
+    {
+        $this->courseEvaluationCts = $courseEvaluationCts;
+
+        return $this;
+    }
+
+    /**
+     * @param CourseEvaluationCt $courseEvaluationCt
+     * @return CourseInfo
+     */
+    public function addCourseEvaluationCt(CourseEvaluationCt $courseEvaluationCt): CourseInfo
+    {
+        $this->courseEvaluationCts->add($courseEvaluationCt);
+
+        return $this;
+    }
+
+    /**
+     * @param CourseSection $courseEvaluationCt
+     * @return CourseInfo
+     */
+    public function removeCourseEvaluationCt(CourseSection $courseEvaluationCt): CourseInfo
+    {
+        $this->courseEvaluationCts->removeElement($courseEvaluationCt);
 
         return $this;
     }

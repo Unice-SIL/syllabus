@@ -70,6 +70,7 @@ class SaveActivitiesCourseInfoAction implements ActionInterface
     {
         try{
             $id = $request->get('id', null);
+            // Find course info by id
             try{
                 $courseInfo = $this->findCourseInfoByIdQuery->setId($id)->execute();
             } catch (CourseInfoNotFoundException $e) {
@@ -81,11 +82,23 @@ class SaveActivitiesCourseInfoAction implements ActionInterface
                     ]
                 );
             }
+
+            // Init command
             $editActivitiesCourseInfoCommand = new EditActivitiesCourseInfoCommand($courseInfo);
+            // Keep original command before modifications
+            $originalEditPresentationCourseInfoCommand = clone $editActivitiesCourseInfoCommand;
+            //
             $form = $this->formFactory->create(EditActivitiesCourseInfoType::class, $editActivitiesCourseInfoCommand);
             $form->handleRequest($request);
             if($form->isSubmitted()){
                 $editActivitiesCourseInfoCommand = $form->getData();
+                // Check if there have been anny changes
+                if($editActivitiesCourseInfoCommand == $originalEditPresentationCourseInfoCommand){
+                    return new JsonResponse([
+                        'type' => "info",
+                        'message' => "Aucun changement a enregistrer"
+                    ]);
+                }
                 // Save changes
                 $this->editActivitiesCourseInfoQuery->setEditActivitiesCourseInfoCommand($editActivitiesCourseInfoCommand)->execute();
                 // Return message success
