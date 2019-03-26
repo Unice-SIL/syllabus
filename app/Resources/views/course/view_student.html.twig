@@ -17,9 +17,7 @@
 {% endif %}
 {% set year = '2018' %}
 
-
-
-    <div class="container-fluid">
+    <div class="container-fluid bg-dark py-3">
 
         <div class="row d-flex flex-row m-3">
 
@@ -54,41 +52,54 @@
                             <a class="nav-link text-light" href="#Mot_fin">Mot de la fin</a>
                         </li>
                     </ul>
-                </div>
             </nav>
         </div>
 
-        <div id="Presentation" class="row d-flex flex-row m-3">
+        <div id="Presentation" class="row d-flex flex-row m-3 align-items-center">
             <div class="col-md-6">
-                <h4 class="text-justify text-left font-weight-bold">
+                <h5 class="text-justify text-left text-white font-weight-bold">
                     {{course.title}}
-                </h4>
-                {# <span>Domaine disciplinaire: {{course.course_domain.domain}} </span> #}
+                </h5>
+                <div class="d-flex flex-row align-items-center">
+                    {% if course.level == "beginner" %}
+                    <i class="fas fa-circle text-info rounded-circle border border-dark"></i>
+                    <i class="mx-1 fas fa-circle text-light rounded-circle border border-dark"></i>
+                    <i class=" fas fa-circle text-light rounded-circle border border-dark"></i>
+                    <span class="px-3 text-white border-right border-dark">Niveau débutant</span>
+                    {% elseif course.level == "intermediate" %}
+                    <i class="fas fa-circle text-info rounded-circle border border-dark"></i>
+                    <i class="mx-1 fas fa-circle text-info rounded-circle border border-dark"></i>
+                    <i class="fas fa-circle text-light rounded-circle border border-dark"></i>
+                    <span class="px-3 text-white border-right border-dark">Niveau intermediare</span>
+                    {% elseif course.level == "advanced" %}
+                    <i class="fas fa-circle text-info rounded-circle border border-dark"></i>
+                    <i class="mx-1 fas fa-circle text-info rounded-circle border border-dark"></i>
+                    <i class="fas fa-circle text-info rounded-circle border border-dark"></i>
+                    <span class="px-3 text-white border-right border-dark" >Niveau avancé</span>
+                    {% endif %}
+                    <span class="mx-3 text-white">Domaine disciplinaire : {{course.domain}}</span>
+                </div>
             </div>
             <div class="col-md-6">
-                {# {% for parentInfo in parent %}
-                    {% for parentInfo in parent.courseInfos %}
-                    {% endfor %}
-                {% endfor %}  #}
                 <div class="row d-flex flex-row align-items-stretch ">
                     {% if course.course.parents|length != 1 %}
                     {% else %}
-                        <div class="col-md-6 d-flex flex-row border-left border-dark align-items-center">
-                            <span class="font-weight-bold">{{ parent.courseInfos[0].title }}</span>
+                        <div class="col-md-6 d-flex flex-row border-left border-white align-items-center">
+                            <span class="font-weight-bold text-white">{{ parent.courseInfos[0].title }}</span>
                         </div>
-                    <div class="col-md-3 border-left border-dark">
+                    <div class="col-md-3 border-left border-white">
                         <div class="row d-flex flex-row justify-content-center font-weight-bold"> 
-                            <h2 class="m-0">{{parent.courseInfos[0].ects}}</h2> 
+                            <h2 class="m-0 text-white">{{parent.courseInfos[0].ects}}</h2> 
                         </div>
-                        <div class="row d-flex flex-row justify-content-center"> 
+                        <div class="row d-flex flex-row justify-content-center text-white"> 
                             ECTS 
                         </div>
                     </div>
-                    <div class="col-md-3 border-left border-dark ">
+                    <div class="col-md-3 border-left border-white ">
                         <div class="row d-flex flex-row justify-content-center font-weight-bold">
-                            <h2 class="m-0">{{ parent.courseInfos[0].course.children|length }}</h2>
+                            <h2 class="m-0 text-white">{{ parent.courseInfos[0].course.children|length }}</h2>
                         </div>
-                        <div class="row d-flex flex-row justify-content-center"> 
+                        <div class="row d-flex flex-row justify-content-center text-white"> 
                             UCUE 
                         </div>
                     </div>
@@ -100,10 +111,10 @@
 
         <div class="row d-flex flex-row m-3">
             <div class="col-md-5">
-                <p class="text-justify text-left">
+                <p class="text-justify text-left text-white">
                     {{course.summary|raw}}
                 </p>
-                <p class="text-justify text-left">
+                <p class="text-justify text-left text-white">
                     Equipe enseignante: 
                     {% for teacher in course.courseTeachers %} 
                         {% if loop.last %}
@@ -121,7 +132,7 @@
                         {% endif %}
                     {% endfor %} 
                 </p>
-                <p class="text-justify text-left">
+                <p class="text-justify text-left text-white">
                     Période : <span class="font-weight-bold"> {{course.period}} </span>
                 </p>
             </div>
@@ -138,7 +149,7 @@
         </div>
 
 
-        <div class="row d-flex flex-row justify-content-around ">
+        <div class="row d-flex flex-row justify-content-around text-white">
             <div class="col-md-4 media d-flex align-items-center">
                 <i class="fas m-3 fa-4x fa-map-marker-alt"></i>
                 <span class="font-weight-bold media-body"> {{course.structure.campus}} </span>
@@ -154,39 +165,57 @@
                     <span class="font-weight-normal d-flex flex-column justify-content-center align-items-start">
                         {% if course.teachingMode == "class" %}
                             {% if course.teachingCmClass != null %}
-                                <span>{{ course.teachingCmClass }} CM</span> 
+                                <span>{{ course.teachingCmClass }}h CM</span> 
                             {% endif %}
                             {% if course.teachingTdClass != null %}
-                                <span>{{ course.teachingTdClass}} TD</span> 
+                                <span>{{ course.teachingTdClass}}h TD</span> 
                         {% endif %}
                             {% if course.teachingTpClass != null %}
-                                <span>{{ course.teachingTpClass}} TP</span>
+                                <span>{{ course.teachingTpClass}}h TP</span>
                             {% endif %}
                             {% if course.teachingOtherClass != null %}
-                                <span>{{ course.teachingOtherClass}} Autre</span>
+                                <span>{{ course.teachingOtherClass}}h 
+                                {% if course.teachingOtherTypeClass != null %}
+                                    {{ course.teachingOtherTypeClass }}
+                                {% else %}
+                                    Autre
+                                {% endif %}
+                                </span>
                             {% endif %}
                         {% endif %}
                         {% if course.teachingMode == "hybrid" %}
                             {% if course.teachingCmHybridClass != null %}
-                                <span>{{ course.teachingCmHybridClass }} CM</span> 
+                                <span>{{ course.teachingCmHybridClass }}h CM</span> 
                             {% endif %}
                             {% if course.teachingTdHybridClass != null %}
-                                <span>{{ course.teachingTdHybridClass}} TD</span> 
+                                <span>{{ course.teachingTdHybridClass}}h TD</span> 
                         {% endif %}
                             {% if course.teachingTpHybridClass != null %}
-                                <span>{{ course.teachingTpHybridClass}} TP</span>
+                                <span>{{ course.teachingTpHybridClass}}h TP</span>
                         {% endif %}
                             {% if course.teachingOtherHybridClass != null %}
-                                <span>{{ course.teachingOtherHybridClass}} Autre</span>
+                                <span>{{ course.teachingOtherHybridClass}}h
+                                {% if course.teachingOtherTypeHybridClass != null %}
+                                    {{ course.teachingOtherTypeHybridClass }}
+                                {% else %}
+                                    Autre
+                                {% endif %}
+                                </span>
                         {% endif %}
                             {% if course.teachingCmHybridDist != null %}
-                                <span>{{ course.teachingCmHybridDist }} CM</span> 
+                                <span>{{ course.teachingCmHybridDist }}h CM</span> 
                         {% endif %}
                             {% if course.teachingTdHybridDist != null %}
-                                <span>{{ course.teachingTdHybridDist}} TD</span> 
+                                <span>{{ course.teachingTdHybridDist}}h TD</span> 
                         {% endif %}
                             {% if course.teachingOtherHybridDist != null %}
-                                <span>{{ course.teachingOtherHybridDist}} Autre</span>
+                                <span>{{ course.teachingOtherHybridDist}}h
+                                {% if course.teachingOtherTypeHybridDistant != null %}
+                                    {{ course.teachingOtherTypeHybridDistant }}
+                                {% else %}
+                                    Autre
+                                {% endif %}
+                                </span>
                             {% endif %}
                         {% endif %}
                     </span>
@@ -199,9 +228,9 @@
         </div>
 
 
-        <div id="Objectifs_cours" class="row mx-3 d-flex flex-row">
+        <div id="Objectifs_cours" class="row mx-3 mt-5 d-flex flex-row">
             <div class="col-md-6 p-0">
-                <h4 class="text-justify text-left font-weight-bold">
+                <h4 class="text-justify text-left font-weight-bold text-white">
                     Objectifs du cours
                 </h4>
             </div>
@@ -217,7 +246,7 @@
             </div>
         </div>
         <div class="row d-flex flex-row">
-            <div class="col-md-12 d-flex flex-row justify-content-center align-items-center">
+            <div class="col-md-12 d-flex flex-row justify-content-center align-items-center text-white">
                 <h5 class="m-2">A la fin de ce cours, je serai capable de...</h5>
             </div>
         </div>
@@ -236,13 +265,13 @@
         </div>
 
 
-        <div class="row mx-3 d-flex flex-row justify-content-around">
+        <div class="row mx-3 mt-5 d-flex flex-row justify-content-around">
             <div class="col-md-6 pl-0" >
                 <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
                     <h5 class="m-0">PREREQUIS</h5>
                 </div>
                 <div class="row d-flex flex-row">
-                    <div class="col-md-12 d-flex flex-row justify-content-center align-items-center">
+                    <div class="col-md-12 d-flex flex-row justify-content-center align-items-center text-white">
                         <h5 class="m-2">Avant de suivre ce cours, je dois...</h5>
                     </div>
                 </div>
@@ -256,7 +285,7 @@
                 <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
                     <h5 class="m-0">REMEDIATION / AIDE A LA REUSSITE</h5>
                 </div>
-                <div class="col-md-12 d-flex flex-row justify-content-center align-items-center">
+                <div class="col-md-12 d-flex flex-row justify-content-center align-items-center text-white">
                     <h5 class="m-2">Si je rencontre des difficultés, je peux...</h5>
                 </div>
                 {% if course.tutoringDescription != null %}
@@ -274,9 +303,9 @@
 
         
 
-        <div id="Contenu_activites" class="row mx-3 d-flex flex-row">
+        <div id="Contenu_activites" class="row mx-3 mt-5 d-flex flex-row">
             <div class="col-md-6 p-0">
-                <h4 class="text-justify text-left font-weight-bold">
+                <h4 class="text-justify text-left font-weight-bold text-white">
                     Contenu et activités
                 </h4>
             </div>
@@ -289,48 +318,6 @@
                 {% for section in course.courseSections %}
                     <div class="col p-2 border border-dark bg-light"> 
                     <h6>{{section.title|raw}} : {{section.description|raw}}</h6>
-                    {# {% for activity in section.courseSectionActivities %}
-                        {% if activity.activity.type == "activity" %}
-                            <div class="row mx-1 p-3 d-flex flex-row justify-content-between align-items-center text-light {{ loop.index0 is odd ? 'bg-dark' : 'bg-secondary' }}">
-                            <span>{{activity.activity.label}} </span>
-                            {% if activity.activity.mode == 'autonomy' %}
-                                <div class="d-flex flex-row align-items-center">
-                                <span class="font-weight-bold mx-3"> En autonomie</span>
-                                <i class="fas mr-5 fa-2x fa-book-reader"></i>
-                                </div>
-                            {% elseif activity.activity.mode == 'class' %}
-                                <div class="d-flex flex-row align-items-center">
-                                <span class="font-weight-bold mx-3"> En classe</span>
-                                <i class="fas mr-5 fa-2x fa-chalkboard-teacher"></i>
-                                </div>
-                            {% endif %}
-                            </div>
-                        {% elseif activity.activity.type == "evaluation" %}
-                            <div class="row mx-1 p-3 d-flex flex-row justify-content-between align-items-center text-light bg-info }}">
-                                <div class="d-flex flex-column">
-                                    <span> {{activity.activity.label}} </span>
-                                    {% if activity.evaluationTeacher == true %}
-                                        {% if activity.evaluationPeer == true %}
-                                            <span class="font-weight-bold font-italic">Evalué par l'enseignant et les pairs</span>
-                                        {% else %}
-                                            <span class="font-weight-bold font-italic">Evalué par l'enseignant</span>
-                                        {% endif %}
-                                    {% elseif activity.evaluationPeer == true %}
-                                        <span class="font-weight-bold font-italic">Evalué par les pairs</span>    
-                                    {% endif %}
-                                </div>
-                                <div class = "d-flex flex-row align-items-center">
-                                {% if activity.activity.mode == 'cc' %}
-                                <span class="font-weight-bold mx-3">{{activity.evaluationRate}}% du Contrôle Continu</span>
-                                <i class="fas fa-file-signature"></i>
-                                {% elseif activity.activity.mode == 'ct' %}
-                                <span>Sur le campus</span>
-                                <i class="fas fa-map-marker-alt"></i>
-                                {% endif %}
-                                </div>
-                            </div>
-                        {% endif %}
-                    {% endfor %} #}
                     {% set ActivityHandled = [] %}
                     {% for activity in section.courseSectionActivities %}
                     {% set break = false %}
@@ -349,7 +336,7 @@
                                 </div>
                                 <div class="d-flex flex-row align-items-center">
                                     <span class="font-weight-bold mx-3"> En classe</span>
-                                    <i class="fas mr-5 fa-2x fa-chalkboard-teacher"></i>
+                                    <img src="{{ asset('images/activity_in_class_64.png') }}">
                                 </div>
                                 </div>
                             {% elseif activity.activity.mode == "autonomy" %}
@@ -366,7 +353,7 @@
                                 </div>
                                 <div class="d-flex flex-row align-items-center">
                                     <span class="font-weight-bold mx-3"> En autonomie</span>
-                                    <i class="fas mr-5 fa-2x fa-book-reader"></i>
+                                    <img src="{{ asset('images/activity_in_autonomy_64.png') }}">
                                 </div>
                                 </div>
                             {% elseif activity.activity.mode == "cc" %}
@@ -383,7 +370,7 @@
                                 </div>
                                 <div class = "d-flex flex-row align-items-center">
                                     <span class="font-weight-bold mx-3">{{activity.evaluationRate}}% du Contrôle Continu</span>
-                                    <i class="fas fa-file-signature"></i>
+                                    <img src="{{ asset('images/evaluation_cc_64.png') }}">
                                 </div>
                                 </div>
                             {% elseif activity.activity.mode == "ct" %}
@@ -414,9 +401,9 @@
 
 
 
-        <div id="Modalites_evaluation" class="row mx-3 d-flex flex-row">
+        <div id="Modalites_evaluation" class="row mx-3 mt-5 d-flex flex-row">
             <div class="col-md-6 p-0">
-                <h4 class="text-justify text-left font-weight-bold">
+                <h4 class="text-justify text-left font-weight-bold text-white">
                     Modalités d'évaluation
                 </h4>
             </div>
@@ -444,11 +431,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="table-info">
+                            <tr class="bg-info">
                             <td>Contrôle Continu ({{course.mccCcNbEvalSession1}} minimum)</td>
                             <td> {{course.mccCcCoeffSession1}}%</td>
                             </tr>
-                            <tr class="table-primary">
+                            <tr class="bg-primary">
                             <td>Contrôle Terminal - {{course.mccCtDurationSession1}} </td>
                             <td>{{course.mccCtCoeffSession1}}%</td>
                             </tr>
@@ -467,7 +454,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="table-info">
+                            <tr class="bg-info">
                             <td>Contrôle Terminal - {{course.mccCtDurationSession2}} </td>
                             <td>{{course.mccCtCoeffSession2}}%</td>
                             </tr>
@@ -480,43 +467,51 @@
                 <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
                     <h5 class="m-0">METHODES D'EVALUATION</h5>
                 </div>
-                <div>
+                <div class="d-flex flex-column text-white">
                 {% for section in course.courseSections %}
-                    {% for activity in section.courseSectionActivities if activity.activity.type == "evaluation"%}
-                        {% if activity.activity.mode == 'cc' %}
-                        <div class="row rounded bg-info" >{{activity.activity.label}}</div>
-                        {% elseif activity.activity.mode == 'c' %}
-                        <div class="row rounded bg-primary" >{{activity.activity.label}}</div>
-                        {% endif %}
+                    {% set onlyEvaluations = [] %}
+                    {% for activity in section.courseSectionActivities if activity.activity.type == "evaluation" %}
+                        {% set onlyEvaluations = onlyEvaluations|merge([activity]) %}
+                    {% endfor %}
+                    {% for row in onlyEvaluations|batch(2) %}
+                        <div class="d-flex flex-row justify-content-around">
+                        {% for activity in row %}
+                            {% if activity.activity.mode == 'cc' %}
+                            <div class="d-flex flex-row rounded bg-info px-4 my-2" >{{activity.activity.label}}</div>
+                            {% elseif activity.activity.mode == 'ct' %}
+                            <div class="d-flex flex-row rounded bg-primary px-4 my-2" >{{activity.activity.label}}</div>
+                            {% endif %}
+                        {% endfor %}
+                        </div>
                     {% endfor %}
                 {% endfor %}
                 </div>
-                <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
+                <div class="col-md-12 mt-5 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
                     <h5 class="m-0">CONSEILS PRATIQUES</h5>
-                    <div>
+                    <div class="text-white">
                     {{course.mccAdvice|raw}}
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row mx-3 d-flex flex-row justify-content-around">
+        <div class="row mx-3 d-flex flex-row justify-content-around text-white">
             <div class="col-md-4 media d-flex align-items-center">
-                <div class="border rounded-circle font-weight-bold  p-3 m-3">
+                <div class="border border-info rounded-circle font-weight-bold  p-3 m-3 text-info">
                     <h3 class="font-weight-bold my-2"> {{course.mccWeight}}% </h3>
                 </div>
                 <span class="font-weight-bold media-body"> Poids de l'ECUE dans l'UE </span>
                 <i class="fas fa-2x fa-info-circle"></i>
             </div>
             <div class="col-md-4 media d-flex align-items-center">
-                <i class="fas m-3 fa-4x fa-check-circle"></i>
+                <i class="fas m-3 fa-4x fa-check-circle text-info"></i>
                 <span class="font-weight-bold media-body"> UE compensable </span>
                 <i class="fas fa-2x fa-info-circle"></i>
             </div>
             <div class="col-md-4 media d-flex align-items-center">
                 {% if course.mccCapitalizable == true %}
-                <i class="fas m-3 fa-4x fa-check-circle"></i>
+                <i class="fas m-3 fa-4x fa-check-circle text-info"></i>
                 {% elseif course.mccCapitalizable == false %}
-                <i class="fas m-3 fa-4x fa-times-circle"></i>
+                <i class="fas m-3 fa-4x fa-times-circle text-info"></i>
                 {% endif %}
                 <span class="font-weight-bold media-body"> UE capitalisable </span>
                 <i class="fas fa-2x fa-info-circle"></i>
@@ -524,9 +519,9 @@
         </div>
 
 
-        <div id="Materiel_ressources" class="row mx-3 d-flex flex-row">
+        <div id="Materiel_ressources" class="row mx-3 mt-5 d-flex flex-row">
             <div class="col-md-6 p-0">
-                <h4 class="text-justify text-left font-weight-bold">
+                <h4 class="text-justify text-left font-weight-bold text-white">
                     Matériel et ressources
                 </h4>
             </div>
@@ -539,7 +534,7 @@
                 <h5 class="m-0">MATERIEL OBLIGATOIRE</h5>
             </div>
         </div>
-        <div>
+        <div class="text-white">
             {% for row in course.courseResourceEquipments|batch(3) %}
                 <div class="row mx-3 d-flex flex-row my-3">
                     {% for courseResourceEquipment in row %}
@@ -562,29 +557,29 @@
             {% endfor %} 
         </div>
 
-        <div class="row mx-3 d-flex flex-row">
+        <div class="row mx-3 mt-5 d-flex flex-row">
             <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
                 <h5 class="m-0">RESSOUCRES PEDAGOGIQUES</h5>
             </div>
         </div>
-        <div class="row mx-3 d-flex flex-row">
+        <div class="row mx-3 d-flex flex-row text-white">
             {{course.educationalResources|raw}}
         </div>
 
 
-        <div class="row mx-3 d-flex flex-row">
+        <div class="row mx-3 mt-5 d-flex flex-row">
             <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
                 <h5 class="m-0">ELEMENTS BIBLIOGRAPHIQUES</h5>
             </div>
         </div>
-        <div class="row mx-3 d-flex flex-row">
+        <div class="row mx-3 d-flex flex-row text-white">
             {{course.bibliographicResources|raw}}
         </div>
 
 
-        <div id="Informations_pratiques" class="row mx-3 d-flex flex-row">
+        <div id="Informations_pratiques" class="row mx-3 mt-5 d-flex flex-row">
             <div class="col-md-6 p-0">
-                <h4 class="text-justify text-left font-weight-bold">
+                <h4 class="text-justify text-left font-weight-bold text-white">
                     Informations pratiques
                 </h4>
             </div>
@@ -599,24 +594,24 @@
                 <h5 class="m-0">AGENDA / CALENDRIER</h5>
             </div>
         </div>
-        <div class="row mx-3 d-flex flex-row">
+        <div class="row mx-3 d-flex flex-row text-white">
                  {{course.agenda|raw}}
         </div>
 
 
-        <div class="row mx-3 d-flex flex-row">
+        <div class="row mx-3 mt-5 d-flex flex-row">
             <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
                 <h5 class="m-0">ORGANISATION DU COURS</h5>
             </div>
         </div>
-        <div class="row mx-3 d-flex flex-row">
+        <div class="row mx-3 d-flex flex-row text-white">
                  {{course.organization|raw}}
         </div>
 
 
-        <div id="Reglementation" class="row mx-3 d-flex flex-row">
+        <div id="Reglementation" class="row mx-3 mt-5 d-flex flex-row">
             <div class="col-md-6 p-0">
-                <h4 class="text-justify text-left font-weight-bold">
+                <h4 class="text-justify text-left font-weight-bold text-white">
                     Réglementation
                 </h4>
             </div>
@@ -625,15 +620,15 @@
             <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
         <div class="row d-flex flex-row">
-            <div class="col-md-12 d-flex flex-row justify-content-center align-items-center">
+            <div class="col-md-12 d-flex flex-row justify-content-center align-items-center text-white">
                 <h5 class="m-2">En m'inscrivant à l'université, je m'engage à respecter le règlement des études ci-après :</h5>
             </div>
         </div>
 
 
-        <div id="Mot_fin" class="row mx-3 d-flex flex-row">
+        <div id="Mot_fin" class="row mx-3 mt-5 d-flex flex-row">
             <div class="col-md-6 p-0">
-                <h4 class="text-justify text-left font-weight-bold">
+                <h4 class="text-justify text-left font-weight-bold text-white">
                     Mot de la fin
                 </h4>
             </div>
@@ -642,7 +637,7 @@
             <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
 
-        <div class="row mx-3 d-flex flex-row">
+        <div class="row mx-3 d-flex flex-row text-white">
             {{course.closingRemarks|raw}}
         </div>
 
