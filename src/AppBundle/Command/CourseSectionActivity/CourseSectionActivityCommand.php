@@ -26,6 +26,21 @@ class CourseSectionActivityCommand implements CommandInterface
     private $description;
 
     /**
+     * @var null|float
+     */
+    private $evaluationRate;
+
+    /**
+     * @var bool
+     */
+    private $evaluationTeacher;
+
+    /**
+     * @var bool
+     */
+    private $evaluationPeer;
+
+    /**
      * @var int
      */
     private $order;
@@ -48,13 +63,17 @@ class CourseSectionActivityCommand implements CommandInterface
     {
         if(is_null($courseSectionActivity)) {
             $this->id = Uuid::uuid4();
+            $this->evaluationTeacher = false;
+            $this->evaluationPeer = false;
             $this->order = 0;
         }else{
             $this->id = $courseSectionActivity->getId();
             $this->courseSection = $courseSectionActivity->getCourseSection();
             $this->activity = $courseSectionActivity->getActivity();
-            //$this->title = $courseSectionActivity->getActivity()->getLabel();
             $this->description = $courseSectionActivity->getDescription();
+            $this->evaluationRate = $courseSectionActivity->getEvaluationRate();
+            $this->evaluationTeacher = $courseSectionActivity->isEvaluationTeacher();
+            $this->evaluationPeer = $courseSectionActivity->isEvaluationPeer();
             $this->order = $courseSectionActivity->getOrder();
         }
     }
@@ -93,6 +112,63 @@ class CourseSectionActivityCommand implements CommandInterface
     public function setDescription($description)
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getEvaluationRate()
+    {
+        return $this->evaluationRate;
+    }
+
+    /**
+     * @param float|null $evaluationRate
+     * @return CourseSectionActivityCommand
+     */
+    public function setEvaluationRate($evaluationRate)
+    {
+        $this->evaluationRate = $evaluationRate;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEvaluationTeacher(): bool
+    {
+        return $this->evaluationTeacher;
+    }
+
+    /**
+     * @param bool $evaluationTeacher
+     * @return CourseSectionActivityCommand
+     */
+    public function setEvaluationTeacher(bool $evaluationTeacher): CourseSectionActivityCommand
+    {
+        $this->evaluationTeacher = $evaluationTeacher;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEvaluationPeer(): bool
+    {
+        return $this->evaluationPeer;
+    }
+
+    /**
+     * @param bool $evaluationPeer
+     * @return CourseSectionActivityCommand
+     */
+    public function setEvaluationPeer(bool $evaluationPeer): CourseSectionActivityCommand
+    {
+        $this->evaluationPeer = $evaluationPeer;
 
         return $this;
     }
@@ -162,6 +238,9 @@ class CourseSectionActivityCommand implements CommandInterface
     {
         $entity->setId($this->getId())
             ->setDescription($this->getDescription())
+            ->setEvaluationRate($this->getEvaluationRate())
+            ->setEvaluationTeacher($this->isEvaluationTeacher())
+            ->setEvaluationPeer($this->isEvaluationPeer())
             ->setOrder($this->getOrder());
         if(!is_null($this->getActivity())){
             $entity->setActivity($this->getActivity());

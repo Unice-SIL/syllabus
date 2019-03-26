@@ -196,6 +196,14 @@ div.activity, div.evaluation {
         background: url("../images/activity_in_autonomy_32.png") no-repeat;
     }
 
+    &.activity-in-class,
+    &.activity-in-autonomy {
+
+        & .evaluation-info {
+            display: none;
+        }
+    }
+
 
     &.evaluation-cc,
     &.evaluation-ct {
