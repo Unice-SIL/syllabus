@@ -7,6 +7,7 @@ use AppBundle\Entity\Activity;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -50,6 +51,17 @@ class CourseSectionActivityType extends AbstractType
                 'attr' => [
                     'hidden ' => true
                 ]
+            ])
+            ->add('evaluationRate', TextType::class, [
+                'required' => false,
+            ])
+            ->add('evaluationTeacher', CheckboxType::class, [
+                'required' => false,
+                'label' => "l'enseignants"
+            ])
+            ->add('evaluationPeer', CheckboxType::class, [
+                'required' => false,
+                'label' => 'les pairs'
             ])
             ->add('order', HiddenType::class);
     }

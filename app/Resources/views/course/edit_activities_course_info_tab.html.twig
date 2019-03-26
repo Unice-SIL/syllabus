@@ -19,17 +19,42 @@
     {% form_theme form with [
     'form/sections_field.html.twig',
     'form/activities_field.html.twig',
+    'form/evaluations_field.html.twig',
     'form/choices_activities_field.html.twig'
     ] %}
 
     {{ form_start(form) }}
-    <button type="button" id="addSectionButton"
-            class="btn btn-primary btn-block btn-sm">
-        <i class="fas fa-plus-circle"></i>
-        Ajouter une section
-    </button>
+    <div class="row">
+        <div class="col">
+            <button type="button" id="addSectionButton"
+                    class="btn btn-primary btn-block btn-sm">
+                <i class="fas fa-plus-circle"></i>
+                Ajouter une section
+            </button>
+        </div>
+    </div>
 
     {{ form_widget(form.sections) }}
+
+    <hr>
+
+    <div class="row">
+        <div class="col container-evaluations">
+            <div class="row">
+                <div class="col">
+                    <strong>Evaluation Terminale</strong>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col border ml-3 mr-3 p-1">
+                    {{ form_widget(form.ctEvaluations) }}
+                </div>
+                <div class="col border mr-3 p-1">
+                            {{ form_widget(form.evaluations) }}
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="row mt-3">
         <div class="col">
@@ -55,7 +80,12 @@
             el.find('.activity-label').html(data['label']);
             el.find('select[id$=_activity]').val(data['activity_id']);
             el.addClass(data['classtype']);
-            el.find('.collapse').show();
+        }
+
+        function setEvaluationInfos(el, data){
+            el.find('.evaluation-label').html(data['label']);
+            el.find('select[id$=_activity]').val(data['activity_id']);
+            el.addClass(data['classtype']);
         }
 
         /**
@@ -86,7 +116,6 @@
                     var mode = item.find("input.activity-mode").val();
                     var size = item.find("input.activity-grp").val();
                     var classtype = item.find("input.activity-class").val();
-                    console.log(classtype);
                     setActivityInfos(form, {
                         'label': label,
                         'activity_id': activity_id,
@@ -95,6 +124,8 @@
                         'size': size,
                         'classtype': classtype
                     });
+                    form.find('i.fa-caret-down').attr('aria-expanded', 'true');
+                    form.find('.collapse').addClass('show');
                     item.replaceWith(form);
                 }
             } );
@@ -122,6 +153,7 @@
                 }
             });
         }
+
 
         /**
          *
@@ -164,6 +196,72 @@
                 }
             });
 
+
+
+
+            /**
+             * Init evaluations collection
+             */
+            var evaluationsClassList = $('.list-ct-evaluations');
+            var evaluationsCollectionHolder = $('#evaluations');
+            evaluationsCollectionHolder.data('index', evaluationsCollectionHolder.find('.evaluation').length);
+
+            // Evaluations collection holder sortable
+            evaluationsCollectionHolder.sortable( {
+                group: {
+                    name: "evaluations"
+                },
+                handle: ".evaluation-collection-move",
+                sort: true,
+                animation: 150,
+                onAdd: function(e){
+                    var item = $(e.item);
+                    var form = addFormToCollection(evaluationsCollectionHolder);
+                    var label = item.find('input.activity-label').val();
+                    var activity_id = item.find("input.activity-id").val();
+                    var type = item.find("input.activity-type").val();
+                    var mode = item.find("input.activity-mode").val();
+                    var size = item.find("input.activity-grp").val();
+                    var classtype = item.find("input.activity-class").val();
+                    setEvaluationInfos(form, {
+                        'label': label,
+                        'activity_id': activity_id,
+                        'type': type,
+                        'mode': mode,
+                        'size': size,
+                        'classtype': classtype
+                    });
+                    item.replaceWith(form);
+                }
+            } );
+
+            // Evaluations lists sortable
+            evaluationsClassList.sortable( {
+                group: {
+                    name: "evaluations",
+                    pull: 'clone',
+                    put: false
+                },
+                sort: false,
+                animation: 150
+            } );
+
+            /**
+             * Remove a evaluation from collection
+             */
+            evaluationsCollectionHolder.on('click', '.evaluation-collection-remove', function(){
+                if(confirm("Êtes-vous sûr(e) de vouloir supprimer cette évaluation ?")) {
+                    var form = $(this).closest("div.evaluation");
+                    form.fadeOut({
+                        always: function () {
+                            form.remove();
+                        }
+                    });
+                }
+            });
+
+
+
             /**
              * Call initActivities function for all activities container
              */
@@ -184,6 +282,7 @@
                 var form = $(this);
                 //var data = new FormData(form);
 
+                // Set sections order
                 sectionsCollectionHolder.find('li.section').each(function(order){
                     // Set section order
                     $(this).find("input[id$='_order']").each(function(){
@@ -191,32 +290,36 @@
                             $(this).val(order+1);
                         }
                     });
-                    console.log($(this).find(".activity"));
                     // Set activities order
                     $(this).find(".activity").each(function(order){
                         $(this).find("input[id$='_order']").val(order+1);
                     });
                 });
 
+                // Set evaluations order
+                evaluationsCollectionHolder.find('div.evaluation').each(function(order){
+                    $(this).find("input[id$='_order']").val(order+1);
+                });
+
 
                 SILTools.spinner.fadeIn( {
                     always: function(){
-                    $.ajax({
-                        type: 'POST',
-                        //enctype: 'multipart/form-data',
-                        //processData: false,  // Important!
-                        //contentType: false,
-                        url: '{{ path('save_activities_course_info', { 'id': courseInfo.id })|escape('js') }}',
-                        data: form.serialize(),
-                        //cache: false,
-                        //timeout: 600000
-                    }).done(function(response){
-                        if(response.type !== undefined && response.message !== undefined) {
-                            SILTools.alert(response.type, response.message, false);
-                        }
-                    }).always(function(){
-                        SILTools.spinner.fadeOut( );
-                    });
+                        $.ajax({
+                            type: 'POST',
+                            //enctype: 'multipart/form-data',
+                            //processData: false,  // Important!
+                            //contentType: false,
+                            url: '{{ path('save_activities_course_info', { 'id': courseInfo.id })|escape('js') }}',
+                            data: form.serialize(),
+                            //cache: false,
+                            //timeout: 600000
+                        }).done(function(response){
+                            if(response.type !== undefined && response.message !== undefined) {
+                                SILTools.alert(response.type, response.message, false);
+                            }
+                        }).always(function(){
+                            SILTools.spinner.fadeOut( );
+                        });
                     }
                 });
             });

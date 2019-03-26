@@ -73,3 +73,12 @@
     </div>
 {% endblock %}
 
+{% block _edit_activities_course_info_ctEvaluations_widget %}
+    {% import _self as choicesActivitiesField %}
+    <div class="list-activities list-ct-evaluations">
+        {% for choiceActivity in form.vars.choices %}
+            {{ choicesActivitiesField.choice_activity_template(choiceActivity, 'evaluation-ct', 'info', 'light') }}
+        {% endfor %}
+    </div>
+{% endblock %}
+

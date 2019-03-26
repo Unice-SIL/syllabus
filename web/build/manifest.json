@@ -1,5 +1,4 @@
 {
-  "build/app.css": "/build/app.css",
   "build/app.js": "/build/app.js",
   "build/ckeditor/adapters/jquery.js": "/build/ckeditor/adapters/jquery.js",
   "build/ckeditor/ckeditor.js": "/build/ckeditor/ckeditor.js",
@@ -2626,6 +2625,7 @@
   "build/ckeditor/skins/moono/readme.md": "/build/ckeditor/skins/moono/readme.md",
   "build/ckeditor/skins/moono/skin.js": "/build/ckeditor/skins/moono/skin.js",
   "build/ckeditor/styles.js": "/build/ckeditor/styles.js",
+  "build/app.css": "/build/app.css",
   "build/images/activity_in_autonomy_32.png": "/build/images/activity_in_autonomy_32.0bcf73da.png",
   "build/images/activity_in_class_32.png": "/build/images/activity_in_class_32.053666fd.png",
   "build/images/evaluation_cc_32.png": "/build/images/evaluation_cc_32.7929e431.png"

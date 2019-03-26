@@ -3,7 +3,6 @@
 namespace AppBundle\Repository\Doctrine;
 
 use AppBundle\Entity\CourseSection;
-use AppBundle\Entity\CourseTeacher;
 use AppBundle\Repository\CourseSectionRepositoryInterface;
 use Doctrine\ORM\EntityManager;
 

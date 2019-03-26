@@ -43,8 +43,31 @@
             </div>
         </div>
         <div class="card-body p-1 bg-white border-0 rounded-bottom collapse multi-collapse" id="collapse_{{ activity.vars.id }}">
-            {{ form_widget(activity.description) }}
-            <label alt="Préciser si nécessaire" placeholder="Préciser si nécessaire"></label>
+            <div class="row">
+                <div class="col">
+                    {{ form_widget(activity.description) }}
+                    <label alt="Préciser si nécessaire" placeholder="Préciser si nécessaire"></label>
+                </div>
+            </div>
+            <div class="row evaluation-info">
+                <div class="col-md-auto align-self-center">
+                    <small>Evalué par</small>
+                </div>
+                <div class="col-md-auto align-self-center">
+                    <small>
+                        {{ form_widget(activity.evaluationTeacher) }}
+                    </small>
+                </div>
+                <div class="col-md-auto align-self-center">
+                    <small>
+                        {{ form_widget(activity.evaluationPeer) }}
+                    </small>
+                </div>
+                <div class="col align-self-center">
+                    {{ form_widget(activity.evaluationRate) }}
+                    <label alt="%" placeholder="%"></label>
+                </div>
+            </div>
             {{ form_widget(activity.activity) }}
             {{ form_widget(activity) }}
         </div>
@@ -56,7 +79,7 @@
     <div id="activities_{{ form.parent.vars.name }}"
          class="activities h-100"
          data-index=""
-        data-prototype="{{ activitiesField.activity_template(form.vars.prototype)|e }}">
+         data-prototype="{{ activitiesField.activity_template(form.vars.prototype)|e }}">
         {% for activity in form.children %}
             {{ activitiesField.activity_template(activity) }}
         {% endfor %}
