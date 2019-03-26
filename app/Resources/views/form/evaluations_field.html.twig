@@ -1,0 +1,47 @@
+{% macro evaluation_template(evaluation) %}
+    <div class="evaluation card mb-2 border rounded shadow evaluation-ct">
+        <div class="card-header p-1">
+            <div class="row">
+                <div class="col align-self-center">
+                    <small class="font-weight-bold evaluation-label">
+                        {% if evaluation.vars.data %}
+                            {{ evaluation.vars.data.activity.label }}
+                        {% endif %}
+                    </small>
+                </div>
+                <div class="col-md-auto pl-0">
+                    <i class="fas fa-trash-alt evaluation-collection-remove" title="Retirer de la liste."></i>
+                </div>
+                <div class="col-md-auto pl-0">
+                    <i class="fas fa-arrows-alt evaluation-collection-move" title="Glisser / déposer pour modifier l'ordre."></i>
+                </div>
+            </div>
+        </div>
+        <div class="card-body p-1 bg-white border-0 rounded-bottom">
+            <div class="row">
+                <div class="col-10 pr-1">
+                    {{ form_widget(evaluation.description) }}
+                    <label alt="Préciser si nécessaire" placeholder="Préciser"></label>
+                </div>
+                <div class="col-2 pl-1">
+                    {{ form_widget(evaluation.evaluationRate) }}
+                    <label alt="%" placeholder="%"></label>
+                </div>
+            </div>
+            {{ form_widget(evaluation.activity) }}
+            {{ form_widget(evaluation) }}
+        </div>
+    </div>
+{% endmacro %}
+
+{% block _edit_activities_course_info_evaluations_widget %}
+    {% import _self as evaluationsField %}
+    <div id="evaluations"
+         class="h-100"
+         data-index=""
+        data-prototype="{{ evaluationsField.evaluation_template(form.vars.prototype)|e }}">
+        {% for evaluation in form.children %}
+            {{ evaluationsField.evaluation_template(evaluation) }}
+        {% endfor %}
+    </div>
+{% endblock %}

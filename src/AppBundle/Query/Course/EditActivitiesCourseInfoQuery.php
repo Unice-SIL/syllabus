@@ -81,15 +81,17 @@ class EditActivitiesCourseInfoQuery implements QueryInterface
             throw new CourseInfoNotFoundException(sprintf('CourseInfo with id %s not found', $this->editActivitiesCourseInfoCommand->getId()));
         }
         try{
+            $originalCourseInfo = clone $courseInfo;
             // Keep originals CourseSection before update
             $originalCourseSections = $courseInfo->getCourseSections()->getValues();
-            // Keep originals CourseSectionActivities befor update
+            // Keep originals CourseSectionActivities before update
             $originalCourseSectionActivities = [];
             foreach ($originalCourseSections as $originalCourseSection){
                 $originalCourseSectionActivities[$originalCourseSection->getId()] = $originalCourseSection->getCourseSectionActivities()->getValues();
             }
             // Set course infos from command
             $courseInfo = $this->editActivitiesCourseInfoCommand->filledEntity($courseInfo);
+            dump($originalCourseInfo, $courseInfo);
             // Start transaction
             $this->courseInfoRepository->beginTransaction();
             // Deletes course sections and activities that need to be removed

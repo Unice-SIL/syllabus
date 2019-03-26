@@ -53,7 +53,7 @@ class CourseSectionActivityCommand implements CommandInterface
             $this->id = $courseSectionActivity->getId();
             $this->courseSection = $courseSectionActivity->getCourseSection();
             $this->activity = $courseSectionActivity->getActivity();
-            $this->title = $courseSectionActivity->getActivity()->getLabel();
+            //$this->title = $courseSectionActivity->getActivity()->getLabel();
             $this->description = $courseSectionActivity->getDescription();
             $this->order = $courseSectionActivity->getOrder();
         }

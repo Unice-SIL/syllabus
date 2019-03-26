@@ -3,7 +3,9 @@
 namespace AppBundle\Command\Course;
 
 use AppBundle\Command\CommandInterface;
+use AppBundle\Command\CourseEvaluationCt\CourseEvaluationCtCommand;
 use AppBundle\Command\CourseSection\CourseSectionCommand;
+use AppBundle\Entity\CourseEvaluationCt;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseSection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -25,6 +27,11 @@ class EditActivitiesCourseInfoCommand implements CommandInterface
     private $sections;
 
     /**
+     * @var ArrayCollection
+     */
+    private $evaluations;
+
+    /**
      * EditActivitiesCourseInfoCommand constructor.
      * @param CourseInfo $courseInfo
      */
@@ -35,6 +42,11 @@ class EditActivitiesCourseInfoCommand implements CommandInterface
         foreach ($courseInfo->getCourseSections() as $courseSection) {
             $this->sections->add(new CourseSectionCommand($courseSection));
         }
+        $this->evaluations = new ArrayCollection();
+        foreach ($courseInfo->getCourseEvaluationCts() as $courseEvaluationCt) {
+            $this->evaluations->add(new CourseEvaluationCtCommand($courseEvaluationCt));
+        }
+
     }
 
     /**
@@ -100,11 +112,54 @@ class EditActivitiesCourseInfoCommand implements CommandInterface
     }
 
     /**
+     * @return array
+     */
+    public function getEvaluations(): ArrayCollection
+    {
+        return $this->evaluations;
+    }
+
+    /**
+     * @param ArrayCollection $evaluations
+     * @return EditActivitiesCourseInfoCommand
+     */
+    public function setEvaluations(ArrayCollection $evaluations): EditActivitiesCourseInfoCommand
+    {
+        $this->evaluations = $evaluations;
+
+        return $this;
+    }
+
+    /**
+     * @param CourseEvaluationCtCommand $evaluation
+     * @return EditActivitiesCourseInfoCommand
+     */
+    public function addEvaluation(CourseEvaluationCtCommand $evaluation): EditActivitiesCourseInfoCommand
+    {
+        if(!$this->evaluations->contains($evaluation)) {
+            $this->evaluations->add($evaluation);
+        }
+        return $this;
+    }
+
+    /**
+     * @param CourseEvaluationCtCommand $evaluation
+     * @return EditActivitiesCourseInfoCommand
+     */
+    public function removeEvaluation(CourseEvaluationCtCommand $evaluation): EditActivitiesCourseInfoCommand
+    {
+        $this->evaluations->removeElement($evaluation);
+
+        return $this;
+    }
+
+    /**
      * @param CourseInfo $entity
      * @return CourseInfo
      */
     public function filledEntity($entity): CourseInfo
     {
+        // Set sections
         $courseSections = new ArrayCollection();
         foreach ($this->sections as $section){
             $id = $section->getId();
@@ -120,6 +175,22 @@ class EditActivitiesCourseInfoCommand implements CommandInterface
         }
         $entity->setCourseSections($courseSections);
 
+        // Set evaluations
+        $courseEvaluationCts = new ArrayCollection();
+        foreach ($this->evaluations as $evaluation){
+            $id = $evaluation->getId();
+            $courseEvaluationCt = $entity->getCourseEvaluationCts()->filter(function($entry) use ($id){
+                return ($entry->getId() === $id)? true : false;
+            })->first();
+            if(!$courseEvaluationCt){
+                $courseEvaluationCt = new CourseEvaluationCt();
+            }
+            $evaluation->setCourseInfo($entity);
+            $courseEvaluationCt = $evaluation->filledEntity($courseEvaluationCt);
+            $courseEvaluationCts->add($courseEvaluationCt);
+        }
+        $entity->setCourseEvaluationCts($courseEvaluationCts);
+
         return $entity;
     }
 
@@ -131,6 +202,10 @@ class EditActivitiesCourseInfoCommand implements CommandInterface
         $this->sections = clone $this->sections;
         foreach ($this->sections as $key => $section){
             $this->sections->offsetSet($key, clone $section);
+        }
+        $this->evaluations = clone $this->evaluations;
+        foreach ($this->evaluations as $key => $evaluation){
+            $this->evaluations->offsetSet($key, clone $evaluation);
         }
     }
 }

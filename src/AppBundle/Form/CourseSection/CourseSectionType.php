@@ -186,7 +186,6 @@ class CourseSectionType extends AbstractType
                 'choices' => $this->autonomyCollectiveActivities,
                 'choice_label' => 'label',
             ])
-
             ->add('ccEvaluations', EntityType::class, [
                 'label' => false,
                 'mapped' => false,
