@@ -6,7 +6,6 @@ use AppBundle\Action\ActionInterface;
 use AppBundle\Command\Course\EditActivitiesCourseInfoCommand;
 use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Form\Course\EditActivitiesCourseInfoType;
-use AppBundle\Query\Activity\FindActivitiesByCriteriaQuery;
 use AppBundle\Query\Course\FindCourseInfoByIdQuery;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormFactoryInterface;

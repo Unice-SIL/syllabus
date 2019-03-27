@@ -1,0 +1,26 @@
+{% macro achievement_template(achievement) %}
+    <li class="achievement list-group-item">
+        <div class="row">
+            <div class="col">
+                {{ form_widget(achievement.description) }}
+                <label alt="Préciser" placeholder="Préciser"></label>
+            </div>
+            <div class="col-md-auto pl-0">
+                <i class="fas fa-trash-alt achievement-collection-remove" title="Retirer de la liste."></i>
+            </div>
+            <div class="col-md-auto pl-0">
+                <i class="fas fa-arrows-alt achievement-collection-move" title="Glisser / déposer pour modifier l'ordre."></i>
+            </div>
+        </div>
+        {{ form_row(achievement) }}
+    </li>
+{% endmacro %}
+
+{% block _edit_objectives_course_info_achievements_widget %}
+    {% import _self as achievementsField %}
+    <ul class="list-group striped" id="achievements" data-prototype="{{ achievementsField.achievement_template(form.vars.prototype)|e }}">
+        {% for achievement in form.children %}
+            {{ achievementsField.achievement_template(achievement) }}
+        {% endfor %}
+    </ul>
+{% endblock %}

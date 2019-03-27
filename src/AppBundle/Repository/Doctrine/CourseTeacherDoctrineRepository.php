@@ -2,9 +2,7 @@
 
 namespace AppBundle\Repository\Doctrine;
 
-use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseTeacher;
-use AppBundle\Repository\CourseInfoRepositoryInterface;
 use AppBundle\Repository\CourseTeacherRepositoryInterface;
 use Doctrine\ORM\EntityManager;
 

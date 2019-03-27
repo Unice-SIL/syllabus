@@ -3,10 +3,9 @@
 namespace AppBundle\Action\Ui\Course;
 
 use AppBundle\Action\ActionInterface;
-use AppBundle\Command\Course\EditActivitiesCourseInfoCommand;
+use AppBundle\Command\Course\EditObjectivesCourseInfoCommand;
 use AppBundle\Exception\CourseInfoNotFoundException;
-use AppBundle\Form\Course\EditActivitiesCourseInfoType;
-use AppBundle\Query\Activity\FindActivitiesByCriteriaQuery;
+use AppBundle\Form\Course\EditObjectivesCourseInfoType;
 use AppBundle\Query\Course\FindCourseInfoByIdQuery;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -86,11 +85,16 @@ class EditObjectivesCourseInfoAction implements ActionInterface
                 ]);
             }
 
+            $editObjectivesCourseInfoCommand = new EditObjectivesCourseInfoCommand($courseInfo);
+            $form = $this->formFactory->create(EditObjectivesCourseInfoType::class, $editObjectivesCourseInfoCommand);
+            $form->handleRequest($request);
+
             return new JsonResponse([
                 'content' => $this->templating->render(
                     'course/edit_objectives_course_info_tab.html.twig',
                     [
-                        'courseInfo' => $courseInfo
+                        'courseInfo' => $courseInfo,
+                        'form' => $form->createView()
                     ]
                 )
             ]);

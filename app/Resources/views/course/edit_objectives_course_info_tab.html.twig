@@ -5,61 +5,216 @@
 {% endblock %}
 
 {% block main %}
-    <div class="row my-3">
-        <div class="col">
-            <h5>Capacités visées / Acquis d'apprentissage</h5>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-2">
 
-        </div>
-        <div class="col-10">
-            <p>
-                <strong>Comment rédiger un acquis d'apprentissage ?</strong>
-            </p>
-            <p>
-            <h6>Verbe + objet (contenu) + contexte</h6>
-            </p>
-            <p>
-                <u>Exemple en Sciences Humaine et Sociale :</u>
-                <ul>
-                    <li>
-                        Produire des documents d'aide à la décision à partir de l'analyse d'une situation économiquer
-                    </li>
-                    <li>
-                        Présenter les résultats d'une étude de marché donnée aux différentes étapes sur la base d'une recherche documentaire
-                    </li>
-                </ul>
-                <u>Exemple en Sciences :</u>
-                <ul>
-                    <li>
-                        Développer des applications simples en lagage orienté objet
-                    </li>
-                    <li>
-                        Utiliser des formules menant à l'interprétation des résultats dans une problématique de machine à données manquantes
-                    </li>
-                </ul>
-            </p>
-            <p>
-                Cours dédié à l'Approche Par Compétences (clé d'inscription = APC) :
-            </p>
+    {% form_theme form with [
+    'form/achievements_field.html.twig'
+    ] %}
+
+    {{ form_start(form) }}
+
+    <div class="row mt-3 mb-5">
+        <div class="col">
+            <div class="row mb-2">
+                <div class="col">
+                    <h5>Capacités visées / Acquis d'apprentissage</h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2">
+
+                </div>
+                <div class="col-10">
+                    <p>
+                        <strong>Comment rédiger un acquis d'apprentissage ?</strong>
+                    </p>
+                    <p>
+                    <h6>Verbe + objet (contenu) + contexte</h6>
+                    </p>
+                    <p>
+                        <u>Exemple en Sciences Humaine et Sociale :</u>
+                        <ul>
+                            <li>
+                                Produire des documents d'aide à la décision à partir de l'analyse d'une situation économiquer
+                            </li>
+                            <li>
+                                Présenter les résultats d'une étude de marché donnée aux différentes étapes sur la base d'une recherche documentaire
+                            </li>
+                        </ul>
+                        <u>Exemple en Sciences :</u>
+                        <ul>
+                            <li>
+                                Développer des applications simples en lagage orienté objet
+                            </li>
+                            <li>
+                                Utiliser des formules menant à l'interprétation des résultats dans une problématique de machine à données manquantes
+                            </li>
+                        </ul>
+                    </p>
+                    <p>
+                        Cours dédié à l'Approche Par Compétences (clé d'inscription = APC) :
+                    </p>
+                </div>
+            </div>
+            <div class="row border border-primary rounded p-2 my-3">
+                <div class="col">
+                    <div class="row mb-2">
+                        <div class="col">
+                            <strong>A la fin de ce cours, l'étudiant sera capable de...</strong>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            {{ form_widget(form.achievements) }}
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col">
+                            <button type="button" class="btn btn-primary btn-block" id="addAchievementButton">
+                                <i class="fas fa-plus-circle"></i>
+                                Ajouter un acquis d'apprentissage
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="row my-3">
+    <hr>
+
+    <div class="row my-5">
         <div class="col">
-            <h5>Prérequis</h5>
+            <div class="row">
+                <div class="col">
+                    <h5>Prérequis</h5>
+                </div>
+            </div>
+            <div class="row border border-primary rounded p-2 my-3">
+                <div class="col">
+                    <div class="row mb-2">
+                        <div class="col">
+                            <strong>Avant le début du cours, l'étudiant doit...</strong>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col">
+                            <button type="button" class="btn btn-primary btn-block" id="addPrerequisiteButton">
+                                <i class="fas fa-plus-circle"></i>
+                                Ajouter un prérequis
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="row my-3">
+    <hr>
+
+    <div class="row mt-5">
         <div class="col">
-            <h5>Remédiation / Aide à la réussite</h5>
+            <div class="row">
+                <div class="col">
+                    <h5>Remédiation / Aide à la réussite</h5>
+                </div>
+            </div>
         </div>
     </div>
+
+    <div class="row mt-3">
+        <div class="col">
+            <button class="btn btn-outline-primary btn-block submit" type="submit">
+                <i class="fas fa-save"></i>
+                Enregistrer
+            </button>
+        </div>
+    </div>
+
+    {{ form_end(form) }}
 
 {% endblock %}
 
 {% block javascripts %}
+
+    <script>
+        $(document).ready(function() {
+            /**
+             * Init achievements collection
+             */
+            var achievementsCollectionHolder = $('#achievements');
+            achievementsCollectionHolder.data('index', achievementsCollectionHolder.find('li.achievement').length);
+            achievementsCollectionHolder.sortable({
+                group: {
+                    name: "achievements",
+                },
+                handle: ".achievement-collection-move",
+                sort: true,
+                animation: 150
+            });
+
+            /**
+             * Add a achievement when button click
+             */
+            $('#addAchievementButton').click(function () {
+                var form = addFormToCollection(achievementsCollectionHolder);
+                form.find('input[id$=_description]').focus();
+            });
+
+            /**
+             * Remove a achievement from collection
+             */
+            achievementsCollectionHolder.on('click', '.achievement-collection-remove', function () {
+                if (confirm("Êtes-vous sûr(e) de vouloir supprimer cet acquis d'apprentissage ?")) {
+                    var form = $(this).closest("li.achievement");
+                    form.fadeOut({
+                        always: function () {
+                            form.remove();
+                        }
+                    });
+                }
+            });
+
+            /**
+             * Submit the form
+             */
+            $("form[name='edit_objectives_course_info']").submit(function(e){
+                e.preventDefault();
+
+                var form = $(this);
+                //var data = new FormData(form);
+
+                // Set achievements order
+                achievementsCollectionHolder.find('li.achievement').each(function(order){
+                    // Set section order
+                    $(this).find("input[id$='_order']").each(function(){
+                        if($(this).attr("id").match(/^edit_objectives_course_info_achievements_[\d]+_order/)){
+                            $(this).val(order+1);
+                        }
+                    });
+                });
+
+
+                SILTools.spinner.fadeIn( {
+                    always: function(){
+                        $.ajax({
+                            type: 'POST',
+                            url: '{{ path('save_objectives_course_info', { 'id': courseInfo.id })|escape('js') }}',
+                            data: form.serialize()
+                        }).done(function(response){
+                            if(response.type !== undefined && response.message !== undefined) {
+                                SILTools.alert(response.type, response.message, false);
+                            }
+                        }).always(function(){
+                            SILTools.spinner.fadeOut( );
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 {% endblock %}

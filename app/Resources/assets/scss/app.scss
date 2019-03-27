@@ -160,13 +160,14 @@ form ul.list-group {
     Sections & Activities
 */
 
-.section {
+.section,
+.achievement {
 
     & i.fas {
 
         cursor: pointer;
 
-        &.section-collection-remove {
+        &.fa-trash-alt {
             color: $danger;
         }
     }
