@@ -17,7 +17,7 @@
 {% endif %}
 {% set year = '2018' %}
 
-    <div class="container-fluid bg-dark py-3">
+    <div class="container-fluid bg-black py-3">
 
         <div class="row d-flex flex-row m-3">
 
@@ -110,8 +110,8 @@
 
 
         <div class="row d-flex flex-row m-3">
-            <div class="col-md-5">
-                <p class="text-justify text-left text-white">
+            <div class="col-md-5 text-white">
+                <p class="text-justify text-left">
                     {{course.summary|raw}}
                 </p>
                 <p class="text-justify text-left text-white">
@@ -254,10 +254,13 @@
             {% for row in course.courseAchievements|batch(2) %}
                 <div class="row mx-3 d-flex flex-row my-3">
                     {% for achievement in row %}
-                        <div class="col-md-6 border border-info bg-info text-light rounded-pill d-flex flex-row justify-content-between align-items-center">
-                            <img src="https://via.placeholder.com/25" class="img-fluid rounded-circle" alt="Responsive image">
-                            <span class="my-2">{{achievement.description}} </span>
-                            <div></div>
+                    {% set oddOrEven =  cycle(['pl-0', 'pr-0'], loop.index0) %}
+                        <div class="col-md-6 {{oddOrEven}}" >
+                            <div class="col-md-12 border border-info bg-info text-light rounded-pill d-flex flex-row justify-content-between align-items-center">
+                                <img src="https://via.placeholder.com/25" class="img-fluid rounded-circle" alt="Responsive image">
+                                <span class="my-2">{{achievement.description}} </span>
+                                <div></div>
+                            </div>
                         </div> 
                     {% endfor %}
                 </div>
@@ -358,41 +361,53 @@
                                 </div>
                             {% elseif activity.activity.mode == "cc" %}
                                 <div class="row mx-1 p-3 d-flex flex-row justify-content-between align-items-center text-light bg-info }}">
-                                <div class="d-flex flex-column align-items-start">
+                                <div class="d-flex flex-column col-11 px-0 align-items-start">
                                 {% for activity in section.courseSectionActivities if activity not in ActivityHandled and not break %}
                                     {% if activity.activity.mode == "cc"%}
-                                        <span>{{activity.activity.label}} </span>
+                                        <div class = "d-flex flex-row w-100 justify-content-between align-items-center">
+                                            <span>{{activity.activity.label}} </span>
+                                            {% if activity.evaluationRate != null %}
+                                                <span class="font-weight-bold">{{activity.evaluationRate}}% du Contrôle Continu</span>
+                                            {% else %}
+                                                <span class="font-weight-bold">Contrôle Continu</span>
+                                            {% endif %}
+                                        </div>
                                         {% set ActivityHandled = ActivityHandled|merge([activity]) %}
                                     {% else %}
                                         {% set break = true %}
                                     {% endif %}
                                 {% endfor %}
                                 </div>
-                                <div class = "d-flex flex-row align-items-center">
-                                    <span class="font-weight-bold mx-3">{{activity.evaluationRate}}% du Contrôle Continu</span>
+                                <div class = "d-flex flex-column col-1 align-items-center">
                                     <img src="{{ asset('images/evaluation_cc_64.png') }}">
                                 </div>
-                                </div>
-                            {% elseif activity.activity.mode == "ct" %}
-                                <div class="row mx-1 p-3 d-flex flex-row justify-content-between align-items-center text-light bg-primary }}">
-                                <div class="d-flex flex-column align-items-start">
-                                {% for activity in section.courseSectionActivities if activity not in ActivityHandled and not break %}
-                                    {% if activity.activity.mode == "ct"%}
-                                        <span>{{activity.activity.label}} </span>
-                                        {% set ActivityHandled = ActivityHandled|merge([activity]) %}
-                                    {% else %}
-                                        {% set break = true %}
-                                    {% endif %}
-                                {% endfor %}
-                                </div>
-                                <div class = "d-flex flex-row align-items-center">
-                                    <span>Sur le campus</span>
-                                    <i class="fas fa-map-marker-alt"></i>
-                                </div>
-                                </div>                                
+                                </div>                             
                             {% endif %}
                         {% endfor %}
                     {% endfor %}
+                    </div>
+                {% endfor %}
+
+                {% for ct in course.courseEvaluationCts %}
+                    <div class="col p-2 border border-dark bg-light"> 
+                    <h6>Contrôle Terminal : {{ct.description|raw}}</h6>
+                    <div class="row mx-1 p-3 d-flex flex-row justify-content-between align-items-center text-light bg-primary }}">
+                        <div class="d-flex flex-column align-items-start">
+                        {% set break = false %}
+                        {% for activity in ct if activity not in ActivityHandled and not break %}
+                            {% if activity.activity.mode == "ct" %}
+                                <span>{{activity.label}} </span>
+                                {% set ActivityHandled = ActivityHandled|merge([activity]) %}
+                            {% else %}
+                                {% set break = true %}
+                            {% endif %}
+                        {% endfor %}
+                        </div>
+                        <div class = "d-flex flex-row align-items-center">
+                            <span class="font-weight-bold mx-3">Sur le campus</span>
+                            <i class="fas mx-3 fa-2x fa-map-marker-alt"></i>
+                        </div>
+                    </div>
                     </div>
                 {% endfor %}
 
@@ -432,7 +447,7 @@
                         </thead>
                         <tbody>
                             <tr class="bg-info">
-                            <td>Contrôle Continu ({{course.mccCcNbEvalSession1}} minimum)</td>
+                            <td><p class="my-0">Contrôle Continu</p> ({{course.mccCcNbEvalSession1}} minimum)</td>
                             <td> {{course.mccCcCoeffSession1}}%</td>
                             </tr>
                             <tr class="bg-primary">
