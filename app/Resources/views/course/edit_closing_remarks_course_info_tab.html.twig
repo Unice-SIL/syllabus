@@ -1,0 +1,72 @@
+{% extends 'ajax.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block main %}
+    {{ form_start(form) }}
+    
+    <div class="row mt-3">
+        <div class="col">
+            <h6 class="my-3">
+                Espace pour laisser un message à vos étudiants (encouragements, derniers conseils...)
+            </h6>
+            {{form_widget(form.closingRemarks)}}
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col">
+            <button class="btn btn-outline-primary btn-block submit" type="submit">
+                <i class="fas fa-save"></i>
+                Enregistrer
+            </button>
+        </div>
+    </div>
+
+    {{ form_end(form) }}
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+        $(document).ready(function() {
+
+            /**
+             * Submit the form
+             */
+            $("form[name='edit_closing_remarks_course_info']").submit(function(e){
+                e.preventDefault();
+
+                for ( instance in CKEDITOR.instances ) {
+                    CKEDITOR.instances[instance].updateElement();
+                }
+
+                var form = $(this)[0];
+                var data = new FormData(form);
+
+                SILTools.spinner.fadeIn( {
+                    always: function(){
+                        $.ajax({
+                            type: 'POST',
+                            enctype: 'multipart/form-data',
+                            processData: false,  // Important!
+                            contentType: false,
+                            url: '{{ path('save_closing_remarks_course_info', { 'id': courseInfo.id })|escape('js') }}',
+                            data: data,
+                            cache: false,
+                            timeout: 600000
+                        }).done(function(response){
+                            if(response.type !== undefined && response.message !== undefined) {
+                                SILTools.alert(response.type, response.message, false);
+                            }
+                        }).always(function(){
+                            SILTools.spinner.fadeOut( );
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}
