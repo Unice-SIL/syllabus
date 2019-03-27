@@ -133,7 +133,8 @@ class CourseAchievementCommand implements CommandInterface
     public function filledEntity($entity): CourseAchievement
     {
         $entity->setId($this->getId())
-            ->setDescription($this->getDescription());
+            ->setDescription($this->getDescription())
+            ->setOrder($this->getOrder());
         if(!is_null($this->getCourseInfo())){
             $entity->setCourseInfo($this->getCourseInfo());
         }

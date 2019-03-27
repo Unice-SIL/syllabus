@@ -94,6 +94,7 @@ class SaveObjectivesCourseInfoAction implements ActionInterface
             if($form->isSubmitted()){
                 $editObjectivesCourseInfoCommand = $form->getData();
                 // Check if there have been anny changes
+                dump($originalEditObjectivesCourseInfoCommand, $editObjectivesCourseInfoCommand);
                 if($editObjectivesCourseInfoCommand == $originalEditObjectivesCourseInfoCommand){
                     return new JsonResponse([
                         'type' => "info",
