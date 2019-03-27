@@ -86,14 +86,14 @@ class SaveActivitiesCourseInfoAction implements ActionInterface
             // Init command
             $editActivitiesCourseInfoCommand = new EditActivitiesCourseInfoCommand($courseInfo);
             // Keep original command before modifications
-            $originalEditPresentationCourseInfoCommand = clone $editActivitiesCourseInfoCommand;
+            $originalEditActivitiesCourseInfoCommand = clone $editActivitiesCourseInfoCommand;
             //
             $form = $this->formFactory->create(EditActivitiesCourseInfoType::class, $editActivitiesCourseInfoCommand);
             $form->handleRequest($request);
             if($form->isSubmitted()){
                 $editActivitiesCourseInfoCommand = $form->getData();
                 // Check if there have been anny changes
-                if($editActivitiesCourseInfoCommand == $originalEditPresentationCourseInfoCommand){
+                if($editActivitiesCourseInfoCommand == $originalEditActivitiesCourseInfoCommand){
                     return new JsonResponse([
                         'type' => "info",
                         'message' => "Aucun changement a enregistrer"
