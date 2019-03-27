@@ -3,15 +3,14 @@
 namespace AppBundle\Action\Ui\Course;
 
 use AppBundle\Action\ActionInterface;
-use AppBundle\Command\Course\EditClosingRemarksCourseInfoCommand;
+use AppBundle\Command\Course\EditInfosCourseInfoCommand;
 use AppBundle\Exception\CourseInfoNotFoundException;
-use AppBundle\Form\Course\EditClosingRemarksCourseInfoType;
+use AppBundle\Form\Course\EditInfosCourseInfoType;
 use AppBundle\Helper\FileUploaderHelper;
-use AppBundle\Query\Course\EditClosingRemarksCourseInfoQuery;
+use AppBundle\Query\Course\EditInfosCourseInfoQuery;
 use AppBundle\Query\Course\FindCourseInfoByIdQuery;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,19 +28,14 @@ class SaveInfosCourseInfoAction implements ActionInterface
     private $findCourseInfoByIdQuery;
 
     /**
-     * @var EditClosingRemarksCourseInfoQuery
+     * @var EditInfosCourseInfoQuery
      */
-    private $editClosingRemarksCourseInfoQuery;
+    private $editInfosCourseInfoQuery;
 
     /**
      * @var FormFactoryInterface
      */
     private $formFactory;
-
-    /**
-     * @var FileUploaderHelper
-     */
-    private $fileUploaderHelper;
 
     /**
      * @var LoggerInterface
@@ -51,21 +45,21 @@ class SaveInfosCourseInfoAction implements ActionInterface
     /**
      * SaveInfosCourseInfoAction constructor.
      * @param FindCourseInfoByIdQuery $findCourseInfoByIdQuery
-     * @param EditClosingRemarksCourseInfoQuery $editClosingRemarksCourseInfoQuery
+     * @param EditInfosCourseInfoQuery $editInfosCourseInfoQuery
      * @param FormFactoryInterface $formFactory
      * @param FileUploaderHelper $fileUploaderHelper
      * @param LoggerInterface $logger
      */
     public function __construct(
         FindCourseInfoByIdQuery $findCourseInfoByIdQuery,
-        EditClosingRemarksCourseInfoQuery $editClosingRemarksCourseInfoQuery,
+        EditInfosCourseInfoQuery $editInfosCourseInfoQuery,
         FormFactoryInterface $formFactory,
         FileUploaderHelper $fileUploaderHelper,
         LoggerInterface $logger
     )
     {
         $this->findCourseInfoByIdQuery = $findCourseInfoByIdQuery;
-        $this->editClosingRemarksCourseInfoQuery = $editClosingRemarksCourseInfoQuery;
+        $this->editInfosCourseInfoQuery = $editInfosCourseInfoQuery;
         $this->formFactory = $formFactory;
         $this->fileUploaderHelper = $fileUploaderHelper;
         $this->logger = $logger;
@@ -90,19 +84,50 @@ class SaveInfosCourseInfoAction implements ActionInterface
                     ]
                 );
             }
-
+            // Init command
+            $editInfosCourseInfoCommand = new EditInfosCourseInfoCommand($courseInfo);
+            // Keep original command before modifications
+            $originalEditInfosCourseInfoCommand = clone $editInfosCourseInfoCommand;
+            // Generate form
+            $form = $this->formFactory->create(
+                EditInfosCourseInfoType::class,
+                $editInfosCourseInfoCommand
+            );
+            $form->handleRequest($request);
+            if ($form->isSubmitted()) {
+                $editInfosCourseInfoCommand = $form->getData();
+                // Check if there have been anny changes
+                if($editInfosCourseInfoCommand == $originalEditInfosCourseInfoCommand){
+                    return new JsonResponse([
+                        'type' => "info",
+                        'message' => "Aucun changement a enregistrer"
+                    ]);
+                }
+                // Save changes
+                $this->editInfosCourseInfoQuery->setEditInfosCourseInfoCommand(
+                    $editInfosCourseInfoCommand
+                )->execute();
+                // Return message success
+                return new JsonResponse([
+                    'type' => "success",
+                    'message' => "Modifications enregistrées avec succès"
+                ]);
+            }
             return new JsonResponse([
                 'type' => "danger",
                 'message' => "Le formulaire n'a pas été soumis"
             ]);
         }catch (\Exception $e) {
             // Log error
-            $this->logger->error((string) $e);
+            $this->logger->error((string)$e);
+
             // Return message error
-            return new JsonResponse([
-                'type' => "danger",
-                'message' => "Une erreur est survenue"
-            ]);
+            return new JsonResponse(
+                [
+                    'type' => "danger",
+                    'message' => "Une erreur est survenue"
+                ]
+            );
         }
     }
 

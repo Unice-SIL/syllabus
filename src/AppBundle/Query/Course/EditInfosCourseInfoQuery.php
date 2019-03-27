@@ -2,16 +2,16 @@
 
 namespace AppBundle\Query\Course;
 
-use AppBundle\Command\Course\EditClosingRemarksCourseInfoCommand;
+use AppBundle\Command\Course\EditInfosCourseInfoCommand;
 use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Query\QueryInterface;
 use AppBundle\Repository\CourseInfoRepositoryInterface;
 
 /**
- * Class EditClosingRemarksCourseInfoQuery
+ * Class EditInfosCourseInfoQuery
  * @package AppBundle\Query\Course
  */
-class EditClosingRemarksCourseInfoQuery implements QueryInterface
+class EditInfosCourseInfoQuery implements QueryInterface
 {
 
     /**
@@ -20,12 +20,12 @@ class EditClosingRemarksCourseInfoQuery implements QueryInterface
     private $courseInfoRepository;
 
     /**
-     * @var EditClosingRemarksCourseInfoCommand
+     * @var EditInfosCourseInfoCommand
      */
-    private $editClosingRemarksCourseInfoCommand;
+    private $editInfosCourseInfoCommand;
 
     /**
-     * EditClosingRemarksCourseInfoQuery constructor.
+     * EditInfosCourseInfoQuery constructor.
      * @param CourseInfoRepositoryInterface $courseInfoRepository
      */
     public function __construct(
@@ -36,12 +36,12 @@ class EditClosingRemarksCourseInfoQuery implements QueryInterface
     }
 
     /**
-     * @param EditClosingRemarksCourseInfoCommand $editClosingRemarksCourseInfoCommand
-     * @return EditClosingRemarksCourseInfoQuery
+     * @param EditInfosCourseInfoCommand $editInfosCourseInfoCommand
+     * @return EditInfosCourseInfoQuery
      */
-    public function setEditClosingRemarksCourseInfoCommand(EditClosingRemarksCourseInfoCommand $editClosingRemarksCourseInfoCommand): EditClosingRemarksCourseInfoQuery
+    public function setEditInfosCourseInfoCommand(EditInfosCourseInfoCommand $editInfosCourseInfoCommand): EditInfosCourseInfoQuery
     {
-        $this->editClosingRemarksCourseInfoCommand = $editClosingRemarksCourseInfoCommand;
+        $this->editInfosCourseInfoCommand = $editInfosCourseInfoCommand;
         return $this;
     }
 
@@ -53,15 +53,15 @@ class EditClosingRemarksCourseInfoQuery implements QueryInterface
     {
         try {
             // Find CourseInfo
-            $courseInfo = $this->courseInfoRepository->find($this->editClosingRemarksCourseInfoCommand->getId());
+            $courseInfo = $this->courseInfoRepository->find($this->editInfosCourseInfoCommand->getId());
         }catch (\Exception $e){
             throw $e;
         }
         if(is_null($courseInfo)){
-            throw new CourseInfoNotFoundException(sprintf('CourseInfo with id %s not found', $this->editClosingRemarksCourseInfoCommand->getId()));
+            throw new CourseInfoNotFoundException(sprintf('CourseInfo with id %s not found', $this->editInfosCourseInfoCommand->getId()));
         }
         try{
-            $courseInfo = $this->editClosingRemarksCourseInfoCommand->filledEntity($courseInfo);
+            $courseInfo = $this->editInfosCourseInfoCommand->filledEntity($courseInfo);
             $this->courseInfoRepository->beginTransaction();
             $this->courseInfoRepository->update($courseInfo);
             $this->courseInfoRepository->commit();
