@@ -7,7 +7,8 @@
 {% block main %}
 
     {% form_theme form with [
-    'form/achievements_field.html.twig'
+    'form/achievements_field.html.twig',
+    'form/prerequisites_field.html.twig'
     ] %}
 
     {{ form_start(form) }}
@@ -98,7 +99,7 @@
                     </div>
                     <div class="row">
                         <div class="col">
-
+                            {{ form_widget(form.prerequisites) }}
                         </div>
                     </div>
                     <div class="row mt-2">
@@ -179,6 +180,43 @@
                 }
             });
 
+
+            /**
+             * Init prerequisites collection
+             */
+            var prerequisitesCollectionHolder = $('#prerequisites');
+            prerequisitesCollectionHolder.data('index', prerequisitesCollectionHolder.find('li.prerequisite').length);
+            prerequisitesCollectionHolder.sortable({
+                group: {
+                    name: "prerequisites",
+                },
+                handle: ".prerequisite-collection-move",
+                sort: true,
+                animation: 150
+            });
+
+            /**
+             * Add a prerequisite when button click
+             */
+            $('#addPrerequisiteButton').click(function () {
+                var form = addFormToCollection(prerequisitesCollectionHolder);
+                form.find('input[id$=_description]').focus();
+            });
+
+            /**
+             * Remove a prerequisite from collection
+             */
+            prerequisitesCollectionHolder.on('click', '.prerequisite-collection-remove', function () {
+                if (confirm("Êtes-vous sûr(e) de vouloir supprimer ce prérequis ?")) {
+                    var form = $(this).closest("li.prerequisite");
+                    form.fadeOut({
+                        always: function () {
+                            form.remove();
+                        }
+                    });
+                }
+            });
+
             /**
              * Submit the form
              */
@@ -193,6 +231,16 @@
                     // Set section order
                     $(this).find("input[id$='_order']").each(function(){
                         if($(this).attr("id").match(/^edit_objectives_course_info_achievements_[\d]+_order/)){
+                            $(this).val(order+1);
+                        }
+                    });
+                });
+
+                // Set prerequisites order
+                prerequisitesCollectionHolder.find('li.prerequisite').each(function(order){
+                    // Set section order
+                    $(this).find("input[id$='_order']").each(function(){
+                        if($(this).attr("id").match(/^edit_objectives_course_info_prerequisites_[\d]+_order/)){
                             $(this).val(order+1);
                         }
                     });

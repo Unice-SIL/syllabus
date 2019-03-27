@@ -2,17 +2,9 @@
 
 namespace AppBundle\Form\Course;
 
-use AppBundle\Command\Course\EditActivitiesCourseInfoCommand;
 use AppBundle\Command\Course\EditObjectivesCourseInfoCommand;
-use AppBundle\Constant\ActivityMode;
-use AppBundle\Constant\ActivityType;
-use AppBundle\Entity\Activity;
 use AppBundle\Form\CourseAchievement\CourseAchievementType;
-use AppBundle\Form\CourseEvaluationCt\CourseEvaluationCtType;
-use AppBundle\Form\CourseSection\CourseSectionType;
-use AppBundle\Repository\ActivityRepositoryInterface;
-use Doctrine\ORM\EntityManager;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use AppBundle\Form\CoursePrerequisite\CoursePrerequisiteType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -49,7 +41,17 @@ class EditObjectivesCourseInfoType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
-            ]);
+            ])
+            ->add('prerequisites', CollectionType::class, [
+                'label' => false,
+                'entry_type' => CoursePrerequisiteType::class,
+                'entry_options' => [
+                    'label' => false,
+                ],
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+            ]);;
     }
 
     /**
