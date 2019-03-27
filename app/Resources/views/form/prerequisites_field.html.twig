@@ -1,0 +1,26 @@
+{% macro prerequisite_template(prerequisite) %}
+    <li class="prerequisite list-group-item">
+        <div class="row">
+            <div class="col">
+                {{ form_widget(prerequisite.description) }}
+                <label alt="Préciser" placeholder="Préciser"></label>
+            </div>
+            <div class="col-md-auto pl-0">
+                <i class="fas fa-trash-alt prerequisite-collection-remove" title="Retirer de la liste."></i>
+            </div>
+            <div class="col-md-auto pl-0">
+                <i class="fas fa-arrows-alt prerequisite-collection-move" title="Glisser / déposer pour modifier l'ordre."></i>
+            </div>
+        </div>
+        {{ form_row(prerequisite) }}
+    </li>
+{% endmacro %}
+
+{% block _edit_objectives_course_info_prerequisites_widget %}
+    {% import _self as prerequisitesField %}
+    <ul class="list-group striped" id="prerequisites" data-prototype="{{ prerequisitesField.prerequisite_template(form.vars.prototype)|e }}">
+        {% for prerequisite in form.children %}
+            {{ prerequisitesField.prerequisite_template(prerequisite) }}
+        {% endfor %}
+    </ul>
+{% endblock %}

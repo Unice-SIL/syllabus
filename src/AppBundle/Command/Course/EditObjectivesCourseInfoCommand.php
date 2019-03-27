@@ -4,8 +4,10 @@ namespace AppBundle\Command\Course;
 
 use AppBundle\Command\CommandInterface;
 use AppBundle\Command\CourseAchievement\CourseAchievementCommand;
+use AppBundle\Command\CoursePrerequisite\CoursePrerequisiteCommand;
 use AppBundle\Entity\CourseAchievement;
 use AppBundle\Entity\CourseInfo;
+use AppBundle\Entity\CoursePrerequisite;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -25,6 +27,11 @@ class EditObjectivesCourseInfoCommand implements CommandInterface
     private $achievements;
 
     /**
+     * @var ArrayCollection
+     */
+    private $prerequisites;
+
+    /**
      * EditObjectivesCourseInfoCommand constructor.
      * @param CourseInfo $courseInfo
      */
@@ -34,6 +41,10 @@ class EditObjectivesCourseInfoCommand implements CommandInterface
         $this->achievements = new ArrayCollection();
         foreach ($courseInfo->getCourseAchievements() as $courseAchievement) {
             $this->achievements->add(new CourseAchievementCommand($courseAchievement));
+        }
+        $this->prerequisites = new ArrayCollection();
+        foreach ($courseInfo->getCoursePrerequisites() as $coursePrerequisite) {
+            $this->prerequisites->add(new CoursePrerequisiteCommand($coursePrerequisite));
         }
     }
 
@@ -57,7 +68,7 @@ class EditObjectivesCourseInfoCommand implements CommandInterface
     }
 
     /**
-     * @return array
+     * @return ArrayCollection
      */
     public function getAchievements(): ArrayCollection
     {
@@ -100,6 +111,49 @@ class EditObjectivesCourseInfoCommand implements CommandInterface
     }
 
     /**
+     * @return ArrayCollection
+     */
+    public function getPrerequisites(): ArrayCollection
+    {
+        return $this->prerequisites;
+    }
+
+    /**
+     * @param ArrayCollection $prerequisites
+     * @return EditObjectivesCourseInfoCommand
+     */
+    public function setPrerequisites(ArrayCollection $prerequisites): EditObjectivesCourseInfoCommand
+    {
+        $this->prerequisites = $prerequisites;
+
+        return $this;
+    }
+
+    /**
+     * @param CoursePrerequisiteCommand $prerequisite
+     * @return EditObjectivesCourseInfoCommand
+     */
+    public function addPrerequisite(CoursePrerequisiteCommand $prerequisite): EditObjectivesCourseInfoCommand
+    {
+        if(!$this->prerequisites->contains($prerequisite)) {
+            $this->prerequisites->add($prerequisite);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param CoursePrerequisiteCommand $prerequisite
+     * @return EditObjectivesCourseInfoCommand
+     */
+    public function removePrerequisite(CoursePrerequisiteCommand $prerequisite): EditObjectivesCourseInfoCommand
+    {
+        $this->prerequisites->removeElement($prerequisite);
+
+        return $this;
+    }
+
+    /**
      * @param CourseInfo $entity
      * @return CourseInfo
      */
@@ -121,6 +175,22 @@ class EditObjectivesCourseInfoCommand implements CommandInterface
         }
         $entity->setCourseAchievements($courseAchievements);
 
+        // Set prerequisites
+        $coursePrerequisites = new ArrayCollection();
+        foreach ($this->prerequisites as $prerequisite){
+            $id = $prerequisite->getId();
+            $coursePrerequisite = $entity->getCoursePrerequisites()->filter(function($entry) use ($id){
+                return ($entry->getId() === $id)? true : false;
+            })->first();
+            if(!$coursePrerequisite){
+                $coursePrerequisite = new CoursePrerequisite();
+            }
+            $prerequisite->setCourseInfo($entity);
+            $coursePrerequisite = $prerequisite->filledEntity($coursePrerequisite);
+            $coursePrerequisites->add($coursePrerequisite);
+        }
+        $entity->setCoursePrerequisites($coursePrerequisites);
+
         return $entity;
     }
 
@@ -132,6 +202,10 @@ class EditObjectivesCourseInfoCommand implements CommandInterface
         $this->achievements = clone $this->achievements;
         foreach ($this->achievements as $key => $achievement){
             $this->achievements->offsetSet($key, clone $achievement);
+        }
+        $this->prerequisites = clone $this->prerequisites;
+        foreach ($this->prerequisites as $key => $prerequisite){
+            $this->prerequisites->offsetSet($key, clone $prerequisite);
         }
     }
 }

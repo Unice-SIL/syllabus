@@ -7,6 +7,7 @@ use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Query\QueryInterface;
 use AppBundle\Repository\CourseAchievementRepositoryInterface;
 use AppBundle\Repository\CourseInfoRepositoryInterface;
+use AppBundle\Repository\CoursePrerequisiteRepositoryInterface;
 
 /**
  * Class EditObjectivesCourseInfoQuery
@@ -25,6 +26,12 @@ class EditObjectivesCourseInfoQuery implements QueryInterface
      */
     private $courseAchievementRepository;
 
+
+    /**
+     * @var CoursePrerequisiteRepositoryInterface
+     */
+    private $coursePrerequisiteRepository;
+
     /**
      * @var EditObjectivesCourseInfoCommand
      */
@@ -37,11 +44,13 @@ class EditObjectivesCourseInfoQuery implements QueryInterface
      */
     public function __construct(
         CourseInfoRepositoryInterface $courseInfoRepository,
-        CourseAchievementRepositoryInterface $courseAchievementRepository
+        CourseAchievementRepositoryInterface $courseAchievementRepository,
+        CoursePrerequisiteRepositoryInterface $coursePrerequisiteRepository
     )
     {
         $this->courseInfoRepository = $courseInfoRepository;
         $this->courseAchievementRepository = $courseAchievementRepository;
+        $this->coursePrerequisiteRepository = $coursePrerequisiteRepository;
     }
 
     /**
@@ -70,12 +79,24 @@ class EditObjectivesCourseInfoQuery implements QueryInterface
             throw new CourseInfoNotFoundException(sprintf('CourseInfo with id %s not found', $this->editObjectivesCourseInfoCommand->getId()));
         }
         try{
+            // Keep an original course achievements copy
             $originalCourseAchievements = $courseInfo->getCourseAchievements();
+            // Keep an original course prerequisites copy
+            $originalCoursePrerequisites = $courseInfo->getCoursePrerequisites();
+            // Fill course info with new values
             $courseInfo = $this->editObjectivesCourseInfoCommand->filledEntity($courseInfo);
+            // Start transaction
             $this->courseInfoRepository->beginTransaction();
+            // Loop on original course achievements to detect achieviements must be removed
             foreach ($originalCourseAchievements as $courseAchievement) {
                 if (!$courseInfo->getCourseAchievements()->contains($courseAchievement)) {
                     $this->courseAchievementRepository->delete($courseAchievement);
+                }
+            }
+            // Loop on original course prerequisites to detect prerequisites must be removed
+            foreach ($originalCoursePrerequisites as $coursePrerequisite) {
+                if (!$courseInfo->getCoursePrerequisites()->contains($coursePrerequisite)) {
+                    $this->coursePrerequisiteRepository->delete($coursePrerequisite);
                 }
             }
             $this->courseInfoRepository->update($courseInfo);
