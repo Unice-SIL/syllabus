@@ -90,9 +90,6 @@ class SaveClosingRemarksCourseInfoAction implements ActionInterface
                     ]
                 );
             }
-            if (!is_null($courseInfo->getImage())) {
-                $courseInfo->setImage(new File($this->fileUploaderHelper->getDirectory().'/'.$courseInfo->getImage()));
-            }
             // Init command
             $editClosingRemarksCourseInfoCommand = new EditClosingRemarksCourseInfoCommand($courseInfo);
             // Keep original command before modifications

@@ -3,11 +3,9 @@
 namespace AppBundle\Query\Course;
 
 use AppBundle\Command\Course\EditClosingRemarksCourseInfoCommand;
-use AppBundle\Command\Course\EditPresentationCourseInfoCommand;
 use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Query\QueryInterface;
 use AppBundle\Repository\CourseInfoRepositoryInterface;
-use AppBundle\Repository\CourseTeacherRepositoryInterface;
 
 /**
  * Class EditClosingRemarksCourseInfoQuery
