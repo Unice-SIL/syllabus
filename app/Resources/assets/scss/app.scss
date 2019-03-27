@@ -211,7 +211,7 @@ div.activity, div.evaluation {
 
     &.evaluation-cc,
     &.evaluation-ct {
-        background-color: $info;
+        background-color: $primary;
 
         & .card-header {
             color: $light;
@@ -245,7 +245,7 @@ div.activity, div.evaluation {
 
     &.evaluation-cc,
     &.evaluation-ct {
-        background-color: $info;
+        background-color: $primary;
         color: $light;
     }
 }
