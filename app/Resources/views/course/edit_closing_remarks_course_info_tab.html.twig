@@ -39,14 +39,24 @@
             $("form[name='edit_closing_remarks_course_info']").submit(function(e){
                 e.preventDefault();
 
-                var form = $(this);
+                for ( instance in CKEDITOR.instances ) {
+                    CKEDITOR.instances[instance].updateElement();
+                }
+
+                var form = $(this)[0];
+                var data = new FormData(form);
 
                 SILTools.spinner.fadeIn( {
                     always: function(){
                         $.ajax({
                             type: 'POST',
+                            enctype: 'multipart/form-data',
+                            processData: false,  // Important!
+                            contentType: false,
                             url: '{{ path('save_closing_remarks_course_info', { 'id': courseInfo.id })|escape('js') }}',
-                            data: form.serialize()
+                            data: data,
+                            cache: false,
+                            timeout: 600000
                         }).done(function(response){
                             if(response.type !== undefined && response.message !== undefined) {
                                 SILTools.alert(response.type, response.message, false);
