@@ -6,6 +6,7 @@ use AppBundle\Command\Course\EditInfosCourseInfoCommand;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 
 /**
  * Class EditInfosCourseInfoType
@@ -20,7 +21,15 @@ class EditInfosCourseInfoType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder;
+        $builder
+            ->add('agenda', CKEditorType::class, [
+                'label' => 'Description',
+                'required' => false,
+            ])
+            ->add('organization', CKEditorType::class, [
+                'label' => 'Description',
+                'required' => false,
+            ]);
     }
 
     /**
