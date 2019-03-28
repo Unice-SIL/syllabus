@@ -57,7 +57,7 @@ class CourseSectionActivityType extends AbstractType
             ])
             ->add('evaluationTeacher', CheckboxType::class, [
                 'required' => false,
-                'label' => "l'enseignants"
+                'label' => "l'enseignant"
             ])
             ->add('evaluationPeer', CheckboxType::class, [
                 'required' => false,

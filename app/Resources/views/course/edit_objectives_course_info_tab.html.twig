@@ -124,6 +124,31 @@
                     <h5>Remédiation / Aide à la réussite</h5>
                 </div>
             </div>
+            <div class="row border border-primary rounded p-2 my-3">
+                <div class="col">
+                    <div class="row mb-2">
+                        <div class="col">
+                            <strong>Si l'étudiant rencontre des difficultés, il peut...</strong>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-auto">
+                            <span>Assister à des séances de tutorat ?</span>
+                        </div>
+                        <div class="col">
+                            {{ form_widget(form.tutoring) }}
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col">
+                            <button type="button" class="btn btn-primary btn-block" id="addPrerequisiteButton">
+                                <i class="fas fa-plus-circle"></i>
+                                Ajouter un prérequis
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -141,9 +166,11 @@
 {% endblock %}
 
 {% block javascripts %}
-
     <script>
+
         $(document).ready(function() {
+            $('#edit_objectives_course_info_tutoring').bootstrapToggle();
+
             /**
              * Init achievements collection
              */

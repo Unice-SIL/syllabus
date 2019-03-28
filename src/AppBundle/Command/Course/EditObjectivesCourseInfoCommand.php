@@ -32,12 +32,30 @@ class EditObjectivesCourseInfoCommand implements CommandInterface
     private $prerequisites;
 
     /**
+     * @var bool
+     */
+    private $tutoring = false;
+
+    /**
+     * @var bool
+     */
+    private $tutoringTeacher = false;
+
+    /**
+     * @var bool
+     */
+    private $tutoringStudent = false;
+
+    /**
      * EditObjectivesCourseInfoCommand constructor.
      * @param CourseInfo $courseInfo
      */
     public function __construct(CourseInfo $courseInfo)
     {
         $this->id = $courseInfo->getId();
+        $this->tutoring = $courseInfo->isTutoring();
+        $this->tutoringTeacher = $courseInfo->isTutoringTeacher();
+        $this->tutoringStudent = $courseInfo->isTutoringStudent();
         $this->achievements = new ArrayCollection();
         foreach ($courseInfo->getCourseAchievements() as $courseAchievement) {
             $this->achievements->add(new CourseAchievementCommand($courseAchievement));
@@ -63,6 +81,63 @@ class EditObjectivesCourseInfoCommand implements CommandInterface
     public function setId(string $id): EditObjectivesCourseInfoCommand
     {
         $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTutoring(): bool
+    {
+        return $this->tutoring;
+    }
+
+    /**
+     * @param bool $tutoring
+     * @return EditObjectivesCourseInfoCommand
+     */
+    public function setTutoring(bool $tutoring): EditObjectivesCourseInfoCommand
+    {
+        $this->tutoring = $tutoring;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTutoringTeacher(): bool
+    {
+        return $this->tutoringTeacher;
+    }
+
+    /**
+     * @param bool $tutoringTeacher
+     * @return EditObjectivesCourseInfoCommand
+     */
+    public function setTutoringTeacher(bool $tutoringTeacher): EditObjectivesCourseInfoCommand
+    {
+        $this->tutoringTeacher = $tutoringTeacher;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTutoringStudent(): bool
+    {
+        return $this->tutoringStudent;
+    }
+
+    /**
+     * @param bool $tutoringStudent
+     * @return EditObjectivesCourseInfoCommand
+     */
+    public function setTutoringStudent(bool $tutoringStudent): EditObjectivesCourseInfoCommand
+    {
+        $this->tutoringStudent = $tutoringStudent;
 
         return $this;
     }
@@ -190,6 +265,11 @@ class EditObjectivesCourseInfoCommand implements CommandInterface
             $coursePrerequisites->add($coursePrerequisite);
         }
         $entity->setCoursePrerequisites($coursePrerequisites);
+
+        // Set tutoring
+        $entity->setTutoring($this->isTutoring())
+            ->setTutoringTeacher($this->isTutoringTeacher())
+            ->setTutoringStudent($this->isTutoringStudent());
 
         return $entity;
     }

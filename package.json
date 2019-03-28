@@ -7,6 +7,7 @@
     "@symfony/webpack-encore": "^0.23.0",
     "autoprefixer": "^9.4.9",
     "bootstrap": "^4.3.1",
+    "bootstrap-toggle": "^2.2.2",
     "node-sass": "^4.11.0",
     "postcss-loader": "^3.0.0",
     "sass-loader": "^7.0.1"
