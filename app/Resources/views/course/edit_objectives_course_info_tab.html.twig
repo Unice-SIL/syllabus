@@ -169,7 +169,13 @@
     <script>
 
         $(document).ready(function() {
-            $('#edit_objectives_course_info_tutoring').bootstrapToggle();
+            $('#edit_objectives_course_info_tutoring').bootstrapToggle({
+                on: 'Oui',
+                off: 'Non',
+                onstyle: 'primary',
+                offstyle: 'secondary',
+                size: 'sm'
+            });
 
             /**
              * Init achievements collection

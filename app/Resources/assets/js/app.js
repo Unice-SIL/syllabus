@@ -17,7 +17,7 @@ import '../scss/app.scss';
 // Importing modules…
 import $ from 'jquery';
 import bootbox from 'bootbox';
-import bootstrapToggle from 'bootstrap-toggle';
+import bootstrapToggle from 'bootstrap4-toggle';
 import select2 from 'select2';
 import SILTools from './sil_toolkit';
 import Syllabus from './syllabus';

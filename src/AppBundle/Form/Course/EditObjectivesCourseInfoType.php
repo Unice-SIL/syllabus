@@ -57,10 +57,6 @@ class EditObjectivesCourseInfoType extends AbstractType
                 'required' => false,
                 'label' => false,
                 'attr' => [
-                    'data-toggle' => 'toggle',
-                    'data-size' => "sm",
-                    'data-onstyle' => "outline-primary",
-                    'data-offstyle' => "outline-secondary"
                 ]
             ])
             ->add('tutoringTeacher', CheckboxType::class, [

@@ -1225,10 +1225,10 @@ bootbox@^5.0.1:
     bootstrap ">=3.0.0"
     jquery ">=1.9.1"
 
-bootstrap-toggle@^2.2.2:
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/bootstrap-toggle/-/bootstrap-toggle-2.2.2.tgz#2b88534fc1b998674f877f98ba0d8b5b743e96fe"
-  integrity sha1-K4hTT8G5mGdPh3+Yug2LW3Q+lv4=
+bootstrap4-toggle@^3.4.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/bootstrap4-toggle/-/bootstrap4-toggle-3.4.0.tgz#58264d4c7fd24eb2e09cca5156a338b2b22a4792"
+  integrity sha512-vKfBgsjICW6mOqb264qwwbbGtpcOx+p9jOlQmLfRZ07iGE+b5YbQlY4ft9aAhPulh7V3oKOtEuuq0FcSKAI4bQ==
 
 bootstrap@>=3.0.0, bootstrap@^4.3.1:
   version "4.3.1"
