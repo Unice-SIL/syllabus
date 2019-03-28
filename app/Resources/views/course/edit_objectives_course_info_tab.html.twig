@@ -135,8 +135,15 @@
                         <div class="col-md-auto">
                             <span>Assister à des séances de tutorat ?</span>
                         </div>
-                        <div class="col">
+                        <div class="col-md-auto" data-toggle="collapse" href="#collapseTutoring" role="button" 
+                        aria-expanded"{{ (form.vars.data.tutoring == 1) ? 'true' : 'false'}}" aria-controls="collapseTutoring">
                             {{ form_widget(form.tutoring) }}
+                        </div>
+                    </div>
+                    <div class="row collapse {{ (form.vars.data.tutoring == 1) ? 'show' : '' }}" id="collapseTutoring" >
+                        <div class="col-md-auto">
+                            {{ form_widget(form.tutoringTeacher)}}
+                            {{ form_widget(form.tutoringStudent)}}
                         </div>
                     </div>
                     <div class="row mt-2">
