@@ -26,7 +26,14 @@ class CourseTutoringResource
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=false)
      */
-    private $description;
+    private $description = "";
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="ord", type="integer", nullable=false)
+     */
+    private $order = 0;
 
     /**
      * @var \AppBundle\Entity\CourseInfo
@@ -75,6 +82,26 @@ class CourseTutoringResource
 
         return $this;
     }
+
+    /**
+     * @return int
+     */
+    public function getOrder(): int
+    {
+        return $this->order;
+    }
+
+    /**
+     * @param int $order
+     * @return CourseTutoringResource
+     */
+    public function setOrder(int $order): CourseTutoringResource
+    {
+        $this->order = $order;
+
+        return $this;
+    }
+
 
     /**
      * @return CourseInfo

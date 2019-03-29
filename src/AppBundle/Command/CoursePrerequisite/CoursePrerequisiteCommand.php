@@ -3,7 +3,6 @@
 namespace AppBundle\Command\CoursePrerequisite;
 
 use AppBundle\Command\CommandInterface;
-use AppBundle\Entity\CourseAchievement;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CoursePrerequisite;
 use Ramsey\Uuid\Uuid;
