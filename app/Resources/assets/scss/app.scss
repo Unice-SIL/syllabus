@@ -165,7 +165,8 @@ form ul.list-group {
 
 .section,
 .achievement,
-.prerequisite {
+.prerequisite,
+.tutoringResource {
 
     & i.fas {
 
@@ -177,7 +178,8 @@ form ul.list-group {
     }
 }
 
-div.activity, div.evaluation {
+div.activity,
+div.evaluation {
 
     border-color: $secondary !important;
 

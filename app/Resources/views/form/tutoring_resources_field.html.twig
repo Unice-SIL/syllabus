@@ -1,0 +1,26 @@
+{% macro tutoringResource_template(tutoringResource) %}
+    <li class="tutoringResource list-group-item">
+        <div class="row">
+            <div class="col">
+                {{ form_widget(tutoringResource.description) }}
+                <label alt="Préciser" placeholder="Préciser"></label>
+            </div>
+            <div class="col-md-auto pl-0">
+                <i class="fas fa-trash-alt tutoringResource-collection-remove" title="Retirer de la liste."></i>
+            </div>
+            <div class="col-md-auto pl-0">
+                <i class="fas fa-arrows-alt tutoringResource-collection-move" title="Glisser / déposer pour modifier l'ordre."></i>
+            </div>
+        </div>
+        {{ form_row(tutoringResource) }}
+    </li>
+{% endmacro %}
+
+{% block _edit_objectives_course_info_tutoringResources_widget %}
+    {% import _self as tutoringResourcesField %}
+    <ul class="list-group striped" id="tutoringResources" data-prototype="{{ tutoringResourcesField.tutoringResource_template(form.vars.prototype)|e }}">
+        {% for tutoringResource in form.children %}
+            {{ tutoringResourcesField.tutoringResource_template(tutoringResource) }}
+        {% endfor %}
+    </ul>
+{% endblock %}

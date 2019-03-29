@@ -8,7 +8,8 @@
 
     {% form_theme form with [
     'form/achievements_field.html.twig',
-    'form/prerequisites_field.html.twig'
+    'form/prerequisites_field.html.twig',
+    'form/tutoring_resources_field.html.twig'
     ] %}
 
     {{ form_start(form) }}
@@ -141,17 +142,33 @@
                         </div>
                     </div>
                     <div class="row mt-3 collapse {{ (form.vars.data.tutoring == 1) ? 'show' : '' }}" id="collapseTutoring" >
-                        <div class="col-md-auto">
-                            {{ form_widget(form.tutoringTeacher) }}
-                            {{ form_widget(form.tutoringStudent) }}
+                        <div class="col">
+                            <div class="row">
+                                <div class="col-md-auto">
+                                    {{ form_widget(form.tutoringTeacher) }}
+                                    {{ form_widget(form.tutoringStudent) }}
+                                </div>
+                                <div class="col-md-auto">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    {{ form_widget(form.tutoringDescription) }}
+                                    <label alt="Dates, lieux, enseignants, ..." placeholder="Dates, lieux, enseignants, ..."></label>
+                                </div>
+                            </div>
                         </div>
-                            {{ form_widget(form.tutoringDescription) }}
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col">
+                            {{ form_widget(form.tutoringResources) }}
+                        </div>
                     </div>
                     <div class="row mt-2">
                         <div class="col">
-                            <button type="button" class="btn btn-primary btn-block" id="addPrerequisiteButton">
+                            <button type="button" class="btn btn-primary btn-block" id="addTutoringResourceButton">
                                 <i class="fas fa-plus-circle"></i>
-                                Ajouter un prérequis
+                                Ajouter une remédiation
                             </button>
                         </div>
                     </div>
@@ -260,6 +277,42 @@
             });
 
             /**
+             * Init tutoringResources collection
+             */
+            var tutoringResourcesCollectionHolder = $('#tutoringResources');
+            tutoringResourcesCollectionHolder.data('index', tutoringResourcesCollectionHolder.find('li.tutoringResource').length);
+            tutoringResourcesCollectionHolder.sortable({
+                group: {
+                    name: "tutoringResources"
+                },
+                handle: ".tutoringResource-collection-move",
+                sort: true,
+                animation: 150
+            });
+
+            /**
+             * Add a tutoringResource when button click
+             */
+            $('#addTutoringResourceButton').click(function () {
+                var form = addFormToCollection(tutoringResourcesCollectionHolder);
+                form.find('input[id$=_description]').focus();
+            });
+
+            /**
+             * Remove a tutoringResource from collection
+             */
+            tutoringResourcesCollectionHolder.on('click', '.tutoringResource-collection-remove', function () {
+                if (confirm("Êtes-vous sûr(e) de vouloir supprimer cette remédiation ?")) {
+                    var form = $(this).closest("li.tutoringResource");
+                    form.fadeOut({
+                        always: function () {
+                            form.remove();
+                        }
+                    });
+                }
+            });
+
+            /**
              * Submit the form
              */
             $("form[name='edit_objectives_course_info']").submit(function(e){
@@ -283,6 +336,16 @@
                     // Set section order
                     $(this).find("input[id$='_order']").each(function(){
                         if($(this).attr("id").match(/^edit_objectives_course_info_prerequisites_[\d]+_order/)){
+                            $(this).val(order+1);
+                        }
+                    });
+                });
+
+                // Set tutoringResources order
+                tutoringResourcesCollectionHolder.find('li.tutoringResource').each(function(order){
+                    // Set section order
+                    $(this).find("input[id$='_order']").each(function(){
+                        if($(this).attr("id").match(/^edit_objectives_course_info_tutoringResources_[\d]+_order/)){
                             $(this).val(order+1);
                         }
                     });

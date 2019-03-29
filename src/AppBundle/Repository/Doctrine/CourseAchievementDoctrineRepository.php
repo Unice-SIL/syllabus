@@ -25,7 +25,6 @@ class CourseAchievementDoctrineRepository extends AbstractDoctrineRepository imp
     }
 
     /**
-     * Find  course teacher by id
      * @param string $id
      * @return CourseAchievement|null
      * @throws \Exception
