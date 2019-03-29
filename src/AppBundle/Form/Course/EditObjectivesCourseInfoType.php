@@ -8,6 +8,7 @@ use AppBundle\Form\CoursePrerequisite\CoursePrerequisiteType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -66,6 +67,13 @@ class EditObjectivesCourseInfoType extends AbstractType
             ->add('tutoringStudent', CheckboxType::class, [
                 'required' => false,
                 'label' => "Avec tuteur étudiant"
+            ])
+            ->add('tutoringDescription', TextType::class, [
+                'label' => 'Description',
+                'required' => false,
+                'attr' => [
+                    'placeholder' => 'Renseigner ici les dates, lieux, noms des enseignants...'
+                ]
             ]);
     }
 

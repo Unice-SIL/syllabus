@@ -142,8 +142,9 @@
                     </div>
                     <div class="row collapse {{ (form.vars.data.tutoring == 1) ? 'show' : '' }}" id="collapseTutoring" >
                         <div class="col-md-auto">
-                            {{ form_widget(form.tutoringTeacher)}}
-                            {{ form_widget(form.tutoringStudent)}}
+                            {{ form_widget(form.tutoringTeacher) }}
+                            {{ form_widget(form.tutoringStudent) }}
+                            {{ form_widget(form.tutoringDescription) }}
                         </div>
                     </div>
                     <div class="row mt-2">
