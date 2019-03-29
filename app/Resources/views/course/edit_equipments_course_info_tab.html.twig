@@ -6,7 +6,23 @@
 
 {% block main %}
     {{ form_start(form) }}
-    
+
+    <div class="row mt-3">
+        <div class="col">
+            <h6 class="my-3">
+                Ressources pédagogiques
+            </h6>
+            {{form_widget(form.educationalResources)}}
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col">
+            <h6 class="my-3">
+                Eléments bibliographiques
+            </h6>
+            {{form_widget(form.bibliographicResources)}}
+        </div>
+    </div>
     <div class="row mt-3">
         <div class="col">
             <button class="btn btn-outline-primary btn-block submit" type="submit">

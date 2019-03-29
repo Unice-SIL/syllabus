@@ -104,9 +104,11 @@ class SaveEquipmentsCourseInfoAction implements ActionInterface
                     ]);
                 }
                 // Save changes
+                /*
                 $this->editEquipmentsCourseInfoQuery->setEditEquipmentsCourseInfoCommand(
                     $editEquipmentsCourseInfoCommand
                 )->execute();
+                */
                 // Return message success
                 return new JsonResponse([
                     'type' => "success",
