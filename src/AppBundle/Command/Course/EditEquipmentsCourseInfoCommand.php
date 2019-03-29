@@ -24,7 +24,7 @@ class EditEquipmentsCourseInfoCommand implements CommandInterface
     /**
      * @var null|string
      */
-    private $bibliographicRessources;
+    private $bibliographicResources;
 
     /**
      * EditEquipmentsCourseInfoCommand constructor.
@@ -34,7 +34,7 @@ class EditEquipmentsCourseInfoCommand implements CommandInterface
     {
         $this->id = $courseInfo->getId();
         $this->educationalResources = $courseInfo->getEducationalResources();
-        $this->bibliographicRessources = $courseInfo->getBibliographicResources();
+        $this->bibliographicResources = $courseInfo->getBibliographicResources();
     }
 
     /**
@@ -78,21 +78,22 @@ class EditEquipmentsCourseInfoCommand implements CommandInterface
     /**
      * @return null|string
      */
-    public function getBibliographicRessources()
+    public function getBibliographicResources()
     {
-        return $this->bibliographicRessources;
+        return $this->bibliographicResources;
     }
 
     /**
-     * @param null|string $bibliographicRessources
+     * @param null|string $bibliographicResources
      * @return EditEquipmentsCourseInfoCommand
      */
-    public function setBibliographicRessources($bibliographicRessources)
+    public function setBibliographicResources($bibliographicResources)
     {
-        $this->bibliographicRessources = $bibliographicRessources;
+        $this->bibliographicResources = $bibliographicResources;
 
         return $this;
     }
+
 
     /**
      * @param CourseInfo $entity
@@ -101,7 +102,7 @@ class EditEquipmentsCourseInfoCommand implements CommandInterface
     public function filledEntity($entity): CourseInfo
     {
         $entity->setEducationalResources($this->getEducationalResources());
-        $entity->setBibliographicResources($this->getBibliographicRessources());
+        $entity->setBibliographicResources($this->getBibliographicResources());
 
         return $entity;
     }
