@@ -292,7 +292,7 @@ class CourseInfo
     /**
      * @var string|null
      *
-     * @ORM\Column(name="tutoring_description", type="string", length=255, nullable=true)
+     * @ORM\Column(name="tutoring_description", type="text", length=65535, nullable=true)
      */
     private $tutoringDescription;
 

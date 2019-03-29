@@ -6,7 +6,9 @@ use AppBundle\Command\Course\EditObjectivesCourseInfoCommand;
 use AppBundle\Form\CourseAchievement\CourseAchievementType;
 use AppBundle\Form\CoursePrerequisite\CoursePrerequisiteType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -51,7 +53,28 @@ class EditObjectivesCourseInfoType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
-            ]);;
+            ])
+            ->add('tutoring', CheckboxType::class, [
+                'required' => false,
+                'label' => false,
+                'attr' => [
+                ]
+            ])
+            ->add('tutoringTeacher', CheckboxType::class, [
+                'required' => false,
+                'label' => "Avec tuteur enseignant"
+            ])
+            ->add('tutoringStudent', CheckboxType::class, [
+                'required' => false,
+                'label' => "Avec tuteur étudiant"
+            ])
+            ->add('tutoringDescription', TextType::class, [
+                'label' => 'Description',
+                'required' => false,
+                'attr' => [
+                    'placeholder' => 'Renseigner ici les dates, lieux, noms des enseignants...'
+                ]
+            ]);
     }
 
     /**

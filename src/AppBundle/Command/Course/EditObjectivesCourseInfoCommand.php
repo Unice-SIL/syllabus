@@ -5,9 +5,11 @@ namespace AppBundle\Command\Course;
 use AppBundle\Command\CommandInterface;
 use AppBundle\Command\CourseAchievement\CourseAchievementCommand;
 use AppBundle\Command\CoursePrerequisite\CoursePrerequisiteCommand;
+use AppBundle\Command\CourseTutoringResource\CourseTutoringResourceCommand;
 use AppBundle\Entity\CourseAchievement;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CoursePrerequisite;
+use AppBundle\Entity\CourseTutoringResource;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -32,12 +34,41 @@ class EditObjectivesCourseInfoCommand implements CommandInterface
     private $prerequisites;
 
     /**
+     * @var ArrayCollection
+     */
+    private $tutoringResources;
+
+    /**
+     * @var bool
+     */
+    private $tutoring = false;
+
+    /**
+     * @var bool
+     */
+    private $tutoringTeacher = false;
+
+    /**
+     * @var bool
+     */
+    private $tutoringStudent = false;
+
+    /**
+     * @var null|string
+     */
+    private $tutoringDescription;
+
+    /**
      * EditObjectivesCourseInfoCommand constructor.
      * @param CourseInfo $courseInfo
      */
     public function __construct(CourseInfo $courseInfo)
     {
         $this->id = $courseInfo->getId();
+        $this->tutoring = $courseInfo->isTutoring();
+        $this->tutoringTeacher = $courseInfo->isTutoringTeacher();
+        $this->tutoringStudent = $courseInfo->isTutoringStudent();
+        $this->tutoringDescription = $courseInfo->getTutoringDescription();
         $this->achievements = new ArrayCollection();
         foreach ($courseInfo->getCourseAchievements() as $courseAchievement) {
             $this->achievements->add(new CourseAchievementCommand($courseAchievement));
@@ -45,6 +76,10 @@ class EditObjectivesCourseInfoCommand implements CommandInterface
         $this->prerequisites = new ArrayCollection();
         foreach ($courseInfo->getCoursePrerequisites() as $coursePrerequisite) {
             $this->prerequisites->add(new CoursePrerequisiteCommand($coursePrerequisite));
+        }
+        $this->tutoringResources = new ArrayCollection();
+        foreach ($courseInfo->getCourseTutoringResources() as $courseTutoringResource) {
+            $this->tutoringResources->add(new CourseTutoringResourceCommand($courseTutoringResource));
         }
     }
 
@@ -66,6 +101,83 @@ class EditObjectivesCourseInfoCommand implements CommandInterface
 
         return $this;
     }
+
+    /**
+     * @return bool
+     */
+    public function isTutoring(): bool
+    {
+        return $this->tutoring;
+    }
+
+    /**
+     * @param bool $tutoring
+     * @return EditObjectivesCourseInfoCommand
+     */
+    public function setTutoring(bool $tutoring): EditObjectivesCourseInfoCommand
+    {
+        $this->tutoring = $tutoring;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTutoringTeacher(): bool
+    {
+        return $this->tutoringTeacher;
+    }
+
+    /**
+     * @param bool $tutoringTeacher
+     * @return EditObjectivesCourseInfoCommand
+     */
+    public function setTutoringTeacher(bool $tutoringTeacher): EditObjectivesCourseInfoCommand
+    {
+        $this->tutoringTeacher = $tutoringTeacher;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTutoringStudent(): bool
+    {
+        return $this->tutoringStudent;
+    }
+
+    /**
+     * @param bool $tutoringStudent
+     * @return EditObjectivesCourseInfoCommand
+     */
+    public function setTutoringStudent(bool $tutoringStudent): EditObjectivesCourseInfoCommand
+    {
+        $this->tutoringStudent = $tutoringStudent;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getTutoringDescription()
+    {
+        return $this->tutoringDescription;
+    }
+
+    /**
+     * @param null|string $tutoringDescription
+     * @return EditObjectivesCourseInfoCommand
+     */
+    public function setTutoringDescription($tutoringDescription)
+    {
+        $this->tutoringDescription = $tutoringDescription;
+
+        return $this;
+    }
+
 
     /**
      * @return ArrayCollection
@@ -154,6 +266,49 @@ class EditObjectivesCourseInfoCommand implements CommandInterface
     }
 
     /**
+     * @return ArrayCollection
+     */
+    public function getTutoringResources(): ArrayCollection
+    {
+        return $this->tutoringResources;
+    }
+
+    /**
+     * @param ArrayCollection $tutoringResources
+     * @return EditObjectivesCourseInfoCommand
+     */
+    public function setTutoringResources(ArrayCollection $tutoringResources): EditObjectivesCourseInfoCommand
+    {
+        $this->tutoringResources = $tutoringResources;
+
+        return $this;
+    }
+
+    /**
+     * @param CourseTutoringResourceCommand $tutoringResources
+     * @return EditObjectivesCourseInfoCommand
+     */
+    public function addTutoringResource(CourseTutoringResourceCommand $tutoringResources): EditObjectivesCourseInfoCommand
+    {
+        if(!$this->tutoringResources->contains($tutoringResources)) {
+            $this->tutoringResources->add($tutoringResources);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param CourseTutoringResourceCommand $tutoringResources
+     * @return EditObjectivesCourseInfoCommand
+     */
+    public function removeTutoringResource(CourseTutoringResourceCommand $tutoringResources): EditObjectivesCourseInfoCommand
+    {
+        $this->prerequisites->removeElement($tutoringResources);
+
+        return $this;
+    }
+
+    /**
      * @param CourseInfo $entity
      * @return CourseInfo
      */
@@ -191,6 +346,28 @@ class EditObjectivesCourseInfoCommand implements CommandInterface
         }
         $entity->setCoursePrerequisites($coursePrerequisites);
 
+        // Set tutoringResources
+        $courseTutoringResources = new ArrayCollection();
+        foreach ($this->tutoringResources as $tutoringResource){
+            $id = $tutoringResource->getId();
+            $courseTutoringResource = $entity->getCourseTutoringResources()->filter(function($entry) use ($id){
+                return ($entry->getId() === $id)? true : false;
+            })->first();
+            if(!$courseTutoringResource){
+                $courseTutoringResource = new CourseTutoringResource();
+            }
+            $tutoringResource->setCourseInfo($entity);
+            $courseTutoringResource = $tutoringResource->filledEntity($courseTutoringResource);
+            $courseTutoringResources->add($courseTutoringResource);
+        }
+        $entity->setCourseTutoringResources($courseTutoringResources);
+
+        // Set tutoring
+        $entity->setTutoring($this->isTutoring())
+            ->setTutoringTeacher($this->isTutoringTeacher())
+            ->setTutoringStudent($this->isTutoringStudent())
+            ->setTutoringDescription($this->getTutoringDescription());
+
         return $entity;
     }
 
@@ -206,6 +383,10 @@ class EditObjectivesCourseInfoCommand implements CommandInterface
         $this->prerequisites = clone $this->prerequisites;
         foreach ($this->prerequisites as $key => $prerequisite){
             $this->prerequisites->offsetSet($key, clone $prerequisite);
+        }
+        $this->tutoringResources = clone $this->tutoringResources;
+        foreach ($this->tutoringResources as $key => $tutoringResource){
+            $this->tutoringResources->offsetSet($key, clone $tutoringResource);
         }
     }
 }

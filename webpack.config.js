@@ -12,7 +12,7 @@ Encore
     .setOutputPath('web/build/')
     .setPublicPath('/build')
     .addEntry('app', './app/Resources/assets/js/app.js')
-    //.autoProvidejQuery()
+    .autoProvidejQuery()
     //.enableSingleRuntimeChunk()
     .disableSingleRuntimeChunk()
     .cleanupOutputBeforeBuild()
@@ -37,4 +37,6 @@ Encore
     .addLoader({test: /\.json$/i, include: [path.resolve(__dirname, 'node_modules/ckeditor')], loader: 'raw-loader', type: 'javascript/auto'})
 ;
 
-module.exports = Encore.getWebpackConfig();
+module.exports = [
+    Encore.getWebpackConfig()
+];
