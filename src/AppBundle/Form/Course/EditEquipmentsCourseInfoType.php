@@ -21,7 +21,15 @@ class EditEquipmentsCourseInfoType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-      
+        $builder
+        ->add('educationalResources', CKEditorType::class, [
+            'label' => 'Description',
+            'required' => false,
+        ])
+        ->add('bibliographicResources', CKEditorType::class, [
+            'label' => 'Description',
+            'required' => false,
+        ]);
     }
 
     /**
