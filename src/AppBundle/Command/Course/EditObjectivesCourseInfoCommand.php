@@ -5,7 +5,7 @@ namespace AppBundle\Command\Course;
 use AppBundle\Command\CommandInterface;
 use AppBundle\Command\CourseAchievement\CourseAchievementCommand;
 use AppBundle\Command\CoursePrerequisite\CoursePrerequisiteCommand;
-use AppBundle\Command\CoursePrerequisite\CourseTutoringResourceCommand;
+use AppBundle\Command\CourseTutoringResource\CourseTutoringResourceCommand;
 use AppBundle\Entity\CourseAchievement;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CoursePrerequisite;
