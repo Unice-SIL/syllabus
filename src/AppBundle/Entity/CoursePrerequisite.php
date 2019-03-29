@@ -26,7 +26,7 @@ class CoursePrerequisite
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=false)
      */
-    private $description;
+    private $description = "";
 
     /**
      * @var int
