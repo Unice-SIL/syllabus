@@ -8,7 +8,8 @@
 
     {% form_theme form with [
     'form/achievements_field.html.twig',
-    'form/prerequisites_field.html.twig'
+    'form/prerequisites_field.html.twig',
+    'form/tutoring_resources_field.html.twig'
     ] %}
 
     {{ form_start(form) }}
@@ -154,7 +155,7 @@
                     </div>
                     <div class="row mt-2">
                         <div class="col">
-                            <button type="button" class="btn btn-primary btn-block" id="addPrerequisiteButton">
+                            <button type="button" class="btn btn-primary btn-block" id="addtutoringResourceButton">
                                 <i class="fas fa-plus-circle"></i>
                                 Ajouter une remédiation
                             </button>
