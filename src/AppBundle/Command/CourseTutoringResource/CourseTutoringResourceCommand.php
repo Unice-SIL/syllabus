@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Command\CoursePrerequisite;
+namespace AppBundle\Command\CourseTutoringResource;
 
 use AppBundle\Command\CommandInterface;
 use AppBundle\Entity\CourseInfo;
