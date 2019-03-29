@@ -303,7 +303,7 @@ class EditObjectivesCourseInfoCommand implements CommandInterface
      */
     public function removeTutoringResource(CourseTutoringResourceCommand $tutoringResources): EditObjectivesCourseInfoCommand
     {
-        $this->prerequisites->removeElement($tutoringResources);
+        $this->tutoringResources->removeElement($tutoringResources);
 
         return $this;
     }
