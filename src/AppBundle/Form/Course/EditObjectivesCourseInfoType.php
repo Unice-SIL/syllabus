@@ -5,6 +5,7 @@ namespace AppBundle\Form\Course;
 use AppBundle\Command\Course\EditObjectivesCourseInfoCommand;
 use AppBundle\Form\CourseAchievement\CourseAchievementType;
 use AppBundle\Form\CoursePrerequisite\CoursePrerequisiteType;
+use AppBundle\Form\CourseTutoringResource\CourseTutoringResourceType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -47,6 +48,16 @@ class EditObjectivesCourseInfoType extends AbstractType
             ->add('prerequisites', CollectionType::class, [
                 'label' => false,
                 'entry_type' => CoursePrerequisiteType::class,
+                'entry_options' => [
+                    'label' => false,
+                ],
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+            ])
+            ->add('tutoringResources', CollectionType::class, [
+                'label' => false,
+                'entry_type' => CourseTutoringResourceType::class,
                 'entry_options' => [
                     'label' => false,
                 ],
