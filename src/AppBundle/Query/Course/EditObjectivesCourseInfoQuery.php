@@ -8,6 +8,7 @@ use AppBundle\Query\QueryInterface;
 use AppBundle\Repository\CourseAchievementRepositoryInterface;
 use AppBundle\Repository\CourseInfoRepositoryInterface;
 use AppBundle\Repository\CoursePrerequisiteRepositoryInterface;
+use AppBundle\Repository\CourseTutoringResourceRepositoryInterface;
 
 /**
  * Class EditObjectivesCourseInfoQuery
@@ -26,11 +27,15 @@ class EditObjectivesCourseInfoQuery implements QueryInterface
      */
     private $courseAchievementRepository;
 
-
     /**
      * @var CoursePrerequisiteRepositoryInterface
      */
     private $coursePrerequisiteRepository;
+
+    /**
+     * @var CourseTutoringResourceRepositoryInterface
+     */
+    private $courseTutoringResourceRepository;
 
     /**
      * @var EditObjectivesCourseInfoCommand
@@ -38,19 +43,23 @@ class EditObjectivesCourseInfoQuery implements QueryInterface
     private $editObjectivesCourseInfoCommand;
 
     /**
-     * EditPresentationCourseInfoQuery constructor.
+     * EditObjectivesCourseInfoQuery constructor.
      * @param CourseInfoRepositoryInterface $courseInfoRepository
      * @param CourseAchievementRepositoryInterface $courseAchievementRepository
+     * @param CoursePrerequisiteRepositoryInterface $coursePrerequisiteRepository
+     * @param CourseTutoringResourceRepositoryInterface $courseTutoringResourceRepository
      */
     public function __construct(
         CourseInfoRepositoryInterface $courseInfoRepository,
         CourseAchievementRepositoryInterface $courseAchievementRepository,
-        CoursePrerequisiteRepositoryInterface $coursePrerequisiteRepository
+        CoursePrerequisiteRepositoryInterface $coursePrerequisiteRepository,
+        CourseTutoringResourceRepositoryInterface $courseTutoringResourceRepository
     )
     {
         $this->courseInfoRepository = $courseInfoRepository;
         $this->courseAchievementRepository = $courseAchievementRepository;
         $this->coursePrerequisiteRepository = $coursePrerequisiteRepository;
+        $this->courseTutoringResourceRepository = $courseTutoringResourceRepository;
     }
 
     /**
@@ -83,6 +92,8 @@ class EditObjectivesCourseInfoQuery implements QueryInterface
             $originalCourseAchievements = $courseInfo->getCourseAchievements();
             // Keep an original course prerequisites copy
             $originalCoursePrerequisites = $courseInfo->getCoursePrerequisites();
+            // Keep an original course tutoring resources copy
+            $originalCourseTutoringResources = $courseInfo->getCourseTutoringResources();
             // Fill course info with new values
             $courseInfo = $this->editObjectivesCourseInfoCommand->filledEntity($courseInfo);
             // Start transaction
@@ -99,6 +110,14 @@ class EditObjectivesCourseInfoQuery implements QueryInterface
                     $this->coursePrerequisiteRepository->delete($coursePrerequisite);
                 }
             }
+            // Loop on original course tutoring resources to detect tutoring resources must be removed
+            foreach ($originalCourseTutoringResources as $courseTutoringResource) {
+                if (!$courseInfo->getCourseTutoringResources()->contains($courseTutoringResource)) {
+                    $this->courseTutoringResourceRepository->delete($courseTutoringResource);
+                }
+            }
+
+            // Update course infos
             $this->courseInfoRepository->update($courseInfo);
             $this->courseInfoRepository->commit();
         }catch (\Exception $e){

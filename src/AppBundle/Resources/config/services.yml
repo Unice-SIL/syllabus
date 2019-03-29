@@ -26,6 +26,7 @@ services:
     AppBundle\Repository\CourseSectionRepositoryInterface: '@course_section_doctrine_repository'
     AppBundle\Repository\CourseSectionActivityRepositoryInterface: '@course_section_activity_doctrine_repository'
     AppBundle\Repository\CourseTeacherRepositoryInterface: '@course_teacher_doctrine_repository'
+    AppBundle\Repository\CourseTutoringResourceRepositoryInterface: '@course_tutoring_resource_doctrine_repository'
 
     # AUTHENTICATOR
     AppBundle\Security\Authenticator\TestAuthenticator:
@@ -105,6 +106,10 @@ services:
 
     course_teacher_doctrine_repository:
         class: AppBundle\Repository\Doctrine\CourseTeacherDoctrineRepository
+        arguments: ['@syllabus_entity_manager']
+
+    course_tutoring_resource_doctrine_repository:
+        class: AppBundle\Repository\Doctrine\CourseTutoringResourceDoctrineRepository
         arguments: ['@syllabus_entity_manager']
 
     # PROVIDERS
