@@ -1,0 +1,18 @@
+{% macro choice_equipment_template(choiceEquipment, class, bgcolor, txtcolor) %}
+    <div class="list-equipment {{ class }} p-1 mb-2 border rounded shadow">
+        <small class="font-weight-bold">{{ choiceEquipment.data.label }}</small>
+        <input type="hidden" class="equipment-label" value="{{ choiceEquipment.data.label }}">
+        <input type="hidden" class="equipment-id" value="{{ choiceEquipment.data.id }}">
+        <input type="hidden" class="equipment-class" value="{{ class }}">
+    </div>
+{% endmacro %}
+
+{% block _edit_equipments_course_info_listEquipments_widget %}
+    {% import _self as choicesEquipmentsField %}
+    <div class="list-equipments">
+        {% for choiceEquipment in form.vars.choices %}
+            {{ choicesEquipmentsField.choice_equipment_template(choiceEquipment, '', 'info', 'light') }}
+        {% endfor %}
+    </div>
+{% endblock %}
+
