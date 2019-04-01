@@ -3,7 +3,9 @@
 namespace AppBundle\Form\Course;
 
 use AppBundle\Command\Course\EditEquipmentsCourseInfoCommand;
+use AppBundle\Form\CourseResourceEquipment\CourseResourceEquipmentType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;

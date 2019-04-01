@@ -45,7 +45,7 @@ class EditEquipmentsCourseInfoCommand implements CommandInterface
         $this->bibliographicResources = $courseInfo->getBibliographicResources();
         $this->equipments = new ArrayCollection();
             foreach($courseInfo->getCourseResourceEquipments() as $courseEquipment){
-                $this->equipment->add(new CourseResourceEquipmentCommand($courseEquipment));
+                $this->equipments->add(new CourseResourceEquipmentCommand($courseEquipment));
             }
     }
 
