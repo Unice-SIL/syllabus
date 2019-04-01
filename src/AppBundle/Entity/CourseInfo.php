@@ -332,6 +332,13 @@ class CourseInfo
     private $closingRemarks;
 
     /**
+     * @var string|null
+     *
+     * @ORM\Column(name="closing_video", type="text", length=65535, nullable=true)
+     */
+    private $closingVideo;
+
+    /**
      * @var \DateTime|null
      *
      * @ORM\Column(name="modification_date", type="datetime", nullable=true)
@@ -1327,6 +1334,26 @@ class CourseInfo
 
         return $this;
     }
+
+    /**
+     * @return null|string
+     */
+    public function getClosingVideo()
+    {
+        return $this->closingVideo;
+    }
+
+    /**
+     * @param null|string $closingVideo
+     * @return CourseInfo
+     */
+    public function setClosingVideo($closingVideo)
+    {
+        $this->closingVideo = $closingVideo;
+
+        return $this;
+    }
+
 
     /**
      * @return \DateTime|null

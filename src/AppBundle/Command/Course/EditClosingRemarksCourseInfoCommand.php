@@ -22,6 +22,11 @@ class EditClosingRemarksCourseInfoCommand implements CommandInterface
     private $closingRemarks;
 
     /**
+     * @var null|string
+     */
+    private $closingVideo;
+
+    /**
      * EditClosingRemarksCourseInfoCommand constructor.
      * @param CourseInfo $courseInfo
      */
@@ -29,6 +34,7 @@ class EditClosingRemarksCourseInfoCommand implements CommandInterface
     {
         $this->id = $courseInfo->getId();
         $this->closingRemarks = $courseInfo->getClosingRemarks();
+        $this->closingVideo = $courseInfo->getClosingVideo();
 
     }
 
@@ -70,6 +76,25 @@ class EditClosingRemarksCourseInfoCommand implements CommandInterface
         return $this;
     }
 
+    /**
+     * @return null|string
+     */
+    public function getClosingVideo()
+    {
+        return $this->closingVideo;
+    }
+
+    /**
+     * @param null|string $closingVideo
+     * @return EditClosingRemarksCourseInfoCommand
+     */
+    public function setClosingVideo($closingVideo)
+    {
+        $this->closingVideo = $closingVideo;
+
+        return $this;
+    }
+
 
     /**
      * @param CourseInfo $entity
@@ -77,7 +102,8 @@ class EditClosingRemarksCourseInfoCommand implements CommandInterface
      */
     public function filledEntity($entity): CourseInfo
     {
-        $entity->setClosingRemarks($this->getClosingRemarks());
+        $entity->setClosingRemarks($this->getClosingRemarks())
+            ->setClosingVideo($this->getClosingVideo());
 
         return $entity;
     }
