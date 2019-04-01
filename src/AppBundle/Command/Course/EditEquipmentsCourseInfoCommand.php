@@ -3,7 +3,10 @@
 namespace AppBundle\Command\Course;
 
 use AppBundle\Command\CommandInterface;
+use AppBundle\Command\CourseResourceEquipment\CourseResourceEquipmentCommand;
 use AppBundle\Entity\CourseInfo;
+use AppBundle\Entity\CourseResourceEquipment;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Class EditEquipmentsCourseInfoCommand
@@ -17,11 +20,6 @@ class EditEquipmentsCourseInfoCommand implements CommandInterface
     private $id;
 
     /**
-     * @var ArrayCollection
-     */
-    private $equipments;
-
-    /**
      * @var null|string
      */
     private $educationalResources;
@@ -32,18 +30,23 @@ class EditEquipmentsCourseInfoCommand implements CommandInterface
     private $bibliographicResources;
 
     /**
+     * @var ArrayCollection
+     */
+    private $equipments;
+
+    /**
      * EditEquipmentsCourseInfoCommand constructor.
      * @param CourseInfo $courseInfo
      */
     public function __construct(CourseInfo $courseInfo)
     {
         $this->id = $courseInfo->getId();
-        $this->equipments = new ArrayCollection();
-            foreach($courseInfo->getCourseResourceEquipment() as $courseEquipment){
-                $this->equipment->add(new CourseResourceEquipmentCommand($courseEquipment));
-            }
         $this->educationalResources = $courseInfo->getEducationalResources();
         $this->bibliographicResources = $courseInfo->getBibliographicResources();
+        $this->equipments = new ArrayCollection();
+            foreach($courseInfo->getCourseResourceEquipments() as $courseEquipment){
+                $this->equipment->add(new CourseResourceEquipmentCommand($courseEquipment));
+            }
     }
 
     /**
@@ -148,17 +151,17 @@ class EditEquipmentsCourseInfoCommand implements CommandInterface
         $courseEquipments = new ArrayCollection();
         foreach ($this->equipments as $equipment){
             $id = $equipment->getId();
-            $courseEquipment = $entity->getCourseEquipments()->filter(function($entry) use ($id){
+            $courseEquipment = $entity->getCourseResourceEquipments()->filter(function($entry) use ($id){
                 return ($entry->getId() === $id)? true : false;
             })->first();
             if(!$courseEquipment){
-                $courseEquipment = new CourseEquipment();
+                $courseEquipment = new CourseResourceEquipment();
             }
             $equipment->setCourseInfo($entity);
             $courseEquipment = $equipment->filledEntity($courseEquipment);
-            $courseequipments->add($courseEquipment);
+            $courseEquipments->add($courseEquipment);
         }
-        $entity->setCourseEquipments($courseEquipments);
+        $entity->setCourseResourceEquipments($courseEquipments);
 
         return $entity;
     }
