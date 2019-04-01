@@ -112,7 +112,7 @@ class EditActivitiesCourseInfoCommand implements CommandInterface
     }
 
     /**
-     * @return array
+     * @return ArrayCollection
      */
     public function getEvaluations(): ArrayCollection
     {

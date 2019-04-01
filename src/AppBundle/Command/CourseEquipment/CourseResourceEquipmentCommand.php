@@ -3,13 +3,14 @@
 namespace AppBundle\Command\CourseResourceEquipment;
 
 use AppBundle\Command\CommandInterface;
+use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\Equipment;
 use AppBundle\Entity\CourseResourceEquipment;
 use Ramsey\Uuid\Uuid;
 
 /**
  * Class CourseResourceEquipmentCommand
- * @package AppBundle\Command\CourseSection
+ * @package AppBundle\Command\CourseResourceEquipment
  */
 class CourseResourceEquipmentCommand implements CommandInterface
 {
@@ -117,16 +118,16 @@ class CourseResourceEquipmentCommand implements CommandInterface
     /**
      * @return CourseInfo|null
      */
-    public function getCourseInfo(): ?CourseInfo
+    public function getCourseInfo()
     {
         return $this->courseInfo;
     }
 
     /**
-     * @param CourseInfo $courseInfo
+     * @param CourseInfo|null $courseInfo
      * @return CourseResourceEquipmentCommand
      */
-    public function setCourseInfo(CourseInfo $courseInfo): CourseResourceEquipmentCommand
+    public function setCourseInfo($courseInfo)
     {
         $this->courseInfo = $courseInfo;
 
@@ -136,16 +137,16 @@ class CourseResourceEquipmentCommand implements CommandInterface
     /**
      * @return Equipment|null
      */
-    public function getEquipment(): ?Equipment
+    public function getEquipment()
     {
         return $this->equipment;
     }
 
     /**
-     * @param Equipment $equipment
+     * @param Equipment|null $equipment
      * @return CourseResourceEquipmentCommand
      */
-    public function setEquipment(Equipment $equipment): CourseResourceEquipmentCommand
+    public function setEquipment($equipment)
     {
         $this->equipment = $equipment;
 

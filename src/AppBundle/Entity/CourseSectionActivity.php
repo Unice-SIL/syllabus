@@ -48,6 +48,7 @@ class CourseSectionActivity
      * @ORM\Column(name="evaluation_peer", type="boolean", nullable=false)
      */
     private $evaluationPeer = false;
+
     /**
      * @var int
      *

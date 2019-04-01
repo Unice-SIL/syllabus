@@ -29,6 +29,13 @@ class CourseResourceEquipment
     private $description;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="ord", type="integer", nullable=false)
+     */
+    private $order = 0;
+
+    /**
      * @var \AppBundle\Entity\CourseInfo
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CourseInfo", inversedBy="courseResourceEquipments", cascade={"persist"})
@@ -85,6 +92,26 @@ class CourseResourceEquipment
 
         return $this;
     }
+
+    /**
+     * @return int
+     */
+    public function getOrder(): int
+    {
+        return $this->order;
+    }
+
+    /**
+     * @param int $order
+     * @return CourseResourceEquipment
+     */
+    public function setOrder(int $order): CourseResourceEquipment
+    {
+        $this->order = $order;
+
+        return $this;
+    }
+
 
     /**
      * @return CourseInfo
