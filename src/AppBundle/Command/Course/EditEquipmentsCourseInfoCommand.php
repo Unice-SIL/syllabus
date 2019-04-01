@@ -65,6 +65,17 @@ class EditEquipmentsCourseInfoCommand implements CommandInterface
     }
 
     /**
+     * @param ArrayCollection $equipments
+     * @return EditEquipmentsCourseInfoCommand
+     */
+    public function setEquipments(ArrayCollection $equipments): EditEquipmentsCourseInfoCommand
+    {
+        $this->equipments = $equipments;
+
+        return $this;
+    }
+
+    /**
      * @param null|string $educationalResources
      * @return EditEquipmentsCourseInfoCommand
      */
@@ -104,6 +115,22 @@ class EditEquipmentsCourseInfoCommand implements CommandInterface
         $entity->setEducationalResources($this->getEducationalResources());
         $entity->setBibliographicResources($this->getBibliographicResources());
 
+        // Set equipments
+        $courseEquipments = new ArrayCollection();
+        foreach ($this->equipments as $equipment){
+            $id = $equipment->getId();
+            $courseEquipment = $entity->getCourseEquipments()->filter(function($entry) use ($id){
+                return ($entry->getId() === $id)? true : false;
+            })->first();
+            if(!$courseEquipment){
+                $courseEquipment = new CourseEquipment();
+            }
+            $equipment->setCourseInfo($entity);
+            $courseEquipment = $equipment->filledEntity($courseEquipment);
+            $courseequipments->add($courseEquipment);
+        }
+        $entity->setCourseEquipments($courseEquipments);
+
         return $entity;
     }
 
@@ -113,5 +140,9 @@ class EditEquipmentsCourseInfoCommand implements CommandInterface
      */
     public function __clone()
     {
+        $this->equipments = clone $this->equipments;
+        foreach ($this->equipments as $key => $equipment){
+            $this->equipments->offsetSet($key, clone $equipment);
+        }
     }
 }
