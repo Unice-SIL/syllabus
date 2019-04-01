@@ -166,7 +166,8 @@ form ul.list-group {
 .section,
 .achievement,
 .prerequisite,
-.tutoringResource {
+.tutoringResource,
+.equipment {
 
     & i.fas {
 
@@ -179,7 +180,8 @@ form ul.list-group {
 }
 
 div.activity,
-div.evaluation {
+div.evaluation,
+div.equipment {
 
     border-color: $secondary !important;
 
@@ -231,12 +233,14 @@ div.evaluation {
     }
 }
 
-.list-activities {
+.list-activities,
+.list-equipments {
     max-height: 200px;
     overflow-y: auto
 }
 
-.list-activity{
+.list-activity,
+.list-equipment{
     border-color: $secondary !important;
     cursor: pointer;
 
