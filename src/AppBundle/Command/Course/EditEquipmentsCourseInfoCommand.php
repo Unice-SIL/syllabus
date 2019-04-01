@@ -17,6 +17,11 @@ class EditEquipmentsCourseInfoCommand implements CommandInterface
     private $id;
 
     /**
+     * @var ArrayCollection
+     */
+    private $equipments;
+
+    /**
      * @var null|string
      */
     private $educationalResources;
@@ -33,6 +38,10 @@ class EditEquipmentsCourseInfoCommand implements CommandInterface
     public function __construct(CourseInfo $courseInfo)
     {
         $this->id = $courseInfo->getId();
+        $this->equipments = new ArrayCollection();
+            foreach($courseInfo->getCourseResourceEquipment() as $courseEquipment){
+                $this->equipment->add(new CourseResourceEquipmentCommand($courseEquipment));
+            }
         $this->educationalResources = $courseInfo->getEducationalResources();
         $this->bibliographicResources = $courseInfo->getBibliographicResources();
     }
@@ -65,17 +74,6 @@ class EditEquipmentsCourseInfoCommand implements CommandInterface
     }
 
     /**
-     * @param ArrayCollection $equipments
-     * @return EditEquipmentsCourseInfoCommand
-     */
-    public function setEquipments(ArrayCollection $equipments): EditEquipmentsCourseInfoCommand
-    {
-        $this->equipments = $equipments;
-
-        return $this;
-    }
-
-    /**
      * @param null|string $educationalResources
      * @return EditEquipmentsCourseInfoCommand
      */
@@ -102,6 +100,37 @@ class EditEquipmentsCourseInfoCommand implements CommandInterface
     {
         $this->bibliographicResources = $bibliographicResources;
 
+        return $this;
+    }
+
+        /**
+     * @return ArrayCollection
+     */
+    public function getEquipments(): ArrayCollection
+    {
+        return $this->equipments;
+    }
+
+    /**
+     * @param ArrayCollection $equipments
+     * @return EditEquipmentsCourseInfoCommand
+     */
+    public function setEquipments(ArrayCollection $equipments): EditEquipmentsCourseInfoCommand
+    {
+        $this->equipments = $equipments;
+
+        return $this;
+    }
+
+    /**
+     * @param CourseResourceEquipmentCommand $equipment
+     * @return EditEquipmentsCourseInfoCommand
+     */
+    public function addEquipment(CourseResourceEquipmentCommand $equipment): EditEquipmentsCourseInfoCommand
+    {
+        if(!$this->equipments->contains($equipment)) {
+            $this->equipments->add($equipment);
+        }
         return $this;
     }
 

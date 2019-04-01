@@ -161,15 +161,12 @@ class CourseResourceEquipmentCommand implements CommandInterface
     {
         $entity->setId($this->getId())
             ->setDescription($this->getDescription())
-            ->setEvaluationRate($this->getEvaluationRate())
-            ->setEvaluationTeacher($this->isEvaluationTeacher())
-            ->setEvaluationPeer($this->isEvaluationPeer())
             ->setOrder($this->getOrder());
-        if(!is_null($this->getActivity())){
-            $entity->setActivity($this->getActivity());
+        if(!is_null($this->getEquipment())){
+            $entity->setEquipment($this->getEquipment());
         }
-        if(!is_null($this->getCourseSection())){
-            $entity->setCourseSection($this->getCourseSection());
+        if(!is_null($this->getCourseInfo())){
+            $entity->setCourseInfo($this->getCourseInfo());
         }
         return $entity;
     }
