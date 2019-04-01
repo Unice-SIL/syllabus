@@ -3,6 +3,7 @@
 namespace AppBundle\Form\Course;
 
 use AppBundle\Command\Course\EditEquipmentsCourseInfoCommand;
+use AppBundle\Entity\Equipment;
 use AppBundle\Form\CourseResourceEquipment\CourseResourceEquipmentType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;

@@ -20,7 +20,6 @@ services:
     AppBundle\Repository\UserRepositoryInterface: '@user_doctrine_repository'
     AppBundle\Repository\ActivityRepositoryInterface: '@activity_doctrine_repository'
     AppBundle\Repository\CourseAchievementRepositoryInterface: '@course_achievement_doctrine_repository'
-    AppBundle\Repository\CourseEquipmentRepositoryInterface: '@course_equipment_doctrine_repository'
     AppBundle\Repository\CourseEvaluationCtRepositoryInterface: '@course_evaluation_ct_doctrine_repository'
     AppBundle\Repository\CourseInfoRepositoryInterface: '@course_info_doctrine_repository'
     AppBundle\Repository\CoursePrerequisiteRepositoryInterface: '@course_prerequisite_doctrine_repository'
@@ -28,6 +27,7 @@ services:
     AppBundle\Repository\CourseSectionActivityRepositoryInterface: '@course_section_activity_doctrine_repository'
     AppBundle\Repository\CourseTeacherRepositoryInterface: '@course_teacher_doctrine_repository'
     AppBundle\Repository\CourseTutoringResourceRepositoryInterface: '@course_tutoring_resource_doctrine_repository'
+    AppBundle\Repository\EquipmentRepositoryInterface: '@equipment_doctrine_repository'
 
     # AUTHENTICATOR
     AppBundle\Security\Authenticator\TestAuthenticator:
@@ -88,10 +88,6 @@ services:
         class: AppBundle\Repository\Doctrine\CourseAchievementDoctrineRepository
         arguments: ['@syllabus_entity_manager']
 
-    course_equipment_doctrine_repository:
-        class: AppBundle\Repository\Doctrine\CourseEquipmentDoctrineRepository
-        arguments: ['@syllabus_entity_manager']
-
     course_evaluation_ct_doctrine_repository:
         class: AppBundle\Repository\Doctrine\CourseEvaluationCtDoctrineRepository
         arguments: ['@syllabus_entity_manager']
@@ -118,6 +114,10 @@ services:
 
     course_tutoring_resource_doctrine_repository:
         class: AppBundle\Repository\Doctrine\CourseTutoringResourceDoctrineRepository
+        arguments: ['@syllabus_entity_manager']
+
+    equipment_doctrine_repository:
+        class: AppBundle\Repository\Doctrine\EquipmentDoctrineRepository
         arguments: ['@syllabus_entity_manager']
 
     # PROVIDERS

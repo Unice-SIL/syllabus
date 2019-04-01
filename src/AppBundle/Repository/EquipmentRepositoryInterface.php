@@ -19,10 +19,9 @@ interface EquipmentRepositoryInterface
     public function find(string $id): ?Equipment;
 
     /**
-     * Get all equipment
-     * @return ArrayCollection
+     * @return \ArrayObject
      */
-    public function findAll(): ArrayCollection;
+    public function findAll(): \ArrayObject;
 
     /**
      * Create equipment
