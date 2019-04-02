@@ -1,0 +1,127 @@
+{% extends 'ajax.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block main %}
+    {{ form_start(form) }}
+    
+    <div class="row mb-2">
+        <div class="col">
+            <h5 class="mt-3">
+                Modalité de contrôle des connaissances
+            </h5>
+        </div>
+    </div>
+    <div class="row m-3 d-flex flex-row justify-content-around">
+        <div class="col-md-6 pl-0" >
+        <table class="table table-dark">
+            <thead>
+                <tr>
+                <th scope="col">1ère session</th>
+                </tr>
+                <tr>
+                <th>Type d'évaluation</th>
+                <th>Coef</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="bg-info">
+                <td><p class="my-0">Contrôle Continu</p> ({{courseInfo.mccCcNbEvalSession1}} minimum)</td>
+                <td> {{courseInfo.mccCcCoeffSession1}}%</td>
+                </tr>
+                <tr class="bg-primary">
+                <td>Contrôle Terminal - {{courseInfo.mccCtDurationSession1}} </td>
+                <td>{{courseInfo.mccCtCoeffSession1}}%</td>
+                </tr>
+            </tbody>
+            </table>
+        </div>
+        <div class="col-md-6 pr-0" >
+        <table class="table table-dark">
+            <thead>
+                <tr>
+                <th scope="col">2ème session</th>
+                </tr>
+                <tr>
+                <th>Type d'évaluation</th>
+                <th>Coef</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="bg-info">
+                <td>Contrôle Terminal - {{courseInfo.mccCtDurationSession2}} </td>
+                <td>{{courseInfo.mccCtCoeffSession2}}%</td>
+                </tr>
+            </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col">
+            <h5 class="mt-3">
+                Conseils pratiques
+            </h5>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col">
+        {{form_widget(form.mccAdvice)}}
+        </div>
+    </div>
+    <div class="row my-3">
+        <div class="col">
+            <button class="btn btn-outline-primary btn-block submit" type="submit">
+                <i class="fas fa-save"></i>
+                Enregistrer
+            </button>
+        </div>
+    </div>
+
+    {{ form_end(form) }}
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+        $(document).ready(function() {
+
+            /**
+             * Submit the form
+             */
+            $("form[name='edit_mcc_course_info']").submit(function(e){
+                e.preventDefault();
+
+                for ( instance in CKEDITOR.instances ) {
+                    CKEDITOR.instances[instance].updateElement();
+                }
+
+                var form = $(this)[0];
+                var data = new FormData(form);
+
+                SILTools.spinner.fadeIn( {
+                    always: function(){
+                        $.ajax({
+                            type: 'POST',
+                            enctype: 'multipart/form-data',
+                            processData: false,  // Important!
+                            contentType: false,
+                            url: '{{ path('save_mcc_course_info', { 'id': courseInfo.id })|escape('js') }}',
+                            data: data,
+                            cache: false,
+                            timeout: 600000
+                        }).done(function(response){
+                            if(response.type !== undefined && response.message !== undefined) {
+                                SILTools.alert(response.type, response.message, false);
+                            }
+                        }).always(function(){
+                            SILTools.spinner.fadeOut( );
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}
