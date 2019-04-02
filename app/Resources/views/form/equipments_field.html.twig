@@ -1,0 +1,43 @@
+{% macro equipment_template(equipment) %}
+    <div class="equipment card mb-2 border rounded shadow equipment-ct">
+        <div class="card-header p-1">
+            <div class="row">
+                <div class="col align-self-center">
+                    <small class="font-weight-bold equipment-label">
+                        {% if equipment.vars.data %}
+                            {{ equipment.vars.data.equipment.label }}
+                        {% endif %}
+                    </small>
+                </div>
+                <div class="col-md-auto pl-0">
+                    <i class="fas fa-trash-alt equipment-collection-remove" title="Retirer de la liste."></i>
+                </div>
+                <div class="col-md-auto pl-0">
+                    <i class="fas fa-arrows-alt equipment-collection-move" title="Glisser / déposer pour modifier l'ordre."></i>
+                </div>
+            </div>
+        </div>
+        <div class="card-body p-1 bg-white border-0 rounded-bottom">
+            <div class="row">
+                <div class="col-10 pr-1">
+                    {{ form_widget(equipment.description) }}
+                    <label alt="Préciser si nécessaire" placeholder="Préciser"></label>
+                </div>
+            </div>
+            {{ form_widget(equipment.equipment) }}
+            {{ form_widget(equipment) }}
+        </div>
+    </div>
+{% endmacro %}
+
+{% block _edit_equipments_course_info_equipments_widget %}
+    {% import _self as equipmentsField %}
+    <div id="equipments"
+         class="h-100"
+         data-index=""
+        data-prototype="{{ equipmentsField.equipment_template(form.vars.prototype)|e }}">
+        {% for equipment in form.children %}
+            {{ equipmentsField.equipment_template(equipment) }}
+        {% endfor %}
+    </div>
+{% endblock %}
