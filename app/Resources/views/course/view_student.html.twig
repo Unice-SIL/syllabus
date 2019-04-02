@@ -651,11 +651,16 @@
         <div class="progress mb-3" style="height: 5px;">
             <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
-
         <div class="row mx-3 d-flex flex-row text-white">
             {{course.closingRemarks|raw}}
         </div>
-
+        {% if course.closingVideo != null %}
+            <div class="row mx-3 d-flex flex-row text-white">
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" src={{course.closingVideo}} allowfullscreen></iframe>
+                </div>
+            </div>
+        {% endif %}
     </div>
 
 
