@@ -8,14 +8,15 @@
 -->
 {% spaceless %}
 
-{% if in_iframe is not defined %}
-    {% set in_iframe = false %}
+{% set in_iframe = false %}
+{% if app.request.get('inframe') == 1 %}
+    {% set in_iframe = true %}
 {% endif %}
 
 {% if in_iframe == false %}
     {% set container_class = 'container' %}
 {% else %}
-    {% set container_class = 'container-fluid' %}
+    {% set container_class = 'container-fluid p-0' %}
 {% endif %}
 
 <html lang="{{ app.request.locale|lower }}">
