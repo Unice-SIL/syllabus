@@ -28,7 +28,7 @@ class EditMccCourseInfoCommand implements CommandInterface
     public function __construct(CourseInfo $courseInfo)
     {
         $this->id = $courseInfo->getId();
-        $this->mccAdvice = $mccAdvice->getMccAdvice();
+        $this->mccAdvice = $courseInfo->getMccAdvice();
 
 
     }
