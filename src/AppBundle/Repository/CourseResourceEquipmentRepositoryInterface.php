@@ -3,7 +3,6 @@
 namespace AppBundle\Repository;
 
 use AppBundle\Entity\CourseResourceEquipment;
-use AppBundle\Entity\User;
 
 /**
  * Interface UserRepositoryInterface

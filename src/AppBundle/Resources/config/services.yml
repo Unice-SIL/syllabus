@@ -23,6 +23,7 @@ services:
     AppBundle\Repository\CourseEvaluationCtRepositoryInterface: '@course_evaluation_ct_doctrine_repository'
     AppBundle\Repository\CourseInfoRepositoryInterface: '@course_info_doctrine_repository'
     AppBundle\Repository\CoursePrerequisiteRepositoryInterface: '@course_prerequisite_doctrine_repository'
+    AppBundle\Repository\CourseResourceEquipmentRepositoryInterface: '@course_resource_equipment_doctrine_repository'
     AppBundle\Repository\CourseSectionRepositoryInterface: '@course_section_doctrine_repository'
     AppBundle\Repository\CourseSectionActivityRepositoryInterface: '@course_section_activity_doctrine_repository'
     AppBundle\Repository\CourseTeacherRepositoryInterface: '@course_teacher_doctrine_repository'
@@ -98,6 +99,10 @@ services:
 
     course_prerequisite_doctrine_repository:
         class: AppBundle\Repository\Doctrine\CoursePrerequisiteDoctrineRepository
+        arguments: ['@syllabus_entity_manager']
+
+    course_resource_equipment_doctrine_repository:
+        class: AppBundle\Repository\Doctrine\CourseResourceEquipmentDoctrineRepository
         arguments: ['@syllabus_entity_manager']
 
     course_section_doctrine_repository:
