@@ -137,13 +137,14 @@
                     CKEDITOR.instances[instance].updateElement();
                 }
 
-                var form = $(this)[0];
-                var data = new FormData(form);
-
                 // Set equipments order
                 equipmentsCollectionHolder.find('div.equipment').each(function(order){
                     $(this).find("input[id$='_order']").val(order+1);
                 });
+                
+                var form = $(this)[0];
+                var data = new FormData(form);
+
 
                 SILTools.spinner.fadeIn( {
                     always: function(){

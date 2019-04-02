@@ -21,6 +21,11 @@ class EditEquipmentsCourseInfoQuery implements QueryInterface
     private $courseInfoRepository;
 
     /**
+     * @var CourseResourceEquipmentRepositoryInterface
+     */
+    private $courseResourceEquipmentRepository;
+
+    /**
      * @var EditEquipmentsCourseInfoCommand
      */
     private $editEquipmentsCourseInfoCommand;
@@ -30,10 +35,12 @@ class EditEquipmentsCourseInfoQuery implements QueryInterface
      * @param CourseInfoRepositoryInterface $courseInfoRepository
      */
     public function __construct(
-        CourseInfoRepositoryInterface $courseInfoRepository
+        CourseInfoRepositoryInterface $courseInfoRepository,
+        CourseResourceEquipmentRepositoryInterface $courseResourceEquipmentRepository
     )
     {
         $this->courseInfoRepository = $courseInfoRepository;
+        $this->courseResourceEquipmentRepository = $courseResourceEquipmentRepository;
     }
 
     /**
@@ -62,8 +69,19 @@ class EditEquipmentsCourseInfoQuery implements QueryInterface
             throw new CourseInfoNotFoundException(sprintf('CourseInfo with id %s not found', $this->editEquipmentsCourseInfoCommand->getId()));
         }
         try{
-            $courseInfo = $this->editEquipmentsCourseInfoCommand->filledEntity($courseInfo);
+            // Keep an original course equipment copy
+            $originalCourseResourceEquipments = $courseInfo->getCourseResourceEquipments();
+            // Fill course info with new values
+            $courseInfo = $this->editResourceEquipmentsCourseInfoCommand->filledEntity($courseInfo);
+            // Start transaction
             $this->courseInfoRepository->beginTransaction();
+            // Loop on original course resource equipments to detect Resourceequipments must be removed
+            foreach ($originalCourseResourceEquipments as $courseResourceEquipment) {
+                if (!$courseInfo->getCourseResourceEquipments()->contains($courseResourceEquipment)) {
+                    $this->courseResourceEquipmentRepository->delete($courseResourceEquipment);
+                }
+            }
+            // Update course infos
             $this->courseInfoRepository->update($courseInfo);
             $this->courseInfoRepository->commit();
         }catch (\Exception $e){
