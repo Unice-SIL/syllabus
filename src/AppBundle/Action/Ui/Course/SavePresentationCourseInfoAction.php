@@ -116,6 +116,7 @@ class SavePresentationCourseInfoAction implements ActionInterface
                     if (is_null($editPresentationCourseInfoCommand->getImage())) {
                         $editPresentationCourseInfoCommand->setImage($courseInfo->getImage());
                     }
+
                     // Check if there have been any changes
                     if($editPresentationCourseInfoCommand != $originalEditPresentationCourseInfoCommand) {
                         // Save changes
@@ -135,6 +136,7 @@ class SavePresentationCourseInfoAction implements ActionInterface
                         ];
                     }
 
+                    // Check if form is valid
                     if(!$form->isValid()){
                         $messages[] = [
                             'type' => "warning",
@@ -142,6 +144,7 @@ class SavePresentationCourseInfoAction implements ActionInterface
                         ];
                     }
 
+                    // Get render to reload form
                     $render = $this->templating->render(
                         'course/edit_presentation_course_tab.html.twig',
                         [
@@ -171,7 +174,6 @@ class SavePresentationCourseInfoAction implements ActionInterface
                 'message' => "Une erreur est survenue"
             ];
         }
-
         return new JsonResponse(
             [
                 'render' => $render,

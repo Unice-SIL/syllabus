@@ -22,7 +22,7 @@
                     <i class="fas fa-caret-down" title="Déplier / Replier."
                        data-toggle="collapse"
                        data-target="#collapse_{{ activity.vars.id }}"
-                       aria-expanded="false"
+                       aria-expanded="true"
                        aria-controls="collapse_{{ activity.vars.id }}"
                     ></i>
                 </div>
@@ -42,7 +42,7 @@
                 </div>
             </div>
         </div>
-        <div class="card-body p-1 bg-white border-0 rounded-bottom collapse multi-collapse" id="collapse_{{ activity.vars.id }}">
+        <div class="card-body p-1 bg-white border-0 rounded-bottom collapse multi-collapse show" id="collapse_{{ activity.vars.id }}">
             <div class="row">
                 <div class="col">
                     {{ form_widget(activity.description) }}

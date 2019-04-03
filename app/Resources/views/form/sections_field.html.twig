@@ -5,7 +5,7 @@
                 <i class="fas fa-caret-down" title="Déplier / Replier."
                    data-toggle="collapse"
                    data-target="#collapse_{{ section.vars.id }}"
-                   aria-expanded="false"
+                   aria-expanded="true"
                    aria-controls="collapse_{{ section.vars.id }}"
                 ></i>
             </div>
@@ -22,16 +22,17 @@
         </div>
         <div class="row">
             <div class="col">
-                <div class="collapse multi-collapse" id="collapse_{{ section.vars.id }}">
+                <div class="collapse multi-collapse show" id="collapse_{{ section.vars.id }}">
                     <div class="row">
                         <div class="col">
                             <div class="row">
                                 <div class="col">
-                                    <strong>{{ form_label(section.description) }}</strong>
+                                    <strong>Description</strong>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col">
+                                    {{ form_errors(section.description) }}
                                     {{ form_widget(section.description) }}
                                 </div>
                             </div>

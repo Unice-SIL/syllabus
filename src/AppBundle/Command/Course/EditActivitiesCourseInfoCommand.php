@@ -9,6 +9,7 @@ use AppBundle\Entity\CourseEvaluationCt;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseSection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class EditActivitiesCourseInfoCommand
@@ -23,11 +24,15 @@ class EditActivitiesCourseInfoCommand implements CommandInterface
 
     /**
      * @var ArrayCollection
+     *
+     * @Assert\Valid()
      */
     private $sections;
 
     /**
      * @var ArrayCollection
+     *
+     * @Assert\Valid()
      */
     private $evaluations;
 

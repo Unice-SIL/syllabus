@@ -128,7 +128,7 @@ class SaveClosingRemarksCourseInfoAction implements ActionInterface
                             'message' => "Attention, pour pouvoir publier le cours vous devez renseigner tous les champs obligatoires"
                         ];
                         $render = $this->templating->render(
-                            'course/edit_closing_remarks_course_tab.html.twig',
+                            'course/edit_closing_remarks_course_info_tab.html.twig',
                             [
                                 'courseInfo' => $courseInfo,
                                 'form' => $form->createView()
