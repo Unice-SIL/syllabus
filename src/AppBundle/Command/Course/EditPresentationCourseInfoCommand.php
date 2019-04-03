@@ -7,7 +7,7 @@ use AppBundle\Command\CourseTeacher\CourseTeacherCommand;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseTeacher;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class EditCourseInfoCommand
@@ -23,6 +23,8 @@ class EditPresentationCourseInfoCommand implements CommandInterface
 
     /**
      * @var null|string
+     *
+     *
      */
     private $period;
 
@@ -33,6 +35,8 @@ class EditPresentationCourseInfoCommand implements CommandInterface
 
     /**
      * @var null|string
+     *
+     * @Assert\NotBlank()
      */
     private $domain;
 

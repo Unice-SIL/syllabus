@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * CourseInfo
@@ -41,6 +42,8 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="level", type="string", length=15, nullable=true, options={"fixed"=true})
+     *
+     * @Assert\NotBlank()
      */
     private $level;
 
@@ -48,6 +51,8 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="domain", type="string", length=100, nullable=true, options={"fixed"=true})
+     *
+     * @Assert\NotBlank()
      */
     private $domain;
 
@@ -62,6 +67,8 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="summary", type="text", length=65535, nullable=true)
+     *
+     * @Assert\NotBlank()
      */
     private $summary;
 
@@ -76,6 +83,10 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="image", type="text", length=65535, nullable=true)
+     *
+     * @Assert\Expression(
+     *     "not (this.getMediaType() == 'image' and this.getImage() == null)"
+     * )
      */
     private $image;
 
@@ -83,6 +94,10 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="video", type="text", length=65535, nullable=true)
+     *
+     * @Assert\Expression(
+     *     "not (this.getMediaType() == 'video' and this.getVideo() == null)"
+     * )
      */
     private $video;
 
@@ -90,6 +105,8 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="teaching_mode", type="string", length=15, nullable=true, options={"fixed"=true})
+     *
+     * @Assert\NotBlank()
      */
     private $teachingMode;
 
@@ -118,6 +135,10 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_other_class", type="float", precision=10, scale=0, nullable=true)
+     *
+     *  @Assert\Type(
+     *     type="float"
+     * )
      */
     private $teachingOtherClass;
 
@@ -125,6 +146,10 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="teaching_other_type_class", type="string", length=65, nullable=true)
+     *
+     * @Assert\Expression(
+     *     "not (this.getTeachingOtherClass() != null and this.getTeachingOtherTypeClass() == null)"
+     * )
      */
     private $teachingOtherTypeClass;
 
