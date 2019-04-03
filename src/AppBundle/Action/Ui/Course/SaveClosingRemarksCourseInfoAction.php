@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Twig\Environment;
 
 /**
  * Class SaveClosingRemarksCourseInfoAction
@@ -44,6 +45,11 @@ class SaveClosingRemarksCourseInfoAction implements ActionInterface
     private $fileUploaderHelper;
 
     /**
+     * @var Environment
+     */
+    private  $templating;
+
+    /**
      * @var LoggerInterface
      */
     private $logger;
@@ -54,6 +60,7 @@ class SaveClosingRemarksCourseInfoAction implements ActionInterface
      * @param EditClosingRemarksCourseInfoQuery $editClosingRemarksCourseInfoQuery
      * @param FormFactoryInterface $formFactory
      * @param FileUploaderHelper $fileUploaderHelper
+     * @param Environment $templating
      * @param LoggerInterface $logger
      */
     public function __construct(
@@ -61,6 +68,7 @@ class SaveClosingRemarksCourseInfoAction implements ActionInterface
         EditClosingRemarksCourseInfoQuery $editClosingRemarksCourseInfoQuery,
         FormFactoryInterface $formFactory,
         FileUploaderHelper $fileUploaderHelper,
+        Environment $templating,
         LoggerInterface $logger
     )
     {
@@ -68,6 +76,7 @@ class SaveClosingRemarksCourseInfoAction implements ActionInterface
         $this->editClosingRemarksCourseInfoQuery = $editClosingRemarksCourseInfoQuery;
         $this->formFactory = $formFactory;
         $this->fileUploaderHelper = $fileUploaderHelper;
+        $this->templating = $templating;
         $this->logger = $logger;
     }
 
@@ -76,62 +85,85 @@ class SaveClosingRemarksCourseInfoAction implements ActionInterface
      */
     public function __invoke(Request $request)
     {
+        $messages = [];
+        $render = null;
         try {
             $id = $request->get('id', null);
             // Find course info by id
             try {
                 $courseInfo = $this->findCourseInfoByIdQuery->setId($id)->execute();
+                // Init command
+                $editClosingRemarksCourseInfoCommand = new EditClosingRemarksCourseInfoCommand($courseInfo);
+                // Keep original command before modifications
+                $originalEditClosingRemarksCourseInfoCommand = clone $editClosingRemarksCourseInfoCommand;
+                // Generate form
+                $form = $this->formFactory->create(
+                    EditClosingRemarksCourseInfoType::class,
+                    $editClosingRemarksCourseInfoCommand
+                );
+                $form->handleRequest($request);
+                if ($form->isSubmitted()) {
+                    $editClosingRemarksCourseInfoCommand = $form->getData();
+                    // Check if there have been anny changes
+                    if($editClosingRemarksCourseInfoCommand != $originalEditClosingRemarksCourseInfoCommand){
+                        // Save changes
+                        $this->editClosingRemarksCourseInfoQuery->setEditClosingRemarksCourseInfoCommand(
+                            $editClosingRemarksCourseInfoCommand
+                        )->execute();
+                        // Return message success
+                        $messages[] = [
+                            'type' => "success",
+                            'message' => "Modifications enregistrées avec succès"
+                        ];
+                    }else{
+                        $messages[] = [
+                            'type' => "info",
+                            'message' => "Aucun changement a enregistrer"
+                        ];
+                    }
+
+                    if(!$form->isValid()){
+                        $messages[] = [
+                            'type' => "warning",
+                            'message' => "Attention, pour pouvoir publier le cours vous devez renseigner tous les champs obligatoires"
+                        ];
+                        $render = $this->templating->render(
+                            'course/edit_closing_remarks_course_tab.html.twig',
+                            [
+                                'courseInfo' => $courseInfo,
+                                'form' => $form->createView()
+                            ]
+                        );
+                    }
+                }
+                else{
+                    $messages[] = [
+                        'type' => "danger",
+                        'message' => "Le formulaire n'a pas été soumis"
+                    ];
+                }
             } catch (CourseInfoNotFoundException $e) {
                 // Return message course not found
-                return new JsonResponse(
-                    [
+                $messages[] = [
                         'type' => "danger",
                         'message' => sprintf("Le paiement %s n'existe pas", $id)
-                    ]
-                );
+                ];
             }
-            // Init command
-            $editClosingRemarksCourseInfoCommand = new EditClosingRemarksCourseInfoCommand($courseInfo);
-            // Keep original command before modifications
-            $originalEditClosingRemarksCourseInfoCommand = clone $editClosingRemarksCourseInfoCommand;
-            // Generate form
-            $form = $this->formFactory->create(
-                EditClosingRemarksCourseInfoType::class,
-                $editClosingRemarksCourseInfoCommand
-            );
-            $form->handleRequest($request);
-            if ($form->isSubmitted()) {
-                $editClosingRemarksCourseInfoCommand = $form->getData();
-                // Check if there have been anny changes
-                if($editClosingRemarksCourseInfoCommand == $originalEditClosingRemarksCourseInfoCommand){
-                    return new JsonResponse([
-                        'type' => "info",
-                        'message' => "Aucun changement a enregistrer"
-                    ]);
-                }
-                // Save changes
-                $this->editClosingRemarksCourseInfoQuery->setEditClosingRemarksCourseInfoCommand(
-                    $editClosingRemarksCourseInfoCommand
-                )->execute();
-                // Return message success
-                return new JsonResponse([
-                    'type' => "success",
-                    'message' => "Modifications enregistrées avec succès"
-                ]);
-            }
-            return new JsonResponse([
-                'type' => "danger",
-                'message' => "Le formulaire n'a pas été soumis"
-            ]);
         }catch (\Exception $e) {
             // Log error
             $this->logger->error((string) $e);
             // Return message error
-            return new JsonResponse([
+            $messages[] = [
                 'type' => "danger",
                 'message' => "Une erreur est survenue"
-            ]);
+            ];
         }
+        return new JsonResponse(
+            [
+                'render' => $render,
+                'messages' => $messages
+            ]
+        );
     }
 
 }
