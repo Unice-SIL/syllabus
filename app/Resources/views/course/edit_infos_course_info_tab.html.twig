@@ -69,8 +69,15 @@
                             cache: false,
                             timeout: 600000
                         }).done(function(response){
-                            if(response.type !== undefined && response.message !== undefined) {
-                                SILTools.alert(response.type, response.message, false);
+                            if(response.messages !== undefined) {
+                                response.messages.forEach(function(message){
+                                    if (message.type !== undefined && message.message !== undefined) {
+                                        SILTools.alert(message.type, message.message, false);
+                                    }
+                                });
+                            }
+                            if(response.render !== undefined && response.render !== null) {
+                                $('#panel_tab-6').html(response.render);
                             }
                         }).always(function(){
                             SILTools.spinner.fadeOut( );
