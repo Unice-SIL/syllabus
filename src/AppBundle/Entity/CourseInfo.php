@@ -43,7 +43,6 @@ class CourseInfo
      *
      * @ORM\Column(name="level", type="string", length=15, nullable=true, options={"fixed"=true})
      *
-     * @Assert\NotBlank()
      */
     private $level;
 
@@ -52,7 +51,6 @@ class CourseInfo
      *
      * @ORM\Column(name="domain", type="string", length=100, nullable=true, options={"fixed"=true})
      *
-     * @Assert\NotBlank()
      */
     private $domain;
 
@@ -68,7 +66,6 @@ class CourseInfo
      *
      * @ORM\Column(name="summary", type="text", length=65535, nullable=true)
      *
-     * @Assert\NotBlank()
      */
     private $summary;
 

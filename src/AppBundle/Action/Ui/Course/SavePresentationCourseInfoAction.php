@@ -140,14 +140,15 @@ class SavePresentationCourseInfoAction implements ActionInterface
                             'type' => "warning",
                             'message' => "Attention, pour pouvoir publier le cours vous devez renseigner tous les champs obligatoires"
                         ];
-                        $render = $this->templating->render(
-                            'course/edit_presentation_course_tab.html.twig',
-                            [
-                                'courseInfo' => $courseInfo,
-                                'form' => $form->createView()
-                            ]
-                        );
                     }
+
+                    $render = $this->templating->render(
+                        'course/edit_presentation_course_tab.html.twig',
+                        [
+                            'courseInfo' => $courseInfo,
+                            'form' => $form->createView()
+                        ]
+                    );
                 }else {
                     $messages[] = [
                         'type' => "danger",
