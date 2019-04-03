@@ -22,9 +22,9 @@ class CourseAchievement
     private $id;
 
     /**
-     * @var string
+     * @var null|string
      *
-     * @ORM\Column(name="description", type="text", length=65535, nullable=false)
+     * @ORM\Column(name="description", type="text", length=65535, nullable=true)
      */
     private $description = "";
 
@@ -65,23 +65,24 @@ class CourseAchievement
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getDescription(): string
+    public function getDescription()
     {
         return $this->description;
     }
 
     /**
-     * @param string $description
+     * @param null|string $description
      * @return CourseAchievement
      */
-    public function setDescription(string $description): CourseAchievement
+    public function setDescription($description)
     {
         $this->description = $description;
 
         return $this;
     }
+
 
     /**
      * @return int

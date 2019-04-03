@@ -6,6 +6,7 @@ use AppBundle\Command\CommandInterface;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CoursePrerequisite;
 use Ramsey\Uuid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class CoursePrerequisiteCommand
@@ -20,6 +21,8 @@ class CoursePrerequisiteCommand implements CommandInterface
 
     /**
      * @var null|string
+     *
+     * @Assert\NotBlank()
      */
     private $description;
 
