@@ -30,6 +30,8 @@ class EditPresentationCourseInfoCommand implements CommandInterface
 
     /**
      * @var null|string
+     *
+     * @Assert\NotBlank()
      */
     private $level;
 
@@ -42,21 +44,32 @@ class EditPresentationCourseInfoCommand implements CommandInterface
 
     /**
      * @var null|string
+     *
+     * @Assert\NotBlank()
      */
     private $summary;
 
     /**
      * @var null|string
+     *
      */
     private $mediaType;
 
     /**
      * @var mixed
+     *
+     * @Assert\Expression(
+     *     "not ( (this.getMediaType() == 'image' or this.getMediaType() == null) and this.getImage() == null)"
+     * )
      */
     private $image;
 
     /**
      * @var null|string
+     *
+     * @Assert\Expression(
+     *     "not ( this.getMediaType() == 'video' and this.getVideo() == null)"
+     * )
      */
     private $video;
 
@@ -87,6 +100,10 @@ class EditPresentationCourseInfoCommand implements CommandInterface
 
     /**
      * @var string|null
+     *
+     * @Assert\Expression(
+     *     "not ( (this.getTeachingMode() == 'class' or this.getTeachingMode() == null ) and this.getTeachingOtherClass() != null)"
+     * )
      */
     private $teachingOtherTypeClass;
 
@@ -112,6 +129,10 @@ class EditPresentationCourseInfoCommand implements CommandInterface
 
     /**
      * @var string|null
+     *
+     * @Assert\Expression(
+     *     "not ( this.getTeachingMode() == 'hybrid' and this.getTeachingOtherHybridClass() != null)"
+     * )
      */
     private $teachingOtherTypeHybridClass;
 
@@ -132,6 +153,10 @@ class EditPresentationCourseInfoCommand implements CommandInterface
 
     /**
      * @var string|null
+     *
+     * @Assert\Expression(
+     *     "not ( this.getTeachingMode() == 'hybrid' and this.getTeachingOtherHybridDist() != null)"
+     * )
      */
     private $teachingOtherTypeHybridDistant;
 

@@ -136,18 +136,19 @@ class SavePresentationCourseInfoAction implements ActionInterface
                     }
 
                     if(!$form->isValid()){
-                        $render = $this->templating->render(
-                            'course/edit_presentation_course_tab.html.twig',
-                            [
-                                'courseInfo' => $courseInfo,
-                                'form' => $form->createView()
-                            ]
-                        );
                         $messages[] = [
                             'type' => "warning",
                             'message' => "Attention, pour pouvoir publier le cours vous devez renseigner tous les champs obligatoires"
                         ];
                     }
+
+                    $render = $this->templating->render(
+                        'course/edit_presentation_course_tab.html.twig',
+                        [
+                            'courseInfo' => $courseInfo,
+                            'form' => $form->createView()
+                        ]
+                    );
                 }else {
                     $messages[] = [
                         'type' => "danger",
