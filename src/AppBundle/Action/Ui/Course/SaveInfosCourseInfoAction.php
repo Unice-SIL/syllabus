@@ -99,6 +99,22 @@ class SaveInfosCourseInfoAction implements ActionInterface
                 if ($form->isSubmitted()) {
                     $editInfosCourseInfoCommand = $form->getData();
                     // Check if there have been anny changes
+                    if(!$form->isValid()){
+                        $messages[] = [
+                            'type' => "warning",
+                            'message' => "Attention, pour pouvoir publier le cours vous devez renseigner tous les champs obligatoires"
+                        ];
+                        $render = $this->templating->render(
+                            'course/edit_infos_course_info_tab.html.twig',
+                            [
+                                'courseInfo' => $courseInfo,
+                                'form' => $form->createView()
+                            ]
+                        );
+                    }else{
+                        $editInfosCourseInfoCommand->setTemInfosTabValid(true);
+                    }
+
                     if($editInfosCourseInfoCommand != $originalEditInfosCourseInfoCommand){
                         // Save changes
                         $this->editInfosCourseInfoQuery->setEditInfosCourseInfoCommand(
@@ -116,19 +132,6 @@ class SaveInfosCourseInfoAction implements ActionInterface
                         ];
                     }
 
-                    if(!$form->isValid()){
-                        $messages[] = [
-                            'type' => "warning",
-                            'message' => "Attention, pour pouvoir publier le cours vous devez renseigner tous les champs obligatoires"
-                        ];
-                        $render = $this->templating->render(
-                            'course/edit_infos_course_info_tab.html.twig',
-                            [
-                                'courseInfo' => $courseInfo,
-                                'form' => $form->createView()
-                            ]
-                        );
-                    }
                 }
                 else{
                     $messages[] = [

@@ -27,6 +27,11 @@ class EditInfosCourseInfoCommand implements CommandInterface
     private $organization;
 
     /**
+     * @var bool
+     */
+    private $temInfosTabValid = false;
+
+    /**
      * EditClosingRemarksCourseInfoCommand constructor.
      * @param CourseInfo $courseInfo
      */
@@ -95,6 +100,25 @@ class EditInfosCourseInfoCommand implements CommandInterface
         return $this;
     }
 
+    /**
+     * @return bool
+     */
+    public function isTemInfosTabValid(): bool
+    {
+        return $this->temInfosTabValid;
+    }
+
+    /**
+     * @param bool $temInfosTabValid
+     * @return EditInfosCourseInfoCommand
+     */
+    public function setTemInfosTabValid(bool $temInfosTabValid): EditInfosCourseInfoCommand
+    {
+        $this->temInfosTabValid = $temInfosTabValid;
+
+        return $this;
+    }
+
 
     /**
      * @param CourseInfo $entity
@@ -103,7 +127,8 @@ class EditInfosCourseInfoCommand implements CommandInterface
     public function filledEntity($entity): CourseInfo
     {
         $entity->setAgenda($this->getAgenda())
-            ->setOrganization($this->getOrganization());
+            ->setOrganization($this->getOrganization())
+            ->setTemInfosTabValid($this->isTemInfosTabValid());
 
         return $entity;
     }
