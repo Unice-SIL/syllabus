@@ -33,7 +33,7 @@ class PublishCourseInfoCommand implements CommandInterface
     public function __construct(CourseInfo $courseInfo)
     {
         $this->id = $courseInfo->getId();
-        $this->publisher = $courseInfo->getPublisher();
+        //$this->publisher = $courseInfo->getPublisher();
         $this->publicationDate = new \DateTime();
     }
 
@@ -102,8 +102,7 @@ class PublishCourseInfoCommand implements CommandInterface
     public function filledEntity($entity): CourseInfo
     {
         // CourseInfo
-        $entity->setPublisher($this->getPublisher())
-            ->setPublicationDate($this->getPublicationDate());
+        $entity->setPublicationDate($this->getPublicationDate());
 
         return $entity;
     }

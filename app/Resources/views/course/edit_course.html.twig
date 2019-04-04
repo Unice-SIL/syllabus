@@ -145,6 +145,29 @@
 
             Syllabus.tabLoaderInit( );
 
+            $(document).ready(function(){
+                $('#publishButton').click(function(){
+                    SILTools.spinner.fadeIn( {
+                        always: function(){
+                            $.ajax({
+                                type: 'POST',
+                                url: '{{ path('publish_course_info', { 'id': courseInfo.id })|escape('js') }}'
+                            }).done(function(response){
+                                if(response.messages !== undefined) {
+                                    response.messages.forEach(function(message){
+                                        if (message.type !== undefined && message.message !== undefined) {
+                                            SILTools.alert(message.type, message.message, false);
+                                        }
+                                    });
+                                }
+                            }).always(function(){
+                                SILTools.spinner.fadeOut( );
+                            });
+                        }
+                    });
+                });
+            });
+
         </script>
     {% endif %}
 {% endblock %}

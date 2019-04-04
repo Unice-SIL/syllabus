@@ -71,6 +71,9 @@ class SaveActivitiesCourseInfoAction implements ActionInterface
     }
 
     /**
+     * @param Request $request
+     * @return JsonResponse
+     *
      * @Route("/course/activities/save/{id}", name="save_activities_course_info")
      */
     public function __invoke(Request $request)
