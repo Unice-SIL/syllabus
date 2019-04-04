@@ -19,8 +19,6 @@ class EditMccCourseInfoCommand implements CommandInterface
 
     /**
      * @var null|string
-     * 
-     * @Assert\NotBlank()
      */
     private $mccAdvice;
 
