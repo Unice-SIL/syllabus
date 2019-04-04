@@ -35,8 +35,6 @@ class EditMccCourseInfoCommand implements CommandInterface
     {
         $this->id = $courseInfo->getId();
         $this->mccAdvice = $courseInfo->getMccAdvice();
-
-
     }
 
     /**
@@ -104,7 +102,7 @@ class EditMccCourseInfoCommand implements CommandInterface
     public function filledEntity($entity): CourseInfo
     {
         $entity->setMccAdvice($this->getMccAdvice())
-            ->setTemPresentationTabValid($this->isTemPresentationTabValid());
+            ->setTemMccTabValid($this->isTemMccTabValid());
 
         return $entity;
     }
