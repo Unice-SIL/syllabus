@@ -5,6 +5,7 @@ namespace AppBundle\Action\Ui\Course;
 use AppBundle\Action\ActionInterface;
 use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Query\Course\FindCourseInfoByIdQuery;
+use AppBundle\Helper\CourseInfoHelper;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -47,19 +48,26 @@ class EditCourseAction implements ActionInterface
     private $session;
 
     /**
+     * @var CourseInfoHelper
+     */
+    private $courseInfoHelper;
+
+    /**
      * EditCourseAction constructor.
      * @param FindCourseInfoByIdQuery $findCourseInfoByIdQuery
      * @param FormFactoryInterface $formFactory
      * @param SessionInterface $session
      * @param Environment $templating
      * @param RouterInterface $router
+     * @param CourseInfoHelper $courseInfoHelper
      */
     public function __construct(
             FindCourseInfoByIdQuery $findCourseInfoByIdQuery,
             FormFactoryInterface $formFactory,
             SessionInterface $session,
             Environment $templating,
-            RouterInterface $router
+            RouterInterface $router,
+            CourseInfoHelper $courseInfoHelper
         )
     {
         $this->findCourseInfoByIdQuery = $findCourseInfoByIdQuery;
@@ -67,6 +75,7 @@ class EditCourseAction implements ActionInterface
         $this->templating = $templating;
         $this->session = $session;
         $this->router = $router;
+        $this->courseInfoHelper = $courseInfoHelper;
     }
 
     /**
@@ -88,7 +97,8 @@ class EditCourseAction implements ActionInterface
             $this->templating->render(
                 'course/edit_course.html.twig',
                 [
-                    'courseInfo' => $courseInfo
+                    'courseInfo' => $courseInfo,
+                    'courseInfoHelper' => $this->courseInfoHelper
                 ]
             )
         );
