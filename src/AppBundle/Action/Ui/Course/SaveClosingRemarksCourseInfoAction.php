@@ -105,6 +105,22 @@ class SaveClosingRemarksCourseInfoAction implements ActionInterface
                 if ($form->isSubmitted()) {
                     $editClosingRemarksCourseInfoCommand = $form->getData();
                     // Check if there have been anny changes
+                    if(!$form->isValid()){
+                        $messages[] = [
+                            'type' => "warning",
+                            'message' => "Attention, pour pouvoir publier le cours vous devez renseigner tous les champs obligatoires"
+                        ];
+                        $render = $this->templating->render(
+                            'course/edit_closing_remarks_course_info_tab.html.twig',
+                            [
+                                'courseInfo' => $courseInfo,
+                                'form' => $form->createView()
+                            ]
+                        );
+                    }else{
+                        $editClosingRemarksCourseInfoCommand->setTemClosingRemarksTabValid(true);
+                    }
+
                     if($editClosingRemarksCourseInfoCommand != $originalEditClosingRemarksCourseInfoCommand){
                         // Save changes
                         $this->editClosingRemarksCourseInfoQuery->setEditClosingRemarksCourseInfoCommand(
@@ -122,19 +138,6 @@ class SaveClosingRemarksCourseInfoAction implements ActionInterface
                         ];
                     }
 
-                    if(!$form->isValid()){
-                        $messages[] = [
-                            'type' => "warning",
-                            'message' => "Attention, pour pouvoir publier le cours vous devez renseigner tous les champs obligatoires"
-                        ];
-                        $render = $this->templating->render(
-                            'course/edit_closing_remarks_course_info_tab.html.twig',
-                            [
-                                'courseInfo' => $courseInfo,
-                                'form' => $form->createView()
-                            ]
-                        );
-                    }
                 }
                 else{
                     $messages[] = [
