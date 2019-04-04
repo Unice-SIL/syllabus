@@ -14,24 +14,29 @@
 {% block main %}
 {% set year = '2018' %}
 
-    <div class="container-fluid bg-black py-3">
-
-        {% if course == null %}
+    {% if course == null %}
+        <div class="container-fluid py-3">
             <div class="row d-flex flex-row m-3">
-                <div class="col-md-12 d-flex flex-row justify-content-center align-items-center text-white">
+                <div class="col-md-12 d-flex flex-row justify-content-center align-items-center text-danger">
                     <h5 class="m-2">Le cours n'a pas été retrouvé.</h5>
                 </div>
             </div>
-        {% elseif course.publicationDate == null %}
+        </div>
+    {% elseif course.publicationDate == null %}
+        <div class="container-fluid py-3">
             <div class="row d-flex flex-row m-3">
-                <div class="col-md-12 d-flex flex-row justify-content-center align-items-center text-white">
+                <div class="col-md-12 d-flex flex-row justify-content-center align-items-center text-danger">
                     <h5 class="m-2">Le syllabus de ce cours n'est pas encore publié.</h5>
                 </div>
             </div>
-        {% else %}
-        {% if course.course.parents|length != 0 %}
-            {% set parent = course.course.parents[0] %}
-        {% endif %}
+        </div>
+    {% else %}
+    {% if course.course.parents|length != 0 %}
+        {% set parent = course.course.parents[0] %}
+    {% endif %}
+
+    <div class="container-fluid bg-black py-3">
+
 
         <div class="row d-flex flex-row m-3">
 
