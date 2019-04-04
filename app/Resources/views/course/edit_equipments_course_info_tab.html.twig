@@ -160,16 +160,7 @@
                             cache: false,
                             timeout: 600000
                         }).done(function(response){
-                            if(response.messages !== undefined) {
-                                response.messages.forEach(function(message){
-                                    if (message.type !== undefined && message.message !== undefined) {
-                                        SILTools.alert(message.type, message.message, false);
-                                    }
-                                });
-                            }
-                            if(response.render !== undefined && response.render !== null) {
-                                $('#panel_tab-5').html(response.render);
-                            }
+                            disablePublishButton('#panel_tab-5');
                         }).always(function(){
                             SILTools.spinner.fadeOut( );
                         });
