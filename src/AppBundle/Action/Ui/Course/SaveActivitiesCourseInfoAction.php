@@ -93,7 +93,18 @@ class SaveActivitiesCourseInfoAction implements ActionInterface
                 if($form->isSubmitted()){
                     $editActivitiesCourseInfoCommand = $form->getData();
 
-                    // Check if there have been anny changes
+                    // Check if form is valid
+                    if(!$form->isValid()){
+                        $messages[] = [
+                            'type' => "warning",
+                            'message' => "Attention, pour pouvoir publier le cours vous devez renseigner tous les champs obligatoires"
+                        ];
+                    }else{
+                        $editActivitiesCourseInfoCommand->setTemActivitiesTabValid(true);
+                    }
+
+
+                    // Check if there have been any changes
                     if($editActivitiesCourseInfoCommand != $originalEditActivitiesCourseInfoCommand) {
                         // Save changes
                         $this->editActivitiesCourseInfoQuery->setEditActivitiesCourseInfoCommand($editActivitiesCourseInfoCommand)->execute();
@@ -106,14 +117,6 @@ class SaveActivitiesCourseInfoAction implements ActionInterface
                         $messages[] = [
                             'type' => "info",
                             'message' => "Aucun changement a enregistrer"
-                        ];
-                    }
-
-                    // Check if form is valid
-                    if(!$form->isValid()){
-                        $messages[] = [
-                            'type' => "warning",
-                            'message' => "Attention, pour pouvoir publier le cours vous devez renseigner tous les champs obligatoires"
                         ];
                     }
 

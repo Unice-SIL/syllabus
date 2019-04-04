@@ -94,6 +94,17 @@ class SaveObjectivesCourseInfoAction implements ActionInterface
                 $form->handleRequest($request);
                 if($form->isSubmitted()){
                     $editObjectivesCourseInfoCommand = $form->getData();
+
+                    // Check if form is valid
+                    if(!$form->isValid()){
+                        $messages[] = [
+                            'type' => "warning",
+                            'message' => "Attention, pour pouvoir publier le cours vous devez renseigner tous les champs obligatoires"
+                        ];
+                    }else{
+                        $editObjectivesCourseInfoCommand->setTemObjectivesTabValid(true);
+                    }
+
                     // Check if there have been anny changes
                     if($editObjectivesCourseInfoCommand != $originalEditObjectivesCourseInfoCommand) {
                         // Save changes
@@ -107,14 +118,6 @@ class SaveObjectivesCourseInfoAction implements ActionInterface
                         $messages[] = [
                             'type' => "info",
                             'message' => "Aucun changement a enregistrer"
-                        ];
-                    }
-
-                    // Check if form is valid
-                    if(!$form->isValid()){
-                        $messages[] = [
-                            'type' => "warning",
-                            'message' => "Attention, pour pouvoir publier le cours vous devez renseigner tous les champs obligatoires"
                         ];
                     }
 
