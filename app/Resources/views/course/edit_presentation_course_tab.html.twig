@@ -431,6 +431,13 @@
                             if(response.render !== undefined && response.render !== null) {
                                 $('#panel_tab-1').html(response.render);
                             }
+                            if(response.canBePublish !== undefined) {
+                                if(response.canBePublish === true){
+                                    $('#publishButton').removeAttr("disabled");
+                                }else{
+                                    $('#publishButton').attr("disabled", 'disable');
+                                }
+                            }
                         }).always(function(){
                             SILTools.spinner.fadeOut( );
                         });

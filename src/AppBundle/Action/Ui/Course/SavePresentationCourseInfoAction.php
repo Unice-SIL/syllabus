@@ -6,6 +6,7 @@ use AppBundle\Action\ActionInterface;
 use AppBundle\Command\Course\EditPresentationCourseInfoCommand;
 use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Form\Course\EditPresentationCourseInfoType;
+use AppBundle\Helper\CourseInfoHelper;
 use AppBundle\Helper\FileUploaderHelper;
 use AppBundle\Query\Course\EditPresentationCourseInfoQuery;
 use AppBundle\Query\Course\FindCourseInfoByIdQuery;
@@ -54,6 +55,8 @@ class SavePresentationCourseInfoAction implements ActionInterface
      */
     private $logger;
 
+    private $courseInfoHelper;
+
     /**
      * SavePresentationCourseInfoAction constructor.
      * @param FindCourseInfoByIdQuery $findCourseInfoByIdQuery
@@ -62,6 +65,7 @@ class SavePresentationCourseInfoAction implements ActionInterface
      * @param FileUploaderHelper $fileUploaderHelper
      * @param Environment $templating
      * @param LoggerInterface $logger
+     * @param CourseInfoHelper $courseInfoHelper
      */
     public function __construct(
         FindCourseInfoByIdQuery $findCourseInfoByIdQuery,
@@ -69,7 +73,8 @@ class SavePresentationCourseInfoAction implements ActionInterface
         FormFactoryInterface $formFactory,
         FileUploaderHelper $fileUploaderHelper,
         Environment $templating,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        CourseInfoHelper $courseInfoHelper
     )
     {
         $this->findCourseInfoByIdQuery = $findCourseInfoByIdQuery;
@@ -78,6 +83,7 @@ class SavePresentationCourseInfoAction implements ActionInterface
         $this->fileUploaderHelper = $fileUploaderHelper;
         $this->logger = $logger;
         $this->templating = $templating;
+        $this->courseInfoHelper = $courseInfoHelper;
     }
 
     /**
@@ -87,6 +93,7 @@ class SavePresentationCourseInfoAction implements ActionInterface
     {
         $messages = [];
         $render = null;
+        $canBePublish = false;
         try {
             $id = $request->get('id', null);
             // Find course info by id
@@ -133,6 +140,10 @@ class SavePresentationCourseInfoAction implements ActionInterface
                         $this->editPresentationCourseInfoQuery->setEditPresentationCourseInfoCommand(
                             $editPresentationCourseInfoCommand
                         )->execute();
+
+                        // Check if course can be published
+                        $canBePublish = $this->courseInfoHelper->canBePublished($courseInfo);
+
                         // Return message success
                         $messages[] = [
                             'type' => "success",
@@ -179,7 +190,8 @@ class SavePresentationCourseInfoAction implements ActionInterface
         return new JsonResponse(
             [
                 'render' => $render,
-                'messages' => $messages
+                'messages' => $messages,
+                'canBePublish' => $canBePublish
             ]
         );
     }
