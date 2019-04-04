@@ -421,23 +421,7 @@
                             cache: false,
                             timeout: 600000
                         }).done(function(response){
-                            if(response.messages !== undefined) {
-                                response.messages.forEach(function(message){
-                                    if (message.type !== undefined && message.message !== undefined) {
-                                        SILTools.alert(message.type, message.message, false);
-                                    }
-                                });
-                            }
-                            if(response.render !== undefined && response.render !== null) {
-                                $('#panel_tab-1').html(response.render);
-                            }
-                            if(response.canBePublish !== undefined) {
-                                if(response.canBePublish === true){
-                                    $('#publishButton').removeAttr("disabled");
-                                }else{
-                                    $('#publishButton').attr("disabled", 'disable');
-                                }
-                            }
+                            disablePublishButton('#panel_tab-1');
                         }).always(function(){
                             SILTools.spinner.fadeOut( );
                         });

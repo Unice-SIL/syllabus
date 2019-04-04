@@ -90,6 +90,26 @@ var Syllabus = ( function ( ) {
 
     }
 
+    var disablePublishButton = function( id ) {
+        if(response.messages !== undefined) {
+            response.messages.forEach(function(message){
+                if (message.type !== undefined && message.message !== undefined) {
+                    SILTools.alert(message.type, message.message, false);
+                }
+            });
+        }
+        if(response.render !== undefined && response.render !== null) {
+            $(id).html(response.render);
+        }
+        if(response.canBePublish !== undefined) {
+            if(response.canBePublish === true){
+                $('#publishButton').removeAttr("disabled");
+            }else{
+                $('#publishButton').attr("disabled", 'disable');
+            }
+        }
+    }
+
 
     /*
         Public pointers to exposed items.

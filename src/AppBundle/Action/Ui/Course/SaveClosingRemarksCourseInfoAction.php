@@ -6,6 +6,7 @@ use AppBundle\Action\ActionInterface;
 use AppBundle\Command\Course\EditClosingRemarksCourseInfoCommand;
 use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Form\Course\EditClosingRemarksCourseInfoType;
+use AppBundle\Helper\CourseInfoHelper;
 use AppBundle\Helper\FileUploaderHelper;
 use AppBundle\Query\Course\EditClosingRemarksCourseInfoQuery;
 use AppBundle\Query\Course\FindCourseInfoByIdQuery;
@@ -54,6 +55,8 @@ class SaveClosingRemarksCourseInfoAction implements ActionInterface
      */
     private $logger;
 
+    private $courseInfoHelper;
+
     /**
      * SaveClosingRemarksCourseInfoAction constructor.
      * @param FindCourseInfoByIdQuery $findCourseInfoByIdQuery
@@ -62,6 +65,7 @@ class SaveClosingRemarksCourseInfoAction implements ActionInterface
      * @param FileUploaderHelper $fileUploaderHelper
      * @param Environment $templating
      * @param LoggerInterface $logger
+     * @param CourseInfoHelper $courseInfoHelper
      */
     public function __construct(
         FindCourseInfoByIdQuery $findCourseInfoByIdQuery,
@@ -69,7 +73,8 @@ class SaveClosingRemarksCourseInfoAction implements ActionInterface
         FormFactoryInterface $formFactory,
         FileUploaderHelper $fileUploaderHelper,
         Environment $templating,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        CourseInfoHelper $courseInfoHelper
     )
     {
         $this->findCourseInfoByIdQuery = $findCourseInfoByIdQuery;
@@ -78,6 +83,7 @@ class SaveClosingRemarksCourseInfoAction implements ActionInterface
         $this->fileUploaderHelper = $fileUploaderHelper;
         $this->templating = $templating;
         $this->logger = $logger;
+        $this->courseInfoHelper = $courseInfoHelper;
     }
 
     /**
@@ -87,6 +93,7 @@ class SaveClosingRemarksCourseInfoAction implements ActionInterface
     {
         $messages = [];
         $render = null;
+        $canBePublish = false;
         try {
             $id = $request->get('id', null);
             // Find course info by id
@@ -126,6 +133,10 @@ class SaveClosingRemarksCourseInfoAction implements ActionInterface
                         $this->editClosingRemarksCourseInfoQuery->setEditClosingRemarksCourseInfoCommand(
                             $editClosingRemarksCourseInfoCommand
                         )->execute();
+
+                        // Check if course can be published
+                        $canBePublish = $this->courseInfoHelper->canBePublished($courseInfo);
+
                         // Return message success
                         $messages[] = [
                             'type' => "success",
@@ -164,7 +175,8 @@ class SaveClosingRemarksCourseInfoAction implements ActionInterface
         return new JsonResponse(
             [
                 'render' => $render,
-                'messages' => $messages
+                'messages' => $messages,
+                'canBePublish' => $canBePublish
             ]
         );
     }

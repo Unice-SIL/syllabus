@@ -4,6 +4,7 @@ namespace AppBundle\Action\Ui\Course;
 
 use AppBundle\Action\ActionInterface;
 use AppBundle\Command\Course\EditActivitiesCourseInfoCommand;
+use AppBundle\Helper\CourseInfoHelper;
 use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Form\Course\EditActivitiesCourseInfoType;
 use AppBundle\Query\Course\EditActivitiesCourseInfoQuery;
@@ -47,6 +48,8 @@ class SaveActivitiesCourseInfoAction implements ActionInterface
      */
     private $logger;
 
+    private $courseInfoHelper;
+
     /**
      * SaveActivitiesCourseInfoAction constructor.
      * @param FindCourseInfoByIdQuery $findCourseInfoByIdQuery
@@ -54,13 +57,15 @@ class SaveActivitiesCourseInfoAction implements ActionInterface
      * @param FormFactoryInterface $formFactory
      * @param Environment $templating
      * @param LoggerInterface $logger
+     * @param CourseInfoHelper $courseInfoHelper
      */
     public function __construct(
         FindCourseInfoByIdQuery $findCourseInfoByIdQuery,
         EditActivitiesCourseInfoQuery $editActivitiesCourseInfoQuery,
         FormFactoryInterface $formFactory,
         Environment $templating,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        CourseInfoHelper $courseInfoHelper
     )
     {
         $this->findCourseInfoByIdQuery = $findCourseInfoByIdQuery;
@@ -68,6 +73,7 @@ class SaveActivitiesCourseInfoAction implements ActionInterface
         $this->formFactory = $formFactory;
         $this->logger = $logger;
         $this->templating = $templating;
+        $this->courseInfoHelper = $courseInfoHelper;
     }
 
     /**
@@ -77,6 +83,7 @@ class SaveActivitiesCourseInfoAction implements ActionInterface
     {
         $messages = [];
         $render = null;
+        $canBePublish = false;
         try{
             $id = $request->get('id', null);
             // Find course info by id
@@ -108,6 +115,10 @@ class SaveActivitiesCourseInfoAction implements ActionInterface
                     if($editActivitiesCourseInfoCommand != $originalEditActivitiesCourseInfoCommand) {
                         // Save changes
                         $this->editActivitiesCourseInfoQuery->setEditActivitiesCourseInfoCommand($editActivitiesCourseInfoCommand)->execute();
+
+                        // Check if course can be published
+                        $canBePublish = $this->courseInfoHelper->canBePublished($courseInfo);
+
                         // Return message success
                         $messages[] = [
                             'type' => "success",
@@ -153,7 +164,8 @@ class SaveActivitiesCourseInfoAction implements ActionInterface
         return new JsonResponse(
             [
                 'render' => $render,
-                'messages' => $messages
+                'messages' => $messages,
+                'canBePublish' => $canBePublish
             ]
         );
     }
