@@ -1598,7 +1598,7 @@ class CourseInfo
 
         return $this;
     }
-    
+
     /**
      * @return Course
      */
