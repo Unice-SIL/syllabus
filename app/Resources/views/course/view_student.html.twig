@@ -19,6 +19,20 @@
 
     <div class="container-fluid bg-black py-3">
 
+        {% if course == null %}
+            <div class="row d-flex flex-row m-3">
+                <div class="col-md-12 d-flex flex-row justify-content-center align-items-center text-white">
+                    <h5 class="m-2">Le cours n'a pas été retrouvé.</h5>
+                </div>
+            </div>
+        {% elseif course.publicationDate == null %}
+            <div class="row d-flex flex-row m-3">
+                <div class="col-md-12 d-flex flex-row justify-content-center align-items-center text-white">
+                    <h5 class="m-2">Le syllabus de ce cours n'est pas encore publié.</h5>
+                </div>
+            </div>
+        {% else %}
+
         <div class="row d-flex flex-row m-3">
 
             <nav class="navbar navbar-expand-lg  navbar-dark bg-info border p-0 text-center">
@@ -660,6 +674,8 @@
                     <iframe class="embed-responsive-item" src={{course.closingVideo}} allowfullscreen></iframe>
                 </div>
             </div>
+        {% endif %}
+
         {% endif %}
     </div>
 
