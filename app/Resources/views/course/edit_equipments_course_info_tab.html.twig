@@ -34,6 +34,7 @@
             <h6 class="my-3">
                 Ressources pédagogiques
             </h6>
+            {{ form_errors(form.educationalResources) }}
             {{form_widget(form.educationalResources)}}
         </div>
     </div>
@@ -42,6 +43,7 @@
             <h6 class="my-3">
                 Eléments bibliographiques
             </h6>
+            {{ form_errors(form.bibliographicResources) }}
             {{form_widget(form.bibliographicResources)}}
         </div>
     </div>
@@ -158,8 +160,15 @@
                             cache: false,
                             timeout: 600000
                         }).done(function(response){
-                            if(response.type !== undefined && response.message !== undefined) {
-                                SILTools.alert(response.type, response.message, false);
+                            if(response.messages !== undefined) {
+                                response.messages.forEach(function(message){
+                                    if (message.type !== undefined && message.message !== undefined) {
+                                        SILTools.alert(message.type, message.message, false);
+                                    }
+                                });
+                            }
+                            if(response.render !== undefined && response.render !== null) {
+                                $('#panel_tab-5').html(response.render);
                             }
                         }).always(function(){
                             SILTools.spinner.fadeOut( );

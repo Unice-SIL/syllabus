@@ -7,6 +7,7 @@ use AppBundle\Command\CourseResourceEquipment\CourseResourceEquipmentCommand;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseResourceEquipment;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class EditEquipmentsCourseInfoCommand
@@ -31,6 +32,8 @@ class EditEquipmentsCourseInfoCommand implements CommandInterface
 
     /**
      * @var ArrayCollection
+     *
+     * @Assert\Valid()
      */
     private $equipments;
 

@@ -24,8 +24,6 @@ class EditClosingRemarksCourseInfoCommand implements CommandInterface
 
     /**
      * @var null|string
-     * 
-     * @Assert\NotBlank()
      */
     private $closingVideo;
 
