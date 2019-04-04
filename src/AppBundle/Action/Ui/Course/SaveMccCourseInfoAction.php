@@ -98,6 +98,22 @@ class SaveMccCourseInfoAction implements ActionInterface
                 $form->handleRequest($request);
                 if ($form->isSubmitted()) {
                     $editMccCourseInfoCommand = $form->getData();
+                    if(!$form->isValid()){
+                        $messages[] = [
+                            'type' => "warning",
+                            'message' => "Attention, pour pouvoir publier le cours vous devez renseigner tous les champs obligatoires"
+                        ];
+                        $render = $this->templating->render(
+                            'course/edit_mcc_course_info_tab.html.twig',
+                            [
+                                'courseInfo' => $courseInfo,
+                                'form' => $form->createView()
+                            ]
+                        );
+                    }else{
+                        $editMccCourseInfoCommand->setTemMccTabValid(true);
+                    }
+
                     // Check if there have been anny changes
                     if($editMccCourseInfoCommand != $originalEditMccCourseInfoCommand){
                         // Save changes
@@ -116,19 +132,6 @@ class SaveMccCourseInfoAction implements ActionInterface
                         ];
                     }
 
-                    if(!$form->isValid()){
-                        $messages[] = [
-                            'type' => "warning",
-                            'message' => "Attention, pour pouvoir publier le cours vous devez renseigner tous les champs obligatoires"
-                        ];
-                        $render = $this->templating->render(
-                            'course/edit_mcc_course_info_tab.html.twig',
-                            [
-                                'courseInfo' => $courseInfo,
-                                'form' => $form->createView()
-                            ]
-                        );
-                    }
                 }
                 else{
                     $messages[] = [
