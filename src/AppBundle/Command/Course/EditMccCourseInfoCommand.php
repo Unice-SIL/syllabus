@@ -4,6 +4,7 @@ namespace AppBundle\Command\Course;
 
 use AppBundle\Command\CommandInterface;
 use AppBundle\Entity\CourseInfo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class EditMccCourseInfoCommand
@@ -18,6 +19,8 @@ class EditMccCourseInfoCommand implements CommandInterface
 
     /**
      * @var null|string
+     * 
+     * @Assert\NotBlank()
      */
     private $mccAdvice;
 
