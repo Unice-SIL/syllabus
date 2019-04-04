@@ -80,6 +80,11 @@ class EditObjectivesCourseInfoCommand implements CommandInterface
     private $tutoringDescription;
 
     /**
+     * @var bool
+     */
+    private $temObjectivesTabValid = false;
+
+    /**
      * EditObjectivesCourseInfoCommand constructor.
      * @param CourseInfo $courseInfo
      */
@@ -330,6 +335,25 @@ class EditObjectivesCourseInfoCommand implements CommandInterface
     }
 
     /**
+     * @return bool
+     */
+    public function isTemObjectivesTabValid(): bool
+    {
+        return $this->temObjectivesTabValid;
+    }
+
+    /**
+     * @param bool $temObjectivesTabValid
+     * @return EditObjectivesCourseInfoCommand
+     */
+    public function setTemObjectivesTabValid(bool $temObjectivesTabValid): EditObjectivesCourseInfoCommand
+    {
+        $this->temObjectivesTabValid = $temObjectivesTabValid;
+
+        return $this;
+    }
+
+    /**
      * @param CourseInfo $entity
      * @return CourseInfo
      */
@@ -387,7 +411,8 @@ class EditObjectivesCourseInfoCommand implements CommandInterface
         $entity->setTutoring($this->isTutoring())
             ->setTutoringTeacher($this->isTutoringTeacher())
             ->setTutoringStudent($this->isTutoringStudent())
-            ->setTutoringDescription($this->getTutoringDescription());
+            ->setTutoringDescription($this->getTutoringDescription())
+            ->setTemObjectivesTabValid($this->isTemObjectivesTabValid());
 
         return $entity;
     }
