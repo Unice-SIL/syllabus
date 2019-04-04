@@ -12,9 +12,6 @@
 {% endblock %}
 
 {% block main %}
-{% if course.course.parents|length != 0 %}
-    {% set parent = course.course.parents[0] %}
-{% endif %}
 {% set year = '2018' %}
 
     <div class="container-fluid bg-black py-3">
@@ -32,6 +29,9 @@
                 </div>
             </div>
         {% else %}
+        {% if course.course.parents|length != 0 %}
+            {% set parent = course.course.parents[0] %}
+        {% endif %}
 
         <div class="row d-flex flex-row m-3">
 
