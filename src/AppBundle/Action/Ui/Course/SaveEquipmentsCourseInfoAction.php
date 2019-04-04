@@ -98,6 +98,16 @@ class SaveEquipmentsCourseInfoAction implements ActionInterface
                 $form->handleRequest($request);
                 if ($form->isSubmitted()) {
                     $editEquipmentsCourseInfoCommand = $form->getData();
+                    // Check if form is valid
+                    if(!$form->isValid()){
+                        $messages[] = [
+                            'type' => "warning",
+                            'message' => "Attention, pour pouvoir publier le cours vous devez renseigner tous les champs obligatoires"
+                        ];
+                    }else{
+                        $editEquipmentsCourseInfoCommand->setTemEquipmentsTabValid(true);
+                    }
+
                     // Check if there have been anny changes
                     if($editEquipmentsCourseInfoCommand != $originalEditEquipmentsCourseInfoCommand) {
                         // Save changes
@@ -116,13 +126,6 @@ class SaveEquipmentsCourseInfoAction implements ActionInterface
                         ];
                     }
 
-                    // Check if form is valid
-                    if(!$form->isValid()){
-                        $messages[] = [
-                            'type' => "warning",
-                            'message' => "Attention, pour pouvoir publier le cours vous devez renseigner tous les champs obligatoires"
-                        ];
-                    }
 
                     // Get render to reload form
                     $render = $this->templating->render(

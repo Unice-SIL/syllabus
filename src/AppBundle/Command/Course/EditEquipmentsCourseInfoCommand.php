@@ -38,6 +38,11 @@ class EditEquipmentsCourseInfoCommand implements CommandInterface
     private $equipments;
 
     /**
+     * @var bool
+     */
+    private $temEquipmentsTabValid = false;
+
+    /**
      * EditEquipmentsCourseInfoCommand constructor.
      * @param CourseInfo $courseInfo
      */
@@ -140,6 +145,25 @@ class EditEquipmentsCourseInfoCommand implements CommandInterface
         return $this;
     }
 
+    /**
+     * @return bool
+     */
+    public function isTemEquipmentsTabValid(): bool
+    {
+        return $this->temEquipmentsTabValid;
+    }
+
+    /**
+     * @param bool $temEquipmentsTabValid
+     * @return EditEquipmentsCourseInfoCommand
+     */
+    public function setTemEquipmentsTabValid(bool $temEquipmentsTabValid): EditEquipmentsCourseInfoCommand
+    {
+        $this->temEquipmentsTabValid = $temEquipmentsTabValid;
+
+        return $this;
+    }
+
 
     /**
      * @param CourseInfo $entity
@@ -164,7 +188,8 @@ class EditEquipmentsCourseInfoCommand implements CommandInterface
             $courseEquipment = $equipment->filledEntity($courseEquipment);
             $courseEquipments->add($courseEquipment);
         }
-        $entity->setCourseResourceEquipments($courseEquipments);
+        $entity->setCourseResourceEquipments($courseEquipments)
+        ->setTemEquipmentsTabValid($this->isTemEquipmentsTabValid());
 
         return $entity;
     }
