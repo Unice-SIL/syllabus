@@ -117,6 +117,16 @@ class SavePresentationCourseInfoAction implements ActionInterface
                         $editPresentationCourseInfoCommand->setImage($courseInfo->getImage());
                     }
 
+                    // Check if form is valid
+                    if(!$form->isValid()){
+                        $messages[] = [
+                            'type' => "warning",
+                            'message' => "Attention, pour pouvoir publier le cours vous devez renseigner tous les champs obligatoires"
+                        ];
+                    }else{
+                        $editPresentationCourseInfoCommand->setTemPresentationTabValid(true);
+                    }
+
                     // Check if there have been any changes
                     if($editPresentationCourseInfoCommand != $originalEditPresentationCourseInfoCommand) {
                         // Save changes
@@ -133,14 +143,6 @@ class SavePresentationCourseInfoAction implements ActionInterface
                         $messages[] = [
                             'type' => "info",
                             'message' => "Aucun changement a enregistrer"
-                        ];
-                    }
-
-                    // Check if form is valid
-                    if(!$form->isValid()){
-                        $messages[] = [
-                            'type' => "warning",
-                            'message' => "Attention, pour pouvoir publier le cours vous devez renseigner tous les champs obligatoires"
                         ];
                     }
 

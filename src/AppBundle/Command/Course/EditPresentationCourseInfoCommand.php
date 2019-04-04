@@ -161,9 +161,9 @@ class EditPresentationCourseInfoCommand implements CommandInterface
     private $teachingOtherTypeHybridDistant;
 
     /**
-     * @var string|null
+     * @var bool
      */
-    //private $teacherSearch;
+    private $temPresentationTabValid = false;
 
     /**
      * @var array
@@ -641,6 +641,25 @@ class EditPresentationCourseInfoCommand implements CommandInterface
     }
 
     /**
+     * @return bool
+     */
+    public function isTemPresentationTabValid(): bool
+    {
+        return $this->temPresentationTabValid;
+    }
+
+    /**
+     * @param bool $temPresentationTabValid
+     * @return EditPresentationCourseInfoCommand
+     */
+    public function setTemPresentationTabValid(bool $temPresentationTabValid): EditPresentationCourseInfoCommand
+    {
+        $this->temPresentationTabValid = $temPresentationTabValid;
+
+        return $this;
+    }
+
+    /**
      * @return ArrayCollection
      */
     public function getTeachers(): ArrayCollection
@@ -709,7 +728,8 @@ class EditPresentationCourseInfoCommand implements CommandInterface
             ->setTeachingOtherHybridClass($this->getTeachingOtherHybridClass())
             ->setTeachingCmHybridDist($this->getTeachingCmHybridDist())
             ->setTeachingTdHybridDist($this->getTeachingTdHybridDist())
-            ->setTeachingOtherHybridDist($this->getTeachingOtherHybridDist());
+            ->setTeachingOtherHybridDist($this->getTeachingOtherHybridDist())
+            ->setTemPresentationTabValid($this->isTemPresentationTabValid());
 
         // CourseTeacher
         $courseTeachers = new ArrayCollection();
