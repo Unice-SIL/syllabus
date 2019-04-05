@@ -4,6 +4,7 @@ namespace AppBundle\Command\Course;
 
 use AppBundle\Command\CommandInterface;
 use AppBundle\Entity\CourseInfo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class EditClosingRemarksCourseInfoCommand
@@ -25,6 +26,11 @@ class EditClosingRemarksCourseInfoCommand implements CommandInterface
      * @var null|string
      */
     private $closingVideo;
+
+    /**
+     * @var bool
+     */
+    private $temClosingRemarksTabValid = false;
 
     /**
      * EditClosingRemarksCourseInfoCommand constructor.
@@ -95,6 +101,25 @@ class EditClosingRemarksCourseInfoCommand implements CommandInterface
         return $this;
     }
 
+    /**
+     * @return bool
+     */
+    public function isTemClosingRemarksTabValid(): bool
+    {
+        return $this->temClosingRemarksTabValid;
+    }
+
+    /**
+     * @param bool $temClosingRemarksTabValid
+     * @return EditClosingRemarksCourseInfoCommand
+     */
+    public function setTemClosingRemarksTabValid(bool $temClosingRemarksTabValid): EditClosingRemarksCourseInfoCommand
+    {
+        $this->temClosingRemarksTabValid = $temClosingRemarksTabValid;
+
+        return $this;
+    }
+
 
     /**
      * @param CourseInfo $entity
@@ -103,7 +128,8 @@ class EditClosingRemarksCourseInfoCommand implements CommandInterface
     public function filledEntity($entity): CourseInfo
     {
         $entity->setClosingRemarks($this->getClosingRemarks())
-            ->setClosingVideo($this->getClosingVideo());
+            ->setClosingVideo($this->getClosingVideo())
+            ->setTemClosingRemarksTabValid($this->isTemClosingRemarksTabValid());
 
         return $entity;
     }

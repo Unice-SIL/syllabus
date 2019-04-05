@@ -9,6 +9,7 @@ use AppBundle\Entity\CourseSection;
 use AppBundle\Entity\CourseSectionActivity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Ramsey\Uuid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class CourseSectionCommand
@@ -23,11 +24,15 @@ class CourseSectionCommand implements CommandInterface
     private $id;
     /**
      * @var string|null
+     *
+     * @Assert\NotBlank()
      */
     private $title;
 
     /**
      * @var null|string
+     *
+     * @Assert\NotBlank()
      */
     private $description;
 
@@ -43,6 +48,8 @@ class CourseSectionCommand implements CommandInterface
 
     /**
      * @var ArrayCollection
+     *
+     * @Assert\Valid()
      */
     private $activities;
 

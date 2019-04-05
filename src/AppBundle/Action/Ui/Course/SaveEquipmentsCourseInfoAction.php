@@ -6,6 +6,7 @@ use AppBundle\Action\ActionInterface;
 use AppBundle\Command\Course\EditEquipmentsCourseInfoCommand;
 use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Form\Course\EditEquipmentsCourseInfoType;
+use AppBundle\Helper\CourseInfoHelper;
 use AppBundle\Helper\FileUploaderHelper;
 use AppBundle\Query\Course\EditEquipmentsCourseInfoQuery;
 use AppBundle\Query\Course\FindCourseInfoByIdQuery;
@@ -14,6 +15,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Twig\Environment;
 
 /**
  * Class SaveEquipmentsCourseInfoAction
@@ -38,9 +40,16 @@ class SaveEquipmentsCourseInfoAction implements ActionInterface
     private $formFactory;
 
     /**
+     * @var Environment
+     */
+    private  $templating;
+
+    /**
      * @var LoggerInterface
      */
     private $logger;
+
+    private $courseInfoHelper;
 
     /**
      * SaveEquipmentsCourseInfoAction constructor.
@@ -49,13 +58,16 @@ class SaveEquipmentsCourseInfoAction implements ActionInterface
      * @param FormFactoryInterface $formFactory
      * @param FileUploaderHelper $fileUploaderHelper
      * @param LoggerInterface $logger
+     * @param CourseInfoHelper $courseInfoHelper
      */
     public function __construct(
         FindCourseInfoByIdQuery $findCourseInfoByIdQuery,
         EditEquipmentsCourseInfoQuery $editEquipmentsCourseInfoQuery,
         FormFactoryInterface $formFactory,
         FileUploaderHelper $fileUploaderHelper,
-        LoggerInterface $logger
+        Environment $templating,
+        LoggerInterface $logger,
+        CourseInfoHelper $courseInfoHelper
     )
     {
         $this->findCourseInfoByIdQuery = $findCourseInfoByIdQuery;
@@ -63,6 +75,8 @@ class SaveEquipmentsCourseInfoAction implements ActionInterface
         $this->formFactory = $formFactory;
         $this->fileUploaderHelper = $fileUploaderHelper;
         $this->logger = $logger;
+        $this->templating = $templating;
+        $this->courseInfoHelper = $courseInfoHelper;
     }
 
     /**
@@ -70,65 +84,99 @@ class SaveEquipmentsCourseInfoAction implements ActionInterface
      */
     public function __invoke(Request $request)
     {
+        $messages = [];
+        $render = null;
+        $canBePublish = false;
         try {
             $id = $request->get('id', null);
             // Find course info by id
             try {
                 $courseInfo = $this->findCourseInfoByIdQuery->setId($id)->execute();
+
+                // Init command
+                $editEquipmentsCourseInfoCommand = new EditEquipmentsCourseInfoCommand($courseInfo);
+                // Keep original command before modifications
+                $originalEditEquipmentsCourseInfoCommand = clone $editEquipmentsCourseInfoCommand;
+                // Generate form
+                $form = $this->formFactory->create(
+                    EditEquipmentsCourseInfoType::class,
+                    $editEquipmentsCourseInfoCommand
+                );
+                $form->handleRequest($request);
+                if ($form->isSubmitted()) {
+                    $editEquipmentsCourseInfoCommand = $form->getData();
+                    // Check if form is valid
+                    if(!$form->isValid()){
+                        $messages[] = [
+                            'type' => "warning",
+                            'message' => "Attention, pour pouvoir publier le cours vous devez renseigner tous les champs obligatoires"
+                        ];
+                    }else{
+                        $editEquipmentsCourseInfoCommand->setTemEquipmentsTabValid(true);
+                    }
+
+                    // Check if there have been anny changes
+                    if($editEquipmentsCourseInfoCommand != $originalEditEquipmentsCourseInfoCommand) {
+                        // Save changes
+                        $this->editEquipmentsCourseInfoQuery->setEditEquipmentsCourseInfoCommand(
+                            $editEquipmentsCourseInfoCommand
+                        )->execute();
+
+                        // Check if course can be published
+                        $canBePublish = $this->courseInfoHelper->canBePublished($courseInfo);
+
+                        // Return message success
+                        $messages[] = [
+                            'type' => "success",
+                            'message' => "Modifications enregistrées avec succès"
+                        ];
+                    }else{
+                        $messages[] = [
+                            'type' => "info",
+                            'message' => "Aucun changement a enregistrer"
+                        ];
+                    }
+
+
+                    // Get render to reload form
+                    $render = $this->templating->render(
+                        'course/edit_equipments_course_info_tab.html.twig',
+                        [
+                            'courseInfo' => $courseInfo,
+                            'form' => $form->createView()
+                        ]
+                    );
+                }else{
+                    $messages[] = [
+                        'type' => "danger",
+                        'message' => "Le formulaire n'a pas été soumis"
+                    ];
+                }
             } catch (CourseInfoNotFoundException $e) {
                 // Return message course not found
-                return new JsonResponse(
-                    [
-                        'type' => "danger",
-                        'message' => sprintf("Le paiement %s n'existe pas", $id)
-                    ]
-                );
+                $messages[] = [
+                    'type' => "danger",
+                    'message' => sprintf("Le paiement %s n'existe pas", $id)
+                ];
             }
-            // Init command
-            $editEquipmentsCourseInfoCommand = new EditEquipmentsCourseInfoCommand($courseInfo);
-            // Keep original command before modifications
-            $originalEditEquipmentsCourseInfoCommand = clone $editEquipmentsCourseInfoCommand;
-            // Generate form
-            $form = $this->formFactory->create(
-                EditEquipmentsCourseInfoType::class,
-                $editEquipmentsCourseInfoCommand
-            );
-            $form->handleRequest($request);
-            if ($form->isSubmitted()) {
-                $editEquipmentsCourseInfoCommand = $form->getData();
-                // Check if there have been anny changes
-                if($editEquipmentsCourseInfoCommand == $originalEditEquipmentsCourseInfoCommand){
-                    return new JsonResponse([
-                        'type' => "info",
-                        'message' => "Aucun changement a enregistrer"
-                    ]);
-                }
-                // Save changes
-                $this->editEquipmentsCourseInfoQuery->setEditEquipmentsCourseInfoCommand(
-                    $editEquipmentsCourseInfoCommand
-                )->execute();
-                // Return message success
-                return new JsonResponse([
-                    'type' => "success",
-                    'message' => "Modifications enregistrées avec succès"
-                ]);
-            }
-            return new JsonResponse([
-                'type' => "danger",
-                'message' => "Le formulaire n'a pas été soumis"
-            ]);
+
         }catch (\Exception $e) {
             // Log error
             $this->logger->error((string)$e);
 
             // Return message error
-            return new JsonResponse(
-                [
-                    'type' => "danger",
-                    'message' => "Une erreur est survenue"
-                ]
-            );
+            $messages[] = [
+                'type' => "danger",
+                'message' => "Une erreur est survenue"
+            ];
         }
+        return new JsonResponse(
+            [
+                'render' => $render,
+                'messages' => $messages,
+                'canBePublish' => $canBePublish
+            ]
+        );
     }
 
 }

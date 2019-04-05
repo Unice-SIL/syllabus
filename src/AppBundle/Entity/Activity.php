@@ -40,7 +40,7 @@ class Activity
      *
      * @ORM\Column(name="type", type="string", length=25, nullable=false)
      */
-    private $type = 'class';
+    private $type = 'activity';
 
     /**
      * @var string

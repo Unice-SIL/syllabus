@@ -11,6 +11,7 @@ use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CoursePrerequisite;
 use AppBundle\Entity\CourseTutoringResource;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class EditObjectivesCourseInfoCommand
@@ -25,16 +26,22 @@ class EditObjectivesCourseInfoCommand implements CommandInterface
 
     /**
      * @var ArrayCollection
+     *
+     * @Assert\Valid()
      */
     private $achievements;
 
     /**
      * @var ArrayCollection
+     *
+     * @Assert\Valid()
      */
     private $prerequisites;
 
     /**
      * @var ArrayCollection
+     *
+     * @Assert\Valid()
      */
     private $tutoringResources;
 
@@ -45,18 +52,37 @@ class EditObjectivesCourseInfoCommand implements CommandInterface
 
     /**
      * @var bool
+     *
+     * @Assert\Expression(
+     *     "not ( this.isTutoring() == true and this.isTutoringTeacher() == false and this.isTutoringStudent() == false)",
+     *     message=""
+     * )
      */
     private $tutoringTeacher = false;
 
     /**
      * @var bool
+     *
+     * @Assert\Expression(
+     *     "not ( this.isTutoring() == true and this.isTutoringTeacher() == false and this.isTutoringStudent() == false)",
+     *     message=""
+     * )
      */
     private $tutoringStudent = false;
 
     /**
      * @var null|string
+     *
+     * @Assert\Expression(
+     *     "not ( this.isTutoring() == true and this.getTutoringDescription() == null )"
+     * )
      */
     private $tutoringDescription;
+
+    /**
+     * @var bool
+     */
+    private $temObjectivesTabValid = false;
 
     /**
      * EditObjectivesCourseInfoCommand constructor.
@@ -309,6 +335,25 @@ class EditObjectivesCourseInfoCommand implements CommandInterface
     }
 
     /**
+     * @return bool
+     */
+    public function isTemObjectivesTabValid(): bool
+    {
+        return $this->temObjectivesTabValid;
+    }
+
+    /**
+     * @param bool $temObjectivesTabValid
+     * @return EditObjectivesCourseInfoCommand
+     */
+    public function setTemObjectivesTabValid(bool $temObjectivesTabValid): EditObjectivesCourseInfoCommand
+    {
+        $this->temObjectivesTabValid = $temObjectivesTabValid;
+
+        return $this;
+    }
+
+    /**
      * @param CourseInfo $entity
      * @return CourseInfo
      */
@@ -366,7 +411,8 @@ class EditObjectivesCourseInfoCommand implements CommandInterface
         $entity->setTutoring($this->isTutoring())
             ->setTutoringTeacher($this->isTutoringTeacher())
             ->setTutoringStudent($this->isTutoringStudent())
-            ->setTutoringDescription($this->getTutoringDescription());
+            ->setTutoringDescription($this->getTutoringDescription())
+            ->setTemObjectivesTabValid($this->isTemObjectivesTabValid());
 
         return $entity;
     }

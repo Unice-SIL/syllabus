@@ -6,6 +6,7 @@ use AppBundle\Command\CommandInterface;
 use AppBundle\Entity\CourseAchievement;
 use AppBundle\Entity\CourseInfo;
 use Ramsey\Uuid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class CourseAchievementCommand
@@ -20,6 +21,8 @@ class CourseAchievementCommand implements CommandInterface
 
     /**
      * @var null|string
+     *
+     * @Assert\NotBlank()
      */
     private $description;
 
@@ -86,6 +89,7 @@ class CourseAchievementCommand implements CommandInterface
 
         return $this;
     }
+
 
     /**
      * @return int

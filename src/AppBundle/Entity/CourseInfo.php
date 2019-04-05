@@ -41,6 +41,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="level", type="string", length=15, nullable=true, options={"fixed"=true})
+     *
      */
     private $level;
 
@@ -48,6 +49,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="domain", type="string", length=100, nullable=true, options={"fixed"=true})
+     *
      */
     private $domain;
 
@@ -90,6 +92,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="teaching_mode", type="string", length=15, nullable=true, options={"fixed"=true})
+     *
      */
     private $teachingMode;
 
@@ -118,6 +121,7 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_other_class", type="float", precision=10, scale=0, nullable=true)
+     *
      */
     private $teachingOtherClass;
 
@@ -125,6 +129,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="teaching_other_type_class", type="string", length=65, nullable=true)
+     *
      */
     private $teachingOtherTypeClass;
 
@@ -358,6 +363,55 @@ class CourseInfo
      * @ORM\Column(name="media_type", type="string", length=10, nullable=true)
      */
     private $mediaType;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="tem_presentation_tab_valid", type="boolean", nullable=false)
+     */
+    private $temPresentationTabValid = false;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="tem_activities_tab_valid", type="boolean", nullable=false)
+     */
+    private $temActivitiesTabValid = false;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="tem_objectives_tab_valid", type="boolean", nullable=false)
+     */
+    private $temObjectivesTabValid = false;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="tem_mcc_tab_valid", type="boolean", nullable=false)
+     */
+    private $temMccTabValid = false;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="tem_equipments_tab_valid", type="boolean", nullable=false)
+     */
+    private $temEquipmentsTabValid = false;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="tem_infos_tab_valid", type="boolean", nullable=false)
+     */
+    private $temInfosTabValid = false;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="tem_closing_remarks_tab_valid", type="boolean", nullable=false)
+     */
+    private $temClosingRemarksTabValid = false;
 
     /**
      * @var \AppBundle\Entity\Course
@@ -1408,6 +1462,139 @@ class CourseInfo
     public function setMediaType($mediaType)
     {
         $this->mediaType = $mediaType;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTemPresentationTabValid(): bool
+    {
+        return $this->temPresentationTabValid;
+    }
+
+    /**
+     * @param bool $temPresentationTabValid
+     * @return CourseInfo
+     */
+    public function setTemPresentationTabValid(bool $temPresentationTabValid): CourseInfo
+    {
+        $this->temPresentationTabValid = $temPresentationTabValid;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTemActivitiesTabValid(): bool
+    {
+        return $this->temActivitiesTabValid;
+    }
+
+    /**
+     * @param bool $temActivitiesTabValid
+     * @return CourseInfo
+     */
+    public function setTemActivitiesTabValid(bool $temActivitiesTabValid): CourseInfo
+    {
+        $this->temActivitiesTabValid = $temActivitiesTabValid;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTemObjectivesTabValid(): bool
+    {
+        return $this->temObjectivesTabValid;
+    }
+
+    /**
+     * @param bool $temObjectivesTabValid
+     * @return CourseInfo
+     */
+    public function setTemObjectivesTabValid(bool $temObjectivesTabValid): CourseInfo
+    {
+        $this->temObjectivesTabValid = $temObjectivesTabValid;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTemMccTabValid(): bool
+    {
+        return $this->temMccTabValid;
+    }
+
+    /**
+     * @param bool $temMccTabValid
+     * @return CourseInfo
+     */
+    public function setTemMccTabValid(bool $temMccTabValid): CourseInfo
+    {
+        $this->temMccTabValid = $temMccTabValid;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTemEquipmentsTabValid(): bool
+    {
+        return $this->temEquipmentsTabValid;
+    }
+
+    /**
+     * @param bool $temEquipmentsTabValid
+     * @return CourseInfo
+     */
+    public function setTemEquipmentsTabValid(bool $temEquipmentsTabValid): CourseInfo
+    {
+        $this->temEquipmentsTabValid = $temEquipmentsTabValid;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTemInfosTabValid(): bool
+    {
+        return $this->temInfosTabValid;
+    }
+
+    /**
+     * @param bool $temInfosTabValid
+     * @return CourseInfo
+     */
+    public function setTemInfosTabValid(bool $temInfosTabValid): CourseInfo
+    {
+        $this->temInfosTabValid = $temInfosTabValid;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTemClosingRemarksTabValid(): bool
+    {
+        return $this->temClosingRemarksTabValid;
+    }
+
+    /**
+     * @param bool $temClosingRemarksTabValid
+     * @return CourseInfo
+     */
+    public function setTemClosingRemarksTabValid(bool $temClosingRemarksTabValid): CourseInfo
+    {
+        $this->temClosingRemarksTabValid = $temClosingRemarksTabValid;
 
         return $this;
     }

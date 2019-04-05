@@ -6,6 +6,7 @@ use AppBundle\Command\CommandInterface;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseTutoringResource;
 use Ramsey\Uuid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class CourseTutoringResourceCommand
@@ -20,6 +21,8 @@ class CourseTutoringResourceCommand implements CommandInterface
 
     /**
      * @var null|string
+     *
+     * @Assert\NotBlank()
      */
     private $description;
 

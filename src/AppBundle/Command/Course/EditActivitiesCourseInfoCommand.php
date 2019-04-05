@@ -9,6 +9,7 @@ use AppBundle\Entity\CourseEvaluationCt;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseSection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class EditActivitiesCourseInfoCommand
@@ -23,13 +24,22 @@ class EditActivitiesCourseInfoCommand implements CommandInterface
 
     /**
      * @var ArrayCollection
+     *
+     * @Assert\Valid()
      */
     private $sections;
 
     /**
      * @var ArrayCollection
+     *
+     * @Assert\Valid()
      */
     private $evaluations;
+
+    /**
+     * @var bool
+     */
+    private $temActivitiesTabValid = false;
 
     /**
      * EditActivitiesCourseInfoCommand constructor.
@@ -154,6 +164,25 @@ class EditActivitiesCourseInfoCommand implements CommandInterface
     }
 
     /**
+     * @return bool
+     */
+    public function isTemActivitiesTabValid(): bool
+    {
+        return $this->temActivitiesTabValid;
+    }
+
+    /**
+     * @param bool $temActivitiesTabValid
+     * @return EditActivitiesCourseInfoCommand
+     */
+    public function setTemActivitiesTabValid(bool $temActivitiesTabValid): EditActivitiesCourseInfoCommand
+    {
+        $this->temActivitiesTabValid = $temActivitiesTabValid;
+
+        return $this;
+    }
+
+    /**
      * @param CourseInfo $entity
      * @return CourseInfo
      */
@@ -190,6 +219,8 @@ class EditActivitiesCourseInfoCommand implements CommandInterface
             $courseEvaluationCts->add($courseEvaluationCt);
         }
         $entity->setCourseEvaluationCts($courseEvaluationCts);
+
+        $entity->setTemActivitiesTabValid($this->isTemActivitiesTabValid());
 
         return $entity;
     }

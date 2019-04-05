@@ -3,9 +3,13 @@
 namespace AppBundle\Action\Ui\Course;
 
 use AppBundle\Action\ActionInterface;
+use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Query\Course\FindCourseInfoByIdQuery;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
 
@@ -26,17 +30,33 @@ class ViewStudentAction implements ActionInterface
     private $templating;
 
     /**
-     * StudentViewAction constructor.
+     * @var Session
+     */
+    private $session;
+
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
+     * ViewStudentAction constructor.
      * @param FindCourseInfoByIdQuery $findCourseInfoByIdQuery
      * @param Environment $templating
+     * @param SessionInterface $session
+     * @param LoggerInterface $logger
      */
     public function __construct(
             FindCourseInfoByIdQuery $findCourseInfoByIdQuery,
-            Environment $templating
+            Environment $templating,
+            SessionInterface $session,
+            LoggerInterface $logger
         )
     {
         $this->findCourseInfoByIdQuery = $findCourseInfoByIdQuery;
         $this->templating = $templating;
+        $this->session = $session;
+        $this->logger = $logger;
     }
 
     /**
@@ -46,8 +66,18 @@ class ViewStudentAction implements ActionInterface
      */
     public function __invoke(Request $request)
     {
-        $id = $request->get('id', null);
-        $courseInfo = $this->findCourseInfoByIdQuery->setId($id)->execute();
+        $courseInfo = null;
+        try {
+            $id = $request->get('id', null);
+            try {
+                $courseInfo = $this->findCourseInfoByIdQuery->setId($id)->execute();
+            } catch (CourseInfoNotFoundException $e) {
+                // Nothing to do
+            }
+        }catch (\Exception $e){
+            $this->logger->error((string) $e);
+            $this->session->getFlashBag()->add('danger', "Une erreur est survenue durant la récupération du cours");
+        }
 
         return new Response(
             $this->templating->render(

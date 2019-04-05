@@ -24,7 +24,7 @@
     ] %}
 
     {{ form_start(form) }}
-    <div class="row">
+    <div class="row mt-3">
         <div class="col">
             <button type="button" id="addSectionButton"
                     class="btn btn-primary btn-block btn-sm">
@@ -314,9 +314,8 @@
                             //cache: false,
                             //timeout: 600000
                         }).done(function(response){
-                            if(response.type !== undefined && response.message !== undefined) {
-                                SILTools.alert(response.type, response.message, false);
-                            }
+                            response.renderTabId = 'panel_tab-2';
+                            Syllabus.handleAjaxResponse(response);
                         }).always(function(){
                             SILTools.spinner.fadeOut( );
                         });

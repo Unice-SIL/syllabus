@@ -90,13 +90,34 @@ var Syllabus = ( function ( ) {
 
     }
 
+    var handleAjaxResponse = function( response ) {
+        if(response.messages !== undefined) {
+            response.messages.forEach(function(message){
+                if (message.type !== undefined && message.message !== undefined) {
+                    SILTools.alert(message.type, message.message, false);
+                }
+            });
+        }
+        if(response.render !== undefined && response.render !== null && response.renderTabId !== undefined) {
+            $('#'+response.renderTabId).html(response.render);
+        }
+        if(response.canBePublish !== undefined) {
+            if(response.canBePublish === true){
+                $('#publishButton').removeAttr("disabled");
+            }else{
+                $('#publishButton').attr("disabled", 'disable');
+            }
+        }
+    }
+
 
     /*
         Public pointers to exposed items.
     */
 
     return {
-        tabLoaderInit: tabLoaderInit
+        tabLoaderInit: tabLoaderInit,
+        handleAjaxResponse: handleAjaxResponse
     };
 
 

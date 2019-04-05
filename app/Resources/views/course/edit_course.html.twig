@@ -3,7 +3,7 @@
 {% block title %}
     {{ parent() }}
     {% if courseInfo.title is defined %}
-         • {{ courseInfo.title }}
+        • {{ courseInfo.title }}
     {% endif %}
 {% endblock %}
 
@@ -14,114 +14,126 @@
 {% block main %}
     {% if courseInfo.id is defined and courseInfo.id %}
 
-    <div class="row">
+        <div class="row">
 
-        <div class="col-sm">
+            <div class="col-sm">
 
-        {% if in_iframe == false and courseInfo.title is defined %}
-            <h3>{{ courseInfo.title }}</h3>
-        {% endif %}
+                {% if in_iframe == false and courseInfo.title is defined %}
+                    <h3>{{ courseInfo.title }}</h3>
+                {% endif %}
 
-            <ul class="nav nav-tabs">
+                <ul class="nav nav-tabs">
 
-                <li class="nav-item">
-                    <a class="nav-link" id="tab-1"
-                       data-route="{{ path('edit_presentation_course_info', { 'id': courseInfo.id }) }}"
-                       role="tab" data-toggle="tab" href="#panel_tab-1"
-                       aria-controls="panel_tab-1" aria-selected="true">
-                        Présentation générale
-                    </a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="tab-1"
+                           data-route="{{ path('edit_presentation_course_info', { 'id': courseInfo.id }) }}"
+                           role="tab" data-toggle="tab" href="#panel_tab-1"
+                           aria-controls="panel_tab-1" aria-selected="true">
+                            Présentation générale
+                        </a>
+                    </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" id="tab-2"
-                       data-route="{{ path('edit_activities_course_info', { 'id': courseInfo.id }) }}"
-                       role="tab" data-toggle="tab" href="#panel_tab-2"
-                       aria-controls="panel_tab-2" aria-selected="false">
-                        Contenu et activités
-                    </a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="tab-2"
+                           data-route="{{ path('edit_activities_course_info', { 'id': courseInfo.id }) }}"
+                           role="tab" data-toggle="tab" href="#panel_tab-2"
+                           aria-controls="panel_tab-2" aria-selected="false">
+                            Contenu et activités
+                        </a>
+                    </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" id="tab-3"
-                       data-route="{{ path('edit_objectives_course_info', { 'id': courseInfo.id }) }}"
-                       role="tab" data-toggle="tab" href="#panel_tab-3"
-                       aria-controls="panel_tab-3" aria-selected="false">
-                        Objectifs du cours
-                    </a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="tab-3"
+                           data-route="{{ path('edit_objectives_course_info', { 'id': courseInfo.id }) }}"
+                           role="tab" data-toggle="tab" href="#panel_tab-3"
+                           aria-controls="panel_tab-3" aria-selected="false">
+                            Objectifs du cours
+                        </a>
+                    </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" id="tab-4"
-                       data-route="{{ path('edit_mcc_course_info', { 'id': courseInfo.id }) }}"
-                       role="tab" data-toggle="tab" href="#panel_tab-4"
-                       aria-controls="panel_tab-4" aria-selected="false">
-                        Modalités d'évaluation
-                    </a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="tab-4"
+                           data-route="{{ path('edit_mcc_course_info', { 'id': courseInfo.id }) }}"
+                           role="tab" data-toggle="tab" href="#panel_tab-4"
+                           aria-controls="panel_tab-4" aria-selected="false">
+                            Modalités d'évaluation
+                        </a>
+                    </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" id="tab-5"
-                       data-route="{{ path('edit_equipments_course_info', { 'id': courseInfo.id }) }}"
-                       role="tab" data-toggle="tab" href="#panel_tab-5"
-                       aria-controls="panel_tab-5" aria-selected="false">
-                        Matériel et ressources
-                    </a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="tab-5"
+                           data-route="{{ path('edit_equipments_course_info', { 'id': courseInfo.id }) }}"
+                           role="tab" data-toggle="tab" href="#panel_tab-5"
+                           aria-controls="panel_tab-5" aria-selected="false">
+                            Matériel et ressources
+                        </a>
+                    </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" id="tab-6"
-                       data-route="{{ path('edit_infos_course_info', { 'id': courseInfo.id }) }}"
-                       role="tab" data-toggle="tab" href="#panel_tab-6"
-                       aria-controls="panel_tab-6" aria-selected="false">
-                        Informations pratiques
-                    </a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="tab-6"
+                           data-route="{{ path('edit_infos_course_info', { 'id': courseInfo.id }) }}"
+                           role="tab" data-toggle="tab" href="#panel_tab-6"
+                           aria-controls="panel_tab-6" aria-selected="false">
+                            Informations pratiques
+                        </a>
+                    </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" id="tab-7"
-                       data-route="{{ path('edit_closing_remarks_course_info', { 'id': courseInfo.id }) }}"
-                       role="tab" data-toggle="tab" href="#panel_tab-7"
-                       aria-controls="panel_tab-7" aria-selected="false">
-                        Le mot de la fin
-                    </a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="tab-7"
+                           data-route="{{ path('edit_closing_remarks_course_info', { 'id': courseInfo.id }) }}"
+                           role="tab" data-toggle="tab" href="#panel_tab-7"
+                           aria-controls="panel_tab-7" aria-selected="false">
+                            Le mot de la fin
+                        </a>
+                    </li>
 
-            </ul>
+                </ul>
 
-            <div class="tab-content">
+                <div class="tab-content">
 
-                <div class="tab-pane fade show active" id="panel_tab-1"
-                     role="tabpanel" aria-labelledby="tab-1">
+                    <div class="tab-pane fade show active" id="panel_tab-1"
+                         role="tabpanel" aria-labelledby="tab-1">
+                    </div>
+
+                    <div class="tab-pane fade" id="panel_tab-2"
+                         role="tabpanel" aria-labelledby="tab-2">
+                    </div>
+
+                    <div class="tab-pane fade" id="panel_tab-3"
+                         role="tabpanel" aria-labelledby="tab-3">
+                    </div>
+
+                    <div class="tab-pane fade" id="panel_tab-4"
+                         role="tabpanel" aria-labelledby="tab-4">
+                    </div>
+
+                    <div class="tab-pane fade" id="panel_tab-5"
+                         role="tabpanel" aria-labelledby="tab-5">
+                    </div>
+
+                    <div class="tab-pane fade" id="panel_tab-6"
+                         role="tabpanel" aria-labelledby="tab-6">
+                    </div>
+
+                    <div class="tab-pane fade" id="panel_tab-7"
+                         role="tabpanel" aria-labelledby="tab-7">
+                    </div>
+
                 </div>
-
-                <div class="tab-pane fade" id="panel_tab-2"
-                     role="tabpanel" aria-labelledby="tab-2">
+                <div class="row mt-3">
+                    <div class="col">
+                        {% if courseInfoHelper.canBePublished(courseInfo) %}
+                        <button class="btn btn-outline-primary btn-block" type="button" id="publishButton">
+                            {% else %}
+                            <button class="btn btn-outline-primary btn-block" type="button" id="publishButton" disabled>
+                                {% endif %}
+                                <i class="fas fa-file-upload"></i>
+                                Publier
+                            </button>
+                    </div>
                 </div>
-
-                <div class="tab-pane fade" id="panel_tab-3"
-                     role="tabpanel" aria-labelledby="tab-3">
-                </div>
-
-                <div class="tab-pane fade" id="panel_tab-4"
-                     role="tabpanel" aria-labelledby="tab-4">
-                </div>
-
-                <div class="tab-pane fade" id="panel_tab-5"
-                     role="tabpanel" aria-labelledby="tab-5">
-                </div>
-
-                <div class="tab-pane fade" id="panel_tab-6"
-                     role="tabpanel" aria-labelledby="tab-6">
-                </div>
-
-                <div class="tab-pane fade" id="panel_tab-7"
-                     role="tabpanel" aria-labelledby="tab-7">
-                </div>
-
             </div>
         </div>
-    </div>
 
     {% endif %}
 {% endblock %}
@@ -129,11 +141,28 @@
 {% block javascripts %}
     {{ parent() }}
     {% if courseInfo.id is defined and courseInfo.id %}
-    <script>
+        <script>
 
-        Syllabus.tabLoaderInit( );
+            Syllabus.tabLoaderInit( );
 
-    </script>
+            $(document).ready(function(){
+                $('#publishButton').click(function(){
+                    SILTools.spinner.fadeIn( {
+                        always: function(){
+                            $.ajax({
+                                type: 'POST',
+                                url: '{{ path('publish_course_info', { 'id': courseInfo.id })|escape('js') }}'
+                            }).done(function(response){
+                                Syllabus.handleAjaxResponse(response);
+                            }).always(function(){
+                                SILTools.spinner.fadeOut( );
+                            });
+                        }
+                    });
+                });
+            });
+
+        </script>
     {% endif %}
 {% endblock %}
 

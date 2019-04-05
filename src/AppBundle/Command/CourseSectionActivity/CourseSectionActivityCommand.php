@@ -7,6 +7,7 @@ use AppBundle\Entity\Activity;
 use AppBundle\Entity\CourseSection;
 use AppBundle\Entity\CourseSectionActivity;
 use Ramsey\Uuid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class CourseSectionActivityCommand
@@ -32,11 +33,19 @@ class CourseSectionActivityCommand implements CommandInterface
 
     /**
      * @var bool
+     *
+     * @Assert\Expression(
+     *     "not ( this.getActivity().getType() == 'evaluation' and this.isEvaluationTeacher() == false and this.isEvaluationPeer() == false)"
+     * )
      */
     private $evaluationTeacher;
 
     /**
      * @var bool
+     *
+     * @Assert\Expression(
+     *     "not ( this.getActivity().getType() == 'evaluation' and this.isEvaluationTeacher() == false and this.isEvaluationPeer() == false)"
+     * )
      */
     private $evaluationPeer;
 

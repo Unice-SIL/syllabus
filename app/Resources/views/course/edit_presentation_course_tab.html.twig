@@ -25,19 +25,19 @@
             <div class="row">
                 <div class="col">
                     {{ form_widget(form.period) }}
-                    <label alt="Période" placeholder="Période"></label>
+                    <label alt="Période (facultatif)" placeholder="Période (facultatif)"></label>
                 </div>
             </div>
             <div class="row">
                 <div class="col">
                     {{ form_widget(form.domain) }}
-                    <label alt="Domaine" placeholder="Domaine"></label>
+                    <label alt="Domaine *" placeholder="Domaine *"></label>
                 </div>
             </div>
         </div>
         <div class="col">
             <h6>
-                Quel est le niveau de ce cours ?
+                Quel est le niveau de ce cours ? *
             </h6>
             <ul>
                 {{ form_widget(form.level) }}
@@ -46,13 +46,17 @@
     </div>
     <div class="row mt-2">
         <div class="col-6">
+            <h6>
+                Résumé *
+            </h6>
+            {{ form_errors(form.summary) }}
             {{ form_widget(form.summary) }}
         </div>
         <div class="col-6">
             <div class="row">
                 <div class="col">
                     <h6>
-                        Télécharger une vidéo ou une image de présentation du cours qui respecte les droits d'auteur (illustration, photo de votre TD, &hellip;).
+                        Télécharger une vidéo ou une image de présentation du cours qui respecte les droits d'auteur (illustration, photo de votre TD, &hellip;). *
                     </h6>
                 </div>
             </div>
@@ -86,6 +90,7 @@
                         <div class="{{ imageContentClasses }}" id="media_image_container" role="tabpanel">
                             <div class="row">
                                 <div class="col">
+                                    {{ form_errors(form.image) }}
                                     {{ form_widget(form.image) }}
                                 </div>
                             </div>
@@ -151,7 +156,7 @@
         <div class="col">
             <div class="row mb-3">
                 <div class="col">
-                    <strong>Quel est votre mode d'enseignement ?</strong>
+                    <strong>Quel est votre mode d'enseignement ? *</strong>
                 </div>
             </div>
             <div class="row teaching-hours">
@@ -416,9 +421,8 @@
                             cache: false,
                             timeout: 600000
                         }).done(function(response){
-                            if(response.type !== undefined && response.message !== undefined) {
-                                SILTools.alert(response.type, response.message, false);
-                            }
+                            response.renderTabId = 'panel_tab-1';
+                            Syllabus.handleAjaxResponse(response);
                         }).always(function(){
                             SILTools.spinner.fadeOut( );
                         });

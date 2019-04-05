@@ -12,12 +12,31 @@
 {% endblock %}
 
 {% block main %}
-{% if course.course.parents|length != 0 %}
-    {% set parent = course.course.parents[0] %}
-{% endif %}
 {% set year = '2018' %}
 
+    {% if course == null %}
+        <div class="container-fluid py-3">
+            <div class="row d-flex flex-row m-3">
+                <div class="col-md-12 d-flex flex-row justify-content-center align-items-center text-danger">
+                    <h5 class="m-2">Le cours n'a pas été retrouvé.</h5>
+                </div>
+            </div>
+        </div>
+    {% elseif course.publicationDate == null %}
+        <div class="container-fluid py-3">
+            <div class="row d-flex flex-row m-3">
+                <div class="col-md-12 d-flex flex-row justify-content-center align-items-center text-danger">
+                    <h5 class="m-2">Le syllabus de ce cours n'est pas encore publié.</h5>
+                </div>
+            </div>
+        </div>
+    {% else %}
+    {% if course.course.parents|length != 0 %}
+        {% set parent = course.course.parents[0] %}
+    {% endif %}
+
     <div class="container-fluid bg-black py-3">
+
 
         <div class="row d-flex flex-row m-3">
 
@@ -25,7 +44,7 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon text-light"></span>
                 </button> 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent"></div>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav text-center">
                         <li class="nav-item d-flex flex-row align-items-center border-right">
                             <a class="nav-link text-light" href="#Presentation">Présentation</a>
@@ -52,6 +71,7 @@
                             <a class="nav-link text-light" href="#Mot_fin">Mot de la fin</a>
                         </li>
                     </ul>
+                </div>
             </nav>
         </div>
 
@@ -660,6 +680,8 @@
                     <iframe class="embed-responsive-item" src={{course.closingVideo}} allowfullscreen></iframe>
                 </div>
             </div>
+        {% endif %}
+
         {% endif %}
     </div>
 

@@ -4,6 +4,7 @@ namespace AppBundle\Command\Course;
 
 use AppBundle\Command\CommandInterface;
 use AppBundle\Entity\CourseInfo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class EditMccCourseInfoCommand
@@ -22,6 +23,11 @@ class EditMccCourseInfoCommand implements CommandInterface
     private $mccAdvice;
 
     /**
+     * @var bool
+     */
+    private $temMccTabValid = false;
+
+    /**
      * EditMccCourseInfoCommand constructor.
      * @param CourseInfo $courseInfo
      */
@@ -29,8 +35,6 @@ class EditMccCourseInfoCommand implements CommandInterface
     {
         $this->id = $courseInfo->getId();
         $this->mccAdvice = $courseInfo->getMccAdvice();
-
-
     }
 
     /**
@@ -71,6 +75,25 @@ class EditMccCourseInfoCommand implements CommandInterface
         return $this;
     }
 
+    /**
+     * @return bool
+     */
+    public function isTemMccTabValid(): bool
+    {
+        return $this->temMccTabValid;
+    }
+
+    /**
+     * @param bool $temMccTabValid
+     * @return EditMccCourseInfoCommand
+     */
+    public function setTemMccTabValid(bool $temMccTabValid): EditMccCourseInfoCommand
+    {
+        $this->temMccTabValid = $temMccTabValid;
+
+        return $this;
+    }
+
 
     /**
      * @param CourseInfo $entity
@@ -78,7 +101,8 @@ class EditMccCourseInfoCommand implements CommandInterface
      */
     public function filledEntity($entity): CourseInfo
     {
-        $entity->setMccAdvice($this->getMccAdvice());
+        $entity->setMccAdvice($this->getMccAdvice())
+            ->setTemMccTabValid($this->isTemMccTabValid());
 
         return $entity;
     }

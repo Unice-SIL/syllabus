@@ -69,9 +69,8 @@
                             cache: false,
                             timeout: 600000
                         }).done(function(response){
-                            if(response.type !== undefined && response.message !== undefined) {
-                                SILTools.alert(response.type, response.message, false);
-                            }
+                            response.renderTabId = 'panel_tab-6';
+                            Syllabus.handleAjaxResponse(response);
                         }).always(function(){
                             SILTools.spinner.fadeOut( );
                         });

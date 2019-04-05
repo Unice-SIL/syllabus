@@ -7,7 +7,7 @@ use AppBundle\Command\CourseTeacher\CourseTeacherCommand;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseTeacher;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class EditCourseInfoCommand
@@ -23,36 +23,53 @@ class EditPresentationCourseInfoCommand implements CommandInterface
 
     /**
      * @var null|string
+     *
+     *
      */
     private $period;
 
     /**
      * @var null|string
+     *
+     * @Assert\NotBlank()
      */
     private $level;
 
     /**
      * @var null|string
+     *
+     * @Assert\NotBlank()
      */
     private $domain;
 
     /**
      * @var null|string
+     *
+     * @Assert\NotBlank()
      */
     private $summary;
 
     /**
      * @var null|string
+     *
      */
     private $mediaType;
 
     /**
      * @var mixed
+     *
+     * @Assert\Expression(
+     *     "not ( (this.getMediaType() == 'image' or this.getMediaType() == null) and this.getImage() == null)"
+     * )
      */
     private $image;
 
     /**
      * @var null|string
+     *
+     * @Assert\Expression(
+     *     "not ( this.getMediaType() == 'video' and this.getVideo() == null)"
+     * )
      */
     private $video;
 
@@ -83,6 +100,10 @@ class EditPresentationCourseInfoCommand implements CommandInterface
 
     /**
      * @var string|null
+     *
+     * @Assert\Expression(
+     *     "not ( (this.getTeachingMode() == 'class' or this.getTeachingMode() == null ) and this.getTeachingOtherClass() != null)"
+     * )
      */
     private $teachingOtherTypeClass;
 
@@ -108,6 +129,10 @@ class EditPresentationCourseInfoCommand implements CommandInterface
 
     /**
      * @var string|null
+     *
+     * @Assert\Expression(
+     *     "not ( this.getTeachingMode() == 'hybrid' and this.getTeachingOtherHybridClass() != null)"
+     * )
      */
     private $teachingOtherTypeHybridClass;
 
@@ -128,13 +153,17 @@ class EditPresentationCourseInfoCommand implements CommandInterface
 
     /**
      * @var string|null
+     *
+     * @Assert\Expression(
+     *     "not ( this.getTeachingMode() == 'hybrid' and this.getTeachingOtherHybridDist() != null)"
+     * )
      */
     private $teachingOtherTypeHybridDistant;
 
     /**
-     * @var string|null
+     * @var bool
      */
-    //private $teacherSearch;
+    private $temPresentationTabValid = false;
 
     /**
      * @var array
@@ -612,6 +641,25 @@ class EditPresentationCourseInfoCommand implements CommandInterface
     }
 
     /**
+     * @return bool
+     */
+    public function isTemPresentationTabValid(): bool
+    {
+        return $this->temPresentationTabValid;
+    }
+
+    /**
+     * @param bool $temPresentationTabValid
+     * @return EditPresentationCourseInfoCommand
+     */
+    public function setTemPresentationTabValid(bool $temPresentationTabValid): EditPresentationCourseInfoCommand
+    {
+        $this->temPresentationTabValid = $temPresentationTabValid;
+
+        return $this;
+    }
+
+    /**
      * @return ArrayCollection
      */
     public function getTeachers(): ArrayCollection
@@ -680,7 +728,8 @@ class EditPresentationCourseInfoCommand implements CommandInterface
             ->setTeachingOtherHybridClass($this->getTeachingOtherHybridClass())
             ->setTeachingCmHybridDist($this->getTeachingCmHybridDist())
             ->setTeachingTdHybridDist($this->getTeachingTdHybridDist())
-            ->setTeachingOtherHybridDist($this->getTeachingOtherHybridDist());
+            ->setTeachingOtherHybridDist($this->getTeachingOtherHybridDist())
+            ->setTemPresentationTabValid($this->isTemPresentationTabValid());
 
         // CourseTeacher
         $courseTeachers = new ArrayCollection();

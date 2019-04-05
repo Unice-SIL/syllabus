@@ -7,6 +7,7 @@ use AppBundle\Entity\Activity;
 use AppBundle\Entity\CourseEvaluationCt;
 use AppBundle\Entity\CourseInfo;
 use Ramsey\Uuid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class CourseEvaluationCtCommand implements CommandInterface
 {
@@ -17,11 +18,16 @@ class CourseEvaluationCtCommand implements CommandInterface
 
     /**
      * @var null|string
+     *
+     * @Assert\NotBlank()
      */
     private $description;
 
     /**
      * @var null|float
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type("numeric")
      */
     private $evaluationRate;
 
