@@ -188,7 +188,11 @@ div.equipment {
     &.activity-in-class,
     &.activity-in-autonomy {
 
-        background-color: $light;
+        background-color: $secondary;
+
+        & .card-header {
+            color: $light;
+        }
 
     }
 
@@ -217,7 +221,7 @@ div.equipment {
 
     &.evaluation-cc,
     &.evaluation-ct {
-        background-color: $primary;
+        background-color: $info;
 
         & .card-header {
             color: $light;
@@ -247,13 +251,14 @@ div.equipment {
     &.activity-in-class,
     &.activity-in-autonomy {
 
-        background-color: $light;
+        background-color: $secondary;
+        color: $light;
 
     }
 
     &.evaluation-cc,
     &.evaluation-ct {
-        background-color: $primary;
+        background-color: $info;
         color: $light;
     }
 }

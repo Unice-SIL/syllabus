@@ -167,6 +167,11 @@ class EditPresentationCourseInfoCommand implements CommandInterface
 
     /**
      * @var array
+     *
+     * @Assert\Count(
+     *     min = 1,
+     *     minMessage = "Vous devez ajouter au moin un enseignant à l'équipe pédagogique"
+     * )
      */
     private $teachers;
 
