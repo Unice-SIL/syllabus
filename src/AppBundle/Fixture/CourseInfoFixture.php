@@ -42,7 +42,8 @@ class CourseInfoFixture extends Fixture implements DependentFixtureInterface
             ->setMccCtCoeffSession1(70)
             ->setMccCtDurationSession1('1h')
             ->setMccCtCoeffSession2(100)
-            ->setMccCtDurationSession2('1h');
+            ->setMccCtDurationSession2('1h')
+            ->setCreationDate(new \DateTime());
         $this->addReference(self::COURSE_INFO_1, $courseInfo);
         $manager->persist($courseInfo);
         // Course info 2
@@ -52,7 +53,8 @@ class CourseInfoFixture extends Fixture implements DependentFixtureInterface
             ->setYear($this->getReference(YearFixture::YEAR_2018))
             ->setStructure($this->getReference(StructureFixture::SCIENCES))
             ->setTitle('UE1 Génie biologique et biologie moléculaire')
-            ->setEcts(9);
+            ->setEcts(9)
+            ->setCreationDate(new \DateTime());
         $this->addReference(self::COURSE_INFO_2, $courseInfo);
         $manager->persist($courseInfo);
         // flush

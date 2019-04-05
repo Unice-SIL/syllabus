@@ -346,6 +346,13 @@ class CourseInfo
     /**
      * @var \DateTime|null
      *
+     * @ORM\Column(name="creation_date", type="datetime", nullable=false)
+     */
+    private $creationDate;
+
+    /**
+     * @var \DateTime|null
+     *
      * @ORM\Column(name="modification_date", type="datetime", nullable=true)
      */
     private $modificationDate;
@@ -1408,6 +1415,24 @@ class CourseInfo
         return $this;
     }
 
+    /**
+     * @return \DateTime|null
+     */
+    public function getCreationDate()
+    {
+        return $this->creationDate;
+    }
+
+    /**
+     * @param \DateTime|null $creationDate
+     * @return CourseInfo
+     */
+    public function setCreationDate($creationDate)
+    {
+        $this->creationDate = $creationDate;
+
+        return $this;
+    }
 
     /**
      * @return \DateTime|null
