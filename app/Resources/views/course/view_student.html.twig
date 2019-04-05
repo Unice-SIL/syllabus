@@ -172,17 +172,23 @@
         <div class="row d-flex flex-row justify-content-around text-white">
             <div class="col-md-4 media d-flex align-items-center">
                 <i class="fas m-3 fa-4x fa-map-marker-alt"></i>
-                <span class="font-weight-bold media-body"> {{course.structure.campus}} </span>
+                <div class = "col d-flex flex-column media-body">
+                <span class="font-weight-bold"> Campus principal </span>
+                <span class="font-weight-bold"> {{course.structure.campus}} </span>
+                </div>
             </div>
             <div class="col-md-4 media d-flex align-items-center">
                 {% if course.teachingMode == "class" %}
                     <img class="w-50 mx-3" src="{{ asset('images/in_class_white_256.png') }}">
-                {% elseif course.teachingMode == "hybrid" %}
-                    <img class="w-50 mx-3" src="{{ asset('images/hybrid_white_256.png') }}">
-                {% endif %}
-                <span class="font-weight-bold media-body d-flex flex-column justify-content-center align-items-start"> 
-                    <span>{{course.teachingMode}}</span>
+                    <span class="font-weight-bold media-body d-flex flex-column justify-content-center align-items-start"> 
+                    <span>PRESENTIEL</span>
                     <span class="font-weight-normal d-flex flex-column justify-content-center align-items-start">
+                {% elseif course.teachingMode == "hybrid" %}
+                    <img class="w-50 mr-3" src="{{ asset('images/hybrid_white_256.png') }}">
+                    <span class="font-weight-bold media-body d-flex flex-column justify-content-center align-items-start"> 
+                    <span>HYBRIDE</span>
+                    <span class="font-weight-normal d-flex flex-row justify-content-center align-items-start">
+                {% endif %}
                         {% if course.teachingMode == "class" %}
                             {% if course.teachingCmClass != null %}
                                 <span>{{ course.teachingCmClass }}h CM</span> 
@@ -204,39 +210,45 @@
                             {% endif %}
                         {% endif %}
                         {% if course.teachingMode == "hybrid" %}
-                            {% if course.teachingCmHybridClass != null %}
-                                <span>{{ course.teachingCmHybridClass }}h CM</span> 
-                            {% endif %}
-                            {% if course.teachingTdHybridClass != null %}
-                                <span>{{ course.teachingTdHybridClass}}h TD</span> 
-                        {% endif %}
-                            {% if course.teachingTpHybridClass != null %}
-                                <span>{{ course.teachingTpHybridClass}}h TP</span>
-                        {% endif %}
-                            {% if course.teachingOtherHybridClass != null %}
-                                <span>{{ course.teachingOtherHybridClass}}h
-                                {% if course.teachingOtherTypeHybridClass != null %}
-                                    {{ course.teachingOtherTypeHybridClass }}
-                                {% else %}
-                                    Autre
+                            <div class = "col pl-0 d-flex flex-column">
+                                <span>Présentiel</span>
+                                {% if course.teachingCmHybridClass != null %}
+                                    <span>{{ course.teachingCmHybridClass }}h CM</span> 
                                 {% endif %}
-                                </span>
-                        {% endif %}
-                            {% if course.teachingCmHybridDist != null %}
-                                <span>{{ course.teachingCmHybridDist }}h CM</span> 
-                        {% endif %}
-                            {% if course.teachingTdHybridDist != null %}
-                                <span>{{ course.teachingTdHybridDist}}h TD</span> 
-                        {% endif %}
-                            {% if course.teachingOtherHybridDist != null %}
-                                <span>{{ course.teachingOtherHybridDist}}h
-                                {% if course.teachingOtherTypeHybridDistant != null %}
-                                    {{ course.teachingOtherTypeHybridDistant }}
-                                {% else %}
-                                    Autre
+                                {% if course.teachingTdHybridClass != null %}
+                                    <span>{{ course.teachingTdHybridClass}}h TD</span> 
                                 {% endif %}
-                                </span>
-                            {% endif %}
+                                {% if course.teachingTpHybridClass != null %}
+                                    <span>{{ course.teachingTpHybridClass}}h TP</span>
+                                {% endif %}
+                                {% if course.teachingOtherHybridClass != null %}
+                                    <span>{{ course.teachingOtherHybridClass}}h
+                                    {% if course.teachingOtherTypeHybridClass != null %}
+                                        {{ course.teachingOtherTypeHybridClass }}
+                                    {% else %}
+                                        Autre
+                                    {% endif %}
+                                    </span>
+                                {% endif %}
+                            </div>
+                            <div class = "col pl-0 d-flex flex-column">
+                                <span>Distanciel</span>
+                                {% if course.teachingCmHybridDist != null %}
+                                    <span>{{ course.teachingCmHybridDist }}h CM</span> 
+                                {% endif %}
+                                {% if course.teachingTdHybridDist != null %}
+                                    <span>{{ course.teachingTdHybridDist}}h TD</span> 
+                                {% endif %}
+                                {% if course.teachingOtherHybridDist != null %}
+                                    <span>{{ course.teachingOtherHybridDist}}h
+                                    {% if course.teachingOtherTypeHybridDistant != null %}
+                                        {{ course.teachingOtherTypeHybridDistant }}
+                                    {% else %}
+                                        Autre
+                                    {% endif %}
+                                    </span>
+                                {% endif %}
+                            </div>
                         {% endif %}
                     </span>
                 </span>
@@ -339,14 +351,14 @@
         <div class="row m-3 d-flex flex-row justify-content-around">
             <div class="col-md-12 p-0" >
                 {% for section in course.courseSections %}
-                    <div class="col p-2 border border-dark bg-light"> 
+                    <div class="col p-2 my-2 border border-dark bg-light"> 
                     <h6>{{section.title|raw}} : {{section.description|raw}}</h6>
                     {% set ActivityHandled = [] %}
                     {% for activity in section.courseSectionActivities %}
                     {% set break = false %}
                         {% for activity in section.courseSectionActivities if activity not in ActivityHandled and not break %}
                             {% if activity.activity.mode == "class" %}
-                                <div class="row mx-1 p-3 d-flex flex-row justify-content-between align-items-center text-light bg-secondary }}">
+                                <div class="row mx-1 p-3 d-flex flex-row justify-content-between align-items-center text-light bg-black }}">
                                 <div class="d-flex flex-column align-items-start">
                                 {% for activity in section.courseSectionActivities if activity not in ActivityHandled and not break %}
                                     {% if activity.activity.mode == "class"%}
@@ -359,7 +371,7 @@
                                 </div>
                                 <div class="d-flex flex-row align-items-center">
                                     <span class="font-weight-bold mx-3"> En classe</span>
-                                    <img src="{{ asset('images/activity_in_class_64.png') }}">
+                                    <img src="{{ asset('images/activity_in_class_white_64.png') }}">
                                 </div>
                                 </div>
                             {% elseif activity.activity.mode == "autonomy" %}
@@ -409,9 +421,9 @@
                 {% endfor %}
 
                 {% for ct in course.courseEvaluationCts %}
-                    <div class="col p-2 border border-dark bg-light"> 
-                    <h6>Contrôle Terminal : {{ct.description|raw}}</h6>
-                    <div class="row mx-1 p-3 d-flex flex-row justify-content-between align-items-center text-light bg-primary }}">
+                    <div class="col p-2 my-2 border border-dark bg-light"> 
+                    <h6>Contrôle Terminal : Toue le programme</h6>
+                    <div class="row mx-1 p-3 d-flex flex-row justify-content-between align-items-center text-light bg-dark }}">
                         <div class="d-flex flex-column align-items-start">
                         {% set break = false %}
                         {% for activity in ct if activity not in ActivityHandled and not break %}
@@ -455,10 +467,10 @@
                 </div>
                 <div class="row m-3 d-flex flex-row justify-content-around">
                     <div class="col-md-6 pl-0" >
-                    <table class="table table-dark">
-                        <thead>
+                    <table class="table table-dark bg-black">
+                        <thead >
                             <tr>
-                            <th scope="col">1ère session</th>
+                            <th colspan="2" scope="col">1ère session</th>
                             </tr>
                             <tr>
                             <th>Type d'évaluation</th>
@@ -470,7 +482,7 @@
                             <td><p class="my-0">Contrôle Continu</p> ({{course.mccCcNbEvalSession1}} minimum)</td>
                             <td> {{course.mccCcCoeffSession1}}%</td>
                             </tr>
-                            <tr class="bg-primary">
+                            <tr class="bg-dark">
                             <td>Contrôle Terminal - {{course.mccCtDurationSession1}} </td>
                             <td>{{course.mccCtCoeffSession1}}%</td>
                             </tr>
@@ -478,10 +490,10 @@
                         </table>
                     </div>
                     <div class="col-md-6 pr-0" >
-                    <table class="table table-dark">
+                    <table class="table table-dark bg-black">
                         <thead>
                             <tr>
-                            <th scope="col">2ème session</th>
+                            <th colspan="2" scope="col">2ème session</th>
                             </tr>
                             <tr>
                             <th>Type d'évaluation</th>
@@ -489,7 +501,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="bg-info">
+                            <tr class="bg-dark">
                             <td>Contrôle Terminal - {{course.mccCtDurationSession2}} </td>
                             <td>{{course.mccCtCoeffSession2}}%</td>
                             </tr>
