@@ -388,7 +388,7 @@
                                 </div>
                                 <div class="d-flex flex-row align-items-center">
                                     <span class="font-weight-bold mx-3"> En autonomie</span>
-                                    <img src="{{ asset('images/activity_in_autonomy_64.png') }}">
+                                    <img src="{{ asset('images/activity_in_autonomy_white_64.png') }}">
                                 </div>
                                 </div>
                             {% elseif activity.activity.mode == "cc" %}
@@ -420,28 +420,24 @@
                     </div>
                 {% endfor %}
 
+                <div class="col p-2 my-2 border border-dark bg-light"> 
+                <h6>Contrôle Terminal : Toue le programme</h6>
+                <div class="row mx-1 p-3 d-flex flex-row justify-content-between align-items-center text-light bg-dark }}">
+                    <div class="d-flex flex-column align-items-start">
                 {% for ct in course.courseEvaluationCts %}
-                    <div class="col p-2 my-2 border border-dark bg-light"> 
-                    <h6>Contrôle Terminal : Toue le programme</h6>
-                    <div class="row mx-1 p-3 d-flex flex-row justify-content-between align-items-center text-light bg-dark }}">
-                        <div class="d-flex flex-column align-items-start">
-                        {% set break = false %}
-                        {% for activity in ct if activity not in ActivityHandled and not break %}
-                            {% if activity.activity.mode == "ct" %}
-                                <span>{{activity.label}} </span>
-                                {% set ActivityHandled = ActivityHandled|merge([activity]) %}
-                            {% else %}
-                                {% set break = true %}
-                            {% endif %}
-                        {% endfor %}
-                        </div>
-                        <div class = "d-flex flex-row align-items-center">
-                            <span class="font-weight-bold mx-3">Sur le campus</span>
-                            <i class="fas mx-3 fa-2x fa-map-marker-alt"></i>
-                        </div>
-                    </div>
-                    </div>
+                    <span>{{ct.activity.label}} 
+                    {% if ct.description != null %}
+                    : {{ct.description}}
+                    {% endif %}
+                    </span>
                 {% endfor %}
+                    </div>
+                    <div class = "d-flex flex-row align-items-center">
+                        <span class="font-weight-bold mx-3">Sur le campus</span>
+                        <i class="fas mx-3 fa-2x fa-map-marker-alt"></i>
+                    </div>
+                </div>
+                </div>
 
             </div>
         </div>
