@@ -25,7 +25,8 @@ class CanBePublishedCourseInfoSpecification extends Specification
             $courseInfo->isTemMccTabValid() &&
             $courseInfo->isTemEquipmentsTabValid() &&
             $courseInfo->isTemInfosTabValid() &&
-            $courseInfo->isTemClosingRemarksTabValid()
+            $courseInfo->isTemClosingRemarksTabValid() &&
+            is_null($courseInfo->getPublicationDate())
         );
     }
 }

@@ -153,13 +153,7 @@
                                 type: 'POST',
                                 url: '{{ path('publish_course_info', { 'id': courseInfo.id })|escape('js') }}'
                             }).done(function(response){
-                                if(response.messages !== undefined) {
-                                    response.messages.forEach(function(message){
-                                        if (message.type !== undefined && message.message !== undefined) {
-                                            SILTools.alert(message.type, message.message, false);
-                                        }
-                                    });
-                                }
+                                Syllabus.handleAjaxResponse(response);
                             }).always(function(){
                                 SILTools.spinner.fadeOut( );
                             });

@@ -113,7 +113,8 @@
                             cache: false,
                             timeout: 600000
                         }).done(function(response){
-                            disablePublishButton('#panel_tab-4');
+                            response.renderTabId = 'panel_tab-4';
+                            Syllabus.handleAjaxResponse(response);
                         }).always(function(){
                             SILTools.spinner.fadeOut( );
                         });

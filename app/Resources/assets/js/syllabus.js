@@ -90,7 +90,7 @@ var Syllabus = ( function ( ) {
 
     }
 
-    var disablePublishButton = function( id ) {
+    var handleAjaxResponse = function( response ) {
         if(response.messages !== undefined) {
             response.messages.forEach(function(message){
                 if (message.type !== undefined && message.message !== undefined) {
@@ -98,8 +98,8 @@ var Syllabus = ( function ( ) {
                 }
             });
         }
-        if(response.render !== undefined && response.render !== null) {
-            $(id).html(response.render);
+        if(response.render !== undefined && response.render !== null && response.renderTabId !== undefined) {
+            $('#'+response.renderTabId).html(response.render);
         }
         if(response.canBePublish !== undefined) {
             if(response.canBePublish === true){
@@ -116,7 +116,8 @@ var Syllabus = ( function ( ) {
     */
 
     return {
-        tabLoaderInit: tabLoaderInit
+        tabLoaderInit: tabLoaderInit,
+        handleAjaxResponse: handleAjaxResponse
     };
 
 
