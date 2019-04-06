@@ -26,6 +26,10 @@ class EditActivitiesCourseInfoCommand implements CommandInterface
      * @var ArrayCollection
      *
      * @Assert\Valid()
+     * @Assert\Count(
+     *     min = 1,
+     *     minMessage = "Vous devez ajouter au moins une section"
+     * )
      */
     private $sections;
 
@@ -33,6 +37,7 @@ class EditActivitiesCourseInfoCommand implements CommandInterface
      * @var ArrayCollection
      *
      * @Assert\Valid()
+     *
      */
     private $evaluations;
 

@@ -32,7 +32,9 @@ class CourseSectionCommand implements CommandInterface
     /**
      * @var null|string
      *
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(
+     *     message = "Vous devez renseigner ce champ"
+     * )
      */
     private $description;
 
@@ -50,6 +52,10 @@ class CourseSectionCommand implements CommandInterface
      * @var ArrayCollection
      *
      * @Assert\Valid()
+     * @Assert\Count(
+     *     min = 1,
+     *     minMessage = "Vous devez ajouter au moins une activité au contenu de cette section"
+     * )
      */
     private $activities;
 

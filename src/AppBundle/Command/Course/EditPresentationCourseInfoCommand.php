@@ -45,7 +45,9 @@ class EditPresentationCourseInfoCommand implements CommandInterface
     /**
      * @var null|string
      *
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(
+     *     message = "Vous devez renseigner ce champ"
+     * )
      */
     private $summary;
 
@@ -95,6 +97,8 @@ class EditPresentationCourseInfoCommand implements CommandInterface
 
     /**
      * @var float|null
+     *
+     * @Assert\Type("numeric")
      */
     private $teachingOtherClass;
 
@@ -102,7 +106,7 @@ class EditPresentationCourseInfoCommand implements CommandInterface
      * @var string|null
      *
      * @Assert\Expression(
-     *     "not ( (this.getTeachingMode() == 'class' or this.getTeachingMode() == null ) and this.getTeachingOtherClass() != null)"
+     *     "not (this.getTeachingMode() == 'class' and this.getTeachingOtherClass() != null and this.getTeachingOtherTypeClass() == null )"
      * )
      */
     private $teachingOtherTypeClass;
@@ -124,6 +128,8 @@ class EditPresentationCourseInfoCommand implements CommandInterface
 
     /**
      * @var float|null
+     *
+     * @Assert\Type("numeric")
      */
     private $teachingOtherHybridClass;
 
@@ -131,7 +137,7 @@ class EditPresentationCourseInfoCommand implements CommandInterface
      * @var string|null
      *
      * @Assert\Expression(
-     *     "not ( this.getTeachingMode() == 'hybrid' and this.getTeachingOtherHybridClass() != null)"
+     *     "not (this.getTeachingMode() == 'hybrid' and this.getTeachingOtherHybridClass() != null and this.getTeachingOtherTypeHybridClass() == null )"
      * )
      */
     private $teachingOtherTypeHybridClass;
@@ -148,6 +154,8 @@ class EditPresentationCourseInfoCommand implements CommandInterface
 
     /**
      * @var float|null
+     *
+     * @Assert\Type("numeric")
      */
     private $teachingOtherHybridDist;
 
@@ -155,7 +163,7 @@ class EditPresentationCourseInfoCommand implements CommandInterface
      * @var string|null
      *
      * @Assert\Expression(
-     *     "not ( this.getTeachingMode() == 'hybrid' and this.getTeachingOtherHybridDist() != null)"
+     *     "not (this.getTeachingMode() == 'hybrid' and this.getTeachingOtherHybridDist() != null and this.getTeachingOtherTypeHybridDistant() == null )"
      * )
      */
     private $teachingOtherTypeHybridDistant;
@@ -170,7 +178,7 @@ class EditPresentationCourseInfoCommand implements CommandInterface
      *
      * @Assert\Count(
      *     min = 1,
-     *     minMessage = "Vous devez ajouter au moin un enseignant à l'équipe pédagogique"
+     *     minMessage = "Vous devez ajouter au moins un enseignant à l'équipe pédagogique"
      * )
      */
     private $teachers;
