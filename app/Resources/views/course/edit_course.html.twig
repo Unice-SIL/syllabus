@@ -121,7 +121,9 @@
 
                 </div>
 
-                {% include 'course/edit_course_info_panel.html.twig' %}
+                <div id="course_info_panel" class="border mt-3 p-2">
+                    {% include 'course/edit_course_info_panel.html.twig' %}
+                </div>
 
             </div>
         </div>
@@ -137,7 +139,7 @@
             Syllabus.tabLoaderInit( );
 
             $(document).ready(function(){
-                $('#publishButton').click(function(){
+                $(document).on('click', '#publishButton', function(){
                     SILTools.spinner.fadeIn( {
                         always: function(){
                             $.ajax({

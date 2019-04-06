@@ -98,15 +98,12 @@ var Syllabus = ( function ( ) {
                 }
             });
         }
-        if(response.render !== undefined && response.render !== null && response.renderTabId !== undefined) {
-            $('#'+response.renderTabId).html(response.render);
-        }
-        if(response.canBePublish !== undefined) {
-            if(response.canBePublish === true){
-                $('#publishButton').removeAttr("disabled");
-            }else{
-                $('#publishButton').attr("disabled", 'disable');
-            }
+        if(response.renders !== undefined) {
+            response.renders.forEach(function(render) {
+                if (render.element !== undefined && render.content !== undefined) {
+                    $(render.element).html(render.content);
+                }
+            });
         }
     }
 

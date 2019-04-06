@@ -422,7 +422,6 @@
                             cache: false,
                             timeout: 600000
                         }).done(function(response){
-                            response.renderTabId = 'panel_tab-1';
                             Syllabus.handleAjaxResponse(response);
                         }).always(function(){
                             SILTools.spinner.fadeOut( );

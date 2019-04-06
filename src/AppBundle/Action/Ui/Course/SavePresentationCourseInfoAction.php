@@ -92,8 +92,7 @@ class SavePresentationCourseInfoAction implements ActionInterface
     public function __invoke(Request $request)
     {
         $messages = [];
-        $render = null;
-        $canBePublish = false;
+        $renders = [];
         try {
             $id = $request->get('id', null);
             // Find course info by id
@@ -141,9 +140,6 @@ class SavePresentationCourseInfoAction implements ActionInterface
                             $editPresentationCourseInfoCommand
                         )->execute();
 
-                        // Check if course can be published
-                        $canBePublish = $this->courseInfoHelper->canBePublished($courseInfo);
-
                         // Return message success
                         $messages[] = [
                             'type' => "success",
@@ -158,13 +154,28 @@ class SavePresentationCourseInfoAction implements ActionInterface
                     }
 
                     // Get render to reload form
-                    $render = $this->templating->render(
-                        'course/edit_presentation_course_tab.html.twig',
-                        [
-                            'courseInfo' => $courseInfo,
-                            'form' => $form->createView()
-                        ]
-                    );
+                    $renders[] = [
+                        'element' => '#panel_tab-1',
+                        'content' => $this->templating->render(
+                            'course/edit_presentation_course_tab.html.twig',
+                            [
+                                'courseInfo' => $courseInfo,
+                                'form' => $form->createView()
+                            ]
+                        )
+                    ];
+
+                    // Get render to reload course info panel
+                    $renders[] = [
+                        'element' => '#course_info_panel',
+                        'content' => $this->templating->render(
+                            'course/edit_course_info_panel.html.twig',
+                            [
+                                'courseInfo' => $courseInfo,
+                                'courseInfoHelper' => $this->courseInfoHelper
+                            ]
+                        )
+                    ];
                 }else {
                     $messages[] = [
                         'type' => "danger",
@@ -174,9 +185,9 @@ class SavePresentationCourseInfoAction implements ActionInterface
             } catch (CourseInfoNotFoundException $e) {
                 // Return message course not found
                 $messages[] = [
-                        'type' => "danger",
-                        'message' => sprintf("Le paiement %s n'existe pas", $id)
-                    ];
+                    'type' => "danger",
+                    'message' => sprintf("Le paiement %s n'existe pas", $id)
+                ];
             }
         }catch (\Exception $e) {
             // Log error
@@ -187,11 +198,11 @@ class SavePresentationCourseInfoAction implements ActionInterface
                 'message' => "Une erreur est survenue"
             ];
         }
+        dump($renders);
         return new JsonResponse(
             [
-                'render' => $render,
-                'messages' => $messages,
-                'canBePublish' => $canBePublish
+                'renders' => $renders,
+                'messages' => $messages
             ]
         );
     }

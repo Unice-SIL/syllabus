@@ -84,8 +84,7 @@ class SaveObjectivesCourseInfoAction implements ActionInterface
     public function __invoke(Request $request)
     {
         $messages = [];
-        $render = null;
-        $canBePublish = false;
+        $renders = [];
         try{
             $id = $request->get('id', null);
             // Find course info by id
@@ -117,9 +116,6 @@ class SaveObjectivesCourseInfoAction implements ActionInterface
                         // Save changes
                         $this->editObjectivesCourseInfoQuery->setEditObjectivesCourseInfoCommand($editObjectivesCourseInfoCommand)->execute();
 
-                        // Check if course can be published
-                        $canBePublish = $this->courseInfoHelper->canBePublished($courseInfo);
-
                         // Return message success
                         $messages[] = [
                             'type' => "success",
@@ -133,13 +129,28 @@ class SaveObjectivesCourseInfoAction implements ActionInterface
                     }
 
                     // Get render to reload form
-                    $render = $this->templating->render(
-                        'course/edit_objectives_course_info_tab.html.twig',
-                        [
-                            'courseInfo' => $courseInfo,
-                            'form' => $form->createView()
-                        ]
-                    );
+                    $renders[] = [
+                        'element' => '#panel_tab-3',
+                        'content' => $this->templating->render(
+                            'course/edit_objectives_course_info_tab.html.twig',
+                            [
+                                'courseInfo' => $courseInfo,
+                                'form' => $form->createView()
+                            ]
+                        )
+                    ];
+
+                    // Get render to reload course info panel
+                    $renders[] = [
+                        'element' => '#course_info_panel',
+                        'content' => $this->templating->render(
+                            'course/edit_course_info_panel.html.twig',
+                            [
+                                'courseInfo' => $courseInfo,
+                                'courseInfoHelper' => $this->courseInfoHelper
+                            ]
+                        )
+                    ];
 
                 }else{
                     $messages[] = [
@@ -168,9 +179,8 @@ class SaveObjectivesCourseInfoAction implements ActionInterface
 
         return new JsonResponse(
             [
-                'render' => $render,
-                'messages' => $messages,
-                'canBePublish' => $canBePublish
+                'renders' => $renders,
+                'messages' => $messages
             ]
         );
     }

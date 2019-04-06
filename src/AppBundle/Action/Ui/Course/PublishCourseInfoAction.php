@@ -78,22 +78,32 @@ class PublishCourseInfoAction implements ActionInterface
     public function __invoke(Request $request)
     {
         $messages = [];
-        $canBePublish = false;
+        $renders = [];
         try {
             $id = $request->get('id', null);
             try{
                 $courseInfo = $this->findCourseInfoByIdQuery->setId($id)->execute();
                 // Check if course can be published
-                if($canBePublish = $this->courseInfoHelper->canBePublished($courseInfo)){
+                if($this->courseInfoHelper->canBePublished($courseInfo)){
                     // Generate command
                     $publishCourseInfoCommand = new PublishCourseInfoCommand($courseInfo);
                     // Set course published
                     $this->publishCourseInfoQuery->setPublishCourseInfoCommand($publishCourseInfoCommand)->execute();
-                    $canBePublish = false;
                     // Return message course cannot published
                     $messages[] = [
                         'type' => "success",
                         'message' => sprintf("Le cours a été publié")
+                    ];
+                    // Get render to reload course info panel
+                    $renders[] = [
+                        'element' => '#course_info_panel',
+                        'content' => $this->templating->render(
+                            'course/edit_course_info_panel.html.twig',
+                            [
+                                'courseInfo' => $courseInfo,
+                                'courseInfoHelper' => $this->courseInfoHelper
+                            ]
+                        )
                     ];
                 }else{
                     // Return message course cannot published
@@ -121,7 +131,7 @@ class PublishCourseInfoAction implements ActionInterface
         return new JsonResponse(
             [
                 'messages' => $messages,
-                'canBePublish' => $canBePublish
+                'renders' => $renders
             ]
         );
     }
