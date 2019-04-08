@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% set dark_background = true %}
+
 {% block title %}
     {{ parent() }}
     {% if course.title is defined %}
@@ -14,24 +16,17 @@
 {% block main %}
 
     {% if course == null %}
-        <div class="container-fluid py-3">
-            <div class="alert alert-danger" role="alert">
-                Le cours demandé n'a pas été retrouvé.
-            </div>
+        <div class="alert alert-danger" role="alert">
+            Le cours demandé n'a pas été retrouvé.
         </div>
     {% elseif course.publicationDate == null %}
-        <div class="container-fluid py-3">
-            <div class="alert alert-warning" role="alert">
-                Le syllabus de ce cours n'est pas encore publié.
-            </div>
+        <div class="alert alert-warning" role="alert">
+            Le syllabus de ce cours n'est pas encore publié.
         </div>
     {% else %}
-    {% if course.course.parents|length != 0 %}
-        {% set parent = course.course.parents[0] %}
-    {% endif %}
-
-    <div class="container-fluid bg-black py-3">
-
+        {% if course.course.parents|length != 0 %}
+            {% set parent = course.course.parents[0] %}
+        {% endif %}
 
         <div class="row d-flex flex-row m-3">
 
@@ -685,8 +680,7 @@
             </div>
         {% endif %}
 
-        {% endif %}
-    </div>
+    {% endif %}
 
 
 
