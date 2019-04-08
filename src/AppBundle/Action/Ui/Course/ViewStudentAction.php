@@ -3,14 +3,18 @@
 namespace AppBundle\Action\Ui\Course;
 
 use AppBundle\Action\ActionInterface;
+use AppBundle\Constant\Permission;
 use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Query\Course\FindCourseInfoByIdQuery;
+use AppBundle\Helper\CoursePermissionHelper;
+use AppBundle\Entity\User;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Twig\Environment;
 
 /**
@@ -40,23 +44,39 @@ class ViewStudentAction implements ActionInterface
     private $logger;
 
     /**
+     * @var TokenStorageInterface
+     */
+    private $tokenStorage;
+
+    /**
+     * @var CoursePermissionHelper
+     */
+    private $coursePermissionHelper;
+
+    /**
      * ViewStudentAction constructor.
      * @param FindCourseInfoByIdQuery $findCourseInfoByIdQuery
      * @param Environment $templating
      * @param SessionInterface $session
+     * @param TokenStorageInterface $tokenStorage
      * @param LoggerInterface $logger
+     * @param CoursePermissionHelper $coursePermissionHelper
      */
     public function __construct(
             FindCourseInfoByIdQuery $findCourseInfoByIdQuery,
             Environment $templating,
             SessionInterface $session,
-            LoggerInterface $logger
+            LoggerInterface $logger,
+            TokenStorageInterface $tokenStorage,
+            CoursePermissionHelper $coursePermissionHelper
         )
     {
         $this->findCourseInfoByIdQuery = $findCourseInfoByIdQuery;
         $this->templating = $templating;
         $this->session = $session;
         $this->logger = $logger;
+        $this->tokenStorage = $tokenStorage;
+        $this->coursePermissionHelper = $coursePermissionHelper;
     }
 
     /**
@@ -79,11 +99,16 @@ class ViewStudentAction implements ActionInterface
             $this->session->getFlashBag()->add('danger', "Une erreur est survenue durant la récupération du cours");
         }
 
+        $user = $this->tokenStorage->getToken()->getUser();
+
+        $permission = $this->coursePermissionHelper->hasPermission($courseInfo, $user, Permission::WRITE);
+
         return new Response(
             $this->templating->render(
                 'course/view_student.html.twig',
                 [
-                    'course' => $courseInfo
+                    'course' => $courseInfo,
+                    'permission' => $permission
                 ]
             )
         );
