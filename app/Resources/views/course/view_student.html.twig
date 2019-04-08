@@ -311,7 +311,7 @@
                     <h5 class="m-0">REMEDIATION / AIDE A LA REUSSITE</h5>
                 </div>
                 <div class="col-md-12 d-flex flex-row justify-content-center align-items-center text-white">
-                    <h5 class="m-2">Si je rencontre des difficultés, je peux...</h5>
+                    <h5 class="m-2">Si je rencontre des difficultés, je peux&hellip;</h5>
                 </div>
                 {% if course.tutoringDescription != null %}
                     <div class="row m-3 p-2 border border-info bg-info text-light rounded-pill d-flex flex-row justify-content-center align-items-center">
@@ -411,22 +411,22 @@
                 {% endfor %}
 
                 <div class="col p-2 my-2 border border-dark bg-light">
-                <h6>Contrôle Terminal : Toue le programme</h6>
-                <div class="row mx-1 p-3 d-flex flex-row justify-content-between align-items-center text-light bg-dark }}">
-                    <div class="d-flex flex-column align-items-start">
-                {% for ct in course.courseEvaluationCts %}
-                    <span>{{ct.activity.label}}
-                    {% if ct.description != null %}
-                    : {{ct.description}}
-                    {% endif %}
-                    </span>
-                {% endfor %}
+                    <h6>Contrôle Terminal : tout le programme</h6>
+                    <div class="row mx-1 p-3 d-flex flex-row justify-content-between align-items-center text-light bg-dark }}">
+                        <div class="d-flex flex-column align-items-start">
+                    {% for ct in course.courseEvaluationCts %}
+                        <span>{{ct.activity.label}}
+                        {% if ct.description != null %}
+                        : {{ct.description}}
+                        {% endif %}
+                        </span>
+                    {% endfor %}
+                        </div>
+                        <div class = "d-flex flex-row align-items-center">
+                            <span class="font-weight-bold mx-3">Sur le campus</span>
+                            <i class="fas mx-3 fa-2x fa-map-marker-alt"></i>
+                        </div>
                     </div>
-                    <div class = "d-flex flex-row align-items-center">
-                        <span class="font-weight-bold mx-3">Sur le campus</span>
-                        <i class="fas mx-3 fa-2x fa-map-marker-alt"></i>
-                    </div>
-                </div>
                 </div>
 
             </div>
@@ -449,7 +449,7 @@
         <div class="row mx-3 d-flex flex-row justify-content-around">
             <div class="col-md-6 pl-0" >
                 <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
-                    <h5 class="m-0">MODALITE DE CONTROLE DES CONNAISSANCES</h5>
+                    <h5 class="m-0">MODALITES DE CONTROLE DES CONNAISSANCES</h5>
                 </div>
                 <div class="row m-3 d-flex flex-row justify-content-around">
                     <div class="col-md-6 pl-0" >
@@ -592,7 +592,7 @@
 
         <div class="row mx-3 mt-5 d-flex flex-row">
             <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
-                <h5 class="m-0">RESSOUCRES PEDAGOGIQUES</h5>
+                <h5 class="m-0">RESSOURCES PEDAGOGIQUES</h5>
             </div>
         </div>
         <div class="row mx-3 d-flex flex-row text-white">
