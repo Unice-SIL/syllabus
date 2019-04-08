@@ -19,6 +19,12 @@
     {% set container_class = 'container-fluid' %}
 {% endif %}
 
+{% if dark_background is defined and dark_background == true %}
+    {% set body_class = 'bg-black' %}
+{% else %}
+    {% set body_class = '' %}
+{% endif %}
+
 <html lang="{{ app.request.locale|lower }}">
 
     <head>
@@ -43,7 +49,7 @@
 
     </head>
 
-    <body>
+    <body class="{{ body_class }}">
 
 {% if in_iframe == false %}
         <header>

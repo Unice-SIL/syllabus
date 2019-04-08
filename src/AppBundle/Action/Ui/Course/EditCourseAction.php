@@ -112,10 +112,10 @@ class EditCourseAction implements ActionInterface
                 throw new CoursePermissionDeniedException();
             }
         }catch (CourseInfoNotFoundException $e){
-            $this->session->getFlashBag()->add('danger', sprintf("ce cours n'existe pas"));
+            $this->session->getFlashBag()->add('danger', sprintf("Le cours demandé n'existe pas."));
             return new RedirectResponse($this->router->generate('homepage'));
         }catch (CoursePermissionDeniedException $e){
-            $this->session->getFlashBag()->add('danger', sprintf("Vous ne possédez pas les permissions nécessaires pour modifier ce cours"));
+            $this->session->getFlashBag()->add('danger', sprintf("Vous ne possédez pas les permissions nécessaires pour modifier le cours demandé."));
             return new RedirectResponse($this->router->generate('homepage'));
         }
 
