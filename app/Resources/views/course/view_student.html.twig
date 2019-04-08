@@ -16,18 +16,14 @@
 
     {% if course == null %}
         <div class="container-fluid py-3">
-            <div class="row d-flex flex-row m-3">
-                <div class="col-md-12 d-flex flex-row justify-content-center align-items-center text-danger">
-                    <h5 class="m-2">Le cours n'a pas été retrouvé.</h5>
-                </div>
+            <div class="alert alert-danger" role="alert">
+                Le cours demandé n'a pas été retrouvé.
             </div>
         </div>
     {% elseif course.publicationDate == null %}
         <div class="container-fluid py-3">
-            <div class="row d-flex flex-row m-3">
-                <div class="col-md-12 d-flex flex-row justify-content-center align-items-center text-danger">
-                    <h5 class="m-2">Le syllabus de ce cours n'est pas encore publié.</h5>
-                </div>
+            <div class="alert alert-warning" role="alert">
+                Le syllabus de ce cours n'est pas encore publié.
             </div>
         </div>
     {% else %}
@@ -43,7 +39,7 @@
             <nav class="navbar navbar-expand-lg  navbar-dark bg-info border p-0 text-center">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon text-light"></span>
-                </button> 
+                </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav text-center">
                         <li class="nav-item d-flex flex-row align-items-center border-right">
@@ -108,24 +104,24 @@
                             <span class="font-weight-bold text-white">{{ parent.courseInfos[0].title }}</span>
                         </div>
                     <div class="col-md-3 border-left border-white">
-                        <div class="row d-flex flex-row justify-content-center font-weight-bold"> 
-                            <h2 class="m-0 text-white">{{parent.courseInfos[0].ects}}</h2> 
+                        <div class="row d-flex flex-row justify-content-center font-weight-bold">
+                            <h2 class="m-0 text-white">{{parent.courseInfos[0].ects}}</h2>
                         </div>
-                        <div class="row d-flex flex-row justify-content-center text-white"> 
-                            ECTS 
+                        <div class="row d-flex flex-row justify-content-center text-white">
+                            ECTS
                         </div>
                     </div>
                     <div class="col-md-3 border-left border-white ">
                         <div class="row d-flex flex-row justify-content-center font-weight-bold">
                             <h2 class="m-0 text-white">{{ parent.courseInfos[0].course.children|length }}</h2>
                         </div>
-                        <div class="row d-flex flex-row justify-content-center text-white"> 
-                            UCUE 
+                        <div class="row d-flex flex-row justify-content-center text-white">
+                            UCUE
                         </div>
                     </div>
                     {% endif %}
                 </div>
-            </div>   
+            </div>
         </div>
 
 
@@ -135,8 +131,8 @@
                     {{course.summary|raw}}
                 </p>
                 <p class="text-justify text-left text-white">
-                    Equipe enseignante: 
-                    {% for teacher in course.courseTeachers %} 
+                    Equipe enseignante:
+                    {% for teacher in course.courseTeachers %}
                         {% if loop.last %}
                             {% if teacher.manager == true %}
                                 <span class="font-weight-bold"><u> {{ teacher.firstname ~ ' ' ~ teacher.lastname }}</u>. </span>
@@ -150,7 +146,7 @@
                                 <span class="font-weight-bold"> {{ teacher.firstname ~ ' ' ~ teacher.lastname }}, </span>
                             {% endif %}
                         {% endif %}
-                    {% endfor %} 
+                    {% endfor %}
                 </p>
                 <p class="text-justify text-left text-white">
                     Période : <span class="font-weight-bold"> {{course.period}} </span>
@@ -180,27 +176,27 @@
             <div class="col-md-4 media d-flex align-items-center">
                 {% if course.teachingMode == "class" %}
                     <img class="w-50 mx-3" src="{{ asset('images/in_class_white_256.png') }}">
-                    <span class="font-weight-bold media-body d-flex flex-column justify-content-center align-items-start"> 
+                    <span class="font-weight-bold media-body d-flex flex-column justify-content-center align-items-start">
                     <span>PRESENTIEL</span>
                     <span class="font-weight-normal d-flex flex-column justify-content-center align-items-start">
                 {% elseif course.teachingMode == "hybrid" %}
                     <img class="w-50 mr-3" src="{{ asset('images/hybrid_white_256.png') }}">
-                    <span class="font-weight-bold media-body d-flex flex-column justify-content-center align-items-start"> 
+                    <span class="font-weight-bold media-body d-flex flex-column justify-content-center align-items-start">
                     <span>HYBRIDE</span>
                     <span class="font-weight-normal d-flex flex-row justify-content-center align-items-start">
                 {% endif %}
                         {% if course.teachingMode == "class" %}
                             {% if course.teachingCmClass != null %}
-                                <span>{{ course.teachingCmClass }}h CM</span> 
+                                <span>{{ course.teachingCmClass }}h CM</span>
                             {% endif %}
                             {% if course.teachingTdClass != null %}
-                                <span>{{ course.teachingTdClass}}h TD</span> 
+                                <span>{{ course.teachingTdClass}}h TD</span>
                         {% endif %}
                             {% if course.teachingTpClass != null %}
                                 <span>{{ course.teachingTpClass}}h TP</span>
                             {% endif %}
                             {% if course.teachingOtherClass != null %}
-                                <span>{{ course.teachingOtherClass}}h 
+                                <span>{{ course.teachingOtherClass}}h
                                 {% if course.teachingOtherTypeClass != null %}
                                     {{ course.teachingOtherTypeClass }}
                                 {% else %}
@@ -213,10 +209,10 @@
                             <div class = "col pl-0 d-flex flex-column">
                                 <span>Présentiel</span>
                                 {% if course.teachingCmHybridClass != null %}
-                                    <span>{{ course.teachingCmHybridClass }}h CM</span> 
+                                    <span>{{ course.teachingCmHybridClass }}h CM</span>
                                 {% endif %}
                                 {% if course.teachingTdHybridClass != null %}
-                                    <span>{{ course.teachingTdHybridClass}}h TD</span> 
+                                    <span>{{ course.teachingTdHybridClass}}h TD</span>
                                 {% endif %}
                                 {% if course.teachingTpHybridClass != null %}
                                     <span>{{ course.teachingTpHybridClass}}h TP</span>
@@ -234,10 +230,10 @@
                             <div class = "col pl-0 d-flex flex-column">
                                 <span>Distanciel</span>
                                 {% if course.teachingCmHybridDist != null %}
-                                    <span>{{ course.teachingCmHybridDist }}h CM</span> 
+                                    <span>{{ course.teachingCmHybridDist }}h CM</span>
                                 {% endif %}
                                 {% if course.teachingTdHybridDist != null %}
-                                    <span>{{ course.teachingTdHybridDist}}h TD</span> 
+                                    <span>{{ course.teachingTdHybridDist}}h TD</span>
                                 {% endif %}
                                 {% if course.teachingOtherHybridDist != null %}
                                     <span>{{ course.teachingOtherHybridDist}}h
@@ -293,10 +289,10 @@
                                 <span class="my-2">{{achievement.description}} </span>
                                 <div></div>
                             </div>
-                        </div> 
+                        </div>
                     {% endfor %}
                 </div>
-            {% endfor %} 
+            {% endfor %}
         </div>
 
 
@@ -310,11 +306,11 @@
                         <h5 class="m-2">Avant de suivre ce cours, je dois...</h5>
                     </div>
                 </div>
-                {% for prerequisite in course.coursePrerequisites %} 
+                {% for prerequisite in course.coursePrerequisites %}
                     <div class="row m-3 p-2 border border-info bg-info text-light rounded-pill d-flex flex-row justify-content-center align-items-center">
                     {{prerequisite.description}}
                     </div>
-                {% endfor %} 
+                {% endfor %}
             </div>
             <div class="col-md-6 pr-0" >
                 <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
@@ -328,15 +324,15 @@
                         {{course.tutoringDescription}}
                     </div>
                 {% endif %}
-                {% for resource in course.courseTutoringResources %} 
+                {% for resource in course.courseTutoringResources %}
                     <div class="row m-3 p-2 border border-info bg-info text-light rounded-pill d-flex flex-row justify-content-center align-items-center">
                     {{resource.description}}
                     </div>
-                {% endfor %} 
+                {% endfor %}
             </div>
         </div>
 
-        
+
 
         <div id="Contenu_activites" class="row mx-3 mt-5 d-flex flex-row">
             <div class="col-md-6 p-0">
@@ -351,7 +347,7 @@
         <div class="row m-3 d-flex flex-row justify-content-around">
             <div class="col-md-12 p-0" >
                 {% for section in course.courseSections %}
-                    <div class="col p-2 my-2 border border-dark bg-light"> 
+                    <div class="col p-2 my-2 border border-dark bg-light">
                     <h6>{{section.title|raw}} : {{section.description|raw}}</h6>
                     {% set ActivityHandled = [] %}
                     {% for activity in section.courseSectionActivities %}
@@ -413,19 +409,19 @@
                                 <div class = "d-flex flex-column col-1 align-items-center">
                                     <img src="{{ asset('images/evaluation_cc_64.png') }}">
                                 </div>
-                                </div>                             
+                                </div>
                             {% endif %}
                         {% endfor %}
                     {% endfor %}
                     </div>
                 {% endfor %}
 
-                <div class="col p-2 my-2 border border-dark bg-light"> 
+                <div class="col p-2 my-2 border border-dark bg-light">
                 <h6>Contrôle Terminal : Toue le programme</h6>
                 <div class="row mx-1 p-3 d-flex flex-row justify-content-between align-items-center text-light bg-dark }}">
                     <div class="d-flex flex-column align-items-start">
                 {% for ct in course.courseEvaluationCts %}
-                    <span>{{ct.activity.label}} 
+                    <span>{{ct.activity.label}}
                     {% if ct.description != null %}
                     : {{ct.description}}
                     {% endif %}
@@ -593,11 +589,11 @@
                             </div>
                         {% endif %}
                         {% if courseResourceEquipment.equipment.labelVisibility == true %}
-                        </div> 
+                        </div>
                         {% endif %}
                     {% endfor %}
                 </div>
-            {% endfor %} 
+            {% endfor %}
         </div>
 
         <div class="row mx-3 mt-5 d-flex flex-row">
