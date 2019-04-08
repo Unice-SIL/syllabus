@@ -114,7 +114,7 @@ class SaveClosingRemarksCourseInfoAction implements ActionInterface
                     if(!$form->isValid()){
                         $messages[] = [
                             'type' => "warning",
-                            'message' => "Attention, pour pouvoir publier le cours vous devez renseigner tous les champs obligatoires"
+                            'message' => "Attention, pour pouvoir publier le cours vous devez renseigner tous les champs obligatoires."
                         ];
                         $render = $this->templating->render(
                             'course/edit_closing_remarks_course_info_tab.html.twig',
@@ -136,12 +136,12 @@ class SaveClosingRemarksCourseInfoAction implements ActionInterface
                         // Return message success
                         $messages[] = [
                             'type' => "success",
-                            'message' => "Modifications enregistrées avec succès"
+                            'message' => "Modifications enregistrées avec succès."
                         ];
                     }else{
                         $messages[] = [
                             'type' => "info",
-                            'message' => "Aucun changement a enregistrer"
+                            'message' => "Aucun changement à enregistrer."
                         ];
                     }
 

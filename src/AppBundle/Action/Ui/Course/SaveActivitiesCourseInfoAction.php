@@ -106,7 +106,7 @@ class SaveActivitiesCourseInfoAction implements ActionInterface
                     if(!$form->isValid()){
                         $messages[] = [
                             'type' => "warning",
-                            'message' => "Attention, pour pouvoir publier le cours vous devez renseigner tous les champs obligatoires"
+                            'message' => "Attention, pour pouvoir publier le cours vous devez renseigner tous les champs obligatoires."
                         ];
                     }else{
                         $editActivitiesCourseInfoCommand->setTemActivitiesTabValid(true);
@@ -121,12 +121,12 @@ class SaveActivitiesCourseInfoAction implements ActionInterface
                         // Return message success
                         $messages[] = [
                             'type' => "success",
-                            'message' => "Modifications enregistrées avec succès"
+                            'message' => "Modifications enregistrées avec succès."
                         ];
                     }else{
                         $messages[] = [
                             'type' => "info",
-                            'message' => "Aucun changement a enregistrer"
+                            'message' => "Aucun changement à enregistrer."
                         ];
                     }
 
