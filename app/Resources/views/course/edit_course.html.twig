@@ -153,6 +153,10 @@
                         }
                     });
                 });
+
+                $(document).on('click', '#studentViewButton', function(){
+                    location.href = "{{ path('view_student', {'id': courseInfo.id}) }}";
+                });
             });
 
         </script>

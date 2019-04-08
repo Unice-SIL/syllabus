@@ -473,6 +473,13 @@ class CourseInfo
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
+     * @ORM\OneToMany(targetEntity="CoursePermission", mappedBy="courseInfo")
+     */
+    private $coursePermissions;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
      * @ORM\OneToMany(targetEntity="CourseTeacher", mappedBy="courseInfo", cascade={ "persist" })
      * @ORM\OrderBy({"lastname" = "ASC"})
      */
@@ -530,6 +537,7 @@ class CourseInfo
      */
     public function __construct()
     {
+        $this->coursePermissions = new ArrayCollection();
         $this->courseTeachers = new ArrayCollection();
         $this->courseSections = new ArrayCollection();
         $this->courseEvaluationCts = new ArrayCollection();
@@ -1715,6 +1723,47 @@ class CourseInfo
     public function setYear(Year $year): CourseInfo
     {
         $this->year = $year;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getCoursePermissions(): Collection
+    {
+        return $this->coursePermissions;
+    }
+
+    /**
+     * @param Collection $coursePermissions
+     * @return CourseInfo
+     */
+    public function setCoursePermissions(Collection $coursePermissions): CourseInfo
+    {
+        $this->coursePermissions = $coursePermissions;
+
+        return $this;
+    }
+
+    /**
+     * @param CoursePermission $coursePermission
+     * @return CourseInfo
+     */
+    public function addPermission(CoursePermission $coursePermission): CourseInfo
+    {
+        $this->coursePermissions->add($coursePermission);
+
+        return $this;
+    }
+
+    /**
+     * @param CoursePermission $coursePermission
+     * @return CourseInfo
+     */
+    public function removePermissoin(CoursePermission $coursePermission): CourseInfo
+    {
+        $this->coursePermissions->removeElement($coursePermission);
 
         return $this;
     }

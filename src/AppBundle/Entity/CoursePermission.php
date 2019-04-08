@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Permission
+ * CoursePermission
  *
- * @ORM\Table(name="permission", indexes={@ORM\Index(name="fk_permission_course_info1_idx", columns={"course_info_id"}), @ORM\Index(name="fk_permission_user1_idx", columns={"user_id"})})
+ * @ORM\Table(name="course_permission", indexes={@ORM\Index(name="fk_course_permission_course_info1_idx", columns={"course_info_id"}), @ORM\Index(name="fk_course_permission_user1_idx", columns={"user_id"})})
  * @ORM\Entity
  */
-class Permission
+class CoursePermission
 {
     /**
      * @var string
@@ -58,9 +58,9 @@ class Permission
 
     /**
      * @param string $id
-     * @return Permission
+     * @return CoursePermission
      */
-    public function setId(string $id): Permission
+    public function setId(string $id): CoursePermission
     {
         $this->id = $id;
 
@@ -77,7 +77,7 @@ class Permission
 
     /**
      * @param null|string $permission
-     * @return Permission
+     * @return CoursePermission
      */
     public function setPermission($permission)
     {
@@ -96,9 +96,9 @@ class Permission
 
     /**
      * @param CourseInfo $courseInfo
-     * @return Permission
+     * @return CoursePermission
      */
-    public function setCourseInfo(CourseInfo $courseInfo): Permission
+    public function setCourseInfo(CourseInfo $courseInfo): CoursePermission
     {
         $this->courseInfo = $courseInfo;
 
@@ -115,9 +115,9 @@ class Permission
 
     /**
      * @param User $user
-     * @return Permission
+     * @return CoursePermission
      */
-    public function setUser(User $user): Permission
+    public function setUser(User $user): CoursePermission
     {
         $this->user = $user;
 

@@ -188,9 +188,8 @@ class SaveInfosCourseInfoAction implements ActionInterface
         }
         return new JsonResponse(
             [
-                'render' => $render,
-                'messages' => $messages,
-                'canBePublish' => $canBePublish
+                'renders' => $renders,
+                'messages' => $messages
             ]
         );
     }

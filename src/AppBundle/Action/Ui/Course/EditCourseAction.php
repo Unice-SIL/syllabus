@@ -3,7 +3,10 @@
 namespace AppBundle\Action\Ui\Course;
 
 use AppBundle\Action\ActionInterface;
+use AppBundle\Constant\Permission;
 use AppBundle\Exception\CourseInfoNotFoundException;
+use AppBundle\Exception\CoursePermissionDeniedException;
+use AppBundle\Helper\CoursePermissionHelper;
 use AppBundle\Query\Course\FindCourseInfoByIdQuery;
 use AppBundle\Helper\CourseInfoHelper;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -14,6 +17,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Twig\Environment;
 
 /**
@@ -48,9 +52,19 @@ class EditCourseAction implements ActionInterface
     private $session;
 
     /**
+     * @var TokenStorageInterface
+     */
+    private $tokenStorage;
+
+    /**
      * @var CourseInfoHelper
      */
     private $courseInfoHelper;
+
+    /**
+     * @var CoursePermissionHelper
+     */
+    private $coursePermissionHelper;
 
     /**
      * EditCourseAction constructor.
@@ -59,7 +73,9 @@ class EditCourseAction implements ActionInterface
      * @param SessionInterface $session
      * @param Environment $templating
      * @param RouterInterface $router
+     * @param TokenStorageInterface $tokenStorage
      * @param CourseInfoHelper $courseInfoHelper
+     * @param CoursePermissionHelper $coursePermissionHelper
      */
     public function __construct(
             FindCourseInfoByIdQuery $findCourseInfoByIdQuery,
@@ -67,7 +83,9 @@ class EditCourseAction implements ActionInterface
             SessionInterface $session,
             Environment $templating,
             RouterInterface $router,
-            CourseInfoHelper $courseInfoHelper
+            TokenStorageInterface $tokenStorage,
+            CourseInfoHelper $courseInfoHelper,
+            CoursePermissionHelper $coursePermissionHelper
         )
     {
         $this->findCourseInfoByIdQuery = $findCourseInfoByIdQuery;
@@ -75,7 +93,9 @@ class EditCourseAction implements ActionInterface
         $this->templating = $templating;
         $this->session = $session;
         $this->router = $router;
+        $this->tokenStorage = $tokenStorage;
         $this->courseInfoHelper = $courseInfoHelper;
+        $this->coursePermissionHelper = $coursePermissionHelper;
     }
 
     /**
@@ -88,10 +108,18 @@ class EditCourseAction implements ActionInterface
         $id = $request->get('id', null);
         try {
             $courseInfo = $this->findCourseInfoByIdQuery->setId($id)->execute();
+            if(!$this->coursePermissionHelper->hasPermission($courseInfo, $this->tokenStorage->getToken()->getUser(),Permission::WRITE)){
+                throw new CoursePermissionDeniedException();
+            }
         }catch (CourseInfoNotFoundException $e){
-            $this->session->getFlashBag()->add('danger', sprintf("Course %s does not exist", $id));
+            $this->session->getFlashBag()->add('danger', sprintf("ce cours n'existe pas"));
+            return new RedirectResponse($this->router->generate('homepage'));
+        }catch (CoursePermissionDeniedException $e){
+            $this->session->getFlashBag()->add('danger', sprintf("Vous ne possédez pas les permissions nécessaires pour modifier ce cours"));
             return new RedirectResponse($this->router->generate('homepage'));
         }
+
+
 
         return new Response(
             $this->templating->render(
