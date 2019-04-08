@@ -19,7 +19,7 @@
         <div class="alert alert-danger" role="alert">
             Le cours demandé n'a pas été retrouvé.
         </div>
-    {% elseif course.publicationDate == null and permission == false %}
+    {% elseif course.publicationDate == null and coursePermissionHelper.hasPermission(course, app.user, constant('AppBundle\\Constant\\Permission::WRITE')) != true %}
         <div class="alert alert-warning" role="alert">
             Le syllabus de ce cours n'est pas encore publié.
         </div>

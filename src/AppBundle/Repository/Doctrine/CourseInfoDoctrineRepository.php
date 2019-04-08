@@ -42,20 +42,26 @@ class CourseInfoDoctrineRepository  extends AbstractDoctrineRepository implement
     }
 
     /**
-     * Find course info by id and year
-     * @param $id
+     * @param $etbId
      * @param $year
      * @return CourseInfo|null
      * @throws \Exception
      */
-    public function findByIdAndYear($id, $year): ?CourseInfo
+    public function findByEtbIdAndYear($etbId, $year): ?CourseInfo
     {
         $courseInfo = null;
         try{
-            $courseInfo = $this->entityManager->getRepository(CourseInfo::class)->findOneBy([
-                'id' => $id,
-                'year' => $year,
-            ]);
+            $qb = $this->entityManager->getRepository(CourseInfo::class)->createQueryBuilder('ci');
+            $qb->join('ci.course', 'c')
+                ->join('ci.year', 'y')
+                ->where($qb->expr()->eq('c.etbId', ':etbId'))
+                ->andWhere($qb->expr()->eq('y.id', ':year'))
+                ->setParameter('etbId', $etbId)
+                ->setParameter('year', $year);
+            $courseInfos = $qb->getQuery()->getResult();
+            if(!empty($courseInfos)){
+                $courseInfo = current($courseInfos);
+            }
         }catch (\Exception $e){
             throw $e;
         }
