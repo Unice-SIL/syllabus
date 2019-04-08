@@ -3,11 +3,12 @@
 namespace AppBundle\Action\Ui\Course;
 
 use AppBundle\Action\ActionInterface;
-use AppBundle\Command\Course\EditClosingRemarksCourseInfoCommand;
 use AppBundle\Command\Course\EditInfosCourseInfoCommand;
+use AppBundle\Constant\Permission;
 use AppBundle\Exception\CourseInfoNotFoundException;
-use AppBundle\Form\Course\EditClosingRemarksCourseInfoType;
+use AppBundle\Exception\CoursePermissionDeniedException;
 use AppBundle\Form\Course\EditInfosCourseInfoType;
+use AppBundle\Helper\CoursePermissionHelper;
 use AppBundle\Query\Course\FindCourseInfoByIdQuery;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -16,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Twig\Environment;
 
 /**
@@ -28,6 +30,16 @@ class EditInfosCourseInfoAction implements ActionInterface
      * @var FindCourseInfoByIdQuery
      */
     private $findCourseInfoByIdQuery;
+
+    /**
+     * @var CoursePermissionHelper
+     */
+    private $coursePermissionHelper;
+
+    /**
+     * @var TokenStorageInterface
+     */
+    private $tokenStorage;
 
     /**
      * @var FormFactoryInterface
@@ -54,6 +66,8 @@ class EditInfosCourseInfoAction implements ActionInterface
      */
     public function __construct(
         FindCourseInfoByIdQuery $findCourseInfoByIdQuery,
+        CoursePermissionHelper $coursePermissionHelper,
+        TokenStorageInterface $tokenStorage,
         FormFactoryInterface $formFactory,
         SessionInterface $session,
         Environment $templating,
@@ -61,6 +75,8 @@ class EditInfosCourseInfoAction implements ActionInterface
     )
     {
         $this->findCourseInfoByIdQuery = $findCourseInfoByIdQuery;
+        $this->coursePermissionHelper = $coursePermissionHelper;
+        $this->tokenStorage = $tokenStorage;
         $this->formFactory = $formFactory;
         $this->templating = $templating;
         $this->session = $session;
@@ -78,6 +94,16 @@ class EditInfosCourseInfoAction implements ActionInterface
             $id = $request->get('id', null);
             try {
                 $courseInfo = $this->findCourseInfoByIdQuery->setId($id)->execute();
+                if(!$this->coursePermissionHelper->hasPermission($courseInfo, $this->tokenStorage->getToken()->getUser(),Permission::WRITE)){
+                    throw new CoursePermissionDeniedException();
+                }
+            }catch (CoursePermissionDeniedException $e){
+                return new JsonResponse([
+                    'alert' => [
+                        'type' => 'danger',
+                        'message' => sprintf("Vous n'avez pas les permissions nécessaires pour éditer ce cours")
+                    ]
+                ]);
             } catch (CourseInfoNotFoundException $e) {
                 return new JsonResponse([
                     'alert' => [

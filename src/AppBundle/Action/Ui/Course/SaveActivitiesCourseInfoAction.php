@@ -4,9 +4,12 @@ namespace AppBundle\Action\Ui\Course;
 
 use AppBundle\Action\ActionInterface;
 use AppBundle\Command\Course\EditActivitiesCourseInfoCommand;
+use AppBundle\Constant\Permission;
+use AppBundle\Exception\CoursePermissionDeniedException;
 use AppBundle\Helper\CourseInfoHelper;
 use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Form\Course\EditActivitiesCourseInfoType;
+use AppBundle\Helper\CoursePermissionHelper;
 use AppBundle\Query\Course\EditActivitiesCourseInfoQuery;
 use AppBundle\Query\Course\FindCourseInfoByIdQuery;
 use Psr\Log\LoggerInterface;
@@ -14,6 +17,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Twig\Environment;
 
 /**
@@ -34,6 +38,21 @@ class SaveActivitiesCourseInfoAction implements ActionInterface
     private $editActivitiesCourseInfoQuery;
 
     /**
+     * @var CourseInfoHelper
+     */
+    private $courseInfoHelper;
+
+    /**
+     * @var CoursePermissionHelper
+     */
+    private $coursePermissionHelper;
+
+    /**
+     * @var TokenStorageInterface
+     */
+    private $tokenStorage;
+
+    /**
      * @var FormFactoryInterface
      */
     private $formFactory;
@@ -48,12 +67,13 @@ class SaveActivitiesCourseInfoAction implements ActionInterface
      */
     private $logger;
 
-    private $courseInfoHelper;
 
     /**
      * SaveActivitiesCourseInfoAction constructor.
      * @param FindCourseInfoByIdQuery $findCourseInfoByIdQuery
      * @param EditActivitiesCourseInfoQuery $editActivitiesCourseInfoQuery
+     * @param CoursePermissionHelper $coursePermissionHelper
+     * @param TokenStorageInterface $tokenStorage
      * @param FormFactoryInterface $formFactory
      * @param Environment $templating
      * @param LoggerInterface $logger
@@ -62,18 +82,22 @@ class SaveActivitiesCourseInfoAction implements ActionInterface
     public function __construct(
         FindCourseInfoByIdQuery $findCourseInfoByIdQuery,
         EditActivitiesCourseInfoQuery $editActivitiesCourseInfoQuery,
+        CourseInfoHelper $courseInfoHelper,
+        CoursePermissionHelper $coursePermissionHelper,
+        TokenStorageInterface $tokenStorage,
         FormFactoryInterface $formFactory,
         Environment $templating,
-        LoggerInterface $logger,
-        CourseInfoHelper $courseInfoHelper
+        LoggerInterface $logger
     )
     {
         $this->findCourseInfoByIdQuery = $findCourseInfoByIdQuery;
         $this->editActivitiesCourseInfoQuery = $editActivitiesCourseInfoQuery;
+        $this->courseInfoHelper = $courseInfoHelper;
+        $this->coursePermissionHelper = $coursePermissionHelper;
+        $this->tokenStorage = $tokenStorage;
         $this->formFactory = $formFactory;
         $this->logger = $logger;
         $this->templating = $templating;
-        $this->courseInfoHelper = $courseInfoHelper;
     }
 
     /**
@@ -91,7 +115,9 @@ class SaveActivitiesCourseInfoAction implements ActionInterface
             // Find course info by id
             try{
                 $courseInfo = $this->findCourseInfoByIdQuery->setId($id)->execute();
-
+                if(!$this->coursePermissionHelper->hasPermission($courseInfo, $this->tokenStorage->getToken()->getUser(),Permission::WRITE)){
+                    throw new CoursePermissionDeniedException();
+                }
                 // Init command
                 $editActivitiesCourseInfoCommand = new EditActivitiesCourseInfoCommand($courseInfo);
                 // Keep original command before modifications
@@ -111,7 +137,6 @@ class SaveActivitiesCourseInfoAction implements ActionInterface
                     }else{
                         $editActivitiesCourseInfoCommand->setTemActivitiesTabValid(true);
                     }
-
 
                     // Check if there have been any changes
                     if($editActivitiesCourseInfoCommand != $originalEditActivitiesCourseInfoCommand) {
@@ -159,6 +184,11 @@ class SaveActivitiesCourseInfoAction implements ActionInterface
                         'message' => "Le formulaire n'a pas été soumis"
                     ];
                 }
+            }catch (CoursePermissionDeniedException $e){
+                $messages[] = [
+                    'type' => "danger",
+                    'message' => sprintf("Vous n'avez pas les permissions nécessaires pour éditer ce cours")
+                ];
             } catch (CourseInfoNotFoundException $e) {
                 // Return message course not found
                 $messages[] = [

@@ -4,9 +4,12 @@ namespace AppBundle\Action\Ui\Course;
 
 use AppBundle\Action\ActionInterface;
 use AppBundle\Command\Course\EditEquipmentsCourseInfoCommand;
+use AppBundle\Constant\Permission;
 use AppBundle\Exception\CourseInfoNotFoundException;
+use AppBundle\Exception\CoursePermissionDeniedException;
 use AppBundle\Form\Course\EditEquipmentsCourseInfoType;
 use AppBundle\Helper\CourseInfoHelper;
+use AppBundle\Helper\CoursePermissionHelper;
 use AppBundle\Helper\FileUploaderHelper;
 use AppBundle\Query\Course\EditEquipmentsCourseInfoQuery;
 use AppBundle\Query\Course\FindCourseInfoByIdQuery;
@@ -15,6 +18,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Twig\Environment;
 
 /**
@@ -33,6 +37,16 @@ class SaveEquipmentsCourseInfoAction implements ActionInterface
      * @var EditEquipmentsCourseInfoQuery
      */
     private $editEquipmentsCourseInfoQuery;
+
+    /**
+     * @var CoursePermissionHelper
+     */
+    private $coursePermissionHelper;
+
+    /**
+     * @var TokenStorageInterface
+     */
+    private $tokenStorage;
 
     /**
      * @var FormFactoryInterface
@@ -55,14 +69,19 @@ class SaveEquipmentsCourseInfoAction implements ActionInterface
      * SaveEquipmentsCourseInfoAction constructor.
      * @param FindCourseInfoByIdQuery $findCourseInfoByIdQuery
      * @param EditEquipmentsCourseInfoQuery $editEquipmentsCourseInfoQuery
+     * @param CoursePermissionHelper $coursePermissionHelper
+     * @param TokenStorageInterface $tokenStorage
      * @param FormFactoryInterface $formFactory
      * @param FileUploaderHelper $fileUploaderHelper
+     * @param Environment $templating
      * @param LoggerInterface $logger
      * @param CourseInfoHelper $courseInfoHelper
      */
     public function __construct(
         FindCourseInfoByIdQuery $findCourseInfoByIdQuery,
         EditEquipmentsCourseInfoQuery $editEquipmentsCourseInfoQuery,
+        CoursePermissionHelper $coursePermissionHelper,
+        TokenStorageInterface $tokenStorage,
         FormFactoryInterface $formFactory,
         FileUploaderHelper $fileUploaderHelper,
         Environment $templating,
@@ -72,6 +91,8 @@ class SaveEquipmentsCourseInfoAction implements ActionInterface
     {
         $this->findCourseInfoByIdQuery = $findCourseInfoByIdQuery;
         $this->editEquipmentsCourseInfoQuery = $editEquipmentsCourseInfoQuery;
+        $this->coursePermissionHelper = $coursePermissionHelper;
+        $this->tokenStorage = $tokenStorage;
         $this->formFactory = $formFactory;
         $this->fileUploaderHelper = $fileUploaderHelper;
         $this->logger = $logger;
@@ -91,7 +112,9 @@ class SaveEquipmentsCourseInfoAction implements ActionInterface
             // Find course info by id
             try {
                 $courseInfo = $this->findCourseInfoByIdQuery->setId($id)->execute();
-
+                if(!$this->coursePermissionHelper->hasPermission($courseInfo, $this->tokenStorage->getToken()->getUser(),Permission::WRITE)){
+                    throw new CoursePermissionDeniedException();
+                }
                 // Init command
                 $editEquipmentsCourseInfoCommand = new EditEquipmentsCourseInfoCommand($courseInfo);
                 // Keep original command before modifications
@@ -163,6 +186,11 @@ class SaveEquipmentsCourseInfoAction implements ActionInterface
                         'message' => "Le formulaire n'a pas été soumis"
                     ];
                 }
+            }catch (CoursePermissionDeniedException $e){
+                $messages[] = [
+                    'type' => "danger",
+                    'message' => sprintf("Vous n'avez pas les permissions nécessaires pour éditer ce cours")
+                ];
             } catch (CourseInfoNotFoundException $e) {
                 // Return message course not found
                 $messages[] = [

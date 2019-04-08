@@ -4,9 +4,12 @@ namespace AppBundle\Action\Ui\Course;
 
 use AppBundle\Action\ActionInterface;
 use AppBundle\Command\Course\EditMccCourseInfoCommand;
+use AppBundle\Constant\Permission;
 use AppBundle\Exception\CourseInfoNotFoundException;
+use AppBundle\Exception\CoursePermissionDeniedException;
 use AppBundle\Form\Course\EditMccCourseInfoType;
 use AppBundle\Helper\CourseInfoHelper;
+use AppBundle\Helper\CoursePermissionHelper;
 use AppBundle\Helper\FileUploaderHelper;
 use AppBundle\Query\Course\EditMccCourseInfoQuery;
 use AppBundle\Query\Course\FindCourseInfoByIdQuery;
@@ -15,6 +18,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Twig\Environment;
 
 /**
@@ -35,6 +39,21 @@ class SaveMccCourseInfoAction implements ActionInterface
     private $editMccCourseInfoQuery;
 
     /**
+     * @var CourseInfoHelper
+     */
+    private $courseInfoHelper;
+
+    /**
+     * @var CoursePermissionHelper
+     */
+    private $coursePermissionHelper;
+
+    /**
+     * @var TokenStorageInterface
+     */
+    private $tokenStorage;
+
+    /**
      * @var FormFactoryInterface
      */
     private $formFactory;
@@ -49,30 +68,35 @@ class SaveMccCourseInfoAction implements ActionInterface
      */
     private $logger;
 
-    private $courseInfoHelper;
 
     /**
      * SaveMccCourseInfoAction constructor.
      * @param FindCourseInfoByIdQuery $findCourseInfoByIdQuery
      * @param EditMccCourseInfoQuery $editMccCourseInfoQuery
+     * @param CourseInfoHelper $courseInfoHelper
+     * @param CoursePermissionHelper $coursePermissionHelper
+     * @param TokenStorageInterface $tokenStorage
      * @param FormFactoryInterface $formFactory
      * @param FileUploaderHelper $fileUploaderHelper
      * @param Environment $templating
      * @param LoggerInterface $logger
-     * @param CourseInfoHelper $courseInfoHelper
      */
     public function __construct(
         FindCourseInfoByIdQuery $findCourseInfoByIdQuery,
         EditMccCourseInfoQuery $editMccCourseInfoQuery,
+        CourseInfoHelper $courseInfoHelper,
+        CoursePermissionHelper $coursePermissionHelper,
+        TokenStorageInterface $tokenStorage,
         FormFactoryInterface $formFactory,
         FileUploaderHelper $fileUploaderHelper,
         Environment $templating,
-        LoggerInterface $logger,
-        CourseInfoHelper $courseInfoHelper
+        LoggerInterface $logger
     )
     {
         $this->findCourseInfoByIdQuery = $findCourseInfoByIdQuery;
         $this->editMccCourseInfoQuery = $editMccCourseInfoQuery;
+        $this->coursePermissionHelper = $coursePermissionHelper;
+        $this->tokenStorage = $tokenStorage;
         $this->formFactory = $formFactory;
         $this->fileUploaderHelper = $fileUploaderHelper;
         $this->templating = $templating;
@@ -92,6 +116,9 @@ class SaveMccCourseInfoAction implements ActionInterface
             // Find course info by id
             try {
                 $courseInfo = $this->findCourseInfoByIdQuery->setId($id)->execute();
+                if(!$this->coursePermissionHelper->hasPermission($courseInfo, $this->tokenStorage->getToken()->getUser(),Permission::WRITE)){
+                    throw new CoursePermissionDeniedException();
+                }
                 // Init command
                 $editMccCourseInfoCommand = new EditMccCourseInfoCommand($courseInfo);
                 // Keep original command before modifications
@@ -163,6 +190,11 @@ class SaveMccCourseInfoAction implements ActionInterface
                         'message' => "Le formulaire n'a pas été soumis"
                     ];
                 }
+            }catch (CoursePermissionDeniedException $e){
+                $messages[] = [
+                    'type' => "danger",
+                    'message' => sprintf("Vous n'avez pas les permissions nécessaires pour éditer ce cours")
+                ];
             } catch (CourseInfoNotFoundException $e) {
                 // Return message course not found
                 $messages[] = [
