@@ -22,7 +22,7 @@
                 </div>
             </div>
         </div>
-    {% elseif course.publicationDate == null and permission == false %}
+    {% elseif course.publicationDate == null and coursePermissionHelper.hasPermission(course, app.user, constant('AppBundle\\Constant\\Permission::WRITE')) != true %}
         <div class="container-fluid py-3">
             <div class="row d-flex flex-row m-3">
                 <div class="col-md-12 d-flex flex-row justify-content-center align-items-center text-danger">

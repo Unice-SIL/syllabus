@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Twig\Environment;
 
 /**
@@ -44,11 +43,6 @@ class ViewStudentAction implements ActionInterface
     private $logger;
 
     /**
-     * @var TokenStorageInterface
-     */
-    private $tokenStorage;
-
-    /**
      * @var CoursePermissionHelper
      */
     private $coursePermissionHelper;
@@ -58,7 +52,6 @@ class ViewStudentAction implements ActionInterface
      * @param FindCourseInfoByIdQuery $findCourseInfoByIdQuery
      * @param Environment $templating
      * @param SessionInterface $session
-     * @param TokenStorageInterface $tokenStorage
      * @param LoggerInterface $logger
      * @param CoursePermissionHelper $coursePermissionHelper
      */
@@ -67,7 +60,6 @@ class ViewStudentAction implements ActionInterface
             Environment $templating,
             SessionInterface $session,
             LoggerInterface $logger,
-            TokenStorageInterface $tokenStorage,
             CoursePermissionHelper $coursePermissionHelper
         )
     {
@@ -75,7 +67,6 @@ class ViewStudentAction implements ActionInterface
         $this->templating = $templating;
         $this->session = $session;
         $this->logger = $logger;
-        $this->tokenStorage = $tokenStorage;
         $this->coursePermissionHelper = $coursePermissionHelper;
     }
 
@@ -99,16 +90,14 @@ class ViewStudentAction implements ActionInterface
             $this->session->getFlashBag()->add('danger', "Une erreur est survenue durant la récupération du cours");
         }
 
-        $user = $this->tokenStorage->getToken()->getUser();
-
-        $permission = $this->coursePermissionHelper->hasPermission($courseInfo, $user, Permission::WRITE);
+        $coursePermissionHelper = $this->coursePermissionHelper;
 
         return new Response(
             $this->templating->render(
                 'course/view_student.html.twig',
                 [
                     'course' => $courseInfo,
-                    'permission' => $permission
+                    'coursePermissionHelper' => $coursePermissionHelper
                 ]
             )
         );
