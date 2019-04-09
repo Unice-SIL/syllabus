@@ -33,31 +33,66 @@ $( document ).ready( function( ) {
 
         switch (event.keyCode) {
             case 65: // A
-                SILTools.alert( 'dark', "Fusce dapibus tellus ac cursus commodo.", true );
+                SILTools.alert( {
+                    type: 'dark',
+                    text: "Fusce dapibus tellus ac cursus commodo.",
+                    keep: true
+                } );
                 break;
             case 76: // L
-                SILTools.alert( 'light', "Tortor mauris condimentum nibh.", true );
+                SILTools.alert( {
+                    type: 'light',
+                    text: "Tortor mauris condimentum nibh.",
+                    keep: true
+                } );
                 break;
             case 80: // P
-                SILTools.alert( 'primary', "Ut fermentum massa justo sit amet risus.", true );
+                SILTools.alert( {
+                    type: 'primary',
+                    text: "Ut fermentum massa justo sit amet risus.",
+                    keep: true
+                } );
                 break;
             case 69: // E
-                SILTools.alert( 'secondary', "Vivamus sagittis lacus vel augue.", true );
+                SILTools.alert( {
+                    type: 'secondary',
+                    text: "Vivamus sagittis lacus vel augue.",
+                    keep: true
+                } );
                 break;
             case 73: // I
-                SILTools.alert( 'info', "Laoreet rutrum faucibus dolor auctor.", true );
+                SILTools.alert( {
+                    type: 'info',
+                    text: "Laoreet rutrum faucibus dolor auctor.",
+                    keep: true
+                } );
                 break;
             case 83: // S
-                SILTools.alert( 'success', "Donec id elit non mi porta gravida at eget metus.", true );
+                SILTools.alert( {
+                    type: 'success',
+                    text: "Donec id elit non mi porta gravida at eget metus.",
+                    keep: true
+                } );
                 break;
             case 87: // W
-                SILTools.alert( 'warning', "Aenean lacinia bibendum nulla sed consectetur.", true );
+                SILTools.alert( {
+                    type: 'warning',
+                    text: "Aenean lacinia bibendum nulla sed consectetur.",
+                    keep: true
+                } );
                 break;
             case 68: // D
-                SILTools.alert( 'danger', "Etiam porta sem malesuada magna mollis euismod.", true );
+                SILTools.alert( {
+                    type: 'danger',
+                    text: "Etiam porta sem malesuada magna mollis euismod.",
+                    keep: true
+                } );
+                break;
+            case 32: // spacebar
+                SILTools.alert( { } );
                 break;
             case 13:
-                SILTools.alert( true );
+                SILTools.alert( );
                 break;
             default:
                 console.log( event.keyCode );

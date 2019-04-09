@@ -46,6 +46,8 @@ footer {
     background-color: black;
 }
 
+
+
 /*
     Tabs
 */
@@ -127,7 +129,6 @@ input[type=text] {
     Forms sortable lists
 */
 
-
 form ul.list-group {
     list-style-type: none;
 
@@ -159,6 +160,8 @@ form ul.list-group {
     }
 }
 
+
+
 /*
     Sections & Activities
 */
@@ -170,7 +173,6 @@ form ul.list-group {
 .equipment {
 
     & i.fas {
-
         cursor: pointer;
 
         &.fa-trash-alt {
@@ -187,7 +189,6 @@ div.equipment {
 
     &.activity-in-class,
     &.activity-in-autonomy {
-
         background-color: $secondary;
 
         & .card-header {
@@ -250,10 +251,8 @@ div.equipment {
 
     &.activity-in-class,
     &.activity-in-autonomy {
-
         background-color: $secondary;
         color: $light;
-
     }
 
     &.evaluation-cc,
@@ -262,3 +261,4 @@ div.equipment {
         color: $light;
     }
 }
+
