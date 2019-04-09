@@ -47,8 +47,8 @@ var SILTools = ( function ( ) {
             'dark': [ ],
             'secondary': [ ],
             'primary': [ ],
-            'info': [ ],
             'success': [ ],
+            'info': [ ],
             'warning': [ ],
             'danger': [ ]
         };
