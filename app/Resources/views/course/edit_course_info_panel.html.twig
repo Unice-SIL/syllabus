@@ -1,32 +1,88 @@
 
 <div class="row mt-3">
     <div class="col">
-        <dt>
-            Création
-        </dt>
-        <dd>
-            {{ courseInfo.creationDate|date }}
-        </dd>
-        <dt>
-            Publication
-        </dt>
-        <dd>
-            {% if courseInfo.publicationDate is not empty  %}
-                <span class="badge badge-pill badge-success">Publié</span>
-            {% else %}
-                <span class="badge badge-pill badge-danger">Non publié</span>
-            {% endif %}
-        </dd>
+        <dl>
+            <dt>
+                Création
+            </dt>
+            <dd>
+                {{ courseInfo.creationDate|date }}
+            </dd>
+            <dt>
+                Dernière modification
+            </dt>
+            <dd>
+                {% if courseInfo.modificationDate is not empty and courseInfo.lastUpdater is not empty %}
+                    {{ courseInfo.modificationDate|date }} par {{ courseInfo.lastUpdater }}
+                {% endif %}
+            </dd>
+        </dl>
     </div>
     <div class="col">
-        <dt>
-            Dernière modification
-        </dt>
-        <dd>
-            {% if courseInfo.modificationDate is not empty and courseInfo.lastUpdater is not empty %}
-                {{ courseInfo.modificationDate|date }} par {{ courseInfo.lastUpdater }}
-            {% endif %}
-        </dd>
+        <dl>
+            <dt>
+                Publication
+            </dt>
+            <dd>
+                {% if courseInfo.publicationDate is not empty  %}
+                    <span class="badge badge-pill badge-success">Publié</span>
+                {% else %}
+                    <span class="badge badge-pill badge-danger">Non publié</span>
+                {% endif %}
+            </dd>
+        </dl>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <dl>
+            <dt>
+                Etat
+            </dt>
+            <dd>
+                {% set  badgePresentationTabClass = 'danger' %}
+                {% if courseInfo.isTemPresentationTabValid %}
+                    {% set  badgePresentationTabClass = 'success' %}
+                {% endif %}
+                <span class="mx-1 badge badge-{{ badgePresentationTabClass }}">Présentation générale</span>
+
+                {% set  badgeActivitiesTabClass = 'danger' %}
+                {% if courseInfo.isTemActivitiesTabValid %}
+                    {% set  badgeActivitiesTabClass = 'success' %}
+                {% endif %}
+                <span class="mx-1 badge badge-{{ badgeActivitiesTabClass }}">Contenu et activités</span>
+
+                {% set  badgeObjectivesTabClass = 'danger' %}
+                {% if courseInfo.isTemObjectivesTabValid %}
+                    {% set  badgeObjectivesTabClass = 'success' %}
+                {% endif %}
+                <span class="mx-1 badge badge-{{ badgeObjectivesTabClass }}">Objectifs</span>
+
+                {% set  badgeMccTabClass = 'danger' %}
+                {% if courseInfo.isTemMccTabValid %}
+                    {% set  badgeMccTabClass = 'success' %}
+                {% endif %}
+                <span class="mx-1 badge badge-{{ badgeMccTabClass }}">Modalités d'évaluation</span>
+
+                {% set  badgeEquipmentsTabClass = 'danger' %}
+                {% if courseInfo.isTemEquipmentsTabValid %}
+                    {% set  badgeEquipmentsTabClass = 'success' %}
+                {% endif %}
+                <span class="mx-1 badge badge-{{ badgeEquipmentsTabClass }}">Matériel et ressources</span>
+
+                {% set  badgeInfosTabClass = 'danger' %}
+                {% if courseInfo.isTemInfosTabValid %}
+                    {% set  badgeInfosTabClass = 'success' %}
+                {% endif %}
+                <span class="mx-1 badge badge-{{ badgeInfosTabClass }}">Informations pratiques</span>
+
+                {% set  badgeClosingRemarksTabClass = 'danger' %}
+                {% if courseInfo.isTemClosingRemarksTabValid %}
+                    {% set  badgeClosingRemarksTabClass = 'success' %}
+                {% endif %}
+                <span class="mx-1 badge badge-{{ badgeClosingRemarksTabClass }}">Mot de la fin</span>
+            </dd>
+        </dl>
     </div>
 </div>
 <div class="row mt-3">
