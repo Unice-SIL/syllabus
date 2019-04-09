@@ -21,11 +21,10 @@ var SILTools = ( function ( ) {
     */
 
 
-    const MS_BEFORE_ALERT_DISMISS = 4000,
-        USER_DISMISSIBLE_ALERT_TYPES = [
-                //'primary',
-                //'success',
-                'warning',
+    const MS_BEFORE_ALERT_DISMISS = 5000,
+        NON_AUTO_DISMISSIBLE_ALERT_TYPES = [
+                //'info',
+                //'warning',
                 'danger'
             ];
 
@@ -65,36 +64,27 @@ var SILTools = ( function ( ) {
 
             for ( var index in message ) {
 
-                var $alert = null;
-
-                if ( USER_DISMISSIBLE_ALERT_TYPES.includes( key ) ) {
-
-                    var $button = $( "<button>", {
-                            'type': "button",
-                            'class': "close",
-                            'data-dismiss': "alert",
-                            'aria-label': "Close",
-                            'html': '<span aria-hidden="true">&times;</span>'
-                        } );
-
+                var $button = $( "<button>", {
+                        'type': "button",
+                        'class': "close",
+                        'data-dismiss': "alert",
+                        'aria-label': "Close",
+                        'html': '<span aria-hidden="true">&times;</span>'
+                    } ),
                     $alert = $( "<div>", {
                         'class': "alert alert-dismissible fade show alert-" + key,
                         'html': message[ index ],
                         'css': { 'display': 'none' }
                     } );
 
-                    _$alertContainer.prepend( $alert.append( $button ) );
+                _$alertContainer.prepend( $alert.append( $button ) );
+
+                if ( NON_AUTO_DISMISSIBLE_ALERT_TYPES.includes( key ) ) {
+
                     $alert.slideDown( );
 
                 } else {
 
-                    $alert = $( "<div>", {
-                            'class': "alert alert-" + key,
-                            'html': message[ index ],
-                            'css': { 'display': 'none' }
-                        } );
-
-                    _$alertContainer.prepend( $alert );
                     $alert.slideDown( ).delay( MS_BEFORE_ALERT_DISMISS )
                             .slideUp( {
                                 always: _removeItem,
