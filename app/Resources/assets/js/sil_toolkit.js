@@ -30,7 +30,7 @@ var SILTools = ( function ( ) {
             ];
 
     var _$loadingSpinner = $( '#loading_spinner' ),
-        _$alertContainer = $( '#js-alerts_container' ),
+        _$alertContainer = $( '#alerts_container' ),
         _messages = { };
 
 
