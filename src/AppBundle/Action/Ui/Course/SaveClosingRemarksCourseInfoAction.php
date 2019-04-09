@@ -4,18 +4,21 @@ namespace AppBundle\Action\Ui\Course;
 
 use AppBundle\Action\ActionInterface;
 use AppBundle\Command\Course\EditClosingRemarksCourseInfoCommand;
+use AppBundle\Constant\Permission;
 use AppBundle\Exception\CourseInfoNotFoundException;
+use AppBundle\Exception\CoursePermissionDeniedException;
 use AppBundle\Form\Course\EditClosingRemarksCourseInfoType;
 use AppBundle\Helper\CourseInfoHelper;
+use AppBundle\Helper\CoursePermissionHelper;
 use AppBundle\Helper\FileUploaderHelper;
 use AppBundle\Query\Course\EditClosingRemarksCourseInfoQuery;
 use AppBundle\Query\Course\FindCourseInfoByIdQuery;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Twig\Environment;
 
 /**
@@ -34,6 +37,21 @@ class SaveClosingRemarksCourseInfoAction implements ActionInterface
      * @var EditClosingRemarksCourseInfoQuery
      */
     private $editClosingRemarksCourseInfoQuery;
+
+    /**
+     * @var CourseInfoHelper
+     */
+    private $courseInfoHelper;
+
+    /**
+     * @var CoursePermissionHelper
+     */
+    private $coursePermissionHelper;
+
+    /**
+     * @var TokenStorageInterface
+     */
+    private $tokenStorage;
 
     /**
      * @var FormFactoryInterface
@@ -55,35 +73,40 @@ class SaveClosingRemarksCourseInfoAction implements ActionInterface
      */
     private $logger;
 
-    private $courseInfoHelper;
 
     /**
      * SaveClosingRemarksCourseInfoAction constructor.
      * @param FindCourseInfoByIdQuery $findCourseInfoByIdQuery
      * @param EditClosingRemarksCourseInfoQuery $editClosingRemarksCourseInfoQuery
+     * @param CourseInfoHelper $courseInfoHelper
+     * @param CoursePermissionHelper $coursePermissionHelper
+     * @param TokenStorageInterface $tokenStorage
      * @param FormFactoryInterface $formFactory
      * @param FileUploaderHelper $fileUploaderHelper
      * @param Environment $templating
      * @param LoggerInterface $logger
-     * @param CourseInfoHelper $courseInfoHelper
      */
     public function __construct(
         FindCourseInfoByIdQuery $findCourseInfoByIdQuery,
         EditClosingRemarksCourseInfoQuery $editClosingRemarksCourseInfoQuery,
+        CourseInfoHelper $courseInfoHelper,
+        CoursePermissionHelper $coursePermissionHelper,
+        TokenStorageInterface $tokenStorage,
         FormFactoryInterface $formFactory,
         FileUploaderHelper $fileUploaderHelper,
         Environment $templating,
-        LoggerInterface $logger,
-        CourseInfoHelper $courseInfoHelper
+        LoggerInterface $logger
     )
     {
         $this->findCourseInfoByIdQuery = $findCourseInfoByIdQuery;
         $this->editClosingRemarksCourseInfoQuery = $editClosingRemarksCourseInfoQuery;
+        $this->courseInfoHelper = $courseInfoHelper;
+        $this->coursePermissionHelper = $coursePermissionHelper;
+        $this->tokenStorage = $tokenStorage;
         $this->formFactory = $formFactory;
         $this->fileUploaderHelper = $fileUploaderHelper;
         $this->templating = $templating;
         $this->logger = $logger;
-        $this->courseInfoHelper = $courseInfoHelper;
     }
 
     /**
@@ -92,12 +115,15 @@ class SaveClosingRemarksCourseInfoAction implements ActionInterface
     public function __invoke(Request $request)
     {
         $messages = [];
-        $render = [];
+        $renders = [];
         try {
             $id = $request->get('id', null);
             // Find course info by id
             try {
                 $courseInfo = $this->findCourseInfoByIdQuery->setId($id)->execute();
+                if(!$this->coursePermissionHelper->hasPermission($courseInfo, $this->tokenStorage->getToken()->getUser(),Permission::WRITE)){
+                    throw new CoursePermissionDeniedException();
+                }
                 // Init command
                 $editClosingRemarksCourseInfoCommand = new EditClosingRemarksCourseInfoCommand($courseInfo);
                 // Keep original command before modifications
@@ -116,17 +142,11 @@ class SaveClosingRemarksCourseInfoAction implements ActionInterface
                             'type' => "warning",
                             'message' => "Attention, pour pouvoir publier le cours vous devez renseigner tous les champs obligatoires."
                         ];
-                        $render = $this->templating->render(
-                            'course/edit_closing_remarks_course_info_tab.html.twig',
-                            [
-                                'courseInfo' => $courseInfo,
-                                'form' => $form->createView()
-                            ]
-                        );
                     }else{
                         $editClosingRemarksCourseInfoCommand->setTemClosingRemarksTabValid(true);
                     }
 
+                    // Check if there have been any changes
                     if($editClosingRemarksCourseInfoCommand != $originalEditClosingRemarksCourseInfoCommand){
                         // Save changes
                         $this->editClosingRemarksCourseInfoQuery->setEditClosingRemarksCourseInfoCommand(
@@ -183,6 +203,11 @@ class SaveClosingRemarksCourseInfoAction implements ActionInterface
                         'message' => sprintf("Le paiement %s n'existe pas", $id)
                 ];
             }
+        }catch (CoursePermissionDeniedException $e){
+            $messages[] = [
+                'type' => "danger",
+                'message' => sprintf("Vous n'avez pas les permissions nécessaires pour éditer ce cours")
+            ];
         }catch (\Exception $e) {
             // Log error
             $this->logger->error((string) $e);

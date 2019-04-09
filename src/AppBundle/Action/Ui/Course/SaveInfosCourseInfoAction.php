@@ -5,8 +5,10 @@ namespace AppBundle\Action\Ui\Course;
 use AppBundle\Action\ActionInterface;
 use AppBundle\Command\Course\EditInfosCourseInfoCommand;
 use AppBundle\Exception\CourseInfoNotFoundException;
+use AppBundle\Exception\CoursePermissionDeniedException;
 use AppBundle\Form\Course\EditInfosCourseInfoType;
 use AppBundle\Helper\CourseInfoHelper;
+use AppBundle\Helper\CoursePermissionHelper;
 use AppBundle\Helper\FileUploaderHelper;
 use AppBundle\Query\Course\EditInfosCourseInfoQuery;
 use AppBundle\Query\Course\FindCourseInfoByIdQuery;
@@ -15,6 +17,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Twig\Environment;
 
 /**
@@ -35,6 +38,11 @@ class SaveInfosCourseInfoAction implements ActionInterface
     private $editInfosCourseInfoQuery;
 
     /**
+     * @var CourseInfoHelper
+     */
+    private $courseInfoHelper;
+
+    /**
      * @var FormFactoryInterface
      */
     private $formFactory;
@@ -49,12 +57,12 @@ class SaveInfosCourseInfoAction implements ActionInterface
      */
     private $logger;
 
-    private $courseInfoHelper;
-
     /**
      * SaveInfosCourseInfoAction constructor.
      * @param FindCourseInfoByIdQuery $findCourseInfoByIdQuery
      * @param EditInfosCourseInfoQuery $editInfosCourseInfoQuery
+     * @param CoursePermissionHelper $coursePermissionHelper
+     * @param TokenStorageInterface $tokenStorage
      * @param FormFactoryInterface $formFactory
      * @param FileUploaderHelper $fileUploaderHelper
      * @param Environment $templating
@@ -63,21 +71,25 @@ class SaveInfosCourseInfoAction implements ActionInterface
      */
     public function __construct(
         FindCourseInfoByIdQuery $findCourseInfoByIdQuery,
+        CourseInfoHelper $courseInfoHelper,
         EditInfosCourseInfoQuery $editInfosCourseInfoQuery,
+        CoursePermissionHelper $coursePermissionHelper,
+        TokenStorageInterface $tokenStorage,
         FormFactoryInterface $formFactory,
         FileUploaderHelper $fileUploaderHelper,
         Environment $templating,
-        LoggerInterface $logger,
-        CourseInfoHelper $courseInfoHelper
+        LoggerInterface $logger
     )
     {
         $this->findCourseInfoByIdQuery = $findCourseInfoByIdQuery;
         $this->editInfosCourseInfoQuery = $editInfosCourseInfoQuery;
+        $this->courseInfoHelper = $courseInfoHelper;
+        $this->coursePermissionHelper = $coursePermissionHelper;
+        $this->tokenStorage = $tokenStorage;
         $this->formFactory = $formFactory;
         $this->fileUploaderHelper = $fileUploaderHelper;
         $this->templating = $templating;
         $this->logger = $logger;
-        $this->courseInfoHelper = $courseInfoHelper;
     }
 
     /**
@@ -170,6 +182,11 @@ class SaveInfosCourseInfoAction implements ActionInterface
                         'message' => "Le formulaire n'a pas été soumis"
                     ];
                 }
+            }catch (CoursePermissionDeniedException $e){
+                $messages[] = [
+                    'type' => "danger",
+                    'message' => sprintf("Vous n'avez pas les permissions nécessaires pour éditer ce cours")
+                ];
             } catch (CourseInfoNotFoundException $e) {
                 // Return message course not found
                 $messages[] = [
