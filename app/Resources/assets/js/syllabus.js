@@ -41,7 +41,10 @@ var Syllabus = ( function ( ) {
                         }
                         if(data.alert !== undefined) {
                             if (data.alert.type !== undefined && data.alert.message !== undefined) {
-                                SILTools.alert(data.alert.type, data.alert.message, false);
+                                SILTools.alert( {
+                                    type: data.alert.type,
+                                    text: data.alert.message
+                                } );
                             }
                         }
                     } ).always( function( ){
@@ -94,7 +97,11 @@ var Syllabus = ( function ( ) {
         if(response.messages !== undefined) {
             response.messages.forEach(function(message){
                 if (message.type !== undefined && message.message !== undefined) {
-                    SILTools.alert(message.type, message.message, false);
+                    SILTools.alert( {
+                        type: message.type,
+                        text: message.message,
+                        keep: false
+                    } );
                 }
             });
         }

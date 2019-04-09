@@ -336,7 +336,10 @@
                         teachersCollectionHolder.find("input[id*=_id]").each(function(){
                             if($(this).val() === data.id){
                                 teacherAlreadyInTeam = true;
-                                SILTools.alert('info', "Cet(te) enseignant(e) fait déjà partie de l'équipe", false);
+                                SILTools.alert({
+                                    type: 'info',
+                                    text: "Cet(te) enseignant(e) fait déjà partie de l'équipe."
+                                });
                             }
                         });
                         if(teacherAlreadyInTeam === false) {

@@ -120,43 +120,48 @@ var SILTools = ( function ( ) {
      * Adds BS alerts in “_$alertContainer”.
      *
      * Examples of use:
-     *      alert( 'info', "Blabla." );
+     *      alert( { type: 'info', text: "“Blabla." } );
      *          -> displays “Blabla.” in an “info” alert as well as all other
      *          previously buffered alerts, flushes buffer.
-     *      alert( 'danger', "Blublu.", true );
-     *          -> adds a “danger” alert in the buffer, displays nothing.
-     *      alert( true );
-     *          -> displays all previously buffered alerts, flushes buffer.
+     *      alert( { type: 'warning', text: "Blublu.", keep: true } );
+     *          -> adds a warning alert with “Blabla.” text in the buffer,
+     *          displays nothing.
      *      alert( );
-     *          -> displays a default “danger” alert as well as all other
-     *          previously buffered alerts, flushes buffer.
+     *          -> displays all previously buffered alerts, flushes buffer.
      *
-     * @param {string/boolean} type:
-     *      one of the Bootstrap contextual classes, or “true” to display all
-     *      previously buffered alerts and flush buffer.
-     * @param {string} text: the text to display.
-     * @param {boolean} keep: wether or not.
+     * @param {object} alertData:
+     *      type -> one of the Bootstrap contextual classes;
+     *      text -> the text to display;
+     *      keep -> “true” to simply add alert to buffer,
+     *              “false” to display all previously buffered alerts
+     *              and flush buffer.
+     *
      */
-    var alert = function( type, text, keep ) {
+    var alert = function( alertData ) {
 
-        if ( type === true ) {
+        if ( alertData === undefined ) {
 
             _displayAllBSAlerts( );
 
         } else {
 
-            //if ( type === undefined || ! ( type in _messages ) ) {
-            if ( type === undefined || ! _messages.hasOwnProperty( type ) ) {
-                type = 'danger';
+            if ( alertData.type === undefined
+                    //|| ! ( alertData.type in _messages )
+                    || ! _messages.hasOwnProperty( alertData.type ) ) {
+                alertData.type = 'danger';
             }
 
-            if ( text === undefined ) {
-                text = "Une erreur est survenue.";
+            if ( alertData.text === undefined ) {
+                alertData.text = "Une erreur est survenue.";
             }
 
-            _messages[ type ].push( text );
+            if ( alertData.keep === undefined ) {
+                alertData.keep = false;
+            }
 
-            if ( ! keep ) {
+            _messages[ alertData.type ].push( alertData.text );
+
+            if ( ! alertData.keep ) {
                 _displayAllBSAlerts( );
             }
 

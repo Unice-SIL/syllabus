@@ -90,7 +90,10 @@ $( document ).ready( function( ) {
     $( document ).ajaxError( function( event, jqXHR, ajaxSettings, thrownError ) {
 
         console.log( { event, jqXHR, ajaxSettings, thrownError } );
-        SILTools.alert( 'danger', "Une erreur est survenue (" + jqXHR.status + ")." );
+        SILTools.alert( {
+            type: 'danger',
+            text: "Une erreur est survenue (" + jqXHR.status + ")."
+        } );
 
     } );
 
