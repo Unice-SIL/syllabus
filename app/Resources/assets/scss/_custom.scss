@@ -97,9 +97,11 @@ $input-disabled-bg: $gray-100;
 //@import '~bootstrap/scss/print';
 */
 
+
+
 /*
-Bootstrap-toggle
- */
+    Bootstrap-toggle
+*/
 
 .toggle.ios, .toggle-on.ios, .toggle-off.ios { border-radius: 20rem; }
 .toggle.ios .toggle-handle { border-radius: 20rem; }
@@ -108,3 +110,4 @@ label.toggle-on,
 label.toggle-off {
     cursor: pointer;
 }
+
