@@ -265,6 +265,7 @@ class EditPresentationCourseInfoCommandTest extends TestCase
      */
     protected function tearDown(): void
     {
-        unset($this->editUserCommand);
+        unset($this->courseInfo);
+        unset($this->editClosingRemarksCourseInfoCommand);
     }
 }
