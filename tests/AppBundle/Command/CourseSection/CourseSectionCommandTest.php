@@ -5,7 +5,6 @@ namespace tests\AppBundle\Command\CourseSection;
 use AppBundle\Command\CourseSection\CourseSectionCommand;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseSection;
-use AppBundle\Entity\SectionType;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;

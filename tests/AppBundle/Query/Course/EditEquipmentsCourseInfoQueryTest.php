@@ -2,21 +2,22 @@
 
 namespace tests\AppBundle\Query\User;
 
-use AppBundle\Command\Course\EditActivitiesCourseInfoCommand;
+use AppBundle\Command\Course\EditEquipmentsCourseInfoCommand;
 use AppBundle\Entity\CourseInfo;
-use AppBundle\Entity\CourseSection;
+use AppBundle\Entity\CourseResourceEquipment;
+use AppBundle\Entity\Equipment;
 use AppBundle\Exception\CourseInfoNotFoundException;
-use AppBundle\Query\Course\EditActivitiesCourseInfoQuery;
+use AppBundle\Query\Course\EditEquipmentsCourseInfoQuery;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
 
 /**
- * Class EditPresentationCourseInfoQueryTest
- * @package tests\Query\User
+ * Class EditEquipmentsCourseInfoQueryTest
+ * @package tests\AppBundle\Query\User
  */
-class EditActivitiesCourseInfoQueryTest extends TestCase
+class EditEquipmentsCourseInfoQueryTest extends TestCase
 {
     /**
      * @var MockObject
@@ -26,17 +27,7 @@ class EditActivitiesCourseInfoQueryTest extends TestCase
     /**
      * @var MockObject
      */
-    private $courseSectionRepository;
-
-    /**
-     * @var MockObject
-     */
-    private $courseSectionActivityRepository;
-
-    /**
-     * @var MockObject
-     */
-    private $courseEvaluationCtRepository;
+    private $courseResourceEquipmentRepository;
 
     /**
      * @var CourseInfo
@@ -46,17 +37,12 @@ class EditActivitiesCourseInfoQueryTest extends TestCase
     /**
      * @var ArrayCollection
      */
-    private $courseSections;
+    private $courseResourceEquipments;
 
     /**
-     * @var EditActivitiesCourseInfoCommand
+     * @var EditEquipmentsCourseInfoCommand
      */
-    private $editActivitiesCourseInfoCommand;
-
-    /**
-     * @var EditActivitiesCourseInfoQuery
-     */
-    private $editActivitiesCourseInfoQuery;
+    private $editEquipmentsCourseInfoCommand;
 
     /**
      *
@@ -66,53 +52,52 @@ class EditActivitiesCourseInfoQueryTest extends TestCase
         // Mocks Repositories
         $this->courseInfoRepository = $this->getMockBuilder('AppBundle\Repository\CourseInfoRepositoryInterface')
             ->getMock();
-        $this->courseSectionRepository = $this->getMockBuilder('AppBundle\Repository\CourseSectionRepositoryInterface')
-            ->getMock();
-        $this->courseSectionActivityRepository = $this->getMockBuilder('AppBundle\Repository\CourseSectionActivityRepositoryInterface')
-            ->getMock();
-        $this->courseEvaluationCtRepository = $this->getMockBuilder('AppBundle\Repository\CourseEvaluationCtRepositoryInterface')
+        $this->courseResourceEquipmentRepository = $this->getMockBuilder('AppBundle\Repository\CourseResourceEquipmentRepositoryInterface')
             ->getMock();
 
         // CourseInfo
         $this->courseInfo = new CourseInfo();
         $this->courseInfo
-            ->setId(Uuid::uuid4());
+            ->setId(Uuid::uuid4())
+            ->setEducationalResources('educationalResource')
+            ->setBibliographicResources('bibliographicResource');
 
-        // CourseSections
-        $courseSection = new CourseSection();
-        $courseSection->setId(Uuid::uuid4())
+        // Equipment
+        $equipment = new Equipment();
+        $equipment->setId(Uuid::uuid4())
+            ->setLabel('equipment')
+            ->setLabelVisibility(true)
+            ->setOrd(0);
+
+        // CourseResourceEquipment
+        $courseResourceEquipment = new CourseResourceEquipment();
+        $courseResourceEquipment->setId(Uuid::uuid4())
             ->setCourseInfo($this->courseInfo)
-            ->setTitle('Chapitre 1')
-            ->setDescription('Ceci est le chapitre 1');
-        $this->courseSections = new ArrayCollection();
-        $this->courseSections->add($courseSection);
-        $this->courseInfo->setCourseSections($this->courseSections);
+            ->setEquipment($equipment)
+            ->setDescription('description')
+            ->setOrder(0);
+        $this->courseResourceEquipments = new ArrayCollection();
+        $this->courseResourceEquipments->add($courseResourceEquipment);
+        $this->courseInfo->setCourseResourceEquipments($this->courseResourceEquipments);
 
         // Command
-        $this->editActivitiesCourseInfoCommand = new EditActivitiesCourseInfoCommand($this->courseInfo);
-
-        $this->editActivitiesCourseInfoQuery = new EditActivitiesCourseInfoQuery(
-            $this->courseInfoRepository,
-            $this->courseSectionRepository,
-            $this->courseSectionActivityRepository,
-            $this->courseEvaluationCtRepository
-        );
+        $this->editEquipmentsCourseInfoCommand = new EditEquipmentsCourseInfoCommand($this->courseInfo);
     }
 
     /**
-     * Update presentation course info without removed section(s)
+     * Update equipments course info without remove equipment
      * @test
      */
     public function edit1Successful(){
         $this->courseInfoRepository->expects($this->once())
             ->method('find')
-            ->with($this->editActivitiesCourseInfoCommand->getId())
+            ->with($this->editEquipmentsCourseInfoCommand->getId())
             ->willReturn($this->courseInfo);
 
         $this->courseInfoRepository->expects($this->once())
             ->method('beginTransaction');
 
-        $this->courseSectionRepository->expects($this->never())
+        $this->courseResourceEquipmentRepository->expects($this->never())
             ->method('delete');
 
         $this->courseInfoRepository->expects($this->once())
@@ -125,27 +110,31 @@ class EditActivitiesCourseInfoQueryTest extends TestCase
         $this->courseInfoRepository->expects($this->never())
             ->method('rollback');
 
-        $this->editActivitiesCourseInfoQuery->setEditActivitiesCourseInfoCommand($this->editActivitiesCourseInfoCommand);
-        $this->assertNull($this->editActivitiesCourseInfoQuery->execute());
+        $editEquipmentsCourseInfoQuery = new EditEquipmentsCourseInfoQuery(
+            $this->courseInfoRepository,
+            $this->courseResourceEquipmentRepository
+        );
+        $editEquipmentsCourseInfoQuery->setEditEquipmentsCourseInfoCommand($this->editEquipmentsCourseInfoCommand);
+        $this->assertNull($editEquipmentsCourseInfoQuery->execute());
     }
 
     /**
-     * Update presentation course info with removed section(s)
+     * Update equipments course info with removed equipment
      * @test
      */
     public function edit2Successful(){
-        $sections = $this->editActivitiesCourseInfoCommand->getSections();
-        $this->editActivitiesCourseInfoCommand->removeSection($sections->first());
+        $equipments = $this->editEquipmentsCourseInfoCommand->getEquipments();
+        $equipments->removeElement($equipments->first());
 
         $this->courseInfoRepository->expects($this->once())
             ->method('find')
-            ->with($this->editActivitiesCourseInfoCommand->getId())
+            ->with($this->editEquipmentsCourseInfoCommand->getId())
             ->willReturn($this->courseInfo);
 
         $this->courseInfoRepository->expects($this->once())
             ->method('beginTransaction');
 
-        $this->courseSectionRepository->expects($this->atLeastOnce())
+        $this->courseResourceEquipmentRepository->expects($this->atLeastOnce())
             ->method('delete');
 
         $this->courseInfoRepository->expects($this->once())
@@ -158,8 +147,12 @@ class EditActivitiesCourseInfoQueryTest extends TestCase
         $this->courseInfoRepository->expects($this->never())
             ->method('rollback');
 
-        $this->editActivitiesCourseInfoQuery->setEditActivitiesCourseInfoCommand($this->editActivitiesCourseInfoCommand);
-        $this->assertNull($this->editActivitiesCourseInfoQuery->execute());
+        $editEquipmentsCourseInfoQuery = new EditEquipmentsCourseInfoQuery(
+            $this->courseInfoRepository,
+            $this->courseResourceEquipmentRepository
+        );
+        $editEquipmentsCourseInfoQuery->setEditEquipmentsCourseInfoCommand($this->editEquipmentsCourseInfoCommand);
+        $this->assertNull($editEquipmentsCourseInfoQuery->execute());
     }
 
     /**
@@ -177,7 +170,7 @@ class EditActivitiesCourseInfoQueryTest extends TestCase
         $this->courseInfoRepository->expects($this->once())
             ->method('beginTransaction');
 
-        $this->courseSectionRepository->expects($this->never())
+        $this->courseResourceEquipmentRepository->expects($this->never())
             ->method('delete');
 
         $this->courseInfoRepository->expects($this->once())
@@ -191,16 +184,20 @@ class EditActivitiesCourseInfoQueryTest extends TestCase
         $this->courseInfoRepository->expects($this->once())
             ->method('rollback');
 
-        $this->editActivitiesCourseInfoQuery->setEditActivitiesCourseInfoCommand($this->editActivitiesCourseInfoCommand)->execute();
+        $editEquipmentsCourseInfoQuery = new EditEquipmentsCourseInfoQuery(
+            $this->courseInfoRepository,
+            $this->courseResourceEquipmentRepository
+        );
+        $editEquipmentsCourseInfoQuery->setEditEquipmentsCourseInfoCommand($this->editEquipmentsCourseInfoCommand)->execute();
     }
 
     /**
-     * Exception during CourseSectionRepository->delete()
+     * Exception during CourseTeacherRepository->delete()
      * @test
      */
     public function edit2Exception(){
-        $sections = $this->editActivitiesCourseInfoCommand->getSections();
-        $this->editActivitiesCourseInfoCommand->removeSection($sections->first());
+        $equipments = $this->editEquipmentsCourseInfoCommand->getEquipments();
+        $equipments->removeElement($equipments->first());
 
         $this->expectException(\Exception::class);
 
@@ -212,7 +209,7 @@ class EditActivitiesCourseInfoQueryTest extends TestCase
         $this->courseInfoRepository->expects($this->once())
             ->method('beginTransaction');
 
-        $this->courseSectionRepository->expects($this->atLeastOnce())
+        $this->courseResourceEquipmentRepository->expects($this->atLeastOnce())
             ->method('delete')
             ->willThrowException(new \Exception());
 
@@ -225,7 +222,11 @@ class EditActivitiesCourseInfoQueryTest extends TestCase
         $this->courseInfoRepository->expects($this->once())
             ->method('rollback');
 
-        $this->editActivitiesCourseInfoQuery->setEditActivitiesCourseInfoCommand($this->editActivitiesCourseInfoCommand)->execute();
+        $editEquipmentsCourseInfoQuery = new EditEquipmentsCourseInfoQuery(
+            $this->courseInfoRepository,
+            $this->courseResourceEquipmentRepository
+        );
+        $editEquipmentsCourseInfoQuery->setEditEquipmentsCourseInfoCommand($this->editEquipmentsCourseInfoCommand)->execute();
     }
 
 
@@ -254,7 +255,11 @@ class EditActivitiesCourseInfoQueryTest extends TestCase
         $this->courseInfoRepository->expects($this->never())
             ->method('rollback');
 
-        $this->editActivitiesCourseInfoQuery->setEditActivitiesCourseInfoCommand($this->editActivitiesCourseInfoCommand)->execute();
+        $editEquipmentsCourseInfoQuery = new EditEquipmentsCourseInfoQuery(
+            $this->courseInfoRepository,
+            $this->courseResourceEquipmentRepository
+        );
+        $editEquipmentsCourseInfoQuery->setEditEquipmentsCourseInfoCommand($this->editEquipmentsCourseInfoCommand)->execute();
     }
 
     /**
@@ -263,9 +268,9 @@ class EditActivitiesCourseInfoQueryTest extends TestCase
     protected function tearDown(): void
     {
         unset($this->courseInfoRepository);
-        unset($this->courseTeacherRepository);
+        unset($this->courseResourceEquipmentRepository);
         unset($this->courseInfo);
-        unset($this->courseTeachers);
-        unset($this->editPresentationCourseInfoCommand);
+        unset($this->courseResourceEquipments);
+        unset($this->editEquipmentsCourseInfoCommand);
     }
 }

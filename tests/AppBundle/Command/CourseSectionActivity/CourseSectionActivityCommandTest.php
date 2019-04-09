@@ -24,7 +24,7 @@ class CourseSectionActivityCommandTest extends TestCase
     private $courseSectionActivity;
 
     /**
-     * @var SectionType
+     * @var Activity
      */
     private $activity;
 
