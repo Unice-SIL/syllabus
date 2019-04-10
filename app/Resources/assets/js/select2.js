@@ -24,14 +24,6 @@ global.select2 = select2;
 
 
 /*
-    Select2EntityBundle JS.
-*/
-
-import '../../../../vendor/tetranz/select2entity-bundle/Tetranz/Select2EntityBundle/Resources/public/js/select2entity';
-
-
-
-/*
     Select2 locale (fr).
         https://select2.org/i18n
 */
