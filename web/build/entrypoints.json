@@ -3,6 +3,8 @@
     "app": {
       "js": [
         "/build/runtime.js",
+        "/build/vendors~app~select2.js",
+        "/build/vendors~app.js",
         "/build/app.js"
       ],
       "css": [
@@ -12,10 +14,12 @@
     "select2": {
       "js": [
         "/build/runtime.js",
+        "/build/vendors~app~select2.js",
+        "/build/vendors~select2.js",
         "/build/select2.js"
       ],
       "css": [
-        "/build/select2.css"
+        "/build/vendors~select2.css"
       ]
     }
   }
