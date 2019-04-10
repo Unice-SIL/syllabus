@@ -358,7 +358,7 @@
                             url: '{{ path('save_objectives_course_info', { 'id': courseInfo.id })|escape('js') }}',
                             data: form.serialize()
                         }).done(function(response){
-                            response.renderTabId = 'panel_tab-3';
+                            //response.renderTabId = 'panel_tab-3';
                             Syllabus.handleAjaxResponse(response);
                         }).always(function(){
                             SILTools.spinner.fadeOut( );
