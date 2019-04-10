@@ -57,15 +57,50 @@ var Syllabus = ( function ( ) {
     };
 
 
-    var _saveCurrentTabContent = function( tab ) {
-        if(!tab["0"].classList.contains('syllabus-tab-active')){
-            var active_tab_button = document.getElementsByClassName('syllabus-tab-active')[0];
-            var active_tab = document.getElementById("panel_"+active_tab_button.id);
-            var sumbit_button = active_tab.getElementsByClassName("submit")[0];
-            sumbit_button.click();
-            active_tab_button.classList.remove('syllabus-tab-active');
-            tab.addClass( 'syllabus-tab-active' );
-        }
+    var _saveForm = function( $tabLink ) {
+
+        SILTools.spinner.fadeIn( {
+            always: function(){
+                $.ajax({
+                    type: 'POST',
+                    url: "",
+                    data: form.serialize()
+                }).done(function(response){
+                    Syllabus.handleAjaxResponse(response);
+                }).always(function(){
+                    SILTools.spinner.fadeOut( );
+                });
+            }
+        });
+
+    };
+
+
+    var _saveCurrentTabContent = function( tabLink ) {
+
+        var $panel = $( '#panel_' + tabLink.id ),
+            url = $panel.data( 'submit-url' ),
+            form = document.getElementsByName( $panel.find( 'form' ).attr( 'name' ) )[ 0 ],
+            data = new FormData(form);
+
+        /*
+        for ( instance in CKEDITOR.instances ) {
+            CKEDITOR.instances[ instance ].updateElement( );
+        } //*/
+
+        $.ajax( {
+            type: 'POST',
+            enctype: 'multipart/form-data',
+            processData: false, // Important!
+            contentType: false,
+            url: url,
+            data: data,
+            cache: false,
+            timeout: 600000
+        //} ).done( function( response ) {
+        //    handleAjaxResponse( response );
+        } );
+
     }
 
 
@@ -78,16 +113,15 @@ var Syllabus = ( function ( ) {
 
     var tabLoaderInit = function( ) {
 
-        $( 'main > .row:first-child > div > ul.nav' )
-                .on( 'click', 'li.nav-item > a', function( ) {
-
+        $( 'a[data-toggle="tab"]' ).on( 'click', function( ) {
             _ajaxTabContentLoader( $( this ) );
-            _saveCurrentTabContent( $( this ) );
-
-        } );
+        } ).on( 'hide.bs.tab', function( event ) {
+            _saveCurrentTabContent( event.target );
+        } );;
 
         $( '#tab-1' ).addClass( 'active' );
         $( '#tab-1' ).addClass( 'syllabus-tab-active' );
+
         _ajaxTabContentLoader( $( '#tab-1' ) );
 
     };
