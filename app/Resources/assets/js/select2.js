@@ -11,7 +11,7 @@
 */
 
 // SASS / CSS dependencies.
-import '../../../../node_modules/select2/src/scss/core.scss';
+import 'select2/src/scss/core.scss';
 
 // Importing modules…
 import $ from 'jquery';
