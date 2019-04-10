@@ -1,7 +1,7 @@
 {% extends 'ajax.html.twig' %}
 
 {% block stylesheets %}
-    {{ parent() }}
+    {{ encore_entry_link_tags('select2') }}
 {% endblock %}
 
 {% block main %}
@@ -291,7 +291,7 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script src="{{ asset('bundles/tetranzselect2entity/js/select2entity.js') }}"></script>
+    {{ encore_entry_script_tags('select2') }}
     <script>
 
         function toogleTeachingModeHours(){
