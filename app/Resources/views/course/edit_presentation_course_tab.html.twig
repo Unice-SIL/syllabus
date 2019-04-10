@@ -1,6 +1,7 @@
 {% extends 'ajax.html.twig' %}
 
 {% block stylesheets %}
+    {{ encore_entry_link_tags('select2') }}
 {% endblock %}
 
 {% block main %}
@@ -290,6 +291,7 @@
 {% endblock %}
 
 {% block javascripts %}
+    {{ encore_entry_script_tags('select2') }}
     <script src="{{ asset('bundles/tetranzselect2entity/js/select2entity.js') }}"></script>
     <script>
 
@@ -337,7 +339,7 @@
                                 teacherAlreadyInTeam = true;
                                 SILTools.alert({
                                     type: 'info',
-                                    text: "Cet(te) enseignant(e) fait déjà partie de l'équipe."
+                                    text: "Cette personne fait déjà partie de l'équipe enseignante."
                                 });
                             }
                         });

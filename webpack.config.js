@@ -5,6 +5,9 @@
         https://symfony.com/doc/3.4/frontend/encore/legacy-apps.html
 
 */
+
+
+
 var path = require('path');
 var Encore = require('@symfony/webpack-encore');
 
@@ -12,9 +15,12 @@ Encore
     .setOutputPath('web/build/')
     .setPublicPath('/build')
     .addEntry('app', './app/Resources/assets/js/app.js')
+    .addEntry('select2', './app/Resources/assets/js/select2.js')
+    .splitEntryChunks()
     .autoProvidejQuery()
-    //.enableSingleRuntimeChunk()
-    .disableSingleRuntimeChunk()
+    .enableSingleRuntimeChunk()
+    //.disableSingleRuntimeChunk()
+    .enableBuildNotifications()
     .cleanupOutputBeforeBuild()
     .enableSourceMaps(!Encore.isProduction())
     .enableVersioning(Encore.isProduction())
