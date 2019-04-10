@@ -99,8 +99,7 @@ var Syllabus = ( function ( ) {
                 if (message.type !== undefined && message.message !== undefined) {
                     SILTools.alert( {
                         type: message.type,
-                        text: message.message,
-                        keep: false
+                        text: message.message
                     } );
                 }
             });
