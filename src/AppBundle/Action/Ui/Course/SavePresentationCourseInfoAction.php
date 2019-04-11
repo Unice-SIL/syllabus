@@ -210,7 +210,7 @@ class SavePresentationCourseInfoAction implements ActionInterface
             }catch (CoursePermissionDeniedException $e){
                 $messages[] = [
                     'type' => "danger",
-                    'message' => sprintf("Vous n'avez pas les permissions nécessaires pour éditer ce cours")
+                    'message' => sprintf("Vous n'avez pas les permissions nécessaires pour éditer ce cours.")
                 ];
             } catch (CourseInfoNotFoundException $e) {
                 // Return message course not found

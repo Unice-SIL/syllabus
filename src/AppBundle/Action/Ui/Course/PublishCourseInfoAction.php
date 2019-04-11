@@ -92,7 +92,7 @@ class PublishCourseInfoAction implements ActionInterface
                     // Return message course cannot published
                     $messages[] = [
                         'type' => "success",
-                        'message' => sprintf("Le cours a été publié")
+                        'message' => sprintf("Le cours est publié.")
                     ];
                     // Get render to reload course info panel
                     $renders[] = [
@@ -109,14 +109,14 @@ class PublishCourseInfoAction implements ActionInterface
                     // Return message course cannot published
                     $messages[] = [
                         'type' => "danger",
-                        'message' => sprintf("Le cours ne peut pas être publié")
+                        'message' => sprintf("Le cours ne peut pas être publié.")
                     ];
                 }
             } catch (CourseInfoNotFoundException $e) {
                 // Return message course not found
                 $messages[] = [
                     'type' => "danger",
-                    'message' => sprintf("Le course n'a pas été retrouvé")
+                    'message' => sprintf("Le cours n'a pas été retrouvé.")
                 ];
             }
         }catch (\Exception $e) {
@@ -125,7 +125,7 @@ class PublishCourseInfoAction implements ActionInterface
             // Return message error
             $messages[] = [
                 'type' => "danger",
-                'message' => "Une erreur est survenue"
+                'message' => "Une erreur est survenue."
             ];
         }
         return new JsonResponse(

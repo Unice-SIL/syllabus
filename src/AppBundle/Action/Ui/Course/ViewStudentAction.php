@@ -87,7 +87,7 @@ class ViewStudentAction implements ActionInterface
             }
         }catch (\Exception $e){
             $this->logger->error((string) $e);
-            $this->session->getFlashBag()->add('danger', "Une erreur est survenue durant la récupération du cours");
+            $this->session->getFlashBag()->add('danger', "Une erreur est survenue durant le chargement du cours.");
         }
 
         $coursePermissionHelper = $this->coursePermissionHelper;

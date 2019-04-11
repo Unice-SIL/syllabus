@@ -110,14 +110,14 @@ class EditPresentationCourseInfoAction implements ActionInterface
                 return new JsonResponse([
                     'alert' => [
                         'type' => 'danger',
-                        'message' => sprintf("Vous n'avez pas les permissions nécessaires pour éditer ce cours")
+                        'message' => sprintf("Vous n'avez pas les permissions nécessaires pour éditer ce cours.")
                     ]
                 ]);
             }catch (CourseInfoNotFoundException $e){
                 return new JsonResponse([
                     'alert' => [
                         'type' => 'danger',
-                        'message' => sprintf("Le cours %s n'existe pas", $id)
+                        'message' => sprintf("Le cours « %s » n'existe pas.", $id)
                     ]
                 ]);
             }
@@ -142,7 +142,7 @@ class EditPresentationCourseInfoAction implements ActionInterface
             return new JsonResponse([
                 'alert' => [
                     'type' => 'danger',
-                    'message' => "Une erreur est survenue pendant le chargement du formulaire"
+                    'message' => "Une erreur est survenue pendant le chargement du formulaire."
                 ]
             ]);
         }
