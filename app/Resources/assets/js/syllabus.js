@@ -57,34 +57,6 @@ var Syllabus = ( function ( ) {
     };
 
 
-    var _saveCurrentTabContent = function( tabLink ) {
-
-        var $panel = $( '#panel_' + tabLink.id ),
-            form = document.getElementsByName( $panel.find( 'form' ).attr( 'name' ) )[ 0 ];
-
-        $( form ).find( 'textarea' ).each( function( index ) {
-            CKEDITOR.instances[ $( this ).attr( 'id' ) ].updateElement( );
-        } );
-
-        $.ajax( {
-            type: 'POST',
-            enctype: 'multipart/form-data',
-            processData: false, // Preventing default data parse behavior.
-            contentType: false,
-            url: $panel.data( 'submit-url' ),
-            data: new FormData( form ),
-            cache: false,
-            timeout: 5000 /*
-        } ).done( function( ) {
-            SILTools.alert( {
-                type: 'info',
-                text: "Les données de l'onglet précédent ont été sauvegardées."
-            } ); //*/
-        } );
-
-    }
-
-
 
     /**************************************************************************
 
@@ -97,7 +69,8 @@ var Syllabus = ( function ( ) {
         $( 'a[data-toggle="tab"]' ).on( 'click', function( ) {
             _ajaxTabContentLoader( $( this ) );
         } ).on( 'hide.bs.tab', function( event ) {
-            _saveCurrentTabContent( event.target );
+            document.getElementById( "panel_" + event.target.id )
+                    .getElementsByClassName( "submit" )[ 0 ].click( );
         } );;
 
         $( '#tab-1' ).addClass( 'active' );
