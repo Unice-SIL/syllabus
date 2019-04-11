@@ -103,6 +103,8 @@ $input-disabled-bg: $gray-100;
     Bootstrap-toggle
 */
 
+@import '~bootstrap4-toggle/css/bootstrap4-toggle';
+
 .toggle.ios, .toggle-on.ios, .toggle-off.ios { border-radius: 20rem; }
 .toggle.ios .toggle-handle { border-radius: 20rem; }
 
