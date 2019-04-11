@@ -35,19 +35,19 @@ var Syllabus = ( function ( ) {
                         url: route,
                         context: $( '#panel_' + $tabLink.attr( 'id' ) )
                     } ).done( function( data ) {
-                        if(data.content !== undefined) {
-                            $(this).html(data.content);
-                            $tabLink.data('route', "");
+                        if ( data.content !== undefined ) {
+                            $( this ).html( data.content );
+                            $tabLink.data( 'route', "" );
                         }
-                        if(data.alert !== undefined) {
-                            if (data.alert.type !== undefined && data.alert.message !== undefined) {
+                        if ( data.alert !== undefined ) {
+                            if ( data.alert.type !== undefined && data.alert.message !== undefined ) {
                                 SILTools.alert( {
                                     type: data.alert.type,
                                     text: data.alert.message
                                 } );
                             }
                         }
-                    } ).always( function( ){
+                    } ).always( function( ) {
                         SILTools.spinner.fadeOut( );
                     } );
                 }
@@ -57,15 +57,31 @@ var Syllabus = ( function ( ) {
     };
 
 
-    var _saveCurrentTabContent = function( tab ) {
-        if(!tab["0"].classList.contains('syllabus-tab-active')){
-            var active_tab_button = document.getElementsByClassName('syllabus-tab-active')[0];
-            var active_tab = document.getElementById("panel_"+active_tab_button.id);
-            var sumbit_button = active_tab.getElementsByClassName("submit")[0];
-            sumbit_button.click();
-            active_tab_button.classList.remove('syllabus-tab-active');
-            tab.addClass( 'syllabus-tab-active' );
-        }
+    var _saveCurrentTabContent = function( tabLink ) {
+
+        var $panel = $( '#panel_' + tabLink.id ),
+            form = document.getElementsByName( $panel.find( 'form' ).attr( 'name' ) )[ 0 ];
+
+        $( form ).find( 'textarea' ).each( function( index ) {
+            CKEDITOR.instances[ $( this ).attr( 'id' ) ].updateElement( );
+        } );
+
+        $.ajax( {
+            type: 'POST',
+            enctype: 'multipart/form-data',
+            processData: false, // Preventing default data parse behavior.
+            contentType: false,
+            url: $panel.data( 'submit-url' ),
+            data: new FormData( form ),
+            cache: false,
+            timeout: 5000 /*
+        } ).done( function( ) {
+            SILTools.alert( {
+                type: 'info',
+                text: "Les données de l'onglet précédent ont été sauvegardées."
+            } ); //*/
+        } );
+
     }
 
 
@@ -76,18 +92,15 @@ var Syllabus = ( function ( ) {
     */
 
 
-    var tabLoaderInit = function( ) {
+    var tabsInit = function( ) {
 
-        $( 'main > .row:first-child > div > ul.nav' )
-                .on( 'click', 'li.nav-item > a', function( ) {
-
+        $( 'a[data-toggle="tab"]' ).on( 'click', function( ) {
             _ajaxTabContentLoader( $( this ) );
-            _saveCurrentTabContent( $( this ) );
-
-        } );
+        } ).on( 'hide.bs.tab', function( event ) {
+            _saveCurrentTabContent( event.target );
+        } );;
 
         $( '#tab-1' ).addClass( 'active' );
-        $( '#tab-1' ).addClass( 'syllabus-tab-active' );
         _ajaxTabContentLoader( $( '#tab-1' ) );
 
     };
@@ -120,7 +133,7 @@ var Syllabus = ( function ( ) {
     */
 
     return {
-        tabLoaderInit: tabLoaderInit,
+        tabsInit: tabsInit,
         handleAjaxResponse: handleAjaxResponse
     };
 
