@@ -179,6 +179,18 @@ form ul.list-group {
     }
 }
 
+.section {
+
+    .fa-caret-down {
+        transform: scale(1.1);
+        margin-top: -4px;
+    }
+
+    .fa-caret-down[aria-expanded='false'] {
+        transform: scale(1.1) rotate(-90deg);
+    }
+}
+
 div.activity,
 div.evaluation,
 div.equipment {

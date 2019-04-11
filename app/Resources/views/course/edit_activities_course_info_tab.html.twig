@@ -1,18 +1,5 @@
 {% extends 'ajax.html.twig' %}
 
-{% block stylesheets %}
-    <style>
-        .fa-caret-down {
-            transform: scale(1.1);
-            margin-top: -4px;
-        }
-        .fa-caret-down[aria-expanded='false'] {
-            transform: scale(1.1) rotate(-90deg);
-        }
-
-    </style>
-{% endblock %}
-
 {% block main %}
 
     {% form_theme form with [
@@ -22,11 +9,11 @@
     'form/choices_activities_field.html.twig'
     ] %}
 
-    {{ form_start(form) }}
-
     <h4>
         Sections et activités
     </h4>
+
+    {{ form_start(form) }}
     {{ form_errors(form.sections) }}
     {{ form_widget(form.sections) }}
 
