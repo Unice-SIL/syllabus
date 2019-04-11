@@ -35,19 +35,19 @@ var Syllabus = ( function ( ) {
                         url: route,
                         context: $( '#panel_' + $tabLink.attr( 'id' ) )
                     } ).done( function( data ) {
-                        if(data.content !== undefined) {
-                            $(this).html(data.content);
-                            $tabLink.data('route', "");
+                        if ( data.content !== undefined ) {
+                            $( this ).html( data.content );
+                            $tabLink.data( 'route', "" );
                         }
-                        if(data.alert !== undefined) {
-                            if (data.alert.type !== undefined && data.alert.message !== undefined) {
+                        if ( data.alert !== undefined ) {
+                            if ( data.alert.type !== undefined && data.alert.message !== undefined ) {
                                 SILTools.alert( {
                                     type: data.alert.type,
                                     text: data.alert.message
                                 } );
                             }
                         }
-                    } ).always( function( ){
+                    } ).always( function( ) {
                         SILTools.spinner.fadeOut( );
                     } );
                 }
