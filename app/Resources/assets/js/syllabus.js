@@ -60,26 +60,26 @@ var Syllabus = ( function ( ) {
     var _saveCurrentTabContent = function( tabLink ) {
 
         var $panel = $( '#panel_' + tabLink.id ),
-            url = $panel.data( 'submit-url' ),
-            form = document.getElementsByName( $panel.find( 'form' ).attr( 'name' ) )[ 0 ],
-            data = new FormData(form);
+            form = document.getElementsByName( $panel.find( 'form' ).attr( 'name' ) )[ 0 ];
 
-        /*
-        for ( instance in CKEDITOR.instances ) {
-            CKEDITOR.instances[ instance ].updateElement( );
-        } //*/
+        $( form ).find( 'textarea' ).each( function( index ) {
+            CKEDITOR.instances[ $( this ).attr( 'id' ) ].updateElement( );
+        } );
 
         $.ajax( {
             type: 'POST',
             enctype: 'multipart/form-data',
-            processData: false, // Important!
+            processData: false, // Preventing default data parse behavior.
             contentType: false,
-            url: url,
-            data: data,
+            url: $panel.data( 'submit-url' ),
+            data: new FormData( form ),
             cache: false,
-            timeout: 600000
-        //} ).done( function( response ) {
-        //    handleAjaxResponse( response );
+            timeout: 5000 /*
+        } ).done( function( ) {
+            SILTools.alert( {
+                type: 'info',
+                text: "Les données de l'onglet précédent ont été sauvegardées."
+            } ); //*/
         } );
 
     }
@@ -101,8 +101,6 @@ var Syllabus = ( function ( ) {
         } );;
 
         $( '#tab-1' ).addClass( 'active' );
-        $( '#tab-1' ).addClass( 'syllabus-tab-active' );
-
         _ajaxTabContentLoader( $( '#tab-1' ) );
 
     };
