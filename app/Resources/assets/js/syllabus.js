@@ -92,7 +92,7 @@ var Syllabus = ( function ( ) {
     */
 
 
-    var tabLoaderInit = function( ) {
+    var tabsInit = function( ) {
 
         $( 'a[data-toggle="tab"]' ).on( 'click', function( ) {
             _ajaxTabContentLoader( $( this ) );
@@ -133,7 +133,7 @@ var Syllabus = ( function ( ) {
     */
 
     return {
-        tabLoaderInit: tabLoaderInit,
+        tabsInit: tabsInit,
         handleAjaxResponse: handleAjaxResponse
     };
 
