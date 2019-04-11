@@ -57,25 +57,6 @@ var Syllabus = ( function ( ) {
     };
 
 
-    var _saveForm = function( $tabLink ) {
-
-        SILTools.spinner.fadeIn( {
-            always: function(){
-                $.ajax({
-                    type: 'POST',
-                    url: "",
-                    data: form.serialize()
-                }).done(function(response){
-                    Syllabus.handleAjaxResponse(response);
-                }).always(function(){
-                    SILTools.spinner.fadeOut( );
-                });
-            }
-        });
-
-    };
-
-
     var _saveCurrentTabContent = function( tabLink ) {
 
         var $panel = $( '#panel_' + tabLink.id ),
