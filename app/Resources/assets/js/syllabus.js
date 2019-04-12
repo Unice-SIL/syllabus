@@ -83,6 +83,17 @@ var Syllabus = ( function ( ) {
     };
 
 
+    var updateEditors = function( form ) {
+
+        $( form ).find( '.cke' ).each( function( index ) {
+
+            CKEDITOR.instances[ $( this ).siblings( 'textarea' ).attr( 'id' ) ]
+                    .updateElement( );
+        } );
+
+    };
+
+
     var handleAjaxResponse = function( response ) {
         if(response.messages !== undefined) {
             response.messages.forEach(function(message){
@@ -111,6 +122,7 @@ var Syllabus = ( function ( ) {
 
     return {
         tabsInit: tabsInit,
+        updateEditors: updateEditors,
         handleAjaxResponse: handleAjaxResponse
     };
 
