@@ -66,11 +66,15 @@ var Syllabus = ( function ( ) {
 
     var tabsInit = function( ) {
 
-        $( 'a[data-toggle="tab"]' ).on( 'click', function( ) {
-            _ajaxTabContentLoader( $( this ) );
-        } ).on( 'hide.bs.tab', function( event ) {
+        $( 'a[data-toggle="tab"]' ).on( 'hide.bs.tab', function( event ) {
+            /*
+                We could check if form has changed, show a “confirm” message
+                to user and prevent tab change if “cancel” is chosen.
+            */
+            //event.preventDefault( );
             document.getElementById( "panel_" + event.target.id )
                     .getElementsByClassName( "submit" )[ 0 ].click( );
+            _ajaxTabContentLoader( $( "#" + event.relatedTarget.id ) );
         } );
 
         $( '#tab-1' ).addClass( 'active' );
