@@ -400,14 +400,12 @@
              * Submit form
              */
             $("form[name='edit_presentation_course_info']").submit(function(e){
-                e.preventDefault();
-
-                for ( instance in CKEDITOR.instances ) {
-                    CKEDITOR.instances[instance].updateElement();
-                }
 
                 var form = $(this)[0];
-                var data = new FormData(form);
+
+                e.preventDefault();
+
+                Syllabus.updateEditors(form);
 
                 SILTools.spinner.fadeIn( {
                     always: function(){
@@ -417,13 +415,13 @@
                             processData: false,  // Important!
                             contentType: false,
                             url: '{{ path('save_presentation_course_info', { 'id': courseInfo.id })|escape('js') }}',
-                            data: data,
+                            data: new FormData(form),
                             cache: false,
                             timeout: 600000
                         }).done(function(response){
                             Syllabus.handleAjaxResponse(response);
                         }).always(function(){
-                            SILTools.spinner.fadeOut( );
+                            SILTools.spinner.fadeOut();
                         });
                     }
                 });
