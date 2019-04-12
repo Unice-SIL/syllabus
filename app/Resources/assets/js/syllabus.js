@@ -102,7 +102,7 @@ var Syllabus = ( function ( ) {
                 }
             });
         } //*/
-    }
+    };
 
 
     /*
