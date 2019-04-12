@@ -71,7 +71,7 @@ var Syllabus = ( function ( ) {
         } ).on( 'hide.bs.tab', function( event ) {
             document.getElementById( "panel_" + event.target.id )
                     .getElementsByClassName( "submit" )[ 0 ].click( );
-        } );;
+        } );
 
         $( '#tab-1' ).addClass( 'active' );
         _ajaxTabContentLoader( $( '#tab-1' ) );
