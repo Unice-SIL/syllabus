@@ -86,14 +86,12 @@
              * Submit the form
              */
             $("form[name='edit_mcc_course_info']").submit(function(e){
-                e.preventDefault();
-
-                for ( instance in CKEDITOR.instances ) {
-                    CKEDITOR.instances[instance].updateElement();
-                }
 
                 var form = $(this)[0];
-                var data = new FormData(form);
+
+                e.preventDefault();
+
+                Syllabus.updatePanelEditors(form);
 
                 SILTools.spinner.fadeIn( {
                     always: function(){
@@ -103,7 +101,7 @@
                             processData: false,  // Important!
                             contentType: false,
                             url: '{{ path('save_mcc_course_info', { 'id': courseInfo.id })|escape('js') }}',
-                            data: data,
+                            data: new FormData(form),
                             cache: false,
                             timeout: 600000
                         }).done(function(response){

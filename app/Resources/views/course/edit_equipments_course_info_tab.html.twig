@@ -129,20 +129,17 @@
              * Submit the form
              */
             $("form[name='edit_equipments_course_info']").submit(function(e){
+
+                var form = $(this)[0];
+
                 e.preventDefault();
 
-                for ( instance in CKEDITOR.instances ) {
-                    CKEDITOR.instances[instance].updateElement();
-                }
+                Syllabus.updatePanelEditors(form);
 
                 // Set equipments order
                 equipmentsCollectionHolder.find('div.equipment').each(function(order){
                     $(this).find("input[id$='_order']").val(order+1);
                 });
-
-                var form = $(this)[0];
-                var data = new FormData(form);
-
 
                 SILTools.spinner.fadeIn( {
                     always: function(){
@@ -152,7 +149,7 @@
                             processData: false,  // Important!
                             contentType: false,
                             url: '{{ path('save_equipments_course_info', { 'id': courseInfo.id })|escape('js') }}',
-                            data: data,
+                            data: new FormData(form),
                             cache: false,
                             timeout: 600000
                         }).done(function(response){
