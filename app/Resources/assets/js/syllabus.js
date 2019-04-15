@@ -83,17 +83,6 @@ var Syllabus = ( function ( ) {
     };
 
 
-    var updatePanelEditors = function( form ) {
-
-        $( form ).find( '.cke' ).each( function( ) {
-
-            CKEDITOR.instances[ $( this ).siblings( 'textarea' ).attr( 'id' ) ]
-                    .updateElement( );
-        } );
-
-    };
-
-
     var submitPanelForm = function( event, form ) {
 
         var $form = $( form );
@@ -154,7 +143,6 @@ var Syllabus = ( function ( ) {
 
     return {
         tabsInit: tabsInit,
-        updatePanelEditors: updatePanelEditors,
         submitPanelForm: submitPanelForm,
         handleAjaxResponse: handleAjaxResponse
     };
