@@ -85,7 +85,7 @@ var Syllabus = ( function ( ) {
 
     var updatePanelEditors = function( form ) {
 
-        $( form ).find( '.cke' ).each( function( index ) {
+        $( form ).find( '.cke' ).each( function( ) {
 
             CKEDITOR.instances[ $( this ).siblings( 'textarea' ).attr( 'id' ) ]
                     .updateElement( );
@@ -99,7 +99,7 @@ var Syllabus = ( function ( ) {
         var $form = $( form );
 
         event.preventDefault( );
-        $form.find( '.cke' ).each( function( index ) {
+        $form.find( '.cke' ).each( function( ) {
             CKEDITOR.instances[ $( this ).siblings( 'textarea' ).attr( 'id' ) ]
                     .updateElement( );
         } );
