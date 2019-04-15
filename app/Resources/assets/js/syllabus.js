@@ -94,14 +94,14 @@ var Syllabus = ( function ( ) {
                 }
             });
         }
-        /*
+
         if(response.renders !== undefined) {
             response.renders.forEach(function(render) {
                 if (render.element !== undefined && render.content !== undefined) {
                     $(render.element).html(render.content);
                 }
             });
-        } //*/
+        }
     };
 
 
