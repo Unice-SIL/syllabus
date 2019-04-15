@@ -312,10 +312,10 @@
              * Submit the form
              */
             $("form[name='edit_objectives_course_info']").submit(function(e){
-                e.preventDefault();
 
-                var form = $(this);
-                //var data = new FormData(form);
+                var form = $(this)[0];
+
+                e.preventDefault();
 
                 // Set achievements order
                 achievementsCollectionHolder.find('li.achievement').each(function(order){
@@ -352,8 +352,12 @@
                     always: function(){
                         $.ajax({
                             type: 'POST',
+                            enctype: 'multipart/form-data',
+                            processData: false,
+                            contentType: false,
                             url: '{{ path('save_objectives_course_info', { 'id': courseInfo.id })|escape('js') }}',
-                            data: form.serialize()
+                            data: new FormData(form),
+                            cache: false
                         }).done(function(response){
                             //response.renderTabId = 'panel_tab-3';
                             Syllabus.handleAjaxResponse(response);
