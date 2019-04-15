@@ -41,7 +41,7 @@ class CourseEvaluationCtType extends AbstractType
         $builder
             ->add('description', TextType::class, [
                 'label' => false,
-                'required' => true,
+                'required' => false,
             ])
             ->add('activity', EntityType::class, [
                 'class' => Activity::class,

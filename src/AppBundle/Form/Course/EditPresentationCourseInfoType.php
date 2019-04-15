@@ -68,14 +68,14 @@ class EditPresentationCourseInfoType extends AbstractType
             ])
             ->add('domain', TextType::class, [
                 'label' => 'Domaine',
-                'required' => true,
+                'required' => false,
                 'attr' => [
                     'placeholder' => 'Ex: Chimie'
                 ]
             ])
             ->add('level', ChoiceType::class, [
                 'label' => 'Niveau',
-                'required' => true,
+                'required' => false,
                 'multiple' => false,
                 'expanded' => true,
                 'placeholder' => false,
@@ -83,7 +83,7 @@ class EditPresentationCourseInfoType extends AbstractType
             ])
             ->add('summary', CKEditorType::class, [
                 'label' => 'Description',
-                'required' => true,
+                'required' => false,
             ])
             ->add('teachingMode', ChoiceType::class, [
                 'label' => "Mode d'enseignement",

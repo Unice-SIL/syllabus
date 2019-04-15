@@ -136,7 +136,7 @@ class CourseSectionType extends AbstractType
         $builder
             ->add('title', TextType::class, [
                 'label' => 'Title',
-                'required' => true,
+                'required' => false,
                 'attr' => [
                     'placeholder' => 'Titre'
                 ]

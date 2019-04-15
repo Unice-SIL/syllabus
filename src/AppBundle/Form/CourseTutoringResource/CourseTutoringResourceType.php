@@ -24,7 +24,7 @@ class CourseTutoringResourceType extends AbstractType
         $builder
             ->add('description', TextType::class, [
                 'label' => false,
-                'required' => true,
+                'required' => false,
             ])
             ->add('order', HiddenType::class);
     }
