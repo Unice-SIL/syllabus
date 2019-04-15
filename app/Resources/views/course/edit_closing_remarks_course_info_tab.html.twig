@@ -45,7 +45,6 @@
 {% endblock %}
 
 {% block javascripts %}
-
     <script>
 
         function toggleVideo(){
@@ -58,27 +57,25 @@
             }
         }
 
-        $(document).ready(function() {
+        /**
+         * Init video
+         */
+        toggleVideo();
 
-            /**
-             * Init video
-             */
+        /**
+         * Load video in iframe when click on preview
+         */
+        $("#media_closing_video_preview").on('click', function(){
+            $("#media_closing_video_iframe").attr("src", $("#edit_closing_remarks_course_info_closingVideo").val());
             toggleVideo();
-
-            /**
-             * Load video in iframe when click on preview
-             */
-            $("#media_closing_video_preview").on('click', function(){
-                $("#media_closing_video_iframe").attr("src", $("#edit_closing_remarks_course_info_closingVideo").val());
-                toggleVideo();
-            });
-
-            /**
-             * Submit the form
-             */
-            $("form[name='edit_closing_remarks_course_info']").submit(function(e){
-                Syllabus.submitPanelForm( e, this );
-            });
         });
+
+        /**
+         * Submit the form
+         */
+        $("form[name='edit_closing_remarks_course_info']").submit(function(e){
+            Syllabus.submitPanelForm( e, this );
+        });
+
     </script>
 {% endblock %}

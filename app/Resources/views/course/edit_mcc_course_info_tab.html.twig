@@ -78,16 +78,14 @@
 {% endblock %}
 
 {% block javascripts %}
-
     <script>
-        $(document).ready(function() {
 
-            /**
-             * Submit the form
-             */
-            $("form[name='edit_mcc_course_info']").submit(function(e){
-                Syllabus.submitPanelForm( e, this );
-            });
+        /**
+         * Submit the form
+         */
+        $("form[name='edit_mcc_course_info']").submit(function(e){
+            Syllabus.submitPanelForm( e, this );
         });
+
     </script>
 {% endblock %}

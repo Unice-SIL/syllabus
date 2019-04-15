@@ -301,107 +301,103 @@
             });
         }
 
+
         /**
-         *
+         * Init pedagogic team
          */
-        $(document).ready(function(){
-            /**
-             * Init pedagogic team
-             */
-            var teachersCollectionHolder = $('#teachers');
-            teachersCollectionHolder.data('index', teachersCollectionHolder.find('li').length);
+        var teachersCollectionHolder = $('#teachers');
+        teachersCollectionHolder.data('index', teachersCollectionHolder.find('li').length);
 
-            /**
-             * Init teaching mode hours enable/disable
-             */
-            toogleTeachingModeHours();
+        /**
+         * Init teaching mode hours enable/disable
+         */
+        toogleTeachingModeHours();
 
-            /**
-             * Add a teacher to the pedagogic team
-             */
-            $( '#edit_presentation_course_info_teacherSearch' ).on( 'select2:select', function( ) {
-                $.ajax({
-                    url: '{{ path('find_course_teacher_json') }}',
-                    type: 'GET',
-                    data: {
-                        'source': $('#edit_presentation_course_info_teacherSource').val(),
-                        'id': $('#edit_presentation_course_info_teacherSearch').val()
-                    },
-                    success: function(data){
-                        var teacherAlreadyInTeam = false;
-                        teachersCollectionHolder.find("input[id*=_id]").each(function(){
-                            if($(this).val() === data.id){
-                                teacherAlreadyInTeam = true;
-                                SILTools.alert({
-                                    type: 'info',
-                                    text: "Cette personne fait déjà partie de l'équipe enseignante."
-                                });
-                            }
-                        });
-                        if(teacherAlreadyInTeam === false) {
-                            var form = addFormToCollection(teachersCollectionHolder);
-                            form.find('input[id*=_completeName]').val(data['completeName']);
-                            form.find('input[id*=_id]').val(data['id']);
-                            form.find('input[id*=_firstname]').val(data['firstname']);
-                            form.find('input[id*=_lastname]').val(data['lastname']);
-                            form.find('input[id*=_email]').val(data['email']);
+        /**
+         * Add a teacher to the pedagogic team
+         */
+        $( '#edit_presentation_course_info_teacherSearch' ).on( 'select2:select', function( ) {
+            $.ajax({
+                url: '{{ path('find_course_teacher_json') }}',
+                type: 'GET',
+                data: {
+                    'source': $('#edit_presentation_course_info_teacherSource').val(),
+                    'id': $('#edit_presentation_course_info_teacherSearch').val()
+                },
+                success: function(data){
+                    var teacherAlreadyInTeam = false;
+                    teachersCollectionHolder.find("input[id*=_id]").each(function(){
+                        if($(this).val() === data.id){
+                            teacherAlreadyInTeam = true;
+                            SILTools.alert({
+                                type: 'info',
+                                text: "Cette personne fait déjà partie de l'équipe enseignante."
+                            });
                         }
-                        $('#edit_presentation_course_info_teacherSearch').find('option').remove();
-                        $('#select2-edit_presentation_course_info_teacherSearch-container').html('');
+                    });
+                    if(teacherAlreadyInTeam === false) {
+                        var form = addFormToCollection(teachersCollectionHolder);
+                        form.find('input[id*=_completeName]').val(data['completeName']);
+                        form.find('input[id*=_id]').val(data['id']);
+                        form.find('input[id*=_firstname]').val(data['firstname']);
+                        form.find('input[id*=_lastname]').val(data['lastname']);
+                        form.find('input[id*=_email]').val(data['email']);
                     }
-                });
-            } );
-
-            /**
-             * Remove a teacher form collection
-             */
-            teachersCollectionHolder.on('click', '.teacher-collection-remove', function(){
-                var form = $(this).closest("li.teacher");
-                form.fadeOut({
-                    always: function(){
-                        form.remove();
-                    }
-                });
-            });
-
-            /**
-             * Change the media type value when clicking on media tab
-             */
-            $("#media_type > li > a").on('click', function(){
-                $("#edit_presentation_course_info_mediaType").val($(this).data('media-type'));
-            });
-
-            /**
-             * Change the image preview when change image file
-             */
-            $("#edit_presentation_course_info_image").on('change', function(e){
-                var reader = new FileReader();
-                reader.onload = function(){
-                    $("#media_image").attr('src', reader.result);
+                    $('#edit_presentation_course_info_teacherSearch').find('option').remove();
+                    $('#select2-edit_presentation_course_info_teacherSearch-container').html('');
                 }
-                reader.readAsDataURL(e.target.files[0]);
             });
+        } );
 
-            /**
-             * Load video in iframe when click on preview
-             */
-            $("#media_video_preview").on('click', function(){
-                $("#media_video_iframe").attr("src", $("#edit_presentation_course_info_video").val());
+        /**
+         * Remove a teacher form collection
+         */
+        teachersCollectionHolder.on('click', '.teacher-collection-remove', function(){
+            var form = $(this).closest("li.teacher");
+            form.fadeOut({
+                always: function(){
+                    form.remove();
+                }
             });
+        });
 
-            /**
-             * Enable/Disable teaching mode hours inputs
-             */
-            $("input[name='edit_presentation_course_info[teachingMode]']").on('change', function(){
-                toogleTeachingModeHours();
-            });
+        /**
+         * Change the media type value when clicking on media tab
+         */
+        $("#media_type > li > a").on('click', function(){
+            $("#edit_presentation_course_info_mediaType").val($(this).data('media-type'));
+        });
 
-            /**
-             * Submit form
-             */
-            $("form[name='edit_presentation_course_info']").submit(function(e){
-                Syllabus.submitPanelForm( e, this );
-            });
+        /**
+         * Change the image preview when change image file
+         */
+        $("#edit_presentation_course_info_image").on('change', function(e){
+            var reader = new FileReader();
+            reader.onload = function(){
+                $("#media_image").attr('src', reader.result);
+            }
+            reader.readAsDataURL(e.target.files[0]);
+        });
+
+        /**
+         * Load video in iframe when click on preview
+         */
+        $("#media_video_preview").on('click', function(){
+            $("#media_video_iframe").attr("src", $("#edit_presentation_course_info_video").val());
+        });
+
+        /**
+         * Enable/Disable teaching mode hours inputs
+         */
+        $("input[name='edit_presentation_course_info[teachingMode]']").on('change', function(){
+            toogleTeachingModeHours();
+        });
+
+        /**
+         * Submit form
+         */
+        $("form[name='edit_presentation_course_info']").submit(function(e){
+            Syllabus.submitPanelForm( e, this );
         });
 
     </script>
