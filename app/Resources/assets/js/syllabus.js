@@ -83,12 +83,33 @@ var Syllabus = ( function ( ) {
     };
 
 
-    var updatePanelEditors = function( form ) {
+    var submitPanelForm = function( event, form ) {
 
-        $( form ).find( '.cke' ).each( function( index ) {
+        var $form = $( form );
 
+        event.preventDefault( );
+        $form.find( '.cke' ).each( function( ) {
             CKEDITOR.instances[ $( this ).siblings( 'textarea' ).attr( 'id' ) ]
                     .updateElement( );
+        } );
+
+        SILTools.spinner.fadeIn( {
+            always: function( ) {
+                $.ajax( {
+                    type: 'POST',
+                    enctype: 'multipart/form-data',
+                    processData: false, // Preventing default serialization.
+                    contentType: false, // No auto “contentType” header.
+                    url: $form.parent( '.tab-pane' ).data( 'submit-url' ),
+                    data: new FormData( form ),
+                    cache: false,
+                    timeout: 3000
+                } ).done( function( response ) {
+                    Syllabus.handleAjaxResponse( response );
+                } ).always( function( ) {
+                    SILTools.spinner.fadeOut( );
+                } );
+            }
         } );
 
     };
@@ -122,7 +143,7 @@ var Syllabus = ( function ( ) {
 
     return {
         tabsInit: tabsInit,
-        updatePanelEditors: updatePanelEditors,
+        submitPanelForm: submitPanelForm,
         handleAjaxResponse: handleAjaxResponse
     };
 

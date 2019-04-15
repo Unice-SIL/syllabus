@@ -189,180 +189,162 @@
 {% block javascripts %}
     <script>
 
-        $(document).ready(function() {
-            $('#edit_objectives_course_info_tutoring').bootstrapToggle({
-                on: 'Oui',
-                off: 'Non',
-                onstyle: 'primary',
-                offstyle: 'secondary',
-                size: 'sm',
-                style: 'ios'
-            });
+        $('#edit_objectives_course_info_tutoring').bootstrapToggle({
+            on: 'Oui',
+            off: 'Non',
+            onstyle: 'primary',
+            offstyle: 'secondary',
+            size: 'sm',
+            style: 'ios'
+        });
 
-            /**
-             * Init achievements collection
-             */
-            var achievementsCollectionHolder = $('#achievements');
-            achievementsCollectionHolder.data('index', achievementsCollectionHolder.find('li.achievement').length);
-            achievementsCollectionHolder.sortable({
-                group: {
-                    name: "achievements",
-                },
-                handle: ".achievement-collection-move",
-                sort: true,
-                animation: 150
-            });
+        /**
+         * Init achievements collection
+         */
+        var achievementsCollectionHolder = $('#achievements');
+        achievementsCollectionHolder.data('index', achievementsCollectionHolder.find('li.achievement').length);
+        achievementsCollectionHolder.sortable({
+            group: {
+                name: "achievements",
+            },
+            handle: ".achievement-collection-move",
+            sort: true,
+            animation: 150
+        });
 
-            /**
-             * Add a achievement when button click
-             */
-            $('#addAchievementButton').click(function () {
-                var form = addFormToCollection(achievementsCollectionHolder);
-                form.find('input[id$=_description]').focus();
-            });
+        /**
+         * Add a achievement when button click
+         */
+        $('#addAchievementButton').click(function () {
+            var form = addFormToCollection(achievementsCollectionHolder);
+            form.find('input[id$=_description]').focus();
+        });
 
-            /**
-             * Remove a achievement from collection
-             */
-            achievementsCollectionHolder.on('click', '.achievement-collection-remove', function () {
-                if (confirm("Êtes-vous sûr(e) de vouloir supprimer cet acquis d'apprentissage ?")) {
-                    var form = $(this).closest("li.achievement");
-                    form.fadeOut({
-                        always: function () {
-                            form.remove();
-                        }
-                    });
-                }
-            });
-
-
-            /**
-             * Init prerequisites collection
-             */
-            var prerequisitesCollectionHolder = $('#prerequisites');
-            prerequisitesCollectionHolder.data('index', prerequisitesCollectionHolder.find('li.prerequisite').length);
-            prerequisitesCollectionHolder.sortable({
-                group: {
-                    name: "prerequisites"
-                },
-                handle: ".prerequisite-collection-move",
-                sort: true,
-                animation: 150
-            });
-
-            /**
-             * Add a prerequisite when button click
-             */
-            $('#addPrerequisiteButton').click(function () {
-                var form = addFormToCollection(prerequisitesCollectionHolder);
-                form.find('input[id$=_description]').focus();
-            });
-
-            /**
-             * Remove a prerequisite from collection
-             */
-            prerequisitesCollectionHolder.on('click', '.prerequisite-collection-remove', function () {
-                if (confirm("Êtes-vous sûr(e) de vouloir supprimer ce prérequis ?")) {
-                    var form = $(this).closest("li.prerequisite");
-                    form.fadeOut({
-                        always: function () {
-                            form.remove();
-                        }
-                    });
-                }
-            });
-
-            /**
-             * Init tutoringResources collection
-             */
-            var tutoringResourcesCollectionHolder = $('#tutoringResources');
-            tutoringResourcesCollectionHolder.data('index', tutoringResourcesCollectionHolder.find('li.tutoringResource').length);
-            tutoringResourcesCollectionHolder.sortable({
-                group: {
-                    name: "tutoringResources"
-                },
-                handle: ".tutoringResource-collection-move",
-                sort: true,
-                animation: 150
-            });
-
-            /**
-             * Add a tutoringResource when button click
-             */
-            $('#addTutoringResourceButton').click(function () {
-                var form = addFormToCollection(tutoringResourcesCollectionHolder);
-                form.find('input[id$=_description]').focus();
-            });
-
-            /**
-             * Remove a tutoringResource from collection
-             */
-            tutoringResourcesCollectionHolder.on('click', '.tutoringResource-collection-remove', function () {
-                if (confirm("Êtes-vous sûr(e) de vouloir supprimer cette remédiation ?")) {
-                    var form = $(this).closest("li.tutoringResource");
-                    form.fadeOut({
-                        always: function () {
-                            form.remove();
-                        }
-                    });
-                }
-            });
-
-            /**
-             * Submit the form
-             */
-            $("form[name='edit_objectives_course_info']").submit(function(e){
-                e.preventDefault();
-
-                var form = $(this);
-                //var data = new FormData(form);
-
-                // Set achievements order
-                achievementsCollectionHolder.find('li.achievement').each(function(order){
-                    // Set section order
-                    $(this).find("input[id$='_order']").each(function(){
-                        if($(this).attr("id").match(/^edit_objectives_course_info_achievements_[\d]+_order/)){
-                            $(this).val(order+1);
-                        }
-                    });
+        /**
+         * Remove a achievement from collection
+         */
+        achievementsCollectionHolder.on('click', '.achievement-collection-remove', function () {
+            if (confirm("Êtes-vous sûr(e) de vouloir supprimer cet acquis d'apprentissage ?")) {
+                var form = $(this).closest("li.achievement");
+                form.fadeOut({
+                    always: function () {
+                        form.remove();
+                    }
                 });
+            }
+        });
 
-                // Set prerequisites order
-                prerequisitesCollectionHolder.find('li.prerequisite').each(function(order){
-                    // Set section order
-                    $(this).find("input[id$='_order']").each(function(){
-                        if($(this).attr("id").match(/^edit_objectives_course_info_prerequisites_[\d]+_order/)){
-                            $(this).val(order+1);
-                        }
-                    });
+
+        /**
+         * Init prerequisites collection
+         */
+        var prerequisitesCollectionHolder = $('#prerequisites');
+        prerequisitesCollectionHolder.data('index', prerequisitesCollectionHolder.find('li.prerequisite').length);
+        prerequisitesCollectionHolder.sortable({
+            group: {
+                name: "prerequisites"
+            },
+            handle: ".prerequisite-collection-move",
+            sort: true,
+            animation: 150
+        });
+
+        /**
+         * Add a prerequisite when button click
+         */
+        $('#addPrerequisiteButton').click(function () {
+            var form = addFormToCollection(prerequisitesCollectionHolder);
+            form.find('input[id$=_description]').focus();
+        });
+
+        /**
+         * Remove a prerequisite from collection
+         */
+        prerequisitesCollectionHolder.on('click', '.prerequisite-collection-remove', function () {
+            if (confirm("Êtes-vous sûr(e) de vouloir supprimer ce prérequis ?")) {
+                var form = $(this).closest("li.prerequisite");
+                form.fadeOut({
+                    always: function () {
+                        form.remove();
+                    }
                 });
+            }
+        });
 
-                // Set tutoringResources order
-                tutoringResourcesCollectionHolder.find('li.tutoringResource').each(function(order){
-                    // Set section order
-                    $(this).find("input[id$='_order']").each(function(){
-                        if($(this).attr("id").match(/^edit_objectives_course_info_tutoringResources_[\d]+_order/)){
-                            $(this).val(order+1);
-                        }
-                    });
+        /**
+         * Init tutoringResources collection
+         */
+        var tutoringResourcesCollectionHolder = $('#tutoringResources');
+        tutoringResourcesCollectionHolder.data('index', tutoringResourcesCollectionHolder.find('li.tutoringResource').length);
+        tutoringResourcesCollectionHolder.sortable({
+            group: {
+                name: "tutoringResources"
+            },
+            handle: ".tutoringResource-collection-move",
+            sort: true,
+            animation: 150
+        });
+
+        /**
+         * Add a tutoringResource when button click
+         */
+        $('#addTutoringResourceButton').click(function () {
+            var form = addFormToCollection(tutoringResourcesCollectionHolder);
+            form.find('input[id$=_description]').focus();
+        });
+
+        /**
+         * Remove a tutoringResource from collection
+         */
+        tutoringResourcesCollectionHolder.on('click', '.tutoringResource-collection-remove', function () {
+            if (confirm("Êtes-vous sûr(e) de vouloir supprimer cette remédiation ?")) {
+                var form = $(this).closest("li.tutoringResource");
+                form.fadeOut({
+                    always: function () {
+                        form.remove();
+                    }
                 });
+            }
+        });
 
+        /**
+         * Form submission
+         */
+        $("form[name='edit_objectives_course_info']").submit(function(e){
 
-                SILTools.spinner.fadeIn( {
-                    always: function(){
-                        $.ajax({
-                            type: 'POST',
-                            url: '{{ path('save_objectives_course_info', { 'id': courseInfo.id })|escape('js') }}',
-                            data: form.serialize()
-                        }).done(function(response){
-                            //response.renderTabId = 'panel_tab-3';
-                            Syllabus.handleAjaxResponse(response);
-                        }).always(function(){
-                            SILTools.spinner.fadeOut( );
-                        });
+            // Set achievements order
+            achievementsCollectionHolder.find('li.achievement').each(function(order){
+                // Set section order
+                $(this).find("input[id$='_order']").each(function(){
+                    if($(this).attr("id").match(/^edit_objectives_course_info_achievements_[\d]+_order/)){
+                        $(this).val(order+1);
                     }
                 });
             });
+
+            // Set prerequisites order
+            prerequisitesCollectionHolder.find('li.prerequisite').each(function(order){
+                // Set section order
+                $(this).find("input[id$='_order']").each(function(){
+                    if($(this).attr("id").match(/^edit_objectives_course_info_prerequisites_[\d]+_order/)){
+                        $(this).val(order+1);
+                    }
+                });
+            });
+
+            // Set tutoringResources order
+            tutoringResourcesCollectionHolder.find('li.tutoringResource').each(function(order){
+                // Set section order
+                $(this).find("input[id$='_order']").each(function(){
+                    if($(this).attr("id").match(/^edit_objectives_course_info_tutoringResources_[\d]+_order/)){
+                        $(this).val(order+1);
+                    }
+                });
+            });
+
+            Syllabus.submitPanelForm( e, this );
+
         });
+
     </script>
 {% endblock %}

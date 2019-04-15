@@ -57,7 +57,6 @@
 {% endblock %}
 
 {% block javascripts %}
-
     <script>
 
         function setEquipmentInfos(el, data){
@@ -66,100 +65,76 @@
             el.addClass(data['classtype']);
         }
 
-        $(document).ready(function() {
 
-            /**
-             * Init equipments collection
-             */
-            var equipmentsClassList = $('.list-equipments');
-            var equipmentsCollectionHolder = $('#equipments');
-            equipmentsCollectionHolder.data('index', equipmentsCollectionHolder.find('.equipment').length);
+        /**
+         * Init equipments collection
+         */
+        var equipmentsClassList = $('.list-equipments');
+        var equipmentsCollectionHolder = $('#equipments');
+        equipmentsCollectionHolder.data('index', equipmentsCollectionHolder.find('.equipment').length);
 
-            // Equipments collection holder sortable
-            equipmentsCollectionHolder.sortable( {
-                group: {
-                    name: "equipments"
-                },
-                handle: ".equipment-collection-move",
-                sort: true,
-                animation: 150,
-                onAdd: function(e){
-                    var item = $(e.item);
-                    var form = addFormToCollection(equipmentsCollectionHolder);
-                    var label = item.find('input.equipment-label').val();
-                    var equipment_id = item.find("input.equipment-id").val();
-                    var classtype = item.find("input.equipment-class").val();
-                    setEquipmentInfos(form, {
-                        'label': label,
-                        'equipment_id': equipment_id,
-                        'classtype': classtype
-                    });
-                    item.replaceWith(form);
-                }
-            } );
-
-            // Equipments lists sortable
-            equipmentsClassList.sortable( {
-                group: {
-                    name: "equipments",
-                    pull: 'clone',
-                    put: false
-                },
-                sort: false,
-                animation: 150
-            } );
-
-            /**
-             * Remove a equipment from collection
-             */
-            equipmentsCollectionHolder.on('click', '.equipment-collection-remove', function(){
-                if(confirm("Êtes-vous sûr(e) de vouloir supprimer cette évaluation ?")) {
-                    var form = $(this).closest("div.equipment");
-                    form.fadeOut({
-                        always: function () {
-                            form.remove();
-                        }
-                    });
-                }
-            });
-
-
-
-            /**
-             * Submit the form
-             */
-            $("form[name='edit_equipments_course_info']").submit(function(e){
-
-                var form = $(this)[0];
-
-                e.preventDefault();
-
-                Syllabus.updatePanelEditors(form);
-
-                // Set equipments order
-                equipmentsCollectionHolder.find('div.equipment').each(function(order){
-                    $(this).find("input[id$='_order']").val(order+1);
+        // Equipments collection holder sortable
+        equipmentsCollectionHolder.sortable( {
+            group: {
+                name: "equipments"
+            },
+            handle: ".equipment-collection-move",
+            sort: true,
+            animation: 150,
+            onAdd: function(e){
+                var item = $(e.item);
+                var form = addFormToCollection(equipmentsCollectionHolder);
+                var label = item.find('input.equipment-label').val();
+                var equipment_id = item.find("input.equipment-id").val();
+                var classtype = item.find("input.equipment-class").val();
+                setEquipmentInfos(form, {
+                    'label': label,
+                    'equipment_id': equipment_id,
+                    'classtype': classtype
                 });
+                item.replaceWith(form);
+            }
+        } );
 
-                SILTools.spinner.fadeIn( {
-                    always: function(){
-                        $.ajax({
-                            type: 'POST',
-                            enctype: 'multipart/form-data',
-                            processData: false,  // Important!
-                            contentType: false,
-                            url: '{{ path('save_equipments_course_info', { 'id': courseInfo.id })|escape('js') }}',
-                            data: new FormData(form),
-                            cache: false,
-                            timeout: 600000
-                        }).done(function(response){
-                            Syllabus.handleAjaxResponse(response);
-                        }).always(function(){
-                            SILTools.spinner.fadeOut( );
-                        });
+        // Equipments lists sortable
+        equipmentsClassList.sortable( {
+            group: {
+                name: "equipments",
+                pull: 'clone',
+                put: false
+            },
+            sort: false,
+            animation: 150
+        } );
+
+        /**
+         * Remove a equipment from collection
+         */
+        equipmentsCollectionHolder.on('click', '.equipment-collection-remove', function(){
+            if(confirm("Êtes-vous sûr(e) de vouloir supprimer cette évaluation ?")) {
+                var form = $(this).closest("div.equipment");
+                form.fadeOut({
+                    always: function () {
+                        form.remove();
                     }
                 });
-            });
+            }
         });
+
+
+        /**
+         * Form submission
+         */
+        $("form[name='edit_equipments_course_info']").submit(function(e){
+
+            // Set equipments order
+            equipmentsCollectionHolder.find('div.equipment').each(function(order){
+                $(this).find("input[id$='_order']").val(order+1);
+            });
+
+            Syllabus.submitPanelForm( e, this );
+
+        });
+
     </script>
 {% endblock %}
