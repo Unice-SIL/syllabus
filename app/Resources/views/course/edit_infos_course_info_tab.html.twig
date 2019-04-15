@@ -44,31 +44,7 @@
              * Submit the form
              */
             $("form[name='edit_infos_course_info']").submit(function(e){
-
-                var form = $(this)[0];
-
-                e.preventDefault();
-
-                Syllabus.updatePanelEditors(form);
-
-                SILTools.spinner.fadeIn( {
-                    always: function(){
-                        $.ajax({
-                            type: 'POST',
-                            enctype: 'multipart/form-data',
-                            processData: false,  // Important!
-                            contentType: false,
-                            url: '{{ path('save_infos_course_info', { 'id': courseInfo.id })|escape('js') }}',
-                            data: new FormData(form),
-                            cache: false,
-                            timeout: 600000
-                        }).done(function(response){
-                            Syllabus.handleAjaxResponse(response);
-                        }).always(function(){
-                            SILTools.spinner.fadeOut( );
-                        });
-                    }
-                });
+                Syllabus.submitPanelForm( e, this );
             });
         });
     </script>
