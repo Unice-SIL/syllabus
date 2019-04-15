@@ -83,7 +83,7 @@ var Syllabus = ( function ( ) {
     };
 
 
-    var updateEditors = function( form ) {
+    var updatePanelEditors = function( form ) {
 
         $( form ).find( '.cke' ).each( function( index ) {
 
@@ -122,7 +122,7 @@ var Syllabus = ( function ( ) {
 
     return {
         tabsInit: tabsInit,
-        updateEditors: updateEditors,
+        updatePanelEditors: updatePanelEditors,
         handleAjaxResponse: handleAjaxResponse
     };
 
