@@ -1,27 +1,27 @@
 {
   "license": "UNLICENSED",
   "devDependencies": {
-    "@babel/core": "^7.3.4",
+    "@babel/core": "^7.4.3",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
-    "@babel/preset-env": "^7.3.4",
+    "@babel/preset-env": "^7.4.3",
     "@symfony/webpack-encore": "^0.23.0",
-    "autoprefixer": "^9.4.9",
+    "autoprefixer": "^9.5.1",
     "bootstrap": "^4.3.1",
     "node-sass": "^4.11.0",
     "postcss-loader": "^3.0.0",
-    "sass-loader": "^7.0.1",
-    "webpack-notifier": "^1.6.0"
+    "sass-loader": "^7.1.0",
+    "webpack-notifier": "^1.7.0"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.7.2",
-    "bootbox": "^5.0.1",
+    "@fortawesome/fontawesome-free": "^5.8.1",
+    "bootbox": "^5.1.1",
     "bootstrap4-toggle": "^3.4.0",
-    "ckeditor": "^4.11.3",
+    "ckeditor": "^4.11.4",
     "core-js": "2",
     "jquery": "^3.3.1",
     "jquery-sortablejs": "^1.0.1",
-    "popper.js": "^1.14.7",
+    "popper.js": "^1.15.0",
     "select2": "^4.0.5",
-    "sortablejs": "^1.8.3"
+    "sortablejs": "^1.8.4"
   }
 }
