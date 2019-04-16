@@ -57,6 +57,59 @@ var Syllabus = ( function ( ) {
     };
 
 
+    var _refreshContent = function( renders ) {
+
+        if ( renders !== undefined ) {
+            renders.forEach( function( render ) {
+                if ( render.element !== undefined &&
+                        render.content !== undefined ) {
+                    $( render.element ).html( render.content );
+                }
+            } );
+        }
+
+    };
+
+
+    var _ajaxFormSubmission = function( form, isSubmit ) {
+
+        var $form = $( form );
+
+        if ( isSubmit === undefined || ! isSubmit ) {
+            isSubmit = false;
+        } else {
+            isSubmit = true;
+        }
+
+        $form.find( '.cke' ).each( function( ) {
+            CKEDITOR.instances[ $( this ).siblings( 'textarea' ).attr( 'id' ) ]
+                    .updateElement( );
+        } );
+
+        $.ajax( {
+            type: 'POST',
+            enctype: 'multipart/form-data',
+            processData: false, // Preventing default serialization.
+            contentType: false, // No auto “contentType” header.
+            url: $form.parent( '.tab-pane' ).data( 'submit-url' ),
+            data: new FormData( form ),
+            cache: false,
+            timeout: 3000
+        } ).done( function( response ) {
+            if ( isSubmit ) {
+                Syllabus.handleAjaxResponse( response );
+            } else {
+                _refreshContent( response.renders );
+            }
+        } ).always( function( ) {
+            if ( isSubmit ) {
+                SILTools.spinner.fadeOut( );
+            }
+        } );
+
+    };
+
+
 
     /**************************************************************************
 
@@ -85,55 +138,30 @@ var Syllabus = ( function ( ) {
 
     var submitPanelForm = function( event, form ) {
 
-        var $form = $( form );
-
         event.preventDefault( );
-        $form.find( '.cke' ).each( function( ) {
-            CKEDITOR.instances[ $( this ).siblings( 'textarea' ).attr( 'id' ) ]
-                    .updateElement( );
-        } );
 
         SILTools.spinner.fadeIn( {
-            always: function( ) {
-                $.ajax( {
-                    type: 'POST',
-                    enctype: 'multipart/form-data',
-                    processData: false, // Preventing default serialization.
-                    contentType: false, // No auto “contentType” header.
-                    url: $form.parent( '.tab-pane' ).data( 'submit-url' ),
-                    data: new FormData( form ),
-                    cache: false,
-                    timeout: 3000
-                } ).done( function( response ) {
-                    Syllabus.handleAjaxResponse( response );
-                } ).always( function( ) {
-                    SILTools.spinner.fadeOut( );
-                } );
-            }
+            always: _ajaxFormSubmission( form, true )
         } );
 
     };
 
 
     var handleAjaxResponse = function( response ) {
-        if(response.messages !== undefined) {
-            response.messages.forEach(function(message){
-                if (message.type !== undefined && message.message !== undefined) {
+        if ( response.messages !== undefined ) {
+            response.messages.forEach( function( message ) {
+                if ( message.type !== undefined &&
+                        message.message !== undefined ) {
                     SILTools.alert( {
                         type: message.type,
                         text: message.message
                     } );
                 }
-            });
+            } );
         }
 
-        if(response.renders !== undefined) {
-            response.renders.forEach(function(render) {
-                if (render.element !== undefined && render.content !== undefined) {
-                    $(render.element).html(render.content);
-                }
-            });
-        }
+        _refreshContent( response.renders );
+
     };
 
 
