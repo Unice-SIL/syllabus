@@ -59,11 +59,11 @@ class CourseSectionActivityType extends AbstractType
                 'required' => false,
                 'label' => "l'enseignant"
             ])
+            ->add('order', HiddenType::class)
             ->add('evaluationPeer', CheckboxType::class, [
                 'required' => false,
                 'label' => 'les pairs'
-            ])
-            ->add('order', HiddenType::class);
+            ]);
     }
 
     /**

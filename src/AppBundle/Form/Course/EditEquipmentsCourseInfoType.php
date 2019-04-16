@@ -11,6 +11,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use AppBundle\Repository\EquipmentRepositoryInterface;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 
@@ -76,7 +78,20 @@ class EditEquipmentsCourseInfoType extends AbstractType
         ->add('bibliographicResources', CKEditorType::class, [
             'label' => 'Description',
             'required' => false,
-        ]);
+        ])->addEventListener(FormEvents::PRE_SUBMIT, function(FormEvent $event){
+                // Get data
+                $data = $event->getData();
+                // Sort equipments
+                if(array_key_exists('equipments', $data)){
+                    $equipments = array_values($data['equipments']);
+                    foreach ($equipments as $i => $equipment){
+                        $equipments[$i]['order'] = $i+1;
+                    }
+                    $data['equipments'] = $equipments;
+                }
+                //Set data
+                $event->setData($data);
+            });
     }
 
     /**

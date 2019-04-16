@@ -164,6 +164,7 @@ class SaveObjectivesCourseInfoAction implements ActionInterface
                     ];
 
                     // Get render to reload course info panel
+
                     $renders[] = [
                         'element' => '#course_info_panel',
                         'content' => $this->templating->render(

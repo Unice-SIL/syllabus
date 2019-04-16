@@ -19,6 +19,8 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -204,8 +206,21 @@ class CourseSectionType extends AbstractType
                 'by_reference' => false,
                 'error_bubbling' => false
             ])
-            ->add('order', HiddenType::class, [
-            ]);
+            ->add('order', HiddenType::class)
+            ->addEventListener(FormEvents::PRE_SUBMIT, function(FormEvent $event){
+                // Get data
+                $data = $event->getData();
+                // Sort activities
+                if(array_key_exists('activities', $data)){
+                    $activities = array_values($data['activities']);
+                    foreach ($activities as $i => $activity){
+                        $activities[$i]['order'] = $i+1;
+                    }
+                    $data['activities'] = $activities;
+                }
+                //Set data
+                $event->setData($data);
+            });
     }
 
     /**

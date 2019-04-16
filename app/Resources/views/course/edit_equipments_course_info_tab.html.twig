@@ -127,11 +127,6 @@
          */
         $("form[name='edit_equipments_course_info']").submit(function(e){
 
-            // Set equipments order
-            equipmentsCollectionHolder.find('div.equipment').each(function(order){
-                $(this).find("input[id$='_order']").val(order+1);
-            });
-
             Syllabus.submitPanelForm( e, this );
 
         });
