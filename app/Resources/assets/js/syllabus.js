@@ -73,7 +73,8 @@ var Syllabus = ( function ( ) {
 
     var _ajaxFormSubmission = function( form, isSubmit ) {
 
-        var $form = $( form );
+        var $form = $( form ),
+            ckeInstance = null;
 
         if ( isSubmit === undefined || ! isSubmit ) {
             isSubmit = false;
@@ -82,8 +83,9 @@ var Syllabus = ( function ( ) {
         }
 
         $form.find( '.cke' ).each( function( ) {
-            CKEDITOR.instances[ $( this ).siblings( 'textarea' ).attr( 'id' ) ]
-                    .updateElement( );
+            ckeInstance = $( this ).siblings( 'textarea' ).attr( 'id' );
+            CKEDITOR.instances[ ckeInstance ].updateElement( );
+            CKEDITOR.instances[ ckeInstance ].destroy( );
         } );
 
         $.ajax( {
