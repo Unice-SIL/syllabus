@@ -176,6 +176,12 @@
                 var form = $(this).closest("li.section");
                 form.fadeOut({
                     always: function () {
+                        /*
+                            TODO
+
+                            Destroy CKEDITOR instance(s) contained in form
+                            before removing it.
+                        */
                         form.remove();
                     }
                 });
