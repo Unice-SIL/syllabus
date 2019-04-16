@@ -22,9 +22,10 @@ var Syllabus = ( function ( ) {
     */
 
 
-    var _ajaxTabContentLoader = function( $tabLink ) {
+    var _ajaxTabContentLoader = function( tabLinkId ) {
 
-        var route = $tabLink.data( 'route' );
+        var $tabLink = $( '#' + tabLinkId ),
+            route = $tabLink.data( 'route' );
 
         if ( route !== "" ) {
 
@@ -122,12 +123,12 @@ var Syllabus = ( function ( ) {
     var tabsInit = function( ) {
 
         $( 'a[data-toggle="tab"]' ).on( 'hide.bs.tab', function( event ) {
-            _ajaxFormSubmission( $( "#panel_" + event.target.id ).find( 'form' )[ 0 ] );
-            _ajaxTabContentLoader( $( "#" + event.relatedTarget.id ) );
+            _ajaxFormSubmission( $( '#panel_' + event.target.id ).find( 'form' )[ 0 ] );
+            _ajaxTabContentLoader( event.relatedTarget.id );
         } );
 
         $( '#tab-1' ).addClass( 'active' );
-        _ajaxTabContentLoader( $( '#tab-1' ) );
+        _ajaxTabContentLoader( 'tab-1' );
 
     };
 
