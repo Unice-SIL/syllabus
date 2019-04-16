@@ -26,7 +26,7 @@ class StructureFixture extends Fixture
         $structure = new Structure();
         $structure->setId(Uuid::uuid4())
             ->setLabel('UFR Sciences')
-            ->setEtbCode('SCI')
+            ->setEtbId('SCI')
             ->setCampus('Valrose');
         $this->addReference(self::SCIENCES, $structure);
         $manager->persist($structure);

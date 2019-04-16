@@ -24,9 +24,9 @@ class CourseSection
     private $id;
 
     /**
-     * @var string
+     * @var null|string
      *
-     * @ORM\Column(name="title", type="string", length=100, nullable=false)
+     * @ORM\Column(name="title", type="string", length=100, nullable=true)
      */
     private $title;
 
@@ -104,7 +104,6 @@ class CourseSection
 
         return $this;
     }
-
 
     /**
      * @return null|string

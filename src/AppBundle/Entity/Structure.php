@@ -24,9 +24,9 @@ class Structure
     /**
      * @var string
      *
-     * @ORM\Column(name="etb_code", type="string", length=45, nullable=false)
+     * @ORM\Column(name="etbId", type="string", length=45, nullable=false)
      */
-    private $etbCode;
+    private $etbId;
 
     /**
      * @var string|null
@@ -71,21 +71,22 @@ class Structure
     /**
      * @return string
      */
-    public function getEtbCode(): string
+    public function getEtbId(): string
     {
-        return $this->etbCode;
+        return $this->etbId;
     }
 
     /**
-     * @param string $etbCode
+     * @param string $etbId
      * @return Structure
      */
-    public function setEtbCode(string $etbCode): Structure
+    public function setEtbId(string $etbId): Structure
     {
-        $this->etbCode = $etbCode;
+        $this->etbId = $etbId;
 
         return $this;
     }
+
 
     /**
      * @return null|string
