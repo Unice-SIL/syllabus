@@ -120,13 +120,7 @@ var Syllabus = ( function ( ) {
     var tabsInit = function( ) {
 
         $( 'a[data-toggle="tab"]' ).on( 'hide.bs.tab', function( event ) {
-            /*
-                We could check if form has changed, show a “confirm” message
-                to user and prevent tab change if “cancel” is chosen.
-            */
-            //event.preventDefault( );
-            document.getElementById( "panel_" + event.target.id )
-                    .getElementsByClassName( "submit" )[ 0 ].click( );
+            _ajaxFormSubmission( $( "#panel_" + event.target.id ).find( 'form' )[ 0 ] );
             _ajaxTabContentLoader( $( "#" + event.relatedTarget.id ) );
         } );
 
