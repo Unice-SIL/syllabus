@@ -94,19 +94,6 @@
 
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}
-    <script>
-
-        function addFormToCollection(collection, classes){
-            var prototype = collection.data('prototype');
-            var index = collection.data('index');
-            var newForm = prototype.replace(/__name__/g, index);
-            collection.data('index', index+1);
-            var form = $(newForm);
-            collection.append(form);
-            return form;
-        };
-
-    </script>
 {% endblock %}
 
     </body>

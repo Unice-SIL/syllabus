@@ -99,7 +99,7 @@
                 animation: 150,
                 onAdd: function(e){
                     var item = $(e.item);
-                    var form = addFormToCollection(activitiesCollectionHolder);
+                    var form = Syllabus.addFormToCollection(activitiesCollectionHolder);
                     var label = item.find('input.activity-label').val();
                     var activity_id = item.find("input.activity-id").val();
                     var type = item.find("input.activity-type").val();
@@ -163,7 +163,7 @@
          * Add a section when button click
          */
         $('#addSectionButton').click(function(){
-            var form = addFormToCollection(sectionsCollectionHolder);
+            var form = Syllabus.addFormToCollection(sectionsCollectionHolder);
             initActivities(form.find('.container-activities'));
             form.find('input[id$=_title]').focus();
         });
@@ -202,7 +202,7 @@
             animation: 150,
             onAdd: function(e){
                 var item = $(e.item);
-                var form = addFormToCollection(evaluationsCollectionHolder);
+                var form = Syllabus.addFormToCollection(evaluationsCollectionHolder);
                 var label = item.find('input.activity-label').val();
                 var activity_id = item.find("input.activity-id").val();
                 var type = item.find("input.activity-type").val();

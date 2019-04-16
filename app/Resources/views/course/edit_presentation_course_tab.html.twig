@@ -336,7 +336,7 @@
                         }
                     });
                     if(teacherAlreadyInTeam === false) {
-                        var form = addFormToCollection(teachersCollectionHolder);
+                        var form = Syllabus.addFormToCollection(teachersCollectionHolder);
                         form.find('input[id*=_completeName]').val(data['completeName']);
                         form.find('input[id*=_id]').val(data['id']);
                         form.find('input[id*=_firstname]').val(data['firstname']);

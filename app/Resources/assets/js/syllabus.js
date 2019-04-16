@@ -144,6 +144,21 @@ var Syllabus = ( function ( ) {
     };
 
 
+    var addFormToCollection = function( collection, classes ) {
+
+        var prototype = collection.data( 'prototype' ),
+            index = collection.data( 'index' ),
+            newForm = prototype.replace( /__name__/g, index ),
+            form = $( newForm );
+
+        collection.data( 'index', index + 1 );
+        collection.append( form );
+
+        return form;
+
+    };
+
+
     var handleAjaxResponse = function( response ) {
         if ( response.messages !== undefined ) {
             response.messages.forEach( function( message ) {
@@ -169,6 +184,7 @@ var Syllabus = ( function ( ) {
     return {
         tabsInit: tabsInit,
         submitPanelForm: submitPanelForm,
+        addFormToCollection: addFormToCollection,
         handleAjaxResponse: handleAjaxResponse
     };
 

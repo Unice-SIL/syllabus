@@ -83,7 +83,7 @@
             animation: 150,
             onAdd: function(e){
                 var item = $(e.item);
-                var form = addFormToCollection(equipmentsCollectionHolder);
+                var form = Syllabus.addFormToCollection(equipmentsCollectionHolder);
                 var label = item.find('input.equipment-label').val();
                 var equipment_id = item.find("input.equipment-id").val();
                 var classtype = item.find("input.equipment-class").val();

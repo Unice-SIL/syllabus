@@ -216,7 +216,7 @@
          * Add a achievement when button click
          */
         $('#addAchievementButton').click(function () {
-            var form = addFormToCollection(achievementsCollectionHolder);
+            var form = Syllabus.addFormToCollection(achievementsCollectionHolder);
             form.find('input[id$=_description]').focus();
         });
 
@@ -253,7 +253,7 @@
          * Add a prerequisite when button click
          */
         $('#addPrerequisiteButton').click(function () {
-            var form = addFormToCollection(prerequisitesCollectionHolder);
+            var form = Syllabus.addFormToCollection(prerequisitesCollectionHolder);
             form.find('input[id$=_description]').focus();
         });
 
@@ -289,7 +289,7 @@
          * Add a tutoringResource when button click
          */
         $('#addTutoringResourceButton').click(function () {
-            var form = addFormToCollection(tutoringResourcesCollectionHolder);
+            var form = Syllabus.addFormToCollection(tutoringResourcesCollectionHolder);
             form.find('input[id$=_description]').focus();
         });
 
