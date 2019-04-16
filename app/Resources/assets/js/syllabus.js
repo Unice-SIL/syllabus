@@ -86,7 +86,7 @@ var Syllabus = ( function ( ) {
         $form.find( '.cke' ).each( function( ) {
             ckeInstance = $( this ).siblings( 'textarea' ).attr( 'id' );
             CKEDITOR.instances[ ckeInstance ].updateElement( );
-            //CKEDITOR.instances[ ckeInstance ].destroy( );
+            CKEDITOR.instances[ ckeInstance ].destroy( );
         } );
 
         $.ajax( {
