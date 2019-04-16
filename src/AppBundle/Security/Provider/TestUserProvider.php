@@ -75,7 +75,7 @@ class TestUserProvider implements UserProviderInterface
     public function loadUserByUsername($username)
     {
         if(!array_key_exists($username, $this->config['users'])){
-            throw new UsernameNotFoundException(sprintf("User %s not found in users configured for test_authenticator", $username));
+            throw new UsernameNotFoundException(sprintf("User %s not found in users configured for test_authenticator.", $username));
         }
         $credentials = $this->config['users'][$username];
 

@@ -67,7 +67,7 @@ class EditPresentationCourseInfoQuery implements QueryInterface
             throw $e;
         }
         if(is_null($courseInfo)){
-            throw new CourseInfoNotFoundException(sprintf('CourseInfo with id %s not found', $this->editPresentationCourseInfoCommand->getId()));
+            throw new CourseInfoNotFoundException(sprintf('CourseInfo with id %s not found.', $this->editPresentationCourseInfoCommand->getId()));
         }
         try{
             $originalCourseTeachers = $courseInfo->getCourseTeachers();

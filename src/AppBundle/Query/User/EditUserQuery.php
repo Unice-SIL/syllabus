@@ -53,7 +53,7 @@ class EditUserQuery implements QueryInterface
         try{
             $user = $this->userRepository->find($id);
             if(is_null($user)){
-                throw new UserNotFoundException(sprintf("User with id %s not found", $id));
+                throw new UserNotFoundException(sprintf("User with id %s not found.", $id));
             }
             $this->userRepository->update($this->editUserCommand->filledEntity($user));
         }catch (\Exception $e){

@@ -70,7 +70,7 @@ class FindCourseInfoByEtbIdAndYearQuery implements QueryInterface
         try{
             $courseInfo = $this->courseInfoRepository->findByEtbIdAndYear($this->etbId, $this->year);
             if(is_null($courseInfo)){
-                throw new CourseInfoNotFoundException(sprintf("Course info with establishment id %s for year %s not found", $this->etbId, $this->year));
+                throw new CourseInfoNotFoundException(sprintf("CourseInfo with establishment id %s for year %s not found.", $this->etbId, $this->year));
             }
         }catch (\Exception $e){
             throw $e;

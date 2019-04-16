@@ -54,7 +54,7 @@ class FindUserByUsernameQuery implements QueryInterface
         try{
             $user = $this->userRepository->findByUsername($this->username);
             if(is_null($user)){
-                throw new UserNotFoundException(sprintf("User with username %s not found", $this->username));
+                throw new UserNotFoundException(sprintf("User with username %s not found.", $this->username));
             }
         }catch (\Exception $e){
             throw $e;

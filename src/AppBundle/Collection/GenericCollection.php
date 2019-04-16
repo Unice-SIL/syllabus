@@ -26,7 +26,7 @@ abstract class GenericCollection implements \ArrayAccess, \IteratorAggregate, \C
     public function __construct($type)
     {
         if(!class_exists($type)){
-            throw new \Exception(sprintf('Class %s does not exist', $type));
+            throw new \Exception(sprintf('Class %s does not exist.', $type));
         }
         $this->type = $type;
     }
@@ -64,7 +64,7 @@ abstract class GenericCollection implements \ArrayAccess, \IteratorAggregate, \C
     public function offsetSet($offset, $value)
     {
         if(!is_a($value, $this->type)){
-            throw new \UnexpectedValueException('%s expected instead of %s', $this->type, get_class($value));
+            throw new \UnexpectedValueException('%s expected instead of %s.', $this->type, get_class($value));
         }
         $this->container[$offset] = $value;
     }
@@ -82,7 +82,7 @@ abstract class GenericCollection implements \ArrayAccess, \IteratorAggregate, \C
      */
     public function append($value){
         if(!is_a($value, $this->type)){
-            throw new \UnexpectedValueException('%s expected instead of %s', $this->type, get_class($value));
+            throw new \UnexpectedValueException('%s expected instead of %s.', $this->type, get_class($value));
         }
         $this->container[] = $value;
     }
@@ -92,7 +92,7 @@ abstract class GenericCollection implements \ArrayAccess, \IteratorAggregate, \C
      */
     public function remove($value){
         if(!is_a($value, $this->type)){
-            throw new \UnexpectedValueException('%s expected instead of %s', $this->type, get_class($value));
+            throw new \UnexpectedValueException('%s expected instead of %s.', $this->type, get_class($value));
         }
         $offset = array_search($value, $this->container, true);
         if($offset !== false){

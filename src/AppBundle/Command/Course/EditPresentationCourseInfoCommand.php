@@ -46,7 +46,7 @@ class EditPresentationCourseInfoCommand implements CommandInterface
      * @var null|string
      *
      * @Assert\NotBlank(
-     *     message = "Vous devez renseigner ce champ"
+     *     message = "Vous devez renseigner ce champ."
      * )
      */
     private $summary;
@@ -178,7 +178,7 @@ class EditPresentationCourseInfoCommand implements CommandInterface
      *
      * @Assert\Count(
      *     min = 1,
-     *     minMessage = "Vous devez ajouter au moins un enseignant à l'équipe pédagogique"
+     *     minMessage = "L'équipe pédagogique est constituée d'au moins un enseignant."
      * )
      */
     private $teachers;

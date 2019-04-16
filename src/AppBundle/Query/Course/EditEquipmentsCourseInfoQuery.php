@@ -67,7 +67,7 @@ class EditEquipmentsCourseInfoQuery implements QueryInterface
             throw $e;
         }
         if(is_null($courseInfo)){
-            throw new CourseInfoNotFoundException(sprintf('CourseInfo with id %s not found', $this->editEquipmentsCourseInfoCommand->getId()));
+            throw new CourseInfoNotFoundException(sprintf('CourseInfo with id %s not found.', $this->editEquipmentsCourseInfoCommand->getId()));
         }
         try{
             // Keep an original course equipments copy

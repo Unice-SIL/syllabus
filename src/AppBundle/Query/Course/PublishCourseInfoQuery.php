@@ -58,7 +58,7 @@ class PublishCourseInfoQuery implements QueryInterface
             throw $e;
         }
         if(is_null($courseInfo)){
-            throw new CourseInfoNotFoundException(sprintf('CourseInfo with id %s not found', $this->publishCourseInfoCommand->getId()));
+            throw new CourseInfoNotFoundException(sprintf('CourseInfo with id %s not found.', $this->publishCourseInfoCommand->getId()));
         }
         try{
             $courseInfo = $this->publishCourseInfoCommand->filledEntity($courseInfo);

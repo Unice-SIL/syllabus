@@ -54,7 +54,7 @@ class FindUserByIdQuery implements QueryInterface
         try{
             $user = $this->userRepository->find($this->id);
             if(is_null($user)){
-                throw new UserNotFoundException(sprintf("User with id %s not found", $this->id));
+                throw new UserNotFoundException(sprintf("User with id %s not found.", $this->id));
             }
         }catch (\Exception $e){
             throw $e;

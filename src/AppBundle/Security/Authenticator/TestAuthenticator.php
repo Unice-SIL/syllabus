@@ -75,7 +75,7 @@ class TestAuthenticator extends AbstractGuardAuthenticator
         }
         $username = $this->config['current'];
         if(!array_key_exists($username, $this->config['users'])){
-            throw new UsernameNotFoundException(sprintf("User %s not found in users configured for test_authenticator", $username));
+            throw new UsernameNotFoundException(sprintf("User %s not found in users configured for test_authenticator.", $username));
         }
         $credentials = $this->config['users'][$username];
         $credentials['username'] = $username;

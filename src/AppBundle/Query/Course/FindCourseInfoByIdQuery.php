@@ -55,7 +55,7 @@ class FindCourseInfoByIdQuery implements QueryInterface
         try{
             $courseInfo = $this->courseInfoRepository->find($this->id);
             if(is_null($courseInfo)){
-                throw new CourseInfoNotFoundException(sprintf("Course info with id %s not found", $this->id));
+                throw new CourseInfoNotFoundException(sprintf("CourseInfo with id %s not found.", $this->id));
             }
         }catch (\Exception $e){
             throw $e;
