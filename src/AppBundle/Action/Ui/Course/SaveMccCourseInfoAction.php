@@ -187,7 +187,7 @@ class SaveMccCourseInfoAction implements ActionInterface
                 else{
                     $messages[] = [
                         'type' => "danger",
-                        'message' => "Le formulaire n'a pas été soumis"
+                        'message' => "Le formulaire n'a pas été soumis."
                     ];
                 }
             }catch (CoursePermissionDeniedException $e){
@@ -199,7 +199,7 @@ class SaveMccCourseInfoAction implements ActionInterface
                 // Return message course not found
                 $messages[] = [
                         'type' => "danger",
-                        'message' => sprintf("Le paiement %s n'existe pas", $id)
+                        'message' => sprintf("Le cours « %s » n'existe pas.", $id)
                 ];
             }
         }catch (\Exception $e) {
@@ -208,7 +208,7 @@ class SaveMccCourseInfoAction implements ActionInterface
             // Return message error
             $messages[] = [
                 'type' => "danger",
-                'message' => "Une erreur est survenue"
+                'message' => "Une erreur est survenue."
             ];
         }
         return new JsonResponse(
