@@ -11,6 +11,8 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -85,7 +87,36 @@ class EditObjectivesCourseInfoType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Renseigner ici les dates, lieux, noms des enseignants...'
                 ]
-            ]);
+            ])->addEventListener(FormEvents::PRE_SUBMIT, function(FormEvent $event){
+                // Get data
+                $data = $event->getData();
+                // Sort equipments
+                if(array_key_exists('achievements', $data)){
+                    $achievements = array_values($data['achievements']);
+                    foreach ($achievements as $i => $achievement){
+                        $achievements[$i]['order'] = $i+1;
+                    }
+                    $data['achievements'] = $achievements;
+                }
+                // Sort prerequisites
+                if(array_key_exists('prerequisites', $data)){
+                    $prerequisites = array_values($data['prerequisites']);
+                    foreach ($prerequisites as $i => $prerequisite){
+                        $prerequisites[$i]['order'] = $i+1;
+                    }
+                    $data['prerequisites'] = $prerequisites;
+                }
+                // Sort prerequisites
+                if(array_key_exists('tutoringResources', $data)){
+                    $tutoringResources = array_values($data['tutoringResources']);
+                    foreach ($tutoringResources as $i => $tutoringResource){
+                        $tutoringResources[$i]['order'] = $i+1;
+                    }
+                    $data['tutoringResources'] = $tutoringResources;
+                }
+                //Set data
+                $event->setData($data);
+            });
     }
 
     /**

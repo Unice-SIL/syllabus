@@ -4,6 +4,7 @@ namespace AppBundle\Action\Ui\Course;
 
 use AppBundle\Action\ActionInterface;
 use AppBundle\Command\Course\EditEquipmentsCourseInfoCommand;
+use AppBundle\Command\CourseResourceEquipment\CourseResourceEquipmentCommand;
 use AppBundle\Constant\Permission;
 use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Exception\CoursePermissionDeniedException;
@@ -13,6 +14,7 @@ use AppBundle\Helper\CoursePermissionHelper;
 use AppBundle\Helper\FileUploaderHelper;
 use AppBundle\Query\Course\EditEquipmentsCourseInfoQuery;
 use AppBundle\Query\Course\FindCourseInfoByIdQuery;
+use Doctrine\Common\Collections\ArrayCollection;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -137,7 +139,7 @@ class SaveEquipmentsCourseInfoAction implements ActionInterface
                         $editEquipmentsCourseInfoCommand->setTemEquipmentsTabValid(true);
                     }
 
-                    // Check if there have been anny changes
+                    // Check if there have been any changes
                     if($editEquipmentsCourseInfoCommand != $originalEditEquipmentsCourseInfoCommand) {
                         // Save changes
                         $this->editEquipmentsCourseInfoQuery->setEditEquipmentsCourseInfoCommand(
@@ -155,7 +157,6 @@ class SaveEquipmentsCourseInfoAction implements ActionInterface
                             'message' => "Aucun changement à enregistrer."
                         ];
                     }
-
                     // Get render to reload form
                     $renders[] = [
                         'element' => '#panel_tab-5',

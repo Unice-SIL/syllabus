@@ -14,6 +14,8 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -85,7 +87,29 @@ class EditActivitiesCourseInfoType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
-            ]);
+            ])
+            ->addEventListener(FormEvents::PRE_SUBMIT, function(FormEvent $event){
+                // Get data
+                $data = $event->getData();
+                // Sort section
+                if(array_key_exists('sections', $data)){
+                    $sections = array_values($data['sections']);
+                    foreach ($sections as $i => $section){
+                        $sections[$i]['order'] = $i+1;
+                    }
+                    $data['sections'] = $sections;
+                }
+                // Sort evaluations
+                if(array_key_exists('evaluations', $data)){
+                    $evaluations = array_values($data['evaluations']);
+                    foreach ($evaluations as $i => $evaluation){
+                        $evaluations[$i]['order'] = $i+1;
+                    }
+                    $data['evaluations'] = $evaluations;
+                }
+                //Set data
+                $event->setData($data);
+            });
 
     }
 

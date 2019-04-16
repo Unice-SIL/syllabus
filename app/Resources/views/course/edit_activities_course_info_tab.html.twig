@@ -260,25 +260,6 @@
          */
         $("form[name='edit_activities_course_info']").submit(function(e){
 
-            // Set sections order
-            sectionsCollectionHolder.find('li.section').each(function(order){
-                // Set section order
-                $(this).find("input[id$='_order']").each(function(){
-                    if($(this).attr("id").match(/^edit_activities_course_info_sections_[\d]+_order/)){
-                        $(this).val(order+1);
-                    }
-                });
-                // Set activities order
-                $(this).find(".activity").each(function(order){
-                    $(this).find("input[id$='_order']").val(order+1);
-                });
-            });
-
-            // Set evaluations order
-            evaluationsCollectionHolder.find('div.evaluation').each(function(order){
-                $(this).find("input[id$='_order']").val(order+1);
-            });
-
             Syllabus.submitPanelForm( e, this );
 
         });

@@ -187,6 +187,7 @@ class EditActivitiesCourseInfoCommand implements CommandInterface
         return $this;
     }
 
+
     /**
      * @param CourseInfo $entity
      * @return CourseInfo

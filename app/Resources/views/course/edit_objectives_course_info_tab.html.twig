@@ -312,36 +312,6 @@
          */
         $("form[name='edit_objectives_course_info']").submit(function(e){
 
-            // Set achievements order
-            achievementsCollectionHolder.find('li.achievement').each(function(order){
-                // Set section order
-                $(this).find("input[id$='_order']").each(function(){
-                    if($(this).attr("id").match(/^edit_objectives_course_info_achievements_[\d]+_order/)){
-                        $(this).val(order+1);
-                    }
-                });
-            });
-
-            // Set prerequisites order
-            prerequisitesCollectionHolder.find('li.prerequisite').each(function(order){
-                // Set section order
-                $(this).find("input[id$='_order']").each(function(){
-                    if($(this).attr("id").match(/^edit_objectives_course_info_prerequisites_[\d]+_order/)){
-                        $(this).val(order+1);
-                    }
-                });
-            });
-
-            // Set tutoringResources order
-            tutoringResourcesCollectionHolder.find('li.tutoringResource').each(function(order){
-                // Set section order
-                $(this).find("input[id$='_order']").each(function(){
-                    if($(this).attr("id").match(/^edit_objectives_course_info_tutoringResources_[\d]+_order/)){
-                        $(this).val(order+1);
-                    }
-                });
-            });
-
             Syllabus.submitPanelForm( e, this );
 
         });

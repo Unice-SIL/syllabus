@@ -125,8 +125,10 @@ class SaveActivitiesCourseInfoAction implements ActionInterface
                 //
                 $form = $this->formFactory->create(EditActivitiesCourseInfoType::class, $editActivitiesCourseInfoCommand);
                 $form->handleRequest($request);
+
                 if($form->isSubmitted()){
                     $editActivitiesCourseInfoCommand = $form->getData();
+                    dump($editActivitiesCourseInfoCommand);
 
                     // Check if form is valid
                     if(!$form->isValid()){
@@ -156,7 +158,7 @@ class SaveActivitiesCourseInfoAction implements ActionInterface
                     }
 
                     // Get render to reload form
-                    $render[] = [
+                    $renders[] = [
                         'element' => '#panel_tab-2',
                         'content' => $this->templating->render(
                             'course/edit_activities_course_info_tab.html.twig',

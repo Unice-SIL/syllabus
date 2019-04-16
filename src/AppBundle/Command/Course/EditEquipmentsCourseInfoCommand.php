@@ -145,6 +145,7 @@ class EditEquipmentsCourseInfoCommand implements CommandInterface
         return $this;
     }
 
+
     /**
      * @return bool
      */
