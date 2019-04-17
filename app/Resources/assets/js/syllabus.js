@@ -120,30 +120,6 @@ var Syllabus = ( function ( ) {
     */
 
 
-    var tabsInit = function( ) {
-
-        $( 'a[data-toggle="tab"]' ).on( 'hide.bs.tab', function( event ) {
-            _ajaxFormSubmission( $( '#panel_' + event.target.id ).find( 'form' )[ 0 ] );
-            _ajaxTabContentLoader( event.relatedTarget.id );
-        } );
-
-        $( '#tab-1' ).addClass( 'active' );
-        _ajaxTabContentLoader( 'tab-1' );
-
-    };
-
-
-    var submitPanelForm = function( event, form ) {
-
-        event.preventDefault( );
-
-        SILTools.spinner.fadeIn( {
-            always: _ajaxFormSubmission( form, true )
-        } );
-
-    };
-
-
     var addFormToCollection = function( collection, classes ) {
 
         var prototype = collection.data( 'prototype' ),
@@ -177,15 +153,40 @@ var Syllabus = ( function ( ) {
     };
 
 
+    var tabsInit = function( ) {
+
+        $( 'a[data-toggle="tab"]' ).on( 'hide.bs.tab', function( event ) {
+            _ajaxFormSubmission( $( '#panel_' + event.target.id ).find( 'form' )[ 0 ] );
+            _ajaxTabContentLoader( event.relatedTarget.id );
+        } );
+
+        $( '#tab-1' ).addClass( 'active' );
+        _ajaxTabContentLoader( 'tab-1' );
+
+    };
+
+
+    var submitPanelForm = function( event, form ) {
+
+        event.preventDefault( );
+
+        SILTools.spinner.fadeIn( {
+            always: _ajaxFormSubmission( form, true )
+        } );
+
+    };
+
+
+
     /*
         Public pointers to exposed items.
     */
 
     return {
-        tabsInit: tabsInit,
-        submitPanelForm: submitPanelForm,
         addFormToCollection: addFormToCollection,
-        handleAjaxResponse: handleAjaxResponse
+        handleAjaxResponse: handleAjaxResponse,
+        submitPanelForm: submitPanelForm,
+        tabsInit: tabsInit
     };
 
 
