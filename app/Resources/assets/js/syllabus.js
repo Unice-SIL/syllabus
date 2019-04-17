@@ -153,6 +153,20 @@ var Syllabus = ( function ( ) {
     };
 
 
+    var removeListElement = function( $element ) {
+
+        $element.fadeOut( {
+            always: function( ) {
+                $element.find( '.cke' ).each( function( ) {
+                    CKEDITOR.instances[ $( this ).siblings( 'textarea' ).attr( 'id' ) ].destroy( );
+                } );
+                $element.remove( );
+            }
+        } );
+
+    };
+
+
     var tabsInit = function( ) {
 
         $( 'a[data-toggle="tab"]' ).on( 'hide.bs.tab', function( event ) {
@@ -185,6 +199,7 @@ var Syllabus = ( function ( ) {
     return {
         addFormToCollection: addFormToCollection,
         handleAjaxResponse: handleAjaxResponse,
+        removeListElement: removeListElement,
         submitPanelForm: submitPanelForm,
         tabsInit: tabsInit
     };

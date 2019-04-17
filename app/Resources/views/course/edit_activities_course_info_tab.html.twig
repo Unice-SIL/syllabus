@@ -173,17 +173,9 @@
          */
         sectionsCollectionHolder.on('click', '.section-collection-remove', function() {
             if(confirm("Êtes-vous sûr(e) de vouloir supprimer cette section ?")) {
-                var $section = $(this).closest("li.section");
-                $section.fadeOut({
-                    always: function() {
-                        CKEDITOR.instances[$section.find('textarea').attr('id')].destroy();
-                        $section.remove();
-                    }
-                });
+                Syllabus.removeListElement($(this).closest('li.section'));
             }
         });
-
-
 
 
         /**
