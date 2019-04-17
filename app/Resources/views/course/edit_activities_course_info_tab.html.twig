@@ -173,16 +173,16 @@
          */
         sectionsCollectionHolder.on('click', '.section-collection-remove', function(){
             if(confirm("Êtes-vous sûr(e) de vouloir supprimer cette section ?")) {
-                var form = $(this).closest("li.section");
-                form.fadeOut({
+                var section = $(this).closest("li.section");
+                section.fadeOut({
                     always: function () {
                         /*
                             TODO
 
-                            Destroy CKEDITOR instance(s) contained in form
-                            before removing it.
+                            Destroy CKEDITOR instance(s) contained in section
+                            (list element) before removing it.
                         */
-                        form.remove();
+                        section.remove();
                     }
                 });
             }
