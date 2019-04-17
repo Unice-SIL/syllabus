@@ -353,7 +353,9 @@
          * Remove a teacher form collection
          */
         teachersCollectionHolder.on('click', '.teacher-collection-remove', function(){
-            Syllabus.removeListElement($(this).closest('li.teacher'));
+            if(confirm("Êtes-vous sûr(e) de vouloir retirer cette personne de l'équipe pédagogique ?")) {
+                Syllabus.removeListElement($(this).closest('li.teacher'));
+            }
         });
 
         /**
