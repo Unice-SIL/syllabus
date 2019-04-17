@@ -353,12 +353,7 @@
          * Remove a teacher form collection
          */
         teachersCollectionHolder.on('click', '.teacher-collection-remove', function(){
-            var form = $(this).closest("li.teacher");
-            form.fadeOut({
-                always: function(){
-                    form.remove();
-                }
-            });
+            Syllabus.removeListElement($(this).closest('li.teacher'));
         });
 
         /**

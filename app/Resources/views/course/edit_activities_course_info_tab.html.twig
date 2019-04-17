@@ -134,12 +134,7 @@
             // Remove a activity from collection
             activitiesCollectionHolder.on('click', '.activity-collection-remove', function(){
                 if(confirm("Êtes-vous sûr(e) de vouloir supprimer cette activité ?")) {
-                    var form = $(this).closest(".activity");
-                    form.fadeOut({
-                        always: function () {
-                            form.remove();
-                        }
-                    });
+                    Syllabus.removeListElement($(this).closest('.activity'));
                 }
             });
         }
@@ -171,18 +166,11 @@
         /**
          * Remove a section from collection
          */
-        sectionsCollectionHolder.on('click', '.section-collection-remove', function(){
+        sectionsCollectionHolder.on('click', '.section-collection-remove', function() {
             if(confirm("Êtes-vous sûr(e) de vouloir supprimer cette section ?")) {
-                var form = $(this).closest("li.section");
-                form.fadeOut({
-                    always: function () {
-                        form.remove();
-                    }
-                });
+                Syllabus.removeListElement($(this).closest('li.section'));
             }
         });
-
-
 
 
         /**
@@ -237,12 +225,7 @@
          */
         evaluationsCollectionHolder.on('click', '.evaluation-collection-remove', function(){
             if(confirm("Êtes-vous sûr(e) de vouloir supprimer cette évaluation ?")) {
-                var form = $(this).closest("div.evaluation");
-                form.fadeOut({
-                    always: function () {
-                        form.remove();
-                    }
-                });
+                Syllabus.removeListElement($(this).closest('div.evaluation'));
             }
         });
 
