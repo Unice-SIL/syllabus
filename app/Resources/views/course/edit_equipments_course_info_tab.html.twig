@@ -111,7 +111,7 @@
          * Remove an equipment from collection
          */
         equipmentsCollectionHolder.on('click', '.equipment-collection-remove', function(){
-            if(confirm("Êtes-vous sûr(e) de vouloir supprimer cette évaluation ?")) {
+            if(confirm("Êtes-vous sûr(e) de vouloir retirer ce matériel de la liste ?")) {
                 Syllabus.removeListElement($(this).closest('div.equipment'));
             }
         });
