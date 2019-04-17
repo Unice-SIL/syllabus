@@ -171,18 +171,13 @@
         /**
          * Remove a section from collection
          */
-        sectionsCollectionHolder.on('click', '.section-collection-remove', function(){
+        sectionsCollectionHolder.on('click', '.section-collection-remove', function() {
             if(confirm("Êtes-vous sûr(e) de vouloir supprimer cette section ?")) {
-                var section = $(this).closest("li.section");
-                section.fadeOut({
-                    always: function () {
-                        /*
-                            TODO
-
-                            Destroy CKEDITOR instance(s) contained in section
-                            (list element) before removing it.
-                        */
-                        section.remove();
+                var $section = $(this).closest("li.section");
+                $section.fadeOut({
+                    always: function() {
+                        CKEDITOR.instances[$section.find('textarea').attr('id')].destroy();
+                        $section.remove();
                     }
                 });
             }
