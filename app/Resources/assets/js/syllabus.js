@@ -119,6 +119,30 @@ var Syllabus = ( function ( ) {
     */
 
 
+    var ckeConfig = {
+        "toolbar": [
+            [
+              "RemoveFormat",
+              "-",
+              "Bold",
+              "Italic",
+              "Underline"
+            ],
+            "-",
+            [
+              "Outdent",
+              "Indent",
+              "-",
+              "NumberedList",
+              "BulletedList"
+            ]
+        ],
+        "removeButtons": null,
+        "removePlugins": "elementspath",
+        "resize_enabled": false
+    };
+
+
     var addFormToCollection = function( collection, classes ) {
 
         var prototype = collection.data( 'prototype' ),
@@ -196,6 +220,7 @@ var Syllabus = ( function ( ) {
 
     return {
         addFormToCollection: addFormToCollection,
+        ckeConfig: ckeConfig,
         handleAjaxResponse: handleAjaxResponse,
         removeListElement: removeListElement,
         submitPanelForm: submitPanelForm,

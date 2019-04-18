@@ -131,7 +131,7 @@
                 animation: 150
             } );
 
-            // Remove a activity from collection
+            // Remove an activity from collection
             activitiesCollectionHolder.on('click', '.activity-collection-remove', function(){
                 if(confirm("Êtes-vous sûr(e) de vouloir supprimer cette activité ?")) {
                     Syllabus.removeListElement($(this).closest('.activity'));
@@ -143,7 +143,8 @@
         /**
          * Init sections collection
          */
-        var sectionsCollectionHolder = $('#sections');
+        var sectionsCollectionHolder = $('#sections'),
+            ckeInstance = null;
         sectionsCollectionHolder.data('index', sectionsCollectionHolder.find('li.section').length);
         sectionsCollectionHolder.sortable( {
             group: {
@@ -151,7 +152,14 @@
             },
             handle: ".section-collection-move",
             sort: true,
-            animation: 150
+            animation: 150,
+            onStart: function(e) {
+                ckeInstance = $( e.item ).find( '.cke' ).siblings( 'textarea' ).attr( 'id' );
+                CKEDITOR.instances[ ckeInstance ].destroy( );
+            },
+            onSort: function() {
+                CKEDITOR.replace( ckeInstance, Syllabus.ckeConfig );
+            }
         } );
 
         /**
