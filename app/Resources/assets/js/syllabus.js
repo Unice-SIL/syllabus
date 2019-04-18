@@ -174,7 +174,6 @@ var Syllabus = ( function ( ) {
             _ajaxTabContentLoader( event.relatedTarget.id );
         } );
 
-        $( '#tab-1' ).addClass( 'active' );
         _ajaxTabContentLoader( 'tab-1' );
 
     };
