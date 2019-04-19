@@ -139,6 +139,7 @@
             });
         }
 
+
         /**
          * Init sections collection
          */
@@ -157,21 +158,21 @@
             animation: 150,
             onChoose: function(e) {
                 $( '#sections' ).find( '.section' ).each( function( ) {
-                    $collapsibleItem = $( this ).find( '.collapse' );
+                    $collapsibleItem = $( this ).find( '.collapse:not(.card-body)' );
                     if ( $collapsibleItem[ 0 ].classList.contains( 'show' ) ) {
                         collapsiblesShowState[ $collapsibleItem.attr( 'id' ) ] = true;
                     } else {
                         collapsiblesShowState[ $collapsibleItem.attr( 'id' ) ] = false;
                     }
                 } );
-                $( e.item ).find( '.collapse' ).collapse( 'hide' );
-                $( e.item ).find( '.fa-caret-down' ).attr( 'aria-expanded', "false" );
+                $( e.item ).find( '.collapse:not(.card-body)' ).collapse( 'hide' );
+                $( e.item ).find( '> row > col > .fa-caret-down' ).attr( 'aria-expanded', "false" );
             },
             onUnchoose: function(e) {
                 if ( ! sortingInProgress ) {
-                    if ( collapsiblesShowState[ $( e.item ).find( '.collapse' ).attr( 'id' ) ] ) {
-                        $( e.item ).find( '.fa-caret-down' ).attr( 'aria-expanded', "true" );
-                        $( e.item ).find( '.collapse' ).collapse( 'show' );
+                    if ( collapsiblesShowState[ $( e.item ).find( '.collapse:not(.card-body)' ).attr( 'id' ) ] ) {
+                        $( e.item ).find( '> row > col > .fa-caret-down' ).attr( 'aria-expanded', "true" );
+                        $( e.item ).find( '.collapse:not(.card-body)' ).collapse( 'show' );
                     }
                 }
             },
@@ -212,6 +213,7 @@
                 Syllabus.removeListElement($(this).closest('li.section'));
             }
         });
+
 
         /**
          * Init evaluations collection
@@ -268,6 +270,8 @@
                 Syllabus.removeListElement($(this).closest('div.evaluation'));
             }
         });
+
+
 
         /**
          * Call initActivities function for all activities container
