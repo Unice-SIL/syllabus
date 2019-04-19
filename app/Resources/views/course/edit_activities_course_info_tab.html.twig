@@ -139,7 +139,6 @@
             });
         }
 
-
         /**
          * Init sections collection
          */
@@ -157,92 +156,41 @@
             sort: true,
             animation: 150,
             onChoose: function(e) {
-                console.log( "Choose" );
-
                 $( '#sections' ).find( '.section' ).each( function( ) {
-
                     $collapsibleItem = $( this ).find( '.collapse' );
-
                     if ( $collapsibleItem[ 0 ].classList.contains( 'show' ) ) {
                         collapsiblesShowState[ $collapsibleItem.attr( 'id' ) ] = true;
                     } else {
                         collapsiblesShowState[ $collapsibleItem.attr( 'id' ) ] = false;
                     }
-
                 } );
-
-                //*
                 $( e.item ).find( '.collapse' ).collapse( 'hide' );
-                $( e.item ).find( '.fa-caret-down' ).attr( 'aria-expanded', "false" ); //*/
-
-                /*
-                $( '#sections' ).find( '.section' ).each( function( ) {
-
-                    $( this ).find( '.collapse' ).collapse( 'hide' );
-                    $( this ).find( '.fa-caret-down' ).attr( 'aria-expanded', "false" )
-
-                } ); //*/
-
+                $( e.item ).find( '.fa-caret-down' ).attr( 'aria-expanded', "false" );
             },
             onUnchoose: function(e) {
-                console.log( "Unchoose" );
-
                 if ( ! sortingInProgress ) {
-
-                    /*
-                    $( '#sections' ).find( '.section' ).each( function( ) {
-
-                        $collapsibleItem = $( this ).find( '.collapse' );
-
-                        if ( collapsiblesShowState[ $collapsibleItem.attr( 'id' ) ] ) {
-
-                            $( this ).find( '.fa-caret-down' ).attr( 'aria-expanded', "true" );
-                            $collapsibleItem.collapse( 'show' );
-
-                        }
-
-                    } ); //*/
-
-                    //*
                     if ( collapsiblesShowState[ $( e.item ).find( '.collapse' ).attr( 'id' ) ] ) {
-
                         $( e.item ).find( '.fa-caret-down' ).attr( 'aria-expanded', "true" );
                         $( e.item ).find( '.collapse' ).collapse( 'show' );
-
-                    } //*/
-
+                    }
                 }
             },
             onStart: function(e) {
-                console.log( "Start" );
-
                 sortingInProgress = true;
-
                 ckeInstance = $( e.item ).find( '.cke' ).siblings( 'textarea' ).attr( 'id' );
                 CKEDITOR.instances[ ckeInstance ].destroy( );
             },
             onEnd: function(e) {
-                console.log( "End" );
-
                 sortingInProgress = false;
-
             },
             onSort: function() {
-                console.log( "Sort" );
-
                 CKEDITOR.replace( ckeInstance, Syllabus.ckeConfig );
-
                 $( '#sections' ).find( '.section' ).each( function( ) {
-
                     $collapsibleItem = $( this ).find( '.collapse' );
-
                     if ( collapsiblesShowState[ $collapsibleItem.attr( 'id' ) ] ) {
-
                         $( this ).find( '.fa-caret-down' ).attr( 'aria-expanded', "true" );
                         $collapsibleItem.collapse( 'show' );
-
                     }
-
                 } );
             }
         } );
@@ -264,7 +212,6 @@
                 Syllabus.removeListElement($(this).closest('li.section'));
             }
         });
-
 
         /**
          * Init evaluations collection
@@ -321,8 +268,6 @@
                 Syllabus.removeListElement($(this).closest('div.evaluation'));
             }
         });
-
-
 
         /**
          * Call initActivities function for all activities container
