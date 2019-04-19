@@ -145,8 +145,8 @@
          */
         var sectionsCollectionHolder = $('#sections'),
             collapsiblesShowState = {},
-            sortingInProgress = false;
-            collapsibleItem = null,
+            sortingInProgress = false,
+            $collapsibleItem = null,
             ckeInstance = null;
         sectionsCollectionHolder.data('index', sectionsCollectionHolder.find('li.section').length);
         sectionsCollectionHolder.sortable( {
