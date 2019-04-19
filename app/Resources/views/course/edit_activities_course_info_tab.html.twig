@@ -146,7 +146,7 @@
         var sectionsCollectionHolder = $('#sections'),
             collapsiblesShowState = {},
             sortingInProgress = false,
-            $collapsibleItem = null,
+            $sortedItem = null,
             ckeInstance = null;
         sectionsCollectionHolder.data('index', sectionsCollectionHolder.find('li.section').length);
         sectionsCollectionHolder.sortable( {
@@ -158,22 +158,24 @@
             animation: 150,
             onChoose: function(e) {
                 $( '#sections' ).find( '.section' ).each( function( ) {
-                    $collapsibleItem = $( this ).find( '.collapse:not(.card-body)' );
-                    if ( $collapsibleItem[ 0 ].classList.contains( 'show' ) ) {
-                        collapsiblesShowState[ $collapsibleItem.attr( 'id' ) ] = true;
+                    $sortedItem = $( this ).find( '.collapse:not(.card-body)' );
+                    if ( $sortedItem[ 0 ].classList.contains( 'show' ) ) {
+                        collapsiblesShowState[ $sortedItem.attr( 'id' ) ] = true;
                     } else {
-                        collapsiblesShowState[ $collapsibleItem.attr( 'id' ) ] = false;
+                        collapsiblesShowState[ $sortedItem.attr( 'id' ) ] = false;
                     }
                 } );
-                $( e.item ).find( '.collapse:not(.card-body)' ).collapse( 'hide' );
+                $sortedItem = $( e.item ).find( '.collapse:not(.card-body)' );
+                $sortedItem.collapse( 'hide' );
                 $( e.item ).find( '> row > col > .fa-caret-down' ).attr( 'aria-expanded', "false" );
             },
             onUnchoose: function(e) {
                 if ( ! sortingInProgress ) {
-                    if ( collapsiblesShowState[ $( e.item ).find( '.collapse:not(.card-body)' ).attr( 'id' ) ] ) {
+                    if ( collapsiblesShowState[ $sortedItem.attr( 'id' ) ] ) {
                         $( e.item ).find( '> row > col > .fa-caret-down' ).attr( 'aria-expanded', "true" );
-                        $( e.item ).find( '.collapse:not(.card-body)' ).collapse( 'show' );
+                        $sortedItem.collapse( 'show' );
                     }
+                    $sortedItem = null;
                 }
             },
             onStart: function(e) {
@@ -182,17 +184,15 @@
                 CKEDITOR.instances[ ckeInstance ].destroy( );
             },
             onEnd: function(e) {
+                if ( collapsiblesShowState[ $sortedItem.attr( 'id' ) ] ) {
+                    $( e.item ).find( '> row > col > .fa-caret-down' ).attr( 'aria-expanded', "true" );
+                    $sortedItem.collapse( 'show' );
+                }
+                $sortedItem = null;
                 sortingInProgress = false;
             },
             onSort: function() {
                 CKEDITOR.replace( ckeInstance, Syllabus.ckeConfig );
-                $( '#sections' ).find( '.section' ).each( function( ) {
-                    $collapsibleItem = $( this ).find( '.collapse' );
-                    if ( collapsiblesShowState[ $collapsibleItem.attr( 'id' ) ] ) {
-                        $( this ).find( '.fa-caret-down' ).attr( 'aria-expanded', "true" );
-                        $collapsibleItem.collapse( 'show' );
-                    }
-                } );
             }
         } );
 
