@@ -197,7 +197,12 @@ var Syllabus = ( function ( ) {
             _ajaxTabContentLoader( event.relatedTarget.id );
         } );
 
-        _ajaxTabContentLoader( 'tab-1' );
+        //_ajaxTabContentLoader( 'tab-1' );
+        $( '#tab-1' ).removeClass( "active" ).attr( 'aria-selected', "false" );
+        $( '#tab-2' ).addClass( "active" ).attr( 'aria-selected', "true" );
+        $( '#panel_tab-1').removeClass( "active" ).removeClass( "show" );
+        $( '#panel_tab-2').addClass( "active" ).addClass( "show" );
+        _ajaxTabContentLoader( 'tab-2' );
 
     };
 
