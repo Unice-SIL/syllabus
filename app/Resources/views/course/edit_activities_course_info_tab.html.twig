@@ -141,7 +141,6 @@
             });
         }
 
-
         /**
          * Init sections collection
          */
@@ -158,7 +157,7 @@
             handle: ".section-collection-move",
             sort: true,
             animation: 150,
-            onChoose: function(e) {
+            onChoose: function( e ) {
                 $( '#sections' ).find( '.section' ).each( function( ) {
                     $sortedItem = $( this ).find( '.collapse:not(.card-body)' );
                     if ( $sortedItem[ 0 ].classList.contains( 'show' ) ) {
@@ -170,7 +169,7 @@
                 $sortedItem = $( e.item ).find( '.collapse:not(.card-body)' );
                 $sortedItem.collapse( 'hide' );
             },
-            onUnchoose: function(e) {
+            onUnchoose: function( e ) {
                 if ( ! sortingInProgress ) {
                     if ( collapsiblesShowState[ $sortedItem.attr( 'id' ) ] ) {
                         $( e.item ).find( '> row > col > .fa-caret-down' ).attr( 'aria-expanded', "true" );
@@ -179,12 +178,12 @@
                     $sortedItem = null;
                 }
             },
-            onStart: function(e) {
+            onStart: function( e ) {
                 sortingInProgress = true;
                 ckeInstance = $( e.item ).find( '.cke' ).siblings( 'textarea' ).attr( 'id' );
                 CKEDITOR.instances[ ckeInstance ].destroy( );
             },
-            onEnd: function(e) {
+            onEnd: function( e ) {
                 if ( collapsiblesShowState[ $sortedItem.attr( 'id' ) ] ) {
                     $( e.item ).find( '> row > col > .fa-caret-down' ).attr( 'aria-expanded', "true" );
                     $sortedItem.collapse( 'show' );
@@ -192,7 +191,7 @@
                 $sortedItem = null;
                 sortingInProgress = false;
             },
-            onSort: function() {
+            onSort: function( ) {
                 CKEDITOR.replace( ckeInstance, Syllabus.ckeConfig );
             }
         } );
@@ -229,7 +228,6 @@
                 Syllabus.removeListElement($(this).closest('li.section'));
             }
         });
-
 
         /**
          * Init evaluations collection
@@ -286,8 +284,6 @@
                 Syllabus.removeListElement($(this).closest('div.evaluation'));
             }
         });
-
-
 
         /**
          * Call initActivities function for all activities container
