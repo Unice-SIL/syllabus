@@ -131,7 +131,7 @@
                 animation: 150
             } );
 
-            // Remove a activity from collection
+            // Remove an activity from collection
             activitiesCollectionHolder.on('click', '.activity-collection-remove', function(){
                 if(confirm("Êtes-vous sûr(e) de vouloir supprimer cette activité ?")) {
                     Syllabus.removeListElement($(this).closest('.activity'));
@@ -143,7 +143,11 @@
         /**
          * Init sections collection
          */
-        var sectionsCollectionHolder = $('#sections');
+        var sectionsCollectionHolder = $('#sections'),
+            collapsiblesShowState = {},
+            sortingInProgress = false,
+            $sortedItem = null,
+            ckeInstance = null;
         sectionsCollectionHolder.data('index', sectionsCollectionHolder.find('li.section').length);
         sectionsCollectionHolder.sortable( {
             group: {
@@ -151,7 +155,45 @@
             },
             handle: ".section-collection-move",
             sort: true,
-            animation: 150
+            animation: 150,
+            onChoose: function(e) {
+                $( '#sections' ).find( '.section' ).each( function( ) {
+                    $sortedItem = $( this ).find( '.collapse:not(.card-body)' );
+                    if ( $sortedItem[ 0 ].classList.contains( 'show' ) ) {
+                        collapsiblesShowState[ $sortedItem.attr( 'id' ) ] = true;
+                    } else {
+                        collapsiblesShowState[ $sortedItem.attr( 'id' ) ] = false;
+                    }
+                } );
+                $sortedItem = $( e.item ).find( '.collapse:not(.card-body)' );
+                $sortedItem.collapse( 'hide' );
+                $( e.item ).find( '> row > col > .fa-caret-down' ).attr( 'aria-expanded', "false" );
+            },
+            onUnchoose: function(e) {
+                if ( ! sortingInProgress ) {
+                    if ( collapsiblesShowState[ $sortedItem.attr( 'id' ) ] ) {
+                        $( e.item ).find( '> row > col > .fa-caret-down' ).attr( 'aria-expanded', "true" );
+                        $sortedItem.collapse( 'show' );
+                    }
+                    $sortedItem = null;
+                }
+            },
+            onStart: function(e) {
+                sortingInProgress = true;
+                ckeInstance = $( e.item ).find( '.cke' ).siblings( 'textarea' ).attr( 'id' );
+                CKEDITOR.instances[ ckeInstance ].destroy( );
+            },
+            onEnd: function(e) {
+                if ( collapsiblesShowState[ $sortedItem.attr( 'id' ) ] ) {
+                    $( e.item ).find( '> row > col > .fa-caret-down' ).attr( 'aria-expanded', "true" );
+                    $sortedItem.collapse( 'show' );
+                }
+                $sortedItem = null;
+                sortingInProgress = false;
+            },
+            onSort: function() {
+                CKEDITOR.replace( ckeInstance, Syllabus.ckeConfig );
+            }
         } );
 
         /**

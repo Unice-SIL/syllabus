@@ -85,7 +85,6 @@ var Syllabus = ( function ( ) {
 
         $form.find( '.cke' ).each( function( ) {
             ckeInstance = $( this ).siblings( 'textarea' ).attr( 'id' );
-            CKEDITOR.instances[ ckeInstance ].updateElement( );
             CKEDITOR.instances[ ckeInstance ].destroy( );
         } );
 
@@ -118,6 +117,30 @@ var Syllabus = ( function ( ) {
 
             Public items.
     */
+
+
+    var ckeConfig = {
+        "toolbar": [
+            [
+              "RemoveFormat",
+              "-",
+              "Bold",
+              "Italic",
+              "Underline"
+            ],
+            "-",
+            [
+              "Outdent",
+              "Indent",
+              "-",
+              "NumberedList",
+              "BulletedList"
+            ]
+        ],
+        "removeButtons": null,
+        "removePlugins": "elementspath",
+        "resize_enabled": false
+    };
 
 
     var addFormToCollection = function( collection, classes ) {
@@ -174,7 +197,6 @@ var Syllabus = ( function ( ) {
             _ajaxTabContentLoader( event.relatedTarget.id );
         } );
 
-        $( '#tab-1' ).addClass( 'active' );
         _ajaxTabContentLoader( 'tab-1' );
 
     };
@@ -198,6 +220,7 @@ var Syllabus = ( function ( ) {
 
     return {
         addFormToCollection: addFormToCollection,
+        ckeConfig: ckeConfig,
         handleAjaxResponse: handleAjaxResponse,
         removeListElement: removeListElement,
         submitPanelForm: submitPanelForm,
