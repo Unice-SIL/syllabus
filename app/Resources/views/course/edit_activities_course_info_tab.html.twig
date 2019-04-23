@@ -197,6 +197,21 @@
             }
         } );
 
+        // Sections folding / unfolding command.
+        var collapseState = '';
+        $( '#panel_tab-2' ).on( 'click', 'h4 > span > .fas', function( e ) {
+            if ( e.target.classList.contains( 'fa-folder-open' ) ) {
+                collapseState = 'show';
+            } else if ( e.target.classList.contains( 'fa-folder' ) ) {
+                collapseState = 'hide';
+            }
+            $( '#sections' ).find( '.section' ).each( function( ) {
+                $( this ).find( '.collapse:not(.card-body)' )
+                        .collapse( collapseState );
+            } );
+            collapseState = '';
+        } );
+
         /**
          * Add a section when button click
          */
