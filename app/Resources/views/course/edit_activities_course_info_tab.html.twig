@@ -167,7 +167,6 @@
                 } );
                 $sortedItem = $( e.item ).find( '.collapse:not(.card-body)' );
                 $sortedItem.collapse( 'hide' );
-                $( e.item ).find( '> row > col > .fa-caret-down' ).attr( 'aria-expanded', "false" );
             },
             onUnchoose: function(e) {
                 if ( ! sortingInProgress ) {
