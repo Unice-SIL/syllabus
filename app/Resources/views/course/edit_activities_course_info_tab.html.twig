@@ -11,6 +11,8 @@
 
     <h4>
         Sections et activités
+        <span title="Tout replier."><i class="fas fa-folder"></i></span>
+        <span title="Tout déplier."><i class="fas fa-folder-open"></i></span>
     </h4>
 
     {{ form_start(form) }}
@@ -139,7 +141,6 @@
             });
         }
 
-
         /**
          * Init sections collection
          */
@@ -156,7 +157,7 @@
             handle: ".section-collection-move",
             sort: true,
             animation: 150,
-            onChoose: function(e) {
+            onChoose: function( e ) {
                 $( '#sections' ).find( '.section' ).each( function( ) {
                     $sortedItem = $( this ).find( '.collapse:not(.card-body)' );
                     if ( $sortedItem[ 0 ].classList.contains( 'show' ) ) {
@@ -167,9 +168,8 @@
                 } );
                 $sortedItem = $( e.item ).find( '.collapse:not(.card-body)' );
                 $sortedItem.collapse( 'hide' );
-                $( e.item ).find( '> row > col > .fa-caret-down' ).attr( 'aria-expanded', "false" );
             },
-            onUnchoose: function(e) {
+            onUnchoose: function( e ) {
                 if ( ! sortingInProgress ) {
                     if ( collapsiblesShowState[ $sortedItem.attr( 'id' ) ] ) {
                         $( e.item ).find( '> row > col > .fa-caret-down' ).attr( 'aria-expanded', "true" );
@@ -178,12 +178,12 @@
                     $sortedItem = null;
                 }
             },
-            onStart: function(e) {
+            onStart: function( e ) {
                 sortingInProgress = true;
                 ckeInstance = $( e.item ).find( '.cke' ).siblings( 'textarea' ).attr( 'id' );
                 CKEDITOR.instances[ ckeInstance ].destroy( );
             },
-            onEnd: function(e) {
+            onEnd: function( e ) {
                 if ( collapsiblesShowState[ $sortedItem.attr( 'id' ) ] ) {
                     $( e.item ).find( '> row > col > .fa-caret-down' ).attr( 'aria-expanded', "true" );
                     $sortedItem.collapse( 'show' );
@@ -191,9 +191,24 @@
                 $sortedItem = null;
                 sortingInProgress = false;
             },
-            onSort: function() {
+            onSort: function( ) {
                 CKEDITOR.replace( ckeInstance, Syllabus.ckeConfig );
             }
+        } );
+
+        // Sections folding / unfolding command.
+        var collapseState = '';
+        $( '#panel_tab-2' ).on( 'click', 'h4 > span > .fas', function( e ) {
+            if ( e.target.classList.contains( 'fa-folder-open' ) ) {
+                collapseState = 'show';
+            } else if ( e.target.classList.contains( 'fa-folder' ) ) {
+                collapseState = 'hide';
+            }
+            $( '#sections' ).find( '.section' ).each( function( ) {
+                $( this ).find( '.collapse:not(.card-body)' )
+                        .collapse( collapseState );
+            } );
+            collapseState = '';
         } );
 
         /**
@@ -213,7 +228,6 @@
                 Syllabus.removeListElement($(this).closest('li.section'));
             }
         });
-
 
         /**
          * Init evaluations collection
@@ -270,8 +284,6 @@
                 Syllabus.removeListElement($(this).closest('div.evaluation'));
             }
         });
-
-
 
         /**
          * Call initActivities function for all activities container
