@@ -57,6 +57,16 @@ doctrine:
                 user: '%syllabus_database_user%'
                 password: '%syllabus_database_password%'
                 charset: '%syllabus_database_charset%'
+            apogee:
+                driver: pdo_oci
+                host: 'apoprod.prive.unice.fr'
+                port: '15010'
+                dbname: 'apoprod'
+                user: 'apogee'
+                password: '6cdur7ok'
+                charset: UTF8
+        types:
+            apogeeDate: UniceSIL\SyllabusApogeeImporterBundle\Doctrine\DBAL\Types\ApogeeDateType
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
         #naming_strategy: doctrine.orm.naming_strategy.underscore
@@ -65,9 +75,14 @@ doctrine:
         entity_managers:
             syllabus:
                 connection: syllabus
-                auto_mapping: true
+                auto_mapping: false
                 mappings:
                     AppBundle: ~
+            apogee:
+                connection: apogee
+                auto_mapping: false
+                mappings:
+                    UniceSILSyllabusApogeeImporterBundle: ~
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -109,3 +124,8 @@ fos_ck_editor:
         items:
             basicstyles: [ 'RemoveFormat', '-', 'Bold', 'Italic', 'Underline' ]
             paragraphs: [ 'Outdent', 'Indent', '-', 'NumberedList', 'BulletedList' ]
+
+unice_sil_syllabus_apogee_importer:
+    em: apogee
+    course:
+        types: [ 'ECUE' ]
