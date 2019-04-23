@@ -165,6 +165,15 @@ form ul.list-group {
     Sections & Activities
 */
 
+#panel_tab-2 {
+
+    & > h4 .fas {
+        float: right;
+        margin-left: .3rem;
+        cursor: pointer;
+    }
+}
+
 .section,
 .achievement,
 .prerequisite,
