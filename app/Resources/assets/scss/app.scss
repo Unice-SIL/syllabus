@@ -41,7 +41,7 @@ footer {
 }
 
 .bg-black {
-    background-color: black;
+    background-color: $black;
 }
 
 
@@ -170,7 +170,6 @@ form ul.list-group {
     & > h4 .fas {
         float: right;
         margin-left: .3rem;
-        color: $secondary;
         cursor: pointer;
     }
 }

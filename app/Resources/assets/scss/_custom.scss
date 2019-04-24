@@ -100,6 +100,39 @@ $input-disabled-bg: $gray-100;
 
 
 /*
+    Font Awesome icons colors.
+*/
+
+.fas {
+
+    &.danger {
+        color: $danger;
+    }
+
+    &.info {
+        color: $info;
+    }
+
+    &.primary {
+        color: $primary;
+    }
+
+    &.secondary {
+        color: $secondary;
+    }
+
+    &.success {
+        color: $success;
+    }
+
+    &.warning {
+        color: $warning;
+    }
+}
+
+
+
+/*
     Bootstrap-toggle
 */
 
