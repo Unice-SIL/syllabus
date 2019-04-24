@@ -18,18 +18,10 @@
     #}
     <div class="row mt-3">
         <div class="col">
-            <div class="row">
-                <div class="col">
-                    {{ form_widget(form.period) }}
-                    <label alt="Période (facultatif)" placeholder="Période (facultatif)"></label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    {{ form_widget(form.domain) }}
-                    <label alt="Domaine *" placeholder="Domaine *"></label>
-                </div>
-            </div>
+            {{ form_widget(form.period) }}
+            <label alt="Période (facultatif)" placeholder="Période (facultatif)"></label>
+            {{ form_widget(form.domain) }}
+            <label alt="Domaine *" placeholder="Domaine *"></label>
         </div>
         <div class="col">
             <h6>
@@ -41,14 +33,14 @@
         </div>
     </div>
     <div class="row mt-2">
-        <div class="col-6">
+        <div class="col">
             <h6>
                 Résumé *
             </h6>
             {{ form_errors(form.summary) }}
             {{ form_widget(form.summary) }}
         </div>
-        <div class="col-6">
+        <div class="col">
             <h6>
                 Intégrer une ressource vidéo (ou audio) ou téléverser un fichier image de présentation du cours, en respectant la règlementation sur les droits d'auteur.&nbsp;*
             </h6>
