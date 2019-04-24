@@ -95,9 +95,12 @@
             <i class="fas fa-eye"></i>
             Publier
         </button>
-        <button class="btn btn-outline-primary btn-block shadow" type="button" id="studentViewButton">
+        <a class="btn btn-outline-primary btn-block shadow"
+           href="{{ path('view_student', {'id': courseInfo.id}) }}"
+           title="La page s'ouvrira dans un nouvel onglet."
+           target="_blank">
             <i class="fas fa-graduation-cap"></i>
             Voir la version étudiante
-        </button>
+        </a>
     </div>
 </div>
