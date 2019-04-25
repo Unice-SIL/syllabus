@@ -143,7 +143,7 @@ var Syllabus = ( function ( ) {
     };
 
 
-    var addFormToCollection = function( collection, classes ) {
+    var addFormToCollection = function( collection ) {
 
         var prototype = collection.data( 'prototype' ),
             index = collection.data( 'index' ),
