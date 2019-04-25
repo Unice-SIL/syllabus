@@ -104,6 +104,7 @@ class EditPresentationCourseInfoType extends AbstractType
             ->add('video', TextareaType::class, [
                 'required' => false,
                 'label' => "Intégration de contenu vidéo / audio",
+                'attr' => ['rows' => 5],
             ])
             ->add('teachingCmClass', TextType::class, [
                 'required' => false,
