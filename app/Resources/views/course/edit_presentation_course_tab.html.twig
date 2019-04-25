@@ -81,10 +81,6 @@
                 <div class="{{ videoContentClasses }}" id="media_video_container" role="tabpanel">
                     {{ form_widget(form.video) }}
                     <label alt="URL" placeholder="URL"></label>
-                    <button id="media_video_preview" class="btn btn-secondary btn-sm btn-block" type="button">Prévisualiser</button>
-                    <div class="embed-responsive embed-responsive-16by9">
-                        <iframe id="media_video_iframe" class="embed-responsive-item" src="{{ form.vars.value.video }}"></iframe>
-                    </div>
                 </div>
             </div>
         </div>
@@ -340,13 +336,6 @@
                 $("#media_image").attr('src', reader.result);
             }
             reader.readAsDataURL(e.target.files[0]);
-        });
-
-        /**
-         * Load video in iframe when click on preview
-         */
-        $("#media_video_preview").on('click', function(){
-            $("#media_video_iframe").attr("src", $("#edit_presentation_course_info_video").val());
         });
 
         /**

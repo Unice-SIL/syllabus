@@ -147,9 +147,11 @@
                 </p>
             </div>
             <div class="col-md-7">
-                {% if course.mediaType == "video" and course.video != null %}
+                {% if course.mediaType == "video"
+                        and course.video[:7]|lower == "<iframe"
+                        and course.video[-9:]|lower == "</iframe>" %}
                     <div class="embed-responsive embed-responsive-16by9">
-                        <iframe class="embed-responsive-item" src={{course.video}} allowfullscreen></iframe>
+                        {{ course.video|raw }}
                     </div>
                 {% endif %}
                 {% if course.mediaType == "image" %}
