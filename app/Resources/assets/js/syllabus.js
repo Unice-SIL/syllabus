@@ -190,14 +190,28 @@ var Syllabus = ( function ( ) {
     };
 
 
-    var tabsInit = function( ) {
+    var setMediaFrameAttributes = function( mediaFrame ) {
 
-        $( 'a[data-toggle="tab"]' ).on( 'hide.bs.tab', function( event ) {
-            _ajaxFormSubmission( $( '#panel_' + event.target.id ).find( 'form' )[ 0 ] );
-            _ajaxTabContentLoader( event.relatedTarget.id );
-        } );
-
-        _ajaxTabContentLoader( 'tab-1' );
+        if ( mediaFrame ) {
+            // Unnecessary attributes removal.
+            mediaFrame.removeAttribute( 'width' );
+            mediaFrame.removeAttribute( 'height' );
+            // Feature policy removal.
+            mediaFrame.removeAttribute( 'allow' );
+            // Deprecated attributes removal.
+            mediaFrame.removeAttribute( 'align' );
+            mediaFrame.removeAttribute( 'frameborder' );
+            mediaFrame.removeAttribute( 'longdesc' );
+            mediaFrame.removeAttribute( 'marginheight' );
+            mediaFrame.removeAttribute( 'marginwidth' );
+            mediaFrame.removeAttribute( 'scrolling' );
+            // Non standard attributes removal.
+            mediaFrame.removeAttribute( 'mozbrowser' );
+            // Style reset.
+            mediaFrame.setAttribute( 'style', "padding:0;margin:0;border:0" );
+            // BS “embed” class.
+            mediaFrame.classList.add( 'embed-responsive-item' );
+        }
 
     };
 
@@ -213,6 +227,18 @@ var Syllabus = ( function ( ) {
     };
 
 
+    var tabsInit = function( ) {
+
+        $( 'a[data-toggle="tab"]' ).on( 'hide.bs.tab', function( event ) {
+            _ajaxFormSubmission( $( '#panel_' + event.target.id ).find( 'form' )[ 0 ] );
+            _ajaxTabContentLoader( event.relatedTarget.id );
+        } );
+
+        _ajaxTabContentLoader( 'tab-1' );
+
+    };
+
+
 
     /*
         Public pointers to exposed items.
@@ -223,6 +249,7 @@ var Syllabus = ( function ( ) {
         ckeConfig: ckeConfig,
         handleAjaxResponse: handleAjaxResponse,
         removeListElement: removeListElement,
+        setMediaFrameAttributes: setMediaFrameAttributes,
         submitPanelForm: submitPanelForm,
         tabsInit: tabsInit
     };

@@ -152,23 +152,6 @@
                 <div class="embed-responsive embed-responsive-16by9">
                     {{ course.video|raw }}
                 </div>
-<script>
-    var mediaFrame = document.querySelector( '#media_container > .embed-responsive > iframe' );
-    if ( mediaFrame ) {
-        mediaFrame.removeAttribute( 'width' );
-        mediaFrame.removeAttribute( 'height' );
-        mediaFrame.removeAttribute( 'allow' );
-        mediaFrame.removeAttribute( 'align' );
-        mediaFrame.removeAttribute( 'frameborder' );
-        mediaFrame.removeAttribute( 'longdesc' );
-        mediaFrame.removeAttribute( 'marginheight' );
-        mediaFrame.removeAttribute( 'marginwidth' );
-        mediaFrame.removeAttribute( 'scrolling' );
-        mediaFrame.removeAttribute( 'mozbrowser' );
-        mediaFrame.setAttribute( 'style', "padding:0;margin:0;border:0" );
-        mediaFrame.classList.add( 'embed-responsive-item' );
-    }
-</script>
             {% endif %}
             {% if course.mediaType == "image" %}
                 <img src={{ asset('data/' ~ course.image) }} class="img-fluid" alt="Responsive image">
@@ -625,7 +608,7 @@
             </div>
         </div>
         <div class="row mx-3 d-flex flex-row text-white">
-                 {{course.agenda|raw}}
+             {{course.agenda|raw}}
         </div>
 
 
@@ -635,7 +618,7 @@
             </div>
         </div>
         <div class="row mx-3 d-flex flex-row text-white">
-                 {{course.organization|raw}}
+             {{course.organization|raw}}
         </div>
 
 
@@ -676,8 +659,12 @@
         {% endif %}
 
     {% endif %}
+
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
+    <script>
+        Syllabus.setMediaFrameAttributes(document.querySelector( '#media_container > .embed-responsive > iframe' ));
+    </script>
 {% endblock %}
