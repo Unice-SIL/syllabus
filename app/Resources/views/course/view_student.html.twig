@@ -14,7 +14,6 @@
 {% endblock %}
 
 {% block main %}
-
     {% if course == null %}
         <div class="alert alert-danger" role="alert">
             Le cours demandé n'a pas été retrouvé.
@@ -146,15 +145,34 @@
                     Période : <span class="font-weight-bold"> {{course.period}} </span>
                 </p>
             </div>
-            <div class="col-md-7">
-                {% if course.mediaType == "video" and course.video != null %}
-                    <div class="embed-responsive embed-responsive-16by9">
-                        <iframe class="embed-responsive-item" src={{course.video}} allowfullscreen></iframe>
-                    </div>
-                {% endif %}
-                {% if course.mediaType == "image" %}
-                    <img src={{ asset('data/' ~ course.image) }} class="img-fluid" alt="Responsive image">
-                {% endif %}
+            <div id="media_container" class="col-md-7">
+            {% if course.mediaType == "video"
+                    and course.video[:7]|lower == "<iframe"
+                    and course.video[-9:]|lower == "</iframe>" %}
+                <div class="embed-responsive embed-responsive-16by9">
+                    {{ course.video|raw }}
+                </div>
+<script>
+    var mediaFrame = document.querySelector( '#media_container > .embed-responsive > iframe' );
+    if ( mediaFrame ) {
+        mediaFrame.removeAttribute( 'width' );
+        mediaFrame.removeAttribute( 'height' );
+        mediaFrame.removeAttribute( 'allow' );
+        mediaFrame.removeAttribute( 'align' );
+        mediaFrame.removeAttribute( 'frameborder' );
+        mediaFrame.removeAttribute( 'longdesc' );
+        mediaFrame.removeAttribute( 'marginheight' );
+        mediaFrame.removeAttribute( 'marginwidth' );
+        mediaFrame.removeAttribute( 'scrolling' );
+        mediaFrame.removeAttribute( 'mozbrowser' );
+        mediaFrame.setAttribute( 'style', "padding:0;margin:0;border:0" );
+        mediaFrame.classList.add( 'embed-responsive-item' );
+    }
+</script>
+            {% endif %}
+            {% if course.mediaType == "image" %}
+                <img src={{ asset('data/' ~ course.image) }} class="img-fluid" alt="Responsive image">
+            {% endif %}
             </div>
         </div>
 
@@ -658,9 +676,6 @@
         {% endif %}
 
     {% endif %}
-
-
-
 {% endblock %}
 
 {% block javascripts %}

@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -98,11 +99,12 @@ class EditPresentationCourseInfoType extends AbstractType
             ->add('mediaType', HiddenType::class)
             ->add('image', FileType::class, [
                 'required' => false,
-                'label' => 'Fichier',
+                'label' => "Fichier image",
             ])
-            ->add('video', TextType::class, [
+            ->add('video', TextareaType::class, [
                 'required' => false,
-                'label' => 'Url vidéo',
+                'label' => "Intégration de contenu vidéo / audio",
+                'attr' => ['rows' => 5],
             ])
             ->add('teachingCmClass', TextType::class, [
                 'required' => false,
