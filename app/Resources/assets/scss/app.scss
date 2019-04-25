@@ -140,12 +140,12 @@ form ul.list-group {
         &.sortable-chosen {
             background-color: lighten($primary, 35%);
         }
-        /*
-        .fas {
-            float: right;
-            font-size: 1.5rem;
-            cursor: pointer;
 
+        .fas {
+            //float: right;
+            //font-size: 1.5rem;
+            cursor: pointer;
+            /*
             &.fa-arrows-alt-v {
                 margin-left: 1rem;
                 color: $primary;
@@ -153,9 +153,8 @@ form ul.list-group {
 
             &.fa-eraser {
                 color: $red;
-            }
+            } //*/
         }
-        */
     }
 }
 
@@ -170,11 +169,12 @@ form ul.list-group {
     & > h4 .fas {
         float: right;
         margin-left: .3rem;
-        cursor: pointer;
     }
 }
 
 .section,
+.activity,
+.evaluation,
 .achievement,
 .prerequisite,
 .tutoringResource,
@@ -182,10 +182,6 @@ form ul.list-group {
 
     & i.fas {
         cursor: pointer;
-
-        &.fa-trash-alt {
-            color: $danger;
-        }
     }
 }
 
@@ -251,10 +247,6 @@ div.equipment {
 
     &.evaluation-cc div.icon {
         background: url("../images/evaluation_cc_32.png") no-repeat;
-    }
-
-    & i.fas {
-        cursor: pointer;
     }
 }
 
