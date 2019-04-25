@@ -192,7 +192,7 @@
 
 {% block _edit_activities_course_info_sections_widget %}
     {% import _self as sectionsField %}
-    <ul class="list-group" id="sections" data-prototype="{{ sectionsField.section_template(form.vars.prototype)|e }}">
+    <ul class="list-group striped" id="sections" data-prototype="{{ sectionsField.section_template(form.vars.prototype)|e }}">
         {% for section in form.children %}
             {{ sectionsField.section_template(section) }}
         {% endfor %}
