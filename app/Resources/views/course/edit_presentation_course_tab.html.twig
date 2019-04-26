@@ -314,10 +314,12 @@
         /**
          * Remove a teacher form collection
          */
+        var $listElementToRemove;
         teachersCollectionHolder.on('click', '.teacher-collection-remove', function(){
-            if(confirm("Êtes-vous sûr(e) de vouloir retirer cette personne de l'équipe pédagogique ?")) {
-                Syllabus.removeListElement($(this).closest('li.teacher'));
-            }
+            $listElementToRemove = $(this).closest('li.teacher');
+            bootbox.confirm("Confirmez-vous le retrait de cette personne de l'équipe pédagogique ?", function(result){
+                Syllabus.removeListElement($listElementToRemove);
+            })
         });
 
         /**
