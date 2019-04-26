@@ -121,27 +121,27 @@ var Syllabus = ( function ( ) {
 
     var temporaryItem = null,
         ckeConfig = {
-        "toolbar": [
-            [
-              "RemoveFormat",
-              "-",
-              "Bold",
-              "Italic",
-              "Underline"
+            "toolbar": [
+                [
+                  "RemoveFormat",
+                  "-",
+                  "Bold",
+                  "Italic",
+                  "Underline"
+                ],
+                "-",
+                [
+                  "Outdent",
+                  "Indent",
+                  "-",
+                  "NumberedList",
+                  "BulletedList"
+                ]
             ],
-            "-",
-            [
-              "Outdent",
-              "Indent",
-              "-",
-              "NumberedList",
-              "BulletedList"
-            ]
-        ],
-        "removeButtons": null,
-        "removePlugins": "elementspath",
-        "resize_enabled": false
-    };
+            "removeButtons": null,
+            "removePlugins": "elementspath",
+            "resize_enabled": false
+        };
 
 
     var addFormToCollection = function( collection ) {
