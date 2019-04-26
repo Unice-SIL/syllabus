@@ -111,19 +111,17 @@
          * Remove an equipment from collection
          */
         equipmentsCollectionHolder.on('click', '.equipment-collection-remove', function(){
-            if(confirm("Êtes-vous sûr(e) de vouloir retirer ce matériel de la liste ?")) {
-                Syllabus.removeListElement($(this).closest('div.equipment'));
-            }
+            Syllabus.temporaryItem = $(this).closest('div.equipment');
+            bootbox.confirm("Confirmez-vous le retrait de ce matériel de la liste ?", function(result){
+                Syllabus.removeListElement(Syllabus.temporaryItem);
+            })
         });
-
 
         /**
          * Form submission
          */
         $("form[name='edit_equipments_course_info']").submit(function(e){
-
             Syllabus.submitPanelForm( e, this );
-
         });
 
     </script>

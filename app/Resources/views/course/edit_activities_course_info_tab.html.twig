@@ -65,9 +65,6 @@
 {% block javascripts %}
     <script>
 
-        /**
-         *
-         */
         function setActivityInfos(el, data){
             el.find('.activity-label').html(data['label']);
             el.find('select[id$=_activity]').val(data['activity_id']);
@@ -135,9 +132,10 @@
 
             // Remove an activity from collection
             activitiesCollectionHolder.on('click', '.activity-collection-remove', function(){
-                if(confirm("Êtes-vous sûr(e) de vouloir supprimer cette activité ?")) {
-                    Syllabus.removeListElement($(this).closest('.activity'));
-                }
+                Syllabus.temporaryItem = $(this).closest('.activity');
+                bootbox.confirm("Confirmez-vous la suppression de cette activité ?", function(result){
+                    Syllabus.removeListElement(Syllabus.temporaryItem);
+                })
             });
         }
 
@@ -224,9 +222,10 @@
          * Remove a section from collection
          */
         sectionsCollectionHolder.on('click', '.section-collection-remove', function() {
-            if(confirm("Êtes-vous sûr(e) de vouloir supprimer cette section ?")) {
-                Syllabus.removeListElement($(this).closest('li.section'));
-            }
+            Syllabus.temporaryItem = $(this).closest('li.section');
+            bootbox.confirm("Confirmez-vous la suppression de cette section ?", function(result){
+                Syllabus.removeListElement(Syllabus.temporaryItem);
+            })
         });
 
         /**
@@ -280,9 +279,10 @@
          * Remove a evaluation from collection
          */
         evaluationsCollectionHolder.on('click', '.evaluation-collection-remove', function(){
-            if(confirm("Êtes-vous sûr(e) de vouloir supprimer cette évaluation ?")) {
-                Syllabus.removeListElement($(this).closest('div.evaluation'));
-            }
+            Syllabus.temporaryItem = $(this).closest('div.evaluation');
+            bootbox.confirm("Confirmez-vous la suppression de cette évaluation ?", function(result){
+                Syllabus.removeListElement(Syllabus.temporaryItem);
+            })
         });
 
         /**
