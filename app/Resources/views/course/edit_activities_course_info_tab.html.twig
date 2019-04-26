@@ -64,7 +64,6 @@
 
 {% block javascripts %}
     <script>
-        var $listElementToRemove;
 
         function setActivityInfos(el, data){
             el.find('.activity-label').html(data['label']);
@@ -133,9 +132,9 @@
 
             // Remove an activity from collection
             activitiesCollectionHolder.on('click', '.activity-collection-remove', function(){
-                $listElementToRemove = $(this).closest('.activity');
+                Syllabus.temporaryItem = $(this).closest('.activity');
                 bootbox.confirm("Confirmez-vous la suppression de cette activité ?", function(result){
-                    Syllabus.removeListElement($listElementToRemove);
+                    Syllabus.removeListElement(Syllabus.temporaryItem);
                 })
             });
         }
@@ -223,9 +222,9 @@
          * Remove a section from collection
          */
         sectionsCollectionHolder.on('click', '.section-collection-remove', function() {
-            $listElementToRemove = $(this).closest('li.section');
+            Syllabus.temporaryItem = $(this).closest('li.section');
             bootbox.confirm("Confirmez-vous la suppression de cette section ?", function(result){
-                Syllabus.removeListElement($listElementToRemove);
+                Syllabus.removeListElement(Syllabus.temporaryItem);
             })
         });
 
@@ -280,9 +279,9 @@
          * Remove a evaluation from collection
          */
         evaluationsCollectionHolder.on('click', '.evaluation-collection-remove', function(){
-            $listElementToRemove = $(this).closest('div.evaluation');
+            Syllabus.temporaryItem = $(this).closest('div.evaluation');
             bootbox.confirm("Confirmez-vous la suppression de cette évaluation ?", function(result){
-                Syllabus.removeListElement($listElementToRemove);
+                Syllabus.removeListElement(Syllabus.temporaryItem);
             })
         });
 

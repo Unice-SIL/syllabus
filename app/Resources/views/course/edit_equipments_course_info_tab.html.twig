@@ -110,11 +110,10 @@
         /**
          * Remove an equipment from collection
          */
-        var $listElementToRemove;
         equipmentsCollectionHolder.on('click', '.equipment-collection-remove', function(){
-            $listElementToRemove = $(this).closest('div.equipment');
+            Syllabus.temporaryItem = $(this).closest('div.equipment');
             bootbox.confirm("Confirmez-vous le retrait de ce matériel de la liste ?", function(result){
-                Syllabus.removeListElement($listElementToRemove);
+                Syllabus.removeListElement(Syllabus.temporaryItem);
             })
         });
 

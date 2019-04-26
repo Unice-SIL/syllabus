@@ -119,7 +119,8 @@ var Syllabus = ( function ( ) {
     */
 
 
-    var ckeConfig = {
+    var temporaryItem = null,
+        ckeConfig = {
         "toolbar": [
             [
               "RemoveFormat",
