@@ -47,7 +47,7 @@ footer {
 
 
 /*
-    Tabs
+    Tabs.
 */
 
 .nav-tabs {
@@ -64,7 +64,7 @@ footer {
 
 
 /*
-    Forms
+    Forms.
 */
 
 form {
@@ -125,7 +125,7 @@ input[type=text] {
 
 
 /*
-    Forms sortable lists
+    Forms sortable lists.
 */
 
 form ul.list-group {
@@ -161,7 +161,7 @@ form ul.list-group {
 
 
 /*
-    Sections & Activities
+    Sections & Activities.
 */
 
 #panel_tab-2 {
@@ -272,5 +272,17 @@ div.equipment {
         background-color: $info;
         color: $light;
     }
+}
+
+
+
+/*
+    Select2 container width fix,
+        first setted inline (by what?) to a fixed value
+        and then resetted on tab change for some (unknown) reason.
+*/
+
+.select2.select2-container {
+    width: 100% !important;
 }
 
