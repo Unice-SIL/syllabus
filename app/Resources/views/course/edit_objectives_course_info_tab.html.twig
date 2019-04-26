@@ -188,6 +188,7 @@
 
 {% block javascripts %}
     <script>
+        var $listElementToRemove;
 
         $('#edit_objectives_course_info_tutoring').bootstrapToggle({
             on: 'Oui',
@@ -224,9 +225,10 @@
          * Remove a achievement from collection
          */
         achievementsCollectionHolder.on('click', '.achievement-collection-remove', function () {
-            if (confirm("Êtes-vous sûr(e) de vouloir supprimer cet acquis d'apprentissage ?")) {
-                Syllabus.removeListElement($(this).closest('li.achievement'));
-            }
+            $listElementToRemove = $(this).closest('li.achievement');
+            bootbox.confirm("Confirmez-vous la suppression de cet acquis d'apprentissage ?", function(result){
+                Syllabus.removeListElement($listElementToRemove);
+            })
         });
 
 
@@ -256,9 +258,10 @@
          * Remove a prerequisite from collection
          */
         prerequisitesCollectionHolder.on('click', '.prerequisite-collection-remove', function () {
-            if (confirm("Êtes-vous sûr(e) de vouloir supprimer ce prérequis ?")) {
-                Syllabus.removeListElement($(this).closest('li.prerequisite'));
-            }
+            $listElementToRemove = $(this).closest('li.prerequisite');
+            bootbox.confirm("Confirmez-vous la suppression de ce prérequis ?", function(result){
+                Syllabus.removeListElement($listElementToRemove);
+            })
         });
 
         /**
@@ -287,18 +290,17 @@
          * Remove a tutoringResource from collection
          */
         tutoringResourcesCollectionHolder.on('click', '.tutoringResource-collection-remove', function () {
-            if (confirm("Êtes-vous sûr(e) de vouloir supprimer cette remédiation ?")) {
-                Syllabus.removeListElement($(this).closest('li.tutoringResource'));
-            }
+            $listElementToRemove = $(this).closest('li.tutoringResource');
+            bootbox.confirm("Confirmez-vous la suppression de cette remédiation ?", function(result){
+                Syllabus.removeListElement($listElementToRemove);
+            })
         });
 
         /**
          * Form submission
          */
         $("form[name='edit_objectives_course_info']").submit(function(e){
-
             Syllabus.submitPanelForm( e, this );
-
         });
 
     </script>
