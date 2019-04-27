@@ -36,6 +36,7 @@ interface CourseRepositoryInterface
      */
     public function update(Course $course): void;
 
+
     /**
      * Begin a transaction
      */

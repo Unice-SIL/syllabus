@@ -30,6 +30,8 @@ services:
     AppBundle\Repository\CourseTeacherRepositoryInterface: '@course_teacher_doctrine_repository'
     AppBundle\Repository\CourseTutoringResourceRepositoryInterface: '@course_tutoring_resource_doctrine_repository'
     AppBundle\Repository\EquipmentRepositoryInterface: '@equipment_doctrine_repository'
+    AppBundle\Repository\StructureRepositoryInterface: '@structure_doctrine_repository'
+    AppBundle\Repository\YearRepositoryInterface: '@year_doctrine_repository'
 
     # AUTHENTICATOR
     AppBundle\Security\Authenticator\TestAuthenticator:
@@ -128,6 +130,14 @@ services:
 
     equipment_doctrine_repository:
         class: AppBundle\Repository\Doctrine\EquipmentDoctrineRepository
+        arguments: ['@syllabus_entity_manager']
+
+    structure_doctrine_repository:
+        class: AppBundle\Repository\Doctrine\StructureDoctrineRepository
+        arguments: ['@syllabus_entity_manager']
+
+    year_doctrine_repository:
+        class: AppBundle\Repository\Doctrine\YearDoctrineRepository
         arguments: ['@syllabus_entity_manager']
 
     # PROVIDERS

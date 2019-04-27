@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "787cc00af7838cf822f18bfbc5649426",
+    "content-hash": "5859a7ad4eb6c3b2e0e27be44f10143c",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -949,16 +949,16 @@
         },
         {
             "name": "doctrine/persistence",
-            "version": "v1.1.0",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/persistence.git",
-                "reference": "c0f1c17602afc18b4cbd8e1c8125f264c9cf7d38"
+                "reference": "3da7c9d125591ca83944f477e65ed3d7b4617c48"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/persistence/zipball/c0f1c17602afc18b4cbd8e1c8125f264c9cf7d38",
-                "reference": "c0f1c17602afc18b4cbd8e1c8125f264c9cf7d38",
+                "url": "https://api.github.com/repos/doctrine/persistence/zipball/3da7c9d125591ca83944f477e65ed3d7b4617c48",
+                "reference": "3da7c9d125591ca83944f477e65ed3d7b4617c48",
                 "shasum": ""
             },
             "require": {
@@ -1027,7 +1027,7 @@
                 "orm",
                 "persistence"
             ],
-            "time": "2018-11-21T00:33:13+00:00"
+            "time": "2019-04-23T08:28:24+00:00"
         },
         {
             "name": "doctrine/reflection",
@@ -2840,21 +2840,21 @@
         },
         {
             "name": "unicesil/syllabus-apogee-importer-bundle",
-            "version": "1.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Unice-SIL/syllabus-apogee-importer-bundle.git",
-                "reference": "6786e29a17b06696cab9ff4a68dbac04d4eef0a1"
+                "reference": "95c2a769598ea5950131b5f2c984717a72ad5ee9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Unice-SIL/syllabus-apogee-importer-bundle/zipball/6786e29a17b06696cab9ff4a68dbac04d4eef0a1",
-                "reference": "6786e29a17b06696cab9ff4a68dbac04d4eef0a1",
+                "url": "https://api.github.com/repos/Unice-SIL/syllabus-apogee-importer-bundle/zipball/95c2a769598ea5950131b5f2c984717a72ad5ee9",
+                "reference": "95c2a769598ea5950131b5f2c984717a72ad5ee9",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.1",
-                "unicesil/syllabus-importer-toolkit": "^1.0"
+                "unicesil/syllabus-importer-toolkit": "dev-master"
             },
             "type": "symfony-bundle",
             "autoload": {
@@ -2872,20 +2872,20 @@
                 "Unice-SIL",
                 "importer"
             ],
-            "time": "2019-04-22T16:19:07+00:00"
+            "time": "2019-04-27T09:48:33+00:00"
         },
         {
             "name": "unicesil/syllabus-importer-toolkit",
-            "version": "1.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Unice-SIL/syllabus-importer-toolkit.git",
-                "reference": "42211456a7a4fcc1aa57188e32c7fb7c9e2cd206"
+                "reference": "3f39af26c81310954ac22cb52dd6a7420197be2d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Unice-SIL/syllabus-importer-toolkit/zipball/42211456a7a4fcc1aa57188e32c7fb7c9e2cd206",
-                "reference": "42211456a7a4fcc1aa57188e32c7fb7c9e2cd206",
+                "url": "https://api.github.com/repos/Unice-SIL/syllabus-importer-toolkit/zipball/3f39af26c81310954ac22cb52dd6a7420197be2d",
+                "reference": "3f39af26c81310954ac22cb52dd6a7420197be2d",
                 "shasum": ""
             },
             "require": {
@@ -2899,7 +2899,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Toolkit to develop syllabus importer to import data in Syllabus from external repository",
-            "time": "2019-04-21T07:12:29+00:00"
+            "time": "2019-04-26T14:53:09+00:00"
         }
     ],
     "packages-dev": [
@@ -4678,7 +4678,10 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "unicesil/syllabus-apogee-importer-bundle": 20,
+        "unicesil/syllabus-importer-toolkit": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

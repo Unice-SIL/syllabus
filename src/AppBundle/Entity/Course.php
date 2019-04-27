@@ -40,7 +40,7 @@ class Course
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Course", inversedBy="children")
+     * @ORM\ManyToMany(targetEntity="Course", inversedBy="children", cascade={ "persist" })
      * @ORM\JoinTable(name="course_hierarchy",
      *   joinColumns={
      *     @ORM\JoinColumn(name="course_child_id", referencedColumnName="id")
@@ -62,7 +62,7 @@ class Course
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="CourseInfo", mappedBy="course")
+     * @ORM\OneToMany(targetEntity="CourseInfo", mappedBy="course", cascade={ "persist" })
      */
     private $courseInfos;
 

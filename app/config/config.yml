@@ -128,4 +128,4 @@ fos_ck_editor:
 unice_sil_syllabus_apogee_importer:
     em: apogee
     course:
-        types: [ 'ECUE' ]
+        types: [ 'ECUE', 'UE' ]
