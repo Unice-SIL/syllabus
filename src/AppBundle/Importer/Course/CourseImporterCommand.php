@@ -157,9 +157,19 @@ class CourseImporterCommand extends Command
      */
     private function getCoursesToImport(CourseImporterInterface $courseImporter): CourseCollection
     {
-        $courses = $courseImporter->setYears(['2018'])->execute();
+        $years = $this->getYearsToImport();
+        $courses = $courseImporter->setYears($years)->execute();
         $this->output->writeln(sprintf("%d courses to import", $courses->count()));
         return $courses;
+    }
+
+    /**
+     * @return array
+     */
+    private function getYearsToImport(): array
+    {
+        $years = $this->yearRepository->findToImport();
+        return $years->toArray();
     }
 
     /**

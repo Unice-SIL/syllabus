@@ -4,6 +4,7 @@ namespace AppBundle\Repository\Doctrine;
 
 use AppBundle\Entity\Year;
 use AppBundle\Repository\YearRepositoryInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 
 /**
@@ -38,6 +39,21 @@ class YearDoctrineRepository  extends AbstractDoctrineRepository implements Year
             throw $e;
         }
         return $year;
+    }
+
+    /**
+     * @return ArrayCollection
+     * @throws \Exception
+     */
+    public function findToImport(): ArrayCollection
+    {
+        $years = new ArrayCollection();
+        try{
+            $years = $this->entityManager->getRepository(Year::class)->findByImport(true);
+        }catch (\Exception $e){
+            throw $e;
+        }
+        return $years;
     }
 
     /**

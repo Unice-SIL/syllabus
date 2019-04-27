@@ -3,6 +3,7 @@
 namespace AppBundle\Repository;
 
 use AppBundle\Entity\Year;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Interface YearRepositoryInterface
@@ -16,6 +17,13 @@ interface YearRepositoryInterface
      * @return Year|null
      */
     public function find(string $id): ?Year;
+
+
+    /**
+     * Find year to import
+     * @return mixed
+     */
+    public function findToImport(): ArrayCollection;
 
     /**
      * Create year
