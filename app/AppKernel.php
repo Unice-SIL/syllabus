@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new Tetranz\Select2EntityBundle\TetranzSelect2EntityBundle(),
             new AppBundle\AppBundle(),
             new LdapBundle\LdapBundle(),
+            new UniceSIL\SyllabusApogeeImporterBundle\UniceSILSyllabusApogeeImporterBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

@@ -34,7 +34,9 @@
         "symfony/symfony": "3.4.*",
         "tanigami/specification": "^1.3",
         "tetranz/select2entity-bundle": "^2.9",
-        "twig/twig": "^1.0||^2.0"
+        "twig/twig": "^1.0||^2.0",
+        "unicesil/syllabus-apogee-importer-bundle": "dev-master",
+        "unicesil/syllabus-importer-toolkit": "dev-master"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.1",

@@ -423,7 +423,7 @@ class CourseInfo
     /**
      * @var \AppBundle\Entity\Course
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Course", inversedBy="courseInfos")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Course", inversedBy="courseInfos", cascade={ "persist" })
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="course_id", referencedColumnName="id", nullable=false)
      * })
