@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "799a203a9ad073e6649346da0284c051",
+    "content-hash": "478090e006418523561b5a83f2fae57d",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -2844,12 +2844,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Unice-SIL/syllabus-apogee-importer-bundle.git",
-                "reference": "6378d1"
+                "reference": "aff3fd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Unice-SIL/syllabus-apogee-importer-bundle/zipball/6378d1",
-                "reference": "6378d1",
+                "url": "https://api.github.com/repos/Unice-SIL/syllabus-apogee-importer-bundle/zipball/aff3fd",
+                "reference": "aff3fd",
                 "shasum": ""
             },
             "require": {
@@ -2872,7 +2872,7 @@
                 "Unice-SIL",
                 "importer"
             ],
-            "time": "2019-04-29T07:57:55+00:00"
+            "time": "2019-04-29T12:24:25+00:00"
         },
         {
             "name": "unicesil/syllabus-importer-toolkit",
@@ -2880,12 +2880,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Unice-SIL/syllabus-importer-toolkit.git",
-                "reference": "70cd6b"
+                "reference": "79a0c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Unice-SIL/syllabus-importer-toolkit/zipball/70cd6b",
-                "reference": "70cd6b",
+                "url": "https://api.github.com/repos/Unice-SIL/syllabus-importer-toolkit/zipball/79a0c7",
+                "reference": "79a0c7",
                 "shasum": ""
             },
             "require": {
@@ -2899,7 +2899,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Toolkit to develop syllabus importer to import data in Syllabus from external repository",
-            "time": "2019-04-29T07:15:22+00:00"
+            "time": "2019-04-29T12:13:29+00:00"
         }
     ],
     "packages-dev": [

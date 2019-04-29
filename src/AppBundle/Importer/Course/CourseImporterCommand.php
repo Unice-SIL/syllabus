@@ -7,6 +7,7 @@ use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\Structure;
 use AppBundle\Exception\StructureNotFoundException;
 use AppBundle\Exception\YearNotFoundException;
+use AppBundle\Importer\Common\AbstractImporterCommand;
 use AppBundle\Repository\CourseInfoRepositoryInterface;
 use AppBundle\Repository\CourseRepositoryInterface;
 use AppBundle\Repository\StructureRepositoryInterface;
@@ -14,10 +15,7 @@ use AppBundle\Repository\YearRepositoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Psr\Log\LoggerInterface;
 use Ramsey\Uuid\Uuid;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use UniceSIL\SyllabusImporterToolkit\Course\CourseCollection;
 use UniceSIL\SyllabusImporterToolkit\Course\CourseImporterInterface;
@@ -29,17 +27,12 @@ use UniceSIL\SyllabusImporterToolkit\Structure\StructureInterface;
  * Class CourseImporterCommand
  * @package AppBundle\Importer
  */
-class CourseImporterCommand extends Command
+class CourseImporterCommand extends AbstractImporterCommand
 {
     /**
      * @var string
      */
     protected static $defaultName = "syllabus:importer:course";
-
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
 
     /**
      * @var CourseRepositoryInterface
@@ -61,15 +54,6 @@ class CourseImporterCommand extends Command
      */
     private $structureRepository;
 
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
-
-    /**
-     * @var OutputInterface
-     */
-    private $output;
 
     /**
      * CourseImporterCommand constructor.
@@ -89,13 +73,11 @@ class CourseImporterCommand extends Command
         LoggerInterface $logger
     )
     {
-        $this->container = $container;
         $this->courseRepository = $courseRepository;
         $this->courseInfoRepository = $courseInfoRepository;
         $this->yearRepository =$yearRepository;
         $this->structureRepository = $structureRepository;
-        $this->logger = $logger;
-        parent::__construct();
+        parent::__construct($container, $logger);
     }
 
     /**
@@ -109,61 +91,24 @@ class CourseImporterCommand extends Command
                 "This command allow you to import course ins Syllabus from external repository"
             )
             ->addArgument('service', InputArgument::REQUIRED, 'Course importer service name to use');
+        parent::configure();
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
+     *
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function start()
     {
-        $this->output = $output;
-
-        try {
-            $output->writeln("==============================");
-            $output->writeln("Start course importer");
-            $output->writeln(date('d/m/Y h:i:s', time()));
-            $output->writeln("==============================");
-
-
-            // Get CourseImporter service
-            $courseImporterServiceName = $input->getArgument('service');
-            $output->writeln(sprintf("Get service %s", $courseImporterServiceName));
-            $courseImporterServiceName = $input->getArgument('service');
-            $courseImporter = $this->container->get($courseImporterServiceName);
-            if (!$courseImporter instanceof CourseImporterInterface) {
-                throw new \Exception(
-                    sprintf("Service %s must implement %s", $courseImporterServiceName, CourseImporterInterface::class)
-                );
-            }
-
-            // Get courses to import
-            $courses = $this->getCoursesToImport($courseImporter);
-
-            // Start courses import
-            $this->startImport($courses);
-
-
-        }catch (\Exception $e){
-            $this->logger->error((string)$e);
-            $output->writeln($e->getMessage());
+        if(!$this->importerService instanceof CourseImporterInterface){
+            throw new \Exception(sprintf("Service %s must implement %s", $this->importerServiceName, CourseImporterInterface::class));
         }
-        $output->writeln("==============================");
-        $output->writeln(date('d/m/Y h:i:s', time()));
-        $output->writeln("End course importer");
-        $output->writeln("==============================");
-    }
-
-    /**
-     * @param CourseImporterInterface $courseImporter
-     * @return CourseCollection
-     */
-    private function getCoursesToImport(CourseImporterInterface $courseImporter): CourseCollection
-    {
+        $this->importerService->setArgs($this->importerServiceArgs);
+        // Get years to import
         $years = $this->getYearsToImport();
-        $courses = $courseImporter->setYears($years)->execute();
-        $this->output->writeln(sprintf("%d courses to import", $courses->count()));
-        return $courses;
+        // Get courses to import
+        $courses = $this->getCoursesToImport($years);
+        // Start courses import
+        $this->startImport($courses);
     }
 
     /**
@@ -175,6 +120,17 @@ class CourseImporterCommand extends Command
         return array_map(function($a){
             return $a->getId();
         }, $years);
+    }
+
+    /**
+     * @param array $years
+     * @return CourseCollection
+     */
+    private function getCoursesToImport(array $years=[]): CourseCollection
+    {
+        $courses = $this->importerService->setYears($years)->execute();
+        $this->output->writeln(sprintf("%d courses to import", $courses->count()));
+        return $courses;
     }
 
     /**
