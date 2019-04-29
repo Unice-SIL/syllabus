@@ -32,28 +32,26 @@ class YearDoctrineRepository  extends AbstractDoctrineRepository implements Year
      */
     public function find(string $id): ?Year
     {
-        $year = null;
         try{
             $year = $this->entityManager->getRepository(Year::class)->find($id);
+            return $year;
         }catch (\Exception $e){
             throw $e;
         }
-        return $year;
     }
 
     /**
-     * @return ArrayCollection
+     * @return array
      * @throws \Exception
      */
-    public function findToImport(): ArrayCollection
+    public function findToImport(): array
     {
-        $years = new ArrayCollection();
         try{
             $years = $this->entityManager->getRepository(Year::class)->findByImport(true);
+            return $years;
         }catch (\Exception $e){
             throw $e;
         }
-        return $years;
     }
 
     /**

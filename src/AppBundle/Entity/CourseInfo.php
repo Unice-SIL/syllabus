@@ -31,9 +31,9 @@ class CourseInfo
     private $title;
 
     /**
-     * @var int|null
+     * @var float|null
      *
-     * @ORM\Column(name="ects", type="integer", nullable=true)
+     * @ORM\Column(name="ects", type="float", nullable=true)
      */
     private $ects;
 
@@ -433,7 +433,7 @@ class CourseInfo
     /**
      * @var \AppBundle\Entity\Structure
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Structure")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Structure", cascade={ "persist" })
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="structure_id", referencedColumnName="id", nullable=false)
      * })

@@ -4,6 +4,7 @@ namespace AppBundle\Importer\Course;
 
 use AppBundle\Entity\Course;
 use AppBundle\Entity\CourseInfo;
+use AppBundle\Entity\Structure;
 use AppBundle\Exception\StructureNotFoundException;
 use AppBundle\Exception\YearNotFoundException;
 use AppBundle\Repository\CourseInfoRepositoryInterface;
@@ -20,9 +21,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use UniceSIL\SyllabusImporterToolkit\Course\CourseCollection;
 use UniceSIL\SyllabusImporterToolkit\Course\CourseImporterInterface;
-use UniceSIL\SyllabusImporterToolkit\Course\CourseInfoCollection;
 use UniceSIL\SyllabusImporterToolkit\Course\CourseInfoInterface;
 use UniceSIL\SyllabusImporterToolkit\Course\CourseInterface;
+use UniceSIL\SyllabusImporterToolkit\Structure\StructureInterface;
 
 /**
  * Class CourseImporterCommand
@@ -121,6 +122,7 @@ class CourseImporterCommand extends Command
         try {
             $output->writeln("==============================");
             $output->writeln("Start course importer");
+            $output->writeln(date('d/m/Y h:i:s', time()));
             $output->writeln("==============================");
 
 
@@ -147,6 +149,7 @@ class CourseImporterCommand extends Command
             $output->writeln($e->getMessage());
         }
         $output->writeln("==============================");
+        $output->writeln(date('d/m/Y h:i:s', time()));
         $output->writeln("End course importer");
         $output->writeln("==============================");
     }
@@ -169,7 +172,9 @@ class CourseImporterCommand extends Command
     private function getYearsToImport(): array
     {
         $years = $this->yearRepository->findToImport();
-        return $years->toArray();
+        return array_map(function($a){
+            return $a->getId();
+        }, $years);
     }
 
     /**
@@ -208,7 +213,7 @@ class CourseImporterCommand extends Command
         $course = $this->courseRepository->findByEtbId($c->getEtbId());
         // If course not exist in Syllabus and if createCourseIfNotExist is true then instantiate new course
         if(is_null($course)) {
-            if($c->createCourseIfNotExist() == false){
+            if($c->createIfNotExist() == false){
                 return null;
             }
             // Init new course
@@ -255,11 +260,8 @@ class CourseImporterCommand extends Command
                 throw new YearNotFoundException(sprintf("Cannot import info, year %s does not exist", $ci->getYearId()));
             }
 
-            // get structure
-            $structure = $this->structureRepository->findByEtbId($ci->getStructureId());
-            if (is_null($structure)) {
-                throw new StructureNotFoundException(sprintf("Cannot import info, structure %s does not exist", $ci->getStructureId()));
-            }
+            // Get structure
+            $structure = $this->prepareStructure($ci->getStructure());
 
             // Get course info for year
             $courseInfo = $this->courseInfoRepository->findByEtbIdAndYear($course->getEtbId(), $ci->getYearId());
@@ -276,6 +278,7 @@ class CourseImporterCommand extends Command
                 ->setStructure($structure)
                 ->setPeriod($ci->getPeriod())
                 ->setDomain($ci->getDomain())
+                ->setEcts($ci->getEcts())
                 ->setTeachingCmClass($ci->getTeachingCmClass())
                 ->setTeachingTdClass($ci->getTeachingTdClass())
                 ->setTeachingTpClass($ci->getTeachingTpClass());
@@ -285,6 +288,28 @@ class CourseImporterCommand extends Command
             $this->output->writeln($e->getMessage());
         }
         return null;
+    }
+
+    /**
+     * @param StructureInterface $s
+     * @return Structure
+     * @throws StructureNotFoundException
+     */
+    private function prepareStructure(StructureInterface $s): Structure
+    {
+        $structure = $this->structureRepository->findByEtbId($s->getEtbId());
+        if (is_null($structure)) {
+            if($s->createIfNotExist()){
+                $structure = new Structure();
+                $structure->setId(Uuid::uuid4())
+                    ->setEtbId($s->getEtbId())
+                    ->setLabel($s->getLabel());
+                $this->structureRepository->update($structure);
+            }else{
+                throw new StructureNotFoundException(sprintf("Cannot import info, structure %s does not exist", $s->getEtbId()));
+            }
+        }
+        return $structure;
     }
 
 }
