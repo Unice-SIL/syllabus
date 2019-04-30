@@ -26,8 +26,13 @@ body {
 
 header {
     min-height: 5rem;
+    padding-top: 1rem;
     margin-bottom: 1rem;
     background-color: theme-color('info');
+
+    h1 {
+        color: $white;
+    }
 }
 
 footer {
