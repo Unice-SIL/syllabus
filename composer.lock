@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c4e5f191be8450be8cb0e4b0014ca0a1",
+    "content-hash": "872d7a35c6afcb6aa36784ff836a1065",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -2844,12 +2844,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Unice-SIL/syllabus-apogee-importer-bundle.git",
-                "reference": "face48"
+                "reference": "8675a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Unice-SIL/syllabus-apogee-importer-bundle/zipball/face48",
-                "reference": "face48",
+                "url": "https://api.github.com/repos/Unice-SIL/syllabus-apogee-importer-bundle/zipball/8675a4",
+                "reference": "8675a4",
                 "shasum": ""
             },
             "require": {
@@ -2872,7 +2872,7 @@
                 "Unice-SIL",
                 "importer"
             ],
-            "time": "2019-05-02T07:30:33+00:00"
+            "time": "2019-05-02T07:55:08+00:00"
         },
         {
             "name": "unicesil/syllabus-importer-toolkit",
