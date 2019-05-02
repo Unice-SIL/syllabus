@@ -82,11 +82,11 @@ var Syllabus = ( function ( ) {
         } else {
             isSubmit = true;
         }
-
+        /*
         $form.find( '.cke' ).each( function( ) {
             ckeInstance = $( this ).siblings( 'textarea' ).attr( 'id' );
             CKEDITOR.instances[ ckeInstance ].destroy( );
-        } );
+        } ); //*/
 
         $.ajax( {
             type: 'POST',
