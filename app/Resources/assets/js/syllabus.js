@@ -83,17 +83,21 @@ var Syllabus = ( function ( ) {
             isSubmit = true;
         }
 
-        /*
-            This fixes the “[CKEDITOR] Error code: editor-destroy-iframe.”
-            browser console warning, but breaks CKE initialization on
-            AJAX refreshes in Symfony “prod” mode.
-
-            For now we'll keep the warnings…
-
         $form.find( '.cke' ).each( function( ) {
             ckeInstance = $( this ).siblings( 'textarea' ).attr( 'id' );
-            CKEDITOR.instances[ ckeInstance ].destroy( );
-        } ); */
+            CKEDITOR.instances[ ckeInstance ].updateElement( );
+            /*
+                Replacing the previous line by the following one fixes the
+                “[CKEDITOR] Error code: editor-destroy-iframe.” browser console
+                warning, but breaks CKE initialization on AJAX refreshes in
+                Symfony “prod” mode.
+
+                https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#method-destroy
+
+                For now we'll keep the warnings…
+            */
+            //CKEDITOR.instances[ ckeInstance ].destroy( );
+        } );
 
         $.ajax( {
             type: 'POST',
@@ -167,6 +171,9 @@ var Syllabus = ( function ( ) {
 
 
     var handleAjaxResponse = function( response ) {
+
+        console.log( response );
+
         if ( response.messages !== undefined ) {
             response.messages.forEach( function( message ) {
                 if ( message.type !== undefined &&
