@@ -78,9 +78,9 @@ class EditObjectivesCourseInfoCommand implements CommandInterface
     /**
      * @var null|string
      *
-     * @Assert\Expression(
-     *     "not ( this.isTutoring() == true and this.getTutoringDescription() == null )"
-     * )
+     * //@Assert\Expression(
+     * //    "not ( this.isTutoring() == true and this.getTutoringDescription() == null )"
+     * //)
      */
     private $tutoringDescription;
 
