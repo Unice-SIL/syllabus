@@ -128,7 +128,6 @@ class SaveActivitiesCourseInfoAction implements ActionInterface
 
                 if($form->isSubmitted()){
                     $editActivitiesCourseInfoCommand = $form->getData();
-                    dump($editActivitiesCourseInfoCommand);
 
                     // Check if form is valid
                     if(!$form->isValid()){
