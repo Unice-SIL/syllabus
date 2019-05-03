@@ -145,7 +145,7 @@
                     Période : <span class="font-weight-bold"> {{course.period}} </span>
                 </p>
             </div>
-            <div id="media_container" class="col-md-7">
+            <div id="presentation_media_container" class="col-md-7">
                 {% if course.mediaType == "video"
                 and course.video[:7]|lower == "<iframe"
                 and course.video[-9:]|lower == "</iframe>" %}
@@ -652,10 +652,13 @@
         <div class="row mx-3 d-flex flex-row text-white">
             {{course.closingRemarks|raw}}
         </div>
-        {% if course.closingVideo != null %}
-            <div class="row mx-3 d-flex flex-row text-white">
+
+        {% if course.closingVideo
+            and course.closingVideo[:7]|lower == "<iframe"
+            and course.closingVideo[-9:]|lower == "</iframe>" %}
+            <div id="closing_media_container" class="row mx-3 d-flex flex-row text-white">
                 <div class="embed-responsive embed-responsive-16by9">
-                    <iframe class="embed-responsive-item" src={{course.closingVideo}} allowfullscreen></iframe>
+                    {{ course.closingVideo|raw }}
                 </div>
             </div>
         {% endif %}
@@ -667,6 +670,7 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
-        Syllabus.setMediaFrameAttributes(document.querySelector( '#media_container > .embed-responsive > iframe' ));
+        Syllabus.setMediaFrameAttributes(document.querySelector( '#presentation_media_container > .embed-responsive > iframe' ));
+        Syllabus.setMediaFrameAttributes(document.querySelector( '#closing_media_container > .embed-responsive > iframe' ));
     </script>
 {% endblock %}
