@@ -9,6 +9,8 @@ imports:
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: fr
+    fos_ck_editor.base_path: 'build/ckeditor'
+    fos_ck_editor.js_path: 'build/ckeditor/ckeditor.js'
 
 framework:
     #esi: ~
@@ -109,8 +111,8 @@ webpack_encore:
         # frontend: '%kernel.public_dir%/frontend/build'
 
 fos_ck_editor:
-    base_path: 'build/ckeditor'
-    js_path: 'build/ckeditor/ckeditor.js'
+    base_path: '%fos_ck_editor.base_path%'
+    js_path: '%fos_ck_editor.js_path%'
     default_config: syllabus
     configs:
         syllabus:
