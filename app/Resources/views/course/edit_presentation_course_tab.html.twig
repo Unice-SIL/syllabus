@@ -6,20 +6,12 @@
     ] %}
 
     {{ form_start(form) }}
-    {#
-    {% if courseInfo.course.parents|length == 1 %}
-        {% set parentInfo = courseInfo.course.parents[0].courseInfos[0] %}
-        <div class="row mt-3">
-            <div class="col">
-                <strong>{{ parentInfo.title }}</strong>
-            </div>
-        </div>
-    {% endif %}
-    #}
+    {{ form_errors(form) }}
     <div class="row mt-3">
         <div class="col">
             {{ form_widget(form.period) }}
             <label placeholder="Période (facultatif)"></label>
+            {{ form_errors(form.domain) }}
             {{ form_widget(form.domain) }}
             <label placeholder="Domaine *"></label>
         </div>
@@ -27,6 +19,7 @@
             <h6>
                 Quel est le niveau de ce cours ? *
             </h6>
+            {{ form_errors(form.level) }}
             <ul>
                 {{ form_widget(form.level) }}
             </ul>
@@ -44,6 +37,8 @@
             <h6>
                 Intégrer une ressource vidéo (ou audio) ou téléverser un fichier image de présentation du cours, en respectant la règlementation sur les droits d'auteur.&nbsp;*
             </h6>
+            {{ form_errors(form.video) }}
+            {{ form_errors(form.image) }}
             {{ form_widget(form.mediaType) }}
             {% set imageTabClasses = 'nav-link' %}
             {% set imageContentClasses = 'tab-pane fade' %}
@@ -70,7 +65,6 @@
             </ul>
             <div class="tab-content border p-2">
                 <div class="{{ imageContentClasses }}" id="media_image_container" role="tabpanel">
-                    {{ form_errors(form.image) }}
                     {{ form_widget(form.image) }}
                     {% set imgSrc = '' %}
                     {% if form.vars.data.image is not null %}
@@ -91,7 +85,6 @@
             <div class="row mb-3">
                 <div class="col">
                     <strong>Qui fait partie de l'équipe enseignante ?</strong>
-                    {{ form_errors(form.teachers) }}
                 </div>
             </div>
             <div class="row">
@@ -105,6 +98,7 @@
             </div>
             <div class="row">
                 <div class="col">
+                    {{ form_errors(form.teachers) }}
                     {{ form_widget(form.teachers) }}
                 </div>
             </div>
@@ -148,6 +142,7 @@
                                     <label placeholder="Heures TP"></label>
                                 </div>
                             </div>
+                            {{ form_errors(form.teachingOtherTypeClass) }}
                             <div class="row">
                                 <div class="col pr-1">
                                     {{ form_widget(form.teachingOtherClass) }}
@@ -196,6 +191,7 @@
                                     <label placeholder="Heures TP"></label>
                                 </div>
                             </div>
+                            {{ form_errors(form.teachingOtherTypeHybridClass) }}
                             <div class="row">
                                 <div class="col pr-1">
                                     {{ form_widget(form.teachingOtherHybridClass) }}
@@ -220,6 +216,7 @@
                                     <label placeholder="Heures TD"></label>
                                 </div>
                             </div>
+                            {{ form_errors(form.teachingOtherTypeHybridDistant) }}
                             <div class="row">
                                 <div class="col pr-1">
                                     {{ form_widget(form.teachingOtherHybridDist) }}

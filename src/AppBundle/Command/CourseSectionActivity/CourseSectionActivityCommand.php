@@ -35,7 +35,7 @@ class CourseSectionActivityCommand implements CommandInterface
      * @var bool
      *
      * //@Assert\Expression(
-     * //    "not ( this.getActivity().getType() == 'evaluation' and this.isEvaluationTeacher() == false and this.isEvaluationPeer() == false)"
+     * //    "not ( this.getActivity().getType() == 'evaluation' and this.isEvaluationTeacher() == false and this.isEvaluationPeer() == false)",
      * //)
      */
     private $evaluationTeacher;

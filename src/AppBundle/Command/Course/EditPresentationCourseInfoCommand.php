@@ -31,14 +31,18 @@ class EditPresentationCourseInfoCommand implements CommandInterface
     /**
      * @var null|string
      *
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(
+     *     message = "Veuillez préciser le niveau du cours."
+     * )
      */
     private $level;
 
     /**
      * @var null|string
      *
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(
+     *     message = "Veuillez renseigner le domaine."
+     * )
      */
     private $domain;
 
@@ -46,7 +50,7 @@ class EditPresentationCourseInfoCommand implements CommandInterface
      * @var null|string
      *
      * @Assert\NotBlank(
-     *     message = "Vous devez renseigner ce champ."
+     *     message = "Veuillez renseigner le champ résumé."
      * )
      */
     private $summary;
@@ -61,7 +65,8 @@ class EditPresentationCourseInfoCommand implements CommandInterface
      * @var mixed
      *
      * @Assert\Expression(
-     *     "not ( (this.getMediaType() == 'image' or this.getMediaType() == null) and this.getImage() == null)"
+     *     "not ( (this.getMediaType() == 'image' or this.getMediaType() == null) and this.getImage() == null)",
+     *     message = "Une image ou une vidéo de présentation est obligatoire"
      * )
      */
     private $image;
@@ -70,7 +75,8 @@ class EditPresentationCourseInfoCommand implements CommandInterface
      * @var null|string
      *
      * @Assert\Expression(
-     *     "not ( this.getMediaType() == 'video' and this.getVideo() == null)"
+     *     "not ( this.getMediaType() == 'video' and this.getVideo() == null)",
+     *      message = "Une image ou une vidéo de présentation est obligatoire"
      * )
      */
     private $video;
@@ -106,7 +112,8 @@ class EditPresentationCourseInfoCommand implements CommandInterface
      * @var string|null
      *
      * @Assert\Expression(
-     *     "not (this.getTeachingMode() == 'class' and this.getTeachingOtherClass() != null and this.getTeachingOtherTypeClass() == null )"
+     *     "not (this.getTeachingMode() == 'class' and this.getTeachingOtherClass() != null and this.getTeachingOtherTypeClass() == null )",
+     *     message = "Veuillez préciser le type d'heures d'enseignement"
      * )
      */
     private $teachingOtherTypeClass;
@@ -137,7 +144,8 @@ class EditPresentationCourseInfoCommand implements CommandInterface
      * @var string|null
      *
      * @Assert\Expression(
-     *     "not (this.getTeachingMode() == 'hybrid' and this.getTeachingOtherHybridClass() != null and this.getTeachingOtherTypeHybridClass() == null )"
+     *     "not (this.getTeachingMode() == 'hybrid' and this.getTeachingOtherHybridClass() != null and this.getTeachingOtherTypeHybridClass() == null )",
+     *     message = "Veuillez préciser le type d'heures d'enseignement"
      * )
      */
     private $teachingOtherTypeHybridClass;
@@ -163,7 +171,8 @@ class EditPresentationCourseInfoCommand implements CommandInterface
      * @var string|null
      *
      * @Assert\Expression(
-     *     "not (this.getTeachingMode() == 'hybrid' and this.getTeachingOtherHybridDist() != null and this.getTeachingOtherTypeHybridDistant() == null )"
+     *     "not (this.getTeachingMode() == 'hybrid' and this.getTeachingOtherHybridDist() != null and this.getTeachingOtherTypeHybridDistant() == null )",
+     *     message = "Veuillez préciser le type d'heures d'enseignement"
      * )
      */
     private $teachingOtherTypeHybridDistant;
@@ -178,7 +187,7 @@ class EditPresentationCourseInfoCommand implements CommandInterface
      *
      * @Assert\Count(
      *     min = 1,
-     *     minMessage = "L'équipe pédagogique est constituée d'au moins un enseignant."
+     *     minMessage = "L'équipe pédagogique doit être constituée d'au moins un enseignant."
      * )
      */
     private $teachers;

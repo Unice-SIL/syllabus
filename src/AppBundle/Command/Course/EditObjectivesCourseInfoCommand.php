@@ -29,6 +29,10 @@ class EditObjectivesCourseInfoCommand implements CommandInterface
      * @var ArrayCollection
      *
      * @Assert\Valid()
+     * @Assert\Count(
+     *     min = 1,
+     *     minMessage = "Vous devez ajouter au moins un acquis d'apprentissage"
+     * )
      */
     private $achievements;
 

@@ -18,6 +18,8 @@
             </div>
         </div>
         <div class="card-body p-1 bg-white border-0 rounded-bottom">
+            {{ form_errors(evaluation.description) }}
+            {{ form_errors(evaluation.evaluationRate) }}
             <div class="row">
                 <div class="col-10 pr-1">
                     {{ form_widget(evaluation.description) }}
