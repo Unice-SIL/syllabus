@@ -1,44 +1,23 @@
 {% extends 'ajax.html.twig' %}
 
 {% block main %}
+
     {{ form_start(form) }}
 
-    <div class="row mt-3">
-        <div class="col">
-            <h6 class="my-3">
-                Espace pour laisser un message à vos étudiants (encouragements, derniers conseils...)
-            </h6>
-            {{form_widget(form.closingRemarks)}}
-        </div>
-    </div>
-    <div class="row mt-3">
-        <div class="col">
-            <div class="row">
-                <div class="col">
-                    {{ form_widget(form.closingVideo) }}
-                    <label placeholder="URL"></label>
-                </div>
-                <div class="col-md-auto">
-                    <button id="media_closing_video_preview" class="btn btn-primary btn-sm" type="button">Prévisualiser</button>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <div class="embed-responsive embed-responsive-16by9">
-                        <iframe id="media_closing_video_iframe" class="embed-responsive-item" src="{{ form.vars.value.closingVideo }}"></iframe>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row mt-3">
-        <div class="col">
-            <button class="btn btn-outline-primary btn-block submit" type="submit">
-                <i class="fas fa-save"></i>
-                Enregistrer
-            </button>
-        </div>
-    </div>
+    <h6 class="my-3">
+        Espace pour laisser un message à vos étudiants (encouragements, derniers conseils&hellip;)&nbsp;:
+    </h6>
+    {{ form_widget(form.closingRemarks) }}
+
+    <h6 class="my-3">
+        Intégrer une ressource vidéo (ou audio) respectant la règlementation sur les droits d'auteur&nbsp;:
+    </h6>
+    {{ form_widget(form.closingVideo) }}
+
+    <button class="btn btn-outline-primary btn-block submit" type="submit">
+        <i class="fas fa-save"></i>
+        Enregistrer
+    </button>
 
     {{ form_end(form) }}
 
@@ -46,29 +25,6 @@
 
 {% block javascripts %}
     <script>
-
-        function toggleVideo(){
-            var video = $("#media_closing_video_iframe");
-            var container = video.parent();
-            if(video.attr('src')){
-                container.show();
-            }else{
-                container.hide();
-            }
-        }
-
-        /**
-         * Init video
-         */
-        toggleVideo();
-
-        /**
-         * Load video in iframe when click on preview
-         */
-        $("#media_closing_video_preview").on('click', function(){
-            $("#media_closing_video_iframe").attr("src", $("#edit_closing_remarks_course_info_closingVideo").val());
-            toggleVideo();
-        });
 
         /**
          * Form submission

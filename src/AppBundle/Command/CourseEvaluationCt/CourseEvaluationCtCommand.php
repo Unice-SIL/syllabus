@@ -19,15 +19,22 @@ class CourseEvaluationCtCommand implements CommandInterface
     /**
      * @var null|string
      *
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(
+     *     message = "Veuillez donner des précisions sur cette évaluation"
+     * )
      */
     private $description;
 
     /**
      * @var null|float
      *
-     * @Assert\NotBlank()
-     * @Assert\Type("numeric")
+     * @Assert\NotBlank(
+     *     message = "Veuillez renseigner le pourcentage"
+     * )
+     * @Assert\Type(
+     *     "numeric",
+     *     message = "Le champ pourcentage ne peut contenir que des chiffres"
+     * )
      */
     private $evaluationRate;
 

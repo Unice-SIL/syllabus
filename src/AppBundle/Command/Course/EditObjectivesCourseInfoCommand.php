@@ -29,6 +29,10 @@ class EditObjectivesCourseInfoCommand implements CommandInterface
      * @var ArrayCollection
      *
      * @Assert\Valid()
+     * @Assert\Count(
+     *     min = 1,
+     *     minMessage = "Vous devez ajouter au moins un acquis d'apprentissage"
+     * )
      */
     private $achievements;
 
@@ -74,9 +78,9 @@ class EditObjectivesCourseInfoCommand implements CommandInterface
     /**
      * @var null|string
      *
-     * @Assert\Expression(
-     *     "not ( this.isTutoring() == true and this.getTutoringDescription() == null )"
-     * )
+     * //@Assert\Expression(
+     * //    "not ( this.isTutoring() == true and this.getTutoringDescription() == null )"
+     * //)
      */
     private $tutoringDescription;
 

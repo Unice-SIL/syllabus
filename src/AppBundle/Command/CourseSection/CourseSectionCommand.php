@@ -26,7 +26,7 @@ class CourseSectionCommand implements CommandInterface
      * @var string|null
      *
      * @Assert\NotBlank(
-     *     message = "Vous devez renseigner ce champ."
+     *     message = "Veuillez renseigner le titre."
      * )
      */
     private $title;
@@ -35,7 +35,7 @@ class CourseSectionCommand implements CommandInterface
      * @var null|string
      *
      * @Assert\NotBlank(
-     *     message = "Vous devez renseigner ce champ."
+     *     message = "Veuillez renseigner la description."
      * )
      */
     private $description;

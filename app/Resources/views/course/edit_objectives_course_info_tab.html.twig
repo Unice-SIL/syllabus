@@ -9,7 +9,7 @@
     ] %}
 
     {{ form_start(form) }}
-
+    {{ form_errors(form) }}
     <div class="row mt-3 mb-5">
         <div class="col">
             <div class="row mb-2">
@@ -61,6 +61,7 @@
                     </div>
                     <div class="row">
                         <div class="col">
+                            {{ form_errors(form.achievements) }}
                             {{ form_widget(form.achievements) }}
                         </div>
                     </div>
@@ -149,7 +150,7 @@
                             <div class="row">
                                 <div class="col">
                                     {{ form_widget(form.tutoringDescription) }}
-                                    <label placeholder="Dates, lieux, enseignants…"></label>
+                                    <label placeholder="Infos pratiques (facultatif)"></label>
                                 </div>
                             </div>
                         </div>

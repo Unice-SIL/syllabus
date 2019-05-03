@@ -5,7 +5,7 @@ namespace AppBundle\Form\Course;
 use AppBundle\Command\Course\EditClosingRemarksCourseInfoCommand;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -27,9 +27,10 @@ class EditClosingRemarksCourseInfoType extends AbstractType
                 'label' => 'Description',
                 'required' => false,
             ])
-            ->add('closingVideo', TextType::class, [
+            ->add('closingVideo', TextareaType::class, [
                 'required' => false,
-                'label' => 'Url vidéo',
+                'label' => "Intégration de contenu vidéo / audio",
+                'attr' => ['rows' => 4],
             ]);
     }
 

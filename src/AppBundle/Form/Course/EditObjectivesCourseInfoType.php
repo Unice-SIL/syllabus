@@ -82,7 +82,7 @@ class EditObjectivesCourseInfoType extends AbstractType
                 'label' => "Avec tuteur étudiant"
             ])
             ->add('tutoringDescription', TextType::class, [
-                'label' => 'Description',
+                'label' => 'Infos pratiques (facultatif)',
                 'required' => false,
                 'attr' => [
                     'placeholder' => 'Renseigner ici les dates, lieux, noms des enseignants...'
