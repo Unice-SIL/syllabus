@@ -24,12 +24,12 @@ class Teacher
     private $civilite;
 
     /**
-     * @var string
+     * @var string|null
      */
     private $firstname;
 
     /**
-     * @var string
+     * @var string|null
      */
     private $lastname;
 
@@ -96,18 +96,18 @@ class Teacher
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getFirstname(): string
+    public function getFirstname()
     {
         return $this->firstname;
     }
 
     /**
-     * @param string $firstname
+     * @param null|string $firstname
      * @return Teacher
      */
-    public function setFirstname(string $firstname): Teacher
+    public function setFirstname($firstname)
     {
         $this->firstname = $firstname;
 
@@ -115,18 +115,18 @@ class Teacher
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getLastname(): string
+    public function getLastname()
     {
         return $this->lastname;
     }
 
     /**
-     * @param string $lastname
+     * @param null|string $lastname
      * @return Teacher
      */
-    public function setLastname(string $lastname): Teacher
+    public function setLastname($lastname)
     {
         $this->lastname = $lastname;
 
@@ -151,6 +151,5 @@ class Teacher
 
         return $this;
     }
-
 
 }
