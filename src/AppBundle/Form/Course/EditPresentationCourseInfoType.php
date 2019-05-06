@@ -74,6 +74,13 @@ class EditPresentationCourseInfoType extends AbstractType
                     'placeholder' => 'Ex: Chimie'
                 ]
             ])
+            ->add('languages', TextType::class, [
+                'label' => 'Langues',
+                'required' => false,
+                'attr' => [
+                    'placeholder' => 'Ex: allemand, russe'
+                ]
+            ])
             ->add('level', ChoiceType::class, [
                 'label' => 'Niveau',
                 'required' => false,

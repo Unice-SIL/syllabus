@@ -48,6 +48,14 @@ class CourseInfo
     /**
      * @var string|null
      *
+     * @ORM\Column(name="languages", type="string", length=200, nullable=true)
+     *
+     */
+    private $languages;
+
+    /**
+     * @var string|null
+     *
      * @ORM\Column(name="domain", type="string", length=100, nullable=true, options={"fixed"=true})
      *
      */
@@ -620,6 +628,25 @@ class CourseInfo
     public function setLevel($level)
     {
         $this->level = $level;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getLanguages()
+    {
+        return $this->languages;
+    }
+
+    /**
+     * @param null|string $languages
+     * @return CourseInfo
+     */
+    public function setLanguages($languages)
+    {
+        $this->languages = $languages;
 
         return $this;
     }

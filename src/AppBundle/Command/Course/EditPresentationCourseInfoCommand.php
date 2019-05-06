@@ -31,6 +31,13 @@ class EditPresentationCourseInfoCommand implements CommandInterface
     /**
      * @var null|string
      *
+     *
+     */
+    private $languages;
+
+    /**
+     * @var null|string
+     *
      * @Assert\NotBlank(
      *     message = "Veuillez préciser le niveau du cours."
      * )
@@ -201,6 +208,7 @@ class EditPresentationCourseInfoCommand implements CommandInterface
         $this->id = $courseInfo->getId();
         $this->period = $courseInfo->getPeriod();
         $this->level = $courseInfo->getLevel();
+        $this->languages = $courseInfo->getLanguages();
         $this->domain = $courseInfo->getDomain();
         $this->summary = $courseInfo->getSummary();
         $this->mediaType = $courseInfo->getMediaType();
@@ -278,6 +286,25 @@ class EditPresentationCourseInfoCommand implements CommandInterface
     public function setLevel($level)
     {
         $this->level = $level;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getLanguages()
+    {
+        return $this->languages;
+    }
+
+    /**
+     * @param null|string $languages
+     * @return EditPresentationCourseInfoCommand
+     */
+    public function setLanguages($languages)
+    {
+        $this->languages = $languages;
 
         return $this;
     }
@@ -733,6 +760,7 @@ class EditPresentationCourseInfoCommand implements CommandInterface
         // CourseInfo
         $entity->setPeriod($this->getPeriod())
             ->setLevel($this->getLevel())
+            ->setLanguages($this->getLanguages())
             ->setDomain($this->getDomain())
             ->setSummary($this->getSummary())
             ->setMediaType($this->getMediaType())
