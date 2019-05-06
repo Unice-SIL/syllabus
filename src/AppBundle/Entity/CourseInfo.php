@@ -1672,9 +1672,9 @@ class CourseInfo
     }
 
     /**
-     * @return User
+     * @return null|User
      */
-    public function getLastUpdater(): User
+    public function getLastUpdater()
     {
         return $this->lastUpdater;
     }
@@ -1691,9 +1691,9 @@ class CourseInfo
     }
 
     /**
-     * @return User
+     * @return null|User
      */
-    public function getPublisher(): User
+    public function getPublisher()
     {
         return $this->publisher;
     }
