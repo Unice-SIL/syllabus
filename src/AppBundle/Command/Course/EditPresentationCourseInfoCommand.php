@@ -304,7 +304,7 @@ class EditPresentationCourseInfoCommand implements CommandInterface
      */
     public function setLanguages($languages)
     {
-        $this->level = $languages;
+        $this->languages = $languages;
 
         return $this;
     }
