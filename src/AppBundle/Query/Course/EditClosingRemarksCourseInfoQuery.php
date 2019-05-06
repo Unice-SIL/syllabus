@@ -6,6 +6,7 @@ use AppBundle\Command\Course\EditClosingRemarksCourseInfoCommand;
 use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Query\QueryInterface;
 use AppBundle\Repository\CourseInfoRepositoryInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * Class EditClosingRemarksCourseInfoQuery
@@ -25,14 +26,22 @@ class EditClosingRemarksCourseInfoQuery implements QueryInterface
     private $editClosingRemarksCourseInfoCommand;
 
     /**
+     * @var TokenStorageInterface
+     */
+    private $tokenStorage;
+
+    /**
      * EditClosingRemarksCourseInfoQuery constructor.
      * @param CourseInfoRepositoryInterface $courseInfoRepository
+     * @param TokenStorageInterface $tokenStorage
      */
     public function __construct(
-        CourseInfoRepositoryInterface $courseInfoRepository
+        CourseInfoRepositoryInterface $courseInfoRepository,
+        TokenStorageInterface $tokenStorage
     )
     {
         $this->courseInfoRepository = $courseInfoRepository;
+        $this->tokenStorage = $tokenStorage;
     }
 
     /**
@@ -62,6 +71,8 @@ class EditClosingRemarksCourseInfoQuery implements QueryInterface
         }
         try{
             $courseInfo = $this->editClosingRemarksCourseInfoCommand->filledEntity($courseInfo);
+            $courseInfo->setModificationDate(new \DateTime())
+                ->setLastUpdater($this->tokenStorage->getToken()->getUser());
             $this->courseInfoRepository->beginTransaction();
             $this->courseInfoRepository->update($courseInfo);
             $this->courseInfoRepository->commit();

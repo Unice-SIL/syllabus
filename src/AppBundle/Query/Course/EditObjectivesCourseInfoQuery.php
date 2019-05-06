@@ -9,6 +9,7 @@ use AppBundle\Repository\CourseAchievementRepositoryInterface;
 use AppBundle\Repository\CourseInfoRepositoryInterface;
 use AppBundle\Repository\CoursePrerequisiteRepositoryInterface;
 use AppBundle\Repository\CourseTutoringResourceRepositoryInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * Class EditObjectivesCourseInfoQuery
@@ -43,23 +44,31 @@ class EditObjectivesCourseInfoQuery implements QueryInterface
     private $editObjectivesCourseInfoCommand;
 
     /**
+     * @var TokenStorageInterface
+     */
+    private $tokenStorage;
+
+    /**
      * EditObjectivesCourseInfoQuery constructor.
      * @param CourseInfoRepositoryInterface $courseInfoRepository
      * @param CourseAchievementRepositoryInterface $courseAchievementRepository
      * @param CoursePrerequisiteRepositoryInterface $coursePrerequisiteRepository
      * @param CourseTutoringResourceRepositoryInterface $courseTutoringResourceRepository
+     * @param TokenStorageInterface $tokenStorage
      */
     public function __construct(
         CourseInfoRepositoryInterface $courseInfoRepository,
         CourseAchievementRepositoryInterface $courseAchievementRepository,
         CoursePrerequisiteRepositoryInterface $coursePrerequisiteRepository,
-        CourseTutoringResourceRepositoryInterface $courseTutoringResourceRepository
+        CourseTutoringResourceRepositoryInterface $courseTutoringResourceRepository,
+        TokenStorageInterface $tokenStorage
     )
     {
         $this->courseInfoRepository = $courseInfoRepository;
         $this->courseAchievementRepository = $courseAchievementRepository;
         $this->coursePrerequisiteRepository = $coursePrerequisiteRepository;
         $this->courseTutoringResourceRepository = $courseTutoringResourceRepository;
+        $this->tokenStorage = $tokenStorage;
     }
 
     /**
@@ -96,6 +105,8 @@ class EditObjectivesCourseInfoQuery implements QueryInterface
             $originalCourseTutoringResources = $courseInfo->getCourseTutoringResources();
             // Fill course info with new values
             $courseInfo = $this->editObjectivesCourseInfoCommand->filledEntity($courseInfo);
+            $courseInfo->setModificationDate(new \DateTime())
+                ->setLastUpdater($this->tokenStorage->getToken()->getUser());
             // Start transaction
             $this->courseInfoRepository->beginTransaction();
             // Loop on original course achievements to detect achieviements must be removed

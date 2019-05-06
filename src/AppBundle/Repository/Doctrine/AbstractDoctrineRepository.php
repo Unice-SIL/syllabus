@@ -5,7 +5,7 @@ namespace AppBundle\Repository\Doctrine;
 use Doctrine\ORM\EntityManager;
 
 /**
- * Class AbstractDoctrineRpository
+ * Class AbstractDoctrineRepository
  * @package AppBundle\Repository\Doctrine
  */
 class AbstractDoctrineRepository

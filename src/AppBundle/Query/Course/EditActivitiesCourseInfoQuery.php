@@ -11,6 +11,7 @@ use AppBundle\Repository\CourseSectionActivityRepositoryInterface;
 use AppBundle\Repository\CourseSectionRepositoryInterface;
 use AppBundle\Repository\CourseTeacherRepositoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * Class EditActivitiesCourseInfoQuery
@@ -45,23 +46,31 @@ class EditActivitiesCourseInfoQuery implements QueryInterface
     private $editActivitiesCourseInfoCommand;
 
     /**
+     * @var TokenStorageInterface
+     */
+    private $tokenStorage;
+
+    /**
      * EditActivitiesCourseInfoQuery constructor.
      * @param CourseInfoRepositoryInterface $courseInfoRepository
      * @param CourseSectionRepositoryInterface $courseSectionRepository
      * @param CourseSectionActivityRepositoryInterface $courseSectionActivityRepository
      * @param CourseEvaluationCtRepositoryInterface $courseEvaluationCtRepository
+     * @param TokenStorageInterface $tokenStorage
      */
     public function __construct(
         CourseInfoRepositoryInterface $courseInfoRepository,
         CourseSectionRepositoryInterface $courseSectionRepository,
         CourseSectionActivityRepositoryInterface $courseSectionActivityRepository,
-        CourseEvaluationCtRepositoryInterface $courseEvaluationCtRepository
+        CourseEvaluationCtRepositoryInterface $courseEvaluationCtRepository,
+        TokenStorageInterface $tokenStorage
     )
     {
         $this->courseInfoRepository = $courseInfoRepository;
         $this->courseSectionRepository = $courseSectionRepository;
         $this->courseSectionActivityRepository = $courseSectionActivityRepository;
         $this->courseEvaluationCtRepository = $courseEvaluationCtRepository;
+        $this->tokenStorage = $tokenStorage;
     }
 
     /**
@@ -102,6 +111,8 @@ class EditActivitiesCourseInfoQuery implements QueryInterface
 
             // Set course infos from command
             $courseInfo = $this->editActivitiesCourseInfoCommand->filledEntity($courseInfo);
+            $courseInfo->setModificationDate(new \DateTime())
+                ->setLastUpdater($this->tokenStorage->getToken()->getUser());
             // Start transaction
             $this->courseInfoRepository->beginTransaction();
 

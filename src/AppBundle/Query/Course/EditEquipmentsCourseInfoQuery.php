@@ -7,6 +7,7 @@ use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Query\QueryInterface;
 use AppBundle\Repository\CourseInfoRepositoryInterface;
 use AppBundle\Repository\CourseResourceEquipmentRepositoryInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * Class EditEquipmentsCourseInfoQuery
@@ -31,17 +32,24 @@ class EditEquipmentsCourseInfoQuery implements QueryInterface
     private $editEquipmentsCourseInfoCommand;
 
     /**
+     * @var TokenStorageInterface
+     */
+    private $tokenStorage;
+
+    /**
      * EditEquipmentsCourseInfoQuery constructor.
      * @param CourseInfoRepositoryInterface $courseInfoRepository
      * @param CourseResourceEquipmentRepositoryInterface $courseResourceEquipmentRepository
      */
     public function __construct(
         CourseInfoRepositoryInterface $courseInfoRepository,
-        CourseResourceEquipmentRepositoryInterface $courseResourceEquipmentRepository
+        CourseResourceEquipmentRepositoryInterface $courseResourceEquipmentRepository,
+        TokenStorageInterface $tokenStorage
     )
     {
         $this->courseInfoRepository = $courseInfoRepository;
         $this->courseResourceEquipmentRepository = $courseResourceEquipmentRepository;
+        $this->tokenStorage = $tokenStorage;
     }
 
     /**
@@ -74,6 +82,8 @@ class EditEquipmentsCourseInfoQuery implements QueryInterface
             $originalCourseResourceEquipments = $courseInfo->getCourseResourceEquipments();
             // Fill course info with new values
             $courseInfo = $this->editEquipmentsCourseInfoCommand->filledEntity($courseInfo);
+            $courseInfo->setModificationDate(new \DateTime())
+                ->setLastUpdater($this->tokenStorage->getToken()->getUser());
             // Start transaction
             $this->courseInfoRepository->beginTransaction();
             // Loop on original course resource equipments to detect Resourceequipments must be removed

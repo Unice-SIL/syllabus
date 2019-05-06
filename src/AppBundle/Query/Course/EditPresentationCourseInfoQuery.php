@@ -7,6 +7,7 @@ use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Query\QueryInterface;
 use AppBundle\Repository\CourseInfoRepositoryInterface;
 use AppBundle\Repository\CourseTeacherRepositoryInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * Class EditPresentationCourseInfoQuery
@@ -31,17 +32,25 @@ class EditPresentationCourseInfoQuery implements QueryInterface
     private $editPresentationCourseInfoCommand;
 
     /**
+     * @var TokenStorageInterface
+     */
+    private $tokenStorage;
+
+    /**
      * EditPresentationCourseInfoQuery constructor.
      * @param CourseInfoRepositoryInterface $courseInfoRepository
      * @param CourseTeacherRepositoryInterface $courseTeacherRepository
+     * @param TokenStorageInterface $tokenStorage
      */
     public function __construct(
         CourseInfoRepositoryInterface $courseInfoRepository,
-        CourseTeacherRepositoryInterface $courseTeacherRepository
+        CourseTeacherRepositoryInterface $courseTeacherRepository,
+        TokenStorageInterface $tokenStorage
     )
     {
         $this->courseInfoRepository = $courseInfoRepository;
         $this->courseTeacherRepository = $courseTeacherRepository;
+        $this->tokenStorage = $tokenStorage;
     }
 
     /**
@@ -72,6 +81,8 @@ class EditPresentationCourseInfoQuery implements QueryInterface
         try{
             $originalCourseTeachers = $courseInfo->getCourseTeachers();
             $courseInfo = $this->editPresentationCourseInfoCommand->filledEntity($courseInfo);
+            $courseInfo->setModificationDate(new \DateTime())
+                ->setLastUpdater($this->tokenStorage->getToken()->getUser());
             $this->courseInfoRepository->beginTransaction();
             foreach ($originalCourseTeachers as $courseTeacher) {
                 if (!$courseInfo->getCourseTeachers()->contains($courseTeacher)) {
