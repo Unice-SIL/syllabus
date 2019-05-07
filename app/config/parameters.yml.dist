@@ -24,7 +24,8 @@ parameters:
     mailer_user: ~
     mailer_password: ~
 
-    # An email address to whom “Publish” and “Advice” emails are sent.
+    # Email addresses for “Publish” and “Advice” emails.
+    mailer_source: no-reply@univ.fr
     mailer_target: user@univ.fr
 
     # A secret key that's used to generate certain security-related tokens
