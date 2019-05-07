@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Twig\Environment;
 
 /**
@@ -22,6 +23,11 @@ class AskForAdviceCourseInfoAction implements ActionInterface
      * @var FindCourseInfoByIdQuery
      */
     private $findCourseInfoByIdQuery;
+
+    /**
+     * @var TokenStorageInterface
+     */
+    private $tokenStorage;
 
     /**
      * @var Environment
@@ -59,6 +65,7 @@ class AskForAdviceCourseInfoAction implements ActionInterface
             string $mailerSource,
             string $mailerTarget,
             FindCourseInfoByIdQuery $findCourseInfoByIdQuery,
+            TokenStorageInterface $tokenStorage,
             Environment $templating,
             \Swift_Mailer $mailer,
             LoggerInterface $logger
@@ -67,6 +74,7 @@ class AskForAdviceCourseInfoAction implements ActionInterface
         $this->mailerSource = $mailerSource;
         $this->mailerTarget = $mailerTarget;
         $this->findCourseInfoByIdQuery = $findCourseInfoByIdQuery;
+        $this->tokenStorage = $tokenStorage;
         $this->templating = $templating;
         $this->mailer = $mailer;
         $this->logger = $logger;
@@ -101,7 +109,7 @@ class AskForAdviceCourseInfoAction implements ActionInterface
                             [
                                 'courseInfoId' => $courseInfo->getId(),
                                 'courseTitle' => $courseInfo->getTitle(),
-                                'user' => $courseInfo->getPublisher(),
+                                'user' => $this->tokenStorage->getToken()->getUser(),
                             ]
                         ),
                         'text/html'
@@ -112,7 +120,7 @@ class AskForAdviceCourseInfoAction implements ActionInterface
                             [
                                 'courseInfoId' => $courseInfo->getId(),
                                 'courseTitle' => $courseInfo->getTitle(),
-                                'user' => $courseInfo->getPublisher(),
+                                'user' => $this->tokenStorage->getToken()->getUser(),
                             ]
                         ),
                         'text/plain'
