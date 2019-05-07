@@ -15,6 +15,9 @@ services:
             autowire: true
             tags: ['controller.service_arguments']
 
+    # ACTION
+    AppBundle\Action\UI\Course\PublishCourseInfoAction:
+        arguments: ['%mailer_source%', '%mailer_target%']
 
     # ALIAS
     AppBundle\Repository\UserRepositoryInterface: '@user_doctrine_repository'

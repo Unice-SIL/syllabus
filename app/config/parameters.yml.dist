@@ -20,9 +20,13 @@ parameters:
     syllabus_test_database_charset: UTF8
 
     mailer_transport: smtp
-    mailer_host: 127.0.0.1
+    mailer_host: smtp.unice.fr
     mailer_user: ~
     mailer_password: ~
+
+    # Email addresses for “Publish” and “Advice” emails.
+    mailer_source: no-reply@univ.fr
+    mailer_target: user@univ.fr
 
     # A secret key that's used to generate certain security-related tokens
     secret: ThisTokenIsNotSoSecretChangeIt

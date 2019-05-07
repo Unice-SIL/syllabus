@@ -42,6 +42,21 @@ class PublishCourseInfoAction implements ActionInterface
     private $publishCourseInfoQuery;
 
     /**
+     * @var \Swift_Mailer
+     */
+    private $mailer;
+
+    /**
+     * @var string
+     */
+    private $mailerSource;
+
+    /**
+     * @var string
+     */
+    private $mailerTarget;
+
+    /**
      * @var LoggerInterface
      */
     private $logger;
@@ -52,20 +67,27 @@ class PublishCourseInfoAction implements ActionInterface
      * @param Environment $templating
      * @param CourseInfoHelper $courseInfoHelper
      * @param PublishCourseInfoQuery $publishCourseInfoQuery
+     * @param \Swift_Mailer $mailer
      * @param LoggerInterface $logger
      */
     public function __construct(
+            string $mailerSource,
+            string $mailerTarget,
             FindCourseInfoByIdQuery $findCourseInfoByIdQuery,
             Environment $templating,
             CourseInfoHelper $courseInfoHelper,
             PublishCourseInfoQuery $publishCourseInfoQuery,
+            \Swift_Mailer $mailer,
             LoggerInterface $logger
         )
     {
+        $this->mailerSource = $mailerSource;
+        $this->mailerTarget = $mailerTarget;
         $this->findCourseInfoByIdQuery = $findCourseInfoByIdQuery;
         $this->templating = $templating;
         $this->courseInfoHelper =$courseInfoHelper;
         $this->publishCourseInfoQuery = $publishCourseInfoQuery;
+        $this->mailer = $mailer;
         $this->logger = $logger;
     }
 
@@ -89,11 +111,38 @@ class PublishCourseInfoAction implements ActionInterface
                     $publishCourseInfoCommand = new PublishCourseInfoCommand($courseInfo);
                     // Set course published
                     $this->publishCourseInfoQuery->setPublishCourseInfoCommand($publishCourseInfoCommand)->execute();
-                    // Return message course cannot published
+                    // Return message: course is published.
                     $messages[] = [
                         'type' => "success",
                         'message' => sprintf("Le cours est publié.")
                     ];
+                    // Send publication email.
+                    $message = (new \Swift_Message("[SYLLABUS] Avis de publication."))
+                        ->setFrom($this->mailerSource)
+                        ->setTo($this->mailerTarget)
+                        ->setBody(
+                            $this->templating->render(
+                                'email/publication.html.twig',
+                                [
+                                    'courseInfoId' => $courseInfo->getId(),
+                                    'courseTitle' => $courseInfo->getTitle(),
+                                    'user' => $courseInfo->getPublisher(),
+                                ]
+                            ),
+                            'text/html'
+                        )
+                        ->addPart(
+                            $this->templating->render(
+                                'email/publication.txt.twig',
+                                [
+                                    'courseInfoId' => $courseInfo->getId(),
+                                    'courseTitle' => $courseInfo->getTitle(),
+                                    'user' => $courseInfo->getPublisher(),
+                                ]
+                            ),
+                            'text/plain'
+                        );
+                    $this->mailer->send($message);
                     // Get render to reload course info panel
                     $renders[] = [
                         'element' => '#course_info_panel',
@@ -106,7 +155,7 @@ class PublishCourseInfoAction implements ActionInterface
                         )
                     ];
                 }else{
-                    // Return message course cannot published
+                    // Return message: course cannot be published.
                     $messages[] = [
                         'type' => "danger",
                         'message' => sprintf("Le cours ne peut pas être publié.")
