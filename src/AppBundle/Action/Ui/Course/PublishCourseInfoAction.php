@@ -117,32 +117,40 @@ class PublishCourseInfoAction implements ActionInterface
                         'message' => sprintf("Le cours est publié.")
                     ];
                     // Send publication email.
-                    $message = (new \Swift_Message("[SYLLABUS] Avis de publication."))
-                        ->setFrom($this->mailerSource)
-                        ->setTo($this->mailerTarget)
-                        ->setBody(
-                            $this->templating->render(
-                                'email/publication.html.twig',
-                                [
-                                    'courseInfoId' => $courseInfo->getId(),
-                                    'courseTitle' => $courseInfo->getTitle(),
-                                    'user' => $courseInfo->getPublisher(),
-                                ]
-                            ),
-                            'text/html'
-                        )
-                        ->addPart(
-                            $this->templating->render(
-                                'email/publication.txt.twig',
-                                [
-                                    'courseInfoId' => $courseInfo->getId(),
-                                    'courseTitle' => $courseInfo->getTitle(),
-                                    'user' => $courseInfo->getPublisher(),
-                                ]
-                            ),
-                            'text/plain'
-                        );
-                    $this->mailer->send($message);
+                    try {
+                        $message = (new \Swift_Message("[SYLLABUS] Avis de publication."))
+                            ->setFrom($this->mailerSource)
+                            ->setTo($this->mailerTarget)
+                            ->setBody(
+                                $this->templating->render(
+                                    'email/publication.html.twig',
+                                    [
+                                        'courseInfoId' => $courseInfo->getId(),
+                                        'courseTitle' => $courseInfo->getTitle(),
+                                        'user' => $courseInfo->getPublisher(),
+                                    ]
+                                ),
+                                'text/html'
+                            )
+                            ->addPart(
+                                $this->templating->render(
+                                    'email/publication.txt.twig',
+                                    [
+                                        'courseInfoId' => $courseInfo->getId(),
+                                        'courseTitle' => $courseInfo->getTitle(),
+                                        'user' => $courseInfo->getPublisher(),
+                                    ]
+                                ),
+                                'text/plain'
+                            );
+                        $this->mailer->send($message);
+                    } catch(\Exception $e) {
+                        $this->logger->error((string) $e);
+                        $messages[] = [
+                            'type' => "warning",
+                            'message' => "Une erreur est survenue lors de l'envoi de l'avis de publication."
+                        ];
+                    }
                     // Get render to reload course info panel
                     $renders[] = [
                         'element' => '#course_info_panel',
