@@ -6,6 +6,7 @@ use AppBundle\Command\Course\PublishCourseInfoCommand;
 use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Query\QueryInterface;
 use AppBundle\Repository\CourseInfoRepositoryInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * Class PublishCourseInfoQuery
@@ -25,14 +26,22 @@ class PublishCourseInfoQuery implements QueryInterface
     private $publishCourseInfoCommand;
 
     /**
+     * @var TokenStorageInterface
+     */
+    private $tokenStorage;
+
+    /**
      * PublishCourseInfoQuery constructor.
      * @param CourseInfoRepositoryInterface $courseInfoRepository
+     * @param TokenStorageInterface $tokenStorage
      */
     public function __construct(
-        CourseInfoRepositoryInterface $courseInfoRepository
+        CourseInfoRepositoryInterface $courseInfoRepository,
+        TokenStorageInterface $tokenStorage
     )
     {
         $this->courseInfoRepository = $courseInfoRepository;
+        $this->tokenStorage = $tokenStorage;
     }
 
     /**
@@ -62,6 +71,8 @@ class PublishCourseInfoQuery implements QueryInterface
         }
         try{
             $courseInfo = $this->publishCourseInfoCommand->filledEntity($courseInfo);
+            $courseInfo->setPublicationDate(new \DateTime())
+                ->setPublisher($this->tokenStorage->getToken()->getUser());
             $this->courseInfoRepository->update($courseInfo);
         }catch (\Exception $e){
             throw $e;
