@@ -104,10 +104,8 @@ class AskForAdviceCourseInfoAction implements ActionInterface
                     ->setTo($this->mailerTarget)
                     ->setBody(
                         $this->templating->render(
-                            #'email/advice.html.twig',
-                            'email/publication.html.twig',
+                            'email/advice.html.twig',
                             [
-                                'courseInfoId' => $courseInfo->getId(),
                                 'courseTitle' => $courseInfo->getTitle(),
                                 'user' => $this->tokenStorage->getToken()->getUser(),
                             ]
@@ -116,9 +114,8 @@ class AskForAdviceCourseInfoAction implements ActionInterface
                     )
                     ->addPart(
                         $this->templating->render(
-                            'email/publication.txt.twig',
+                            'email/advice.txt.twig',
                             [
-                                'courseInfoId' => $courseInfo->getId(),
                                 'courseTitle' => $courseInfo->getTitle(),
                                 'user' => $this->tokenStorage->getToken()->getUser(),
                             ]
