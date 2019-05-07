@@ -5,6 +5,7 @@ namespace AppBundle\Fixture;
 use AppBundle\Entity\CourseAchievement;
 use AppBundle\Entity\CourseResourceEquipment;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Ramsey\Uuid\Uuid;
@@ -13,7 +14,7 @@ use Ramsey\Uuid\Uuid;
  * Class CourseAchievementFixture
  * @package AppBundle\Fixture
  */
-class CourseResourceEquipmentFixture extends Fixture implements DependentFixtureInterface
+class CourseResourceEquipmentFixture extends Fixture implements DependentFixtureInterface,  FixtureGroupInterface
 {
     /**
      *
@@ -64,5 +65,10 @@ class CourseResourceEquipmentFixture extends Fixture implements DependentFixture
         return [
             CourseInfoFixture::class,
         ];
+    }
+
+    public static function getGroups(): array
+    {
+        return ['test'];
     }
 }

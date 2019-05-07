@@ -4,6 +4,7 @@ namespace AppBundle\Fixture;
 
 use AppBundle\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Ramsey\Uuid\Uuid;
 
@@ -11,7 +12,7 @@ use Ramsey\Uuid\Uuid;
  * Class UserFixture
  * @package AppBundle\Fixture
  */
-class UserFixture extends Fixture
+class UserFixture extends Fixture  implements FixtureGroupInterface
 {
     /**
      *
@@ -33,6 +34,11 @@ class UserFixture extends Fixture
         $this->addReference(self::USER_1, $user);
         $manager->persist($user);
         $manager->flush();
+    }
+
+    public static function getGroups(): array
+    {
+        return ['test'];
     }
 
 }

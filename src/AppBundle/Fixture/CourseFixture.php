@@ -4,6 +4,7 @@ namespace AppBundle\Fixture;
 
 use AppBundle\Entity\Course;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Ramsey\Uuid\Uuid;
 
@@ -11,7 +12,7 @@ use Ramsey\Uuid\Uuid;
  * Class CourseFixture
  * @package AppBundle\Fixture
  */
-class CourseFixture extends Fixture
+class CourseFixture extends Fixture  implements FixtureGroupInterface
 {
     /**
      *
@@ -46,6 +47,11 @@ class CourseFixture extends Fixture
         $manager->persist($course1);
         $manager->persist($course2);
         $manager->flush();
+    }
+
+    public static function getGroups(): array
+    {
+        return ['test'];
     }
 
 }

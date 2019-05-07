@@ -7,6 +7,7 @@ use AppBundle\Constant\ActivityMode;
 use AppBundle\Constant\ActivityType;
 use AppBundle\Entity\Activity;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Ramsey\Uuid\Uuid;
 
@@ -14,7 +15,7 @@ use Ramsey\Uuid\Uuid;
  * Class ActivityFixture
  * @package AppBundle\Fixture
  */
-class ActivityFixture extends Fixture
+class ActivityFixture extends Fixture implements FixtureGroupInterface
 {
     /**
      *
@@ -33,104 +34,811 @@ class ActivityFixture extends Fixture
      */
     public function load(ObjectManager $manager)
     {
-        // Activity 1
-        $activity1 = new Activity();
-        $activity1->setId(Uuid::uuid4())
-            ->setLabel('Cours Magistraux')
+        /**
+         * ACTIVITIES IN CLASS HEAD
+         */
+
+        // Cours Magistral
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Cours Magistral')
             ->setLabelVisibility(true)
             ->setType(ActivityType::ACTIVITY)
             ->setMode(ActivityMode::IN_CLASS)
             ->setGrp(ActivityGroup::HEAD)
-            ->setOrd(1)
+            ->setOrd(0)
             ->setObsolete(false);
+        $this->addReference(self::ACTIVITY_1, $activity);
+        $manager->persist($activity);
 
-        $this->addReference(self::ACTIVITY_1, $activity1);
 
-        // Activity 2
-        $activity2 = new Activity();
-        $activity2->setId(Uuid::uuid4())
-            ->setLabel('Projet')
+        /**
+         * ACTIVITIES IN CLASS TOGETHER
+         */
+
+        // Etude d’un document (texte, vidéo, cours en ligne...)
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Etude d’un document (texte, vidéo, cours en ligne...)')
             ->setLabelVisibility(true)
             ->setType(ActivityType::ACTIVITY)
             ->setMode(ActivityMode::IN_CLASS)
-            ->setGrp(ActivityGroup::GROUPS)
-            ->setOrd(1)
+            ->setGrp(ActivityGroup::TOGETHER)
+            ->setOrd(0)
             ->setObsolete(false);
+        $this->addReference(self::ACTIVITY_2, $activity);
+        $manager->persist($activity);
 
-        $this->addReference(self::ACTIVITY_2, $activity2);
+        // Séance question/ réponse
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Séance question/ réponse')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_CLASS)
+            ->setGrp(ActivityGroup::TOGETHER)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
 
-        // Activity 3
-        $activity3 = new Activity();
-        $activity3->setId(Uuid::uuid4())
+        // Séance question/ réponse
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Vote interactif (Quizlet, Socrative, Mentimeter)')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_CLASS)
+            ->setGrp(ActivityGroup::TOGETHER)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Débat
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Débat')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_CLASS)
+            ->setGrp(ActivityGroup::TOGETHER)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Discussion / Réflexion
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Discussion / Réflexion')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_CLASS)
+            ->setGrp(ActivityGroup::TOGETHER)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Exercices
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Exercices')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_CLASS)
+            ->setGrp(ActivityGroup::TOGETHER)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Etude de cas
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
             ->setLabel('Etude de cas')
             ->setLabelVisibility(true)
             ->setType(ActivityType::ACTIVITY)
             ->setMode(ActivityMode::IN_CLASS)
             ->setGrp(ActivityGroup::TOGETHER)
-            ->setOrd(1)
+            ->setOrd(0)
             ->setObsolete(false);
+        $manager->persist($activity);
 
-        $this->addReference(self::ACTIVITY_3, $activity3);
+        // Jeu de rôle
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Jeu de rôle')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_CLASS)
+            ->setGrp(ActivityGroup::TOGETHER)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
 
-        // Activity 4
-        $activity4 = new Activity();
-        $activity4->setId(Uuid::uuid4())
-            ->setLabel('Participation au forum')
+        // Jeu sérieux
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Jeu sérieux')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_CLASS)
+            ->setGrp(ActivityGroup::TOGETHER)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Projet
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Projet')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_CLASS)
+            ->setGrp(ActivityGroup::TOGETHER)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Production écrite (synthèse / compte rendu, carte mentale...) 
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Production écrite (synthèse / compte rendu, carte mentale...)')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_CLASS)
+            ->setGrp(ActivityGroup::TOGETHER)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Production orale (entretien, argumentaire, exposé, narration...)
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Production orale (entretien, argumentaire, exposé, narration...)')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_CLASS)
+            ->setGrp(ActivityGroup::TOGETHER)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Production multimédia (vidéo, affiche, poster, blog, wiki, prototype, portfolio...)
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Production multimédia (vidéo, affiche, poster, blog, wiki, prototype, portfolio...)')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_CLASS)
+            ->setGrp(ActivityGroup::TOGETHER)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Production artistique (installation, sculpture, performance...)
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Production artistique (installation, sculpture, performance...)')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_CLASS)
+            ->setGrp(ActivityGroup::TOGETHER)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+
+        /**
+         * ACTIVITIES IN CLASS IN GROUPS
+         */
+
+        // Discussion / Réflexion
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Discussion / Réflexion')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_CLASS)
+            ->setGrp(ActivityGroup::GROUPS)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $this->addReference(self::ACTIVITY_3, $activity);
+        $manager->persist($activity);
+
+        // Etude d’un document (texte, vidéo...)
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Etude d’un document (texte, vidéo...)')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_CLASS)
+            ->setGrp(ActivityGroup::GROUPS)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Exercices
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Exercices')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_CLASS)
+            ->setGrp(ActivityGroup::GROUPS)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Etude de cas
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Etude de cas')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_CLASS)
+            ->setGrp(ActivityGroup::GROUPS)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Projet
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Projet')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_CLASS)
+            ->setGrp(ActivityGroup::GROUPS)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Recherche documentaire
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Recherche documentaire')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_CLASS)
+            ->setGrp(ActivityGroup::GROUPS)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Exercice d’évaluation par les pairs
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Exercice d’évaluation par les pairs')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_CLASS)
+            ->setGrp(ActivityGroup::GROUPS)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Production écrite (synthèse / compte rendu, carte mentale...)
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Production écrite (synthèse / compte rendu, carte mentale...)')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_CLASS)
+            ->setGrp(ActivityGroup::GROUPS)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Production orale (entretien, argumentaire, exposé, narration...)
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Production orale (entretien, argumentaire, exposé, narration...)')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_CLASS)
+            ->setGrp(ActivityGroup::GROUPS)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Production multimédia (vidéo, affiche, poster, blog, wiki, prototype, portfolio...)
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Production multimédia (vidéo, affiche, poster, blog, wiki, prototype, portfolio...)')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_CLASS)
+            ->setGrp(ActivityGroup::GROUPS)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Production artistique (installation, sculpture, performance...)
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Production artistique (installation, sculpture, performance...)')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_CLASS)
+            ->setGrp(ActivityGroup::GROUPS)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Cours en ligne
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Cours en ligne')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_CLASS)
+            ->setGrp(ActivityGroup::GROUPS)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+
+        /**
+         * ACTIVITIES IN AUTONOMY HEAD
+         */
+
+        // Cours en ligne
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Cours en ligne')
             ->setLabelVisibility(true)
             ->setType(ActivityType::ACTIVITY)
             ->setMode(ActivityMode::IN_AUTONOMY)
-            ->setGrp(ActivityGroup::INDIVIDUAL)
-            ->setOrd(1)
+            ->setGrp(ActivityGroup::HEAD)
+            ->setOrd(0)
             ->setObsolete(false);
+        $this->addReference(self::ACTIVITY_4, $activity);
+        $manager->persist($activity);
 
-        $this->addReference(self::ACTIVITY_4, $activity4);
 
-        // Activity 5
-        $activity5 = new Activity();
-        $activity5->setId(Uuid::uuid4())
+        /**
+         * ACTIVITIES IN AUTONOMY COLLECTIVE
+         */
+
+        // Etude d’un document (texte, vidéo, cours en ligne...)
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Etude d’un document (texte, vidéo, cours en ligne...)')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_AUTONOMY)
+            ->setGrp(ActivityGroup::COLLECTIVE)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $this->addReference(self::ACTIVITY_5, $activity);
+        $manager->persist($activity);
+
+        // Exercices
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
             ->setLabel('Exercices')
             ->setLabelVisibility(true)
             ->setType(ActivityType::ACTIVITY)
             ->setMode(ActivityMode::IN_AUTONOMY)
             ->setGrp(ActivityGroup::COLLECTIVE)
-            ->setOrd(1)
+            ->setOrd(0)
             ->setObsolete(false);
+        $manager->persist($activity);
 
-        $this->addReference(self::ACTIVITY_5, $activity5);
+        // Etude de cas
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Etude de cas')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_AUTONOMY)
+            ->setGrp(ActivityGroup::COLLECTIVE)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
 
-        // Activity 6
-        $activity6 = new Activity();
-        $activity6->setId(Uuid::uuid4())
-            ->setLabel('Mise en situation')
+        // Projet
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Projet')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_AUTONOMY)
+            ->setGrp(ActivityGroup::COLLECTIVE)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Recherche documentaire
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Recherche documentaire')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_AUTONOMY)
+            ->setGrp(ActivityGroup::COLLECTIVE)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Production écrite (dissertation, synthèse / compte rendu...)
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Production écrite (dissertation, synthèse / compte rendu...)')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_AUTONOMY)
+            ->setGrp(ActivityGroup::COLLECTIVE)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Production orale (entretien, argumentaire, exposé, narration...)
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Production orale (entretien, argumentaire, exposé, narration...)')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_AUTONOMY)
+            ->setGrp(ActivityGroup::COLLECTIVE)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Production multimédia (vidéo, affiche, poster, blog, wiki, prototype, portfolio...)
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Production multimédia (vidéo, affiche, poster, blog, wiki, prototype, portfolio...)')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_AUTONOMY)
+            ->setGrp(ActivityGroup::COLLECTIVE)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Production artistique (installation, sculpture, performance...)
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Production artistique (installation, sculpture, performance...)')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_AUTONOMY)
+            ->setGrp(ActivityGroup::COLLECTIVE)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+
+        /**
+         * ACTIVITIES IN AUTONOMY INDIVIDUAL
+         */
+
+        // Test d’auto-évaluation
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Test d’auto-évaluation')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_AUTONOMY)
+            ->setGrp(ActivityGroup::INDIVIDUAL)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $this->addReference(self::ACTIVITY_6, $activity);
+        $manager->persist($activity);
+
+        // Etude d’un document (texte, vidéo, cours en ligne...)
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Etude d’un document (texte, vidéo, cours en ligne...)')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_AUTONOMY)
+            ->setGrp(ActivityGroup::INDIVIDUAL)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Participation au forum de discussion
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Participation au forum de discussion')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_AUTONOMY)
+            ->setGrp(ActivityGroup::INDIVIDUAL)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Exercices
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Exercices')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_AUTONOMY)
+            ->setGrp(ActivityGroup::INDIVIDUAL)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Etude de cas
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Etude de cas')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_AUTONOMY)
+            ->setGrp(ActivityGroup::INDIVIDUAL)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Projet
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Projet')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_AUTONOMY)
+            ->setGrp(ActivityGroup::INDIVIDUAL)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Recherche documentaire
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Recherche documentaire')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_AUTONOMY)
+            ->setGrp(ActivityGroup::INDIVIDUAL)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Exercice d’évaluation par les pairs
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Exercice d’évaluation par les pairs')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_AUTONOMY)
+            ->setGrp(ActivityGroup::INDIVIDUAL)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Production écrite (dissertation, synthèse / compte rendu...)
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Production écrite (dissertation, synthèse / compte rendu...)')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_AUTONOMY)
+            ->setGrp(ActivityGroup::INDIVIDUAL)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Production orale (entretien, argumentaire, exposé, narration...)
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Production orale (entretien, argumentaire, exposé, narration...)')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_AUTONOMY)
+            ->setGrp(ActivityGroup::INDIVIDUAL)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Production multimédia (vidéo, affiche, poster, blog, wiki, prototype, portfolio...)
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Production multimédia (vidéo, affiche, poster, blog, wiki, prototype, portfolio...)')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_AUTONOMY)
+            ->setGrp(ActivityGroup::INDIVIDUAL)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Production artistique (installation, sculpture, performance...)
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Production artistique (installation, sculpture, performance...)')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_AUTONOMY)
+            ->setGrp(ActivityGroup::INDIVIDUAL)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+
+        /**
+         * EVALUATION CC
+         */
+
+        // Evalué plus tard
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Evalué plus tard')
             ->setLabelVisibility(true)
             ->setType(ActivityType::EVALUATION)
             ->setMode(ActivityMode::EVAL_CC)
-            ->setOrd(1)
+            ->setOrd(0)
             ->setObsolete(false);
+        $this->addReference(self::ACTIVITY_7, $activity);
+        $manager->persist($activity);
 
-        $this->addReference(self::ACTIVITY_6, $activity6);
+        // Mise en situation (playdoyer, sage femme...)
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Mise en situation (playdoyer, sage femme...)')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::EVALUATION)
+            ->setMode(ActivityMode::EVAL_CC)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
 
-        // Activity 7
-        $activity7 = new Activity();
-        $activity7->setId(Uuid::uuid4())
-            ->setLabel('Test standardisé')
+        // Contribution au forum
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Contribution au forum')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::EVALUATION)
+            ->setMode(ActivityMode::EVAL_CC)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Test standardisé (Moodle, QCM, WIMS...)
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Test standardisé (Moodle, QCM, WIMS...)')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::EVALUATION)
+            ->setMode(ActivityMode::EVAL_CC)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Production écrite (dissertation, commentaire de texte...)
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Production écrite (dissertation, commentaire de texte...)')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::EVALUATION)
+            ->setMode(ActivityMode::EVAL_CC)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Production orale (entretien, exposé, discours d’éloquence, grand oral...)
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Production orale (entretien, exposé, discours d’éloquence, grand oral...)')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::EVALUATION)
+            ->setMode(ActivityMode::EVAL_CC)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Production multimédia (vidéo, affiche, poster, blog, wiki, prototype, portfolio...)
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Production multimédia (vidéo, affiche, poster, blog, wiki, prototype, portfolio...)')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::EVALUATION)
+            ->setMode(ActivityMode::EVAL_CC)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Production artistique (installation, sculpture, performance...)
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Production artistique (installation, sculpture, performance...)')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::EVALUATION)
+            ->setMode(ActivityMode::EVAL_CC)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+
+        /**
+         *  EVALUATION CT
+         */
+
+        // Pas d’Evaluation Terminale (sauf dispensés de CC*)
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Pas d’Evaluation Terminale (sauf dispensés de CC*)')
             ->setLabelVisibility(true)
             ->setType(ActivityType::EVALUATION)
             ->setMode(ActivityMode::EVAL_CT)
-            ->setOrd(1)
+            ->setOrd(0)
             ->setObsolete(false);
+        $manager->persist($activity);
 
-        $this->addReference(self::ACTIVITY_7, $activity7);
+        // Mise en situation (playdoyer, sage femme...)
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Mise en situation (playdoyer, sage femme...)')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::EVALUATION)
+            ->setMode(ActivityMode::EVAL_CT)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
 
-        // Save
-        $manager->persist($activity1);
-        $manager->persist($activity2);
-        $manager->persist($activity3);
-        $manager->persist($activity4);
-        $manager->persist($activity5);
-        $manager->persist($activity6);
-        $manager->persist($activity7);
+        // Test standardisé (Moodle, QCM, WIMS...)
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Test standardisé (Moodle, QCM, WIMS...)')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::EVALUATION)
+            ->setMode(ActivityMode::EVAL_CT)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Production écrite (dissertation, commentaire de texte...)
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Production écrite (dissertation, commentaire de texte...)')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::EVALUATION)
+            ->setMode(ActivityMode::EVAL_CT)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Production orale (entretien, exposé, discours d’éloquence, grand oral...)
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Production orale (entretien, exposé, discours d’éloquence, grand oral...)')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::EVALUATION)
+            ->setMode(ActivityMode::EVAL_CT)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Production multimédia (vidéo, affiche, poster, blog, wiki, prototype, portfolio...)
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Production multimédia (vidéo, affiche, poster, blog, wiki, prototype, portfolio...)')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::EVALUATION)
+            ->setMode(ActivityMode::EVAL_CT)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Production artistique (installation, sculpture, performance...)
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel('Production artistique (installation, sculpture, performance...)')
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::EVALUATION)
+            ->setMode(ActivityMode::EVAL_CT)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        //
         $manager->flush();
     }
 
+    public static function getGroups(): array
+    {
+        return ['prod', 'test'];
+    }
 }
