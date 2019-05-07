@@ -45,11 +45,6 @@ class CourseImporterCommand extends AbstractImporterCommand
     private $courseInfoRepository;
 
     /**
-     * @var YearRepositoryInterface
-     */
-    private $yearRepository;
-
-    /**
      * @var StructureRepositoryInterface
      */
     private $structureRepository;
@@ -77,7 +72,7 @@ class CourseImporterCommand extends AbstractImporterCommand
         $this->courseInfoRepository = $courseInfoRepository;
         $this->yearRepository =$yearRepository;
         $this->structureRepository = $structureRepository;
-        parent::__construct($container, $logger);
+        parent::__construct($container, $yearRepository, $logger);
     }
 
     /**
@@ -107,19 +102,8 @@ class CourseImporterCommand extends AbstractImporterCommand
         $years = $this->getYearsToImport();
         // Get courses to import
         $courses = $this->getCoursesToImport($years);
-        // Start courses import
+        // Start import courses
         $this->startImport($courses);
-    }
-
-    /**
-     * @return array
-     */
-    private function getYearsToImport(): array
-    {
-        $years = $this->yearRepository->findToImport();
-        return array_map(function($a){
-            return $a->getId();
-        }, $years);
     }
 
     /**

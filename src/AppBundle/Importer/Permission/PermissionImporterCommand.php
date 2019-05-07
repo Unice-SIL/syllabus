@@ -9,10 +9,8 @@ use AppBundle\Repository\CourseRepositoryInterface;
 use AppBundle\Repository\YearRepositoryInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use UniceSIL\SyllabusImporterToolkit\Course\CourseImporterInterface;
+use UniceSIL\SyllabusImporterToolkit\Permission\PermissionCollection;
 use UniceSIL\SyllabusImporterToolkit\Permission\PermissionImporterInterface;
 
 /**
@@ -37,11 +35,6 @@ class PermissionImporterCommand extends AbstractImporterCommand
     private $courseInfoRepository;
 
     /**
-     * @var YearRepositoryInterface
-     */
-    private $yearRepository;
-
-    /**
      * CourseImporterCommand constructor.
      * @param ContainerInterface $container
      * @param CourseRepositoryInterface $courseRepository
@@ -60,7 +53,7 @@ class PermissionImporterCommand extends AbstractImporterCommand
         $this->courseRepository = $courseRepository;
         $this->courseInfoRepository = $courseInfoRepository;
         $this->yearRepository =$yearRepository;
-        parent::__construct($container, $logger);
+        parent::__construct($container, $yearRepository, $logger);
     }
 
     /**
@@ -87,10 +80,46 @@ class PermissionImporterCommand extends AbstractImporterCommand
             );
         }
         $this->importerService->setArgs($this->importerServiceArgs);
-
-        //
+        // Get years to import
+        $years = $this->getYearsToImport();
+        // Get permissions to import
+        $courses = $this->getPermissionsToImport($years);
+        // Start import permissions
+        $this->startImport($courses);
 
     }
 
+    /**
+     * @param array $years
+     * @return PermissionCollection
+     */
+    private function getPermissionsToImport(array $years=[]): PermissionCollection
+    {
+        $permissions = $this->importerService->setYears($years)->execute();
+        $this->output->writeln(sprintf("%d permissions to import", $permissions->count()));
+        return $permissions;
+    }
 
+
+    /**
+     * @param PermissionCollection $permissions
+     */
+    private function startImport(PermissionCollection $permissions): void
+    {
+        foreach ($permissions as $permission) {
+            try {
+                $this->courseRepository->beginTransaction();
+                // Prepare course
+                $course = $this->prepareCourse($course);
+                if ($course instanceof Course) {
+                    $this->courseRepository->update($course);
+                }
+                $this->courseRepository->commit();
+            } catch (\Exception $e) {
+                $this->courseRepository->rollback();
+                $this->logger->error((string)$e);
+                $this->output->writeln($e->getMessage());
+            }
+        }
+    }
 }
