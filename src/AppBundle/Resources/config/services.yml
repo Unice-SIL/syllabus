@@ -16,6 +16,8 @@ services:
             tags: ['controller.service_arguments']
 
     # ACTION
+    AppBundle\Action\UI\Course\AskForAdviceCourseInfoAction:
+        arguments: ['%mailer_source%', '%mailer_target%']
     AppBundle\Action\UI\Course\PublishCourseInfoAction:
         arguments: ['%mailer_source%', '%mailer_target%']
 
