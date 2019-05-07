@@ -146,6 +146,22 @@
             Syllabus.tabsInit( );
 
             $(document).ready(function(){
+                $(document).on('click', '#adviceButton', function(){
+                    SILTools.spinner.fadeIn( {
+                        always: function(){
+                            $.ajax({
+                                type: 'POST',
+                                url: '{{ path('ask_for_advice_course_info', { 'id': courseInfo.id })|escape('js') }}'
+                            }).done(function(response){
+                                console.log(response.messages[0]);
+                                SILTools.alert( { type: response.messages[0].type, text: response.messages[0].message } );
+                            }).always(function(){
+                                SILTools.spinner.fadeOut( );
+                            });
+                        }
+                    });
+                });
+
                 $(document).on('click', '#publishButton', function(){
                     SILTools.spinner.fadeIn( {
                         always: function(){
