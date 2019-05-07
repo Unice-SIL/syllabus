@@ -17,7 +17,7 @@ services:
 
     # ACTION
     AppBundle\Action\UI\Course\PublishCourseInfoAction:
-        arguments: ['%mailer_target%']
+        arguments: ['%mailer_source%', '%mailer_target%']
 
     # ALIAS
     AppBundle\Repository\UserRepositoryInterface: '@user_doctrine_repository'

@@ -49,6 +49,11 @@ class PublishCourseInfoAction implements ActionInterface
     /**
      * @var string
      */
+    private $mailerSource;
+
+    /**
+     * @var string
+     */
     private $mailerTarget;
 
     /**
@@ -66,6 +71,7 @@ class PublishCourseInfoAction implements ActionInterface
      * @param LoggerInterface $logger
      */
     public function __construct(
+            string $mailerSource,
             string $mailerTarget,
             FindCourseInfoByIdQuery $findCourseInfoByIdQuery,
             Environment $templating,
@@ -75,6 +81,7 @@ class PublishCourseInfoAction implements ActionInterface
             LoggerInterface $logger
         )
     {
+        $this->mailerSource = $mailerSource;
         $this->mailerTarget = $mailerTarget;
         $this->findCourseInfoByIdQuery = $findCourseInfoByIdQuery;
         $this->templating = $templating;
@@ -111,7 +118,7 @@ class PublishCourseInfoAction implements ActionInterface
                     ];
                     // Send publication email.
                     $message = (new \Swift_Message("[SYLLABUS] Avis de publication."))
-                        ->setFrom("noreply@unice.fr")
+                        ->setFrom($this->mailerSource)
                         ->setTo($this->mailerTarget)
                         ->setBody(
                             $this->templating->render(
