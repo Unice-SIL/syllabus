@@ -2,7 +2,7 @@
 Bonjour,
 
 
-le syllabus du cours « {{ courseTitle }} » vient d'être publié par {{ userName }}.
+le syllabus du cours « {{ courseTitle }} » vient d'être publié par {{ user.username }}.
 
 La vue étudiante de ce syllabus est disponible à :
 « {{ app.request.getSchemeAndHttpHost() ~ path('view_student', { 'id': courseInfoId }) }} ».

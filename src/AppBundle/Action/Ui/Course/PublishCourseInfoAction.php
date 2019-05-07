@@ -126,7 +126,7 @@ class PublishCourseInfoAction implements ActionInterface
                                 [
                                     'courseInfoId' => $courseInfo->getId(),
                                     'courseTitle' => $courseInfo->getTitle(),
-                                    'userName' => $courseInfo->getPublisher(),
+                                    'user' => $courseInfo->getPublisher(),
                                 ]
                             ),
                             'text/html'
@@ -137,7 +137,7 @@ class PublishCourseInfoAction implements ActionInterface
                                 [
                                     'courseInfoId' => $courseInfo->getId(),
                                     'courseTitle' => $courseInfo->getTitle(),
-                                    'userName' => $courseInfo->getPublisher(),
+                                    'user' => $courseInfo->getPublisher(),
                                 ]
                             ),
                             'text/plain'
