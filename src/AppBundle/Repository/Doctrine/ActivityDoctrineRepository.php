@@ -54,7 +54,8 @@ class ActivityDoctrineRepository extends AbstractDoctrineRepository implements A
             $qb = $this->entityManager->getRepository(Activity::class)->createQueryBuilder('a');
             $qb->where($qb->expr()->eq('a.obsolete', ':obsolete'))
                 ->setParameter('obsolete', false)
-                ->orderBy('a.ord', 'ASC');
+                ->orderBy('a.ord', 'ASC')
+                ->addOrderBy('a.label', 'ASC');
             if(!is_null($type)){
                 $qb->andWhere($qb->expr()->eq('a.type', ':type'))
                     ->setParameter('type', $type);
