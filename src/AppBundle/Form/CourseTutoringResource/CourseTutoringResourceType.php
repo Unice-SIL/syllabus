@@ -25,6 +25,9 @@ class CourseTutoringResourceType extends AbstractType
             ->add('description', TextType::class, [
                 'label' => false,
                 'required' => false,
+                'attr' => [
+                    'placeholder' => 'Exemple : Se remettre à niveau (lien vers votre site web de cours, un MOOC, ...)'
+                ]
             ])
             ->add('order', HiddenType::class);
     }
