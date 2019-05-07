@@ -4,7 +4,6 @@ namespace AppBundle\Action\Ui\Course;
 
 use AppBundle\Action\ActionInterface;
 use AppBundle\Exception\CourseInfoNotFoundException;
-use AppBundle\Helper\CourseInfoHelper;
 use AppBundle\Query\Course\FindCourseInfoByIdQuery;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -30,11 +29,6 @@ class AskForAdviceCourseInfoAction implements ActionInterface
     private $templating;
 
     /**
-     * @var CourseInfoHelper
-     */
-    private $courseInfoHelper;
-
-    /**
      * @var \Swift_Mailer
      */
     private $mailer;
@@ -58,7 +52,6 @@ class AskForAdviceCourseInfoAction implements ActionInterface
      * PublishCourseInfoAction constructor.
      * @param FindCourseInfoByIdQuery $findCourseInfoByIdQuery
      * @param Environment $templating
-     * @param CourseInfoHelper $courseInfoHelper
      * @param \Swift_Mailer $mailer
      * @param LoggerInterface $logger
      */
@@ -67,7 +60,6 @@ class AskForAdviceCourseInfoAction implements ActionInterface
             string $mailerTarget,
             FindCourseInfoByIdQuery $findCourseInfoByIdQuery,
             Environment $templating,
-            CourseInfoHelper $courseInfoHelper,
             \Swift_Mailer $mailer,
             LoggerInterface $logger
         )
@@ -76,7 +68,6 @@ class AskForAdviceCourseInfoAction implements ActionInterface
         $this->mailerTarget = $mailerTarget;
         $this->findCourseInfoByIdQuery = $findCourseInfoByIdQuery;
         $this->templating = $templating;
-        $this->courseInfoHelper =$courseInfoHelper;
         $this->mailer = $mailer;
         $this->logger = $logger;
     }
@@ -140,7 +131,7 @@ class AskForAdviceCourseInfoAction implements ActionInterface
 
                 $messages[] = [
                     'type' => "danger",
-                    'message' => "Une erreur est survenue."
+                    'message' => "Une erreur est survenue : l'avis n'a pas été demandé."
                 ];
             }
 
