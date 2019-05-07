@@ -316,7 +316,9 @@
         teachersCollectionHolder.on('click', '.teacher-collection-remove', function(){
             Syllabus.temporaryItem = $(this).closest('li.teacher');
             bootbox.confirm("Confirmez-vous le retrait de cette personne de l'équipe pédagogique ?", function(result){
-                Syllabus.removeListElement(Syllabus.temporaryItem);
+                if (result === true) {
+                    Syllabus.removeListElement(Syllabus.temporaryItem);
+                }
             })
         });
 

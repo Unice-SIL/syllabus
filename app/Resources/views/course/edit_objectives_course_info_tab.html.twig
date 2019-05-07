@@ -226,7 +226,9 @@
         achievementsCollectionHolder.on('click', '.achievement-collection-remove', function () {
             Syllabus.temporaryItem = $(this).closest('li.achievement');
             bootbox.confirm("Confirmez-vous la suppression de cet acquis d'apprentissage ?", function(result){
-                Syllabus.removeListElement(Syllabus.temporaryItem);
+                if (result === true) {
+                    Syllabus.removeListElement(Syllabus.temporaryItem);
+                }
             })
         });
 
@@ -259,7 +261,9 @@
         prerequisitesCollectionHolder.on('click', '.prerequisite-collection-remove', function () {
             Syllabus.temporaryItem = $(this).closest('li.prerequisite');
             bootbox.confirm("Confirmez-vous la suppression de ce prérequis ?", function(result){
-                Syllabus.removeListElement(Syllabus.temporaryItem);
+                if (result === true) {
+                    Syllabus.removeListElement(Syllabus.temporaryItem);
+                }
             })
         });
 
@@ -291,7 +295,9 @@
         tutoringResourcesCollectionHolder.on('click', '.tutoringResource-collection-remove', function () {
             Syllabus.temporaryItem = $(this).closest('li.tutoringResource');
             bootbox.confirm("Confirmez-vous la suppression de cette remédiation ?", function(result){
-                Syllabus.removeListElement(Syllabus.temporaryItem);
+                if (result === true) {
+                    Syllabus.removeListElement(Syllabus.temporaryItem);
+                }
             })
         });
 

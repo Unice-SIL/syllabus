@@ -113,7 +113,9 @@
         equipmentsCollectionHolder.on('click', '.equipment-collection-remove', function(){
             Syllabus.temporaryItem = $(this).closest('div.equipment');
             bootbox.confirm("Confirmez-vous le retrait de ce matériel de la liste ?", function(result){
-                Syllabus.removeListElement(Syllabus.temporaryItem);
+                if (result === true) {
+                    Syllabus.removeListElement(Syllabus.temporaryItem);
+                }
             })
         });
 
