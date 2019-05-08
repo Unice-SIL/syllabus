@@ -23,12 +23,21 @@
             Le syllabus de ce cours n'est pas encore publié.
         </div>
     {% else %}
-        {% if course.course.parents|length != 0 %}
-            {% set parent = course.course.parents[0] %}
+        {% set parent = course.course.parents[0] %}
+        {% set parentInfo = '' %}
+        {% if course.course.parents|length == 1 %}
+            {% for info in course.course.parents[0].courseInfos %}
+                {% if info.year.id == course.year.id %}
+                    {% set parentInfo = info %}
+                {% endif %}
+            {% endfor %}
         {% endif %}
+        <div class="text-light">
+            <!--
 
-        <div class="row d-flex flex-row m-3">
+            NAV
 
+            -->
             <nav class="navbar navbar-expand-lg  navbar-dark bg-info border p-0 text-center">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon text-light"></span>
@@ -36,641 +45,565 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav text-center">
                         <li class="nav-item d-flex flex-row align-items-center border-right">
-                            <a class="nav-link text-light" href="#Presentation">Présentation</a>
+                            <a class="nav-link text-light" href="#presentation">Présentation</a>
                         </li>
                         <li class="nav-item d-flex flex-row align-items-center border-right">
-                            <a class="nav-link text-light" href="#Objectifs_cours">Objectifs du cours</a>
+                            <a class="nav-link text-light" href="#objectives">Objectifs du cours</a>
                         </li>
                         <li class="nav-item d-flex flex-row align-items-center border-right">
-                            <a class="nav-link text-light" href="#Contenu_activites">Contenu et activités</a>
+                            <a class="nav-link text-light" href="#activities">Contenu et activités</a>
                         </li>
                         <li class="nav-item d-flex flex-row align-items-center border-right">
-                            <a class="nav-link text-light" href="#Modalites_evaluation">Modalités d'évaluation</a>
+                            <a class="nav-link text-light" href="#evaluations">Modalités d'évaluation</a>
                         </li>
                         <li class="nav-item d-flex flex-row align-items-center border-right">
-                            <a class="nav-link text-light" href="#Materiel_ressources">Matériel et ressources</a>
+                            <a class="nav-link text-light" href="#equipments_resources">Matériel et ressources</a>
                         </li>
                         <li class="nav-item d-flex flex-row align-items-center border-right">
-                            <a class="nav-link text-light" href="#Informations_pratiques">Informations pratiques</a>
+                            <a class="nav-link text-light" href="#information">Informations pratiques</a>
                         </li>
                         <li class="nav-item d-flex flex-row align-items-center border-right">
-                            <a class="nav-link text-light" href="#Reglementation">Réglementation</a>
+                            <a class="nav-link text-light" href="#regulation">Réglementation</a>
                         </li>
                         <li class="nav-item d-flex flex-row align-items-center">
-                            <a class="nav-link text-light" href="#Mot_fin">Mot de la fin</a>
+                            <a class="nav-link text-light" href="#closing">Mot de la fin</a>
                         </li>
                     </ul>
                 </div>
             </nav>
-        </div>
 
-        <div id="Presentation" class="row d-flex flex-row m-3 align-items-center">
-            <div class="col-md-6">
-                <h5 class="text-justify text-left text-white font-weight-bold">
-                    {{course.title}}
-                </h5>
-                <div class="d-flex flex-row align-items-center">
-                    {% if course.level == "beginner" %}
-                        <i class="fas fa-circle text-info rounded-circle border border-dark"></i>
-                        <i class="mx-1 fas fa-circle text-light rounded-circle border border-dark"></i>
-                        <i class=" fas fa-circle text-light rounded-circle border border-dark"></i>
-                        <span class="px-3 text-white border-right border-dark">Niveau débutant</span>
-                    {% elseif course.level == "intermediate" %}
-                        <i class="fas fa-circle text-info rounded-circle border border-dark"></i>
-                        <i class="mx-1 fas fa-circle text-info rounded-circle border border-dark"></i>
-                        <i class="fas fa-circle text-light rounded-circle border border-dark"></i>
-                        <span class="px-3 text-white border-right border-dark">Niveau intermédiare</span>
-                    {% elseif course.level == "advanced" %}
-                        <i class="fas fa-circle text-info rounded-circle border border-dark"></i>
-                        <i class="mx-1 fas fa-circle text-info rounded-circle border border-dark"></i>
-                        <i class="fas fa-circle text-info rounded-circle border border-dark"></i>
-                        <span class="px-3 text-white border-right border-dark">Niveau avancé</span>
-                    {% endif %}
-                    <span class="mx-3 text-white">Domaine disciplinaire : {{course.domain}}</span>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="row d-flex flex-row align-items-stretch ">
-                    {% if course.course.parents|length != 1 %}
-                    {% else %}
-                        <div class="col-md-6 d-flex flex-row border-left border-white align-items-center">
-                            <span class="font-weight-bold text-white">{{ parent.courseInfos[0].title }}</span>
-                        </div>
-                        <div class="col-md-3 border-left border-white">
-                            <div class="row d-flex flex-row justify-content-center font-weight-bold">
-                                <h2 class="m-0 text-white">{{parent.courseInfos[0].ects}}</h2>
-                            </div>
-                            <div class="row d-flex flex-row justify-content-center text-white">
-                                ECTS
-                            </div>
-                        </div>
-                        <div class="col-md-3 border-left border-white ">
-                            <div class="row d-flex flex-row justify-content-center font-weight-bold">
-                                <h2 class="m-0 text-white">{{ parent.courseInfos[0].course.children|length }}</h2>
-                            </div>
-                            <div class="row d-flex flex-row justify-content-center text-white">
-                                UCUE
-                            </div>
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
+            <!--
 
+            COURSE PRESENTATION
 
-        <div class="row d-flex flex-row m-3">
-            <div class="col-md-5 text-white">
-                <p class="text-justify text-left">
-                    {{course.summary|raw}}
-                </p>
-                <p class="text-justify text-left text-white">
-                    Équipe enseignante :
-                    {% for teacher in course.courseTeachers %}
-                        {% if loop.last %}
-                            {% if teacher.manager == true %}
-                                <span class="font-weight-bold"><u> {{ teacher.firstname ~ ' ' ~ teacher.lastname }}</u>. </span>
-                            {% else %}
-                                <span class="font-weight-bold"> {{ teacher.firstname ~ ' ' ~ teacher.lastname }}. </span>
-                            {% endif %}
-                        {% else %}
-                            {% if teacher.manager == true %}
-                                <span class="font-weight-bold"><u> {{ teacher.firstname ~ ' ' ~ teacher.lastname }}</u>, </span>
-                            {% else %}
-                                <span class="font-weight-bold"> {{ teacher.firstname ~ ' ' ~ teacher.lastname }}, </span>
-                            {% endif %}
-                        {% endif %}
-                    {% endfor %}
-                </p>
-                <p class="text-justify text-left text-white">
-                    Période : <span class="font-weight-bold"> {{course.period}} </span>
-                </p>
-            </div>
-            <div id="presentation_media_container" class="col-md-7">
-                {% if course.mediaType == "video"
-                and course.video[:7]|lower == "<iframe"
-                and course.video[-9:]|lower == "</iframe>" %}
-                    <div class="embed-responsive embed-responsive-16by9">
-                        {{ course.video|raw }}
-                    </div>
-                {% endif %}
-                {% if course.mediaType == "image" %}
-                    <img src={{ asset('data/' ~ course.image) }} class="img-fluid" alt="Responsive image">
-                {% endif %}
-            </div>
-        </div>
-
-
-        <div class="row d-flex flex-row justify-content-around text-white">
-            <div class="col-md-4 media d-flex align-items-center">
-                <i class="fas m-3 fa-4x fa-map-marker-alt"></i>
-                <div class = "col d-flex flex-column media-body">
-                    <span class="font-weight-bold"> Campus principal </span>
-                    <span class="font-weight-bold"> {{course.structure.campus}} </span>
-                </div>
-            </div>
-            <div class="col-md-4 media d-flex align-items-center">
-                {% if course.teachingMode == "class" %}
-                <img class="w-50 mx-3" src="{{ asset('images/in_class_white_256.png') }}">
-                <span class="font-weight-bold media-body d-flex flex-column justify-content-center align-items-start">
-                    <span>PRÉSENTIEL</span>
-                    <span class="font-weight-normal d-flex flex-column justify-content-center align-items-start">
-                {% elseif course.teachingMode == "hybrid" %}
-                        <img class="w-50 mr-3" src="{{ asset('images/hybrid_white_256.png') }}">
-                    <span class="font-weight-bold media-body d-flex flex-column justify-content-center align-items-start">
-                    <span>HYBRIDE</span>
-                    <span class="font-weight-normal d-flex flex-row justify-content-center align-items-start">
-                {% endif %}
-                        {% if course.teachingMode == "class" %}
-                            {% if course.teachingCmClass != null %}
-                                <span>{{ course.teachingCmClass }}h CM</span>
-                            {% endif %}
-                            {% if course.teachingTdClass != null %}
-                            <span>{{ course.teachingTdClass}}h TD</span>
-                        {% endif %}
-                            {% if course.teachingTpClass != null %}
-                            <span>{{ course.teachingTpClass}}h TP</span>
-                        {% endif %}
-                            {% if course.teachingOtherClass != null %}
-                            <span>{{ course.teachingOtherClass}}h
-                                {% if course.teachingOtherTypeClass != null %}
-                                    {{ course.teachingOtherTypeClass }}
-                                {% else %}
-                                    Autre
-                                {% endif %}
-                                </span>
-                        {% endif %}
-                        {% endif %}
-                        {% if course.teachingMode == "hybrid" %}
-                            <div class = "col pl-0 d-flex flex-column">
-                                <span>Présentiel</span>
-                                {% if course.teachingCmHybridClass != null %}
-                                    <span>{{ course.teachingCmHybridClass }}h CM</span>
-                                {% endif %}
-                                {% if course.teachingTdHybridClass != null %}
-                                    <span>{{ course.teachingTdHybridClass}}h TD</span>
-                                {% endif %}
-                                {% if course.teachingTpHybridClass != null %}
-                                    <span>{{ course.teachingTpHybridClass}}h TP</span>
-                                {% endif %}
-                                {% if course.teachingOtherHybridClass != null %}
-                                    <span>{{ course.teachingOtherHybridClass}}h
-                                        {% if course.teachingOtherTypeHybridClass != null %}
-                                            {{ course.teachingOtherTypeHybridClass }}
-                                        {% else %}
-                                            Autre
-                                        {% endif %}
-                                    </span>
-                                {% endif %}
-                            </div>
-                            <div class = "col pl-0 d-flex flex-column">
-                                <span>Distanciel</span>
-                                {% if course.teachingCmHybridDist != null %}
-                                    <span>{{ course.teachingCmHybridDist }}h CM</span>
-                                {% endif %}
-                                {% if course.teachingTdHybridDist != null %}
-                                    <span>{{ course.teachingTdHybridDist}}h TD</span>
-                                {% endif %}
-                                {% if course.teachingOtherHybridDist != null %}
-                                    <span>{{ course.teachingOtherHybridDist}}h
-                                        {% if course.teachingOtherTypeHybridDistant != null %}
-                                            {{ course.teachingOtherTypeHybridDistant }}
-                                        {% else %}
-                                            Autre
-                                        {% endif %}
-                                    </span>
-                                {% endif %}
-                            </div>
-                        {% endif %}
-                    </span>
-                </span>
-            </div>
-            <div class="col-md-4 media d-flex align-items-center">
-                <a href="http://unice.fr/international/les-ri-a-luns/reseau-des-ri/bri" target="_blank" class="text-light">
-                    <i class="fas m-3 fa-4x fa-globe"></i>
-                    <span class="font-weight-bold media-body">Mobilité internationale</span>
-                </a>
-            </div>
-        </div>
-
-
-        <div id="Objectifs_cours" class="row mx-3 mt-5 d-flex flex-row">
-
-            <div class="col-md-12 p-0">
-                <h4 class="text-justify text-left font-weight-bold text-white">
-                    Objectifs du cours
-                </h4>
-                <hr class="border border-white bg-light" style="height: 5px;">
-            </div>
-
-            <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex justify-content-center align-items-center">
-                <h5 class="m-0">ACQUIS D'APPRENTISSAGE</h5>
-            </div>
-
-            <div class="col-md-12 d-flex justify-content-center align-items-center text-white">
-                <h5 class="m-2">A la fin de ce cours, je serai capable de…</h5>
-            </div>
-
-            {% for achievement in course.courseAchievements %}
-                {% set oddOrEven = cycle(['pl-0', 'pr-0'], loop.index0) %}
-                <div class="col-md-6 pt-3 {{oddOrEven}}">
-                    <div class="p-2 border border-info bg-info text-light rounded-pill text-center">
-                        {{achievement.description}}
-                    </div>
-                </div>
-            {% endfor %}
-
-        </div>
-
-        <div class="row mx-3 mt-5 d-flex flex-row">
-            <div class="col-md-6 pl-0" >
-                <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
-                    <h5 class="m-0">PRÉREQUIS</h5>
-                </div>
-                <div class="row d-flex flex-row">
-                    <div class="col-md-12 d-flex flex-row justify-content-center align-items-center text-white">
-                        <h5 class="m-2">Avant de suivre ce cours, je dois…</h5>
-                    </div>
-                </div>
-                {% for prerequisite in course.coursePrerequisites %}
-                    <div class="row m-3 p-2 border border-info bg-info text-light rounded-pill d-flex flex-row justify-content-center align-items-center">
-                        {{prerequisite.description}}
-                    </div>
-                {% endfor %}
-            </div>
-            <div class="col-md-6 pr-0" >
-                <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
-                    <h5 class="m-0">REMÉDIATION / AIDE À LA RÉUSSITE</h5>
-                </div>
-                <div class="col-md-12 d-flex flex-row justify-content-center align-items-center text-white">
-                    <h5 class="m-2">Si je rencontre des difficultés, je peux&hellip;</h5>
-                </div>
-                {% if course.tutoringDescription != null %}
-                    <div class="row m-3 p-2 border border-info bg-info text-light rounded-pill d-flex flex-row justify-content-center align-items-center">
-                        {{course.tutoringDescription}}
-                    </div>
-                {% endif %}
-                {% for resource in course.courseTutoringResources %}
-                    <div class="row m-3 p-2 border border-info bg-info text-light rounded-pill d-flex flex-row justify-content-center align-items-center">
-                        {{resource.description}}
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-
-
-        <div id="Contenu_activites" class="row mx-3 mt-5 d-flex flex-row">
-            <div class="col-md-12 p-0">
-                <h4 class="text-justify text-left font-weight-bold text-white">
-                    Contenu et activités
-                </h4>
-                <hr class="border border-white bg-light" style="height: 5px;">
-            </div>
-        </div>
-
-        <div class="row m-3 d-flex flex-row justify-content-around">
-            <div class="col-md-12 p-0" >
-                {% for section in course.courseSections %}
-                    <div class="col p-2 my-2 border border-dark bg-light">
-                        <h6>{{section.title|raw}} : {{section.description|raw}}</h6>
-                        {% set ActivityHandled = [] %}
-                        {% for activity in section.courseSectionActivities %}
-                            {% set break = false %}
-                            {% for activity in section.courseSectionActivities if activity not in ActivityHandled and not break %}
-                                {% if activity.activity.mode == "class" %}
-                                    <div class="row mx-1 p-3 d-flex flex-row justify-content-between align-items-center text-light bg-black }}">
-                                        <div class="d-flex flex-column align-items-start">
-                                            {% for activity in section.courseSectionActivities if activity not in ActivityHandled and not break %}
-                                                {% if activity.activity.mode == "class"%}
-                                                    <span>{{activity.activity.label}} </span>
-                                                    {% set ActivityHandled = ActivityHandled|merge([activity]) %}
-                                                {% else %}
-                                                    {% set break = true %}
-                                                {% endif %}
-                                            {% endfor %}
-                                        </div>
-                                        <div class="d-flex flex-row align-items-center">
-                                            <span class="font-weight-bold mx-3"> En présentiel</span>
-                                            <img src="{{ asset('images/activity_in_class_white_64.png') }}">
-                                        </div>
-                                    </div>
-                                {% elseif activity.activity.mode == "autonomy" %}
-                                    <div class="row mx-1 p-3 d-flex flex-row justify-content-between align-items-center text-light bg-dark }}">
-                                        <div class="d-flex flex-column align-items-start">
-                                            {% for activity in section.courseSectionActivities if activity not in ActivityHandled and not break %}
-                                                {% if activity.activity.mode == "autonomy"%}
-                                                    <span>{{activity.activity.label}} </span>
-                                                    {% set ActivityHandled = ActivityHandled|merge([activity]) %}
-                                                {% else %}
-                                                    {% set break = true %}
-                                                {% endif %}
-                                            {% endfor %}
-                                        </div>
-                                        <div class="d-flex flex-row align-items-center">
-                                            <span class="font-weight-bold mx-3"> En autonomie</span>
-                                            <img src="{{ asset('images/activity_in_autonomy_white_64.png') }}">
-                                        </div>
-                                    </div>
-                                {% elseif activity.activity.mode == "cc" %}
-                                    <div class="row mx-1 p-3 d-flex flex-row justify-content-between align-items-center text-light bg-info }}">
-                                        <div class="d-flex flex-column col-11 px-0 align-items-start">
-                                            {% for activity in section.courseSectionActivities if activity not in ActivityHandled and not break %}
-                                                {% if activity.activity.mode == "cc"%}
-                                                    <div class = "d-flex flex-row w-100 justify-content-between align-items-center">
-                                                        <span>{{activity.activity.label}} </span>
-                                                        {% if activity.evaluationRate != null %}
-                                                            <span class="font-weight-bold">{{activity.evaluationRate}}% du Contrôle Continu</span>
-                                                        {% else %}
-                                                            <span class="font-weight-bold">Contrôle Continu</span>
-                                                        {% endif %}
-                                                    </div>
-                                                    {% set ActivityHandled = ActivityHandled|merge([activity]) %}
-                                                {% else %}
-                                                    {% set break = true %}
-                                                {% endif %}
-                                            {% endfor %}
-                                        </div>
-                                        <div class = "d-flex flex-column col-1 align-items-center">
-                                            <img src="{{ asset('images/evaluation_cc_64.png') }}">
-                                        </div>
-                                    </div>
-                                {% endif %}
-                            {% endfor %}
-                        {% endfor %}
-                    </div>
-                {% endfor %}
-
-                <div class="col p-2 my-2 border border-dark bg-light">
-                    <h6>Contrôle Terminal : tout le programme</h6>
-                    <div class="row mx-1 p-3 d-flex flex-row justify-content-between align-items-center text-light bg-dark }}">
-                        <div class="d-flex flex-column align-items-start">
-                            {% for ct in course.courseEvaluationCts %}
-                                <span>{{ct.activity.label}}
-                                    {% if ct.description != null %}
-                                        : {{ct.description}}
+            -->
+            <div id="presentation" class="mt-5">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div>
+                            <h5 class="font-weight-bold">{{ course.title }}</h5>
+                            <div class="row ">
+                                <div class="col-md d-flex align-items-center">
+                                    {% set levelBeginnerColor = 'info'  %}
+                                    {% set levelIntermediateColor = 'white'  %}
+                                    {% set levelAdvancedColor = 'white'  %}
+                                    {% set levelText = ''  %}
+                                    {% if course.level == "beginner" %}
+                                        {% set levelText = 'Niveau débutant'  %}
+                                    {% elseif course.level == "intermediate" %}
+                                        {% set levelIntermediateColor = 'info'  %}
+                                        {% set levelText = 'Niveau intermédiare'  %}
+                                    {% elseif course.level == "advanced" %}
+                                        {% set levelIntermediateColor = 'info'  %}
+                                        {% set levelAdvancedColor = 'info'  %}
+                                        {% set levelText = 'Niveau avancé'  %}
                                     {% endif %}
+                                    <i class="fas fa-circle text-{{ levelBeginnerColor }} rounded-circle border border-dark"></i>
+                                    <i class="mx-1 fas fa-circle text-{{ levelIntermediateColor }} rounded-circle border border-dark"></i>
+                                    <i class=" fas fa-circle text-{{ levelAdvancedColor }} rounded-circle border border-dark"></i>
+                                    <span class="px-3 text-white">{{ levelText }}</span>
+                                </div>
+                                <div class="col-md d-flex align-items-center border-left border-dark">
+                                    <span class="mx-3 text-white">Domaine disciplinaire : {{course.domain}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        {% if parent is not empty and parentInfo is not empty %}
+                            <div class="row d-flex flex-row">
+                                <div class="col-md-6 d-flex flex-column border-left px-3">
+                                    <h6>{{ parentInfo.title }}</h6>
+                                </div>
+                                <div class="col-md-3 d-flex flex-column border-left px-5">
+                                    <h2 class="text-center">{{ parentInfo.ects }}</h2>
+                                    <span class="text-center">ECTS</span>
+                                </div>
+                                <div class="col-md-3 d-flex flex-column border-left px-5">
+                                    <h2 class="text-center">{{ parent.children|length }}</h2>
+                                    <span class="text-center">ECUE</span>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-md-5 d-flex flex-column">
+                        <div>
+                            {{ course.summary|raw }}
+                        </div>
+                        <div class="mt-3">
+                            <span>Équipe enseignante :</span>
+                            {% for teacher in course.courseTeachers %}
+                                {% set teacherName = teacher.firstname ~ ' ' ~ teacher.lastname  %}
+                                {% if teacher.manager == true %}
+                                    {% set teacherName = '<u>' ~ teacherName ~ '</u>' %}
+                                {% endif %}
+                                <span class="font-weight-bold">{{ teacherName|raw }}</span>
+                                {% if loop.last %}
+                                    .
+                                {% else %}
+                                    ,
+                                {% endif %}
+                            {% endfor %}
+                            </span>
+                        </div>
+                        <div id="presentation_media_container" class="mt-3">
+                        <span>
+                            Période : <strong>{{ course.period }}</strong>
                         </span>
+                        </div>
+                    </div>
+                    <div class="col-md-7 mt-3">
+                        {% if course.mediaType == "video"
+                        and course.video[:7]|lower == "<iframe"
+                        and course.video[-9:]|lower == "</iframe>" %}
+                            <div class="embed-responsive embed-responsive-16by9">
+                                {{ course.video|raw }}
+                            </div>
+                        {% endif %}
+                        {% if course.mediaType == "image" %}
+                            <img src={{ asset('data/' ~ course.image) }} class="img-fluid" alt="Responsive image">
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-md-4 d-flex align-items-center">
+                        <i class="fas m-3 fa-4x fa-map-marker-alt"></i>
+                        <div class = "d-flex flex-column font-weight-bold">
+                            <span> Campus principal </span>
+                            <span> {{course.structure.campus}} </span>
+                        </div>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-center">
+                        {% if course.teachingMode == "class" %}
+                            <img src="{{ asset('images/in_class_white_128.png') }}">
+                            <div class = "d-flex flex-column">
+                                <span class="font-weight-bold">PRÉSENTIEL</span>
+                                {% if course.teachingCmClass is not null %}
+                                    <span>{{ course.teachingCmClass }}h CM</span>
+                                {% endif %}
+                                {% if course.teachingTdClass is not null %}
+                                    <span>{{ course.teachingTdClass }}h TD</span>
+                                {% endif %}
+                                {% if course.teachingTpClass is not null %}
+                                    <span>{{ course.teachingTpClass }}h TP</span>
+                                {% endif %}
+                                {% if course.teachingOtherClass is not null and course.teachingOtherTypeClass is not null %}
+                                    <span>{{ course.teachingOtherClass }}h {{ course.teachingOtherTypeClass }}</span>
+                                {% endif %}
+                            </div>
+                        {% elseif course.teachingMode == "hybrid" %}
+                            <img src="{{ asset('images/hybrid_white_128.png') }}">
+                            <div class = "d-flex flex-column w-100">
+                                <span class="font-weight-bold">HYBRIDE</span>
+                                <div class="row">
+                                    <div class="col-md-auto d-flex flex-column">
+                                        <strong>Présentiel</strong>
+                                        {% if course.teachingCmHybridClass is not null %}
+                                            <span>{{ course.teachingCmHybridClass }}h CM</span>
+                                        {% endif %}
+                                        {% if course.teachingTdHybridClass is not null %}
+                                            <span>{{ course.teachingTdHybridClass }}h TD</span>
+                                        {% endif %}
+                                        {% if course.teachingTpHybridClass is not null %}
+                                            <span>{{ course.teachingTpHybridClass }}h TP</span>
+                                        {% endif %}
+                                        {% if course.teachingOtherHybridClass is not null and course.teachingOtherTypeHybridClass is not null %}
+                                            <span>{{ course.teachingOtherHybridClass }}h {{ course.teachingOtherTypeHybridClass }}</span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-auto d-flex flex-column">
+                                        <strong>Distanciel</strong>
+                                        {% if course.teachingCmHybridDist is not null %}
+                                            <span>{{ course.teachingCmHybridDist }}h CM</span>
+                                        {% endif %}
+                                        {% if course.teachingTdHybridDist is not null %}
+                                            <span>{{ course.teachingTdHybridDist }}h TD</span>
+                                        {% endif %}
+                                        {% if course.teachingOtherHybridDist is not null and course.teachingOtherTypeHybridDistant is not null %}
+                                            <span>{{ course.teachingOtherHybridDist }}h {{ course.teachingOtherTypeHybridDistant }}</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-4 d-flex align-items-center">
+                        <a href="http://unice.fr/international/les-ri-a-luns/reseau-des-ri/bri" target="_blank" class="text-light">
+                            <i class="fas m-3 fa-4x fa-globe"></i>
+                            <span class="font-weight-bold media-body">Mobilité internationale</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!--
+
+            COURSE OBJECTIVES
+
+            -->
+            <div id="objectives" class="mt-5">
+                <h4 class="font-weight-bold">Objectifs du cours</h4>
+                <hr class="border border-white bg-light" style="height: 5px;">
+                <div id="objectives_achievements" class="mt-4">
+                    <h5 class="border border-info bg-light text-info rounded text-center p-2">ACQUIS D'APPRENTISSAGE</h5>
+                    <h6 class="text-center">A la fin de ce cours, je serai capable de…</h6>
+                    <div class="row">
+                        {% for achievement in course.courseAchievements %}
+                            {% if achievement.description is not null %}
+                                <div class="col-md-6">
+                                    <div class="bg-info rounded-pill text-center p-2 my-2">
+                                        {{achievement.description}}
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div id="objectives_prerequisites" class="mt-4">
+                            <h5 class="border border-info bg-light text-info rounded text-center p-2">PRÉREQUIS</h5>
+                            <h6 class="text-center">Avant de suivre ce cours, je dois…</h6>
+                            {% for prerequisite in course.coursePrerequisites %}
+                                {% if prerequisite.description is not null %}
+                                    <div class="bg-info rounded-pill text-center p-2 my-2">
+                                        {{prerequisite.description}}
+                                    </div>
+                                {% endif %}
                             {% endfor %}
                         </div>
-                        <div class="d-flex flex-row align-items-center">
-                            <span class="font-weight-bold mx-3">Sur le campus</span>
-                            <i class="fas mx-3 fa-2x fa-map-marker-alt"></i>
+                    </div>
+                    <div class="col-md-6">
+                        <div id="objectives_tutoring" class="mt-4">
+                            <h5 class="border border-info bg-light text-info rounded text-center p-2">REMÉDIATION / AIDE À LA RÉUSSITE</h5>
+                            <h6 class="text-center">Si je rencontre des difficultés, je peux…</h6>
+                            {% if course.tutoringDescription != null %}
+                                <div class="bg-info rounded-pill text-center p-2 my-2">
+                                    {{course.tutoringDescription}}
+                                </div>
+                            {% endif %}
+                            {% for resource in course.courseTutoringResources %}
+                                {% if resource.description is not null %}
+                                    <div class="bg-info rounded-pill text-center p-2 my-2">
+                                        {{resource.description}}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
-
             </div>
-        </div>
 
 
+            <!--
 
-        <div id="Modalites_evaluation" class="row mx-3 mt-5 d-flex flex-row">
-            <div class="col-md-12 p-0">
-                <h4 class="text-justify text-left font-weight-bold text-white">
-                    Modalités d'évaluation
-                </h4>
+            COURSE ACTIVITIES
+
+            -->
+            <div id="activities" class="mt-5">
+                <h4 class="font-weight-bold">Contenu et activités</h4>
                 <hr class="border border-white bg-light" style="height: 5px;">
-            </div>
-        </div>
 
-        <div class="row mx-3 d-flex flex-row justify-content-around">
-            <div class="col-md-6 pl-0" >
-                <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
-                    <h5 class="m-0">MODALITÉS DE CONTRÔLE DES CONNAISSANCES</h5>
-                </div>
-                <div class="row m-3 d-flex flex-row justify-content-around">
-                    <div class="col-md-6 pl-0" >
-                        <table class="table table-dark bg-black">
-                            <thead >
-                            <tr>
-                                <th colspan="2" scope="col">1ère session</th>
-                            </tr>
-                            <tr>
-                                <th>Type d'évaluation</th>
-                                <th>Coef</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr class="bg-info">
-                                <td><p class="my-0">Contrôle Continu</p> ({{course.mccCcNbEvalSession1}} minimum)</td>
-                                <td> {{course.mccCcCoeffSession1}}%</td>
-                            </tr>
-                            <tr class="bg-dark">
-                                <td>Contrôle Terminal - {{course.mccCtDurationSession1}} </td>
-                                <td>{{course.mccCtCoeffSession1}}%</td>
-                            </tr>
-                            </tbody>
-                        </table>
+                {% for section in course.courseSections %}
+                    <div id="activities_sections" class="mt-4 p-2 bg-light">
+                        <h5 class="text-body font-weight-bold">{{section.title}}</h5>
+                        <div class="text-body border p-2">
+                            {{section.description|raw}}
+                        </div>
+                        {% if section.courseSectionActivities|length > 0  %}
+                            <div class="mt-2">
+                                {% set activity = section.courseSectionActivities|first %}
+                                {% set activities = [] %}
+                                {% set activityType = activity.activity.type %}
+                                {% set activityMode = activity.activity.mode %}
+                                {% for activity in section.courseSectionActivities %}
+                                    {% if activityMode != activity.activity.mode or activityType != activity.activity.type %}
+                                        {% include 'course/view_student_print_activities.html.twig' with {
+                                        'activities': activities,
+                                        'activityType': activityType,
+                                        'activityMode': activityMode
+                                        }%}
+                                        {% set activities = [] %}
+                                        {% set activityType = activity.activity.type %}
+                                        {% set activityMode = activity.activity.mode %}
+                                    {% endif %}
+                                    {% set activities = activities|merge([activity]) %}
+                                {% endfor %}
+                                {% include 'course/view_student_print_activities.html.twig' with {
+                                'activities': activities,
+                                'activityType': activityType,
+                                'activityMode': activityMode
+                                }%}
+                            </div>
+                        {% endif %}
                     </div>
-                    <div class="col-md-6 pr-0" >
-                        <table class="table table-dark bg-black">
-                            <thead>
-                            <tr>
-                                <th colspan="2" scope="col">2ème session</th>
-                            </tr>
-                            <tr>
-                                <th>Type d'évaluation</th>
-                                <th>Coef</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr class="bg-dark">
-                                <td>Contrôle Terminal - {{course.mccCtDurationSession2}} </td>
-                                <td>{{course.mccCtCoeffSession2}}%</td>
-                            </tr>
-                            </tbody>
-                        </table>
+                {% endfor %}
+                <div id="activities_evaluations" class="mt-4">
+                    <div id="activities_sections" class="mt-4 p-2 bg-light">
+                        <h5 class="text-body font-weight-bold">Contrôle Terminal: Tout le programme</h5>
+                        <div class="mt-2">
+                            <div class="d-flex p-3 bg-primary">
+                                <div class="mr-auto p-2 d-flex flex-column align-self-center">
+                                    {% for evaluation in course.courseEvaluationCts %}
+                                        <span>
+                                        {{ evaluation.activity.label }}
+                                            {% if evaluation.description is not null %}
+                                                : {{ evaluation.description }}
+                                            {% endif %}
+                                    </span>
+                                    {% endfor %}
+                                </div>
+                                <div class="p-2 d-flex align-self-center font-weight-bold">Sur le campus</div>
+                                <div class="p-2 d-flex align-self-center">
+                                    <i class="fas m-3 fa-2x fa-map-marker-alt"></i>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 pr-0" >
-                <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
-                    <h5 class="m-0">MÉTHODES D'ÉVALUATION</h5>
-                </div>
-                <div class="d-flex flex-column text-white">
-                    {% for section in course.courseSections %}
-                        {% set onlyEvaluations = [] %}
-                        {% for activity in section.courseSectionActivities if activity.activity.type == "evaluation" %}
-                            {% set onlyEvaluations = onlyEvaluations|merge([activity]) %}
-                        {% endfor %}
-                        {% for row in onlyEvaluations|batch(2) %}
-                            <div class="d-flex flex-row justify-content-around">
-                                {% for activity in row %}
-                                    {% if activity.activity.mode == 'cc' %}
-                                        <div class="d-flex flex-row rounded bg-info px-4 my-2" >{{activity.activity.label}}</div>
-                                    {% elseif activity.activity.mode == 'ct' %}
-                                        <div class="d-flex flex-row rounded bg-primary px-4 my-2" >{{activity.activity.label}}</div>
+
+
+            <!--
+
+            COURSE EVALUATIONS
+
+            -->
+            <div id="evaluations" class="mt-5">
+                <h4 class="font-weight-bold">Modalités d'évaluation</h4>
+                <hr class="border border-white bg-light" style="height: 5px;">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div id="evaluations_mcc" class="mt-4">
+                            <h5 class="border border-info bg-light text-info rounded text-center p-2">MODALITÉS DE CONTRÔLE DES CONNAISSANCES</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <table class="table table-dark bg-transparent">
+                                        <thead class="">
+                                        <tr class="border-bottom font-weight-bold">
+                                            <td>1ère session</td>
+                                            <td><i class="fas fa-info-circle"></i></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Type d'évaluation</td>
+                                            <td>Coef</td>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr class="bg-info">
+                                            <td>
+                                                <p class="m-0">Contrôle continu</p>
+                                                <p class="m-0">({{course.mccCcNbEvalSession1}} minimum)</p>
+                                            </td>
+                                            <td>{{course.mccCcCoeffSession1}}%</td>
+                                        </tr>
+                                        <tr class="bg-primary">
+                                            <td>
+                                                <p class="m-0">Contrôle Terminal </p>
+                                                <p class="m-0">{{course.mccCtDurationSession1}}</p>
+                                            </td>
+                                            <td>{{course.mccCtCoeffSession1}}%</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-md-6">
+                                    <table class="table table-dark bg-transparent">
+                                        <thead class="">
+                                        <tr class="border-bottom font-weight-bold">
+                                            <td>
+                                                2ème session
+                                            </td>
+                                            <td>
+                                                <i class="fas fa-info-circle"></i>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Type d'évaluation
+                                            </td>
+                                            <td>
+                                                Coef
+                                            </td>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr class="bg-primary">
+                                            <td>
+                                                <p class="m-0">Contrôle Terminal </p>
+                                                <p class="m-0">{{course.mccCtDurationSession2}}</p>
+                                            </td>
+                                            <td>{{course.mccCtCoeffSession2}}%</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div >
+                    </div>
+                    <div class="col-md-6">
+                        <div id="evaluations_methods" class="mt-4">
+                            <h5 class="border border-info bg-light text-info rounded text-center p-2">MÉTHODES D'ÉVALUATION</h5>
+                            <div class="row">
+                                {% for section in course.courseSections %}
+                                    {% for activity in section.courseSectionActivities %}
+                                        {% if activity.activity.type == "evaluation" %}
+                                            <div class="col-md-6">
+                                                <div class="bg-info rounded-pill text-center p-1 my-1">
+                                                    {{activity.activity.label}}
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endfor %}
+                                {% for evaluation in course.courseEvaluationCts %}
+                                    {% if evaluation.activity.type == "evaluation" %}
+                                        <div class="col-md-6">
+                                            <div class="bg-primary rounded-pill text-center p-1 my-1">
+                                                {{evaluation.activity.label}}
+                                            </div>
+                                        </div>
                                     {% endif %}
                                 {% endfor %}
                             </div>
-                        {% endfor %}
-                    {% endfor %}
+                        </div>
+                        <div id="evaluations_advices" class="mt-4">
+                            <h5 class="border border-info bg-light text-info rounded text-center p-2">CONSEILS PRATIQUES</h5>
+                            {{course.mccAdvice|raw}}
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-12 mt-5 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
-                    <h5 class="m-0">CONSEILS PRATIQUES</h5>
-                    <div class="text-white">
-                        {{course.mccAdvice|raw}}
+                <div class="row mt-4">
+                    <div class="col d-flex align-items-center">
+                        <div class="bg-info rounded-circle p-2 m-2">
+                            <h4 class="my-2 font-weight-bold">{{course.mccWeight}}%</h4>
+                        </div>
+                        <strong class="px-2">Poids dans l'UE</strong>
+                        <i class="fas fa-info-circle"></i>
+                    </div>
+                    <div class="col d-flex align-items-center">
+                        <i class="fas fa-4x fa-check-circle text-info"></i>
+                        <strong class="px-2">UE compensable</strong>
+                        <i class="fas fa-info-circle"></i>
+                    </div>
+                    <div class="col d-flex align-items-center">
+                        {% if course.mccCapitalizable == false %}
+                            <i class="fas fa-4x fa-times-circle text-info"></i>
+                            <strong class="px-2">UE non capitalisable</strong>
+                            <i class="fas fa-info-circle"></i>
+                        {% else %}
+                            <i class="fas fa-4x fa-check-circle text-info"></i>
+                            <strong class="px-2">UE capitalisable</strong>
+                            <i class="fas fa-info-circle"></i>
+                        {% endif %}
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row mx-3 d-flex flex-row justify-content-around text-white">
-            <div class="col-md-4 media d-flex align-items-center">
-                <div class="border border-info rounded-circle font-weight-bold  p-3 m-3 text-info">
-                    <h3 class="font-weight-bold my-2"> {{course.mccWeight}}% </h3>
+
+
+            <!--
+
+            COURSE EQUIPMENTS
+
+            -->
+            <div id="equipments_resources" class="mt-5">
+                <h4 class="font-weight-bold">Matériel et ressources</h4>
+                <hr class="border border-white bg-light" style="height: 5px;">
+                <div id="equipments_resources_equipments" class="mt-4">
+                    <h5 class="border border-info bg-light text-info rounded text-center p-2">MATÉRIEL OBLIGATOIRE</h5>
+                    <div class="row">
+                        {%  for equipment in course.courseResourceEquipments %}
+                            <div class="col-md-4 d-flex align-items-center">
+                                <i class="fas fa-2x fa-border rounded-circle fa-pencil-ruler p-2"></i>
+                                <div class="p-1">
+                                    <p class="m-0">{{ equipment.equipment.label }}</p>
+                                    {%  if equipment.description is not null %}
+                                        <p class="m-0 font-italic">
+                                            <small>{{ equipment.description }}</small>
+                                        </p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
                 </div>
-                <span class="font-weight-bold media-body"> Poids de l'ECUE dans l'UE </span>
-                <i class="fas fa-2x fa-info-circle"></i>
+                <div id="equipments_resources_teaching" class="mt-4">
+                    <h5 class="border border-info bg-light text-info rounded text-center p-2">RESSOURCES PÉDAGOGIQUES</h5>
+                    {{course.educationalResources|raw}}
+                </div>
+                <div id="equipments_resources_bibliographic" class="mt-4">
+                    <h5 class="border border-info bg-light text-info rounded text-center p-2">ÉLÉMENTS BIBLIOGRAPHIQUES</h5>
+                    {{course.bibliographicResources|raw}}
+                </div>
             </div>
-            <div class="col-md-4 media d-flex align-items-center">
-                <i class="fas m-3 fa-4x fa-check-circle text-info"></i>
-                <span class="font-weight-bold media-body"> UE compensable </span>
-                <i class="fas fa-2x fa-info-circle"></i>
+
+
+            <!--
+
+            COURSE INFORMATION
+
+            -->
+            <div id="information" class="mt-5">
+                <h4 class="font-weight-bold">Informations pratiques</h4>
+                <hr class="border border-white bg-light" style="height: 5px;">
+                <div id="information_agenda" class="mt-4">
+                    <h5 class="border border-info bg-light text-info rounded text-center p-2">AGENDA / CALENDRIER</h5>
+                    {{course.agenda|raw}}
+                </div>
+                <div id="information_organization" class="mt-4">
+                    <h5 class="border border-info bg-light text-info rounded text-center p-2">ORGANISATION DU COURS</h5>
+                    {{course.organization|raw}}
+                </div>
             </div>
-            <div class="col-md-4 media d-flex align-items-center">
-                {% if course.mccCapitalizable == true %}
-                    <i class="fas m-3 fa-4x fa-check-circle text-info"></i>
-                {% elseif course.mccCapitalizable == false %}
-                    <i class="fas m-3 fa-4x fa-times-circle text-info"></i>
+
+
+            <!--
+
+            REGULATION
+
+            -->
+            <div id="regulation" class="mt-5">
+                <h4 class="font-weight-bold">Règlementation</h4>
+                <hr class="border border-white bg-light" style="height: 5px;">
+                <div id="regulation_link" class="mt-4">
+                    <a href="http://unice.fr" target="_blank" class="btn btn-info btn-block">Consulter la règlementation</a>
+                </div>
+            </div>
+
+
+            <!--
+
+            CLOSING
+
+            -->
+            <div id="closing" class="mt-5">
+                <h4 class="font-weight-bold">Mot de la fin</h4>
+                <hr class="border border-white bg-light" style="height: 5px;">
+                <div id="closing_remarks" class="mt-4">
+                    {{course.closingRemarks|raw}}
+                </div>
+                {% if course.closingVideo
+                and course.closingVideo[:7]|lower == "<iframe"
+                and course.closingVideo[-9:]|lower == "</iframe>" %}
+                    <div id="closing_video" class="mt-4">
+                        <div class="embed-responsive embed-responsive-16by9">
+                            {{ course.closingVideo|raw }}
+                        </div>
+                    </div>
                 {% endif %}
-                <span class="font-weight-bold media-body"> UE capitalisable </span>
-                <i class="fas fa-2x fa-info-circle"></i>
             </div>
+
         </div>
-
-
-        <div id="Materiel_ressources" class="row mx-3 mt-5 d-flex flex-row">
-            <div class="col-md-12 p-0">
-                <h4 class="text-justify text-left font-weight-bold text-white">
-                    Matériel et ressources
-                </h4>
-                <hr class="border border-white bg-light" style="height: 5px;">
-            </div>
-        </div>
-
-        <div class="row mx-3 d-flex flex-row">
-            <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
-                <h5 class="m-0">MATÉRIEL OBLIGATOIRE</h5>
-            </div>
-        </div>
-        <div class="text-white">
-            {% for row in course.courseResourceEquipments|batch(3) %}
-                <div class="row mx-3 d-flex flex-row my-3">
-                    {% for courseResourceEquipment in row %}
-                        {% if courseResourceEquipment.equipment.labelVisibility == true %}
-                            <div class="col-md-4 d-flex flex-column justify-content-center align-items-start">
-                            <div>
-                                {{courseResourceEquipment.equipment.label}}
-                            </div>
-                        {% endif %}
-                        {% if courseResourceEquipment.description != null %}
-                            <div>
-                                {{courseResourceEquipment.description}}
-                            </div>
-                        {% endif %}
-                        {% if courseResourceEquipment.equipment.labelVisibility == true %}
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            {% endfor %}
-        </div>
-
-        <div class="row mx-3 mt-5 d-flex flex-row">
-            <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
-                <h5 class="m-0">RESSOURCES PÉDAGOGIQUES</h5>
-            </div>
-        </div>
-        <div class="row mx-3 d-flex flex-row text-white">
-            {{course.educationalResources|raw}}
-        </div>
-
-
-        <div class="row mx-3 mt-5 d-flex flex-row">
-            <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
-                <h5 class="m-0">ÉLÉMENTS BIBLIOGRAPHIQUES</h5>
-            </div>
-        </div>
-        <div class="row mx-3 d-flex flex-row text-white">
-            {{course.bibliographicResources|raw}}
-        </div>
-
-
-        <div id="Informations_pratiques" class="row mx-3 mt-5 d-flex flex-row">
-            <div class="col-md-12 p-0">
-                <h4 class="text-justify text-left font-weight-bold text-white">
-                    Informations pratiques
-                </h4>
-                <hr class="border border-white bg-light" style="height: 5px;">
-            </div>
-        </div>
-
-        <div class="row mx-3 d-flex flex-row">
-            <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
-                <h5 class="m-0">AGENDA / CALENDRIER</h5>
-            </div>
-        </div>
-        <div class="row mx-3 d-flex flex-row text-white">
-            {{course.agenda|raw}}
-        </div>
-
-
-        <div class="row mx-3 mt-5 d-flex flex-row">
-            <div class="col-md-12 p-2 border border-info bg-light text-info rounded d-flex flex-row justify-content-center align-items-center">
-                <h5 class="m-0">ORGANISATION DU COURS</h5>
-            </div>
-        </div>
-        <div class="row mx-3 d-flex flex-row text-white">
-            {{course.organization|raw}}
-        </div>
-
-
-        <div id="Reglementation" class="row mx-3 mt-5 d-flex flex-row">
-            <div class="col-md-12 p-0">
-                <h4 class="text-justify text-left font-weight-bold text-white">
-                    Réglementation
-                </h4>
-                <hr class="border border-white bg-light" style="height: 5px;">
-            </div>
-        </div>
-
-        <div class="row d-flex flex-row">
-            <div class="col-md-12 d-flex flex-row justify-content-center align-items-center text-white">
-                <h5 class="m-2">En m'inscrivant à l'université, je m'engage à respecter le règlement des études ci-après :</h5>
-            </div>
-        </div>
-
-
-        <div id="Mot_fin" class="row mx-3 mt-5 d-flex flex-row">
-            <div class="col-md-12 p-0">
-                <h4 class="text-justify text-left font-weight-bold text-white">
-                    Mot de la fin
-                </h4>
-                <hr class="border border-white bg-light" style="height: 5px;">
-            </div>
-        </div>
-
-        <div class="row mx-3 d-flex flex-row text-white">
-            {{course.closingRemarks|raw}}
-        </div>
-
-        {% if course.closingVideo
-            and course.closingVideo[:7]|lower == "<iframe"
-            and course.closingVideo[-9:]|lower == "</iframe>" %}
-            <div id="closing_media_container" class="row mx-3 d-flex flex-row text-white">
-                <div class="embed-responsive embed-responsive-16by9">
-                    {{ course.closingVideo|raw }}
-                </div>
-            </div>
-        {% endif %}
-
     {% endif %}
 
 {% endblock %}
 
-{% block javascripts %}
-    {{ parent() }}
-    <script>
-        Syllabus.setMediaFrameAttributes(document.querySelector( '#presentation_media_container > .embed-responsive > iframe' ));
-        Syllabus.setMediaFrameAttributes(document.querySelector( '#closing_media_container > .embed-responsive > iframe' ));
-    </script>
-{% endblock %}
+        {% block javascripts %}
+            {{ parent() }}
+            <script>
+                Syllabus.setMediaFrameAttributes(document.querySelector( '#presentation_media_container > .embed-responsive > iframe' ));
+                Syllabus.setMediaFrameAttributes(document.querySelector( '#closing_video > .embed-responsive > iframe' ));
+            </script>
+        {% endblock %}

@@ -224,9 +224,11 @@ class EditPresentationCourseInfoCommand implements CommandInterface
         $this->teachingTdHybridClass = $courseInfo->getTeachingTdHybridClass();
         $this->teachingTpHybridClass = $courseInfo->getTeachingTpHybridClass();
         $this->teachingOtherHybridClass = $courseInfo->getTeachingOtherHybridClass();
+        $this->teachingOtherTypeHybridClass = $courseInfo->getTeachingOtherTypeHybridClass();
         $this->teachingCmHybridDist = $courseInfo->getTeachingCmHybridDist();
         $this->teachingTdHybridDist = $courseInfo->getTeachingTdHybridDist();
         $this->teachingOtherHybridDist = $courseInfo->getTeachingOtherHybridDist();
+        $this->teachingOtherTypeHybridDistant = $courseInfo->getTeachingOtherTypeHybridDistant();
         $this->teachers = new ArrayCollection();
         foreach ($courseInfo->getCourseTeachers() as $teacher){
             $this->teachers->add(new CourseTeacherCommand($teacher));
@@ -776,9 +778,11 @@ class EditPresentationCourseInfoCommand implements CommandInterface
             ->setTeachingTdHybridClass($this->getTeachingTdHybridClass())
             ->setTeachingTpHybridClass($this->getTeachingTpHybridClass())
             ->setTeachingOtherHybridClass($this->getTeachingOtherHybridClass())
+            ->setTeachingOtherTypeHybridClass($this->getTeachingOtherTypeHybridClass())
             ->setTeachingCmHybridDist($this->getTeachingCmHybridDist())
             ->setTeachingTdHybridDist($this->getTeachingTdHybridDist())
             ->setTeachingOtherHybridDist($this->getTeachingOtherHybridDist())
+            ->setTeachingOtherTypeHybridDistant($this->getTeachingOtherTypeHybridDistant())
             ->setTemPresentationTabValid($this->isTemPresentationTabValid());
 
         // CourseTeacher
