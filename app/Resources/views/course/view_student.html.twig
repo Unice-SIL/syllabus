@@ -32,52 +32,62 @@
                 {% endif %}
             {% endfor %}
         {% endif %}
+        <!--
+
+        NAV
+
+        -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-info text-center">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#view_navbar" aria-controls="view_navbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="view_navbar">
+                <ul class="navbar-nav m-auto text-white">
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="#presentation">Présentation</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="#objectives">Objectifs du cours</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="#activities">Contenu et activités</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="#evaluations">Modalités d'évaluation</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="#equipments_resources">Matériel et ressources</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="#information">Informations pratiques</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="#regulation">Réglementation</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="#closing">Mot de la fin</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+
+
         <div class="text-light">
-            <!--
-
-            NAV
-
-            -->
-            <nav class="navbar navbar-expand-lg  navbar-dark bg-info border p-0 text-center">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon text-light"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav text-center">
-                        <li class="nav-item d-flex flex-row align-items-center border-right">
-                            <a class="nav-link text-light" href="#presentation">Présentation</a>
-                        </li>
-                        <li class="nav-item d-flex flex-row align-items-center border-right">
-                            <a class="nav-link text-light" href="#objectives">Objectifs du cours</a>
-                        </li>
-                        <li class="nav-item d-flex flex-row align-items-center border-right">
-                            <a class="nav-link text-light" href="#activities">Contenu et activités</a>
-                        </li>
-                        <li class="nav-item d-flex flex-row align-items-center border-right">
-                            <a class="nav-link text-light" href="#evaluations">Modalités d'évaluation</a>
-                        </li>
-                        <li class="nav-item d-flex flex-row align-items-center border-right">
-                            <a class="nav-link text-light" href="#equipments_resources">Matériel et ressources</a>
-                        </li>
-                        <li class="nav-item d-flex flex-row align-items-center border-right">
-                            <a class="nav-link text-light" href="#information">Informations pratiques</a>
-                        </li>
-                        <li class="nav-item d-flex flex-row align-items-center border-right">
-                            <a class="nav-link text-light" href="#regulation">Réglementation</a>
-                        </li>
-                        <li class="nav-item d-flex flex-row align-items-center">
-                            <a class="nav-link text-light" href="#closing">Mot de la fin</a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
 
             <!--
 
             COURSE PRESENTATION
 
             -->
-            <div id="presentation" class="mt-5">
+            <div id="presentation" class="mt-4">
+                <div class="row mb-4">
+                    <div class="col text-right">
+                        <small>
+                            Dernière modification le {{ course.modificationDate|date('d/m/Y') }} à {{ course.modificationDate|date('H:i:s') }}
+                        </small>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-6">
                         <div>
@@ -128,7 +138,7 @@
                     </div>
                 </div>
                 <div class="row mt-4">
-                    <div class="col-md-5 d-flex flex-column">
+                    <div class="col-md-6 d-flex flex-column">
                         <div>
                             {{ course.summary|raw }}
                         </div>
@@ -154,7 +164,7 @@
                         </span>
                         </div>
                     </div>
-                    <div class="col-md-7 mt-3">
+                    <div class="col-md-6 mt-3">
                         {% if course.mediaType == "video"
                         and course.video[:7]|lower == "<iframe"
                         and course.video[-9:]|lower == "</iframe>" %}
@@ -179,7 +189,7 @@
                         {% if course.teachingMode == "class" %}
                             <img src="{{ asset('images/in_class_white_128.png') }}">
                             <div class = "d-flex flex-column">
-                                <span class="font-weight-bold">PRÉSENTIEL</span>
+                                <span class="font-weight-bold">Présentiel</span>
                                 {% if course.teachingCmClass is not null %}
                                     <span>{{ course.teachingCmClass }}h CM</span>
                                 {% endif %}
@@ -196,7 +206,7 @@
                         {% elseif course.teachingMode == "hybrid" %}
                             <img src="{{ asset('images/hybrid_white_128.png') }}">
                             <div class = "d-flex flex-column w-100">
-                                <span class="font-weight-bold">HYBRIDE</span>
+                                <span class="font-weight-bold">Hybride</span>
                                 <div class="row">
                                     <div class="col-md-auto d-flex flex-column">
                                         <strong>Présentiel</strong>
@@ -232,7 +242,9 @@
                     <div class="col-md-4 d-flex align-items-center">
                         <a href="http://unice.fr/international/les-ri-a-luns/reseau-des-ri/bri" target="_blank" class="text-light">
                             <i class="fas m-3 fa-4x fa-globe"></i>
-                            <span class="font-weight-bold media-body">Mobilité internationale</span>
+                            <span class="font-weight-bold media-body">
+                                    Mobilité internationale
+                                </span>
                         </a>
                     </div>
                 </div>
@@ -245,7 +257,7 @@
             -->
             <div id="objectives" class="mt-5">
                 <h4 class="font-weight-bold">Objectifs du cours</h4>
-                <hr class="border border-white bg-light" style="height: 5px;">
+                <hr class="border border-white bg-light" style="height: 2px;">
                 <div id="objectives_achievements" class="mt-4">
                     <h5 class="border border-info bg-light text-info rounded text-center p-2">ACQUIS D'APPRENTISSAGE</h5>
                     <h6 class="text-center">A la fin de ce cours, je serai capable de…</h6>
@@ -304,7 +316,7 @@
             -->
             <div id="activities" class="mt-5">
                 <h4 class="font-weight-bold">Contenu et activités</h4>
-                <hr class="border border-white bg-light" style="height: 5px;">
+                <hr class="border border-white bg-light" style="height: 2px;">
 
                 {% for section in course.courseSections %}
                     <div id="activities_sections" class="mt-4 p-2 bg-light">
@@ -342,7 +354,7 @@
                 {% endfor %}
                 <div id="activities_evaluations" class="mt-4">
                     <div id="activities_sections" class="mt-4 p-2 bg-light">
-                        <h5 class="text-body font-weight-bold">Contrôle Terminal: Tout le programme</h5>
+                        <h5 class="text-body font-weight-bold">Contrôle Terminal</h5>
                         <div class="mt-2">
                             <div class="d-flex p-3 bg-primary">
                                 <div class="mr-auto p-2 d-flex flex-column align-self-center">
@@ -373,7 +385,7 @@
             -->
             <div id="evaluations" class="mt-5">
                 <h4 class="font-weight-bold">Modalités d'évaluation</h4>
-                <hr class="border border-white bg-light" style="height: 5px;">
+                <hr class="border border-white bg-light" style="height: 2px;">
                 <div class="row">
                     <div class="col-md-6">
                         <div id="evaluations_mcc" class="mt-4">
@@ -383,8 +395,10 @@
                                     <table class="table table-dark bg-transparent">
                                         <thead class="">
                                         <tr class="border-bottom font-weight-bold">
-                                            <td>1ère session</td>
-                                            <td><i class="fas fa-info-circle"></i></td>
+                                            <td colspan="2" class="text-center">
+                                                1ère session
+                                                <i class="fas fa-info-circle"></i>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Type d'évaluation</td>
@@ -413,10 +427,8 @@
                                     <table class="table table-dark bg-transparent">
                                         <thead class="">
                                         <tr class="border-bottom font-weight-bold">
-                                            <td>
+                                            <td colspan="2" class="text-center">
                                                 2ème session
-                                            </td>
-                                            <td>
                                                 <i class="fas fa-info-circle"></i>
                                             </td>
                                         </tr>
@@ -470,7 +482,7 @@
                             </div>
                         </div>
                         <div id="evaluations_advices" class="mt-4">
-                            <h5 class="border border-info bg-light text-info rounded text-center p-2">CONSEILS PRATIQUES</h5>
+                            <h5 class="border border-info bg-light text-info rounded text-center p-2">PRÉCISIONS</h5>
                             {{course.mccAdvice|raw}}
                         </div>
                     </div>
@@ -488,7 +500,7 @@
                         <strong class="px-2">UE compensable</strong>
                         <i class="fas fa-info-circle"></i>
                     </div>
-                    <div class="col d-flex align-items-center">
+                    <div class="col d-flex align-items-center ">
                         {% if course.mccCapitalizable == false %}
                             <i class="fas fa-4x fa-times-circle text-info"></i>
                             <strong class="px-2">UE non capitalisable</strong>
@@ -510,7 +522,7 @@
             -->
             <div id="equipments_resources" class="mt-5">
                 <h4 class="font-weight-bold">Matériel et ressources</h4>
-                <hr class="border border-white bg-light" style="height: 5px;">
+                <hr class="border border-white bg-light" style="height: 2px;">
                 <div id="equipments_resources_equipments" class="mt-4">
                     <h5 class="border border-info bg-light text-info rounded text-center p-2">MATÉRIEL OBLIGATOIRE</h5>
                     <div class="row">
@@ -547,7 +559,7 @@
             -->
             <div id="information" class="mt-5">
                 <h4 class="font-weight-bold">Informations pratiques</h4>
-                <hr class="border border-white bg-light" style="height: 5px;">
+                <hr class="border border-white bg-light" style="height: 2px;">
                 <div id="information_agenda" class="mt-4">
                     <h5 class="border border-info bg-light text-info rounded text-center p-2">AGENDA / CALENDRIER</h5>
                     {{course.agenda|raw}}
@@ -566,7 +578,7 @@
             -->
             <div id="regulation" class="mt-5">
                 <h4 class="font-weight-bold">Règlementation</h4>
-                <hr class="border border-white bg-light" style="height: 5px;">
+                <hr class="border border-white bg-light" style="height: 2px;">
                 <div id="regulation_link" class="mt-4">
                     <a href="http://unice.fr" target="_blank" class="btn btn-info btn-block">Consulter la règlementation</a>
                 </div>
@@ -580,7 +592,7 @@
             -->
             <div id="closing" class="mt-5">
                 <h4 class="font-weight-bold">Mot de la fin</h4>
-                <hr class="border border-white bg-light" style="height: 5px;">
+                <hr class="border border-white bg-light" style="height: 2px;">
                 <div id="closing_remarks" class="mt-4">
                     {{course.closingRemarks|raw}}
                 </div>
@@ -595,7 +607,14 @@
                 {% endif %}
             </div>
 
+
+            <div class="mt-5 border bg-dark text-center p-3">
+                <small>
+                    Ce syllabus est non contractuel, il est susceptible d'évoluer en cours d'année, restez vigilants aux dernières modifications (date de mise à jour affichée en haut à droite)
+                </small>
+            </div>
         </div>
+
     {% endif %}
 
 {% endblock %}
