@@ -28,7 +28,8 @@ class CourseInfoFixture extends Fixture implements DependentFixtureInterface,  F
     {
         // Course info 1
         $courseInfo = new CourseInfo();
-        $courseInfo->setId(Uuid::uuid4())
+        #$courseInfo->setId(Uuid::uuid4())
+        $courseInfo->setId('00000000-aaaa-bbbb-cccc-dddddddddddd')
             ->setCourse($this->getReference(CourseFixture::COURSE_1))
             ->setYear($this->getReference(YearFixture::YEAR_2018))
             ->setStructure($this->getReference(StructureFixture::SCIENCES))
@@ -49,7 +50,8 @@ class CourseInfoFixture extends Fixture implements DependentFixtureInterface,  F
         $manager->persist($courseInfo);
         // Course info 2
         $courseInfo = new CourseInfo();
-        $courseInfo->setId(Uuid::uuid4())
+        #$courseInfo->setId(Uuid::uuid4())
+        $courseInfo->setId('00000001-aaaa-bbbb-cccc-dddddddddddd')
             ->setCourse($this->getReference(CourseFixture::COURSE_2))
             ->setYear($this->getReference(YearFixture::YEAR_2018))
             ->setStructure($this->getReference(StructureFixture::SCIENCES))
