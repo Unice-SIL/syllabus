@@ -18,12 +18,14 @@ class UserFixture extends Fixture  implements FixtureGroupInterface
      *
      */
     public const USER_1 = 'user1';
+    public const USER_2 = 'user2';
 
     /**
      * @param ObjectManager $manager
      */
     public function load(ObjectManager $manager)
     {
+        // User 1
         $user = new User();
         $user->setId(Uuid::uuid4())
             ->setUsername('user1')
@@ -33,6 +35,18 @@ class UserFixture extends Fixture  implements FixtureGroupInterface
             ->setRoles(['USER_ROLE']);
         $this->addReference(self::USER_1, $user);
         $manager->persist($user);
+
+        // User 2
+        $user = new User();
+        $user->setId(Uuid::uuid4())
+            ->setUsername('user2')
+            ->setFirstname('User2')
+            ->setLastname('User2')
+            ->setEmail('user2@unice.fr')
+            ->setRoles(['USER_ROLE']);
+        $this->addReference(self::USER_2, $user);
+        $manager->persist($user);
+
         $manager->flush();
     }
 
