@@ -15,7 +15,7 @@ use Ramsey\Uuid\Uuid;
  */
 class CoursePermissionFixture extends Fixture implements DependentFixtureInterface,  FixtureGroupInterface
 {
-       /**
+    /**
      * @param ObjectManager $manager
      */
     public function load(ObjectManager $manager)
@@ -27,6 +27,7 @@ class CoursePermissionFixture extends Fixture implements DependentFixtureInterfa
             ->setUser($this->getReference(UserFixture::USER_1))
             ->setPermission('WRITE');
         $manager->persist($permission);
+
         // Permission 2
         $permission = new CoursePermission();
         $permission->setId(Uuid::uuid4())
@@ -34,6 +35,15 @@ class CoursePermissionFixture extends Fixture implements DependentFixtureInterfa
             ->setUser($this->getReference(UserFixture::USER_1))
             ->setPermission('WRITE');
         $manager->persist($permission);
+
+        // Permission 3
+        $permission = new CoursePermission();
+        $permission->setId(Uuid::uuid4())
+            ->setCourseInfo($this->getReference(CourseInfoFixture::COURSE_INFO_1))
+            ->setUser($this->getReference(UserFixture::USER_2))
+            ->setPermission('WRITE');
+        $manager->persist($permission);
+
         $manager->flush();
     }
 
