@@ -102,6 +102,7 @@ class AskForAdviceCourseInfoAction implements ActionInterface
                 $message = (new \Swift_Message("[SYLLABUS] Demande d'avis."))
                     ->setFrom($this->mailerSource)
                     ->setTo($this->mailerTarget)
+                    ->setReplyTo($this->tokenStorage->getToken()->getUser()->getEmail())
                     ->setBody(
                         $this->templating->render(
                             'email/advice.html.twig',

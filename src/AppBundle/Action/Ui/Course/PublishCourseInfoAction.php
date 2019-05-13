@@ -121,6 +121,7 @@ class PublishCourseInfoAction implements ActionInterface
                         $message = (new \Swift_Message("[SYLLABUS] Avis de publication."))
                             ->setFrom($this->mailerSource)
                             ->setTo($this->mailerTarget)
+                            ->setReplyTo($courseInfo->getPublisher()->getEmail())
                             ->setBody(
                                 $this->templating->render(
                                     'email/publication.html.twig',
