@@ -34,11 +34,6 @@
         {% endif %}
 
 
-        <!--
-
-        NAV
-
-        -->
     {% if in_iframe == false %}
         <h2 class="font-weight-bold">{{ course.title }}</h2>
     {% endif %}
@@ -47,6 +42,23 @@
                 Dernière modification le {{ course.modificationDate|date('d/m/Y') }} à {{ course.modificationDate|date('H:i') }}.
             </small>
         </p>
+
+
+        <!--
+
+        NAV
+
+        <nav class="nav nav-pills nav-justified">
+            <a class="nav-item nav-link" href="#presentation">Présentation</a>
+            <a class="nav-item nav-link" href="#objectives">Objectifs du cours</a>
+            <a class="nav-item nav-link" href="#activities">Contenu et activités</a>
+            <a class="nav-item nav-link" href="#evaluations">Modalités d'évaluation</a>
+            <a class="nav-item nav-link" href="#equipments_resources">Matériel et ressources</a>
+            <a class="nav-item nav-link" href="#information">Informations pratiques</a>
+            <a class="nav-item nav-link" href="#regulation">Réglementation</a>
+            <a class="nav-item nav-link" href="#closing">Mot de la fin</a>
+        </nav>
+        -->
 
 
         <!--
