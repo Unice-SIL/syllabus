@@ -40,7 +40,9 @@
 
         -->
         <div class="sticky-top bg-black">
+        {% if in_iframe == false %}
             <h2 class="font-weight-bold">{{ course.title }}</h2>
+        {% endif %}
             <p class="font-italic text-right">
                 <small>
                     Dernière modification le {{ course.modificationDate|date('d/m/Y') }} à {{ course.modificationDate|date('H:i') }}.
