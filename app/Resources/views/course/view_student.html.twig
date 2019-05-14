@@ -40,6 +40,7 @@
             </small>
         </p>
 
+
         <!--
 
         NAV
@@ -80,13 +81,12 @@
         </nav>
 
 
-
         <!--
 
         COURSE PRESENTATION
 
         -->
-        <div id="presentation" class="mt-4">
+        <section id="presentation" class="mt-4">
             <div class="row">
                 <div class="col-md d-flex align-items-center">
                     {% set levelBeginnerColor = 'info'  %}
@@ -240,14 +240,15 @@
                     </a>
                 </div>
             </div>
-        </div>
+        </section>
+
 
         <!--
 
         COURSE OBJECTIVES
 
         -->
-        <div id="objectives" class="mt-5">
+        <section id="objectives" class="mt-5">
             <h4 class="font-weight-bold">Objectifs du cours</h4>
             <hr class="border border-white bg-light" style="height: 2px;">
             <div id="objectives_achievements" class="mt-4">
@@ -298,7 +299,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
 
 
         <!--
@@ -306,7 +307,7 @@
         COURSE ACTIVITIES
 
         -->
-        <div id="activities" class="mt-5">
+        <section id="activities" class="mt-5">
             <h4 class="font-weight-bold">Contenu et activités</h4>
             <hr class="border border-white bg-light" style="height: 2px;">
 
@@ -367,7 +368,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
 
 
         <!--
@@ -375,7 +376,7 @@
         COURSE EVALUATIONS
 
         -->
-        <div id="evaluations" class="mt-5">
+        <section id="evaluations" class="mt-5">
             <h4 class="font-weight-bold">Modalités d'évaluation</h4>
             <hr class="border border-white bg-light" style="height: 2px;">
             <div class="row">
@@ -504,7 +505,7 @@
                     {% endif %}
                 </div>
             </div>
-        </div>
+        </section>
 
 
         <!--
@@ -512,7 +513,7 @@
         COURSE EQUIPMENTS
 
         -->
-        <div id="equipments_resources" class="mt-5">
+        <section id="equipments_resources" class="mt-5">
             <h4 class="font-weight-bold">Matériel et ressources</h4>
             <hr class="border border-white bg-light" style="height: 2px;">
             <div id="equipments_resources_equipments" class="mt-4">
@@ -541,7 +542,7 @@
                 <h5 class="border border-info bg-light text-info rounded text-center p-2">ÉLÉMENTS BIBLIOGRAPHIQUES</h5>
                 {{course.bibliographicResources|raw}}
             </div>
-        </div>
+        </section>
 
 
         <!--
@@ -549,7 +550,7 @@
         COURSE INFORMATION
 
         -->
-        <div id="information" class="mt-5">
+        <section id="information" class="mt-5">
             <h4 class="font-weight-bold">Informations pratiques</h4>
             <hr class="border border-white bg-light" style="height: 2px;">
             <div id="information_agenda" class="mt-4">
@@ -560,7 +561,7 @@
                 <h5 class="border border-info bg-light text-info rounded text-center p-2">ORGANISATION DU COURS</h5>
                 {{course.organization|raw}}
             </div>
-        </div>
+        </section>
 
 
         <!--
@@ -568,13 +569,13 @@
         REGULATION
 
         -->
-        <div id="regulation" class="mt-5">
+        <section id="regulation" class="mt-5">
             <h4 class="font-weight-bold">Règlementation</h4>
             <hr class="border border-white bg-light" style="height: 2px;">
             <div id="regulation_link" class="mt-4">
                 <a href="http://unice.fr" target="_blank" class="btn btn-info btn-block">Consulter la règlementation</a>
             </div>
-        </div>
+        </section>
 
 
         <!--
@@ -582,22 +583,22 @@
         CLOSING
 
         -->
-        <div id="closing" class="mt-5">
+        <section id="closing" class="mt-5">
             <h4 class="font-weight-bold">Mot de la fin</h4>
             <hr class="border border-white bg-light" style="height: 2px;">
             <div id="closing_remarks" class="mt-4">
                 {{course.closingRemarks|raw}}
             </div>
             {% if course.closingVideo
-            and course.closingVideo[:7]|lower == "<iframe"
-            and course.closingVideo[-9:]|lower == "</iframe>" %}
+                  and course.closingVideo[:7]|lower == "<iframe"
+                  and course.closingVideo[-9:]|lower == "</iframe>" %}
                 <div id="closing_video" class="mt-4">
                     <div class="embed-responsive embed-responsive-16by9">
                         {{ course.closingVideo|raw }}
                     </div>
                 </div>
             {% endif %}
-        </div>
+        </section>
 
 
         <div class="mt-5 border bg-dark text-center p-3">
