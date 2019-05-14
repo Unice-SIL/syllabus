@@ -19,9 +19,9 @@
 {% endif %}
 
 {% if dark_background is defined and dark_background == true %}
-    {% set body_class = 'bg-black' %}
+    {% set body_attributes = ' class="bg-black" data-spy="scroll" data-target="#navbar-view"' %}
 {% else %}
-    {% set body_class = '' %}
+    {% set body_attributes = '' %}
 {% endif %}
 
 <html lang="{{ app.request.locale|lower }}">
@@ -48,7 +48,7 @@
 
     </head>
 
-    <body class="{{ body_class }}">
+    <body{{ body_attributes|raw }}>
 
 {% if in_iframe == false %}
         <header>
