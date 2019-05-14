@@ -10,7 +10,7 @@
 
 
 /*
-    General (non BS) markup.
+    General.
 */
 
 html {
@@ -46,7 +46,19 @@ footer {
 }
 
 .bg-black {
+    color: $light;
     background-color: $black;
+
+    a {
+
+        &:link, &:active, &:visited {
+            color: $light;
+        }
+
+        &:hover {
+            color: $white;
+        }
+    }
 }
 
 
