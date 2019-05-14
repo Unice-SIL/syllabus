@@ -78,6 +78,20 @@ footer {
     }
 }
 
+.bg-black nav {
+
+    @include media-breakpoint-up(md) {
+
+        .nav-link {
+            max-width: 8rem;
+        }
+    }
+
+    .nav-link.active {
+        background-color: $info;
+    }
+}
+
 
 
 /*
