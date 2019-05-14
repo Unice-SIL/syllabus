@@ -15,7 +15,7 @@
 
 html {
     height: 100%;
-    font-size: 14px;
+    //font-size: 14px;
 }
 
 body {
@@ -33,6 +33,10 @@ header {
     h1 {
         color: $white;
     }
+}
+
+section {
+    margin-bottom: 7rem;
 }
 
 footer {
@@ -75,20 +79,6 @@ footer {
         .nav-link {
             max-width: 8rem;
         }
-    }
-}
-
-.bg-black nav {
-
-    @include media-breakpoint-up(md) {
-
-        .nav-link {
-            max-width: 8rem;
-        }
-    }
-
-    .nav-link.active {
-        background-color: $info;
     }
 }
 

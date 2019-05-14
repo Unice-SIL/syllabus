@@ -39,26 +39,14 @@
         NAV
 
         -->
-        <div class="sticky-top bg-black">
-        {% if in_iframe == false %}
-            <h2 class="font-weight-bold">{{ course.title }}</h2>
-        {% endif %}
-            <p class="font-italic text-right">
-                <small>
-                    Dernière modification le {{ course.modificationDate|date('d/m/Y') }} à {{ course.modificationDate|date('H:i') }}.
-                </small>
-            </p>
-            <nav class="nav nav-pills flex-column flex-md-row" id="navbar-view">
-                <a class="flex-md-fill nav-link active" href="#presentation">Présentation</a>
-                <a class="flex-md-fill nav-link" href="#objectives">Objectifs du cours</a>
-                <a class="flex-md-fill nav-link" href="#activities">Contenu et activités</a>
-                <a class="flex-md-fill nav-link" href="#evaluations">Modalités d'évaluation</a>
-                <a class="flex-md-fill nav-link" href="#equipments_resources">Matériel et ressources</a>
-                <a class="flex-md-fill nav-link" href="#information">Informations pratiques</a>
-                <a class="flex-md-fill nav-link" href="#regulation">Réglementation</a>
-                <a class="flex-md-fill nav-link" href="#closing">Mot de la fin</a>
-            </nav>
-        </div>
+    {% if in_iframe == false %}
+        <h2 class="font-weight-bold">{{ course.title }}</h2>
+    {% endif %}
+        <p class="font-italic text-right">
+            <small>
+                Dernière modification le {{ course.modificationDate|date('d/m/Y') }} à {{ course.modificationDate|date('H:i') }}.
+            </small>
+        </p>
 
 
         <!--
