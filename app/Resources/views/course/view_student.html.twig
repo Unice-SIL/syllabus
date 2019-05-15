@@ -34,7 +34,7 @@
         {% endif %}
 
         <small class="float-right font-italic">
-            Dernière modification le {{ course.modificationDate|date('d/m/Y') }} à {{ course.modificationDate|date('H:i') }}.
+            Dernière modification le {{ course.modificationDate|localizeddate('long', 'short', 'fr') }}.
         </small>
 
     {% if in_iframe == false %}

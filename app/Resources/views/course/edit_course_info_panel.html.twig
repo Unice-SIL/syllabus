@@ -6,14 +6,14 @@
                 Création
             </dt>
             <dd>
-                {{ courseInfo.creationDate|date }}
+                {{ courseInfo.creationDate|localizeddate('full', 'short', 'fr')|capitalize }}
             </dd>
             <dt>
                 Dernière modification
             </dt>
             <dd>
                 {% if courseInfo.modificationDate is not empty and courseInfo.lastUpdater is not empty %}
-                    {{ courseInfo.modificationDate|date }} par {{ courseInfo.lastUpdater.username }}
+                    {{ courseInfo.modificationDate|localizeddate('full', 'short', 'fr')|capitalize }} par {{ courseInfo.lastUpdater.username }}
                 {% endif %}
             </dd>
         </dl>
