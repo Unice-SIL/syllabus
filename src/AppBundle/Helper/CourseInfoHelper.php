@@ -3,7 +3,12 @@
 namespace AppBundle\Helper;
 
 use AppBundle\Entity\CourseInfo;
+use AppBundle\Specification\AchievementsObjectivesCourseInfoAreEmptySpecification;
 use AppBundle\Specification\CanBePublishedCourseInfoSpecification;
+use AppBundle\Specification\ObjectivesCourseInfoAreEmptySpecification;
+use AppBundle\Specification\PrerequisitesObjectivesCourseInfoAreEmptySpecification;
+use AppBundle\Specification\TutoringInfoObjectivesCourseInfoAreEmptySpecification;
+use AppBundle\Specification\TutoringObjectivesCourseInfoAreEmptySpecification;
 
 /**
  * Class CourseInfoHelper
@@ -11,24 +16,58 @@ use AppBundle\Specification\CanBePublishedCourseInfoSpecification;
  */
 class CourseInfoHelper
 {
-    /**
-     * @var CanBePublishedCourseInfoSpecification
-     */
-    private $canBePublishedCourseInfoSpecification;
-
-    /**
-     * CourseInfoHelper constructor.
-     */
-    public function __construct()
-    {
-        $this->canBePublishedCourseInfoSpecification = new CanBePublishedCourseInfoSpecification();
-    }
 
     /**
      * @param CourseInfo $courseInfo
      * @return bool
      */
     public function canBePublished(CourseInfo $courseInfo){
-        return $this->canBePublishedCourseInfoSpecification->isSatisfiedBy($courseInfo);
+        $canBePublishedCourseInfoSpecification = new CanBePublishedCourseInfoSpecification();
+        return $canBePublishedCourseInfoSpecification->isSatisfiedBy($courseInfo);
+    }
+
+    /**
+     * @param CourseInfo $courseInfo
+     * @return bool
+     */
+    public function objectivesInfoAreEmpty(CourseInfo $courseInfo){
+        $objectivesCourseInfoAreEmptySpecification = new ObjectivesCourseInfoAreEmptySpecification();
+        return $objectivesCourseInfoAreEmptySpecification->isSatisfiedBy($courseInfo);
+    }
+
+    /**
+     * @param CourseInfo $courseInfo
+     * @return bool
+     */
+    public function AchievementsObjectivesInfoAreEmpty(CourseInfo $courseInfo){
+        $achievementsObjectivesCourseInfoAreEmptySpecification = new AchievementsObjectivesCourseInfoAreEmptySpecification();
+        return $achievementsObjectivesCourseInfoAreEmptySpecification->isSatisfiedBy($courseInfo);
+    }
+
+    /**
+     * @param CourseInfo $courseInfo
+     * @return bool
+     */
+    public function PrerequisitesObjectivesInfoAreEmpty(CourseInfo $courseInfo){
+        $prerequisitesObjectivesCourseInfoAreEmptySpecification = new PrerequisitesObjectivesCourseInfoAreEmptySpecification();
+        return $prerequisitesObjectivesCourseInfoAreEmptySpecification->isSatisfiedBy($courseInfo);
+    }
+
+    /**
+     * @param CourseInfo $courseInfo
+     * @return bool
+     */
+    public function TutoringObjectivesInfoAreEmpty(CourseInfo $courseInfo){
+        $tutoringObjectivesCourseInfoAreEmptySpecification = new TutoringObjectivesCourseInfoAreEmptySpecification();
+        return $tutoringObjectivesCourseInfoAreEmptySpecification->isSatisfiedBy($courseInfo);
+    }
+
+    /**
+     * @param CourseInfo $courseInfo
+     * @return bool
+     */
+    public function TutoringInfoObjectivesInfoAreEmpty(CourseInfo $courseInfo){
+        $tutoringInfoObjectivesCourseInfoAreEmptySpecification = new TutoringInfoObjectivesCourseInfoAreEmptySpecification();
+        return $tutoringInfoObjectivesCourseInfoAreEmptySpecification->isSatisfiedBy($courseInfo);
     }
 }
