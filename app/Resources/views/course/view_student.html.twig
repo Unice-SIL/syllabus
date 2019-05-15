@@ -33,15 +33,13 @@
             {% endfor %}
         {% endif %}
 
+        <small class="float-right font-italic">
+            Dernière modification le {{ course.modificationDate|date('d/m/Y') }} à {{ course.modificationDate|date('H:i') }}.
+        </small>
 
     {% if in_iframe == false %}
         <h2 class="font-weight-bold">{{ course.title }}</h2>
     {% endif %}
-        <p class="font-italic text-right">
-            <small>
-                Dernière modification le {{ course.modificationDate|date('d/m/Y') }} à {{ course.modificationDate|date('H:i') }}.
-            </small>
-        </p>
 
 
         <!--
@@ -609,6 +607,9 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
+    {% if in_iframe %}
+        document.getElementsByTagName('body')[0].style.paddingBottom = "0";
+    {% endif %}
         Syllabus.setMediaFrameAttributes(document.querySelector( '#presentation_media_container > .embed-responsive > iframe' ));
         Syllabus.setMediaFrameAttributes(document.querySelector( '#closing_video > .embed-responsive > iframe' ));
     </script>

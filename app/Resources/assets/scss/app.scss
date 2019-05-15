@@ -34,8 +34,12 @@ header {
     }
 }
 
+main > small:first-of-type {
+    margin: -.9rem 0;
+}
+
 section {
-    min-height: 100vh;
+    min-height: 95vh;
 }
 
 footer {
