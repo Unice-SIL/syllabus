@@ -557,20 +557,6 @@
 
         <!--
 
-        REGULATION
-
-        -->
-        <section id="regulation" class="mt-5">
-            <h4 class="font-weight-bold">Règlementation</h4>
-            <hr class="border border-white bg-light" style="height: 2px;">
-            <div id="regulation_link" class="mt-4">
-                <a href="http://unice.fr" target="_blank" class="btn btn-info btn-block">Consulter la règlementation</a>
-            </div>
-        </section>
-
-
-        <!--
-
         CLOSING
 
         -->
@@ -580,26 +566,44 @@
             <div id="closing_remarks" class="mt-4">
                 {{course.closingRemarks|raw}}
             </div>
-            {% if course.closingVideo
-                  and course.closingVideo[:7]|lower == "<iframe"
-                  and course.closingVideo[-9:]|lower == "</iframe>" %}
-                <div id="closing_video" class="mt-4">
-                    <div class="embed-responsive embed-responsive-16by9">
-                        {{ course.closingVideo|raw }}
-                    </div>
+        {% if course.closingVideo
+              and course.closingVideo[:7]|lower == "<iframe"
+              and course.closingVideo[-9:]|lower == "</iframe>" %}
+            <div id="closing_video" class="mt-4">
+                <div class="embed-responsive embed-responsive-16by9">
+                    {{ course.closingVideo|raw }}
                 </div>
-            {% endif %}
+            </div>
+        {% endif %}
         </section>
 
 
-        <div class="mt-5 border bg-dark text-center p-3">
-            <small>
-                Ce syllabus est non contractuel, il est susceptible d'évoluer en cours d'année : soyez attentifs aux dernières modifications (la date de dernière mise à jour est affichée en haut à droite).
-            </small>
-        </div>
+        <!--
+
+        REGULATION
+
+        -->
+        <section id="regulation" class="mt-5">
+            <h4 class="font-weight-bold">Règlementation</h4>
+            <hr class="border border-white bg-light" style="height: 2px;">
+            <div class="alert alert-dark border border-info" role="alert">
+                <h4 class="alert-heading">
+                    Important
+                </h4>
+                <p>
+                    Ce syllabus n'a aucune valeur contractuelle.
+                </p>
+                <p>
+                    Son contenu est susceptible d'évoluer en cours d'année : soyez attentifs aux dernières modifications. La date de dernière mise à jour est affichée en haut de la page à droite.
+                </p>
+            </div>
+            <div id="regulation_link" class="mt-4">
+                <a href="http://unice.fr" target="_blank" class="btn btn-info btn-block">Consulter la règlementation</a>
+            </div>
+        </section>
+
 
     {% endif %}
-
 {% endblock %}
 
 {% block javascripts %}
