@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
+use manuelodelain\Twig\Extension\LinkifyExtension;
 
 /**
  * Class ViewStudentAction
@@ -77,6 +78,10 @@ class ViewStudentAction implements ActionInterface
         $this->logger = $logger;
         $this->courseInfoHelper = $courseInfoHelper;
         $this->coursePermissionHelper = $coursePermissionHelper;
+
+        $templating->addExtension(new LinkifyExtension(array(
+            'attr' => array('target' => '_blank')
+        )));
     }
 
     /**
