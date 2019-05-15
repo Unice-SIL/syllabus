@@ -8,6 +8,7 @@ use AppBundle\Entity\CourseInfo;
 use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Query\Course\EditMccCourseInfoQuery;
 use AppBundle\Query\Course\PublishCourseInfoQuery;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
@@ -22,6 +23,11 @@ class PublishCourseInfoQueryTest extends TestCase
      * @var MockObject
      */
     private $courseInfoRepository;
+
+    /**
+     * @var TokenStorageInterface
+     */
+    private $tokenStorage;
 
     /**
      * @var CourseInfo
@@ -49,6 +55,9 @@ class PublishCourseInfoQueryTest extends TestCase
 
         // Command
         $this->publishCourseInfoCommand = new PublishCourseInfoCommand($this->courseInfo);
+
+        // TokenStorage
+        $this->tokenStorage = new TokenStorageInterface();
     }
 
     /**
@@ -107,7 +116,10 @@ class PublishCourseInfoQueryTest extends TestCase
             ->method('update')
             ->with($this->courseInfo);
 
-        $publishCourseInfoQuery = new PublishCourseInfoQuery($this->courseInfoRepository);
+        $publishCourseInfoQuery = new PublishCourseInfoQuery(
+            $this->courseInfoRepository,
+            $this->tokenStorage
+        );
         $publishCourseInfoQuery->setPublishCourseInfoCommand($this->publishCourseInfoCommand)->execute();
     }
 

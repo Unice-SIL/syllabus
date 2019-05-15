@@ -7,6 +7,7 @@ use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseTeacher;
 use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Query\Course\EditPresentationCourseInfoQuery;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -22,6 +23,11 @@ class EditPresentationCourseInfoQueryTest extends TestCase
      * @var MockObject
      */
     private $courseInfoRepository;
+
+    /**
+     * @var TokenStorageInterface
+     */
+    private $tokenStorage;
 
     /**
      * @var MockObject
@@ -90,6 +96,9 @@ class EditPresentationCourseInfoQueryTest extends TestCase
 
         // Command
         $this->editPresentationCourseInfoCommand = new EditPresentationCourseInfoCommand($this->courseInfo);
+
+        // TokenStorage
+        $this->tokenStorage = new TokenStorageInterface();
     }
 
     /**
@@ -221,7 +230,11 @@ class EditPresentationCourseInfoQueryTest extends TestCase
         $this->courseInfoRepository->expects($this->once())
             ->method('rollback');
 
-        $editPresentationCourseInfoQuery = new EditPresentationCourseInfoQuery($this->courseInfoRepository, $this->courseTeacherRepository);
+        $editPresentationCourseInfoQuery = new EditPresentationCourseInfoQuery(
+            $this->courseInfoRepository,
+            $this->courseTeacherRepository,
+            $this->tokenStorage
+        );
         $editPresentationCourseInfoQuery->setEditPresentationCourseInfoCommand($this->editPresentationCourseInfoCommand)->execute();
     }
 
