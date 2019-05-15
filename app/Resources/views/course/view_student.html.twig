@@ -243,7 +243,7 @@
                             {% if achievement.description is not null %}
                                 <div class="col-md-6">
                                     <div class="bg-info rounded-pill text-center p-2 my-2">
-                                        {{achievement.description}}
+                                        {{ achievement.description|linkify({"attr": {"target": "_blank"}})|raw }}
                                     </div>
                                 </div>
                             {% endif %}
@@ -260,7 +260,7 @@
                             {% for prerequisite in course.coursePrerequisites %}
                                 {% if prerequisite.description is not null %}
                                     <div class="bg-info rounded-pill text-center p-2 my-2">
-                                        {{prerequisite.description}}
+                                        {{ prerequisite.description|linkify({"attr": {"target": "_blank"}})|raw }}
                                     </div>
                                 {% endif %}
                             {% endfor %}
@@ -274,13 +274,13 @@
                             <h6 class="text-center">Si je rencontre des difficultés, je peux…</h6>
                             {% if courseInfoHelper.TutoringInfoObjectivesInfoAreEmpty(course) == false %}
                                 <div class="bg-info rounded-pill text-center p-2 my-2">
-                                    {{course.tutoringDescription}}
+                                    {{ course.tutoringDescription|linkify({"attr": {"target": "_blank"}})|raw }}
                                 </div>
                             {% endif %}
                             {% for resource in course.courseTutoringResources %}
                                 {% if resource.description is not null %}
                                     <div class="bg-info rounded-pill text-center p-2 my-2">
-                                        {{resource.description}}
+                                        {{ resource.description|linkify({"attr": {"target": "_blank"}})|raw }}
                                     </div>
                                 {% endif %}
                             {% endfor %}
