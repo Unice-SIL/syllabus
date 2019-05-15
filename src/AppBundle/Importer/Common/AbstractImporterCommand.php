@@ -87,7 +87,7 @@ abstract class AbstractImporterCommand extends Command
 
         $output->writeln("==============================");
         $output->writeln("Start importer");
-        $output->writeln(date('d/m/Y h:i:s', time()));
+        $output->writeln(date('d/m/Y H:i:s', time()));
         $output->writeln($this->getDescription());
         $output->writeln("==============================");
 
@@ -104,7 +104,7 @@ abstract class AbstractImporterCommand extends Command
         }
 
         $output->writeln("==============================");
-        $output->writeln(date('d/m/Y h:i:s', time()));
+        $output->writeln(date('d/m/Y H:i:s', time()));
         $output->writeln("End importer");
         $output->writeln("==============================");
 

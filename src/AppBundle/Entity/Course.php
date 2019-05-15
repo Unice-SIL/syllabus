@@ -63,6 +63,7 @@ class Course
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\OneToMany(targetEntity="CourseInfo", mappedBy="course", cascade={ "persist" })
+     * @ORM\OrderBy({"year" = "ASC"})
      */
     private $courseInfos;
 

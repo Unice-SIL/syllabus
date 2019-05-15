@@ -123,7 +123,13 @@ class CourseImporterCommand extends AbstractImporterCommand
     private function startImport(CourseCollection $courses): void
     {
         foreach ($courses as $course) {
+            /**
+             *  POUR TEST
+             */
             if($course->getEtbId()!=="SLEPB111") continue;
+            /**
+             *
+             */
             try {
                 $this->courseRepository->beginTransaction();
                 // Prepare course
@@ -207,9 +213,25 @@ class CourseImporterCommand extends AbstractImporterCommand
             $courseInfo = $this->courseInfoRepository->findByEtbIdAndYear($course->getEtbId(), $ci->getYearId());
             // If course info not exist create new instance
             if (is_null($courseInfo)) {
-                $courseInfo = new CourseInfo();
+                $oldCourseInfo = $course->getCourseInfos()->last();
+                if(!is_null($oldCourseInfo)){
+                    $courseInfo = clone $oldCourseInfo;
+                }else{
+                    $courseInfo = new CourseInfo();
+                }
                 $courseInfo->setId(Uuid::uuid4())
                     ->setYear($year)
+                    ->setPublisher(null)
+                    ->setPublicationDate(null)
+                    ->setLastUpdater(null)
+                    ->setModificationDate(null)
+                    ->setTemPresentationTabValid(false)
+                    ->setTemActivitiesTabValid(false)
+                    ->setTemObjectivesTabValid(false)
+                    ->setTemMccTabValid(false)
+                    ->setTemInfosTabValid(false)
+                    ->setTemEquipmentsTabValid(false)
+                    ->setTemClosingRemarksTabValid(false)
                     ->setCreationDate(new \DateTime());
             }
 

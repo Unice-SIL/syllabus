@@ -3,15 +3,27 @@
 namespace AppBundle\Importer\Permission;
 
 
+use AppBundle\Entity\CourseInfo;
+use AppBundle\Entity\CoursePermission;
+use AppBundle\Entity\User;
+use AppBundle\Exception\UserNotFoundException;
 use AppBundle\Importer\Common\AbstractImporterCommand;
 use AppBundle\Repository\CourseInfoRepositoryInterface;
+use AppBundle\Repository\CoursePermissionRepositoryInterface;
 use AppBundle\Repository\CourseRepositoryInterface;
+use AppBundle\Repository\UserRepositoryInterface;
 use AppBundle\Repository\YearRepositoryInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use Psr\Log\LoggerInterface;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use UniceSIL\SyllabusImporterToolkit\Permission\PermissionCollection;
+use UniceSIL\SyllabusImporterToolkit\Course\CourseCollection;
+use UniceSIL\SyllabusImporterToolkit\Course\CourseInfoInterface;
+use UniceSIL\SyllabusImporterToolkit\Course\CourseInterface;
 use UniceSIL\SyllabusImporterToolkit\Permission\PermissionImporterInterface;
+use UniceSIL\SyllabusImporterToolkit\Permission\PermissionInterface;
+use UniceSIL\SyllabusImporterToolkit\User\UserInterface;
 
 /**
  * Class PermissionImporterCommand
@@ -35,11 +47,22 @@ class PermissionImporterCommand extends AbstractImporterCommand
     private $courseInfoRepository;
 
     /**
-     * CourseImporterCommand constructor.
+     * @var CoursePermissionRepositoryInterface
+     */
+    private $coursePermissionRepository;
+
+    /**
+     * @var UserRepositoryInterface
+     */
+    private $userRepository;
+
+    /**
+     * PermissionImporterCommand constructor.
      * @param ContainerInterface $container
      * @param CourseRepositoryInterface $courseRepository
      * @param CourseInfoRepositoryInterface $courseInfoRepository
      * @param YearRepositoryInterface $yearRepository
+     * @param UserRepositoryInterface $userRepository
      * @param LoggerInterface $logger
      */
     public function __construct(
@@ -47,12 +70,13 @@ class PermissionImporterCommand extends AbstractImporterCommand
         CourseRepositoryInterface $courseRepository,
         CourseInfoRepositoryInterface $courseInfoRepository,
         YearRepositoryInterface $yearRepository,
+        UserRepositoryInterface $userRepository,
         LoggerInterface $logger
     )
     {
         $this->courseRepository = $courseRepository;
         $this->courseInfoRepository = $courseInfoRepository;
-        $this->yearRepository =$yearRepository;
+        $this->userRepository = $userRepository;
         parent::__construct($container, $yearRepository, $logger);
     }
 
@@ -73,7 +97,6 @@ class PermissionImporterCommand extends AbstractImporterCommand
 
     protected function start()
     {
-
         if (!$this->importerService instanceof PermissionImporterInterface) {
             throw new \Exception(
                 sprintf("Service %s must implement %s", $this->importerServiceName, PermissionImporterInterface::class)
@@ -91,35 +114,109 @@ class PermissionImporterCommand extends AbstractImporterCommand
 
     /**
      * @param array $years
-     * @return PermissionCollection
+     * @return CourseCollection
      */
-    private function getPermissionsToImport(array $years=[]): PermissionCollection
+    private function getPermissionsToImport(array $years=[]): CourseCollection
     {
-        $permissions = $this->importerService->setYears($years)->execute();
-        $this->output->writeln(sprintf("%d permissions to import", $permissions->count()));
-        return $permissions;
+        $courses = $this->importerService->setYears($years)->execute();
+        $this->output->writeln(sprintf("%d courses with permissions to import", $courses->count()));
+        return $courses;
     }
 
 
     /**
-     * @param PermissionCollection $permissions
+     * @param CourseCollection $courses
      */
-    private function startImport(PermissionCollection $permissions): void
+    private function startImport(CourseCollection $courses): void
     {
-        foreach ($permissions as $permission) {
-            try {
-                $this->courseRepository->beginTransaction();
-                // Prepare course
-                $course = $this->prepareCourse($course);
-                if ($course instanceof Course) {
-                    $this->courseRepository->update($course);
+        foreach ($courses as $course) {
+            foreach ($course->getCourseInfos() as $courseInfo) {
+                try {
+                    $this->courseInfoRepository->beginTransaction();
+                    // Prepare course info
+                    $courseInfo = $this->prepareCourseInfo($course, $courseInfo);
+                    if ($courseInfo instanceof CourseInfo) {
+                        $this->courseInfoRepository->update($courseInfo);
+                    }
+                    $this->courseInfoRepository->commit();
+                } catch (\Exception $e) {
+                    $this->courseInfoRepository->rollback();
+                    $this->logger->error((string)$e);
+                    $this->output->writeln($e->getMessage());
                 }
-                $this->courseRepository->commit();
-            } catch (\Exception $e) {
-                $this->courseRepository->rollback();
-                $this->logger->error((string)$e);
-                $this->output->writeln($e->getMessage());
             }
         }
     }
+
+    /**
+     * @param CourseInterface $c
+     * @param CourseInfoInterface $ci
+     * @return CourseInfo|null
+     */
+    private function prepareCourseInfo(CourseInterface $c, CourseInfoInterface $ci): ?CourseInfo
+    {
+        $this->output->writeln(sprintf("Import permission for course %s and year %s", $c->getEtbId(), $ci->getYearId()));
+
+        // COURSE INFO
+        $courseInfo = $this->courseInfoRepository->findByEtbIdAndYear($c->getEtbId(), $ci->getYearId());
+        if(is_null($courseInfo)){
+            return null;
+        }
+
+        // PERMISSIONS
+        $courseInfo->setCoursePermissions(new ArrayCollection());
+        foreach ($ci->getCoursePermission() as $coursePermission){
+            $coursePermission = $this->prepareCoursePermission($coursePermission, $courseInfo);
+            if($coursePermission instanceof CoursePermission){
+                $courseInfo->addPermission($coursePermission);
+            }
+        }
+
+        return $courseInfo;
+    }
+
+    /**
+     * @param PermissionInterface $cp
+     * @param CourseInfo $courseInfo
+     * @return CoursePermission|null
+     */
+    private function prepareCoursePermission(PermissionInterface $cp, CourseInfo $courseInfo): ?CoursePermission
+    {
+        $user = $this->prepareUser($cp->getUser());
+
+        $coursePermission = new CoursePermission();
+        $coursePermission->setId(Uuid::uuid4())
+            ->setCourseInfo($courseInfo)
+            ->setPermission($cp->getPermission())
+            ->setUser($user);
+
+        return $coursePermission;
+    }
+
+    /**
+     * @param UserInterface $u
+     * @return User|null
+     * @throws UserNotFoundException
+     */
+    private function prepareUser(UserInterface $u){
+        $user = $this->userRepository->findByUsername($u->getUsername());
+        if(is_null($user)) {
+            if ($u->createIfNotExist()) {
+                $user = new User();
+                $user->setId(Uuid::uuid4())
+                    ->setUsername($u->getUsername())
+                    ->setFirstname($u->getFirstname())
+                    ->setLastname($u->getLastname())
+                    ->setEmail($u->getEmail())
+                    ->setRoles([]);
+            } else {
+                throw new UserNotFoundException(
+                    sprintf("Cannot import permission, user %s does not exist", $u->getUsername())
+                );
+            }
+        }
+        return $user;
+    }
+
+
 }
