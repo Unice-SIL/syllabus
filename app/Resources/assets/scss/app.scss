@@ -60,6 +60,7 @@ footer {
 
         &:link, &:active, &:visited {
             color: $light;
+            text-decoration: underline;
         }
 
         &:hover {
@@ -304,11 +305,11 @@ div.equipment {
 }
 
 div.view-activity.view-class {
-    background-color: $black;
+    background-color: $dark;
 }
 
 div.view-activity.view-autonomy {
-    background-color: $dark;
+    background-color: $secondary;
 }
 
 div.view-evaluation {

@@ -303,7 +303,7 @@
         {% for section in course.courseSections %}
             <div id="activities_sections" class="mt-4 p-2 bg-light">
                 <h5 class="text-body font-weight-bold">{{section.title}}</h5>
-                <div class="text-body border p-2">
+                <div class="bg-black border p-2">
                     {{section.description|raw}}
                 </div>
             {% if section.courseSectionActivities|length > 0  %}
