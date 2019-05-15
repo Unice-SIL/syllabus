@@ -227,27 +227,64 @@
 
         <!--
 
-        COURSE OBJECTIVES
-
-        -->
-    {% if courseInfoHelper.ObjectivesInfoAreEmpty(course) == false %}
-        <section id="objectives" class="mt-5">
-            <h4 class="font-weight-bold">Objectifs du cours</h4>
-            <hr class="border border-white bg-light" style="height: 2px;">
-            {% if courseInfoHelper.AchievementsObjectivesInfoAreEmpty(course) == false %}
-                <div id="objectives_achievements" class="mt-4">
-                    <h5 class="border border-info bg-light text-info rounded text-center p-2">ACQUIS D'APPRENTISSAGE</h5>
-                    <h6 class="text-center">A la fin de ce cours, je serai capable de…</h6>
+            -->
+            {% if courseInfoHelper.objectivesAreEmpty(course) == false %}
+                <div id="objectives" class="mt-5">
+                    <h4 class="font-weight-bold">Objectifs du cours</h4>
+                    <hr class="border border-white bg-light" style="height: 2px;">
+                    {% if courseInfoHelper.objectivesAchievementsAreEmpty(course) == false %}
+                        <div id="objectives_achievements" class="mt-4">
+                            <h5 class="border border-info bg-light text-info rounded text-center p-2">ACQUIS D'APPRENTISSAGE</h5>
+                            <h6 class="text-center">A la fin de ce cours, je serai capable de…</h6>
+                            <div class="row">
+                                {% for achievement in course.courseAchievements %}
+                                    {% if achievement.description is not null %}
+                                        <div class="col-md-6">
+                                            <div class="bg-info rounded-pill text-center p-2 my-2">
+                                                {{achievement.description}}
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
                     <div class="row">
-                        {% for achievement in course.courseAchievements %}
-                            {% if achievement.description is not null %}
-                                <div class="col-md-6">
-                                    <div class="bg-info rounded-pill text-center p-2 my-2">
-                                        {{ achievement.description|linkify({"attr": {"target": "_blank"}})|raw }}
-                                    </div>
+                        {% if courseInfoHelper.objectivesPrerequisitesAreEmpty(course) == false %}
+                            <div class="col-lg">
+                                <div id="objectives_prerequisites" class="mt-4">
+                                    <h5 class="border border-info bg-light text-info rounded text-center p-2">PRÉREQUIS</h5>
+                                    <h6 class="text-center">Avant de suivre ce cours, je dois…</h6>
+                                    {% for prerequisite in course.coursePrerequisites %}
+                                        {% if prerequisite.description is not null %}
+                                            <div class="bg-info rounded-pill text-center p-2 my-2">
+                                                {{prerequisite.description}}
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
                                 </div>
-                            {% endif %}
-                        {% endfor %}
+                            </div>
+                        {% endif %}
+                        {% if courseInfoHelper.objectivesTutoringAreEmpty(course) == false %}
+                            <div class="col-lg">
+                                <div id="objectives_tutoring" class="mt-4">
+                                    <h5 class="border border-info bg-light text-info rounded text-center p-2">REMÉDIATION / AIDE À LA RÉUSSITE</h5>
+                                    <h6 class="text-center">Si je rencontre des difficultés, je peux…</h6>
+                                    {% if courseInfoHelper.objectivesTutoringInfoAreEmpty(course) == false %}
+                                        <div class="bg-info rounded-pill text-center p-2 my-2">
+                                            {{course.tutoringDescription}}
+                                        </div>
+                                    {% endif %}
+                                    {% for resource in course.courseTutoringResources %}
+                                        {% if resource.description is not null %}
+                                            <div class="bg-info rounded-pill text-center p-2 my-2">
+                                                {{resource.description}}
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             {% endif %}
@@ -364,137 +401,161 @@
 
         COURSE EVALUATIONS
 
-        -->
-        <section id="evaluations" class="mt-5">
-            <h4 class="font-weight-bold">Modalités d'évaluation</h4>
-            <hr class="border border-white bg-light" style="height: 2px;">
-            <div class="row">
-                <div class="col-md-6">
-                    <div id="evaluations_mcc" class="mt-4">
-                        <h5 class="border border-info bg-light text-info rounded text-center p-2">MODALITÉS DE CONTRÔLE DES CONNAISSANCES</h5>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <table class="table table-dark bg-transparent">
-                                    <thead class="">
-                                    <tr class="border-bottom font-weight-bold">
-                                        <td colspan="2" class="text-center">
-                                            1ère session
-                                            <i class="fas fa-info-circle"></i>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Type d'évaluation</td>
-                                        <td>Coef</td>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr class="bg-info">
-                                        <td>
-                                            <p class="m-0">Contrôle continu</p>
-                                            <p class="m-0">({{course.mccCcNbEvalSession1}} minimum)</p>
-                                        </td>
-                                        <td>{{course.mccCcCoeffSession1}}%</td>
-                                    </tr>
-                                    <tr class="bg-primary">
-                                        <td>
-                                            <p class="m-0">Contrôle Terminal </p>
-                                            <p class="m-0">{{course.mccCtDurationSession1}}</p>
-                                        </td>
-                                        <td>{{course.mccCtCoeffSession1}}%</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="col-md-6">
-                                <table class="table table-dark bg-transparent">
-                                    <thead class="">
-                                    <tr class="border-bottom font-weight-bold">
-                                        <td colspan="2" class="text-center">
-                                            2ème session
-                                            <i class="fas fa-info-circle"></i>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Type d'évaluation
-                                        </td>
-                                        <td>
-                                            Coef
-                                        </td>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr class="bg-primary">
-                                        <td>
-                                            <p class="m-0">Contrôle Terminal </p>
-                                            <p class="m-0">{{course.mccCtDurationSession2}}</p>
-                                        </td>
-                                        <td>{{course.mccCtCoeffSession2}}%</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div >
-                </div>
-                <div class="col-md-6">
-                    <div id="evaluations_methods" class="mt-4">
-                        <h5 class="border border-info bg-light text-info rounded text-center p-2">MÉTHODES D'ÉVALUATION</h5>
-                        <div class="row">
-                            {% for section in course.courseSections %}
-                                {% for activity in section.courseSectionActivities %}
-                                    {% if activity.activity.type == "evaluation" %}
-                                        <div class="col-md-6">
-                                            <div class="bg-info rounded-pill text-center p-1 my-1">
-                                                {{activity.activity.label}}
-                                            </div>
+            -->
+            {% if courseInfoHelper.evaluationAreEmpty(course) == false %}
+                <div id="evaluations" class="mt-5">
+                    <h4 class="font-weight-bold">Modalités d'évaluation</h4>
+                    <hr class="border border-white bg-light" style="height: 2px;">
+                    <div class="row">
+                        {% if courseInfoHelper.evaluationMccAreEmpty(course) == false %}
+                            <div class="col-lg">
+                                <div id="evaluations_mcc" class="mt-4">
+                                    <h5 class="border border-info bg-light text-info rounded text-center p-2">MODALITÉS DE CONTRÔLE DES CONNAISSANCES</h5>
+                                    <div class="row">
+                                        <div class="col-md">
+                                            <table class="table table-dark bg-transparent">
+                                                <thead class="">
+                                                <tr class="border-bottom font-weight-bold">
+                                                    <td colspan="2" class="text-center">
+                                                        1ère session
+                                                        <i class="fas fa-info-circle"></i>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Type d'évaluation</td>
+                                                    <td>Coef</td>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr class="bg-info">
+                                                    <td>
+                                                        <p class="m-0">Contrôle continu</p>
+                                                        <p class="m-0">({{course.mccCcNbEvalSession1}} minimum)</p>
+                                                    </td>
+                                                    <td>
+                                                        {% if course.mccCcCoeffSession1 is not null%}
+                                                            {{course.mccCcCoeffSession1}}%
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                                <tr class="bg-primary">
+                                                    <td>
+                                                        <p class="m-0">Contrôle Terminal </p>
+                                                        <p class="m-0">{{course.mccCtDurationSession1}}</p>
+                                                    </td>
+                                                    <td>
+                                                        {% if course.mccCtCoeffSession1 is not null%}
+                                                            {{course.mccCtCoeffSession1}}%
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
-                                    {% endif %}
-                                {% endfor %}
-                            {% endfor %}
-                            {% for evaluation in course.courseEvaluationCts %}
-                                {% if evaluation.activity.type == "evaluation" %}
-                                    <div class="col-md-6">
-                                        <div class="bg-primary rounded-pill text-center p-1 my-1">
-                                            {{evaluation.activity.label}}
+                                        <div class="col-md">
+                                            <table class="table table-dark bg-transparent">
+                                                <thead class="">
+                                                <tr class="border-bottom font-weight-bold">
+                                                    <td colspan="2" class="text-center">
+                                                        2ème session
+                                                        <i class="fas fa-info-circle"></i>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Type d'évaluation
+                                                    </td>
+                                                    <td>
+                                                        Coef
+                                                    </td>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr class="bg-primary">
+                                                    <td>
+                                                        <p class="m-0">Contrôle Terminal </p>
+                                                        <p class="m-0">{{course.mccCtDurationSession2}}</p>
+                                                    </td>
+                                                    <td>
+                                                        {% if course.mccCtCoeffSession2 is not null%}
+                                                            {{course.mccCtCoeffSession2}}%
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div >
+                            </div>
+                        {% endif %}
+                        {% if courseInfoHelper.evaluationMethodsAreEmpty(course) == false and courseInfoHelper.evaluationAdvicesAreEmpty(course) == false %}
+                            <div class="col-lg">
+                                {% if courseInfoHelper.evaluationMethodsAreEmpty(course) == false %}
+                                    <div id="evaluations_methods" class="mt-4">
+                                        <h5 class="border border-info bg-light text-info rounded text-center p-2">MÉTHODES D'ÉVALUATION</h5>
+                                        <div class="row">
+                                            {% for section in course.courseSections %}
+                                                {% for activity in section.courseSectionActivities %}
+                                                    {% if activity.activity.type == "evaluation" %}
+                                                        <div class="col-md-6">
+                                                            <div class="bg-info rounded-pill text-center p-1 my-1">
+                                                                {{activity.activity.label}}
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endfor %}
+                                            {% for evaluation in course.courseEvaluationCts %}
+                                                {% if evaluation.activity.type == "evaluation" %}
+                                                    <div class="col-md-6">
+                                                        <div class="bg-primary rounded-pill text-center p-1 my-1">
+                                                            {{evaluation.activity.label}}
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+                                            {% endfor %}
                                         </div>
                                     </div>
                                 {% endif %}
-                            {% endfor %}
+                                {% if courseInfoHelper.evaluationAdvicesAreEmpty(course) == false %}
+                                    <div id="evaluations_advices" class="mt-4">
+                                        <h5 class="border border-info bg-light text-info rounded text-center p-2">PRÉCISIONS</h5>
+                                        {{course.mccAdvice|raw}}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    {% if courseInfoHelper.evaluationMccAreEmpty(course) == false %}
+                        <div class="row mt-4">
+                        <div class="col-md d-flex align-items-center">
+                            <div class="bg-info rounded-circle p-2 m-2">
+                                <h4 class="my-2 font-weight-bold">{{course.mccWeight}}%</h4>
+                            </div>
+                            <strong class="px-2">Poids dans l'UE</strong>
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <div class="col-md d-flex align-items-center">
+                            <i class="fas fa-4x fa-check-circle text-info"></i>
+                            <strong class="px-2">UE compensable</strong>
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <div class="col-md d-flex align-items-center ">
+                            {% if course.mccCapitalizable == false %}
+                                <i class="fas fa-4x fa-times-circle text-info"></i>
+                                <strong class="px-2">UE non capitalisable</strong>
+                                <i class="fas fa-info-circle"></i>
+                            {% else %}
+                                <i class="fas fa-4x fa-check-circle text-info"></i>
+                                <strong class="px-2">UE capitalisable</strong>
+                                <i class="fas fa-info-circle"></i>
+                            {% endif %}
                         </div>
                     </div>
-                    <div id="evaluations_advices" class="mt-4">
-                        <h5 class="border border-info bg-light text-info rounded text-center p-2">PRÉCISIONS</h5>
-                        {{course.mccAdvice|raw}}
-                    </div>
-                </div>
-            </div>
-            <div class="row mt-4">
-                <div class="col d-flex align-items-center">
-                    <div class="bg-info rounded-circle p-2 m-2">
-                        <h4 class="my-2 font-weight-bold">{{course.mccWeight}}%</h4>
-                    </div>
-                    <strong class="px-2">Poids dans l'UE</strong>
-                    <i class="fas fa-info-circle"></i>
-                </div>
-                <div class="col d-flex align-items-center">
-                    <i class="fas fa-4x fa-check-circle text-info"></i>
-                    <strong class="px-2">UE compensable</strong>
-                    <i class="fas fa-info-circle"></i>
-                </div>
-                <div class="col d-flex align-items-center ">
-                    {% if course.mccCapitalizable == false %}
-                        <i class="fas fa-4x fa-times-circle text-info"></i>
-                        <strong class="px-2">UE non capitalisable</strong>
-                        <i class="fas fa-info-circle"></i>
-                    {% else %}
-                        <i class="fas fa-4x fa-check-circle text-info"></i>
-                        <strong class="px-2">UE capitalisable</strong>
-                        <i class="fas fa-info-circle"></i>
                     {% endif %}
                 </div>
-            </div>
-        </section>
+            {% endif %}
 
 
         <!--

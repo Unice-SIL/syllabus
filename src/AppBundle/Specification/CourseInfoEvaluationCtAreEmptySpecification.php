@@ -6,10 +6,10 @@ use AppBundle\Entity\CourseInfo;
 use Tanigami\Specification\Specification;
 
 /**
- * Class PrerequisitesObjectivesCourseInfoAreEmptySpecification
+ * Class CourseInfoEvaluationCtAreEmptySpecification
  * @package AppBundle\Specification
  */
-class PrerequisitesObjectivesCourseInfoAreEmptySpecification extends Specification
+class CourseInfoEvaluationCtAreEmptySpecification extends Specification
 {
 
     /**
@@ -18,7 +18,7 @@ class PrerequisitesObjectivesCourseInfoAreEmptySpecification extends Specificati
      */
     public function isSatisfiedBy($courseInfo): bool
     {
-        if($courseInfo->getCoursePrerequisites()->count() == 0){
+        if($courseInfo->getCourseEvaluationCts()->count() == 0){
             return true;
         }
         return false;

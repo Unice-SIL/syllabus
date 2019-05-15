@@ -6,10 +6,10 @@ use AppBundle\Entity\CourseInfo;
 use Tanigami\Specification\Specification;
 
 /**
- * Class AchievementsObjectivesCourseInfoAreEmptySpecification
+ * Class CourseInfoObjectivesAchievementsAreEmptySpecification
  * @package AppBundle\Specification
  */
-class AchievementsObjectivesCourseInfoAreEmptySpecification extends Specification
+class CourseInfoObjectivesAchievementsAreEmptySpecification extends Specification
 {
 
     /**
