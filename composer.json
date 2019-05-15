@@ -25,6 +25,7 @@
         "doctrine/orm": "^2.5",
         "friendsofsymfony/ckeditor-bundle": "^2.0",
         "incenteev/composer-parameter-handler": "^2.0",
+        "manuelodelain/linkify-twig-extension": "^1.0",
         "ramsey/uuid": "^3.8",
         "sensio/distribution-bundle": "^5.0.19",
         "sensio/framework-extra-bundle": "^5.0.0",
