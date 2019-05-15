@@ -31,6 +31,9 @@ parameters:
     # A secret key that's used to generate certain security-related tokens
     secret: ThisTokenIsNotSoSecretChangeIt
 
+    # Student view “Regulation” link.
+    regulation_link: http://unice.fr/
+
     test_authenticator:
         current: user1
         users:

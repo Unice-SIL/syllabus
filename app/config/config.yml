@@ -40,6 +40,7 @@ twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     globals:
+        regulation_link : '%regulation_link%'
         app_version: prototype
     form_themes:
         - 'bootstrap_4_layout.html.twig'
