@@ -15,7 +15,6 @@
 
 html {
     height: 100%;
-    //font-size: 14px;
 }
 
 body {
@@ -36,7 +35,7 @@ header {
 }
 
 section {
-    margin-bottom: 20vh;
+    min-height: 100vh;
 }
 
 footer {
