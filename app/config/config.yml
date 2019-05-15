@@ -122,8 +122,9 @@ fos_ck_editor:
             resize_enabled: false
     toolbars:
         configs:
-            course_summary: [ '@basicstyles', '-', '@paragraphs' ]
+            course_summary: [ '@basicstyles', '-', '@paragraphs', '-', '@link' ]
         items:
+            link: [ 'Link' ]
             basicstyles: [ 'RemoveFormat', '-', 'Bold', 'Italic', 'Underline' ]
             paragraphs: [ 'Outdent', 'Indent', '-', 'NumberedList', 'BulletedList' ]
 
