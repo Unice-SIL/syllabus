@@ -271,8 +271,9 @@
                                 <h5 class="border border-info bg-light text-info rounded text-center p-2">REMÉDIATION / AIDE À LA RÉUSSITE</h5>
                                 <h6 class="text-center">Si je rencontre des difficultés, je peux…</h6>
                                 {% if courseInfoHelper.objectivesTutoringInfoAreEmpty(course) == false %}
-                                    <div class="bg-info rounded-pill text-center p-2 my-2">
-                                        {{course.tutoringDescription}}
+                                    <div class="bg-info rounded-pill text-center p-2 my-2 d-flex flex-column">
+                                        <span>Aller aux séances de tutorat</span>
+                                        <small>({{course.tutoringDescription}})</small>
                                     </div>
                                 {% endif %}
                                 {% for resource in course.courseTutoringResources %}
