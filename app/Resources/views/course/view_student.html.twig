@@ -508,19 +508,19 @@
             <div id="equipments_resources_equipments" class="mt-4">
                 <h5 class="border border-info bg-light text-info rounded text-center p-2">MATÉRIEL OBLIGATOIRE</h5>
                 <div class="row">
-                    {%  for equipment in course.courseResourceEquipments %}
-                        <div class="col-md-4 d-flex align-items-center">
-                            <i class="fas fa-2x fa-border rounded-circle fa-pencil-ruler p-2"></i>
-                            <div class="p-1">
-                                <p class="m-0">{{ equipment.equipment.label }}</p>
-                                {%  if equipment.description is not null %}
-                                    <p class="m-0 font-italic">
-                                        <small>{{ equipment.description }}</small>
-                                    </p>
-                                {% endif %}
-                            </div>
+                {% for equipment in course.courseResourceEquipments %}
+                    <div class="col-md-4 d-flex align-items-center">
+                        <i class="fas fa-2x fa-border rounded-circle fa-pencil-ruler p-2"></i>
+                        <div class="p-1">
+                            <p class="m-0">{{ equipment.equipment.label }}</p>
+                        {% if equipment.description is not null %}
+                            <small class="m-0 font-italic">
+                                {{ equipment.description|linkify({"attr": {"target": "_blank"}})|raw }}
+                            </small>
+                        {% endif %}
                         </div>
-                    {% endfor %}
+                    </div>
+                {% endfor %}
                 </div>
             </div>
             <div id="equipments_resources_teaching" class="mt-4">
