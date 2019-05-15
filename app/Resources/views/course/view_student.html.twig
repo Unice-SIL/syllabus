@@ -87,7 +87,7 @@
                     {% endif %}
                     <i class="fas fa-circle text-{{ levelBeginnerColor }} rounded-circle border border-dark"></i>
                     <i class="mx-1 fas fa-circle text-{{ levelIntermediateColor }} rounded-circle border border-dark"></i>
-                    <i class=" fas fa-circle text-{{ levelAdvancedColor }} rounded-circle border border-dark"></i>
+                    <i class="fas fa-circle text-{{ levelAdvancedColor }} rounded-circle border border-dark"></i>
                     <span class="px-3 text-white">{{ levelText }}</span>
                 </div>
                 <div class="col-md d-flex align-items-center border-left border-dark">
@@ -155,8 +155,8 @@
                 <div class="col-md-4 d-flex align-items-center">
                     <i class="fas m-3 fa-4x fa-map-marker-alt"></i>
                     <div class = "d-flex flex-column font-weight-bold">
-                        <span> Campus principal </span>
-                        <span> {{course.structure.campus}} </span>
+                        <span>Campus principal</span>
+                        <span>{{course.structure.campus}}</span>
                     </div>
                 </div>
                 <div class="col-md-4 d-flex align-items-center">
@@ -306,32 +306,32 @@
                 <div class="text-body border p-2">
                     {{section.description|raw}}
                 </div>
-                {% if section.courseSectionActivities|length > 0  %}
-                    <div class="mt-2">
-                        {% set activity = section.courseSectionActivities|first %}
-                        {% set activities = [] %}
-                        {% set activityType = activity.activity.type %}
-                        {% set activityMode = activity.activity.mode %}
-                        {% for activity in section.courseSectionActivities %}
-                            {% if activityMode != activity.activity.mode or activityType != activity.activity.type %}
-                                {% include 'course/view_student_print_activities.html.twig' with {
+            {% if section.courseSectionActivities|length > 0  %}
+                <div class="mt-2">
+                    {% set activity = section.courseSectionActivities|first %}
+                    {% set activities = [] %}
+                    {% set activityType = activity.activity.type %}
+                    {% set activityMode = activity.activity.mode %}
+                    {% for activity in section.courseSectionActivities %}
+                        {% if activityMode != activity.activity.mode or activityType != activity.activity.type %}
+                            {% include 'course/view_student_print_activities.html.twig' with {
                                 'activities': activities,
                                 'activityType': activityType,
                                 'activityMode': activityMode
-                                }%}
-                                {% set activities = [] %}
-                                {% set activityType = activity.activity.type %}
-                                {% set activityMode = activity.activity.mode %}
-                            {% endif %}
-                            {% set activities = activities|merge([activity]) %}
-                        {% endfor %}
-                        {% include 'course/view_student_print_activities.html.twig' with {
+                            }%}
+                            {% set activities = [] %}
+                            {% set activityType = activity.activity.type %}
+                            {% set activityMode = activity.activity.mode %}
+                        {% endif %}
+                        {% set activities = activities|merge([activity]) %}
+                    {% endfor %}
+                    {% include 'course/view_student_print_activities.html.twig' with {
                         'activities': activities,
                         'activityType': activityType,
                         'activityMode': activityMode
-                        }%}
-                    </div>
-                {% endif %}
+                    }%}
+                </div>
+            {% endif %}
             </div>
         {% endfor %}
             <div id="activities_evaluations" class="mt-4">
@@ -340,14 +340,14 @@
                     <div class="mt-2">
                         <div class="d-flex p-3 bg-primary">
                             <div class="mr-auto p-2 d-flex flex-column align-self-center">
-                                {% for evaluation in course.courseEvaluationCts %}
-                                    <span>
+                            {% for evaluation in course.courseEvaluationCts %}
+                                <span>
                                     {{ evaluation.activity.label }}
-                                        {% if evaluation.description is not null %}
-                                            : {{ evaluation.description }}
-                                        {% endif %}
+                                    {% if evaluation.description is not null %}
+                                        : {{ evaluation.description|linkify({"attr": {"target": "_blank"}})|raw }}
+                                    {% endif %}
                                 </span>
-                                {% endfor %}
+                            {% endfor %}
                             </div>
                             <div class="p-2 d-flex align-self-center font-weight-bold">Sur le campus</div>
                             <div class="p-2 d-flex align-self-center">
