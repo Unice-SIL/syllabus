@@ -16,9 +16,9 @@ services:
             tags: ['controller.service_arguments']
 
     # ACTION
-    AppBundle\Action\UI\Course\AskForAdviceCourseInfoAction:
+    AppBundle\Action\Ui\Course\AskForAdviceCourseInfoAction:
         arguments: ['%mailer_source%', '%mailer_target%']
-    AppBundle\Action\UI\Course\PublishCourseInfoAction:
+    AppBundle\Action\Ui\Course\PublishCourseInfoAction:
         arguments: ['%mailer_source%', '%mailer_target%']
 
     # ALIAS
