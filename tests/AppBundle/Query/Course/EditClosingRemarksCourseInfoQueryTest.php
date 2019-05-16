@@ -58,7 +58,7 @@ class EditClosingRemarksCourseInfoQueryTest extends TestCase
         $this->courseInfo
             ->setId(Uuid::uuid4())
             ->setClosingRemarks("closingremarks")
-            ->setClosingVideo('https://tutube.com');
+            ->setClosingVideo('<iframe width="560" height="315" src="https://www.youtube.com/embed/GdKkI1vGsmE" frameborder="0" allowfullscreen></iframe>');
 
         // User
         $this->user = new User();

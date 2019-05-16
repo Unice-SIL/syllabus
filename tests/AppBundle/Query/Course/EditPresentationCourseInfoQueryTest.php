@@ -80,7 +80,7 @@ class EditPresentationCourseInfoQueryTest extends TestCase
             ->setSummary('summary')
             ->setMediaType('image')
             ->setImage('image.jpg')
-            ->setVideo('https://domaine.com/video')
+            ->setVideo('<iframe width="560" height="315" src="https://www.youtube.com/embed/GdKkI1vGsmE" frameborder="0" allowfullscreen></iframe>')
             ->setTeachingMode('class')
             ->setTeachingCmClass(2)
             ->setTeachingTdClass(4)
