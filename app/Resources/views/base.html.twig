@@ -44,6 +44,11 @@
 
 {% block stylesheets %}
     {{ encore_entry_link_tags('app') }}
+    {% if not in_iframe %}
+        <style>
+            body { padding-bottom: 13rem }
+        </style>
+    {% endif %}
 {% endblock %}
 
     </head>
