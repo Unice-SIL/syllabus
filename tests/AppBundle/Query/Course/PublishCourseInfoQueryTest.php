@@ -2,7 +2,6 @@
 
 namespace tests\AppBundle\Query\User;
 
-use AppBundle\Command\Course\EditMccCourseInfoCommand;
 use AppBundle\Command\Course\PublishCourseInfoCommand;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Exception\CourseInfoNotFoundException;
@@ -130,6 +129,6 @@ class PublishCourseInfoQueryTest extends TestCase
     {
         unset($this->courseInfoRepository);
         unset($this->courseInfo);
-        unset($this->editMccCourseInfoCommand);
+        unset($this->publishCourseInfoCommand);
     }
 }
