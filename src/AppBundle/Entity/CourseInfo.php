@@ -449,7 +449,7 @@ class CourseInfo
     private $structure;
 
     /**
-     * @var \AppBundle\Entity\User
+     * @var User|null
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
      * @ORM\JoinColumns({
@@ -459,7 +459,7 @@ class CourseInfo
     private $lastUpdater;
 
     /**
-     * @var \AppBundle\Entity\User
+     * @var User|null
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
      * @ORM\JoinColumns({
@@ -481,7 +481,7 @@ class CourseInfo
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="CoursePermission", mappedBy="courseInfo")
+     * @ORM\OneToMany(targetEntity="CoursePermission", mappedBy="courseInfo", cascade={ "all" }, orphanRemoval=true)
      */
     private $coursePermissions;
 
@@ -1707,10 +1707,10 @@ class CourseInfo
     }
 
     /**
-     * @param User $lastUpdater
+     * @param User|null $lastUpdater
      * @return CourseInfo
      */
-    public function setLastUpdater(User $lastUpdater): CourseInfo
+    public function setLastUpdater($lastUpdater): CourseInfo
     {
         $this->lastUpdater = $lastUpdater;
 
@@ -1726,10 +1726,10 @@ class CourseInfo
     }
 
     /**
-     * @param User $publisher
+     * @param User|null $publisher
      * @return CourseInfo
      */
-    public function setPublisher(User $publisher): CourseInfo
+    public function setPublisher($publisher): CourseInfo
     {
         $this->publisher = $publisher;
 

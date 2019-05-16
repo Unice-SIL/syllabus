@@ -45,11 +45,6 @@ class CourseImporterCommand extends AbstractImporterCommand
     private $courseInfoRepository;
 
     /**
-     * @var YearRepositoryInterface
-     */
-    private $yearRepository;
-
-    /**
      * @var StructureRepositoryInterface
      */
     private $structureRepository;
@@ -77,7 +72,7 @@ class CourseImporterCommand extends AbstractImporterCommand
         $this->courseInfoRepository = $courseInfoRepository;
         $this->yearRepository =$yearRepository;
         $this->structureRepository = $structureRepository;
-        parent::__construct($container, $logger);
+        parent::__construct($container, $yearRepository, $logger);
     }
 
     /**
@@ -107,19 +102,8 @@ class CourseImporterCommand extends AbstractImporterCommand
         $years = $this->getYearsToImport();
         // Get courses to import
         $courses = $this->getCoursesToImport($years);
-        // Start courses import
+        // Start import courses
         $this->startImport($courses);
-    }
-
-    /**
-     * @return array
-     */
-    private function getYearsToImport(): array
-    {
-        $years = $this->yearRepository->findToImport();
-        return array_map(function($a){
-            return $a->getId();
-        }, $years);
     }
 
     /**
@@ -139,7 +123,6 @@ class CourseImporterCommand extends AbstractImporterCommand
     private function startImport(CourseCollection $courses): void
     {
         foreach ($courses as $course) {
-            if($course->getEtbId()!=="SLEPB111") continue;
             try {
                 $this->courseRepository->beginTransaction();
                 // Prepare course
@@ -223,9 +206,25 @@ class CourseImporterCommand extends AbstractImporterCommand
             $courseInfo = $this->courseInfoRepository->findByEtbIdAndYear($course->getEtbId(), $ci->getYearId());
             // If course info not exist create new instance
             if (is_null($courseInfo)) {
-                $courseInfo = new CourseInfo();
+                $oldCourseInfo = $course->getCourseInfos()->last();
+                if(!is_null($oldCourseInfo)){
+                    $courseInfo = clone $oldCourseInfo;
+                }else{
+                    $courseInfo = new CourseInfo();
+                }
                 $courseInfo->setId(Uuid::uuid4())
                     ->setYear($year)
+                    ->setPublisher(null)
+                    ->setPublicationDate(null)
+                    ->setLastUpdater(null)
+                    ->setModificationDate(null)
+                    ->setTemPresentationTabValid(false)
+                    ->setTemActivitiesTabValid(false)
+                    ->setTemObjectivesTabValid(false)
+                    ->setTemMccTabValid(false)
+                    ->setTemInfosTabValid(false)
+                    ->setTemEquipmentsTabValid(false)
+                    ->setTemClosingRemarksTabValid(false)
                     ->setCreationDate(new \DateTime());
             }
 
