@@ -123,8 +123,8 @@ class CourseImporterCommand extends AbstractImporterCommand
     private function startImport(CourseCollection $courses): void
     {
         foreach ($courses as $course) {
+            $this->courseRepository->beginTransaction();
             try {
-                $this->courseRepository->beginTransaction();
                 // Prepare course
                 $course = $this->prepareCourse($course);
                 if ($course instanceof Course) {
@@ -132,8 +132,8 @@ class CourseImporterCommand extends AbstractImporterCommand
                 }
                 $this->courseRepository->commit();
             } catch (\Exception $e) {
-                $this->courseRepository->rollback();
                 $this->logger->error((string)$e);
+                $this->courseRepository->rollback();
                 $this->output->writeln($e->getMessage());
             }
         }
