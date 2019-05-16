@@ -149,11 +149,18 @@ class SavePresentationCourseInfoAction implements ActionInterface
                     }
 
                     // Check if form is valid
-                    if(!$form->isValid()){
-                        $messages[] = [
-                            'type' => "warning",
-                            'message' => "Attention, pour pouvoir publier le cours vous devez renseigner tous les champs obligatoires."
-                        ];
+                    if(!$form->isValid()) {
+                        if (is_null($courseInfo->getPublicationDate())){
+                            $messages[] = [
+                                'type' => "warning",
+                                'message' => "Attention, pour pouvoir publier le cours vous devez renseigner tous les champs obligatoires."
+                            ];
+                        }else{
+                            $messages[] = [
+                                'type' => "error",
+                                'message' => "Attention, Certains champs obligatoires ne sont pas renseignés alors que vous syllabus est publié."
+                            ];
+                        }
                     }else{
                         $editPresentationCourseInfoCommand->setTemPresentationTabValid(true);
                     }

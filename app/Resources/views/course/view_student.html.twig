@@ -460,7 +460,7 @@
                             </div >
                         </div>
                     {% endif %}
-                    {% if courseInfoHelper.evaluationMethodsAreEmpty(course) == false and courseInfoHelper.evaluationAdvicesAreEmpty(course) == false %}
+                    {% if courseInfoHelper.evaluationMethodsAreEmpty(course) == false or courseInfoHelper.evaluationAdvicesAreEmpty(course) == false %}
                         <div class="col-lg">
                             {% if courseInfoHelper.evaluationMethodsAreEmpty(course) == false %}
                                 <div id="evaluations_methods" class="mt-4">
