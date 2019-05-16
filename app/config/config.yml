@@ -61,7 +61,7 @@ doctrine:
                 password: '%syllabus_database_password%'
                 charset: '%syllabus_database_charset%'
             apogee:
-                driver: pdo_oci
+                driver: oci8
                 host: 'apoprod.prive.unice.fr'
                 port: '15010'
                 dbname: 'apoprod'
