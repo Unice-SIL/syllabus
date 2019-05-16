@@ -123,13 +123,6 @@ class CourseImporterCommand extends AbstractImporterCommand
     private function startImport(CourseCollection $courses): void
     {
         foreach ($courses as $course) {
-            /**
-             *  POUR TEST
-             */
-            if($course->getEtbId()!=="SLEPB111") continue;
-            /**
-             *
-             */
             try {
                 $this->courseRepository->beginTransaction();
                 // Prepare course

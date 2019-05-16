@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a21425b7c13a298a042df6c2b4492505",
+    "content-hash": "8663e2dcb345fc1b9943dac47cdb309a",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -3250,21 +3250,21 @@
         },
         {
             "name": "unicesil/syllabus-apogee-importer-bundle",
-            "version": "dev-master",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Unice-SIL/syllabus-apogee-importer-bundle.git",
-                "reference": "b8fedf"
+                "reference": "d66f5ffc1403958f60faaae3fc03acc55b1d4fb9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Unice-SIL/syllabus-apogee-importer-bundle/zipball/b8fedf",
-                "reference": "b8fedf",
+                "url": "https://api.github.com/repos/Unice-SIL/syllabus-apogee-importer-bundle/zipball/d66f5ffc1403958f60faaae3fc03acc55b1d4fb9",
+                "reference": "d66f5ffc1403958f60faaae3fc03acc55b1d4fb9",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.1",
-                "unicesil/syllabus-importer-toolkit": "dev-master"
+                "unicesil/syllabus-importer-toolkit": ">=1.0"
             },
             "type": "symfony-bundle",
             "autoload": {
@@ -3282,20 +3282,20 @@
                 "Unice-SIL",
                 "importer"
             ],
-            "time": "2019-05-14T13:51:00+00:00"
+            "time": "2019-05-16T09:09:21+00:00"
         },
         {
             "name": "unicesil/syllabus-importer-toolkit",
-            "version": "dev-master",
+            "version": "1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Unice-SIL/syllabus-importer-toolkit.git",
-                "reference": "45a911"
+                "reference": "45a9117718e33dd0927af63987e94388266cd275"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Unice-SIL/syllabus-importer-toolkit/zipball/45a911",
-                "reference": "45a911",
+                "url": "https://api.github.com/repos/Unice-SIL/syllabus-importer-toolkit/zipball/45a9117718e33dd0927af63987e94388266cd275",
+                "reference": "45a9117718e33dd0927af63987e94388266cd275",
                 "shasum": ""
             },
             "require": {
@@ -3313,22 +3313,22 @@
         },
         {
             "name": "unicesil/syllabus-moodle-importer-bundle",
-            "version": "dev-master",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Unice-SIL/syllabus-moodle-importer.git",
-                "reference": "170772"
+                "reference": "d54791618ab279ea270df4caeffcb7d9f282051f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Unice-SIL/syllabus-moodle-importer/zipball/170772",
-                "reference": "170772",
+                "url": "https://api.github.com/repos/Unice-SIL/syllabus-moodle-importer/zipball/d54791618ab279ea270df4caeffcb7d9f282051f",
+                "reference": "d54791618ab279ea270df4caeffcb7d9f282051f",
                 "shasum": ""
             },
             "require": {
                 "guzzlehttp/guzzle": "^6.3",
                 "php": ">=7.1",
-                "unicesil/syllabus-importer-toolkit": "dev-master"
+                "unicesil/syllabus-importer-toolkit": ">=1.0"
             },
             "type": "symfony-bundle",
             "autoload": {
@@ -3346,7 +3346,7 @@
                 "importer",
                 "moodle"
             ],
-            "time": "2019-05-14T12:13:26+00:00"
+            "time": "2019-05-16T15:33:38+00:00"
         }
     ],
     "packages-dev": [
@@ -5128,11 +5128,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "unicesil/syllabus-apogee-importer-bundle": 20,
-        "unicesil/syllabus-importer-toolkit": 20,
-        "unicesil/syllabus-moodle-importer-bundle": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
