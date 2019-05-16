@@ -6,7 +6,7 @@ use AppBundle\Command\Course\EditInfosCourseInfoCommand;
 use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Query\QueryInterface;
 use AppBundle\Repository\CourseInfoRepositoryInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * Class EditInfosCourseInfoQuery
@@ -26,22 +26,22 @@ class EditInfosCourseInfoQuery implements QueryInterface
     private $editInfosCourseInfoCommand;
 
     /**
-     * @var TokenStorageInterface
+     * @var Security
      */
-    private $tokenStorage;
+    private $security;
 
     /**
      * EditInfosCourseInfoQuery constructor.
      * @param CourseInfoRepositoryInterface $courseInfoRepository
-     * @param TokenStorageInterface $tokenStorage
+     * @param Security $security
      */
     public function __construct(
         CourseInfoRepositoryInterface $courseInfoRepository,
-        TokenStorageInterface $tokenStorage
+        Security $security
     )
     {
         $this->courseInfoRepository = $courseInfoRepository;
-        $this->tokenStorage = $tokenStorage;
+        $this->security = $security;
     }
 
     /**
@@ -72,7 +72,7 @@ class EditInfosCourseInfoQuery implements QueryInterface
         try{
             $courseInfo = $this->editInfosCourseInfoCommand->filledEntity($courseInfo);
             $courseInfo->setModificationDate(new \DateTime())
-                ->setLastUpdater($this->tokenStorage->getToken()->getUser());
+                ->setLastUpdater($this->security->getUser());
             $this->courseInfoRepository->beginTransaction();
             $this->courseInfoRepository->update($courseInfo);
             $this->courseInfoRepository->commit();

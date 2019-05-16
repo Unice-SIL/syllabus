@@ -6,8 +6,10 @@ use AppBundle\Command\Course\EditEquipmentsCourseInfoCommand;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseResourceEquipment;
 use AppBundle\Entity\Equipment;
+use AppBundle\Entity\User;
 use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Query\Course\EditEquipmentsCourseInfoQuery;
+use Symfony\Component\Security\Core\Security;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -35,6 +37,11 @@ class EditEquipmentsCourseInfoQueryTest extends TestCase
     private $courseInfo;
 
     /**
+     * @var User
+     */
+    private $user;
+
+    /**
      * @var ArrayCollection
      */
     private $courseResourceEquipments;
@@ -43,6 +50,11 @@ class EditEquipmentsCourseInfoQueryTest extends TestCase
      * @var EditEquipmentsCourseInfoCommand
      */
     private $editEquipmentsCourseInfoCommand;
+
+    /**
+     * @var Security
+     */
+    private $security;
 
     /**
      *
@@ -55,12 +67,22 @@ class EditEquipmentsCourseInfoQueryTest extends TestCase
         $this->courseResourceEquipmentRepository = $this->getMockBuilder('AppBundle\Repository\CourseResourceEquipmentRepositoryInterface')
             ->getMock();
 
+        // Mock Security
+        $this->security = $this
+            ->getMockBuilder('Symfony\Component\Security\Core\Security')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         // CourseInfo
         $this->courseInfo = new CourseInfo();
         $this->courseInfo
             ->setId(Uuid::uuid4())
             ->setEducationalResources('educationalResource')
             ->setBibliographicResources('bibliographicResource');
+
+        // User
+        $this->user = new User();
+        $this->user->setId(Uuid::uuid4());
 
         // Equipment
         $equipment = new Equipment();
@@ -94,6 +116,10 @@ class EditEquipmentsCourseInfoQueryTest extends TestCase
             ->with($this->editEquipmentsCourseInfoCommand->getId())
             ->willReturn($this->courseInfo);
 
+        $this->security->expects($this->once())
+            ->method('getUser')
+            ->willReturn($this->user);
+
         $this->courseInfoRepository->expects($this->once())
             ->method('beginTransaction');
 
@@ -112,7 +138,8 @@ class EditEquipmentsCourseInfoQueryTest extends TestCase
 
         $editEquipmentsCourseInfoQuery = new EditEquipmentsCourseInfoQuery(
             $this->courseInfoRepository,
-            $this->courseResourceEquipmentRepository
+            $this->courseResourceEquipmentRepository,
+            $this->security
         );
         $editEquipmentsCourseInfoQuery->setEditEquipmentsCourseInfoCommand($this->editEquipmentsCourseInfoCommand);
         $this->assertNull($editEquipmentsCourseInfoQuery->execute());
@@ -130,6 +157,10 @@ class EditEquipmentsCourseInfoQueryTest extends TestCase
             ->method('find')
             ->with($this->editEquipmentsCourseInfoCommand->getId())
             ->willReturn($this->courseInfo);
+
+        $this->security->expects($this->once())
+            ->method('getUser')
+            ->willReturn($this->user);
 
         $this->courseInfoRepository->expects($this->once())
             ->method('beginTransaction');
@@ -149,7 +180,8 @@ class EditEquipmentsCourseInfoQueryTest extends TestCase
 
         $editEquipmentsCourseInfoQuery = new EditEquipmentsCourseInfoQuery(
             $this->courseInfoRepository,
-            $this->courseResourceEquipmentRepository
+            $this->courseResourceEquipmentRepository,
+            $this->security
         );
         $editEquipmentsCourseInfoQuery->setEditEquipmentsCourseInfoCommand($this->editEquipmentsCourseInfoCommand);
         $this->assertNull($editEquipmentsCourseInfoQuery->execute());
@@ -166,6 +198,10 @@ class EditEquipmentsCourseInfoQueryTest extends TestCase
             ->method('find')
             ->with($this->courseInfo->getId())
             ->willReturn($this->courseInfo);
+
+        $this->security->expects($this->once())
+            ->method('getUser')
+            ->willReturn($this->user);
 
         $this->courseInfoRepository->expects($this->once())
             ->method('beginTransaction');
@@ -186,7 +222,8 @@ class EditEquipmentsCourseInfoQueryTest extends TestCase
 
         $editEquipmentsCourseInfoQuery = new EditEquipmentsCourseInfoQuery(
             $this->courseInfoRepository,
-            $this->courseResourceEquipmentRepository
+            $this->courseResourceEquipmentRepository,
+            $this->security
         );
         $editEquipmentsCourseInfoQuery->setEditEquipmentsCourseInfoCommand($this->editEquipmentsCourseInfoCommand)->execute();
     }
@@ -206,6 +243,10 @@ class EditEquipmentsCourseInfoQueryTest extends TestCase
             ->with($this->courseInfo->getId())
             ->willReturn($this->courseInfo);
 
+        $this->security->expects($this->once())
+            ->method('getUser')
+            ->willReturn($this->user);
+
         $this->courseInfoRepository->expects($this->once())
             ->method('beginTransaction');
 
@@ -224,7 +265,8 @@ class EditEquipmentsCourseInfoQueryTest extends TestCase
 
         $editEquipmentsCourseInfoQuery = new EditEquipmentsCourseInfoQuery(
             $this->courseInfoRepository,
-            $this->courseResourceEquipmentRepository
+            $this->courseResourceEquipmentRepository,
+            $this->security
         );
         $editEquipmentsCourseInfoQuery->setEditEquipmentsCourseInfoCommand($this->editEquipmentsCourseInfoCommand)->execute();
     }
@@ -242,6 +284,9 @@ class EditEquipmentsCourseInfoQueryTest extends TestCase
             ->with($this->courseInfo->getId())
             ->willReturn(null);
 
+        $this->security->expects($this->never())
+            ->method('getUser');
+
         $this->courseInfoRepository->expects($this->never())
             ->method('beginTransaction');
 
@@ -257,7 +302,8 @@ class EditEquipmentsCourseInfoQueryTest extends TestCase
 
         $editEquipmentsCourseInfoQuery = new EditEquipmentsCourseInfoQuery(
             $this->courseInfoRepository,
-            $this->courseResourceEquipmentRepository
+            $this->courseResourceEquipmentRepository,
+            $this->security
         );
         $editEquipmentsCourseInfoQuery->setEditEquipmentsCourseInfoCommand($this->editEquipmentsCourseInfoCommand)->execute();
     }
@@ -272,5 +318,6 @@ class EditEquipmentsCourseInfoQueryTest extends TestCase
         unset($this->courseInfo);
         unset($this->courseResourceEquipments);
         unset($this->editEquipmentsCourseInfoCommand);
+        unset($this->security);
     }
 }

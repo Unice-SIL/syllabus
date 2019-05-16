@@ -11,7 +11,7 @@ use AppBundle\Repository\CourseSectionActivityRepositoryInterface;
 use AppBundle\Repository\CourseSectionRepositoryInterface;
 use AppBundle\Repository\CourseTeacherRepositoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * Class EditActivitiesCourseInfoQuery
@@ -46,9 +46,9 @@ class EditActivitiesCourseInfoQuery implements QueryInterface
     private $editActivitiesCourseInfoCommand;
 
     /**
-     * @var TokenStorageInterface
+     * @var Security
      */
-    private $tokenStorage;
+    private $security;
 
     /**
      * EditActivitiesCourseInfoQuery constructor.
@@ -56,21 +56,21 @@ class EditActivitiesCourseInfoQuery implements QueryInterface
      * @param CourseSectionRepositoryInterface $courseSectionRepository
      * @param CourseSectionActivityRepositoryInterface $courseSectionActivityRepository
      * @param CourseEvaluationCtRepositoryInterface $courseEvaluationCtRepository
-     * @param TokenStorageInterface $tokenStorage
+     * @param Security $security
      */
     public function __construct(
         CourseInfoRepositoryInterface $courseInfoRepository,
         CourseSectionRepositoryInterface $courseSectionRepository,
         CourseSectionActivityRepositoryInterface $courseSectionActivityRepository,
         CourseEvaluationCtRepositoryInterface $courseEvaluationCtRepository,
-        TokenStorageInterface $tokenStorage
+        Security $security
     )
     {
         $this->courseInfoRepository = $courseInfoRepository;
         $this->courseSectionRepository = $courseSectionRepository;
         $this->courseSectionActivityRepository = $courseSectionActivityRepository;
         $this->courseEvaluationCtRepository = $courseEvaluationCtRepository;
-        $this->tokenStorage = $tokenStorage;
+        $this->security = $security;
     }
 
     /**
@@ -112,7 +112,7 @@ class EditActivitiesCourseInfoQuery implements QueryInterface
             // Set course infos from command
             $courseInfo = $this->editActivitiesCourseInfoCommand->filledEntity($courseInfo);
             $courseInfo->setModificationDate(new \DateTime())
-                ->setLastUpdater($this->tokenStorage->getToken()->getUser());
+                ->setLastUpdater($this->security->getUser());
             // Start transaction
             $this->courseInfoRepository->beginTransaction();
 

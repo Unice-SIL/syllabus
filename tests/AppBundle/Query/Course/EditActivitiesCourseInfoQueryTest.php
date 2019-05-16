@@ -5,9 +5,11 @@ namespace tests\AppBundle\Query\User;
 use AppBundle\Command\Course\EditActivitiesCourseInfoCommand;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseSection;
+use AppBundle\Entity\User;
 use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Query\Course\EditActivitiesCourseInfoQuery;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Core\Security;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
@@ -59,6 +61,16 @@ class EditActivitiesCourseInfoQueryTest extends TestCase
     private $editActivitiesCourseInfoQuery;
 
     /**
+     * @var User
+     */
+    private $user;
+
+    /**
+     * @var Security
+     */
+    private $security;
+
+    /**
      *
      */
     protected function setUp(): void
@@ -73,10 +85,19 @@ class EditActivitiesCourseInfoQueryTest extends TestCase
         $this->courseEvaluationCtRepository = $this->getMockBuilder('AppBundle\Repository\CourseEvaluationCtRepositoryInterface')
             ->getMock();
 
+        // Mock Security
+        $this->security = $this
+            ->getMockBuilder('Symfony\Component\Security\Core\Security')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         // CourseInfo
         $this->courseInfo = new CourseInfo();
-        $this->courseInfo
-            ->setId(Uuid::uuid4());
+        $this->courseInfo->setId(Uuid::uuid4());
+
+        // User
+        $this->user = new User();
+        $this->user->setId(Uuid::uuid4());
 
         // CourseSections
         $courseSection = new CourseSection();
@@ -95,7 +116,8 @@ class EditActivitiesCourseInfoQueryTest extends TestCase
             $this->courseInfoRepository,
             $this->courseSectionRepository,
             $this->courseSectionActivityRepository,
-            $this->courseEvaluationCtRepository
+            $this->courseEvaluationCtRepository,
+            $this->security
         );
     }
 
@@ -108,6 +130,10 @@ class EditActivitiesCourseInfoQueryTest extends TestCase
             ->method('find')
             ->with($this->editActivitiesCourseInfoCommand->getId())
             ->willReturn($this->courseInfo);
+
+        $this->security->expects($this->once())
+            ->method('getUser')
+            ->willReturn($this->user);
 
         $this->courseInfoRepository->expects($this->once())
             ->method('beginTransaction');
@@ -142,6 +168,10 @@ class EditActivitiesCourseInfoQueryTest extends TestCase
             ->with($this->editActivitiesCourseInfoCommand->getId())
             ->willReturn($this->courseInfo);
 
+        $this->security->expects($this->once())
+            ->method('getUser')
+            ->willReturn($this->user);
+
         $this->courseInfoRepository->expects($this->once())
             ->method('beginTransaction');
 
@@ -173,6 +203,10 @@ class EditActivitiesCourseInfoQueryTest extends TestCase
             ->method('find')
             ->with($this->courseInfo->getId())
             ->willReturn($this->courseInfo);
+
+        $this->security->expects($this->once())
+            ->method('getUser')
+            ->willReturn($this->user);
 
         $this->courseInfoRepository->expects($this->once())
             ->method('beginTransaction');
@@ -209,6 +243,10 @@ class EditActivitiesCourseInfoQueryTest extends TestCase
             ->with($this->courseInfo->getId())
             ->willReturn($this->courseInfo);
 
+        $this->security->expects($this->once())
+            ->method('getUser')
+            ->willReturn($this->user);
+
         $this->courseInfoRepository->expects($this->once())
             ->method('beginTransaction');
 
@@ -241,6 +279,9 @@ class EditActivitiesCourseInfoQueryTest extends TestCase
             ->with($this->courseInfo->getId())
             ->willReturn(null);
 
+        $this->security->expects($this->never())
+            ->method('getUser');
+
         $this->courseInfoRepository->expects($this->never())
             ->method('beginTransaction');
 
@@ -267,5 +308,6 @@ class EditActivitiesCourseInfoQueryTest extends TestCase
         unset($this->courseInfo);
         unset($this->courseTeachers);
         unset($this->editPresentationCourseInfoCommand);
+        unset($this->security);
     }
 }

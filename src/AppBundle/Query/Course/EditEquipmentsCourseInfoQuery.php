@@ -7,7 +7,7 @@ use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Query\QueryInterface;
 use AppBundle\Repository\CourseInfoRepositoryInterface;
 use AppBundle\Repository\CourseResourceEquipmentRepositoryInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * Class EditEquipmentsCourseInfoQuery
@@ -32,24 +32,25 @@ class EditEquipmentsCourseInfoQuery implements QueryInterface
     private $editEquipmentsCourseInfoCommand;
 
     /**
-     * @var TokenStorageInterface
+     * @var Security
      */
-    private $tokenStorage;
+    private $security;
 
     /**
      * EditEquipmentsCourseInfoQuery constructor.
      * @param CourseInfoRepositoryInterface $courseInfoRepository
      * @param CourseResourceEquipmentRepositoryInterface $courseResourceEquipmentRepository
+     * @param Security $security
      */
     public function __construct(
         CourseInfoRepositoryInterface $courseInfoRepository,
         CourseResourceEquipmentRepositoryInterface $courseResourceEquipmentRepository,
-        TokenStorageInterface $tokenStorage
+        Security $security
     )
     {
         $this->courseInfoRepository = $courseInfoRepository;
         $this->courseResourceEquipmentRepository = $courseResourceEquipmentRepository;
-        $this->tokenStorage = $tokenStorage;
+        $this->security = $security;
     }
 
     /**
@@ -83,7 +84,7 @@ class EditEquipmentsCourseInfoQuery implements QueryInterface
             // Fill course info with new values
             $courseInfo = $this->editEquipmentsCourseInfoCommand->filledEntity($courseInfo);
             $courseInfo->setModificationDate(new \DateTime())
-                ->setLastUpdater($this->tokenStorage->getToken()->getUser());
+                ->setLastUpdater($this->security->getUser());
             // Start transaction
             $this->courseInfoRepository->beginTransaction();
             // Loop on original course resource equipments to detect Resourceequipments must be removed

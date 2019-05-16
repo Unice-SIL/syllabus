@@ -7,8 +7,10 @@ use AppBundle\Entity\CourseAchievement;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CoursePrerequisite;
 use AppBundle\Entity\CourseTutoringResource;
+use AppBundle\Entity\User;
 use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Query\Course\EditObjectivesCourseInfoQuery;
+use Symfony\Component\Security\Core\Security;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -66,6 +68,16 @@ class EditObjectivesCourseInfoQueryTest extends TestCase
     private $editObjectivesCourseInfoCommand;
 
     /**
+     * @var User
+     */
+    private $user;
+
+    /**
+     * @var Security
+     */
+    private $security;
+
+    /**
      *
      */
     protected function setUp(): void
@@ -80,11 +92,21 @@ class EditObjectivesCourseInfoQueryTest extends TestCase
         $this->coursePrerequisiteRepository = $this->getMockBuilder('AppBundle\Repository\CoursePrerequisiteRepositoryInterface')
             ->getMock();
 
+        // Mock Security
+        $this->security = $this
+            ->getMockBuilder('Symfony\Component\Security\Core\Security')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         // CourseInfo
         $this->courseInfo = new CourseInfo();
         $this->courseInfo
             ->setId(Uuid::uuid4())
             ->setTutoring(false);
+
+        // User
+        $this->user = new User();
+        $this->user->setId(Uuid::uuid4());
 
         // CourseAchievements
         $courseAchievement = new CourseAchievement();
@@ -130,6 +152,10 @@ class EditObjectivesCourseInfoQueryTest extends TestCase
             ->with($this->editObjectivesCourseInfoCommand->getId())
             ->willReturn($this->courseInfo);
 
+        $this->security->expects($this->once())
+            ->method('getUser')
+            ->willReturn($this->user);
+
         $this->courseInfoRepository->expects($this->once())
             ->method('beginTransaction');
 
@@ -147,7 +173,8 @@ class EditObjectivesCourseInfoQueryTest extends TestCase
             $this->courseInfoRepository,
             $this->courseAchievementRepository,
             $this->coursePrerequisiteRepository,
-            $this->courseTutoringResourceRepository
+            $this->courseTutoringResourceRepository,
+            $this->security
         );
         $editObjectivesCourseInfoQuery->setEditObjectivesCourseInfoCommand($this->editObjectivesCourseInfoCommand);
         $this->assertNull($editObjectivesCourseInfoQuery->execute());
@@ -165,6 +192,10 @@ class EditObjectivesCourseInfoQueryTest extends TestCase
             ->method('find')
             ->with($this->editObjectivesCourseInfoCommand->getId())
             ->willReturn($this->courseInfo);
+
+        $this->security->expects($this->once())
+            ->method('getUser')
+            ->willReturn($this->user);
 
         $this->courseInfoRepository->expects($this->once())
             ->method('beginTransaction');
@@ -192,7 +223,8 @@ class EditObjectivesCourseInfoQueryTest extends TestCase
             $this->courseInfoRepository,
             $this->courseAchievementRepository,
             $this->coursePrerequisiteRepository,
-            $this->courseTutoringResourceRepository
+            $this->courseTutoringResourceRepository,
+            $this->security
         );
         $editObjectivesCourseInfoQuery->setEditObjectivesCourseInfoCommand($this->editObjectivesCourseInfoCommand);
         $this->assertNull($editObjectivesCourseInfoQuery->execute());
@@ -210,6 +242,10 @@ class EditObjectivesCourseInfoQueryTest extends TestCase
             ->method('find')
             ->with($this->editObjectivesCourseInfoCommand->getId())
             ->willReturn($this->courseInfo);
+
+        $this->security->expects($this->once())
+            ->method('getUser')
+            ->willReturn($this->user);
 
         $this->courseInfoRepository->expects($this->once())
             ->method('beginTransaction');
@@ -237,7 +273,8 @@ class EditObjectivesCourseInfoQueryTest extends TestCase
             $this->courseInfoRepository,
             $this->courseAchievementRepository,
             $this->coursePrerequisiteRepository,
-            $this->courseTutoringResourceRepository
+            $this->courseTutoringResourceRepository,
+            $this->security
         );
         $editObjectivesCourseInfoQuery->setEditObjectivesCourseInfoCommand($this->editObjectivesCourseInfoCommand);
         $this->assertNull($editObjectivesCourseInfoQuery->execute());
@@ -255,6 +292,10 @@ class EditObjectivesCourseInfoQueryTest extends TestCase
             ->method('find')
             ->with($this->editObjectivesCourseInfoCommand->getId())
             ->willReturn($this->courseInfo);
+
+        $this->security->expects($this->once())
+            ->method('getUser')
+            ->willReturn($this->user);
 
         $this->courseInfoRepository->expects($this->once())
             ->method('beginTransaction');
@@ -282,7 +323,8 @@ class EditObjectivesCourseInfoQueryTest extends TestCase
             $this->courseInfoRepository,
             $this->courseAchievementRepository,
             $this->coursePrerequisiteRepository,
-            $this->courseTutoringResourceRepository
+            $this->courseTutoringResourceRepository,
+            $this->security
         );
         $editObjectivesCourseInfoQuery->setEditObjectivesCourseInfoCommand($this->editObjectivesCourseInfoCommand);
         $this->assertNull($editObjectivesCourseInfoQuery->execute());
@@ -299,6 +341,10 @@ class EditObjectivesCourseInfoQueryTest extends TestCase
             ->method('find')
             ->with($this->courseInfo->getId())
             ->willReturn($this->courseInfo);
+
+        $this->security->expects($this->once())
+            ->method('getUser')
+            ->willReturn($this->user);
 
         $this->courseInfoRepository->expects($this->once())
             ->method('beginTransaction');
@@ -327,7 +373,8 @@ class EditObjectivesCourseInfoQueryTest extends TestCase
             $this->courseInfoRepository,
             $this->courseAchievementRepository,
             $this->coursePrerequisiteRepository,
-            $this->courseTutoringResourceRepository
+            $this->courseTutoringResourceRepository,
+            $this->security
         );
         $editObjectivesCourseInfoQuery->setEditObjectivesCourseInfoCommand($this->editObjectivesCourseInfoCommand)->execute();
     }
@@ -346,6 +393,10 @@ class EditObjectivesCourseInfoQueryTest extends TestCase
             ->method('find')
             ->with($this->courseInfo->getId())
             ->willReturn($this->courseInfo);
+
+        $this->security->expects($this->once())
+            ->method('getUser')
+            ->willReturn($this->user);
 
         $this->courseInfoRepository->expects($this->once())
             ->method('beginTransaction');
@@ -373,7 +424,8 @@ class EditObjectivesCourseInfoQueryTest extends TestCase
             $this->courseInfoRepository,
             $this->courseAchievementRepository,
             $this->coursePrerequisiteRepository,
-            $this->courseTutoringResourceRepository
+            $this->courseTutoringResourceRepository,
+            $this->security
         );
         $editObjectivesCourseInfoQuery->setEditObjectivesCourseInfoCommand($this->editObjectivesCourseInfoCommand)->execute();
     }
@@ -392,6 +444,10 @@ class EditObjectivesCourseInfoQueryTest extends TestCase
             ->method('find')
             ->with($this->courseInfo->getId())
             ->willReturn($this->courseInfo);
+
+        $this->security->expects($this->once())
+            ->method('getUser')
+            ->willReturn($this->user);
 
         $this->courseInfoRepository->expects($this->once())
             ->method('beginTransaction');
@@ -419,7 +475,8 @@ class EditObjectivesCourseInfoQueryTest extends TestCase
             $this->courseInfoRepository,
             $this->courseAchievementRepository,
             $this->coursePrerequisiteRepository,
-            $this->courseTutoringResourceRepository
+            $this->courseTutoringResourceRepository,
+            $this->security
         );
         $editObjectivesCourseInfoQuery->setEditObjectivesCourseInfoCommand($this->editObjectivesCourseInfoCommand)->execute();
     }
@@ -438,6 +495,14 @@ class EditObjectivesCourseInfoQueryTest extends TestCase
             ->method('find')
             ->with($this->courseInfo->getId())
             ->willReturn($this->courseInfo);
+
+        $this->security->expects($this->once())
+            ->method('getUser')
+            ->willReturn($this->user);
+
+        $this->security->expects($this->once())
+            ->method('getUser')
+            ->willReturn($this->user);
 
         $this->courseInfoRepository->expects($this->once())
             ->method('beginTransaction');
@@ -465,7 +530,8 @@ class EditObjectivesCourseInfoQueryTest extends TestCase
             $this->courseInfoRepository,
             $this->courseAchievementRepository,
             $this->coursePrerequisiteRepository,
-            $this->courseTutoringResourceRepository
+            $this->courseTutoringResourceRepository,
+            $this->security
         );
         $editObjectivesCourseInfoQuery->setEditObjectivesCourseInfoCommand($this->editObjectivesCourseInfoCommand)->execute();
     }
@@ -482,6 +548,9 @@ class EditObjectivesCourseInfoQueryTest extends TestCase
             ->method('find')
             ->with($this->courseInfo->getId())
             ->willReturn(null);
+
+        $this->security->expects($this->never())
+            ->method('getUser');
 
         $this->courseInfoRepository->expects($this->never())
             ->method('beginTransaction');
@@ -509,7 +578,8 @@ class EditObjectivesCourseInfoQueryTest extends TestCase
             $this->courseInfoRepository,
             $this->courseAchievementRepository,
             $this->coursePrerequisiteRepository,
-            $this->courseTutoringResourceRepository
+            $this->courseTutoringResourceRepository,
+            $this->security
         );
         $editObjectivesCourseInfoQuery->setEditObjectivesCourseInfoCommand($this->editObjectivesCourseInfoCommand)->execute();
     }
@@ -528,5 +598,6 @@ class EditObjectivesCourseInfoQueryTest extends TestCase
         unset($this->coursePrerequisites);
         unset($this->courseTutoringResources);
         unset($this->editObjectivesCourseInfoCommand);
+        unset($this->security);
     }
 }

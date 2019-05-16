@@ -7,7 +7,7 @@ use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Query\QueryInterface;
 use AppBundle\Repository\CourseInfoRepositoryInterface;
 use AppBundle\Repository\CourseTeacherRepositoryInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * Class EditPresentationCourseInfoQuery
@@ -32,25 +32,25 @@ class EditPresentationCourseInfoQuery implements QueryInterface
     private $editPresentationCourseInfoCommand;
 
     /**
-     * @var TokenStorageInterface
+     * @var Security
      */
-    private $tokenStorage;
+    private $security;
 
     /**
      * EditPresentationCourseInfoQuery constructor.
      * @param CourseInfoRepositoryInterface $courseInfoRepository
      * @param CourseTeacherRepositoryInterface $courseTeacherRepository
-     * @param TokenStorageInterface $tokenStorage
+     * @param Security $security
      */
     public function __construct(
         CourseInfoRepositoryInterface $courseInfoRepository,
         CourseTeacherRepositoryInterface $courseTeacherRepository,
-        TokenStorageInterface $tokenStorage
+        Security $security
     )
     {
         $this->courseInfoRepository = $courseInfoRepository;
         $this->courseTeacherRepository = $courseTeacherRepository;
-        $this->tokenStorage = $tokenStorage;
+        $this->security = $security;
     }
 
     /**
@@ -82,7 +82,7 @@ class EditPresentationCourseInfoQuery implements QueryInterface
             $originalCourseTeachers = $courseInfo->getCourseTeachers();
             $courseInfo = $this->editPresentationCourseInfoCommand->filledEntity($courseInfo);
             $courseInfo->setModificationDate(new \DateTime())
-                ->setLastUpdater($this->tokenStorage->getToken()->getUser());
+                ->setLastUpdater($this->security->getUser());
             $this->courseInfoRepository->beginTransaction();
             foreach ($originalCourseTeachers as $courseTeacher) {
                 if (!$courseInfo->getCourseTeachers()->contains($courseTeacher)) {

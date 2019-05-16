@@ -4,8 +4,10 @@ namespace tests\AppBundle\Query\User;
 
 use AppBundle\Command\Course\EditClosingRemarksCourseInfoCommand;
 use AppBundle\Entity\CourseInfo;
+use AppBundle\Entity\User;
 use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Query\Course\EditClosingRemarksCourseInfoQuery;
+use Symfony\Component\Security\Core\Security;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
@@ -32,6 +34,11 @@ class EditClosingRemarksCourseInfoQueryTest extends TestCase
     private $editClosingRemarksCourseInfoCommand;
 
     /**
+     * @var Security
+     */
+    private $security;
+
+    /**
      *
      */
     protected function setUp(): void
@@ -40,12 +47,22 @@ class EditClosingRemarksCourseInfoQueryTest extends TestCase
         $this->courseInfoRepository = $this->getMockBuilder('AppBundle\Repository\CourseInfoRepositoryInterface')
             ->getMock();
 
+        // Mock Security
+        $this->security = $this
+            ->getMockBuilder('Symfony\Component\Security\Core\Security')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         // CourseInfo
         $this->courseInfo = new CourseInfo();
         $this->courseInfo
             ->setId(Uuid::uuid4())
             ->setClosingRemarks("closingremarks")
             ->setClosingVideo('https://tutube.com');
+
+        // User
+        $this->user = new User();
+        $this->user->setId(Uuid::uuid4());
 
         // Command
         $this->editClosingRemarksCourseInfoCommand = new EditClosingRemarksCourseInfoCommand($this->courseInfo);
@@ -61,6 +78,10 @@ class EditClosingRemarksCourseInfoQueryTest extends TestCase
             ->with($this->editClosingRemarksCourseInfoCommand->getId())
             ->willReturn($this->courseInfo);
 
+        $this->security->expects($this->once())
+            ->method('getUser')
+            ->willReturn($this->user);
+
         $this->courseInfoRepository->expects($this->once())
             ->method('beginTransaction');
 
@@ -74,7 +95,10 @@ class EditClosingRemarksCourseInfoQueryTest extends TestCase
         $this->courseInfoRepository->expects($this->never())
             ->method('rollback');
 
-        $editClosingRemarksCourseInfoQuery = new EditClosingRemarksCourseInfoQuery($this->courseInfoRepository);
+        $editClosingRemarksCourseInfoQuery = new EditClosingRemarksCourseInfoQuery(
+            $this->courseInfoRepository,
+            $this->security
+        );
         $editClosingRemarksCourseInfoQuery->setEditClosingRemarksCourseInfoCommand($this->editClosingRemarksCourseInfoCommand);
         $this->assertNull($editClosingRemarksCourseInfoQuery->execute());
     }
@@ -91,6 +115,10 @@ class EditClosingRemarksCourseInfoQueryTest extends TestCase
             ->with($this->courseInfo->getId())
             ->willReturn($this->courseInfo);
 
+        $this->security->expects($this->once())
+            ->method('getUser')
+            ->willReturn($this->user);
+
         $this->courseInfoRepository->expects($this->once())
             ->method('beginTransaction');
 
@@ -105,7 +133,10 @@ class EditClosingRemarksCourseInfoQueryTest extends TestCase
         $this->courseInfoRepository->expects($this->once())
             ->method('rollback');
 
-        $editClosingRemarksCourseInfoQuery = new EditClosingRemarksCourseInfoQuery($this->courseInfoRepository);
+        $editClosingRemarksCourseInfoQuery = new EditClosingRemarksCourseInfoQuery(
+            $this->courseInfoRepository,
+            $this->security
+        );
         $editClosingRemarksCourseInfoQuery->setEditClosingRemarksCourseInfoCommand($this->editClosingRemarksCourseInfoCommand)->execute();
     }
 
@@ -122,6 +153,9 @@ class EditClosingRemarksCourseInfoQueryTest extends TestCase
             ->with($this->courseInfo->getId())
             ->willReturn(null);
 
+        $this->security->expects($this->never())
+            ->method('getUser');
+
         $this->courseInfoRepository->expects($this->never())
             ->method('beginTransaction');
 
@@ -135,7 +169,10 @@ class EditClosingRemarksCourseInfoQueryTest extends TestCase
         $this->courseInfoRepository->expects($this->never())
             ->method('rollback');
 
-        $editClosingRemarksCourseInfoQuery = new EditClosingRemarksCourseInfoQuery($this->courseInfoRepository);
+        $editClosingRemarksCourseInfoQuery = new EditClosingRemarksCourseInfoQuery(
+            $this->courseInfoRepository,
+            $this->security
+        );
         $editClosingRemarksCourseInfoQuery->setEditClosingRemarksCourseInfoCommand($this->editClosingRemarksCourseInfoCommand)->execute();
     }
 
@@ -147,5 +184,6 @@ class EditClosingRemarksCourseInfoQueryTest extends TestCase
         unset($this->courseInfoRepository);
         unset($this->courseInfo);
         unset($this->editClosingRemarksCourseInfoCommand);
+        unset($this->security);
     }
 }
