@@ -153,12 +153,12 @@ class SavePresentationCourseInfoAction implements ActionInterface
                         if (is_null($courseInfo->getPublicationDate())){
                             $messages[] = [
                                 'type' => "warning",
-                                'message' => "Attention, pour pouvoir publier le cours vous devez renseigner tous les champs obligatoires."
+                                'message' => "Attention : tous les champs obligatoires doivent être renseignés pour que le syllabus puisse être publié."
                             ];
                         }else{
                             $messages[] = [
                                 'type' => "error",
-                                'message' => "Attention, Certains champs obligatoires ne sont pas renseignés alors que vous syllabus est publié."
+                                'message' => "Attention : certains champs obligatoires ne sont plus renseignés alors que le syllabus est publié."
                             ];
                         }
                     }else{
