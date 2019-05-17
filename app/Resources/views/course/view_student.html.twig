@@ -128,12 +128,7 @@
                             {% if teacher.manager == true %}
                                 {% set teacherName = '<u>' ~ teacherName ~ '</u>' %}
                             {% endif %}
-                            <span class="font-weight-bold">{{ teacherName|raw }}</span>
-                            {% if loop.last %}
-                                .
-                            {% else %}
-                                ,
-                            {% endif %}
+                        <span class="font-weight-bold">{{ teacherName|raw }}</span>{% if loop.last %}.{% else %},{% endif %}
                         {% endfor %}
                         </span>
                     </div>
