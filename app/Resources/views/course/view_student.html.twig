@@ -125,10 +125,16 @@
                         <span>Équipe enseignante :</span>
                         {% for teacher in course.courseTeachers %}
                             {% set teacherName = teacher.firstname ~ ' ' ~ teacher.lastname  %}
+                            {% set teacherTitle = ''  %}
+                            {% set teacherStyle = ''  %}
                             {% if teacher.manager == true %}
                                 {% set teacherName = '<u>' ~ teacherName ~ '</u>' %}
+                                {% set teacherTitle = 'Responsable'  %}
+                                {% set teacherStyle = 'cursor: help;'  %}
                             {% endif %}
-                        <span class="font-weight-bold">{{ teacherName|raw }}</span>{% if loop.last %}.{% else %},{% endif %}
+                        <span class="font-weight-bold"
+                              title="{{ teacherTitle }}"
+                              style="{{ teacherStyle }}">{{ teacherName|raw }}</span>{% if loop.last %}.{% else %},{% endif %}
                         {% endfor %}
                         </span>
                     </div>
