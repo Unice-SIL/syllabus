@@ -249,7 +249,7 @@
                                 {% if achievement.description is not null %}
                                     <div class="col-lg-6">
                                         <div class="bg-info rounded-pill text-center p-2 my-2">
-                                            {{achievement.description}}
+                                            {{ achievement.description|linkify({"attr": {"target": "_blank"}})|raw }}
                                         </div>
                                     </div>
                                 {% endif %}
@@ -266,7 +266,7 @@
                                 {% for prerequisite in course.coursePrerequisites %}
                                     {% if prerequisite.description is not null %}
                                         <div class="bg-info rounded-pill text-center p-2 my-2">
-                                            {{prerequisite.description}}
+                                            {{ prerequisite.description|linkify({"attr": {"target": "_blank"}})|raw }}
                                         </div>
                                     {% endif %}
                                 {% endfor %}
@@ -281,13 +281,15 @@
                                 {% if courseInfoHelper.objectivesTutoringInfoAreEmpty(course) == false %}
                                     <div class="bg-info rounded-pill text-center p-2 my-2 d-flex flex-column">
                                         <span>Aller aux séances de tutorat</span>
-                                        <small>({{course.tutoringDescription}})</small>
+                                        <small>
+                                            {{ course.tutoringDescription|linkify({"attr": {"target": "_blank"}})|raw }}
+                                        </small>
                                     </div>
                                 {% endif %}
                                 {% for resource in course.courseTutoringResources %}
                                     {% if resource.description is not null %}
                                         <div class="bg-info rounded-pill text-center p-2 my-2">
-                                            {{resource.description}}
+                                            {{ resource.description|linkify({"attr": {"target": "_blank"}})|raw }}
                                         </div>
                                     {% endif %}
                                 {% endfor %}
@@ -348,14 +350,14 @@
                         <div class="mt-2">
                             <div class="d-flex p-3 bg-primary">
                                 <div class="mr-auto p-2 d-flex flex-column align-self-center">
-                                    {% for evaluation in course.courseEvaluationCts %}
-                                        <span>
+                                {% for evaluation in course.courseEvaluationCts %}
+                                    <span>
                                     {{ evaluation.activity.label }}
-                                            {% if evaluation.description is not null %}
-                                                : {{ evaluation.description|linkify({"attr": {"target": "_blank"}})|raw }}
-                                            {% endif %}
-                                </span>
-                                    {% endfor %}
+                                    {% if evaluation.description is not null %}
+                                        : {{ evaluation.description|linkify({"attr": {"target": "_blank"}})|raw }}
+                                    {% endif %}
+                                    </span>
+                                {% endfor %}
                                 </div>
                                 <div class="p-2 d-flex align-self-center font-weight-bold">Sur le campus</div>
                                 <div class="p-2 d-flex align-self-center">
