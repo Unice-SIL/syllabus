@@ -3,6 +3,7 @@
 namespace AppBundle\Importer\Common;
 
 
+use AppBundle\Doctrine\DBAL\ConnectionKeepAlive;
 use AppBundle\Repository\YearRepositoryInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
@@ -91,6 +92,11 @@ abstract class AbstractImporterCommand extends Command
         $output->writeln($this->getDescription());
         $output->writeln("==============================");
 
+
+        $connection = $this->container->get('doctrine')->getConnection('syllabus');
+        $keepAlive = new ConnectionKeepAlive();
+        $keepAlive->addConnection($connection);
+        $keepAlive->attach();
         try{
             // Get importer service
             $this->importerServiceName = $input->getArgument('service');
@@ -102,6 +108,7 @@ abstract class AbstractImporterCommand extends Command
             $this->logger->error((string)$e);
             $this->output->writeln($e->getMessage());
         }
+        $keepAlive->detach();
 
         $output->writeln("==============================");
         $output->writeln(date('d/m/Y H:i:s', time()));

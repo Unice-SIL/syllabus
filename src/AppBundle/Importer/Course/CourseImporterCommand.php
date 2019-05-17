@@ -15,6 +15,7 @@ use AppBundle\Repository\YearRepositoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Psr\Log\LoggerInterface;
 use Ramsey\Uuid\Uuid;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use UniceSIL\SyllabusImporterToolkit\Course\CourseCollection;
