@@ -53,4 +53,35 @@ class AbstractDoctrineRepository
             throw $e;
         }
     }
+
+    /**
+     * @param $entity
+     * @throws \Exception
+     */
+    public function detach($entity): void
+    {
+        try{
+            $this->entityManager->detach($entity);
+        }catch (\Exception $e){
+            throw $e;
+        }
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function clear(){
+        try{
+            $this->entityManager->clear();
+        }catch (\Exception $e){
+            throw $e;
+        }
+    }
+
+    /**
+     * @return EntityManager
+     */
+    public function getEntityManager(){
+        return $this->entityManager;
+    }
 }

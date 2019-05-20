@@ -52,4 +52,14 @@ interface CourseRepositoryInterface
      */
     public function rollback(): void;
 
+    /**
+     * @return mixed
+     */
+    public function detach($entity);
+
+    /**
+     * @return mixed
+     */
+    public function clear();
+
 }

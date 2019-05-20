@@ -129,6 +129,8 @@ class PermissionImporterCommand extends AbstractImporterCommand
      */
     private function startImport(CourseCollection $courses): void
     {
+        $course = null;
+        $courseInfo = null;
         foreach ($courses as $course) {
             foreach ($course->getCourseInfos() as $courseInfo) {
                 try {
@@ -139,12 +141,17 @@ class PermissionImporterCommand extends AbstractImporterCommand
                         $this->courseInfoRepository->update($courseInfo);
                     }
                     $this->courseInfoRepository->commit();
+                    $this->courseInfoRepository->detach($courseInfo);
+                    $this->courseInfoRepository->clear();
                 } catch (\Exception $e) {
                     $this->courseInfoRepository->rollback();
                     $this->logger->error((string)$e);
                     $this->output->writeln($e->getMessage());
+                }finally{
+                    unset($courseInfo);
                 }
             }
+            unset($course);
         }
     }
 
@@ -165,6 +172,7 @@ class PermissionImporterCommand extends AbstractImporterCommand
 
         // PERMISSIONS
         $courseInfo->setCoursePermissions(new ArrayCollection());
+        $coursePermission = null;
         foreach ($ci->getCoursePermission() as $coursePermission){
             $coursePermission = $this->prepareCoursePermission($coursePermission, $courseInfo);
             if($coursePermission instanceof CoursePermission){
