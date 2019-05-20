@@ -68,14 +68,15 @@
             <div class="tab-content border p-2">
                 <div class="{{ imageContentClasses }}" id="media_image_container" role="tabpanel">
                     {{ form_widget(form.image) }}
+                    {% set imgSrc = "" %}
                     {% if form.vars.data.image is not null %}
                         {% if courseInfo.image == form.vars.data.image %}
-                            {% set imgSrc = form.vars.data.image.filename %}
+                            {% set imgSrc = asset('data/' ~ form.vars.data.image.filename) %}
                         {% else %}
-                            {% set imgSrc = courseInfo.image %}
+                            {% set imgSrc = asset('data/' ~ courseInfo.image) %}
                         {% endif %}
-                        <img class="img-thumbnail" id="media_image" src="{{ asset('data/' ~ imgSrc) }}">
                     {% endif %}
+                    <img class="img-thumbnail" id="media_image" src="{{ imgSrc }}">
                 </div>
                 <div class="{{ videoContentClasses }}" id="media_video_container" role="tabpanel">
                     {{ form_widget(form.video) }}
