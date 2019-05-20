@@ -58,7 +58,7 @@ class SaveEquipmentsCourseInfoAction implements ActionInterface
     /**
      * @var Environment
      */
-    private  $templating;
+    private $templating;
 
     /**
      * @var LoggerInterface
