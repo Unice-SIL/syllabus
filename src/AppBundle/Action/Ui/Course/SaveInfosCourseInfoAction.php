@@ -191,7 +191,7 @@ class SaveInfosCourseInfoAction implements ActionInterface
                 // Return message course not found
                 $messages[] = [
                         'type' => "danger",
-                        'message' => sprintf("Le cours « %s » n'existe pas.", $id)
+                        'message' => sprintf("Le syllabus « %s » n'existe pas.", $id)
                 ];
             }
         }catch (\Exception $e) {
