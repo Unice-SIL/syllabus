@@ -27,7 +27,7 @@ class CourseTeacherType extends AbstractType
         $builder
             ->add('completeName', TextType::class, [
                 'label' => 'Name',
-                'disabled' => true,
+                'attr' => ['readonly' => "readonly"],
             ])
             ->add('emailVisibility', CheckboxType::class, [
                 'label' => false,
