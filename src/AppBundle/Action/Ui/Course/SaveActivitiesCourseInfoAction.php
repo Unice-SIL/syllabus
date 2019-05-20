@@ -188,7 +188,7 @@ class SaveActivitiesCourseInfoAction implements ActionInterface
             }catch (CoursePermissionDeniedException $e){
                 $messages[] = [
                     'type' => "danger",
-                    'message' => "Vous ne disposez pas des permissions nécessaires pour éditer ce cours."
+                    'message' => "Vous ne disposez pas des permissions nécessaires pour éditer ce syllabus."
                 ];
             } catch (CourseInfoNotFoundException $e) {
                 // Return message course not found

@@ -110,7 +110,7 @@ class EditPresentationCourseInfoAction implements ActionInterface
                 return new JsonResponse([
                     'alert' => [
                         'type' => 'danger',
-                        'message' => "Vous ne disposez pas des permissions nécessaires pour éditer ce cours."
+                        'message' => "Vous ne disposez pas des permissions nécessaires pour éditer ce syllabus."
                     ]
                 ]);
             }catch (CourseInfoNotFoundException $e){
