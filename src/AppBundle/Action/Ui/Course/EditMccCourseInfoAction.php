@@ -110,7 +110,7 @@ class EditMccCourseInfoAction implements ActionInterface
                 return new JsonResponse([
                     'alert' => [
                         'type' => 'danger',
-                        'message' => sprintf("Le cours « %s » n'existe pas.", $id)
+                        'message' => sprintf("Le syllabus « %s » n'existe pas.", $id)
                     ]
                 ]);
             }
