@@ -299,7 +299,6 @@
                     if(teacherAlreadyInTeam === false) {
                         var form = Syllabus.addFormToCollection(teachersCollectionHolder);
                         form.find('input[id*=_completeName]').val(data['completeName']);
-                        form.find('input[id*=_id]').val(data['id']);
                         form.find('input[id*=_firstname]').val(data['firstname']);
                         form.find('input[id*=_lastname]').val(data['lastname']);
                         form.find('input[id*=_email]').val(data['email']);

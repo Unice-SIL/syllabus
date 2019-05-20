@@ -39,8 +39,6 @@ class CourseTeacherType extends AbstractType
                 'required' => false,
                 'value' => true,
             ])
-            ->add('id', HiddenType::class, [
-            ])
             ->add('firstname', HiddenType::class, [
             ])
             ->add('lastname', HiddenType::class, [
