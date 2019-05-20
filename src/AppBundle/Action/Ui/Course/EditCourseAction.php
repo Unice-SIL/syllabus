@@ -112,10 +112,10 @@ class EditCourseAction implements ActionInterface
                 throw new CoursePermissionDeniedException();
             }
         }catch (CourseInfoNotFoundException $e){
-            $this->session->getFlashBag()->add('danger', sprintf("Le syllabus demandé n'existe pas."));
+            $this->session->getFlashBag()->add('danger', "Le syllabus demandé n'existe pas.");
             return new RedirectResponse($this->router->generate('homepage'));
         }catch (CoursePermissionDeniedException $e){
-            $this->session->getFlashBag()->add('danger', sprintf("Vous ne disposez pas des permissions nécessaires pour éditer le syllabus demandé."));
+            $this->session->getFlashBag()->add('danger', "Vous ne disposez pas des permissions nécessaires pour éditer le syllabus demandé.");
             return new RedirectResponse($this->router->generate('view_student', [
                 'id' => $courseInfo->getId()
             ]));
