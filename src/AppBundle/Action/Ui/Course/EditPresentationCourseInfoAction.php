@@ -99,21 +99,21 @@ class EditPresentationCourseInfoAction implements ActionInterface
      */
     public function __invoke(Request $request)
     {
-        try{
+        try {
             $id = $request->get('id', null);
             try {
                 $courseInfo = $this->findCourseInfoByIdQuery->setId($id)->execute();
-                if(!$this->coursePermissionHelper->hasPermission($courseInfo, $this->tokenStorage->getToken()->getUser(),Permission::WRITE)){
+                if (!$this->coursePermissionHelper->hasPermission($courseInfo, $this->tokenStorage->getToken()->getUser(),Permission::WRITE)) {
                     throw new CoursePermissionDeniedException();
                 }
-            }catch (CoursePermissionDeniedException $e){
+            } catch(CoursePermissionDeniedException $e) {
                 return new JsonResponse([
                     'alert' => [
                         'type' => 'danger',
                         'message' => "Vous ne disposez pas des permissions nécessaires pour éditer ce syllabus."
                     ]
                 ]);
-            }catch (CourseInfoNotFoundException $e){
+            } catch(CourseInfoNotFoundException $e) {
                 return new JsonResponse([
                     'alert' => [
                         'type' => 'danger',
@@ -121,7 +121,7 @@ class EditPresentationCourseInfoAction implements ActionInterface
                     ]
                 ]);
             }
-            if(!is_null($courseInfo->getImage())) {
+            if (!is_null($courseInfo->getImage())) {
                 $courseInfo->setImage(new File($this->fileUploaderHelper->getDirectory().'/'.$courseInfo->getImage()));
             }
             $editPresentationCourseInfoCommand = new EditPresentationCourseInfoCommand($courseInfo);
@@ -137,7 +137,7 @@ class EditPresentationCourseInfoAction implements ActionInterface
                     ]
                 )
             ]);
-        }catch (\Exception $e){
+        } catch(\Exception $e) {
             $this->logger->error((string)$e);
             return new JsonResponse([
                 'alert' => [

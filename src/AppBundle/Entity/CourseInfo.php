@@ -85,6 +85,13 @@ class CourseInfo
     /**
      * @var string|null
      *
+     * @ORM\Column(name="media_type", type="string", length=10, nullable=true)
+     */
+    private $mediaType;
+
+    /**
+     * @var string|null
+     *
      * @ORM\Column(name="image", type="text", length=65535, nullable=true)
      */
     private $image;
@@ -371,13 +378,6 @@ class CourseInfo
      * @ORM\Column(name="publication_date", type="datetime", nullable=true)
      */
     private $publicationDate;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="media_type", type="string", length=10, nullable=true)
-     */
-    private $mediaType;
 
     /**
      * @var bool
