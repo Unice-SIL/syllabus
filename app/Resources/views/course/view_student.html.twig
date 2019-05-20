@@ -71,19 +71,19 @@
                 <div class="col-md-6 mb-2">
                     <div class="row mb-2">
                         <div class="col-md align-self-center">
-                            {% set levelBeginnerColor = 'info'  %}
-                            {% set levelIntermediateColor = 'white'  %}
-                            {% set levelAdvancedColor = 'white'  %}
-                            {% set levelText = ''  %}
+                            {% set levelBeginnerColor = 'info' %}
+                            {% set levelIntermediateColor = 'white' %}
+                            {% set levelAdvancedColor = 'white' %}
+                            {% set levelText = '' %}
                             {% if course.level == "beginner" %}
-                                {% set levelText = 'Niveau débutant'  %}
+                                {% set levelText = 'Niveau débutant' %}
                             {% elseif course.level == "intermediate" %}
-                                {% set levelIntermediateColor = 'info'  %}
-                                {% set levelText = 'Niveau intermédiare'  %}
+                                {% set levelIntermediateColor = 'info' %}
+                                {% set levelText = 'Niveau intermédiare' %}
                             {% elseif course.level == "advanced" %}
-                                {% set levelIntermediateColor = 'info'  %}
-                                {% set levelAdvancedColor = 'info'  %}
-                                {% set levelText = 'Niveau avancé'  %}
+                                {% set levelIntermediateColor = 'info' %}
+                                {% set levelAdvancedColor = 'info' %}
+                                {% set levelText = 'Niveau avancé' %}
                             {% endif %}
                             <i class="fas fa-circle text-{{ levelBeginnerColor }} rounded-circle border border-dark"></i>
                             <i class="mx-1 fas fa-circle text-{{ levelIntermediateColor }} rounded-circle border border-dark"></i>
@@ -124,13 +124,13 @@
                     <div class="mt-3">
                         <span>Équipe enseignante :</span>
                         {% for teacher in course.courseTeachers %}
-                            {% set teacherName = teacher.firstname ~ ' ' ~ teacher.lastname  %}
-                            {% set teacherTitle = ''  %}
-                            {% set teacherStyle = ''  %}
+                            {% set teacherName = teacher.firstname ~ ' ' ~ teacher.lastname %}
+                            {% set teacherTitle = '' %}
+                            {% set teacherStyle = '' %}
                             {% if teacher.manager == true %}
                                 {% set teacherName = '<u>' ~ teacherName ~ '</u>' %}
-                                {% set teacherTitle = 'Responsable'  %}
-                                {% set teacherStyle = 'cursor: help;'  %}
+                                {% set teacherTitle = 'Responsable' %}
+                                {% set teacherStyle = 'cursor: help;' %}
                             {% endif %}
                         <span class="font-weight-bold"
                               title="{{ teacherTitle }}"
@@ -315,7 +315,7 @@
                     <div class="bg-black border p-2">
                         {{section.description|raw}}
                     </div>
-                    {% if section.courseSectionActivities|length > 0  %}
+                    {% if section.courseSectionActivities|length > 0 %}
                         <div class="mt-2">
                             {% set activity = section.courseSectionActivities|first %}
                             {% set activities = [] %}
