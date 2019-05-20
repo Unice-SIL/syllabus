@@ -68,11 +68,9 @@
             <div class="tab-content border p-2">
                 <div class="{{ imageContentClasses }}" id="media_image_container" role="tabpanel">
                     {{ form_widget(form.image) }}
-                    {% set imgSrc = '' %}
                     {% if form.vars.data.image is not null %}
-                        {% set imgSrc = asset('data/' ~ form.vars.data.image.filename) %}
+                    <img class="img-thumbnail" id="media_image" src="{{ asset('data/' ~ form.vars.data.image.filename) }}">
                     {% endif %}
-                    <img class="img-thumbnail" id="media_image" src="{{ imgSrc }}">
                 </div>
                 <div class="{{ videoContentClasses }}" id="media_video_container" role="tabpanel">
                     {{ form_widget(form.video) }}
