@@ -21,21 +21,19 @@
 
 {% block _edit_presentation_course_info_teachers_widget %}
     {% import _self as teachersField %}
+    <div class="row">
+        <div class="col-2">
+            <h6>Responsable</h6>
+        </div>
+        <div class="col-2">
+            <h6>Email visible</h6>
+        </div>
+        <div class="col">
+            <h6>Enseignant</h6>
+        </div>
+    </div>
     <ul class="list-group striped" id="teachers"
         data-prototype="{{ teachersField.teacher_template(form.vars.prototype)|e }}">
-        <li class="list-group-item">
-            <div class="row">
-                <div class="col-2">
-                    <h6>Responsable</h6>
-                </div>
-                <div class="col-2">
-                    <h6>Email visible</h6>
-                </div>
-                <div class="col">
-                    <h6>Enseignant</h6>
-                </div>
-            </div>
-        </li>
         {% for teacher in form.children %}
             {{ teachersField.teacher_template(teacher) }}
         {% endfor %}

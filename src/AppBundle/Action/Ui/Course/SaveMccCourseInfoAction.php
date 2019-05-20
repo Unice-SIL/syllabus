@@ -134,7 +134,7 @@ class SaveMccCourseInfoAction implements ActionInterface
                     if(!$form->isValid()){
                         $messages[] = [
                             'type' => "warning",
-                            'message' => "Attention, pour pouvoir publier le cours vous devez renseigner tous les champs obligatoires."
+                            'message' => "Attention : l'ensemble des champs obligatoires doit être renseigné pour que le syllabus puisse être publié."
                         ];
                     }else{
                         $editMccCourseInfoCommand->setTemMccTabValid(true);
@@ -193,7 +193,7 @@ class SaveMccCourseInfoAction implements ActionInterface
             }catch (CoursePermissionDeniedException $e){
                 $messages[] = [
                     'type' => "danger",
-                    'message' => sprintf("Vous n'avez pas les permissions nécessaires pour éditer ce cours.")
+                    'message' => "Vous ne disposez pas des permissions nécessaires pour éditer ce syllabus."
                 ];
             } catch (CourseInfoNotFoundException $e) {
                 // Return message course not found
