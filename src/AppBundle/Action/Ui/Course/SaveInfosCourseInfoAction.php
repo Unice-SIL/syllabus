@@ -9,7 +9,6 @@ use AppBundle\Exception\CoursePermissionDeniedException;
 use AppBundle\Form\Course\EditInfosCourseInfoType;
 use AppBundle\Helper\CourseInfoHelper;
 use AppBundle\Helper\CoursePermissionHelper;
-use AppBundle\Helper\FileUploaderHelper;
 use AppBundle\Query\Course\EditInfosCourseInfoQuery;
 use AppBundle\Query\Course\FindCourseInfoByIdQuery;
 use Psr\Log\LoggerInterface;
@@ -64,7 +63,6 @@ class SaveInfosCourseInfoAction implements ActionInterface
      * @param CoursePermissionHelper $coursePermissionHelper
      * @param TokenStorageInterface $tokenStorage
      * @param FormFactoryInterface $formFactory
-     * @param FileUploaderHelper $fileUploaderHelper
      * @param Environment $templating
      * @param LoggerInterface $logger
      * @param CourseInfoHelper $courseInfoHelper
@@ -76,7 +74,6 @@ class SaveInfosCourseInfoAction implements ActionInterface
         CoursePermissionHelper $coursePermissionHelper,
         TokenStorageInterface $tokenStorage,
         FormFactoryInterface $formFactory,
-        FileUploaderHelper $fileUploaderHelper,
         Environment $templating,
         LoggerInterface $logger
     )
@@ -87,7 +84,6 @@ class SaveInfosCourseInfoAction implements ActionInterface
         $this->coursePermissionHelper = $coursePermissionHelper;
         $this->tokenStorage = $tokenStorage;
         $this->formFactory = $formFactory;
-        $this->fileUploaderHelper = $fileUploaderHelper;
         $this->templating = $templating;
         $this->logger = $logger;
     }

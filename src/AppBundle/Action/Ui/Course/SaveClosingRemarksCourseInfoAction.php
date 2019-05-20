@@ -10,7 +10,6 @@ use AppBundle\Exception\CoursePermissionDeniedException;
 use AppBundle\Form\Course\EditClosingRemarksCourseInfoType;
 use AppBundle\Helper\CourseInfoHelper;
 use AppBundle\Helper\CoursePermissionHelper;
-use AppBundle\Helper\FileUploaderHelper;
 use AppBundle\Query\Course\EditClosingRemarksCourseInfoQuery;
 use AppBundle\Query\Course\FindCourseInfoByIdQuery;
 use Psr\Log\LoggerInterface;
@@ -59,11 +58,6 @@ class SaveClosingRemarksCourseInfoAction implements ActionInterface
     private $formFactory;
 
     /**
-     * @var FileUploaderHelper
-     */
-    private $fileUploaderHelper;
-
-    /**
      * @var Environment
      */
     private $templating;
@@ -82,7 +76,6 @@ class SaveClosingRemarksCourseInfoAction implements ActionInterface
      * @param CoursePermissionHelper $coursePermissionHelper
      * @param TokenStorageInterface $tokenStorage
      * @param FormFactoryInterface $formFactory
-     * @param FileUploaderHelper $fileUploaderHelper
      * @param Environment $templating
      * @param LoggerInterface $logger
      */
@@ -93,7 +86,6 @@ class SaveClosingRemarksCourseInfoAction implements ActionInterface
         CoursePermissionHelper $coursePermissionHelper,
         TokenStorageInterface $tokenStorage,
         FormFactoryInterface $formFactory,
-        FileUploaderHelper $fileUploaderHelper,
         Environment $templating,
         LoggerInterface $logger
     )
@@ -104,7 +96,6 @@ class SaveClosingRemarksCourseInfoAction implements ActionInterface
         $this->coursePermissionHelper = $coursePermissionHelper;
         $this->tokenStorage = $tokenStorage;
         $this->formFactory = $formFactory;
-        $this->fileUploaderHelper = $fileUploaderHelper;
         $this->templating = $templating;
         $this->logger = $logger;
     }
