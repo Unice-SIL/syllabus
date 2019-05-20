@@ -73,7 +73,7 @@ class EditPresentationCourseInfoCommand implements CommandInterface
      *
      * @Assert\Expression(
      *     "not ( (this.getMediaType() == 'image' or this.getMediaType() == null) and this.getImage() == null)",
-     *     message = "Une image ou une vidéo de présentation est obligatoire"
+     *     message = "Une image ou une vidéo de présentation est obligatoire."
      * )
      */
     private $image;
@@ -83,7 +83,7 @@ class EditPresentationCourseInfoCommand implements CommandInterface
      *
      * @Assert\Expression(
      *     "not ( this.getMediaType() == 'video' and this.getVideo() == null)",
-     *      message = "Une image ou une vidéo de présentation est obligatoire"
+     *      message = "Une image ou une vidéo de présentation est obligatoire."
      * )
      */
     private $video;
@@ -120,7 +120,7 @@ class EditPresentationCourseInfoCommand implements CommandInterface
      *
      * @Assert\Expression(
      *     "not (this.getTeachingMode() == 'class' and this.getTeachingOtherClass() != null and this.getTeachingOtherTypeClass() == null )",
-     *     message = "Veuillez préciser le type d'heures d'enseignement"
+     *     message = "Veuillez préciser le type d'heures d'enseignement."
      * )
      */
     private $teachingOtherTypeClass;
@@ -152,7 +152,7 @@ class EditPresentationCourseInfoCommand implements CommandInterface
      *
      * @Assert\Expression(
      *     "not (this.getTeachingMode() == 'hybrid' and this.getTeachingOtherHybridClass() != null and this.getTeachingOtherTypeHybridClass() == null )",
-     *     message = "Veuillez préciser le type d'heures d'enseignement"
+     *     message = "Veuillez préciser le type d'heures d'enseignement."
      * )
      */
     private $teachingOtherTypeHybridClass;
@@ -179,7 +179,7 @@ class EditPresentationCourseInfoCommand implements CommandInterface
      *
      * @Assert\Expression(
      *     "not (this.getTeachingMode() == 'hybrid' and this.getTeachingOtherHybridDist() != null and this.getTeachingOtherTypeHybridDistant() == null )",
-     *     message = "Veuillez préciser le type d'heures d'enseignement"
+     *     message = "Veuillez préciser le type d'heures d'enseignement."
      * )
      */
     private $teachingOtherTypeHybridDistant;
