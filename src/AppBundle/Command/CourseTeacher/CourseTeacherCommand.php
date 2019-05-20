@@ -59,7 +59,7 @@ class CourseTeacherCommand implements CommandInterface
             $this->id = Uuid::uuid4();
             $this->manager = false;
             $this->emailVisibility = false;
-        }else{
+        } else {
             $this->id = $courseTeacher->getId();
             $this->completeName = trim($courseTeacher->getLastname()." ".$courseTeacher->getFirstname());
             $this->firstname = $courseTeacher->getFirstname();
@@ -235,7 +235,7 @@ class CourseTeacherCommand implements CommandInterface
             ->setEmail($this->getEmail())
             ->setManager($this->isManager())
             ->setEmailVisibility($this->isEmailVisibility());
-        if(!is_null($this->getCourseInfo())){
+        if (!is_null($this->getCourseInfo())) {
             $entity->setCourseInfo($this->getCourseInfo());
         }
         return $entity;

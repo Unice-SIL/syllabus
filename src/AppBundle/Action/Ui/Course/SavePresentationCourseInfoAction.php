@@ -121,7 +121,7 @@ class SavePresentationCourseInfoAction implements ActionInterface
             // Find course info by id
             try {
                 $courseInfo = $this->findCourseInfoByIdQuery->setId($id)->execute();
-                    if(!$this->coursePermissionHelper->hasPermission($courseInfo, $this->tokenStorage->getToken()->getUser(),Permission::WRITE)){
+                    if (!$this->coursePermissionHelper->hasPermission($courseInfo, $this->tokenStorage->getToken()->getUser(),Permission::WRITE)) {
                         throw new CoursePermissionDeniedException();
                     }
                 if (!is_null($courseInfo->getImage())) {
@@ -149,24 +149,24 @@ class SavePresentationCourseInfoAction implements ActionInterface
                     }
 
                     // Check if form is valid
-                    if(!$form->isValid()) {
-                        if (is_null($courseInfo->getPublicationDate())){
+                    if (!$form->isValid()) {
+                        if (is_null($courseInfo->getPublicationDate())) {
                             $messages[] = [
                                 'type' => "warning",
                                 'message' => "Attention : tous les champs obligatoires doivent être renseignés pour que le syllabus puisse être publié."
                             ];
-                        }else{
+                        } else {
                             $messages[] = [
                                 'type' => "error",
                                 'message' => "Attention : certains champs obligatoires ne sont plus renseignés alors que le syllabus est publié."
                             ];
                         }
-                    }else{
+                    } else {
                         $editPresentationCourseInfoCommand->setTemPresentationTabValid(true);
                     }
 
                     // Check if there have been any changes
-                    if($editPresentationCourseInfoCommand != $originalEditPresentationCourseInfoCommand) {
+                    if ($editPresentationCourseInfoCommand != $originalEditPresentationCourseInfoCommand) {
                         // Save changes
                         $this->editPresentationCourseInfoQuery->setEditPresentationCourseInfoCommand(
                             $editPresentationCourseInfoCommand
@@ -178,7 +178,7 @@ class SavePresentationCourseInfoAction implements ActionInterface
                             'message' => "Modifications enregistrées avec succès."
                         ];
 
-                    }else{
+                    } else {
                         $messages[] = [
                             'type' => "info",
                             'message' => "Aucun changement à enregistrer."
@@ -208,25 +208,25 @@ class SavePresentationCourseInfoAction implements ActionInterface
                             ]
                         )
                     ];
-                }else {
+                } else {
                     $messages[] = [
                         'type' => "danger",
                         'message' => "Le formulaire n'a pas été soumis."
                     ];
                 }
-            }catch (CoursePermissionDeniedException $e){
+            } catch(CoursePermissionDeniedException $e) {
                 $messages[] = [
                     'type' => "danger",
                     'message' => "Vous ne disposez pas des permissions nécessaires pour éditer ce syllabus."
                 ];
-            } catch (CourseInfoNotFoundException $e) {
+            } catch(CourseInfoNotFoundException $e) {
                 // Return message course not found
                 $messages[] = [
                     'type' => "danger",
                     'message' => sprintf("Le syllabus « %s » n'existe pas.", $id)
                 ];
             }
-        }catch (\Exception $e) {
+        } catch(\Exception $e) {
             // Log error
             $this->logger->error((string) $e);
             // Return message error
@@ -235,12 +235,10 @@ class SavePresentationCourseInfoAction implements ActionInterface
                 'message' => "Une erreur est survenue."
             ];
         }
-        return new JsonResponse(
-            [
-                'renders' => $renders,
-                'messages' => $messages
-            ]
-        );
+        return new JsonResponse([
+            'renders' => $renders,
+            'messages' => $messages
+        ]);
     }
 
 }
