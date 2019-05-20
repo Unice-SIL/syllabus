@@ -208,7 +208,7 @@ class CourseImporterCommand extends AbstractImporterCommand
             // If course info not exist create new instance
             if (is_null($courseInfo)) {
                 $oldCourseInfo = $course->getCourseInfos()->last();
-                if(!is_null($oldCourseInfo)){
+                if($oldCourseInfo instanceof CourseInfo){
                     $courseInfo = clone $oldCourseInfo;
                 }else{
                     $courseInfo = new CourseInfo();
