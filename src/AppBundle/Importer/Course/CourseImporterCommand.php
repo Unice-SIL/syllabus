@@ -137,6 +137,7 @@ class CourseImporterCommand extends AbstractImporterCommand
                 $this->courseRepository->rollback();
                 $this->output->writeln($e->getMessage());
             }
+            unset($course);
         }
     }
 
@@ -227,6 +228,7 @@ class CourseImporterCommand extends AbstractImporterCommand
                     ->setTemEquipmentsTabValid(false)
                     ->setTemClosingRemarksTabValid(false)
                     ->setCreationDate(new \DateTime());
+                unset($oldCourseInfo);
             }
 
             $courseInfo->setCourse($course)
