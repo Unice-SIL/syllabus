@@ -68,15 +68,14 @@
             <div class="tab-content border p-2">
                 <div class="{{ imageContentClasses }}" id="media_image_container" role="tabpanel">
                     {{ form_widget(form.image) }}
-                    {% set imgSrc = "" %}
                     {% if form.vars.data.image is not null %}
                         {% if courseInfo.image == form.vars.data.image %}
-                            {% set imgSrc = asset('data/' ~ form.vars.data.image.filename) %}
+                            {% set imgSrc = form.vars.data.image.filename %}
                         {% else %}
-                            {% set imgSrc = asset('data/' ~ courseInfo.image) %}
+                            {% set imgSrc = courseInfo.image %}
                         {% endif %}
+                    <img class="img-thumbnail" id="media_image" src="{{ asset('data/' ~ imgSrc) }}">
                     {% endif %}
-                    <img class="img-thumbnail" id="media_image" src="{{ imgSrc }}">
                 </div>
                 <div class="{{ videoContentClasses }}" id="media_video_container" role="tabpanel">
                     {{ form_widget(form.video) }}
@@ -335,10 +334,15 @@
         /**
          * Change the image preview when change image file
          */
-        $("#edit_presentation_course_info_image").on('change', function(e){
+        $('#edit_presentation_course_info_image').on('change', function(e) {
             var reader = new FileReader();
-            reader.onload = function(){
-                $("#media_image").attr('src', reader.result);
+            reader.onload = function() {
+                if (!$('#media_image').length) {
+                    $('#media_image_container')
+                            .append('<img class="img-thumbnail" id="media_image" src="'+reader.result+'">');
+                } else {
+                    $('#media_image').attr('src', reader.result);
+                }
             }
             reader.readAsDataURL(e.target.files[0]);
         });
