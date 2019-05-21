@@ -544,7 +544,7 @@ class CourseInfo
     /**
      * @var string|null
      */
-    private $previousImageFile;
+    private $previousImageFile = null;
 
     /**
      * CourseInfo constructor.
