@@ -147,4 +147,9 @@ services:
 
     # PROVIDERS
     AppBundle\Security\Provider\TestUserProvider:
-            arguments: ['%test_authenticator%']
+        arguments: ['%test_authenticator%']
+
+    # OTHERS
+    AppBundle\Service\LocalFilesystemFileRemover:
+        #class: AppBundle\Service\LocalFilesystemFileRemover
+        arguments: ['@filesystem', '%data_directory%']
