@@ -118,14 +118,23 @@ class SavePresentationCourseInfoAction implements ActionInterface
         $renders = [];
         try {
             $id = $request->get('id', null);
-            // Find course info by id
             try {
+                // Find course info by id
                 $courseInfo = $this->findCourseInfoByIdQuery->setId($id)->execute();
-                    if (!$this->coursePermissionHelper->hasPermission($courseInfo, $this->tokenStorage->getToken()->getUser(),Permission::WRITE)) {
-                        throw new CoursePermissionDeniedException();
-                    }
+
+                if (!$this->coursePermissionHelper->hasPermission(
+                            $courseInfo,
+                            $this->tokenStorage->getToken()->getUser(),
+                            Permission::WRITE
+                        )) {
+                    throw new CoursePermissionDeniedException();
+                }
+
                 if (!is_null($courseInfo->getImage())) {
-                    $courseInfo->setImage(new File($this->fileUploaderHelper->getDirectory().'/'.$courseInfo->getImage()));
+                    $courseInfo->setPreviousImageFile();
+                    $courseInfo->setImage(new File(
+                        $this->fileUploaderHelper->getDirectory().'/'.$courseInfo->getImage()
+                    ));
                 }
 
                 // Init command
@@ -139,10 +148,13 @@ class SavePresentationCourseInfoAction implements ActionInterface
                     $editPresentationCourseInfoCommand
                 );
                 $form->handleRequest($request);
+
                 // Check if form is submitted
                 if ($form->isSubmitted()) {
+
                     // Get form data from request
                     $editPresentationCourseInfoCommand = $form->getData();
+
                     // If there is no new image to upload keep the actual image
                     if (is_null($editPresentationCourseInfoCommand->getImage())) {
                         $editPresentationCourseInfoCommand->setImage($courseInfo->getImage());
