@@ -133,8 +133,8 @@ class PermissionImporterCommand extends AbstractImporterCommand
         $courseInfo = null;
         foreach ($courses as $course) {
             foreach ($course->getCourseInfos() as $courseInfo) {
+                $this->courseInfoRepository->beginTransaction();
                 try {
-                    $this->courseInfoRepository->beginTransaction();
                     // Prepare course info
                     $courseInfo = $this->prepareCourseInfo($course, $courseInfo);
                     if ($courseInfo instanceof CourseInfo) {
@@ -144,11 +144,12 @@ class PermissionImporterCommand extends AbstractImporterCommand
                     $this->courseInfoRepository->detach($courseInfo);
                     $this->courseInfoRepository->clear();
                 } catch (\Exception $e) {
-                    $this->courseInfoRepository->rollback();
                     $this->logger->error((string)$e);
                     $this->output->writeln($e->getMessage());
+                    $this->courseInfoRepository->rollback();
                 }finally{
                     unset($courseInfo);
+                    gc_collect_cycles();
                 }
             }
             unset($course);
@@ -162,7 +163,7 @@ class PermissionImporterCommand extends AbstractImporterCommand
      */
     private function prepareCourseInfo(CourseInterface $c, CourseInfoInterface $ci): ?CourseInfo
     {
-        $this->output->writeln(sprintf("Import permission for course %s and year  %s (%d KB used)", $c->getEtbId(), (memory_get_usage()/1024)));
+        $this->output->writeln(sprintf("Import permission for course %s and year  %s (%d KB used)", $c->getEtbId(), $ci->getYearId(), (memory_get_usage()/1024)));
 
         // COURSE INFO
         $courseInfo = $this->courseInfoRepository->findByEtbIdAndYear($c->getEtbId(), $ci->getYearId());

@@ -136,11 +136,12 @@ class CourseImporterCommand extends AbstractImporterCommand
                 $this->courseRepository->clear();
             } catch (\Exception $e) {
                 $this->logger->error((string)$e);
-                $this->courseRepository->rollback();
                 $this->output->writeln($e->getMessage());
+                $this->courseRepository->rollback();
             }finally{
                 unset($course);
                 unset($courses[$key]);
+                gc_collect_cycles();
             }
         }
     }
