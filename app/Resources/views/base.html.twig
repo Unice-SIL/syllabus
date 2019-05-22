@@ -8,7 +8,7 @@
 -->
 
 {% set in_iframe = false %}
-{% if app.request.get('iframe') is defined and app.request.get('iframe') %}
+{% if app.request.get('iframe') is defined and app.request.get('iframe') == 'iframe' %}
     {% set in_iframe = true %}
 {% endif %}
 

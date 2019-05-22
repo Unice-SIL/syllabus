@@ -90,7 +90,7 @@ class RouterAction implements ActionInterface
     }
 
     /**
-     * @Route("/course/router/{etbId}/{year}", name="course_router")
+     * @Route("/course/router/{etbId}/{year}/{iframe}", name="course_router", defaults={"iframe"=null})
      * @param Request $request
      * @return Response
      */
@@ -102,11 +102,13 @@ class RouterAction implements ActionInterface
                 $courseInfo = $this->findCourseInfoByEtbIdAndYearQuery->setEtbId($etbId)->setYear($year)->execute();
                 if($this->coursePermissionHelper->hasPermission($courseInfo, $this->tokenStorage->getToken()->getUser(), Permission::WRITE)){
                     return new RedirectResponse($this->router->generate('edit_course', [
-                        'id' => $courseInfo->getId()
+                        'id' => $courseInfo->getId(),
+                        'iframe' => $request->get('iframe')
                     ]));
                 }else{
                     return new RedirectResponse($this->router->generate('view_student', [
-                        'id' => $courseInfo->getId()
+                        'id' => $courseInfo->getId(),
+                        'iframe' => $request->get('iframe')
                     ]));
                 }
 

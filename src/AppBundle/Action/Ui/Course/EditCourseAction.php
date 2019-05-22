@@ -99,7 +99,7 @@ class EditCourseAction implements ActionInterface
     }
 
     /**
-     * @Route("/course/edit/{id}", name="edit_course")
+     * @Route("/course/edit/{id}/{iframe}", name="edit_course", defaults={"iframe"=null})
      * @param Request $request
      * @return Response
      */

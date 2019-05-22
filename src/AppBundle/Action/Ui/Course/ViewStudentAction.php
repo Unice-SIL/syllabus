@@ -85,13 +85,13 @@ class ViewStudentAction implements ActionInterface
     }
 
     /**
-     * @Route("/course/view/student/{id}", name="view_student")
+     * @Route("/course/view/student/{id}/{iframe}", name="view_student", defaults={"iframe"=null})
      * @param Request $request
      * @return Response
      */
     public function __invoke(Request $request)
     {
-        $courseInfo = null;
+       $courseInfo = null;
         try {
             $id = $request->get('id', null);
             try {
