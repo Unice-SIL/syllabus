@@ -40,7 +40,7 @@ class CourseAchievement
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CourseInfo", inversedBy="courseAchievements", cascade={ "persist" })
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $courseInfo;

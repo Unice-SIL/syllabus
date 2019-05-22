@@ -40,7 +40,7 @@ class CourseResourceEquipment
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CourseInfo", inversedBy="courseResourceEquipments", cascade={"persist"})
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $courseInfo;
@@ -50,7 +50,7 @@ class CourseResourceEquipment
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Equipment")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="equipment_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="equipment_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $equipment;

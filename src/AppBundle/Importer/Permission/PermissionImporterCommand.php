@@ -139,9 +139,9 @@ class PermissionImporterCommand extends AbstractImporterCommand
                     $courseInfo = $this->prepareCourseInfo($course, $courseInfo);
                     if ($courseInfo instanceof CourseInfo) {
                         $this->courseInfoRepository->update($courseInfo);
+                        $this->courseRepository->detach($courseInfo);
                     }
                     $this->courseInfoRepository->commit();
-                    $this->courseInfoRepository->detach($courseInfo);
                     $this->courseInfoRepository->clear();
                 } catch (\Exception $e) {
                     $this->logger->error((string)$e);
@@ -149,7 +149,7 @@ class PermissionImporterCommand extends AbstractImporterCommand
                     $this->courseInfoRepository->rollback();
                 }finally{
                     unset($courseInfo);
-                    gc_collect_cycles();
+                    //gc_collect_cycles();
                 }
             }
             unset($course);

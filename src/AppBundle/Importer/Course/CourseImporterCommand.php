@@ -130,9 +130,9 @@ class CourseImporterCommand extends AbstractImporterCommand
                 $course = $this->prepareCourse($course);
                 if ($course instanceof Course) {
                     $this->courseRepository->update($course);
+                    $this->courseRepository->detach($course);
                 }
                 $this->courseRepository->commit();
-                $this->courseRepository->detach($course);
                 $this->courseRepository->clear();
             } catch (\Exception $e) {
                 $this->logger->error((string)$e);
@@ -141,7 +141,7 @@ class CourseImporterCommand extends AbstractImporterCommand
             }finally{
                 unset($course);
                 unset($courses[$key]);
-                gc_collect_cycles();
+                //gc_collect_cycles();
             }
         }
     }

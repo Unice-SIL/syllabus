@@ -47,7 +47,7 @@ class CourseEvaluationCt
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Activity")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="activity_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="activity_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $activity;
@@ -57,7 +57,7 @@ class CourseEvaluationCt
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CourseInfo", inversedBy="courseEvaluationCts", cascade={"persist"})
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $courseInfo;
