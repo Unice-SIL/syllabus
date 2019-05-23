@@ -72,13 +72,16 @@ class EditPresentationCourseInfoQuery implements QueryInterface
         try {
             // Find CourseInfo
             $courseInfo = $this->courseInfoRepository->find($this->editPresentationCourseInfoCommand->getId());
-        }catch (\Exception $e){
+        } catch(\Exception $e) {
             throw $e;
         }
-        if(is_null($courseInfo)){
-            throw new CourseInfoNotFoundException(sprintf('CourseInfo with id %s not found.', $this->editPresentationCourseInfoCommand->getId()));
+        if (is_null($courseInfo)) {
+            throw new CourseInfoNotFoundException(sprintf(
+                'CourseInfo with id %s not found.',
+                $this->editPresentationCourseInfoCommand->getId()
+            ));
         }
-        try{
+        try {
             $originalCourseTeachers = $courseInfo->getCourseTeachers();
             $courseInfo = $this->editPresentationCourseInfoCommand->filledEntity($courseInfo);
             $courseInfo->setModificationDate(new \DateTime())
@@ -91,7 +94,7 @@ class EditPresentationCourseInfoQuery implements QueryInterface
             }
             $this->courseInfoRepository->update($courseInfo);
             $this->courseInfoRepository->commit();
-        }catch (\Exception $e){
+        } catch(\Exception $e) {
             $this->courseInfoRepository->rollback();
             throw $e;
         }
