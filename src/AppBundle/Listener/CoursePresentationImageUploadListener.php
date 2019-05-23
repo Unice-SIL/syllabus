@@ -66,9 +66,10 @@ class CoursePresentationImageUploadListener
 
         if (true === $entity instanceof CourseInfo) {
 
-            if ($entity->getPreviousImageFile()) {
+            if ($entity->getPreviousImage() &&
+                    ($entity->getPreviousImage() !== $entity->getImage())) {
                 $this->fileRemoverHelper
-                    ->remove($entity->getPreviousImageFile());
+                    ->remove($entity->getPreviousImage());
             }
         }
     }

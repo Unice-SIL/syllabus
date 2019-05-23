@@ -545,7 +545,7 @@ class CourseInfo
     /**
      * @var string|null
      */
-    private $previousImageFile = null;
+    private $previousImage = null;
 
     /**
      * CourseInfo constructor.
@@ -2093,17 +2093,17 @@ class CourseInfo
     /**
      * @return null|string
      */
-    public function getPreviousImageFile()
+    public function getPreviousImage()
     {
-        return $this->previousImageFile;
+        return $this->previousImage;
     }
 
     /**
      * @return CourseInfo
      */
-    public function setPreviousImageFile()
+    public function setPreviousImage()
     {
-        $this->previousImageFile = $this->getImage();
+        $this->previousImage = $this->getImage();
 
         return $this;
     }

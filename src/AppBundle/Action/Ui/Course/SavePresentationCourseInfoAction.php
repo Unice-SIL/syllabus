@@ -153,6 +153,32 @@ class SavePresentationCourseInfoAction implements ActionInterface
                         $editPresentationCourseInfoCommand->setImage($courseInfo->getImage());
                     }
 
+                    // Prevent media type non-sense.
+                    switch ($editPresentationCourseInfoCommand->getMediaType()) {
+                        case "image":
+                            if (empty($editPresentationCourseInfoCommand->getImage())) {
+                                if (!empty($editPresentationCourseInfoCommand->getVideo())) {
+                                    $editPresentationCourseInfoCommand->setMediaType("video");
+                                } else {
+                                    $editPresentationCourseInfoCommand->setMediaType(null);
+                                }
+                                $editPresentationCourseInfoCommand->setImage(null);
+                            }
+                            break;
+                        case "video":
+                            if (empty($editPresentationCourseInfoCommand->getVideo())) {
+                                if (!empty($editPresentationCourseInfoCommand->getImage())) {
+                                    $editPresentationCourseInfoCommand->setMediaType("image");
+                                } else {
+                                    $editPresentationCourseInfoCommand->setMediaType(null);
+                                }
+                                $editPresentationCourseInfoCommand->setVideo(null);
+                            }
+                            break;
+                        default:
+                            $editPresentationCourseInfoCommand->setMediaType(null);
+                    }
+
                     // Check if form is valid
                     if (!$form->isValid()) {
                         if (is_null($courseInfo->getPublicationDate())) {
