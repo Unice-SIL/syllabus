@@ -130,13 +130,6 @@ class SavePresentationCourseInfoAction implements ActionInterface
                     throw new CoursePermissionDeniedException();
                 }
 
-                if (!is_null($courseInfo->getImage())) {
-                    $courseInfo->setPreviousImageFile();
-                    $courseInfo->setImage(new File(
-                        $this->fileUploaderHelper->getDirectory().'/'.$courseInfo->getImage()
-                    ));
-                }
-
                 // Init command
                 $editPresentationCourseInfoCommand = new EditPresentationCourseInfoCommand($courseInfo);
                 // Keep original command before modifications

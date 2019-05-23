@@ -121,9 +121,6 @@ class EditPresentationCourseInfoAction implements ActionInterface
                     ]
                 ]);
             }
-            if (!is_null($courseInfo->getImage())) {
-                $courseInfo->setImage(new File($this->fileUploaderHelper->getDirectory().'/'.$courseInfo->getImage()));
-            }
             $editPresentationCourseInfoCommand = new EditPresentationCourseInfoCommand($courseInfo);
             $form = $this->formFactory->create(EditPresentationCourseInfoType::class, $editPresentationCourseInfoCommand);
             $form->handleRequest($request);

@@ -75,6 +75,12 @@ class EditPresentationCourseInfoCommand implements CommandInterface
      *     "not ( (this.getMediaType() == 'image' or this.getMediaType() == null) and this.getImage() == null)",
      *     message = "Une image ou une vidéo de présentation est obligatoire."
      * )
+     * @Assert\File(
+     *      maxSize="2M",
+     *      mimeTypes={"image/jpeg", "image/png"},
+     *      maxSizeMessage="Le fichier dépasse la taille autorisée ({{ limit }}{{ suffix }}  )",
+     *      mimeTypesMessage="Le type du fichier n'est pas autorisé"
+     * )
      */
     private $image;
 

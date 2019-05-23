@@ -74,6 +74,25 @@ class CoursePresentationImageUploadListener
     }
 
     /**
+     * @param LifecycleEventArgs $args
+     */
+    public function postLoad(LifecycleEventArgs $args){
+        $courseInfo = $args->getEntity();
+        if(!$courseInfo instanceof CourseInfo){
+            return;
+        }
+        if($filename = $courseInfo->getImage()){
+            $courseInfo->setPreviousImageFile();
+            $path = $this->fileUploaderHelper->getDirectory().'/'.$filename;
+            if(file_exists($path)) {
+                $courseInfo->setImage(new File($path));
+            }else{
+                $courseInfo->setImage(null);
+            }
+        }
+    }
+
+    /**
      * @param $entity
      */
     private function uploadFile($entity)
@@ -82,12 +101,14 @@ class CoursePresentationImageUploadListener
             return;
         }
 
-        $file = $entity->getImage();
+        //$file = $entity->getImage();
+        if($file = $entity->getImage()) {
 
-        if ($file instanceof UploadedFile) {
-            $entity->setImage($this->fileUploaderHelper->upload($file));
-        } elseif ($file instanceof File) {
-            $entity->setImage($file->getFilename());
+            if ($file instanceof UploadedFile) {
+                $entity->setImage($this->fileUploaderHelper->upload($file));
+            } elseif ($file instanceof File) {
+                $entity->setImage($file->getFilename());
+            }
         }
     }
 
