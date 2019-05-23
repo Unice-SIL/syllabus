@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * CourseInfo
@@ -733,7 +734,7 @@ class CourseInfo
     }
 
     /**
-     * @return null|string
+     * @return null|string|File
      */
     public function getImage()
     {
@@ -741,7 +742,7 @@ class CourseInfo
     }
 
     /**
-     * @param null|string $image
+     * @param null|string|File $image
      * @return CourseInfo
      */
     public function setImage($image)

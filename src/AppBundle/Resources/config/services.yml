@@ -78,6 +78,7 @@ services:
             - { name: doctrine.event_listener, event: prePersist }
             - { name: doctrine.event_listener, event: preUpdate }
             - { name: doctrine.event_listener, event: postUpdate }
+            - { name: doctrine.event_listener, event: postLoad }
 
     # QUERY
     AppBundle\Query\CourseTeacher\Adapter\Ldap\SearchCourseTeacherLdapQuery:

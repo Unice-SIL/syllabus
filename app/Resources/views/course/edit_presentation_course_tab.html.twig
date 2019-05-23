@@ -67,6 +67,7 @@
             </ul>
             <div class="tab-content border p-2">
                 <div class="{{ imageContentClasses }}" id="media_image_container" role="tabpanel">
+                    <small class="font-weight-bold">Fichier de type jpeg ou png (2Mo maximum)</small>
                     {{ form_widget(form.image) }}
                     {% if form.vars.data.image is not null %}
                         {% if courseInfo.image == form.vars.data.image %}
