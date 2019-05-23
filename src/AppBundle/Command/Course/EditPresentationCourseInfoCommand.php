@@ -78,8 +78,8 @@ class EditPresentationCourseInfoCommand implements CommandInterface
      * @Assert\File(
      *      maxSize="2M",
      *      mimeTypes={"image/jpeg", "image/png"},
-     *      maxSizeMessage="Le fichier dépasse la taille autorisée ({{ limit }}{{ suffix }}  )",
-     *      mimeTypesMessage="Le type du fichier n'est pas autorisé",
+     *      maxSizeMessage="Le fichier dépasse la taille autorisée ({{ limit }}{{ suffix }}).",
+     *      mimeTypesMessage="Ce type de fichier n'est pas autorisé.",
      *      groups={"image"}
      * )
      */
@@ -758,6 +758,41 @@ class EditPresentationCourseInfoCommand implements CommandInterface
         $this->teachers->removeElement($teacher);
 
         return $this;
+    }
+
+    /**
+     * @param string $mediaType1
+     * @param string $mediaType2
+     */
+    private function mediaChecker($mediaType1, $mediaType2) {
+        $f1 = "get" . ucfirst($mediaType1);
+        $f2 = "get" . ucfirst($mediaType2);
+        $f3 = "set" . $mediaType1;
+        if (empty($this->$f1())) {
+            if (!empty($this->$f2())) {
+                $this->setMediaType($mediaType2);
+            } else {
+                $this->setMediaType(null);
+            }
+            $this->$f3(null);
+        }
+    }
+
+    /**
+     * Checks media consistency.
+     */
+    public function checkMedia()
+    {
+        switch ($this->getMediaType()) {
+            case "image":
+                $this->mediaChecker("image", "video");
+                break;
+            case "video":
+                $this->mediaChecker("video", "image");
+                break;
+            default:
+                $this->setMediaType(null);
+        }
     }
 
     /**
