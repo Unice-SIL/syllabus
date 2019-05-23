@@ -767,7 +767,7 @@ class EditPresentationCourseInfoCommand implements CommandInterface
     private function mediaChecker($mediaType1, $mediaType2) {
         $f1 = "get" . ucfirst($mediaType1);
         $f2 = "get" . ucfirst($mediaType2);
-        $f3 = "set" . $mediaType1;
+        $f3 = "set" . ucfirst($mediaType1);
         if (empty($this->$f1())) {
             if (!empty($this->$f2())) {
                 $this->setMediaType($mediaType2);
