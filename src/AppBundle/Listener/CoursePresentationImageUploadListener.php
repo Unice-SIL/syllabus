@@ -83,7 +83,7 @@ class CoursePresentationImageUploadListener
             return;
         }
         if($filename = $courseInfo->getImage()){
-            $courseInfo->setPreviousImageFile();
+            $courseInfo->setPreviousImage();
             $path = $this->fileUploaderHelper->getDirectory().'/'.$filename;
             if(file_exists($path)) {
                 $courseInfo->setImage(new File($path));

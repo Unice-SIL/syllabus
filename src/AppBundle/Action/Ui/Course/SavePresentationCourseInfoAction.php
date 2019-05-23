@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Twig\Environment;
 
 /**
@@ -70,6 +71,11 @@ class SavePresentationCourseInfoAction implements ActionInterface
     private $templating;
 
     /**
+     * @var ValidatorInterface
+     */
+    private $validator;
+
+    /**
      * @var LoggerInterface
      */
     private $logger;
@@ -84,6 +90,7 @@ class SavePresentationCourseInfoAction implements ActionInterface
      * @param FormFactoryInterface $formFactory
      * @param FileUploaderHelper $fileUploaderHelper
      * @param Environment $templating
+     * @param ValidatorInterface $validator
      * @param LoggerInterface $logger
      */
     public function __construct(
@@ -95,6 +102,7 @@ class SavePresentationCourseInfoAction implements ActionInterface
         FormFactoryInterface $formFactory,
         FileUploaderHelper $fileUploaderHelper,
         Environment $templating,
+        ValidatorInterface $validator,
         LoggerInterface $logger
     )
     {
@@ -106,6 +114,7 @@ class SavePresentationCourseInfoAction implements ActionInterface
         $this->fileUploaderHelper = $fileUploaderHelper;
         $this->logger = $logger;
         $this->templating = $templating;
+        $this->validator = $validator;
         $this->courseInfoHelper = $courseInfoHelper;
     }
 
@@ -148,8 +157,11 @@ class SavePresentationCourseInfoAction implements ActionInterface
                     // Get form data from request
                     $editPresentationCourseInfoCommand = $form->getData();
 
-                    // If there is no new image to upload keep the actual image
-                    if (is_null($editPresentationCourseInfoCommand->getImage())) {
+                    // If there is no new image to upload or new image not validate constraints, keep the actual image
+                    if (
+                        is_null($editPresentationCourseInfoCommand->getImage())
+                        || $this->validator->validate($editPresentationCourseInfoCommand, null, ['image'])->count()  > 0
+                    ) {
                         $editPresentationCourseInfoCommand->setImage($courseInfo->getImage());
                     }
 

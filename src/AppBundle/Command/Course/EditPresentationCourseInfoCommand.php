@@ -79,7 +79,8 @@ class EditPresentationCourseInfoCommand implements CommandInterface
      *      maxSize="2M",
      *      mimeTypes={"image/jpeg", "image/png"},
      *      maxSizeMessage="Le fichier dépasse la taille autorisée ({{ limit }}{{ suffix }}  )",
-     *      mimeTypesMessage="Le type du fichier n'est pas autorisé"
+     *      mimeTypesMessage="Le type du fichier n'est pas autorisé",
+     *      groups={"image"}
      * )
      */
     private $image;
