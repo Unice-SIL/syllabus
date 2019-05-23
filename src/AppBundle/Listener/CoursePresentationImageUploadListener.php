@@ -4,7 +4,7 @@ namespace AppBundle\Listener;
 
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Helper\FileUploaderHelper;
-use AppBundle\Service\LocalFilesystemFileRemover;
+use AppBundle\Helper\FileRemoverHelper;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Symfony\Component\HttpFoundation\File\File;
@@ -22,9 +22,9 @@ class CoursePresentationImageUploadListener
     private $fileUploaderHelper;
 
     /**
-     * @var LocalFilesystemFileRemover
+     * @var FileRemoverHelper
      */
-    private $localFilesystemFileRemover;
+    private $fileRemoverHelper;
 
     /**
      * CoursePresentationImageUploadListener constructor.
@@ -32,11 +32,11 @@ class CoursePresentationImageUploadListener
      */
     public function __construct(
         FileUploaderHelper $fileUploaderHelper,
-        LocalFilesystemFileRemover $localFilesystemFileRemover
+        FileRemoverHelper $fileRemoverHelper
     )
     {
         $this->fileUploaderHelper = $fileUploaderHelper;
-        $this->localFilesystemFileRemover = $localFilesystemFileRemover;
+        $this->fileRemoverHelper = $fileRemoverHelper;
     }
 
     /**
@@ -67,7 +67,7 @@ class CoursePresentationImageUploadListener
         if (true === $entity instanceof CourseInfo) {
 
             if ($entity->getPreviousImageFile()) {
-                $this->localFilesystemFileRemover
+                $this->fileRemoverHelper
                     ->remove($entity->getPreviousImageFile());
             }
         }

@@ -69,6 +69,8 @@ services:
     # HELPER
     AppBundle\Helper\FileUploaderHelper:
         arguments: [ '%data_directory%' ]
+    AppBundle\Helper\FileRemoverHelper:
+        arguments: ['@filesystem', '%data_directory%']
 
     # LISTENER
     AppBundle\Listener\CoursePresentationImageUploadListener:
@@ -149,8 +151,3 @@ services:
     # PROVIDERS
     AppBundle\Security\Provider\TestUserProvider:
         arguments: ['%test_authenticator%']
-
-    # OTHERS
-    AppBundle\Service\LocalFilesystemFileRemover:
-        #class: AppBundle\Service\LocalFilesystemFileRemover
-        arguments: ['@filesystem', '%data_directory%']
