@@ -131,7 +131,7 @@ class SavePresentationCourseInfoAction implements ActionInterface
                 }
 
                 if (!is_null($courseInfo->getImage())) {
-                    $courseInfo->setPreviousImageFile();
+                    $courseInfo->setPreviousImage();
                     $courseInfo->setImage(new File(
                         $this->fileUploaderHelper->getDirectory().'/'.$courseInfo->getImage()
                     ));
