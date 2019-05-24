@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8663e2dcb345fc1b9943dac47cdb309a",
+    "content-hash": "339a6c2637da41d2683ce6fe55997841",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -2525,7 +2525,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "BackEndTea@gmail.com"
+                    "email": "backendtea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
@@ -3286,7 +3286,7 @@
         },
         {
             "name": "unicesil/syllabus-importer-toolkit",
-            "version": "1.0",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Unice-SIL/syllabus-importer-toolkit.git",
