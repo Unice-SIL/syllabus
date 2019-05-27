@@ -761,37 +761,36 @@ class EditPresentationCourseInfoCommand implements CommandInterface
     }
 
     /**
-     * @param string $mediaType1
-     * @param string $mediaType2
-     */
-    private function mediaChecker($mediaType1, $mediaType2) {
-        $f1 = "get" . ucfirst($mediaType1);
-        $f2 = "get" . ucfirst($mediaType2);
-        $f3 = "set" . ucfirst($mediaType1);
-        if (empty($this->$f1())) {
-            if (!empty($this->$f2())) {
-                $this->setMediaType($mediaType2);
-            } else {
-                $this->setMediaType(null);
-            }
-            $this->$f3(null);
-        }
-    }
-
-    /**
      * Checks media consistency.
      */
     public function checkMedia()
     {
-        switch ($this->getMediaType()) {
-            case "image":
-                $this->mediaChecker("image", "video");
-                break;
-            case "video":
-                $this->mediaChecker("video", "image");
-                break;
-            default:
-                $this->setMediaType(null);
+        $mediaType = $this->getMediaType();
+
+        if (in_array($mediaType, ['image', 'video'])) {
+
+            if ($mediaType == "video") {
+                $mediaTypeAlt = "image";
+            } else {
+                $mediaTypeAlt = "video";
+            }
+
+            $f1 = "get" . ucfirst($mediaType);
+            $f2 = "get" . ucfirst($mediaTypeAlt);
+            $f3 = "set" . ucfirst($mediaType);
+
+            if (empty($this->$f1())) {
+                if (!empty($this->$f2())) {
+                    $this->setMediaType($mediaTypeAlt);
+                } else {
+                    $this->setMediaType(null);
+                }
+                $this->$f3(null);
+            }
+
+        } else {
+
+            $this->setMediaType(null);
         }
     }
 
