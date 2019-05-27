@@ -41,6 +41,8 @@ class CourseFixture extends Fixture  implements FixtureGroupInterface
 
         // Course hierarchy
         $course1->addParent($course2);
+        $course1->addChild($course2);
+        $course2->addParent($course1);
         $course2->addChild($course1);
 
         // Save
