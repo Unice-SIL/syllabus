@@ -501,33 +501,39 @@
                         </div>
                     {% endif %}
                 </div>
-                {% if courseInfoHelper.evaluationMccAreEmpty(course) == false %}
-                    <div class="row mt-4">
-                        <div class="col-md d-flex align-items-center">
-                            <div class="bg-info rounded-circle p-2 m-2">
-                                <h4 class="my-2 font-weight-bold">{{course.mccWeight}}%</h4>
-                            </div>
-                            <strong class="px-2">Poids dans l'UE</strong>
-                            <i class="fas fa-info-circle"></i>
+            {% if courseInfoHelper.evaluationMccAreEmpty(course) == false %}
+                <div class="row mt-4">
+                    <div class="col-md d-flex align-items-center">
+                        <div class="bg-info rounded-circle p-2 m-2">
+                            <h4 class="my-2 font-weight-bold">{{course.mccWeight}}%</h4>
                         </div>
-                        <div class="col-md d-flex align-items-center">
-                            <i class="fas fa-4x fa-check-circle text-info"></i>
-                            <strong class="px-2">{{course.course.type}} compensable</strong>
-                            <i title="Veuillez nous fournir le texte d'aide devant s'afficher au survol." class="fas fa-info-circle"></i>
-                        </div>
-                        <div class="col-md d-flex align-items-center">
-                            {% if course.mccCapitalizable == false %}
-                                <i class="fas fa-4x fa-times-circle text-info"></i>
-                                <strong class="px-2">{{course.course.type}} non capitalisable</strong>
-                                <i title="Veuillez nous fournir le texte d'aide devant s'afficher au survol." class="fas fa-info-circle"></i>
-                            {% else %}
-                                <i class="fas fa-4x fa-check-circle text-info"></i>
-                                <strong class="px-2">{{course.course.type}} capitalisable</strong>
-                                <i title="Veuillez nous fournir le texte d'aide devant s'afficher au survol." class="fas fa-info-circle"></i>
-                            {% endif %}
-                        </div>
+                        <strong class="px-2">Poids dans l'UE</strong>
+                        <i class="fas fa-info-circle"></i>
                     </div>
-                {% endif %}
+                    <div class="col-md d-flex align-items-center">
+                    {% if not course.mccCompensable %}
+                        <i class="fas fa-4x fa-times-circle text-info"></i>
+                        <strong class="px-2">{{course.course.type}} non compensable</strong>
+                        <i title="Veuillez nous fournir le texte d'aide devant s'afficher au survol." class="fas fa-info-circle"></i>
+                    {% else %}
+                        <i class="fas fa-4x fa-check-circle text-info"></i>
+                        <strong class="px-2">{{course.course.type}} compensable</strong>
+                        <i title="Veuillez nous fournir le texte d'aide devant s'afficher au survol." class="fas fa-info-circle"></i>
+                    {% endif %}
+                    </div>
+                    <div class="col-md d-flex align-items-center">
+                    {% if not course.mccCapitalizable %}
+                        <i class="fas fa-4x fa-times-circle text-info"></i>
+                        <strong class="px-2">{{course.course.type}} non capitalisable</strong>
+                        <i title="Veuillez nous fournir le texte d'aide devant s'afficher au survol." class="fas fa-info-circle"></i>
+                    {% else %}
+                        <i class="fas fa-4x fa-check-circle text-info"></i>
+                        <strong class="px-2">{{course.course.type}} capitalisable</strong>
+                        <i title="Veuillez nous fournir le texte d'aide devant s'afficher au survol." class="fas fa-info-circle"></i>
+                    {% endif %}
+                    </div>
+                </div>
+            {% endif %}
             </section>
         {% endif %}
 
