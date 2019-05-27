@@ -222,6 +222,13 @@ class CourseInfo
     /**
      * @var bool
      *
+     * @ORM\Column(name="mcc_compensable", type="boolean", nullable=false)
+     */
+    private $mccCompensable = false;
+
+    /**
+     * @var bool
+     *
      * @ORM\Column(name="mcc_capitalizable", type="boolean", nullable=false)
      */
     private $mccCapitalizable = false;
@@ -1073,6 +1080,25 @@ class CourseInfo
     public function setMccWeight($mccWeight)
     {
         $this->mccWeight = $mccWeight;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isMccCompensable(): bool
+    {
+        return $this->mccCompensable;
+    }
+
+    /**
+     * @param bool $mccCompensable
+     * @return CourseInfo
+     */
+    public function setMccCompensable(bool $mccCompensable): CourseInfo
+    {
+        $this->mccCompensable = $mccCompensable;
 
         return $this;
     }

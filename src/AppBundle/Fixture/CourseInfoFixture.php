@@ -37,6 +37,7 @@ class CourseInfoFixture extends Fixture implements DependentFixtureInterface,  F
             ->setTeachingMode('class')
             ->setTeachingCmClass(4)
             ->setTeachingTpClass(8)
+            ->setMccCompensable(false)
             ->setMccCapitalizable(true)
             ->setMccWeight(50)
             ->setMccCcCoeffSession1(30)
@@ -56,6 +57,8 @@ class CourseInfoFixture extends Fixture implements DependentFixtureInterface,  F
             ->setYear($this->getReference(YearFixture::YEAR_2018))
             ->setStructure($this->getReference(StructureFixture::SCIENCES))
             ->setTitle('UE1 Génie biologique et biologie moléculaire')
+            ->setMccCompensable(true)
+            ->setMccCapitalizable(false)
             ->setEcts(9)
             ->setCreationDate(new \DateTime());
         $this->addReference(self::COURSE_INFO_2, $courseInfo);
