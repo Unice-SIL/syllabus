@@ -513,17 +513,17 @@
                         <div class="col-md d-flex align-items-center">
                             <i class="fas fa-4x fa-check-circle text-info"></i>
                             <strong class="px-2">{{course.course.type}} compensable</strong>
-                            <i class="fas fa-info-circle"></i>
+                            <i title="Veuillez nous fournir le texte d'aide devant s'afficher au survol." class="fas fa-info-circle"></i>
                         </div>
-                        <div class="col-md d-flex align-items-center ">
+                        <div class="col-md d-flex align-items-center">
                             {% if course.mccCapitalizable == false %}
                                 <i class="fas fa-4x fa-times-circle text-info"></i>
                                 <strong class="px-2">{{course.course.type}} non capitalisable</strong>
-                                <i class="fas fa-info-circle"></i>
+                                <i title="Veuillez nous fournir le texte d'aide devant s'afficher au survol." class="fas fa-info-circle"></i>
                             {% else %}
                                 <i class="fas fa-4x fa-check-circle text-info"></i>
                                 <strong class="px-2">{{course.course.type}} capitalisable</strong>
-                                <i class="fas fa-info-circle"></i>
+                                <i title="Veuillez nous fournir le texte d'aide devant s'afficher au survol." class="fas fa-info-circle"></i>
                             {% endif %}
                         </div>
                     </div>
