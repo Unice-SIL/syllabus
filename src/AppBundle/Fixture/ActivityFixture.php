@@ -363,18 +363,6 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
             ->setObsolete(false);
         $manager->persist($activity);
 
-        // Cours en ligne
-        $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
-            ->setLabel('Cours en ligne')
-            ->setLabelVisibility(true)
-            ->setType(ActivityType::ACTIVITY)
-            ->setMode(ActivityMode::IN_CLASS)
-            ->setGrp(ActivityGroup::GROUPS)
-            ->setOrd(0)
-            ->setObsolete(false);
-        $manager->persist($activity);
-
 
         /**
          * ACTIVITIES IN AUTONOMY HEAD
@@ -757,6 +745,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
          */
 
         // Pas d’Evaluation Terminale (sauf dispensés de CC*)
+        /*
         $activity = new Activity();
         $activity->setId(Uuid::uuid4())
             ->setLabel('Pas d’Evaluation Terminale (sauf dispensés de CC*)')
@@ -766,6 +755,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
             ->setOrd(0)
             ->setObsolete(false);
         $manager->persist($activity);
+        */
 
         // Mise en situation (playdoyer, sage femme...)
         $activity = new Activity();

@@ -127,7 +127,13 @@ class TeacherLdapRepository implements TeacherRepositoryInterface
         }catch (\Exception $e){
             throw $e;
         }
-        return $teachers;
+        $teachers = $teachers->toArray();
+        usort($teachers, function($a, $b){
+            $str1 = "{$a->getLastname()} {$a->getFirstname()}";
+            $str2 = "{$b->getLastname()} {$b->getFirstname()}";
+            return strcasecmp($str1, $str2);
+        });
+        return new TeacherCollection($teachers);
     }
 
     /**

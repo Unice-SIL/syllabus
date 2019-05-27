@@ -21,14 +21,18 @@ abstract class GenericCollection implements \ArrayAccess, \IteratorAggregate, \C
     /**
      * GenericCollection constructor.
      * @param $type
+     * @param array $data
      * @throws \Exception
      */
-    public function __construct($type)
+    public function __construct($type, array $data = [])
     {
         if(!class_exists($type)){
             throw new \Exception(sprintf('Class %s does not exist.', $type));
         }
         $this->type = $type;
+        foreach ($data as $d){
+            $this->append($d);
+        }
     }
 
     /**
