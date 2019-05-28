@@ -51,7 +51,8 @@ class ShibbolethUserProvider implements ShibbolethUserProviderInterface
         $user->setUsername($username)
             ->setFirstname($credentials['givenName'])
             ->setLastname($credentials['lastname'])
-            ->setEmail($credentials['mail']);
+            ->setEmail($credentials['mail'])
+            ->setRoles(self::DEFAULT_ROLES);
         // If user id not null (user found in DB) update it
         if(!is_null($user->getId())){
             $this->userRepository->update($user);
