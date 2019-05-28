@@ -254,6 +254,30 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
          * ACTIVITIES IN CLASS IN GROUPS
          */
 
+        // Débat
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel("Débat")
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_CLASS)
+            ->setGrp(ActivityGroup::GROUPS)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Démonstration
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel("Démonstration")
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_CLASS)
+            ->setGrp(ActivityGroup::GROUPS)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
         // Discussion / Réflexion
         $activity = new Activity();
         $activity->setId(Uuid::uuid4())
@@ -279,18 +303,6 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
             ->setObsolete(false);
         $manager->persist($activity);
 
-        // Exercices
-        $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
-            ->setLabel("Exercices")
-            ->setLabelVisibility(true)
-            ->setType(ActivityType::ACTIVITY)
-            ->setMode(ActivityMode::IN_CLASS)
-            ->setGrp(ActivityGroup::GROUPS)
-            ->setOrd(0)
-            ->setObsolete(false);
-        $manager->persist($activity);
-
         // Étude de cas
         $activity = new Activity();
         $activity->setId(Uuid::uuid4())
@@ -303,22 +315,10 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
             ->setObsolete(false);
         $manager->persist($activity);
 
-        // Projet
+        // Exercices
         $activity = new Activity();
         $activity->setId(Uuid::uuid4())
-            ->setLabel("Projet")
-            ->setLabelVisibility(true)
-            ->setType(ActivityType::ACTIVITY)
-            ->setMode(ActivityMode::IN_CLASS)
-            ->setGrp(ActivityGroup::GROUPS)
-            ->setOrd(0)
-            ->setObsolete(false);
-        $manager->persist($activity);
-
-        // Recherche documentaire
-        $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
-            ->setLabel("Recherche documentaire")
+            ->setLabel("Exercices")
             ->setLabelVisibility(true)
             ->setType(ActivityType::ACTIVITY)
             ->setMode(ActivityMode::IN_CLASS)
@@ -331,6 +331,42 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
         $activity = new Activity();
         $activity->setId(Uuid::uuid4())
             ->setLabel("Exercice d'évaluation par les pairs")
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_CLASS)
+            ->setGrp(ActivityGroup::GROUPS)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Exercices pratiques (observation, expérimentation, simulation…)
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel("Exercices pratiques (observation, expérimentation, simulation…)")
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_CLASS)
+            ->setGrp(ActivityGroup::GROUPS)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Mise en situation professionnelle
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel("Mise en situation professionnelle")
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_CLASS)
+            ->setGrp(ActivityGroup::GROUPS)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Projet
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel("Projet")
             ->setLabelVisibility(true)
             ->setType(ActivityType::ACTIVITY)
             ->setMode(ActivityMode::IN_CLASS)
@@ -383,6 +419,42 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
             ->setType(ActivityType::ACTIVITY)
             ->setMode(ActivityMode::IN_CLASS)
             ->setGrp(ActivityGroup::GROUPS)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Recherche documentaire
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel("Recherche documentaire")
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_CLASS)
+            ->setGrp(ActivityGroup::GROUPS)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Séance question / réponse
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel("Séance question / réponse")
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_CLASS)
+            ->setGrp(ActivityGroup::TOGETHER)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Vote interactif
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel("Vote interactif (Quizlet, Socrative, Mentimeter)")
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_CLASS)
+            ->setGrp(ActivityGroup::TOGETHER)
             ->setOrd(0)
             ->setObsolete(false);
         $manager->persist($activity);
