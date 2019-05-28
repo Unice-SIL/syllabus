@@ -260,7 +260,6 @@ div.equipment {
         }
     }
 
-
     &.evaluation-cc,
     &.evaluation-ct {
         background-color: $info;
@@ -279,10 +278,15 @@ div.equipment {
     }
 }
 
+#equipments,
 .list-activities,
 .list-equipments {
-    max-height: 200px;
-    overflow-y: auto
+    max-height: 36rem;
+    overflow-y: auto;
+}
+
+.equipment .row {
+    margin: 0;
 }
 
 .list-activity,

@@ -18,12 +18,8 @@
             </div>
         </div>
         <div class="card-body p-1 bg-white border-0 rounded-bottom">
-            <div class="row">
-                <div class="col-10 pr-1">
-                    {{ form_widget(equipment.description) }}
-                    <label placeholder="Préciser si nécessaire"></label>
-                </div>
-            </div>
+            {{ form_widget(equipment.description) }}
+            <label placeholder="Préciser si nécessaire"></label>
             {{ form_widget(equipment.equipment) }}
             {{ form_widget(equipment) }}
         </div>
