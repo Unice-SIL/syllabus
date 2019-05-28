@@ -15,13 +15,13 @@
             <h6 class="my-3">
                 Matériel nécessaire
             </h6>
-            {{form_widget(form.listEquipments)}}
+            {{ form_widget(form.listEquipments) }}
         </div>
         <div class="col border ml-1 mr-3 p-1">
             <p class="text-muted font-italic text-center p-2">
                 Glisser / déposer ici le matériel nécessaire…
             </p>
-            {{form_widget(form.equipments)}}
+            {{ form_widget(form.equipments) }}
         </div>
     </div>
     <div class="row mt-3">
@@ -30,7 +30,7 @@
                 Ressources pédagogiques
             </h6>
             {{ form_errors(form.educationalResources) }}
-            {{form_widget(form.educationalResources)}}
+            {{ form_widget(form.educationalResources) }}
         </div>
     </div>
     <div class="row mt-3">
@@ -39,7 +39,7 @@
                 Eléments bibliographiques
             </h6>
             {{ form_errors(form.bibliographicResources) }}
-            {{form_widget(form.bibliographicResources)}}
+            {{ form_widget(form.bibliographicResources) }}
         </div>
     </div>
     <div class="row mt-3">
