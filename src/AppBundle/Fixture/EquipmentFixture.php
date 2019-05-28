@@ -17,87 +17,136 @@ class EquipmentFixture extends Fixture  implements FixtureGroupInterface
     /**
      *
      */
-    public const EQUIPMENT_1 = 'calculatrice';
-    public const EQUIPMENT_2 = 'ordinateur';
-    public const EQUIPMENT_3 = 'equipment_3';
+    public const EQUIPMENT_1 = 'autre';
+    public const EQUIPMENT_2 = 'calculatrice';
+    public const EQUIPMENT_3 = 'ordinateur';
 
     /**
      * @param ObjectManager $manager
      */
     public function load(ObjectManager $manager)
     {
+        // Autre
+        $equipment = new Equipment();
+        $equipment->setId(Uuid::uuid4())
+            ->setLabel("Autre")
+            ->setLabelVisibility(false);
+        $this->addReference(self::EQUIPMENT_1, $equipment);
+        $manager->persist($equipment);
+
+        // Blouse blanche de laboratoire
+        $equipment = new Equipment();
+        $equipment->setId(Uuid::uuid4())
+            ->setLabel("Blouse blanche de laboratoire")
+            ->setLabelVisibility(true);
+        $manager->persist($equipment);
+
+        // Cahier / feuilles
+        $equipment = new Equipment();
+        $equipment->setId(Uuid::uuid4())
+            ->setLabel("Cahier / feuilles")
+            ->setLabelVisibility(true);
+        $manager->persist($equipment);
+
         // Calculatrice programmable
         $equipment = new Equipment();
         $equipment->setId(Uuid::uuid4())
-            ->setLabel('Calculatrice programmable')
+            ->setLabel("Calculatrice programmable")
             ->setLabelVisibility(true);
-        $this->addReference(self::EQUIPMENT_1, $equipment);
+        $this->addReference(self::EQUIPMENT_2, $equipment);
         $manager->persist($equipment);
 
         // Calculatrice non programmable
         $equipment = new Equipment();
         $equipment->setId(Uuid::uuid4())
-            ->setLabel('Calculatrice non programmable')
+            ->setLabel("Calculatrice non programmable")
             ->setLabelVisibility(true);
         $manager->persist($equipment);
 
-        // Ordinateur personnel (ou tablette)
+        // Code juridique
         $equipment = new Equipment();
         $equipment->setId(Uuid::uuid4())
-            ->setLabel('Ordinateur personnel (ou tablette)')
-            ->setLabelVisibility(true);
-        $this->addReference(self::EQUIPMENT_2, $equipment);
-        $manager->persist($equipment);
-
-        // Smartphone personnel 
-        $equipment = new Equipment();
-        $equipment->setId(Uuid::uuid4())
-            ->setLabel('Smartphone personnel')
+            ->setLabel("Code juridique")
             ->setLabelVisibility(true);
         $manager->persist($equipment);
 
-        // Papier millimétré 
+        // Écouteur / casque audio
         $equipment = new Equipment();
         $equipment->setId(Uuid::uuid4())
-            ->setLabel('Papier millimétré')
+            ->setLabel("Écouteur / casque audio")
+            ->setLabelVisibility(true);
+        $manager->persist($equipment);
+
+        // Équipement sportif
+        $equipment = new Equipment();
+        $equipment->setId(Uuid::uuid4())
+            ->setLabel("Équipement sportif")
             ->setLabelVisibility(true);
         $manager->persist($equipment);
 
         // Feuille de partition de musique
         $equipment = new Equipment();
         $equipment->setId(Uuid::uuid4())
-            ->setLabel('Feuille de partition de musique')
+            ->setLabel("Feuille de partition de musique")
             ->setLabelVisibility(true);
         $manager->persist($equipment);
 
-        // Ecouteur / Casque audio
+        // Livre
         $equipment = new Equipment();
         $equipment->setId(Uuid::uuid4())
-            ->setLabel('Ecouteur / Casque audio')
+            ->setLabel("Livre")
+            ->setLabelVisibility(true);
+        $manager->persist($equipment);
+
+        // Logiciel
+        $equipment = new Equipment();
+        $equipment->setId(Uuid::uuid4())
+            ->setLabel("Logiciel")
+            ->setLabelVisibility(true);
+        $manager->persist($equipment);
+
+        // Matériel de dessin (crayons de couleurs, gomme…)
+        $equipment = new Equipment();
+        $equipment->setId(Uuid::uuid4())
+            ->setLabel("Matériel de dessin (crayons de couleurs, gomme…)")
+            ->setLabelVisibility(true);
+        $manager->persist($equipment);
+
+        // Matériel de géométrie (équerre, règle graduée, compas…)
+        $equipment = new Equipment();
+        $equipment->setId(Uuid::uuid4())
+            ->setLabel("Matériel de géométrie (équerre, règle graduée, compas…)")
             ->setLabelVisibility(true);
         $manager->persist($equipment);
 
         // Microphone
         $equipment = new Equipment();
         $equipment->setId(Uuid::uuid4())
-            ->setLabel('Microphone')
+            ->setLabel("Microphone")
             ->setLabelVisibility(true);
         $manager->persist($equipment);
 
-        // Livre (à préciser par l’enseignant)
+        // Ordinateur personnel (ou tablette)
         $equipment = new Equipment();
         $equipment->setId(Uuid::uuid4())
-            ->setLabel('Livre (à préciser par l’enseignant)')
+            ->setLabel("Ordinateur personnel / tablette")
+            ->setLabelVisibility(true);
+        $this->addReference(self::EQUIPMENT_3, $equipment);
+        $manager->persist($equipment);
+
+        // Papier (à dessin, millimétré, calque…)  
+        $equipment = new Equipment();
+        $equipment->setId(Uuid::uuid4())
+            ->setLabel("Papier (à dessin, millimétré, calque…)")
             ->setLabelVisibility(true);
         $manager->persist($equipment);
 
-        // Autre
-        $equipment3 = new Equipment();
-        $equipment3->setId(Uuid::uuid4())
-            ->setLabel('Autre')
-            ->setLabelVisibility(false);
-        $this->addReference(self::EQUIPMENT_3, $equipment3);
-        $manager->persist($equipment3);
+        // Smartphone personnel 
+        $equipment = new Equipment();
+        $equipment->setId(Uuid::uuid4())
+            ->setLabel("Smartphone personnel")
+            ->setLabelVisibility(true);
+        $manager->persist($equipment);
 
         // Flush
         $manager->flush();

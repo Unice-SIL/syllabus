@@ -32,8 +32,7 @@ class CourseResourceEquipmentFixture extends Fixture implements DependentFixture
         $courseResourceEquipment1 = new CourseResourceEquipment();
         $courseResourceEquipment1->setId(Uuid::uuid4())
             ->setCourseInfo($this->getReference(CourseInfoFixture::COURSE_INFO_1))
-            ->setEquipment($this->getReference(EquipmentFixture::EQUIPMENT_1))
-            ->setDescription('Texas Instruments ');
+            ->setEquipment($this->getReference(EquipmentFixture::EQUIPMENT_1));
         $this->addReference(self::COURSE_RESOURCE_EQUIPMENT_1, $courseResourceEquipment1);
         $manager->persist($courseResourceEquipment1);
 
@@ -41,7 +40,8 @@ class CourseResourceEquipmentFixture extends Fixture implements DependentFixture
         $courseResourceEquipment2 = new CourseResourceEquipment();
         $courseResourceEquipment2->setId(Uuid::uuid4())
             ->setCourseInfo($this->getReference(CourseInfoFixture::COURSE_INFO_1))
-            ->setEquipment($this->getReference(EquipmentFixture::EQUIPMENT_2));
+            ->setEquipment($this->getReference(EquipmentFixture::EQUIPMENT_2))
+            ->setDescription('Texas Instruments ');
         $this->addReference(self::COURSE_RESOURCE_EQUIPMENT_2, $courseResourceEquipment2);
         $manager->persist($courseResourceEquipment2);
 
