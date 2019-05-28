@@ -43,21 +43,23 @@ class ShibbolethUserProvider implements ShibbolethUserProviderInterface
         $username = $credentials['username'];
         // Search user in DB
         $user = $this->userRepository->findByUsername($username);
-        // If user not found in DB instanciate new User
-        if(!$user instanceof User){
-            $user = new User();
-        }
-        // Set user information
-        $user->setUsername($username)
-            ->setFirstname($credentials['givenName'])
-            ->setLastname($credentials['sn'])
-            ->setEmail($credentials['mail'])
-            ->setRoles(self::DEFAULT_ROLES);
-        // If user id not null (user found in DB) update it
-        if(!is_null($user->getId())){
+
+        if($user instanceof User){
+            // If user found in DB update info
+            $user->setFirstname($credentials['givenName'])
+                ->setLastname($credentials['sn'])
+                ->setEmail($credentials['mail'])
+                ->setRoles(self::DEFAULT_ROLES);
             $this->userRepository->update($user);
         }else{
-            $user->setId($credentials['uid']);
+            // If user not found in DB instanciate new User
+            $user = new User();
+            $user->setUsername($username)
+                ->setId($credentials['uid'])
+                ->setFirstname($credentials['givenName'])
+                ->setLastname($credentials['sn'])
+                ->setEmail($credentials['mail'])
+                ->setRoles(self::DEFAULT_ROLES);
         }
 
         return $user;
@@ -71,7 +73,8 @@ class ShibbolethUserProvider implements ShibbolethUserProviderInterface
     public function loadUserByUsername($username)
     {
         $user = new User();
-        $user->setUsername($username)
+        $user->setId($username)
+            ->setUsername($username)
             ->setRoles(self::DEFAULT_ROLES);
         return $user;
     }
