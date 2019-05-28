@@ -56,6 +56,8 @@ class ShibbolethUserProvider implements ShibbolethUserProviderInterface
         // If user id not null (user found in DB) update it
         if(!is_null($user->getId())){
             $this->userRepository->update($user);
+        }else{
+            $user->setId($credentials['uid']);
         }
 
         return $user;
