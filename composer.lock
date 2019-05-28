@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "339a6c2637da41d2683ce6fe55997841",
+    "content-hash": "9085004567d325e12c93fe6b851e112c",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -2525,7 +2525,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "backendtea@gmail.com"
+                    "email": "BackEndTea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
@@ -3249,6 +3249,54 @@
             "time": "2019-05-14T12:03:52+00:00"
         },
         {
+            "name": "unicesil/shibboleth-bundle",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Unice-SIL/ShibbolethBundle.git",
+                "reference": "43e45956d140804a04f9a0b68882fe6154a7820e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Unice-SIL/ShibbolethBundle/zipball/43e45956d140804a04f9a0b68882fe6154a7820e",
+                "reference": "43e45956d140804a04f9a0b68882fe6154a7820e",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.5.9|>=7.0.8",
+                "symfony/framework-bundle": "~2.7|~3.0|~4.0",
+                "symfony/security": "^3.0|^4.0",
+                "symfony/security-core": "^3.0|^4.0"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "UniceSIL\\ShibbolethBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Frédéric Casazza",
+                    "email": "frederic.casazza@unice.fr"
+                }
+            ],
+            "description": "Shibboleth bundle authentication for Symfony 3+",
+            "keywords": [
+                "Authentication",
+                "Guard Authenticator",
+                "Symfony 3",
+                "UNS",
+                "Unice",
+                "Unice-SIL",
+                "shibboleth"
+            ],
+            "time": "2018-08-03T14:25:32+00:00"
+        },
+        {
             "name": "unicesil/syllabus-apogee-importer-bundle",
             "version": "1.0.0",
             "source": {
@@ -3286,7 +3334,7 @@
         },
         {
             "name": "unicesil/syllabus-importer-toolkit",
-            "version": "1.0.0",
+            "version": "1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Unice-SIL/syllabus-importer-toolkit.git",

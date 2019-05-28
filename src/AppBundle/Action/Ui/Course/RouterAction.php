@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Security;
 use Twig\Environment;
 
 /**
@@ -41,9 +42,9 @@ class RouterAction implements ActionInterface
     private $templating;
 
     /**
-     * @var TokenStorageInterface
+     * @var Security
      */
-    private $tokenStorage;
+    private $security;
 
     /**
      * @var Session
@@ -65,7 +66,7 @@ class RouterAction implements ActionInterface
      * @param FindCourseInfoByEtbIdAndYearQuery $findCourseInfoByEtbIdAndYearQuery
      * @param CoursePermissionHelper $coursePermissionHelper
      * @param Environment $templating
-     * @param TokenStorageInterface $tokenStorage
+     * @param Security $security
      * @param SessionInterface $session
      * @param RouterInterface $router
      * @param LoggerInterface $logger
@@ -74,7 +75,7 @@ class RouterAction implements ActionInterface
         FindCourseInfoByEtbIdAndYearQuery $findCourseInfoByEtbIdAndYearQuery,
         CoursePermissionHelper $coursePermissionHelper,
         Environment $templating,
-        TokenStorageInterface $tokenStorage,
+        Security $security,
         SessionInterface $session,
         RouterInterface $router,
         LoggerInterface $logger
@@ -83,7 +84,7 @@ class RouterAction implements ActionInterface
         $this->findCourseInfoByEtbIdAndYearQuery = $findCourseInfoByEtbIdAndYearQuery;
         $this->coursePermissionHelper = $coursePermissionHelper;
         $this->templating = $templating;
-        $this->tokenStorage = $tokenStorage;
+        $this->security = $security;
         $this->session = $session;
         $this->router = $router;
         $this->logger = $logger;
@@ -100,7 +101,7 @@ class RouterAction implements ActionInterface
         try {
             try {
                 $courseInfo = $this->findCourseInfoByEtbIdAndYearQuery->setEtbId($etbId)->setYear($year)->execute();
-                if($this->coursePermissionHelper->hasPermission($courseInfo, $this->tokenStorage->getToken()->getUser(), Permission::WRITE)){
+                if($this->coursePermissionHelper->hasPermission($courseInfo, $this->security->getUser(), Permission::WRITE)){
                     return new RedirectResponse($this->router->generate('edit_course', [
                         'id' => $courseInfo->getId(),
                         'iframe' => $request->get('iframe')

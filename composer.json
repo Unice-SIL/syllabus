@@ -37,6 +37,7 @@
         "tetranz/select2entity-bundle": "^2.9",
         "twig/extensions": "^1.5",
         "twig/twig": "^1.0||^2.0",
+        "unicesil/shibboleth-bundle": "^1.0",
         "unicesil/syllabus-apogee-importer-bundle": ">=1.0",
         "unicesil/syllabus-importer-toolkit": ">=1.0",
         "unicesil/syllabus-moodle-importer-bundle": ">=1.0"
