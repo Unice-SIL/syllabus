@@ -2,46 +2,52 @@
 
 {% block main %}
 
+    <h3>
+        Matériel et ressources
+    </h3>
+
     {% form_theme form with [
         'form/equipments_field.html.twig',
         'form/choices_equipments_field.html.twig'
     ] %}
 
-
     {{ form_start(form) }}
 
-    <div class="row mt-3">
-        <div class="col border ml-3 mr-1 p-1">
-            <h6 class="my-3">
+    <div class="row m-1">
+        <div class="col border mr-1">
+            <h5 class="mt-1 mb-1">
                 Matériel nécessaire
-            </h6>
+            </h5>
             {{ form_widget(form.listEquipments) }}
         </div>
-        <div class="col border ml-1 mr-3 p-1">
-            <p class="text-muted font-italic text-center p-2">
+        <div class="col border ml-1">
+            <p class="text-muted font-italic">
                 Glisser / déposer ici le matériel nécessaire…
             </p>
             {{ form_widget(form.equipments) }}
         </div>
     </div>
+
     <div class="row mt-3">
         <div class="col">
-            <h6 class="my-3">
+            <h5 class="mt-1">
                 Ressources pédagogiques
-            </h6>
+            </h5>
             {{ form_errors(form.educationalResources) }}
             {{ form_widget(form.educationalResources) }}
         </div>
     </div>
+
     <div class="row mt-3">
         <div class="col">
-            <h6 class="my-3">
+            <h5 class="mt-1">
                 Eléments bibliographiques
-            </h6>
+            </h5>
             {{ form_errors(form.bibliographicResources) }}
             {{ form_widget(form.bibliographicResources) }}
         </div>
     </div>
+
     <div class="row mt-3">
         <div class="col">
             <button class="btn btn-outline-primary btn-block shadow submit" type="submit">

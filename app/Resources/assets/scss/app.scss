@@ -190,7 +190,7 @@ form ul.list-group {
 
 #panel_tab-2 {
 
-    & > h4 .fas {
+    & > h3 .fas {
         float: right;
         margin-left: .3rem;
         cursor: pointer;
@@ -281,8 +281,16 @@ div.equipment {
 #equipments,
 .list-activities,
 .list-equipments {
-    max-height: 36rem;
     overflow-y: auto;
+}
+
+#equipments,
+.list-equipments {
+    max-height: 36rem;
+}
+
+.list-activities {
+    max-height: 20rem;
 }
 
 .equipment .row {

@@ -2,6 +2,10 @@
 
 {% block main %}
 
+    <h3>
+        Capacités visées / acquis d'apprentissage
+    </h3>
+
     {% form_theme form with [
     'form/achievements_field.html.twig',
     'form/prerequisites_field.html.twig',
@@ -12,21 +16,12 @@
     {{ form_errors(form) }}
     <div class="row mt-3 mb-5">
         <div class="col">
-            <div class="row mb-2">
-                <div class="col">
-                    <h5>Capacités visées / Acquis d'apprentissage</h5>
-                </div>
-            </div>
             <div class="row">
                 <div class="col">
-                    <p>
-                        <strong>Comment rédiger un acquis d'apprentissage ?</strong>
-                    </p>
-                    <p>
-                    <h6>Verbe + objet (contenu) + contexte</h6>
-                    </p>
-                    <p>
-                        <u>Exemples en Sciences Humaine et Sociale :</u>
+                    <h4>Comment rédiger un acquis d'apprentissage ?</h4>
+                    <h5>Verbe + objet (contenu) + contexte</h5>
+                    <div class="alert alert-info" role="alert">
+                        <h6>Exemples en Sciences Humaine et Sociale :</h6>
                         <ul>
                             <li>
                                 produire des documents d'aide à la décision à partir de l'analyse d'une situation économique,
@@ -35,7 +30,9 @@
                                 présenter les résultats d'une étude de marché donnée aux différentes étapes sur la base d'une recherche documentaire.
                             </li>
                         </ul>
-                        <u>Exemples en Sciences :</u>
+                    </div>
+                    <div class="alert alert-info" role="alert">
+                        <h6>Exemples en Sciences :</h6>
                         <ul>
                             <li>
                                 développer des applications simples en langage orienté objet,
@@ -44,14 +41,21 @@
                                 utiliser des formules menant à l'interprétation des résultats dans une problématique de machine à données manquantes.
                             </li>
                         </ul>
-                    </p>
-                    <p>
-                        <a href="https://lms.unice.fr/enrol/index.php?id=891" target="_blank">
-                            Cours dédié à l'Approche Par Compétences (clé d'inscription = APC)
-                        </a>
-                    </p>
+                    </div>
+                    <a href="https://lms.unice.fr/enrol/index.php?id=891"
+                       class="btn btn-outline-info btn-sm btn-block"
+                       target="_blank">
+                        Cours dédié à l'« Approche par Compétences » (clé d'inscription = APC)
+                    </a>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row my-5">
+        <div class="col">
             <div class="row border border-primary rounded p-2 my-3 mx-1">
                 <div class="col">
                     <div class="row mb-2">

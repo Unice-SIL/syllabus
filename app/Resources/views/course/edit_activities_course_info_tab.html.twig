@@ -9,11 +9,11 @@
     'form/choices_activities_field.html.twig'
     ] %}
 
-    <h4>
+    <h3>
         Sections et activités
         <span title="Tout replier."><i class="fas fa-folder secondary"></i></span>
         <span title="Tout déplier."><i class="fas fa-folder-open secondary"></i></span>
-    </h4>
+    </h3>
 
     {{ form_start(form) }}
     {{ form_errors(form.sections) }}
@@ -31,21 +31,13 @@
 
     <hr>
 
-    <div class="row mt-5">
-        <div class="col container-evaluations">
-            <div class="row">
-                <div class="col">
-                    <h4>Évaluation terminale</h4>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col border ml-3 mr-3 p-1">
-                    {{ form_widget(form.ctEvaluations) }}
-                </div>
-                <div class="col border mr-3 p-1">
-                    {{ form_widget(form.evaluations) }}
-                </div>
-            </div>
+    <h3>Évaluation terminale</h3>
+    <div class="row">
+        <div class="col border ml-3 mr-3 p-1">
+            {{ form_widget(form.ctEvaluations) }}
+        </div>
+        <div class="col border mr-3 p-1">
+            {{ form_widget(form.evaluations) }}
         </div>
     </div>
 
@@ -198,7 +190,7 @@
 
         // Sections folding / unfolding command.
         var collapseState = '';
-        $( '#panel_tab-2' ).on( 'click', 'h4 > span > .fas', function( e ) {
+        $( '#panel_tab-2' ).on( 'click', 'h3 > span > .fas', function( e ) {
             if ( e.target.classList.contains( 'fa-folder-open' ) ) {
                 collapseState = 'show';
             } else if ( e.target.classList.contains( 'fa-folder' ) ) {
@@ -302,9 +294,7 @@
          * Form submission
          */
         $("form[name='edit_activities_course_info']").submit(function(e){
-
             Syllabus.submitPanelForm( e, this );
-
         });
 
     </script>
