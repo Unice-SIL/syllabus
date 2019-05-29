@@ -442,7 +442,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
             ->setLabelVisibility(true)
             ->setType(ActivityType::ACTIVITY)
             ->setMode(ActivityMode::IN_CLASS)
-            ->setGrp(ActivityGroup::TOGETHER)
+            ->setGrp(ActivityGroup::GROUPS)
             ->setOrd(0)
             ->setObsolete(false);
         $manager->persist($activity);
@@ -454,7 +454,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
             ->setLabelVisibility(true)
             ->setType(ActivityType::ACTIVITY)
             ->setMode(ActivityMode::IN_CLASS)
-            ->setGrp(ActivityGroup::TOGETHER)
+            ->setGrp(ActivityGroup::GROUPS)
             ->setOrd(0)
             ->setObsolete(false);
         $manager->persist($activity);
@@ -495,18 +495,6 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
         $this->addReference(self::ACTIVITY_5, $activity);
         $manager->persist($activity);
 
-        // Exercices
-        $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
-            ->setLabel("Exercices")
-            ->setLabelVisibility(true)
-            ->setType(ActivityType::ACTIVITY)
-            ->setMode(ActivityMode::IN_AUTONOMY)
-            ->setGrp(ActivityGroup::COLLECTIVE)
-            ->setOrd(0)
-            ->setObsolete(false);
-        $manager->persist($activity);
-
         // Étude de cas
         $activity = new Activity();
         $activity->setId(Uuid::uuid4())
@@ -519,10 +507,10 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
             ->setObsolete(false);
         $manager->persist($activity);
 
-        // Projet
+        // Exercice d'évaluation par les pairs
         $activity = new Activity();
         $activity->setId(Uuid::uuid4())
-            ->setLabel("Projet")
+            ->setLabel("Exercice d'évaluation par les pairs")
             ->setLabelVisibility(true)
             ->setType(ActivityType::ACTIVITY)
             ->setMode(ActivityMode::IN_AUTONOMY)
@@ -531,46 +519,10 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
             ->setObsolete(false);
         $manager->persist($activity);
 
-        // Recherche documentaire
+        // Exercices
         $activity = new Activity();
         $activity->setId(Uuid::uuid4())
-            ->setLabel("Recherche documentaire")
-            ->setLabelVisibility(true)
-            ->setType(ActivityType::ACTIVITY)
-            ->setMode(ActivityMode::IN_AUTONOMY)
-            ->setGrp(ActivityGroup::COLLECTIVE)
-            ->setOrd(0)
-            ->setObsolete(false);
-        $manager->persist($activity);
-
-        // Production écrite (dissertation, synthèse / compte rendu…)
-        $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
-            ->setLabel("Production écrite (dissertation, synthèse / compte rendu…)")
-            ->setLabelVisibility(true)
-            ->setType(ActivityType::ACTIVITY)
-            ->setMode(ActivityMode::IN_AUTONOMY)
-            ->setGrp(ActivityGroup::COLLECTIVE)
-            ->setOrd(0)
-            ->setObsolete(false);
-        $manager->persist($activity);
-
-        // Production orale (entretien, argumentaire, exposé, narration…)
-        $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
-            ->setLabel("Production orale (entretien, argumentaire, exposé, narration…)")
-            ->setLabelVisibility(true)
-            ->setType(ActivityType::ACTIVITY)
-            ->setMode(ActivityMode::IN_AUTONOMY)
-            ->setGrp(ActivityGroup::COLLECTIVE)
-            ->setOrd(0)
-            ->setObsolete(false);
-        $manager->persist($activity);
-
-        // Production multimédia (vidéo, affiche, poster, blog, wiki, prototype, portfolio…)
-        $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
-            ->setLabel("Production multimédia (vidéo, affiche, poster, blog, wiki, prototype, portfolio…)")
+            ->setLabel("Exercices")
             ->setLabelVisibility(true)
             ->setType(ActivityType::ACTIVITY)
             ->setMode(ActivityMode::IN_AUTONOMY)
@@ -591,23 +543,82 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
             ->setObsolete(false);
         $manager->persist($activity);
 
+        // Production écrite (dissertation, synthèse / compte rendu…)
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel("Production écrite (dissertation, synthèse / compte rendu…)")
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_AUTONOMY)
+            ->setGrp(ActivityGroup::COLLECTIVE)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Production multimédia (vidéo, affiche, poster, blog, wiki, prototype, portfolio…)
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel("Production multimédia (vidéo, affiche, poster, blog, wiki, prototype, portfolio…)")
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_AUTONOMY)
+            ->setGrp(ActivityGroup::COLLECTIVE)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Production orale (entretien, argumentaire, exposé, narration…)
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel("Production orale (entretien, argumentaire, exposé, narration…)")
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_AUTONOMY)
+            ->setGrp(ActivityGroup::COLLECTIVE)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Projet
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel("Projet")
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_AUTONOMY)
+            ->setGrp(ActivityGroup::COLLECTIVE)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Recherche documentaire
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel("Recherche documentaire")
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_AUTONOMY)
+            ->setGrp(ActivityGroup::COLLECTIVE)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Tournoi
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel("Tournoi")
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_AUTONOMY)
+            ->setGrp(ActivityGroup::COLLECTIVE)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
 
         /**
          * ACTIVITIES IN AUTONOMY INDIVIDUAL
          */
-
-        // Test d'auto-évaluation
-        $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
-            ->setLabel("Test d'auto-évaluation")
-            ->setLabelVisibility(true)
-            ->setType(ActivityType::ACTIVITY)
-            ->setMode(ActivityMode::IN_AUTONOMY)
-            ->setGrp(ActivityGroup::INDIVIDUAL)
-            ->setOrd(0)
-            ->setObsolete(false);
-        $this->addReference(self::ACTIVITY_6, $activity);
-        $manager->persist($activity);
 
         // Étude d'un document (texte, vidéo, cours en ligne…)
         $activity = new Activity();
@@ -621,58 +632,10 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
             ->setObsolete(false);
         $manager->persist($activity);
 
-        // Participation au forum de discussion
-        $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
-            ->setLabel("Participation au forum de discussion")
-            ->setLabelVisibility(true)
-            ->setType(ActivityType::ACTIVITY)
-            ->setMode(ActivityMode::IN_AUTONOMY)
-            ->setGrp(ActivityGroup::INDIVIDUAL)
-            ->setOrd(0)
-            ->setObsolete(false);
-        $manager->persist($activity);
-
-        // Exercices
-        $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
-            ->setLabel("Exercices")
-            ->setLabelVisibility(true)
-            ->setType(ActivityType::ACTIVITY)
-            ->setMode(ActivityMode::IN_AUTONOMY)
-            ->setGrp(ActivityGroup::INDIVIDUAL)
-            ->setOrd(0)
-            ->setObsolete(false);
-        $manager->persist($activity);
-
         // Étude de cas
         $activity = new Activity();
         $activity->setId(Uuid::uuid4())
             ->setLabel("Étude de cas")
-            ->setLabelVisibility(true)
-            ->setType(ActivityType::ACTIVITY)
-            ->setMode(ActivityMode::IN_AUTONOMY)
-            ->setGrp(ActivityGroup::INDIVIDUAL)
-            ->setOrd(0)
-            ->setObsolete(false);
-        $manager->persist($activity);
-
-        // Projet
-        $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
-            ->setLabel("Projet")
-            ->setLabelVisibility(true)
-            ->setType(ActivityType::ACTIVITY)
-            ->setMode(ActivityMode::IN_AUTONOMY)
-            ->setGrp(ActivityGroup::INDIVIDUAL)
-            ->setOrd(0)
-            ->setObsolete(false);
-        $manager->persist($activity);
-
-        // Recherche documentaire
-        $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
-            ->setLabel("Recherche documentaire")
             ->setLabelVisibility(true)
             ->setType(ActivityType::ACTIVITY)
             ->setMode(ActivityMode::IN_AUTONOMY)
@@ -693,10 +656,82 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
             ->setObsolete(false);
         $manager->persist($activity);
 
+        // Exercices
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel("Exercices")
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_AUTONOMY)
+            ->setGrp(ActivityGroup::INDIVIDUAL)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Projet
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel("Projet")
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_AUTONOMY)
+            ->setGrp(ActivityGroup::INDIVIDUAL)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Recherche documentaire
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel("Recherche documentaire")
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_AUTONOMY)
+            ->setGrp(ActivityGroup::INDIVIDUAL)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Participation au forum de discussion
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel("Participation au forum de discussion")
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_AUTONOMY)
+            ->setGrp(ActivityGroup::INDIVIDUAL)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Production artistique (installation, sculpture, performance…)
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel("Production artistique (installation, sculpture, performance…)")
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_AUTONOMY)
+            ->setGrp(ActivityGroup::INDIVIDUAL)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
         // Production écrite (dissertation, synthèse / compte rendu…)
         $activity = new Activity();
         $activity->setId(Uuid::uuid4())
             ->setLabel("Production écrite (dissertation, synthèse / compte rendu…)")
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_AUTONOMY)
+            ->setGrp(ActivityGroup::INDIVIDUAL)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Production multimédia (vidéo, affiche, poster, blog, wiki, prototype, portfolio…)
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel("Production multimédia (vidéo, affiche, poster, blog, wiki, prototype, portfolio…)")
             ->setLabelVisibility(true)
             ->setType(ActivityType::ACTIVITY)
             ->setMode(ActivityMode::IN_AUTONOMY)
@@ -717,28 +752,17 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
             ->setObsolete(false);
         $manager->persist($activity);
 
-        // Production multimédia (vidéo, affiche, poster, blog, wiki, prototype, portfolio…)
+        // Test d'auto-évaluation
         $activity = new Activity();
         $activity->setId(Uuid::uuid4())
-            ->setLabel("Production multimédia (vidéo, affiche, poster, blog, wiki, prototype, portfolio…)")
+            ->setLabel("Test d'auto-évaluation")
             ->setLabelVisibility(true)
             ->setType(ActivityType::ACTIVITY)
             ->setMode(ActivityMode::IN_AUTONOMY)
             ->setGrp(ActivityGroup::INDIVIDUAL)
             ->setOrd(0)
             ->setObsolete(false);
-        $manager->persist($activity);
-
-        // Production artistique (installation, sculpture, performance…)
-        $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
-            ->setLabel("Production artistique (installation, sculpture, performance…)")
-            ->setLabelVisibility(true)
-            ->setType(ActivityType::ACTIVITY)
-            ->setMode(ActivityMode::IN_AUTONOMY)
-            ->setGrp(ActivityGroup::INDIVIDUAL)
-            ->setOrd(0)
-            ->setObsolete(false);
+        $this->addReference(self::ACTIVITY_6, $activity);
         $manager->persist($activity);
 
 
@@ -758,17 +782,6 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
         $this->addReference(self::ACTIVITY_7, $activity);
         $manager->persist($activity);
 
-        // Mise en situation (playdoyer, sage femme…)
-        $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
-            ->setLabel("Mise en situation (playdoyer, sage femme…)")
-            ->setLabelVisibility(true)
-            ->setType(ActivityType::EVALUATION)
-            ->setMode(ActivityMode::EVAL_CC)
-            ->setOrd(0)
-            ->setObsolete(false);
-        $manager->persist($activity);
-
         // Contribution au forum
         $activity = new Activity();
         $activity->setId(Uuid::uuid4())
@@ -776,51 +789,18 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
             ->setLabelVisibility(true)
             ->setType(ActivityType::EVALUATION)
             ->setMode(ActivityMode::EVAL_CC)
-            ->setOrd(0)
+            ->setOrd(1)
             ->setObsolete(false);
         $manager->persist($activity);
 
-        // Test standardisé (Moodle, QCM, WIMS…)
+        // Mise en situation professionnelle
         $activity = new Activity();
         $activity->setId(Uuid::uuid4())
-            ->setLabel("Test standardisé (Moodle, QCM, WIMS…)")
+            ->setLabel("Mise en situation professionnelle")
             ->setLabelVisibility(true)
             ->setType(ActivityType::EVALUATION)
             ->setMode(ActivityMode::EVAL_CC)
-            ->setOrd(0)
-            ->setObsolete(false);
-        $manager->persist($activity);
-
-        // Production écrite (dissertation, commentaire de texte…)
-        $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
-            ->setLabel("Production écrite (dissertation, commentaire de texte…)")
-            ->setLabelVisibility(true)
-            ->setType(ActivityType::EVALUATION)
-            ->setMode(ActivityMode::EVAL_CC)
-            ->setOrd(0)
-            ->setObsolete(false);
-        $manager->persist($activity);
-
-        // Production orale (entretien, exposé, discours d'éloquence, grand oral…)
-        $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
-            ->setLabel("Production orale (entretien, exposé, discours d'éloquence, grand oral…)")
-            ->setLabelVisibility(true)
-            ->setType(ActivityType::EVALUATION)
-            ->setMode(ActivityMode::EVAL_CC)
-            ->setOrd(0)
-            ->setObsolete(false);
-        $manager->persist($activity);
-
-        // Production multimédia (vidéo, affiche, poster, blog, wiki, prototype, portfolio…)
-        $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
-            ->setLabel("Production multimédia (vidéo, affiche, poster, blog, wiki, prototype, portfolio…)")
-            ->setLabelVisibility(true)
-            ->setType(ActivityType::EVALUATION)
-            ->setMode(ActivityMode::EVAL_CC)
-            ->setOrd(0)
+            ->setOrd(1)
             ->setObsolete(false);
         $manager->persist($activity);
 
@@ -831,7 +811,62 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
             ->setLabelVisibility(true)
             ->setType(ActivityType::EVALUATION)
             ->setMode(ActivityMode::EVAL_CC)
-            ->setOrd(0)
+            ->setOrd(1)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Production écrite (dissertation, commentaire de texte…)
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel("Production écrite (dissertation, commentaire de texte…)")
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::EVALUATION)
+            ->setMode(ActivityMode::EVAL_CC)
+            ->setOrd(1)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Production multimédia (vidéo, affiche, poster, blog, wiki, prototype, portfolio…)
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel("Production multimédia (vidéo, affiche, poster, blog, wiki, prototype, portfolio…)")
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::EVALUATION)
+            ->setMode(ActivityMode::EVAL_CC)
+            ->setOrd(1)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Production orale (entretien, exposé, discours d'éloquence, grand oral…)
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel("Production orale (entretien, exposé, discours d'éloquence, grand oral…)")
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::EVALUATION)
+            ->setMode(ActivityMode::EVAL_CC)
+            ->setOrd(1)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Test standardisé (Moodle, QCM, WIMS…)
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel("Test standardisé (Moodle, QCM, WIMS…)")
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::EVALUATION)
+            ->setMode(ActivityMode::EVAL_CC)
+            ->setOrd(1)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Tournoi
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel("Tournoi")
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::EVALUATION)
+            ->setMode(ActivityMode::EVAL_CC)
+            ->setOrd(1)
             ->setObsolete(false);
         $manager->persist($activity);
 
@@ -840,11 +875,11 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
          *  EVALUATION CT
          */
 
-        // Pas d'Evaluation Terminale (sauf dispensés de CC*)
+        // Pas d'évaluation terminale (sauf dispensés de CC*)
         /*
         $activity = new Activity();
         $activity->setId(Uuid::uuid4())
-            ->setLabel("Pas d'Evaluation Terminale (sauf dispensés de CC*)")
+            ->setLabel("Pas d'évaluation terminale (sauf dispensés de CC*)")
             ->setLabelVisibility(true)
             ->setType(ActivityType::EVALUATION)
             ->setMode(ActivityMode::EVAL_CT)
@@ -853,10 +888,10 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
         $manager->persist($activity);
         */
 
-        // Mise en situation (playdoyer, sage femme…)
+        // Mise en situation professionnelle
         $activity = new Activity();
         $activity->setId(Uuid::uuid4())
-            ->setLabel("Mise en situation (playdoyer, sage femme…)")
+            ->setLabel("Mise en situation professionnelle")
             ->setLabelVisibility(true)
             ->setType(ActivityType::EVALUATION)
             ->setMode(ActivityMode::EVAL_CT)
@@ -864,10 +899,10 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
             ->setObsolete(false);
         $manager->persist($activity);
 
-        // Test standardisé (Moodle, QCM, WIMS…)
+        // Production artistique (installation, sculpture, performance…)
         $activity = new Activity();
         $activity->setId(Uuid::uuid4())
-            ->setLabel("Test standardisé (Moodle, QCM, WIMS…)")
+            ->setLabel("Production artistique (installation, sculpture, performance…)")
             ->setLabelVisibility(true)
             ->setType(ActivityType::EVALUATION)
             ->setMode(ActivityMode::EVAL_CT)
@@ -886,17 +921,6 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
             ->setObsolete(false);
         $manager->persist($activity);
 
-        // Production orale (entretien, exposé, discours d'éloquence, grand oral…)
-        $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
-            ->setLabel("Production orale (entretien, exposé, discours d'éloquence, grand oral…)")
-            ->setLabelVisibility(true)
-            ->setType(ActivityType::EVALUATION)
-            ->setMode(ActivityMode::EVAL_CT)
-            ->setOrd(0)
-            ->setObsolete(false);
-        $manager->persist($activity);
-
         // Production multimédia (vidéo, affiche, poster, blog, wiki, prototype, portfolio…)
         $activity = new Activity();
         $activity->setId(Uuid::uuid4())
@@ -908,10 +932,21 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
             ->setObsolete(false);
         $manager->persist($activity);
 
-        // Production artistique (installation, sculpture, performance…)
+        // Production orale (entretien, exposé, discours d'éloquence, grand oral…)
         $activity = new Activity();
         $activity->setId(Uuid::uuid4())
-            ->setLabel("Production artistique (installation, sculpture, performance…)")
+            ->setLabel("Production orale (entretien, exposé, discours d'éloquence, grand oral…)")
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::EVALUATION)
+            ->setMode(ActivityMode::EVAL_CT)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Test standardisé (Moodle, QCM, WIMS…)
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel("Test standardisé (Moodle, QCM, WIMS…)")
             ->setLabelVisibility(true)
             ->setType(ActivityType::EVALUATION)
             ->setMode(ActivityMode::EVAL_CT)
