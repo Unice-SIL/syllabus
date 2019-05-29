@@ -31,6 +31,13 @@ class EditPresentationCourseInfoCommand implements CommandInterface
     /**
      * @var null|string
      *
+     *
+     */
+    private $languages;
+
+    /**
+     * @var null|string
+     *
      * @Assert\NotBlank(
      *     message = "Veuillez préciser le niveau du cours."
      * )
@@ -66,7 +73,14 @@ class EditPresentationCourseInfoCommand implements CommandInterface
      *
      * @Assert\Expression(
      *     "not ( (this.getMediaType() == 'image' or this.getMediaType() == null) and this.getImage() == null)",
-     *     message = "Une image ou une vidéo de présentation est obligatoire"
+     *     message = "Une image ou une vidéo de présentation est obligatoire."
+     * )
+     * @Assert\File(
+     *      maxSize="2M",
+     *      mimeTypes={"image/jpeg", "image/png"},
+     *      maxSizeMessage="Le fichier dépasse la taille autorisée ({{ limit }}{{ suffix }}).",
+     *      mimeTypesMessage="Ce type de fichier n'est pas autorisé.",
+     *      groups={"image"}
      * )
      */
     private $image;
@@ -76,7 +90,7 @@ class EditPresentationCourseInfoCommand implements CommandInterface
      *
      * @Assert\Expression(
      *     "not ( this.getMediaType() == 'video' and this.getVideo() == null)",
-     *      message = "Une image ou une vidéo de présentation est obligatoire"
+     *      message = "Une image ou une vidéo de présentation est obligatoire."
      * )
      */
     private $video;
@@ -113,7 +127,7 @@ class EditPresentationCourseInfoCommand implements CommandInterface
      *
      * @Assert\Expression(
      *     "not (this.getTeachingMode() == 'class' and this.getTeachingOtherClass() != null and this.getTeachingOtherTypeClass() == null )",
-     *     message = "Veuillez préciser le type d'heures d'enseignement"
+     *     message = "Veuillez préciser le type d'heures d'enseignement."
      * )
      */
     private $teachingOtherTypeClass;
@@ -145,7 +159,7 @@ class EditPresentationCourseInfoCommand implements CommandInterface
      *
      * @Assert\Expression(
      *     "not (this.getTeachingMode() == 'hybrid' and this.getTeachingOtherHybridClass() != null and this.getTeachingOtherTypeHybridClass() == null )",
-     *     message = "Veuillez préciser le type d'heures d'enseignement"
+     *     message = "Veuillez préciser le type d'heures d'enseignement."
      * )
      */
     private $teachingOtherTypeHybridClass;
@@ -172,7 +186,7 @@ class EditPresentationCourseInfoCommand implements CommandInterface
      *
      * @Assert\Expression(
      *     "not (this.getTeachingMode() == 'hybrid' and this.getTeachingOtherHybridDist() != null and this.getTeachingOtherTypeHybridDistant() == null )",
-     *     message = "Veuillez préciser le type d'heures d'enseignement"
+     *     message = "Veuillez préciser le type d'heures d'enseignement."
      * )
      */
     private $teachingOtherTypeHybridDistant;
@@ -201,6 +215,7 @@ class EditPresentationCourseInfoCommand implements CommandInterface
         $this->id = $courseInfo->getId();
         $this->period = $courseInfo->getPeriod();
         $this->level = $courseInfo->getLevel();
+        $this->languages = $courseInfo->getLanguages();
         $this->domain = $courseInfo->getDomain();
         $this->summary = $courseInfo->getSummary();
         $this->mediaType = $courseInfo->getMediaType();
@@ -216,9 +231,11 @@ class EditPresentationCourseInfoCommand implements CommandInterface
         $this->teachingTdHybridClass = $courseInfo->getTeachingTdHybridClass();
         $this->teachingTpHybridClass = $courseInfo->getTeachingTpHybridClass();
         $this->teachingOtherHybridClass = $courseInfo->getTeachingOtherHybridClass();
+        $this->teachingOtherTypeHybridClass = $courseInfo->getTeachingOtherTypeHybridClass();
         $this->teachingCmHybridDist = $courseInfo->getTeachingCmHybridDist();
         $this->teachingTdHybridDist = $courseInfo->getTeachingTdHybridDist();
         $this->teachingOtherHybridDist = $courseInfo->getTeachingOtherHybridDist();
+        $this->teachingOtherTypeHybridDistant = $courseInfo->getTeachingOtherTypeHybridDistant();
         $this->teachers = new ArrayCollection();
         foreach ($courseInfo->getCourseTeachers() as $teacher){
             $this->teachers->add(new CourseTeacherCommand($teacher));
@@ -278,6 +295,25 @@ class EditPresentationCourseInfoCommand implements CommandInterface
     public function setLevel($level)
     {
         $this->level = $level;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getLanguages()
+    {
+        return $this->languages;
+    }
+
+    /**
+     * @param null|string $languages
+     * @return EditPresentationCourseInfoCommand
+     */
+    public function setLanguages($languages)
+    {
+        $this->languages = $languages;
 
         return $this;
     }
@@ -725,6 +761,40 @@ class EditPresentationCourseInfoCommand implements CommandInterface
     }
 
     /**
+     * Checks media consistency.
+     */
+    public function checkMedia()
+    {
+        $mediaType = $this->getMediaType();
+
+        if (in_array($mediaType, ['image', 'video'])) {
+
+            if ($mediaType == "video") {
+                $mediaTypeAlt = "image";
+            } else {
+                $mediaTypeAlt = "video";
+            }
+
+            $f1 = "get" . ucfirst($mediaType);
+            $f2 = "get" . ucfirst($mediaTypeAlt);
+            $f3 = "set" . ucfirst($mediaType);
+
+            if (empty($this->$f1())) {
+                if (!empty($this->$f2())) {
+                    $this->setMediaType($mediaTypeAlt);
+                } else {
+                    $this->setMediaType(null);
+                }
+                $this->$f3(null);
+            }
+
+        } else {
+
+            $this->setMediaType(null);
+        }
+    }
+
+    /**
      * @param CourseInfo $entity
      * @return CourseInfo
      */
@@ -733,6 +803,7 @@ class EditPresentationCourseInfoCommand implements CommandInterface
         // CourseInfo
         $entity->setPeriod($this->getPeriod())
             ->setLevel($this->getLevel())
+            ->setLanguages($this->getLanguages())
             ->setDomain($this->getDomain())
             ->setSummary($this->getSummary())
             ->setMediaType($this->getMediaType())
@@ -748,9 +819,11 @@ class EditPresentationCourseInfoCommand implements CommandInterface
             ->setTeachingTdHybridClass($this->getTeachingTdHybridClass())
             ->setTeachingTpHybridClass($this->getTeachingTpHybridClass())
             ->setTeachingOtherHybridClass($this->getTeachingOtherHybridClass())
+            ->setTeachingOtherTypeHybridClass($this->getTeachingOtherTypeHybridClass())
             ->setTeachingCmHybridDist($this->getTeachingCmHybridDist())
             ->setTeachingTdHybridDist($this->getTeachingTdHybridDist())
             ->setTeachingOtherHybridDist($this->getTeachingOtherHybridDist())
+            ->setTeachingOtherTypeHybridDistant($this->getTeachingOtherTypeHybridDistant())
             ->setTemPresentationTabValid($this->isTemPresentationTabValid());
 
         // CourseTeacher

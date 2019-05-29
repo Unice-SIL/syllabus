@@ -8,7 +8,7 @@
 -->
 
 {% set in_iframe = false %}
-{% if app.request.get('inframe') == 1 %}
+{% if app.request.get('iframe') is defined and app.request.get('iframe') == 'iframe' %}
     {% set in_iframe = true %}
 {% endif %}
 
@@ -44,6 +44,11 @@
 
 {% block stylesheets %}
     {{ encore_entry_link_tags('app') }}
+    {% if not in_iframe %}
+        <style>
+            body { padding-bottom: 13rem }
+        </style>
+    {% endif %}
 {% endblock %}
 
     </head>

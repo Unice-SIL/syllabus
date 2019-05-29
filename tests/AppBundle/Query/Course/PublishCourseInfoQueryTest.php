@@ -2,12 +2,13 @@
 
 namespace tests\AppBundle\Query\User;
 
-use AppBundle\Command\Course\EditMccCourseInfoCommand;
 use AppBundle\Command\Course\PublishCourseInfoCommand;
 use AppBundle\Entity\CourseInfo;
+use AppBundle\Entity\User;
 use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Query\Course\EditMccCourseInfoQuery;
 use AppBundle\Query\Course\PublishCourseInfoQuery;
+use Symfony\Component\Security\Core\Security;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
@@ -34,6 +35,16 @@ class PublishCourseInfoQueryTest extends TestCase
     private $publishCourseInfoCommand;
 
     /**
+     * @var User
+     */
+    private $user;
+
+    /**
+     * @var Security
+     */
+    private $security;
+
+    /**
      *
      */
     protected function setUp(): void
@@ -42,10 +53,19 @@ class PublishCourseInfoQueryTest extends TestCase
         $this->courseInfoRepository = $this->getMockBuilder('AppBundle\Repository\CourseInfoRepositoryInterface')
             ->getMock();
 
+        // Mock Security
+        $this->security = $this
+            ->getMockBuilder('Symfony\Component\Security\Core\Security')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         // CourseInfo
         $this->courseInfo = new CourseInfo();
-        $this->courseInfo
-            ->setId(Uuid::uuid4());
+        $this->courseInfo->setId(Uuid::uuid4());
+
+        // User
+        $this->user = new User();
+        $this->user->setId(Uuid::uuid4());
 
         // Command
         $this->publishCourseInfoCommand = new PublishCourseInfoCommand($this->courseInfo);
@@ -61,11 +81,18 @@ class PublishCourseInfoQueryTest extends TestCase
             ->with($this->publishCourseInfoCommand->getId())
             ->willReturn($this->courseInfo);
 
+        $this->security->expects($this->once())
+            ->method('getUser')
+            ->willReturn($this->user);
+
         $this->courseInfoRepository->expects($this->once())
             ->method('update')
             ->with($this->courseInfo);
 
-        $publishCourseInfoQuery = new PublishCourseInfoQuery($this->courseInfoRepository);
+        $publishCourseInfoQuery = new PublishCourseInfoQuery(
+            $this->courseInfoRepository,
+            $this->security
+        );
         $publishCourseInfoQuery->setPublishCourseInfoCommand($this->publishCourseInfoCommand);
         $this->assertNull($publishCourseInfoQuery->execute());
     }
@@ -74,7 +101,7 @@ class PublishCourseInfoQueryTest extends TestCase
      * Exception during CourseInfoRepository->update()
      * @test
      */
-    public function edit1Exception(){
+    public function editException(){
         $this->expectException(\Exception::class);
 
         $this->courseInfoRepository->expects($this->once())
@@ -82,12 +109,19 @@ class PublishCourseInfoQueryTest extends TestCase
             ->with($this->publishCourseInfoCommand->getId())
             ->willReturn($this->courseInfo);
 
+        $this->security->expects($this->once())
+            ->method('getUser')
+            ->willReturn($this->user);
+
         $this->courseInfoRepository->expects($this->once())
             ->method('update')
             ->with($this->courseInfo)
             ->willThrowException(new \Exception());
 
-        $publishCourseInfoQuery = new PublishCourseInfoQuery($this->courseInfoRepository);
+        $publishCourseInfoQuery = new PublishCourseInfoQuery(
+            $this->courseInfoRepository,
+            $this->security
+        );
         $publishCourseInfoQuery->setPublishCourseInfoCommand($this->publishCourseInfoCommand)->execute();
     }
 
@@ -103,11 +137,17 @@ class PublishCourseInfoQueryTest extends TestCase
             ->with($this->publishCourseInfoCommand->getId())
             ->willReturn(null);
 
+        $this->security->expects($this->never())
+            ->method('getUser');
+
         $this->courseInfoRepository->expects($this->never())
             ->method('update')
             ->with($this->courseInfo);
 
-        $publishCourseInfoQuery = new PublishCourseInfoQuery($this->courseInfoRepository);
+        $publishCourseInfoQuery = new PublishCourseInfoQuery(
+            $this->courseInfoRepository,
+            $this->security
+        );
         $publishCourseInfoQuery->setPublishCourseInfoCommand($this->publishCourseInfoCommand)->execute();
     }
 
@@ -118,6 +158,7 @@ class PublishCourseInfoQueryTest extends TestCase
     {
         unset($this->courseInfoRepository);
         unset($this->courseInfo);
-        unset($this->editMccCourseInfoCommand);
+        unset($this->publishCourseInfoCommand);
+        unset($this->security);
     }
 }

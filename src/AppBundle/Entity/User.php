@@ -224,6 +224,18 @@ class User implements UserInterface
     }
 
     /**
+     * @param $role
+     * @return $this
+     */
+    public function addRole($role)
+    {
+        if(!in_array($role, $this->roles)){
+            $this->roles[] = $role;
+        }
+        return $this;
+    }
+
+    /**
      * Removes sensitive data from the user.
      *
      * This is important if, at any given point, sensitive information like

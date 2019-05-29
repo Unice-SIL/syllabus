@@ -7,6 +7,7 @@ use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Query\QueryInterface;
 use AppBundle\Repository\CourseInfoRepositoryInterface;
 use AppBundle\Repository\CourseResourceEquipmentRepositoryInterface;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * Class EditEquipmentsCourseInfoQuery
@@ -31,17 +32,25 @@ class EditEquipmentsCourseInfoQuery implements QueryInterface
     private $editEquipmentsCourseInfoCommand;
 
     /**
+     * @var Security
+     */
+    private $security;
+
+    /**
      * EditEquipmentsCourseInfoQuery constructor.
      * @param CourseInfoRepositoryInterface $courseInfoRepository
      * @param CourseResourceEquipmentRepositoryInterface $courseResourceEquipmentRepository
+     * @param Security $security
      */
     public function __construct(
         CourseInfoRepositoryInterface $courseInfoRepository,
-        CourseResourceEquipmentRepositoryInterface $courseResourceEquipmentRepository
+        CourseResourceEquipmentRepositoryInterface $courseResourceEquipmentRepository,
+        Security $security
     )
     {
         $this->courseInfoRepository = $courseInfoRepository;
         $this->courseResourceEquipmentRepository = $courseResourceEquipmentRepository;
+        $this->security = $security;
     }
 
     /**
@@ -74,6 +83,8 @@ class EditEquipmentsCourseInfoQuery implements QueryInterface
             $originalCourseResourceEquipments = $courseInfo->getCourseResourceEquipments();
             // Fill course info with new values
             $courseInfo = $this->editEquipmentsCourseInfoCommand->filledEntity($courseInfo);
+            $courseInfo->setModificationDate(new \DateTime())
+                ->setLastUpdater($this->security->getUser());
             // Start transaction
             $this->courseInfoRepository->beginTransaction();
             // Loop on original course resource equipments to detect Resourceequipments must be removed

@@ -32,9 +32,9 @@ class EquipmentDoctrineRepository extends AbstractDoctrineRepository implements 
     public function find(string $id): ?Equipment
     {
         $equipment = null;
-        try{
+        try {
             $equipment = $this->entityManager->getRepository(Equipment::class)->find($id);
-        }catch (\Exception $e){
+        } catch(\Exception $e) {
             throw $e;
         }
         return $equipment;
@@ -47,11 +47,12 @@ class EquipmentDoctrineRepository extends AbstractDoctrineRepository implements 
     public function findAll(): \ArrayObject
     {
         $equipments = new \ArrayObject();
-        try{
-            foreach($this->entityManager->getRepository(Equipment::class)->findAll() as $equipment){
+        try {
+            foreach($this->entityManager->getRepository(Equipment::class)
+                    ->findBy([], ['label' => 'ASC']) as $equipment) {
                 $equipments->append($equipment);
             }
-        }catch (\Exception $e){
+        } catch(\Exception $e) {
             throw $e;
         }
         return $equipments;
@@ -64,10 +65,10 @@ class EquipmentDoctrineRepository extends AbstractDoctrineRepository implements 
      */
     public function update(Equipment $equipment): void
     {
-        try{
+        try {
             $this->entityManager->persist($equipment);
             $this->entityManager->flush();
-        }catch (\Exception $e){
+        } catch(\Exception $e) {
             throw $e;
         }
     }
@@ -78,10 +79,10 @@ class EquipmentDoctrineRepository extends AbstractDoctrineRepository implements 
      */
     public function create(Equipment $equipment): void
     {
-        try{
+        try {
             $this->entityManager->persist($equipment);
             $this->entityManager->flush();
-        }catch (\Exception $e){
+        } catch (\Exception $e){
             throw $e;
         }
     }
@@ -95,7 +96,7 @@ class EquipmentDoctrineRepository extends AbstractDoctrineRepository implements 
         try {
             $this->entityManager->remove($equipment);
             $this->entityManager->flush();
-        }catch (\Exception $e){
+        } catch(\Exception $e) {
             throw $e;
         }
     }

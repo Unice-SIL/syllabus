@@ -136,6 +136,10 @@ var Syllabus = ( function ( ) {
                   "-",
                   "NumberedList",
                   "BulletedList"
+                ],
+                "-",
+                [
+                  "Link"
                 ]
             ],
             "removeButtons": null,

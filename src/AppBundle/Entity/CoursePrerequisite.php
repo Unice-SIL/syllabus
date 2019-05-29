@@ -40,7 +40,7 @@ class CoursePrerequisite
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CourseInfo", inversedBy="coursePrerequisites", cascade={ "persist" })
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $courseInfo;

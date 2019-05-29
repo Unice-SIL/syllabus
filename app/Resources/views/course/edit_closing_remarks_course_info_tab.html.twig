@@ -2,15 +2,19 @@
 
 {% block main %}
 
+    <h3>
+        Le mot de la fin
+    </h3>
+
     {{ form_start(form) }}
 
     <h6 class="my-3">
-        Espace pour laisser un message à vos étudiants (encouragements, derniers conseils&hellip;)&nbsp;:
+        Espace pour laisser un message à vos étudiants (ex: encouragements, derniers conseils&hellip;) (facultatif)
     </h6>
     {{ form_widget(form.closingRemarks) }}
 
     <h6 class="my-3">
-        Intégrer une ressource vidéo (ou audio) respectant la règlementation sur les droits d'auteur&nbsp;:
+        Intégrer une ressource vidéo (ou audio) respectant la règlementation sur les droits d'auteur (facultatif)
     </h6>
     {{ form_widget(form.closingVideo) }}
 

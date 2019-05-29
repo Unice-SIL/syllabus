@@ -4,8 +4,8 @@ security:
 
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
-        test:
-            id: AppBundle\Security\Provider\TestUserProvider
+        main:
+            id: '%provider%'
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
@@ -16,8 +16,8 @@ security:
         main:
             pattern: ^/
             guard:
-                authenticator: AppBundle\Security\Authenticator\TestAuthenticator
-                provider: test
+                authenticator: '%authenticator%'
+                provider: main
             logout_on_user_change: true
             anonymous: ~
 

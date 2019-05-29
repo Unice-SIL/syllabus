@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Twig\Environment;
 
 /**
@@ -67,7 +68,12 @@ class SavePresentationCourseInfoAction implements ActionInterface
     /**
      * @var Environment
      */
-    private  $templating;
+    private $templating;
+
+    /**
+     * @var ValidatorInterface
+     */
+    private $validator;
 
     /**
      * @var LoggerInterface
@@ -84,6 +90,7 @@ class SavePresentationCourseInfoAction implements ActionInterface
      * @param FormFactoryInterface $formFactory
      * @param FileUploaderHelper $fileUploaderHelper
      * @param Environment $templating
+     * @param ValidatorInterface $validator
      * @param LoggerInterface $logger
      */
     public function __construct(
@@ -95,6 +102,7 @@ class SavePresentationCourseInfoAction implements ActionInterface
         FormFactoryInterface $formFactory,
         FileUploaderHelper $fileUploaderHelper,
         Environment $templating,
+        ValidatorInterface $validator,
         LoggerInterface $logger
     )
     {
@@ -106,6 +114,7 @@ class SavePresentationCourseInfoAction implements ActionInterface
         $this->fileUploaderHelper = $fileUploaderHelper;
         $this->logger = $logger;
         $this->templating = $templating;
+        $this->validator = $validator;
         $this->courseInfoHelper = $courseInfoHelper;
     }
 
@@ -118,14 +127,16 @@ class SavePresentationCourseInfoAction implements ActionInterface
         $renders = [];
         try {
             $id = $request->get('id', null);
-            // Find course info by id
             try {
+                // Find course info by id
                 $courseInfo = $this->findCourseInfoByIdQuery->setId($id)->execute();
-                    if(!$this->coursePermissionHelper->hasPermission($courseInfo, $this->tokenStorage->getToken()->getUser(),Permission::WRITE)){
-                        throw new CoursePermissionDeniedException();
-                    }
-                if (!is_null($courseInfo->getImage())) {
-                    $courseInfo->setImage(new File($this->fileUploaderHelper->getDirectory().'/'.$courseInfo->getImage()));
+
+                if (!$this->coursePermissionHelper->hasPermission(
+                            $courseInfo,
+                            $this->tokenStorage->getToken()->getUser(),
+                            Permission::WRITE
+                        )) {
+                    throw new CoursePermissionDeniedException();
                 }
 
                 // Init command
@@ -139,27 +150,43 @@ class SavePresentationCourseInfoAction implements ActionInterface
                     $editPresentationCourseInfoCommand
                 );
                 $form->handleRequest($request);
+
                 // Check if form is submitted
                 if ($form->isSubmitted()) {
+
                     // Get form data from request
                     $editPresentationCourseInfoCommand = $form->getData();
-                    // If there is no new image to upload keep the actual image
-                    if (is_null($editPresentationCourseInfoCommand->getImage())) {
+
+                    // If there is no new image to upload or new image not validate constraints, keep the actual image
+                    if (
+                        is_null($editPresentationCourseInfoCommand->getImage())
+                        || $this->validator->validate($editPresentationCourseInfoCommand, null, ['image'])->count() > 0
+                    ) {
                         $editPresentationCourseInfoCommand->setImage($courseInfo->getImage());
                     }
 
+                    // Prevent media type non-sense.
+                    $editPresentationCourseInfoCommand->checkMedia();
+
                     // Check if form is valid
-                    if(!$form->isValid()){
-                        $messages[] = [
-                            'type' => "warning",
-                            'message' => "Attention, pour pouvoir publier le cours vous devez renseigner tous les champs obligatoires."
-                        ];
-                    }else{
+                    if (!$form->isValid()) {
+                        if (is_null($courseInfo->getPublicationDate())) {
+                            $messages[] = [
+                                'type' => "warning",
+                                'message' => "Attention : tous les champs obligatoires doivent être renseignés pour que le syllabus puisse être publié."
+                            ];
+                        } else {
+                            $messages[] = [
+                                'type' => "error",
+                                'message' => "Attention : certains champs obligatoires ne sont plus renseignés alors que le syllabus est publié."
+                            ];
+                        }
+                    } else {
                         $editPresentationCourseInfoCommand->setTemPresentationTabValid(true);
                     }
 
                     // Check if there have been any changes
-                    if($editPresentationCourseInfoCommand != $originalEditPresentationCourseInfoCommand) {
+                    if ($editPresentationCourseInfoCommand != $originalEditPresentationCourseInfoCommand) {
                         // Save changes
                         $this->editPresentationCourseInfoQuery->setEditPresentationCourseInfoCommand(
                             $editPresentationCourseInfoCommand
@@ -171,7 +198,7 @@ class SavePresentationCourseInfoAction implements ActionInterface
                             'message' => "Modifications enregistrées avec succès."
                         ];
 
-                    }else{
+                    } else {
                         $messages[] = [
                             'type' => "info",
                             'message' => "Aucun changement à enregistrer."
@@ -201,25 +228,25 @@ class SavePresentationCourseInfoAction implements ActionInterface
                             ]
                         )
                     ];
-                }else {
+                } else {
                     $messages[] = [
                         'type' => "danger",
                         'message' => "Le formulaire n'a pas été soumis."
                     ];
                 }
-            }catch (CoursePermissionDeniedException $e){
+            } catch(CoursePermissionDeniedException $e) {
                 $messages[] = [
                     'type' => "danger",
-                    'message' => sprintf("Vous n'avez pas les permissions nécessaires pour éditer ce cours.")
+                    'message' => "Vous ne disposez pas des permissions nécessaires pour éditer ce syllabus."
                 ];
-            } catch (CourseInfoNotFoundException $e) {
+            } catch(CourseInfoNotFoundException $e) {
                 // Return message course not found
                 $messages[] = [
                     'type' => "danger",
-                    'message' => sprintf("Le cours « %s » n'existe pas.", $id)
+                    'message' => sprintf("Le syllabus « %s » n'existe pas.", $id)
                 ];
             }
-        }catch (\Exception $e) {
+        } catch(\Exception $e) {
             // Log error
             $this->logger->error((string) $e);
             // Return message error
@@ -228,12 +255,10 @@ class SavePresentationCourseInfoAction implements ActionInterface
                 'message' => "Une erreur est survenue."
             ];
         }
-        return new JsonResponse(
-            [
-                'renders' => $renders,
-                'messages' => $messages
-            ]
-        );
+        return new JsonResponse([
+            'renders' => $renders,
+            'messages' => $messages
+        ]);
     }
 
 }

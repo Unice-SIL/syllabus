@@ -33,7 +33,10 @@ class CoursePermissionHelper
      */
     public function hasPermission(CourseInfo $courseInfo, User $user, $permission){
         foreach($courseInfo->getCoursePermissions() as $coursePermission){
-            if($coursePermission->getUser() == $user && $coursePermission->getPermission() === $permission){
+            if(
+                $coursePermission->getUser()->getUsername() == $user->getUsername() &&
+                $coursePermission->getPermission() === $permission
+            ){
                 return true;
             }
         }

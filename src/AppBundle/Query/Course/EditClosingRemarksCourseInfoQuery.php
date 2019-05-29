@@ -6,6 +6,7 @@ use AppBundle\Command\Course\EditClosingRemarksCourseInfoCommand;
 use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Query\QueryInterface;
 use AppBundle\Repository\CourseInfoRepositoryInterface;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * Class EditClosingRemarksCourseInfoQuery
@@ -25,14 +26,22 @@ class EditClosingRemarksCourseInfoQuery implements QueryInterface
     private $editClosingRemarksCourseInfoCommand;
 
     /**
+     * @var Security
+     */
+    private $security;
+
+    /**
      * EditClosingRemarksCourseInfoQuery constructor.
      * @param CourseInfoRepositoryInterface $courseInfoRepository
+     * @param Security $security
      */
     public function __construct(
-        CourseInfoRepositoryInterface $courseInfoRepository
+        CourseInfoRepositoryInterface $courseInfoRepository,
+        Security $security
     )
     {
         $this->courseInfoRepository = $courseInfoRepository;
+        $this->security = $security;
     }
 
     /**
@@ -62,6 +71,8 @@ class EditClosingRemarksCourseInfoQuery implements QueryInterface
         }
         try{
             $courseInfo = $this->editClosingRemarksCourseInfoCommand->filledEntity($courseInfo);
+            $courseInfo->setModificationDate(new \DateTime())
+                ->setLastUpdater($this->security->getUser());
             $this->courseInfoRepository->beginTransaction();
             $this->courseInfoRepository->update($courseInfo);
             $this->courseInfoRepository->commit();

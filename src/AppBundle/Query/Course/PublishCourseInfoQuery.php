@@ -6,6 +6,7 @@ use AppBundle\Command\Course\PublishCourseInfoCommand;
 use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Query\QueryInterface;
 use AppBundle\Repository\CourseInfoRepositoryInterface;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * Class PublishCourseInfoQuery
@@ -25,14 +26,22 @@ class PublishCourseInfoQuery implements QueryInterface
     private $publishCourseInfoCommand;
 
     /**
+     * @var Security
+     */
+    private $security;
+
+    /**
      * PublishCourseInfoQuery constructor.
      * @param CourseInfoRepositoryInterface $courseInfoRepository
+     * @param Security $security
      */
     public function __construct(
-        CourseInfoRepositoryInterface $courseInfoRepository
+        CourseInfoRepositoryInterface $courseInfoRepository,
+        Security $security
     )
     {
         $this->courseInfoRepository = $courseInfoRepository;
+        $this->security = $security;
     }
 
     /**
@@ -62,6 +71,8 @@ class PublishCourseInfoQuery implements QueryInterface
         }
         try{
             $courseInfo = $this->publishCourseInfoCommand->filledEntity($courseInfo);
+            $courseInfo->setPublicationDate(new \DateTime())
+                ->setPublisher($this->security->getUser());
             $this->courseInfoRepository->update($courseInfo);
         }catch (\Exception $e){
             throw $e;

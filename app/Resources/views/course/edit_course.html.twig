@@ -19,7 +19,7 @@
             <div class="col-sm">
 
                 {% if in_iframe == false and courseInfo.title is defined %}
-                    <h3>{{ courseInfo.title }}</h3>
+                    <h2>{{ courseInfo.title }}</h2>
                 {% endif %}
 
                 <ul class="nav nav-tabs">
@@ -128,7 +128,7 @@
 
                 </div>
 
-                <div id="course_info_panel" class="border mt-3 p-2">
+                <div id="course_info_panel" class="border mt-3 mb-4">
                     {% include 'course/edit_course_info_panel.html.twig' %}
                 </div>
 
@@ -146,6 +146,21 @@
             Syllabus.tabsInit( );
 
             $(document).ready(function(){
+                $(document).on('click', '#adviceButton', function(){
+                    SILTools.spinner.fadeIn( {
+                        always: function(){
+                            $.ajax({
+                                type: 'POST',
+                                url: '{{ path('ask_for_advice_course_info', { 'id': courseInfo.id })|escape('js') }}'
+                            }).done(function(response){
+                                SILTools.alert( { type: response.messages[0].type, text: response.messages[0].message } );
+                            }).always(function(){
+                                SILTools.spinner.fadeOut( );
+                            });
+                        }
+                    });
+                });
+
                 $(document).on('click', '#publishButton', function(){
                     SILTools.spinner.fadeIn( {
                         always: function(){

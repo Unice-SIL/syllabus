@@ -10,7 +10,6 @@ use AppBundle\Exception\CoursePermissionDeniedException;
 use AppBundle\Form\Course\EditClosingRemarksCourseInfoType;
 use AppBundle\Helper\CourseInfoHelper;
 use AppBundle\Helper\CoursePermissionHelper;
-use AppBundle\Helper\FileUploaderHelper;
 use AppBundle\Query\Course\EditClosingRemarksCourseInfoQuery;
 use AppBundle\Query\Course\FindCourseInfoByIdQuery;
 use Psr\Log\LoggerInterface;
@@ -59,14 +58,9 @@ class SaveClosingRemarksCourseInfoAction implements ActionInterface
     private $formFactory;
 
     /**
-     * @var FileUploaderHelper
-     */
-    private $fileUploaderHelper;
-
-    /**
      * @var Environment
      */
-    private  $templating;
+    private $templating;
 
     /**
      * @var LoggerInterface
@@ -82,7 +76,6 @@ class SaveClosingRemarksCourseInfoAction implements ActionInterface
      * @param CoursePermissionHelper $coursePermissionHelper
      * @param TokenStorageInterface $tokenStorage
      * @param FormFactoryInterface $formFactory
-     * @param FileUploaderHelper $fileUploaderHelper
      * @param Environment $templating
      * @param LoggerInterface $logger
      */
@@ -93,7 +86,6 @@ class SaveClosingRemarksCourseInfoAction implements ActionInterface
         CoursePermissionHelper $coursePermissionHelper,
         TokenStorageInterface $tokenStorage,
         FormFactoryInterface $formFactory,
-        FileUploaderHelper $fileUploaderHelper,
         Environment $templating,
         LoggerInterface $logger
     )
@@ -104,7 +96,6 @@ class SaveClosingRemarksCourseInfoAction implements ActionInterface
         $this->coursePermissionHelper = $coursePermissionHelper;
         $this->tokenStorage = $tokenStorage;
         $this->formFactory = $formFactory;
-        $this->fileUploaderHelper = $fileUploaderHelper;
         $this->templating = $templating;
         $this->logger = $logger;
     }
@@ -140,7 +131,7 @@ class SaveClosingRemarksCourseInfoAction implements ActionInterface
                     if(!$form->isValid()){
                         $messages[] = [
                             'type' => "warning",
-                            'message' => "Attention, pour pouvoir publier le cours vous devez renseigner tous les champs obligatoires."
+                            'message' => "Attention : l'ensemble des champs obligatoires doit être renseigné pour que le syllabus puisse être publié."
                         ];
                     }else{
                         $editClosingRemarksCourseInfoCommand->setTemClosingRemarksTabValid(true);
@@ -200,13 +191,13 @@ class SaveClosingRemarksCourseInfoAction implements ActionInterface
                 // Return message course not found
                 $messages[] = [
                         'type' => "danger",
-                        'message' => sprintf("Le cours « %s » n'existe pas.", $id)
+                        'message' => sprintf("Le syllabus « %s » n'existe pas.", $id)
                 ];
             }
         }catch (CoursePermissionDeniedException $e){
             $messages[] = [
                 'type' => "danger",
-                'message' => sprintf("Vous n'avez pas les permissions nécessaires pour éditer ce cours.")
+                'message' => "Vous ne disposez pas des permissions nécessaires pour éditer ce syllabus."
             ];
         }catch (\Exception $e) {
             // Log error

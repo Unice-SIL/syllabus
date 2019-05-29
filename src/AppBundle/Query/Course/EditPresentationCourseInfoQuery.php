@@ -7,6 +7,7 @@ use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Query\QueryInterface;
 use AppBundle\Repository\CourseInfoRepositoryInterface;
 use AppBundle\Repository\CourseTeacherRepositoryInterface;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * Class EditPresentationCourseInfoQuery
@@ -31,17 +32,25 @@ class EditPresentationCourseInfoQuery implements QueryInterface
     private $editPresentationCourseInfoCommand;
 
     /**
+     * @var Security
+     */
+    private $security;
+
+    /**
      * EditPresentationCourseInfoQuery constructor.
      * @param CourseInfoRepositoryInterface $courseInfoRepository
      * @param CourseTeacherRepositoryInterface $courseTeacherRepository
+     * @param Security $security
      */
     public function __construct(
         CourseInfoRepositoryInterface $courseInfoRepository,
-        CourseTeacherRepositoryInterface $courseTeacherRepository
+        CourseTeacherRepositoryInterface $courseTeacherRepository,
+        Security $security
     )
     {
         $this->courseInfoRepository = $courseInfoRepository;
         $this->courseTeacherRepository = $courseTeacherRepository;
+        $this->security = $security;
     }
 
     /**
@@ -63,15 +72,20 @@ class EditPresentationCourseInfoQuery implements QueryInterface
         try {
             // Find CourseInfo
             $courseInfo = $this->courseInfoRepository->find($this->editPresentationCourseInfoCommand->getId());
-        }catch (\Exception $e){
+        } catch(\Exception $e) {
             throw $e;
         }
-        if(is_null($courseInfo)){
-            throw new CourseInfoNotFoundException(sprintf('CourseInfo with id %s not found.', $this->editPresentationCourseInfoCommand->getId()));
+        if (is_null($courseInfo)) {
+            throw new CourseInfoNotFoundException(sprintf(
+                'CourseInfo with id %s not found.',
+                $this->editPresentationCourseInfoCommand->getId()
+            ));
         }
-        try{
+        try {
             $originalCourseTeachers = $courseInfo->getCourseTeachers();
             $courseInfo = $this->editPresentationCourseInfoCommand->filledEntity($courseInfo);
+            $courseInfo->setModificationDate(new \DateTime())
+                ->setLastUpdater($this->security->getUser());
             $this->courseInfoRepository->beginTransaction();
             foreach ($originalCourseTeachers as $courseTeacher) {
                 if (!$courseInfo->getCourseTeachers()->contains($courseTeacher)) {
@@ -80,7 +94,7 @@ class EditPresentationCourseInfoQuery implements QueryInterface
             }
             $this->courseInfoRepository->update($courseInfo);
             $this->courseInfoRepository->commit();
-        }catch (\Exception $e){
+        } catch(\Exception $e) {
             $this->courseInfoRepository->rollback();
             throw $e;
         }

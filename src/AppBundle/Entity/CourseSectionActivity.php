@@ -61,7 +61,7 @@ class CourseSectionActivity
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Activity")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="activity_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="activity_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $activity;
@@ -71,7 +71,7 @@ class CourseSectionActivity
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CourseSection", inversedBy="courseSectionActivities",)
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="course_section_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="course_section_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $courseSection;

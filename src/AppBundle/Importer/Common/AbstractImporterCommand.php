@@ -3,14 +3,14 @@
 namespace AppBundle\Importer\Common;
 
 
+use AppBundle\Doctrine\DBAL\ConnectionKeepAlive;
+use AppBundle\Repository\YearRepositoryInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
-use UniceSIL\SyllabusImporterToolkit\Course\ImporterInterface;
 
 abstract class AbstractImporterCommand extends Command
 {
@@ -45,6 +45,11 @@ abstract class AbstractImporterCommand extends Command
     protected $importerServiceArgs;
 
     /**
+     * @var YearRepositoryInterface
+     */
+    protected $yearRepository;
+
+    /**
      * @var OutputInterface
      */
     protected $output;
@@ -52,14 +57,17 @@ abstract class AbstractImporterCommand extends Command
     /**
      * AbstractImporterCommand constructor.
      * @param ContainerInterface $container
+     * @param YearRepositoryInterface $yearRepository
      * @param LoggerInterface $logger
      */
     public function __construct(
         ContainerInterface $container,
+        YearRepositoryInterface $yearRepository,
         LoggerInterface $logger
     )
     {
         $this->container = $container;
+        $this->yearRepository = $yearRepository;
         $this->logger = $logger;
         parent::__construct();
     }
@@ -80,10 +88,17 @@ abstract class AbstractImporterCommand extends Command
 
         $output->writeln("==============================");
         $output->writeln("Start importer");
-        $output->writeln(date('d/m/Y h:i:s', time()));
+        $output->writeln(date('d/m/Y H:i:s', time()));
         $output->writeln($this->getDescription());
         $output->writeln("==============================");
 
+
+        $connection = $this->container->get('doctrine')->getConnection('syllabus');
+        /*
+        $keepAlive = new ConnectionKeepAlive();
+        $keepAlive->addConnection($connection);
+        $keepAlive->attach();
+        */
         try{
             // Get importer service
             $this->importerServiceName = $input->getArgument('service');
@@ -95,9 +110,12 @@ abstract class AbstractImporterCommand extends Command
             $this->logger->error((string)$e);
             $this->output->writeln($e->getMessage());
         }
+        /*
+        $keepAlive->detach();
+        */
 
         $output->writeln("==============================");
-        $output->writeln(date('d/m/Y h:i:s', time()));
+        $output->writeln(date('d/m/Y H:i:s', time()));
         $output->writeln("End importer");
         $output->writeln("==============================");
 
@@ -120,6 +138,17 @@ abstract class AbstractImporterCommand extends Command
             $params[] = $parameter;
         }
         return $params;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getYearsToImport(): array
+    {
+        $years = $this->yearRepository->findToImport();
+        return array_map(function($a){
+            return $a->getId();
+        }, $years);
     }
 
     /**

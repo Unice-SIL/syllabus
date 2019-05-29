@@ -16,11 +16,12 @@ class TeacherCollection extends GenericCollection
     const TYPE = Teacher::class;
 
     /**
-     * PeopleCollection constructor.
+     * TeacherCollection constructor.
+     * @param array $teachers
      */
-    public function __construct()
+    public function __construct(array $teachers = [])
     {
-        parent::__construct(self::TYPE);
+        parent::__construct(self::TYPE, $teachers);
     }
 
 }

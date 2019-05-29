@@ -40,6 +40,7 @@ twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     globals:
+        regulation_link : '%regulation_link%'
         app_version: prototype
     form_themes:
         - 'bootstrap_4_layout.html.twig'
@@ -60,7 +61,7 @@ doctrine:
                 password: '%syllabus_database_password%'
                 charset: '%syllabus_database_charset%'
             apogee:
-                driver: pdo_oci
+                driver: oci8
                 host: 'apoprod.prive.unice.fr'
                 port: '15010'
                 dbname: 'apoprod'
@@ -122,8 +123,9 @@ fos_ck_editor:
             resize_enabled: false
     toolbars:
         configs:
-            course_summary: [ '@basicstyles', '-', '@paragraphs' ]
+            course_summary: [ '@basicstyles', '-', '@paragraphs', '-', '@link' ]
         items:
+            link: [ 'Link' ]
             basicstyles: [ 'RemoveFormat', '-', 'Bold', 'Italic', 'Underline' ]
             paragraphs: [ 'Outdent', 'Indent', '-', 'NumberedList', 'BulletedList' ]
 
@@ -131,3 +133,11 @@ unice_sil_syllabus_apogee_importer:
     em: apogee
     course:
         types: [ 'ECUE', 'UE' ]
+
+unice_sil_shibboleth:
+    login_path: 'Shibboleth.sso/Login'  # The path used to call Shibboleth login authentication (default = 'Shibboleth.sso/Login')
+    logout_path: 'Shibboleth.sso/Login'  # The path used to call Shibboleth logout (default = 'Shibboleth.sso/Logout')
+    username: 'eppn'  # The Shibboleth attribute that is used as username for the logged in user. The attribute must appear in the'attributes' parameter list (default = 'username')
+    attributes: ['eppn', 'mail', 'givenName', 'sn', 'uid', 'unscoped-affiliation']  # The list of attributes returned by Shibboleth Service Provider
+    login_target : ''  # The route to which the user will be redirected after login. If this parameter is not filled, the user will be redirected to the page from which he comes. (default = null)
+    logout_target : ''  # The route to which the user will be redirected after logout. If this parameter is not filled, the user will be redirected to the page from which he comes. (default = null)

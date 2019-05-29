@@ -33,7 +33,7 @@ class CoursePermission
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CourseInfo", inversedBy="coursePermissions")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $courseInfo;
@@ -41,9 +41,9 @@ class CoursePermission
     /**
      * @var \AppBundle\Entity\User
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", cascade={ "persist" })
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $user;

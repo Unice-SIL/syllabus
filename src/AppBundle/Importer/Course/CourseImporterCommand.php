@@ -45,11 +45,6 @@ class CourseImporterCommand extends AbstractImporterCommand
     private $courseInfoRepository;
 
     /**
-     * @var YearRepositoryInterface
-     */
-    private $yearRepository;
-
-    /**
      * @var StructureRepositoryInterface
      */
     private $structureRepository;
@@ -77,7 +72,7 @@ class CourseImporterCommand extends AbstractImporterCommand
         $this->courseInfoRepository = $courseInfoRepository;
         $this->yearRepository =$yearRepository;
         $this->structureRepository = $structureRepository;
-        parent::__construct($container, $logger);
+        parent::__construct($container, $yearRepository, $logger);
     }
 
     /**
@@ -107,19 +102,8 @@ class CourseImporterCommand extends AbstractImporterCommand
         $years = $this->getYearsToImport();
         // Get courses to import
         $courses = $this->getCoursesToImport($years);
-        // Start courses import
+        // Start import courses
         $this->startImport($courses);
-    }
-
-    /**
-     * @return array
-     */
-    private function getYearsToImport(): array
-    {
-        $years = $this->yearRepository->findToImport();
-        return array_map(function($a){
-            return $a->getId();
-        }, $years);
     }
 
     /**
@@ -138,20 +122,26 @@ class CourseImporterCommand extends AbstractImporterCommand
      */
     private function startImport(CourseCollection $courses): void
     {
-        foreach ($courses as $course) {
-            //if($course->getEtbId()!=="SLEPB111") continue;
+        $course = null;
+        foreach ($courses as $key => $course) {
+            $this->courseRepository->beginTransaction();
             try {
-                $this->courseRepository->beginTransaction();
                 // Prepare course
                 $course = $this->prepareCourse($course);
                 if ($course instanceof Course) {
                     $this->courseRepository->update($course);
+                    $this->courseRepository->detach($course);
                 }
                 $this->courseRepository->commit();
+                $this->courseRepository->clear();
             } catch (\Exception $e) {
-                $this->courseRepository->rollback();
                 $this->logger->error((string)$e);
                 $this->output->writeln($e->getMessage());
+                $this->courseRepository->rollback();
+            }finally{
+                unset($course);
+                unset($courses[$key]);
+                //gc_collect_cycles();
             }
         }
     }
@@ -162,7 +152,7 @@ class CourseImporterCommand extends AbstractImporterCommand
      */
     private function prepareCourse(CourseInterface $c): ?Course
     {
-        $this->output->writeln(sprintf("Import course %s", $c->getEtbId()));
+        $this->output->writeln(sprintf("Import course %s (%d KB used)", $c->getEtbId(), (memory_get_usage()/1024)));
 
         // COURSE
         // Retrieve course in Syllabus by establishment id
@@ -180,6 +170,7 @@ class CourseImporterCommand extends AbstractImporterCommand
             ->setType($c->getType());
 
         // COURSE INFO
+        $courseInfo = null;
         foreach ($c->getCourseInfos() as $courseInfo){
             $courseInfo = $this->prepareCourseInfo($courseInfo, $course);
             if($courseInfo instanceof CourseInfo){
@@ -190,6 +181,7 @@ class CourseImporterCommand extends AbstractImporterCommand
 
         // COURSE PARENTS
         $course->setParents(new ArrayCollection());
+        $courseParent = null;
         foreach ($c->getParents() as $courseParent) {
             // Recursive call to generate parent course
             $courseParent = $this->prepareCourse($courseParent);
@@ -209,6 +201,10 @@ class CourseImporterCommand extends AbstractImporterCommand
      */
     private function prepareCourseInfo(CourseInfoInterface $ci, Course $course): ?CourseInfo
     {
+        $year = null;
+        $oldCourseInfo = null;
+        $structure = null;
+        $courseInfo = null;
         try {
             // Get year
             $year = $this->yearRepository->find($ci->getYearId());
@@ -223,9 +219,25 @@ class CourseImporterCommand extends AbstractImporterCommand
             $courseInfo = $this->courseInfoRepository->findByEtbIdAndYear($course->getEtbId(), $ci->getYearId());
             // If course info not exist create new instance
             if (is_null($courseInfo)) {
-                $courseInfo = new CourseInfo();
+                $oldCourseInfo = $course->getCourseInfos()->last();
+                if($oldCourseInfo instanceof CourseInfo){
+                    $courseInfo = clone $oldCourseInfo;
+                }else{
+                    $courseInfo = new CourseInfo();
+                }
                 $courseInfo->setId(Uuid::uuid4())
                     ->setYear($year)
+                    ->setPublisher(null)
+                    ->setPublicationDate(null)
+                    ->setLastUpdater(null)
+                    ->setModificationDate(null)
+                    ->setTemPresentationTabValid(false)
+                    ->setTemActivitiesTabValid(false)
+                    ->setTemObjectivesTabValid(false)
+                    ->setTemMccTabValid(false)
+                    ->setTemInfosTabValid(false)
+                    ->setTemEquipmentsTabValid(false)
+                    ->setTemClosingRemarksTabValid(false)
                     ->setCreationDate(new \DateTime());
             }
 
@@ -242,6 +254,8 @@ class CourseImporterCommand extends AbstractImporterCommand
             return $courseInfo;
         }catch (YearNotFoundException | StructureNotFoundException $e){
             $this->output->writeln($e->getMessage());
+        }finally{
+            unset($oldCourseInfo);
         }
         return null;
     }

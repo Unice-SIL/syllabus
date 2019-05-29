@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * CourseInfo
@@ -48,6 +49,14 @@ class CourseInfo
     /**
      * @var string|null
      *
+     * @ORM\Column(name="languages", type="string", length=200, nullable=true)
+     *
+     */
+    private $languages;
+
+    /**
+     * @var string|null
+     *
      * @ORM\Column(name="domain", type="string", length=100, nullable=true, options={"fixed"=true})
      *
      */
@@ -73,6 +82,13 @@ class CourseInfo
      * @ORM\Column(name="period", type="string", length=255, nullable=true)
      */
     private $period;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="media_type", type="string", length=10, nullable=true)
+     */
+    private $mediaType;
 
     /**
      * @var string|null
@@ -202,6 +218,13 @@ class CourseInfo
      * @ORM\Column(name="mcc_weight", type="float", precision=10, scale=0, nullable=true)
      */
     private $mccWeight;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="mcc_compensable", type="boolean", nullable=false)
+     */
+    private $mccCompensable = false;
 
     /**
      * @var bool
@@ -365,13 +388,6 @@ class CourseInfo
     private $publicationDate;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="media_type", type="string", length=10, nullable=true)
-     */
-    private $mediaType;
-
-    /**
      * @var bool
      *
      * @ORM\Column(name="tem_presentation_tab_valid", type="boolean", nullable=false)
@@ -441,7 +457,7 @@ class CourseInfo
     private $structure;
 
     /**
-     * @var \AppBundle\Entity\User
+     * @var User|null
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
      * @ORM\JoinColumns({
@@ -451,7 +467,7 @@ class CourseInfo
     private $lastUpdater;
 
     /**
-     * @var \AppBundle\Entity\User
+     * @var User|null
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
      * @ORM\JoinColumns({
@@ -473,7 +489,7 @@ class CourseInfo
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="CoursePermission", mappedBy="courseInfo")
+     * @ORM\OneToMany(targetEntity="CoursePermission", mappedBy="courseInfo", cascade={ "all" }, orphanRemoval=true)
      */
     private $coursePermissions;
 
@@ -532,6 +548,11 @@ class CourseInfo
      * @ORM\OrderBy({"order" = "ASC"})
      */
     private $courseResourceEquipments;
+
+    /**
+     * @var string|null
+     */
+    private $previousImage = null;
 
     /**
      * CourseInfo constructor.
@@ -627,6 +648,25 @@ class CourseInfo
     /**
      * @return null|string
      */
+    public function getLanguages()
+    {
+        return $this->languages;
+    }
+
+    /**
+     * @param null|string $languages
+     * @return CourseInfo
+     */
+    public function setLanguages($languages)
+    {
+        $this->languages = $languages;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
     public function getDomain()
     {
         return $this->domain;
@@ -701,7 +741,7 @@ class CourseInfo
     }
 
     /**
-     * @return null|string
+     * @return null|string|File
      */
     public function getImage()
     {
@@ -709,7 +749,7 @@ class CourseInfo
     }
 
     /**
-     * @param null|string $image
+     * @param null|string|File $image
      * @return CourseInfo
      */
     public function setImage($image)
@@ -1040,6 +1080,25 @@ class CourseInfo
     public function setMccWeight($mccWeight)
     {
         $this->mccWeight = $mccWeight;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isMccCompensable(): bool
+    {
+        return $this->mccCompensable;
+    }
+
+    /**
+     * @param bool $mccCompensable
+     * @return CourseInfo
+     */
+    public function setMccCompensable(bool $mccCompensable): CourseInfo
+    {
+        $this->mccCompensable = $mccCompensable;
 
         return $this;
     }
@@ -1672,18 +1731,18 @@ class CourseInfo
     }
 
     /**
-     * @return User
+     * @return null|User
      */
-    public function getLastUpdater(): User
+    public function getLastUpdater()
     {
         return $this->lastUpdater;
     }
 
     /**
-     * @param User $lastUpdater
+     * @param User|null $lastUpdater
      * @return CourseInfo
      */
-    public function setLastUpdater(User $lastUpdater): CourseInfo
+    public function setLastUpdater($lastUpdater): CourseInfo
     {
         $this->lastUpdater = $lastUpdater;
 
@@ -1691,18 +1750,18 @@ class CourseInfo
     }
 
     /**
-     * @return User
+     * @return null|User
      */
-    public function getPublisher(): User
+    public function getPublisher()
     {
         return $this->publisher;
     }
 
     /**
-     * @param User $publisher
+     * @param User|null $publisher
      * @return CourseInfo
      */
-    public function setPublisher(User $publisher): CourseInfo
+    public function setPublisher($publisher): CourseInfo
     {
         $this->publisher = $publisher;
 
@@ -2055,5 +2114,23 @@ class CourseInfo
 
         return $this;
 
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getPreviousImage()
+    {
+        return $this->previousImage;
+    }
+
+    /**
+     * @return CourseInfo
+     */
+    public function setPreviousImage()
+    {
+        $this->previousImage = $this->getImage();
+
+        return $this;
     }
 }

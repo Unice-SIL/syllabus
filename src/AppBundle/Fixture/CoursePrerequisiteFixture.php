@@ -6,6 +6,7 @@ use AppBundle\Entity\CourseAchievement;
 use AppBundle\Entity\CoursePrerequisite;
 use AppBundle\Entity\CourseSection;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Ramsey\Uuid\Uuid;
@@ -14,7 +15,7 @@ use Ramsey\Uuid\Uuid;
  * Class CoursePrerequisiteFixture
  * @package AppBundle\Fixture
  */
-class CoursePrerequisiteFixture extends Fixture implements DependentFixtureInterface
+class CoursePrerequisiteFixture extends Fixture implements DependentFixtureInterface,  FixtureGroupInterface
 {
     /**
      *
@@ -48,5 +49,10 @@ class CoursePrerequisiteFixture extends Fixture implements DependentFixtureInter
         return [
             CourseInfoFixture::class,
         ];
+    }
+
+    public static function getGroups(): array
+    {
+        return ['test'];
     }
 }

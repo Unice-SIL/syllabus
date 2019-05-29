@@ -4,6 +4,7 @@ namespace AppBundle\Fixture;
 
 use AppBundle\Entity\CourseInfo;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Ramsey\Uuid\Uuid;
@@ -12,7 +13,7 @@ use Ramsey\Uuid\Uuid;
  * Class CourseInfoFixture
  * @package AppBundle\Fixture
  */
-class CourseInfoFixture extends Fixture implements DependentFixtureInterface
+class CourseInfoFixture extends Fixture implements DependentFixtureInterface,  FixtureGroupInterface
 {
     /**
      *
@@ -27,7 +28,8 @@ class CourseInfoFixture extends Fixture implements DependentFixtureInterface
     {
         // Course info 1
         $courseInfo = new CourseInfo();
-        $courseInfo->setId(Uuid::uuid4())
+        #$courseInfo->setId(Uuid::uuid4())
+        $courseInfo->setId('00000000-aaaa-bbbb-cccc-dddddddddddd')
             ->setCourse($this->getReference(CourseFixture::COURSE_1))
             ->setYear($this->getReference(YearFixture::YEAR_2018))
             ->setStructure($this->getReference(StructureFixture::SCIENCES))
@@ -35,6 +37,7 @@ class CourseInfoFixture extends Fixture implements DependentFixtureInterface
             ->setTeachingMode('class')
             ->setTeachingCmClass(4)
             ->setTeachingTpClass(8)
+            ->setMccCompensable(false)
             ->setMccCapitalizable(true)
             ->setMccWeight(50)
             ->setMccCcCoeffSession1(30)
@@ -48,11 +51,14 @@ class CourseInfoFixture extends Fixture implements DependentFixtureInterface
         $manager->persist($courseInfo);
         // Course info 2
         $courseInfo = new CourseInfo();
-        $courseInfo->setId(Uuid::uuid4())
+        #$courseInfo->setId(Uuid::uuid4())
+        $courseInfo->setId('00000001-aaaa-bbbb-cccc-dddddddddddd')
             ->setCourse($this->getReference(CourseFixture::COURSE_2))
             ->setYear($this->getReference(YearFixture::YEAR_2018))
             ->setStructure($this->getReference(StructureFixture::SCIENCES))
             ->setTitle('UE1 Génie biologique et biologie moléculaire')
+            ->setMccCompensable(true)
+            ->setMccCapitalizable(false)
             ->setEcts(9)
             ->setCreationDate(new \DateTime());
         $this->addReference(self::COURSE_INFO_2, $courseInfo);
@@ -70,5 +76,10 @@ class CourseInfoFixture extends Fixture implements DependentFixtureInterface
             StructureFixture::class,
             YearFixture::class
         ];
+    }
+
+    public static function getGroups(): array
+    {
+        return ['test'];
     }
 }

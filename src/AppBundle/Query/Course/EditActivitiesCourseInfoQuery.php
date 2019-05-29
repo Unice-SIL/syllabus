@@ -11,6 +11,7 @@ use AppBundle\Repository\CourseSectionActivityRepositoryInterface;
 use AppBundle\Repository\CourseSectionRepositoryInterface;
 use AppBundle\Repository\CourseTeacherRepositoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * Class EditActivitiesCourseInfoQuery
@@ -45,23 +46,31 @@ class EditActivitiesCourseInfoQuery implements QueryInterface
     private $editActivitiesCourseInfoCommand;
 
     /**
+     * @var Security
+     */
+    private $security;
+
+    /**
      * EditActivitiesCourseInfoQuery constructor.
      * @param CourseInfoRepositoryInterface $courseInfoRepository
      * @param CourseSectionRepositoryInterface $courseSectionRepository
      * @param CourseSectionActivityRepositoryInterface $courseSectionActivityRepository
      * @param CourseEvaluationCtRepositoryInterface $courseEvaluationCtRepository
+     * @param Security $security
      */
     public function __construct(
         CourseInfoRepositoryInterface $courseInfoRepository,
         CourseSectionRepositoryInterface $courseSectionRepository,
         CourseSectionActivityRepositoryInterface $courseSectionActivityRepository,
-        CourseEvaluationCtRepositoryInterface $courseEvaluationCtRepository
+        CourseEvaluationCtRepositoryInterface $courseEvaluationCtRepository,
+        Security $security
     )
     {
         $this->courseInfoRepository = $courseInfoRepository;
         $this->courseSectionRepository = $courseSectionRepository;
         $this->courseSectionActivityRepository = $courseSectionActivityRepository;
         $this->courseEvaluationCtRepository = $courseEvaluationCtRepository;
+        $this->security = $security;
     }
 
     /**
@@ -102,6 +111,8 @@ class EditActivitiesCourseInfoQuery implements QueryInterface
 
             // Set course infos from command
             $courseInfo = $this->editActivitiesCourseInfoCommand->filledEntity($courseInfo);
+            $courseInfo->setModificationDate(new \DateTime())
+                ->setLastUpdater($this->security->getUser());
             // Start transaction
             $this->courseInfoRepository->beginTransaction();
 

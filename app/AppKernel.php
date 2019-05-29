@@ -22,6 +22,8 @@ class AppKernel extends Kernel
             new AppBundle\AppBundle(),
             new LdapBundle\LdapBundle(),
             new UniceSIL\SyllabusApogeeImporterBundle\UniceSILSyllabusApogeeImporterBundle(),
+            new UniceSIL\SyllabusMoodleImporterBundle\UniceSILSyllabusMoodleImporterBundle(),
+            new UniceSIL\ShibbolethBundle\UniceSILShibbolethBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

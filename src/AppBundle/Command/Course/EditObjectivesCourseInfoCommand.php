@@ -60,7 +60,7 @@ class EditObjectivesCourseInfoCommand implements CommandInterface
      *
      * @Assert\Expression(
      *     "not ( this.isTutoring() == true and this.isTutoringTeacher() == false and this.isTutoringStudent() == false)",
-     *     message=""
+     *     message = "Veuillez préciser si le tuteur peut être un enseignant."
      * )
      */
     private $tutoringTeacher = false;
@@ -70,17 +70,13 @@ class EditObjectivesCourseInfoCommand implements CommandInterface
      *
      * @Assert\Expression(
      *     "not ( this.isTutoring() == true and this.isTutoringTeacher() == false and this.isTutoringStudent() == false)",
-     *     message=""
+     *     message = "Veuillez préciser si le tuteur peut être un étudiant."
      * )
      */
     private $tutoringStudent = false;
 
     /**
      * @var null|string
-     *
-     * //@Assert\Expression(
-     * //    "not ( this.isTutoring() == true and this.getTutoringDescription() == null )"
-     * //)
      */
     private $tutoringDescription;
 

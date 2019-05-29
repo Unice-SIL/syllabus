@@ -10,18 +10,16 @@
 
 
 /*
-    General (non BS) markup.
+    General.
 */
 
 html {
     height: 100%;
-    font-size: 14px;
 }
 
 body {
     position: relative;
     min-height: 100%;
-    padding-bottom: 13rem;
 }
 
 header {
@@ -35,6 +33,14 @@ header {
     }
 }
 
+main > small:first-of-type {
+    margin: -.9rem 0;
+}
+
+section {
+    min-height: 95vh;
+}
+
 footer {
     position: absolute;
     bottom: 0;
@@ -46,7 +52,20 @@ footer {
 }
 
 .bg-black {
+    color: $light;
     background-color: $black;
+
+    a:not(.btn) {
+
+        &:link, &:active, &:visited {
+            color: $light;
+            text-decoration: underline;
+        }
+
+        &:hover {
+            color: $white;
+        }
+    }
 }
 
 
@@ -171,7 +190,7 @@ form ul.list-group {
 
 #panel_tab-2 {
 
-    & > h4 .fas {
+    & > h3 .fas {
         float: right;
         margin-left: .3rem;
         cursor: pointer;
@@ -241,7 +260,6 @@ div.equipment {
         }
     }
 
-
     &.evaluation-cc,
     &.evaluation-ct {
         background-color: $info;
@@ -254,12 +272,29 @@ div.equipment {
     &.evaluation-cc div.icon {
         background: url("../images/evaluation_cc_white_32.png") no-repeat;
     }
+
+    &.evaluation-ct div.icon {
+        background: url("../images/evaluation_cc_white_32.png") no-repeat;
+    }
 }
 
+#equipments,
 .list-activities,
 .list-equipments {
-    max-height: 200px;
-    overflow-y: auto
+    overflow-y: auto;
+}
+
+#equipments,
+.list-equipments {
+    max-height: 36rem;
+}
+
+.list-activities {
+    max-height: 20rem;
+}
+
+.equipment .row {
+    margin: 0;
 }
 
 .list-activity,
@@ -278,6 +313,18 @@ div.equipment {
         background-color: $info;
         color: $light;
     }
+}
+
+div.view-activity.view-class {
+    background-color: $dark;
+}
+
+div.view-activity.view-autonomy {
+    background-color: $secondary;
+}
+
+div.view-evaluation {
+    background-color: $info;
 }
 
 

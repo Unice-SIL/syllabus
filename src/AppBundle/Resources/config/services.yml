@@ -15,6 +15,11 @@ services:
             autowire: true
             tags: ['controller.service_arguments']
 
+    # ACTION
+    AppBundle\Action\Ui\Course\AskForAdviceCourseInfoAction:
+        arguments: ['%mailer_source%', '%mailer_target%']
+    AppBundle\Action\Ui\Course\PublishCourseInfoAction:
+        arguments: ['%mailer_source%', '%mailer_target%']
 
     # ALIAS
     AppBundle\Repository\UserRepositoryInterface: '@user_doctrine_repository'
@@ -64,12 +69,16 @@ services:
     # HELPER
     AppBundle\Helper\FileUploaderHelper:
         arguments: [ '%data_directory%' ]
+    AppBundle\Helper\FileRemoverHelper:
+        arguments: ['@filesystem', '%data_directory%']
 
     # LISTENER
     AppBundle\Listener\CoursePresentationImageUploadListener:
         tags:
             - { name: doctrine.event_listener, event: prePersist }
             - { name: doctrine.event_listener, event: preUpdate }
+            - { name: doctrine.event_listener, event: postUpdate }
+            - { name: doctrine.event_listener, event: postLoad }
 
     # QUERY
     AppBundle\Query\CourseTeacher\Adapter\Ldap\SearchCourseTeacherLdapQuery:
@@ -142,4 +151,4 @@ services:
 
     # PROVIDERS
     AppBundle\Security\Provider\TestUserProvider:
-            arguments: ['%test_authenticator%']
+        arguments: ['%test_authenticator%']

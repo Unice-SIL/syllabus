@@ -5,8 +5,10 @@ namespace tests\AppBundle\Query\User;
 use AppBundle\Command\Course\EditPresentationCourseInfoCommand;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseTeacher;
+use AppBundle\Entity\User;
 use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Query\Course\EditPresentationCourseInfoQuery;
+use Symfony\Component\Security\Core\Security;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -44,6 +46,16 @@ class EditPresentationCourseInfoQueryTest extends TestCase
     private $editPresentationCourseInfoCommand;
 
     /**
+     * @var User
+     */
+    private $user;
+
+    /**
+     * @var Security
+     */
+    private $security;
+
+    /**
      *
      */
     protected function setUp(): void
@@ -54,6 +66,12 @@ class EditPresentationCourseInfoQueryTest extends TestCase
         $this->courseTeacherRepository = $this->getMockBuilder('AppBundle\Repository\CourseTeacherRepositoryInterface')
             ->getMock();
 
+        // Mock Security
+        $this->security = $this
+            ->getMockBuilder('Symfony\Component\Security\Core\Security')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         // CourseInfo
         $this->courseInfo = new CourseInfo();
         $this->courseInfo
@@ -62,7 +80,7 @@ class EditPresentationCourseInfoQueryTest extends TestCase
             ->setSummary('summary')
             ->setMediaType('image')
             ->setImage('image.jpg')
-            ->setVideo('https://domaine.com/video')
+            ->setVideo('<iframe width="560" height="315" src="https://www.youtube.com/embed/GdKkI1vGsmE" frameborder="0" allowfullscreen></iframe>')
             ->setTeachingMode('class')
             ->setTeachingCmClass(2)
             ->setTeachingTdClass(4)
@@ -88,6 +106,10 @@ class EditPresentationCourseInfoQueryTest extends TestCase
         $this->courseTeachers->add($courseTeacher);
         $this->courseInfo->setCourseTeachers($this->courseTeachers);
 
+        // User
+        $this->user = new User();
+        $this->user->setId(Uuid::uuid4());
+
         // Command
         $this->editPresentationCourseInfoCommand = new EditPresentationCourseInfoCommand($this->courseInfo);
     }
@@ -101,6 +123,10 @@ class EditPresentationCourseInfoQueryTest extends TestCase
             ->method('find')
             ->with($this->editPresentationCourseInfoCommand->getId())
             ->willReturn($this->courseInfo);
+
+        $this->security->expects($this->once())
+            ->method('getUser')
+            ->willReturn($this->user);
 
         $this->courseInfoRepository->expects($this->once())
             ->method('beginTransaction');
@@ -118,7 +144,11 @@ class EditPresentationCourseInfoQueryTest extends TestCase
         $this->courseInfoRepository->expects($this->never())
             ->method('rollback');
 
-        $editPresentationCourseInfoQuery = new EditPresentationCourseInfoQuery($this->courseInfoRepository, $this->courseTeacherRepository);
+        $editPresentationCourseInfoQuery = new EditPresentationCourseInfoQuery(
+            $this->courseInfoRepository,
+            $this->courseTeacherRepository,
+            $this->security
+        );
         $editPresentationCourseInfoQuery->setEditPresentationCourseInfoCommand($this->editPresentationCourseInfoCommand);
         $this->assertNull($editPresentationCourseInfoQuery->execute());
     }
@@ -136,6 +166,10 @@ class EditPresentationCourseInfoQueryTest extends TestCase
             ->with($this->editPresentationCourseInfoCommand->getId())
             ->willReturn($this->courseInfo);
 
+        $this->security->expects($this->once())
+            ->method('getUser')
+            ->willReturn($this->user);
+
         $this->courseInfoRepository->expects($this->once())
             ->method('beginTransaction');
 
@@ -152,7 +186,11 @@ class EditPresentationCourseInfoQueryTest extends TestCase
         $this->courseInfoRepository->expects($this->never())
             ->method('rollback');
 
-        $editPresentationCourseInfoQuery = new EditPresentationCourseInfoQuery($this->courseInfoRepository, $this->courseTeacherRepository);
+        $editPresentationCourseInfoQuery = new EditPresentationCourseInfoQuery(
+            $this->courseInfoRepository,
+            $this->courseTeacherRepository,
+            $this->security
+        );
         $editPresentationCourseInfoQuery->setEditPresentationCourseInfoCommand($this->editPresentationCourseInfoCommand);
         $this->assertNull($editPresentationCourseInfoQuery->execute());
     }
@@ -168,6 +206,10 @@ class EditPresentationCourseInfoQueryTest extends TestCase
             ->method('find')
             ->with($this->courseInfo->getId())
             ->willReturn($this->courseInfo);
+
+        $this->security->expects($this->once())
+            ->method('getUser')
+            ->willReturn($this->user);
 
         $this->courseInfoRepository->expects($this->once())
             ->method('beginTransaction');
@@ -186,7 +228,11 @@ class EditPresentationCourseInfoQueryTest extends TestCase
         $this->courseInfoRepository->expects($this->once())
             ->method('rollback');
 
-        $editPresentationCourseInfoQuery = new EditPresentationCourseInfoQuery($this->courseInfoRepository, $this->courseTeacherRepository);
+        $editPresentationCourseInfoQuery = new EditPresentationCourseInfoQuery(
+            $this->courseInfoRepository,
+            $this->courseTeacherRepository,
+            $this->security
+        );
         $editPresentationCourseInfoQuery->setEditPresentationCourseInfoCommand($this->editPresentationCourseInfoCommand)->execute();
     }
 
@@ -205,6 +251,10 @@ class EditPresentationCourseInfoQueryTest extends TestCase
             ->with($this->courseInfo->getId())
             ->willReturn($this->courseInfo);
 
+        $this->security->expects($this->once())
+            ->method('getUser')
+            ->willReturn($this->user);
+
         $this->courseInfoRepository->expects($this->once())
             ->method('beginTransaction');
 
@@ -221,7 +271,11 @@ class EditPresentationCourseInfoQueryTest extends TestCase
         $this->courseInfoRepository->expects($this->once())
             ->method('rollback');
 
-        $editPresentationCourseInfoQuery = new EditPresentationCourseInfoQuery($this->courseInfoRepository, $this->courseTeacherRepository);
+        $editPresentationCourseInfoQuery = new EditPresentationCourseInfoQuery(
+            $this->courseInfoRepository,
+            $this->courseTeacherRepository,
+            $this->security
+        );
         $editPresentationCourseInfoQuery->setEditPresentationCourseInfoCommand($this->editPresentationCourseInfoCommand)->execute();
     }
 
@@ -238,6 +292,9 @@ class EditPresentationCourseInfoQueryTest extends TestCase
             ->with($this->courseInfo->getId())
             ->willReturn(null);
 
+        $this->security->expects($this->never())
+            ->method('getUser');
+
         $this->courseInfoRepository->expects($this->never())
             ->method('beginTransaction');
 
@@ -251,7 +308,11 @@ class EditPresentationCourseInfoQueryTest extends TestCase
         $this->courseInfoRepository->expects($this->never())
             ->method('rollback');
 
-        $editPresentationCourseInfoQuery = new EditPresentationCourseInfoQuery($this->courseInfoRepository, $this->courseTeacherRepository);
+        $editPresentationCourseInfoQuery = new EditPresentationCourseInfoQuery(
+            $this->courseInfoRepository,
+            $this->courseTeacherRepository,
+            $this->security
+        );
         $editPresentationCourseInfoQuery->setEditPresentationCourseInfoCommand($this->editPresentationCourseInfoCommand)->execute();
     }
 
@@ -265,5 +326,6 @@ class EditPresentationCourseInfoQueryTest extends TestCase
         unset($this->courseInfo);
         unset($this->courseTeachers);
         unset($this->editPresentationCourseInfoCommand);
+        unset($this->security);
     }
 }

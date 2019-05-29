@@ -5,6 +5,7 @@ namespace AppBundle\Action\Ui\Course;
 use AppBundle\Action\ActionInterface;
 use AppBundle\Constant\Permission;
 use AppBundle\Exception\CourseInfoNotFoundException;
+use AppBundle\Helper\CourseInfoHelper;
 use AppBundle\Query\Course\FindCourseInfoByIdQuery;
 use AppBundle\Helper\CoursePermissionHelper;
 use AppBundle\Entity\User;
@@ -15,6 +16,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
+use manuelodelain\Twig\Extension\LinkifyExtension;
 
 /**
  * Class ViewStudentAction
@@ -43,6 +45,11 @@ class ViewStudentAction implements ActionInterface
     private $logger;
 
     /**
+     * @var CourseInfoHelper
+     */
+    private $courseInfoHelper;
+
+    /**
      * @var CoursePermissionHelper
      */
     private $coursePermissionHelper;
@@ -53,6 +60,7 @@ class ViewStudentAction implements ActionInterface
      * @param Environment $templating
      * @param SessionInterface $session
      * @param LoggerInterface $logger
+     * @param CourseInfoHelper $courseInfoHelper
      * @param CoursePermissionHelper $coursePermissionHelper
      */
     public function __construct(
@@ -60,6 +68,7 @@ class ViewStudentAction implements ActionInterface
             Environment $templating,
             SessionInterface $session,
             LoggerInterface $logger,
+            CourseInfoHelper $courseInfoHelper,
             CoursePermissionHelper $coursePermissionHelper
         )
     {
@@ -67,17 +76,22 @@ class ViewStudentAction implements ActionInterface
         $this->templating = $templating;
         $this->session = $session;
         $this->logger = $logger;
+        $this->courseInfoHelper = $courseInfoHelper;
         $this->coursePermissionHelper = $coursePermissionHelper;
+
+        $templating->addExtension(new LinkifyExtension(array(
+            'attr' => array('target' => '_blank')
+        )));
     }
 
     /**
-     * @Route("/course/view/student/{id}", name="view_student")
+     * @Route("/course/view/student/{id}/{iframe}", name="view_student", defaults={"iframe"=null})
      * @param Request $request
      * @return Response
      */
     public function __invoke(Request $request)
     {
-        $courseInfo = null;
+       $courseInfo = null;
         try {
             $id = $request->get('id', null);
             try {
@@ -90,14 +104,13 @@ class ViewStudentAction implements ActionInterface
             $this->session->getFlashBag()->add('danger', "Une erreur est survenue durant le chargement du cours.");
         }
 
-        $coursePermissionHelper = $this->coursePermissionHelper;
-
         return new Response(
             $this->templating->render(
                 'course/view_student.html.twig',
                 [
                     'course' => $courseInfo,
-                    'coursePermissionHelper' => $coursePermissionHelper
+                    'courseInfoHelper' => $this->courseInfoHelper,
+                    'coursePermissionHelper' => $this->coursePermissionHelper
                 ]
             )
         );
