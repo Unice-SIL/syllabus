@@ -779,7 +779,6 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
             ->setMode(ActivityMode::EVAL_CC)
             ->setOrd(0)
             ->setObsolete(false);
-        $this->addReference(self::ACTIVITY_7, $activity);
         $manager->persist($activity);
 
         // Contribution au forum
@@ -897,6 +896,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
             ->setMode(ActivityMode::EVAL_CT)
             ->setOrd(0)
             ->setObsolete(false);
+        $this->addReference(self::ACTIVITY_7, $activity);
         $manager->persist($activity);
 
         // Production artistique (installation, sculpture, performance…)
