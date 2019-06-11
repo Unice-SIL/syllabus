@@ -3,8 +3,15 @@
 namespace AppBundle\Security\Provider;
 
 
+use AppBundle\Command\User\CreateUserCommand;
+use AppBundle\Command\User\EditUserCommand;
 use AppBundle\Entity\User;
+use AppBundle\Exception\UserNotFoundException;
+use AppBundle\Query\User\EditUserQuery;
+use AppBundle\Query\User\FindUserByIdQuery;
+use AppBundle\Query\User\FindUserByUsernameQuery;
 use AppBundle\Repository\UserRepositoryInterface;
+use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use UniceSIL\ShibbolethBundle\Security\User\ShibbolethUserProviderInterface;
 
@@ -21,16 +28,41 @@ class ShibbolethUserProvider implements ShibbolethUserProviderInterface
     const DEFAULT_ROLES = ['ROLE_USER'];
 
     /**
+     * @var FindUserByIdQuery
+     */
+    private $findUserByIdQuery;
+
+    /**
+     * @var FindUserByUsernameQuery
+     */
+    private $findUserByUsernameQuery;
+
+    /**
+     * @var EditUserQuery
+     */
+    private $editUserQuery;
+
+    /**
      * @var UserRepositoryInterface
      */
     private $userRepository;
 
     /**
      * ShibbolethUserProvider constructor.
+     * @param FindUserByIdQuery $findUserByIdQuery
+     * @param FindUserByUsernameQuery $findUserByUsernameQuery
+     * @param EditUserQuery $editUserQuery
      * @param UserRepositoryInterface $userRepository
      */
-    public function __construct(UserRepositoryInterface $userRepository)
+    public function __construct(
+        FindUserByIdQuery $findUserByIdQuery,
+        FindUserByUsernameQuery $findUserByUsernameQuery,
+        EditUserQuery $editUserQuery,
+        UserRepositoryInterface $userRepository)
     {
+        $this->findUserByIdQuery = $findUserByIdQuery;
+        $this->findUserByUsernameQuery = $findUserByUsernameQuery;
+        $this->editUserQuery = $editUserQuery;
         $this->userRepository = $userRepository;
     }
 
@@ -40,27 +72,41 @@ class ShibbolethUserProvider implements ShibbolethUserProviderInterface
      */
     public function loadUser(array $credentials)
     {
-        $username = $credentials['username'];
-        // Search user in DB
-        $user = $this->userRepository->findByUsername($username);
-
-        if($user instanceof User){
-            // If user found in DB update info
-            $user->setFirstname($credentials['givenName'])
-                ->setLastname($credentials['sn'])
-                ->setEmail($credentials['mail'])
-                ->setRoles(self::DEFAULT_ROLES);
-            $this->userRepository->update($user);
-        }else{
-            // If user not found in DB instanciate new User
-            $user = new User();
-            $user->setUsername($username)
-                ->setId($credentials['uid'])
-                ->setFirstname($credentials['givenName'])
-                ->setLastname($credentials['sn'])
-                ->setEmail($credentials['mail'])
-                ->setRoles(self::DEFAULT_ROLES);
+        if(!array_key_exists('username', $credentials)){
+            throw new UsernameNotFoundException(sprintf("Username not found"));
         }
+
+        $username = $credentials['username'];
+
+        $user = null;
+        $command = null;
+        try {
+            $user = $this->findUserByUsernameQuery->setUsername($username)->execute();
+            $command = new EditUserCommand($user);
+        }catch (UserNotFoundException $e){
+            $command = new CreateUserCommand();
+            $command->setUsername($username);
+        }
+
+        if(array_key_exists('givenName', $credentials)) {
+            $command->setFirstname($credentials['givenName']);
+        }
+
+        if(array_key_exists('sn', $credentials)) {
+            $command->setLastname($credentials['sn']);
+        }
+
+        if(array_key_exists('mail', $credentials)) {
+            $command->setEmail($credentials['mail']);
+        }
+
+        $command->setRoles(self::DEFAULT_ROLES);
+
+        if(is_a($command, EditUserCommand::class)){
+            $this->editUserQuery->setEditUserCommand($command)->execute();
+        }
+
+        $user = $this->findUserByIdQuery->setId($command->getId())->execute();
 
         return $user;
     }
@@ -72,11 +118,7 @@ class ShibbolethUserProvider implements ShibbolethUserProviderInterface
      */
     public function loadUserByUsername($username)
     {
-        $user = new User();
-        $user->setId($username)
-            ->setUsername($username)
-            ->setRoles(self::DEFAULT_ROLES);
-        return $user;
+        return $this->loadUser(['username' => $username]);
     }
 
     /**
@@ -85,7 +127,7 @@ class ShibbolethUserProvider implements ShibbolethUserProviderInterface
      */
     public function refreshUser(UserInterface $user)
     {
-        return $user;
+        return $this->loadUserByUsername($user->getUsername());
     }
 
     /**
