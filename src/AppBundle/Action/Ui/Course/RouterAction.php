@@ -114,17 +114,16 @@ class RouterAction implements ActionInterface
                 }
 
             } catch (CourseInfoNotFoundException $e) {
-                // Nothing to do
+                //
             }
         }catch (\Exception $e){
             $this->logger->error((string) $e);
             $this->session->getFlashBag()->add('danger', "Une erreur est survenue durant le chargement du cours.");
         }
 
-        return new Response($this->templating->render(
-            'base.html.twig',
-            [
-            ]
-        ));
+        return new RedirectResponse($this->router->generate('view_student', [
+            'id' => $etbId,
+            'iframe' => $request->get('iframe')
+        ]));
     }
 }
