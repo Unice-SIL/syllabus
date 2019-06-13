@@ -11,6 +11,7 @@
 
     <h3>
         Sections et activités
+        <img id="infos_sections" src="{{ asset('images/info_32.png') }}" style="cursor: pointer;">
         <span title="Tout replier."><i class="fas fa-folder secondary"></i></span>
         <span title="Tout déplier."><i class="fas fa-folder-open secondary"></i></span>
     </h3>
@@ -31,7 +32,10 @@
 
     <hr>
 
-    <h3>Évaluation terminale</h3>
+    <h3>
+        Évaluation terminale
+        <img id="infos_evaluations" src="{{ asset('images/info_32.png') }}" style="cursor: pointer;">
+    </h3>
     <div class="row">
         <div class="col border ml-3 mr-3 p-1">
             {{ form_widget(form.ctEvaluations) }}
@@ -295,6 +299,52 @@
          */
         $("form[name='edit_activities_course_info']").submit(function(e){
             Syllabus.submitPanelForm( e, this );
+        });
+
+        $(document).on('click', '#infos_sections', function(){
+            var message = '<p>Pour remplir cette partie, suivez les étapes suivantes :</p>' +
+                '<ol>' +
+                '<li>' +
+                'Choisissez vos titres de section pour organiser votre cours comme vous le souhaitez (ex: par chapitre, par thème, par partie, par enseignant, ...). Vous pouvez également nommer différemment plusieurs sections (ex: Chapitre 1, Chapitre 2, Chapitre 3, Evaluation de mi-session, Chapitre 4, Chapitre 5, Evaluation Terminale).' +
+                '</li>' +
+                '<li>' +
+                'Utilisez ensuite la fonctionnalité "dérouler" à gauche du titre de votre section en cliquant sur le symbole <i class="fas fa-caret-right"></i> (vous pouvez également utiliser l\'icône "Tout déplier" <i class="fas fa-folder-open secondary"></i> qui se trouve en haut à droite de la liste des sections afin de déplier d\'un seul coup toutes les sections)' +
+                '</li>' +
+                '<li>' +
+                'Décrivez le contenu de ce qui est abordé dans cette section (notions de cours, plan, ...).' +
+                '</li>' +
+                '<li>' +
+                '<p>Sélectionnez ensuite toutes les activités que vous allez mettre en place avec vos étudiants pour les faire étudier de manière la plus active et participative possible. Par exemple pour le chapitre 1, les étudiants travailleront sur le livre X écrit par l\'auteur Y, ils auront donc une "étude de document" à faire en autonomie (qui correspond à la lecture du livre en question) puis l\'enseignant fera en classe une "étude de cas" et animera une "discussion/réflexion" autour de ce livre, en plus du traditionnel "cours magistral" en présentiel.</p>' +
+                '<p>Il est également possible d\'ajouter une ou plusieurs évaluation(s) en Contrôle Continu ou bien un Contrôle Terminal (tout en bas de la page).</p>' +
+                '<p>Pour chaque activité ou évaluation choisie, vous avez la possibilité de donner plus de détails à votre étudiant en remplissant la case "préciser".</p>' +
+                '</li>' +
+                '</ol>';
+            bootbox.dialog({
+                message: message,
+                backdrop: true,
+                onEscape: true
+            });
+        });
+
+        $(document).on('click', '#infos_evaluations', function(){
+            var message = '<p>Dans le cas d\'évaluations différentes selon les enseignants, vous pouvez renseigner le nom de l\'enseignant correspondant au type d’évaluation choisie, dans la case "Préciser".</p>' +
+                '<p>Exemple :</p>' +
+                '<ul>' +
+                '<li>' +
+                'Production écrite : Madame X (dissertation)' +
+                '</li>' +
+                '<li>' +
+                'Production orale : Monsieur Y (argumentaire)' +
+                '</li>' +
+                '<li>' +
+                'Test standardisé : Madame Z (QCM + questions de cours)' +
+                '</li>' +
+                '</ul>';
+            bootbox.dialog({
+                message: message,
+                backdrop: true,
+                onEscape: true
+            });
         });
 
     </script>

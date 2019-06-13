@@ -132,9 +132,9 @@
                                 {% set teacherTitle = 'Responsable' %}
                                 {% set teacherStyle = 'cursor: help;' %}
                             {% endif %}
-                        <span class="font-weight-bold"
-                              title="{{ teacherTitle }}"
-                              style="{{ teacherStyle }}">{{ teacherName|raw }}</span>{% if loop.last %}.{% else %},{% endif %}
+                            <span class="font-weight-bold"
+                                  title="{{ teacherTitle }}"
+                                  style="{{ teacherStyle }}">{{ teacherName|raw }}</span>{% if loop.last %}.{% else %},{% endif %}
                         {% endfor %}
                         </span>
                     </div>
@@ -350,14 +350,14 @@
                         <div class="mt-2">
                             <div class="d-flex p-3 bg-primary">
                                 <div class="mr-auto p-2 d-flex flex-column align-self-center">
-                                {% for evaluation in course.courseEvaluationCts %}
-                                    <span>
+                                    {% for evaluation in course.courseEvaluationCts %}
+                                        <span>
                                     {{ evaluation.activity.label }}
-                                    {% if evaluation.description is not null %}
-                                        : {{ evaluation.description|linkify({"attr": {"target": "_blank"}})|raw }}
-                                    {% endif %}
+                                            {% if evaluation.description is not null %}
+                                                : {{ evaluation.description|linkify({"attr": {"target": "_blank"}})|raw }}
+                                            {% endif %}
                                     </span>
-                                {% endfor %}
+                                    {% endfor %}
                                 </div>
                                 <div class="p-2 d-flex align-self-center font-weight-bold">Sur le campus</div>
                                 <div class="p-2 d-flex align-self-center">
@@ -392,7 +392,7 @@
                                             <tr class="border-bottom font-weight-bold">
                                                 <td colspan="2" class="text-center">
                                                     1ère session
-                                                    <i class="fas fa-info-circle"></i>
+                                                    <img id="infos_mcc_session1" src="{{ asset('images/info_white_32.png') }}" style="cursor: pointer;">
                                                 </td>
                                             </tr>
                                             <tr>
@@ -432,7 +432,7 @@
                                             <tr class="border-bottom font-weight-bold">
                                                 <td colspan="2" class="text-center">
                                                     2ème session
-                                                    <i class="fas fa-info-circle"></i>
+                                                    <img id="infos_mcc_session2" src="{{ asset('images/info_white_32.png') }}" style="cursor: pointer;">
                                                 </td>
                                             </tr>
                                             <tr>
@@ -501,39 +501,37 @@
                         </div>
                     {% endif %}
                 </div>
-            {% if courseInfoHelper.evaluationMccAreEmpty(course) == false %}
-                <div class="row mt-4">
-                    <div class="col-md d-flex align-items-center">
-                        <div class="bg-info rounded-circle p-2 m-2">
-                            <h4 class="my-2 font-weight-bold">{{course.mccWeight}}%</h4>
+                {% if courseInfoHelper.evaluationMccAreEmpty(course) == false %}
+                    <div class="row mt-4">
+                        <div class="col-md d-flex align-items-center">
+                            <div class="bg-info rounded-circle p-2 m-2">
+                                <h4 class="my-2 font-weight-bold">{{course.mccWeight}}%</h4>
+                            </div>
+                            <strong class="px-2">Poids dans l'UE</strong>
+                            <img id="infos_mcc_weight" src="{{ asset('images/info_white_32.png') }}" style="cursor: pointer;">
                         </div>
-                        <strong class="px-2">Poids dans l'UE</strong>
-                        <i class="fas fa-info-circle"></i>
+                        <div class="col-md d-flex align-items-center">
+                            {% if not course.mccCompensable %}
+                                <i class="fas fa-4x fa-times-circle text-info"></i>
+                                <strong class="px-2">{{course.course.type}} non compensable</strong>
+                            {% else %}
+                                <i class="fas fa-4x fa-check-circle text-info"></i>
+                                <strong class="px-2">{{course.course.type}} compensable</strong>
+                            {% endif %}
+                            <img id="infos_mcc_compensable" src="{{ asset('images/info_white_32.png') }}" style="cursor: pointer;">
+                        </div>
+                        <div class="col-md d-flex align-items-center">
+                            {% if not course.mccCapitalizable %}
+                                <i class="fas fa-4x fa-times-circle text-info"></i>
+                                <strong class="px-2">{{course.course.type}} non capitalisable</strong>
+                            {% else %}
+                                <i class="fas fa-4x fa-check-circle text-info"></i>
+                                <strong class="px-2">{{course.course.type}} capitalisable</strong>
+                            {% endif %}
+                            <img id="infos_mcc_capitalizable" src="{{ asset('images/info_white_32.png') }}" style="cursor: pointer;">
+                        </div>
                     </div>
-                    <div class="col-md d-flex align-items-center">
-                    {% if not course.mccCompensable %}
-                        <i class="fas fa-4x fa-times-circle text-info"></i>
-                        <strong class="px-2">{{course.course.type}} non compensable</strong>
-                        <i title="Veuillez nous fournir le texte d'aide devant s'afficher au survol." class="fas fa-info-circle"></i>
-                    {% else %}
-                        <i class="fas fa-4x fa-check-circle text-info"></i>
-                        <strong class="px-2">{{course.course.type}} compensable</strong>
-                        <i title="Veuillez nous fournir le texte d'aide devant s'afficher au survol." class="fas fa-info-circle"></i>
-                    {% endif %}
-                    </div>
-                    <div class="col-md d-flex align-items-center">
-                    {% if not course.mccCapitalizable %}
-                        <i class="fas fa-4x fa-times-circle text-info"></i>
-                        <strong class="px-2">{{course.course.type}} non capitalisable</strong>
-                        <i title="Veuillez nous fournir le texte d'aide devant s'afficher au survol." class="fas fa-info-circle"></i>
-                    {% else %}
-                        <i class="fas fa-4x fa-check-circle text-info"></i>
-                        <strong class="px-2">{{course.course.type}} capitalisable</strong>
-                        <i title="Veuillez nous fournir le texte d'aide devant s'afficher au survol." class="fas fa-info-circle"></i>
-                    {% endif %}
-                    </div>
-                </div>
-            {% endif %}
+                {% endif %}
             </section>
         {% endif %}
 
@@ -666,6 +664,61 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
+        $(document).ready(function(){
+            $(document).on('click', '#infos_mcc_session1', function(){
+                var message = '<p>1ère session : Epreuves du Contrôle Continu et/ou du Contrôle Terminal. Attention ne pas confondre avec le premier semestre.</p>';
+                bootbox.dialog({
+                    message: message,
+                    className: 'text-dark',
+                    backdrop: true,
+                    onEscape: true
+                });
+            });
+
+            $(document).on('click', '#infos_mcc_session2', function(){
+                var message = '<p>2ème session : Session de rattrapage des examens du semestre 1 ET du semestre 2, généralement en juin. Un étudiant ne repasse en 2ème session que les ECUE des UE non obtenues. Les étudiants concernés recevront un email de convocation comme lors de la 1ère session. Attention ne pas confondre avec le second semestre.</p>';
+                bootbox.dialog({
+                    message: message,
+                    className: 'text-dark',
+                    backdrop: true,
+                    onEscape: true
+                });
+            });
+
+
+            $(document).on('click', '#infos_mcc_weight', function(){
+                var message = '<p><strong>Poids de l\'ECUE dans l\'UE</strong> : coefficient de l\'ECUE en question par rapport aux autres ECUE de l\'UE.</p>';
+                bootbox.dialog({
+                    message: message,
+                    className: 'text-dark',
+                    backdrop: true,
+                    onEscape: true
+                });
+            });
+
+            $(document).on('click', '#infos_mcc_compensable', function(){
+                var message = '<p><strong>UE/ECUE (non) compensable</strong> : Une UE/ECUE est compensable par une ou plusieurs autre(s) si la moyenne des UE/ECUE considérés est supérieure ou égale à la valeur seuil qui a été déterminée par l\'équipe pédagogique (ex: 10/20). Pour les UE/ECUE non compensables, il faut atteindre la valeur seuil pour chaque UE/ECUE considéré.</p>';
+                bootbox.dialog({
+                    message: message,
+                    className: 'text-dark',
+                    backdrop: true,
+                    onEscape: true
+                });
+            });
+
+            $(document).on('click', '#infos_mcc_capitalizable', function(){
+                var message = '<p><strong>UE/ECUE (non) capitalisable</strong> : Capitalisable signifie que l\'UE/ECUE obtenu est définitivement acquis, quelle que soit la durée de la formation et les interruptions d\'études éventuelles.</p>';
+                bootbox.dialog({
+                    message: message,
+                    className: 'text-dark',
+                    backdrop: true,
+                    onEscape: true
+                });
+            });
+
+
+        });
+
         Syllabus.setMediaFrameAttributes(document.querySelector( '#presentation_media_container > .embed-responsive > iframe' ));
         Syllabus.setMediaFrameAttributes(document.querySelector( '#closing_video > .embed-responsive > iframe' ));
     </script>
