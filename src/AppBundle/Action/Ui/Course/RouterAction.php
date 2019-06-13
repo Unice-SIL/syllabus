@@ -92,30 +92,26 @@ class RouterAction implements ActionInterface
 
     /**
      * @Route("/course/router/{etbId}/{year}/{iframe}", name="course_router", defaults={"iframe"=null})
+     * @param $etbId
+     * @param $year
      * @param Request $request
-     * @return Response
+     * @return RedirectResponse
      */
     public function __invoke($etbId, $year, Request $request)
     {
         $courseInfo = null;
         try {
-            try {
-                $courseInfo = $this->findCourseInfoByEtbIdAndYearQuery->setEtbId($etbId)->setYear($year)->execute();
-                if($this->coursePermissionHelper->hasPermission($courseInfo, $this->security->getUser(), Permission::WRITE)){
-                    return new RedirectResponse($this->router->generate('edit_course', [
-                        'id' => $courseInfo->getId(),
-                        'iframe' => $request->get('iframe')
-                    ]));
-                }else{
-                    return new RedirectResponse($this->router->generate('view_student', [
-                        'id' => $courseInfo->getId(),
-                        'iframe' => $request->get('iframe')
-                    ]));
-                }
-
-            } catch (CourseInfoNotFoundException $e) {
-                //
+            $courseInfo = $this->findCourseInfoByEtbIdAndYearQuery->setEtbId($etbId)->setYear($year)->execute();
+            if($this->coursePermissionHelper->hasPermission($courseInfo, $this->security->getUser(), Permission::WRITE)){
+                return new RedirectResponse($this->router->generate('edit_course', [
+                    'id' => $courseInfo->getId(),
+                    'iframe' => $request->get('iframe')
+                ]));
             }
+
+        } catch (CourseInfoNotFoundException $e) {
+            //
+
         }catch (\Exception $e){
             $this->logger->error((string) $e);
             $this->session->getFlashBag()->add('danger', "Une erreur est survenue durant le chargement du cours.");
