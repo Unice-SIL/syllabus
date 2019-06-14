@@ -100,14 +100,16 @@ class RouterAction implements ActionInterface
     public function __invoke($etbId, $year, Request $request)
     {
         $courseInfo = null;
+        $id = $etbId
         try {
-            $courseInfo = $this->findCourseInfoByEtbIdAndYearQuery->setEtbId($etbId)->setYear($year)->execute();
+            $courseInfo = $this->findCourseInfoByEtbIdAndYearQuery->setEtbId($id)->setYear($year)->execute();
             if($this->coursePermissionHelper->hasPermission($courseInfo, $this->security->getUser(), Permission::WRITE)){
                 return new RedirectResponse($this->router->generate('edit_course', [
                     'id' => $courseInfo->getId(),
                     'iframe' => $request->get('iframe')
                 ]));
             }
+            $id = $courseInfo->getId();
 
         } catch (CourseInfoNotFoundException $e) {
             //
@@ -118,7 +120,7 @@ class RouterAction implements ActionInterface
         }
 
         return new RedirectResponse($this->router->generate('view_student', [
-            'id' => $etbId,
+            'id' => $id,
             'iframe' => $request->get('iframe')
         ]));
     }
