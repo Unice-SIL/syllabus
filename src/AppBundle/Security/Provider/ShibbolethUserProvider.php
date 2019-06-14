@@ -84,6 +84,7 @@ class ShibbolethUserProvider implements ShibbolethUserProviderInterface
             $user = $this->findUserByUsernameQuery->setUsername($username)->execute();
             $command = new EditUserCommand($user);
         }catch (UserNotFoundException $e){
+            $user = new User();
             $command = new CreateUserCommand();
             $command->setUsername($username);
         }
@@ -102,11 +103,14 @@ class ShibbolethUserProvider implements ShibbolethUserProviderInterface
 
         $command->setRoles(self::DEFAULT_ROLES);
 
+        $user = $command->filledEntity($user);
+
+        // On ne créé pas l'utilisateur en Bdd
         if(is_a($command, EditUserCommand::class)){
             $this->editUserQuery->setEditUserCommand($command)->execute();
         }
 
-        $user = $this->findUserByIdQuery->setId($command->getId())->execute();
+        //$user = $this->findUserByIdQuery->setId($command->getId())->execute();
 
         return $user;
     }
