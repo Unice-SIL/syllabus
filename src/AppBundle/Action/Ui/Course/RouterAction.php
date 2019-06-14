@@ -100,7 +100,7 @@ class RouterAction implements ActionInterface
     public function __invoke($etbId, $year, Request $request)
     {
         $courseInfo = null;
-        $id = $etbId
+        $id = $etbId;
         try {
             $courseInfo = $this->findCourseInfoByEtbIdAndYearQuery->setEtbId($id)->setYear($year)->execute();
             if($this->coursePermissionHelper->hasPermission($courseInfo, $this->security->getUser(), Permission::WRITE)){
