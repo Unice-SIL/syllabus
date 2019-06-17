@@ -113,7 +113,11 @@ class ShibbolethUserProvider implements ShibbolethUserProviderInterface
 
         // On ne créé pas l'utilisateur en Bdd
         if(is_a($command, EditUserCommand::class)){
-            $this->editUserQuery->setEditUserCommand($command)->execute();
+            try{
+                $this->editUserQuery->setEditUserCommand($command)->execute();
+            }catch(UserNotFoundException $e){
+
+            }
         }
 
         //$user = $this->findUserByIdQuery->setId($command->getId())->execute();
@@ -137,7 +141,7 @@ class ShibbolethUserProvider implements ShibbolethUserProviderInterface
      */
     public function refreshUser(UserInterface $user)
     {
-        return $this->loadUserByUsername($user->getUsername());
+        return $user;
     }
 
     /**

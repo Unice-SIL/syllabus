@@ -132,9 +132,7 @@ class AskForAdviceCourseInfoAction implements ActionInterface
                 ];
 
             } catch (\Exception $e) {
-
                 $this->logger->error((string) $e);
-
                 $messages[] = [
                     'type' => "danger",
                     'message' => "Une erreur est survenue : l'avis n'a pas été demandé."
