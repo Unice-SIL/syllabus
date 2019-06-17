@@ -162,18 +162,37 @@
                 });
 
                 $(document).on('click', '#publishButton', function(){
-                    SILTools.spinner.fadeIn( {
-                        always: function(){
-                            $.ajax({
-                                type: 'POST',
-                                url: '{{ path('publish_course_info', { 'id': courseInfo.id })|escape('js') }}'
-                            }).done(function(response){
-                                Syllabus.handleAjaxResponse(response);
-                            }).always(function(){
-                                SILTools.spinner.fadeOut( );
-                            });
+
+                    bootbox.confirm({
+                        message: "Une fois votre syllabus publié pensez à renseigner le formulaire vous permettant de béneficier de la prime <a target='_blank' href='https://forms.office.com/Pages/ResponsePage.aspx?id=fUQgvFKJzUqD5F1otezkb78RiPD675VPioqx3pigUrJUNUtBRUlZU1lYMUw3NDZGQVEzU1hQNzJaSC4u'>en cliquant ici</a>.",
+                        buttons: {
+                            confirm: {
+                                label: "Publier",
+                                className: "btn-outline-primary"
+                            },
+                            cancel: {
+                                label: "Annuler",
+                                className: "btn-outline-secondary"
+                            }
+                        },
+                        callback: function (result) {
+                            if (result === true) {
+                                SILTools.spinner.fadeIn( {
+                                    always: function(){
+                                        $.ajax({
+                                            type: 'POST',
+                                            url: '{{ path('publish_course_info', { 'id': courseInfo.id })|escape('js') }}'
+                                        }).done(function(response){
+                                            Syllabus.handleAjaxResponse(response);
+                                        }).always(function(){
+                                            SILTools.spinner.fadeOut( );
+                                        });
+                                    }
+                                });
+                            }
                         }
                     });
+
                 });
             });
 
