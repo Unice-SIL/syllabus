@@ -162,9 +162,8 @@
                 });
 
                 $(document).on('click', '#publishButton', function(){
-
                     bootbox.confirm({
-                        message: "Une fois votre syllabus publié pensez à renseigner le formulaire vous permettant de béneficier de la prime <a target='_blank' href='https://forms.office.com/Pages/ResponsePage.aspx?id=fUQgvFKJzUqD5F1otezkb78RiPD675VPioqx3pigUrJUNUtBRUlZU1lYMUw3NDZGQVEzU1hQNzJaSC4u'>en cliquant ici</a>.",
+                        message: "Avant de publier votre syllabus pensez à renseigner le formulaire vous permettant de béneficier de la prime <a target='_blank' href='https://forms.office.com/Pages/ResponsePage.aspx?id=fUQgvFKJzUqD5F1otezkb78RiPD675VPioqx3pigUrJUNUtBRUlZU1lYMUw3NDZGQVEzU1hQNzJaSC4u'>en cliquant ici</a> et à rendre votre cours visible sur Moodle.",
                         buttons: {
                             confirm: {
                                 label: "Publier",
@@ -192,8 +191,27 @@
                             }
                         }
                     });
-
                 });
+
+                $(document).on('click', '#infos_publication', function(){
+                    var message = '<p>' +
+                        'Si vous n\'avez toujours pas renseigné le formulaire pour l\'obtention de la prime Syllabus veuillez <a target="_blank" href="https://forms.office.com/Pages/ResponsePage.aspx?id=fUQgvFKJzUqD5F1otezkb78RiPD675VPioqx3pigUrJUNUtBRUlZU1lYMUw3NDZGQVEzU1hQNzJaSC4u">cliquer ici</a>' +
+                        '</p>' +
+                        '<p>' +
+                        'Pensez également à rendre votre cours visible sur Moodle afin que les étudiants puissent consulter votre Syllabus' +
+                        '</p>' +
+                        '<p>' +
+                        'Pour rendre votre syllabus et votre cours visible sur Moodle pour vos étudiants, allez dans "Administration > Paramètres Généraux > Visibilité du cours" et sélectionnez "Affichez" à la place de "Cacher".<br>' +
+                        ' Vous pourrez néanmoins garder vos onglets de cours cachés en activant le mode édition puis dans l\'onglet concerné "Modifier > Cacher la section". De cette manière, seul le syllabus sera visible par vos étudiants.' +
+                        '</p>';
+                    bootbox.dialog({
+                        message: message,
+                        backdrop: true,
+                        onEscape: true
+                    });
+                });
+
+
             });
 
         </script>
