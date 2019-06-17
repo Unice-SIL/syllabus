@@ -55,8 +55,11 @@ class AskForAdviceCourseInfoAction implements ActionInterface
     private $logger;
 
     /**
-     * PublishCourseInfoAction constructor.
+     * AskForAdviceCourseInfoAction constructor.
+     * @param string $mailerSource
+     * @param string $mailerTarget
      * @param FindCourseInfoByIdQuery $findCourseInfoByIdQuery
+     * @param TokenStorageInterface $tokenStorage
      * @param Environment $templating
      * @param \Swift_Mailer $mailer
      * @param LoggerInterface $logger
@@ -107,7 +110,7 @@ class AskForAdviceCourseInfoAction implements ActionInterface
                         $this->templating->render(
                             'email/advice.html.twig',
                             [
-                                'courseTitle' => $courseInfo->getTitle(),
+                                'courseInfo' => $courseInfo,
                                 'user' => $this->tokenStorage->getToken()->getUser(),
                             ]
                         ),
@@ -117,7 +120,7 @@ class AskForAdviceCourseInfoAction implements ActionInterface
                         $this->templating->render(
                             'email/advice.txt.twig',
                             [
-                                'courseTitle' => $courseInfo->getTitle(),
+                                'courseInfo' => $courseInfo,
                                 'user' => $this->tokenStorage->getToken()->getUser(),
                             ]
                         ),
