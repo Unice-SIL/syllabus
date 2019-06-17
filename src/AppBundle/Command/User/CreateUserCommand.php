@@ -102,7 +102,7 @@ class CreateUserCommand implements CommandInterface
     /**
      * @return string
      */
-    public function getFirstname(): string
+    public function getFirstname(): ?string
     {
         return $this->firstname;
     }
@@ -121,7 +121,7 @@ class CreateUserCommand implements CommandInterface
     /**
      * @return string
      */
-    public function getLastname(): string
+    public function getLastname(): ?string
     {
         return $this->lastname;
     }

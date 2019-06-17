@@ -91,14 +91,20 @@ class ShibbolethUserProvider implements ShibbolethUserProviderInterface
 
         if(array_key_exists('givenName', $credentials)) {
             $command->setFirstname($credentials['givenName']);
+        }else{
+            $command->setFirstname("");
         }
 
         if(array_key_exists('sn', $credentials)) {
             $command->setLastname($credentials['sn']);
+        }else{
+            $command->setLastname("");
         }
 
         if(array_key_exists('mail', $credentials)) {
             $command->setEmail($credentials['mail']);
+        }else{
+            $command->setEmail("");
         }
 
         $command->setRoles(self::DEFAULT_ROLES);
