@@ -114,12 +114,22 @@ class TestUserProvider implements UserProviderInterface
     }
 
     /**
+     * @param $username
+     * @return User|null
+     */
+    public function refresh($username)
+    {
+        return $this->findUserByUsernameQuery->setUsername($username)->execute();
+    }
+
+    /**
      * @param UserInterface $user
-     * @return User
+     * @return UserInterface
      */
     public function refreshUser(UserInterface $user)
     {
-        return $this->loadUserByUsername($user->getUsername());
+        $refreshedUser = $this->refresh($user->getUsername());
+        return ($refreshedUser instanceof User)? $refreshedUser : $user;
     }
 
     /**

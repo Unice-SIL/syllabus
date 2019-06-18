@@ -125,7 +125,6 @@ class ShibbolethUserProvider implements ShibbolethUserProviderInterface
         return $user;
     }
 
-
     /**
      * @param string $username
      * @return User
@@ -136,12 +135,22 @@ class ShibbolethUserProvider implements ShibbolethUserProviderInterface
     }
 
     /**
+     * @param $username
+     * @return User|null
+     */
+    public function refresh($username)
+    {
+        return $this->findUserByUsernameQuery->setUsername($username)->execute();
+    }
+
+    /**
      * @param UserInterface $user
      * @return UserInterface
      */
     public function refreshUser(UserInterface $user)
     {
-        return $user;
+        $refreshedUser = $this->refresh($user->getUsername());
+        return ($refreshedUser instanceof User)? $refreshedUser : $user;
     }
 
     /**
