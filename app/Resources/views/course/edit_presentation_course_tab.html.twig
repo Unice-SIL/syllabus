@@ -368,7 +368,7 @@
             Syllabus.submitPanelForm( e, this );
         });
 
-        $(document).on('click', '#infos_level', function(){
+        $('#infos_level').click(function(){
             var message = '<ul>' +
                 '<li><strong>Débutant</strong> : Ce cours demande peu ou pas de connaissance préaables.</li>' +
                 '<li><strong>Intermédiaire</strong> : Ce cours demande quelques connaissance préaables.</li>' +
@@ -381,7 +381,7 @@
             });
         });
 
-        $(document).on('click', '#infos_video', function(){
+        $('#infos_video').click(function(){
             var message = '<p>Afin de pouvoir intégrer une vidéo dans votre cours, veuillez vous assurer que celle-ci soit hébergée sur un serveur externe à Moodle (ex: UNSPOD, Youtube, ...). Si ce n’est pas le cas, vous pouvez demander de l’aide pour la déposer sur une de ces plateformes.</p><p>Une fois qu’elle y est stockée, vous pouvez cliquer sur “Partager / Intégrer” afin de récupérer le lien d\'intégration ressemblant à : <pre>&lt;iframe ... &gt;&lt;/iframe&gt;</pre> Copiez ce code et insérez-le dans le champ “Vidéo” ci-dessous. La vidéo sera visible par vos étudiants directement sur votre syllabus</p>';
             bootbox.dialog({
                 message: message,
