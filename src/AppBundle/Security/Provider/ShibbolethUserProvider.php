@@ -140,7 +140,11 @@ class ShibbolethUserProvider implements ShibbolethUserProviderInterface
      */
     public function refresh($username)
     {
-        return $this->findUserByUsernameQuery->setUsername($username)->execute();
+        try{
+            return $this->findUserByUsernameQuery->setUsername($username)->execute();
+        }catch (\Exception $e){
+            return null;
+        }
     }
 
     /**
