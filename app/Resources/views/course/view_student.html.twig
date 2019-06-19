@@ -665,7 +665,7 @@
     {{ parent() }}
     <script>
         $(document).ready(function(){
-            $(document).on('click', '#infos_mcc_session1', function(){
+            $('#infos_mcc_session1').click(function(){
                 var message = '<p>1ère session : Epreuves du Contrôle Continu et/ou du Contrôle Terminal. Attention ne pas confondre avec le premier semestre.</p>';
                 bootbox.dialog({
                     message: message,
@@ -675,7 +675,7 @@
                 });
             });
 
-            $(document).on('click', '#infos_mcc_session2', function(){
+            $('#infos_mcc_session2').click(function(){
                 var message = '<p>2ème session : Session de rattrapage des examens du semestre 1 ET du semestre 2, généralement en juin. Un étudiant ne repasse en 2ème session que les ECUE des UE non obtenues. Les étudiants concernés recevront un email de convocation comme lors de la 1ère session. Attention ne pas confondre avec le second semestre.</p>';
                 bootbox.dialog({
                     message: message,
@@ -686,7 +686,7 @@
             });
 
 
-            $(document).on('click', '#infos_mcc_weight', function(){
+            $('#infos_mcc_weight').click(function(){
                 var message = '<p><strong>Poids de l\'ECUE dans l\'UE</strong> : coefficient de l\'ECUE en question par rapport aux autres ECUE de l\'UE.</p>';
                 bootbox.dialog({
                     message: message,
@@ -706,7 +706,7 @@
                 });
             });
 
-            $(document).on('click', '#infos_mcc_capitalizable', function(){
+            $('#infos_mcc_capitalizable').click(function(){
                 var message = '<p><strong>UE/ECUE (non) capitalisable</strong> : Capitalisable signifie que l\'UE/ECUE obtenu est définitivement acquis, quelle que soit la durée de la formation et les interruptions d\'études éventuelles.</p>';
                 bootbox.dialog({
                     message: message,

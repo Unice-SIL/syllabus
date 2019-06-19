@@ -301,7 +301,7 @@
             Syllabus.submitPanelForm( e, this );
         });
 
-        $(document).on('click', '#infos_sections', function(){
+        $('#infos_sections').click(function(){
             var message = '<p>Pour remplir cette partie, suivez les étapes suivantes :</p>' +
                 '<ol>' +
                 '<li>' +
@@ -326,7 +326,7 @@
             });
         });
 
-        $(document).on('click', '#infos_evaluations', function(){
+        $('#infos_evaluations').click(function(){
             var message = '<p>Dans le cas d\'évaluations différentes selon les enseignants, vous pouvez renseigner le nom de l\'enseignant correspondant au type d’évaluation choisie, dans la case "Préciser".</p>' +
                 '<p>Exemple :</p>' +
                 '<ul>' +
