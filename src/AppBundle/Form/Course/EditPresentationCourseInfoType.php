@@ -16,6 +16,8 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
@@ -108,6 +110,16 @@ class EditPresentationCourseInfoType extends AbstractType
                 'required' => false,
                 'label' => "Fichier image",
             ])
+            ->addEventListener(FormEvents::PRE_SUBMIT, function(FormEvent $event) {
+                $form = $event->getForm();
+                $data = $event->getData();
+                dump($form, $data);
+                if(!is_null($form->getData()->getImage()) && is_null($data['image'])){
+                    $data['image'] = $form->getData()->getImage();
+                    $event->setData($data);
+                }
+
+            })
             ->add('video', TextareaType::class, [
                 'required' => false,
                 'label' => "Intégration de contenu vidéo / audio",

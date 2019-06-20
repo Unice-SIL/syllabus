@@ -153,18 +153,18 @@ class SavePresentationCourseInfoAction implements ActionInterface
 
                 // Check if form is submitted
                 if ($form->isSubmitted()) {
-
                     // Get form data from request
                     $editPresentationCourseInfoCommand = $form->getData();
-
                     // If there is no new image to upload or new image not validate constraints, keep the actual image
+                    /*
+                     * Useless now we use a listener in form builder to re-set image on pre-submit event
                     if (
                         is_null($editPresentationCourseInfoCommand->getImage())
                         || $this->validator->validate($editPresentationCourseInfoCommand, null, ['image'])->count() > 0
                     ) {
                         $editPresentationCourseInfoCommand->setImage($courseInfo->getImage());
                     }
-
+                    */
                     // Prevent media type non-sense.
                     $editPresentationCourseInfoCommand->checkMedia();
 
