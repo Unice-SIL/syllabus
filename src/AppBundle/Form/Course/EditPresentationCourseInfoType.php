@@ -113,7 +113,6 @@ class EditPresentationCourseInfoType extends AbstractType
             ->addEventListener(FormEvents::PRE_SUBMIT, function(FormEvent $event) {
                 $form = $event->getForm();
                 $data = $event->getData();
-                dump($form, $data);
                 if(!is_null($form->getData()->getImage()) && is_null($data['image'])){
                     $data['image'] = $form->getData()->getImage();
                     $event->setData($data);
