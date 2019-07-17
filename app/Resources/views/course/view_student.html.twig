@@ -139,9 +139,11 @@
                         </span>
                     </div>
                     <div id="presentation_media_container" class="mt-3">
-                    <span>
-                        Période : <strong>{{ course.period }}</strong>
-                    </span>
+                        {% if course.period is not null %}
+                            <span>
+                                Période : <strong>{{ course.period }}</strong>
+                            </span>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="col-md-6 mt-3">
@@ -220,11 +222,13 @@
                     {% endif %}
                 </div>
                 <div class="col-lg d-flex align-items-center">
-                    <a href="http://unice.fr/international/les-ri-a-luns/reseau-des-ri/bri" target="_blank">
-                        <i class="fas m-3 fa-4x fa-globe"></i>
-                        <span class="font-weight-bold media-body">
-                            Mobilité internationale
-                        </span>
+                    <a href="http://unice.fr/international/les-ri-a-luns/reseau-des-ri/bri" target="_blank" class="text-decoration-none">
+                        <div class="d-flex flex-row align-items-center">
+                            <i class="fas m-3 fa-4x fa-globe"></i>
+                            <span class="font-weight-bold media-body">
+                                Se renseigner sur la mobilité internationale
+                            </span>
+                        </div>
                     </a>
                 </div>
             </div>
@@ -243,7 +247,7 @@
                 {% if courseInfoHelper.objectivesAchievementsAreEmpty(course) == false %}
                     <div id="objectives_achievements" class="mt-4">
                         <h5 class="border border-info bg-light text-info rounded text-center p-2">ACQUIS D'APPRENTISSAGE</h5>
-                        <h6 class="text-center">A la fin de ce cours, je serai capable de…</h6>
+                        <h6 class="text-center">A la fin de ce cours, je devrais être capable de…</h6>
                         <div class="row">
                             {% for achievement in course.courseAchievements %}
                                 {% if achievement.description is not null %}
@@ -312,7 +316,7 @@
             {% for section in course.courseSections %}
                 <div id="activities_sections" class="mt-4 p-2 bg-light">
                     <h5 class="text-body font-weight-bold">{{section.title}}</h5>
-                    <div class="bg-black border p-2">
+                    <div class="text-dark p-2">
                         {{section.description|raw}}
                     </div>
                     {% if section.courseSectionActivities|length > 0 %}
@@ -359,9 +363,8 @@
                                     </span>
                                     {% endfor %}
                                 </div>
-                                <div class="p-2 d-flex align-self-center font-weight-bold">Sur le campus</div>
                                 <div class="p-2 d-flex align-self-center">
-                                    <i class="fas m-3 fa-2x fa-map-marker-alt"></i>
+                                    <img src="{{ asset('images/evaluation_cc_white_64.png') }}">
                                 </div>
                             </div>
                         </div>
@@ -547,7 +550,7 @@
                 <hr class="border border-white bg-light" style="height: 2px;">
                 {% if courseInfoHelper.equipementsEquipmentsAreEmpty(course) == false %}
                     <div id="equipments_resources_equipments" class="mt-4">
-                        <h5 class="border border-info bg-light text-info rounded text-center p-2">MATÉRIEL OBLIGATOIRE</h5>
+                        <h5 class="border border-info bg-light text-info rounded text-center p-2">MATÉRIEL NÉCESSAIRE</h5>
                         <div class="row">
                             {% for equipment in course.courseResourceEquipments %}
                                 <div class="col-md-4 d-flex align-items-center">
