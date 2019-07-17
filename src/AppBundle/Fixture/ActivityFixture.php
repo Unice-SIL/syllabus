@@ -249,6 +249,42 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
             ->setObsolete(false);
         $manager->persist($activity);
 
+        // Exercice d'évaluation par les pairs
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel("Exercice d'évaluation par les pairs")
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_CLASS)
+            ->setGrp(ActivityGroup::TOGETHER)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Mise en situation
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel("Mise en situation")
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_CLASS)
+            ->setGrp(ActivityGroup::TOGETHER)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Recherche documentaire
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel("Recherche documentaire")
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_CLASS)
+            ->setGrp(ActivityGroup::TOGETHER)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
 
         /**
          * ACTIVITIES IN CLASS IN GROUPS
@@ -351,10 +387,10 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
             ->setObsolete(false);
         $manager->persist($activity);
 
-        // Mise en situation professionnelle
+        // Mise en situation
         $activity = new Activity();
         $activity->setId(Uuid::uuid4())
-            ->setLabel("Mise en situation professionnelle")
+            ->setLabel("Mise en situation")
             ->setLabelVisibility(true)
             ->setType(ActivityType::ACTIVITY)
             ->setMode(ActivityMode::IN_CLASS)
@@ -451,6 +487,30 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
         $activity = new Activity();
         $activity->setId(Uuid::uuid4())
             ->setLabel("Vote interactif (Quizlet, Socrative, Mentimeter)")
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_CLASS)
+            ->setGrp(ActivityGroup::GROUPS)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Jeu de rôle
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel("Jeu de rôle")
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_CLASS)
+            ->setGrp(ActivityGroup::GROUPS)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+        // Jeu sérieux
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel("Jeu sérieux")
             ->setLabelVisibility(true)
             ->setType(ActivityType::ACTIVITY)
             ->setMode(ActivityMode::IN_CLASS)
@@ -615,6 +675,19 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
             ->setObsolete(false);
         $manager->persist($activity);
 
+        // Jeu sérieux
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel("Jeu sérieux")
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_AUTONOMY)
+            ->setGrp(ActivityGroup::COLLECTIVE)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
+
 
         /**
          * ACTIVITIES IN AUTONOMY INDIVIDUAL
@@ -765,6 +838,18 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
         $this->addReference(self::ACTIVITY_6, $activity);
         $manager->persist($activity);
 
+        // Jeu sérieux
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel("Jeu sérieux")
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::ACTIVITY)
+            ->setMode(ActivityMode::IN_AUTONOMY)
+            ->setGrp(ActivityGroup::INDIVIDUAL)
+            ->setOrd(0)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
 
         /**
          * EVALUATION CC
@@ -792,10 +877,10 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
             ->setObsolete(false);
         $manager->persist($activity);
 
-        // Mise en situation professionnelle
+        // Mise en situation
         $activity = new Activity();
         $activity->setId(Uuid::uuid4())
-            ->setLabel("Mise en situation professionnelle")
+            ->setLabel("Mise en situation")
             ->setLabelVisibility(true)
             ->setType(ActivityType::EVALUATION)
             ->setMode(ActivityMode::EVAL_CC)
@@ -869,6 +954,17 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
             ->setObsolete(false);
         $manager->persist($activity);
 
+        // Exercice pratique
+        $activity = new Activity();
+        $activity->setId(Uuid::uuid4())
+            ->setLabel("Exercice pratique")
+            ->setLabelVisibility(true)
+            ->setType(ActivityType::EVALUATION)
+            ->setMode(ActivityMode::EVAL_CC)
+            ->setOrd(1)
+            ->setObsolete(false);
+        $manager->persist($activity);
+
 
         /**
          *  EVALUATION CT
@@ -887,10 +983,10 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
         $manager->persist($activity);
         */
 
-        // Mise en situation professionnelle
+        // Mise en situation
         $activity = new Activity();
         $activity->setId(Uuid::uuid4())
-            ->setLabel("Mise en situation professionnelle")
+            ->setLabel("Mise en situation")
             ->setLabelVisibility(true)
             ->setType(ActivityType::EVALUATION)
             ->setMode(ActivityMode::EVAL_CT)
@@ -953,6 +1049,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
             ->setOrd(0)
             ->setObsolete(false);
         $manager->persist($activity);
+
 
         //
         $manager->flush();

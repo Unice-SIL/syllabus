@@ -3,7 +3,7 @@
 {% block main %}
 
     <h3>
-        Capacités visées / acquis d'apprentissage
+        Objectifs du cours
     </h3>
 
     {% form_theme form with [
@@ -18,7 +18,10 @@
         <div class="col">
             <div class="row">
                 <div class="col">
+                    {#
                     <h4>Comment rédiger un acquis d'apprentissage ?</h4>
+
+
                     <h5>Verbe + objet (contenu) + contexte</h5>
                     <div class="alert alert-info" role="alert">
                         <h6>Exemples en Sciences Humaine et Sociale :</h6>
@@ -42,11 +45,8 @@
                             </li>
                         </ul>
                     </div>
-                    <a href="https://lms.unice.fr/enrol/index.php?id=891"
-                       class="btn btn-outline-info btn-sm btn-block"
-                       target="_blank">
-                        Cours dédié à l'« Approche par Compétences » (clé d'inscription = APC)
-                    </a>
+                    #}
+
                 </div>
             </div>
         </div>
@@ -54,127 +54,61 @@
 
     <hr>
 
-    <div class="row my-5">
-        <div class="col">
-            <div class="row border border-primary rounded p-2 my-3 mx-1">
-                <div class="col">
-                    <div class="row mb-2">
-                        <div class="col">
-                            <strong>À la fin de ce cours, l'étudiant sera capable de…</strong>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            {{ form_errors(form.achievements) }}
-                            {{ form_widget(form.achievements) }}
-                        </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col">
-                            <button type="button" class="btn btn-primary btn-block" id="addAchievementButton">
-                                <i class="fas fa-plus-circle"></i>
-                                Ajouter un acquis d'apprentissage
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <h5>
+        Capacités visées / acquis d'apprentissage
+        <img id="infos_acquis" src="{{ asset('images/info_32.png') }}" style="cursor: pointer;">
+    </h5>
+    <a href="https://lms.unice.fr/enrol/index.php?id=891"
+       class="btn btn-outline-info btn-sm btn-block"
+       target="_blank">
+        Cours dédié à l'« Approche par Compétences » (clé d'inscription = APC)
+    </a>
+    <div class="border border-primary rounded p-4 my-3 mx-1">
+        <h6>À la fin de ce cours, l'étudiant devrait être capable de…</h6>
+        {{ form_errors(form.achievements) }}
+        {{ form_widget(form.achievements) }}
+        <button type="button" class="btn btn-primary btn-block" id="addAchievementButton">
+            <i class="fas fa-plus-circle"></i>
+            Ajouter un acquis d'apprentissage
+        </button>
     </div>
 
     <hr>
 
-    <div class="row my-5">
-        <div class="col">
-            <div class="row">
-                <div class="col">
-                    <h5>Prérequis</h5>
-                </div>
-            </div>
-            <div class="row border border-primary rounded p-2 my-3 mx-1">
-                <div class="col">
-                    <div class="row mb-2">
-                        <div class="col">
-                            <strong>Avant le début du cours, l'étudiant doit…</strong>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            {{ form_widget(form.prerequisites) }}
-                        </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col">
-                            <button type="button" class="btn btn-primary btn-block" id="addPrerequisiteButton">
-                                <i class="fas fa-plus-circle"></i>
-                                Ajouter un prérequis
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <h5>Prérequis</h5>
+    <div class="border border-primary rounded p-4 my-3 mx-1">
+        <h6>Avant le début du cours, l'étudiant doit…</h6>
+        {{ form_widget(form.prerequisites) }}
+        <button type="button" class="btn btn-primary btn-block" id="addPrerequisiteButton">
+            <i class="fas fa-plus-circle"></i>
+            Ajouter un prérequis
+        </button>
     </div>
 
     <hr>
 
-    <div class="row mt-5">
-        <div class="col">
-            <div class="row">
-                <div class="col">
-                    <h5>Remédiation / aide à la réussite</h5>
-                </div>
-            </div>
-            <div class="row border border-primary rounded p-2 my-3 mx-1">
-                <div class="col">
-                    <div class="row mb-2">
-                        <div class="col">
-                            <strong>Si l'étudiant rencontre des difficultés, il peut…</strong>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-auto">
-                            <span>Assister à des séances de tutorat :</span>
-                        </div>
-                        <div class="col-md-auto" data-toggle="collapse" href="#collapseTutoring" role="button"
-                        aria-expanded"{{ (form.vars.data.tutoring == 1) ? 'true' : 'false'}}" aria-controls="collapseTutoring">
-                            {{ form_widget(form.tutoring) }}
-                        </div>
-                    </div>
-                    <div class="row mt-3 collapse {{ (form.vars.data.tutoring == 1) ? 'show' : '' }}" id="collapseTutoring" >
-                        <div class="col">
-                            <div class="row">
-                                <div class="col-md-auto">
-                                    {{ form_widget(form.tutoringTeacher) }}
-                                    {{ form_widget(form.tutoringStudent) }}
-                                </div>
-                                <div class="col-md-auto">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    {{ form_widget(form.tutoringDescription) }}
-                                    <label placeholder="Infos pratiques (facultatif)"></label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col">
-                            {{ form_widget(form.tutoringResources) }}
-                        </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col">
-                            <button type="button" class="btn btn-primary btn-block" id="addTutoringResourceButton">
-                                <i class="fas fa-plus-circle"></i>
-                                Ajouter une remédiation
-                            </button>
-                        </div>
-                    </div>
-                </div>
+    <h5>Remédiation / aide à la réussite</h5>
+    <div class="border border-primary rounded p-4 my-3 mx-1">
+        <h6>Si l'étudiant rencontre des difficultés, il peut…</h6>
+        <div class="d-flex flex-row mb-3">
+            <span>Assister à des séances de tutorat :</span>
+            <div class="col-md-auto" data-toggle="collapse" href="#collapseTutoring" role="button" aria-expanded="{{ (form.vars.data.tutoring == 1) ? 'true' : 'false'}}" aria-controls="collapseTutoring">
+                {{ form_widget(form.tutoring) }}
             </div>
         </div>
+        <div class="collapse {{ (form.vars.data.tutoring == 1) ? 'show' : '' }}" id="collapseTutoring" >
+            {{ form_widget(form.tutoringTeacher) }}
+            {{ form_widget(form.tutoringStudent) }}
+
+            {{ form_widget(form.tutoringDescription) }}
+            <label placeholder="Infos pratiques (facultatif)"></label>
+        </div>
+        {{ form_widget(form.tutoringResources) }}
+
+        <button type="button" class="btn btn-primary btn-block" id="addTutoringResourceButton">
+            <i class="fas fa-plus-circle"></i>
+            Ajouter une remédiation
+        </button>
     </div>
 
     <div class="row mt-3">
@@ -310,6 +244,16 @@
          */
         $("form[name='edit_objectives_course_info']").submit(function(e){
             Syllabus.submitPanelForm( e, this );
+        });
+
+        $('#infos_acquis').click(function(){
+            var message = '<img src="{{ asset('images/objectives.png') }}" class="w-100">';
+            bootbox.dialog({
+                message: message,
+                backdrop: true,
+                onEscape: true,
+                size: 'large'
+            });
         });
 
     </script>
