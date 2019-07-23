@@ -26,6 +26,13 @@ interface CourseInfoRepositoryInterface
     public function findByEtbIdAndYear($etbId, $year): ?CourseInfo;
 
     /**
+     * Find courses info by year
+     * @param $year
+     * @return array
+     */
+    public function findByYear( $year): array;
+
+    /**
      * Create a course info
      * @param CourseInfo $courseInfo
      */

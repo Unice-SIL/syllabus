@@ -69,6 +69,26 @@ class CourseInfoDoctrineRepository  extends AbstractDoctrineRepository implement
     }
 
     /**
+     * @param $year
+     * @return array
+     * @throws \Exception
+     */
+    public function findByYear($year): array
+    {
+        $coursesInfo = [];
+        try{
+            $qb = $this->entityManager->getRepository(CourseInfo::class)->createQueryBuilder('ci');
+            $qb->join('ci.year', 'y')
+                ->where($qb->expr()->eq('y.id', ':year'))
+                ->setParameter('year', $year);
+            $coursesInfo = $qb->getQuery()->getResult();
+        }catch (\Exception $e){
+            throw $e;
+        }
+        return $coursesInfo;
+    }
+
+    /**
      * @param CourseInfo $courseInfo
      * @throws \Exception
      */
