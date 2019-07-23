@@ -69,6 +69,20 @@ class CourseInfoDoctrineRepository  extends AbstractDoctrineRepository implement
     }
 
     /**
+     * @param CourseInfo $courseInfo
+     * @throws \Exception
+     */
+    public function create(CourseInfo $courseInfo): void
+    {
+        try{
+            $this->entityManager->persist($courseInfo);
+            $this->entityManager->flush();
+        }catch (\Exception $e){
+            throw $e;
+        }
+    }
+
+    /**
      * Update course info
      * @param CourseInfo $courseInfo
      * @throws \Exception

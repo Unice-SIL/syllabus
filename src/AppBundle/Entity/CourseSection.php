@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
 
 /**
  * CourseSection
@@ -202,6 +203,21 @@ class CourseSection
         $this->courseSectionActivities->removeElement($courseSectionActivity);
 
         return $this;
+    }
+
+    public function __clone()
+    {
+        $this->courseSectionActivities = clone $this->courseSectionActivities;
+        /**
+         * @var  $k
+         * @var CourseSectionActivity $courseSectionActivity
+         */
+        foreach ($this->courseSectionActivities as $k => $courseSectionActivity){
+            $courseSectionActivity = clone $courseSectionActivity;
+            $courseSectionActivity->setId(Uuid::uuid4())
+                ->setCourseSection($this);
+            $this->courseSectionActivities->offsetSet($k, $courseSectionActivity);
+        }
     }
 
 }

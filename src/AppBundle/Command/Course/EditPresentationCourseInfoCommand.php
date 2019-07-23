@@ -789,8 +789,13 @@ class EditPresentationCourseInfoCommand implements CommandInterface
             }
 
         } else {
-
-            $this->setMediaType(null);
+            if(!empty($this->getImage())){
+                $this->setMediaType('image');
+            }elseif(!empty($this->getVideo())){
+                $this->setMediaType('video');
+            }else{
+                $this->setMediaType(null);
+            }
         }
     }
 

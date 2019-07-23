@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\File\File;
 
 /**
@@ -2133,4 +2134,107 @@ class CourseInfo
 
         return $this;
     }
+
+    /**
+     *
+     */
+    public function __clone()
+    {
+        $this->coursePermissions = clone $this->coursePermissions;
+        /**
+         * @var  $k
+         * @var  CoursePermission $coursePermission
+         */
+        foreach ($this->coursePermissions as $k => $coursePermission){
+            $coursePermission = clone $coursePermission;
+            $coursePermission->setId(Uuid::uuid4())
+                ->setCourseInfo($this);
+            $this->coursePermissions->offsetSet($k, $coursePermission);
+        }
+
+        $this->courseTeachers = clone $this->courseTeachers;
+        /**
+         * @var  $k
+         * @var  CourseTeacher $courseTeacher
+         */
+        foreach ($this->courseTeachers as $k => $courseTeacher){
+            $courseTeacher = clone $courseTeacher;
+            $courseTeacher->setId(Uuid::uuid4())
+                ->setCourseInfo($this);
+            $this->courseTeachers->offsetSet($k, $courseTeacher);
+        }
+
+        $this->courseSections = clone $this->courseSections;
+        /**
+         * @var  $k
+         * @var  CourseSection $courseSection
+         */
+        foreach ($this->courseSections as $k => $courseSection){
+            $courseSection = clone $courseSection;
+            $courseSection->setId(Uuid::uuid4())
+                ->setCourseInfo($this);
+            $this->courseSections->offsetSet($k, $courseSection);
+        }
+
+        $this->courseEvaluationCts = clone $this->courseEvaluationCts;
+        /**
+         * @var  $k
+         * @var  CourseEvaluationCt $courseEvaluationCt
+         */
+        foreach ($this->courseEvaluationCts as $k => $courseEvaluationCt){
+            $courseEvaluationCt = clone $courseEvaluationCt;
+            $courseEvaluationCt->setId(Uuid::uuid4())
+                ->setCourseInfo($this);
+            $this->courseEvaluationCts->offsetSet($k, $courseEvaluationCt);
+        }
+
+        $this->courseAchievements = clone $this->courseAchievements;
+        /**
+         * @var  $k
+         * @var  CourseAchievement $courseAchievement
+         */
+        foreach ($this->courseAchievements as $k => $courseAchievement){
+            $courseAchievement = clone $courseAchievement;
+            $courseAchievement->setId(Uuid::uuid4())
+                ->setCourseInfo($this);
+            $this->courseAchievements->offsetSet($k, $courseAchievement);
+        }
+
+        $this->coursePrerequisites = clone $this->coursePrerequisites;
+        /**
+         * @var  $k
+         * @var  CoursePrerequisite $coursePrerequisite
+         */
+        foreach ($this->coursePrerequisites as $k => $coursePrerequisite){
+            $coursePrerequisite = clone $coursePrerequisite;
+            $coursePrerequisite->setId(Uuid::uuid4())
+                ->setCourseInfo($this);
+            $this->coursePrerequisites->offsetSet($k, $coursePrerequisite);
+        }
+
+        $this->courseTutoringResources = clone $this->courseTutoringResources;
+        /**
+         * @var  $k
+         * @var  CourseTutoringResource $courseTutoringResource
+         */
+        foreach ($this->courseTutoringResources as $k => $courseTutoringResource){
+            $courseTutoringResource = clone $courseTutoringResource;
+            $courseTutoringResource->setId(Uuid::uuid4())
+                ->setCourseInfo($this);
+            $this->courseTutoringResources->offsetSet($k, $courseTutoringResource);
+        }
+
+        $this->courseResourceEquipments = clone $this->courseResourceEquipments;
+        /**
+         * @var  $k
+         * @var CourseResourceEquipment $courseResourceEquipment
+         */
+        foreach ($this->courseResourceEquipments as $k => $courseResourceEquipment){
+            $courseResourceEquipment = clone $courseResourceEquipment;
+            $courseResourceEquipment->setId(Uuid::uuid4())
+                ->setCourseInfo($this);
+            $this->courseResourceEquipments->offsetSet($k, $courseResourceEquipment);
+        }
+    }
+
 }

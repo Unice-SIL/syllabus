@@ -3,6 +3,7 @@
 namespace AppBundle\Helper;
 
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
@@ -46,6 +47,22 @@ class FileUploaderHelper
     public function getDirectory(): ?string
     {
         return $this->directory;
+    }
+
+    /**
+     * @param File $file
+     * @return null|File
+     */
+    public function copy(File $file)
+    {
+        $filename = "{$this->directory}/{$file->getFilename()}";
+        if(file_exists($filename)) {
+            $newFilename = $this->directory."/".md5(uniqid()).'.'.$file->guessExtension();
+            copy($filename, $newFilename);
+            $newFile = new File($newFilename);
+            return $newFile;
+        }
+        return null;
     }
 
 }
