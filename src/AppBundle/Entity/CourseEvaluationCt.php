@@ -55,7 +55,7 @@ class CourseEvaluationCt
     /**
      * @var \AppBundle\Entity\CourseInfo
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CourseInfo", inversedBy="courseEvaluationCts", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CourseInfo", inversedBy="courseEvaluationCts")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
      * })

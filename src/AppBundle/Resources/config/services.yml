@@ -42,6 +42,10 @@ services:
     AppBundle\Security\Authenticator\TestAuthenticator:
         arguments: ['%test_authenticator%']
 
+    # COMMAND
+    AppBundle\Importer\Course\CoursesDuplicateCommand:
+        arguments: ['@syllabus_entity_manager']
+
     # ENTITY MANAGER
     syllabus_entity_manager:
         class: Doctrine\ORM\EntityManager
