@@ -2138,7 +2138,8 @@ class CourseInfo
     /**
      *
      */
-    public function __clone()
+
+    public function sav__clone()
     {
         $this->coursePermissions = clone $this->coursePermissions;
         /**
