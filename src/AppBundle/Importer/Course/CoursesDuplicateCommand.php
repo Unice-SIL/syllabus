@@ -153,6 +153,16 @@ class CoursesDuplicateCommand extends Command
                         $duplicateCourseInfo->setImage($this->fileUploaderHelper->copy($courseInfo->getImage()));
                     }
 
+                    // CourseTeachers
+                    $duplicateCourseTeachers = new ArrayCollection();
+                    foreach ($courseInfo->getCourseTeachers() as $courseTeacher) {
+                        $duplicateCourseTeacher = clone $courseTeacher;
+                        $duplicateCourseTeacher->setId(Uuid::uuid4())
+                            ->setCourseInfo($duplicateCourseInfo);
+                        $duplicateCourseTeachers->add($duplicateCourseTeacher);
+                    }
+                    $duplicateCourseInfo->setCourseTeachers($duplicateCourseTeachers);
+
                     // CourseAchievements
                     $duplicateCourseAchievements = new ArrayCollection();
                     foreach ($courseInfo->getCourseAchievements() as $courseAchievement) {
@@ -204,7 +214,7 @@ class CoursesDuplicateCommand extends Command
                         foreach ($courseSection->getCourseSectionActivities() as $courseSectionActivity) {
                             $duplicateCourseSectionActivity = clone $courseSectionActivity;
                             $duplicateCourseSectionActivity->setId(Uuid::uuid4())
-                                ->setCourseSection($courseSection);
+                                ->setCourseSection($duplicateCourseSection);
                             $duplicateCourseSectionActivities->add($duplicateCourseSectionActivity);
                         }
                         $duplicateCourseSection->setCourseSectionActivities($duplicateCourseSectionActivities);
