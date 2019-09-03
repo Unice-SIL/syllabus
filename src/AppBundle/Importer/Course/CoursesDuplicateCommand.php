@@ -42,16 +42,24 @@ class CoursesDuplicateCommand extends Command
      */
     private $entityManager;
 
+    /**
+     * @var FileUploaderHelper
+     */
+    private $fileUploaderHelper;
+
 
     /**
      * CoursesDuplicateCommand constructor.
      * @param EntityManager $entityManager
+     * @param FileUploaderHelper $fileUploaderHelper
      */
     public function __construct(
-        EntityManager $entityManager
+        EntityManager $entityManager,
+        FileUploaderHelper $fileUploaderHelper
     )
     {
         $this->entityManager = $entityManager;
+        $this->fileUploaderHelper = $fileUploaderHelper;
         parent::__construct();
     }
 
@@ -140,6 +148,11 @@ class CoursesDuplicateCommand extends Command
                         ->setTemInfosTabValid(false)
                         ->setTemClosingRemarksTabValid(false);
 
+                    if($courseInfo->getImage())
+                    {
+                        $duplicateCourseInfo->setImage($this->fileUploaderHelper->copy($courseInfo->getImage()));
+                    }
+
                     // CourseAchievements
                     $duplicateCourseAchievements = new ArrayCollection();
                     foreach ($courseInfo->getCourseAchievements() as $courseAchievement) {
@@ -222,7 +235,6 @@ class CoursesDuplicateCommand extends Command
                     unset($duplicateCourseResourceEquipments);
                     unset($duplicateCourseAchievements);
                     unset($coursesInfo[$key]);
-                    //gc_collect_cycles();
                 }
             }
         }catch (\Exception $e){
