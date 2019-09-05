@@ -4,26 +4,15 @@ namespace AppBundle\Importer\Course;
 
 
 use AppBundle\Entity\CourseInfo;
-use AppBundle\Entity\CourseSection;
-use AppBundle\Entity\CourseSectionActivity;
 use AppBundle\Entity\Year;
-use AppBundle\Exception\CourseInfoAlreadyExistException;
-use AppBundle\Exception\YearNotFoundException;
 use AppBundle\Helper\FileUploaderHelper;
-use AppBundle\Query\Course\DuplicateCourseInfoQuery;
-use AppBundle\Query\Course\FindCourseInfoByEtbIdAndYearQuery;
-use AppBundle\Query\Course\FindCourseInfoByYearQuery;
-use AppBundle\Query\Year\FindYearById;
-use AppBundle\Repository\CourseInfoRepositoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
-use Psr\Log\LoggerInterface;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * Class CoursesDuplicateCommand

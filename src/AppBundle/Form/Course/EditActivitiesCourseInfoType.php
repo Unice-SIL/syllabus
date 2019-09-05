@@ -69,7 +69,8 @@ class EditActivitiesCourseInfoType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
-                'error_bubbling' => false
+                'error_bubbling' => false,
+                'prototype_name' => '__section__'
             ])
             ->add('ctEvaluations', EntityType::class, [
                 'label' => false,

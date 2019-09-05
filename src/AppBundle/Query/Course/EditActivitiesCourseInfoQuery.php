@@ -151,6 +151,7 @@ class EditActivitiesCourseInfoQuery implements QueryInterface
             $this->courseInfoRepository->update($courseInfo);
             // Commit
             $this->courseInfoRepository->commit();
+
         }catch (\Exception $e){
             $this->courseInfoRepository->rollback();
             throw $e;

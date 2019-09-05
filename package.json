@@ -15,7 +15,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.8.1",
     "bootbox": "^5.1.1",
-    "bootstrap4-toggle": "^3.4.0",
+    "bootstrap4-toggle": "^3.5.0",
     "ckeditor": "^4.11.4",
     "core-js": "2",
     "jquery": "^3.3.1",

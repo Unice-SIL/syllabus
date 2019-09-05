@@ -203,7 +203,8 @@ class CourseSectionType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
-                'error_bubbling' => false
+                'error_bubbling' => false,
+                'prototype_name' => '__activity__'
             ])
             ->add('order', HiddenType::class)
             ->addEventListener(FormEvents::PRE_SUBMIT, function(FormEvent $event){

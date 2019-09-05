@@ -148,13 +148,17 @@ var Syllabus = ( function ( ) {
         };
 
 
-    var addFormToCollection = function( collection ) {
+    var addFormToCollection = function( collection, placeholder ) {
 
+        if(placeholder === null) placeholder = '__name__';
+        console.log(placeholder);
         var prototype = collection.data( 'prototype' ),
+            regex = new RegExp(placeholder, 'g'),
             index = collection.data( 'index' ),
-            newForm = prototype.replace( /__name__/g, index ),
+            newForm = prototype.replace(regex, index ),
             form = $( newForm );
-
+        console.log(regex);
+        console.log(newForm);
         collection.data( 'index', index + 1 );
         collection.append( form );
 
