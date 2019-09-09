@@ -2,11 +2,23 @@
 
 {% block main %}
 
-    <h3>
-        Le mot de la fin
-    </h3>
+
 
     {{ form_start(form) }}
+
+    <div class="d-flex flex-row justify-content-between">
+        <div>
+            <h3>
+                Le mot de la fin
+            </h3>
+        </div>
+        <div>
+            <button class="btn btn-outline-primary submit" type="submit">
+                <i class="fas fa-save"></i>
+                Enregistrer
+            </button>
+        </div>
+    </div>
 
     <h6 class="my-3">
         Espace pour laisser un message à vos étudiants (ex: encouragements, derniers conseils&hellip;) (facultatif)

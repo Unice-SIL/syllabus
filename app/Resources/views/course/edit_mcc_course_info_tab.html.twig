@@ -2,11 +2,22 @@
 
 {% block main %}
 
-    <h3>
-        Modalités de contrôle des connaissances
-    </h3>
 
     {{ form_start(form) }}
+
+    <div class="d-flex flex-row justify-content-between">
+        <div>
+            <h3>
+                Modalités de contrôle des connaissances
+            </h3>
+        </div>
+        <div>
+            <button class="btn btn-outline-primary submit" type="submit">
+                <i class="fas fa-save"></i>
+                Enregistrer
+            </button>
+        </div>
+    </div>
 
     <div class="row m-3 d-flex flex-row justify-content-around">
         <div class="col-md-6 pl-0" >
