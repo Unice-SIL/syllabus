@@ -9,14 +9,29 @@
     'form/choices_activities_field.html.twig'
     ] %}
 
-    <h3>
-        Sections et activités
-        <img id="infos_sections" src="{{ asset('images/info_32.png') }}" style="cursor: pointer;">
-        <span title="Tout replier."><i class="fas fa-folder secondary"></i></span>
-        <span title="Tout déplier."><i class="fas fa-folder-open secondary"></i></span>
-    </h3>
 
     {{ form_start(form) }}
+
+
+    <div class="d-flex flex-row justify-content-between">
+        <div>
+            <h3>
+                Sections et activités
+                <img id="infos_sections" src="{{ asset('images/info_32.png') }}" style="cursor: pointer;">
+                <span title="Tout replier."><i class="fas fa-folder secondary"></i></span>
+                <span title="Tout déplier."><i class="fas fa-folder-open secondary"></i></span>
+            </h3>
+        </div>
+        <div>
+            <button class="btn btn-outline-primary submit" type="submit">
+                <i class="fas fa-save"></i>
+                Enregistrer
+            </button>
+        </div>
+    </div>
+
+
+
     {{ form_errors(form.sections) }}
     {{ form_widget(form.sections) }}
 
@@ -36,6 +51,8 @@
         Évaluation terminale
         <img id="infos_evaluations" src="{{ asset('images/info_32.png') }}" style="cursor: pointer;">
     </h3>
+
+
     <div class="row">
         <div class="col border ml-3 mr-3 p-1">
             {{ form_widget(form.ctEvaluations) }}

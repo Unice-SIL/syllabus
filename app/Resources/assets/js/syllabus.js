@@ -150,8 +150,7 @@ var Syllabus = ( function ( ) {
 
     var addFormToCollection = function( collection, placeholder ) {
 
-        if(placeholder === null) placeholder = '__name__';
-        console.log(placeholder);
+        if(!placeholder) placeholder = '__name__';
         var prototype = collection.data( 'prototype' ),
             regex = new RegExp(placeholder, 'g'),
             index = collection.data( 'index' ),

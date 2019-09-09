@@ -5,11 +5,23 @@
     'form/teachers_field.html.twig'
     ] %}
 
-    <h3>
-        Présentation générale
-    </h3>
 
     {{ form_start(form) }}
+
+    <div class="d-flex flex-row justify-content-between">
+        <div>
+            <h3>
+                Présentation générale
+            </h3>
+        </div>
+        <div>
+            <button class="btn btn-outline-primary submit" type="submit">
+                <i class="fas fa-save"></i>
+                Enregistrer
+            </button>
+        </div>
+    </div>
+
     {{ form_errors(form) }}
     <div class="row mt-3">
         <div class="col">
@@ -80,7 +92,7 @@
                         {% else %}
                             {% set imgSrc = courseInfo.image %}
                         {% endif %}
-                    <img class="img-thumbnail" id="media_image" src="{{ asset('data/' ~ imgSrc) }}">
+                        <img class="img-thumbnail" id="media_image" src="{{ asset('data/' ~ imgSrc) }}">
                     {% endif %}
                 </div>
                 <div class="{{ videoContentClasses }}" id="media_video_container" role="tabpanel">
@@ -346,7 +358,7 @@
             reader.onload = function() {
                 if (!$('#media_image').length) {
                     $('#media_image_container')
-                            .append('<img class="img-thumbnail" id="media_image" src="'+reader.result+'">');
+                        .append('<img class="img-thumbnail" id="media_image" src="'+reader.result+'">');
                 } else {
                     $('#media_image').attr('src', reader.result);
                 }
@@ -373,7 +385,7 @@
                 '<li><strong>Débutant</strong> : Ce cours demande peu ou pas de connaissances préaables.</li>' +
                 '<li><strong>Intermédiaire</strong> : Ce cours demande quelques connaissances préalables.</li>' +
                 '<li><strong>Avancé</strong> : Ce cours demande d\'importantes connaissances préalables.</li>' +
-            '</ul>';
+                '</ul>';
             bootbox.dialog({
                 message: message,
                 backdrop: true,
