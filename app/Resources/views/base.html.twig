@@ -102,6 +102,14 @@
 
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}
+
+    <script>
+        $(document).ready(function(){
+            $("body").on("shown.bs.modal", ".modal", function() {
+                $(this).find('div.modal-dialog').animate("top",$(parent.window.document).scrollTop());
+            });
+        });
+    </script>
 {% endblock %}
 
     </body>

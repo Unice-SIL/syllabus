@@ -80,7 +80,7 @@
                                 {% set levelText = 'Niveau débutant' %}
                             {% elseif course.level == "intermediate" %}
                                 {% set levelIntermediateColor = 'info' %}
-                                {% set levelText = 'Niveau intermédiare' %}
+                                {% set levelText = 'Niveau intermédiaire' %}
                             {% elseif course.level == "advanced" %}
                                 {% set levelIntermediateColor = 'info' %}
                                 {% set levelAdvancedColor = 'info' %}
@@ -102,16 +102,25 @@
                 <div class="col-md-6">
                     {% if parent is not empty and parentInfo is not empty %}
                         <div class="row d-flex flex-row">
-                            <div class="col-md-6 d-flex flex-column border-left px-3">
-                                <h6>{{ parentInfo.title }}</h6>
+                            <div class="col-md-6 d-flex flex-column align-items-start border-left align-self-stretch px-3">
+                                <div>
+                                    <h6>Appartenant à :</h6>
+                                </div>
+                                <div>
+                                    {{ parentInfo.title }}
+                                </div>
                             </div>
-                            <div class="col-md-3 d-flex flex-column border-left px-5">
-                                <h2 class="text-center">{{ parentInfo.ects }}</h2>
-                                <span class="text-center">ECTS</span>
-                            </div>
-                            <div class="col-md-3 d-flex flex-column border-left px-5">
-                                <h2 class="text-center">{{ parent.children|length }}</h2>
-                                <span class="text-center">ECUE</span>
+                            <div class="col-md-6 d-flex flex-column align-items-start align-self-center align-self-stretch border-left">
+                                {% if parent.children|length > 0 %}
+                                    <div class="mb-auto">
+                                        Comprenant <strong>{{ parent.children|length }}</strong> ECUE
+                                    </div>
+                                {% endif %}
+                                {% if parentInfo.ects is not empty %}
+                                    <div>
+                                        Donnant <strong>{{ parentInfo.ects }}</strong> ECTS
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
                     {% endif %}
@@ -430,6 +439,7 @@
                                             </tbody>
                                         </table>
                                     </div>
+                                    {#
                                     <div class="col-md">
                                         <table class="table table-dark bg-transparent">
                                             <thead class="">
@@ -463,12 +473,17 @@
                                             </tbody>
                                         </table>
                                     </div>
+                                    #}
                                 </div>
                             </div >
                         </div>
                     {% endif %}
+                    {#
                     {% if courseInfoHelper.evaluationMethodsAreEmpty(course) == false or courseInfoHelper.evaluationAdvicesAreEmpty(course) == false %}
+                    #}
+                    {% if courseInfoHelper.evaluationAdvicesAreEmpty(course) == false %}
                         <div class="col-lg">
+                            {#
                             {% if courseInfoHelper.evaluationMethodsAreEmpty(course) == false %}
                                 <div id="evaluations_methods" class="mt-4">
                                     <h5 class="border border-info bg-light text-info rounded text-center p-2">MÉTHODES D'ÉVALUATION</h5>
@@ -496,6 +511,7 @@
                                     </div>
                                 </div>
                             {% endif %}
+                            #}
                             {% if courseInfoHelper.evaluationAdvicesAreEmpty(course) == false %}
                                 <div id="evaluations_advices" class="mt-4">
                                     <h5 class="border border-info bg-light text-info rounded text-center p-2">PRÉCISIONS</h5>

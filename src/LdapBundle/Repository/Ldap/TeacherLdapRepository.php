@@ -115,7 +115,9 @@ class TeacherLdapRepository implements TeacherRepositoryInterface
             $query = str_replace('{term}', $term, $this->parameters['teacher']['queries']['search']);
             $entries = $this->ldap->query($this->parameters['teacher']['base_dn'], $query)->execute();
             foreach ($entries as $entry) {
+                dump($entry);
                 $teacher = $this->setTeacherAttributes($entry);
+
                 if (
                     !is_null($teacher->getId()) &&
                     !is_null($teacher->getFirstname()) &&
