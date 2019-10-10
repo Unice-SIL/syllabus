@@ -27,7 +27,7 @@ class CourseSection
     /**
      * @var null|string
      *
-     * @ORM\Column(name="title", type="string", length=100, nullable=true)
+     * @ORM\Column(name="title", type="string", length=200, nullable=true)
      */
     private $title;
 

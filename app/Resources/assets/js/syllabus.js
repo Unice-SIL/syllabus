@@ -96,7 +96,7 @@ var Syllabus = ( function ( ) {
             url: $form.parent( '.tab-pane' ).data( 'submit-url' ),
             data: new FormData( form ),
             cache: false,
-            timeout: 3000
+            timeout: 10000
         } ).done( function( response ) {
             if ( isSubmit ) {
                 Syllabus.handleAjaxResponse( response );
