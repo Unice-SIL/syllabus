@@ -19,10 +19,8 @@ class CourseInfoEvaluationMethodsAreEmptySpecification extends Specification
     public function isSatisfiedBy($courseInfo): bool
     {
         $courseInfoEvaluationCcAreEmptySpecification = new CourseInfoEvaluationCcAreEmptySpecification();
-        $courseInfoEvaluationCtAreEmptySpecification = new CourseInfoEvaluationCtAreEmptySpecification();
         if(
-            $courseInfoEvaluationCcAreEmptySpecification->isSatisfiedBy($courseInfo) &&
-            $courseInfoEvaluationCtAreEmptySpecification->isSatisfiedBy($courseInfo)
+            $courseInfoEvaluationCcAreEmptySpecification->isSatisfiedBy($courseInfo)
         ){
             return true;
         }

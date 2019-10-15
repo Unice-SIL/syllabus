@@ -19,7 +19,7 @@ class CourseInfoEvaluationAdvicesAreEmptySpecification extends Specification
     public function isSatisfiedBy($courseInfo): bool
     {
         if(
-            is_null($courseInfo->getMccAdvice())
+            empty($courseInfo->getMccAdvice())
         ){
             return true;
         }
