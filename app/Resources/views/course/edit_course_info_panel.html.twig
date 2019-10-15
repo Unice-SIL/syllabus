@@ -103,12 +103,20 @@
             </button>
         {% endif %}
         <div class="btn-group btn-block shadow" role="group">
+            <!--
             <button class="btn btn-outline-secondary"
                     id="adviceButton"
                     type="button">
                 <i class="fas fa-comment-dots"></i>
                 Demander un avis (ingénieur pédagogique)
             </button>
+            -->
+            <a class="btn btn-outline-secondary"
+               target="_blank"
+               href="https://forms.office.com/Pages/ResponsePage.aspx?id=fUQgvFKJzUqD5F1otezkb78RiPD675VPioqx3pigUrJUMU1KR0ZVTUVONEtIQkVGOVhSN0ZWWk9WTy4u">
+                <i class="fas fa-comment-dots"></i>
+                Demander un avis (ingénieur pédagogique)
+            </a>
             <a class="btn btn-outline-secondary"
                href="{{ path('view_student', {'id': courseInfo.id}) }}"
                title="La page s'ouvrira dans un nouvel onglet."
