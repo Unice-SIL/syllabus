@@ -104,7 +104,7 @@
                         <div class="row d-flex flex-row">
                             <div class="col-md-6 d-flex flex-column align-items-start border-left align-self-stretch px-3">
                                 <div>
-                                    <h6>Appartenant à :</h6>
+                                    <h6>ECUE appartenant à :</h6>
                                 </div>
                                 <div>
                                     {{ parentInfo.title }}
@@ -113,12 +113,12 @@
                             <div class="col-md-6 d-flex flex-column align-items-start align-self-center align-self-stretch border-left">
                                 {% if parent.children|length > 0 %}
                                     <div class="mb-auto">
-                                        Comprenant <strong>{{ parent.children|length }}</strong> ECUE
+                                        UE comprenant <strong>{{ parent.children|length }}</strong> ECUE
                                     </div>
                                 {% endif %}
                                 {% if parentInfo.ects is not empty %}
                                     <div>
-                                        Donnant <strong>{{ parentInfo.ects }}</strong> ECTS
+                                        UE donnant <strong>{{ parentInfo.ects }}</strong> ECTS
                                     </div>
                                 {% endif %}
                             </div>
