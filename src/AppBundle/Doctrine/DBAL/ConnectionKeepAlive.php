@@ -4,7 +4,7 @@ namespace AppBundle\Doctrine\DBAL;
 
 use Doctrine\DBAL\Connection;
 
-declare(ticks = 1);
+declare(ticks = 300000);
 
 /**
  * Class ConnectionKeepAlive
