@@ -139,22 +139,17 @@ class SavePresentationCourseInfoAction implements ActionInterface
                     throw new CoursePermissionDeniedException();
                 }
 
-                // Init command
-                $editPresentationCourseInfoCommand = new EditPresentationCourseInfoCommand($courseInfo);
-                // Keep original command before modifications
-                $originalEditPresentationCourseInfoCommand = clone $editPresentationCourseInfoCommand;
+                // Keep original course info before modifications
+                $originalCourseInfo = clone $courseInfo;
 
                 // Generate form
-                $form = $this->formFactory->create(
-                    EditPresentationCourseInfoType::class,
-                    $editPresentationCourseInfoCommand
-                );
+                $form = $this->formFactory->create(EditPresentationCourseInfoType::class, $courseInfo);
                 $form->handleRequest($request);
 
                 // Check if form is submitted
                 if ($form->isSubmitted()) {
                     // Get form data from request
-                    $editPresentationCourseInfoCommand = $form->getData();
+                    $courseInfo = $form->getData();
                     // If there is no new image to upload or new image not validate constraints, keep the actual image
                     /*
                      * Useless now we use a listener in form builder to re-set image on pre-submit event
@@ -166,7 +161,7 @@ class SavePresentationCourseInfoAction implements ActionInterface
                     }
                     */
                     // Prevent media type non-sense.
-                    $editPresentationCourseInfoCommand->checkMedia();
+                    $courseInfo->checkMedia();
 
                     // Check if form is valid
                     if (!$form->isValid()) {
@@ -182,15 +177,13 @@ class SavePresentationCourseInfoAction implements ActionInterface
                             ];
                         }
                     } else {
-                        $editPresentationCourseInfoCommand->setTemPresentationTabValid(true);
+                        $courseInfo->setTemPresentationTabValid(true);
                     }
 
                     // Check if there have been any changes
-                    if ($editPresentationCourseInfoCommand != $originalEditPresentationCourseInfoCommand) {
+                    if ($courseInfo != $originalCourseInfo) {
                         // Save changes
-                        $this->editPresentationCourseInfoQuery->setEditPresentationCourseInfoCommand(
-                            $editPresentationCourseInfoCommand
-                        )->execute();
+                        $this->editPresentationCourseInfoQuery->execute($courseInfo, $originalCourseInfo);
 
                         // Return message success
                         $messages[] = [
