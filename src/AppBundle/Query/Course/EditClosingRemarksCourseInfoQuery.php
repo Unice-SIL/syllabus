@@ -3,6 +3,7 @@
 namespace AppBundle\Query\Course;
 
 use AppBundle\Command\Course\EditClosingRemarksCourseInfoCommand;
+use AppBundle\Entity\CourseInfo;
 use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Query\QueryInterface;
 use AppBundle\Repository\CourseInfoRepositoryInterface;
@@ -12,18 +13,13 @@ use Symfony\Component\Security\Core\Security;
  * Class EditClosingRemarksCourseInfoQuery
  * @package AppBundle\Query\Course
  */
-class EditClosingRemarksCourseInfoQuery implements QueryInterface
+class EditClosingRemarksCourseInfoQuery
 {
 
     /**
      * @var CourseInfoRepositoryInterface
      */
     private $courseInfoRepository;
-
-    /**
-     * @var EditClosingRemarksCourseInfoCommand
-     */
-    private $editClosingRemarksCourseInfoCommand;
 
     /**
      * @var Security
@@ -45,32 +41,12 @@ class EditClosingRemarksCourseInfoQuery implements QueryInterface
     }
 
     /**
-     * @param EditClosingRemarksCourseInfoCommand $editClosingRemarksCourseInfoCommand
-     * @return EditClosingRemarksCourseInfoQuery
-     */
-    public function setEditClosingRemarksCourseInfoCommand(EditClosingRemarksCourseInfoCommand $editClosingRemarksCourseInfoCommand): EditClosingRemarksCourseInfoQuery
-    {
-        $this->editClosingRemarksCourseInfoCommand = $editClosingRemarksCourseInfoCommand;
-        return $this;
-    }
-
-    /**
-     * @throws CourseInfoNotFoundException
+     * @param CourseInfo $courseInfo
      * @throws \Exception
      */
-    public function execute(): void
+    public function execute(CourseInfo $courseInfo): void
     {
-        try {
-            // Find CourseInfo
-            $courseInfo = $this->courseInfoRepository->find($this->editClosingRemarksCourseInfoCommand->getId());
-        }catch (\Exception $e){
-            throw $e;
-        }
-        if(is_null($courseInfo)){
-            throw new CourseInfoNotFoundException(sprintf('CourseInfo with id %s not found.', $this->editClosingRemarksCourseInfoCommand->getId()));
-        }
         try{
-            $courseInfo = $this->editClosingRemarksCourseInfoCommand->filledEntity($courseInfo);
             $courseInfo->setModificationDate(new \DateTime())
                 ->setLastUpdater($this->security->getUser());
             $this->courseInfoRepository->beginTransaction();
