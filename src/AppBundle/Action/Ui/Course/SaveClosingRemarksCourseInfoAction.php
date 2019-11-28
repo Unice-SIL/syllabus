@@ -102,6 +102,8 @@ class SaveClosingRemarksCourseInfoAction implements ActionInterface
 
     /**
      * @Route("/course/closingremarks/save/{id}", name="save_closing_remarks_course_info")
+     * @param Request $request
+     * @return JsonResponse
      */
     public function __invoke(Request $request)
     {
@@ -112,21 +114,22 @@ class SaveClosingRemarksCourseInfoAction implements ActionInterface
             // Find course info by id
             try {
                 $courseInfo = $this->findCourseInfoByIdQuery->setId($id)->execute();
-                if(!$this->coursePermissionHelper->hasPermission($courseInfo, $this->tokenStorage->getToken()->getUser(),Permission::WRITE)){
+                if(!$this->coursePermissionHelper->hasPermission(
+                    $courseInfo,
+                    $this->tokenStorage->getToken()->getUser(),
+                    Permission::WRITE
+                )){
                     throw new CoursePermissionDeniedException();
                 }
-                // Init command
-                $editClosingRemarksCourseInfoCommand = new EditClosingRemarksCourseInfoCommand($courseInfo);
                 // Keep original command before modifications
-                $originalEditClosingRemarksCourseInfoCommand = clone $editClosingRemarksCourseInfoCommand;
+                $originalCourseInfo = clone $courseInfo;
+
                 // Generate form
-                $form = $this->formFactory->create(
-                    EditClosingRemarksCourseInfoType::class,
-                    $editClosingRemarksCourseInfoCommand
-                );
+                $form = $this->formFactory->create(EditClosingRemarksCourseInfoType::class, $courseInfo);
                 $form->handleRequest($request);
+
                 if ($form->isSubmitted()) {
-                    $editClosingRemarksCourseInfoCommand = $form->getData();
+                    $courseInfo = $form->getData();
                     // Check if there have been anny changes
                     if(!$form->isValid()){
                         $messages[] = [
@@ -134,15 +137,13 @@ class SaveClosingRemarksCourseInfoAction implements ActionInterface
                             'message' => "Attention : l'ensemble des champs obligatoires doit être renseigné pour que le syllabus puisse être publié."
                         ];
                     }else{
-                        $editClosingRemarksCourseInfoCommand->setTemClosingRemarksTabValid(true);
+                        $courseInfo->setTemClosingRemarksTabValid(true);
                     }
 
                     // Check if there have been any changes
-                    if($editClosingRemarksCourseInfoCommand != $originalEditClosingRemarksCourseInfoCommand){
+                    if($courseInfo != $originalCourseInfo){
                         // Save changes
-                        $this->editClosingRemarksCourseInfoQuery->setEditClosingRemarksCourseInfoCommand(
-                            $editClosingRemarksCourseInfoCommand
-                        )->execute();
+                        $this->editClosingRemarksCourseInfoQuery->execute($courseInfo);
 
                         // Return message success
                         $messages[] = [
@@ -190,8 +191,8 @@ class SaveClosingRemarksCourseInfoAction implements ActionInterface
             } catch (CourseInfoNotFoundException $e) {
                 // Return message course not found
                 $messages[] = [
-                        'type' => "danger",
-                        'message' => sprintf("Le syllabus « %s » n'existe pas.", $id)
+                    'type' => "danger",
+                    'message' => sprintf("Le syllabus « %s » n'existe pas.", $id)
                 ];
             }
         }catch (CoursePermissionDeniedException $e){
