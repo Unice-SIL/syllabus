@@ -136,7 +136,8 @@ class SaveClosingRemarksCourseInfoAction implements ActionInterface
                             'type' => "warning",
                             'message' => "Attention : l'ensemble des champs obligatoires doit être renseigné pour que le syllabus puisse être publié."
                         ];
-                    }else{
+                    }
+                    else {
                         $courseInfo->setTemClosingRemarksTabValid(true);
                     }
 
@@ -150,7 +151,8 @@ class SaveClosingRemarksCourseInfoAction implements ActionInterface
                             'type' => "success",
                             'message' => "Modifications enregistrées avec succès."
                         ];
-                    }else{
+                    }
+                    else {
                         $messages[] = [
                             'type' => "info",
                             'message' => "Aucun changement à enregistrer."

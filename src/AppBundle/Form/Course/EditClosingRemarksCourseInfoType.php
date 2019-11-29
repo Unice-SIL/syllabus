@@ -49,7 +49,7 @@ class EditClosingRemarksCourseInfoType extends AbstractType
     /**
      * @return string
      */
-    /*public function getName(){
+    public function getName(){
         return EditClosingRemarksCourseInfoType::class;
-    }*/
+    }
 }
