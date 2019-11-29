@@ -71,9 +71,9 @@ class CoursePresentationImageUploadListener
                 $this->fileRemoverHelper
                     ->remove($entity->getPreviousImage());
             }
+            $this->getFile($entity);
         }
 
-        $this->getFile($entity);
     }
 
     /**
