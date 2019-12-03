@@ -55,6 +55,7 @@ class EditEquipmentsCourseInfoQuery
      */
     public function execute(CourseInfo $courseInfo, CourseInfo $originalCourseInfo): void
     {
+        dump($courseInfo, $originalCourseInfo);
         try{
             $courseInfo->setModificationDate(new \DateTime())
                 ->setLastUpdater($this->security->getUser());
@@ -70,7 +71,7 @@ class EditEquipmentsCourseInfoQuery
                 }
             }
 
-            // Loop on original course resource equipments to detect Resourceequipments must be removed
+            // Loop on original course resource equipments to detect ResourceEquipments must be removed
             /** @var CourseResourceEquipment $courseResourceEquipment */
             foreach ($originalCourseInfo as $courseResourceEquipment)
             {

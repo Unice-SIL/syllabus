@@ -6,6 +6,8 @@ use AppBundle\Action\ActionInterface;
 use AppBundle\Command\Course\EditEquipmentsCourseInfoCommand;
 use AppBundle\Command\CourseResourceEquipment\CourseResourceEquipmentCommand;
 use AppBundle\Constant\Permission;
+use AppBundle\Entity\CourseResourceEquipment;
+use AppBundle\Entity\Equipment;
 use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Exception\CoursePermissionDeniedException;
 use AppBundle\Form\Course\EditEquipmentsCourseInfoType;
@@ -125,6 +127,7 @@ class SaveEquipmentsCourseInfoAction implements ActionInterface
 
                 // Generate form
                 $form = $this->formFactory->create(EditEquipmentsCourseInfoType::class, $courseInfo);
+                dump($request->request->get('edit_equipments_course_info'));
                 $form->handleRequest($request);
 
                 if ($form->isSubmitted()) {

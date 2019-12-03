@@ -55,16 +55,19 @@ class EditEquipmentsCourseInfoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('courseResourceEquipments', CollectionType::class, [
-                'label' => false,
-                'entry_type' => CourseResourceEquipmentType::class,
-                'entry_options' => [
+            ->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) {
+                $form = $event->getForm();
+                $form->add('courseResourceEquipments', CollectionType::class, [
                     'label' => false,
-                ],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-            ])
+                    'entry_type' => CourseResourceEquipmentType::class,
+                    'entry_options' => [
+                        'label' => false,
+                    ],
+                    'allow_add' => true,
+                    'allow_delete' => true,
+                    'by_reference' => false,
+                ]);
+            })
             ->add('listEquipments', EntityType::class, [
                 'label' => false,
                 'mapped' => false,
@@ -84,12 +87,12 @@ class EditEquipmentsCourseInfoType extends AbstractType
                 // Get data
                 $data = $event->getData();
                 // Sort equipments
-                if(array_key_exists('equipments', $data)){
-                    $equipments = array_values($data['equipments']);
+                if(array_key_exists('courseResourceEquipments', $data)){
+                    $equipments = array_values($data['courseResourceEquipments']);
                     foreach ($equipments as $i => $equipment){
                         $equipments[$i]['order'] = $i+1;
                     }
-                    $data['equipments'] = $equipments;
+                    $data['courseResourceEquipments'] = $equipments;
                 }
                 //Set data
                 $event->setData($data);
