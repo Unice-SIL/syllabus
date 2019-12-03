@@ -2,18 +2,18 @@
 
 namespace AppBundle\Query\Course;
 
-use AppBundle\Command\Course\EditEquipmentsCourseInfoCommand;
-use AppBundle\Exception\CourseInfoNotFoundException;
-use AppBundle\Query\QueryInterface;
+use AppBundle\Entity\CourseInfo;
+use AppBundle\Entity\CourseResourceEquipment;
 use AppBundle\Repository\CourseInfoRepositoryInterface;
 use AppBundle\Repository\CourseResourceEquipmentRepositoryInterface;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\Security\Core\Security;
 
 /**
  * Class EditEquipmentsCourseInfoQuery
  * @package AppBundle\Query\Course
  */
-class EditEquipmentsCourseInfoQuery implements QueryInterface
+class EditEquipmentsCourseInfoQuery
 {
 
     /**
@@ -25,11 +25,6 @@ class EditEquipmentsCourseInfoQuery implements QueryInterface
      * @var CourseResourceEquipmentRepositoryInterface
      */
     private $courseResourceEquipmentRepository;
-
-    /**
-     * @var EditEquipmentsCourseInfoCommand
-     */
-    private $editEquipmentsCourseInfoCommand;
 
     /**
      * @var Security
@@ -54,45 +49,38 @@ class EditEquipmentsCourseInfoQuery implements QueryInterface
     }
 
     /**
-     * @param EditEquipmentsCourseInfoCommand $editEquipmentsCourseInfoCommand
-     * @return EditEquipmentsCourseInfoQuery
-     */
-    public function setEditEquipmentsCourseInfoCommand(EditEquipmentsCourseInfoCommand $editEquipmentsCourseInfoCommand): EditEquipmentsCourseInfoQuery
-    {
-        $this->editEquipmentsCourseInfoCommand = $editEquipmentsCourseInfoCommand;
-        return $this;
-    }
-
-    /**
-     * @throws CourseInfoNotFoundException
+     * @param CourseInfo $courseInfo
+     * @param CourseInfo $originalCourseInfo
      * @throws \Exception
      */
-    public function execute(): void
+    public function execute(CourseInfo $courseInfo, CourseInfo $originalCourseInfo): void
     {
-        try {
-            // Find CourseInfo
-            $courseInfo = $this->courseInfoRepository->find($this->editEquipmentsCourseInfoCommand->getId());
-        }catch (\Exception $e){
-            throw $e;
-        }
-        if(is_null($courseInfo)){
-            throw new CourseInfoNotFoundException(sprintf('CourseInfo with id %s not found.', $this->editEquipmentsCourseInfoCommand->getId()));
-        }
+        dump($courseInfo, $originalCourseInfo);
         try{
-            // Keep an original course equipments copy
-            $originalCourseResourceEquipments = $courseInfo->getCourseResourceEquipments();
-            // Fill course info with new values
-            $courseInfo = $this->editEquipmentsCourseInfoCommand->filledEntity($courseInfo);
             $courseInfo->setModificationDate(new \DateTime())
                 ->setLastUpdater($this->security->getUser());
             // Start transaction
             $this->courseInfoRepository->beginTransaction();
-            // Loop on original course resource equipments to detect Resourceequipments must be removed
-            foreach ($originalCourseResourceEquipments as $courseResourceEquipment) {
-                if (!$courseInfo->getCourseResourceEquipments()->contains($courseResourceEquipment)) {
+
+            /** @var CourseResourceEquipment $courseResourceEquipment */
+            foreach ($courseInfo->getCourseResourceEquipments() as $offset => $courseResourceEquipment)
+            {
+                if (empty($courseResourceEquipment->getId()))
+                {
+                    $courseResourceEquipment->setId(Uuid::uuid4());
+                }
+            }
+
+            // Loop on original course resource equipments to detect ResourceEquipments must be removed
+            /** @var CourseResourceEquipment $courseResourceEquipment */
+            foreach ($originalCourseInfo as $courseResourceEquipment)
+            {
+                if (!$courseInfo->getCourseResourceEquipments()->contains($courseResourceEquipment))
+                {
                     $this->courseResourceEquipmentRepository->delete($courseResourceEquipment);
                 }
             }
+
             // Update course infos
             $this->courseInfoRepository->update($courseInfo);
             $this->courseInfoRepository->commit();

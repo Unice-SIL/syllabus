@@ -3,6 +3,7 @@
 namespace AppBundle\Form\CourseResourceEquipment;
 
 use AppBundle\Command\CourseResourceEquipment\CourseResourceEquipmentCommand;
+use AppBundle\Entity\CourseResourceEquipment;
 use AppBundle\Entity\Equipment;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -60,7 +61,7 @@ class CourseResourceEquipmentType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => CourseResourceEquipmentCommand::class,
+            'data_class' => CourseResourceEquipment::class,
         ]);
     }
 

@@ -6,6 +6,8 @@ use AppBundle\Action\ActionInterface;
 use AppBundle\Command\Course\EditEquipmentsCourseInfoCommand;
 use AppBundle\Command\CourseResourceEquipment\CourseResourceEquipmentCommand;
 use AppBundle\Constant\Permission;
+use AppBundle\Entity\CourseResourceEquipment;
+use AppBundle\Entity\Equipment;
 use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Exception\CoursePermissionDeniedException;
 use AppBundle\Form\Course\EditEquipmentsCourseInfoType;
@@ -100,6 +102,8 @@ class SaveEquipmentsCourseInfoAction implements ActionInterface
 
     /**
      * @Route("/course/equipments/save/{id}", name="save_equipments_course_info")
+     * @param Request $request
+     * @return JsonResponse
      */
     public function __invoke(Request $request)
     {
@@ -110,21 +114,24 @@ class SaveEquipmentsCourseInfoAction implements ActionInterface
             // Find course info by id
             try {
                 $courseInfo = $this->findCourseInfoByIdQuery->setId($id)->execute();
-                if(!$this->coursePermissionHelper->hasPermission($courseInfo, $this->tokenStorage->getToken()->getUser(),Permission::WRITE)){
+                if(!$this->coursePermissionHelper->hasPermission(
+                    $courseInfo,
+                    $this->tokenStorage->getToken()->getUser(),
+                    Permission::WRITE
+                )){
                     throw new CoursePermissionDeniedException();
                 }
-                // Init command
-                $editEquipmentsCourseInfoCommand = new EditEquipmentsCourseInfoCommand($courseInfo);
+
                 // Keep original command before modifications
-                $originalEditEquipmentsCourseInfoCommand = clone $editEquipmentsCourseInfoCommand;
+                $originalCourseInfo = clone $courseInfo;
+
                 // Generate form
-                $form = $this->formFactory->create(
-                    EditEquipmentsCourseInfoType::class,
-                    $editEquipmentsCourseInfoCommand
-                );
+                $form = $this->formFactory->create(EditEquipmentsCourseInfoType::class, $courseInfo);
+                dump($request->request->get('edit_equipments_course_info'));
                 $form->handleRequest($request);
+
                 if ($form->isSubmitted()) {
-                    $editEquipmentsCourseInfoCommand = $form->getData();
+                    $courseInfo = $form->getData();
                     // Check if form is valid
                     if(!$form->isValid()){
                         $messages[] = [
@@ -132,15 +139,13 @@ class SaveEquipmentsCourseInfoAction implements ActionInterface
                             'message' => "Attention : l'ensemble des champs obligatoires doit être renseigné pour que le syllabus puisse être publié."
                         ];
                     }else{
-                        $editEquipmentsCourseInfoCommand->setTemEquipmentsTabValid(true);
+                        $courseInfo->setTemEquipmentsTabValid(true);
                     }
 
                     // Check if there have been any changes
-                    if($editEquipmentsCourseInfoCommand != $originalEditEquipmentsCourseInfoCommand) {
+                    if($courseInfo != $originalCourseInfo) {
                         // Save changes
-                        $this->editEquipmentsCourseInfoQuery->setEditEquipmentsCourseInfoCommand(
-                            $editEquipmentsCourseInfoCommand
-                        )->execute();
+                        $this->editEquipmentsCourseInfoQuery->execute($courseInfo, $originalCourseInfo);
 
                         // Return message success
                         $messages[] = [
