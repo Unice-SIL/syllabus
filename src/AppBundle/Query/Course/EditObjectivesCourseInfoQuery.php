@@ -2,9 +2,7 @@
 
 namespace AppBundle\Query\Course;
 
-use AppBundle\Command\Course\EditObjectivesCourseInfoCommand;
-use AppBundle\Exception\CourseInfoNotFoundException;
-use AppBundle\Query\QueryInterface;
+use AppBundle\Entity\CourseInfo;
 use AppBundle\Repository\CourseAchievementRepositoryInterface;
 use AppBundle\Repository\CourseInfoRepositoryInterface;
 use AppBundle\Repository\CoursePrerequisiteRepositoryInterface;
@@ -15,7 +13,7 @@ use Symfony\Component\Security\Core\Security;
  * Class EditObjectivesCourseInfoQuery
  * @package AppBundle\Query\Course
  */
-class EditObjectivesCourseInfoQuery implements QueryInterface
+class EditObjectivesCourseInfoQuery
 {
 
     /**
@@ -37,11 +35,6 @@ class EditObjectivesCourseInfoQuery implements QueryInterface
      * @var CourseTutoringResourceRepositoryInterface
      */
     private $courseTutoringResourceRepository;
-
-    /**
-     * @var EditObjectivesCourseInfoCommand
-     */
-    private $editObjectivesCourseInfoCommand;
 
     /**
      * @var Security
@@ -71,31 +64,13 @@ class EditObjectivesCourseInfoQuery implements QueryInterface
         $this->security = $security;
     }
 
-    /**
-     * @param EditObjectivesCourseInfoCommand $editObjectivesCourseInfoCommand
-     * @return EditObjectivesCourseInfoQuery
-     */
-    public function setEditObjectivesCourseInfoCommand(EditObjectivesCourseInfoCommand $editObjectivesCourseInfoCommand): EditObjectivesCourseInfoQuery
-    {
-        $this->editObjectivesCourseInfoCommand = $editObjectivesCourseInfoCommand;
-        return $this;
-    }
 
     /**
-     * @throws CourseInfoNotFoundException
+     * @param CourseInfo $courseInfo
      * @throws \Exception
      */
-    public function execute(): void
+    public function execute(CourseInfo $courseInfo): void
     {
-        try {
-            // Find CourseInfo
-            $courseInfo = $this->courseInfoRepository->find($this->editObjectivesCourseInfoCommand->getId());
-        }catch (\Exception $e){
-            throw $e;
-        }
-        if(is_null($courseInfo)){
-            throw new CourseInfoNotFoundException(sprintf('CourseInfo with id %s not found.', $this->editObjectivesCourseInfoCommand->getId()));
-        }
         try{
             // Keep an original course achievements copy
             $originalCourseAchievements = $courseInfo->getCourseAchievements();
@@ -104,7 +79,7 @@ class EditObjectivesCourseInfoQuery implements QueryInterface
             // Keep an original course tutoring resources copy
             $originalCourseTutoringResources = $courseInfo->getCourseTutoringResources();
             // Fill course info with new values
-            $courseInfo = $this->editObjectivesCourseInfoCommand->filledEntity($courseInfo);
+            //$courseInfo = $this->editObjectivesCourseInfoCommand->filledEntity($courseInfo);
             $courseInfo->setModificationDate(new \DateTime())
                 ->setLastUpdater($this->security->getUser());
             // Start transaction

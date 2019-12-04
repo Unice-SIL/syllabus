@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form\CourseResourceEquipment;
 
+
 use AppBundle\Command\CourseResourceEquipment\CourseResourceEquipmentCommand;
 use AppBundle\Entity\Equipment;
 use Doctrine\ORM\EntityManager;

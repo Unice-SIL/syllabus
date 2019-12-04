@@ -3,7 +3,6 @@
 namespace AppBundle\Action\Ui\Course;
 
 use AppBundle\Action\ActionInterface;
-use AppBundle\Command\Course\EditObjectivesCourseInfoCommand;
 use AppBundle\Constant\Permission;
 use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Exception\CoursePermissionDeniedException;
@@ -115,15 +114,14 @@ class SaveObjectivesCourseInfoAction implements ActionInterface
                     throw new CoursePermissionDeniedException();
                 }
                 // Init command
-                $editObjectivesCourseInfoCommand = new EditObjectivesCourseInfoCommand($courseInfo);
+                //$editObjectivesCourseInfoCommand = new EditObjectivesCourseInfoCommand($courseInfo);
                 // Keep original command before modifications
-                $originalEditObjectivesCourseInfoCommand = clone $editObjectivesCourseInfoCommand;
+                $originalEditCourseInfo = clone $courseInfo;
                 //
-                $form = $this->formFactory->create(EditObjectivesCourseInfoType::class, $editObjectivesCourseInfoCommand);
+                $form = $this->formFactory->create(EditObjectivesCourseInfoType::class, $courseInfo);
                 $form->handleRequest($request);
                 if($form->isSubmitted()){
-                    $editObjectivesCourseInfoCommand = $form->getData();
-
+                    $courseInfo = $form->getData();
                     // Check if form is valid
                     if(!$form->isValid()){
                         $messages[] = [
@@ -131,13 +129,13 @@ class SaveObjectivesCourseInfoAction implements ActionInterface
                             'message' => "Attention : l'ensemble des champs obligatoires doit être renseigné pour que le syllabus puisse être publié."
                         ];
                     }else{
-                        $editObjectivesCourseInfoCommand->setTemObjectivesTabValid(true);
+                        $courseInfo->setTemObjectivesTabValid(true);
                     }
 
                     // Check if there have been anny changes
-                    if($editObjectivesCourseInfoCommand != $originalEditObjectivesCourseInfoCommand) {
+                    if($courseInfo != $originalEditCourseInfo) {
                         // Save changes
-                        $this->editObjectivesCourseInfoQuery->setEditObjectivesCourseInfoCommand($editObjectivesCourseInfoCommand)->execute();
+                        $this->editObjectivesCourseInfoQuery->execute($courseInfo);
 
                         // Return message success
                         $messages[] = [
