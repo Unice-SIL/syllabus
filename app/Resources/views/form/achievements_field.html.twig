@@ -16,7 +16,7 @@
     </li>
 {% endmacro %}
 
-{% block _edit_objectives_course_info_achievements_widget %}
+{% block _edit_objectives_course_info_courseAchievements_widget %}
     {% import _self as achievementsField %}
     <ul class="list-group striped" id="achievements" data-prototype="{{ achievementsField.achievement_template(form.vars.prototype)|e }}">
         {% for achievement in form.children %}

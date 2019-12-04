@@ -15,8 +15,11 @@ use AppBundle\Helper\CourseInfoHelper;
 use AppBundle\Helper\CoursePermissionHelper;
 use AppBundle\Query\Course\EditEquipmentsCourseInfoQuery;
 use AppBundle\Query\Course\FindCourseInfoByIdQuery;
+use AppBundle\Repository\Doctrine\EquipmentDoctrineRepository;
+use AppBundle\Repository\EquipmentRepositoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Psr\Log\LoggerInterface;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -66,7 +69,15 @@ class SaveEquipmentsCourseInfoAction implements ActionInterface
      */
     private $logger;
 
+    /**
+     * @var CourseInfoHelper
+     */
     private $courseInfoHelper;
+
+    /**
+     * @var EquipmentDoctrineRepository
+     */
+    private $equipmentDoctrineRepository;
 
     /**
      * SaveEquipmentsCourseInfoAction constructor.
@@ -87,7 +98,8 @@ class SaveEquipmentsCourseInfoAction implements ActionInterface
         FormFactoryInterface $formFactory,
         Environment $templating,
         LoggerInterface $logger,
-        CourseInfoHelper $courseInfoHelper
+        CourseInfoHelper $courseInfoHelper,
+        EquipmentRepositoryInterface $equipmentDoctrineRepository
     )
     {
         $this->findCourseInfoByIdQuery = $findCourseInfoByIdQuery;
@@ -98,6 +110,7 @@ class SaveEquipmentsCourseInfoAction implements ActionInterface
         $this->logger = $logger;
         $this->templating = $templating;
         $this->courseInfoHelper = $courseInfoHelper;
+        $this->equipmentDoctrineRepository = $equipmentDoctrineRepository;
     }
 
     /**
@@ -124,10 +137,18 @@ class SaveEquipmentsCourseInfoAction implements ActionInterface
 
                 // Keep original command before modifications
                 $originalCourseInfo = clone $courseInfo;
+/*
+                $requestCRE = $request->request->get('edit_equipments_course_info');
+                $equipment = $this->equipmentDoctrineRepository->find($requestCRE['courseResourceEquipments'][0]['equipment']);
+                $CRE = new CourseResourceEquipment();
+                $CRE->setId(Uuid::uuid4())
+                    ->setCourseInfo($courseInfo)
+                    ->setEquipment($equipment);
 
+                $courseInfo->addCourseResourceEquipment($CRE);
+                dump($courseInfo);*/
                 // Generate form
                 $form = $this->formFactory->create(EditEquipmentsCourseInfoType::class, $courseInfo);
-                dump($request->request->get('edit_equipments_course_info'));
                 $form->handleRequest($request);
 
                 if ($form->isSubmitted()) {
