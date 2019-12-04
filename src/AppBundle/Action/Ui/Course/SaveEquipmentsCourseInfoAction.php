@@ -137,16 +137,22 @@ class SaveEquipmentsCourseInfoAction implements ActionInterface
 
                 // Keep original command before modifications
                 $originalCourseInfo = clone $courseInfo;
-/*
-                $requestCRE = $request->request->get('edit_equipments_course_info');
-                $equipment = $this->equipmentDoctrineRepository->find($requestCRE['courseResourceEquipments'][0]['equipment']);
-                $CRE = new CourseResourceEquipment();
-                $CRE->setId(Uuid::uuid4())
-                    ->setCourseInfo($courseInfo)
-                    ->setEquipment($equipment);
 
-                $courseInfo->addCourseResourceEquipment($CRE);
-                dump($courseInfo);*/
+                if ($requestContent = $request->request->get('edit_equipments_course_info')) {
+                    if (in_array('courseResourceEquipments', $requestContent)) {
+                        $requestCRE = $requestContent['courseResourceEquipments'];
+                        foreach ($requestCRE as $cre) {
+                            $equipment = $this->equipmentDoctrineRepository->find($cre['equipment']);
+                            $CRE = new CourseResourceEquipment();
+                            $CRE->setId(Uuid::uuid4())
+                                ->setDescription($cre['description'])
+                                ->setCourseInfo($courseInfo)
+                                ->setEquipment($equipment);
+
+                            $courseInfo->addCourseResourceEquipment($CRE);
+                        }
+                    }
+                }
                 // Generate form
                 $form = $this->formFactory->create(EditEquipmentsCourseInfoType::class, $courseInfo);
                 $form->handleRequest($request);
