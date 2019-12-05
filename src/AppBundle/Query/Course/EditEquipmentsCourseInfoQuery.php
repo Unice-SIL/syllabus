@@ -55,7 +55,6 @@ class EditEquipmentsCourseInfoQuery
      */
     public function execute(CourseInfo $courseInfo, CourseInfo $originalCourseInfo): void
     {
-        dump($courseInfo, $originalCourseInfo);
         try{
             $courseInfo->setModificationDate(new \DateTime())
                 ->setLastUpdater($this->security->getUser());
