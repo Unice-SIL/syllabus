@@ -50,8 +50,7 @@ class EditObjectivesCourseInfoType extends AbstractType
                 ],
                 'allow_add' => true,
                 'allow_delete' => true,
-                'by_reference' => false,
-                'mapped' => false
+                'by_reference' => false
             ])
             ->add('coursePrerequisites', CollectionType::class, [
                 'label' => false,
@@ -101,7 +100,6 @@ class EditObjectivesCourseInfoType extends AbstractType
                     $achievements = array_values($data['courseAchievements']);
                     foreach ($achievements as $i => $achievement){
                         $achievements[$i]['order'] = $i+1;
-                        $achievements[$i]['courseInfo'] = $this->courseInfo;
                     }
                     $data['courseAchievements'] = $achievements;
                 }
@@ -123,7 +121,6 @@ class EditObjectivesCourseInfoType extends AbstractType
                 }
                 //Set data
                 $event->setData($data);
-                dump($data);
             });
     }
 

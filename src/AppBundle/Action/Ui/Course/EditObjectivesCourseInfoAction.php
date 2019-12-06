@@ -116,7 +116,7 @@ class EditObjectivesCourseInfoAction implements ActionInterface
 
             //$editObjectivesCourseInfoCommand = new EditObjectivesCourseInfoCommand($courseInfo);
             $form = $this->formFactory->create(EditObjectivesCourseInfoType::class, $courseInfo);
-            //$form->handleRequest($request);
+            $form->handleRequest($request);
 
             return new JsonResponse([
                 'content' => $this->templating->render(
