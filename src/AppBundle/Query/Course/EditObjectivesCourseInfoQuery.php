@@ -69,15 +69,15 @@ class EditObjectivesCourseInfoQuery
      * @param CourseInfo $courseInfo
      * @throws \Exception
      */
-    public function execute(CourseInfo $courseInfo): void
+    public function execute(CourseInfo $courseInfo, CourseInfo $originalCourseInfo): void
     {
         try{
             // Keep an original course achievements copy
-            $originalCourseAchievements = $courseInfo->getCourseAchievements();
+            $originalCourseAchievements = $originalCourseInfo->getCourseAchievements();
             // Keep an original course prerequisites copy
-            $originalCoursePrerequisites = $courseInfo->getCoursePrerequisites();
+            $originalCoursePrerequisites = $originalCourseInfo->getCoursePrerequisites();
             // Keep an original course tutoring resources copy
-            $originalCourseTutoringResources = $courseInfo->getCourseTutoringResources();
+            $originalCourseTutoringResources = $originalCourseInfo->getCourseTutoringResources();
             // Fill course info with new values
             //$courseInfo = $this->editObjectivesCourseInfoCommand->filledEntity($courseInfo);
             $courseInfo->setModificationDate(new \DateTime())
