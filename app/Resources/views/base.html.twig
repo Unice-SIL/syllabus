@@ -26,36 +26,37 @@
 
 <html lang="{{ app.request.locale|lower }}">
 
-    <head>
+<head>
 
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="language" content="{{ app.request.locale|upper }}">
-        <meta name="description" content="Présentation générale des cours de licence de l'Université Côte d'Azur.">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="language" content="{{ app.request.locale|upper }}">
+    <meta name="description" content="Présentation générale des cours de licence de l'Université Côte d'Azur.">
 
-        <title>
-{% block title %}
+    <title>
+        {% block title %}
             Syllabus UCA
-{% endblock %}
-        </title>
+        {% endblock %}
+    </title>
 
-        <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
 
-{% block stylesheets %}
-    {{ encore_entry_link_tags('app') }}
-    {% if not in_iframe %}
-        <style>
-            body { padding-bottom: 13rem }
-        </style>
-    {% endif %}
-{% endblock %}
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+        {% if not in_iframe %}
+            <style>
+                body { padding-bottom: 13rem }
+            </style>
+        {% endif %}
+    {% endblock %}
 
-    </head>
+</head>
 
-    <body class="{{ body_class }}">
+<body class="{{ body_class }}">
+<div id="app" class="">
 
-{% if in_iframe == false %}
+    {% if in_iframe == false %}
         <header>
             <div class="{{ container_class }}">
                 <div class="row">
@@ -65,30 +66,30 @@
                 </div>
             </div>
         </header>
-{% endif %}
+    {% endif %}
 
-{% block messages %}
+    {% block messages %}
         <div class="{{ container_class }}" id="alerts_container">
-        {% for type, messages in app.flashes %}
-            {% for message in messages %}
-            <div class="alert alert-{{ type }} alert-dismissible fade show" role="alert">
-                {{ message }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+            {% for type, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ type }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
             {% endfor %}
-        {% endfor %}
         </div>
-{% endblock %}
+    {% endblock %}
 
-        <main class="{{ container_class }}" role="main">
-{% block main %}
+    <main class="{{ container_class }}" role="main">
+        {% block main %}
 
-{% endblock %}
-        </main>
+        {% endblock %}
+    </main>
 
-{% if in_iframe == false %}
+    {% if in_iframe == false %}
         <footer>
             <a href="http://univ-cotedazur.fr/"
                title="Aller sur le site UCA."
@@ -96,22 +97,22 @@
                 <img src={{ asset('images/uca-logo.svg') }}>
             </a>
         </footer>
-{% endif %}
+    {% endif %}
 
-        <div id="loading_spinner"></div>
+    <div id="loading_spinner"></div>
 
-{% block javascripts %}
-    {{ encore_entry_script_tags('app') }}
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
 
-    <script>
-        $(document).ready(function(){
-            $("body").on("shown.bs.modal", ".modal", function() {
-                $(this).find('div.modal-dialog').animate("top",$(parent.window.document).scrollTop());
+        <script>
+            $(document).ready(function(){
+                $("body").on("shown.bs.modal", ".modal", function() {
+                    $(this).find('div.modal-dialog').animate("top",$(parent.window.document).scrollTop());
+                });
             });
-        });
-    </script>
-{% endblock %}
-
-    </body>
+        </script>
+    {% endblock %}
+</div>
+</body>
 
 </html>
