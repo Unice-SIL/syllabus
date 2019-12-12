@@ -23,6 +23,7 @@
         "php": ">=5.5.9",
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/orm": "^2.5",
+        "exercise/htmlpurifier-bundle": "^2.0",
         "friendsofsymfony/ckeditor-bundle": "^2.0",
         "incenteev/composer-parameter-handler": "^2.0",
         "manuelodelain/linkify-twig-extension": "^1.0",

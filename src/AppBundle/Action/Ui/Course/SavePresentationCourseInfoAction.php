@@ -202,7 +202,7 @@ class SavePresentationCourseInfoAction implements ActionInterface
                     $renders[] = [
                         'element' => '#panel_tab-1',
                         'content' => $this->templating->render(
-                            'course/edit_presentation_course_tab.html.twig',
+                            'course_info/presentation/presentation.html.twig',
                             [
                                 'courseInfo' => $courseInfo,
                                 'form' => $form->createView()
