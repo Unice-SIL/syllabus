@@ -20,32 +20,11 @@ html {
 body {
   position: relative;
   min-height: 100%;
-}
-
-header {
-  min-height: 5rem;
-  padding-top: 1rem;
-  margin-bottom: 1rem;
-  background-color: theme-color('info');
-
-  h1 {
-    color: $white;
-  }
+  background-color: white !important;
 }
 
 main > small:first-of-type {
   margin: -.9rem 0;
-}
-
-
-footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  font-size: 0.8em;
-  text-align: center;
-  padding: 1rem 3rem 2rem;
-  background-color: $gray-300;
 }
 
 .bg-black {
@@ -100,6 +79,11 @@ form {
   & > button:last-of-type {
     margin-top: 1rem;
   }
+}
+
+label.required:before {
+  content: "* ";
+  color: red;
 }
 
 input[type=text] {

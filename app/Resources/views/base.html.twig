@@ -51,6 +51,8 @@
         {% endif %}
     {% endblock %}
 
+    {{ encore_entry_script_tags('app') }}
+
 </head>
 
 <body class="{{ body_class }}">
@@ -58,13 +60,6 @@
 
     {% if in_iframe == false %}
         <header>
-            <div class="{{ container_class }}">
-                <div class="row">
-                    <div class="col-12">
-                        <h1>Syllabus L@UCA</h1>
-                    </div>
-                </div>
-            </div>
         </header>
     {% endif %}
 
@@ -91,19 +86,12 @@
 
     {% if in_iframe == false %}
         <footer>
-            <a href="http://univ-cotedazur.fr/"
-               title="Aller sur le site UCA."
-               target="_blank">
-                <img src={{ asset('images/uca-logo.svg') }}>
-            </a>
         </footer>
     {% endif %}
 
     <div id="loading_spinner"></div>
 
     {% block javascripts %}
-        {{ encore_entry_script_tags('app') }}
-
         <script>
             $(document).ready(function(){
                 $("body").on("shown.bs.modal", ".modal", function() {

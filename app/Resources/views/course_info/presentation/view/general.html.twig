@@ -75,17 +75,19 @@
                             {% endif %}
                             Niveau du cours
                         </span>
-                        <span class="text-muted">
-                            {% if courseInfo.level is null %}
+                        {% if courseInfo.level is null %}
+                            <span class="text-danger">
                                 Non-renseigné
-                            {% else %}
+                            </span>
+                        {% else %}
+                            <span class="text-muted">
                                 {% for key, value in constant("AppBundle\\Constant\\Level::CHOICES") %}
                                     {% if courseInfo.level is same as(value) %}
                                         {{ key }}
                                     {% endif %}
                                 {% endfor %}
-                            {% endif %}
-                        </span>
+                            </span>
+                        {% endif %}
                     </div>
                 </div>
             </div>

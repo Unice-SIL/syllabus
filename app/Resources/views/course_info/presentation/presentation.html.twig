@@ -1,163 +1,41 @@
-{% extends 'ajax.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block main %}
-    {% form_theme form with [
-        'form/teachers_field.html.twig'
-    ] %}
 
-    {{ dump(courseInfo) }}
-    {{ form_start(form) }}
-
-    <div class="d-flex flex-row justify-content-between">
-        <div>
-            <h3>
-                Présentation générale
-            </h3>
-        </div>
-        <div>
-            <button class="btn btn-outline-primary submit" type="submit">
-                <i class="fas fa-save"></i>
-                Enregistrer
-            </button>
-        </div>
+    <div id="info_general">
+        {% include('course_info/presentation/view/general.html.twig') %}
     </div>
-
-    {{ form_errors(form) }}
-
-    {% include('course_info/presentation/view/general.html.twig') %}
-    {% include('course_info/presentation/view/synopsis.html.twig') %}
-    {% include('course_info/presentation/form/teachers.html.twig') %}
-    {% include('course_info/presentation/form/teaching_mode.html.twig') %}
-
-    {{ form_end(form) }}
+    <div id="info_synopsis">
+        {% include('course_info/presentation/view/synopsis.html.twig') %}
+    </div>
+    {#    {% include('course_info/presentation/form/teachers.html.twig') %}
+        {% include('course_info/presentation/view/teaching_mode.html.twig') %}#}
 
 {% endblock %}
 
 {% block javascripts %}
-    <script src="{{ asset('bundles/tetranzselect2entity/js/select2entity.js') }}"></script>
+    {{ parent() }}
     <script>
         $(document).ready(function() {
             $(document).on('click', '.update-focus', function () {
-                var card = $(this).closest('.toggle-focus');
-                if ($(card).hasClass('active'))
-                {
-                    $('#app').removeClass('hasActiveChild');
-                    $(card).removeClass('active');
-                }
-                else
-                {
-                    $('#app').addClass('hasActiveChild');
-                    $(card).addClass('active');
-                }
-            });
-        });
-        function toogleTeachingModeHours(){
-            var teachingMode = $("input[name='edit_presentation_course_info[teachingMode]']:checked").val();
-            $("input[data-teaching-mode]").each(function(){
-                if($(this).attr('data-teaching-mode') === teachingMode){
-                    $(this).prop('disabled', false);
-                }else{
-                    $(this).prop('disabled', true);
-                }
-            });
-        }
-
-
-        /**
-         * Init pedagogic team
-         */
-        var teachersCollectionHolder = $('#teachers');
-        teachersCollectionHolder.data('index', teachersCollectionHolder.find('li').length);
-
-        /**
-         * Init teaching mode hours enable/disable
-         */
-        toogleTeachingModeHours();
-
-        /**
-         * Add a teacher to the pedagogic team
-         */
-        $( '#edit_presentation_course_info_teacherSearch' ).on( 'select2:select', function( ) {
-            $.ajax({
-                url: '{{ path('find_course_teacher_json') }}',
-                type: 'GET',
-                data: {
-                    'source': $('#edit_presentation_course_info_teacherSource').val(),
-                    'id': $('#edit_presentation_course_info_teacherSearch').val()
-                },
-                success: function(data){
-                    var teacherAlreadyInTeam = false;
-                    teachersCollectionHolder.find("input[id*=_id]").each(function(){
-                        if($(this).val() === data.id){
-                            teacherAlreadyInTeam = true;
-                            SILTools.alert({
-                                type: 'info',
-                                text: "Cette personne fait déjà partie de l'équipe enseignante."
-                            });
-                        }
-                    });
-                    if(teacherAlreadyInTeam === false) {
-                        var form = Syllabus.addFormToCollection(teachersCollectionHolder);
-                        form.find('.completeName').html(data['completeName']);
-                        form.find('input[id*=_firstname]').val(data['firstname']);
-                        form.find('input[id*=_lastname]').val(data['lastname']);
-                        form.find('input[id*=_email]').val(data['email']);
+                var updateFocus = $(this);
+                var card = updateFocus.closest('.toggle-focus');
+                var url = "{{ path('course_presentation_general', {'id': courseInfo.id }) }}";
+                $.ajax({
+                    url: url,
+                    method: "GET",
+                    dataType: "html",
+                    beforeSend: function () {
+                        updateFocus.attr("disabled", true).html('<i class="fas fa-spinner fa-spin"></i>');
+                        $('#app').addClass('hasActiveChild');
+                        $(card).addClass('active');
+                    },
+                    success: function (data) {
+                        $('#info_general').html(data);
                     }
-                    $('#edit_presentation_course_info_teacherSearch').find('option').remove();
-                    $('#select2-edit_presentation_course_info_teacherSearch-container').html('');
-                }
+                });
             });
-        } );
-
-        /**
-         * Remove a teacher form collection
-         */
-        teachersCollectionHolder.on('click', '.teacher-collection-remove', function(){
-            Syllabus.temporaryItem = $(this).closest('li.teacher');
-            bootbox.confirm("Confirmez-vous le retrait de cette personne de l'équipe pédagogique ?", function(result){
-                if (result === true) {
-                    Syllabus.removeListElement(Syllabus.temporaryItem);
-                }
-            })
         });
-
-        /**
-         * Change the media type value when clicking on media tab
-         */
-        $("#media_type > li > a").on('click', function(){
-            $("#edit_presentation_course_info_mediaType").val($(this).data('media-type'));
-        });
-
-        /**
-         * Change the image preview when change image file
-         */
-        $('#edit_presentation_course_info_image').on('change', function(e) {
-            var reader = new FileReader();
-            reader.onload = function() {
-                if (!$('#media_image').length) {
-                    $('#media_image_container')
-                        .append('<img class="img-thumbnail" id="media_image" src="'+reader.result+'">');
-                } else {
-                    $('#media_image').attr('src', reader.result);
-                }
-            }
-            reader.readAsDataURL(e.target.files[0]);
-        });
-
-        /**
-         * Enable/Disable teaching mode hours inputs
-         */
-        $("input[name='edit_presentation_course_info[teachingMode]']").on('change', function(){
-            toogleTeachingModeHours();
-        });
-
-        /**
-         * Form submission
-         */
-        $("form[name='edit_presentation_course_info']").submit(function(e){
-            Syllabus.submitPanelForm( e, this );
-        });
-
         $('#infos_level').click(function(){
             var message = '<ul>' +
                 '<li><strong>Débutant</strong> : Ce cours demande peu ou pas de connaissances préaables.</li>' +
@@ -170,15 +48,5 @@
                 onEscape: true
             });
         });
-
-        $('#infos_video').click(function(){
-            var message = '<p>Afin de pouvoir intégrer une vidéo dans votre cours, veuillez vous assurer que celle-ci soit hébergée sur un serveur externe à Moodle (ex: UNSPOD, Youtube, ...). Si ce n’est pas le cas, vous pouvez demander de l’aide pour la déposer sur une de ces plateformes.</p><p>Une fois qu’elle y est stockée, vous pouvez cliquer sur “Partager / Intégrer” afin de récupérer le lien d\'intégration ressemblant à : <pre>&lt;iframe ... &gt;&lt;/iframe&gt;</pre> Copiez ce code et insérez-le dans le champ “Vidéo” ci-dessous. La vidéo sera visible par vos étudiants directement sur votre syllabus</p>';
-            bootbox.dialog({
-                message: message,
-                backdrop: true,
-                onEscape: true
-            });
-        });
-
     </script>
 {% endblock %}

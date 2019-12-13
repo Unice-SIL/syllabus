@@ -1,24 +1,24 @@
-<div class="card toggle-focus my-2 shadow">
-    <div class="card-header">
+{{ form_start(form) }}
+<div class="card border-info toggle-focus my-2 shadow">
+    <div class="card-header text-info border-info">
         <div class="d-flex justify-content-between">
             <h3>Synopsis</h3>
-            <button type="button" class="update-focus btn btn-primary">Mettre à jour</button>
         </div>
     </div>
     <div class="card-body">
-
+        {{ form_errors(form) }}
         <div class="row mt-2">
             <div class="col">
-                <h6>
-                    Résumé *
-                </h6>
+                <label class="required font-weight-bold">
+                    Résumé
+                </label>
                 {{ form_errors(form.summary) }}
                 {{ form_widget(form.summary) }}
             </div>
             <div class="col">
-                <h6>
-                    Intégrer une ressource vidéo (ou audio) ou téléverser un fichier image de présentation du cours, en respectant la règlementation sur les droits d'auteur.&nbsp;*
-                </h6>
+                <label class="re">
+                    Intégrer une ressource vidéo (ou audio) ou téléverser un fichier image de présentation du cours, en respectant la règlementation sur les droits d'auteur.
+                </label>
                 {{ form_errors(form.video) }}
                 {{ form_errors(form.image) }}
                 {{ form_widget(form.mediaType) }}
@@ -66,5 +66,15 @@
                 </div>
             </div>
         </div>
+        <div class="mt-2">
+            <button class="update-focus btn btn-primary submit" type="submit">
+                Sauvegarder
+            </button>
+            <button type="button" class="update-focus btn btn-secondary">
+                Annuler
+            </button>
+        </div>
     </div>
 </div>
+{{ form_widget(form._token) }}
+{{ form_end(form, {'render_rest': false }) }}
