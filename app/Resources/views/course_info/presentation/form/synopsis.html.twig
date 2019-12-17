@@ -1,0 +1,80 @@
+{{ form_start(form) }}
+<div class="card border-info toggle-focus my-2 shadow">
+    <div class="card-header text-info border-info">
+        <div class="d-flex justify-content-between">
+            <h3>Synopsis</h3>
+        </div>
+    </div>
+    <div class="card-body">
+        {{ form_errors(form) }}
+        <div class="row mt-2">
+            <div class="col">
+                <label class="required font-weight-bold">
+                    Résumé
+                </label>
+                {{ form_errors(form.summary) }}
+                {{ form_widget(form.summary) }}
+            </div>
+            <div class="col">
+                <label class="re">
+                    Intégrer une ressource vidéo (ou audio) ou téléverser un fichier image de présentation du cours, en respectant la règlementation sur les droits d'auteur.
+                </label>
+                {{ form_errors(form.video) }}
+                {{ form_errors(form.image) }}
+                {{ form_widget(form.mediaType) }}
+                {% set imageTabClasses = 'nav-link' %}
+                {% set imageContentClasses = 'tab-pane fade' %}
+                {% set videoTabClasses = 'nav-link' %}
+                {% set videoContentClasses = 'tab-pane fade' %}
+                {% if form.vars.value.mediaType == 'video' %}
+                    {% set videoTabClasses = videoTabClasses ~ ' active' %}
+                    {% set videoContentClasses = videoContentClasses ~ ' show active' %}
+                {% else %}
+                    {% set imageTabClasses = imageTabClasses ~ ' active' %}
+                    {% set imageContentClasses = imageContentClasses ~ ' show active' %}
+                {% endif %}
+                <ul class="nav nav-tabs" id="media_type" role="tablist">
+                    <li class="nav-item">
+                        <a class="{{ imageTabClasses }}" href="#media_image_container" role="tab" data-toggle="tab" data-media-type="image">
+                            Image
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="{{ videoTabClasses }}" href="#media_video_container" role="tab" data-toggle="tab" data-media-type="video">
+                            Vidéo
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content border p-2">
+                    <div class="{{ imageContentClasses }}" id="media_image_container" role="tabpanel">
+                        <small class="font-weight-bold">Fichier de type jpeg ou png (2Mo maximum)</small>
+                        {{ form_widget(form.image) }}
+                        {% if form.vars.data.image is not null %}
+                            {% if courseInfo.image == form.vars.data.image %}
+                                {% set imgSrc = form.vars.data.image.filename %}
+                            {% else %}
+                                {% set imgSrc = courseInfo.image %}
+                            {% endif %}
+                            <img class="img-thumbnail" id="media_image" src="{{ asset('data/' ~ imgSrc) }}">
+                        {% endif %}
+                    </div>
+                    <div class="{{ videoContentClasses }}" id="media_video_container" role="tabpanel">
+                        <img id="infos_video" src="{{ asset('images/info_32.png') }}" style="cursor: pointer;">
+                        {{ form_widget(form.video) }}
+                        <label placeholder="URL"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-2">
+            <button class="update-focus btn btn-primary submit" type="submit">
+                Sauvegarder
+            </button>
+            <button type="button" class="update-focus btn btn-secondary">
+                Annuler
+            </button>
+        </div>
+    </div>
+</div>
+{{ form_widget(form._token) }}
+{{ form_end(form, {'render_rest': false }) }}

@@ -2,3 +2,6 @@ app:
     resource: '@AppBundle/Action/'
     type: annotation
 
+syllabus:
+    resource: '@AppBundle/Controller/'
+    type: annotation

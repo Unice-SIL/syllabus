@@ -6,6 +6,8 @@ use AppBundle\Action\ActionInterface;
 use AppBundle\Command\Course\EditEquipmentsCourseInfoCommand;
 use AppBundle\Command\CourseResourceEquipment\CourseResourceEquipmentCommand;
 use AppBundle\Constant\Permission;
+use AppBundle\Entity\CourseResourceEquipment;
+use AppBundle\Entity\Equipment;
 use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Exception\CoursePermissionDeniedException;
 use AppBundle\Form\Course\EditEquipmentsCourseInfoType;
@@ -13,8 +15,11 @@ use AppBundle\Helper\CourseInfoHelper;
 use AppBundle\Helper\CoursePermissionHelper;
 use AppBundle\Query\Course\EditEquipmentsCourseInfoQuery;
 use AppBundle\Query\Course\FindCourseInfoByIdQuery;
+use AppBundle\Repository\Doctrine\EquipmentDoctrineRepository;
+use AppBundle\Repository\EquipmentRepositoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Psr\Log\LoggerInterface;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -64,7 +69,15 @@ class SaveEquipmentsCourseInfoAction implements ActionInterface
      */
     private $logger;
 
+    /**
+     * @var CourseInfoHelper
+     */
     private $courseInfoHelper;
+
+    /**
+     * @var EquipmentDoctrineRepository
+     */
+    private $equipmentDoctrineRepository;
 
     /**
      * SaveEquipmentsCourseInfoAction constructor.
@@ -85,7 +98,8 @@ class SaveEquipmentsCourseInfoAction implements ActionInterface
         FormFactoryInterface $formFactory,
         Environment $templating,
         LoggerInterface $logger,
-        CourseInfoHelper $courseInfoHelper
+        CourseInfoHelper $courseInfoHelper,
+        EquipmentRepositoryInterface $equipmentDoctrineRepository
     )
     {
         $this->findCourseInfoByIdQuery = $findCourseInfoByIdQuery;
@@ -96,10 +110,13 @@ class SaveEquipmentsCourseInfoAction implements ActionInterface
         $this->logger = $logger;
         $this->templating = $templating;
         $this->courseInfoHelper = $courseInfoHelper;
+        $this->equipmentDoctrineRepository = $equipmentDoctrineRepository;
     }
 
     /**
      * @Route("/course/equipments/save/{id}", name="save_equipments_course_info")
+     * @param Request $request
+     * @return JsonResponse
      */
     public function __invoke(Request $request)
     {
@@ -110,21 +127,38 @@ class SaveEquipmentsCourseInfoAction implements ActionInterface
             // Find course info by id
             try {
                 $courseInfo = $this->findCourseInfoByIdQuery->setId($id)->execute();
-                if(!$this->coursePermissionHelper->hasPermission($courseInfo, $this->tokenStorage->getToken()->getUser(),Permission::WRITE)){
+                if(!$this->coursePermissionHelper->hasPermission(
+                    $courseInfo,
+                    $this->tokenStorage->getToken()->getUser(),
+                    Permission::WRITE
+                )){
                     throw new CoursePermissionDeniedException();
                 }
-                // Init command
-                $editEquipmentsCourseInfoCommand = new EditEquipmentsCourseInfoCommand($courseInfo);
+
                 // Keep original command before modifications
-                $originalEditEquipmentsCourseInfoCommand = clone $editEquipmentsCourseInfoCommand;
+                $originalCourseInfo = clone $courseInfo;
+
+                if ($requestContent = $request->request->get('edit_equipments_course_info')) {
+                    if (in_array('courseResourceEquipments', $requestContent)) {
+                        $requestCRE = $requestContent['courseResourceEquipments'];
+                        foreach ($requestCRE as $cre) {
+                            $equipment = $this->equipmentDoctrineRepository->find($cre['equipment']);
+                            $CRE = new CourseResourceEquipment();
+                            $CRE->setId(Uuid::uuid4())
+                                ->setDescription($cre['description'])
+                                ->setCourseInfo($courseInfo)
+                                ->setEquipment($equipment);
+
+                            $courseInfo->addCourseResourceEquipment($CRE);
+                        }
+                    }
+                }
                 // Generate form
-                $form = $this->formFactory->create(
-                    EditEquipmentsCourseInfoType::class,
-                    $editEquipmentsCourseInfoCommand
-                );
+                $form = $this->formFactory->create(EditEquipmentsCourseInfoType::class, $courseInfo);
                 $form->handleRequest($request);
+
                 if ($form->isSubmitted()) {
-                    $editEquipmentsCourseInfoCommand = $form->getData();
+                    $courseInfo = $form->getData();
                     // Check if form is valid
                     if(!$form->isValid()){
                         $messages[] = [
@@ -132,15 +166,13 @@ class SaveEquipmentsCourseInfoAction implements ActionInterface
                             'message' => "Attention : l'ensemble des champs obligatoires doit être renseigné pour que le syllabus puisse être publié."
                         ];
                     }else{
-                        $editEquipmentsCourseInfoCommand->setTemEquipmentsTabValid(true);
+                        $courseInfo->setTemEquipmentsTabValid(true);
                     }
 
                     // Check if there have been any changes
-                    if($editEquipmentsCourseInfoCommand != $originalEditEquipmentsCourseInfoCommand) {
+                    if($courseInfo != $originalCourseInfo) {
                         // Save changes
-                        $this->editEquipmentsCourseInfoQuery->setEditEquipmentsCourseInfoCommand(
-                            $editEquipmentsCourseInfoCommand
-                        )->execute();
+                        $this->editEquipmentsCourseInfoQuery->execute($courseInfo, $originalCourseInfo);
 
                         // Return message success
                         $messages[] = [

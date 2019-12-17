@@ -64,14 +64,16 @@ class CoursePresentationImageUploadListener
     {
         $entity = $args->getEntity();
 
-        if (true === $entity instanceof CourseInfo) {
+        if ($entity instanceof CourseInfo) {
 
             if ($entity->getPreviousImage() &&
                     ($entity->getPreviousImage() !== $entity->getImage())) {
                 $this->fileRemoverHelper
                     ->remove($entity->getPreviousImage());
             }
+            $this->getFile($entity);
         }
+
     }
 
     /**
@@ -82,6 +84,14 @@ class CoursePresentationImageUploadListener
         if(!$courseInfo instanceof CourseInfo){
             return;
         }
+        $this->getFile($courseInfo);
+    }
+
+    /**
+     * @param CourseInfo $courseInfo
+     */
+    public function getFile(CourseInfo $courseInfo)
+    {
         if($filename = $courseInfo->getImage()){
             $courseInfo->setPreviousImage();
             $path = $this->fileUploaderHelper->getDirectory().'/'.$filename;

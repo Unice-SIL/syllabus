@@ -149,15 +149,12 @@ var Syllabus = ( function ( ) {
 
 
     var addFormToCollection = function( collection, placeholder ) {
-
         if(!placeholder) placeholder = '__name__';
         var prototype = collection.data( 'prototype' ),
             regex = new RegExp(placeholder, 'g'),
             index = collection.data( 'index' ),
             newForm = prototype.replace(regex, index ),
             form = $( newForm );
-        console.log(regex);
-        console.log(newForm);
         collection.data( 'index', index + 1 );
         collection.append( form );
 
@@ -194,7 +191,6 @@ var Syllabus = ( function ( ) {
                 $element.remove( );
             }
         } );
-
     };
 
 
