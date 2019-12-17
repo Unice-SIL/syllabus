@@ -1,6 +1,6 @@
-{{ form_start(form) }}
 
 <div class="card border-info toggle-focus my-2 shadow active">
+    {{ form_start(form) }}
     <div class="card-header text-white bg-info">
         <div class="d-flex justify-content-between">
             <h3>Général</h3>
@@ -30,15 +30,15 @@
             </div>
         </div>
         <div class="mt-2">
-            <button class="update-focus btn btn-primary submit" type="submit">
+            <button type="submit" class="focus-submit btn btn-primary submit" data-url="{{ path('course_presentation_general', {'id': courseInfo.id, 'action': 'submit' }) }}">
                 Sauvegarder
             </button>
-            <button type="button" class="update-focus btn btn-secondary">
+            <button type="button" class="focus-cancel btn btn-secondary" data-url="{{ path('course_presentation_general', {'id': courseInfo.id, 'action': 'cancel' }) }}">
                 Annuler
             </button>
         </div>
     </div>
+    {{ form_widget(form._token) }}
+    {{ form_end(form, {'render_rest': false }) }}
 </div>
 
-{{ form_widget(form._token) }}
-{{ form_end(form, {'render_rest': false }) }}
