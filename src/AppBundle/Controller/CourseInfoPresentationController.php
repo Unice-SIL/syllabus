@@ -53,7 +53,6 @@ class CourseInfoPresentationController extends AbstractController
             dump(2);
             if ($action === "submit")
             {
-                throw new \Exception();
                 $manager->update($courseInfo);
             }
             return $this->render('course_info/presentation/view/general.html.twig', [
