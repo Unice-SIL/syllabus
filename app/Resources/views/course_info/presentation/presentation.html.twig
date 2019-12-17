@@ -74,12 +74,6 @@
                 },
                 success: function (data) {
                     $('#info_general').html(data);
-                },
-                error: function (data) {
-                    SILTools.alert( {
-                        type: "danger",
-                        text: "Une erreur est survenue"
-                    } );
                 }
             }).always( function () {
                 focusSubmit.attr("disabled", false).html(focusSubmitContent);

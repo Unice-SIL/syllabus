@@ -51,7 +51,7 @@
         {% endif %}
     {% endblock %}
 
-    {{ encore_entry_script_tags('app') }}
+
 
 </head>
 
@@ -92,6 +92,7 @@
     <div id="loading_spinner"></div>
 
     {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
         <script>
             $(document).ready(function(){
                 $("body").on("shown.bs.modal", ".modal", function() {
