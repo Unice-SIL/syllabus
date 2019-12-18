@@ -2,12 +2,12 @@
 
 {% block main %}
 
-    <div id="info_general">
+    <section>
         {% include('course_info/presentation/view/general.html.twig') %}
-    </div>
-    <div id="info_synopsis">
+    </section>
+    <section>
         {% include('course_info/presentation/view/synopsis.html.twig') %}
-    </div>
+    </section>
     {#    {% include('course_info/presentation/form/teachers.html.twig') %}
         {% include('course_info/presentation/view/teaching_mode.html.twig') %}#}
 
@@ -21,19 +21,18 @@
                 var updateFocus = $(this);
                 var card = updateFocus.closest('.toggle-focus');
                 var url = $(this).data("url");
-                var cancel = $(this).data("cancel");
+                var section = card.parent('section');
                 $.ajax({
                     url: url,
                     method: "GET",
                     dataType: "html",
-                    data: cancel,
                     beforeSend: function () {
                         updateFocus.attr("disabled", true).html('<i class="fas fa-spinner fa-spin"></i>');
                         $('#app').addClass('hasActiveChild');
                         $(card).addClass('active');
                     },
                     success: function (data) {
-                        $('#info_general').html(data);
+                        section.html(data);
                     }
                 });
             });
@@ -49,6 +48,7 @@
         function formSubmit(element, action)
         {
             var card = element.closest('.toggle-focus');
+            var section = card.parent('section');
             var forms = card.find('form');
             var focusSubmit = card.find('button.focus-submit');
             var focusSubmitContent = focusSubmit.html();
@@ -69,11 +69,11 @@
                     focusSubmit.attr("disabled", true);
                     focusCancel.attr("disabled", true);
                     buttonClicked.html('<i class="fas fa-spinner fa-spin"></i>');
-                    $('#app').removeClass('hasActiveChild');
-                    $(card).removeClass('active');
                 },
                 success: function (data) {
-                    $('#info_general').html(data);
+                    $('#app').removeClass('hasActiveChild');
+                    $(card).removeClass('active');
+                    section.html(data);
                 }
             }).always( function () {
                 focusSubmit.attr("disabled", false).html(focusSubmitContent);
