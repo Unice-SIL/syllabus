@@ -3,10 +3,7 @@
 
 
 */
-
-
 @import 'custom';
-
 
 
 /*
@@ -38,10 +35,18 @@ main > small:first-of-type {
       text-decoration: underline;
     }
 
-    &:hover {
+    h1 {
       color: $white;
     }
   }
+
+  &:hover {
+    color: $white;
+  }
+}
+
+main > small:first-of-type {
+  margin: -.9rem 0;
 }
 
 /*
@@ -53,12 +58,21 @@ main > small:first-of-type {
   pointer-events: none;
 }
 
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  font-size: 0.8em;
+  text-align: center;
+  padding: 1rem 3rem 2rem;
+  background-color: $gray-300;
+}
+
 /*
     Card.
  */
 
 .card-syllabus {
-
   .card-header {
     background-color: #fdfdfd;
 
@@ -72,6 +86,11 @@ main > small:first-of-type {
 /*
     Buttons.
  */
+.course-title {
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+  padding-left: 1.6px;
+}
 
 .button-gradient {
   background: linear-gradient(to bottom, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.2) 49%, rgba(0, 0, 0, 0.15) 51%, rgba(0, 0, 0, 0.05)) repeat-x;
@@ -92,7 +111,6 @@ main > small:first-of-type {
     }
   }
 }
-
 
 
 /*
@@ -160,7 +178,6 @@ input[type=text] {
 }
 
 
-
 /*
     Forms sortable lists.
 */
@@ -194,7 +211,6 @@ form ul.list-group {
     }
   }
 }
-
 
 
 /*
@@ -311,7 +327,7 @@ div.equipment {
 }
 
 .list-activity,
-.list-equipment{
+.list-equipment {
   border-color: $secondary !important;
   cursor: pointer;
 
@@ -341,7 +357,6 @@ div.view-evaluation {
 }
 
 
-
 /*
     Select2 container width fix,
         first setted inline (by what?) to a fixed value
@@ -355,4 +370,3 @@ div.view-evaluation {
 .section-description a {
   color: #343a40 !important;
 }
-

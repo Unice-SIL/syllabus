@@ -91,6 +91,7 @@ class EditActivitiesCourseInfoAction implements ActionInterface
      */
     public function __invoke(Request $request)
     {
+
         try {
             $id = $request->get('id', null);
             try {

@@ -1,6 +1,6 @@
-{% extends 'base.html.twig' %}
+{% extends 'course_info/view.html.twig' %}
 
-{% block main %}
+{% block content %}
 
     <section>
         {% include('course_info/presentation/view/general.html.twig') %}
@@ -17,6 +17,9 @@
     {{ parent() }}
     <script>
         $(document).ready(function() {
+
+            $('#menu-presentation').addClass('active');
+
             $(document).on('click', '.update-focus', function () {
                 var updateFocus = $(this);
                 var card = updateFocus.closest('.toggle-focus');

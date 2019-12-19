@@ -243,7 +243,6 @@ var Syllabus = ( function ( ) {
     };
 
 
-
     /*
         Public pointers to exposed items.
     */
