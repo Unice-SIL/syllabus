@@ -1,8 +1,8 @@
-<div class="card toggle-focus my-2 shadow">
+<div class="card toggle-focus my-2 shadow card-syllabus">
     <div class="card-header">
         <div class="d-flex justify-content-between">
             <h3>Équipe enseignante</h3>
-            <button type="button" class="update-focus btn btn-primary">Mettre à jour</button>
+            <button type="button" class="update-focus btn btn-primary button-gradient" data-url="{{ path('course_presentation_teachers', {'id': courseInfo.id }) }}">Mettre à jour</button>
         </div>
     </div>
     {% if courseInfo.courseTeachers is empty %}
@@ -57,7 +57,6 @@
                 {% endfor %}
                 </tbody>
             </table>
-            {#<div class="pagination justify-content-center">{{ knp_pagination_render(users) }}</div>#}
         </div>
     {% endif %}
 </div>

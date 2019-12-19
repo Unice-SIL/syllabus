@@ -8,8 +8,10 @@
     <section>
         {% include('course_info/presentation/view/synopsis.html.twig') %}
     </section>
-    {#    {% include('course_info/presentation/form/teachers.html.twig') %}
-        {% include('course_info/presentation/view/teaching_mode.html.twig') %}#}
+    <section>
+        {% include('course_info/presentation/view/teachers.html.twig') %}
+    </section>
+    {#{% include('course_info/presentation/view/teaching_mode.html.twig') %}#}
 
 {% endblock %}
 
@@ -84,18 +86,5 @@
                 focusCancel.attr("disabled", false).html(focusCancelContent);
             });
         }
-
-        $('#infos_level').click(function(){
-            var message = '<ul>' +
-                '<li><strong>Débutant</strong> : Ce cours demande peu ou pas de connaissances préaables.</li>' +
-                '<li><strong>Intermédiaire</strong> : Ce cours demande quelques connaissances préalables.</li>' +
-                '<li><strong>Avancé</strong> : Ce cours demande d\'importantes connaissances préalables.</li>' +
-                '</ul>';
-            bootbox.dialog({
-                message: message,
-                backdrop: true,
-                onEscape: true
-            });
-        });
     </script>
 {% endblock %}

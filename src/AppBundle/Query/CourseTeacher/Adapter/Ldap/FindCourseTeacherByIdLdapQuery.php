@@ -5,6 +5,7 @@ namespace AppBundle\Query\CourseTeacher\Adapter\Ldap;
 use AppBundle\Entity\CourseTeacher;
 use AppBundle\Query\CourseTeacher\Adapter\FindCourseTeacherByIdQueryInterface;
 use LdapBundle\Repository\TeacherRepositoryInterface;
+use Ramsey\Uuid\Uuid;
 
 /**
  * Class FindCourseTeacherByIdLdapQuery
@@ -54,7 +55,7 @@ class FindCourseTeacherByIdLdapQuery implements FindCourseTeacherByIdQueryInterf
             $teacher = $this->teacherRepository->find($this->id);
             if (!is_null($teacher)){
                 $courseTeacher = new CourseTeacher();
-                $courseTeacher->setId($teacher->getId())
+                $courseTeacher->setId(Uuid::uuid4())
                     ->setFirstname($teacher->getFirstname())
                     ->setLastname($teacher->getLastname())
                     ->setEmail($teacher->getEmail());
