@@ -126,7 +126,7 @@ class EditPresentationCourseInfoAction implements ActionInterface
 
             return new JsonResponse([
                 'content' => $this->templating->render(
-                    'course_info/presentation/presentation.html.twig',
+                    'course/edit_presentation_course_tab.html.twig',
                     [
                         'courseInfo' => $courseInfo,
                         'form' => $form->createView()

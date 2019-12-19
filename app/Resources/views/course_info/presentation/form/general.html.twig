@@ -39,3 +39,18 @@
     {{ form_end(form, {'render_rest': false }) }}
 </div>
 
+<script>
+    $('#infos_level').click(function(){
+        var message = '<ul>' +
+            '<li><strong>Débutant</strong> : Ce cours demande peu ou pas de connaissances préaables.</li>' +
+            '<li><strong>Intermédiaire</strong> : Ce cours demande quelques connaissances préalables.</li>' +
+            '<li><strong>Avancé</strong> : Ce cours demande d\'importantes connaissances préalables.</li>' +
+            '</ul>';
+        bootbox.dialog({
+            message: message,
+            backdrop: true,
+            onEscape: true
+        });
+    });
+</script>
+
