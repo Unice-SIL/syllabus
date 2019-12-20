@@ -128,6 +128,7 @@ class CourseInfoPresentationController extends AbstractController
      * @param $action
      * @param Request $request
      * @param CourseInfoManager $manager
+     * @param ImportCourseTeacherFactory $factory
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
@@ -153,11 +154,16 @@ class CourseInfoPresentationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             if ($action === "submit")
             {
+                /** @var CourseTeacher $data */
                 $data = $form->getData();
                 $login = $form->get('login')->getData();
                 $source = $form->get('teacherSource')->getData();
                 $courseTeacher = $factory->getFindByIdQuery($source)->setId($login)->execute();
-                dump($courseTeacher);
+                $courseTeacher->setManager($data->isManager())
+                    ->setEmailVisibility($data->isEmailVisibility())
+                    ->setCourseInfo($courseInfo);
+                $courseInfo->addCourseTeacher($courseTeacher);
+                $manager->update($courseInfo);
             }
             return $this->render('course_info/presentation/view/teachers.html.twig', [
                 'courseInfo' => $courseInfo,

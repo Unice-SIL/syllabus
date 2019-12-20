@@ -2,7 +2,7 @@
     <div class="card-header">
         <div class="d-flex justify-content-between">
             <h3>Équipe enseignante</h3>
-            <button type="button" class="update-focus btn btn-primary button-gradient" data-url="{{ path('course_presentation_teachers', {'id': courseInfo.id }) }}">Mettre à jour</button>
+            <button type="button" class="btn btn-primary button-gradient modal-syllabus" data-toggle="modal" data-target="#syllabusModal" data-url="{{ path('modal_syllabus', {'path': 'course_info/') }}">Ajouter</button>
         </div>
     </div>
     {% if courseInfo.courseTeachers is empty %}
@@ -27,31 +27,37 @@
         <div class="card-body table-responsive p-0">
             <table class="table table-hover">
                 <thead>
-                <tr>
+                <tr class="text-center">
                     <th>Nom</th>
                     <th>Prénom</th>
                     <th>Email</th>
-                    <th>Manager</th>
+                    <th>Responsable</th>
+                    <th>Supprimer</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for teacher in courseInfo.courseTeachers %}
-                    <tr>
+                    <tr class="text-center">
                         <td>{{ teacher.lastname }}</td>
                         <td>{{ teacher.firstname }}</td>
                         <td>
-                            {% if user.emailVisibility %}
+                            {% if teacher.emailVisibility %}
                                 Visible
                             {% else %}
                                 Invisible
                             {% endif %}
                         </td>
                         <td>
-                            {% if user.manager %}
+                            {% if teacher.manager %}
                                 Oui
                             {% else %}
                                 Non
                             {% endif %}
+                        </td>
+                        <td>
+                            <a href="#">
+                                <i class="fas fa-trash-alt text-danger"></i>
+                            </a>
                         </td>
                     </tr>
                 {% endfor %}

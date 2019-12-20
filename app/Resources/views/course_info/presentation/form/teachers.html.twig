@@ -1,3 +1,45 @@
+    {{ form_start(form) }}
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Équipe enseignante</h3>
+            </div>
+            <div class="modal-body">
+                {{ form_errors(form) }}
+                <div class="row mt-3">
+                    <div class="col">
+                        <div>
+                            <div class="col">
+                                <label class="required font-weight-bold">Qui fait partie de l'équipe enseignante ?</label>
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <label placeholder="Source"></label>
+                            {{ form_widget(form.teacherSource) }}
+                        </div>
+                        <div class="mb-2">
+                            {{ form_widget(form.login) }}
+                        </div>
+                        <div class="mb-2">
+                            {{ form_widget(form.emailVisibility, { label_attr: {class: 'checkbox-custom'}}) }}
+                            {{ form_widget(form.manager, { label_attr: {class: 'checkbox-custom'}}) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-2">
+                    <button type="submit" class="focus-submit btn btn-primary submit button-gradient" data-url="{{ path('course_presentation_teachers', {'id': courseInfo.id, 'action': 'submit' }) }}">
+                        Ajouter
+                    </button>
+                    <button type="button" class="focus-cancel btn btn-secondary button-gradient" data-dismiss="modal" data-url="{{ path('course_presentation_teachers', {'id': courseInfo.id, 'action': 'cancel' }) }}">
+                        Annuler
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ form_widget(form._token) }}
+    {{ form_end(form, {'render_rest': false }) }}
+{#
 <div class="card border-primary card-syllabus toggle-focus my-2 shadow active">
     {{ form_start(form) }}
     <div class="card-header">
@@ -38,7 +80,7 @@
     </div>
     {{ form_widget(form._token) }}
     {{ form_end(form, {'render_rest': false }) }}
-</div>
+</div>#}
 
 <script src="{{ asset('bundles/tetranzselect2entity/js/select2entity.js') }}"></script>
 <script>
