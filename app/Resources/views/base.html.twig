@@ -78,6 +78,9 @@
         </div>
     {% endblock %}
 
+    <div class="modal fade" id="syllabusModal" tabindex="-1" role="dialog" aria-labelledby="syllabusModalLabel" aria-hidden="true">
+    </div>
+
     <main class="{{ container_class }}" role="main">
         {% block main %}
 
@@ -97,6 +100,17 @@
             $(document).ready(function(){
                 $("body").on("shown.bs.modal", ".modal", function() {
                     $(this).find('div.modal-dialog').animate("top",$(parent.window.document).scrollTop());
+                });
+                $(document).on('click', '.modal-syllabus', function () {
+                    var url = $(this).data("url");
+                    $.ajax({
+                        url: url,
+                        method: "GET",
+                        dataType: "html",
+                        success: function (data) {
+                            $(this).html(data);
+                        }
+                    });
                 });
             });
         </script>
