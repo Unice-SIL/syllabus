@@ -20,6 +20,10 @@ body {
   background-color: white !important;
 }
 
+.background-test{
+  background: url("../images/background.jpg") center no-repeat;
+  background-size: cover;
+}
 main > small:first-of-type {
   margin: -.9rem 0;
 }
@@ -87,9 +91,7 @@ footer {
     Buttons.
  */
 .course-title {
-  margin-bottom: 2rem;
-  margin-top: 2rem;
-  padding-left: 1.6px;
+  font-family: "Apex New Book";
 }
 
 .button-gradient {
@@ -100,6 +102,10 @@ footer {
 /*
     Tabs.
 */
+
+.nav-border {
+  border: 3px white !important;
+}
 
 .nav-tabs {
   line-height: 1.4;

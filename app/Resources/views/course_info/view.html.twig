@@ -1,10 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block main %}
-    <h2>{{ courseInfo.title }}</h2>
-    <div class="sticky-top">
-        {% include  "default/menu.html.twig" %}
+    <div class="background-test">
+        <h2 class="py-3 course-title">{{ courseInfo.title }}</h2>
+        <div class="sidebar">
+            {% include  "default/side-menu.html.twig" %}
+        </div>
+        {% block content %}
+        {% endblock %}
     </div>
-    {% block content %}
-    {% endblock %}
 {% endblock %}
