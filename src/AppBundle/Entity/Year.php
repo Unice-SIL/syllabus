@@ -3,12 +3,16 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Year
  *
  * @ORM\Table(name="year")
  * @ORM\Entity
+ * @UniqueEntity("id", message="Cette valeur existe déjà et doit être unique")
+ * @UniqueEntity("label", message="Cette valeur existe déjà et doit être unique")
  */
 class Year
 {
@@ -18,6 +22,11 @@ class Year
      * @ORM\Column(name="id", type="string", length=4, options={"fixed"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
+     * @Assert\NotBlank(message="Ce champ ne doit pas être vide")
+     * @Assert\Regex(
+     *     pattern="/^\d{4}$/",
+     *     message="Cette valeure doit respecter le format AAAA"
+     * )
      */
     private $id;
 
@@ -25,6 +34,11 @@ class Year
      * @var string|null
      *
      * @ORM\Column(name="label", type="string", length=45, nullable=true, options={"fixed"=true})
+     * @Assert\NotBlank(message="Ce champ ne doit pas être vide")
+     * @Assert\Regex(
+     *     pattern="/^\d{4}-\d{4}$/",
+     *     message="Cette valeure doit respecter le format AAAA-AAAA"
+     * )
      */
     private $label;
 

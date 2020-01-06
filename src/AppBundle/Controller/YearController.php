@@ -2,6 +2,8 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Year;
+use AppBundle\Form\YearType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -36,13 +38,13 @@ class YearController extends Controller
     /**
      * Creates a new year entity.
      *
-     * Route("/new", name="new")
+     * @Route("/new", name="new")
      * @Method({"GET", "POST"})
      */
-    /*public function newAction(Request $request)
+    public function newAction(Request $request)
     {
         $year = new Year();
-        $form = $this->createForm('AppBundle\Form\YearType', $year);
+        $form = $this->createForm(YearType::class, $year);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -50,14 +52,15 @@ class YearController extends Controller
             $em->persist($year);
             $em->flush();
 
-            return $this->redirectToRoute('year_show', array('id' => $year->getId()));
+            $this->addFlash('success', 'L\'année a été ajoutée avec succès.');
+
+            return $this->redirectToRoute('app_admin_year_index');
         }
 
         return $this->render('year/new.html.twig', array(
-            'year' => $year,
             'form' => $form->createView(),
         ));
-    }*/
+    }
 
 
     /**
