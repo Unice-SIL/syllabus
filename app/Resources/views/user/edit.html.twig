@@ -1,0 +1,36 @@
+{% extends 'admin_layout.html.twig' %}
+{% set h1 = 'Modifier un utilisateur' %}
+
+{% block subContent %}
+    <div class="card card-primary">
+        <!-- /.card-header -->
+        <!-- form start -->
+        {{ form_start(form) }}
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    {{ form_row(form.username) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_row(form.lastname) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_row(form.firstname) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_row(form.email) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_row(form.roles) }}
+                </div>
+            </div>
+        </div>
+        <!-- /.card-body -->
+
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Modifier</button>
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
+

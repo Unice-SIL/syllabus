@@ -2,6 +2,8 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\User;
+use AppBundle\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -34,25 +36,26 @@ class UserController extends Controller
     }
 
     /**
-     * Displays a form to edit an existing year entity.
+     * Displays a form to edit an existing user entity.
      *
-     * Route("/{id}/edit", name="edit")
+     * @Route("/{id}/edit", name="edit")
      * @Method({"GET", "POST"})
      */
-    /*public function editAction(Request $request, Year $year)
+    public function editAction(Request $request, User $user)
     {
-        $editForm = $this->createForm('AppBundle\Form\YearType', $year);
-        $editForm->handleRequest($request);
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('app_admin_year_edit', array('id' => $year->getId()));
+            $this->addFlash('success', 'L\'utilisateur a bien été modifié.');
+
+            return $this->redirectToRoute('app_admin_user_edit', array('id' => $user->getId()));
         }
 
-        return $this->render('year/edit.html.twig', array(
-            'year' => $year,
-            'edit_form' => $editForm->createView(),
+        return $this->render('user/edit.html.twig', array(
+            'form' => $form->createView(),
         ));
-    }*/
+    }
 }

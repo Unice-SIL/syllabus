@@ -76,7 +76,7 @@
     </div>
 
 
-    <section class="content">
+    <section id="content-{{ contentName|default('default') }}" class="content">
         <div class="container-fluid">
             {% block subContent %}{% endblock %}
         </div>
