@@ -33,26 +33,26 @@ class Year
      *
      * @ORM\Column(name="import", type="boolean", nullable=true)
      */
-    private $import = '0';
+    private $import = false;
 
     /**
      * @var bool|null
      *
      * @ORM\Column(name="edit", type="boolean", nullable=true)
      */
-    private $edit = '0';
+    private $edit = false;
 
     /**
      * @var bool|null
      *
      * @ORM\Column(name="current", type="boolean", nullable=true)
      */
-    private $current = '0';
+    private $current = false;
 
     /**
      * @return string
      */
-    public function getId(): string
+    public function getId(): ?string
     {
         return $this->id;
     }

@@ -1,3 +1,7 @@
+app_year:
+    resource: "@AppBundle/Controller/YearController.php"
+    type:     annotation
+
 app:
     resource: '@AppBundle/Action/'
     type: annotation
