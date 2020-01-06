@@ -5,6 +5,7 @@
 
 */
 
+@import '~admin-lte/build/scss/AdminLTE';
 
 /*
     Font Awesome (free “solid” family only).
@@ -50,7 +51,7 @@ $secondary: #868e96;
     Full Bootstrap…
 */
 
-@import '~bootstrap/scss/bootstrap';
+//@import '~bootstrap/scss/bootstrap';
 
 
 
@@ -130,8 +131,6 @@ $secondary: #868e96;
     }
 }
 
-
-
 /*
     Bootstrap-toggle
 */
@@ -146,5 +145,5 @@ label.toggle-off {
     cursor: pointer;
 }
 
-@import '~admin-lte/build/scss/AdminLTE';
+
 

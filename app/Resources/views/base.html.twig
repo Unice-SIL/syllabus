@@ -12,7 +12,7 @@
     {% set in_iframe = true %}
 {% endif %}
 
-    {% set container_class = 'container-fluid' %}
+    {% set container_class = 'container-fluid sidebar-mini layout-navbar-fixed' %}
 
 {% if dark_background is defined and dark_background == true %}
     {% set body_class = 'bg-black' %}
@@ -48,7 +48,6 @@
             </style>
         {% endif %}
     {% endblock %}
-    {{ encore_entry_script_tags('app') }}
 
 </head>
 
@@ -90,6 +89,7 @@
     <div id="loading_spinner"></div>
 
     {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
         <script>
             $(document).ready(function () {
                 $("body").on("shown.bs.modal", ".modal", function () {
