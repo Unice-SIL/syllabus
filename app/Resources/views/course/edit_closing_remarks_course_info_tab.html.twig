@@ -23,12 +23,14 @@
     <h6 class="my-3">
         Espace pour laisser un message à vos étudiants (ex: encouragements, derniers conseils&hellip;) (facultatif)
     </h6>
+    {{ form_errors(form.closingRemarks) }}
     {{ form_widget(form.closingRemarks) }}
 
     <h6 class="my-3">
         Intégrer une ressource vidéo (ou audio) respectant la règlementation sur les droits d'auteur (facultatif)
         <img id="infos_closingVideo" src="{{ asset('images/info_32.png') }}" style="cursor: pointer;">
     </h6>
+    {{ form_errors(form.closingVideo) }}
     {{ form_widget(form.closingVideo) }}
 
     <button class="btn btn-outline-primary btn-block submit" type="submit">

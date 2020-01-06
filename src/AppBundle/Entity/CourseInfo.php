@@ -2139,7 +2139,7 @@ class CourseInfo
      *
      */
 
-    public function sav__clone()
+    public function __clone()
     {
         $this->coursePermissions = clone $this->coursePermissions;
         /**
@@ -2235,6 +2235,45 @@ class CourseInfo
             $courseResourceEquipment->setId(Uuid::uuid4())
                 ->setCourseInfo($this);
             $this->courseResourceEquipments->offsetSet($k, $courseResourceEquipment);
+        }
+    }
+
+    /**
+     * Checks media consistency.
+     */
+    public function checkMedia()
+    {
+        $mediaType = $this->getMediaType();
+
+        if (in_array($mediaType, ['image', 'video'])) {
+
+            if ($mediaType == "video") {
+                $mediaTypeAlt = "image";
+            } else {
+                $mediaTypeAlt = "video";
+            }
+
+            $f1 = "get" . ucfirst($mediaType);
+            $f2 = "get" . ucfirst($mediaTypeAlt);
+            $f3 = "set" . ucfirst($mediaType);
+
+            if (empty($this->$f1())) {
+                if (!empty($this->$f2())) {
+                    $this->setMediaType($mediaTypeAlt);
+                } else {
+                    $this->setMediaType(null);
+                }
+                $this->$f3(null);
+            }
+
+        } else {
+            if(!empty($this->getImage())){
+                $this->setMediaType('image');
+            }elseif(!empty($this->getVideo())){
+                $this->setMediaType('video');
+            }else{
+                $this->setMediaType(null);
+            }
         }
     }
 

@@ -8,8 +8,10 @@
             <div class="col col-2">
                 {{ form_widget(teacher.emailVisibility) }}
             </div>
-            <div class="col">
-                {{ form_widget(teacher.completeName) }}
+            <div class="col completeName">
+                {% if teacher.vars is not null and teacher.vars.value is not null %}
+                    {{ teacher.vars.value.firstname ~ ' ' ~ teacher.vars.value.lastname }}
+                {% endif %}
             </div>
             <div class="col-md-auto pl-0">
                 <i class="fas fa-trash-alt danger teacher-collection-remove" title="Retirer de la liste."></i>
@@ -19,7 +21,7 @@
     </li>
 {% endmacro %}
 
-{% block _edit_presentation_course_info_teachers_widget %}
+{% block _edit_presentation_course_info_courseTeachers_widget %}
     {% import _self as teachersField %}
     <div class="row">
         <div class="col-2">

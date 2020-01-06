@@ -3,6 +3,7 @@
 namespace AppBundle\Form\Course;
 
 use AppBundle\Command\Course\EditClosingRemarksCourseInfoCommand;
+use AppBundle\Entity\CourseInfo;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -40,7 +41,7 @@ class EditClosingRemarksCourseInfoType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => EditClosingRemarksCourseInfoCommand::class,
+            'data_class' => CourseInfo::class,
             'allow_extra_fields' => true,
         ]);
     }

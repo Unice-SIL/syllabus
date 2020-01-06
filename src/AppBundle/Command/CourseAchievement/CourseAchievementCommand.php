@@ -39,6 +39,7 @@ class CourseAchievementCommand implements CommandInterface
     /**
      * CourseAchievementCommand constructor.
      * @param CourseAchievement|null $courseAchievement
+     * @throws \Exception
      */
     public function __construct(CourseAchievement $courseAchievement=null)
     {

@@ -114,10 +114,7 @@ class EditMccCourseInfoAction implements ActionInterface
                     ]
                 ]);
             }
-
-            $editMccCourseInfoCommand = new EditMccCourseInfoCommand($courseInfo);
-            $form = $this->formFactory->create(EditMccCourseInfoType::class, $editMccCourseInfoCommand);
-            $form->handleRequest($request);
+            $form = $this->formFactory->create(EditMccCourseInfoType::class, $courseInfo);
 
             return new JsonResponse([
                 'content' => $this->templating->render(
