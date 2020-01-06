@@ -67,6 +67,13 @@ import 'bootstrap/js/dist/tab';
 //import 'bootstrap/js/dist/tooltip';
 import 'bootstrap/js/dist/util';
 
+/**
+ * admin lte js
+ */
+import 'admin-lte/build/js/AdminLTE';
+
+
+
 
 
 /*
