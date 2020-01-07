@@ -58,4 +58,12 @@ interface ActivityRepositoryInterface
      */
     public function rollback(): void;
 
+    /**
+     *
+     * Find activities with label like $query
+     * @param $query
+     * @return \ArrayObject
+     */
+    public function findLikeQuery(string $query): array;
+
 }

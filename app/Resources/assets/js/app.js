@@ -66,6 +66,7 @@ import 'bootstrap/js/dist/tab';
 //import 'bootstrap/js/dist/toast';
 //import 'bootstrap/js/dist/tooltip';
 import 'bootstrap/js/dist/util';
+import 'jquery.autocomplete';
 
 /**
  * admin lte js
@@ -180,4 +181,27 @@ $( document ).ready( function( ) {
     } );
 
 } );
+
+
+$(document).ready(function () {
+
+    //Trigger submit of a filter form when a select is changed
+    $('.filter-form').find('select').change(function () {
+        $('.filter-form').submit();
+    });
+
+    //Autocomplete
+    function initAutocomplete() {
+        $('.autocomplete-input').each(function () {
+            //todo: regenerate when resizing window
+            var width = $(this).outerWidth();
+
+            $(this).autocomplete({
+                serviceUrl: $(this).data('autocomplete-path'),
+                width: width,
+            }).enable();
+        });
+    }
+    initAutocomplete();
+});
 

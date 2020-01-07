@@ -1,0 +1,57 @@
+{% extends 'admin_layout.html.twig' %}
+{% set h1 = 'Liste des activités' %}
+{% block subContent %}
+
+    <div class="card">
+        <div class="card-header">
+            {{ form_start(form) }}
+                <div class="row ui-front">
+                    <div class="col-md-3">
+                        {{ form_row(form.label) }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ form_row(form.mode) }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ form_row(form.grp) }}
+                    </div>
+                    <div class="col-md-3">
+                        <a class="btn btn-primary float-right" style="margin-top: 33px" href="{# path('app_admin_activity_new') #}#">Ajouter une activité</a>
+                    </div>
+                </div>
+            {{ form_end(form) }}
+        </div>
+
+        <div class="card-body">
+            {% if pagination.totalItemCount > 0 %}
+                <table class="table table-bordered table-responsive-sm">
+                    <thead>
+                    <tr>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.activity.label.label'|trans, 'a.label') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.activity.label.mode'|trans, 'a.mode') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.activity.label.grp'|trans, 'a.grp') }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for activity in pagination %}
+                        <tr>
+                            <td>{{ activity.label }}</td>
+                            <td>{{ activity.mode|trans }}</td>
+                            <td>{{ activity.grp|trans }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="alert alert-info">Aucune activité n'a été enregistrée</div>
+            {% endif %}
+        </div>
+        <!-- /.card-body -->
+        {% if knp_pagination_render(pagination) %}
+            <div class="card-footer clearfix">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        {% endif %}
+    </div>
+
+{% endblock %}

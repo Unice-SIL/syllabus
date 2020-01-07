@@ -26,6 +26,7 @@ class AppKernel extends Kernel
             new UniceSIL\ShibbolethBundle\UniceSILShibbolethBundle(),
             new Exercise\HTMLPurifierBundle\ExerciseHTMLPurifierBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
+            new Lexik\Bundle\FormFilterBundle\LexikFormFilterBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
