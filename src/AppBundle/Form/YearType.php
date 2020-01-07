@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Form\Subscriber\YearTypeSubscriber;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -15,18 +16,13 @@ class YearType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('id', TextType::class, [
-                'label' => 'Année',
-                'attr' => [
-                    'placeholder' => 'AAAA'
-                ]
-            ])
             ->add('label', TextType::class, [
                 'label' => 'Label',
                 'attr' => [
                     'placeholder' => 'AAAA-AAAA'
                 ]
             ])
+            ->addEventSubscriber(new YearTypeSubscriber());
             ;
     }
 
@@ -36,7 +32,7 @@ class YearType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Year'
+            'data_class' => 'AppBundle\Entity\Year',
         ));
     }
 

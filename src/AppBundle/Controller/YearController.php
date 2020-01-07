@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Year;
 use AppBundle\Form\YearType;
+use AppBundle\Manager\YearManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -41,9 +42,10 @@ class YearController extends Controller
      * @Route("/new", name="new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request, YearManager $yearManager)
     {
-        $year = new Year();
+        $year = $yearManager->create();
+
         $form = $this->createForm(YearType::class, $year);
         $form->handleRequest($request);
 
@@ -66,23 +68,28 @@ class YearController extends Controller
     /**
      * Displays a form to edit an existing year entity.
      *
-     * Route("/{id}/edit", name="edit")
+     * @Route("/{id}/edit", name="edit")
      * @Method({"GET", "POST"})
      */
-    /*public function editAction(Request $request, Year $year)
+    public function editAction(Request $request, Year $year, YearManager $yearManager)
     {
-        $editForm = $this->createForm('AppBundle\Form\YearType', $year);
-        $editForm->handleRequest($request);
+        $form = $this->createForm('AppBundle\Form\YearType', $year);
+        $form->handleRequest($request);
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $yearManager->update($year);
+
             $this->getDoctrine()->getManager()->flush();
+
+
+            $this->addFlash('success', 'L\'année a été modifiée avec succès.');
 
             return $this->redirectToRoute('app_admin_year_edit', array('id' => $year->getId()));
         }
 
         return $this->render('year/edit.html.twig', array(
-            'year' => $year,
-            'edit_form' => $editForm->createView(),
+            'form' => $form->createView(),
         ));
-    }*/
+    }
 }
