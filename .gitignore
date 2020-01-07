@@ -20,3 +20,4 @@
 /node_modules/
 /.phpunit.result.cache
 /yarn-error.log
+/web/build/
