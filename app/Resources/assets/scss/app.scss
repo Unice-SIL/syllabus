@@ -125,6 +125,12 @@ label.required:before {
   color: red;
 }
 
+.custom-switch {
+  label.required:before {
+    content: "";
+  }
+}
+
 input[type=text] {
   box-sizing: border-box;
   -webkit-box-sizing: border-box;

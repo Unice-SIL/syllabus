@@ -1,0 +1,35 @@
+{% extends 'admin_layout.html.twig' %}
+{% set h1 = 'Modifier une année' %}
+
+{% block subContent %}
+    <div class="card card-primary">
+
+
+        {{ form_start(form) }}
+        <div class="card-body">
+            {{ form_row(form.label) }}
+        </div>
+
+
+        <div class="custom-control custom-switch">
+            {{ form_widget(form.current) }}
+            {{ form_label(form.current) }}
+        </div>
+
+        <div class="custom-control custom-switch">
+            {{ form_widget(form.import) }}
+            {{ form_label(form.import) }}
+        </div>
+
+        <div class="custom-control custom-switch">
+            {{ form_widget(form.edit) }}
+            {{ form_label(form.edit) }}
+        </div>
+
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
+
