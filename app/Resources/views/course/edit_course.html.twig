@@ -14,207 +14,210 @@
 {% block main %}
     {% if courseInfo.id is defined and courseInfo.id %}
 
-        <div class="row">
-
-            <div class="col-sm">
 
                 {% if in_iframe == false and courseInfo.title is defined %}
                     <h2>{{ courseInfo.title }}</h2>
                 {% endif %}
+<div class="row">
+    <div class="col">
+        <ul class="nav nav-tabs">
 
-                <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" id="tab-1"
+                   data-route="{{ path('edit_presentation_course_info', { 'id': courseInfo.id }) }}"
+                   role="tab" data-toggle="tab" href="#panel_tab-1"
+                   aria-controls="panel_tab-1" aria-selected="true">
+                    Présentation générale
+                </a>
+            </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link active" id="tab-1"
-                           data-route="{{ path('edit_presentation_course_info', { 'id': courseInfo.id }) }}"
-                           role="tab" data-toggle="tab" href="#panel_tab-1"
-                           aria-controls="panel_tab-1" aria-selected="true">
-                            Présentation générale
-                        </a>
-                    </li>
+            <li class="nav-item">
+                <a class="nav-link" id="tab-2"
+                   data-route="{{ path('edit_activities_course_info', { 'id': courseInfo.id }) }}"
+                   role="tab" data-toggle="tab" href="#panel_tab-2"
+                   aria-controls="panel_tab-2" aria-selected="false">
+                    Contenu et activités
+                </a>
+            </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" id="tab-2"
-                           data-route="{{ path('edit_activities_course_info', { 'id': courseInfo.id }) }}"
-                           role="tab" data-toggle="tab" href="#panel_tab-2"
-                           aria-controls="panel_tab-2" aria-selected="false">
-                            Contenu et activités
-                        </a>
-                    </li>
+            <li class="nav-item">
+                <a class="nav-link" id="tab-3"
+                   data-route="{{ path('edit_objectives_course_info', { 'id': courseInfo.id }) }}"
+                   role="tab" data-toggle="tab" href="#panel_tab-3"
+                   aria-controls="panel_tab-3" aria-selected="false">
+                    Objectifs du cours
+                </a>
+            </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" id="tab-3"
-                           data-route="{{ path('edit_objectives_course_info', { 'id': courseInfo.id }) }}"
-                           role="tab" data-toggle="tab" href="#panel_tab-3"
-                           aria-controls="panel_tab-3" aria-selected="false">
-                            Objectifs du cours
-                        </a>
-                    </li>
+            <li class="nav-item">
+                <a class="nav-link" id="tab-4"
+                   data-route="{{ path('edit_mcc_course_info', { 'id': courseInfo.id }) }}"
+                   role="tab" data-toggle="tab" href="#panel_tab-4"
+                   aria-controls="panel_tab-4" aria-selected="false">
+                    Modalités d'évaluation
+                </a>
+            </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" id="tab-4"
-                           data-route="{{ path('edit_mcc_course_info', { 'id': courseInfo.id }) }}"
-                           role="tab" data-toggle="tab" href="#panel_tab-4"
-                           aria-controls="panel_tab-4" aria-selected="false">
-                            Modalités d'évaluation
-                        </a>
-                    </li>
+            <li class="nav-item">
+                <a class="nav-link" id="tab-5"
+                   data-route="{{ path('edit_equipments_course_info', { 'id': courseInfo.id }) }}"
+                   role="tab" data-toggle="tab" href="#panel_tab-5"
+                   aria-controls="panel_tab-5" aria-selected="false">
+                    Matériel et ressources
+                </a>
+            </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" id="tab-5"
-                           data-route="{{ path('edit_equipments_course_info', { 'id': courseInfo.id }) }}"
-                           role="tab" data-toggle="tab" href="#panel_tab-5"
-                           aria-controls="panel_tab-5" aria-selected="false">
-                            Matériel et ressources
-                        </a>
-                    </li>
+            <li class="nav-item">
+                <a class="nav-link" id="tab-6"
+                   data-route="{{ path('edit_infos_course_info', { 'id': courseInfo.id }) }}"
+                   role="tab" data-toggle="tab" href="#panel_tab-6"
+                   aria-controls="panel_tab-6" aria-selected="false">
+                    Informations pratiques
+                </a>
+            </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" id="tab-6"
-                           data-route="{{ path('edit_infos_course_info', { 'id': courseInfo.id }) }}"
-                           role="tab" data-toggle="tab" href="#panel_tab-6"
-                           aria-controls="panel_tab-6" aria-selected="false">
-                            Informations pratiques
-                        </a>
-                    </li>
+            <li class="nav-item">
+                <a class="nav-link" id="tab-7"
+                   data-route="{{ path('edit_closing_remarks_course_info', { 'id': courseInfo.id }) }}"
+                   role="tab" data-toggle="tab" href="#panel_tab-7"
+                   aria-controls="panel_tab-7" aria-selected="false">
+                    Le mot de la fin
+                </a>
+            </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" id="tab-7"
-                           data-route="{{ path('edit_closing_remarks_course_info', { 'id': courseInfo.id }) }}"
-                           role="tab" data-toggle="tab" href="#panel_tab-7"
-                           aria-controls="panel_tab-7" aria-selected="false">
-                            Le mot de la fin
-                        </a>
-                    </li>
+        </ul>
+    </div>
+    <div class="col-sm-auto text-right">
+        <a href="{{ path('edit_course', {'id': courseInfo.id}) }}" target="_blank">
+            <i class="fas fa-external-link-alt m-2" style="font-size: 1.5rem"></i>
+        </a>
+    </div>
+</div>
 
-                </ul>
 
-                <div class="tab-content border border-top-0 p-2">
+<div class="tab-content border border-top-0 p-2">
 
-                    <div class="tab-pane fade show active" id="panel_tab-1"
-                         data-submit-url="{{ path('save_presentation_course_info', { 'id': courseInfo.id }) }}"
-                         role="tabpanel" aria-labelledby="tab-1">
-                    </div>
+    <div class="tab-pane fade show active" id="panel_tab-1"
+         data-submit-url="{{ path('save_presentation_course_info', { 'id': courseInfo.id }) }}"
+         role="tabpanel" aria-labelledby="tab-1">
+    </div>
 
-                    <div class="tab-pane fade" id="panel_tab-2"
-                         data-submit-url="{{ path('save_activities_course_info', { 'id': courseInfo.id }) }}"
-                         role="tabpanel" aria-labelledby="tab-2">
-                    </div>
+    <div class="tab-pane fade" id="panel_tab-2"
+         data-submit-url="{{ path('save_activities_course_info', { 'id': courseInfo.id }) }}"
+         role="tabpanel" aria-labelledby="tab-2">
+    </div>
 
-                    <div class="tab-pane fade" id="panel_tab-3"
-                         data-submit-url="{{ path('save_objectives_course_info', { 'id': courseInfo.id }) }}"
-                         role="tabpanel" aria-labelledby="tab-3">
-                    </div>
+    <div class="tab-pane fade" id="panel_tab-3"
+         data-submit-url="{{ path('save_objectives_course_info', { 'id': courseInfo.id }) }}"
+         role="tabpanel" aria-labelledby="tab-3">
+    </div>
 
-                    <div class="tab-pane fade" id="panel_tab-4"
-                         data-submit-url="{{ path('save_mcc_course_info', { 'id': courseInfo.id }) }}"
-                         role="tabpanel" aria-labelledby="tab-4">
-                    </div>
+    <div class="tab-pane fade" id="panel_tab-4"
+         data-submit-url="{{ path('save_mcc_course_info', { 'id': courseInfo.id }) }}"
+         role="tabpanel" aria-labelledby="tab-4">
+    </div>
 
-                    <div class="tab-pane fade" id="panel_tab-5"
-                         data-submit-url="{{ path('save_equipments_course_info', { 'id': courseInfo.id }) }}"
-                         role="tabpanel" aria-labelledby="tab-5">
-                    </div>
+    <div class="tab-pane fade" id="panel_tab-5"
+         data-submit-url="{{ path('save_equipments_course_info', { 'id': courseInfo.id }) }}"
+         role="tabpanel" aria-labelledby="tab-5">
+    </div>
 
-                    <div class="tab-pane fade" id="panel_tab-6"
-                         data-submit-url="{{ path('save_infos_course_info', { 'id': courseInfo.id }) }}"
-                         role="tabpanel" aria-labelledby="tab-6">
-                    </div>
+    <div class="tab-pane fade" id="panel_tab-6"
+         data-submit-url="{{ path('save_infos_course_info', { 'id': courseInfo.id }) }}"
+         role="tabpanel" aria-labelledby="tab-6">
+    </div>
 
-                    <div class="tab-pane fade" id="panel_tab-7"
-                         data-submit-url="{{ path('save_closing_remarks_course_info', { 'id': courseInfo.id }) }}"
-                         role="tabpanel" aria-labelledby="tab-7">
-                    </div>
+    <div class="tab-pane fade" id="panel_tab-7"
+         data-submit-url="{{ path('save_closing_remarks_course_info', { 'id': courseInfo.id }) }}"
+         role="tabpanel" aria-labelledby="tab-7">
+    </div>
 
-                </div>
+</div>
 
-                <div id="course_info_panel" class="border my-4 p-2">
-                    {% include 'course/edit_course_info_panel.html.twig' %}
-                </div>
+<div id="course_info_panel" class="border my-4 p-2">
+    {% include 'course/edit_course_info_panel.html.twig' %}
 
-            </div>
-        </div>
 
     {% endif %}
-{% endblock %}
+    {% endblock %}
 
-{% block javascripts %}
-    {{ parent() }}
-    {% if courseInfo.id is defined and courseInfo.id %}
-        <script>
+    {% block javascripts %}
+        {{ parent() }}
+        {% if courseInfo.id is defined and courseInfo.id %}
+            <script>
 
-            Syllabus.tabsInit( );
+                Syllabus.tabsInit( );
 
-            $(document).ready(function(){
-                $(document).on('click', '#adviceButton', function(){
-                    SILTools.spinner.fadeIn( {
-                        always: function(){
-                            $.ajax({
-                                type: 'POST',
-                                url: '{{ path('ask_for_advice_course_info', { 'id': courseInfo.id })|escape('js') }}'
-                            }).done(function(response){
-                                SILTools.alert( { type: response.messages[0].type, text: response.messages[0].message } );
-                            }).always(function(){
-                                SILTools.spinner.fadeOut( );
-                            });
-                        }
-                    });
-                });
-
-                $(document).on('click', '#publishButton', function(){
-                    bootbox.confirm({
-                        message: "Avant de publier votre syllabus pensez à renseigner le formulaire vous permettant de béneficier de la prime <a target='_blank' href='https://forms.office.com/Pages/ResponsePage.aspx?id=fUQgvFKJzUqD5F1otezkb78RiPD675VPioqx3pigUrJUNUtBRUlZU1lYMUw3NDZGQVEzU1hQNzJaSC4u'>en cliquant ici</a> et à rendre votre cours visible sur Moodle.",
-                        buttons: {
-                            confirm: {
-                                label: "Publier",
-                                className: "btn-outline-primary"
-                            },
-                            cancel: {
-                                label: "Annuler",
-                                className: "btn-outline-secondary"
-                            }
-                        },
-                        callback: function (result) {
-                            if (result === true) {
-                                SILTools.spinner.fadeIn( {
-                                    always: function(){
-                                        $.ajax({
-                                            type: 'POST',
-                                            url: '{{ path('publish_course_info', { 'id': courseInfo.id })|escape('js') }}'
-                                        }).done(function(response){
-                                            Syllabus.handleAjaxResponse(response);
-                                        }).always(function(){
-                                            SILTools.spinner.fadeOut( );
-                                        });
-                                    }
+                $(document).ready(function(){
+                    $(document).on('click', '#adviceButton', function(){
+                        SILTools.spinner.fadeIn( {
+                            always: function(){
+                                $.ajax({
+                                    type: 'POST',
+                                    url: '{{ path('ask_for_advice_course_info', { 'id': courseInfo.id })|escape('js') }}'
+                                }).done(function(response){
+                                    SILTools.alert( { type: response.messages[0].type, text: response.messages[0].message } );
+                                }).always(function(){
+                                    SILTools.spinner.fadeOut( );
                                 });
                             }
-                        }
+                        });
                     });
+
+                    $(document).on('click', '#publishButton', function(){
+                        bootbox.confirm({
+                            message: "Avant de publier votre syllabus pensez à renseigner le formulaire vous permettant de béneficier de la prime <a target='_blank' href='https://forms.office.com/Pages/ResponsePage.aspx?id=fUQgvFKJzUqD5F1otezkb78RiPD675VPioqx3pigUrJUNUtBRUlZU1lYMUw3NDZGQVEzU1hQNzJaSC4u'>en cliquant ici</a> et à rendre votre cours visible sur Moodle.",
+                            buttons: {
+                                confirm: {
+                                    label: "Publier",
+                                    className: "btn-outline-primary"
+                                },
+                                cancel: {
+                                    label: "Annuler",
+                                    className: "btn-outline-secondary"
+                                }
+                            },
+                            callback: function (result) {
+                                if (result === true) {
+                                    SILTools.spinner.fadeIn( {
+                                        always: function(){
+                                            $.ajax({
+                                                type: 'POST',
+                                                url: '{{ path('publish_course_info', { 'id': courseInfo.id })|escape('js') }}'
+                                            }).done(function(response){
+                                                Syllabus.handleAjaxResponse(response);
+                                            }).always(function(){
+                                                SILTools.spinner.fadeOut( );
+                                            });
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    });
+
+                    $(document).on('click', '#infos_publication', function(){
+                        var message = '<p>' +
+                            'Si vous n\'avez toujours pas renseigné le formulaire pour l\'obtention de la prime Syllabus veuillez <a target="_blank" href="https://forms.office.com/Pages/ResponsePage.aspx?id=fUQgvFKJzUqD5F1otezkb78RiPD675VPioqx3pigUrJUNUtBRUlZU1lYMUw3NDZGQVEzU1hQNzJaSC4u">cliquer ici</a>' +
+                            '</p>' +
+                            '<p>' +
+                            'Pensez également à rendre votre cours visible sur Moodle afin que les étudiants puissent consulter votre Syllabus' +
+                            '</p>' +
+                            '<p>' +
+                            'Pour rendre votre syllabus et votre cours visible sur Moodle pour vos étudiants, allez dans "Administration > Paramètres Généraux > Visibilité du cours" et sélectionnez "Affichez" à la place de "Cacher".<br>' +
+                            ' Vous pourrez néanmoins garder vos onglets de cours cachés en activant le mode édition puis dans l\'onglet concerné "Modifier > Cacher la section". De cette manière, seul le syllabus sera visible par vos étudiants.' +
+                            '</p>';
+                        bootbox.dialog({
+                            message: message,
+                            backdrop: true,
+                            onEscape: true
+                        });
+                    });
+
+
                 });
 
-                $(document).on('click', '#infos_publication', function(){
-                    var message = '<p>' +
-                        'Si vous n\'avez toujours pas renseigné le formulaire pour l\'obtention de la prime Syllabus veuillez <a target="_blank" href="https://forms.office.com/Pages/ResponsePage.aspx?id=fUQgvFKJzUqD5F1otezkb78RiPD675VPioqx3pigUrJUNUtBRUlZU1lYMUw3NDZGQVEzU1hQNzJaSC4u">cliquer ici</a>' +
-                        '</p>' +
-                        '<p>' +
-                        'Pensez également à rendre votre cours visible sur Moodle afin que les étudiants puissent consulter votre Syllabus' +
-                        '</p>' +
-                        '<p>' +
-                        'Pour rendre votre syllabus et votre cours visible sur Moodle pour vos étudiants, allez dans "Administration > Paramètres Généraux > Visibilité du cours" et sélectionnez "Affichez" à la place de "Cacher".<br>' +
-                        ' Vous pourrez néanmoins garder vos onglets de cours cachés en activant le mode édition puis dans l\'onglet concerné "Modifier > Cacher la section". De cette manière, seul le syllabus sera visible par vos étudiants.' +
-                        '</p>';
-                    bootbox.dialog({
-                        message: message,
-                        backdrop: true,
-                        onEscape: true
-                    });
-                });
-
-
-            });
-
-        </script>
-    {% endif %}
-{% endblock %}
+            </script>
+        {% endif %}
+    {% endblock %}
 
