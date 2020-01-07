@@ -1,5 +1,14 @@
 {% extends 'base_layout.html.twig' %}
 
+{% block stylesheets %}
+    {{parent()}}
+    <style>
+        body {
+            position: initial;
+        }
+    </style>
+{% endblock %}
+
 {% block navbar %}
     <ul class="navbar-nav">
         <li class="nav-item">
@@ -42,6 +51,14 @@
                         <i class="nav-icon fas fa-user"></i>
                         <p>
                             Utilisateurs
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ path('app_admin_activity_index', { 'type' : constant('AppBundle\\Constant\\ActivityType::ACTIVITY')}) }}" class="nav-link">
+                        <i class="nav-icon fas fa-film"></i>
+                        <p>
+                            Activités
                         </p>
                     </a>
                 </li>

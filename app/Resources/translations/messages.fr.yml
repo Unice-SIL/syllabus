@@ -1,2 +1,21 @@
 ROLE_USER: 'Utilisateur'
 ROLE_ADMIN: 'Administrateur'
+collective: 'Collectif'
+groups: 'En groupe'
+individual: 'Individuel'
+head: 'Entête'
+together: 'Ensemble'
+autonomy: 'En autonomie'
+class: 'En présentiel'
+cc: 'Contrôle continu'
+ct: 'Contrôle terminal'
+activity: 'Activité'
+evaluation: 'Evaluation'
+
+app:
+  form:
+    activity:
+      label:
+        label: 'Intitulé'
+        mode: 'Mode'
+        grp: 'Groupe'

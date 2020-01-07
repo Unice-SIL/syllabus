@@ -13,4 +13,12 @@ final class ActivityGroup
     const INDIVIDUAL = 'individual';
     const HEAD = 'head';
     const TOGETHER = 'together';
+
+    public static $activityGroups = [
+        self::INDIVIDUAL,
+        self::COLLECTIVE,
+        self::GROUPS,
+        self::TOGETHER
+        //self::HEAD,
+    ];
 }
