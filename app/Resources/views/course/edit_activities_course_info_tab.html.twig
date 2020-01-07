@@ -80,6 +80,13 @@
 {% block javascripts %}
     <script>
 
+        /**
+         * Form submission
+         */
+        $("form[name='edit_activities_course_info']").submit(function(e){
+            Syllabus.submitPanelForm( e, this );
+        });
+
         function setActivityInfos(el, data){
             el.find('.activity-label').html(data['label']);
             el.find('select[id$=_activity]').val(data['activity_id']);
@@ -313,12 +320,6 @@
             initActivities($(this));
         });
 
-        /**
-         * Form submission
-         */
-        $("form[name='edit_activities_course_info']").submit(function(e){
-            Syllabus.submitPanelForm( e, this );
-        });
 
         $('#infos_sections').click(function(){
             var message = '<p>Pour remplir cette partie, suivez les étapes suivantes :</p>' +
