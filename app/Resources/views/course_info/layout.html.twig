@@ -5,14 +5,15 @@
             <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-
-            <h2>{{ courseInfo.title }}</h2>
-
+            <h3>{{ courseInfo.title }}</h3>
         </li>
     </ul>
 {% endblock %}
 
 {% block sidebar %}
+    <a href="../../index3.html" class="brand-link elevation-4">
+        <span class="brand-text font-weight-light">AdminLTE 3</span>
+    </a>
     <div class="sidebar">
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
@@ -20,14 +21,46 @@
                     <a class="nav-link menu-tab"
                        href="{{ path('course_presentation', { 'id': courseInfo.id }) }}"
                        id="menu-presentation">
-                        Présentation générale
+                        <i>1</i>&nbsp;
+                        <p>Présentation générale</p>
                     </a>
                 </li>
                 <li class="nav-item has-treeview">
                     <a class="nav-link menu-tab"
                        id="menu-activities"
                        href="{{ path('edit_activities_course_info', { 'id': courseInfo.id }) }}">
-                        Contenu et activités
+                        <i>2</i>&nbsp;
+                        <p>Contenu et activités</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-tab" href="#" id="menu-objective">
+                        <i>3</i>&nbsp;
+                        <p>Objectifs du cours</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-tab" href="#">
+                        <i>4</i>&nbsp;
+                        <p>Modalités d'évaluation</p>
+                    </a>
+                </li>
+                <li class="nav-item menu-tab">
+                    <a class="nav-link" href="#">
+                        <i>5</i>&nbsp;
+                        <p>Matériel et ressources</p>
+                    </a>
+                </li>
+                <li class="nav-item menu-tab">
+                    <a class="nav-link" href="#">
+                        <i>6</i>&nbsp;
+                        <p>Informations pratiques</p>
+                    </a>
+                </li>
+                <li class="nav-item menu-tab">
+                    <a class="nav-link">
+                        <i>7</i>&nbsp;
+                        <p>Le mot de la fin</p>
                     </a>
                 </li>
             </ul>
@@ -35,4 +68,9 @@
     </div>
 {% endblock %}
 {% block content %}
+    <section class="content pt-2">
+        <div class="container-fluid">
+            {% block subContent %}{% endblock %}
+        </div>
+    </section>
 {% endblock %}
