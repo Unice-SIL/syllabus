@@ -15,7 +15,10 @@ final class ActivityGroup
     const TOGETHER = 'together';
 
     public static $activityGroups = [
-      self::INDIVIDUAL,
-      self::COLLECTIVE,
+        self::INDIVIDUAL,
+        self::COLLECTIVE,
+        self::GROUPS,
+        self::TOGETHER
+        //self::HEAD,
     ];
 }
