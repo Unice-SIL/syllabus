@@ -34,31 +34,32 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-tab" href="#" id="menu-objective">
+                    <a class="nav-link menu-tab" id="menu-objective"
+                       href="{{ path('edit_objectives_course_info', { 'id': courseInfo.id }) }}">
                         <i>3</i>&nbsp;
                         <p>Objectifs du cours</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-tab" href="#">
+                    <a class="nav-link menu-tab" href="{{ path('edit_mcc_course_info', { 'id': courseInfo.id }) }}">
                         <i>4</i>&nbsp;
                         <p>Modalités d'évaluation</p>
                     </a>
                 </li>
                 <li class="nav-item menu-tab">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="{{ path('edit_equipments_course_info', { 'id': courseInfo.id }) }}">
                         <i>5</i>&nbsp;
                         <p>Matériel et ressources</p>
                     </a>
                 </li>
                 <li class="nav-item menu-tab">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="{{ path('edit_infos_course_info', { 'id': courseInfo.id }) }}">
                         <i>6</i>&nbsp;
                         <p>Informations pratiques</p>
                     </a>
                 </li>
                 <li class="nav-item menu-tab">
-                    <a class="nav-link">
+                    <a class="nav-link" href="{{ path('edit_closing_remarks_course_info', { 'id': courseInfo.id }) }}">
                         <i>7</i>&nbsp;
                         <p>Le mot de la fin</p>
                     </a>
