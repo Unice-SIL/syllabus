@@ -33,16 +33,168 @@
             {% block main %}{% endblock %}
             <div id="loading_spinner"></div>
 
-            {% block javascripts %}
-                {{ encore_entry_script_tags('app') }}
-                <script>
-                    $(document).ready(function () {
-                        $("body").on("shown.bs.modal", ".modal", function () {
-                            $(this).find('div.modal-dialog').animate("top", $(parent.window.document).scrollTop());
-                        });
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+        {% if not in_iframe %}
+            <style>
+                body { padding-bottom: 13rem }
+            </style>
+        {% endif %}
+    {% endblock %}
+
+
+
+</head>
+
+<body class="{{ body_class }}">
+<div id="app" class="">
+
+    {% if in_iframe == false %}
+        <header>
+        </header>
+    {% endif %}
+
+    {% block messages %}
+        <div class="{{ container_class }}" id="alerts_container">
+            {% for type, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ type }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    {% endblock %}
+
+    <main class="{{ container_class }}" role="main">
+        {% block main %}
+
+        {% endblock %}
+    </main>
+
+    {% include 'default/modal.html.twig' %}
+
+    {% if in_iframe == false %}
+        <footer>
+        </footer>
+    {% endif %}
+
+    <div id="loading_spinner"></div>
+
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+        <script>
+            $(document).ready(function(){
+                $("body").on("shown.bs.modal", ".modal", function() {
+                    $(this).find('div.modal-dialog').animate("top",$(parent.window.document).scrollTop());
+                });
+                $(document).on('click', '.modal-syllabus', function () {
+                    var url = $(this).data("url");
+                    $.ajax({
+                        url: url,
+                        method: "GET",
+                        dataType: "html",
+                        success: function (data) {
+                            $(this).html(data);
+                        }
                     });
-                </script>
-            {% endblock %}
+                });
+
+                /*******
+                 *
+                 * Modal
+                 *
+                 */
+
+                let $modal_app = $('#modal_app');
+                let $modal_app_title = $('#modal_app_title');
+                let $modal_app_body = $('#modal_app_body');
+
+                /**
+                 * Remove modal content after closing
+                 */
+
+                $modal_app.on('hidden.bs.modal', function () {
+                    $modal_app_title.empty();
+                    $modal_app_body.empty();
+                });
+
+                /**
+                 * Load modal content and show it
+                 */
+
+                $('.modal-action').click(function(){
+                    let title = $(this).data('action-title');
+                    let url = $(this).data('action-url');
+                    let event = $(this).data('action-event');
+                    let confirm = $(this).data('action-confirm');
+                    if(confirm)
+                    {
+                        let confirm_button = $(this).data('action-confirm-button');
+                        let confirm_message = $(this).data('action-confirm-message');
+                        bootbox.confirm({
+                            message: confirm_message,
+                            buttons: {
+                                confirm: {
+                                    label: confirm_button,
+                                    className: 'btn btn-danger'
+                                },
+                                cancel: {
+                                    label: 'Annuler',
+                                    className: 'btn btn-outline-dark'
+                                }
+                            },
+                            callback: function(result){
+                                if(result)
+                                {
+                                    Syllabus.handleModalAction($modal_app, $modal_app_title, $modal_app_body, title, url, event )
+                                }
+                            }
+                        });
+                    }else{
+                        Syllabus.handleModalAction($modal_app, $modal_app_title, $modal_app_body, title, url, event );
+                    }
+                });
+
+                /**
+                 * When submitting modal form, use ajax request to post form data
+                 */
+
+                $(document).on('submit', '.modal-action-form', function(e){
+                    e.preventDefault();
+                    let url = $(this).data('action-url');
+                    let data = $(this).serialize();
+                    $.post(
+                        url,
+                        data
+                    ).done(function(response){
+                        if(Syllabus.handleAjaxResponseModal(response))
+                        {
+                            $modal_app.modal('hide');
+                            document.location.reload();
+                        }
+                    });
+                });
+
+                /**
+                 * If event is specified, triggers the event after opening the modal
+                 */
+
+                $modal_app.on('shown.bs.modal', function () {
+                    let event = $modal_app.data('action-event');
+                    if(event)
+                    {
+                        $(document).trigger(event);
+                    }
+                });
+            });
+        </script>
+    {% endblock %}
+</div>
+</body>
 
         </div>
     </body>
