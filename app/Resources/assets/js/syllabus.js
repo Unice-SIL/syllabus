@@ -1,8 +1,8 @@
 /******************************************************************************
 
-        Syllabus module.
+ Syllabus module.
 
-*/
+ */
 
 
 import $ from 'jquery';
@@ -18,8 +18,8 @@ var Syllabus = ( function ( ) {
 
     /**************************************************************************
 
-            Private items.
-    */
+     Private items.
+     */
 
 
     var _ajaxTabContentLoader = function( tabLinkId ) {
@@ -63,7 +63,7 @@ var Syllabus = ( function ( ) {
         if ( renders !== undefined ) {
             renders.forEach( function( render ) {
                 if ( render.element !== undefined &&
-                        render.content !== undefined ) {
+                    render.content !== undefined ) {
                     $( render.element ).html( render.content );
                 }
             } );
@@ -115,38 +115,37 @@ var Syllabus = ( function ( ) {
 
     /**************************************************************************
 
-            Public items.
-    */
+     Public items.
+     */
 
 
     var temporaryItem = null,
         ckeConfig = {
             "toolbar": [
                 [
-                  "RemoveFormat",
-                  "-",
-                  "Bold",
-                  "Italic",
-                  "Underline"
+                    "RemoveFormat",
+                    "-",
+                    "Bold",
+                    "Italic",
+                    "Underline"
                 ],
                 "-",
                 [
-                  "Outdent",
-                  "Indent",
-                  "-",
-                  "NumberedList",
-                  "BulletedList"
+                    "Outdent",
+                    "Indent",
+                    "-",
+                    "NumberedList",
+                    "BulletedList"
                 ],
                 "-",
                 [
-                  "Link"
+                    "Link"
                 ]
             ],
             "removeButtons": null,
             "removePlugins": "elementspath",
             "resize_enabled": false
         };
-
 
     var addFormToCollection = function( collection, placeholder ) {
         if(!placeholder) placeholder = '__name__';
@@ -163,11 +162,12 @@ var Syllabus = ( function ( ) {
     };
 
 
+
     var handleAjaxResponse = function( response ) {
         if ( response.messages !== undefined ) {
             response.messages.forEach( function( message ) {
                 if ( message.type !== undefined &&
-                        message.message !== undefined ) {
+                    message.message !== undefined ) {
                     SILTools.alert( {
                         type: message.type,
                         text: message.message
@@ -180,6 +180,43 @@ var Syllabus = ( function ( ) {
 
     };
 
+    /**
+     *
+     * @param response
+     */
+    var handleAjaxResponseModal = function (response)
+    {
+        let status = (response.status) ? response.status : false;
+        let content = (response.content) ? response.content : "Une erreur est survenue";
+        if(response.status !== true)
+        {
+            SILTools.alert( {
+                type: 'danger',
+                text: content
+            });
+        }
+        return status;
+    };
+
+    var handleModalAction = function (
+        $modal_app,
+        $modal_app_title,
+        $modal_app_body,
+        title,
+        url,
+        event
+    ) {
+        $.get(
+            url
+        ).done(function(response){
+            if(handleAjaxResponseModal(response)) {
+                $modal_app_title.html(title);
+                $modal_app_body.html(response.content);
+                $modal_app.modal('show');
+                $modal_app.data('action-event', event);
+            }
+        });
+    };
 
     var removeListElement = function( $element ) {
 
@@ -252,6 +289,8 @@ var Syllabus = ( function ( ) {
         addFormToCollection: addFormToCollection,
         ckeConfig: ckeConfig,
         handleAjaxResponse: handleAjaxResponse,
+        handleAjaxResponseModal: handleAjaxResponseModal,
+        handleModalAction: handleModalAction,
         removeListElement: removeListElement,
         setMediaFrameAttributes: setMediaFrameAttributes,
         submitPanelForm: submitPanelForm,

@@ -122,17 +122,16 @@ class CourseInfoPresentationController extends AbstractController
     }
 
     /**
-     * @Route("/course/{id}/presentation/teachers/{action}", name="course_presentation_teachers", defaults={"action"=null}))
+     * @Route("/course/{id}/presentation/teachers", name="course_presentation_teachers"))
      *
      * @param $id
-     * @param $action
      * @param Request $request
      * @param CourseInfoManager $manager
      * @param ImportCourseTeacherFactory $factory
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function teachersAction($id, $action, Request $request, CourseInfoManager $manager, ImportCourseTeacherFactory $factory)
+    public function teachersAction($id, Request $request, CourseInfoManager $manager, ImportCourseTeacherFactory $factory)
     {
         $em = $this->getDoctrine()->getManager();
         /** @var CourseInfo $courseInfo */
@@ -143,36 +142,33 @@ class CourseInfoPresentationController extends AbstractController
         $form = $this->createForm(TeachersType::class, $teacher);
         $form->handleRequest($request);
 
-        if ($action === "cancel")
-        {
-            return $this->render('course_info/presentation/view/teachers.html.twig', [
-                'courseInfo' => $courseInfo,
-            ]);
-
-        }
-
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($action === "submit")
-            {
-                /** @var CourseTeacher $data */
-                $data = $form->getData();
-                $login = $form->get('login')->getData();
-                $source = $form->get('teacherSource')->getData();
-                $courseTeacher = $factory->getFindByIdQuery($source)->setId($login)->execute();
-                $courseTeacher->setManager($data->isManager())
-                    ->setEmailVisibility($data->isEmailVisibility())
-                    ->setCourseInfo($courseInfo);
-                $courseInfo->addCourseTeacher($courseTeacher);
-                $manager->update($courseInfo);
-            }
-            return $this->render('course_info/presentation/view/teachers.html.twig', [
-                'courseInfo' => $courseInfo,
+            /** @var CourseTeacher $data */
+            $data = $form->getData();
+            $login = $form->get('login')->getData();
+            $source = $form->get('teacherSource')->getData();
+            $courseTeacher = $factory->getFindByIdQuery($source)->setId($login)->execute();
+            $courseTeacher->setManager($data->isManager())
+                ->setEmailVisibility($data->isEmailVisibility())
+                ->setCourseInfo($courseInfo);
+            $courseInfo->addCourseTeacher($courseTeacher);
+            $manager->update($courseInfo);
+            $render = $this->get('twig')->render('course_info/presentation/view/teachers.html.twig', [
+                'courseInfo' => $courseInfo
+            ]);
+            return $this->json([
+                'status' => true,
+                'content' => $render
             ]);
         }
 
-        return $this->render('course_info/presentation/form/teachers.html.twig', [
+        $render = $this->get('twig')->render('course_info/presentation/form/teachers.html.twig', [
             'courseInfo' => $courseInfo,
             'form' => $form->createView()
+        ]);
+        return $this->json([
+            'status' => true,
+            'content' => $render
         ]);
     }
 

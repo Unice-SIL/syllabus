@@ -2,7 +2,11 @@
     <div class="card-header">
         <div class="d-flex justify-content-between">
             <h3>Équipe enseignante</h3>
-            <button type="button" class="btn btn-primary button-gradient modal-syllabus" data-toggle="modal" data-target="#syllabusModal" data-url="{{ path('modal_syllabus', {'path': 'course_info/') }}">Ajouter</button>
+            <button type="button" class="btn btn-primary button-gradient modal-action"
+                    data-action-title="Ajouter un enseignant"
+                    data-action-url="{{ path('course_presentation_teachers', {'id': courseInfo.id }) }}">
+                Ajouter un enseignant
+            </button>
         </div>
     </div>
     {% if courseInfo.courseTeachers is empty %}
