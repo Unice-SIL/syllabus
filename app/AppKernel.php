@@ -25,6 +25,7 @@ class AppKernel extends Kernel
             new UniceSIL\SyllabusMoodleImporterBundle\UniceSILSyllabusMoodleImporterBundle(),
             new UniceSIL\ShibbolethBundle\UniceSILShibbolethBundle(),
             new Exercise\HTMLPurifierBundle\ExerciseHTMLPurifierBundle(),
+            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

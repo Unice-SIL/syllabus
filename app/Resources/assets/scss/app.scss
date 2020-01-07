@@ -62,16 +62,6 @@ main > small:first-of-type {
   pointer-events: none;
 }
 
-footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  font-size: 0.8em;
-  text-align: center;
-  padding: 1rem 3rem 2rem;
-  background-color: $gray-300;
-}
-
 /*
     Card.
  */
@@ -375,4 +365,50 @@ div.view-evaluation {
 
 .section-description a {
   color: #343a40 !important;
+}
+
+/*
+    Pagination
+*/
+
+th.sortable {
+
+    position: relative;
+
+    a {
+      display: block;
+      width: 100%;
+      padding-right: 20px;
+      color: initial;
+
+      &:before, &:after {
+        position: absolute;
+        bottom: 0.9em;
+        display: block;
+        opacity: 0.3;
+      }
+
+      &:before {
+        right: 1em;
+        content: "\2191";
+      }
+
+      &:after {
+        right: 0.5em;
+        content: "\2193";
+      }
+
+      &.asc {
+        &:before {
+          opacity: 1;
+        }
+      }
+
+      &.desc {
+        &:after {
+          opacity: 1;
+        }
+      }
+
+    }
 }
