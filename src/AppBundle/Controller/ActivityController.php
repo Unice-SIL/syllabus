@@ -2,10 +2,10 @@
 
 namespace AppBundle\Controller;
 
-use App\Repository\ActivityRepository;
-use AppBundle\Constant\ActivityType;
+use AppBundle\Form\ActivityType;
 use AppBundle\Entity\Activity;
 use AppBundle\Form\Filter\ActivityFilterType;
+use AppBundle\Manager\ActivityManager;
 use AppBundle\Repository\Doctrine\ActivityDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
@@ -32,7 +32,7 @@ class ActivityController extends Controller
 
         $qb =  $em->getRepository(Activity::class)->createQueryBuilder('a')->andWhere('a.type = :type')->setParameter('type', $type);
 
-        $form = $this->get('form.factory')->create(ActivityFilterType::class);
+        $form = $this->get('form.factory')->create(ActivityFilterType::class, null, ['type' => $type]);
 
         if ($request->query->has($form->getName())) {
 
@@ -49,46 +49,73 @@ class ActivityController extends Controller
 
         return $this->render('activity/index.html.twig', array(
             'pagination' => $pagination,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'type' => $type
         ));
     }
 
     /**
      * Creates a new activity.
      *
-     * Route("/new", name="new")
+     * @Route("/new/{type}", name="new", requirements={"type" = "activity|evaluation"})
      * @Method({"GET", "POST"})
      */
-    /*public function newAction(Request $request)
+    public function newAction(Request $request, string $type, ActivityManager $activityManager)
     {
-        $activity = new Activity();
+        $activity = $activityManager->create($type);
         $form = $this->createForm(ActivityType::class, $activity);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $em = $this->getDoctrine()->getManager();
-            $em->persist($activity);
             $em->flush();
 
             $this->addFlash('success', 'L\'activité a été ajoutée avec succès.');
 
-            return $this->redirectToRoute('app_admin_activity_index');
+            return $this->redirectToRoute('app_admin_activity_index', ['type' => $activity->getType()]);
         }
 
         return $this->render('activity/new.html.twig', array(
             'form' => $form->createView(),
+            'type' => $type
         ));
-    }*/
+    }
 
     /**
-     * @Route("/autocomplete", name="autocomplete", methods={"GET"})
+     * Displays a form to edit an existing activity entity.
+     *
+     * @Route("{id}/edit", name="edit")
+     * @Method({"GET", "POST"})
      */
-    public function autocomplete(ActivityDoctrineRepository $activityDoctrineRepository, Request $request)
+    public function editAction(Request $request, Activity $activity)
+    {
+        $form = $this->createForm(ActivityType::class, $activity);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $this->getDoctrine()->getManager()->flush();
+
+            $this->addFlash('success', 'L\'activité a été modifiée avec succès.');
+
+            return $this->redirectToRoute('app_admin_activity_edit', array('id' => $activity->getId()));
+        }
+
+        return $this->render('activity/edit.html.twig', array(
+            'form' => $form->createView(),
+        ));
+    }
+
+    /**
+     * @Route("/autocomplete/{type}", name="autocomplete", methods={"GET"}, requirements={"type" = "activity|evaluation"})
+     */
+    public function autocomplete(ActivityDoctrineRepository $activityDoctrineRepository, Request $request, $type)
     {
         //todo: refacto with autocomplete material
         $query = $request->query->get('query');
 
-        $activities = $activityDoctrineRepository->findLikeQuery($query);
+        $activities = $activityDoctrineRepository->findLikeQuery($query, $type);
         $activities = array_map(function($activity){
             return $activity->getLabel();
         }, $activities);
