@@ -60,10 +60,11 @@ interface ActivityRepositoryInterface
 
     /**
      *
-     * Find activities with label like $query
+     * Find activities by type with label like $query
      * @param $query
+     * @param $type
      * @return \ArrayObject
      */
-    public function findLikeQuery(string $query): array;
+    public function findLikeQuery(string $query, string $type): array;
 
 }
