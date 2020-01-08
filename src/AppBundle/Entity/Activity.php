@@ -103,7 +103,7 @@ class Activity
      * @param string $label
      * @return Activity
      */
-    public function setLabel(string $label): Activity
+    public function setLabel(?string $label): Activity
     {
         $this->label = $label;
 
