@@ -45,23 +45,17 @@
                         <td>{{ teacher.lastname }}</td>
                         <td>{{ teacher.firstname }}</td>
                         <td>
-                            {% if teacher.emailVisibility %}
-                                Visible
-                            {% else %}
-                                Invisible
-                            {% endif %}
+                            {{ teacher.emailVisibility ? 'Visible' : 'Invisible' }}
                         </td>
                         <td>
-                            {% if teacher.manager %}
-                                Oui
-                            {% else %}
-                                Non
-                            {% endif %}
+                            {{ teacher.manager ? 'Oui' : 'Non' }}
                         </td>
                         <td>
-                            <a href="#">
+                            <button type="button" class="btn btn-link modal-action p-0"
+                               data-action-title="Supprimer un enseignant"
+                               data-action-url="{{ path('course_presentation_remove_teacher', {'id': courseInfo.id, 'teacherId': teacher.id}) }}">
                                 <i class="fas fa-trash-alt text-danger"></i>
-                            </a>
+                            </button>
                         </td>
                     </tr>
                 {% endfor %}

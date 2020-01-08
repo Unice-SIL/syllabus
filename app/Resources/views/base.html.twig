@@ -88,9 +88,6 @@
         {{ encore_entry_script_tags('app') }}
         <script>
             $(document).ready(function(){
-                $("body").on("shown.bs.modal", ".modal", function() {
-                    $(this).find('div.modal-dialog').animate("top",$(parent.window.document).scrollTop());
-                });
                 $(document).on('click', '.modal-syllabus', function () {
                     var url = $(this).data("url");
                     $.ajax({

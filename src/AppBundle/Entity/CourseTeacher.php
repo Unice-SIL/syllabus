@@ -190,10 +190,10 @@ class CourseTeacher
     }
 
     /**
-     * @param CourseInfo $courseInfo
+     * @param $courseInfo
      * @return CourseTeacher
      */
-    public function setCourseInfo(CourseInfo $courseInfo): CourseTeacher
+    public function setCourseInfo($courseInfo): CourseTeacher
     {
         $this->courseInfo = $courseInfo;
 

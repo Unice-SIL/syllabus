@@ -7,6 +7,7 @@ use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseTeacher;
 use AppBundle\Factory\ImportCourseTeacherFactory;
 use AppBundle\Form\CourseInfo\Presentation\GeneralType;
+use AppBundle\Form\CourseInfo\Presentation\RemoveTeacherType;
 use AppBundle\Form\CourseInfo\Presentation\SynopsisType;
 use AppBundle\Form\CourseInfo\Presentation\TeachersType;
 use AppBundle\Manager\CourseInfoManager;
@@ -163,6 +164,59 @@ class CourseInfoPresentationController extends AbstractController
         }
 
         $render = $this->get('twig')->render('course_info/presentation/form/teachers.html.twig', [
+            'courseInfo' => $courseInfo,
+            'form' => $form->createView()
+        ]);
+        return $this->json([
+            'status' => true,
+            'content' => $render
+        ]);
+    }
+
+    /**
+     * @Route("/course/{id}/presentation/teachers/delete/{teacherId}", name="course_presentation_remove_teacher"))
+     *
+     * @param $id
+     * @param $teacherId
+     * @param Request $request
+     * @param CourseInfoManager $manager
+     * @return JsonResponse
+     * @throws \Exception
+     */
+    public function deleteTeacherAction($id, $teacherId, Request $request, CourseInfoManager $manager)
+    {
+        $em = $this->getDoctrine()->getManager();
+        /** @var CourseInfo $courseInfo */
+        $courseInfo = $em->getRepository(CourseInfo::class)->find($id);
+
+
+        /** @var CourseTeacher $teacher */
+        $teacher = $em->getRepository(CourseTeacher::class)->find($teacherId);
+
+        if (!$teacher instanceof CourseTeacher)
+        {
+            return $this->json([
+                'status' => false,
+                'content' => "L'enseignant {$teacherId} n'existe pas"
+            ]);
+        }
+
+        $form = $this->createForm(RemoveTeacherType::class, $teacher);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            /** @var CourseTeacher $teacher */
+            $teacher = $form->getData();
+            $courseInfo->removeCourseTeacher($teacher);
+            $manager->update($courseInfo);
+            return $this->json([
+                'status' => true,
+                'content' => null
+            ]);
+        }
+
+        $render = $this->get('twig')->render('course_info/presentation/form/remove_teacher.html.twig', [
             'courseInfo' => $courseInfo,
             'form' => $form->createView()
         ]);

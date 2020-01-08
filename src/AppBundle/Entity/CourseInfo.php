@@ -497,7 +497,7 @@ class CourseInfo
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="CourseTeacher", mappedBy="courseInfo", cascade={ "persist" })
+     * @ORM\OneToMany(targetEntity="CourseTeacher", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"lastname" = "ASC"})
      */
     private $courseTeachers;
@@ -1854,8 +1854,11 @@ class CourseInfo
      */
     public function addCourseTeacher(CourseTeacher $courseTeacher): CourseInfo
     {
-        $this->courseTeachers->add($courseTeacher);
-
+        if (!$this->courseTeachers->contains($courseTeacher))
+        {
+            $this->courseTeachers->add($courseTeacher);
+            $courseTeacher->setCourseInfo($this);
+        }
         return $this;
     }
 
@@ -1865,9 +1868,16 @@ class CourseInfo
      */
     public function removeCourseTeacher(CourseTeacher $courseTeacher): CourseInfo
     {
-        $this->courseTeachers->removeElement($courseTeacher);
-
+        if ($this->courseTeachers->contains($courseTeacher))
+        {
+            $this->courseTeachers->removeElement($courseTeacher);
+            if ($courseTeacher->getCourseInfo() === $this)
+            {
+                $courseTeacher->setCourseInfo(null);
+            }
+        }
         return $this;
+
     }
 
     /**
