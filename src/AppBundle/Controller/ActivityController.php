@@ -2,10 +2,10 @@
 
 namespace AppBundle\Controller;
 
-use App\Repository\ActivityRepository;
-use AppBundle\Constant\ActivityType;
+use AppBundle\Form\ActivityType;
 use AppBundle\Entity\Activity;
 use AppBundle\Form\Filter\ActivityFilterType;
+use AppBundle\Manager\ActivityManager;
 use AppBundle\Repository\Doctrine\ActivityDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
@@ -49,19 +49,20 @@ class ActivityController extends Controller
 
         return $this->render('activity/index.html.twig', array(
             'pagination' => $pagination,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'type' => $type
         ));
     }
 
     /**
      * Creates a new activity.
      *
-     * Route("/new", name="new")
+     * @Route("/new/{type}", name="new", requirements={"type" = "activity|evaluation"})
      * @Method({"GET", "POST"})
      */
-    /*public function newAction(Request $request)
+    public function newAction(Request $request, string $type, ActivityManager $activityManager)
     {
-        $activity = new Activity();
+        $activity = $activityManager->create($type);
         $form = $this->createForm(ActivityType::class, $activity);
         $form->handleRequest($request);
 
@@ -77,8 +78,9 @@ class ActivityController extends Controller
 
         return $this->render('activity/new.html.twig', array(
             'form' => $form->createView(),
+            'type' => $type
         ));
-    }*/
+    }
 
     /**
      * @Route("/autocomplete", name="autocomplete", methods={"GET"})
