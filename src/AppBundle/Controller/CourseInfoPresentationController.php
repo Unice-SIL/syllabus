@@ -10,6 +10,7 @@ use AppBundle\Form\CourseInfo\Presentation\GeneralType;
 use AppBundle\Form\CourseInfo\Presentation\RemoveTeacherType;
 use AppBundle\Form\CourseInfo\Presentation\SynopsisType;
 use AppBundle\Form\CourseInfo\Presentation\TeachersType;
+use AppBundle\Form\CourseInfo\Presentation\TeachingModeType;
 use AppBundle\Manager\CourseInfoManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -94,11 +95,14 @@ class CourseInfoPresentationController extends AbstractController
         /** @var CourseInfo $courseInfo */
         $courseInfo = $em->getRepository(CourseInfo::class)->find($id);
 
+        $image = $courseInfo->getImage();
+
         $form = $this->createForm(SynopsisType::class, $courseInfo);
         $form->handleRequest($request);
 
         if ($action === "cancel")
         {
+            $courseInfo->setImage($image);
             return $this->render('course_info/presentation/view/synopsis.html.twig', [
                 'courseInfo' => $courseInfo,
             ]);
@@ -223,6 +227,48 @@ class CourseInfoPresentationController extends AbstractController
         return $this->json([
             'status' => true,
             'content' => $render
+        ]);
+    }
+
+    /**
+     * @Route("/course/{id}/presentation/teaching_mode/{action}", name="course_presentation_teaching_mode", defaults={"action"=null}))
+     *
+     * @param $id
+     * @param $action
+     * @param Request $request
+     * @param CourseInfoManager $manager
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
+     */
+    public function teachingModeAction($id, $action, Request $request, CourseInfoManager $manager)
+    {
+        $em = $this->getDoctrine()->getManager();
+        /** @var CourseInfo $courseInfo */
+        $courseInfo = $em->getRepository(CourseInfo::class)->find($id);
+
+        $form = $this->createForm(TeachingModeType::class, $courseInfo);
+        $form->handleRequest($request);
+
+        if ($action === "cancel")
+        {
+            return $this->render('course_info/presentation/view/teaching_mode.html.twig', [
+                'courseInfo' => $courseInfo,
+            ]);
+        }
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($action === "submit")
+            {
+                $manager->update($courseInfo);
+            }
+            return $this->render('course_info/presentation/view/teaching_mode.html.twig', [
+                'courseInfo' => $courseInfo,
+            ]);
+        }
+
+        return $this->render('course_info/presentation/form/teaching_mode.html.twig', [
+            'courseInfo' => $courseInfo,
+            'form' => $form->createView()
         ]);
     }
 
