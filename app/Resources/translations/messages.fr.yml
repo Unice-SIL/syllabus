@@ -21,3 +21,16 @@ app:
         label: 'Intitulé'
         mode: 'Mode'
         grp: 'Groupe'
+    course_info:
+      label:
+        title: 'Titre'
+    course:
+      label:
+        type: 'Type'
+        etb_id: 'Code établissement'
+    year:
+      label:
+        label: 'Année'
+    structure:
+      label:
+        label: 'Label'

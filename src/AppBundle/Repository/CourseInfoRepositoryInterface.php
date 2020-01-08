@@ -3,6 +3,7 @@
 namespace AppBundle\Repository;
 
 use AppBundle\Entity\CourseInfo;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * Interface CourseInfoRepositoryInterface
@@ -68,5 +69,21 @@ interface CourseInfoRepositoryInterface
      * @return mixed
      */
     public function clear();
+
+    /**
+     * Find all course_info by value of $field is like $query
+     *
+     * @param string $query
+     * @param string $field
+     * @return array
+     */
+    public function findLikeQuery(string $query, string $field): array;
+
+    /**
+     * Return the necessary QueryBuilder for index pagination
+     *
+     * @return QueryBuilder
+     */
+    public function getIndexQueryBuilder(): QueryBuilder;
 
 }

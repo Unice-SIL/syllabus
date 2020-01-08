@@ -9,7 +9,7 @@ class UserRole
     const ROLE_USER = 'ROLE_USER';
     const ROLE_ADMIN = 'ROLE_ADMIN';
 
-    public static $allRoles = [
+    const ROLES = [
         self::ROLE_USER,
         self::ROLE_ADMIN,
     ];

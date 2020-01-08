@@ -33,7 +33,7 @@ class UserType extends AbstractType
                 'label' => 'Email'
             ])
             ->add('roles', ChoiceType::class, [
-                'choices' => array_combine(UserRole::$allRoles, UserRole::$allRoles),
+                'choices' => array_combine(UserRole::ROLES, UserRole::ROLES),
                 'multiple' => true
             ]);
     }/**

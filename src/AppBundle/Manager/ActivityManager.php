@@ -28,7 +28,7 @@ class ActivityManager
 
     public function create(string $type)
     {
-        if (!in_array($type, ActivityType::$allTypes)) {
+        if (!in_array($type, ActivityType::TYPES)) {
             throw new \LogicException('This activity type' . $type . 'is not handled by the application!');
         }
 
@@ -45,9 +45,9 @@ class ActivityManager
     {
         switch ($type) {
             case ActivityType::ACTIVITY:
-                return ActivityMode::$activityModes;
+                return ActivityMode::ACTIVITY_MODES;
             case ActivityType::EVALUATION:
-                return ActivityMode::$roleModes;
+                return ActivityMode::EVALUATION_MODES;
             default:
                 throw new \LogicException('This activity type' . $type . 'is not handled!');
         }
@@ -57,7 +57,7 @@ class ActivityManager
     {
         switch ($type) {
             case ActivityType::ACTIVITY:
-                return ActivityGroup::$activityGroups;
+                return ActivityGroup::ACTIVITY_GROUPS;
             default:
                 throw new \LogicException('This activity type' . $type . 'is not handled!');
         }

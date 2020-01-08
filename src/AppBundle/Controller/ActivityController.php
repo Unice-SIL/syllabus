@@ -85,7 +85,7 @@ class ActivityController extends Controller
     /**
      * Displays a form to edit an existing activity entity.
      *
-     * @Route("{id}/edit", name="edit")
+     * @Route("/{id}/edit", name="edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Activity $activity)
@@ -112,7 +112,6 @@ class ActivityController extends Controller
      */
     public function autocomplete(ActivityDoctrineRepository $activityDoctrineRepository, Request $request, $type)
     {
-        //todo: refacto with autocomplete material
         $query = $request->query->get('query');
 
         $activities = $activityDoctrineRepository->findLikeQuery($query, $type);

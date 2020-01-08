@@ -11,7 +11,7 @@ final class ActivityType
     const ACTIVITY = 'activity';
     const EVALUATION = 'evaluation';
 
-    public static $allTypes = [
+    const TYPES = [
         self::ACTIVITY,
         self::EVALUATION
     ];
