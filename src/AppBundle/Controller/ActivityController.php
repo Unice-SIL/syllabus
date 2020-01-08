@@ -83,6 +83,31 @@ class ActivityController extends Controller
     }
 
     /**
+     * Displays a form to edit an existing activity entity.
+     *
+     * @Route("{id}/edit", name="edit")
+     * @Method({"GET", "POST"})
+     */
+    public function editAction(Request $request, Activity $activity)
+    {
+        $form = $this->createForm(ActivityType::class, $activity);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $this->getDoctrine()->getManager()->flush();
+
+            $this->addFlash('success', 'L\'activité a été modifiée avec succès.');
+
+            return $this->redirectToRoute('app_admin_activity_edit', array('id' => $activity->getId()));
+        }
+
+        return $this->render('activity/edit.html.twig', array(
+            'form' => $form->createView(),
+        ));
+    }
+
+    /**
      * @Route("/autocomplete", name="autocomplete", methods={"GET"})
      */
     public function autocomplete(ActivityDoctrineRepository $activityDoctrineRepository, Request $request)
