@@ -13,17 +13,12 @@ final class ActivityMode
     const EVAL_CC = 'cc';
     const EVAL_CT = 'ct';
 
-    public static $activityModes = [
+    const ACTIVITY_MODES = [
       self::IN_AUTONOMY,
       self::IN_CLASS,
     ];
 
-    public static $roleModes = [
-        self::EVAL_CC,
-        self::EVAL_CT,
-    ];
-
-    public static $evaluationModes = [
+    const EVALUATION_MODES = [
       self::EVAL_CC,
       self::EVAL_CT,
     ];
