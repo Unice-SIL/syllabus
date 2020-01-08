@@ -59,8 +59,8 @@ interface ActivityRepositoryInterface
     public function rollback(): void;
 
     /**
-     *
      * Find activities by type with label like $query
+     *
      * @param $query
      * @param $type
      * @return \ArrayObject
