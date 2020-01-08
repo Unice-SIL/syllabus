@@ -3,9 +3,8 @@
 
 namespace AppBundle\Form\Subscriber;
 
-use AppBundle\Constant\ActivityGroup;
-use AppBundle\Constant\ActivityMode;
 use AppBundle\Constant\ActivityType;
+use AppBundle\Manager\ActivityManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -14,6 +13,14 @@ use Symfony\Component\Form\FormEvents;
 
 class ActivityTypeSubscriber implements EventSubscriberInterface
 {
+
+    private $activityManager;
+
+    public function __construct(ActivityManager $activityManager)
+    {
+        $this->activityManager = $activityManager;
+    }
+
 
     public static function getSubscribedEvents()
     {
@@ -26,24 +33,26 @@ class ActivityTypeSubscriber implements EventSubscriberInterface
     {
         $form = $event->getForm();
         $activity = $event->getData();
+        $type = $activity->getType();
 
-        if ($activity->getType() === ActivityType::ACTIVITY) {
-            $modeChoices = ActivityMode::$activityModes;
-            $grpChoices = ActivityGroup::$activityGroups;
-        }
-
+        $modeChoices = $this->activityManager->getModeChoicesByType($type);
         $form->add('mode', ChoiceType::class, [
             'label' => 'app.form.activity.label.mode',
             'choices' => array_combine($modeChoices, $modeChoices)
-        ])
-            ->add('grp', ChoiceType::class, [
-                'label' => 'app.form.activity.label.grp',
-                'choices' => array_combine($grpChoices, $grpChoices)
-            ])
-        ;
+        ]);
+
+        if ($type === ActivityType::ACTIVITY) {
+            $grpChoices = $this->activityManager->getGroupeChoicesByType($type);
+            $form->add('grp', ChoiceType::class, [
+                    'label' => 'app.form.activity.label.grp',
+                    'choices' => array_combine($grpChoices, $grpChoices)
+                ])
+            ;
+        }
 
         //Edit mode
-        if ($activity and null !== $activity->getId()) {
+        //$activity->isNew is a dynamic property set in AppBundle\Manager\ActivityManager::create() to track the new state of the entity
+        if ($activity and !isset($activity->isNew)) {
 
             $form->add('obsolete', CheckboxType::class, [
                 'label' => 'Obsolète',

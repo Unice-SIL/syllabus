@@ -5,18 +5,10 @@ namespace AppBundle\Manager;
 
 
 use AppBundle\Entity\Year;
-use AppBundle\Repository\CourseInfoRepositoryInterface;
-use AppBundle\Repository\Doctrine\CourseInfoDoctrineRepository;
-use AppBundle\Repository\YearRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
 class YearManager
 {
-
-    /**
-     * @var \Doctrine\Persistence\ObjectRepository
-     */
-    private $repository;
 
 
     public function __construct(
@@ -29,7 +21,9 @@ class YearManager
 
     public function create()
     {
-        return new Year();
+        $year = new Year();
+
+        return $year;
     }
 
     public function update(Year $year)

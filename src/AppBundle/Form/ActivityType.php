@@ -9,6 +9,15 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ActivityType extends AbstractType
 {
+
+    private $activityTypeSubscriber;
+
+    public function __construct(ActivityTypeSubscriber $activityTypeSubscriber)
+    {
+        $this->activityTypeSubscriber = $activityTypeSubscriber;
+    }
+
+
     /**
      * {@inheritdoc}
      */
@@ -16,7 +25,7 @@ class ActivityType extends AbstractType
     {
         $builder
             ->add('label')
-            ->addEventSubscriber(new ActivityTypeSubscriber())
+            ->addEventSubscriber($this->activityTypeSubscriber)
         ;
 
     }

@@ -18,6 +18,11 @@ final class ActivityMode
       self::IN_CLASS,
     ];
 
+    public static $roleModes = [
+        self::EVAL_CC,
+        self::EVAL_CT,
+    ];
+
     public static $evaluationModes = [
       self::EVAL_CC,
       self::EVAL_CT,

@@ -9,7 +9,9 @@
             <div class="card-body">
                 {{ form_row(form.label) }}
                 {{ form_row(form.mode) }}
-                {{ form_row(form.grp) }}
+                {% if form.grp is defined %}
+                    {{ form_row(form.grp) }}
+                {% endif %}
             </div>
             <!-- /.card-body -->
 

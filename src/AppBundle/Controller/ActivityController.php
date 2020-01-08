@@ -32,7 +32,7 @@ class ActivityController extends Controller
 
         $qb =  $em->getRepository(Activity::class)->createQueryBuilder('a')->andWhere('a.type = :type')->setParameter('type', $type);
 
-        $form = $this->get('form.factory')->create(ActivityFilterType::class);
+        $form = $this->get('form.factory')->create(ActivityFilterType::class, null, ['type' => $type]);
 
         if ($request->query->has($form->getName())) {
 
@@ -67,13 +67,13 @@ class ActivityController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $em = $this->getDoctrine()->getManager();
-            $em->persist($activity);
             $em->flush();
 
             $this->addFlash('success', 'L\'activité a été ajoutée avec succès.');
 
-            return $this->redirectToRoute('app_admin_activity_index');
+            return $this->redirectToRoute('app_admin_activity_index', ['type' => $activity->getType()]);
         }
 
         return $this->render('activity/new.html.twig', array(
@@ -108,14 +108,14 @@ class ActivityController extends Controller
     }
 
     /**
-     * @Route("/autocomplete", name="autocomplete", methods={"GET"})
+     * @Route("/autocomplete/{type}", name="autocomplete", methods={"GET"}, requirements={"type" = "activity|evaluation"})
      */
-    public function autocomplete(ActivityDoctrineRepository $activityDoctrineRepository, Request $request)
+    public function autocomplete(ActivityDoctrineRepository $activityDoctrineRepository, Request $request, $type)
     {
         //todo: refacto with autocomplete material
         $query = $request->query->get('query');
 
-        $activities = $activityDoctrineRepository->findLikeQuery($query);
+        $activities = $activityDoctrineRepository->findLikeQuery($query, $type);
         $activities = array_map(function($activity){
             return $activity->getLabel();
         }, $activities);
