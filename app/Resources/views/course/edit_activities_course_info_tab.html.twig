@@ -30,7 +30,9 @@
         </div>
     </div>
 
-
+    <div style="padding: 15px; color: white; background: #FF4422; font-size: 0.92rem;">
+        IMPORTANT : Vous devez ajouter au minimum une section ci-dessous puis la déplier avec <i class="fas fa-caret-right"></i> (à gauche) pour remplir les informations (description et activité).
+    </div>
 
     {{ form_errors(form.sections) }}
     {{ form_widget(form.sections) }}
@@ -77,6 +79,14 @@
 
 {% block javascripts %}
     <script>
+
+        /**
+         * Form submission
+         */
+        $("form[name='edit_activities_course_info']").submit(function(e){
+            Syllabus.submitPanelForm( e, this );
+        });
+
         function setActivityInfos(el, data){
             el.find('.activity-label').html(data['label']);
             el.find('select[id$=_activity]').val(data['activity_id']);
@@ -310,12 +320,6 @@
             initActivities($(this));
         });
 
-        /**
-         * Form submission
-         */
-        $("form[name='edit_activities_course_info']").submit(function(e){
-            Syllabus.submitPanelForm( e, this );
-        });
 
         $('#infos_sections').click(function(){
             var message = '<p>Pour remplir cette partie, suivez les étapes suivantes :</p>' +
