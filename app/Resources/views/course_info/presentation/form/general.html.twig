@@ -1,5 +1,5 @@
 <div class="card border-primary card-syllabus toggle-focus my-2 shadow active">
-    {{ form_start(form) }}
+    {{ form_start(form, {'attr': {'class': 'form-focus'}}) }}
     <div class="card-header">
         <div class="d-flex justify-content-between">
             <h3>Général</h3>
@@ -38,4 +38,19 @@
     {{ form_widget(form._token) }}
     {{ form_end(form, {'render_rest': false }) }}
 </div>
+
+<script>
+    $('#infos_level').click(function(){
+        var message = '<ul>' +
+            '<li><strong>Débutant</strong> : Ce cours demande peu ou pas de connaissances préaables.</li>' +
+            '<li><strong>Intermédiaire</strong> : Ce cours demande quelques connaissances préalables.</li>' +
+            '<li><strong>Avancé</strong> : Ce cours demande d\'importantes connaissances préalables.</li>' +
+            '</ul>';
+        bootbox.dialog({
+            message: message,
+            backdrop: true,
+            onEscape: true
+        });
+    });
+</script>
 

@@ -1,5 +1,5 @@
 <div class="card border-primary card-syllabus toggle-focus my-2 shadow active">
-    {{ form_start(form) }}
+    {{ form_start(form, {'attr': {'class': 'form-focus'}}) }}
     <div class="card-header">
         <div class="d-flex justify-content-between">
             <h3>Synopsis</h3>
@@ -60,7 +60,7 @@
                     </div>
                     <div class="{{ videoContentClasses }}" id="media_video_container" role="tabpanel">
                         <img id="infos_video" src="{{ asset('images/info_32.png') }}" style="cursor: pointer;">
-                        {{ form_widget(form.video, {label_attr: {class: 'file-custom'} }) }}
+                        {{ form_widget(form.video) }}
                         <label placeholder="URL"></label>
                     </div>
                 </div>
@@ -78,3 +78,29 @@
     {{ form_widget(form._token) }}
     {{ form_end(form, {'render_rest': false }) }}
 </div>
+
+<script>
+    /**
+     * Change the media type value when clicking on media tab
+     */
+    $("#media_type > li > a").on('click', function(){
+        $("#edit_presentation_course_info_mediaType").val($(this).data('media-type'));
+    });
+
+    /**
+     * Change the image preview when change image file
+     */
+    $('#edit_presentation_course_info_image').on('change', function(e) {
+        var reader = new FileReader();
+        reader.onload = function() {
+            if (!$('#media_image').length) {
+                $('#media_image_container')
+                    .append('<img class="img-thumbnail" id="media_image" src="'+reader.result+'">');
+            } else {
+                $('#media_image').attr('src', reader.result);
+            }
+        }
+        reader.readAsDataURL(e.target.files[0]);
+    });
+
+</script>

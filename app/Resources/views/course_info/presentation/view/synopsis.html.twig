@@ -43,7 +43,8 @@
                                 </span>
                         {% elseif courseInfo.image is not null %}
                             <span class="text-muted">
-                                    {{ courseInfo.image }}
+                                {% set imgSrc = courseInfo.image | split('/') | last%}
+                                    <img class="img-thumbnail" src="{{ asset('data/' ~ imgSrc) }}">
                                 </span>
                         {% elseif courseInfo.video is not null %}
                             <span class="text-muted">

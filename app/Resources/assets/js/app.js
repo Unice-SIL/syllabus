@@ -155,10 +155,10 @@ import 'admin-lte/build/js/AdminLTE';
 */
 
 bootbox.addLocale( 'fr', {
-        OK      : 'OK',
-        CANCEL  : 'Annuler',
-        CONFIRM : 'Confirmer'
-    } );
+    OK      : 'OK',
+    CANCEL  : 'Annuler',
+    CONFIRM : 'Confirmer'
+} );
 bootbox.setLocale( 'fr' );
 
 
@@ -171,11 +171,14 @@ $( document ).ready( function( ) {
 
     $( document ).ajaxError( function( event, jqXHR, ajaxSettings, thrownError ) {
 
-        console.log( { event, jqXHR, ajaxSettings, thrownError } );
-        SILTools.alert( {
-            type: 'danger',
-            text: "Une erreur est survenue (" + jqXHR.status + ")."
-        } );
+        if (jqXHR.status !== 0)
+        {
+            console.log( { event, jqXHR, ajaxSettings, thrownError } );
+            SILTools.alert( {
+                type: 'danger',
+                text: "Une erreur est survenue (" + jqXHR.status + ")."
+            } );
+        }
 
     } );
 
