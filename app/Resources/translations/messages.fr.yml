@@ -9,8 +9,10 @@ autonomy: 'En autonomie'
 class: 'En présentiel'
 cc: 'Contrôle continu'
 ct: 'Contrôle terminal'
-activity: 'Activité'
-evaluation: 'Evaluation'
+activity: 'activité'
+evaluation: 'évaluation'
+list of activity: Liste des activités
+list of evaluation: Liste des évaluations
 
 app:
   form:

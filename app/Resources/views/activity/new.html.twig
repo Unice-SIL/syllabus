@@ -1,5 +1,5 @@
 {% extends 'admin_layout.html.twig' %}
-{% set h1 = 'Ajouter une activité' %}
+{% set h1 = 'Ajouter une ' ~ form.vars.value.type|trans %}
 {% block subContent %}
 
     <div class="card card-primary">
