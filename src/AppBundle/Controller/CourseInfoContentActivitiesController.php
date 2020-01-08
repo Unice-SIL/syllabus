@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Twig\Environment;
 
-class CourseInfoController extends Controller
+class CourseInfoContentActivitiesController extends Controller
 {
 
     /**
