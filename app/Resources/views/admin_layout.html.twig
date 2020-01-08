@@ -17,11 +17,8 @@
     </ul>
 {% endblock %}
 
+{% set logoHref = path('app_admin_year_index') %}
 {% block sidebar %}
-    <a href="{{ path('app_admin_year_index') }}" class="brand-link">
-        <img src="{{ asset('images/uca-logo.svg') }}" alt="logo" class="brand-image elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light">Université</span>
-    </a>
     <div class="sidebar">
         <!-- Sidebar user (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">

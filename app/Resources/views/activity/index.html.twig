@@ -6,17 +6,20 @@
         <div class="card-header">
             {{ form_start(form) }}
                 <div class="row ui-front">
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         {{ form_row(form.label) }}
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         {{ form_row(form.mode) }}
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         {{ form_row(form.grp) }}
                     </div>
-                    <div class="col-md-3">
-                        <a class="btn btn-primary float-right" style="margin-top: 33px" href="{# path('app_admin_activity_new') #}#">Ajouter une activité</a>
+                    <div class="col-md-3 col-sm-6">
+                        <a class="btn btn-danger" style="margin-top: 32px" href="{{  path('app_admin_activity_index', { 'type' : type })  }}">Réinitialiser les filtres</a>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <a class="btn btn-primary float-right" style="margin-top: 32px" href="{{  path('app_admin_activity_new', { 'type' : type })  }}">Ajouter une activité</a>
                     </div>
                 </div>
             {{ form_end(form) }}

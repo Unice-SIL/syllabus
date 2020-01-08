@@ -10,4 +10,9 @@ final class ActivityType
 {
     const ACTIVITY = 'activity';
     const EVALUATION = 'evaluation';
+
+    public static $allTypes = [
+        self::ACTIVITY,
+        self::EVALUATION
+    ];
 }
