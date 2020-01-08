@@ -38,7 +38,7 @@
                     }
                 });
             });
-            $(document).on('submit', 'form', function (e) {
+            $(document).on('submit', 'form.form-focus', function (e) {
                 e.preventDefault();
                 formSubmit($(this), 'submit');
             });

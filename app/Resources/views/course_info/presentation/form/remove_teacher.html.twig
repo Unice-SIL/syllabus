@@ -1,0 +1,8 @@
+{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('course_presentation_remove_teacher', {'id': courseInfo.id, 'teacherId': form.vars.data.id}) }}) }}
+{{ form_errors(form) }}
+<h5>Êtes-vous sûr(e) de vouloir supprimer l'enseignant "{{ form.vars.data.lastname }} {{ form.vars.data.firstname }}" ?</h5>
+<div class="d-flex justify-content-center">
+    <button type="submit" class="btn btn-danger button-gradient mr-2">Supprimer</button>
+</div>
+{{ form_widget(form._token) }}
+{{ form_end(form) }}
