@@ -24,7 +24,8 @@ app:
         title: 'Titre'
     course:
       label:
-        type: 'Code établissement'
+        type: 'Type'
+        etb_id: 'Code établissement'
     year:
       label:
         label: 'Année'

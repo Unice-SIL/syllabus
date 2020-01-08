@@ -63,7 +63,7 @@ class CourseInfoController extends Controller
     }
 
     /**
-     * @Route("/autocomplete/{field}", name="autocomplete", methods={"GET"}, requirements={"field" = "ci.title|c.type|y.label|s.label"})
+     * @Route("/autocomplete/{field}", name="autocomplete", methods={"GET"}, requirements={"field" = "ci.title|c.etbId|c.type|y.label|s.label"})
      */
     public function autocomplete(CourseInfoDoctrineRepository $courseInfoDoctrineRepository, Request $request, $field)
     {
@@ -73,6 +73,8 @@ class CourseInfoController extends Controller
         $courses = array_map(function($course) use ($field){
 
             switch ($field) {
+                case 'c.etbId':
+                    return $course->getCourse()->getEtbId();
                 case 'ci.title':
                     return $course->getTitle();
                 case 'c.type':

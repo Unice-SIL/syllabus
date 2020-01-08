@@ -22,12 +22,12 @@ class CourseFilterType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('type', TextFilterType::class, [
+        $builder->add('etbId', TextFilterType::class, [
             'condition_pattern' => FilterOperands::STRING_CONTAINS,
-            'label' => 'app.form.course.label.type',
+            'label' => 'app.form.course.label.etb_id',
             'attr' => [
                 'class' => 'autocomplete-input',
-                'data-autocomplete-path' => $this->generator->generate('app_admin_course_info_autocomplete', ['field' => 'c.type'])
+                'data-autocomplete-path' => $this->generator->generate('app_admin_course_info_autocomplete', ['field' => 'c.etbId'])
             ]
         ]);
     }

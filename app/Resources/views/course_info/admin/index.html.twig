@@ -35,15 +35,17 @@
                 <table class="table table-bordered table-responsive-sm">
                     <thead>
                     <tr>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.course.label.etb_id'|trans, 'c.etbId') }}</th>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.course.label.type'|trans, 'c.type') }}</th>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.year.label.label'|trans , 'y.label') }}</th>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.course_info.label.title'|trans , 'ci.title') }}</th>
-                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.structure.label.label'|trans, 's.label') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'Structure', 's.label') }}</th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for syllabus in pagination %}
                         <tr>
+                            <td>{{ syllabus.course.etbId }}</td>
                             <td>{{ syllabus.course.type }}</td>
                             <td>{{ syllabus.year.label }}</td>
                             <td>{{ syllabus.title }}</td>

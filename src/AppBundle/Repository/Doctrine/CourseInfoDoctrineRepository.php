@@ -124,7 +124,7 @@ class CourseInfoDoctrineRepository  extends AbstractDoctrineRepository implement
     {
         $qb = $this->getIndexQueryBuilder();
 
-            if (in_array($field, ['c.type', 'ci.title', 'y.label', 's.label'])) {
+            if (in_array($field, ['c.etbId', 'c.type', 'ci.title', 'y.label', 's.label'])) {
                 $qb->andWhere($field.' LIKE :query ')
                 ->setParameter('query', '%' . $query . '%')
                 ;
@@ -141,6 +141,9 @@ class CourseInfoDoctrineRepository  extends AbstractDoctrineRepository implement
             ->innerJoin('ci.year', 'y')
             ->innerJoin('ci.structure', 's')
             ->addSelect('y', 'c', 's')
+            ->addOrderBy('c.etbId', 'ASC')
+            ->addOrderBy('y.id', 'ASC')
+            ->addOrderBy('ci.title', 'ASC')
         ;
     }
 
