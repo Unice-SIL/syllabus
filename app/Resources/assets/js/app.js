@@ -37,7 +37,10 @@ global.Syllabus = Syllabus;
     SortableJS with jQuery binding.
 */
 
+import Sortable from 'sortablejs';
 import 'jquery-sortablejs';
+
+global.Sortable = Sortable;
 
 
 
