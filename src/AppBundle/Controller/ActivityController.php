@@ -119,6 +119,8 @@ class ActivityController extends Controller
             return $activity->getLabel();
         }, $activities);
 
+        $activities = array_unique($activities);
+        $activities = array_values($activities);
 
         return $this->json(['query' =>  $query, 'suggestions' => $activities, 'data' => $activities]);
     }

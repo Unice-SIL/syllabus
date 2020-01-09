@@ -8,6 +8,7 @@ use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\SharedableFilterType;
 use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\TextFilterType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 
@@ -22,14 +23,36 @@ class StructureFilterType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        switch ($options['context']) {
+            case 'structure':
+                $dataAutocompletePath = 'app_admin_structure_autocomplete';
+                $fieldLabel = 'label';
+                break;
+            case 'course_info':
+                $dataAutocompletePath = 'app_admin_course_info_autocomplete';
+                $fieldLabel = 's.label';
+                break;
+        }
+
         $builder->add('label', TextFilterType::class, [
             'condition_pattern' => FilterOperands::STRING_CONTAINS,
-            'label' => 'app.form.structure.label.label',
+            'label' => $options['context'] === 'structure' ? 'app.form.structure.label.label' : 'app.form.structure.label.structure',
             'attr' => [
                 'class' => 'autocomplete-input',
-                'data-autocomplete-path' => $this->generator->generate('app_admin_course_info_autocomplete', ['field' => 's.label'])
+                'data-autocomplete-path' => $this->generator->generate($dataAutocompletePath, ['field' => $fieldLabel])
             ]
         ]);
+
+        if ($options['context'] === 'structure') {
+            $builder->add('etbId', TextFilterType::class, [
+                'condition_pattern' => FilterOperands::STRING_CONTAINS,
+                'label' => 'app.form.structure.label.etbId',
+                'attr' => [
+                    'class' => 'autocomplete-input',
+                    'data-autocomplete-path' => $this->generator->generate($dataAutocompletePath, ['field' => 'etbId'])
+                ]
+            ]);
+        }
     }
 
     public function getParent()
@@ -40,5 +63,18 @@ class StructureFilterType extends AbstractType
     public function getBlockPrefix()
     {
         return 'structure_filter';
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'csrf_protection'   => false,
+            'validation_groups' => array('filtering'), // avoid NotBlank() constraint-related message
+            'method' => 'get',
+            'attr' => [
+                'class' => 'filter-form'
+            ],
+            'context' => 'structure'
+        ));
     }
 }

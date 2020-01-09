@@ -87,6 +87,7 @@ class CourseInfoController extends Controller
 
         }, $courses);
 
+        $courses = array_unique($courses);
 
         return $this->json(['query' =>  $query, 'suggestions' => $courses, 'data' => $courses]);
     }

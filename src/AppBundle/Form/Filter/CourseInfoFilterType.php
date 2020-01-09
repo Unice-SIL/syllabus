@@ -56,6 +56,7 @@ class CourseInfoFilterType extends AbstractType
             ])
             ->add('structure', StructureFilterType::class, [
                 'label' => false,
+                'context' => 'course_info',
                 'add_shared' => function (FilterBuilderExecuterInterface $qbe) {
 
                     $closure = function (QueryBuilder $filterBuilder, $alias, $joinAlias, Expr $expr) {
