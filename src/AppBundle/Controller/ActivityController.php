@@ -71,7 +71,8 @@ class ActivityController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->flush();
 
-            $this->addFlash('success', 'L\'activité a été ajoutée avec succès.');
+            $name = $type === \AppBundle\Constant\ActivityType::ACTIVITY ? 'activité' : 'évaluation';
+            $this->addFlash('success', 'L\''. $name .' a été ajoutée avec succès.');
 
             return $this->redirectToRoute('app_admin_activity_index', ['type' => $activity->getType()]);
         }
@@ -85,10 +86,10 @@ class ActivityController extends Controller
     /**
      * Displays a form to edit an existing activity entity.
      *
-     * @Route("/{id}/edit", name="edit")
+     * @Route("/{id}/{type}/edit", name="edit", requirements={"type" = "activity|evaluation"})
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, Activity $activity)
+    public function editAction(Request $request, Activity $activity, $type)
     {
         $form = $this->createForm(ActivityType::class, $activity);
         $form->handleRequest($request);
@@ -97,9 +98,10 @@ class ActivityController extends Controller
 
             $this->getDoctrine()->getManager()->flush();
 
-            $this->addFlash('success', 'L\'activité a été modifiée avec succès.');
+            $name = $type === \AppBundle\Constant\ActivityType::ACTIVITY ? 'activité' : 'évaluation';
+            $this->addFlash('success', 'L\''. $name . ' a été modifiée avec succès.');
 
-            return $this->redirectToRoute('app_admin_activity_edit', array('id' => $activity->getId()));
+            return $this->redirectToRoute('app_admin_activity_edit', array('id' => $activity->getId(), 'type' => $type));
         }
 
         return $this->render('activity/edit.html.twig', array(
