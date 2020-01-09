@@ -34,3 +34,7 @@ app:
     structure:
       label:
         label: 'Label'
+        etbId: 'Code établissement'
+        campus: 'Campus'
+        obsolete: 'Obsolète'
+        structure: 'Structure'

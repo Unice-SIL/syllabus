@@ -201,7 +201,7 @@ $(document).ready(function () {
 
             $(this).autocomplete({
                 serviceUrl: $(this).data('autocomplete-path'),
-                width: width,
+                //width: width,
             }).enable();
         });
     }

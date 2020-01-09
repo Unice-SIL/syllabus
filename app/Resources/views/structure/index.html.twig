@@ -1,0 +1,57 @@
+{% extends 'admin_layout.html.twig' %}
+{% set h1 = 'Liste des structures' %}
+{% block subContent %}
+
+    <div class="card">
+        <div class="card-header">
+            {{ form_start(form) }}
+            <div class="row ui-front">
+                <div class="col-md-2">
+                    {{ form_row(form.etbId) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_row(form.label) }}
+                </div>
+                <div class="col-md-2 col-sm-6">
+                    <a class="btn btn-danger" style="margin-top: 32px" href="{{  path('app_admin_structure_index')  }}">Réinitialiser les filtres</a>
+                </div>
+            </div>
+            <input type="submit" style="position: absolute; left: -9999px"/>
+            {{ form_end(form) }}
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            {% if pagination.totalItemCount > 0 %}
+                <table class="table table-bordered table-responsive-sm">
+                    <thead>
+                    <tr>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.structure.label.etbId'|trans, 's.etbId') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.structure.label.label'|trans, 's.structure') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.structure.label.campus'|trans, 's.campus') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.structure.label.obsolete'|trans, 's.obsolete') }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for structure in pagination %}
+                        <tr>
+                            <td>{{ structure.etbId }}</td>
+                            <td>{{ structure.label }}</td>
+                            <td>{{ structure.campus }}</td>
+                            <td>{{ structure.obsolete|humanizeBoolean }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="alert alert-info">Aucune structure trouvée pour ces critères</div>
+            {% endif %}
+        </div>
+        <!-- /.card-body -->
+        {% if knp_pagination_render(pagination) %}
+            <div class="card-footer clearfix">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        {% endif %}
+    </div>
+
+{% endblock %}
