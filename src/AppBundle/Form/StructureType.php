@@ -15,6 +15,12 @@ class StructureType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('etbId', null, [
+                'disabled' => true
+            ])
+            ->add('label', null, [
+                'disabled' => true
+            ])
             ->add('campus')
             ->add('obsolete', CheckboxType::class, [
                 'label' => 'app.form.structure.label.obsolete',

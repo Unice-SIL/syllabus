@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Equipment;
 use AppBundle\Form\EquipmentType;
 use AppBundle\Form\Filter\EquipmentFilterType;
+use AppBundle\Manager\EquipmentManager;
 use AppBundle\Repository\Doctrine\EquipmentDoctrineRepository;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -61,10 +62,46 @@ class EquipmentController extends Controller
     }
 
     /**
+     * Creates a new equipment.
+     *
+     * @Route("/new", name="new")
+     * @Method({"GET", "POST"})
+     *
+     * @param Request $request
+     * @param EquipmentManager $equipmentManager
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+    public function newAction(Request $request, EquipmentManager $equipmentManager)
+    {
+        $equipment = $equipmentManager->create();
+        $form = $this->createForm(EquipmentType::class, $equipment);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+
+            $this->addFlash('success', 'L\'équipement a été ajouté avec succès.');
+
+            return $this->redirectToRoute('app_admin_equipment_index');
+        }
+
+        return $this->render('equipment/new.html.twig', array(
+            'form' => $form->createView(),
+        ));
+    }
+
+    /**
      * Displays a form to edit an existing equipment entity.
      *
      * @Route("/{id}/edit", name="edit")
      * @Method({"GET", "POST"})
+     *
+     * @param Request $request
+     * @param Equipment $equipment
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function editAction(Request $request, Equipment $equipment)
     {
