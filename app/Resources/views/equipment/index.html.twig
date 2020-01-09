@@ -30,7 +30,7 @@
                     <tbody>
                     {% for equipment in pagination %}
                         <tr>
-                            <td>{{ equipment.label }}</td>
+                            <td><a href="{{ path('app_admin_equipment_edit', { 'id' : equipment.id }) }}">{{ equipment.label }}</a></td>
                             <td>{{ equipment.labelVisibility|humanizeBoolean }}</td>
                             <td>{{ equipment.obsolete|humanizeBoolean }}</td>
                         </tr>
