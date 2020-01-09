@@ -169,6 +169,30 @@ bootbox.setLocale( 'fr' );
 
 $( document ).ready( function( ) {
 
+    /*******
+     *
+     * Ajax
+     *
+     */
+
+    let $loader = $('.loader');
+
+    /**
+     * Show spinner when ajax start
+     */
+
+    $(document).ajaxStart(function () {
+        $loader.show();
+    });
+
+    /**
+     * Hide spinner when ajax finished
+     */
+
+    $(document).ajaxStop(function () {
+        $loader.hide();
+    });
+
     $( document ).ajaxError( function( event, jqXHR, ajaxSettings, thrownError ) {
 
         if (jqXHR.status !== 0)
