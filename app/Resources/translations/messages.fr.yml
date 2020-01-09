@@ -38,3 +38,8 @@ app:
         campus: 'Campus'
         obsolete: 'Obsolète'
         structure: 'Structure'
+    equipment:
+      label:
+        label: 'Label'
+        label_visibility: 'Afficher le label'
+        obsolete: 'Obsolète'

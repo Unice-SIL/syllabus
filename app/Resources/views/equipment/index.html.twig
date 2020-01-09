@@ -1,0 +1,52 @@
+{% extends 'admin_layout.html.twig' %}
+{% set h1 = 'Liste des équipements' %}
+{% block subContent %}
+
+    <div class="card">
+        <div class="card-header">
+            <div class="card-header">
+                {{ form_start(form) }}
+                <div class="row ui-front">
+                    <div class="col-md-3">
+                        {{ form_row(form.label) }}
+                    </div>
+                    <div class="col-md-3">
+                        <a class="btn btn-danger" style="margin-top: 32px" href="{{  path('app_admin_equipment_index')  }}">Réinitialiser les filtres</a>
+                    </div>
+                </div>
+                {{ form_end(form) }}
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            {% if pagination.totalItemCount > 0 %}
+                <table class="table table-bordered table-responsive-sm">
+                    <thead>
+                    <tr>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.equipment.label.label'|trans, 'e.label') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.equipment.label.label_visibility'|trans, 'e.labelVisibility') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.equipment.label.obsolete'|trans, 'e.obsolete') }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for equipment in pagination %}
+                        <tr>
+                            <td>{{ equipment.label }}</td>
+                            <td>{{ equipment.labelVisibility|humanizeBoolean }}</td>
+                            <td>{{ equipment.obsolete|humanizeBoolean }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="alert alert-info">Aucun équipement ne correspond à ces critères</div>
+            {% endif %}
+        </div>
+        <!-- /.card-body -->
+        {% if knp_pagination_render(pagination) %}
+            <div class="card-footer clearfix">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        {% endif %}
+    </div>
+
+{% endblock %}
