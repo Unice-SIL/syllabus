@@ -2,10 +2,13 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Structure;
 use AppBundle\Form\Filter\StructureFilterType;
-use AppBundle\Repository\Doctrine\CourseInfoDoctrineRepository;
+use AppBundle\Form\StructureType;
 use AppBundle\Repository\Doctrine\StructureDoctrineRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -56,6 +59,34 @@ class StructureController extends Controller
 
         return $this->render('structure/index.html.twig', array(
             'pagination' => $pagination,
+            'form' => $form->createView(),
+        ));
+    }
+
+
+    /**
+     * Displays a form to edit an existing structure entity.
+     *
+     * @Route("/{id}/edit", name="edit")
+     * @Method({"GET", "POST"})
+     *
+     */
+    public function editAction(Request $request, Structure $structure, EntityManagerInterface $entityManager)
+    {
+        $form = $this->createForm(StructureType::class, $structure);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $entityManager->flush();
+
+
+            $this->addFlash('success', 'La strucutre a été modifiée avec succès.');
+
+            return $this->redirectToRoute('app_admin_structure_edit', array('id' => $structure->getId()));
+        }
+
+        return $this->render('structure/edit.html.twig', array(
             'form' => $form->createView(),
         ));
     }
