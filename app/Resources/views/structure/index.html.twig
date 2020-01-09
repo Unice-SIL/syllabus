@@ -34,7 +34,7 @@
                     <tbody>
                     {% for structure in pagination %}
                         <tr>
-                            <td>{{ structure.etbId }}</td>
+                            <td><a href="{{ path('app_admin_structure_edit', { 'id' : structure.id }) }}">{{ structure.etbId }}</a></td>
                             <td>{{ structure.label }}</td>
                             <td>{{ structure.campus }}</td>
                             <td>{{ structure.obsolete|humanizeBoolean }}</td>
