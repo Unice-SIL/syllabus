@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Form\Subscriber\EquipmentTypeSubscriber;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -28,16 +29,7 @@ class EquipmentType extends AbstractType
                     'class' => 'custom-control-input'
                 ]
             ])
-            ->add('obsolete', CheckboxType::class, [
-                'label' => 'app.form.equipment.label.obsolete',
-                'required' => false,
-                'label_attr' => [
-                    'class' => 'custom-control-label'
-                ],
-                'attr' => [
-                    'class' => 'custom-control-input'
-                ]
-            ])
+            ->addEventSubscriber(new EquipmentTypeSubscriber())
             ;
     }/**
      * {@inheritdoc}
