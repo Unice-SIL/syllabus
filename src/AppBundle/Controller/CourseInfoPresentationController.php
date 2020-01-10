@@ -17,6 +17,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Class CourseInfoPresentationController
+ * @package AppBundle\Controller
+ */
 class CourseInfoPresentationController extends AbstractController
 {
     /**
@@ -55,55 +59,12 @@ class CourseInfoPresentationController extends AbstractController
         $form = $this->createForm(GeneralType::class, $courseInfo);
         $form->handleRequest($request);
 
-        if ($action === "cancel")
-        {
-            return $this->render('course_info/presentation/view/general.html.twig', [
-                'courseInfo' => $courseInfo,
-            ]);
-
-        }
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            if ($action === "submit")
-            {
-                $manager->update($courseInfo);
-            }
-            return $this->render('course_info/presentation/view/general.html.twig', [
-                'courseInfo' => $courseInfo,
-            ]);
-        }
-
-        return $this->render('course_info/presentation/form/general.html.twig', [
-            'courseInfo' => $courseInfo,
-            'form' => $form->createView()
-        ]);
-    }
-
-    /**
-     * @Route("/course/{id}/presentation/synopsis/{action}", name="course_presentation_synopsis", defaults={"action"=null}))
-     *
-     * @param $id
-     * @param $action
-     * @param Request $request
-     * @param CourseInfoManager $manager
-     * @return \Symfony\Component\HttpFoundation\Response
-     * @throws \Exception
-     */
-    public function synopsisAction($id, $action, Request $request, CourseInfoManager $manager)
-    {
-        $em = $this->getDoctrine()->getManager();
-        /** @var CourseInfo $courseInfo */
-        $courseInfo = $em->getRepository(CourseInfo::class)->find($id);
-
         $image = $courseInfo->getImage();
-
-        $form = $this->createForm(SynopsisType::class, $courseInfo);
-        $form->handleRequest($request);
 
         if ($action === "cancel")
         {
             $courseInfo->setImage($image);
-            return $this->render('course_info/presentation/view/synopsis.html.twig', [
+            return $this->render('course_info/presentation/view/general.html.twig', [
                 'courseInfo' => $courseInfo,
             ]);
 
@@ -115,12 +76,12 @@ class CourseInfoPresentationController extends AbstractController
                 $courseInfo->checkMedia();
                 $manager->update($courseInfo);
             }
-            return $this->render('course_info/presentation/view/synopsis.html.twig', [
+            return $this->render('course_info/presentation/view/general.html.twig', [
                 'courseInfo' => $courseInfo,
             ]);
         }
 
-        return $this->render('course_info/presentation/form/synopsis.html.twig', [
+        return $this->render('course_info/presentation/form/general.html.twig', [
             'courseInfo' => $courseInfo,
             'form' => $form->createView()
         ]);
