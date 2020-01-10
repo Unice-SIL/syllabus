@@ -73,6 +73,14 @@ class Activity
     private $ord = 0;
 
     /**
+     * @var string|null
+     *
+     * @ORM\Column(name="description", type="string", length=200, nullable=true)
+     * @Assert\Length(max="200")
+     */
+    private $description;
+
+    /**
      * @return string
      */
     public function getId(): ?string
@@ -221,6 +229,24 @@ class Activity
     public function setOrd(int $ord): Activity
     {
         $this->ord = $ord;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string|null $description
+     */
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }
