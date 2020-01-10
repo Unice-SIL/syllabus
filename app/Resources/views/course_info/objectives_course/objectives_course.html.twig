@@ -3,7 +3,13 @@
 {% block subContent %}
 
     <section>
-        {% include('course_info/info/view/info.html.twig') %}
+        {% include('course_info/objectives_course/view/competent.html.twig') %}
+    </section>
+    <section>
+        {% include('course_info/objectives_course/view/prerequisites.html.twig') %}
+    </section>
+    <section>
+        {% include('course_info/objectives_course/view/tutoring_resources.html.twig') %}
     </section>
 
 {% endblock %}
@@ -13,8 +19,8 @@
     <script>
         $(document).ready(function () {
 
-            $('#menu-info').addClass('active');
-            $('#menu-info').addClass('border-bottom-3 border-white');
+            $('#menu-objectives_course').addClass('active');
+            $('#menu-objectives_course').addClass('border-bottom-3 border-white');
 
             $(document).on('click', '.update-focus', function () {
                 var updateFocus = $(this);
