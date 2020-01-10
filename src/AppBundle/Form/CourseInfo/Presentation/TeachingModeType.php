@@ -51,7 +51,7 @@ class TeachingModeType extends AbstractType
                 'label' => 'Type',
                 'attr' => [
                     'data-teaching-mode' => 'class',
-                    'placeholder' => 'Ex: Tutotrat'
+                    'placeholder' => 'Ex: Tutorat'
                 ]
             ])
             ->add('teachingCmHybridClass', TextType::class, [
@@ -87,7 +87,7 @@ class TeachingModeType extends AbstractType
                 'label' => 'Type',
                 'attr' => [
                     'data-teaching-mode' => 'hybrid',
-                    'placeholder' => 'Ex: Tutotrat'
+                    'placeholder' => 'Ex: Tutorat'
                 ]
             ])
             ->add('teachingCmHybridDist', TextType::class, [
@@ -116,7 +116,7 @@ class TeachingModeType extends AbstractType
                 'label' => 'Type',
                 'attr' => [
                     'data-teaching-mode' => 'hybrid',
-                    'placeholder' => 'Ex: Tutotrat'
+                    'placeholder' => 'Ex: Tutorat'
                 ]
             ]);
     }
