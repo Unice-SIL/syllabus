@@ -92,5 +92,55 @@
                 </div>
             </div>
         </div>
+
+        <div class="row mt-2">
+            <div class="col">
+                <div class="d-flex">
+                    <div class="d-flex flex-column">
+                        <span class="font-weight-bold">
+                            {% if courseInfo.summary is null %}
+                                <i class="fas fa-exclamation-circle text-danger"></i>
+                            {% endif %}
+                            Résumé
+                        </span>
+                        {% if courseInfo.summary is null %}
+                            <span class="text-danger">
+                                Non-renseigné
+                            </span>
+                        {% else %}
+                            <span class="text-muted">
+                                {{ courseInfo.summary | purify }}
+                            </span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="d-flex">
+                    <p class="d-flex flex-column">
+                        <span class="font-weight-bold">
+                            {% if courseInfo.image is null and courseInfo.video is null %}
+                                <i class="fas fa-exclamation-circle text-danger"></i>
+                            {% endif %}
+                            Média
+                        </span>
+                        {% if courseInfo.image is null and courseInfo.video is null %}
+                            <span class="text-danger">
+                                    Non-renseigné
+                                </span>
+                        {% elseif courseInfo.image is not null %}
+                            <span class="text-muted">
+                                {% set imgSrc = courseInfo.image | split('/') | last%}
+                                <img class="img-thumbnail" src="{{ asset('data/' ~ imgSrc) }}">
+                                </span>
+                        {% elseif courseInfo.video is not null %}
+                            <span class="text-muted">
+                                    {{ courseInfo.video }}
+                                </span>
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

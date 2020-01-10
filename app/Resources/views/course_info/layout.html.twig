@@ -39,7 +39,9 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-tab" href="{{ path('edit_mcc_course_info', { 'id': courseInfo.id }) }}">
+                    <a class="nav-link menu-tab"
+                       id="menu-evaluation"
+                       href="{{ path('course_evaluation', { 'id': courseInfo.id }) }}">
                         <i>4</i>&nbsp;
                         <p>Modalités d'évaluation</p>
                     </a>
