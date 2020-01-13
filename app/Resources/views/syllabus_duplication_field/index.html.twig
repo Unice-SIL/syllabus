@@ -1,0 +1,39 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% set h1 = 'Liste des champs liés à la duplication des syllabus' %}
+
+{% block subContent %}
+    <div class="card">
+        
+        <div class="card-body">
+            {% if syllabusDuplicationFields %}
+                <table class="table table-bordered table-responsive-sm">
+                    <thead>
+                    <tr>
+                        <th>{{ 'app.form.syllabus_duplication_field.label.label'|trans }}</th>
+                        <th>{{ 'app.form.syllabus_duplication_field.label.import'|trans }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for field in syllabusDuplicationFields %}
+                        <tr>
+                            <td>{{ field.label }}</td>
+                            <td>
+                                {% set formView = form.createView %}
+                                {{form_start(formView, { 'attr' : { 'data-url' : path('app_admin_syllabus_duplication_field_edit', { 'id' : field.id }) }})}}
+                                    <div class="custom-control custom-switch">
+                                        {{ form_widget(formView.import, { 'id' : formView.import.vars.id ~ '_' ~ field.id, 'attr' : { 'class' : 'custom-control-input syllabus-duplication-field-edit-ajax', 'checked' : field.import } }) }}
+                                        {{ form_widget(formView._token, { 'id' : formView._token.vars.id ~ '_' ~ field.id }) }}
+                                    </div>
+                                {{ form_end(formView) }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="alert alert-info">Aucune champ n'a été enregistré</div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
