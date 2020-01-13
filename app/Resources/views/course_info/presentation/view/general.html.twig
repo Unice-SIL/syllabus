@@ -1,146 +1,136 @@
-<div class="card toggle-focus my-2 shadow card-syllabus">
-    <div class="card-header">
-        <div class="d-flex justify-content-between">
-            <h3>Général</h3>
-            <button type="button" class="update-focus btn btn-primary button-gradient" data-url="{{ path('course_presentation_general', {'id': courseInfo.id }) }}">Mettre à jour</button>
-        </div>
-    </div>
-    <div class="card-body">
-        <div class="row mt-3">
-            <div class="col">
-                <div class="d-flex">
-                    <div class="d-flex flex-column">
+<div class="row mt-3">
+    <div class="col">
+        <div class="d-flex">
+            <div class="d-flex flex-column">
                         <span class="font-weight-bold">
                             {% if courseInfo.period is null %}
                                 <i class="fas fa-exclamation-circle text-warning"></i>
                             {% endif %}
                             Période
                         </span>
-                        {% if courseInfo.period is null %}
-                            <span class="text-warning">
+                {% if courseInfo.period is null %}
+                    <span class="text-warning">
                                 Non-renseigné
                             </span>
-                        {% else %}
-                            <span class="text-muted">
+                {% else %}
+                    <span class="text-muted">
                                 {{ courseInfo.period }}
                             </span>
-                        {% endif %}
-                    </div>
-                </div>
-                <div class="d-flex">
-                    <div class="d-flex flex-column">
+                {% endif %}
+            </div>
+        </div>
+        <div class="d-flex">
+            <div class="d-flex flex-column">
                         <span class="font-weight-bold">
                             {% if courseInfo.domain is null %}
                                 <i class="fas fa-exclamation-circle text-danger"></i>
                             {% endif %}
                             Domaine
                         </span>
-                        {% if courseInfo.domain is null %}
-                            <span class="text-danger">
+                {% if courseInfo.domain is null %}
+                    <span class="text-danger">
                                 Non-renseigné
                             </span>
-                        {% else %}
-                            <span class="text-muted">
+                {% else %}
+                    <span class="text-muted">
                                 {{ courseInfo.domain }}
                             </span>
-                        {% endif %}
-                    </div>
-                </div>
-                <div class="d-flex">
-                    <div class="d-flex flex-column">
+                {% endif %}
+            </div>
+        </div>
+        <div class="d-flex">
+            <div class="d-flex flex-column">
                         <span class="font-weight-bold">
                             {% if courseInfo.languages is null %}
                                 <i class="fas fa-exclamation-circle text-warning"></i>
                             {% endif %}
                             Langues
                         </span>
-                        {% if courseInfo.languages is null %}
-                            <span class="text-warning">
+                {% if courseInfo.languages is null %}
+                    <span class="text-warning">
                                 Non-renseigné
                             </span>
-                        {% else %}
-                            <span class="text-muted">
+                {% else %}
+                    <span class="text-muted">
                                 {{ courseInfo.languages }}
                             </span>
-                        {% endif %}
-                    </div>
-                </div>
+                {% endif %}
             </div>
-            <div class="col">
-                <div class="d-flex">
-                    <div class="d-flex flex-column">
+        </div>
+    </div>
+    <div class="col">
+        <div class="d-flex">
+            <div class="d-flex flex-column">
                         <span class="font-weight-bold">
                             {% if courseInfo.level is null %}
                                 <i class="fas fa-exclamation-circle text-danger"></i>
                             {% endif %}
                             Niveau du cours
                         </span>
-                        {% if courseInfo.level is null %}
-                            <span class="text-danger">
+                {% if courseInfo.level is null %}
+                    <span class="text-danger">
                                 Non-renseigné
                             </span>
-                        {% else %}
-                            <span class="text-muted">
+                {% else %}
+                    <span class="text-muted">
                                 {% for key, value in constant("AppBundle\\Constant\\Level::CHOICES") %}
                                     {% if courseInfo.level is same as(value) %}
                                         {{ key }}
                                     {% endif %}
                                 {% endfor %}
                             </span>
-                        {% endif %}
-                    </div>
-                </div>
+                {% endif %}
             </div>
         </div>
+    </div>
+</div>
 
-        <div class="row mt-2">
-            <div class="col">
-                <div class="d-flex">
-                    <div class="d-flex flex-column">
+<div class="row mt-2">
+    <div class="col">
+        <div class="d-flex">
+            <div class="d-flex flex-column">
                         <span class="font-weight-bold">
                             {% if courseInfo.summary is null %}
                                 <i class="fas fa-exclamation-circle text-danger"></i>
                             {% endif %}
                             Résumé
                         </span>
-                        {% if courseInfo.summary is null %}
-                            <span class="text-danger">
+                {% if courseInfo.summary is null %}
+                    <span class="text-danger">
                                 Non-renseigné
                             </span>
-                        {% else %}
-                            <span class="text-muted">
+                {% else %}
+                    <span class="text-muted">
                                 {{ courseInfo.summary | purify }}
                             </span>
-                        {% endif %}
-                    </div>
-                </div>
+                {% endif %}
             </div>
-            <div class="col">
-                <div class="d-flex">
-                    <p class="d-flex flex-column">
+        </div>
+    </div>
+    <div class="col">
+        <div class="d-flex">
+            <p class="d-flex flex-column">
                         <span class="font-weight-bold">
                             {% if courseInfo.image is null and courseInfo.video is null %}
                                 <i class="fas fa-exclamation-circle text-danger"></i>
                             {% endif %}
                             Média
                         </span>
-                        {% if courseInfo.image is null and courseInfo.video is null %}
-                            <span class="text-danger">
+                {% if courseInfo.image is null and courseInfo.video is null %}
+                    <span class="text-danger">
                                     Non-renseigné
                                 </span>
-                        {% elseif courseInfo.image is not null %}
-                            <span class="text-muted">
+                {% elseif courseInfo.image is not null %}
+                    <span class="text-muted">
                                 {% set imgSrc = courseInfo.image | split('/') | last%}
-                                <img class="img-thumbnail" src="{{ asset('data/' ~ imgSrc) }}">
+                        <img class="img-thumbnail" src="{{ asset('data/' ~ imgSrc) }}">
                                 </span>
-                        {% elseif courseInfo.video is not null %}
-                            <span class="text-muted">
+                {% elseif courseInfo.video is not null %}
+                    <span class="text-muted">
                                     {{ courseInfo.video }}
                                 </span>
-                        {% endif %}
-                    </p>
-                </div>
-            </div>
+                {% endif %}
+            </p>
         </div>
     </div>
 </div>
