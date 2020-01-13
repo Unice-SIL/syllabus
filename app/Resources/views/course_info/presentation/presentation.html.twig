@@ -2,15 +2,27 @@
 
 {% block subContent %}
 
-    <section>
-        {% include('course_info/presentation/view/general.html.twig') %}
-    </section>
-    <section>
-        {% include('course_info/presentation/view/teachers.html.twig') %}
-    </section>
-    <section>
-        {% include('course_info/presentation/view/teaching_mode.html.twig') %}
-    </section>
+    <div class="card toggle-focus my-2 shadow card-syllabus"
+         data-view-url="{{ path('course_presentation_general_view', {'id': courseInfo.id }) }}"
+         data-form-url="{{ path('course_presentation_general_form', {'id': courseInfo.id }) }}"
+    >
+        <div class="card-header">
+            <div class="d-flex justify-content-between">
+                <h3>Général</h3>
+                <button type="button" class="edit-button btn btn-primary button-gradient">
+                    Mettre à jour
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+        </div>
+    </div>
+    {#    <section>
+            {% include('course_info/presentation/view/teachers.html.twig') %}
+        </section>
+        <section>
+            {% include('course_info/presentation/view/teaching_mode.html.twig') %}
+        </section>#}
 
 {% endblock %}
 

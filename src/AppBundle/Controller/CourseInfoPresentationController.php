@@ -41,6 +41,68 @@ class CourseInfoPresentationController extends AbstractController
     }
 
     /**
+     * @Route("/course/{id}/presentation/general/view", name="course_presentation_general_view"))
+     *
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
+     */
+    public function generalViewAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        /** @var CourseInfo $courseInfo */
+        $courseInfo = $em->getRepository(CourseInfo::class)->find($id);
+
+        $render = $this->get('twig')->render('course_info/presentation/view/general.html.twig', [
+            'courseInfo' => $courseInfo
+        ]);
+        return $this->json([
+            'status' => true,
+            'content' => $render
+        ]);
+    }
+
+    /**
+     * @Route("/course/{id}/presentation/general/form", name="course_presentation_general_form"))
+     *
+     * @param $id
+     * @param Request $request
+     * @param CourseInfoManager $manager
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
+     */
+    public function generalFormAction($id, Request $request, CourseInfoManager $manager)
+    {
+        $em = $this->getDoctrine()->getManager();
+        /** @var CourseInfo $courseInfo */
+        $courseInfo = $em->getRepository(CourseInfo::class)->find($id);
+
+        $form = $this->createForm(GeneralType::class, $courseInfo);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $courseInfo->checkMedia();
+            $manager->update($courseInfo);
+            $render = $this->get('twig')->render('course_info/presentation/view/general.html.twig', [
+                'courseInfo' => $courseInfo
+            ]);
+            return $this->json([
+                'status' => true,
+                'content' => $render
+            ]);
+        }
+
+        $render = $this->get('twig')->render('course_info/presentation/form/general.html.twig', [
+            'courseInfo' => $courseInfo,
+            'form' => $form->createView()
+        ]);
+        return $this->json([
+            'status' => true,
+            'content' => $render
+        ]);
+    }
+
+    /**
      * @Route("/course/{id}/presentation/general/{action}", name="course_presentation_general", defaults={"action"=null}))
      *
      * @param $id
@@ -56,16 +118,15 @@ class CourseInfoPresentationController extends AbstractController
         /** @var CourseInfo $courseInfo */
         $courseInfo = $em->getRepository(CourseInfo::class)->find($id);
 
+        $dc = clone $courseInfo;
+
         $form = $this->createForm(GeneralType::class, $courseInfo);
         $form->handleRequest($request);
 
-        $image = $courseInfo->getImage();
-
         if ($action === "cancel")
         {
-            $courseInfo->setImage($image);
             return $this->render('course_info/presentation/view/general.html.twig', [
-                'courseInfo' => $courseInfo,
+                'courseInfo' => $dc,
             ]);
 
         }
