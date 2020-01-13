@@ -76,6 +76,8 @@ import 'jquery.autocomplete';
  */
 import 'admin-lte/build/js/AdminLTE';
 
+import './admin';
+
 
 
 
