@@ -113,7 +113,7 @@
                 })
             });
 
-            $(document).on('click', '.card-syllabus .submit-button', function (e) {
+            $(document).on('click', '.card-syllabus .submit-button', function () {
                 let $button = $(this);
                 let $card = $button.closest('.card-syllabus');
                 let $cardBody = $card.find('.card-body');
@@ -127,15 +127,10 @@
                     contentType: false, // No auto “contentType” header.
                     data: new FormData( forms[0] ),
                     method: "POST",
-                    dataType: "html",
-                    beforeSend: function () {
-                        $cardBody.html('<div class="progress mx-auto" style="max-width: 95%"><div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div></div>')
-                    },
-                    success: function (response) {
-                        e.preventDefault();
-                        $cardBody.html(response["content"]);
-                        $editButton.show();
-                    }
+                    dataType: "json",
+                }).done(function (response) {
+                    $cardBody.html(response["content"]);
+                    $editButton.show();
                 });
             });
 
