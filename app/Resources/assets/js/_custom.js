@@ -1,7 +1,12 @@
 
-const SILTools = require('./sil_toolkit');
-import './admin';
+import SILTools from './sil_toolkit';
+global.SILTools = SILTools;
 
+//const Syllabus = require('./syllabus');
+import Syllabus from './syllabus';
+global.Syllabus = Syllabus;
+
+import './admin';
 
 ( function( ) {
 
