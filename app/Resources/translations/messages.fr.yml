@@ -43,7 +43,12 @@ app:
         label: 'Label'
         label_visibility: 'Afficher le label'
         obsolete: 'Obsolète'
-    syllabus_duplication_field:
+    course_info_field:
       label:
         import: 'Import'
         label: 'Label'
+    global:
+      action: 'Action'
+    duplicate_course_info:
+      label:
+        to: 'Syllabus récepteur'

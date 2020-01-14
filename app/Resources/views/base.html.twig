@@ -29,6 +29,7 @@
     </head>
 
     <body class="sidebar-mini layout-navbar-fixed">
+        {% block modals %}{% endblock %}
         <div id="app" class="wrapper">
             {% block main %}{% endblock %}
             <div id="loading_spinner"></div>
