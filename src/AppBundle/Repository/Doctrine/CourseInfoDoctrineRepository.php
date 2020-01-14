@@ -5,6 +5,7 @@ namespace AppBundle\Repository\Doctrine;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Repository\CourseInfoRepositoryInterface;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\Serializer\Normalizer\DataUriNormalizer;
 
 /**
  * Class CourseInfoDoctrineRepository

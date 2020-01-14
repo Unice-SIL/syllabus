@@ -1,0 +1,8 @@
+{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('objective_course_remove_tutoring_resources', {'id': courseInfo.id, 'tutoringResourcesId': form.vars.data.id}) }}) }}
+{{ form_errors(form) }}
+<h5>Êtes-vous sûr(e) de vouloir supprimer la remédiation "{{ form.vars.data.description }}" ?</h5>
+<div class="d-flex justify-content-center">
+    <button type="submit" class="btn btn-danger button-gradient mr-2">Supprimer</button>
+</div>
+{{ form_widget(form._token) }}
+{{ form_end(form) }}

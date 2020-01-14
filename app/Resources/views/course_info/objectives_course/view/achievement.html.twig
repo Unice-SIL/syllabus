@@ -2,9 +2,10 @@
     <div class="card-header">
         <div class="d-flex justify-content-between">
             <h3>Capacités visées / acquis d'apprentissage</h3>
-            <button type="button" class="btn btn-primary button-gradient modal-action"
-                    data-action-title="Ajouter un enseignant"
-                    data-action-url="{{ path('course_presentation_teachers', {'id': courseInfo.id }) }}">
+            <button type="button"
+                    class="btn btn-primary button-gradient modal-action"
+                    data-action-title="Ajouter une compétence"
+                    data-action-url="{{ path('objective_course_achievement', {'id': courseInfo.id }) }}">
                 Ajouter une compétence
             </button>
         </div>
@@ -18,7 +19,7 @@
                         <div class="d-flex flex-column">
                             <span class="font-weight-bold">
                                 <i class="fas fa-exclamation-circle text-danger"></i>
-                                Équipe enseignante
+                                Compétence
                             </span>
                             <span class="text-danger">
                                 Non-renseigné
@@ -43,7 +44,8 @@
                         <td class="text-left">{{ achievement.description }}</td>
                         <td class="text-center">
                             <button type="button" class="btn btn-link modal-action p-0"
-                                    data-action-title="Supprimer un enseignant">
+                                    data-action-title="Supprimer une compétence"
+                                    data-action-url="{{ path('objective_course_remove_achievement', {'id': courseInfo.id, 'achievementId': achievement.id}) }}">
                                 <i class="fas fa-trash-alt text-danger"></i>
                             </button>
                         </td>
