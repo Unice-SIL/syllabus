@@ -2,7 +2,7 @@
 
 {% block subContent %}
 
-    <div class="card toggle-focus my-2 shadow card-syllabus"
+    <div class="card my-2 shadow card-syllabus"
          data-view-url="{{ path('course_presentation_general_view', {'id': courseInfo.id }) }}"
          data-form-url="{{ path('course_presentation_general_form', {'id': courseInfo.id }) }}"
     >
@@ -17,12 +17,26 @@
         <div class="card-body">
         </div>
     </div>
-    {#    <section>
-            {% include('course_info/presentation/view/teachers.html.twig') %}
-        </section>
-        <section>
-            {% include('course_info/presentation/view/teaching_mode.html.twig') %}
-        </section>#}
+
+    <div class="card my-2 shadow card-syllabus"
+         data-view-url="{{ path('course_presentation_teachers_view', {'id': courseInfo.id }) }}"
+    >
+        <div class="card-header">
+            <div class="d-flex justify-content-between">
+                <h3>Équipe enseignante</h3>
+                <button type="button" class="btn btn-primary button-gradient modal-action"
+                        data-action-title="Ajouter un enseignant"
+                        data-action-url="{{ path('course_presentation_teachers_form', {'id': courseInfo.id }) }}">
+                    Ajouter un enseignant
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+        </div>
+    </div>
+    {#<section>
+        {% include('course_info/presentation/view/teaching_mode.html.twig') %}
+    </section>#}
 
 {% endblock %}
 
