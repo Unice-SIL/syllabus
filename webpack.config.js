@@ -35,6 +35,7 @@ Encore
     .autoProvideVariables({
         $: 'jquery',
         jQuery: 'jquery',
+        select2: 'select2',
         bootbox: 'bootbox',
     })
     .copyFiles([

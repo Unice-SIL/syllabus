@@ -5,10 +5,6 @@
 */
 
 
-import $ from 'jquery';
-
-
-
 var SILTools = ( function ( ) {
 
 

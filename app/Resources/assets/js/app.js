@@ -12,8 +12,8 @@
 import '../scss/app.scss';
 
 // Importing modules…
-const $ = jQuery = require('jquery');
-global.$ = $;
+const $ = require('jquery');
+global.$ = global.jQuery = $;
 
 import 'bootstrap/js/dist/alert';
 import 'bootstrap/js/dist/button';
@@ -30,14 +30,19 @@ import 'bootstrap/js/dist/tab';
 import 'bootstrap/js/dist/util';
 import 'jquery.autocomplete';
 
-const select2 = require('select2');
-const bootbox = require('bootbox');
-const bootstrapToggle = require('bootstrap4-toggle');
-require('jquery-sortablejs');
-const Sortable = require('sortablejs');
+import select2 from 'select2';
+global.select2 = select2;
 
-require('bootstrap4-toggle/css/bootstrap4-toggle.min.css');
+import bootbox from 'bootbox';
+global.bootbox = bootbox;
 
-require('admin-lte');
+import 'jquery-sortablejs';
+import Sortable from 'sortablejs';
+global.Sortable = Sortable;
 
-require('./_custom');
+import bootstrapToggle from 'bootstrap4-toggle';
+global.bootstrapToggle = bootstrapToggle;
+
+import 'admin-lte';
+
+import './_custom';
