@@ -38,7 +38,7 @@ final class Version20200113093054 extends AbstractMigration
                              (\'mccAdvice\', \'MCC / Précisions\'), (\'tutoring\', \'Objectifs / Tutorat\'), (\'tutoringTeacher\', \'Objectifs / Objectifs / Tutorat avec tuteur enseignant\'), (\'tutoringStudent\', \'Objectifs / Tutorat avec tuteur étudiant\'), (\'tutoringDescription\', \'Objectifs / Description tutorat\'), 
                              (\'educationalResources\', \'Matériel / Ressources pédagogiques\'), (\'bibliographicResources\', \'Matériel / Eléments bibiographiques\'), (\'agenda\', \'Matériel / Agenda\'), (\'organization\', \'Infos / Organisation\'), (\'closingRemarks\', \'Mot de la fin / Message\'), 
                              (\'closingVideo\', \'Mot de la fin / Vidéo\'), (\'courseTeachers\', \'Présentation / Equipe enseignante\'), (\'courseSections\', \'Contenu & Activités / Sections\'), (\'courseEvaluationCts\', \'Contenu & Activités / Evaluations CT\'), (\'courseAchievements\', \'Objectifs / Acquis apprentissage\'),
-                             (\'coursePrerequisites\', \'Objectifs / Prérequis\'), (\'courseTutoringResources\', \'Objectifs / Ressources tutorats\'), (\'courseEquipments\', \'Matériel / Acquis apprentissage\');');
+                             (\'coursePrerequisites\', \'Objectifs / Prérequis\'), (\'courseTutoringResources\', \'Objectifs / Ressources tutorats\'), (\'courseEquipments\', \'Matériel / Equipements\');');
     }
 
     public function down(Schema $schema) : void

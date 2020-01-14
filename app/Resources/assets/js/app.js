@@ -32,13 +32,14 @@ import 'jquery.autocomplete';
 
 import select2 from 'select2';
 global.select2 = select2;
+import 'select2/dist/js/i18n/fr';
 
 import bootbox from 'bootbox';
 global.bootbox = bootbox;
 
-import 'jquery-sortablejs';
 import Sortable from 'sortablejs';
 global.Sortable = Sortable;
+import 'jquery-sortablejs';
 
 import bootstrapToggle from 'bootstrap4-toggle';
 global.bootstrapToggle = bootstrapToggle;
