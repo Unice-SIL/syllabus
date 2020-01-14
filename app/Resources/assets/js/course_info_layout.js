@@ -1,3 +1,5 @@
+import Syllabus from './syllabus';
+
 $(document).ready(function () {
     $('.card-syllabus').each( function () {
         let $card = $(this);
@@ -12,7 +14,7 @@ $(document).ready(function () {
             {
                 $cardBody.html(response["content"]);
             }
-        })
+        });
     });
 
     $(document).on('click', '.card-syllabus .edit-button', function () {
@@ -31,7 +33,7 @@ $(document).ready(function () {
             {
                 $cardBody.html(response["content"]);
             }
-        })
+        });
     });
 
     $(document).on('click', '.card-syllabus .submit-button', function () {
@@ -78,6 +80,6 @@ $(document).ready(function () {
             $editButton.show();
             $card.removeClass('active');
             $('#app').removeClass('hasActiveChild');
-        })
+        });
     });
 });
