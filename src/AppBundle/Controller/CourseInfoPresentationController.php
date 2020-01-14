@@ -103,53 +103,29 @@ class CourseInfoPresentationController extends AbstractController
     }
 
     /**
-     * @Route("/course/{id}/presentation/general/{action}", name="course_presentation_general", defaults={"action"=null}))
+     * @Route("/course/{id}/presentation/teachers/view", name="course_presentation_teachers_view"))
      *
      * @param $id
-     * @param $action
-     * @param Request $request
-     * @param CourseInfoManager $manager
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function generalAction($id, $action, Request $request, CourseInfoManager $manager)
+    public function teachersViewAction($id)
     {
         $em = $this->getDoctrine()->getManager();
         /** @var CourseInfo $courseInfo */
         $courseInfo = $em->getRepository(CourseInfo::class)->find($id);
 
-        $dc = clone $courseInfo;
-
-        $form = $this->createForm(GeneralType::class, $courseInfo);
-        $form->handleRequest($request);
-
-        if ($action === "cancel")
-        {
-            return $this->render('course_info/presentation/view/general.html.twig', [
-                'courseInfo' => $dc,
-            ]);
-
-        }
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            if ($action === "submit")
-            {
-                $courseInfo->checkMedia();
-                $manager->update($courseInfo);
-            }
-            return $this->render('course_info/presentation/view/general.html.twig', [
-                'courseInfo' => $courseInfo,
-            ]);
-        }
-
-        return $this->render('course_info/presentation/form/general.html.twig', [
-            'courseInfo' => $courseInfo,
-            'form' => $form->createView()
+        $render = $this->get('twig')->render('course_info/presentation/view/teachers.html.twig', [
+            'courseInfo' => $courseInfo
+        ]);
+        return $this->json([
+            'status' => true,
+            'content' => $render
         ]);
     }
 
     /**
-     * @Route("/course/{id}/presentation/teachers", name="course_presentation_teachers"))
+     * @Route("/course/{id}/presentation/teachers/form", name="course_presentation_teachers_form"))
      *
      * @param $id
      * @param Request $request
@@ -158,7 +134,7 @@ class CourseInfoPresentationController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function teachersAction($id, Request $request, CourseInfoManager $manager, ImportCourseTeacherFactory $factory)
+    public function teachersFormAction($id, Request $request, CourseInfoManager $manager, ImportCourseTeacherFactory $factory)
     {
         $em = $this->getDoctrine()->getManager();
         /** @var CourseInfo $courseInfo */
