@@ -15,6 +15,7 @@ Encore
     .setOutputPath('web/build/')
     .setPublicPath('/build')
     .addEntry('app', './app/Resources/assets/js/app.js')
+    .addEntry('course_info_layout', './app/Resources/assets/js/course_info_layout.js')
     //.splitEntryChunks()
     .autoProvidejQuery()
     //.enableSingleRuntimeChunk()
