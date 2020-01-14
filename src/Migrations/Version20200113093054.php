@@ -22,8 +22,8 @@ final class Version20200113093054 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('CREATE TABLE syllabus_duplication_field (id INT AUTO_INCREMENT NOT NULL, field VARCHAR(150) NOT NULL, label VARCHAR(150) NOT NULL, import TINYINT(1) DEFAULT \'0\' NOT NULL, UNIQUE INDEX UNIQ_725585DC5BF54558 (field), UNIQUE INDEX UNIQ_725585DCEA750E8 (label), PRIMARY KEY(id)) DEFAULT CHARACTER SET UTF8 COLLATE `UTF8_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('INSERT INTO syllabus_duplication_field (field, label) 
+        $this->addSql('CREATE TABLE course_info_field (id INT AUTO_INCREMENT NOT NULL, field VARCHAR(150) NOT NULL, label VARCHAR(150) NOT NULL, manually_duplication TINYINT(1) DEFAULT \'0\' NOT NULL, UNIQUE INDEX UNIQ_725585DC5BF54558 (field), UNIQUE INDEX UNIQ_725585DCEA750E8 (label), PRIMARY KEY(id)) DEFAULT CHARACTER SET UTF8 COLLATE `UTF8_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('INSERT INTO course_info_field (field, label) 
                             VALUES (\'structure\', \'Structure\'), (\'title\', \'Titre\'), (\'ects\', \'Présentation / ECTS\'), (\'level\', \'Présentation / Niveau\'), (\'languages\', \'Présentation / Langages\'), (\'domain\', \'Présentation / Domaine\'), (\'semester\', \'Présentation / Semestre\'), (\'summary\', \'Présentation / Résumé\'),
                              (\'period\', \'Présentation / Période\'), (\'mediaType\', \'Présentation / Type média\'), (\'image\', \'Présentation / Média image\'), (\'video\', \'Présentation / Média vidéo\'), (\'teachingMode\', \'Présentation / Mode enseignement\'), (\'teachingCmClass\', \'Présentation / Volume CM (présentiel)\'),
                              (\'teachingTdClass\', \'Présentation / Volume TD (présentiel)\'), (\'teachingTpClass\', \'Présentation / Volume TP (présentiel)\'), (\'teachingOtherClass\', \'Présentation / Volume Autre (présentiel)\'), (\'teachingOtherTypeClass\', \'Présentation / Type volume Autre (présentiel)\'),
@@ -38,7 +38,7 @@ final class Version20200113093054 extends AbstractMigration
                              (\'mccAdvice\', \'MCC / Précisions\'), (\'tutoring\', \'Objectifs / Tutorat\'), (\'tutoringTeacher\', \'Objectifs / Objectifs / Tutorat avec tuteur enseignant\'), (\'tutoringStudent\', \'Objectifs / Tutorat avec tuteur étudiant\'), (\'tutoringDescription\', \'Objectifs / Description tutorat\'), 
                              (\'educationalResources\', \'Matériel / Ressources pédagogiques\'), (\'bibliographicResources\', \'Matériel / Eléments bibiographiques\'), (\'agenda\', \'Matériel / Agenda\'), (\'organization\', \'Infos / Organisation\'), (\'closingRemarks\', \'Mot de la fin / Message\'), 
                              (\'closingVideo\', \'Mot de la fin / Vidéo\'), (\'courseTeachers\', \'Présentation / Equipe enseignante\'), (\'courseSections\', \'Contenu & Activités / Sections\'), (\'courseEvaluationCts\', \'Contenu & Activités / Evaluations CT\'), (\'courseAchievements\', \'Objectifs / Acquis apprentissage\'),
-                             (\'coursePrerequisites\', \'Objectifs / Prérequis\'), (\'courseTutoringResources\', \'Objectifs / Ressources tutorats\'), (\'courseEquipments\', \'Matériel / Acquis apprentissage\');');
+                             (\'coursePrerequisites\', \'Objectifs / Prérequis\'), (\'courseTutoringResources\', \'Objectifs / Ressources tutorats\'), (\'courseResourceEquipments\', \'Matériel / Equipements\');');
     }
 
     public function down(Schema $schema) : void
@@ -46,6 +46,6 @@ final class Version20200113093054 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('DROP TABLE syllabus_duplication_field');
+        $this->addSql('DROP TABLE course_info_field');
     }
 }

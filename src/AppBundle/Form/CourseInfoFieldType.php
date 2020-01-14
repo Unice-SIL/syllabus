@@ -2,13 +2,13 @@
 
 namespace AppBundle\Form;
 
-use AppBundle\Entity\SyllabusDuplicationField;
+use AppBundle\Entity\CourseInfoField;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class SyllabusDuplicationFieldType extends AbstractType
+class CourseInfoFieldType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -16,7 +16,7 @@ class SyllabusDuplicationFieldType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('import', CheckboxType::class, [
+            ->add('manuallyDuplication', CheckboxType::class, [
                 'label' => false,
                 'required' => false,
                 'label_attr' => [
@@ -32,7 +32,7 @@ class SyllabusDuplicationFieldType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => SyllabusDuplicationField::class
+            'data_class' => CourseInfoField::class
         ));
     }
 
@@ -41,7 +41,7 @@ class SyllabusDuplicationFieldType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_syllabus_duplication_field';
+        return 'appbundle_course_info_field';
     }
 
 
