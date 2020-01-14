@@ -1,7 +1,5 @@
 
 const SILTools = require('./sil_toolkit');
-const Syllabus = require('./syllabus');
-
 import './admin';
 
 

@@ -24,13 +24,14 @@ $(document).ready(function () {
         let url = $card.data("form-url");
         $.get(url, {
             beforeSend: function () {
-                $button.hide();
+                $button.attr("disabled", true).html('<i class="fas fa-spinner fa-spin"></i>');
                 $card.addClass('active');
                 $('#app').addClass('hasActiveChild');
             }
         }).done(function (response) {
             if (Syllabus.handleAjaxResponseModal(response))
             {
+                $button.hide();
                 $cardBody.html(response["content"]);
             }
         });
@@ -52,10 +53,11 @@ $(document).ready(function () {
             method: "POST",
             dataType: "json",
             beforeSend: function () {
-                $cardBody.html('<div class="progress mx-auto" style="max-width: 95%"><div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div></div>')
+                $button.attr("disabled", true).html('<i class="fas fa-spinner fa-spin"></i>');
             }
         }).done(function (response) {
             $cardBody.html(response["content"]);
+            $editButton.attr("disabled", false).html('Mettre à jour');
             $editButton.show();
             $card.removeClass('active');
             $('#app').removeClass('hasActiveChild');
@@ -70,6 +72,7 @@ $(document).ready(function () {
         let url = $card.data('view-url');
         $.get(url, {
             beforeSend: function () {
+                $button.attr("disabled", true).html('<i class="fas fa-spinner fa-spin"></i>');
             }
         }).done(function (response) {
             if (Syllabus.handleAjaxResponseModal(response))
@@ -77,6 +80,7 @@ $(document).ready(function () {
                 $cardBody.html(response["content"]);
             }
         }).always(function () {
+            $editButton.attr("disabled", false).html('Mettre à jour');
             $editButton.show();
             $card.removeClass('active');
             $('#app').removeClass('hasActiveChild');
