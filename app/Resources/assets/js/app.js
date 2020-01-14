@@ -4,57 +4,16 @@
 
 */
 
-
-
 /*
     Importing dependencies
 */
 
 // SASS / CSS dependencies.
 import '../scss/app.scss';
-import '../scss/sil_toolkit.scss';
-import 'select2/src/scss/core.scss';
 
 // Importing modules…
-import $ from 'jquery';
-import select2 from 'select2';
-import bootbox from 'bootbox';
-import bootstrapToggle from 'bootstrap4-toggle';
-import SILTools from './sil_toolkit';
-import Syllabus from './syllabus';
-
-// … and make them visible to external components.
-global.$ = window.$ = global.jQuery = window.jQuery = $;
-global.select2 = select2;
-global.bootbox = bootbox;
-global.bootstrapToggle = bootstrapToggle;
-global.SILTools = SILTools;
-global.Syllabus = Syllabus;
-
-
-
-/*
-    SortableJS with jQuery binding.
-*/
-
-import Sortable from 'sortablejs';
-import 'jquery-sortablejs';
-
-global.Sortable = Sortable;
-
-
-
-/*
-    Full Bootstrap…
-*/
-
-//import 'bootstrap';
-
-
-
-/*
-    … or parts of it.
-*/
+const $ = jQuery = require('jquery');
+global.$ = $;
 
 import 'bootstrap/js/dist/alert';
 import 'bootstrap/js/dist/button';
@@ -71,142 +30,14 @@ import 'bootstrap/js/dist/tab';
 import 'bootstrap/js/dist/util';
 import 'jquery.autocomplete';
 
-/**
- * admin lte js
- */
-import 'admin-lte/build/js/AdminLTE';
+const select2 = require('select2');
+const bootbox = require('bootbox');
+const bootstrapToggle = require('bootstrap4-toggle');
+require('jquery-sortablejs');
+const Sortable = require('sortablejs');
 
-import './admin';
+require('bootstrap4-toggle/css/bootstrap4-toggle.min.css');
 
+require('admin-lte');
 
-
-
-
-/*
-    Select2 locale (fr).
-        https://select2.org/i18n
-*/
-
-( function( ) {
-
-    if ( jQuery && jQuery.fn && jQuery.fn.select2 && jQuery.fn.select2.amd ) {
-        var e = jQuery.fn.select2.amd;
-    }
-
-    return e.define(
-        "select2/i18n/fr",
-        [ ],
-        function( ) {
-
-            return {
-                inputTooLong: function( args ) {
-                    var overChars = args.input.length - args.maximum,
-                        message = 'Supprimez ' + overChars + ' caractère';
-
-                    if ( overChars !== 1 ) {
-                        message += 's.';
-                    } else {
-                        message += '.';
-                    }
-
-                    return message;
-                },
-                inputTooShort: function( args ) {
-                    var remainingChars = args.minimum - args.input.length,
-                        message = 'Saisissez ' + remainingChars + ' caractère';
-
-                    if  (remainingChars !== 1 ) {
-                        message += 's.';
-                    } else {
-                        message += '.';
-                    }
-
-                    return message;
-                },
-                loadingMore: function( ) {
-                    return 'Chargement de résultats supplémentaires…';
-                },
-                maximumSelected: function( args ) {
-                    var message = 'Vous pouvez seulement sélectionner ' +
-                        args.maximum + ' élément';
-
-                    if ( args.maximum !== 1 ) {
-                        message += 's.';
-                    } else {
-                        message += '.';
-                    }
-
-                    return message;
-                },
-                noResults: function( ) {
-                    return 'Aucun résultat.';
-                },
-                searching: function( ) {
-                    return 'Recherche en cours…';
-                }
-            }
-
-        } ), {
-        define: e.define,
-        require: e.require
-    }
-
-} ) ( );
-
-
-
-/*
-    Bootbox locale (fr).
-        http://bootboxjs.com/documentation.html
-*/
-
-bootbox.addLocale( 'fr', {
-        OK      : 'OK',
-        CANCEL  : 'Annuler',
-        CONFIRM : 'Confirmer'
-    } );
-bootbox.setLocale( 'fr' );
-
-
-
-/*
-    AJAX error handler.
-*/
-
-$( document ).ready( function( ) {
-
-    $( document ).ajaxError( function( event, jqXHR, ajaxSettings, thrownError ) {
-
-        console.log( { event, jqXHR, ajaxSettings, thrownError } );
-        SILTools.alert( {
-            type: 'danger',
-            text: "Une erreur est survenue (" + jqXHR.status + ")."
-        } );
-
-    } );
-
-} );
-
-
-$(document).ready(function () {
-
-    //Trigger submit of a filter form when a select is changed
-    $('.filter-form').find('select').change(function () {
-        $('.filter-form').submit();
-    });
-
-    //Autocomplete
-    function initAutocomplete() {
-        $('.autocomplete-input').each(function () {
-            //todo: regenerate when resizing window
-            var width = $(this).outerWidth();
-
-            $(this).autocomplete({
-                serviceUrl: $(this).data('autocomplete-path'),
-                //width: width,
-            }).enable();
-        });
-    }
-    initAutocomplete();
-});
-
+require('./_custom');
