@@ -4,6 +4,7 @@ namespace AppBundle\Repository;
 
 use AppBundle\Entity\Equipment;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * Interface EquipmentRepositoryInterface
@@ -55,5 +56,18 @@ interface EquipmentRepositoryInterface
      * Rollback change
      */
     public function rollback(): void;
+
+
+    /**
+     * @return QueryBuilder
+     */
+    public function getIndexQueryBuilder(): QueryBuilder;
+
+    /**
+     * @param string $query
+     * @param string $field
+     * @return array
+     */
+    public function findLikeQuery(string $query, string $field): array;
 
 }

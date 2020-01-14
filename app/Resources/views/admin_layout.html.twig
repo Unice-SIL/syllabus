@@ -1,5 +1,14 @@
 {% extends 'base_layout.html.twig' %}
 
+{% block stylesheets %}
+    {{parent()}}
+    <style>
+        body {
+            position: initial;
+        }
+    </style>
+{% endblock %}
+
 {% block navbar %}
     <ul class="navbar-nav">
         <li class="nav-item">
@@ -8,13 +17,11 @@
     </ul>
 {% endblock %}
 
+{% set logoHref = path('app_admin_year_index') %}
 {% block sidebar %}
-    <a href="{{ path('app_admin_year_index') }}" class="brand-link">
-        <img src="{{ asset('images/uca-logo.svg') }}" alt="logo" class="brand-image elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light">Université</span>
-    </a>
     <div class="sidebar">
         <!-- Sidebar user (optional) -->
+        {#
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
                 <img src="{{ asset('images/default_user.jpeg') }}" class="img-circle elevation-2" alt="User Image">
@@ -23,31 +30,9 @@
                 <a href="#" class="d-block">Alexander Pierce</a>
             </div>
         </div>
+        #}
 
-        <!-- Sidebar Menu -->
-        <nav class="mt-2">
-            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <!-- Add icons to the links using the .nav-icon class
-                     with font-awesome or any other icon font library -->
-                <li class="nav-item">
-                    <a href="{{ path('app_admin_year_index') }}" class="nav-link">
-                        <i class="nav-icon fas fa-calendar"></i>
-                        <p>
-                            Années
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ path('app_admin_user_index') }}" class="nav-link">
-                        <i class="nav-icon fas fa-user"></i>
-                        <p>
-                            Utilisateurs
-                        </p>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-        <!-- /.sidebar-menu -->
+        {{ include('partial/_admin_sidebar.html.twig') }}
     </div>
 {% endblock %}
 

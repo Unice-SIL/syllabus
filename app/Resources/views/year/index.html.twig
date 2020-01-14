@@ -21,7 +21,7 @@
                     <tbody>
                     {% for year in pagination %}
                         <tr>
-                            <td>{{ year.label }}</td>
+                            <td><a href="{{ path('app_admin_year_edit', { 'id' : year.id }) }}">{{ year.label }}</a></td>
                             <td>{{ year.import|humanizeBoolean }}</td>
                             <td>{{ year.edit|humanizeBoolean }}</td>
                             <td>{{ year.current|humanizeBoolean }}</td>

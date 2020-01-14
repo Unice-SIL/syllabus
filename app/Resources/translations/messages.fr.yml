@@ -1,2 +1,49 @@
 ROLE_USER: 'Utilisateur'
 ROLE_ADMIN: 'Administrateur'
+collective: 'Collectif'
+groups: 'En groupe'
+individual: 'Individuel'
+head: 'Entête'
+together: 'Ensemble'
+autonomy: 'En autonomie'
+class: 'En présentiel'
+cc: 'Contrôle continu'
+ct: 'Contrôle terminal'
+activity: 'activité'
+evaluation: 'évaluation'
+list of activity: Liste des activités
+list of evaluation: Liste des évaluations
+
+app:
+  form:
+    activity:
+      label:
+        label: 'Intitulé'
+        mode: 'Mode'
+        grp: 'Groupe'
+    course_info:
+      label:
+        title: 'Titre'
+    course:
+      label:
+        type: 'Type'
+        etb_id: 'Code établissement'
+    year:
+      label:
+        label: 'Année'
+    structure:
+      label:
+        label: 'Label'
+        etbId: 'Code établissement'
+        campus: 'Campus'
+        obsolete: 'Obsolète'
+        structure: 'Structure'
+    equipment:
+      label:
+        label: 'Label'
+        label_visibility: 'Afficher le label'
+        obsolete: 'Obsolète'
+    syllabus_duplication_field:
+      label:
+        import: 'Import'
+        label: 'Label'

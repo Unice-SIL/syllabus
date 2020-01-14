@@ -2,10 +2,13 @@
 
 namespace AppBundle\Repository\Doctrine;
 
+use AppBundle\Entity\Activity;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Repository\CourseInfoRepositoryInterface;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Serializer\Normalizer\DataUriNormalizer;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * Class CourseInfoDoctrineRepository
@@ -16,10 +19,10 @@ class CourseInfoDoctrineRepository  extends AbstractDoctrineRepository implement
 
     /**
      * UserDoctrineRepository constructor.
-     * @param EntityManager $entityManager
+     * @param EntityManagerInterface $entityManager
      */
     public function __construct(
-        EntityManager $entityManager
+        EntityManagerInterface $entityManager
     )
     {
         $this->entityManager = $entityManager;
@@ -116,6 +119,33 @@ class CourseInfoDoctrineRepository  extends AbstractDoctrineRepository implement
         }catch (\Exception $e){
             throw $e;
         }
+    }
+
+    public function findLikeQuery(string $query, string $field): array
+    {
+        $qb = $this->getIndexQueryBuilder();
+
+            if (in_array($field, ['c.etbId', 'c.type', 'ci.title', 'y.label', 's.label'])) {
+                $qb->andWhere($field.' LIKE :query ')
+                ->setParameter('query', '%' . $query . '%')
+                ;
+            }
+            return $qb->getQuery()->getResult()
+            ;
+    }
+
+    public function getIndexQueryBuilder(): QueryBuilder
+    {
+        return $this->entityManager->getRepository(CourseInfo::class)
+            ->createQueryBuilder('ci')
+            ->innerJoin('ci.course', 'c')
+            ->innerJoin('ci.year', 'y')
+            ->innerJoin('ci.structure', 's')
+            ->addSelect('y', 'c', 's')
+            ->addOrderBy('c.etbId', 'ASC')
+            ->addOrderBy('y.id', 'ASC')
+            ->addOrderBy('ci.title', 'ASC')
+        ;
     }
 
 }

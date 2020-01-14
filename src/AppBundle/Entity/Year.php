@@ -11,8 +11,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Table(name="year")
  * @ORM\Entity
- * @UniqueEntity("id", message="Cette valeur existe déjà et doit être unique")
- * @UniqueEntity("label", message="Cette valeur existe déjà et doit être unique")
+ * @UniqueEntity("id")
+ * @UniqueEntity("label")
  */
 class Year
 {

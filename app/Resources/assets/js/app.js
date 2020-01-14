@@ -4,52 +4,16 @@
 
 */
 
-
-
 /*
     Importing dependencies
 */
 
 // SASS / CSS dependencies.
 import '../scss/app.scss';
-import '../scss/sil_toolkit.scss';
-import 'select2/src/scss/core.scss';
 
 // Importing modules…
-import $ from 'jquery';
-import select2 from 'select2';
-import bootbox from 'bootbox';
-import bootstrapToggle from 'bootstrap4-toggle';
-import SILTools from './sil_toolkit';
-import Syllabus from './syllabus';
-
-// … and make them visible to external components.
-global.$ = window.$ = global.jQuery = window.jQuery = $;
-global.select2 = select2;
-global.bootbox = bootbox;
-global.bootstrapToggle = bootstrapToggle;
-global.SILTools = SILTools;
-global.Syllabus = Syllabus;
-
-/*
-    SortableJS with jQuery binding.
-*/
-
-import 'jquery-sortablejs';
-
-
-
-/*
-    Full Bootstrap…
-*/
-
-//import 'bootstrap';
-
-
-
-/*
-    … or parts of it.
-*/
+const $ = require('jquery');
+global.$ = global.jQuery = $;
 
 import 'bootstrap/js/dist/alert';
 import 'bootstrap/js/dist/button';
@@ -64,147 +28,21 @@ import 'bootstrap/js/dist/tab';
 import 'bootstrap/js/dist/toast';
 import 'bootstrap/js/dist/tooltip';
 import 'bootstrap/js/dist/util';
+import 'jquery.autocomplete';
 
+import select2 from 'select2';
+global.select2 = select2;
 
+import bootbox from 'bootbox';
+global.bootbox = bootbox;
 
-/**
- * admin lte js
- */
-import 'admin-lte/build/js/AdminLTE';
+import 'jquery-sortablejs';
+import Sortable from 'sortablejs';
+global.Sortable = Sortable;
 
+import bootstrapToggle from 'bootstrap4-toggle';
+global.bootstrapToggle = bootstrapToggle;
 
+import 'admin-lte';
 
-
-
-/*
-    Select2 locale (fr).
-        https://select2.org/i18n
-*/
-
-( function( ) {
-
-    if ( jQuery && jQuery.fn && jQuery.fn.select2 && jQuery.fn.select2.amd ) {
-        var e = jQuery.fn.select2.amd;
-    }
-
-    return e.define(
-        "select2/i18n/fr",
-        [ ],
-        function( ) {
-
-            return {
-                inputTooLong: function( args ) {
-                    var overChars = args.input.length - args.maximum,
-                        message = 'Supprimez ' + overChars + ' caractère';
-
-                    if ( overChars !== 1 ) {
-                        message += 's.';
-                    } else {
-                        message += '.';
-                    }
-
-                    return message;
-                },
-                inputTooShort: function( args ) {
-                    var remainingChars = args.minimum - args.input.length,
-                        message = 'Saisissez ' + remainingChars + ' caractère';
-
-                    if  (remainingChars !== 1 ) {
-                        message += 's.';
-                    } else {
-                        message += '.';
-                    }
-
-                    return message;
-                },
-                loadingMore: function( ) {
-                    return 'Chargement de résultats supplémentaires…';
-                },
-                maximumSelected: function( args ) {
-                    var message = 'Vous pouvez seulement sélectionner ' +
-                        args.maximum + ' élément';
-
-                    if ( args.maximum !== 1 ) {
-                        message += 's.';
-                    } else {
-                        message += '.';
-                    }
-
-                    return message;
-                },
-                noResults: function( ) {
-                    return 'Aucun résultat.';
-                },
-                searching: function( ) {
-                    return 'Recherche en cours…';
-                }
-            }
-
-        } ), {
-        define: e.define,
-        require: e.require
-    }
-
-} ) ( );
-
-
-
-/*
-    Bootbox locale (fr).
-        http://bootboxjs.com/documentation.html
-*/
-
-bootbox.addLocale( 'fr', {
-    OK      : 'OK',
-    CANCEL  : 'Annuler',
-    CONFIRM : 'Confirmer'
-} );
-bootbox.setLocale( 'fr' );
-
-
-
-/*
-    AJAX error handler.
-*/
-
-$( document ).ready( function( ) {
-
-    /*******
-     *
-     * Ajax
-     *
-     */
-
-    let $loader = $('.loader');
-
-    /**
-     * Show spinner when ajax start
-     */
-
-    $(document).ajaxStart(function () {
-        $loader.show();
-    });
-
-    /**
-     * Hide spinner when ajax finished
-     */
-
-    $(document).ajaxStop(function () {
-        $loader.hide();
-    });
-
-    $( document ).ajaxError( function( event, jqXHR, ajaxSettings, thrownError ) {
-
-        if (jqXHR.status !== 0)
-        {
-            console.log( { event, jqXHR, ajaxSettings, thrownError } );
-            SILTools.alert( {
-                type: 'danger',
-                text: "Une erreur est survenue (" + jqXHR.status + ")."
-            } );
-        }
-
-    } );
-
-} );
-
+import './_custom';

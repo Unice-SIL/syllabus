@@ -1,4 +1,4 @@
-{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('course_presentation_teachers', {'id': courseInfo.id })}}) }}
+{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('course_presentation_teachers_form', {'id': courseInfo.id })}}) }}
 {{ form_errors(form) }}
 <div class="row mt-3">
     <div class="col">
@@ -21,7 +21,7 @@
     </div>
 </div>
 <div class="d-flex justify-content-center">
-    <button type="submit" class="btn btn-primary button-gradient" id="create_button">
+    <button type="submit" class="btn btn-primary rounded" id="create_button">
         Ajouter
     </button>
 </div>
