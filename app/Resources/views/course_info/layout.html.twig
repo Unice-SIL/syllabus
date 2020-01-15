@@ -32,13 +32,16 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link menu-tab" id="menu-objective"
-                       href="{{ path('edit_objectives_course_info', { 'id': courseInfo.id }) }}">
+                       href="{{ path('course_info_objectives', { 'id': courseInfo.id }) }}"
+                       id="menu-objectives_course">
                         <i>3</i>&nbsp;
                         <p>Objectifs du cours</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-tab" href="{{ path('edit_mcc_course_info', { 'id': courseInfo.id }) }}">
+                    <a class="nav-link menu-tab"
+                       id="menu-evaluation"
+                       href="{{ path('course_evaluation', { 'id': courseInfo.id }) }}">
                         <i>4</i>&nbsp;
                         <p>Modalités d'évaluation</p>
                     </a>
@@ -50,13 +53,15 @@
                     </a>
                 </li>
                 <li class="nav-item menu-tab">
-                    <a class="nav-link" href="{{ path('edit_infos_course_info', { 'id': courseInfo.id }) }}">
+                    <a class="nav-link" href="{{ path('course_info_info', { 'id': courseInfo.id }) }}"
+                       id="menu-info">
                         <i>6</i>&nbsp;
                         <p>Informations pratiques</p>
                     </a>
                 </li>
                 <li class="nav-item menu-tab">
-                    <a class="nav-link" href="{{ path('edit_closing_remarks_course_info', { 'id': courseInfo.id }) }}">
+                    <a class="nav-link" href="{{ path('course_closing_remarks', { 'id': courseInfo.id }) }}"
+                       id="menu-closing_remarks">
                         <i>7</i>&nbsp;
                         <p>Le mot de la fin</p>
                     </a>
@@ -66,9 +71,12 @@
     </div>
 {% endblock %}
 {% block content %}
-    <section class="content pt-2">
-        <div class="container-fluid">
-            {% block subContent %}{% endblock %}
-        </div>
-    </section>
+    <div class="container-fluid pt-2">
+        {% block subContent %}{% endblock %}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('course_info_layout') }}
 {% endblock %}

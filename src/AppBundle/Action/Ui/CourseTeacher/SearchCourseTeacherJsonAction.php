@@ -34,6 +34,7 @@ class SearchCourseTeacherJsonAction implements ActionInterface
      * @Route("/courseteacher/search/json", name="search_course_teacher_json")
      * @param Request $request
      * @return JsonResponse
+     * @throws \Exception
      */
     public function __invoke(Request $request)
     {

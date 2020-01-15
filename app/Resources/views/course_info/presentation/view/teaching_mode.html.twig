@@ -1,309 +1,299 @@
-<div class="card toggle-focus my-2 shadow">
-    <div class="card-header">
-        <div class="d-flex justify-content-between">
-            <h3>Mode d'enseignement</h3>
-            <button type="button" class="update-focus btn btn-primary">Mettre à jour</button>
-        </div>
-    </div>
-    <div class="card-body">
-        {% if courseInfo.teachingMode is null %}
-            <div class="row mt-3">
-                <div class="col">
-                    <div class="d-flex">
-                        <div class="d-flex flex-column">
+{% if courseInfo.teachingMode is null %}
+    <div class="row mt-3">
+        <div class="col">
+            <div class="d-flex">
+                <div class="d-flex flex-column">
                             <span class="font-weight-bold">
                                 <i class="fas fa-exclamation-circle text-danger"></i>
                                 Mode d'enseignement
                             </span>
-                            <span class="text-danger">
+                    <span class="text-danger">
                                 Non-renseigné
                             </span>
-                        </div>
-                    </div>
                 </div>
             </div>
-        {% elseif courseInfo.teachingMode == "class" %}
-            <h3>Présentiel</h3>
-            <div class="row mt-3">
-                <div class="col">
-                    <div class="d-flex">
-                        <div class="d-flex flex-column">
+        </div>
+    </div>
+{% elseif courseInfo.teachingMode == "class" %}
+    <h3>Présentiel</h3>
+    <div class="row mt-3">
+        <div class="col">
+            <div class="d-flex">
+                <div class="d-flex flex-column">
                         <span class="font-weight-bold">
                             {% if courseInfo.teachingCmClass is null %}
                                 <i class="fas fa-exclamation-circle text-danger"></i>
                             {% endif %}
                             Heures CM
                         </span>
-                            {% if courseInfo.teachingCmClass is null %}
-                                <span class="text-danger">
+                    {% if courseInfo.teachingCmClass is null %}
+                        <span class="text-danger">
                                 Non-renseigné
                             </span>
-                            {% else %}
-                                <span class="text-muted">
+                    {% else %}
+                        <span class="text-muted">
                                 {{ courseInfo.teachingCmClass }}
                             </span>
-                            {% endif %}
-                        </div>
-                    </div>
-                    <div class="d-flex">
-                        <div class="d-flex flex-column">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="d-flex">
+                <div class="d-flex flex-column">
                         <span class="font-weight-bold">
                             {% if courseInfo.teachingTdClass is null %}
                                 <i class="fas fa-exclamation-circle text-danger"></i>
                             {% endif %}
                             Heures TD
                         </span>
-                            {% if courseInfo.teachingTdClass is null %}
-                                <span class="text-danger">
+                    {% if courseInfo.teachingTdClass is null %}
+                        <span class="text-danger">
                                 Non-renseigné
                             </span>
-                            {% else %}
-                                <span class="text-muted">
+                    {% else %}
+                        <span class="text-muted">
                                 {{ courseInfo.teachingTdClass }}
                             </span>
-                            {% endif %}
-                        </div>
-                    </div>
-                    <div class="d-flex">
-                        <div class="d-flex flex-column">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="d-flex">
+                <div class="d-flex flex-column">
                         <span class="font-weight-bold">
                             {% if courseInfo.teachingTpClass is null %}
                                 <i class="fas fa-exclamation-circle text-danger"></i>
                             {% endif %}
                             Heures TP
                         </span>
-                            {% if courseInfo.teachingTpClass is null %}
-                                <span class="text-danger">
+                    {% if courseInfo.teachingTpClass is null %}
+                        <span class="text-danger">
                                 Non-renseigné
                             </span>
-                            {% else %}
-                                <span class="text-muted">
+                    {% else %}
+                        <span class="text-muted">
                                 {{ courseInfo.teachingTpClass }}
                             </span>
-                            {% endif %}
-                        </div>
-                    </div>
+                    {% endif %}
                 </div>
-                <div class="col">
-                    <div class="d-flex">
-                        <div class="d-flex flex-column">
+            </div>
+        </div>
+        <div class="col">
+            <div class="d-flex">
+                <div class="d-flex flex-column">
                             <span class="font-weight-bold">
                                 {% if courseInfo.teachingOtherClass is null %}
                                     <i class="fas fa-exclamation-circle text-danger"></i>
                                 {% endif %}
                                 Heures autre
                             </span>
-                            {% if courseInfo.teachingOtherClass is null %}
-                                <span class="text-danger">
+                    {% if courseInfo.teachingOtherClass is null %}
+                        <span class="text-danger">
                                 Non-renseigné
                             </span>
-                            {% else %}
-                                <span class="text-muted">
+                    {% else %}
+                        <span class="text-muted">
                                 {{ courseInfo.teachingOtherClass }}
                             </span>
-                            {% endif %}
-                        </div>
-                    </div>
-                    <div class="d-flex">
-                        <div class="d-flex flex-column">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="d-flex">
+                <div class="d-flex flex-column">
                             <span class="font-weight-bold">
                                 {% if courseInfo.teachingOtherTypeClass is null %}
                                     <i class="fas fa-exclamation-circle text-danger"></i>
                                 {% endif %}
                                 Type
                             </span>
-                            {% if courseInfo.teachingOtherTypeClass is null %}
-                                <span class="text-danger">
+                    {% if courseInfo.teachingOtherTypeClass is null %}
+                        <span class="text-danger">
                                 Non-renseigné
                             </span>
-                            {% else %}
-                                <span class="text-muted">
+                    {% else %}
+                        <span class="text-muted">
                                 {{ courseInfo.teachingOtherTypeClass }}
                             </span>
-                            {% endif %}
-                        </div>
-                    </div>
+                    {% endif %}
                 </div>
             </div>
-        {% elseif courseInfo.teachingMode == "hybrid" %}
-            <h3>Hybride</h3>
-            <div class="row mt-3">
-                <div class="col">
-                    <div class="d-flex">
-                        <div class="d-flex flex-column">
+        </div>
+    </div>
+{% elseif courseInfo.teachingMode == "hybrid" %}
+    <h3>Hybride</h3>
+    <div class="row mt-3">
+        <div class="col">
+            <div class="d-flex">
+                <div class="d-flex flex-column">
                         <span class="font-weight-bold">
                             {% if courseInfo.teachingCmHybridClass is null %}
                                 <i class="fas fa-exclamation-circle text-danger"></i>
                             {% endif %}
                             Heures CM
                         </span>
-                            {% if courseInfo.teachingCmHybridClass is null %}
-                                <span class="text-danger">
+                    {% if courseInfo.teachingCmHybridClass is null %}
+                        <span class="text-danger">
                                 Non-renseigné
                             </span>
-                            {% else %}
-                                <span class="text-muted">
+                    {% else %}
+                        <span class="text-muted">
                                 {{ courseInfo.teachingCmHybridClass }}
                             </span>
-                            {% endif %}
-                        </div>
-                    </div>
-                    <div class="d-flex">
-                        <div class="d-flex flex-column">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="d-flex">
+                <div class="d-flex flex-column">
                         <span class="font-weight-bold">
                             {% if courseInfo.teachingTdHybridClass is null %}
                                 <i class="fas fa-exclamation-circle text-danger"></i>
                             {% endif %}
                             Heures TD
                         </span>
-                            {% if courseInfo.teachingTdHybridClass is null %}
-                                <span class="text-danger">
+                    {% if courseInfo.teachingTdHybridClass is null %}
+                        <span class="text-danger">
                                 Non-renseigné
                             </span>
-                            {% else %}
-                                <span class="text-muted">
+                    {% else %}
+                        <span class="text-muted">
                                 {{ courseInfo.teachingTdHybridClass }}
                             </span>
-                            {% endif %}
-                        </div>
-                    </div>
-                    <div class="d-flex">
-                        <div class="d-flex flex-column">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="d-flex">
+                <div class="d-flex flex-column">
                         <span class="font-weight-bold">
                             {% if courseInfo.teachingTpHybridClass is null %}
                                 <i class="fas fa-exclamation-circle text-danger"></i>
                             {% endif %}
                             Heures TP
                         </span>
-                            {% if courseInfo.teachingTpHybridClass is null %}
-                                <span class="text-danger">
+                    {% if courseInfo.teachingTpHybridClass is null %}
+                        <span class="text-danger">
                                 Non-renseigné
                             </span>
-                            {% else %}
-                                <span class="text-muted">
+                    {% else %}
+                        <span class="text-muted">
                                 {{ courseInfo.teachingTpHybridClass }}
                             </span>
-                            {% endif %}
-                        </div>
-                    </div>
-                    <div class="d-flex">
-                        <div class="d-flex flex-column">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="d-flex">
+                <div class="d-flex flex-column">
                             <span class="font-weight-bold">
                                 {% if courseInfo.teachingOtherHybridClass is null %}
                                     <i class="fas fa-exclamation-circle text-danger"></i>
                                 {% endif %}
                                 Heures autre
                             </span>
-                            {% if courseInfo.teachingOtherHybridClass is null %}
-                                <span class="text-danger">
+                    {% if courseInfo.teachingOtherHybridClass is null %}
+                        <span class="text-danger">
                                 Non-renseigné
                             </span>
-                            {% else %}
-                                <span class="text-muted">
+                    {% else %}
+                        <span class="text-muted">
                                 {{ courseInfo.teachingOtherHybridClass }}
                             </span>
-                            {% endif %}
-                        </div>
-                    </div>
-                    <div class="d-flex">
-                        <div class="d-flex flex-column">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="d-flex">
+                <div class="d-flex flex-column">
                             <span class="font-weight-bold">
                                 {% if courseInfo.teachingOtherTypeHybridClass is null %}
                                     <i class="fas fa-exclamation-circle text-danger"></i>
                                 {% endif %}
                                 Type
                             </span>
-                            {% if courseInfo.teachingOtherTypeHybridClass is null %}
-                                <span class="text-danger">
+                    {% if courseInfo.teachingOtherTypeHybridClass is null %}
+                        <span class="text-danger">
                                 Non-renseigné
                             </span>
-                            {% else %}
-                                <span class="text-muted">
+                    {% else %}
+                        <span class="text-muted">
                                 {{ courseInfo.teachingOtherTypeHybridClass }}
                             </span>
-                            {% endif %}
-                        </div>
-                    </div>
+                    {% endif %}
                 </div>
-                <div class="col">
-                    <div class="d-flex">
-                        <div class="d-flex flex-column">
+            </div>
+        </div>
+        <div class="col">
+            <div class="d-flex">
+                <div class="d-flex flex-column">
                         <span class="font-weight-bold">
                             {% if courseInfo.teachingCmHybridDist is null %}
                                 <i class="fas fa-exclamation-circle text-danger"></i>
                             {% endif %}
                             Heures CM
                         </span>
-                            {% if courseInfo.teachingCmHybridDist is null %}
-                                <span class="text-danger">
+                    {% if courseInfo.teachingCmHybridDist is null %}
+                        <span class="text-danger">
                                 Non-renseigné
                             </span>
-                            {% else %}
-                                <span class="text-muted">
+                    {% else %}
+                        <span class="text-muted">
                                 {{ courseInfo.teachingCmHybridDist }}
                             </span>
-                            {% endif %}
-                        </div>
-                    </div>
-                    <div class="d-flex">
-                        <div class="d-flex flex-column">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="d-flex">
+                <div class="d-flex flex-column">
                         <span class="font-weight-bold">
                             {% if courseInfo.teachingTdHybridDist is null %}
                                 <i class="fas fa-exclamation-circle text-danger"></i>
                             {% endif %}
                             Heures TD
                         </span>
-                            {% if courseInfo.teachingTdHybridDist is null %}
-                                <span class="text-danger">
+                    {% if courseInfo.teachingTdHybridDist is null %}
+                        <span class="text-danger">
                                 Non-renseigné
                             </span>
-                            {% else %}
-                                <span class="text-muted">
+                    {% else %}
+                        <span class="text-muted">
                                 {{ courseInfo.teachingTdHybridDist }}
                             </span>
-                            {% endif %}
-                        </div>
-                    </div>
-                    <div class="d-flex">
-                        <div class="d-flex flex-column">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="d-flex">
+                <div class="d-flex flex-column">
                             <span class="font-weight-bold">
                                 {% if courseInfo.teachingOtherHybridDist is null %}
                                     <i class="fas fa-exclamation-circle text-danger"></i>
                                 {% endif %}
                                 Heures autre
                             </span>
-                            {% if courseInfo.teachingOtherHybridDist is null %}
-                                <span class="text-danger">
+                    {% if courseInfo.teachingOtherHybridDist is null %}
+                        <span class="text-danger">
                                 Non-renseigné
                             </span>
-                            {% else %}
-                                <span class="text-muted">
+                    {% else %}
+                        <span class="text-muted">
                                 {{ courseInfo.teachingOtherHybridDist }}
                             </span>
-                            {% endif %}
-                        </div>
-                    </div>
-                    <div class="d-flex">
-                        <div class="d-flex flex-column">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="d-flex">
+                <div class="d-flex flex-column">
                             <span class="font-weight-bold">
                                 {% if courseInfo.teachingOtherTypeHybridDistant is null %}
                                     <i class="fas fa-exclamation-circle text-danger"></i>
                                 {% endif %}
                                 Type
                             </span>
-                            {% if courseInfo.teachingOtherTypeHybridDistant is null %}
-                                <span class="text-danger">
+                    {% if courseInfo.teachingOtherTypeHybridDistant is null %}
+                        <span class="text-danger">
                                 Non-renseigné
                             </span>
-                            {% else %}
-                                <span class="text-muted">
+                    {% else %}
+                        <span class="text-muted">
                                 {{ courseInfo.teachingOtherTypeHybridDistant }}
                             </span>
-                            {% endif %}
-                        </div>
-                    </div>
+                    {% endif %}
                 </div>
             </div>
-        {% endif %}
+        </div>
     </div>
-</div>
+{% endif %}

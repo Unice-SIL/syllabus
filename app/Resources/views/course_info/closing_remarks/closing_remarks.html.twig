@@ -1,0 +1,21 @@
+{% extends 'course_info/layout.html.twig' %}
+
+{% block subContent %}
+
+    <section>
+        {% include('course_info/closing_remarks/view/closing_remarks.html.twig') %}
+    </section>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+
+            $('#menu-closing_remarks').addClass('active');
+            $('#menu-closing_remarks').addClass('border-bottom-3 border-white');
+
+        });
+    </script>
+{% endblock %}

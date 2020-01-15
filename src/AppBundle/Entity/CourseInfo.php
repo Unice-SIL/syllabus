@@ -216,6 +216,34 @@ class CourseInfo
     /**
      * @var float|null
      *
+     * @ORM\Column(name="teaching_cm_dist", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $teachingCmDist;
+
+    /**
+     * @var float|null
+     *
+     * @ORM\Column(name="teaching_td_dist", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $teachingTdDist;
+
+    /**
+     * @var float|null
+     *
+     * @ORM\Column(name="teaching_other_dist", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $teachingOtherDist;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="teaching_other_type_distant", type="string", length=65, nullable=true)
+     */
+    private $teachingOtherTypeDist;
+
+    /**
+     * @var float|null
+     *
      * @ORM\Column(name="mcc_weight", type="float", precision=10, scale=0, nullable=true)
      */
     private $mccWeight;
@@ -497,7 +525,7 @@ class CourseInfo
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="CourseTeacher", mappedBy="courseInfo", cascade={ "persist" })
+     * @ORM\OneToMany(targetEntity="CourseTeacher", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"lastname" = "ASC"})
      */
     private $courseTeachers;
@@ -521,7 +549,7 @@ class CourseInfo
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="CourseAchievement", mappedBy="courseInfo", cascade={ "persist" })
+     * @ORM\OneToMany(targetEntity="CourseAchievement", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"order" = "ASC"})
      */
     private $courseAchievements;
@@ -529,7 +557,7 @@ class CourseInfo
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="CoursePrerequisite", mappedBy="courseInfo", cascade={ "persist" })
+     * @ORM\OneToMany(targetEntity="CoursePrerequisite", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"order" = "ASC"})
      */
     private $coursePrerequisites;
@@ -537,7 +565,7 @@ class CourseInfo
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="CourseTutoringResource", mappedBy="courseInfo", cascade={ "persist" })
+     * @ORM\OneToMany(targetEntity="CourseTutoringResource", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"order" = "ASC"})
      */
     private $courseTutoringResources;
@@ -1063,6 +1091,78 @@ class CourseInfo
     {
         $this->teachingOtherTypeHybridDistant = $teachingOtherTypeHybridDistant;
 
+        return $this;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getTeachingCmDist(): ?float
+    {
+        return $this->teachingCmDist;
+    }
+
+    /**
+     * @param float|null $teachingCmDist
+     * @return CourseInfo
+     */
+    public function setTeachingCmDist(?float $teachingCmDist): CourseInfo
+    {
+        $this->teachingCmDist = $teachingCmDist;
+        return $this;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getTeachingTdDist(): ?float
+    {
+        return $this->teachingTdDist;
+    }
+
+    /**
+     * @param float|null $teachingTdDist
+     * @return CourseInfo
+     */
+    public function setTeachingTdDist(?float $teachingTdDist): CourseInfo
+    {
+        $this->teachingTdDist = $teachingTdDist;
+        return $this;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getTeachingOtherDist(): ?float
+    {
+        return $this->teachingOtherDist;
+    }
+
+    /**
+     * @param float|null $teachingOtherDist
+     * @return CourseInfo
+     */
+    public function setTeachingOtherDist(?float $teachingOtherDist): CourseInfo
+    {
+        $this->teachingOtherDist = $teachingOtherDist;
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getTeachingOtherTypeDist(): ?string
+    {
+        return $this->teachingOtherTypeDist;
+    }
+
+    /**
+     * @param null|string $teachingOtherTypeDist
+     * @return CourseInfo
+     */
+    public function setTeachingOtherTypeDist(?string $teachingOtherTypeDist): CourseInfo
+    {
+        $this->teachingOtherTypeDist = $teachingOtherTypeDist;
         return $this;
     }
 
@@ -1854,8 +1954,11 @@ class CourseInfo
      */
     public function addCourseTeacher(CourseTeacher $courseTeacher): CourseInfo
     {
-        $this->courseTeachers->add($courseTeacher);
-
+        if (!$this->courseTeachers->contains($courseTeacher))
+        {
+            $this->courseTeachers->add($courseTeacher);
+            $courseTeacher->setCourseInfo($this);
+        }
         return $this;
     }
 
@@ -1865,9 +1968,16 @@ class CourseInfo
      */
     public function removeCourseTeacher(CourseTeacher $courseTeacher): CourseInfo
     {
-        $this->courseTeachers->removeElement($courseTeacher);
-
+        if ($this->courseTeachers->contains($courseTeacher))
+        {
+            $this->courseTeachers->removeElement($courseTeacher);
+            if ($courseTeacher->getCourseInfo() === $this)
+            {
+                $courseTeacher->setCourseInfo(null);
+            }
+        }
         return $this;
+
     }
 
     /**
@@ -1978,6 +2088,7 @@ class CourseInfo
     public function addCourseAchievement(CourseAchievement $courseAchievement): CourseInfo
     {
         $this->courseAchievements->add($courseAchievement);
+        $courseAchievement->setCourseInfo($this);
 
         return $this;
     }
@@ -1988,8 +2099,14 @@ class CourseInfo
      */
     public function removeCourseAchievement(CourseAchievement $courseAchievement): CourseInfo
     {
-        $this->courseAchievements->removeElement($courseAchievement);
-
+        if ($this->courseAchievements->contains($courseAchievement))
+        {
+            $this->courseAchievements->removeElement($courseAchievement);
+            if ($courseAchievement->getCourseInfo() === $this)
+            {
+                $courseAchievement->setCourseInfo(null);
+            }
+        }
         return $this;
     }
 
@@ -2019,6 +2136,7 @@ class CourseInfo
     public function addCoursePrerequisite(CoursePrerequisite $coursePrerequisite): CourseInfo
     {
         $this->coursePrerequisites->add($coursePrerequisite);
+        $coursePrerequisite->setCourseInfo($this);
 
         return $this;
     }
@@ -2029,8 +2147,14 @@ class CourseInfo
      */
     public function removeCoursePrerequisite(CoursePrerequisite $coursePrerequisite): CourseInfo
     {
-        $this->coursePrerequisites->removeElement($coursePrerequisite);
-
+        if ($this->coursePrerequisites->contains($coursePrerequisite))
+        {
+            $this->coursePrerequisites->removeElement($coursePrerequisite);
+            if ($coursePrerequisite->getCourseInfo() === $this)
+            {
+                $coursePrerequisite->setCourseInfo(null);
+            }
+        }
         return $this;
     }
 
@@ -2060,6 +2184,7 @@ class CourseInfo
     public function addCourseTutoringResource(CourseTutoringResource $courseTutoringResource): CourseInfo
     {
         $this->courseTutoringResources->add($courseTutoringResource);
+        $courseTutoringResource->setCourseInfo($this);
 
         return $this;
     }

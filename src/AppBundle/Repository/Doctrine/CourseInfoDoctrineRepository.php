@@ -2,10 +2,8 @@
 
 namespace AppBundle\Repository\Doctrine;
 
-use AppBundle\Entity\Activity;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Repository\CourseInfoRepositoryInterface;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 

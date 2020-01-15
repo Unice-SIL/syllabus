@@ -12,8 +12,11 @@ final class TeachingMode
 
     const HYBRID = 'hybrid';
 
+    const DIST = 'distant';
+
     const CHOICES = [
         'Présentiel' => self::IN_CLASS,
-        'Hybride' => self::HYBRID
+        'Hybride' => self::HYBRID,
+        'A distance' => self::DIST
     ];
 }

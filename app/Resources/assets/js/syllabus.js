@@ -1,8 +1,8 @@
 /******************************************************************************
 
-        Syllabus module.
+ Syllabus module.
 
-*/
+ */
 
 
 var Syllabus = ( function ( ) {
@@ -13,8 +13,8 @@ var Syllabus = ( function ( ) {
 
     /**************************************************************************
 
-            Private items.
-    */
+     Private items.
+     */
 
 
     var _ajaxTabContentLoader = function( tabLinkId ) {
@@ -58,7 +58,7 @@ var Syllabus = ( function ( ) {
         if ( renders !== undefined ) {
             renders.forEach( function( render ) {
                 if ( render.element !== undefined &&
-                        render.content !== undefined ) {
+                    render.content !== undefined ) {
                     $( render.element ).html( render.content );
                 }
             } );
@@ -110,38 +110,37 @@ var Syllabus = ( function ( ) {
 
     /**************************************************************************
 
-            Public items.
-    */
+     Public items.
+     */
 
 
     var temporaryItem = null,
         ckeConfig = {
             "toolbar": [
                 [
-                  "RemoveFormat",
-                  "-",
-                  "Bold",
-                  "Italic",
-                  "Underline"
+                    "RemoveFormat",
+                    "-",
+                    "Bold",
+                    "Italic",
+                    "Underline"
                 ],
                 "-",
                 [
-                  "Outdent",
-                  "Indent",
-                  "-",
-                  "NumberedList",
-                  "BulletedList"
+                    "Outdent",
+                    "Indent",
+                    "-",
+                    "NumberedList",
+                    "BulletedList"
                 ],
                 "-",
                 [
-                  "Link"
+                    "Link"
                 ]
             ],
             "removeButtons": null,
             "removePlugins": "elementspath",
             "resize_enabled": false
         };
-
 
     var addFormToCollection = function( collection, placeholder ) {
         if(!placeholder) placeholder = '__name__';
@@ -158,11 +157,12 @@ var Syllabus = ( function ( ) {
     };
 
 
+
     var handleAjaxResponse = function( response ) {
         if ( response.messages !== undefined ) {
             response.messages.forEach( function( message ) {
                 if ( message.type !== undefined &&
-                        message.message !== undefined ) {
+                    message.message !== undefined ) {
                     SILTools.alert( {
                         type: message.type,
                         text: message.message
@@ -175,6 +175,61 @@ var Syllabus = ( function ( ) {
 
     };
 
+    /**
+     *
+     * @param response
+     * @param $modal_app_body
+     * @returns {boolean}
+     */
+    function handleAjaxResponseModal(response, $modal_app_body)
+    {
+        let status = (response.status) ? response.status : false;
+        let content = (response.content) ? response.content : null;
+        let message = (response.message)? response.message : null;
+        if(response.status !== true)
+        {
+            let type = 'danger';
+            let text = "Une erreur est survenue";
+            if(message)
+            {
+                type = (message.type)? message.type : type;
+                text = (message.text)? message.text : text;
+                if(content && $modal_app_body) $modal_app_body.html(content);
+            }
+            else
+            {
+                text = (content)? content : text;
+            }
+            if(type !== 'none')
+            {
+                SILTools.alert( {
+                    type: type,
+                    text: text
+                } );
+            }
+        }
+        return status;
+    }
+
+    var handleModalAction = function (
+        $modal_app,
+        $modal_app_title,
+        $modal_app_body,
+        title,
+        url,
+        event
+    ) {
+        $.get(
+            url
+        ).done(function(response){
+            if(handleAjaxResponseModal(response, $modal_app_body)) {
+                $modal_app_title.html(title);
+                $modal_app_body.html(response.content);
+                $modal_app.modal('show');
+                $modal_app.data('action-event', event);
+            }
+        });
+    };
 
     var removeListElement = function( $element ) {
 
@@ -246,6 +301,8 @@ var Syllabus = ( function ( ) {
         addFormToCollection: addFormToCollection,
         ckeConfig: ckeConfig,
         handleAjaxResponse: handleAjaxResponse,
+        handleAjaxResponseModal: handleAjaxResponseModal,
+        handleModalAction: handleModalAction,
         removeListElement: removeListElement,
         setMediaFrameAttributes: setMediaFrameAttributes,
         submitPanelForm: submitPanelForm,
