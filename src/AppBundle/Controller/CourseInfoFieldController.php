@@ -2,8 +2,8 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\SyllabusDuplicationField;
-use AppBundle\Form\SyllabusDuplicationFieldType;
+use AppBundle\Entity\CourseInfoField;
+use AppBundle\Form\CourseInfoFieldType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -11,44 +11,43 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * SyllabusDuplicationField controller.
+ * CourseInfoField controller.
  *
- * @Route("/admin/syllabus-import-field", name="app_admin_syllabus_duplication_field_")
+ * @Route("/admin/syllabus-import-field", name="app_admin_course_info_field_")
  */
-class SyllabusDuplicationFieldController extends Controller
+class CourseInfoFieldController extends Controller
 {
     /**
-     * Lists all SyllabusDuplicationField entities.
-     *
+     * Lists all CourseInfoField entities.
      * @Route("/", name="index")
-     * @Method("GET")
+     *
      * @param EntityManagerInterface $em
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexAction(EntityManagerInterface $em)
     {
 
-        $form = $this->createForm(SyllabusDuplicationFieldType::class, null, ['method' => 'POST']);
+        $form = $this->createForm(CourseInfoFieldType::class, null, ['method' => 'POST']);
 
-        return $this->render('syllabus_duplication_field/index.html.twig', array(
-            'syllabusDuplicationFields' => $em->getRepository(SyllabusDuplicationField::class)->findAll(),
+        return $this->render('course_info_field/index.html.twig', array(
+            'courseInfoFields' => $em->getRepository(CourseInfoField::class)->findAll(),
             'form' => $form
         ));
     }
 
 
     /**
-     * Edit a SyllabusDuplicationField entity
+     * Edit a CourseInfoField entity
      *
      * @Route("/{id}/edit", name="edit")
      * @Method("POST")
      * @param EntityManagerInterface $entityManager
-     * @param SyllabusDuplicationField $syllabusDuplicationField
+     * @param CourseInfoField $courseInfoField
      * @param Request $request
      */
-    public function editAction(EntityManagerInterface $entityManager, SyllabusDuplicationField $syllabusDuplicationField, Request $request)
+    public function editAction(EntityManagerInterface $entityManager, CourseInfoField $courseInfoField, Request $request)
     {
-        $form = $this->createForm(SyllabusDuplicationFieldType::class, $syllabusDuplicationField);
+        $form = $this->createForm(CourseInfoFieldType::class, $courseInfoField);
         $form->handleRequest($request);
 
 

@@ -2,19 +2,15 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Ramsey\Uuid\Uuid;
-use Symfony\Component\HttpFoundation\File\File;
 
 /**
- * SyllabusDuplicationField
+ * CourseInfoField
  *
- * @ORM\Table(name="syllabus_duplication_field")
+ * @ORM\Table(name="course_info_field")
  * @ORM\Entity
  */
-class SyllabusDuplicationField
+class CourseInfoField
 {
 
     /**
@@ -41,9 +37,9 @@ class SyllabusDuplicationField
     /**
      * @var bool
      *
-     * @ORM\Column(name="import", type="boolean", nullable=false, options={"default" : 0})
+     * @ORM\Column(name="manually_duplication", type="boolean", nullable=false, options={"default" : 0})
      */
-    private $import = 0;
+    private $manuallyDuplication = 0;
 
     /**
      * @return int
@@ -88,20 +84,21 @@ class SyllabusDuplicationField
     /**
      * @return bool
      */
-    public function getImport(): bool
+    public function getManuallyDuplication(): bool
     {
-        return $this->import;
+        return $this->manuallyDuplication;
     }
 
     /**
-     * @param bool $import
+     * @param $manuallyDuplication
      * @return $this
      */
-    public function setImport(bool $import): self
+    public function setManuallyDuplication($manuallyDuplication): self
     {
-        $this->import = $import;
+        $this->manuallyDuplication = $manuallyDuplication;
 
         return $this;
     }
+
 
 }

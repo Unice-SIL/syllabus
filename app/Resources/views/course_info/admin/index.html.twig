@@ -1,5 +1,33 @@
 {% extends 'admin_layout.html.twig' %}
 {% set h1 = 'Liste des syllabus' %}
+
+{% block modals %}
+    <div class="modal fade" id="courseInfoDuplicationModal" style="display: none;" aria-hidden="true" data-show="{{ isFormValid ? "false" : "true" }}">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Vers quel syllabus voulez-vous dupliquer le contenu?</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                {{ form_start(duplicationForm) }}
+                <div class="modal-body">
+                    {{ form_errors(duplicationForm) }}
+                    {{ form_label(duplicationForm.to) }}
+                    {{ form_widget(duplicationForm.to) }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                    <button type="submit" class="btn btn-primary">Dupliquer</button>
+                </div>
+                {{ form_end(duplicationForm) }}
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+{% endblock %}
 {% block subContent %}
 
     <div class="card">
@@ -36,6 +64,7 @@
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.year.label.label'|trans , 'y.label') }}</th>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.course_info.label.title'|trans , 'ci.title') }}</th>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'Structure', 's.label') }}</th>
+                        <th>{{ 'app.form.global.action'|trans }}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -46,6 +75,11 @@
                             <td>{{ syllabus.year.label }}</td>
                             <td>{{ syllabus.title }}</td>
                             <td>{{ syllabus.structure.label }}</td>
+                            <td>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#courseInfoDuplicationModal" data-id="{{ syllabus.id }}">
+                                    Dupliquer les infos
+                                </button>
+                            </td>
                         </tr>
                     {% endfor %}
                     </tbody>

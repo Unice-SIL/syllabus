@@ -1945,7 +1945,7 @@ class CourseInfo
      * @param CourseSection $courseEvaluationCt
      * @return CourseInfo
      */
-    public function removeCourseEvaluationCt(CourseSection $courseEvaluationCt): CourseInfo
+    public function removeCourseEvaluationCt(CourseEvaluationCt $courseEvaluationCt): CourseInfo
     {
         $this->courseEvaluationCts->removeElement($courseEvaluationCt);
 

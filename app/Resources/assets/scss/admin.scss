@@ -1,0 +1,68 @@
+.custom-switch {
+  label.required:before {
+    content: "";
+  }
+}
+
+/*
+    Pagination
+*/
+
+th.sortable {
+
+  position: relative;
+
+  a {
+    display: block;
+    width: 100%;
+    padding-right: 20px;
+    color: initial;
+
+    &:before, &:after {
+      position: absolute;
+      bottom: 0.9em;
+      display: block;
+      opacity: 0.3;
+    }
+
+    &:before {
+      right: 1em;
+      content: "\2191";
+    }
+
+    &:after {
+      right: 0.5em;
+      content: "\2193";
+    }
+
+    &.asc {
+      &:before {
+        opacity: 1;
+      }
+    }
+
+    &.desc {
+      &:after {
+        opacity: 1;
+      }
+    }
+
+  }
+}
+
+/*
+    Autocomplete
+*/
+.autocomplete-w1 { position: absolute; top: 0px; left: 0px; margin: 6px 0 0 6px; }
+.autocomplete { border: 1px solid #999; background: #FFF; cursor: default; text-align: left; max-height: 350px; overflow: auto; margin: -6px 6px 6px -6px; }
+.autocomplete .selected { background: #F0F0F0; }
+.autocomplete div { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
+.autocomplete strong { font-weight: normal; color: #3399FF; }
+
+/*
+    Select2
+*/
+
+.select2-selection__rendered {
+  line-height: initial !important;
+}

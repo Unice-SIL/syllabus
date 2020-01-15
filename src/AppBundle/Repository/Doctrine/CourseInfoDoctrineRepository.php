@@ -124,13 +124,13 @@ class CourseInfoDoctrineRepository  extends AbstractDoctrineRepository implement
     {
         $qb = $this->getIndexQueryBuilder();
 
-            if (in_array($field, ['c.etbId', 'c.type', 'ci.title', 'y.label', 's.label'])) {
-                $qb->andWhere($field.' LIKE :query ')
-                ->setParameter('query', '%' . $query . '%')
-                ;
-            }
-            return $qb->getQuery()->getResult()
+        if (in_array($field, ['c.etbId', 'c.type', 'ci.title', 'y.label', 's.label'])) {
+            $qb->andWhere($field.' LIKE :query ')
+            ->setParameter('query', '%' . $query . '%')
             ;
+        }
+        return $qb->getQuery()->getResult()
+        ;
     }
 
     public function getIndexQueryBuilder(): QueryBuilder
