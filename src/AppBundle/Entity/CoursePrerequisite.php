@@ -17,7 +17,8 @@ class CoursePrerequisite
      *
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
      */
     private $id;
 
@@ -105,18 +106,18 @@ class CoursePrerequisite
 
 
     /**
-     * @return CourseInfo
+     * @return CourseInfo|null
      */
-    public function getCourseInfo(): CourseInfo
+    public function getCourseInfo(): ?CourseInfo
     {
         return $this->courseInfo;
     }
 
     /**
-     * @param CourseInfo $courseInfo
+     * @param CourseInfo|null $courseInfo
      * @return CoursePrerequisite
      */
-    public function setCourseInfo(CourseInfo $courseInfo): CoursePrerequisite
+    public function setCourseInfo(?CourseInfo $courseInfo): CoursePrerequisite
     {
         $this->courseInfo = $courseInfo;
 

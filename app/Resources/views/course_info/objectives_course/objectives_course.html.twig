@@ -1,0 +1,25 @@
+{% extends 'course_info/layout.html.twig' %}
+
+{% block subContent %}
+
+    <section>
+        {% include('course_info/objectives_course/view/achievement.html.twig') %}
+    </section>
+    <section>
+        {% include('course_info/objectives_course/view/prerequisite.html.twig') %}
+    </section>
+    <section>
+        {% include('course_info/objectives_course/view/tutoring_resources.html.twig') %}
+    </section>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            $('#menu-objectives_course').addClass('active');
+            $('#menu-objectives_course').addClass('border-bottom-3 border-white');
+        });
+    </script>
+{% endblock %}

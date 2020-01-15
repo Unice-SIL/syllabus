@@ -5,7 +5,6 @@ namespace AppBundle\Controller;
 
 
 use AppBundle\Entity\CourseInfo;
-use AppBundle\Form\CourseInfo\Closing_remarks\Closing_remarksType;
 use AppBundle\Form\CourseInfo\Info\InfoType;
 use AppBundle\Manager\CourseInfoManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;

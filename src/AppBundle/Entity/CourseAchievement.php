@@ -107,18 +107,18 @@ class CourseAchievement
 
 
     /**
-     * @return CourseInfo
+     * @return CourseInfo|null
      */
-    public function getCourseInfo(): CourseInfo
+    public function getCourseInfo(): ?CourseInfo
     {
         return $this->courseInfo;
     }
 
     /**
-     * @param CourseInfo $courseInfo
+     * @param CourseInfo|null $courseInfo
      * @return CourseAchievement
      */
-    public function setCourseInfo(CourseInfo $courseInfo): CourseAchievement
+    public function setCourseInfo(?CourseInfo $courseInfo): CourseAchievement
     {
         $this->courseInfo = $courseInfo;
 
