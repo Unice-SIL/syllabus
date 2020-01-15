@@ -5,11 +5,6 @@
 */
 
 
-import $ from 'jquery';
-import SILTools from './sil_toolkit';
-
-
-
 var Syllabus = ( function ( ) {
 
 

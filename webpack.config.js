@@ -32,6 +32,12 @@ Encore
             };
         }
     )
+    .autoProvideVariables({
+        $: 'jquery',
+        jQuery: 'jquery',
+        select2: 'select2',
+        bootbox: 'bootbox',
+    })
     .copyFiles([
         {from: './node_modules/ckeditor/', to: 'ckeditor/[path][name].[ext]', pattern: /\.(js|css)$/, includeSubdirectories: false},
         {from: './node_modules/ckeditor/adapters', to: 'ckeditor/adapters/[path][name].[ext]'},
