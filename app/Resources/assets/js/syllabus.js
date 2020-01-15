@@ -178,20 +178,38 @@ var Syllabus = ( function ( ) {
     /**
      *
      * @param response
+     * @param $modal_app_body
+     * @returns {boolean}
      */
-    var handleAjaxResponseModal = function (response)
+    function handleAjaxResponseModal(response, $modal_app_body)
     {
         let status = (response.status) ? response.status : false;
-        let content = (response.content) ? response.content : "Une erreur est survenue";
+        let content = (response.content) ? response.content : null;
+        let message = (response.message)? response.message : null;
         if(response.status !== true)
         {
-            SILTools.alert( {
-                type: 'danger',
-                text: content
-            });
+            let type = 'danger';
+            let text = "Une erreur est survenue";
+            if(message)
+            {
+                type = (message.type)? message.type : type;
+                text = (message.text)? message.text : text;
+                if(content && $modal_app_body) $modal_app_body.html(content);
+            }
+            else
+            {
+                text = (content)? content : text;
+            }
+            if(type !== 'none')
+            {
+                SILTools.alert( {
+                    type: type,
+                    text: text
+                } );
+            }
         }
         return status;
-    };
+    }
 
     var handleModalAction = function (
         $modal_app,
@@ -204,7 +222,7 @@ var Syllabus = ( function ( ) {
         $.get(
             url
         ).done(function(response){
-            if(handleAjaxResponseModal(response)) {
+            if(handleAjaxResponseModal(response, $modal_app_body)) {
                 $modal_app_title.html(title);
                 $modal_app_body.html(response.content);
                 $modal_app.modal('show');

@@ -11,6 +11,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Class TeachersType
@@ -58,7 +59,10 @@ class TeachersType extends AbstractType
                 'label' => 'Rechercher un individu',
                 'expanded' => false,
                 'multiple' => false,
-                'mapped' => false
+                'mapped' => false,
+                'constraints' => [
+                    new NotBlank()
+                ]
             ])
             ->addEventListener(FormEvents::PRE_SUBMIT, function(FormEvent $event){
                 $form = $event->getForm();
