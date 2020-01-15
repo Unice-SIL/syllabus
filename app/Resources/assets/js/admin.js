@@ -11,7 +11,7 @@ $(document).ready(function () {
         checkbox.prop('checked', true);
     }
 
-    $('.modal').modal();
+    $('.modal-initialized').modal();
 
     /* ================ Course info================ */
     $('.course-info-field-edit-ajax').click(function (event) {
