@@ -216,6 +216,34 @@ class CourseInfo
     /**
      * @var float|null
      *
+     * @ORM\Column(name="teaching_cm_dist", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $teachingCmDist;
+
+    /**
+     * @var float|null
+     *
+     * @ORM\Column(name="teaching_td_dist", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $teachingTdDist;
+
+    /**
+     * @var float|null
+     *
+     * @ORM\Column(name="teaching_other_dist", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $teachingOtherDist;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="teaching_other_type_distant", type="string", length=65, nullable=true)
+     */
+    private $teachingOtherTypeDist;
+
+    /**
+     * @var float|null
+     *
      * @ORM\Column(name="mcc_weight", type="float", precision=10, scale=0, nullable=true)
      */
     private $mccWeight;
@@ -1063,6 +1091,78 @@ class CourseInfo
     {
         $this->teachingOtherTypeHybridDistant = $teachingOtherTypeHybridDistant;
 
+        return $this;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getTeachingCmDist(): ?float
+    {
+        return $this->teachingCmDist;
+    }
+
+    /**
+     * @param float|null $teachingCmDist
+     * @return CourseInfo
+     */
+    public function setTeachingCmDist(?float $teachingCmDist): CourseInfo
+    {
+        $this->teachingCmDist = $teachingCmDist;
+        return $this;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getTeachingTdDist(): ?float
+    {
+        return $this->teachingTdDist;
+    }
+
+    /**
+     * @param float|null $teachingTdDist
+     * @return CourseInfo
+     */
+    public function setTeachingTdDist(?float $teachingTdDist): CourseInfo
+    {
+        $this->teachingTdDist = $teachingTdDist;
+        return $this;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getTeachingOtherDist(): ?float
+    {
+        return $this->teachingOtherDist;
+    }
+
+    /**
+     * @param float|null $teachingOtherDist
+     * @return CourseInfo
+     */
+    public function setTeachingOtherDist(?float $teachingOtherDist): CourseInfo
+    {
+        $this->teachingOtherDist = $teachingOtherDist;
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getTeachingOtherTypeDist(): ?string
+    {
+        return $this->teachingOtherTypeDist;
+    }
+
+    /**
+     * @param null|string $teachingOtherTypeDist
+     * @return CourseInfo
+     */
+    public function setTeachingOtherTypeDist(?string $teachingOtherTypeDist): CourseInfo
+    {
+        $this->teachingOtherTypeDist = $teachingOtherTypeDist;
         return $this;
     }
 

@@ -134,8 +134,11 @@ class CourseInfoPresentationController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function teachersFormAction($id, Request $request, CourseInfoManager $manager, ImportCourseTeacherFactory $factory)
+    public function addTeachersAction($id, Request $request, CourseInfoManager $manager, ImportCourseTeacherFactory $factory)
     {
+        $status = true;
+        $message = null;
+
         $em = $this->getDoctrine()->getManager();
         /** @var CourseInfo $courseInfo */
         $courseInfo = $em->getRepository(CourseInfo::class)->find($id);
@@ -145,24 +148,25 @@ class CourseInfoPresentationController extends AbstractController
         $form = $this->createForm(TeachersType::class, $teacher);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            /** @var CourseTeacher $data */
-            $data = $form->getData();
-            $login = $form->get('login')->getData();
-            $source = $form->get('teacherSource')->getData();
-            $courseTeacher = $factory->getFindByIdQuery($source)->setId($login)->execute();
-            $courseTeacher->setManager($data->isManager())
-                ->setEmailVisibility($data->isEmailVisibility())
-                ->setCourseInfo($courseInfo);
-            $courseInfo->addCourseTeacher($courseTeacher);
-            $manager->update($courseInfo);
-            $render = $this->get('twig')->render('course_info/presentation/view/teachers.html.twig', [
-                'courseInfo' => $courseInfo
-            ]);
-            return $this->json([
-                'status' => true,
-                'content' => $render
-            ]);
+        if ($form->isSubmitted()) {
+            if ($form->isValid())
+            {
+                /** @var CourseTeacher $data */
+                $data = $form->getData();
+                $login = $form->get('login')->getData();
+                $source = $form->get('teacherSource')->getData();
+                $courseTeacher = $factory->getFindByIdQuery($source)->setId($login)->execute();
+                $courseTeacher->setManager($data->isManager())
+                    ->setEmailVisibility($data->isEmailVisibility())
+                    ->setCourseInfo($courseInfo);
+                $courseInfo->addCourseTeacher($courseTeacher);
+                $manager->update($courseInfo);
+            }
+            else
+            {
+                $status = false;
+                $message = ['type' => 'none'];
+            }
         }
 
         $render = $this->get('twig')->render('course_info/presentation/form/teachers.html.twig', [
@@ -170,8 +174,9 @@ class CourseInfoPresentationController extends AbstractController
             'form' => $form->createView()
         ]);
         return $this->json([
-            'status' => true,
-            'content' => $render
+            'status' => $status,
+            'content' => $render,
+            'message' => $message
         ]);
     }
 
@@ -229,16 +234,37 @@ class CourseInfoPresentationController extends AbstractController
     }
 
     /**
-     * @Route("/course/{id}/presentation/teaching_mode/{action}", name="course_presentation_teaching_mode", defaults={"action"=null}))
+     * @Route("/course/{id}/presentation/teaching_mode/view", name="course_presentation_teaching_mode_view"))
      *
      * @param $id
-     * @param $action
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
+     */
+    public function teachingModeViewAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        /** @var CourseInfo $courseInfo */
+        $courseInfo = $em->getRepository(CourseInfo::class)->find($id);
+
+        $render = $this->get('twig')->render('course_info/presentation/view/teaching_mode.html.twig', [
+            'courseInfo' => $courseInfo
+        ]);
+        return $this->json([
+            'status' => true,
+            'content' => $render
+        ]);
+    }
+
+    /**
+     * @Route("/course/{id}/presentation/teaching_mode/form", name="course_presentation_teaching_mode_form"))
+     *
+     * @param $id
      * @param Request $request
      * @param CourseInfoManager $manager
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function teachingModeAction($id, $action, Request $request, CourseInfoManager $manager)
+    public function teachingModeFormAction($id, Request $request, CourseInfoManager $manager)
     {
         $em = $this->getDoctrine()->getManager();
         /** @var CourseInfo $courseInfo */
@@ -247,26 +273,23 @@ class CourseInfoPresentationController extends AbstractController
         $form = $this->createForm(TeachingModeType::class, $courseInfo);
         $form->handleRequest($request);
 
-        if ($action === "cancel")
-        {
-            return $this->render('course_info/presentation/view/teaching_mode.html.twig', [
-                'courseInfo' => $courseInfo,
-            ]);
-        }
-
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($action === "submit")
-            {
-                $manager->update($courseInfo);
-            }
-            return $this->render('course_info/presentation/view/teaching_mode.html.twig', [
-                'courseInfo' => $courseInfo,
+            $manager->update($courseInfo);
+            $render = $this->get('twig')->render('course_info/presentation/view/teaching_mode.html.twig', [
+                'courseInfo' => $courseInfo
+            ]);
+            return $this->json([
+                'status' => true,
+                'content' => $render
             ]);
         }
-
-        return $this->render('course_info/presentation/form/teaching_mode.html.twig', [
+        $render = $this->get('twig')->render('course_info/presentation/form/teaching_mode.html.twig', [
             'courseInfo' => $courseInfo,
             'form' => $form->createView()
+        ]);
+        return $this->json([
+            'status' => true,
+            'content' => $render
         ]);
     }
 

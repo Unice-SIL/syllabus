@@ -118,6 +118,31 @@ class TeachingModeType extends AbstractType
                     'data-teaching-mode' => 'hybrid',
                     'placeholder' => 'Ex: Tutorat'
                 ]
+            ])
+            ->add('teachingCmDist', TextType::class, [
+                'required' => false,
+                'disabled' => true,
+                'label' => 'h Cours Magistraux',
+            ])
+            ->add('teachingTdDist', TextType::class, [
+                'required' => false,
+                'disabled' => true,
+                'label' => 'h Travaux Dirigés',
+            ])
+            ->add('teachingOtherDist', TextType::class, [
+                'required' => false,
+                'label' => 'h Autre (facultatif)',
+                'attr' => [
+                    'data-teaching-mode' => 'class'
+                ]
+            ])
+            ->add('teachingOtherTypeDist', TextType::class, [
+                'required' => false,
+                'label' => 'Type',
+                'attr' => [
+                    'data-teaching-mode' => 'class',
+                    'placeholder' => 'Ex: Tutorat'
+                ]
             ]);
     }
 }

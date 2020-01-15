@@ -1,149 +1,179 @@
-<div class="card border-primary card-syllabus toggle-focus my-2 shadow active">
 {{ form_start(form, {'attr': {'class': 'form-focus'}}) }}
-    <div class="card-header">
-        <div class="d-flex justify-content-between">
-            <h3>Mode d'enseignement</h3>
-        </div>
-    </div>
-    <div class="card-body">
-        {{ form_errors(form) }}
-        <div class="row mt-3">
+{{ form_errors(form) }}
+<div class="row mt-3">
+    <div class="col">
+        <div class="row mb-3">
             <div class="col">
-                <div class="row mb-3">
-                    <div class="col">
-                        <label class="required font-weight-bold">Quel est votre mode d'enseignement ?</label>
+                <label class="required font-weight-bold">Quel est votre mode d'enseignement ?</label>
+            </div>
+        </div>
+        <div class="row teaching-hours">
+            <div class="col-5 border-right">
+                <div class="row">
+                    <div class="col-5">
+                        <h6>{{ form_widget(form.teachingMode.children[0]) }}</h6>
                     </div>
                 </div>
-                <div class="row teaching-hours">
-                    <div class="col-5 border-right">
+                <div class="row">
+                    <div class="col col-4 align-self-center">
+                        <img style="max-width: 130px;" class="w-100" src="{{ asset('images/in_class_128.png') }}">
+                    </div>
+                    <div class="col">
                         <div class="row">
-                            <div class="col-5">
-                                <h6>{{ form_widget(form.teachingMode.children[0]) }}</h6>
+                            <div class="col">
+                                {{ form_widget(form.teachingCmClass) }}
+                                <label placeholder="Heures CM"></label>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col col-4 align-self-center">
-                                <img style="max-width: 130px;" class="w-100" src="{{ asset('images/in_class_128.png') }}">
-                            </div>
                             <div class="col">
-                                <div class="row">
-                                    <div class="col">
-                                        {{ form_widget(form.teachingCmClass) }}
-                                        <label placeholder="Heures CM"></label>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col">
-                                        {{ form_widget(form.teachingTdClass) }}
-                                        <label placeholder="Heures TD"></label>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col">
-                                        {{ form_widget(form.teachingTpClass) }}
-                                        <label placeholder="Heures TP"></label>
-                                    </div>
-                                </div>
-                                {{ form_errors(form.teachingOtherTypeClass) }}
-                                <div class="row">
-                                    <div class="col pr-1">
-                                        {{ form_widget(form.teachingOtherClass) }}
-                                        <label placeholder="Heures autre"></label>
-                                    </div>
-                                    <div class="col pl-1">
-                                        {{ form_widget(form.teachingOtherTypeClass) }}
-                                        <label placeholder="Type"></label>
-                                    </div>
-                                </div>
+                                {{ form_widget(form.teachingTdClass) }}
+                                <label placeholder="Heures TD"></label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                {{ form_widget(form.teachingTpClass) }}
+                                <label placeholder="Heures TP"></label>
+                            </div>
+                        </div>
+                        {{ form_errors(form.teachingOtherTypeClass) }}
+                        <div class="row">
+                            <div class="col pr-1">
+                                {{ form_widget(form.teachingOtherClass) }}
+                                <label placeholder="Heures autre"></label>
+                            </div>
+                            <div class="col pl-1">
+                                {{ form_widget(form.teachingOtherTypeClass) }}
+                                <label placeholder="Type"></label>
                             </div>
                         </div>
                     </div>
-                    <div class="col-7 border-left">
+                </div>
+            </div>
+            <div class="col-7 border-left">
+                <div class="row">
+                    <div class="col-3">
+                        <h6 class="text-capitalize">{{ form_widget(form.teachingMode.children[1]) }}</h6>
+                    </div>
+                    <div class="col">
+                        <small>Présentiel</small>
+                    </div>
+                    <div class="col">
+                        <small>Distanciel</small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col col-3 align-self-center">
+                        <img style="max-width: 130px;" class="w-100" src="{{ asset('images/hybrid_128.png') }}">
+                    </div>
+                    <div class="col">
                         <div class="row">
-                            <div class="col-3">
-                                <h6 class="text-capitalize">{{ form_widget(form.teachingMode.children[1]) }}</h6>
-                            </div>
                             <div class="col">
-                                <small>Présentiel</small>
-                            </div>
-                            <div class="col">
-                                <small>Distanciel</small>
+                                {{ form_widget(form.teachingCmHybridClass) }}
+                                <label placeholder="Heures CM"></label>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col col-3 align-self-center">
-                                <img style="max-width: 130px;" class="w-100" src="{{ asset('images/hybrid_128.png') }}">
-                            </div>
                             <div class="col">
-                                <div class="row">
-                                    <div class="col">
-                                        {{ form_widget(form.teachingCmHybridClass) }}
-                                        <label placeholder="Heures CM"></label>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col">
-                                        {{ form_widget(form.teachingTdHybridClass) }}
-                                        <label placeholder="Heures TD"></label>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col">
-                                        {{ form_widget(form.teachingTpHybridClass) }}
-                                        <label placeholder="Heures TP"></label>
-                                    </div>
-                                </div>
-                                {{ form_errors(form.teachingOtherTypeHybridClass) }}
-                                <div class="row">
-                                    <div class="col pr-1">
-                                        {{ form_widget(form.teachingOtherHybridClass) }}
-                                        <label placeholder="Heures autre"></label>
-                                    </div>
-                                    <div class="col pl-1">
-                                        {{ form_widget(form.teachingOtherTypeHybridClass) }}
-                                        <label placeholder="Type"></label>
-                                    </div>
-                                </div>
+                                {{ form_widget(form.teachingTdHybridClass) }}
+                                <label placeholder="Heures TD"></label>
                             </div>
+                        </div>
+                        <div class="row">
                             <div class="col">
-                                <div class="row">
-                                    <div class="col">
-                                        {{ form_widget(form.teachingCmHybridDist) }}
-                                        <label placeholder="Heures CM"></label>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col">
-                                        {{ form_widget(form.teachingTdHybridDist) }}
-                                        <label placeholder="Heures TD"></label>
-                                    </div>
-                                </div>
-                                {{ form_errors(form.teachingOtherTypeHybridDistant) }}
-                                <div class="row">
-                                    <div class="col pr-1">
-                                        {{ form_widget(form.teachingOtherHybridDist) }}
-                                        <label placeholder="Heures autre"></label>
-                                    </div>
-                                    <div class="col pl-1">
-                                        {{ form_widget(form.teachingOtherTypeHybridDistant) }}
-                                        <label placeholder="Type"></label>
-                                    </div>
-                                </div>
+                                {{ form_widget(form.teachingTpHybridClass) }}
+                                <label placeholder="Heures TP"></label>
+                            </div>
+                        </div>
+                        {{ form_errors(form.teachingOtherTypeHybridClass) }}
+                        <div class="row">
+                            <div class="col pr-1">
+                                {{ form_widget(form.teachingOtherHybridClass) }}
+                                <label placeholder="Heures autre"></label>
+                            </div>
+                            <div class="col pl-1">
+                                {{ form_widget(form.teachingOtherTypeHybridClass) }}
+                                <label placeholder="Type"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row">
+                            <div class="col">
+                                {{ form_widget(form.teachingCmHybridDist) }}
+                                <label placeholder="Heures CM"></label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                {{ form_widget(form.teachingTdHybridDist) }}
+                                <label placeholder="Heures TD"></label>
+                            </div>
+                        </div>
+                        {{ form_errors(form.teachingOtherTypeHybridDistant) }}
+                        <div class="row">
+                            <div class="col pr-1">
+                                {{ form_widget(form.teachingOtherHybridDist) }}
+                                <label placeholder="Heures autre"></label>
+                            </div>
+                            <div class="col pl-1">
+                                {{ form_widget(form.teachingOtherTypeHybridDistant) }}
+                                <label placeholder="Type"></label>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="mt-2">
-            <button class="focus-submit btn btn-primary submit rounded" type="submit" data-url="{{ path('course_presentation_teaching_mode', {'id': courseInfo.id, 'action': 'submit' }) }}">
-                Sauvegarder
-            </button>
-            <button type="button" class="focus-cancel btn btn-secondary rounded" data-url="{{ path('course_presentation_teaching_mode', {'id': courseInfo.id, 'action': 'cancel' }) }}">
-                Annuler
-            </button>
+        <div class="row">
+            <div class="col-5 border-right">
+                <div class="row">
+                    <div class="col-5">
+                        <h6>{{ form_widget(form.teachingMode.children[2]) }}</h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col col-4 align-self-center">
+                        <img style="max-width: 130px;" class="w-100" src="{{ asset('images/in_class_128.png') }}">
+                    </div>
+                    <div class="col">
+                        <div class="row">
+                            <div class="col">
+                                {{ form_widget(form.teachingCmDist) }}
+                                <label placeholder="Heures CM"></label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                {{ form_widget(form.teachingTdDist) }}
+                                <label placeholder="Heures TD"></label>
+                            </div>
+                        </div>
+                        {{ form_errors(form.teachingOtherTypeDist) }}
+                        <div class="row">
+                            <div class="col pr-1">
+                                {{ form_widget(form.teachingOtherDist) }}
+                                <label placeholder="Heures autre"></label>
+                            </div>
+                            <div class="col pl-1">
+                                {{ form_widget(form.teachingOtherTypeDist) }}
+                                <label placeholder="Type"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    {{ form_widget(form._token) }}
-    {{ form_end(form) }}
 </div>
+<div class="mt-2">
+    <button type="button" class="submit-button btn btn-primary submit rounded" data-url="{{ path('course_presentation_teaching_mode_view', {'id': courseInfo.id}) }}">
+        Sauvegarder
+    </button>
+    <button type="button" class="cancel-button btn btn-secondary rounded" data-url="{{ path('course_presentation_teaching_mode_view', {'id': courseInfo.id}) }}">
+        Annuler
+    </button>
+</div>
+{{ form_widget(form._token) }}
+{{ form_end(form) }}
