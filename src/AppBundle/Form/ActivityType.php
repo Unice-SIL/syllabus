@@ -25,6 +25,7 @@ class ActivityType extends AbstractType
     {
         $builder
             ->add('label')
+            ->add('description')
             ->addEventSubscriber($this->activityTypeSubscriber)
         ;
 
