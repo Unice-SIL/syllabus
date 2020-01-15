@@ -2,7 +2,7 @@
 
 {% block main %}
     {% form_theme form with [
-    'form/teachers_field.html.twig'
+        'form/teachers_field.html.twig'
     ] %}
 
 
@@ -122,8 +122,8 @@
             </div>
             <div class="row">
                 <div class="col">
-                    {{ form_errors(form.teachers) }}
-                    {{ form_widget(form.teachers) }}
+                    {{ form_errors(form.courseTeachers) }}
+                    {{ form_widget(form.courseTeachers) }}
                 </div>
             </div>
         </div>
@@ -320,7 +320,7 @@
                     });
                     if(teacherAlreadyInTeam === false) {
                         var form = Syllabus.addFormToCollection(teachersCollectionHolder);
-                        form.find('input[id*=_completeName]').val(data['completeName']);
+                        form.find('.completeName').html(data['completeName']);
                         form.find('input[id*=_firstname]').val(data['firstname']);
                         form.find('input[id*=_lastname]').val(data['lastname']);
                         form.find('input[id*=_email]').val(data['email']);

@@ -3,6 +3,7 @@
 namespace AppBundle\Query\Course;
 
 use AppBundle\Command\Course\EditMccCourseInfoCommand;
+use AppBundle\Entity\CourseInfo;
 use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Query\QueryInterface;
 use AppBundle\Repository\CourseInfoRepositoryInterface;
@@ -12,18 +13,13 @@ use Symfony\Component\Security\Core\Security;
  * Class EditMccCourseInfoQuery
  * @package AppBundle\Query\Course
  */
-class EditMccCourseInfoQuery implements QueryInterface
+class EditMccCourseInfoQuery
 {
 
     /**
      * @var CourseInfoRepositoryInterface
      */
     private $courseInfoRepository;
-
-    /**
-     * @var EditMccCourseInfoCommand
-     */
-    private $editMccCourseInfoCommand;
 
     /**
      * @var Security
@@ -45,32 +41,12 @@ class EditMccCourseInfoQuery implements QueryInterface
     }
 
     /**
-     * @param EditMccCourseInfoCommand $editMccCourseInfoCommand
-     * @return EditMccCourseInfoQuery
-     */
-    public function setEditMccCourseInfoCommand(EditMccCourseInfoCommand $editMccCourseInfoCommand): EditMccCourseInfoQuery
-    {
-        $this->editMccCourseInfoCommand = $editMccCourseInfoCommand;
-        return $this;
-    }
-
-    /**
-     * @throws CourseInfoNotFoundException
+     * @param CourseInfo $courseInfo
      * @throws \Exception
      */
-    public function execute(): void
+    public function execute(CourseInfo $courseInfo): void
     {
-        try {
-            // Find CourseInfo
-            $courseInfo = $this->courseInfoRepository->find($this->editMccCourseInfoCommand->getId());
-        }catch (\Exception $e){
-            throw $e;
-        }
-        if(is_null($courseInfo)){
-            throw new CourseInfoNotFoundException(sprintf('CourseInfo with id %s not found.', $this->editMccCourseInfoCommand->getId()));
-        }
         try{
-            $courseInfo = $this->editMccCourseInfoCommand->filledEntity($courseInfo);
             $courseInfo->setModificationDate(new \DateTime())
                 ->setLastUpdater($this->security->getUser());
             $this->courseInfoRepository->beginTransaction();

@@ -1,0 +1,63 @@
+<div class="card toggle-focus my-2 shadow">
+    <div class="card-header">
+        <div class="d-flex justify-content-between">
+            <h3>Équipe enseignante</h3>
+            <button type="button" class="update-focus btn btn-primary">Mettre à jour</button>
+        </div>
+    </div>
+    {% if courseInfo.courseTeachers is empty %}
+        <div class="card-body">
+            <div class="row mt-3">
+                <div class="col">
+                    <div class="d-flex">
+                        <div class="d-flex flex-column">
+                            <span class="font-weight-bold">
+                                <i class="fas fa-exclamation-circle text-danger"></i>
+                                Équipe enseignante
+                            </span>
+                            <span class="text-danger">
+                                Non-renseigné
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="card-body table-responsive p-0">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Email</th>
+                    <th>Manager</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for teacher in courseInfo.courseTeachers %}
+                    <tr>
+                        <td>{{ teacher.lastname }}</td>
+                        <td>{{ teacher.firstname }}</td>
+                        <td>
+                            {% if user.emailVisibility %}
+                                Visible
+                            {% else %}
+                                Invisible
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if user.manager %}
+                                Oui
+                            {% else %}
+                                Non
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {#<div class="pagination justify-content-center">{{ knp_pagination_render(users) }}</div>#}
+        </div>
+    {% endif %}
+</div>

@@ -1,18 +1,6 @@
-/*
-        Boostrap “theme” (settings override) file.
 
-    https://getbootstrap.com/docs/4.0/getting-started/theming/
-
-*/
-
-
-
-/*
-    Font Awesome (free “solid” family only).
-*/
-
-@import '~@fortawesome/fontawesome-free/scss/fontawesome';
-@import '~@fortawesome/fontawesome-free/scss/variables';
+@import "sil_toolkit";
+@import "admin";
 
 @font-face {
     font-family: font_awesome_free_solid;
@@ -27,78 +15,6 @@
     font-family: font_awesome_free_solid;
     font-weight: 900;
 }
-
-
-
-/*
-    Bootstrap variables overrides.
-*/
-
-// SASS options
-$enable-rounded: false;
-$enable-shadows: false;
-$enable-print-styles: false;
-$enable-responsive-font-sizes: true;
-
-// General settings
-$gray-100: #f8f9fa;
-$body-bg: $gray-100;
-$input-disabled-bg: $gray-100;
-
-
-
-/*
-    Full Bootstrap…
-*/
-
-@import '~bootstrap/scss/bootstrap';
-
-
-
-/*
-    … or parts of it.
-
-@import '~bootstrap/scss/functions';
-@import '~bootstrap/scss/variables';
-@import '~bootstrap/scss/mixins';
-
-@import '~bootstrap/scss/root';
-@import '~bootstrap/scss/reboot';
-@import '~bootstrap/scss/type';
-@import '~bootstrap/scss/images';
-//@import '~bootstrap/scss/code';
-@import '~bootstrap/scss/grid';
-@import '~bootstrap/scss/tables';
-@import '~bootstrap/scss/forms';
-@import '~bootstrap/scss/buttons';
-@import '~bootstrap/scss/transitions';
-@import '~bootstrap/scss/dropdown';
-@import '~bootstrap/scss/button-group';
-@import '~bootstrap/scss/input-group';
-@import '~bootstrap/scss/custom-forms';
-//@import '~bootstrap/scss/nav';
-//@import '~bootstrap/scss/navbar';
-//@import '~bootstrap/scss/card';
-//@import '~bootstrap/scss/breadcrumb';
-//@import '~bootstrap/scss/pagination';
-@import '~bootstrap/scss/badge';
-//@import '~bootstrap/scss/jumbotron';
-@import '~bootstrap/scss/alert';
-//@import '~bootstrap/scss/progress';
-@import '~bootstrap/scss/media';
-@import '~bootstrap/scss/list-group';
-@import '~bootstrap/scss/close';
-//@import '~bootstrap/scss/toasts';
-@import '~bootstrap/scss/modal';
-//@import '~bootstrap/scss/tooltip';
-@import '~bootstrap/scss/popover';
-//@import '~bootstrap/scss/carousel';
-@import '~bootstrap/scss/spinners';
-@import '~bootstrap/scss/utilities';
-//@import '~bootstrap/scss/print';
-*/
-
-
 
 /*
     Font Awesome icons colors.
@@ -132,12 +48,428 @@ $input-disabled-bg: $gray-100;
 }
 
 
-
 /*
-    Bootstrap-toggle
+    General.
 */
 
-@import '~bootstrap4-toggle/css/bootstrap4-toggle.min';
+html {
+    height: 100%;
+}
+
+body {
+    position: relative;
+    min-height: 100%;
+    background-color: white !important;
+}
+
+.background-test{
+    background: url("../images/background.jpg") center no-repeat;
+    background-size: cover;
+}
+main > small:first-of-type {
+    margin: -.9rem 0;
+}
+
+.bg-black {
+    color: $light;
+    background-color: $black;
+
+    a:not(.btn) {
+
+        &:link, &:active, &:visited {
+            color: $light;
+            text-decoration: underline;
+        }
+
+        h1 {
+            color: $white;
+        }
+    }
+
+    &:hover {
+        color: $white;
+    }
+}
+
+main > small:first-of-type {
+    margin: -.9rem 0;
+}
+
+/*
+    Focus.
+ */
+
+.hasActiveChild .toggle-focus:not(.active) {
+    opacity: 0.2;
+    pointer-events: none;
+}
+
+/*
+    Card.
+ */
+
+.card-syllabus {
+    .card-header {
+        background-color: #fdfdfd;
+
+        h3 {
+            font-weight: 500;
+            text-shadow: 1px 1px 1px #bbb;
+        }
+    }
+}
+
+/*
+    Buttons.
+ */
+.course-title {
+    font-family: "Apex New Book";
+}
+
+.button-gradient {
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.2) 49%, rgba(0, 0, 0, 0.15) 51%, rgba(0, 0, 0, 0.05)) repeat-x;
+    border-radius: 3px !important;
+}
+
+/*
+    Tabs.
+*/
+
+.nav-border {
+    border: 3px white !important;
+}
+
+.nav-tabs {
+    line-height: 1.4;
+
+    .nav-item {
+
+        .nav-link {
+            max-width: 8rem;
+        }
+    }
+}
+
+
+/*
+    Forms.
+*/
+
+form {
+
+    & > button:last-of-type {
+        margin-top: 1rem;
+    }
+}
+
+label.required:before {
+    content: "* ";
+    color: red;
+}
+
+.custom-switch {
+    label.required:before {
+        content: "";
+    }
+}
+
+input[type=text] {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    padding: 1rem 0.6rem 0.6rem;
+    margin: 0px;
+    -webkit-transition: all 0.30s ease-in-out;
+    -moz-transition: all 0.30s ease-in-out;
+    -ms-transition: all 0.30s ease-in-out;
+    -o-transition: all 0.30s ease-in-out;
+    outline: none;
+
+    &::placeholder {
+        color: lightgrey;
+        font-size: 0.9em;
+        font-style: italic;
+    }
+
+    &:-ms-input-placeholder {
+        color: lightgrey;
+        font-size: 0.8em;
+        font-style: italic;
+    }
+
+    & + label[placeholder] {
+        display: block;
+        pointer-events: none;
+        line-height: 36px;
+        margin-top: -36px;
+
+        &:before {
+            content: attr(placeholder);
+            display: inline-block;
+            padding: 0;
+            color: #999999;
+            white-space: nowrap;
+            -webkit-transition: 0.3s ease-in-out;
+            transition: 0.3s ease-in-out;
+            -webkit-transform: translate(8px, -12px);
+            -ms-transform: translate(8px, -12px);
+            transform: translate(8px, -12px);
+            text-transform: uppercase;
+            font-size: 9px;
+            margin: 0 0 0 -2px;
+        }
+    }
+}
+
+
+/*
+    Forms sortable lists.
+*/
+
+form ul.list-group {
+    list-style-type: none;
+
+    &.striped > li.list-group-item {
+
+        &:nth-child(2n) {
+            background-color: $gray-200;
+        }
+
+        &.sortable-chosen {
+            background-color: lighten($primary, 35%);
+        }
+
+        .fas {
+            //float: right;
+            //font-size: 1.5rem;
+            cursor: pointer;
+            /*
+            &.fa-arrows-alt-v {
+                margin-left: 1rem;
+                color: $primary;
+            }
+
+            &.fa-eraser {
+                color: $red;
+            } //*/
+        }
+    }
+}
+
+
+/*
+    Sections & Activities.
+*/
+
+#panel_tab-2 {
+
+    & > h3 .fas {
+        float: right;
+        margin-left: .3rem;
+        cursor: pointer;
+    }
+}
+
+.section,
+.activity,
+.evaluation,
+.achievement,
+.prerequisite,
+.tutoringResource,
+.equipment {
+
+    & i.fas {
+        cursor: pointer;
+    }
+}
+
+.section {
+
+    .fa-caret-down {
+        transform: scale(1.1);
+        margin-top: -4px;
+    }
+
+    .fa-caret-down[aria-expanded='false'] {
+        transform: scale(1.1) rotate(-90deg);
+    }
+}
+
+div.activity,
+div.evaluation,
+div.equipment {
+
+    border-color: $secondary !important;
+
+    &.activity-in-class,
+    &.activity-in-autonomy {
+        background-color: $secondary;
+
+        & .card-header {
+            color: $light;
+        }
+
+    }
+
+    & div.icon {
+        display: inline-block;
+        width: 32px;
+        height: 32px;
+    }
+
+    &.activity-in-class div.icon {
+        background: url("../images/activity_in_class_white_32.png") no-repeat;
+    }
+
+    &.activity-in-autonomy div.icon {
+        background: url("../images/activity_in_autonomy_white_32.png") no-repeat;
+    }
+
+    &.activity-in-class,
+    &.activity-in-autonomy {
+
+        & .evaluation-info {
+            display: none;
+        }
+    }
+
+    &.evaluation-cc,
+    &.evaluation-ct {
+        background-color: $info;
+
+        & .card-header {
+            color: $light;
+        }
+    }
+
+    &.evaluation-cc div.icon {
+        background: url("../images/evaluation_cc_white_32.png") no-repeat;
+    }
+
+    &.evaluation-ct div.icon {
+        background: url("../images/evaluation_cc_white_32.png") no-repeat;
+    }
+}
+
+#equipments,
+.list-activities,
+.list-equipments {
+    overflow-y: auto;
+}
+
+#equipments,
+.list-equipments {
+    max-height: 36rem;
+}
+
+.list-activities {
+    max-height: 10rem;
+}
+
+.equipment .row {
+    margin: 0;
+}
+
+.list-activity,
+.list-equipment {
+    border-color: $secondary !important;
+    cursor: pointer;
+
+    &.activity-in-class,
+    &.activity-in-autonomy {
+        background-color: $secondary;
+        color: $light;
+    }
+
+    &.evaluation-cc,
+    &.evaluation-ct {
+        background-color: $info;
+        color: $light;
+    }
+}
+
+div.view-activity.view-class {
+    background-color: $dark;
+}
+
+div.view-activity.view-autonomy {
+    background-color: $secondary;
+}
+
+div.view-evaluation {
+    background-color: $info;
+}
+
+
+/*
+    Select2 container width fix,
+        first setted inline (by what?) to a fixed value
+        and then resetted on tab change for some (unknown) reason.
+*/
+
+.select2.select2-container {
+    width: 100% !important;
+}
+
+.section-description a {
+    color: #343a40 !important;
+}
+
+/*
+    Pagination
+*/
+
+th.sortable {
+
+    position: relative;
+
+    a {
+        display: block;
+        width: 100%;
+        padding-right: 20px;
+        color: initial;
+
+        &:before, &:after {
+            position: absolute;
+            bottom: 0.9em;
+            display: block;
+            opacity: 0.3;
+        }
+
+        &:before {
+            right: 1em;
+            content: "\2191";
+        }
+
+        &:after {
+            right: 0.5em;
+            content: "\2193";
+        }
+
+        &.asc {
+            &:before {
+                opacity: 1;
+            }
+        }
+
+        &.desc {
+            &:after {
+                opacity: 1;
+            }
+        }
+
+    }
+}
+
+/*
+    Autocomplete
+*/
+.autocomplete-w1 { position: absolute; top: 0px; left: 0px; margin: 6px 0 0 6px; }
+.autocomplete { border: 1px solid #999; background: #FFF; cursor: default; text-align: left; max-height: 350px; overflow: auto; margin: -6px 6px 6px -6px; }
+.autocomplete .selected { background: #F0F0F0; }
+.autocomplete div { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
+.autocomplete strong { font-weight: normal; color: #3399FF; }
+
 
 .toggle.ios, .toggle-on.ios, .toggle-off.ios { border-radius: 20rem; }
 .toggle.ios .toggle-handle { border-radius: 20rem; }
@@ -146,4 +478,6 @@ label.toggle-on,
 label.toggle-off {
     cursor: pointer;
 }
+
+
 

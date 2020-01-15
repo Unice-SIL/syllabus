@@ -1,0 +1,61 @@
+{% if courseInfo.id is defined and courseInfo.id %}
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary py-0">
+        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav m-auto">
+                <li class="nav-item">
+                    <a class="nav-link menu-tab"
+                       href="{{ path('course_presentation', { 'id': courseInfo.id }) }}"
+                       id="menu-presentation">
+                        Présentation générale
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link menu-tab"
+                       id="menu-activities"
+                       href="{{ path('edit_activities_course_info', { 'id': courseInfo.id }) }}">
+                        Contenu et activités
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link menu-tab" href="#" id="menu-objective">
+                        Objectifs du cours
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link menu-tab" href="#">
+                        Modalités d'évaluation
+                    </a>
+                </li>
+
+                <li class="nav-item menu-tab">
+                    <a class="nav-link" href="#">
+                        Matériel et ressources
+                    </a>
+                </li>
+
+                <li class="nav-item menu-tab">
+                    <a class="nav-link" href="#">
+                        Informations pratiques
+                    </a>
+                </li>
+
+                <li class="nav-item menu-tab">
+                    <a class="nav-link">
+                        Le mot de la fin
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+{% endif %}
+

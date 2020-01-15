@@ -5,6 +5,7 @@ namespace AppBundle\Repository\Doctrine;
 use AppBundle\Entity\Activity;
 use AppBundle\Repository\ActivityRepositoryInterface;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Class ActivityDoctrineRepository
@@ -18,7 +19,7 @@ class ActivityDoctrineRepository extends AbstractDoctrineRepository implements A
      * @param EntityManager $entityManager
      */
     public function __construct(
-        EntityManager $entityManager
+        EntityManagerInterface $entityManager
     )
     {
         $this->entityManager = $entityManager;
@@ -117,6 +118,19 @@ class ActivityDoctrineRepository extends AbstractDoctrineRepository implements A
         }catch (\Exception $e){
             throw $e;
         }
+    }
+
+    public function findLikeQuery(string $query, string $type): array
+    {
+
+        return $this->entityManager->getRepository(Activity::class)->createQueryBuilder('a')
+            ->andWhere('a.label LIKE :query ')
+            ->andWhere('a.type = :type ')
+            ->setParameter('query', '%' . $query . '%')
+            ->setParameter('type', $type)
+            ->getQuery()
+            ->getResult()
+            ;
     }
 
 }

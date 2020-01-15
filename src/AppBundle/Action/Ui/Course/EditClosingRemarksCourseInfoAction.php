@@ -6,6 +6,7 @@ use AppBundle\Action\ActionInterface;
 use AppBundle\Command\Course\EditClosingRemarksCourseInfoCommand;
 use AppBundle\Constant\Permission;
 use AppBundle\Exception\CourseInfoNotFoundException;
+use AppBundle\Exception\CoursePermissionDeniedException;
 use AppBundle\Form\Course\EditClosingRemarksCourseInfoType;
 use AppBundle\Helper\CoursePermissionHelper;
 use AppBundle\Query\Course\FindCourseInfoByIdQuery;
@@ -113,9 +114,7 @@ class EditClosingRemarksCourseInfoAction implements ActionInterface
                     ]
                 ]);
             }
-            $editClosingRemarksCourseInfoCommand = new EditClosingRemarksCourseInfoCommand($courseInfo);
-            $form = $this->formFactory->create(EditClosingRemarksCourseInfoType::class, $editClosingRemarksCourseInfoCommand);
-            $form->handleRequest($request);
+            $form = $this->formFactory->create(EditClosingRemarksCourseInfoType::class, $courseInfo);
 
             return new JsonResponse([
                 'content' => $this->templating->render(

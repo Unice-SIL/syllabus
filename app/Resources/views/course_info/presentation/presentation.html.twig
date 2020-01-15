@@ -1,0 +1,101 @@
+{% extends 'course_info/layout.html.twig' %}
+
+{% block subContent %}
+
+    <section>
+        {% include('course_info/presentation/view/general.html.twig') %}
+    </section>
+    <section>
+        {% include('course_info/presentation/view/synopsis.html.twig') %}
+    </section>
+    {#    {% include('course_info/presentation/form/teachers.html.twig') %}
+        {% include('course_info/presentation/view/teaching_mode.html.twig') %}#}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function() {
+
+            $('#menu-presentation').addClass('active');
+            $('#menu-presentation').addClass('border-bottom-3 border-white');
+
+            $(document).on('click', '.update-focus', function () {
+                var updateFocus = $(this);
+                var card = updateFocus.closest('.toggle-focus');
+                var url = $(this).data("url");
+                var section = card.parent('section');
+                $.ajax({
+                    url: url,
+                    method: "GET",
+                    dataType: "html",
+                    beforeSend: function () {
+                        updateFocus.attr("disabled", true).html('<i class="fas fa-spinner fa-spin"></i>');
+                        $('#app').addClass('hasActiveChild');
+                        $(card).addClass('active');
+                    },
+                    success: function (data) {
+                        section.html(data);
+                    }
+                });
+            });
+            $(document).on('submit', 'form', function (e) {
+                e.preventDefault();
+                formSubmit($(this), 'submit');
+            });
+            $(document).on('click', '.focus-cancel', function () {
+                formSubmit($(this), 'cancel');
+            });
+        });
+
+        function formSubmit(element, action)
+        {
+            var card = element.closest('.toggle-focus');
+            var section = card.parent('section');
+            var forms = card.find('form');
+            var focusSubmit = card.find('button.focus-submit');
+            var focusSubmitContent = focusSubmit.html();
+            var focusCancel = card.find('button.focus-cancel');
+            var focusCancelContent = focusCancel.html();
+
+            var buttonClicked = action === 'cancel' ? focusCancel : focusSubmit;
+            var url = buttonClicked.data("url");
+            $.ajax({
+                url: url,
+                enctype: 'multipart/form-data',
+                processData: false, // Preventing default serialization.
+                contentType: false, // No auto “contentType” header.
+                data: new FormData( forms[0] ),
+                method: "POST",
+                dataType: "html",
+                beforeSend: function () {
+                    focusSubmit.attr("disabled", true);
+                    focusCancel.attr("disabled", true);
+                    buttonClicked.html('<i class="fas fa-spinner fa-spin"></i>');
+                },
+                success: function (data) {
+                    $('#app').removeClass('hasActiveChild');
+                    $(card).removeClass('active');
+                    section.html(data);
+                }
+            }).always( function () {
+                focusSubmit.attr("disabled", false).html(focusSubmitContent);
+                focusCancel.attr("disabled", false).html(focusCancelContent);
+            });
+        }
+
+        $('#infos_level').click(function(){
+            var message = '<ul>' +
+                '<li><strong>Débutant</strong> : Ce cours demande peu ou pas de connaissances préaables.</li>' +
+                '<li><strong>Intermédiaire</strong> : Ce cours demande quelques connaissances préalables.</li>' +
+                '<li><strong>Avancé</strong> : Ce cours demande d\'importantes connaissances préalables.</li>' +
+                '</ul>';
+            bootbox.dialog({
+                message: message,
+                backdrop: true,
+                onEscape: true
+            });
+        });
+    </script>
+{% endblock %}

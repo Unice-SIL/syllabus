@@ -22,9 +22,13 @@
     "require": {
         "php": ">=5.5.9",
         "doctrine/doctrine-bundle": "^1.6",
+        "doctrine/doctrine-migrations-bundle": "^2.0",
         "doctrine/orm": "^2.5",
+        "exercise/htmlpurifier-bundle": "^2.0",
         "friendsofsymfony/ckeditor-bundle": "^2.0",
         "incenteev/composer-parameter-handler": "^2.0",
+        "knplabs/knp-paginator-bundle": "4.1.1",
+        "lexik/form-filter-bundle": "v5.0.10",
         "manuelodelain/linkify-twig-extension": "^1.0",
         "ramsey/uuid": "^3.8",
         "sensio/distribution-bundle": "^5.0.19",

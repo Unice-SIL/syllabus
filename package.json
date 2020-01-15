@@ -7,6 +7,7 @@
     "@symfony/webpack-encore": "^0.23.0",
     "autoprefixer": "^9.5.1",
     "bootstrap": "^4.3.1",
+    "jquery.autocomplete": "^1.2.0",
     "node-sass": "^4.11.0",
     "postcss-loader": "^3.0.0",
     "sass-loader": "^7.1.0",
@@ -14,6 +15,7 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.8.1",
+    "admin-lte": "^3.0.1",
     "bootbox": "^5.1.1",
     "bootstrap4-toggle": "^3.5.0",
     "ckeditor": "^4.11.4",

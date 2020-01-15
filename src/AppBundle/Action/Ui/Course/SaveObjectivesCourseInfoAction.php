@@ -3,8 +3,10 @@
 namespace AppBundle\Action\Ui\Course;
 
 use AppBundle\Action\ActionInterface;
-use AppBundle\Command\Course\EditObjectivesCourseInfoCommand;
 use AppBundle\Constant\Permission;
+use AppBundle\Entity\CourseAchievement;
+use AppBundle\Entity\CoursePrerequisite;
+use AppBundle\Entity\CourseTutoringResource;
 use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Exception\CoursePermissionDeniedException;
 use AppBundle\Helper\CourseInfoHelper;
@@ -13,6 +15,7 @@ use AppBundle\Helper\CoursePermissionHelper;
 use AppBundle\Query\Course\EditObjectivesCourseInfoQuery;
 use AppBundle\Query\Course\FindCourseInfoByIdQuery;
 use Psr\Log\LoggerInterface;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -115,15 +118,50 @@ class SaveObjectivesCourseInfoAction implements ActionInterface
                     throw new CoursePermissionDeniedException();
                 }
                 // Init command
-                $editObjectivesCourseInfoCommand = new EditObjectivesCourseInfoCommand($courseInfo);
+                //$editObjectivesCourseInfoCommand = new EditObjectivesCourseInfoCommand($courseInfo);
                 // Keep original command before modifications
-                $originalEditObjectivesCourseInfoCommand = clone $editObjectivesCourseInfoCommand;
-                //
-                $form = $this->formFactory->create(EditObjectivesCourseInfoType::class, $editObjectivesCourseInfoCommand);
+                $originalEditCourseInfo = clone $courseInfo;
+
+                if ($requestContent = $request->request->get('edit_objectives_course_info')) {
+                    dump($requestContent);
+                    // get Achievements
+                    if (array_key_exists('courseAchievements', $requestContent)) {
+                        $requestCA = $requestContent['courseAchievements'];
+                        foreach ($requestCA as $ca) {
+                            dump($ca);
+                            $CRE = new CourseAchievement();
+                            $CRE->setCourseInfo($courseInfo);
+                            $courseInfo->addCourseAchievement($CRE);
+                        }
+                    }
+
+                    // get prerequequiste
+                    if (array_key_exists('coursePrerequisites', $requestContent)) {
+                        $requestCA = $requestContent['coursePrerequisites'];
+                        foreach ($requestCA as $ca) {
+                            $CRE = new CoursePrerequisite();
+                            $CRE->setId(Uuid::uuid4())
+                                ->setCourseInfo($courseInfo);
+                            $courseInfo->addCoursePrerequisite($CRE);
+                        }
+                    }
+
+                    // get tutoringResource
+                    if (array_key_exists('courseTutoringResources', $requestContent)) {
+                        $requestCA = $requestContent['courseTutoringResources'];
+                        foreach ($requestCA as $ca) {
+                            $CRE = new CourseTutoringResource();
+                            $CRE->setId(Uuid::uuid4())
+                                ->setCourseInfo($courseInfo);
+                            $courseInfo->addCourseTutoringResource($CRE);
+                        }
+                    }
+                }
+
+                $form = $this->formFactory->create(EditObjectivesCourseInfoType::class, $courseInfo);
                 $form->handleRequest($request);
                 if($form->isSubmitted()){
-                    $editObjectivesCourseInfoCommand = $form->getData();
-
+                    $courseInfo = $form->getData();
                     // Check if form is valid
                     if(!$form->isValid()){
                         $messages[] = [
@@ -131,13 +169,13 @@ class SaveObjectivesCourseInfoAction implements ActionInterface
                             'message' => "Attention : l'ensemble des champs obligatoires doit être renseigné pour que le syllabus puisse être publié."
                         ];
                     }else{
-                        $editObjectivesCourseInfoCommand->setTemObjectivesTabValid(true);
+                        $courseInfo->setTemObjectivesTabValid(true);
                     }
 
                     // Check if there have been anny changes
-                    if($editObjectivesCourseInfoCommand != $originalEditObjectivesCourseInfoCommand) {
+                    if($courseInfo != $originalEditCourseInfo) {
                         // Save changes
-                        $this->editObjectivesCourseInfoQuery->setEditObjectivesCourseInfoCommand($editObjectivesCourseInfoCommand)->execute();
+                        $this->editObjectivesCourseInfoQuery->execute($courseInfo, $originalEditCourseInfo);
 
                         // Return message success
                         $messages[] = [

@@ -1,0 +1,122 @@
+{% macro printActiveAdminSidebarLink(routes, options) %}
+    {% for route in routes %}
+        {% if  route in  'app_admin_activity' %}
+            {% if options.activityType is defined %}
+                {{ app.request.attributes.get('type') in options.activityType ? 'active' }}
+            {% else %}
+                active
+            {% endif %}
+        {% else %}
+            {{ route in app.request.get('_route') ? 'active'}}
+        {% endif %}
+    {% endfor %}
+{% endmacro %}
+
+<nav class="mt-2">
+    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+
+        <li class="nav-item">
+            <a href="{{ path('app_admin_course_info_index') }}" class="nav-link {{ printActiveAdminSidebarLink(['app_admin_course_info']) }}">
+                <i class="nav-icon fas fa-graduation-cap"></i>
+                <p>
+                    Syllabus
+                </p>
+            </a>
+        </li>
+
+        {% set referentielLink = ['app_admin_activity', 'app_admin_year', 'app_admin_evaluation', 'app_admin_equipment', 'app_admin_structure'] %}
+        <li class="nav-item has-treeview {{ printActiveAdminSidebarLink(referentielLink) ? 'menu-open' }}">
+            <a href="#" class="nav-link {{ printActiveAdminSidebarLink(referentielLink) }}">
+                <i class="nav-icon fas fa-book"></i>
+                <p>
+                    Référentiel
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview" style="display: {{ printActiveAdminSidebarLink(referentielLink) ? 'block' : 'none' }};">
+
+                <li class="nav-item">
+                    <a
+                            href="{{ path('app_admin_activity_index', { 'type' : constant('AppBundle\\Constant\\ActivityType::ACTIVITY')}) }}"
+                            class="nav-link {{ printActiveAdminSidebarLink(['app_admin_activity'], {'activityType' : [constant('AppBundle\\Constant\\ActivityType::ACTIVITY')] }) }}"
+                    >
+                        <i class="nav-icon fas fa-film"></i>
+                        <p>
+                            Activités
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ path('app_admin_year_index') }}" class="nav-link {{ printActiveAdminSidebarLink(['app_admin_year']) }}">
+                        <i class="nav-icon fas fa-calendar"></i>
+                        <p>
+                            Années
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a
+                            href="{{ path('app_admin_activity_index', { 'type' : constant('AppBundle\\Constant\\ActivityType::EVALUATION')}) }}"
+                            class="nav-link {{ printActiveAdminSidebarLink(['app_admin_activity'], {'activityType' : [constant('AppBundle\\Constant\\ActivityType::EVALUATION')] }) }}"
+                    >
+                        <i class="nav-icon fas fa-vial"></i>
+                        <p>
+                            Evaluations
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ path('app_admin_equipment_index') }}" class="nav-link {{ printActiveAdminSidebarLink(['app_admin_equipment']) }}">
+                        <i class="nav-icon fas fa-drafting-compass"></i>
+                        <p>
+                            Equipements
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ path('app_admin_structure_index') }}" class="nav-link {{ printActiveAdminSidebarLink(['app_admin_structure']) }}">
+                        <i class="nav-icon fas fa-building"></i>
+                        <p>
+                            Structures
+                        </p>
+                    </a>
+                </li>
+
+            </ul>
+        </li>
+
+            {% set administrationLink = ['app_admin_user'] %}
+        <li class="nav-item has-treeview {{ printActiveAdminSidebarLink(administrationLink) ? 'menu-open' }}">
+            <a href="#" class="nav-link {{ printActiveAdminSidebarLink(administrationLink) }}">
+                <i class="nav-icon fas fa-cogs"></i>
+                <p>
+                    Administration
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview" style="display: {{ printActiveAdminSidebarLink(administrationLink) ? 'block' : 'none' }};">
+                <li class="nav-item">
+                    <a href="{{ path('app_admin_user_index') }}" class="nav-link {{ printActiveAdminSidebarLink(['app_admin_user']) }}">
+                        <i class="nav-icon fas fa-user"></i>
+                        <p>
+                            Utilisateurs
+                        </p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="nav-item">
+            <a href="{{ path('app_admin_course_info_field_index') }}" class="nav-link {{ printActiveAdminSidebarLink(['app_admin_syllabus_duplication_field']) }}">
+                <i class="nav-icon fas fa-copy"></i>
+                <p>
+                    Config duplication
+                </p>
+            </a>
+        </li>
+    </ul>
+</nav>

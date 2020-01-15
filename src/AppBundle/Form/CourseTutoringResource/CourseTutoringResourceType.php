@@ -3,6 +3,7 @@
 namespace AppBundle\Form\CourseTutoringResource;
 
 use AppBundle\Command\CourseTutoringResource\CourseTutoringResourceCommand;
+use AppBundle\Entity\CourseTutoringResource;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -38,7 +39,7 @@ class CourseTutoringResourceType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => CourseTutoringResourceCommand::class,
+            'data_class' => CourseTutoringResource::class,
         ]);
     }
 

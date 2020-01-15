@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+{% block main %}
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+        {% block navbar %}{% endblock %}
+    </nav>
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <a href="{{ logoHref|default('#') }}" class="brand-link elevation-4">
+            <span class="brand-text">
+                <img src="{{ asset('images/uca-logo-dark.png') }}" alt="logo" class="brand-image elevation-3" style="opacity: .8">
+            </span>
+        </a>
+        {% block sidebar %}{% endblock %}
+    </aside>
+    <div class="content-wrapper">
+        {% block content %}{% endblock %}
+    </div>
+    <footer class="main-footer">
+        {% block footer %}{% endblock %}
+    </footer>
+{% endblock %}

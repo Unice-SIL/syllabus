@@ -3,6 +3,7 @@
 namespace AppBundle\Importer\Permission;
 
 
+use AppBundle\Doctrine\DBAL\ConnectionKeepAlive;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CoursePermission;
 use AppBundle\Entity\User;
@@ -16,6 +17,7 @@ use AppBundle\Repository\YearRepositoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Psr\Log\LoggerInterface;
 use Ramsey\Uuid\Uuid;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use UniceSIL\SyllabusImporterToolkit\Course\CourseCollection;
@@ -57,7 +59,13 @@ class PermissionImporterCommand extends AbstractImporterCommand
     private $userRepository;
 
     /**
+     * @var ConnectionKeepAlive
+     */
+    private $keepAlive;
+
+    /**
      * PermissionImporterCommand constructor.
+     * @param RegistryInterface $registry
      * @param ContainerInterface $container
      * @param CourseRepositoryInterface $courseRepository
      * @param CourseInfoRepositoryInterface $courseInfoRepository
@@ -66,6 +74,7 @@ class PermissionImporterCommand extends AbstractImporterCommand
      * @param LoggerInterface $logger
      */
     public function __construct(
+        RegistryInterface $registry,
         ContainerInterface $container,
         CourseRepositoryInterface $courseRepository,
         CourseInfoRepositoryInterface $courseInfoRepository,
@@ -77,6 +86,13 @@ class PermissionImporterCommand extends AbstractImporterCommand
         $this->courseRepository = $courseRepository;
         $this->courseInfoRepository = $courseInfoRepository;
         $this->userRepository = $userRepository;
+
+        $this->keepAlive = new ConnectionKeepAlive();
+        foreach ($registry->getConnections() as $connection)
+        {
+            $this->keepAlive->addConnection($connection);
+        }
+
         parent::__construct($container, $yearRepository, $logger);
     }
 
@@ -94,9 +110,29 @@ class PermissionImporterCommand extends AbstractImporterCommand
         parent::configure();
     }
 
+    /**
+     *
+     */
+    protected function startKeepAliveConnections()
+    {
+        $this->keepAlive->attach();
+    }
 
+    /**
+     *
+     */
+    protected function stopKeepAliveConnections()
+    {
+        $this->keepAlive->detach();
+    }
+
+    /**
+     * @throws \Exception
+     */
     protected function start()
     {
+        $this->startKeepAliveConnections();
+        
         if (!$this->importerService instanceof PermissionImporterInterface) {
             throw new \Exception(
                 sprintf("Service %s must implement %s", $this->importerServiceName, PermissionImporterInterface::class)
@@ -109,6 +145,8 @@ class PermissionImporterCommand extends AbstractImporterCommand
         $courses = $this->getPermissionsToImport($years);
         // Start import permissions
         $this->startImport($courses);
+
+        $this->stopKeepAliveConnections();
 
     }
 
