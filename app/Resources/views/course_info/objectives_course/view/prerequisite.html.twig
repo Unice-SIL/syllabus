@@ -1,16 +1,4 @@
-<div class="card toggle-focus my-2 shadow card-syllabus">
-    <div class="card-header">
-        <div class="d-flex justify-content-between">
-            <h3>Prérequis</h3>
-            <button type="button"
-                    class="btn btn-primary button-gradient modal-action"
-                    data-action-title="Ajouter un prérequis"
-                    data-action-url="{{ path('objective_course_prerequisite', {'id': courseInfo.id }) }}">
-                Ajouter un prérequis
-            </button>
-        </div>
-        <span class="font-weight-bold">Avant le début du cours, l'étudiant doit…</span>
-    </div>
+
     {% if courseInfo.coursePrerequisites is empty %}
         <div class="card-body">
             <div class="row mt-10">
@@ -55,4 +43,3 @@
             </table>
         </div>
     {% endif %}
-</div>

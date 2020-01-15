@@ -2,15 +2,80 @@
 
 {% block subContent %}
 
-    <section>
-        {% include('course_info/objectives_course/view/achievement.html.twig') %}
-    </section>
-    <section>
-        {% include('course_info/objectives_course/view/prerequisite.html.twig') %}
-    </section>
-    <section>
-        {% include('course_info/objectives_course/view/tutoring_resources.html.twig') %}
-    </section>
+    <div class="card my-2 shadow card-syllabus"
+         data-view-url="{{ path('objective_course_achievement_view', {'id': courseInfo.id }) }}"
+    >
+        <div class="card-header">
+            <div class="d-flex justify-content-between">
+                <h3>Capacités visées / acquis d'apprentissage</h3>
+                <button type="button"
+                        class="btn btn-primary button-gradient modal-action"
+                        data-action-title="Ajouter une compétence"
+                        data-action-url="{{ path('objective_course_achievement', {'id': courseInfo.id }) }}">
+                    Ajouter une compétence
+                </button>
+            </div>
+            <span class="font-weight-bold">À la fin de ce cours, l'étudiant devrait être capable de…</span>
+        </div>
+        <div class="card-body">
+        </div>
+    </div>
+
+    <div class="card my-2 shadow card-syllabus"
+         data-view-url="{{ path('objective_course_prerequisite_view', {'id': courseInfo.id }) }}"
+    >
+        <div class="card-header">
+            <div class="d-flex justify-content-between">
+                <h3>Prérequis</h3>
+                <button type="button" class="btn btn-primary modal-action rounded"
+                        data-action-title="Ajouter un enseignant"
+                        data-action-url="{{ path('course_presentation_teachers_form', {'id': courseInfo.id }) }}">
+                    Ajouter un prérequis
+                </button>
+            </div>
+            <span class="font-weight-bold">Avant le début du cours, l'étudiant doit…</span>
+        </div>
+        <div class="card-body">
+        </div>
+    </div>
+
+    <div class="card my-2 shadow card-syllabus"
+         data-view-url="{{ path('objective_course_tutoring_resources_view', {'id': courseInfo.id }) }}"
+    >
+        <div class="card-header">
+            <div class="d-flex justify-content-between">
+                <h3>Remédiation / aide à la réussite</h3>
+                <button type="button" class="btn btn-primary modal-action rounded"
+                        data-action-title="Ajouter un enseignant"
+                        data-action-url="{{ path('course_presentation_teachers_form', {'id': courseInfo.id }) }}">
+                    Ajouter une remédiation
+                </button>
+            </div>
+            <span class="font-weight-bold">Si l'étudiant rencontre des difficultés, il peut…</span>
+            <div class="d-flex mt-3">
+                <span class="align-text-bottom mt-1">Assister à des séances de tutorat :</span>
+                <div class="ml-2">
+                    <style>
+                        .toggle.ios, .toggle-on.ios, .toggle-off.ios {
+                            border-radius: 20px;
+                        }
+
+                        .toggle.ios .toggle-handle {
+                            border-radius: 20px;
+                        }
+                    </style>
+                    <input type="checkbox" data-toggle="toggle" data-style="ios" id="btn_tutoring" data-on="Oui"
+                           data-off="Non"
+                            {% if courseInfo.tutoring %}
+                                checked
+                            {% endif %}
+                    >
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+        </div>
+    </div>
 
 {% endblock %}
 
@@ -20,6 +85,22 @@
         $(document).ready(function () {
             $('#menu-objectives_course').addClass('active');
             $('#menu-objectives_course').addClass('border-bottom-3 border-white');
+
+            $('#btn_tutoring').change(function () {
+                let checkedValue = $(this).prop('checked');
+                let url = "{{ path('objective_course_tutoring', {'id': courseInfo.id, 'action': 'checkedValue'}) }}";
+                url = url.replace("checkedValue", checkedValue);
+                $.ajax({
+                    url: url,
+                    method: "POST",
+                    dataType: "html",
+                    success: function (data) {
+                        const obj = JSON.parse(data);
+                        console.log('ok : ' + obj.status);
+                    }
+                });
+            })
+
         });
     </script>
 {% endblock %}

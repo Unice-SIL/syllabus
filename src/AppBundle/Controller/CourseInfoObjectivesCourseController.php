@@ -40,6 +40,34 @@ class CourseInfoObjectivesCourseController extends Controller
     }
 
     /**
+     * @Route("/course/{id}/objective_course/achievement/view", name="objective_course_achievement_view"))
+     *
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
+     */
+    public function achievementViewAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        /** @var CourseInfo $courseInfo */
+        $courseInfo = $em->getRepository(CourseInfo::class)->find($id);
+        if(!$courseInfo instanceof CourseInfo){
+            return $this->json([
+                'status' => false,
+                'content' => "Le cours {$id} n'existe pas."
+            ]);
+        }
+
+        $render = $this->get('twig')->render('course_info/objectives_course/view/achievement.html.twig', [
+            'courseInfo' => $courseInfo
+        ]);
+        return $this->json([
+            'status' => true,
+            'content' => $render
+        ]);
+    }
+
+    /**
      * @Route("/course/{id}/objective_course/achievement", name="objective_course_achievement"))
      *
      * @param $id
@@ -53,6 +81,7 @@ class CourseInfoObjectivesCourseController extends Controller
         $em = $this->getDoctrine()->getManager();
         /** @var CourseInfo $courseInfo */
         $courseInfo = $em->getRepository(CourseInfo::class)->find($id);
+
         if(!$courseInfo instanceof CourseInfo){
             return $this->json([
                 'status' => false,
@@ -133,6 +162,34 @@ class CourseInfoObjectivesCourseController extends Controller
     }
 
     /**
+     * @Route("/course/{id}/objective_course/prerequisite/view", name="objective_course_prerequisite_view"))
+     *
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
+     */
+    public function prerequisiteViewAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        /** @var CourseInfo $courseInfo */
+        $courseInfo = $em->getRepository(CourseInfo::class)->find($id);
+        if(!$courseInfo instanceof CourseInfo){
+            return $this->json([
+                'status' => false,
+                'content' => "Le cours {$id} n'existe pas."
+            ]);
+        }
+
+        $render = $this->get('twig')->render('course_info/objectives_course/view/prerequisite.html.twig', [
+            'courseInfo' => $courseInfo
+        ]);
+        return $this->json([
+            'status' => true,
+            'content' => $render
+        ]);
+    }
+
+    /**
      * @Route("/course/{id}/objective_course/prerequisite", name="objective_course_prerequisite"))
      *
      * @param $id
@@ -141,7 +198,7 @@ class CourseInfoObjectivesCourseController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function prerequisiteAction($id, Request $request, CourseInfoManager $manager)
+    public function addPrerequisiteAction($id, Request $request, CourseInfoManager $manager)
     {
         $em = $this->getDoctrine()->getManager();
         /** @var CourseInfo $courseInfo */
@@ -229,6 +286,34 @@ class CourseInfoObjectivesCourseController extends Controller
     }
 
     /**
+     * @Route("/course/{id}/objective_course/tutoring_resources/view", name="objective_course_tutoring_resources_view"))
+     *
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
+     */
+    public function tutoringResourcesViewAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        /** @var CourseInfo $courseInfo */
+        $courseInfo = $em->getRepository(CourseInfo::class)->find($id);
+        if(!$courseInfo instanceof CourseInfo){
+            return $this->json([
+                'status' => false,
+                'content' => "Le cours {$id} n'existe pas."
+            ]);
+        }
+
+        $render = $this->get('twig')->render('course_info/objectives_course/view/tutoring_resources.html.twig', [
+            'courseInfo' => $courseInfo
+        ]);
+        return $this->json([
+            'status' => true,
+            'content' => $render
+        ]);
+    }
+
+    /**
      * @Route("/course/{id}/objective_course/tutoring_resources", name="objective_course_tutoring_resources"))
      *
      * @param $id
@@ -237,7 +322,7 @@ class CourseInfoObjectivesCourseController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function tutoringResourceAction($id, Request $request, CourseInfoManager $manager)
+    public function addTutoringResourceAction($id, Request $request, CourseInfoManager $manager)
     {
         $em = $this->getDoctrine()->getManager();
         /** @var CourseInfo $courseInfo */
@@ -318,6 +403,36 @@ class CourseInfoObjectivesCourseController extends Controller
         return $this->json([
             'status' => true,
             'content' => $render
+        ]);
+    }
+
+    /**
+     * @Route("/course/{id}/objective_course/tutoring/{action}", name="objective_course_tutoring"))
+     *
+     * @param $id
+     * @param Request $request
+     * @param CourseInfoManager $manager
+     * @return JsonResponse
+     * @throws \Exception
+     */
+    public function addTutoringAction($id, $action, CourseInfoManager $manager)
+    {
+        $em = $this->getDoctrine()->getManager();
+        /** @var CourseInfo $courseInfo */
+        $courseInfo = $em->getRepository(CourseInfo::class)->find($id);
+        if(!$courseInfo instanceof CourseInfo){
+            return $this->json([
+                'status' => false,
+                'content' => "Le cours {$id} n'existe pas."
+            ]);
+        }
+
+        $courseInfo->setTutoring($action);
+        $manager->update($courseInfo);
+
+        return $this->json([
+            'status' => $action,
+            'content' => null
         ]);
     }
 }
