@@ -3,7 +3,6 @@
 namespace AppBundle\Repository;
 
 use AppBundle\Entity\Structure;
-use Doctrine\ORM\QueryBuilder;
 
 /**
  * Interface StructureRepositoryInterface
@@ -51,19 +50,5 @@ interface StructureRepositoryInterface
      * Rollback change
      */
     public function rollback(): void;
-
-
-    /**
-     * @return QueryBuilder
-     */
-    public function getIndexQueryBuilder(): QueryBuilder;
-
-
-    /**
-     * @param string $query
-     * @param string $field
-     * @return array
-     */
-    public function findLikeQuery(string $query, string $field): array;
 
 }

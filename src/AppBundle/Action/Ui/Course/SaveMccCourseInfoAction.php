@@ -102,8 +102,6 @@ class SaveMccCourseInfoAction implements ActionInterface
 
     /**
      * @Route("/course/mcc/save/{id}", name="save_mcc_course_info")
-     * @param Request $request
-     * @return JsonResponse
      */
     public function __invoke(Request $request)
     {
@@ -114,45 +112,43 @@ class SaveMccCourseInfoAction implements ActionInterface
             // Find course info by id
             try {
                 $courseInfo = $this->findCourseInfoByIdQuery->setId($id)->execute();
-                if(!$this->coursePermissionHelper->hasPermission(
-                    $courseInfo,
-                    $this->tokenStorage->getToken()->getUser(),
-                    Permission::WRITE
-                )){
+                if(!$this->coursePermissionHelper->hasPermission($courseInfo, $this->tokenStorage->getToken()->getUser(),Permission::WRITE)){
                     throw new CoursePermissionDeniedException();
                 }
-
+                // Init command
+                $editMccCourseInfoCommand = new EditMccCourseInfoCommand($courseInfo);
                 // Keep original command before modifications
-                $originalCourseInfo = clone $courseInfo;
-
+                $originalEditMccCourseInfoCommand = clone $editMccCourseInfoCommand;
                 // Generate form
-                $form = $this->formFactory->create(EditMccCourseInfoType::class, $courseInfo);
+                $form = $this->formFactory->create(
+                    EditMccCourseInfoType::class,
+                    $editMccCourseInfoCommand
+                );
                 $form->handleRequest($request);
-
                 if ($form->isSubmitted()) {
-                    $courseInfo = $form->getData();
+                    $editMccCourseInfoCommand = $form->getData();
                     if(!$form->isValid()){
                         $messages[] = [
                             'type' => "warning",
                             'message' => "Attention : l'ensemble des champs obligatoires doit être renseigné pour que le syllabus puisse être publié."
                         ];
-                    }
-                    else {
-                        $courseInfo->setTemMccTabValid(true);
+                    }else{
+                        $editMccCourseInfoCommand->setTemMccTabValid(true);
                     }
 
                     // Check if there have been any changes
-                    if($courseInfo != $originalCourseInfo){
+                    if($editMccCourseInfoCommand != $originalEditMccCourseInfoCommand){
                         // Save changes
-                        $this->editMccCourseInfoQuery->execute($courseInfo);
+                        $this->editMccCourseInfoQuery->setEditMccCourseInfoCommand(
+                            $editMccCourseInfoCommand
+                        )->execute();
 
                         // Return message success
                         $messages[] = [
                             'type' => "success",
                             'message' => "Modifications enregistrées avec succès."
                         ];
-                    }
-                    else {
+                    }else{
                         $messages[] = [
                             'type' => "info",
                             'message' => "Aucun changement à enregistrer."
@@ -198,8 +194,8 @@ class SaveMccCourseInfoAction implements ActionInterface
             } catch (CourseInfoNotFoundException $e) {
                 // Return message course not found
                 $messages[] = [
-                    'type' => "danger",
-                    'message' => sprintf("Le syllabus « %s » n'existe pas.", $id)
+                        'type' => "danger",
+                        'message' => sprintf("Le syllabus « %s » n'existe pas.", $id)
                 ];
             }
         }catch (\Exception $e) {

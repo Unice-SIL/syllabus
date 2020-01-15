@@ -16,7 +16,7 @@
     </li>
 {% endmacro %}
 
-{% block _edit_objectives_course_info_coursePrerequisites_widget %}
+{% block _edit_objectives_course_info_prerequisites_widget %}
     {% import _self as prerequisitesField %}
     <ul class="list-group striped" id="prerequisites" data-prototype="{{ prerequisitesField.prerequisite_template(form.vars.prototype)|e }}">
         {% for prerequisite in form.children %}

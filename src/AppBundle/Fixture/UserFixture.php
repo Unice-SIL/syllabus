@@ -32,7 +32,7 @@ class UserFixture extends Fixture  implements FixtureGroupInterface
             ->setFirstname('User1')
             ->setLastname('User1')
             ->setEmail('user1@unice.fr')
-            ->setRoles(['ROLE_USER']);
+            ->setRoles(['USER_ROLE']);
         $this->addReference(self::USER_1, $user);
         $manager->persist($user);
 
@@ -43,7 +43,7 @@ class UserFixture extends Fixture  implements FixtureGroupInterface
             ->setFirstname('User2')
             ->setLastname('User2')
             ->setEmail('user2@unice.fr')
-            ->setRoles(['ROLE_USER']);
+            ->setRoles(['USER_ROLE']);
         $this->addReference(self::USER_2, $user);
         $manager->persist($user);
 

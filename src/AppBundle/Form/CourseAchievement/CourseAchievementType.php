@@ -2,11 +2,7 @@
 
 namespace AppBundle\Form\CourseAchievement;
 
-
-use AppBundle\Entity\CourseAchievement;
-use AppBundle\Entity\CourseInfo;
-use Doctrine\ORM\EntityManager;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use AppBundle\Command\CourseAchievement\CourseAchievementCommand;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -19,19 +15,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class CourseAchievementType extends AbstractType
 {
-    /**
-     * @var EntityManager
-     */
-    private $syllabusEntityManager;
-
-    /**
-     * CourseAchievementType constructor.
-     * @param EntityManager $syllabusEntityManager
-     */
-    public function __construct()
-    {
-    }
-
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -52,12 +35,11 @@ class CourseAchievementType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => CourseAchievement::class
+            'data_class' => CourseAchievementCommand::class,
         ]);
     }
 
-    public function getName()
-    {
+    public function getName(){
         return CourseAchievementType::class;
     }
 }

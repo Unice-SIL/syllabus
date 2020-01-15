@@ -3,7 +3,6 @@
 namespace AppBundle\Form\Course;
 
 use AppBundle\Command\Course\EditInfosCourseInfoCommand;
-use AppBundle\Entity\CourseInfo;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -39,7 +38,7 @@ class EditInfosCourseInfoType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => CourseInfo::class,
+            'data_class' => EditInfosCourseInfoCommand::class,
             'allow_extra_fields' => true,
         ]);
     }
@@ -48,6 +47,6 @@ class EditInfosCourseInfoType extends AbstractType
      * @return string
      */
     public function getName(){
-        return CourseInfo::class;
+        return EditInfosCourseInfoType::class;
     }
 }

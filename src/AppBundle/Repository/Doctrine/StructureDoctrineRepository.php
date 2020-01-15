@@ -5,8 +5,6 @@ namespace AppBundle\Repository\Doctrine;
 use AppBundle\Entity\Structure;
 use AppBundle\Repository\StructureRepositoryInterface;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\QueryBuilder;
 
 /**
  * Class StructureDoctrineRepository
@@ -20,7 +18,7 @@ class StructureDoctrineRepository  extends AbstractDoctrineRepository implements
      * @param EntityManager $entityManager
      */
     public function __construct(
-        EntityManagerInterface $entityManager
+        EntityManager $entityManager
     )
     {
         $this->entityManager = $entityManager;
@@ -84,37 +82,6 @@ class StructureDoctrineRepository  extends AbstractDoctrineRepository implements
         }catch (\Exception $e){
             throw $e;
         }
-    }
-
-    /**
-     * @return QueryBuilder
-     */
-    public function getIndexQueryBuilder(): QueryBuilder
-    {
-        return $this->entityManager->getRepository(Structure::class)
-            ->createQueryBuilder('s')
-            ->addOrderBy('s.etbId', 'ASC')
-            ->addOrderBy('s.label', 'ASC')
-            ->addOrderBy('s.campus', 'ASC')
-            ;
-    }
-
-
-    /**
-     * @param string $query
-     * @param string $field
-     * @return array
-     */
-    public function findLikeQuery(string $query, string $field): array
-    {
-        $qb = $this->getIndexQueryBuilder();
-        if (in_array($field, ['etbId', 'label', 'campus'])) {
-            $qb->andWhere($qb->getRootAlias().'.'.$field.' LIKE :query ')
-                ->setParameter('query', '%' . $query . '%')
-            ;
-        }
-        return $qb->getQuery()->getResult()
-            ;
     }
 
 }

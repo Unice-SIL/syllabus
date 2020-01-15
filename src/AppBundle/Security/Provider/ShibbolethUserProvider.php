@@ -25,7 +25,7 @@ class ShibbolethUserProvider implements ShibbolethUserProviderInterface
     /**
      * Default roles
      */
-    const DEFAULT_ROLE = 'ROLE_USER';
+    const DEFAULT_ROLES = ['ROLE_USER'];
 
     /**
      * @var FindUserByIdQuery
@@ -84,7 +84,7 @@ class ShibbolethUserProvider implements ShibbolethUserProviderInterface
             $user = $this->findUserByUsernameQuery->setUsername($username)->execute();
             $command = new EditUserCommand($user);
         }catch (UserNotFoundException $e){
-            //$user = new User();
+            $user = new User();
             $command = new CreateUserCommand();
             $command->setUsername($username);
         }
@@ -107,12 +107,7 @@ class ShibbolethUserProvider implements ShibbolethUserProviderInterface
             $command->setEmail("");
         }
 
-        $roles = $command->getRoles();
-        if(!in_array(self::DEFAULT_ROLE, $roles))
-        {
-            $roles[] = self::DEFAULT_ROLE;
-        }
-        $command->setRoles($roles);
+        $command->setRoles(self::DEFAULT_ROLES);
 
         $user = $command->filledEntity($user);
 

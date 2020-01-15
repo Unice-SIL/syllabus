@@ -3,7 +3,6 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Ramsey\Uuid\UuidInterface;
 
 /**
  * CourseAchievement
@@ -14,12 +13,11 @@ use Ramsey\Uuid\UuidInterface;
 class CourseAchievement
 {
     /**
-     * @var UuidInterface
+     * @var string
      *
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @ORM\GeneratedValue(strategy="NONE")
      */
     private $id;
 

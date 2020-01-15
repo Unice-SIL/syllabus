@@ -2,7 +2,7 @@
 
 namespace AppBundle\Form\Course;
 
-use AppBundle\Entity\CourseInfo;
+use AppBundle\Command\Course\EditObjectivesCourseInfoCommand;
 use AppBundle\Form\CourseAchievement\CourseAchievementType;
 use AppBundle\Form\CoursePrerequisite\CoursePrerequisiteType;
 use AppBundle\Form\CourseTutoringResource\CourseTutoringResourceType;
@@ -23,10 +23,6 @@ class EditObjectivesCourseInfoType extends AbstractType
 {
 
     /**
-     * @var CourseInfo
-     */
-    private $courseInfo;
-    /**
      * EditObjectivesCourseInfoType constructor.
      */
     public function __construct(
@@ -40,9 +36,8 @@ class EditObjectivesCourseInfoType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $this->courseInfo = $builder->getData();
         $builder
-            ->add('courseAchievements', CollectionType::class, [
+            ->add('achievements', CollectionType::class, [
                 'label' => false,
                 'entry_type' => CourseAchievementType::class,
                 'entry_options' => [
@@ -50,9 +45,9 @@ class EditObjectivesCourseInfoType extends AbstractType
                 ],
                 'allow_add' => true,
                 'allow_delete' => true,
-                'by_reference' => false
+                'by_reference' => false,
             ])
-            ->add('coursePrerequisites', CollectionType::class, [
+            ->add('prerequisites', CollectionType::class, [
                 'label' => false,
                 'entry_type' => CoursePrerequisiteType::class,
                 'entry_options' => [
@@ -62,7 +57,7 @@ class EditObjectivesCourseInfoType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
             ])
-            ->add('courseTutoringResources', CollectionType::class, [
+            ->add('tutoringResources', CollectionType::class, [
                 'label' => false,
                 'entry_type' => CourseTutoringResourceType::class,
                 'entry_options' => [
@@ -96,28 +91,28 @@ class EditObjectivesCourseInfoType extends AbstractType
                 // Get data
                 $data = $event->getData();
                 // Sort equipments
-                if(array_key_exists('courseAchievements', $data)){
-                    $achievements = array_values($data['courseAchievements']);
+                if(array_key_exists('achievements', $data)){
+                    $achievements = array_values($data['achievements']);
                     foreach ($achievements as $i => $achievement){
                         $achievements[$i]['order'] = $i+1;
                     }
-                    $data['courseAchievements'] = $achievements;
+                    $data['achievements'] = $achievements;
                 }
                 // Sort prerequisites
-                if(array_key_exists('coursePrerequisites', $data)){
-                    $prerequisites = array_values($data['coursePrerequisites']);
+                if(array_key_exists('prerequisites', $data)){
+                    $prerequisites = array_values($data['prerequisites']);
                     foreach ($prerequisites as $i => $prerequisite){
                         $prerequisites[$i]['order'] = $i+1;
                     }
-                    $data['coursePrerequisites'] = $prerequisites;
+                    $data['prerequisites'] = $prerequisites;
                 }
                 // Sort prerequisites
-                if(array_key_exists('courseTutoringResources', $data)){
-                    $tutoringResources = array_values($data['courseTutoringResources']);
+                if(array_key_exists('tutoringResources', $data)){
+                    $tutoringResources = array_values($data['tutoringResources']);
                     foreach ($tutoringResources as $i => $tutoringResource){
                         $tutoringResources[$i]['order'] = $i+1;
                     }
-                    $data['courseTutoringResources'] = $tutoringResources;
+                    $data['tutoringResources'] = $tutoringResources;
                 }
                 //Set data
                 $event->setData($data);
@@ -130,7 +125,7 @@ class EditObjectivesCourseInfoType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => CourseInfo::class,
+            'data_class' => EditObjectivesCourseInfoCommand::class,
             'allow_extra_fields ' => true,
         ]);
     }

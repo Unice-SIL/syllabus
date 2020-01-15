@@ -3,7 +3,6 @@
 namespace AppBundle\Form\CoursePrerequisite;
 
 use AppBundle\Command\CoursePrerequisite\CoursePrerequisiteCommand;
-use AppBundle\Entity\CoursePrerequisite;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -36,7 +35,7 @@ class CoursePrerequisiteType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => CoursePrerequisite::class,
+            'data_class' => CoursePrerequisiteCommand::class,
         ]);
     }
 

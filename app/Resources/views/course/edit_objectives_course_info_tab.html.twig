@@ -78,8 +78,8 @@
     </a>
     <div class="border border-primary rounded p-4 my-3 mx-1">
         <h6>À la fin de ce cours, l'étudiant devrait être capable de…</h6>
-        {{ form_errors(form.courseAchievements) }}
-        {{ form_widget(form.courseAchievements) }}
+        {{ form_errors(form.achievements) }}
+        {{ form_widget(form.achievements) }}
         <button type="button" class="btn btn-primary btn-block" id="addAchievementButton">
             <i class="fas fa-plus-circle"></i>
             Ajouter un acquis d'apprentissage
@@ -91,7 +91,7 @@
     <h5>Prérequis</h5>
     <div class="border border-primary rounded p-4 my-3 mx-1">
         <h6>Avant le début du cours, l'étudiant doit…</h6>
-        {{ form_widget(form.coursePrerequisites) }}
+        {{ form_widget(form.prerequisites) }}
         <button type="button" class="btn btn-primary btn-block" id="addPrerequisiteButton">
             <i class="fas fa-plus-circle"></i>
             Ajouter un prérequis
@@ -116,7 +116,7 @@
             {{ form_widget(form.tutoringDescription) }}
             <label placeholder="Infos pratiques (facultatif)"></label>
         </div>
-        {{ form_widget(form.courseTutoringResources) }}
+        {{ form_widget(form.tutoringResources) }}
 
         <button type="button" class="btn btn-primary btn-block" id="addTutoringResourceButton">
             <i class="fas fa-plus-circle"></i>
@@ -174,7 +174,6 @@
          * Add a achievement when button click
          */
         $('#addAchievementButton').click(function () {
-
             var form = Syllabus.addFormToCollection(achievementsCollectionHolder);
             form.find('input[id$=_description]').focus();
         });

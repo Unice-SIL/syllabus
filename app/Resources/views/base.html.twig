@@ -7,44 +7,111 @@
 
 -->
 
+{% set in_iframe = false %}
+{% if app.request.get('iframe') is defined and app.request.get('iframe') == 'iframe' %}
+    {% set in_iframe = true %}
+{% endif %}
+
+{% if in_iframe == false %}
+    {% set container_class = 'container' %}
+{% else %}
+    {% set container_class = 'container-fluid' %}
+{% endif %}
+
+{% if dark_background is defined and dark_background == true %}
+    {% set body_class = 'bg-black' %}
+{% else %}
+    {% set body_class = '' %}
+{% endif %}
+
 <html lang="{{ app.request.locale|lower }}">
 
     <head>
+
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="language" content="{{ app.request.locale|upper }}">
         <meta name="description" content="Présentation générale des cours de licence de l'Université Côte d'Azur.">
 
         <title>
-            {% block title %}
-                Syllabus UCA
-            {% endblock %}
+{% block title %}
+            Syllabus UCA
+{% endblock %}
         </title>
 
         <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('app') }}
+    {% if not in_iframe %}
+        <style>
+            body { padding-bottom: 13rem }
+        </style>
+    {% endif %}
+{% endblock %}
+
     </head>
 
-    <body class="sidebar-mini layout-navbar-fixed">
-        {% block modals %}{% endblock %}
-        <div id="app" class="wrapper">
-            {% block main %}{% endblock %}
-            <div id="loading_spinner"></div>
+    <body class="{{ body_class }}">
 
-            {% block javascripts %}
-                {{ encore_entry_script_tags('app') }}
-                <script>
-                    $(document).ready(function () {
-                        $("body").on("shown.bs.modal", ".modal", function () {
-                            $(this).find('div.modal-dialog').animate("top", $(parent.window.document).scrollTop());
-                        });
-                    });
-                </script>
-            {% endblock %}
+{% if in_iframe == false %}
+        <header>
+            <div class="{{ container_class }}">
+                <div class="row">
+                    <div class="col-12">
+                        <h1>Syllabus L@UCA</h1>
+                    </div>
+                </div>
+            </div>
+        </header>
+{% endif %}
 
+{% block messages %}
+        <div class="{{ container_class }}" id="alerts_container">
+        {% for type, messages in app.flashes %}
+            {% for message in messages %}
+            <div class="alert alert-{{ type }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+        {% endfor %}
         </div>
+{% endblock %}
+
+        <main class="{{ container_class }}" role="main">
+{% block main %}
+
+{% endblock %}
+        </main>
+
+{% if in_iframe == false %}
+        <footer>
+            <a href="http://univ-cotedazur.fr/"
+               title="Aller sur le site UCA."
+               target="_blank">
+                <img src={{ asset('images/uca-logo.svg') }}>
+            </a>
+        </footer>
+{% endif %}
+
+        <div id="loading_spinner"></div>
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+
+    <script>
+        $(document).ready(function(){
+            $("body").on("shown.bs.modal", ".modal", function() {
+                $(this).find('div.modal-dialog').animate("top",$(parent.window.document).scrollTop());
+            });
+        });
+    </script>
+{% endblock %}
+
     </body>
+
 </html>

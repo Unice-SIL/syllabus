@@ -5,8 +5,6 @@ namespace AppBundle\Repository\Doctrine;
 use AppBundle\Entity\Equipment;
 use AppBundle\Repository\EquipmentRepositoryInterface;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\QueryBuilder;
 
 /**
  * Class EquipmentDoctrineRepository
@@ -17,10 +15,10 @@ class EquipmentDoctrineRepository extends AbstractDoctrineRepository implements 
 
     /**
      * EquipmentDoctrineRepository constructor.
-     * @param EntityManagerInterface $entityManager
+     * @param EntityManager $entityManager
      */
     public function __construct(
-        EntityManagerInterface $entityManager
+        EntityManager $entityManager
     )
     {
         $this->entityManager = $entityManager;
@@ -101,34 +99,6 @@ class EquipmentDoctrineRepository extends AbstractDoctrineRepository implements 
         } catch(\Exception $e) {
             throw $e;
         }
-    }
-
-    /**
-     * @return QueryBuilder
-     */
-    public function getIndexQueryBuilder(): QueryBuilder
-    {
-        return $this->entityManager->getRepository(Equipment::class)
-            ->createQueryBuilder('e')
-            ->addOrderBy('e.label', 'ASC')
-            ;
-    }
-
-
-    /**
-     * @param string $query
-     * @param string $field
-     * @return array
-     */
-    public function findLikeQuery(string $query, string $field): array
-    {
-        $qb = $this->getIndexQueryBuilder();
-        if (in_array($field, ['label'])) {
-            $qb->andWhere($qb->getRootAlias().'.'.$field.' LIKE :query ')
-                ->setParameter('query', '%' . $query . '%')
-            ;
-        }
-        return $qb->getQuery()->getResult();
     }
 
 }

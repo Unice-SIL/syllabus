@@ -139,17 +139,22 @@ class SavePresentationCourseInfoAction implements ActionInterface
                     throw new CoursePermissionDeniedException();
                 }
 
-                // Keep original course info before modifications
-                $originalCourseInfo = clone $courseInfo;
+                // Init command
+                $editPresentationCourseInfoCommand = new EditPresentationCourseInfoCommand($courseInfo);
+                // Keep original command before modifications
+                $originalEditPresentationCourseInfoCommand = clone $editPresentationCourseInfoCommand;
 
                 // Generate form
-                $form = $this->formFactory->create(EditPresentationCourseInfoType::class, $courseInfo);
+                $form = $this->formFactory->create(
+                    EditPresentationCourseInfoType::class,
+                    $editPresentationCourseInfoCommand
+                );
                 $form->handleRequest($request);
 
                 // Check if form is submitted
                 if ($form->isSubmitted()) {
                     // Get form data from request
-                    $courseInfo = $form->getData();
+                    $editPresentationCourseInfoCommand = $form->getData();
                     // If there is no new image to upload or new image not validate constraints, keep the actual image
                     /*
                      * Useless now we use a listener in form builder to re-set image on pre-submit event
@@ -161,7 +166,7 @@ class SavePresentationCourseInfoAction implements ActionInterface
                     }
                     */
                     // Prevent media type non-sense.
-                    $courseInfo->checkMedia();
+                    $editPresentationCourseInfoCommand->checkMedia();
 
                     // Check if form is valid
                     if (!$form->isValid()) {
@@ -177,13 +182,15 @@ class SavePresentationCourseInfoAction implements ActionInterface
                             ];
                         }
                     } else {
-                        $courseInfo->setTemPresentationTabValid(true);
+                        $editPresentationCourseInfoCommand->setTemPresentationTabValid(true);
                     }
 
                     // Check if there have been any changes
-                    if ($courseInfo != $originalCourseInfo) {
+                    if ($editPresentationCourseInfoCommand != $originalEditPresentationCourseInfoCommand) {
                         // Save changes
-                        $this->editPresentationCourseInfoQuery->execute($courseInfo, $originalCourseInfo);
+                        $this->editPresentationCourseInfoQuery->setEditPresentationCourseInfoCommand(
+                            $editPresentationCourseInfoCommand
+                        )->execute();
 
                         // Return message success
                         $messages[] = [
@@ -202,7 +209,7 @@ class SavePresentationCourseInfoAction implements ActionInterface
                     $renders[] = [
                         'element' => '#panel_tab-1',
                         'content' => $this->templating->render(
-                            'course_info/presentation/presentation.html.twig',
+                            'course/edit_presentation_course_tab.html.twig',
                             [
                                 'courseInfo' => $courseInfo,
                                 'form' => $form->createView()

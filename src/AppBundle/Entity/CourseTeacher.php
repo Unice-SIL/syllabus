@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class CourseTeacher
 {
     /**
-     * @var string|null
+     * @var string
      *
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
@@ -67,9 +67,9 @@ class CourseTeacher
     private $courseInfo;
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getId(): ?string
+    public function getId(): string
     {
         return $this->id;
     }

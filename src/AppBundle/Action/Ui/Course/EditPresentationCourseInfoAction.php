@@ -121,8 +121,9 @@ class EditPresentationCourseInfoAction implements ActionInterface
                     ]
                 ]);
             }
-            $form = $this->formFactory->create(EditPresentationCourseInfoType::class, $courseInfo);
-            //$form->handleRequest($request);
+            $editPresentationCourseInfoCommand = new EditPresentationCourseInfoCommand($courseInfo);
+            $form = $this->formFactory->create(EditPresentationCourseInfoType::class, $editPresentationCourseInfoCommand);
+            $form->handleRequest($request);
 
             return new JsonResponse([
                 'content' => $this->templating->render(

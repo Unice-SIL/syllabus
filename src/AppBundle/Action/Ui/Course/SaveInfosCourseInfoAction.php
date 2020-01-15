@@ -11,7 +11,6 @@ use AppBundle\Helper\CourseInfoHelper;
 use AppBundle\Helper\CoursePermissionHelper;
 use AppBundle\Query\Course\EditInfosCourseInfoQuery;
 use AppBundle\Query\Course\FindCourseInfoByIdQuery;
-use Proxies\__CG__\AppBundle\Entity\CourseInfo;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -101,17 +100,19 @@ class SaveInfosCourseInfoAction implements ActionInterface
             // Find course info by id
             try {
                 $courseInfo = $this->findCourseInfoByIdQuery->setId($id)->execute();
+                // Init command
+                $editInfosCourseInfoCommand = new EditInfosCourseInfoCommand($courseInfo);
                 // Keep original command before modifications
-                $originalEditCourseInfo = clone $courseInfo;
+                $originalEditInfosCourseInfoCommand = clone $editInfosCourseInfoCommand;
                 // Generate form
                 $form = $this->formFactory->create(
                     EditInfosCourseInfoType::class,
-                    $courseInfo
+                    $editInfosCourseInfoCommand
                 );
                 $form->handleRequest($request);
                 if ($form->isSubmitted()) {
-                    $courseInfo = $form->getData();
-                    // Check if there have been any changes
+                    $editInfosCourseInfoCommand = $form->getData();
+                    // Check if there have been anny changes
                     if(!$form->isValid()){
                         $messages[] = [
                             'type' => "warning",
@@ -125,12 +126,14 @@ class SaveInfosCourseInfoAction implements ActionInterface
                             ]
                         );
                     }else{
-                        $courseInfo->setTemInfosTabValid(true);
+                        $editInfosCourseInfoCommand->setTemInfosTabValid(true);
                     }
 
-                    if($courseInfo != $originalEditCourseInfo){
+                    if($editInfosCourseInfoCommand != $originalEditInfosCourseInfoCommand){
                         // Save changes
-                        $this->editInfosCourseInfoQuery->execute($courseInfo);
+                        $this->editInfosCourseInfoQuery->setEditInfosCourseInfoCommand(
+                            $editInfosCourseInfoCommand
+                        )->execute();
 
                         // Return message success
                         $messages[] = [

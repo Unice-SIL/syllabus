@@ -3,7 +3,6 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Activity
@@ -26,7 +25,6 @@ class Activity
      * @var string
      *
      * @ORM\Column(name="label", type="string", length=100, nullable=false)
-     * @Assert\NotBlank()
      */
     private $label;
 
@@ -75,7 +73,7 @@ class Activity
     /**
      * @return string
      */
-    public function getId(): ?string
+    public function getId(): string
     {
         return $this->id;
     }
@@ -94,7 +92,7 @@ class Activity
     /**
      * @return string
      */
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
         return $this->label;
     }
@@ -103,7 +101,7 @@ class Activity
      * @param string $label
      * @return Activity
      */
-    public function setLabel(?string $label): Activity
+    public function setLabel(string $label): Activity
     {
         $this->label = $label;
 

@@ -4,7 +4,6 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * User
@@ -14,7 +13,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class User implements UserInterface
 {
-
     /**
      * @var string
      *
@@ -70,10 +68,6 @@ class User implements UserInterface
      * @var array|null
      *
      * @ORM\Column(name="roles", type="array", nullable=true)
-     * @Assert\Count(
-     *      min = 1,
-     *      minMessage = "Vous devez selectionner au moins un rôle",
-     * )
      */
     private $roles;
 
@@ -251,5 +245,4 @@ class User implements UserInterface
     {
         // TODO: Implement eraseCredentials() method.
     }
-
 }

@@ -5,7 +5,6 @@ namespace AppBundle\Action\Ui\Course;
 use AppBundle\Action\ActionInterface;
 use AppBundle\Command\Course\EditInfosCourseInfoCommand;
 use AppBundle\Constant\Permission;
-use AppBundle\Entity\CourseInfo;
 use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Exception\CoursePermissionDeniedException;
 use AppBundle\Form\Course\EditInfosCourseInfoType;
@@ -113,8 +112,8 @@ class EditInfosCourseInfoAction implements ActionInterface
                     ]
                 ]);
             }
-            //$editInfosCourseInfoCommand = new EditInfosCourseInfoCommand($courseInfo);
-            $form = $this->formFactory->create(EditInfosCourseInfoType::class, $courseInfo);
+            $editInfosCourseInfoCommand = new EditInfosCourseInfoCommand($courseInfo);
+            $form = $this->formFactory->create(EditInfosCourseInfoType::class, $editInfosCourseInfoCommand);
             $form->handleRequest($request);
 
             return new JsonResponse([

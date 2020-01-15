@@ -16,7 +16,7 @@
     </li>
 {% endmacro %}
 
-{% block _edit_objectives_course_info_courseTutoringResources_widget %}
+{% block _edit_objectives_course_info_tutoringResources_widget %}
     {% import _self as tutoringResourcesField %}
     <ul class="list-group striped" id="tutoringResources" data-prototype="{{ tutoringResourcesField.tutoringResource_template(form.vars.prototype)|e }}">
         {% for tutoringResource in form.children %}

@@ -5,7 +5,6 @@ namespace AppBundle\Form\Course;
 use AppBundle\Command\Course\EditPresentationCourseInfoCommand;
 use AppBundle\Constant\Level;
 use AppBundle\Constant\TeachingMode;
-use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseTeacher;
 use AppBundle\Form\CourseTeacher\CourseTeacherType;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
@@ -238,7 +237,7 @@ class EditPresentationCourseInfoType extends AbstractType
                 'minimum_input_length' => 2,
                 'req_params' => ['source' => 'parent.children[teacherSource]'],
             ])
-            ->add('courseTeachers', CollectionType::class, [
+            ->add('teachers', CollectionType::class, [
                 'entry_type' => CourseTeacherType::class,
                 'entry_options' => [
                     'label' => false,
@@ -256,7 +255,7 @@ class EditPresentationCourseInfoType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => CourseInfo::class,
+            'data_class' => EditPresentationCourseInfoCommand::class,
             'allow_extra_fields' => true,
         ]);
     }
