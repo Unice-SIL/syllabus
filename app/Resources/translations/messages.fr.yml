@@ -47,3 +47,7 @@ app:
       label:
         import: 'Import'
         label: 'Label'
+
+const:
+  permission:
+    WRITE: 'Ecriture'
