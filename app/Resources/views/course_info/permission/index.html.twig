@@ -1,0 +1,37 @@
+{% extends 'course_info/layout.html.twig' %}
+
+{% block subContent %}
+
+    <h4>Liste des permissions</h4>
+    <div class="card">
+        <div class="card-header">
+            <button class="btn btn-primary float-right">Ajouter une permission</button>
+        </div>
+        <div class="card-body">
+            {% if courseInfo.coursePermissions.count > 0 %}
+                <table class="table table-bordered table-responsive-sm">
+                    <thead>
+                    <tr>
+                        <th>Nom d'utilisateur</th>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Permission</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for coursePermission in courseInfo.coursePermissions %}
+                        <tr>
+                            <td>{{ coursePermission.user.userName }}</td>
+                            <td>{{ coursePermission.user.lastname }}</td>
+                            <td>{{ coursePermission.user.firstname }}</td>
+                            <td>{{ ('const.permission.' ~ coursePermission.permission)|trans }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="alert alert-info">Aucune permission n'a été enregistrée</div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

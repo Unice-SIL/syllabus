@@ -15,20 +15,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200109101223 extends AbstractMigration implements ContainerAwareInterface
+final class Version20200109101223 extends AbstractMigration
 {
-    /**
-     * @var ContainerInterface|null
-     */
-    private $container;
-
-    /**
-     * @param ContainerInterface|null $container
-     */
-    public function setContainer(ContainerInterface $container = null)
-    {
-        $this->container = $container;
-    }
 
     /**
      * @param Schema $schema
@@ -126,22 +114,5 @@ final class Version20200109101223 extends AbstractMigration implements Container
         $this->addSql('DROP TABLE structure');
         $this->addSql('DROP TABLE user');
         $this->addSql('DROP TABLE year');
-    }
-
-    /**
-     * @param Schema $schema
-     */
-    public function postUp(Schema $schema): void
-    {
-        $application = new Application($this->container->get( 'kernel' ));
-        $application->setAutoExit(false);
-
-        $input = new ArrayInput([
-            'command' => 'doctrine:fixtures:load',
-            '--group' => ['prod']
-        ]);
-
-        $output = new NullOutput();
-        $application->run($input, $output);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace AppBundle\Fixture;
 
+use AppBundle\Constant\Permission;
 use AppBundle\Entity\CoursePermission;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
@@ -17,32 +18,56 @@ class CoursePermissionFixture extends Fixture implements DependentFixtureInterfa
 {
     /**
      * @param ObjectManager $manager
+     * @throws \Exception
      */
     public function load(ObjectManager $manager)
     {
-        // Permission 1
-        $permission = new CoursePermission();
-        $permission->setId(Uuid::uuid4())
-            ->setCourseInfo($this->getReference(CourseInfoFixture::COURSE_INFO_1))
-            ->setUser($this->getReference(UserFixture::USER_1))
-            ->setPermission('WRITE');
-        $manager->persist($permission);
+        $coursePermissions = [
+            [
+                'courseInfoRef' => CourseInfoFixture::COURSE_INFO_1,
+                'userRef' => UserFixture::REF_PREFIX . UserFixture::USER_1,
+                'permission' => Permission::WRITE
+            ],
+            [
+                'courseInfoRef' => CourseInfoFixture::COURSE_INFO_2,
+                'userRef' => UserFixture::REF_PREFIX . UserFixture::USER_1,
+                'permission' => Permission::WRITE
+            ],
+            [
+                'courseInfoRef' => CourseInfoFixture::COURSE_INFO_1,
+                'userRef' => UserFixture::REF_PREFIX . UserFixture::USER_2,
+                'permission' => Permission::WRITE
+            ],
+            [
+                'courseInfoRef' => CourseInfoFixture::COURSE_INFO_1,
+                'userRef' => UserFixture::REF_PREFIX . UserFixture::USER_FREDERIC,
+                'permission' => Permission::WRITE
+            ],
+            [
+                'courseInfoRef' => CourseInfoFixture::COURSE_INFO_1,
+                'userRef' => UserFixture::REF_PREFIX . UserFixture::USER_STEPHANE,
+                'permission' => Permission::WRITE
+            ],
+            [
+                'courseInfoRef' => CourseInfoFixture::COURSE_INFO_1,
+                'userRef' => UserFixture::REF_PREFIX . UserFixture::USER_KEVIN,
+                'permission' => Permission::WRITE
+            ],
+            [
+                'courseInfoRef' => CourseInfoFixture::COURSE_INFO_1,
+                'userRef' => UserFixture::REF_PREFIX . UserFixture::USER_SALIM,
+                'permission' => Permission::WRITE
+            ],
+        ];
 
-        // Permission 2
-        $permission = new CoursePermission();
-        $permission->setId(Uuid::uuid4())
-            ->setCourseInfo($this->getReference(CourseInfoFixture::COURSE_INFO_2))
-            ->setUser($this->getReference(UserFixture::USER_1))
-            ->setPermission('WRITE');
-        $manager->persist($permission);
-
-        // Permission 3
-        $permission = new CoursePermission();
-        $permission->setId(Uuid::uuid4())
-            ->setCourseInfo($this->getReference(CourseInfoFixture::COURSE_INFO_1))
-            ->setUser($this->getReference(UserFixture::USER_2))
-            ->setPermission('WRITE');
-        $manager->persist($permission);
+        foreach ($coursePermissions as $coursePermissionFixture) {
+            $permission = new CoursePermission();
+            $permission->setId(Uuid::uuid4())
+                ->setCourseInfo($this->getReference($coursePermissionFixture['courseInfoRef']))
+                ->setUser($this->getReference($coursePermissionFixture['userRef']))
+                ->setPermission($coursePermissionFixture['permission']);
+            $manager->persist($permission);
+        }
 
         $manager->flush();
     }
