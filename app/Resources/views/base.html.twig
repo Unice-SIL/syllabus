@@ -27,9 +27,9 @@
         {{ encore_entry_link_tags('app') }}
     {% endblock %}
 </head>
-        {% block modals %}{% endblock %}
 
 <body class="sidebar-mini layout-navbar-fixed">
+{% block modals %}{% endblock %}
 <div class="container-loader">
     <div class="loader">
         <i class="fas fa-circle-notch text-primary fa-2x fa-spin"></i>
@@ -39,18 +39,10 @@
     {% block main %}{% endblock %}
 </div>
 
-{% include 'default/modal.html.twig' %}
-
-<div id="loading_spinner"></div>
-
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}
     <script>
         $(document).ready(function () {
-
-            $("body").on("shown.bs.modal", ".modal", function () {
-                $(this).find('div.modal-dialog').animate("top", $(parent.window.document).scrollTop());
-            });
             $(document).on('click', '.modal-syllabus', function () {
                 var url = $(this).data("url");
                 $.ajax({
