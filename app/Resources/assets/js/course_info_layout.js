@@ -37,8 +37,11 @@ $(document).ready(function () {
         });
     });
 
-    $(document).on('click', '.card-syllabus .submit-button', function () {
-        let $button = $(this);
+    //$(document).on('click', '.card-syllabus .submit-button', function () {
+    $(document).on('submit', '.form-focus', function(e){
+        e.preventDefault();
+        //let $button = $(this);
+        let $button = $($(this).find('button[type="submit"]').get(0));
         let $card = $button.closest('.card-syllabus');
         let $cardBody = $card.find('.card-body');
         let $editButton = $card.find('.edit-button');
