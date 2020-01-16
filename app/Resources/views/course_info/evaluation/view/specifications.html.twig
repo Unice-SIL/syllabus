@@ -1,32 +1,22 @@
-<div class="card toggle-focus my-2 shadow card-syllabus">
-    <div class="card-header">
-        <div class="d-flex justify-content-between">
-            <h3>Informations des modalités d'évaluation</h3>
-            <button type="button" class="update-focus btn btn-primary button-gradient" data-url="{{ path('course_evaluation_specifications', {'id': courseInfo.id }) }}">Mettre à jour</button>
-        </div>
-    </div>
-    <div class="card-body">
-        <div class="row mt-2">
-            <div class="col">
-                <div class="d-flex">
-                    <div class="d-flex flex-column">
-                        <span class="font-weight-bold">
-                            {% if courseInfo.mccAdvice is null %}
-                                <i class="fas fa-exclamation-circle text-warning"></i>
-                            {% endif %}
-                            Précisions (facultatif)
-                        </span>
+<div class="row mt-2">
+    <div class="col">
+        <div class="d-flex">
+            <div class="d-flex flex-column">
+                    <span class="font-weight-bold">
                         {% if courseInfo.mccAdvice is null %}
-                            <span class="text-warning">
-                                Non-renseigné
-                            </span>
-                        {% else %}
-                            <span class="text-muted">
-                                {{ courseInfo.mccAdvice | purify }}
-                            </span>
+                            <i class="fas fa-exclamation-circle text-warning"></i>
                         {% endif %}
-                    </div>
-                </div>
+                        Précisions (facultatif)
+                    </span>
+                {% if courseInfo.mccAdvice is null %}
+                    <span class="text-warning">
+                        Non-renseigné
+                    </span>
+                {% else %}
+                    <span class="text-muted">
+                        {{ courseInfo.mccAdvice | purify }}
+                    </span>
+                {% endif %}
             </div>
         </div>
     </div>

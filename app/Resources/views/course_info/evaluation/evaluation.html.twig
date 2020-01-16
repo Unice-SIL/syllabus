@@ -31,9 +31,20 @@
             </div>
         </div>
     </section>
-    <section>
-        {% include('course_info/evaluation/view/specifications.html.twig') %}
-    </section>
+    <div class="card toggle-focus my-2 shadow card-syllabus"
+         data-view-url="{{ path('course_evaluation_specifications_view', {'id': courseInfo.id }) }}"
+         data-form-url="{{ path('course_evaluation_specifications_form', {'id': courseInfo.id }) }}"
+    >
+        <div class="card-header">
+            <div class="d-flex justify-content-between">
+                <h3>Informations des modalités d'évaluation</h3>
+                <button type="button" class="edit-button btn btn-primary rounded">
+                    Mettre à jour
+                </button>
+            </div>
+        </div>
+        <div class="card-body"></div>
+    </div>
 
 {% endblock %}
 

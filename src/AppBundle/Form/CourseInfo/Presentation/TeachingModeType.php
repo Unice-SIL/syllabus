@@ -18,11 +18,9 @@ class TeachingModeType extends AbstractType
                 'label' => "Mode d'enseignement",
                 'expanded'  => true,
                 'multiple' => false,
-                'choices' => TeachingMode::CHOICES,
-                'choice_label' => function($value, $key, $choiceValue){
-                    return mb_strtoupper($key);
-                }
-
+                'required' => false,
+                'placeholder' => false,
+                'choices' => TeachingMode::CHOICES
             ])
             ->add('teachingCmClass', TextType::class, [
                 'required' => false,
