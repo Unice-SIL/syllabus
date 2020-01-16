@@ -7,7 +7,143 @@
                 <label class="required font-weight-bold">Quel est votre mode d'enseignement ?</label>
             </div>
         </div>
-        <div class="row teaching-hours">
+        <div class="row mb-2">
+            <div class="col-5">
+                {{ form_row(form.teachingMode, {label_attr: {class: 'radio-custom'} }) }}
+            </div>
+            <div class="col-5">
+                <div class="row">
+                    <div class="col">
+                        {{ form_widget(form.teachingCmClass) }}
+                        <label placeholder="Heures CM"></label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        {{ form_widget(form.teachingTdClass) }}
+                        <label placeholder="Heures TD"></label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        {{ form_widget(form.teachingTpClass) }}
+                        <label placeholder="Heures TP"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="form-class" class="row d-none">
+            <div class="col">
+                {{ form_errors(form.teachingOtherTypeClass) }}
+                <div class="row">
+                    <div class="col pr-1">
+                        {{ form_widget(form.teachingOtherClass) }}
+                        <label placeholder="Heures autre"></label>
+                    </div>
+                    <div class="col pl-1">
+                        {{ form_widget(form.teachingOtherTypeClass) }}
+                        <label placeholder="Type"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="form-dist" class="row d-none">
+            <div class="col">
+                <div class="row">
+                    <div class="col">
+                        {{ form_widget(form.teachingCmDist) }}
+                        <label placeholder="Heures CM"></label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        {{ form_widget(form.teachingTdDist) }}
+                        <label placeholder="Heures TD"></label>
+                    </div>
+                </div>
+                {{ form_errors(form.teachingOtherTypeDist) }}
+                <div class="row">
+                    <div class="col pr-1">
+                        {{ form_widget(form.teachingOtherDist) }}
+                        <label placeholder="Heures autre"></label>
+                    </div>
+                    <div class="col pl-1">
+                        {{ form_widget(form.teachingOtherTypeDist) }}
+                        <label placeholder="Type"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="form-hybrid" class="d-none">
+            <div class="row">
+                <div class="col">
+                    <h4 class="mb-2">Présentiel</h4>
+                </div>
+                <div class="col">
+                    <h4 class="mb-2">Distanciel</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="row">
+                        <div class="col">
+                            {{ form_widget(form.teachingCmHybridClass) }}
+                            <label placeholder="Heures CM"></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            {{ form_widget(form.teachingTdHybridClass) }}
+                            <label placeholder="Heures TD"></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            {{ form_widget(form.teachingTpHybridClass) }}
+                            <label placeholder="Heures TP"></label>
+                        </div>
+                    </div>
+                    {{ form_errors(form.teachingOtherTypeHybridClass) }}
+                    <div class="row">
+                        <div class="col pr-1">
+                            {{ form_widget(form.teachingOtherHybridClass) }}
+                            <label placeholder="Heures autre"></label>
+                        </div>
+                        <div class="col pl-1">
+                            {{ form_widget(form.teachingOtherTypeHybridClass) }}
+                            <label placeholder="Type"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="row">
+                        <div class="col">
+                            {{ form_widget(form.teachingCmHybridDist) }}
+                            <label placeholder="Heures CM"></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            {{ form_widget(form.teachingTdHybridDist) }}
+                            <label placeholder="Heures TD"></label>
+                        </div>
+                    </div>
+                    {{ form_errors(form.teachingOtherTypeHybridDistant) }}
+                    <div class="row">
+                        <div class="col pr-1">
+                            {{ form_widget(form.teachingOtherHybridDist) }}
+                            <label placeholder="Heures autre"></label>
+                        </div>
+                        <div class="col pl-1">
+                            {{ form_widget(form.teachingOtherTypeHybridDistant) }}
+                            <label placeholder="Type"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {#<div class="row teaching-hours">
             <div class="col-5 border-right">
                 <div class="row">
                     <div class="col-5">
@@ -164,7 +300,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>#}
     </div>
 </div>
 <div class="mt-2">
@@ -177,3 +313,12 @@
 </div>
 {{ form_widget(form._token) }}
 {{ form_end(form) }}
+
+<script>
+    $(document).ready(function () {
+        $("#teaching_mode_teachingMode").on('change', function () {
+
+                console.log($(this).val());
+        })
+    })
+</script>
