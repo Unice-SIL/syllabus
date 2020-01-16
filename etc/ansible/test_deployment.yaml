@@ -1,0 +1,9 @@
+- name: Déploiement en environnement de test
+  hosts: web
+  tasks:
+    - name: Git pull
+      command: chdir=/path/to/ovh_repository git pull
+    - name: Composer install
+      command: chdir=/path/to/ovh_repository /usr/local/php7.3/bin/php composer.phar install
+    - name: Migrations migrate
+      command: chdir=/path/to/ovh_repository /usr/local/php7.3/bin/php bin/console doctrine:migrations:migrate --no-interaction
