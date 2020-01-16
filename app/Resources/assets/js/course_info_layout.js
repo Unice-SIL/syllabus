@@ -1,7 +1,7 @@
 import Syllabus from './syllabus';
 
 $(document).ready(function () {
-    $('.card-syllabus').each( function () {
+    $('.card-syllabus').each(function () {
         let $card = $(this);
         let $cardBody = $card.find('.card-body');
         let url = $card.data('view-url');
@@ -10,8 +10,7 @@ $(document).ready(function () {
                 $cardBody.html('<div class="progress mx-auto" style="max-width: 95%"><div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div></div>')
             }
         }).done(function (response) {
-            if (Syllabus.handleAjaxResponseModal(response))
-            {
+            if (Syllabus.handleAjaxResponseModal(response)) {
                 $cardBody.html(response["content"]);
             }
         });
@@ -29,8 +28,7 @@ $(document).ready(function () {
                 $('#app').addClass('hasActiveChild');
             }
         }).done(function (response) {
-            if (Syllabus.handleAjaxResponseModal(response))
-            {
+            if (Syllabus.handleAjaxResponseModal(response)) {
                 $button.hide();
                 $cardBody.html(response["content"]);
             }
@@ -52,7 +50,7 @@ $(document).ready(function () {
             enctype: 'multipart/form-data',
             processData: false, // Preventing default serialization.
             contentType: false, // No auto “contentType” header.
-            data: new FormData( forms[0] ),
+            data: new FormData(forms[0]),
             method: "POST",
             dataType: "json",
             beforeSend: function () {
@@ -78,8 +76,7 @@ $(document).ready(function () {
                 $button.attr("disabled", true).html('<i class="fas fa-spinner fa-spin"></i>');
             }
         }).done(function (response) {
-            if (Syllabus.handleAjaxResponseModal(response))
-            {
+            if (Syllabus.handleAjaxResponseModal(response)) {
                 $cardBody.html(response["content"]);
             }
         }).always(function () {

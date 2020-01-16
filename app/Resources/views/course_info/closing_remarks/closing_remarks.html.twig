@@ -2,9 +2,21 @@
 
 {% block subContent %}
 
-    <section>
-        {% include('course_info/closing_remarks/view/closing_remarks.html.twig') %}
-    </section>
+    <div class="card my-2 shadow card-syllabus"
+         data-view-url="{{ path('course_closing_remarks_message_view', {'id': courseInfo.id }) }}"
+         data-form-url="{{ path('course_closing_remarks_message_form', {'id': courseInfo.id }) }}"
+    >
+        <div class="card-header">
+            <div class="d-flex justify-content-between">
+                <h3>Le mot de la fin</h3>
+                <button type="button" class="edit-button btn btn-primary rounded">
+                    Mettre à jour
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+        </div>
+    </div>
 
 {% endblock %}
 
@@ -15,7 +27,6 @@
 
             $('#menu-closing_remarks').addClass('active');
             $('#menu-closing_remarks').addClass('border-bottom-3 border-white');
-
         });
     </script>
 {% endblock %}
