@@ -33,45 +33,64 @@ class CourseInfoEvaluationController extends AbstractController
     }
 
     /**
-     * @Route("/course/{id}/evaluation/specifications/{action}", name="course_evaluation_specifications", defaults={"action"=null}))
+     * @Route("/course/{id}/evaluation/specifications/view", name="course_evaluation_specifications_view"))
      *
      * @param $id
-     * @param $action
-     * @param Request $request
-     * @param CourseInfoManager $manager
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function synopsisAction($id, $action, Request $request, CourseInfoManager $manager)
+    public function generalViewAction($id)
     {
         $em = $this->getDoctrine()->getManager();
         /** @var CourseInfo $courseInfo */
         $courseInfo = $em->getRepository(CourseInfo::class)->find($id);
 
+        $render = $this->get('twig')->render('course_info/evaluation/view/specifications.html.twig', [
+            'courseInfo' => $courseInfo
+        ]);
+        return $this->json([
+            'status' => true,
+            'content' => $render
+        ]);
+    }
+
+    /**
+     * @Route("/course/{id}/evaluation/specifications/form", name="course_evaluation_specifications_form"))
+     *
+     * @param $id
+     * @param Request $request
+     * @param CourseInfoManager $manager
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
+     */
+    public function specificationsFormAction($id, Request $request, CourseInfoManager $manager)
+    {
+        $em = $this->getDoctrine()->getManager();
+        /** @var CourseInfo $courseInfo */
+        $courseInfo = $em->getRepository(CourseInfo::class)->find($id);
+        dump($courseInfo);
+
         $form = $this->createForm(SpecificationsType::class, $courseInfo);
         $form->handleRequest($request);
 
-        if ($action === "cancel")
-        {
-            return $this->render('course_info/evaluation/view/specifications.html.twig', [
-                'courseInfo' => $courseInfo,
-            ]);
-
-        }
-
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($action === "submit")
-            {
-                $manager->update($courseInfo);
-            }
-            return $this->render('course_info/evaluation/view/specifications.html.twig', [
-                'courseInfo' => $courseInfo,
+            $manager->update($courseInfo);
+            dump($courseInfo);
+            $render = $this->get('twig')->render('course_info/evaluation/view/specifications.html.twig', [
+                'courseInfo' => $courseInfo
+            ]);
+            return $this->json([
+                'status' => true,
+                'content' => $render
             ]);
         }
-
-        return $this->render('course_info/evaluation/form/specifications.html.twig', [
+        $render = $this->get('twig')->render('course_info/evaluation/form/specifications.html.twig', [
             'courseInfo' => $courseInfo,
             'form' => $form->createView()
+        ]);
+        return $this->json([
+            'status' => true,
+            'content' => $render
         ]);
     }
 }
