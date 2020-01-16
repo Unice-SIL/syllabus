@@ -1,11 +1,44 @@
 {% extends 'course_info/layout.html.twig' %}
 
+{% block modals %}
+    <div class="modal modal-initialized fade" id="modal-add-permission" data-show="{{ isValid ? 'false' : 'true' }}">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Ajouter une permission</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                {{ form_start(form) }}
+                    <div class="modal-body">
+                        <div class="form-group">
+                            {{ form_label(form.user) }}
+                            {{ form_widget(form.user) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.permission) }}
+                            {{ form_widget(form.permission) }}
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                        <button type="submit" class="btn btn-primary">Ajouter</button>
+                    </div>
+                {{ form_end(form) }}
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+{% endblock %}
 {% block subContent %}
-
     <h4>Liste des permissions</h4>
     <div class="card">
         <div class="card-header">
-            <button class="btn btn-primary float-right">Ajouter une permission</button>
+            <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#modal-add-permission">
+                Ajouter une permission
+            </button>
         </div>
         <div class="card-body">
             {% if courseInfo.coursePermissions.count > 0 %}
@@ -24,7 +57,7 @@
                             <td>{{ coursePermission.user.userName }}</td>
                             <td>{{ coursePermission.user.lastname }}</td>
                             <td>{{ coursePermission.user.firstname }}</td>
-                            <td>{{ ('const.permission.' ~ coursePermission.permission)|trans }}</td>
+                            <td>{{ ('app.const.permission.' ~ coursePermission.permission)|trans }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>

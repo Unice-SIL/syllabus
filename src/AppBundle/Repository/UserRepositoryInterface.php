@@ -37,4 +37,11 @@ interface UserRepositoryInterface
      * @return mixed
      */
     public function update(User $user): void;
+
+    /**
+     * @param $query
+     * @param array $searchFields
+     * @return array
+     */
+    public function findLikeQuery($query, array $searchFields): array;
 }

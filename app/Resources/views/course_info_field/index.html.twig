@@ -20,7 +20,7 @@
                             <td>{{ field.label }}</td>
                             <td>
                                 {% set formView = form.createView %}
-                                {{form_start(formView, { 'attr' : { 'data-url' : path('app_admin_course_info_field_edit', { 'id' : field.id }) }})}}
+                                {{form_start(formView, { 'attr' : { 'data-url' : path('app_admin_course_info.field_edit', { 'id' : field.id }) }})}}
                                     <div class="custom-control custom-switch">
                                         {{ form_widget(formView.manuallyDuplication, { 'id' : formView.manuallyDuplication.vars.id ~ '_' ~ field.id, 'attr' : { 'class' : 'custom-control-input course-info-field-edit-ajax', 'checked' : field.manuallyDuplication } }) }}
                                         {{ form_widget(formView._token, { 'id' : formView._token.vars.id ~ '_' ~ field.id }) }}

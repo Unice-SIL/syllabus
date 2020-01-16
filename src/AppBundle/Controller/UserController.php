@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
 use AppBundle\Form\UserType;
+use AppBundle\Repository\Doctrine\UserDoctrineRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -58,4 +59,28 @@ class UserController extends Controller
             'form' => $form->createView(),
         ));
     }
+
+    /**
+     * @Route("/autocompleteS2", name="autocompleteS2", methods={"GET"})
+     */
+    public function autocompleteS2(UserDoctrineRepository $userDoctrineRepository, Request $request)
+    {
+        $query = $request->query->get('q');
+
+        $field = $request->query->get('field_name');
+        switch ($field) {
+            default:
+                $searchFields = ['u.firstname', 'u.lastname'];
+                break;
+        }
+
+        $users = $userDoctrineRepository->findLikeQuery($query, $searchFields);
+
+        $data = array_map(function ($u) use ($request) {
+            return ['id' => $u->getId(), 'text' => $u->getLastname() . ' ' . $u->getfirstname() . ' (' . $u->getUsername() . ')'];
+        }, $users);
+
+        return $this->json($data);
+    }
+
 }

@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * CourseInfoField controller.
  *
- * @Route("/admin/syllabus-import-field", name="app_admin_course_info_field_")
+ * @Route("/admin/syllabus-import-field", name="app_admin_course_info.field_")
  */
 class CourseInfoFieldController extends Controller
 {

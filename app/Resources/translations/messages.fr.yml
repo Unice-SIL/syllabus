@@ -52,7 +52,12 @@ app:
     duplicate_course_info:
       label:
         to: 'Syllabus récepteur'
+    course_permission:
+      label:
+        user: 'Utilisateur'
+        permission: 'Permission'
 
-const:
-  permission:
-    WRITE: 'Ecriture'
+  const:
+    permission:
+      WRITE: 'Ecriture'
+      READ: 'Lecture'
