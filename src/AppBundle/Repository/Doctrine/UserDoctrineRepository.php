@@ -5,6 +5,7 @@ namespace AppBundle\Repository\Doctrine;
 use AppBundle\Entity\User;
 use AppBundle\Repository\UserRepositoryInterface;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Class UserDoctrineRepository
@@ -13,16 +14,16 @@ use Doctrine\ORM\EntityManager;
 class UserDoctrineRepository implements UserRepositoryInterface
 {
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     private $entityManager;
 
     /**
      * UserDoctrineRepository constructor.
-     * @param EntityManager $entityManager
+     * @param EntityManagerInterface $entityManager
      */
     public function __construct(
-        EntityManager $entityManager
+        EntityManagerInterface $entityManager
     )
     {
         $this->entityManager = $entityManager;
@@ -90,5 +91,28 @@ class UserDoctrineRepository implements UserRepositoryInterface
         }catch (\Exception $e){
             throw $e;
         }
+    }
+
+    /**
+     * @param $query
+     * @param array $searchFields
+     * @return array
+     */
+    public function findLikeQuery($query, array $searchFields): array
+    {
+        $qb = $this->entityManager->getRepository(User::class)
+            ->createQueryBuilder('u')
+            ->setParameter('query', '%' . $query . '%')
+            ;
+
+        foreach ($searchFields as $field) {
+            if (!in_array($field, ['u.firstname', 'u.lastname'])) {
+                continue;
+            }
+
+            $qb->orWhere($field . ' LIKE :query');
+        }
+
+        return $qb->getQuery()->getResult();
     }
 }

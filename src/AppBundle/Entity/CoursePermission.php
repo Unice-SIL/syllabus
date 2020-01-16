@@ -3,12 +3,19 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * CoursePermission
  *
  * @ORM\Table(name="course_permission", indexes={@ORM\Index(name="fk_course_permission_course_info1_idx", columns={"course_info_id"}), @ORM\Index(name="fk_course_permission_user1_idx", columns={"user_id"})})
  * @ORM\Entity
+ * @UniqueEntity(
+ *     fields={"user", "courseInfo", "permission"},
+ *     errorPath="user",
+ *     message="Cet utilisateur a déjà ce droit."
+ * )
  */
 class CoursePermission
 {
@@ -25,6 +32,7 @@ class CoursePermission
      * @var string|null
      *
      * @ORM\Column(name="permission", type="string", length=45, nullable=false, options={"fixed"=true})
+     * @Assert\NotBlank()
      */
     private $permission = 'READ';
 
@@ -35,6 +43,7 @@ class CoursePermission
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
      * })
+     * @Assert\NotBlank()
      */
     private $courseInfo;
 
@@ -45,6 +54,7 @@ class CoursePermission
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      * })
+     * @Assert\NotBlank()
      */
     private $user;
 
@@ -89,7 +99,7 @@ class CoursePermission
     /**
      * @return CourseInfo
      */
-    public function getCourseInfo(): CourseInfo
+    public function getCourseInfo(): ?CourseInfo
     {
         return $this->courseInfo;
     }
@@ -108,7 +118,7 @@ class CoursePermission
     /**
      * @return User
      */
-    public function getUser(): User
+    public function getUser(): ?User
     {
         return $this->user;
     }
