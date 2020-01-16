@@ -117,6 +117,9 @@
             $(document).on('submit', '.modal-action-form', function (e) {
                 e.preventDefault();
                 let url = $(this).data('action-url');
+                let $card = $('#' + $(this).data("card"));
+                let $cardBody = $card.find('.card-body');
+                let view = $card.data('view-url');
                 let data = $(this).serialize();
                 $.post(
                     url,
@@ -124,7 +127,11 @@
                 ).done(function (response) {
                     if (Syllabus.handleAjaxResponseModal(response, $modal_app_body)) {
                         $modal_app.modal('hide');
-                        document.location.reload();
+                        $.get(view).done(function (response) {
+                            if (Syllabus.handleAjaxResponseModal(response)) {
+                                $cardBody.html(response["content"]);
+                            }
+                        })
                     }
                 });
             });
