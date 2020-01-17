@@ -35,15 +35,19 @@ class CourseInfoEvaluationController extends AbstractController
     /**
      * @Route("/course/{id}/evaluation/specifications/view", name="course_evaluation_specifications_view"))
      *
-     * @param $id
+     * @param CourseInfo $courseInfo
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function generalViewAction($id)
+    public function generalViewAction(CourseInfo $courseInfo)
     {
-        $em = $this->getDoctrine()->getManager();
-        /** @var CourseInfo $courseInfo */
-        $courseInfo = $em->getRepository(CourseInfo::class)->find($id);
+        if (!$courseInfo instanceof CourseInfo)
+        {
+            return $this->json([
+                'status' => false,
+                'render' => "Une erreur est survenue : Le cours n'existe pas"
+            ]);
+        }
 
         $render = $this->get('twig')->render('course_info/evaluation/view/specifications.html.twig', [
             'courseInfo' => $courseInfo
@@ -57,25 +61,27 @@ class CourseInfoEvaluationController extends AbstractController
     /**
      * @Route("/course/{id}/evaluation/specifications/form", name="course_evaluation_specifications_form"))
      *
-     * @param $id
+     * @param CourseInfo $courseInfo
      * @param Request $request
      * @param CourseInfoManager $manager
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function specificationsFormAction($id, Request $request, CourseInfoManager $manager)
+    public function specificationsFormAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
     {
-        $em = $this->getDoctrine()->getManager();
-        /** @var CourseInfo $courseInfo */
-        $courseInfo = $em->getRepository(CourseInfo::class)->find($id);
-        dump($courseInfo);
+        if (!$courseInfo instanceof CourseInfo)
+        {
+            return $this->json([
+                'status' => false,
+                'render' => "Une erreur est survenue : Le cours n'existe pas"
+            ]);
+        }
 
         $form = $this->createForm(SpecificationsType::class, $courseInfo);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $manager->update($courseInfo);
-            dump($courseInfo);
             $render = $this->get('twig')->render('course_info/evaluation/view/specifications.html.twig', [
                 'courseInfo' => $courseInfo
             ]);

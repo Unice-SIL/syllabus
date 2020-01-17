@@ -28,6 +28,7 @@ class CourseInfoPresentationController extends AbstractController
      *
      * @param CourseInfo $courseInfo
      * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
      */
     public function indexAction(CourseInfo $courseInfo)
     {
@@ -39,15 +40,18 @@ class CourseInfoPresentationController extends AbstractController
     /**
      * @Route("/course/{id}/presentation/general/view", name="course_presentation_general_view"))
      *
-     * @param $id
+     * @param CourseInfo|null $courseInfo
      * @return \Symfony\Component\HttpFoundation\Response
-     * @throws \Exception
      */
-    public function generalViewAction($id)
+    public function generalViewAction(?CourseInfo $courseInfo)
     {
-        $em = $this->getDoctrine()->getManager();
-        /** @var CourseInfo $courseInfo */
-        $courseInfo = $em->getRepository(CourseInfo::class)->find($id);
+        if (!$courseInfo instanceof CourseInfo)
+        {
+            return $this->json([
+                'status' => false,
+                'render' => "Une erreur est survenue : Le cours n'existe pas"
+            ]);
+        }
 
         $render = $this->get('twig')->render('course_info/presentation/view/general.html.twig', [
             'courseInfo' => $courseInfo
@@ -61,17 +65,21 @@ class CourseInfoPresentationController extends AbstractController
     /**
      * @Route("/course/{id}/presentation/general/form", name="course_presentation_general_form"))
      *
-     * @param $id
+     * @param CourseInfo $courseInfo
      * @param Request $request
      * @param CourseInfoManager $manager
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function generalFormAction($id, Request $request, CourseInfoManager $manager)
+    public function generalFormAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
     {
-        $em = $this->getDoctrine()->getManager();
-        /** @var CourseInfo $courseInfo */
-        $courseInfo = $em->getRepository(CourseInfo::class)->find($id);
+        if (!$courseInfo instanceof CourseInfo)
+        {
+            return $this->json([
+                'status' => false,
+                'render' => "Une erreur est survenue : Le cours n'existe pas"
+            ]);
+        }
 
         $form = $this->createForm(GeneralType::class, $courseInfo);
         $form->handleRequest($request);
@@ -101,15 +109,19 @@ class CourseInfoPresentationController extends AbstractController
     /**
      * @Route("/course/{id}/presentation/teachers/view", name="course_presentation_teachers_view"))
      *
-     * @param $id
+     * @param CourseInfo $courseInfo
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function teachersViewAction($id)
+    public function teachersViewAction(CourseInfo $courseInfo)
     {
-        $em = $this->getDoctrine()->getManager();
-        /** @var CourseInfo $courseInfo */
-        $courseInfo = $em->getRepository(CourseInfo::class)->find($id);
+        if (!$courseInfo instanceof CourseInfo)
+        {
+            return $this->json([
+                'status' => false,
+                'render' => "Une erreur est survenue : Le cours n'existe pas"
+            ]);
+        }
 
         $render = $this->get('twig')->render('course_info/presentation/view/teachers.html.twig', [
             'courseInfo' => $courseInfo
@@ -123,22 +135,25 @@ class CourseInfoPresentationController extends AbstractController
     /**
      * @Route("/course/{id}/presentation/teachers/form", name="course_presentation_teachers_form"))
      *
-     * @param $id
+     * @param CourseInfo $courseInfo
      * @param Request $request
      * @param CourseInfoManager $manager
      * @param ImportCourseTeacherFactory $factory
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function addTeachersAction($id, Request $request, CourseInfoManager $manager, ImportCourseTeacherFactory $factory)
+    public function addTeachersAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager, ImportCourseTeacherFactory $factory)
     {
+        if (!$courseInfo instanceof CourseInfo)
+        {
+            return $this->json([
+                'status' => false,
+                'render' => "Une erreur est survenue : Le cours n'existe pas"
+            ]);
+        }
+
         $status = true;
         $message = null;
-
-        $em = $this->getDoctrine()->getManager();
-        /** @var CourseInfo $courseInfo */
-        $courseInfo = $em->getRepository(CourseInfo::class)->find($id);
-
         $teacher = new CourseTeacher();
 
         $form = $this->createForm(TeachersType::class, $teacher);
@@ -179,28 +194,28 @@ class CourseInfoPresentationController extends AbstractController
     /**
      * @Route("/course/{id}/presentation/teachers/delete/{teacherId}", name="course_presentation_remove_teacher"))
      *
-     * @param $id
-     * @param $teacherId
+     * @param CourseInfo $courseInfo
+     * @param CourseTeacher $teacher
      * @param Request $request
      * @param CourseInfoManager $manager
      * @return JsonResponse
      * @throws \Exception
      */
-    public function deleteTeacherAction($id, $teacherId, Request $request, CourseInfoManager $manager)
+    public function deleteTeacherAction(CourseInfo $courseInfo, CourseTeacher $teacher, Request $request, CourseInfoManager $manager)
     {
-        $em = $this->getDoctrine()->getManager();
-        /** @var CourseInfo $courseInfo */
-        $courseInfo = $em->getRepository(CourseInfo::class)->find($id);
-
-
-        /** @var CourseTeacher $teacher */
-        $teacher = $em->getRepository(CourseTeacher::class)->find($teacherId);
+        if (!$courseInfo instanceof CourseInfo)
+        {
+            return $this->json([
+                'status' => false,
+                'render' => "Une erreur est survenue : Le cours n'existe pas"
+            ]);
+        }
 
         if (!$teacher instanceof CourseTeacher)
         {
             return $this->json([
                 'status' => false,
-                'content' => "L'enseignant {$teacherId} n'existe pas"
+                'render' => "Une erreur est survenue : L'enseignant n'existe pas"
             ]);
         }
 
@@ -232,15 +247,19 @@ class CourseInfoPresentationController extends AbstractController
     /**
      * @Route("/course/{id}/presentation/teaching_mode/view", name="course_presentation_teaching_mode_view"))
      *
-     * @param $id
+     * @param CourseInfo $courseInfo
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function teachingModeViewAction($id)
+    public function teachingModeViewAction(CourseInfo $courseInfo)
     {
-        $em = $this->getDoctrine()->getManager();
-        /** @var CourseInfo $courseInfo */
-        $courseInfo = $em->getRepository(CourseInfo::class)->find($id);
+        if (!$courseInfo instanceof CourseInfo)
+        {
+            return $this->json([
+                'status' => false,
+                'render' => "Une erreur est survenue : Le cours n'existe pas"
+            ]);
+        }
 
         $render = $this->get('twig')->render('course_info/presentation/view/teaching_mode.html.twig', [
             'courseInfo' => $courseInfo
@@ -254,18 +273,22 @@ class CourseInfoPresentationController extends AbstractController
     /**
      * @Route("/course/{id}/presentation/teaching_mode/form", name="course_presentation_teaching_mode_form"))
      *
-     * @param $id
+     * @param CourseInfo $courseInfo
      * @param Request $request
      * @param CourseInfoManager $manager
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function teachingModeFormAction($id, Request $request, CourseInfoManager $manager)
+    public function teachingModeFormAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
     {
-        $em = $this->getDoctrine()->getManager();
-        /** @var CourseInfo $courseInfo */
-        $courseInfo = $em->getRepository(CourseInfo::class)->find($id);
-
+        if (!$courseInfo instanceof CourseInfo)
+        {
+            return $this->json([
+                'status' => false,
+                'render' => "Une erreur est survenue : Le cours n'existe pas"
+            ]);
+        }
+        
         $form = $this->createForm(TeachingModeType::class, $courseInfo);
         $form->handleRequest($request);
 
