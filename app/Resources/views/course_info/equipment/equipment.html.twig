@@ -3,12 +3,12 @@
 {% block subContent %}
 
     <div class="card my-2 shadow card-syllabus"
-         data-view-url="{{ path('course_closing_remarks_message_view', {'id': courseInfo.id }) }}"
-         data-form-url="{{ path('course_closing_remarks_message_form', {'id': courseInfo.id }) }}"
+         data-view-url="{{ path('course_equipment_resource_view', {'id': courseInfo.id }) }}"
+         data-form-url="{{ path('course_equipment_resource_form', {'id': courseInfo.id }) }}"
     >
         <div class="card-header">
             <div class="d-flex justify-content-between">
-                <h3>Le mot de la fin</h3>
+                <h3>Ressources</h3>
                 <button type="button" class="edit-button btn btn-primary rounded">
                     Mettre à jour
                 </button>
