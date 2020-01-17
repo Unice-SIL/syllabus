@@ -33,7 +33,7 @@
             </div>
         </div>
 
-        <div id="form-class" class="row {% if courseInfo.teachingMode != 'class' %}d-none{% endif %}">
+        <div class="row teaching-mode teaching-mode-class d-none">
             <div class="col">
                 {{ form_errors(form.teachingOtherTypeClass) }}
                 <div class="row">
@@ -48,7 +48,7 @@
                 </div>
             </div>
         </div>
-        <div id="form-dist" class="row {% if courseInfo.teachingMode != 'distant' %}d-none{% endif %}">
+        <div class="row teaching-mode teaching-mode-distant d-none">
             <div class="col">
                 <div class="row">
                     <div class="col">
@@ -75,7 +75,7 @@
                 </div>
             </div>
         </div>
-        <div id="form-hybrid" class="{% if courseInfo.teachingMode != 'hybrid' %}d-none{% endif %}">
+        <div class="teaching-mode teaching-mode-hybrid d-none">
             <div class="row">
                 <div class="col">
                     <h4 class="mb-2">Présentiel</h4>
@@ -316,37 +316,17 @@
 
 <script>
     $(document).ready(function () {
-        $("#teaching_mode_teachingMode").on('change', function () {
-            showForms($(this).find('input[type="radio"]:checked').val());
+        toggleTeachingMode();
+
+        $(document).on('change', '#teaching_mode_teachingMode', function () {
+            toggleTeachingMode();
         });
 
-        function showForms(value) {
-            switch (value) {
-                case 'class':
-                    console.log(1);
-                    $("#form-class").removeClass('d-none').addClass('d-block');
-                    $("#form-dist").removeClass('d-block').addClass('d-none');
-                    $("#form-hybrid").removeClass('d-block').addClass('d-none');
-                    break;
-                case 'distant':
-                    console.log(2);
-                    $("#form-class").removeClass('d-block').addClass('d-none');
-                    $("#form-dist").removeClass('d-none').addClass('d-block');
-                    $("#form-hybrid").removeClass('d-block').addClass('d-none');
-                    break;
-                case 'hybrid':
-                    console.log(3);
-                    $("#form-class").removeClass('d-block').addClass('d-none');
-                    $("#form-dist").removeClass('d-block').addClass('d-none');
-                    $("#form-hybrid").removeClass('d-none').addClass('d-block');
-                    break;
-                default:
-                    console.log(4);
-                    $("#form-class").removeClass('d-block').addClass('d-none');
-                    $("#form-dist").removeClass('d-block').addClass('d-none');
-                    $("#form-hybrid").removeClass('d-block').addClass('d-none');
-                    break;
-            }
+        function toggleTeachingMode() {
+            let value = $('#teaching_mode_teachingMode').find('input[type="radio"]:checked').val();
+
+            $('.teaching-mode').addClass('d-none');
+            $('.teaching-mode-' + value).removeClass('d-none');
         }
     })
 </script>
