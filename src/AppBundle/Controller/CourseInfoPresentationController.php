@@ -26,15 +26,11 @@ class CourseInfoPresentationController extends AbstractController
     /**
      * @Route("/course/{id}/presentation", name="course_presentation")
      *
-     * @param $id
+     * @param CourseInfo $courseInfo
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function indexAction($id)
+    public function indexAction(CourseInfo $courseInfo)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $courseInfo = $em->getRepository(CourseInfo::class)->find($id);
-
         return $this->render('course_info/presentation/presentation.html.twig', [
             'courseInfo' => $courseInfo
         ]);
