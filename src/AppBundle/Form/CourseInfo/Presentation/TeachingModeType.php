@@ -119,12 +119,10 @@ class TeachingModeType extends AbstractType
             ])
             ->add('teachingCmDist', TextType::class, [
                 'required' => false,
-                'disabled' => true,
                 'label' => 'h Cours Magistraux',
             ])
             ->add('teachingTdDist', TextType::class, [
                 'required' => false,
-                'disabled' => true,
                 'label' => 'h Travaux Dirigés',
             ])
             ->add('teachingOtherDist', TextType::class, [
