@@ -58,6 +58,22 @@ class GeneralType extends AbstractType
             ->add('summary', CKEditorType::class, [
                 'label' => 'Description',
                 'required' => false,
+                'config' => array(
+                    'extraPlugins' => 'wordcount',
+                    'wordcount' => [
+                        'showParagraphs' => false,
+                        'showCharCount' => true,
+                        'maxCharCount' => 2000,
+                        'maxWordCount' => 500
+                    ]
+                ),
+                'plugins' => array(
+                    'wordcount' => array(
+                        'path'     => '/build/ckeditor/plugins/wordcount/',
+                        'filename' => 'plugin.js',
+                        'maxCharCount' => 10,
+                    ),
+                ),
             ])
             ->add('mediaType', HiddenType::class)
             ->add('image', FileType::class, [
