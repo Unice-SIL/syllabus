@@ -77,7 +77,7 @@ class UserController extends Controller
         $users = $userDoctrineRepository->findLikeQuery($query, $searchFields);
 
         $data = array_map(function ($u) use ($request) {
-            return ['id' => $u->getId(), 'text' => $u->getLastname() . ' ' . $u->getfirstname() . ' (' . $u->getUsername() . ')'];
+            return ['id' => $u->getId(), 'text' => $u->getSelect2Name()];
         }, $users);
 
         return $this->json($data);

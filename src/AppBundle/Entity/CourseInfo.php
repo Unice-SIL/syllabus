@@ -1254,7 +1254,7 @@ class CourseInfo
      * @param int|null $mccCcNbEvalSession1
      * @return CourseInfo
      */
-    public function setMccCcNbEvalSession1($mccCcNbEvalSession1)
+    public function setMccCcNbEvalSession1(?int $mccCcNbEvalSession1)
     {
         $this->mccCcNbEvalSession1 = $mccCcNbEvalSession1;
 
@@ -1292,7 +1292,7 @@ class CourseInfo
      * @param null|string $mccCtNatSession1
      * @return CourseInfo
      */
-    public function setMccCtNatSession1($mccCtNatSession1)
+    public function setMccCtNatSession1(?string $mccCtNatSession1)
     {
         $this->mccCtNatSession1 = $mccCtNatSession1;
 

@@ -1,0 +1,63 @@
+{% extends 'admin_layout.html.twig' %}
+{% set h1 = 'Importer des MCC' %}
+
+{% block modals %}
+    {{parent()}}
+{% endblock %}
+{% block subContent %}
+
+    <div class="card">
+        <div class="card-body">
+            {{ form_start(form) }}
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <div class="custom-file">
+                            {{ form_label(form.csv) }}
+                            {{ form_widget(form.csv) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary">Importer</button>
+                    </div>
+                </div>
+            </div>
+            {{ form_end(form) }}
+
+            {% if importMccReport is not null %}
+                {% for message in importMccReport.messages %}
+                    <div class="alert alert-{{ message.type }}">
+                        {{ message.content }}
+                    </div>
+                {% endfor %}
+
+                {% if importMccReport.linesFailed|length > 0 %}
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Code établissement</th>
+                                <th>Année</th>
+                                <th>Commentaire</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for line in importMccReport.linesFailed %}
+                            <tr>
+                                <td>{{ line.etbId }}</td>
+                                <td>{{ line.year }}</td>
+                                <td>
+                                    <ul>
+                                        {% for error in line.errors %}
+                                            <li>{{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

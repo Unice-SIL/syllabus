@@ -111,10 +111,19 @@
         </li>
 
         <li class="nav-item">
-            <a href="{{ path('app_admin_course_info.field_index') }}" class="nav-link {{ printActiveAdminSidebarLink(['app_admin_course_info.field']) }}">
+            <a href="{{ path('app_admin_course_info_field_index') }}" class="nav-link {{ printActiveAdminSidebarLink(['app_admin_course_info_field_index']) }}">
                 <i class="nav-icon fas fa-copy"></i>
                 <p>
                     Config duplication
+                </p>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a href="{{ path('app_admin_course_info_import_mcc') }}" class="nav-link {{ printActiveAdminSidebarLink(['app_admin_course_info_import_mcc']) }}">
+                <i class="nav-icon fas fa-building"></i>
+                <p>
+                    Imports / MCC
                 </p>
             </a>
         </li>
