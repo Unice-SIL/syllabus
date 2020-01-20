@@ -155,6 +155,10 @@ main > small:first-of-type {
     Forms.
 */
 
+.custom-file-label::after {
+    content: "Choisir";
+}
+
 form {
 
     & > button:last-of-type {

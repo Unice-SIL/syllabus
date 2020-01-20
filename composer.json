@@ -28,6 +28,7 @@
         "friendsofsymfony/ckeditor-bundle": "^2.0",
         "incenteev/composer-parameter-handler": "^2.0",
         "knplabs/knp-paginator-bundle": "4.1.1",
+        "league/csv": "^9.5",
         "lexik/form-filter-bundle": "v5.0.10",
         "manuelodelain/linkify-twig-extension": "^1.0",
         "ramsey/uuid": "^3.8",

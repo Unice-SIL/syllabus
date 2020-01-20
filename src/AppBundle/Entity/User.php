@@ -252,4 +252,9 @@ class User implements UserInterface
         // TODO: Implement eraseCredentials() method.
     }
 
+    public function getSelect2Name()
+    {
+        return $this->lastname . ' ' . $this->firstname . ' (' . $this->username . ')';
+    }
+
 }

@@ -31,10 +31,10 @@ class AddCourseInfoPermissionType extends AbstractType
                 'multiple' => false,
                 'remote_route' => 'app_admin_user_autocompleteS2',
                 'class' => User::class,
-                'text_property' => 'id',
+                'text_property' => 'getSelect2Name',
                 'page_limit' => 10,
                 'placeholder' => 'Choisissez un utilisateur',
-                'required' => true
+                'required' => true,
             ])
             ->add('permission', ChoiceType::class, [
                 'label' => 'app.form.course_permission.label.permission',

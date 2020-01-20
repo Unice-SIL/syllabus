@@ -4,17 +4,24 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Form\CourseInfo\DuplicateCourseInfoType;
+use AppBundle\Form\CourseInfo\ImportMccType;
 use AppBundle\Form\Filter\CourseInfoFilterType;
 use AppBundle\Manager\CourseInfoManager;
-use AppBundle\Repository\CourseInfoRepositoryInterface;
-use AppBundle\Repository\Doctrine\ActivityDoctrineRepository;
 use AppBundle\Repository\Doctrine\CourseInfoDoctrineRepository;
+use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\ORM\EntityManagerInterface;
+use League\Csv\Reader;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
-use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
+use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Class CourseInfoController
@@ -25,13 +32,13 @@ class CourseInfoController extends Controller
 {
     /**
      * @Route("/", name="index")
-     *
      * @param Request $request
      * @param CourseInfoDoctrineRepository $courseInfoDoctrineRepository
      * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
      * @param CourseInfoManager $courseInfoManager
      * @param EntityManagerInterface $em
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return RedirectResponse|Response
+     * @throws \Exception
      */
     public function indexAction(
         Request $request,
@@ -109,6 +116,10 @@ class CourseInfoController extends Controller
 
     /**
      * @Route("/autocomplete/{field}", name="autocomplete", methods={"GET"}, requirements={"field" = "ci.title|c.etbId|c.type|y.label|s.label"})
+     * @param CourseInfoDoctrineRepository $courseInfoDoctrineRepository
+     * @param Request $request
+     * @param $field
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function autocomplete(CourseInfoDoctrineRepository $courseInfoDoctrineRepository, Request $request, $field)
     {
@@ -141,6 +152,9 @@ class CourseInfoController extends Controller
 
     /**
      * @Route("/autocompleteS2", name="autocompleteS2", methods={"GET"})
+     * @param CourseInfoDoctrineRepository $courseInfoDoctrineRepository
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function autocompleteS2(CourseInfoDoctrineRepository $courseInfoDoctrineRepository, Request $request)
     {
@@ -163,6 +177,33 @@ class CourseInfoController extends Controller
         }, $courseInfos);
 
         return $this->json($data);
+    }
+
+    /**
+     * @Route("/import-mcc", name="import_mcc", methods={"GET", "POST"})
+     */
+    public function importMccAction(Request $request, EntityManagerInterface $em, CourseInfoManager $courseInfoManager)
+    {
+        $form = $this->createForm(ImportMccType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid())
+        {
+
+            $report = $courseInfoManager->importMcc($form->getData()['csv']->getPathName());
+
+            $em->flush();
+
+            $request->getSession()->set('importMccReport', $report);
+            return $this->redirectToRoute('app_admin_course_info_import_mcc');
+
+
+        }
+
+        return $this->render('course_info/admin/import_mcc.html.twig', [
+            'form' => $form->createView(),
+            'importMccReport' => $request->getSession()->remove('importMccReport')
+        ]);
     }
 
 }
