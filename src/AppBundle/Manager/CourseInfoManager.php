@@ -349,7 +349,7 @@ class CourseInfoManager
                 }
 
                 if (count($linesFailed[$record[$etbId] . '-' . $record[$year]]['errors']) > 0) {
-                    $this->em->detach($courseInfo);
+                    $this->em->getUnitOfWork()->removeFromIdentityMap($courseInfo);
                     continue;
                 }
 
