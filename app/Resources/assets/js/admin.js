@@ -60,5 +60,12 @@ $(document).ready(function () {
     }
     initAutocomplete();
 
+    //manage label changing on file type when a file is selected
+    $('.custom-file-input').change(function(e){
+        var fileName = e.target.files[0].name;//get selected file name
+        var container = $(this).closest('.custom-file');//get file-container
+        container.find('.custom-file-label').html(fileName);//add selected file name as placeholder to input file
+    });
+
 });
 
