@@ -24,7 +24,7 @@ class CourseInfoContentActivitiesController extends Controller
 {
 
     /**
-     * @Route("/course/{id}/activities", name="course_activities")
+     * @Route("/course/{id}/activities", name="course_info_content_activities")
      *
      * @param string $id
      * @param Request $request

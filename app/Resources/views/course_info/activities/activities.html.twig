@@ -1,0 +1,14 @@
+{% extends 'course_info/layout.html.twig' %}
+
+{% block subContent %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function() {
+            $('#menu-activities').addClass('active');
+            $('#menu-activities').addClass('border-bottom-3 border-white');
+        });
+    </script>
+{% endblock %}
