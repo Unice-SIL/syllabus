@@ -2,6 +2,8 @@
 
 namespace AppBundle\Manager;
 
+use AppBundle\Constant\Level;
+use AppBundle\Constant\TeachingMode;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseInfoField;
 use AppBundle\Entity\User;
@@ -233,19 +235,63 @@ class CourseInfoManager
     public function importMcc(string $pathName)
     {
         //===================================Matching===================================
+        /**
+         * example : [
+         *     'title' => [
+         *          'name' => 'Titre' // optionnal, by default the name is the array key
+         *          'type' => 'string' // optionnal by default is string
+         *      ]
+         * ]
+         */
         $matching = [
-            'mccWeight' => ['name' => 'coeff', 'type' => 'int'],
-            'mccCapitalizable' => ['name' => 'capitalisable', 'type' => 'boolean'],
-            'mccCompensable' => ['name' => 'compensable', 'type' => 'boolean'],
-            'mccCtCoeffSession1' => ['name' => 'coeff_ct', 'type' => 'int'],
-            'mccCcNbEvalSession1' => ['name' => 's1_cc_nb_eval', 'type' => 'int'],
-            'mccCtNatSession1' => ['name' => 's1_ct_nature', 'type' => 'string'],
-            'mccCtDurationSession1' => ['name' => 's1_ct_duree', 'type' => 'string'],
+            'title',
+            'ects' => ['type' => 'float'],
+            'level',
+            'languages',
+            'domain',
+            'summary',
+            'period',
+            'teachingMode',
+            'teachingCmClass' => ['type' => 'float'],
+            'teachingTdClass' => ['type' => 'float'],
+            'teachingTpClass' => ['type' => 'float'],
+            'teachingOtherClass' => ['type' => 'float'],
+            'teachingOtherTypeClass',
+            'teachingCmHybridClass' => ['type' => 'float'],
+            'teachingTdHybridClass' => ['type' => 'float'],
+            'teachingTpHybridClass' => ['type' => 'float'],
+            'teachingOtherHybridClass' => ['type' => 'float'],
+            'teachingOtherTypeHybridClass',
+            'teachingCmHybridDist' => ['type' => 'float'],
+            'teachingTdHybridDist' => ['type' => 'float'],
+            'teachingOtherHybridDist' => ['type' => 'float'],
+            'teachingOtherTypeHybridDistant',
+            'teachingCmDist' => ['type' => 'float'],
+            'teachingTdDist' => ['type' => 'float'],
+            'teachingOtherDist' => ['type' => 'float'],
+            'teachingOtherTypeDist',
+            'mccWeight' => ['type' => 'int'],
+            'mccCapitalizable' => ['type' => 'boolean'],
+            'mccCompensable' => ['type' => 'boolean'],
+            'mccCtCoeffSession1' => ['type' => 'int'],
+            'mccCcNbEvalSession1' => ['type' => 'int'],
+            'mccCtNatSession1',
+            'mccCtDurationSession1',
+            'mccAdvice',
+            'tutoring' => ['type' => 'boolean'],
+            'tutoringTeacher' => ['type' => 'boolean'],
+            'tutoringStudent' => ['type' => 'boolean'],
+            'tutoringDescription',
+            'educationalResources',
+            'bibliographicResources',
+            'agenda',
+            'organization',
+            'closingRemarks'
         ];
 
-        $controlType = 'type_controle';
-        $etbId = 'code_elp';
-        $year = 'annee';
+        $controlType = 'evaluationType';
+        $etbId = 'etbId';
+        $year = 'year';
         //===================================End Matching===================================
 
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
@@ -256,7 +302,14 @@ class CourseInfoManager
 
         $report = ReportingHelper::createReport();
 
-        $appropriatesFields = array_map(function ($match) {return $match['name'];}, array_values($matching));
+        $appropriatesFields = array_map(function ($match, $property) {
+            $name = $match;
+            if(is_array($match))
+            {
+                $name  = array_key_exists('name', $match)? $match['name'] : $property;
+            }
+            return $name;
+        }, $matching, array_keys($matching));
         $appropriatesFields = array_merge($appropriatesFields, [$controlType, $etbId, $year]);
 
         if(!AppHelper::sameArrays($csv->getHeader(), $appropriatesFields)) {
@@ -278,20 +331,46 @@ class CourseInfoManager
                 }
 
                 foreach ($matching as $property => $match) {
+                    $name = $match;
+                    $type = 'string';
+                    if(is_array($match))
+                    {
+                        $name  = array_key_exists('name', $match)? $match['name'] : $property;
+                        $type = array_key_exists('type', $match)? $match['type'] : $type;
+                    }else{
+                        $property = $name;
+                    }
 
-                    if (in_array($record[$match['name']], [null, '']) and $property !== 'mccCtCoeffSession1') {
-                        $reportLine->addComment('Le champ ' . $match['name'] . ' ne doit pas être vide');
+                    if(!array_key_exists($name, $record))
+                    {
                         continue;
                     }
 
-                    $data = $record[$match['name']];
+                    if (in_array($record[$name], [null, '']) and $property !== 'mccCtCoeffSession1') {
+                        $linesFailed[$record[$etbId] . '-' . $record[$year]]['errors'][] = 'Le champ ' . $name . ' ne doit pas être vide';
+                        continue;
+                    }
 
-                    if ($match['type'] === 'boolean') {
+                    $data = $record[$name];
+
+                    if ($type === 'boolean') {
                         switch (strtoupper($data)) {
                             case 'OUI':
                                 $data = true;
                                 break;
+                            case 'TRUE':
+                                $data = true;
+                                break;
+                            case '1':
+                                $data = true;
+                                break;
                             case 'NON':
+                                $data = false;
+                                break;
+                            case 'FALSE':
+                                $data = false;
+                                break;
+                            case '0':
                                 $data = false;
                                 break;
                             default:
@@ -299,6 +378,16 @@ class CourseInfoManager
                                 continue;
                                 break;
                         }
+                    }
+
+                    // Special case if the property check is level
+                    if ($property === 'level' && !in_array($record[$property], Level::CHOICES)) {
+                        $linesFailed[$record[$etbId] . '-' . $record[$year]]['errors'][] = "Le champ {$property} doit contenir une des valeurs suivante: ".implode(', ', Level::CHOICES);
+                    }
+
+                    // Special case if the property check is level
+                    if ($property === 'teachingMode' && !in_array($record[$property], TeachingMode::CHOICES)) {
+                        $linesFailed[$record[$etbId] . '-' . $record[$year]]['errors'][] = "Le champ {$property} doit contenir une des valeurs suivante: ".implode(', ', TeachingMode::CHOICES);
                     }
 
                     //Special case if the property check is mccCtCoeffSession1
@@ -330,7 +419,7 @@ class CourseInfoManager
                         }
                     }
 
-                    if($match['type'] === 'int') {
+                    if($type === 'int') {
                         if(!is_numeric($data)) {
                             $reportLine->addComment('La valeur du champ ' . $match['name'] . ' devrait être un nombre. La valeur saisie est ' . $data);
                             continue;
@@ -348,6 +437,8 @@ class CourseInfoManager
 
                 if ($report->addLineIfHasComments($reportLine)) {
                     $this->em->detach($courseInfo);
+                if (count($linesFailed[$record[$etbId] . '-' . $record[$year]]['errors']) > 0) {
+                    $this->em->getUnitOfWork()->removeFromIdentityMap($courseInfo);
                     continue;
                 }
 
