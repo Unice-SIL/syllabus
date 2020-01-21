@@ -8,6 +8,7 @@ use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseInfoField;
 use AppBundle\Entity\User;
 use AppBundle\Helper\AppHelper;
+use AppBundle\Helper\Report\Report;
 use AppBundle\Helper\Report\ReportingHelper;
 use AppBundle\Helper\Report\ReportLine;
 use AppBundle\Helper\Report\ReportMessage;
@@ -232,6 +233,10 @@ class CourseInfoManager
 
     }
 
+    /**
+     * @param string $pathName
+     * @return Report
+     */
     public function importMcc(string $pathName)
     {
         //===================================Matching===================================
@@ -312,8 +317,15 @@ class CourseInfoManager
         }, $matching, array_keys($matching));
         $appropriatesFields = array_merge($appropriatesFields, [$controlType, $etbId, $year]);
 
-        if(!AppHelper::sameArrays($csv->getHeader(), $appropriatesFields)) {
+        //if(!AppHelper::sameArrays($csv->getHeader(), $appropriatesFields)) {
+        if(!is_array($csv->getHeader()) or !is_array($appropriatesFields))
+        {
             $report->createMessage('Le format du tableau n\'est pas correct. Seuls les champs ' . implode('/', $appropriatesFields) . ' doivent être définit. Si les champs correspondend bien, vérifier que le délimiteur est bien "' . $delimiter . '"', ReportMessage::TYPE_DANGER);
+        }
+
+        if(count($unknowFields = array_diff($csv->getHeader(), $appropriatesFields)) > 0)
+        {
+            $report->createMessage("Les champs suivants ne font pas partis de la liste des champs autorisés : ".implode($unknowFields).". Sont autorisés les champs ".implode($appropriatesFields), ReportMessage::TYPE_DANGER);
         }
 
         if ($report->getMessages()->isEmpty()) {
@@ -347,7 +359,7 @@ class CourseInfoManager
                     }
 
                     if (in_array($record[$name], [null, '']) and $property !== 'mccCtCoeffSession1') {
-                        $linesFailed[$record[$etbId] . '-' . $record[$year]]['errors'][] = 'Le champ ' . $name . ' ne doit pas être vide';
+                        $reportLine->addComment("Le champ {$name} ne doit pas être vide");
                         continue;
                     }
 
@@ -374,7 +386,7 @@ class CourseInfoManager
                                 $data = false;
                                 break;
                             default:
-                                $reportLine->addComment('La valeur du champ ' . $match['name'] . ' devrait être OUI ou NON. La valeur saisie est ' . $data);
+                                $reportLine->addComment("La valeur du champ {$name} devrait être OUI ou NON. La valeur saisie est {$data}.");
                                 continue;
                                 break;
                         }
@@ -382,12 +394,12 @@ class CourseInfoManager
 
                     // Special case if the property check is level
                     if ($property === 'level' && !in_array($record[$property], Level::CHOICES)) {
-                        $linesFailed[$record[$etbId] . '-' . $record[$year]]['errors'][] = "Le champ {$property} doit contenir une des valeurs suivante: ".implode(', ', Level::CHOICES);
+                        $reportLine->addComment("Le champ {$property} doit contenir une des valeurs suivante: ".implode(', ', Level::CHOICES));
                     }
 
                     // Special case if the property check is level
                     if ($property === 'teachingMode' && !in_array($record[$property], TeachingMode::CHOICES)) {
-                        $linesFailed[$record[$etbId] . '-' . $record[$year]]['errors'][] = "Le champ {$property} doit contenir une des valeurs suivante: ".implode(', ', TeachingMode::CHOICES);
+                        $reportLine->addComment("Le champ {$property} doit contenir une des valeurs suivante: ".implode(', ', TeachingMode::CHOICES));
                     }
 
                     //Special case if the property check is mccCtCoeffSession1
@@ -402,10 +414,10 @@ class CourseInfoManager
                                 $courseInfo->setMccCtCoeffSession1(100);
                                 continue;
                             case 'CC&CT':
-                                if (in_array($record[$match['name']], [null, '']) and $property) {
+                                if (in_array($record[$name], [null, '']) and $property) {
                                     $reportLine->addComment(
-                                        'Le champ ' . $controlType . ' est du type ' . strtoupper($record[$controlType]) . ' mais aucun ' . $matching['mccCtCoeffSession1']['name'] . ' n\'a été renseigné.
-                                    Impossible de répartir les coefficients entre CC et CT'
+                                        "Le champ {$controlType} est du type " . strtoupper($record[$controlType]) . " mais aucun {$matching['mccCtCoeffSession1']['name'] } n'a été renseigné.
+                                    Impossible de répartir les coefficients entre CC et CT"
                                     );
                                     continue;
                                 }
@@ -414,14 +426,14 @@ class CourseInfoManager
                                 $courseInfo->setMccCtCoeffSession1($coeff);
                                 break;
                             default:
-                                $reportLine->addComment('La valeur du champ ' . $match['name'] . ' devrait être CC, CT ou CC&CT. La valeur saisie est ' . $record[$controlType]);
+                                $reportLine->addComment("La valeur du champ {$name} devrait être CC, CT ou CC&CT. La valeur saisie est {$record[$controlType]}");
                                 continue;
                         }
                     }
 
                     if($type === 'int') {
                         if(!is_numeric($data)) {
-                            $reportLine->addComment('La valeur du champ ' . $match['name'] . ' devrait être un nombre. La valeur saisie est ' . $data);
+                            $reportLine->addComment("La valeur du champ {$name} devrait être un nombre. La valeur saisie est {$data}");
                             continue;
                         }
                         $data = (int) $data;
@@ -436,8 +448,6 @@ class CourseInfoManager
                 }
 
                 if ($report->addLineIfHasComments($reportLine)) {
-                    $this->em->detach($courseInfo);
-                if (count($linesFailed[$record[$etbId] . '-' . $record[$year]]['errors']) > 0) {
                     $this->em->getUnitOfWork()->removeFromIdentityMap($courseInfo);
                     continue;
                 }
@@ -451,6 +461,10 @@ class CourseInfoManager
         return $report;
     }
 
+    /**
+     * @param string $pathName
+     * @return Report
+     */
     public function duplicateFromFile(string $pathName)
     {
         $csv = Reader::createFromPath($pathName);
