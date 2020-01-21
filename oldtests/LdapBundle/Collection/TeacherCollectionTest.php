@@ -1,6 +1,6 @@
 <?php
 
-namespace test\LdapBundle\Collection;
+namespace Tests\LdapBundle\Collection;
 
 use LdapBundle\Collection\TeacherCollection;
 use LdapBundle\Entity\Teacher;
@@ -16,7 +16,8 @@ class TeacherCollectionTest extends TestCase
     /**
      *
      */
-    public function setUp(){
+    public function setUp(): void
+    {
         $this->teacher = new Teacher();
         $this->teacher->setId('id')
             ->setUsername('username')

@@ -5,13 +5,10 @@ namespace tests\AppBundle\Command\Course;
 use AppBundle\Command\Course\EditClosingRemarksCourseInfoCommand;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\Year;
-use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
+use Symfony\Bundle\TwigBundle\Tests\TestCase;
 
-/**
- * Class EditClosingRemarksCourseInfoCommandTest
- * @package tests\AppBundle\Command\Course
- */
+
 class EditClosingRemarksCourseInfoCommandTest extends TestCase
 {
     /**
