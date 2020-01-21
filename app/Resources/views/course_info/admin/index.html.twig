@@ -50,6 +50,9 @@
                 <div class="col-md-2 col-sm-6">
                     <a class="btn btn-danger" style="margin-top: 32px" href="{{  path('app_admin_course_info_index')  }}">Réinitialiser les filtres</a>
                 </div>
+                <div class="col-md-2 col-sm-6">
+                    <a class="btn btn-primary float-right" style="margin-top: 32px" href="{{  path('app_admin_course_info_duplicate_syllabus_from_file')  }}">Dupliquer syllabus en masse</a>
+                </div>
             </div>
             <input type="submit" style="position: absolute; left: -9999px"/>
             {{ form_end(form) }}
@@ -77,7 +80,7 @@
                             <td>{{ syllabus.title }}</td>
                             <td>{{ syllabus.structure.label }}</td>
                             <td>
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#courseInfoDuplicationModal" data-id="{{ syllabus.id }}">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#courseInfoDuplicationModal" data-etbid-year="{{ syllabus.etbIdYear(true) }}">
                                     Dupliquer les infos
                                 </button>
                             </td>

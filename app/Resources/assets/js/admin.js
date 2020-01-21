@@ -17,7 +17,7 @@ $(document).ready(function () {
     $('.course-info-field-edit-ajax').click(function (event) {
 
         var checkbox = $(this);
-        var form = checkbox.closest('form');
+        var form = $(checkbox.data('target'));
         event.preventDefault();
 
         $.post( form.data('url'), form.serialize())
@@ -30,13 +30,14 @@ $(document).ready(function () {
 
     $('#courseInfoDuplicationModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget) ;
-        var id = button.data('id') ;
-        //add the from course info id to ajax request
+        var etbIdYear = button.data('etbid-year') ;
+
+        //add the from course info etbIdYear to ajax request
         var s2 = $(this).find('.select2entity');
-        s2.data()['ajax-Url'] = s2.data()['ajax-Url'] + '&fromId=' + id;
+        s2.data()['ajax-Url'] = s2.data()['ajax-Url'] + '&fromEtbIdYear=' + etbIdYear;
         s2.select2entity();
 
-        $('#appbundle_duplicate_course_info_from').val(id);
+        $('#appbundle_duplicate_course_info_from').val(etbIdYear);
     });
 
     /* ================End Course info================ */
