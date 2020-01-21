@@ -23,15 +23,17 @@
                     <a class="nav-link menu-tab"
                        href="{{ path('course_presentation', { 'id': courseInfo.id }) }}"
                        id="menu-presentation">
-                        <i>1</i>&nbsp;
-                        <p>Présentation générale</p>
+                        <i class="fas fa-star"></i>
+                        <p>
+                            Présentation Générale
+                        </p>
                     </a>
                 </li>
                 <li class="nav-item has-treeview">
                     <a class="nav-link menu-tab"
                        id="menu-activities"
                        href="{{ path('course_activities', { 'id': courseInfo.id }) }}">
-                        <i>2</i>&nbsp;
+                        <i class="fas fa-list-alt"></i>
                         <p>Contenu et activités</p>
                     </a>
                 </li>
@@ -39,7 +41,7 @@
                     <a class="nav-link menu-tab" id="menu-objective"
                        href="{{ path('course_info_objectives', { 'id': courseInfo.id }) }}"
                        id="menu-objectives_course">
-                        <i>3</i>&nbsp;
+                        <i class="fas fa-bullseye"></i>
                         <p>Objectifs du cours</p>
                     </a>
                 </li>
@@ -47,27 +49,27 @@
                     <a class="nav-link menu-tab"
                        id="menu-evaluation"
                        href="{{ path('course_evaluation', { 'id': courseInfo.id }) }}">
-                        <i>4</i>&nbsp;
+                        <i class="fas fa-medal"></i>
                         <p>Modalités d'évaluation</p>
                     </a>
                 </li>
                 <li class="nav-item menu-tab">
                     <a class="nav-link" href="{{ path('edit_equipments_course_info', { 'id': courseInfo.id }) }}">
-                        <i>5</i>&nbsp;
+                        <i class="fas fa-tools"></i>
                         <p>Matériel et ressources</p>
                     </a>
                 </li>
                 <li class="nav-item menu-tab">
                     <a class="nav-link" href="{{ path('course_info_info', { 'id': courseInfo.id }) }}"
                        id="menu-info">
-                        <i>6</i>&nbsp;
+                        <i class="fas fa-info-circle"></i>
                         <p>Informations pratiques</p>
                     </a>
                 </li>
                 <li class="nav-item menu-tab">
                     <a class="nav-link" href="{{ path('course_closing_remarks', { 'id': courseInfo.id }) }}"
                        id="menu-closing_remarks">
-                        <i>7</i>&nbsp;
+                        <i class="fas fa-flag-checkered"></i>
                         <p>Le mot de la fin</p>
                     </a>
                 </li>
