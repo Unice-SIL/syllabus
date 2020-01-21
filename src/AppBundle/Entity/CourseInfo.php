@@ -2402,4 +2402,11 @@ class CourseInfo
         }
     }
 
+    public function getEtbIdYear(bool $dev = null)
+    {
+        if ($dev) {
+            return $this->course->getEtbId() . '__UNION__' . $this->year->getId();
+        }
+        return $this->course->getEtbId() . '-' . $this->year->getId();
+    }
 }

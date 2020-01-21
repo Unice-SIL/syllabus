@@ -1,11 +1,7 @@
 {% extends 'admin_layout.html.twig' %}
-{% set h1 = 'Importer des MCC' %}
+{% set h1 = 'Dupliquer syllabus en masse' %}
 
-{% block modals %}
-    {{parent()}}
-{% endblock %}
 {% block subContent %}
-
     <div class="card">
         <div class="card-body">
             {{ form_start(form) }}
@@ -29,3 +25,4 @@
         </div>
     </div>
 {% endblock %}
+

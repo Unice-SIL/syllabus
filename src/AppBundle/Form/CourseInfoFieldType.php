@@ -25,6 +25,16 @@ class CourseInfoFieldType extends AbstractType
                 'attr' => [
                     'class' => 'custom-control-input'
                 ]
+            ])
+            ->add('automaticDuplication', CheckboxType::class, [
+                'label' => false,
+                'required' => false,
+                'label_attr' => [
+                    'class' => 'custom-control-label'
+                ],
+                'attr' => [
+                    'class' => 'custom-control-input'
+                ]
             ]);
     }/**
      * {@inheritdoc}
