@@ -5,6 +5,10 @@ namespace AppBundle\Manager;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseInfoField;
 use AppBundle\Entity\User;
+use AppBundle\Helper\AppHelper;
+use AppBundle\Helper\Report\ReportingHelper;
+use AppBundle\Helper\Report\ReportLine;
+use AppBundle\Helper\Report\ReportMessage;
 use AppBundle\Repository\CourseInfoRepositoryInterface;
 use AppBundle\Repository\Doctrine\CourseInfoDoctrineRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -12,7 +16,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use League\Csv\Reader;
 use Ramsey\Uuid\Uuid;
-use Symfony\Component\Inflector\Inflector;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -105,10 +108,30 @@ class CourseInfoManager
      * @return array
      * @throws \Exception
      */
-    public function duplicate(string $idFromCourseInfo, string $idToCourseInfo, string $context)
+    public function duplicate(?string $idFromCourseInfo, ?string $idToCourseInfo, string $context)
     {
+        $errors = [];
+        if (!$this->user) {
+            $errors['messages'][] = 'Aucun utilisateur n\'est authentifié';
+        }
 
-        $errors = $this->testsIfErrorsAndInitializesStaticProperties($idFromCourseInfo, $idToCourseInfo, $context);
+        //If we're looping on this function it's no necessary to get fields from the database every time (we put them in a static property cache)
+        if (!self::$fieldsToDuplicate) {
+            switch ($context) {
+                case self::DUPLICATION_CONTEXTE_IMPORT:
+                    self::$fieldsToDuplicate = $this->em->getRepository(CourseInfoField::class)->findByAutomaticDuplication(true);
+                    break;
+                default:
+                    self::$fieldsToDuplicate = $this->em->getRepository(CourseInfoField::class)->findByManuallyDuplication(true);
+                    break;
+            }
+        }
+
+        if (count(self::$fieldsToDuplicate) <= 0) {
+            $errors['messages'][] = 'Aucun champ n\'est activé pour import.';
+        }
+
+        $errors = $this->testsIfErrorsAndInitializesStaticProperties($idFromCourseInfo, $idToCourseInfo, $errors);
 
         if (count($errors) > 0) {
             return $errors;
@@ -146,48 +169,29 @@ class CourseInfoManager
     /**
      * @param string $fromCourseInfoId
      * @param string $toCourseInfoId
-     * @param string $context
+     * @param array $errors
      * @return array
      */
-    private function testsIfErrorsAndInitializesStaticProperties (string $fromCourseInfoId, string $toCourseInfoId, string $context)
+    private function testsIfErrorsAndInitializesStaticProperties (?string $fromCourseInfoId, ?string $toCourseInfoId, array $errors = [])
     {
-        $errors = [];
 
-        if (!$this->user) {
-            $errors[] = 'Aucun utilisateur n\'est authentifié';
+        if ($fromCourseInfoId === $toCourseInfoId ) {
+            $errors['line']['comments'][] = 'Le syllabus émetteur ne peut pas être le même que le syllabus récepteur.';
         }
 
-        if ($fromCourseInfoId === $toCourseInfoId) {
-            $errors[] = 'Le syllabus émetteur ne peut pas être le même que le syllabus récepteur.';
-        }
-
+        $fromCourseInfoId = explode('__UNION__', $fromCourseInfoId);
         //todo: add addSelect to the request to get every relations if necessary (optimisation)
-        self::$fromCourseInfo = $this->em->getRepository(CourseInfo::class)->findOneBy(['id' => $fromCourseInfoId]);
+        self::$fromCourseInfo = $this->repository->findByEtbIdAndYear($fromCourseInfoId[0], $fromCourseInfoId[1]);
         if (!self::$fromCourseInfo) {
-            $errors[] = 'Le syllabus émetteur n\'éxiste pas.';
+            $errors['line']['comments'][] = 'Le syllabus émetteur n\'éxiste pas.';
         }
 
+        $toCourseInfoId = explode('__UNION__', $toCourseInfoId);
         //todo: add addSelect to the request to get every relations if necessary (optimisation)
-        self::$toCourseInfo = $this->em->getRepository(CourseInfo::class)->findOneBy(['id' => $toCourseInfoId]);
+        self::$toCourseInfo = $this->repository->findByEtbIdAndYear($toCourseInfoId[0], $toCourseInfoId[1]);
 
         if (!self::$toCourseInfo) {
-            $errors[] = 'Le syllabus récépteur n\'éxiste pas.';
-        }
-
-        //If we're looping on this function it's no necessary to get fields from the database every time (we put them in a static property cache)
-        if (!self::$fieldsToDuplicate) {
-            switch ($context) {
-                case self::DUPLICATION_CONTEXTE_IMPORT:
-                    //self::$fieldsToDuplicate = $this->em->getRepository(ChooseYourRepository::class)->findByImport(true);
-                    break;
-                default:
-                    self::$fieldsToDuplicate = $this->em->getRepository(CourseInfoField::class)->findByManuallyDuplication(true);
-                    break;
-            }
-        }
-
-        if (count(self::$fieldsToDuplicate) <= 0) {
-            $errors[] = 'Aucun champ n\'est activé pour import.';
+            $errors['line']['comments'][] = 'Le syllabus récépteur n\'éxiste pas.';
         }
 
         return $errors;
@@ -248,43 +252,35 @@ class CourseInfoManager
 
         $csv = Reader::createFromPath($pathName);
         $csv->setHeaderOffset(0);
-        $csv->setDelimiter(';');
+        $csv->setDelimiter($delimiter = ';');
+
+        $report = ReportingHelper::createReport();
 
         $appropriatesFields = array_map(function ($match) {return $match['name'];}, array_values($matching));
         $appropriatesFields = array_merge($appropriatesFields, [$controlType, $etbId, $year]);
 
-        $messages = [];
-        $linesFailed = [];
-
-        $header = $csv->getHeader();
-        if(!is_array($header) or !is_array($appropriatesFields) or count($header) != count($appropriatesFields) or array_diff($header, $appropriatesFields) !== array_diff($appropriatesFields, $header)) {
-            $messages[] = [
-                'type' => 'danger',
-                'content' => 'Le format du tableau n\'est pas correct. Seuls les champs ' . implode('/', $appropriatesFields) . ' doivent être définit'
-            ];
+        if(!AppHelper::sameArrays($csv->getHeader(), $appropriatesFields)) {
+            $report->createMessage('Le format du tableau n\'est pas correct. Seuls les champs ' . implode('/', $appropriatesFields) . ' doivent être définit. Si les champs correspondend bien, vérifier que le délimiteur est bien "' . $delimiter . '"', ReportMessage::TYPE_DANGER);
         }
 
-        if (count($messages) <= 0) {
+        if ($report->getMessages()->isEmpty()) {
 
             foreach ($csv as $offset => $record) {
 
-                $linesFailed[$record[$etbId] . '-' . $record[$year]] = [
-                    'etbId' => $record[$etbId],
-                    'year' => $record[$year],
-                    'errors' => []
-                ];
+                $lineId = $record[$etbId] . '-' . $record[$year];
+                $reportLine = new ReportLine($lineId);
 
                 $courseInfo = $this->repository->findByEtbIdAndYear($record[$etbId], $record[$year]);
 
                 if (!$courseInfo) {
-                    $linesFailed[$record[$etbId] . '-' . $record[$year]]['errors'][] = 'Ce syllabus n\'existe pas';
+                    $reportLine->addComment('Ce syllabus n\'existe pas');
                     continue;
                 }
 
                 foreach ($matching as $property => $match) {
 
                     if (in_array($record[$match['name']], [null, '']) and $property !== 'mccCtCoeffSession1') {
-                        $linesFailed[$record[$etbId] . '-' . $record[$year]]['errors'][] = 'Le champ ' . $match['name'] . ' ne doit pas être vide';
+                        $reportLine->addComment('Le champ ' . $match['name'] . ' ne doit pas être vide');
                         continue;
                     }
 
@@ -299,7 +295,7 @@ class CourseInfoManager
                                 $data = false;
                                 break;
                             default:
-                                $linesFailed[$record[$etbId] . '-' . $record[$year]]['errors'][] = 'La valeur du champ ' . $match['name'] . ' devrait être OUI ou NON. La valeur saisie est ' . $data;
+                                $reportLine->addComment('La valeur du champ ' . $match['name'] . ' devrait être OUI ou NON. La valeur saisie est ' . $data);
                                 continue;
                                 break;
                         }
@@ -318,8 +314,10 @@ class CourseInfoManager
                                 continue;
                             case 'CC&CT':
                                 if (in_array($record[$match['name']], [null, '']) and $property) {
-                                    $linesFailed[$record[$etbId] . '-' . $record[$year]]['errors'][] = 'Le champ ' . $controlType . ' est du type ' . strtoupper($record[$controlType]) . ' mais aucun ' . $matching['mccCtCoeffSession1']['name'] . ' n\'a été renseigné.
-                                    Impossible de répartir les coefficients entre CC et CT';
+                                    $reportLine->addComment(
+                                        'Le champ ' . $controlType . ' est du type ' . strtoupper($record[$controlType]) . ' mais aucun ' . $matching['mccCtCoeffSession1']['name'] . ' n\'a été renseigné.
+                                    Impossible de répartir les coefficients entre CC et CT'
+                                    );
                                     continue;
                                 }
                                 $coeff = (int) $data;
@@ -327,14 +325,14 @@ class CourseInfoManager
                                 $courseInfo->setMccCtCoeffSession1($coeff);
                                 break;
                             default:
-                                $linesFailed[$record[$etbId] . '-' . $record[$year]]['errors'][] = 'La valeur du champ ' . $match['name'] . ' devrait être CC, CT ou CC&CT. La valeur saisie est ' . $record[$controlType];
+                                $reportLine->addComment('La valeur du champ ' . $match['name'] . ' devrait être CC, CT ou CC&CT. La valeur saisie est ' . $record[$controlType]);
                                 continue;
                         }
                     }
 
                     if($match['type'] === 'int') {
                         if(!is_numeric($data)) {
-                            $linesFailed[$record[$etbId] . '-' . $record[$year]]['errors'][] = 'La valeur du champ ' . $match['name'] . ' devrait être un nombre. La valeur saisie est ' . $data;
+                            $reportLine->addComment('La valeur du champ ' . $match['name'] . ' devrait être un nombre. La valeur saisie est ' . $data);
                             continue;
                         }
                         $data = (int) $data;
@@ -343,40 +341,80 @@ class CourseInfoManager
                     try {
                         $propertyAccessor->setValue($courseInfo, $property, $data);
                     }catch (\Exception $e) {
-                        $linesFailed[$record[$etbId] . '-' . $record[$year]]['errors'][] = 'Un problème inconnu est survenu.';
+                        $reportLine->addComment('Un problème inconnu est survenu.');
                     }
 
                 }
 
-                if (count($linesFailed[$record[$etbId] . '-' . $record[$year]]['errors']) > 0) {
+                if ($report->addLineIfHasComments($reportLine)) {
                     $this->em->detach($courseInfo);
                     continue;
                 }
 
-
-                unset($linesFailed[$record[$etbId] . '-' . $record[$year]]);
             }
 
-            $messages['linesFailed'] = [
-                'type' => 'success',
-                'content' => count($linesFailed) . ' ligne(s) a/ont échoué'
-            ];
-
-            if (count($linesFailed) > 0) {
-                $messages['linesFailed']['type'] = 'danger';
-            }
-
-            $messages['linesSucceeded'] = [
-                'type' => 'success',
-                'content' => iterator_count($csv) - count($linesFailed) . ' ligne(s) a/ont été importée(s) avec succès'
-            ];
+            $report->finishReport(iterator_count($csv));
 
         }
 
-        return [
-            'messages' => $messages,
-            'linesFailed' => $linesFailed
-        ];
+        return $report;
+    }
+
+    public function duplicateFromFile(string $pathName)
+    {
+        $csv = Reader::createFromPath($pathName);
+        $csv->setHeaderOffset(0);
+        $csv->setDelimiter($delimiter = ';');
+
+        $report = ReportingHelper::createReport();
+
+        $appropriatesFields = ['cod_elp_exp', 'annee_exp', 'cod_elp_dest', 'annee_dest'];
+
+        if(!AppHelper::sameArrays($csv->getHeader(), $appropriatesFields)) {
+            $report->createMessage('Le format du tableau n\'est pas correct. Seuls les champs ' . implode('/', $appropriatesFields) . ' doivent être définit. Si les champs correspondend bien, vérifier que le délimiteur est bien "' . $delimiter . '"', ReportMessage::TYPE_DANGER);
+        }
+
+        if ($report->getMessages()->isEmpty()) {
+            $break = false;
+            foreach ($csv as $record) {
+                $reportLine = new ReportLine('Depuis ' . $record['cod_elp_exp'] . '-' . $record['annee_exp'] . ' vers ' . $record['cod_elp_dest'] . '-' . $record['annee_dest']);
+
+                $idFromCourseInfo = $record['cod_elp_exp'] . '__UNION__' .  $record['annee_exp'];
+                $idToCourseInfo = $record['cod_elp_dest'] . '__UNION__' . $record['annee_dest'];
+
+                $result = $this->duplicate(
+                    $idFromCourseInfo,
+                    $idToCourseInfo,
+                    self::DUPLICATION_CONTEXTE_IMPORT
+                );
+
+                if (isset($result['messages'])) {
+                    foreach ($result['messages'] as $message ) {
+                        $report->createMessage($message, ReportMessage::TYPE_DANGER);
+                        $break = true;
+                    }
+                }
+
+                if ($break) {
+                    break;
+                }
+
+                if (isset($result['line']['comments'])) {
+                    foreach ($result['line']['comments'] as $comment ) {
+                        $reportLine->addComment($comment);
+                    }
+                }
+
+                $report->addLineIfHasComments($reportLine);
+
+            }
+        }
+
+        if (!$break) {
+            $report->finishReport(iterator_count($csv));
+        }
+
+        return $report;
     }
 
 }

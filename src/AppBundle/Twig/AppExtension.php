@@ -3,6 +3,7 @@
 
 namespace AppBundle\Twig;
 
+use AppBundle\Twig\Runtime\ReportRuntime;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
@@ -20,6 +21,7 @@ class AppExtension extends AbstractExtension
     {
         return [
             new TwigFunction('printActiveAdminSidebarLink', [AppRuntime::class, 'printActiveAdminSidebarLink']),
+            new TwigFunction('report_render', [ReportRuntime::class, 'reportRender']),
         ];
     }
 

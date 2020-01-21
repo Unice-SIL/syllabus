@@ -17,7 +17,7 @@ $(document).ready(function () {
     $('.course-info-field-edit-ajax').click(function (event) {
 
         var checkbox = $(this);
-        var form = checkbox.closest('form');
+        var form = $(checkbox.data('target'));
         event.preventDefault();
 
         $.post( form.data('url'), form.serialize())

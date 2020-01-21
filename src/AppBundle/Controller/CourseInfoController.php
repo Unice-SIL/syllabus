@@ -4,7 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Form\CourseInfo\DuplicateCourseInfoType;
-use AppBundle\Form\CourseInfo\ImportMccType;
+use AppBundle\Form\CourseInfo\ImportType;
 use AppBundle\Form\Filter\CourseInfoFilterType;
 use AppBundle\Manager\CourseInfoManager;
 use AppBundle\Repository\Doctrine\CourseInfoDoctrineRepository;
@@ -115,6 +115,39 @@ class CourseInfoController extends Controller
     }
 
     /**
+     * @Route("/duplicate-syllabus-from-file", name="duplicate_syllabus_from_file")
+     *
+     * @param CourseInfoManager $courseInfoManager
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @return RedirectResponse|Response
+     * @throws \Exception
+     */
+    public function duplicateSyllabusFromFileAction(CourseInfoManager $courseInfoManager, Request $request, EntityManagerInterface $em)
+    {
+        $form = $this->createForm(ImportType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid())
+        {
+
+            $report = $courseInfoManager->duplicateFromFile($form->getData()['file']->getPathName());
+
+            $em->flush();
+
+            $request->getSession()->set('duplicateSyllabus', $report);
+            return $this->redirectToRoute('app_admin_course_info_duplicate_syllabus_from_file');
+
+        }
+
+        return $this->render('course_info/admin/duplicate_syllabus_from_file.html.twig', [
+            'form' => $form->createView(),
+            'report' => $request->getSession()->remove('duplicateSyllabus')
+        ]);
+
+    }
+
+    /**
      * @Route("/autocomplete/{field}", name="autocomplete", methods={"GET"}, requirements={"field" = "ci.title|c.etbId|c.type|y.label|s.label"})
      * @param CourseInfoDoctrineRepository $courseInfoDoctrineRepository
      * @param Request $request
@@ -181,28 +214,32 @@ class CourseInfoController extends Controller
 
     /**
      * @Route("/import-mcc", name="import_mcc", methods={"GET", "POST"})
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @param CourseInfoManager $courseInfoManager
+     * @return RedirectResponse|Response
      */
     public function importMccAction(Request $request, EntityManagerInterface $em, CourseInfoManager $courseInfoManager)
     {
-        $form = $this->createForm(ImportMccType::class);
+        $form = $this->createForm(ImportType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() and $form->isValid())
         {
 
-            $report = $courseInfoManager->importMcc($form->getData()['csv']->getPathName());
+            $report = $courseInfoManager->importMcc($form->getData()['file']->getPathName());
 
             $em->flush();
 
             $request->getSession()->set('importMccReport', $report);
             return $this->redirectToRoute('app_admin_course_info_import_mcc');
 
-
         }
 
         return $this->render('course_info/admin/import_mcc.html.twig', [
             'form' => $form->createView(),
-            'importMccReport' => $request->getSession()->remove('importMccReport')
+            'report' => $request->getSession()->remove('importMccReport')
         ]);
     }
 

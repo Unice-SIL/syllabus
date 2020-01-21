@@ -1,0 +1,32 @@
+{% if report is defined and report is not null %}
+    {% for message in report.messages %}
+        <div class="alert alert-{{ message.type }}">
+            {{ message.content }}
+        </div>
+    {% endfor %}
+
+    {% if report.lines|length > 0 %}
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Identifiant</th>
+                <th>Commentaires</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for line in report.lines %}
+                <tr>
+                    <td>{{ line.id }}</td>
+                    <td>
+                        <ul>
+                            {% for comment in line.comments %}
+                                <li>{{ comment }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endif %}

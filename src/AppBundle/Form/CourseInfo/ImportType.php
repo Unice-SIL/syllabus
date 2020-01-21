@@ -10,12 +10,12 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class ImportMccType extends AbstractType
+class ImportType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('csv', FileType::class, [
-            'label' => 'app.form.import_mcc.label.csv',
+        $builder->add('file', FileType::class, [
+            'label' => 'app.form.import.label.csv',
             'label_attr' => [
                 'class' => 'custom-file-label'
             ],
