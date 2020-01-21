@@ -19,6 +19,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use League\Csv\Reader;
 use Ramsey\Uuid\Uuid;
+use Symfony\Component\Inflector\Inflector;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -30,15 +31,10 @@ class CourseInfoManager
 {
     const DUPLICATION_CONTEXTE_MANUALLY = 'manually';
     const DUPLICATION_CONTEXTE_IMPORT = 'import';
-    /**
-     * @var CourseInfo|object|null
-     */
-    private static $fromCourseInfo;
-    /**
-     * @var CourseInfo|object|null
-     */
-    private static $toCourseInfo;
 
+    /**
+     * @var CourseInfo|null
+     */
     private static $fieldsToDuplicate;
     /**
      * @var CourseInfoDoctrineRepository
@@ -105,19 +101,15 @@ class CourseInfoManager
     }
 
     /**
-     * @param string $idFromCourseInfo
-     * @param string $idToCourseInfo
+     * @param string|null $courseInfoSender
+     * @param string|null $courseInfoRecipient
      * @param string $context
-     * @return array
+     * @param Report|null $report
+     * @return Report
      * @throws \Exception
      */
-    public function duplicate(?string $idFromCourseInfo, ?string $idToCourseInfo, string $context)
+    public function duplicate(?string $courseInfoSender, ?string $courseInfoRecipient, string $context, Report $report = null): Report
     {
-        $errors = [];
-        if (!$this->user) {
-            $errors['messages'][] = 'Aucun utilisateur n\'est authentifié';
-        }
-
         //If we're looping on this function it's no necessary to get fields from the database every time (we put them in a static property cache)
         if (!self::$fieldsToDuplicate) {
             switch ($context) {
@@ -130,16 +122,50 @@ class CourseInfoManager
             }
         }
 
+        //=================================================Error Management=================================================
+        if (!$report) {
+            $report = ReportingHelper::createReport();
+        }
+        if (!$this->user) {
+            $report->createMessage('Aucun utilisateur n\'est authentifié', ReportMessage::TYPE_DANGER);
+        }
+
         if (count(self::$fieldsToDuplicate) <= 0) {
-            $errors['messages'][] = 'Aucun champ n\'est activé pour import.';
+            $report->createMessage('Aucun champ n\'est activé pour import.', ReportMessage::TYPE_DANGER);
         }
 
-        $errors = $this->testsIfErrorsAndInitializesStaticProperties($idFromCourseInfo, $idToCourseInfo, $errors);
+        $courseInfoSender = explode('__UNION__', $courseInfoSender);
+        $courseInfoRecipient = explode('__UNION__', $courseInfoRecipient);
 
-        if (count($errors) > 0) {
-            return $errors;
+        if (!isset($courseInfoSender[1]) or !isset($courseInfoRecipient[1])) {
+            $report->createMessage('Les informations saisies ne sont pas valides', ReportMessage::TYPE_DANGER);
+            return $report;
         }
 
+        $reportLine = new ReportLine('Depuis ' . $courseInfoSender[0] . '-' . $courseInfoSender[1] . ' vers ' . $courseInfoRecipient[0] . '-' . $courseInfoRecipient[1]);
+
+        if ($courseInfoSender === $courseInfoRecipient ) {
+            $reportLine->addComment('Le syllabus émetteur ne peut pas être le même que le syllabus récepteur.');
+        }
+
+        //todo: add addSelect to the request to get every relations if necessary (optimisation)
+        if (!$courseInfoSender = $this->repository->findByEtbIdAndYear($courseInfoSender[0], $courseInfoSender[1])) {
+            $reportLine->addComment('Le syllabus émetteur n\'éxiste pas.');
+        }
+
+        //todo: add addSelect to the request to get every relations if necessary (optimisation)
+        if (!$courseInfoRecipient = $this->repository->findByEtbIdAndYear($courseInfoRecipient[0], $courseInfoRecipient[1])) {
+            $reportLine->addComment('Le syllabus récépteur n\'éxiste pas.');
+        }
+
+        $report->addLineIfHasComments($reportLine);
+
+        if ($report->hasMessages() or $report->hasLines()) {
+            return $report;
+        }
+        //===============================================End Error Management============================================
+
+        //===============================================Duplication Process============================================
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
 
         foreach (self::$fieldsToDuplicate as $field) {
@@ -147,89 +173,59 @@ class CourseInfoManager
             $property = $field->getField();
 
             //Stocks data to duplicate in a variable
-            $fromCourseInfoData = $propertyAccessor->getValue(self::$fromCourseInfo, $property);
+            $CourseInfoSenderData = $propertyAccessor->getValue($courseInfoSender, $property);
 
 
             // if the data to duplicate is a instance of collection we do a specific treatment (erase every old elements before duplicate the new ones)
-            if ($fromCourseInfoData instanceof Collection) {
+            if ($CourseInfoSenderData instanceof Collection) {
 
-               $this->duplicateCollectionProperty($fromCourseInfoData, $property, 'courseInfo');
+               $this->duplicateCollectionProperty($CourseInfoSenderData, $courseInfoRecipient, $property, 'courseInfo');
 
                 continue;
             }
 
             //if the data is not a instance of collection we can simply set it into the toCourseInfo $property
-            $propertyAccessor->setValue(self::$toCourseInfo, $property, $fromCourseInfoData);
+            $propertyAccessor->setValue($courseInfoRecipient, $property, $CourseInfoSenderData);
 
         }
 
-        self::$toCourseInfo->setLastUpdater($this->user);
-        self::$toCourseInfo->setModificationDate(new \DateTime());
+        $courseInfoRecipient->setLastUpdater($this->user);
+        $courseInfoRecipient->setModificationDate(new \DateTime());
+        //==============================================End Duplication Process===========================================
 
-        return $errors;
+        return $report;
     }
 
     /**
-     * @param string $fromCourseInfoId
-     * @param string $toCourseInfoId
-     * @param array $errors
-     * @return array
-     */
-    private function testsIfErrorsAndInitializesStaticProperties (?string $fromCourseInfoId, ?string $toCourseInfoId, array $errors = [])
-    {
-
-        if ($fromCourseInfoId === $toCourseInfoId ) {
-            $errors['line']['comments'][] = 'Le syllabus émetteur ne peut pas être le même que le syllabus récepteur.';
-        }
-
-        $fromCourseInfoId = explode('__UNION__', $fromCourseInfoId);
-        //todo: add addSelect to the request to get every relations if necessary (optimisation)
-        self::$fromCourseInfo = $this->repository->findByEtbIdAndYear($fromCourseInfoId[0], $fromCourseInfoId[1]);
-        if (!self::$fromCourseInfo) {
-            $errors['line']['comments'][] = 'Le syllabus émetteur n\'éxiste pas.';
-        }
-
-        $toCourseInfoId = explode('__UNION__', $toCourseInfoId);
-        //todo: add addSelect to the request to get every relations if necessary (optimisation)
-        self::$toCourseInfo = $this->repository->findByEtbIdAndYear($toCourseInfoId[0], $toCourseInfoId[1]);
-
-        if (!self::$toCourseInfo) {
-            $errors['line']['comments'][] = 'Le syllabus récépteur n\'éxiste pas.';
-        }
-
-        return $errors;
-
-    }
-
-    /**
-     * @param Collection $fromCourseInfoData
+     * @param Collection $CourseInfoSenderData
+     * @param CourseInfo $courseInfoRecipient
      * @param string $property
      * @param string $inversedBy
      * @throws \Exception
      */
-    private function duplicateCollectionProperty(Collection $fromCourseInfoData, string $property, string $inversedBy)
+    private function duplicateCollectionProperty(Collection $CourseInfoSenderData, CourseInfo $courseInfoRecipient, string $property, string $inversedBy)
     {
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
 
         //erases every current items
-        foreach ($propertyAccessor->getValue(self::$toCourseInfo, $property) as $item) {
+        foreach ($propertyAccessor->getValue($courseInfoRecipient, $property) as $item) {
             $this->em->remove($item);
         }
 
         //duplicates every items
         $collection = new ArrayCollection();
-        foreach ($fromCourseInfoData as $data){
+        foreach ($CourseInfoSenderData as $data){
 
             $dataClone = clone $data;
 
             $dataClone->setId(Uuid::uuid4());
 
-            $propertyAccessor->setValue($dataClone, $inversedBy, self::$toCourseInfo);
+            $propertyAccessor->setValue($dataClone, $inversedBy, $courseInfoRecipient);
 
             $collection->add($dataClone);
         }
 
-        $propertyAccessor->setValue(self::$toCourseInfo, $property, $collection);
+        $propertyAccessor->setValue($courseInfoRecipient, $property, $collection);
 
     }
 
@@ -461,10 +457,6 @@ class CourseInfoManager
         return $report;
     }
 
-    /**
-     * @param string $pathName
-     * @return Report
-     */
     public function duplicateFromFile(string $pathName)
     {
         $csv = Reader::createFromPath($pathName);
@@ -479,40 +471,26 @@ class CourseInfoManager
             $report->createMessage('Le format du tableau n\'est pas correct. Seuls les champs ' . implode('/', $appropriatesFields) . ' doivent être définit. Si les champs correspondend bien, vérifier que le délimiteur est bien "' . $delimiter . '"', ReportMessage::TYPE_DANGER);
         }
 
-        if ($report->getMessages()->isEmpty()) {
-            $break = false;
-            foreach ($csv as $record) {
-                $reportLine = new ReportLine('Depuis ' . $record['cod_elp_exp'] . '-' . $record['annee_exp'] . ' vers ' . $record['cod_elp_dest'] . '-' . $record['annee_dest']);
 
-                $idFromCourseInfo = $record['cod_elp_exp'] . '__UNION__' .  $record['annee_exp'];
-                $idToCourseInfo = $record['cod_elp_dest'] . '__UNION__' . $record['annee_dest'];
+        if ($report->hasMessages()) {
+            return $report;
+        }
 
-                $result = $this->duplicate(
-                    $idFromCourseInfo,
-                    $idToCourseInfo,
-                    self::DUPLICATION_CONTEXTE_IMPORT
-                );
+        $break = false;
+        foreach ($csv as $record) {
 
-                if (isset($result['messages'])) {
-                    foreach ($result['messages'] as $message ) {
-                        $report->createMessage($message, ReportMessage::TYPE_DANGER);
-                        $break = true;
-                    }
-                }
+            $result = $this->duplicate(
+                $record['cod_elp_exp'] . '__UNION__' .  $record['annee_exp'],
+                $record['cod_elp_dest'] . '__UNION__' . $record['annee_dest'],
+                self::DUPLICATION_CONTEXTE_IMPORT,
+                $report
+            );
 
-                if ($break) {
-                    break;
-                }
-
-                if (isset($result['line']['comments'])) {
-                    foreach ($result['line']['comments'] as $comment ) {
-                        $reportLine->addComment($comment);
-                    }
-                }
-
-                $report->addLineIfHasComments($reportLine);
-
+            if ($report->hasMessages()) {
+                $break = true;
+                break;
             }
+
         }
 
         if (!$break) {

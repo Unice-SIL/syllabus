@@ -75,4 +75,14 @@ class Report
         $this->addMessage(new ReportMessage($totalLine - $this->getLines()->count() . ' ligne(s) a/ont été importée(s) avec succès', ReportMessage::TYPE_SUCCESS));
     }
 
+    public function hasMessages()
+    {
+        return !$this->messages->isEmpty();
+    }
+
+    public function hasLines()
+    {
+        return !$this->lines->isEmpty();
+    }
+
 }

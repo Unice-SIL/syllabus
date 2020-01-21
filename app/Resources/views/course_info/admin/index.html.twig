@@ -80,7 +80,7 @@
                             <td>{{ syllabus.title }}</td>
                             <td>{{ syllabus.structure.label }}</td>
                             <td>
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#courseInfoDuplicationModal" data-id="{{ syllabus.id }}">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#courseInfoDuplicationModal" data-etbid-year="{{ syllabus.etbIdYear(true) }}">
                                     Dupliquer les infos
                                 </button>
                             </td>

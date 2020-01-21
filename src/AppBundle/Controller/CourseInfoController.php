@@ -6,6 +6,7 @@ use AppBundle\Entity\CourseInfo;
 use AppBundle\Form\CourseInfo\DuplicateCourseInfoType;
 use AppBundle\Form\CourseInfo\ImportType;
 use AppBundle\Form\Filter\CourseInfoFilterType;
+use AppBundle\Helper\Report\Report;
 use AppBundle\Manager\CourseInfoManager;
 use AppBundle\Repository\Doctrine\CourseInfoDoctrineRepository;
 use Doctrine\Common\Annotations\AnnotationReader;
@@ -62,11 +63,15 @@ class CourseInfoController extends Controller
 
                 $data = $duplicationForm->getData();
                 $from = $data['from'];
-                $to = $data['to'];
 
-                $errors = $courseInfoManager->duplicate($from, $to->getId(), CourseInfoManager::DUPLICATION_CONTEXTE_MANUALLY);
+                /** @var  CourseInfo $to */
+                $to = $data['to']->getEtbIdYear(true);
 
-                if (count($errors) <= 0) {
+
+                /** @var Report $report */
+                $report = $courseInfoManager->duplicate($from, $to, CourseInfoManager::DUPLICATION_CONTEXTE_MANUALLY);
+
+                if (!$report->hasMessages() and !$report->hasLines()) {
 
                     $this->addFlash('success', 'La duplication a été réalisée avec succès');
                     $em->flush();
@@ -74,8 +79,14 @@ class CourseInfoController extends Controller
                     return $this->redirectToRoute('app_admin_course_info_index');
                 }
 
-                foreach ($errors as $error) {
-                    $this->addFlash('danger', $error);
+                foreach ($report->getMessages() as $message) {
+                    $this->addFlash($message->getType(), $message->getContent());
+                }
+
+                foreach ($report->getLines() as $line) {
+                    foreach ($line->getComments() as $comment) {
+                        $this->addFlash('danger', $comment);
+                    }
                 }
 
                 return $this->redirectToRoute('app_admin_course_info_index');
@@ -194,6 +205,7 @@ class CourseInfoController extends Controller
         $query = $request->query->get('q');
 
         $field = $request->query->get('field_name');
+
         switch ($field) {
             default:
                 $searchField = 'c.etbId';
@@ -203,10 +215,10 @@ class CourseInfoController extends Controller
         $courseInfos = $courseInfoDoctrineRepository->findLikeQuery($query, $searchField);
 
         $data = array_map(function ($ci) use ($request) {
-            if ($ci->getId() == $request->query->get('fromId')) {
+            if ($ci->getEtbIdYear(true) == $request->query->get('fromEtbIdYear')) {
                 return false;
             }
-            return ['id' => $ci->getId(), 'text' => $ci->getCourse()->getEtbId() . ' ' . $ci->getYear()->getLabel()];
+            return ['id' => $ci->getId(), 'text' => $ci->getEtbIdYear()];
         }, $courseInfos);
 
         return $this->json($data);
