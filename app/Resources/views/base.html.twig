@@ -28,7 +28,7 @@
     {% endblock %}
 </head>
 
-<body class="sidebar-mini layout-navbar-fixed">
+<body class="sidebar-mini layout-navbar-fixed control-sidebar-slide-open">
 {% block modals %}{% endblock %}
 <div class="container-loader">
     <div class="loader">
@@ -127,11 +127,18 @@
                 ).done(function (response) {
                     if (Syllabus.handleAjaxResponseModal(response, $modal_app_body)) {
                         $modal_app.modal('hide');
-                        $.get(view).done(function (response) {
-                            if (Syllabus.handleAjaxResponseModal(response)) {
-                                $cardBody.html(response["content"]);
-                            }
-                        })
+                        if (view)
+                        {
+                            $.get(view).done(function (response) {
+                                if (Syllabus.handleAjaxResponseModal(response)) {
+                                    $cardBody.html(response["content"]);
+                                }
+                            })
+                        }
+                        else
+                        {
+                            document.location.reload();
+                        }
                     }
                 });
             });
