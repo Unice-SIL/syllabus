@@ -1,16 +1,36 @@
 {% extends 'course_info/layout.html.twig' %}
 
 {% block subContent %}
-    <div class="d-flex" style="margin-top: -0.5rem;">
-        <div class="bg-dark text-center p-3" style="width: 250px; min-height: calc(100vh - 5.4rem - 3px); margin-left: -7.5px;">
+    <div class="d-flex" style="margin-top: -0.5rem; margin-left: -7.5px; margin-right: -7.5px">
+        <div class="bg-dark text-center p-3" style="width: 250px; min-height: calc(100vh - 5.4rem - 3px);">
             <h5>Sections</h5>
             <hr class="mb-2">
-            <div class="mb-1">Section 1</div>
-            <div class="mb-1">Section 2</div>
-            <div class="mb-1">Section 3</div>
-            <div class="mb-1"><a class="text-primary" href="#"><i class="fas fa-plus-circle"></i> Ajouter une section</a></div>
+            {% if courseInfo.courseSections is empty %}
+                <div class="mb-1 text-warning">
+                    Aucune section n'a été créée
+                </div>
+            {% else %}
+                {% for section in courseInfo.courseSections %}
+                    <div class="mb-1" >
+                        <span class="d-inline-block text-truncate" style="max-width: 150px;">{{ section.title }}</span>
+                        <button type="button" class="btn btn-link modal-action p-0 float-right"
+                                data-action-title="Supprimer une section"
+                                data-action-url="{{ path('course_activities_remove_section', {'id': courseInfo.id, 'sectionId': section.id}) }}">
+                            <i class="fas fa-trash-alt text-danger"></i>
+                        </button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <hr class="mb-2">
+            <div class="mb-1">
+                <button type="button" class="btn btn-link modal-action p-0 text-primary"
+                        data-action-title="Ajouter une section"
+                        data-action-url="{{ path('course_activities_add_section', {'id': courseInfo.id}) }}">
+                    <i class="fas fa-plus-circle"></i> Ajouter une section
+                </button>
+            </div>
         </div>
-        <div class="bg-danger w-100">toto</div>
+        <div class="bg-danger w-100"></div>
     </div>
 {% endblock %}
 
@@ -20,9 +40,6 @@
         $(document).ready(function() {
             $('#menu-activities').addClass('active');
             $('#menu-activities').addClass('border-bottom-3 border-white');
-
-
-
         });
     </script>
 {% endblock %}

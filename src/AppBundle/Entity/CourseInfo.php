@@ -533,7 +533,7 @@ class CourseInfo
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="CourseSection", mappedBy="courseInfo", cascade={ "persist" })
+     * @ORM\OneToMany(targetEntity="CourseSection", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"order" = "ASC"})
      */
     private $courseSections;
@@ -1977,7 +1977,6 @@ class CourseInfo
             }
         }
         return $this;
-
     }
 
     /**
@@ -2016,8 +2015,14 @@ class CourseInfo
      */
     public function removeCourseSection(CourseSection $courseSection): CourseInfo
     {
-        $this->courseSections->removeElement($courseSection);
-
+        if ($this->courseSections->contains($courseSection))
+        {
+            $this->courseSections->removeElement($courseSection);
+            if ($courseSection->getCourseInfo() === $this)
+            {
+                $courseSection->setCourseInfo(null);
+            }
+        }
         return $this;
     }
 
