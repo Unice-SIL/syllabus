@@ -80,7 +80,7 @@ class CourseSection
      * @param string $id
      * @return CourseSection
      */
-    public function setId(string $id): CourseSection
+    public function setId(?string $id): CourseSection
     {
         $this->id = $id;
 
@@ -157,7 +157,7 @@ class CourseSection
      * @param CourseInfo $courseInfo
      * @return CourseSection
      */
-    public function setCourseInfo(CourseInfo $courseInfo): CourseSection
+    public function setCourseInfo(?CourseInfo $courseInfo): CourseSection
     {
         $this->courseInfo = $courseInfo;
 
