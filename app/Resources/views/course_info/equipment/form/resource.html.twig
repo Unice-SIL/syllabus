@@ -1,0 +1,31 @@
+{{ form_start(form, {'attr': {'class': 'form-focus'}}) }}
+
+        {{ form_errors(form) }}
+<div class="mt-3">
+    <div>
+        <label placeholder="Période (facultatif)">Ressources pédagogiques</label>
+        {{ form_widget(form.educationalResources) }}
+    </div>
+    <div class="mt-3">
+        <label class="mt-6" placeholder="En quelle(s) langue(s) est dispensé ce cours (facultatif)">Eléments bibliographiques</label>
+        {{ form_widget(form.bibliographicResources) }}
+    </div>
+</div>
+<div class="mt-2">
+    <button type="submit" class="submit-button btn btn-primary submit rounded"
+            data-url="{{ path('course_equipment_resource_view', {'id': courseInfo.id, 'action': 'submit' }) }}">
+        Sauvegarder
+    </button>
+    <button type="button" class="cancel-button btn btn-secondary rounded"
+            data-url="{{ path('course_equipment_resource_view', {'id': courseInfo.id, 'action': 'cancel' }) }}">
+        Annuler
+    </button>
+</div>
+{{ form_widget(form._token) }}
+{{ form_end(form, {'render_rest': false }) }}
+
+<script>
+    $('[data-toggle="tooltip"]').tooltip({
+        container: '.content-wrapper'
+    });
+</script>

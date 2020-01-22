@@ -29,7 +29,7 @@
                 <h3>Prérequis</h3>
                 <button type="button" class="btn btn-primary modal-action rounded"
                         data-action-title="Ajouter un enseignant"
-                        data-action-url="{{ path('course_presentation_teachers_form', {'id': courseInfo.id }) }}">
+                        data-action-url="{{ path('objective_course_prerequisite', {'id': courseInfo.id }) }}">
                     Ajouter un prérequis
                 </button>
             </div>
@@ -47,7 +47,7 @@
                 <h3>Remédiation / aide à la réussite</h3>
                 <button type="button" class="btn btn-primary modal-action rounded"
                         data-action-title="Ajouter un enseignant"
-                        data-action-url="{{ path('course_presentation_teachers_form', {'id': courseInfo.id }) }}">
+                        data-action-url="{{ path('objective_course_tutoring_resources', {'id': courseInfo.id }) }}">
                     Ajouter une remédiation
                 </button>
             </div>
