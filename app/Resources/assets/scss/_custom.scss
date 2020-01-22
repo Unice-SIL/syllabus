@@ -271,21 +271,13 @@ form ul.list-group {
 
 .container-loader
 {
-    position: absolute;
+    position: fixed;
     right: 0;
-    height: 100%;
-    text-align: right;
-}
-
-.loader {
     z-index: 2000;
-    background: #eee;
-    box-shadow: 1px 1px 8px #bbb;
-    padding: 2px;
-    position: sticky;
     top: 0;
-    right: 0;
+    box-shadow: 0px 0px 8px $primary;
     display: none;
+    background: $white;
 }
 
 /*
@@ -492,29 +484,6 @@ th.sortable {
     }
 }
 
-
-/*
-  Loader
- */
-
-.container-loader
-{
-    position: absolute;
-    right: 0;
-    height: 100%;
-    text-align: right;
-}
-
-.loader {
-    z-index: 2000;
-    background: #eee;
-    box-shadow: 1px 1px 8px #bbb;
-    padding: 2px;
-    position: sticky;
-    top: 0;
-    right: 0;
-    display: none;
-}
 
 /*
     Autocomplete
