@@ -108,6 +108,7 @@ class StructureDoctrineRepository  extends AbstractDoctrineRepository implements
     public function findLikeQuery(string $query, string $field): array
     {
         $qb = $this->getIndexQueryBuilder();
+
         if (in_array($field, ['etbId', 'label', 'campus'])) {
             $qb->andWhere($qb->getRootAlias().'.'.$field.' LIKE :query ')
                 ->setParameter('query', '%' . $query . '%')

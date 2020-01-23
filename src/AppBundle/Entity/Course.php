@@ -118,7 +118,7 @@ class Course
     /**
      * @return string
      */
-    public function getEtbId(): string
+    public function getEtbId(): ?string
     {
         return $this->etbId;
     }
@@ -256,5 +256,11 @@ class Course
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->getEtbId();
+    }
+
 
 }

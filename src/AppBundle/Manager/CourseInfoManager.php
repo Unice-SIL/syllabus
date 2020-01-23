@@ -100,6 +100,15 @@ class CourseInfoManager
         $this->repository->update($courseInfo);
     }
 
+    public function createOne()
+    {
+        $courseInfo = new CourseInfo();
+        $courseInfo->setId(Uuid::uuid4());
+        $courseInfo->setCreationDate(new \DateTime());
+
+        return$courseInfo;
+    }
+
     /**
      * @param string|null $courseInfoSender
      * @param string|null $courseInfoRecipient

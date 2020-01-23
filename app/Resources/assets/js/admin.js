@@ -40,6 +40,34 @@ $(document).ready(function () {
         $('#appbundle_duplicate_course_info_from').val(etbIdYear);
     });
 
+    var $etb = $('#course_info_admin_course_etbId');
+
+    function refreshParentsField() {
+
+        // ... retrieve the corresponding form.
+        var $form = $(this).closest('form');
+        // Simulate form data, but only include the selected sport value.
+        var data = {};
+        data[$etb.attr('name')] = $etb.val();
+        // Submit data via AJAX to the form's action path.
+        $.ajax({
+            url : $form.attr('action'),
+            type: $form.attr('method'),
+            data : data,
+            success: function(html) {
+                // Replace current position field ...
+                $('#course_info_admin_course_parents').replaceWith(
+                    // ... with the returned one from the AJAX response.
+                    $(html).find('#course_info_admin_course_parents')
+                );
+                $('#course_info_admin_course_parents').select2entity();
+                // Position field now displays the appropriate positions.
+            }
+        });
+    }
+    $etb.on('keyup', refreshParentsField);
+    $etb.on('autocompleteselect', refreshParentsField);
+
     /* ================End Course info================ */
 
     //Trigger submit of a filter form when a select is changed

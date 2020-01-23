@@ -24,10 +24,12 @@ app:
     course_info:
       label:
         title: 'Titre'
+        structure: 'Structure'
     course:
       label:
         type: 'Type'
         etb_id: 'Code établissement'
+        parents: 'Cours parents'
     year:
       label:
         label: 'Année'
