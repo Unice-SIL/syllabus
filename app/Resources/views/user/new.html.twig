@@ -1,0 +1,11 @@
+{% extends 'admin_layout.html.twig' %}
+{% set h1 = 'Créer un nouvel utilisateur' %}
+
+{% block subContent %}
+    <div class="card">
+        <div class="card-body">
+            {{ include('user/_form.html.twig', {'buttonLabel' : 'Enregistrer'}) }}
+        </div>
+    </div>
+{% endblock %}
+
