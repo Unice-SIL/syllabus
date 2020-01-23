@@ -4,10 +4,15 @@
 namespace Tests\AppBundle\Manager;
 
 
+use AppBundle\Entity\CourseAchievement;
+use AppBundle\Entity\CourseEvaluationCt;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseInfoField;
+use AppBundle\Entity\CoursePrerequisite;
+use AppBundle\Entity\CourseResourceEquipment;
 use AppBundle\Entity\CourseSection;
 use AppBundle\Entity\CourseTeacher;
+use AppBundle\Entity\CourseTutoringResource;
 use AppBundle\Entity\Structure;
 use AppBundle\Entity\User;
 use AppBundle\Helper\Report\Report;
@@ -82,9 +87,33 @@ class CourseInfoManagerTest extends TestCase
                         $itemFromRecipient->setId(null);
 
                         //Uncomment if you want to test an error of duplication
-                        /*if ($item instanceof CourseTeacher) {
+                        /*
+                        if ($item instanceof CourseTeacher) {
                             $item->setFirstname('azer');
-                        }*/
+                        }
+
+                        if ($item instanceof CourseEvaluationCt) {
+                            $item->setDescription('error');
+                        }
+
+                        if ($item instanceof CourseAchievement) {
+                            $item->setDescription('error');
+                        }
+
+                        if ($item instanceof CoursePrerequisite) {
+                            $item->setDescription('error');
+                        }
+
+                        if ($item instanceof CourseTutoringResource) {
+                            $item->setDescription('error');
+                        }
+
+                        if ($item instanceof CourseResourceEquipment) {
+                            $item->setDescription('error');
+                        }
+
+                        */
+
                     }
                 }
 
@@ -108,6 +137,27 @@ class CourseInfoManagerTest extends TestCase
         $courseSection = new CourseSection();
         $courseSection->setId(Uuid::uuid4());
         $courseSection->setTitle('title of course Section fake 1');
+
+        $courseEvaluationCt = new CourseEvaluationCt();
+        $courseEvaluationCt->setId(Uuid::uuid4())
+            ->setDescription('description');
+
+        $courseAchievement = new CourseAchievement();
+        $courseAchievement->setId(Uuid::uuid4())
+            ->setDescription('descrition');
+
+        $coursePrerequisite = new CoursePrerequisite();
+        $coursePrerequisite->setId(Uuid::uuid4())
+            ->setDescription('description');
+
+        $courseTutoringResource = new CourseTutoringResource();
+        $courseTutoringResource->setId(Uuid::uuid4())
+            ->setDescription('description');
+
+        $courseResourceEquipment = new CourseResourceEquipment();
+        $courseResourceEquipment->setId(Uuid::uuid4())
+            ->setDescription('description');
+
         return [
             'structure' => new Structure(),
             'title' => 'fake title',
@@ -160,11 +210,11 @@ class CourseInfoManagerTest extends TestCase
             'closingVideo' => 'fake closingVideo',
             'courseTeachers' => new ArrayCollection([$courseTeacher]),
             'courseSections' => new ArrayCollection([$courseSection]),
-            //'courseEvaluationCts' => new ArrayCollection(),
-            //'courseAchievements' => new ArrayCollection(),
-            //'coursePrerequisites' => new ArrayCollection(),
-            //'courseTutoringResources' => new ArrayCollection(),
-            //'courseResourceEquipments' => new ArrayCollection(),
+            'courseEvaluationCts' => new ArrayCollection([$courseEvaluationCt]),
+            'courseAchievements' => new ArrayCollection([$courseAchievement]),
+            'coursePrerequisites' => new ArrayCollection([$coursePrerequisite]),
+            'courseTutoringResources' => new ArrayCollection([$courseTutoringResource]),
+            'courseResourceEquipments' => new ArrayCollection([$courseResourceEquipment]),
         ];
     }
 

@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class CourseResourceEquipment
 {
     /**
-     * @var string
+     * @var null|string
      *
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
@@ -56,18 +56,18 @@ class CourseResourceEquipment
     private $equipment;
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getId(): string
+    public function getId(): ?string
     {
         return $this->id;
     }
 
     /**
-     * @param string $id
+     * @param null|string $id
      * @return CourseResourceEquipment
      */
-    public function setId(string $id): CourseResourceEquipment
+    public function setId(?string $id): CourseResourceEquipment
     {
         $this->id = $id;
 
@@ -114,18 +114,18 @@ class CourseResourceEquipment
 
 
     /**
-     * @return CourseInfo
+     * @return null|CourseInfo
      */
-    public function getCourseInfo(): CourseInfo
+    public function getCourseInfo(): ?CourseInfo
     {
         return $this->courseInfo;
     }
 
     /**
-     * @param CourseInfo $courseInfo
+     * @param null|CourseInfo $courseInfo
      * @return CourseResourceEquipment
      */
-    public function setCourseInfo(CourseInfo $courseInfo): CourseResourceEquipment
+    public function setCourseInfo(?CourseInfo $courseInfo): CourseResourceEquipment
     {
         $this->courseInfo = $courseInfo;
 
