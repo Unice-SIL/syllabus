@@ -4,6 +4,7 @@
 namespace AppBundle\Controller;
 
 
+use AppBundle\Entity\CourseAchievement;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseResourceEquipment;
 use AppBundle\Entity\Equipment;
@@ -41,10 +42,9 @@ class CourseInfoEquipmentController extends Controller
      * @Route("/course/{id}/equipment/equipment/view", name="course_equipment_equipment_view"))
      *
      * @param $id
-     * @param Request $request
      * @return Response
      */
-    public function equipmentViewAction($id, Request $request)
+    public function equipmentViewAction($id)
     {
         $em = $this->getDoctrine()->getManager();
         /** @var CourseInfo $courseInfo */
@@ -98,6 +98,7 @@ class CourseInfoEquipmentController extends Controller
                 'content' => "Le cours {$idCourseInfo} n'existe pas."
             ]);
         }
+        $equipments = $em->getRepository(Equipment::class)->findAll();
 
         $courseResourceEquipment = new CourseResourceEquipment();
         $courseResourceEquipment->setDescription($equipment->getLabel())
@@ -108,7 +109,52 @@ class CourseInfoEquipmentController extends Controller
         $manager->update($courseInfo);
 
         $render = $this->get('twig')->render('course_info/equipment/view/equipment.html.twig', [
-            'courseInfo' => $courseInfo
+            'courseInfo' => $courseInfo,
+            'equipments' => $equipments
+        ]);
+
+        return $this->json([
+            'status' => true,
+            'content' => $render
+        ]);
+    }
+
+    /**
+     * @Route("/course/{idCourseInfo}/equipment/remove/{idResourceEquipment}", name="course_equipment_equipment_remove"))
+     *
+     * @param $idCourseInfo
+     * @param $idResourceEquipment
+     * @param CourseInfoManager $manager
+     * @return JsonResponse
+     * @throws \Exception
+     */
+    public function removeEquipment($idCourseInfo, $idResourceEquipment, CourseInfoManager $manager)
+    {
+        $em = $this->getDoctrine()->getManager();
+        /** @var CourseResourceEquipment $resourceEquipment */
+        $resourceEquipment = $em->getRepository(CourseResourceEquipment::class)->find($idResourceEquipment);
+        if (!$resourceEquipment) {
+            return $this->json([
+                'status' => false,
+                'content' => "Le matériel {$idResourceEquipment} n'existe pas."
+            ]);
+        };
+        /** @var CourseInfo $courseInfo */
+        $courseInfo = $em->getRepository(CourseInfo::class)->find($idCourseInfo);
+        if (!$courseInfo instanceof CourseInfo) {
+            return $this->json([
+                'status' => false,
+                'content' => "Le cours {$idCourseInfo} n'existe pas."
+            ]);
+        }
+        $equipments = $em->getRepository(Equipment::class)->findAll();
+
+        $courseInfo->removeCourseResourceEquipment($resourceEquipment);
+        $manager->update($courseInfo);
+
+        $render = $this->get('twig')->render('course_info/equipment/view/equipment.html.twig', [
+            'courseInfo' => $courseInfo,
+            'equipments' => $equipments
         ]);
 
         return $this->json([
