@@ -115,7 +115,7 @@ class CourseResourceEquipment
 
 
     /**
-     * @return null|CourseInfo
+     * @return CourseInfo|null
      */
     public function getCourseInfo(): ?CourseInfo
     {
@@ -123,7 +123,7 @@ class CourseResourceEquipment
     }
 
     /**
-     * @param null|CourseInfo $courseInfo
+     * @param CourseInfo|null $courseInfo
      * @return CourseResourceEquipment
      */
     public function setCourseInfo(?CourseInfo $courseInfo): CourseResourceEquipment

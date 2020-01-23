@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-6">
+    <div class="col-6" style="height: 400px">
         {% if equipments is empty %}
             <div class="card-body">
                 <div class="row mt-10">
@@ -19,22 +19,24 @@
                 </div>
             </div>
         {% else %}
-            <div class="card-body table-responsive p-0">
+            <div class="card-body table-responsive p-0 h-100">
                 <table class="table table-hover">
                     <thead>
                     <tr>
                         <th class="text-left" style="width: 80%">Description</th>
-                        <th class="text-center" style="width: 20%">Ajouter/Supprimer</th>
+                        <th class="text-center" style="width: 20%">Ajouter</th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for equipment in equipments %}
                         <tr>
-                            <td class="text-left">{{ equipment.label }}</td>
+                            <td class="text-left" >{{ equipment.label }}</td>
                             <td class="text-center">
-                                <button type="button" class="btn btn-link modal-action p-0"
-                                        data-action-title="Supprimer une compétence">
-                                    <i class="fas fa-trash-alt text-danger"></i>
+                                <button type="button"
+                                        id="btn-add-equipment"
+                                        class="btn btn-link button p-0"
+                                        data-url="{{ path('course_equipment_equipment_add', {'idCourseInfo': courseInfo.id, 'idEquipment': equipment.id}) }}">
+                                    <i class="fas fa-plus"></i>
                                 </button>
                             </td>
                         </tr>
@@ -44,8 +46,8 @@
             </div>
         {% endif %}
     </div>
-    <div class="col-6">
-        {% if courseInfo. is empty %}
+    <div class="col-6" style="height: 400px">
+        {% if courseInfo.courseResourceEquipments is empty %}
             <div class="card-body">
                 <div class="row mt-10">
                     <div class="col">
@@ -64,21 +66,23 @@
                 </div>
             </div>
         {% else %}
-            <div class="card-body table-responsive p-0">
+            <div class="card-body table-responsive p-0 h-100">
                 <table class="table table-hover">
                     <thead>
                     <tr>
                         <th class="text-left" style="width: 80%">Description</th>
-                        <th class="text-center" style="width: 20%">Ajouter/Supprimer</th>
+                        <th class="text-center" style="width: 20%">Supprimer</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {% for equipment in equipments %}
+                    {% for ResourceEquipment in courseInfo.courseResourceEquipments %}
                         <tr>
-                            <td class="text-left">{{ equipment.label }}</td>
+                            <td class="text-left">{{ ResourceEquipment.description }}</td>
                             <td class="text-center">
-                                <button type="button" class="btn btn-link modal-action p-0"
-                                        data-action-title="Supprimer une compétence">
+                                <button type="button"
+                                        class="btn btn-link modal-action p-0"
+                                        id="btn-remove-equipment"
+                                        data-url="{{ path('course_equipment_equipment_remove', {'idCourseInfo': courseInfo.id, 'idResourceEquipment': ResourceEquipment.id}) }}">
                                     <i class="fas fa-trash-alt text-danger"></i>
                                 </button>
                             </td>

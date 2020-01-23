@@ -38,6 +38,33 @@
         $(document).ready(function () {
             $('#menu-resource').addClass('active');
             $('#menu-resource').addClass('border-bottom-3 border-white');
+
+            // add resource equipment
+            $(document).on('click', '#btn-add-equipment', function () {
+                let url = $(this).data('url');
+                $.ajax({
+                    url: url,
+                    method: "GET",
+                    dataType: "html",
+                    success: function (data) {
+                        console.log('good add ');
+                    }
+                });
+            });
+
+            // remove resource equipment
+            $(document).on('click', '#btn-remove-equipment', function () {
+                let url = $(this).data('url');
+                console.log(url);
+                $.ajax({
+                    url: url,
+                    method: "GET",
+                    dataType: "html",
+                    success: function (data) {
+                        console.log('good remove');
+                    }
+                });
+            })
         });
     </script>
 {% endblock %}
