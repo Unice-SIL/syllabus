@@ -22,6 +22,9 @@ class UserController extends Controller
      *
      * @Route("/", name="index")
      * @Method("GET")
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexAction(Request $request)
     {
@@ -41,6 +44,10 @@ class UserController extends Controller
      *
      * @Route("/{id}/edit", name="edit")
      * @Method({"GET", "POST"})
+     *
+     * @param Request $request
+     * @param User $user
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function editAction(Request $request, User $user)
     {
@@ -62,6 +69,10 @@ class UserController extends Controller
 
     /**
      * @Route("/autocompleteS2", name="autocompleteS2", methods={"GET"})
+     *
+     * @param UserDoctrineRepository $userDoctrineRepository
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function autocompleteS2(UserDoctrineRepository $userDoctrineRepository, Request $request)
     {

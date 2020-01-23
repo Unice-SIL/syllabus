@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Year;
 use AppBundle\Form\YearType;
 use AppBundle\Manager\YearManager;
+use AppBundle\Repository\Doctrine\YearDoctrineRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -91,5 +92,24 @@ class YearController extends Controller
         return $this->render('year/edit.html.twig', array(
             'form' => $form->createView(),
         ));
+    }
+
+    /**
+     * @Route("/autocompleteS2", name="autocompleteS2", methods={"GET"})
+     * @param YearDoctrineRepository $yearDoctrineRepository
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function autocompleteS2(YearDoctrineRepository $yearDoctrineRepository, Request $request)
+    {
+        $query = $request->query->get('q');
+
+        $years = $yearDoctrineRepository->findLikeQuery($query, 'y.label');
+
+        $data = array_map(function ($y) use ($request) {
+            return ['id' => $y->getId(), 'text' => $y->getLabel()];
+        }, $years);
+
+        return $this->json($data);
     }
 }

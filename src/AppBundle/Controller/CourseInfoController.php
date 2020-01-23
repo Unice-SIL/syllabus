@@ -3,26 +3,20 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\CourseInfo;
+use AppBundle\Form\CourseInfo\CourseInfoAdminType;
 use AppBundle\Form\CourseInfo\DuplicateCourseInfoType;
 use AppBundle\Form\CourseInfo\ImportType;
 use AppBundle\Form\Filter\CourseInfoFilterType;
 use AppBundle\Helper\Report\Report;
 use AppBundle\Manager\CourseInfoManager;
 use AppBundle\Repository\Doctrine\CourseInfoDoctrineRepository;
-use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\ORM\EntityManagerInterface;
-use League\Csv\Reader;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
-use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Class CourseInfoController
@@ -126,6 +120,34 @@ class CourseInfoController extends Controller
     }
 
     /**
+     * @Route("/new", name="new")
+     *
+     * @param Request $request
+     * @param CourseInfoManager $courseInfoManager
+     * @param EntityManagerInterface $em
+     * @return RedirectResponse|Response
+     */
+    public function newAction(Request $request, CourseInfoManager $courseInfoManager, EntityManagerInterface $em)
+    {
+        $courseInfo = $courseInfoManager->createOne();
+
+        $form = $this->createForm(CourseInfoAdminType::class, $courseInfo, ['validation_groups' => ['Default', 'new']]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+            $em->persist($courseInfo);
+            $em->flush();
+
+            $this->addFlash('success', 'Le syllabus a été crée avec succès');
+
+            return $this->redirectToRoute('app_admin_course_info_index');
+        }
+
+        return $this->render('course_info/admin/new.html.twig', ['form' => $form->createView()]);
+    }
+
+    /**
      * @Route("/duplicate-syllabus-from-file", name="duplicate_syllabus_from_file")
      *
      * @param CourseInfoManager $courseInfoManager
@@ -215,7 +237,7 @@ class CourseInfoController extends Controller
         $courseInfos = $courseInfoDoctrineRepository->findLikeQuery($query, $searchField);
 
         $data = array_map(function ($ci) use ($request) {
-            if ($ci->getEtbIdYear(true) == $request->query->get('fromEtbIdYear')) {
+            if ($fromEtbIdYear = $request->query->get('fromEtbIdYear') and $ci->getEtbIdYear(true) == $fromEtbIdYear) {
                 return false;
             }
             return ['id' => $ci->getId(), 'text' => $ci->getEtbIdYear()];
