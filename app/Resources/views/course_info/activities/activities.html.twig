@@ -1,8 +1,8 @@
 {% extends 'course_info/layout.html.twig' %}
 
 {% block subContent %}
-    <div class="d-flex" style="margin-top: -0.5rem; margin-left: -7.5px; margin-right: -7.5px">
-        <div class="bg-dark text-center p-3" style="width: 250px; min-height: calc(100vh - 5.4rem - 3px);">
+    <div style="margin-top: -0.5rem; margin-left: -7.5px; margin-right: -7.5px">
+        <div class="bg-dark text-center p-3 col-sm" style="position: absolute; width: 250px; min-height: calc(100vh - 5.4rem - 3px);">
             <h5>Sections</h5>
             <hr class="mb-2">
             {% if courseInfo.courseSections is empty %}
@@ -12,7 +12,7 @@
             {% else %}
                 {% for section in courseInfo.courseSections %}
                     <div class="mb-1" >
-                        <span class="d-inline-block text-truncate" style="max-width: 150px;">{{ section.title }}</span>
+                        <span class="d-inline-block text-truncate" style="max-width: 125px;">{{ section.title }}</span>
                         <button type="button" class="btn btn-link modal-action p-0 float-right"
                                 data-action-title="Supprimer une section"
                                 data-action-url="{{ path('course_activities_remove_section', {'id': courseInfo.id, 'sectionId': section.id}) }}">
@@ -30,16 +30,129 @@
                 </button>
             </div>
         </div>
-        <div class="bg-danger w-100"></div>
+        <div id="activity-content" class="bg-danger col-sm p-0" style="width: calc(100% - 250px); left: 250px">
+            <div class="activity-carousel">
+                <button class="activity-carousel-prev btn btn-link">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="activity-carousel-items">
+                    <a href="#">
+                        <div class="activity-carousel-item text-center">
+                            <h3>Test2</h3>
+                            <h6>Test3</h6>
+                        </div>
+                    </a>
+                    <a href="#">
+                        <div class="activity-carousel-item text-center">
+                            <h3>Test2</h3>
+                            <h6>Test3</h6>
+                        </div>
+                    </a>
+                    <a href="#">
+                        <div class="activity-carousel-item text-center">
+                            <h3>Test2</h3>
+                            <h6>Test3</h6>
+                        </div>
+                    </a>
+                    <a href="#">
+                        <div class="activity-carousel-item text-center">
+                            <h3>Test2</h3>
+                            <h6>Test3</h6>
+                        </div>
+                    </a>
+                    <a href="#">
+                        <div class="activity-carousel-item text-center">
+                            <h3>Test2</h3>
+                            <h6>Test3</h6>
+                        </div>
+                    </a>
+                    <a href="#">
+                        <div class="activity-carousel-item text-center">
+                            <h3>Test2</h3>
+                            <h6>Test3</h6>
+                        </div>
+                    </a>
+                </div>
+                <button class="activity-carousel-next btn btn-link">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
     </div>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
     <script>
+        /**
+         * calculates the maximum position to which the carousel can translate to the left
+         * @returns {number}
+         */
+        function getTranslationMax()
+        {
+            let $carousel_items_width = $('.activity-carousel-items').width();
+            let translation_max = ($carousel_items_width - ($('#activity-content').width() -100)) * -1;
+            if(translation_max > 0)
+            {
+                translation_max = 0;
+            }
+            return translation_max;
+        }
+        /**
+         * Show/hide the carousel's buttons according to the size of the carousel compared to the size of the window
+         */
+        function toggleCarouselButton()
+        {
+            if(getTranslationMax() < 0)
+            {
+                $('.activity-carousel').removeClass('justify-content-center');
+                $('.activity-carousel-prev').show();
+                $('.activity-carousel-next').show();
+            }else{
+                $('.activity-carousel').addClass('justify-content-center');
+                $('.activity-carousel-prev').hide();
+                $('.activity-carousel-next').hide();
+            }
+        }
+
         $(document).ready(function() {
             $('#menu-activities').addClass('active');
             $('#menu-activities').addClass('border-bottom-3 border-white');
+
+            /**
+             * Init carousel values
+             */
+            let translation = 0;
+            toggleCarouselButton();
+            /**
+             * Show/hide the carousel's buttons when resizing th window
+             */
+            $(window).resize(function () {
+                toggleCarouselButton();
+                $('.activity-carousel-items').css('transform', 'translateX(0px)');
+            });
+            /**
+             * Translate the carousel to the left
+             */
+            $('.activity-carousel-prev').click(function () {
+                translation+= $('#activity-content').width()/2;
+                if(translation > 0) {
+                    translation = 0;
+                }
+                $('.activity-carousel-items').css('transform', 'translateX(' + translation + 'px)');
+            });
+            /**
+             * Translate the carousel to the right
+             */
+            $('.activity-carousel-next').click(function () {
+                let translation_max = getTranslationMax();
+                translation-= $('#activity-content').width()/2;
+                if(translation < translation_max) {
+                    translation = translation_max;
+                }
+                console.log(translation, translation_max);
+                $('.activity-carousel-items').css('transform', 'translateX(' + translation + 'px)');
+            });
         });
     </script>
 {% endblock %}
