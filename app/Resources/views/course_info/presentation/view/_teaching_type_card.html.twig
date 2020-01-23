@@ -1,0 +1,12 @@
+{% if type is not defined %}
+ {% set type = 'primary' %}
+{% endif %}
+<div class="info-box border rounded shadow">
+    <span class="info-box-icon bg-{{ type }}">
+        <i class="fas fa-clock"></i>
+    </span>
+    <div class="info-box-content">
+        <span class="info-box-text">{{ teachingTypeText }}</span>
+        <span class="info-box-number">{{ teachingTypeHours }}H</span>
+    </div>
+</div>

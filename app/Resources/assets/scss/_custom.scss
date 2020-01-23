@@ -1,5 +1,6 @@
 
 @import "sil_toolkit";
+@import "course_info_layout";
 @import "admin";
 
 @font-face {
@@ -62,10 +63,6 @@ body {
     background-color: white !important;
 }
 
-.background-test{
-    background: url("../images/background.jpg") center no-repeat;
-    background-size: cover;
-}
 main > small:first-of-type {
     margin: -.9rem 0;
 }
@@ -95,29 +92,115 @@ main > small:first-of-type {
     margin: -.9rem 0;
 }
 
+
 /*
-    Focus.
+  Loader
  */
 
-.hasActiveChild .toggle-focus:not(.active) {
-    opacity: 0.2;
-    pointer-events: none;
+
+.container-loader
+{
+    position: fixed;
+    right: 0;
+    z-index: 2000;
+    top: 0;
+    box-shadow: 0 0 8px $primary;
+    display: none;
+    background: $white;
+}
+
+
+/*
+    Select2 container width fix,
+        first setted inline (by what?) to a fixed value
+        and then resetted on tab change for some (unknown) reason.
+*/
+
+.select2.select2-container {
+    width: 100% !important;
+}
+
+.section-description a {
+    color: #343a40 !important;
 }
 
 /*
-    Card.
- */
+    Pagination
+*/
 
-.card-syllabus {
-    .card-header {
-        background-color: #fdfdfd;
+th.sortable {
 
-        h3 {
-            font-weight: 500;
-            text-shadow: 1px 1px 1px #bbb;
+    position: relative;
+
+    a {
+        display: block;
+        width: 100%;
+        padding-right: 20px;
+        color: initial;
+
+        &:before, &:after {
+            position: absolute;
+            bottom: 0.9em;
+            display: block;
+            opacity: 0.3;
         }
+
+        &:before {
+            right: 1em;
+            content: "\2191";
+        }
+
+        &:after {
+            right: 0.5em;
+            content: "\2193";
+        }
+
+        &.asc {
+            &:before {
+                opacity: 1;
+            }
+        }
+
+        &.desc {
+            &:after {
+                opacity: 1;
+            }
+        }
+
     }
 }
+
+
+/*
+    Autocomplete
+*/
+.autocomplete-w1 { position: absolute; top: 0px; left: 0px; margin: 6px 0 0 6px; }
+.autocomplete { border: 1px solid #999; background: #FFF; cursor: default; text-align: left; max-height: 350px; overflow: auto; margin: -6px 6px 6px -6px; }
+.autocomplete .selected { background: #F0F0F0; }
+.autocomplete div { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
+.autocomplete strong { font-weight: normal; color: #3399FF; }
+
+
+.toggle.ios, .toggle-on.ios, .toggle-off.ios { border-radius: 20rem; }
+.toggle.ios .toggle-handle { border-radius: 20rem; }
+
+label.toggle-on,
+label.toggle-off {
+    cursor: pointer;
+}
+
+/**
+ * Flash messages
+ */
+.flashes {
+    position: fixed;
+    top: 0;
+    right: 0;
+    max-width: 500px;
+    opacity: 0.9;
+    z-index: 1050;
+}
+
 
 /*
     Buttons.
@@ -125,16 +208,18 @@ main > small:first-of-type {
 .course-title {
     font-family: "Apex New Book";
 }
-
+/*
 .button-gradient {
     background: linear-gradient(to bottom, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.2) 49%, rgba(0, 0, 0, 0.15) 51%, rgba(0, 0, 0, 0.05)) repeat-x;
     border-radius: 3px !important;
 }
+*/
 
 /*
     Tabs.
 */
 
+/*
 .nav-border {
     border: 3px white !important;
 }
@@ -149,12 +234,13 @@ main > small:first-of-type {
         }
     }
 }
-
+*/
 
 /*
     Forms.
 */
 
+/*
 .custom-file-label::after {
     content: "Choisir";
 }
@@ -224,12 +310,13 @@ input[type=text] {
         }
     }
 }
+*/
 
 
 /*
     Forms sortable lists.
 */
-
+/*
 form ul.list-group {
     list-style-type: none;
 
@@ -247,7 +334,7 @@ form ul.list-group {
             //float: right;
             //font-size: 1.5rem;
             cursor: pointer;
-            /*
+
             &.fa-arrows-alt-v {
                 margin-left: 1rem;
                 color: $primary;
@@ -255,35 +342,16 @@ form ul.list-group {
 
             &.fa-eraser {
                 color: $red;
-            } //*/
+            } //
         }
     }
 }
-
-/*
-  Loader
- */
-
-.card-syllabus .progress
-{
-    border-radius: 5px;
-}
-
-.container-loader
-{
-    position: fixed;
-    right: 0;
-    z-index: 2000;
-    top: 0;
-    box-shadow: 0px 0px 8px $primary;
-    display: none;
-    background: $white;
-}
+*/
 
 /*
     Sections & Activities.
 */
-
+/*
 #panel_tab-2 {
 
     & > h3 .fas {
@@ -422,97 +490,7 @@ div.view-activity.view-autonomy {
 div.view-evaluation {
     background-color: $info;
 }
-
-
-/*
-    Select2 container width fix,
-        first setted inline (by what?) to a fixed value
-        and then resetted on tab change for some (unknown) reason.
 */
 
-.select2.select2-container {
-    width: 100% !important;
-}
-
-.section-description a {
-    color: #343a40 !important;
-}
-
-/*
-    Pagination
-*/
-
-th.sortable {
-
-    position: relative;
-
-    a {
-        display: block;
-        width: 100%;
-        padding-right: 20px;
-        color: initial;
-
-        &:before, &:after {
-            position: absolute;
-            bottom: 0.9em;
-            display: block;
-            opacity: 0.3;
-        }
-
-        &:before {
-            right: 1em;
-            content: "\2191";
-        }
-
-        &:after {
-            right: 0.5em;
-            content: "\2193";
-        }
-
-        &.asc {
-            &:before {
-                opacity: 1;
-            }
-        }
-
-        &.desc {
-            &:after {
-                opacity: 1;
-            }
-        }
-
-    }
-}
-
-
-/*
-    Autocomplete
-*/
-.autocomplete-w1 { position: absolute; top: 0px; left: 0px; margin: 6px 0 0 6px; }
-.autocomplete { border: 1px solid #999; background: #FFF; cursor: default; text-align: left; max-height: 350px; overflow: auto; margin: -6px 6px 6px -6px; }
-.autocomplete .selected { background: #F0F0F0; }
-.autocomplete div { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
-.autocomplete strong { font-weight: normal; color: #3399FF; }
-
-
-.toggle.ios, .toggle-on.ios, .toggle-off.ios { border-radius: 20rem; }
-.toggle.ios .toggle-handle { border-radius: 20rem; }
-
-label.toggle-on,
-label.toggle-off {
-    cursor: pointer;
-}
-
-/**
- * Flash messages
- */
-.flashes {
-    position: fixed;
-    top: 0;
-    right: 0;
-    max-width: 500px;
-    opacity: 0.9;
-    z-index: 1050;
-}
 
 

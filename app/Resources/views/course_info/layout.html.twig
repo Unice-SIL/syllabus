@@ -9,9 +9,7 @@
         <li class="nav-item">
             <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
         </li>
-        <li class="nav-item d-none d-sm-inline-block">
-            <h3>{{ courseInfo.title }}</h3>
-        </li>
+
     </ul>
 {% endblock %}
 
@@ -80,9 +78,16 @@
     </div>
 {% endblock %}
 {% block content %}
-    <div class="container-fluid pt-2">
-        {% block subContent %}{% endblock %}
+    <div class="content-header">
+        <div class="container-fluid">
+            <h3>{{ courseInfo.title }}</h3>
+        </div><!-- /.container-fluid -->
     </div>
+    <section id="content-{{ contentName|default('default') }}" class="content">
+        <div class="container-fluid">
+            {% block subContent %}{% endblock %}
+        </div>
+    </section>
 {% endblock %}
 
 {% block javascripts %}

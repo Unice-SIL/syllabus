@@ -70,4 +70,5 @@ $( document ).ready( function( ) {
         });
     }
     initAutocomplete();
+
 });
