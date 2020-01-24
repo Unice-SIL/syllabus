@@ -1,4 +1,4 @@
-{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('objective_course_remove_achievement', {'idResource': courseInfo.id, 'achievementId': form.vars.data.id}), 'data-card': 'card-achievement' }}) }}
+{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('objective_course_remove_achievement', {'id': courseInfo.id, 'achievementId': form.vars.data.id}), 'data-card': 'card-achievement' }}) }}
 {{ form_errors(form) }}
 <h5>Êtes-vous sûr(e) de vouloir supprimer la compétence "{{ form.vars.data.description }}" ?</h5>
 <div class="d-flex justify-content-center">

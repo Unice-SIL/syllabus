@@ -18,15 +18,11 @@ class CourseInfoClosingRemarksController extends Controller
     /**
      * @Route("/course/{id}/closing_remarks", name="course_closing_remarks")
      *
-     * @param $id
+     * @param CourseInfo $courseInfo
      * @return Response
      */
-    public function indexAction($id)
+    public function indexAction(CourseInfo $courseInfo)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $courseInfo = $em->getRepository(CourseInfo::class)->find($id);
-
         return $this->render('course_info/closing_remarks/closing_remarks.html.twig', [
             'courseInfo' => $courseInfo
         ]);
@@ -35,21 +31,16 @@ class CourseInfoClosingRemarksController extends Controller
     /**
      * @Route("/course/{id}/closing_remarks/end_word/view", name="course_closing_remarks_message_view"))
      *
-     * @param $id
+     * @param CourseInfo|null $courseInfo
      * @param Request $request
      * @return Response
-     * @throws Exception
      */
-    public function closingRemarksViewAction($id, Request $request)
+    public function closingRemarksViewAction(CourseInfo $courseInfo, Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        /** @var CourseInfo $courseInfo */
-        $courseInfo = $em->getRepository(CourseInfo::class)->find($id);
-
         if(!$courseInfo instanceof CourseInfo){
             return $this->json([
                 'status' => false,
-                'content' => "Le cours {$id} n'existe pas."
+                'content' => "Une erreur est survenue : Le cours n'existe pas"
             ]);
         }
 
@@ -70,22 +61,18 @@ class CourseInfoClosingRemarksController extends Controller
     /**
      * @Route("/course/{id}/closing_remarks/end_word/form", name="course_closing_remarks_message_form"))
      *
-     * @param $id
+     * @param CourseInfo|null $courseInfo
      * @param Request $request
      * @param CourseInfoManager $manager
      * @return Response
      * @throws Exception
      */
-    public function closingRemarksFormAction($id, Request $request, CourseInfoManager $manager)
+    public function closingRemarksFormAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
     {
-        $em = $this->getDoctrine()->getManager();
-        /** @var CourseInfo $courseInfo */
-        $courseInfo = $em->getRepository(CourseInfo::class)->find($id);
-
         if(!$courseInfo instanceof CourseInfo){
             return $this->json([
                 'status' => false,
-                'content' => "Le cours {$id} n'existe pas."
+                'content' => "Une erreur est survenue : Le cours n'existe pas"
             ]);
         }
 
