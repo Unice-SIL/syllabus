@@ -8,10 +8,13 @@ use AppBundle\Entity\CourseAchievement;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseResourceEquipment;
 use AppBundle\Entity\Equipment;
-use AppBundle\Form\CourseInfo\Equipment\EquipmentType;
+use AppBundle\Form\CourseInfo\Equipment\RemoveResourceEquipmentType;
+use AppBundle\Form\CourseInfo\Equipment\ResourceEquipmentEditType;
+use AppBundle\Form\CourseInfo\Equipment\ResourceEquipmentType;
 use AppBundle\Form\CourseInfo\Equipment\Resourcetype;
 use AppBundle\Manager\CourseInfoManager;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManager;
 use http\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -75,11 +78,12 @@ class CourseInfoEquipmentController extends Controller
      *
      * @param $idCourseInfo
      * @param $idEquipment
+     * @param Request $request
      * @param CourseInfoManager $manager
      * @return JsonResponse
      * @throws \Exception
      */
-    public function addEquipment($idCourseInfo, $idEquipment, CourseInfoManager $manager)
+    public function addEquipment($idCourseInfo, $idEquipment, Request $request, CourseInfoManager $manager)
     {
         $em = $this->getDoctrine()->getManager();
         /** @var Equipment $equipment */
@@ -98,19 +102,64 @@ class CourseInfoEquipmentController extends Controller
                 'content' => "Le cours {$idCourseInfo} n'existe pas."
             ]);
         }
-        $equipments = $em->getRepository(Equipment::class)->findAll();
 
         $courseResourceEquipment = new CourseResourceEquipment();
-        $courseResourceEquipment->setDescription($equipment->getLabel())
-            ->setCourseInfo($courseInfo)
-            ->setEquipment($equipment);
+        $courseResourceEquipment->setCourseInfo($courseInfo)->setEquipment($equipment);
+        $form = $this->createForm(ResourceEquipmentType::class, $courseResourceEquipment);
+        $form->handleRequest($request);
 
-        $courseInfo->addCourseResourceEquipment($courseResourceEquipment);
-        $manager->update($courseInfo);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $courseResourceEquipment = $form->getData();
+            $courseInfo->addCourseResourceEquipment($courseResourceEquipment);
+            $manager->update($courseInfo);
 
-        $render = $this->get('twig')->render('course_info/equipment/view/equipment.html.twig', [
-            'courseInfo' => $courseInfo,
-            'equipments' => $equipments
+            return $this->json([
+                'status' => true,
+                'content' => null
+            ]);
+        }
+
+        $render = $this->get('twig')->render('course_info/equipment/form/equipment.html.twig', [
+            'form' => $form->createView()
+        ]);
+
+        return $this->json([
+            'status' => true,
+            'content' => $render
+        ]);
+    }
+
+    /**
+     * @Route("/course/equipment/edit/{idResourceEquipment}", name="course_equipment_equipment_edit"))
+     *
+     * @param $idResourceEquipment
+     * @param Request $request
+     * @param EntityManager $manager
+     * @return JsonResponse
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function editDescriptionResourceEquipment($idResourceEquipment, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        /** @var CourseResourceEquipment $resourceEquipment */
+        $resourceEquipment = $em->getRepository(CourseResourceEquipment::class)->find($idResourceEquipment);
+        $form = $this->createForm(ResourceEquipmentEditType::class, $resourceEquipment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $courseResourceEquipment = $form->getData();
+            dump($courseResourceEquipment);
+            $em->persist($courseResourceEquipment);
+            $em->flush();
+            return $this->json([
+                'status' => true,
+                'content' => null
+            ]);
+        }
+
+        $render = $this->get('twig')->render('course_info/equipment/form/resource_equipment_edit.html.twig', [
+            'form' => $form->createView()
         ]);
 
         return $this->json([
@@ -124,11 +173,12 @@ class CourseInfoEquipmentController extends Controller
      *
      * @param $idCourseInfo
      * @param $idResourceEquipment
+     * @param Request $request
      * @param CourseInfoManager $manager
      * @return JsonResponse
      * @throws \Exception
      */
-    public function removeEquipment($idCourseInfo, $idResourceEquipment, CourseInfoManager $manager)
+    public function removeResourceEquipment($idCourseInfo, $idResourceEquipment, Request $request, CourseInfoManager $manager)
     {
         $em = $this->getDoctrine()->getManager();
         /** @var CourseResourceEquipment $resourceEquipment */
@@ -147,14 +197,24 @@ class CourseInfoEquipmentController extends Controller
                 'content' => "Le cours {$idCourseInfo} n'existe pas."
             ]);
         }
-        $equipments = $em->getRepository(Equipment::class)->findAll();
 
-        $courseInfo->removeCourseResourceEquipment($resourceEquipment);
-        $manager->update($courseInfo);
+        $form = $this->createForm(RemoveResourceEquipmentType::class, $resourceEquipment);
+        $form->handleRequest($request);
 
-        $render = $this->get('twig')->render('course_info/equipment/view/equipment.html.twig', [
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $resourceEquipment = $form->getData();
+            $courseInfo->removeCourseResourceEquipment($resourceEquipment);
+            $manager->update($courseInfo);
+            return $this->json([
+                'status' => true,
+                'content' => null
+            ]);
+        }
+
+        $render = $this->get('twig')->render('course_info/equipment/form/remove_resource_equipment.html.twig', [
             'courseInfo' => $courseInfo,
-            'equipments' => $equipments
+            'form' => $form->createView()
         ]);
 
         return $this->json([
