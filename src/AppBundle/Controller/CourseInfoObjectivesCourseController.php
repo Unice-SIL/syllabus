@@ -15,9 +15,12 @@ use AppBundle\Form\CourseInfo\CourseAchievement\RemoveCourseAchievementType;
 use AppBundle\Form\CourseInfo\CourseAchievement\RemoveCoursePrerequisiteType;
 use AppBundle\Form\CourseInfo\CourseAchievement\RemoveCourseTutoringResourcesType;
 use AppBundle\Manager\CourseInfoManager;
+use Exception;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class CourseInfoObjectivesCourseController extends Controller
@@ -25,15 +28,11 @@ class CourseInfoObjectivesCourseController extends Controller
     /**
      * @Route("/course/{id}/objectives_course", name="course_info_objectives")
      *
-     * @param $id
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param CourseInfo $courseInfo
+     * @return Response
      */
-    public function indexAction($id)
+    public function indexAction(CourseInfo $courseInfo)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $courseInfo = $em->getRepository(CourseInfo::class)->find($id);
-
         return $this->render('course_info/objectives_course/objectives_course.html.twig', [
             'courseInfo' => $courseInfo
         ]);
@@ -42,19 +41,15 @@ class CourseInfoObjectivesCourseController extends Controller
     /**
      * @Route("/course/{id}/objective_course/achievement/view", name="objective_course_achievement_view"))
      *
-     * @param $id
-     * @return \Symfony\Component\HttpFoundation\Response
-     * @throws \Exception
+     * @param CourseInfo $courseInfo
+     * @return Response
      */
-    public function achievementViewAction($id)
+    public function achievementViewAction(CourseInfo $courseInfo)
     {
-        $em = $this->getDoctrine()->getManager();
-        /** @var CourseInfo $courseInfo */
-        $courseInfo = $em->getRepository(CourseInfo::class)->find($id);
-        if(!$courseInfo instanceof CourseInfo){
+        if (!$courseInfo instanceof CourseInfo) {
             return $this->json([
                 'status' => false,
-                'content' => "Le cours {$id} n'existe pas."
+                'content' => "Une erreur est survenue : Le cours n'existe pas."
             ]);
         }
 
@@ -70,22 +65,18 @@ class CourseInfoObjectivesCourseController extends Controller
     /**
      * @Route("/course/{id}/objective_course/achievement", name="objective_course_achievement"))
      *
-     * @param $id
+     * @param CourseInfo $courseInfo
      * @param Request $request
      * @param CourseInfoManager $manager
-     * @return \Symfony\Component\HttpFoundation\Response
-     * @throws \Exception
+     * @return Response
+     * @throws Exception
      */
-    public function addAchievementAction($id, Request $request, CourseInfoManager $manager)
+    public function addAchievementAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
     {
-        $em = $this->getDoctrine()->getManager();
-        /** @var CourseInfo $courseInfo */
-        $courseInfo = $em->getRepository(CourseInfo::class)->find($id);
-
-        if(!$courseInfo instanceof CourseInfo){
+        if (!$courseInfo instanceof CourseInfo) {
             return $this->json([
                 'status' => false,
-                'content' => "Le cours {$id} n'existe pas."
+                'content' => "Une erreur est survenue : Le cours n'existe pas."
             ]);
         }
 
@@ -115,33 +106,61 @@ class CourseInfoObjectivesCourseController extends Controller
     }
 
     /**
+     * @Route("/course/objective_course/edit/achievement/{id}", name="objective_course_edit_achievement"))
+     *
+     * @param CourseAchievement $achievement
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function editAchievementAction(CourseAchievement $achievement, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $form = $this->createForm(CourseAchievementType::class, $achievement);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $achievement = $form->getData();
+            $em->persist($achievement);
+            $em->flush();
+            return $this->json([
+                'status' => true,
+                'content' => null
+            ]);
+        }
+
+        $render = $this->get('twig')->render('course_info/objectives_course/form/edit_achievement.html.twig', [
+            'form' => $form->createView()
+        ]);
+
+        return $this->json([
+            'status' => true,
+            'content' => $render
+        ]);
+    }
+
+    /**
      * @Route("/course/{id}/objective_course/achievement/delete/{achievementId}", name="objective_course_remove_achievement"))
      *
-     * @param $id
-     * @param $achievementId
+     * @param CourseInfo $courseInfo
+     * @param CourseAchievement $achievement
      * @param Request $request
      * @param CourseInfoManager $manager
      * @return JsonResponse
-     * @throws \Exception
+     * @throws Exception
+     * @ParamConverter("achievement", options={"mapping": {"achievementId": "id"}})
      */
-    public function deleteAchievementAction($id, $achievementId, Request $request, CourseInfoManager $manager)
+    public function deleteAchievementAction(CourseInfo $courseInfo, CourseAchievement $achievement, Request $request, CourseInfoManager $manager)
     {
-        $em = $this->getDoctrine()->getManager();
-        /** @var CourseInfo $courseInfo */
-        $courseInfo = $em->getRepository(CourseInfo::class)->find($id);
-        /** @var CourseAchievement $achievement */
-        $achievement = $em->getRepository(CourseAchievement::class)->find($achievementId);
-        if (!$achievement instanceof CourseAchievement)
-        {
+        if (!$achievement instanceof CourseAchievement) {
             return $this->json([
                 'status' => false,
-                'content' => "La compétence {$achievementId} n'existe pas"
+                'content' => "Une erreur est survenue : la compétence n'existe pas"
             ]);
         }
         $form = $this->createForm(RemoveCourseAchievementType::class, $achievement);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             /** @var CourseAchievement $achievement */
             $achievement = $form->getData();
             $courseInfo->removeCourseAchievement($achievement);
@@ -164,19 +183,15 @@ class CourseInfoObjectivesCourseController extends Controller
     /**
      * @Route("/course/{id}/objective_course/prerequisite/view", name="objective_course_prerequisite_view"))
      *
-     * @param $id
-     * @return \Symfony\Component\HttpFoundation\Response
-     * @throws \Exception
+     * @param CourseInfo $courseInfo
+     * @return Response
      */
-    public function prerequisiteViewAction($id)
+    public function prerequisiteViewAction(CourseInfo $courseInfo)
     {
-        $em = $this->getDoctrine()->getManager();
-        /** @var CourseInfo $courseInfo */
-        $courseInfo = $em->getRepository(CourseInfo::class)->find($id);
-        if(!$courseInfo instanceof CourseInfo){
+        if (!$courseInfo instanceof CourseInfo) {
             return $this->json([
                 'status' => false,
-                'content' => "Le cours {$id} n'existe pas."
+                'content' => "Une erreur est survenue : Le cours n'existe pas."
             ]);
         }
 
@@ -192,21 +207,18 @@ class CourseInfoObjectivesCourseController extends Controller
     /**
      * @Route("/course/{id}/objective_course/prerequisite", name="objective_course_prerequisite"))
      *
-     * @param $id
+     * @param CourseInfo $courseInfo
      * @param Request $request
      * @param CourseInfoManager $manager
-     * @return \Symfony\Component\HttpFoundation\Response
-     * @throws \Exception
+     * @return Response
+     * @throws Exception
      */
-    public function addPrerequisiteAction($id, Request $request, CourseInfoManager $manager)
+    public function addPrerequisiteAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
     {
-        $em = $this->getDoctrine()->getManager();
-        /** @var CourseInfo $courseInfo */
-        $courseInfo = $em->getRepository(CourseInfo::class)->find($id);
-        if(!$courseInfo instanceof CourseInfo){
+        if (!$courseInfo instanceof CourseInfo) {
             return $this->json([
                 'status' => false,
-                'content' => "Le cours {$id} n'existe pas."
+                'content' => "Une erreur est survenue : Le cours n'existe pas."
             ]);
         }
 
@@ -236,36 +248,62 @@ class CourseInfoObjectivesCourseController extends Controller
     }
 
     /**
+     * @Route("/course/objective_course/edit/prerequisite/{id}", name="objective_course_edit_prerequisite"))
+     *
+     * @param CoursePrerequisite $prerequisite
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function editPrerequisiteAction(CoursePrerequisite $prerequisite, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $form = $this->createForm(CoursePrerequisiteType::class, $prerequisite);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $prerequisite = $form->getData();
+            $em->persist($prerequisite);
+            $em->flush();
+            return $this->json([
+                'status' => true,
+                'content' => null
+            ]);
+        }
+
+        $render = $this->get('twig')->render('course_info/objectives_course/form/edit_prerequisite.html.twig', [
+            'form' => $form->createView()
+        ]);
+
+        return $this->json([
+            'status' => true,
+            'content' => $render
+        ]);
+    }
+
+    /**
      * @Route("/course/{id}/objective_course/prerequisite/delete/{prerequisiteId}", name="objective_course_remove_prerequisite"))
      *
-     * @param $id
-     * @param $prerequisiteId
+     * @param CourseInfo $courseInfo
+     * @param CoursePrerequisite $prerequisite
      * @param Request $request
      * @param CourseInfoManager $manager
      * @return JsonResponse
-     * @throws \Exception
+     * @throws Exception
+     * @ParamConverter("prerequisite", options={"mapping": {"prerequisiteId": "id"}})
      */
-    public function deletePrerequisitesAction($id, $prerequisiteId, Request $request, CourseInfoManager $manager)
+    public function deletePrerequisitesAction(CourseInfo $courseInfo, CoursePrerequisite $prerequisite, Request $request, CourseInfoManager $manager)
     {
-        $em = $this->getDoctrine()->getManager();
-        /** @var CourseInfo $courseInfo */
-        $courseInfo = $em->getRepository(CourseInfo::class)->find($id);
-
-        /** @var CoursePrerequisite $prerequisite */
-        $prerequisite = $em->getRepository(CoursePrerequisite::class)->find($prerequisiteId);
-
-        if (!$prerequisite instanceof CoursePrerequisite)
-        {
+        if (!$prerequisite instanceof CoursePrerequisite) {
             return $this->json([
                 'status' => false,
-                'content' => "Le prérequis {$prerequisiteId} n'existe pas"
+                'content' => "Une erreur est survenue : le prérequis n'existe pas"
             ]);
         }
         $form = $this->createForm(RemoveCoursePrerequisiteType::class, $prerequisite);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             /** @var CoursePrerequisite $prerequisite */
             $prerequisite = $form->getData();
             $courseInfo->removeCoursePrerequisite($prerequisite);
@@ -288,19 +326,15 @@ class CourseInfoObjectivesCourseController extends Controller
     /**
      * @Route("/course/{id}/objective_course/tutoring_resources/view", name="objective_course_tutoring_resources_view"))
      *
-     * @param $id
-     * @return \Symfony\Component\HttpFoundation\Response
-     * @throws \Exception
+     * @param CourseInfo $courseInfo
+     * @return Response
      */
-    public function tutoringResourcesViewAction($id)
+    public function tutoringResourcesViewAction(CourseInfo $courseInfo)
     {
-        $em = $this->getDoctrine()->getManager();
-        /** @var CourseInfo $courseInfo */
-        $courseInfo = $em->getRepository(CourseInfo::class)->find($id);
-        if(!$courseInfo instanceof CourseInfo){
+        if (!$courseInfo instanceof CourseInfo) {
             return $this->json([
                 'status' => false,
-                'content' => "Le cours {$id} n'existe pas."
+                'content' => "Une erreur est survenue : Le cours n'existe pas."
             ]);
         }
 
@@ -316,21 +350,18 @@ class CourseInfoObjectivesCourseController extends Controller
     /**
      * @Route("/course/{id}/objective_course/tutoring_resources", name="objective_course_tutoring_resources"))
      *
-     * @param $id
+     * @param CourseInfo $courseInfo
      * @param Request $request
      * @param CourseInfoManager $manager
-     * @return \Symfony\Component\HttpFoundation\Response
-     * @throws \Exception
+     * @return Response
+     * @throws Exception
      */
-    public function addTutoringResourceAction($id, Request $request, CourseInfoManager $manager)
+    public function addTutoringResourceAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
     {
-        $em = $this->getDoctrine()->getManager();
-        /** @var CourseInfo $courseInfo */
-        $courseInfo = $em->getRepository(CourseInfo::class)->find($id);
-        if(!$courseInfo instanceof CourseInfo){
+        if (!$courseInfo instanceof CourseInfo) {
             return $this->json([
                 'status' => false,
-                'content' => "Le cours {$id} n'existe pas."
+                'content' => "Une erreur est survenue : Le cours n'existe pas."
             ]);
         }
 
@@ -360,33 +391,61 @@ class CourseInfoObjectivesCourseController extends Controller
     }
 
     /**
+     * @Route("/course/objective_course/edit/tutoring_resources/{id}", name="objective_course_edit_tutoring_resources"))
+     *
+     * @param CourseTutoringResource $tutoringResource
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function editTutoringResourceAction(CourseTutoringResource $tutoringResource, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $form = $this->createForm(CourseTutoringResourcesType::class, $tutoringResource);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $tutoringResource = $form->getData();
+            $em->persist($tutoringResource);
+            $em->flush();
+            return $this->json([
+                'status' => true,
+                'content' => null
+            ]);
+        }
+
+        $render = $this->get('twig')->render('course_info/objectives_course/form/edit_tutoring_resources.html.twig', [
+            'form' => $form->createView()
+        ]);
+
+        return $this->json([
+            'status' => true,
+            'content' => $render
+        ]);
+    }
+
+    /**
      * @Route("/course/{id}/objective_course/tutoring_resources/delete/{tutoringResourcesId}", name="objective_course_remove_tutoring_resources"))
      *
-     * @param $id
-     * @param $tutoringResourcesId
+     * @param CourseInfo $courseInfo
+     * @param CourseTutoringResource $tutoringResources
      * @param Request $request
      * @param CourseInfoManager $manager
      * @return JsonResponse
-     * @throws \Exception
+     * @throws Exception
+     * @ParamConverter("tutoringResources", options={"mapping": {"tutoringResourcesId": "id"}})
      */
-    public function deleteTutoringResourcesAction($id, $tutoringResourcesId, Request $request, CourseInfoManager $manager)
+    public function deleteTutoringResourcesAction(CourseInfo $courseInfo, CourseTutoringResource $tutoringResources, Request $request, CourseInfoManager $manager)
     {
-        $em = $this->getDoctrine()->getManager();
-        /** @var CourseInfo $courseInfo */
-        $courseInfo = $em->getRepository(CourseInfo::class)->find($id);
-        /** @var CourseTutoringResource $tutoringResources */
-        $tutoringResources = $em->getRepository(CourseTutoringResource::class)->find($tutoringResourcesId);
-        if (!$tutoringResources instanceof CourseTutoringResource)
-        {
+        if (!$tutoringResources instanceof CourseTutoringResource) {
             return $this->json([
                 'status' => false,
-                'content' => "La remédiation {$tutoringResourcesId} n'existe pas"
+                'content' => "Une erreur est survenue : la remédiation n'existe pas"
             ]);
         }
         $form = $this->createForm(RemoveCourseTutoringResourcesType::class, $tutoringResources);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             /** @var CourseTutoringResource $tutoringResources */
             $tutoringResources = $form->getData();
             $courseInfo->removeCourseTutoringResource($tutoringResources);
@@ -409,21 +468,18 @@ class CourseInfoObjectivesCourseController extends Controller
     /**
      * @Route("/course/{id}/objective_course/tutoring/{action}", name="objective_course_tutoring"))
      *
-     * @param $id
-     * @param Request $request
+     * @param CourseInfo $courseInfo
+     * @param $action
      * @param CourseInfoManager $manager
      * @return JsonResponse
-     * @throws \Exception
+     * @throws Exception
      */
-    public function addTutoringAction($id, $action, CourseInfoManager $manager)
+    public function addTutoringAction(CourseInfo $courseInfo, $action, CourseInfoManager $manager)
     {
-        $em = $this->getDoctrine()->getManager();
-        /** @var CourseInfo $courseInfo */
-        $courseInfo = $em->getRepository(CourseInfo::class)->find($id);
-        if(!$courseInfo instanceof CourseInfo){
+        if (!$courseInfo instanceof CourseInfo) {
             return $this->json([
                 'status' => false,
-                'content' => "Le cours {$id} n'existe pas."
+                'content' => "Une erreur est survenue : Le cours n'existe pas."
             ]);
         }
 

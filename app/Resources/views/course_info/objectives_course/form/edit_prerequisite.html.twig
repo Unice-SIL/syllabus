@@ -1,9 +1,10 @@
-{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('course_equipment_equipment_edit', {'id': form.vars.data.id}), 'data-card': 'card-equipment'}}) }}
+{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('objective_course_edit_prerequisite', {'id': form.vars.data.id }), 'data-card': 'card-prerequisite'}}) }}
 {{ form_errors(form) }}
 <div class="row mt-3">
     <div class="col">
         <div>
             <div>
+                <label>Avant le début du cours, l'étudiant doit…</label>
                 {% if form.description is defined %}
                     {{ form_widget(form.description) }}
                 {% endif %}

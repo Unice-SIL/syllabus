@@ -15,7 +15,6 @@
                     Ajouter une compétence
                 </button>
             </div>
-            <span class="font-weight-bold">À la fin de ce cours, l'étudiant devrait être capable de…</span>
         </div>
         <div class="card-body">
         </div>
@@ -28,12 +27,11 @@
             <div class="d-flex justify-content-between">
                 <h3>Prérequis</h3>
                 <button type="button" class="btn btn-primary modal-action rounded"
-                        data-action-title="Ajouter un enseignant"
+                        data-action-title="Ajouter un prérequis"
                         data-action-url="{{ path('objective_course_prerequisite', {'id': courseInfo.id }) }}">
                     Ajouter un prérequis
                 </button>
             </div>
-            <span class="font-weight-bold">Avant le début du cours, l'étudiant doit…</span>
         </div>
         <div class="card-body">
         </div>
@@ -46,13 +44,12 @@
             <div class="d-flex justify-content-between">
                 <h3>Remédiation / aide à la réussite</h3>
                 <button type="button" class="btn btn-primary modal-action rounded "
-                        data-action-title="Ajouter un enseignant"
+                        data-action-title="Ajouter une remédiation"
                         data-card="card-tutoring-resources"
                         data-action-url="{{ path('objective_course_tutoring_resources', {'id': courseInfo.id }) }}">
                     Ajouter une remédiation
                 </button>
             </div>
-            <span class="font-weight-bold">Si l'étudiant rencontre des difficultés, il peut…</span>
             <div class="d-flex mt-3">
                 <span class="align-text-bottom mt-1">Assister à des séances de tutorat :</span>
                 <div class="ml-2">
