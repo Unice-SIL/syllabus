@@ -1,72 +1,54 @@
 <div class="row">
     <div class="col-6" style="height: 400px">
-        {% if equipments is empty %}
-            <div class="card-body">
-                <div class="row mt-10">
-                    <div class="col">
-                        <div class="d-flex">
-                            <div class="d-flex flex-column">
-                            <span class="font-weight-bold">
-                                <i class="fas fa-exclamation-circle text-danger"></i>
-                                Compétence
-                            </span>
-                                <span class="text-danger">
-                                Non-renseigné
-                            </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        {% else %}
-            <div class="card-body table-responsive p-0 h-100">
+        <div class="card-body text-center table-responsive p-0 h-100">
+            <span class="text-bold">Matériel nécessaire</span>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th class="text-left" style="width: 80%">Description</th>
+                    <th class="text-center" style="width: 20%">Ajouter</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for equipment in equipments %}
+                    <tr>
+                        <td class="text-left">{{ equipment.label }}</td>
+                        <td class="text-center">
+                            <button type="button"
+                                    class="btn btn-link modal-action button p-0"
+                                    data-action-url="{{ path('course_equipment_equipment_add', {'idCourseInfo': courseInfo.id, 'idEquipment': equipment.id}) }}">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-6" style="height: 400px">
+        {% if courseInfo.courseResourceEquipments is empty %}
+            <div class="card-body text-center table-responsive p-0 h-100">
+                <span class="text-bold">Matériels choisis</span>
                 <table class="table table-hover">
                     <thead>
                     <tr>
                         <th class="text-left" style="width: 80%">Description</th>
-                        <th class="text-center" style="width: 20%">Ajouter</th>
+                        <th class="text-center" style="width: 20%">Supprimer</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {% for equipment in equipments %}
-                        <tr>
-                            <td class="text-left" >{{ equipment.label }}</td>
-                            <td class="text-center">
-                                <button type="button"
-                                        id="btn-add-equipment"
-                                        class="btn btn-link button p-0"
-                                        data-url="{{ path('course_equipment_equipment_add', {'idCourseInfo': courseInfo.id, 'idEquipment': equipment.id}) }}">
-                                    <i class="fas fa-plus"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    {% endfor %}
+                    <tr>
+                        <td class="text-left">
+                            <span>Non renseigné</span></br>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
-        {% endif %}
-    </div>
-    <div class="col-6" style="height: 400px">
-        {% if courseInfo.courseResourceEquipments is empty %}
-            <div class="card-body">
-                <div class="row mt-10">
-                    <div class="col">
-                        <div class="d-flex">
-                            <div class="d-flex flex-column">
-                            <span class="font-weight-bold">
-                                <i class="fas fa-exclamation-circle text-danger"></i>
-                                Compétence
-                            </span>
-                                <span class="text-danger">
-                                Non-renseigné
-                            </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         {% else %}
-            <div class="card-body table-responsive p-0 h-100">
+            <div class="card-body text-center table-responsive p-0 h-100">
+                <span class="text-bold">Matériels choisis</span>
                 <table class="table table-hover">
                     <thead>
                     <tr>
@@ -77,12 +59,22 @@
                     <tbody>
                     {% for ResourceEquipment in courseInfo.courseResourceEquipments %}
                         <tr>
-                            <td class="text-left">{{ ResourceEquipment.description }}</td>
+                            <td class="text-left">
+                                <span>{{ ResourceEquipment.equipment.label }}</span></br>
+                                <span class="font-italic"
+                                      style="font-size: 0.9em">{{ ResourceEquipment.description }}</span>
+                            </td>
                             <td class="text-center">
                                 <button type="button"
                                         class="btn btn-link modal-action p-0"
-                                        id="btn-remove-equipment"
-                                        data-url="{{ path('course_equipment_equipment_remove', {'idCourseInfo': courseInfo.id, 'idResourceEquipment': ResourceEquipment.id}) }}">
+                                        data-action-title="Modifier une description"
+                                        data-action-url="{{ path('course_equipment_equipment_edit', {'idResourceEquipment': ResourceEquipment.id}) }}">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button type="button"
+                                        class="btn btn-link modal-action p-0"
+                                        data-action-title="Supprimer un matériel"
+                                        data-action-url="{{ path('course_equipment_equipment_remove', {'idCourseInfo': courseInfo.id, 'idResourceEquipment': ResourceEquipment.id}) }}">
                                     <i class="fas fa-trash-alt text-danger"></i>
                                 </button>
                             </td>
