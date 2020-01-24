@@ -1,0 +1,23 @@
+/*
+        Nelmio SASS file.
+
+
+*/
+
+@import "custom_variables";
+
+header {
+  &:before {
+    background-color: $primary;
+  }
+
+  #logo {
+    img {
+      background-color: transparent;
+    }
+  }
+}
+
+#swagger-ui.api-platform .info .title {
+  color: $primary;
+}
