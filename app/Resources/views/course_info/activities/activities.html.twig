@@ -12,7 +12,7 @@
             {% else %}
                 {% for section in courseInfo.courseSections %}
                     <div class="mb-1" >
-                        <span class="d-inline-block text-truncate" style="max-width: 125px;">{{ section.title }}</span>
+                        <a class="d-inline-block text-truncate text-white" href="#" style="max-width: 125px;">{{ section.title }}</a>
                         <button type="button" class="btn btn-link modal-action p-0 float-right"
                                 data-action-title="Supprimer une section"
                                 data-action-url="{{ path('course_activities_remove_section', {'id': courseInfo.id, 'sectionId': section.id}) }}">
