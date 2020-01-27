@@ -14,32 +14,38 @@ class StructureType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $context = $options['context'];
+        $disabled = $context == 'edit' ? true : false;
         $builder
             ->add('etbId', null, [
-                'disabled' => true
+                'disabled' => $disabled
             ])
             ->add('label', null, [
-                'disabled' => true
+                'disabled' => $disabled
             ])
             ->add('campus')
-            ->add('obsolete', CheckboxType::class, [
-                'label' => 'app.form.structure.label.obsolete',
-                'required' => false,
-                'label_attr' => [
-                    'class' => 'custom-control-label'
-                ],
-                'attr' => [
-                    'class' => 'custom-control-input'
-                ]
-            ])
-        ;
+            ;
+            if ($context == 'edit') {
+               $builder
+                ->add('obsolete', CheckboxType::class, [
+                    'label' => 'app.form.structure.label.obsolete',
+                    'required' => false,
+                    'label_attr' => [
+                        'class' => 'custom-control-label'
+                    ],
+                    'attr' => [
+                        'class' => 'custom-control-input'
+                    ]
+                ]);
+            }
     }/**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Structure'
+            'data_class' => 'AppBundle\Entity\Structure',
+            'context' => 'edit'
         ));
     }
 

@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Structure;
 use AppBundle\Form\Filter\StructureFilterType;
 use AppBundle\Form\StructureType;
+use AppBundle\Manager\StructureManager;
 use AppBundle\Repository\Doctrine\StructureDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
@@ -64,6 +65,25 @@ class StructureController extends Controller
         ));
     }
 
+    /**
+     * @Route("/new", name="new")
+     */
+    public function newAction(Request $request, EntityManagerInterface $em, StructureManager $structureManager)
+    {
+        $structure = $structureManager->create();
+        $form = $this->createForm(StructureType::class, $structure, ['context' => 'new']);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+            $em->persist($structure);
+            $em->flush();
+
+            $this->addFlash('success', 'La structure a été enregistrée avec succès');
+
+            return $this->redirectToRoute('app_admin_structure_index');
+        }
+        return $this->render('structure/new.html.twig', ['form' => $form->createView()]);
+    }
 
     /**
      * Displays a form to edit an existing structure entity.

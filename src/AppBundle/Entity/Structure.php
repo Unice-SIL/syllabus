@@ -26,6 +26,7 @@ class Structure
      * @var string
      *
      * @ORM\Column(name="etbId", type="string", length=45, nullable=false)
+     * @Assert\NotBlank()
      */
     private $etbId;
 
@@ -33,6 +34,8 @@ class Structure
      * @var string|null
      *
      * @ORM\Column(name="label", type="string", length=100, nullable=true)
+     * @Assert\NotBlank()
+     *
      */
     private $label;
 
@@ -40,7 +43,6 @@ class Structure
      * @var string|null
      *
      * @ORM\Column(name="campus", type="string", length=100, nullable=true)
-     * @Assert\NotBlank()
      */
     private $campus;
 
@@ -73,7 +75,7 @@ class Structure
     /**
      * @return string
      */
-    public function getEtbId(): string
+    public function getEtbId(): ?string
     {
         return $this->etbId;
     }

@@ -1,0 +1,16 @@
+{% extends 'admin_layout.html.twig' %}
+{% set h1 = 'Ajouter une structure' %}
+
+{% block subContent %}
+    <div class="card">
+        <div class="card-body">
+            {{ form_start(form) }}
+                {{ form_row(form.label) }}
+                {{ form_row(form.etbId) }}
+                {{ form_row(form.campus) }}
+                <button class="btn btn-primary">Enregistrer</button>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
+
