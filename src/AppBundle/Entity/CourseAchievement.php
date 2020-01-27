@@ -8,7 +8,7 @@ use Ramsey\Uuid\UuidInterface;
 /**
  * CourseAchievement
  *
- * @ORM\Table(name="course_achievement", indexes={@ORM\Index(name="fk_course_achievement_course_info1_idx", columns={"course_info_id"})})
+ * @ORM\Table(name="course_achievement")
  * @ORM\Entity
  */
 class CourseAchievement

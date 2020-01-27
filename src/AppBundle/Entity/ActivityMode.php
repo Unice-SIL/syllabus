@@ -2,17 +2,18 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Activity
+ * ActivityMode
  *
- * @ORM\Table(name="activity")
+ * @ORM\Table(name="activity_mode")
  * @ORM\Entity
  */
-class Activity
+class ActivityMode
 {
     /**
      * @var string
@@ -32,33 +33,11 @@ class Activity
     private $label;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="description", type="string", length=200, nullable=true)
-     * @Assert\Length(max="200")
-     */
-    private $description;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="label_visibility", type="boolean", nullable=false, options={"comment"="Témoin affichage de l'intitulé de l'activité"})
-     */
-    private $labelVisibility = true;
-
-    /**
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
      */
     private $obsolete = false;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="position", type="integer", nullable=false)
-     */
-    private $position = 0;
 
     /**
      * @var Collection
@@ -68,59 +47,46 @@ class Activity
     private $activityTypes;
 
     /**
+     * ActivityMode constructor.
+     */
+    public function __construct()
+    {
+        $this->activityTypes = new ArrayCollection();
+    }
+
+    /**
      * @return string
      */
-    public function getId(): ?string
+    public function getId(): string
     {
         return $this->id;
     }
 
     /**
      * @param string $id
-     * @return Activity
+     * @return ActivityMode
      */
-    public function setId(string $id): Activity
+    public function setId(string $id): ActivityMode
     {
         $this->id = $id;
-
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
         return $this->label;
     }
 
     /**
      * @param string $label
-     * @return Activity
+     * @return ActivityMode
      */
-    public function setLabel(?string $label): Activity
+    public function setLabel(string $label): ActivityMode
     {
         $this->label = $label;
-
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isLabelVisibility(): bool
-    {
-        return $this->labelVisibility;
-    }
-
-    /**
-     * @param bool $labelVisibility
-     * @return Activity
-     */
-    public function setLabelVisibility(bool $labelVisibility): Activity
-    {
-        $this->labelVisibility = $labelVisibility;
-
         return $this;
     }
 
@@ -134,50 +100,11 @@ class Activity
 
     /**
      * @param bool $obsolete
-     * @return Activity
+     * @return ActivityMode
      */
-    public function setObsolete(bool $obsolete): Activity
+    public function setObsolete(bool $obsolete): ActivityMode
     {
         $this->obsolete = $obsolete;
-
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getPosition(): int
-    {
-        return $this->position;
-    }
-
-    /**
-     * @param int $position
-     * @return Activity
-     */
-    public function setPosition(int $position): Activity
-    {
-        $this->position = $position;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    /**
-     * @param string|null $description
-     * @return Activity
-     */
-    public function setDescription(?string $description): self
-    {
-        $this->description = $description;
-
         return $this;
     }
 
@@ -191,9 +118,9 @@ class Activity
 
     /**
      * @param Collection $activityTypes
-     * @return Activity
+     * @return ActivityMode
      */
-    public function setActivityTypes(Collection $activityTypes): Activity
+    public function setActivityTypes(Collection $activityTypes): ActivityMode
     {
         $this->activityTypes = $activityTypes;
         return $this;
@@ -201,7 +128,7 @@ class Activity
 
     /**
      * @param ActivityType $activityType
-     * @return Activity
+     * @return ActivityMode
      */
     public function addActivityType(ActivityType $activityType): self
     {
@@ -218,7 +145,7 @@ class Activity
 
     /**
      * @param ActivityType $activityType
-     * @return Activity
+     * @return ActivityMode
      */
     public function removeActivityType(ActivityType $activityType): self
     {

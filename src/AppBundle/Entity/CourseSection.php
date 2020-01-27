@@ -10,7 +10,7 @@ use Ramsey\Uuid\Uuid;
 /**
  * CourseSection
  *
- * @ORM\Table(name="course_section", indexes={@ORM\Index(name="fk_course_section_course_info1_idx", columns={"course_info_id"})})
+ * @ORM\Table(name="course_section")
  * @ORM\Entity
  */
 class CourseSection
@@ -41,9 +41,9 @@ class CourseSection
     /**
      * @var int
      *
-     * @ORM\Column(name="ord", type="integer", nullable=false)
+     * @ORM\Column(name="position", type="integer", nullable=false)
      */
-    private $order = 0;
+    private $position = 0;
 
     /**
      * @var \AppBundle\Entity\CourseInfo
@@ -128,18 +128,18 @@ class CourseSection
     /**
      * @return int
      */
-    public function getOrder(): int
+    public function getPosition(): int
     {
-        return $this->order;
+        return $this->position;
     }
 
     /**
-     * @param int $order
+     * @param int $position
      * @return CourseSection
      */
-    public function setOrder(int $order): CourseSection
+    public function setPosition(int $position): CourseSection
     {
-        $this->order = $order;
+        $this->position = $position;
 
         return $this;
     }

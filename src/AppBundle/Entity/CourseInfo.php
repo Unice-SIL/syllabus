@@ -13,7 +13,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * CourseInfo
  *
- * @ORM\Table(name="course_info", indexes={@ORM\Index(name="fk_course_info_user2_idx", columns={"publisher"}), @ORM\Index(name="fk_course_info_course1_idx", columns={"course_id"}), @ORM\Index(name="fk_course_info_structure1_idx", columns={"structure_id"}), @ORM\Index(name="fk_course_info_user1_idx", columns={"last_updater"}), @ORM\Index(name="fk_course_info_year1_idx", columns={"year_id"})})
+ * @ORM\Table(name="course_info")
  * @ORM\Entity
  * @UniqueEntity(fields={"year", "course"}, message="Le cours {{ value }} existe déjà pour cette année", errorPath="course")
  */
