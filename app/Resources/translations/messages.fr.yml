@@ -14,6 +14,7 @@ evaluation: 'évaluation'
 list of activity: Liste des activités
 list of evaluation: Liste des évaluations
 
+
 app:
   form:
     activity:
@@ -24,10 +25,12 @@ app:
     course_info:
       label:
         title: 'Titre'
+        structure: 'Structure'
     course:
       label:
         type: 'Type'
         etb_id: 'Code établissement'
+        parents: 'Cours parents'
     year:
       label:
         label: 'Année'
@@ -45,8 +48,9 @@ app:
         obsolete: 'Obsolète'
     course_info_field:
       label:
-        import: 'Import'
         label: 'Label'
+        mannually_duplication: 'Duplication manuelle'
+        automatic_duplication: 'Duplication depuis CSV'
     global:
       action: 'Action'
     duplicate_course_info:
@@ -56,8 +60,19 @@ app:
       label:
         user: 'Utilisateur'
         permission: 'Permission'
+    import:
+      label:
+        csv: 'Fichier au format CSV'
 
   const:
     permission:
       WRITE: 'Ecriture'
       READ: 'Lecture'
+    level:
+      beginner: 'Débutant'
+      intermediate: 'Intermédiaire'
+      advanced: 'Avancé'
+    teaching_mode:
+      class: 'Présentiel'
+      hybrid: 'Hybride'
+      distant: 'A distance'

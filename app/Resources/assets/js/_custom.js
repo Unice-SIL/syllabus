@@ -28,8 +28,22 @@ bootbox.setLocale( 'fr' );
 
 $( document ).ready( function( ) {
 
-    $( document ).ajaxError( function( event, jqXHR, ajaxSettings, thrownError ) {
+    /**
+     * Actions to execute when a ajax request is perform
+     */
+    $(document).ajaxStart(function(){
+        $('.container-loader').show();
+    });
 
+    /**
+     * Actions to execute when a ajax request send response
+     */
+    $(document).ajaxStop(function(){
+        $('.container-loader').hide();
+    });
+
+
+    $( document ).ajaxError( function( event, jqXHR, ajaxSettings, thrownError ) {
         console.log( { event, jqXHR, ajaxSettings, thrownError } );
         SILTools.alert( {
             type: 'danger',
@@ -37,11 +51,6 @@ $( document ).ready( function( ) {
         } );
 
     } );
-
-} );
-
-
-$(document).ready(function () {
 
     //Trigger submit of a filter form when a select is changed
     $('.filter-form').find('select').change(function () {
@@ -61,4 +70,5 @@ $(document).ready(function () {
         });
     }
     initAutocomplete();
+
 });

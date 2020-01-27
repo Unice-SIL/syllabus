@@ -1,0 +1,28 @@
+{% extends 'admin_layout.html.twig' %}
+{% set h1 = 'Dupliquer syllabus en masse' %}
+
+{% block subContent %}
+    <div class="card">
+        <div class="card-body">
+            {{ form_start(form) }}
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <div class="custom-file">
+                            {{ form_label(form.file) }}
+                            {{ form_widget(form.file) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary">Importer</button>
+                    </div>
+                </div>
+            </div>
+            {{ form_end(form) }}
+
+            {{ report_render(report) }}
+
+        </div>
+    </div>
+{% endblock %}
+

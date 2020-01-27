@@ -2,6 +2,7 @@
 {% set h1 = 'Liste des syllabus' %}
 
 {% block modals %}
+    {{ parent() }}
     <div class="modal modal-initialized fade" id="courseInfoDuplicationModal" style="display: none;" aria-hidden="true" data-show="{{ isFormValid ? "false" : "true" }}">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -49,6 +50,16 @@
                 <div class="col-md-2 col-sm-6">
                     <a class="btn btn-danger" style="margin-top: 32px" href="{{  path('app_admin_course_info_index')  }}">Réinitialiser les filtres</a>
                 </div>
+                <div class="col-md-2 col-sm-6">
+                    <div class="btn-group">
+                        <button type="button" style="margin-top: 32px" class="btn btn-primary dropdown-toggle dropdown-icon" data-toggle="dropdown">Actions
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{  path('app_admin_course_info_new')  }}">Ajouter un syllabus</a>
+                            <a class="dropdown-item" href="{{  path('app_admin_course_info_duplicate_syllabus_from_file')  }}">Dupliquer syllabus en masse</a>
+                        </div>
+                    </div>
+                </div>
             </div>
             <input type="submit" style="position: absolute; left: -9999px"/>
             {{ form_end(form) }}
@@ -76,7 +87,7 @@
                             <td>{{ syllabus.title }}</td>
                             <td>{{ syllabus.structure.label }}</td>
                             <td>
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#courseInfoDuplicationModal" data-id="{{ syllabus.id }}">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#courseInfoDuplicationModal" data-etbid-year="{{ syllabus.etbIdYear(true) }}">
                                     Dupliquer les infos
                                 </button>
                             </td>

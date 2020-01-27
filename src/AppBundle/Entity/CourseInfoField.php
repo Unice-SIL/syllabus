@@ -42,6 +42,23 @@ class CourseInfoField
     private $manuallyDuplication = 0;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(name="automatic_duplication", type="boolean", nullable=false, options={"default" : 0})
+     */
+    private $automaticDuplication = 0;
+
+    /**
+     * CourseInfoField constructor.
+     * @param string $field
+     */
+    public function __construct(?string $field)
+    {
+        $this->field = $field;
+    }
+
+
+    /**
      * @return int
      */
     public function getId(): int
@@ -100,5 +117,23 @@ class CourseInfoField
         return $this;
     }
 
+    /**
+     * @return bool
+     */
+    public function getAutomaticDuplication(): bool
+    {
+        return $this->automaticDuplication;
+    }
+
+    /**
+     * @param bool $automaticDuplication
+     * @return CourseInfoField
+     */
+    public function setAutomaticDuplication($automaticDuplication): self
+    {
+        $this->automaticDuplication = $automaticDuplication;
+
+        return $this;
+    }
 
 }

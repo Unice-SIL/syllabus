@@ -1,6 +1,7 @@
 {% extends 'course_info/layout.html.twig' %}
 
 {% block modals %}
+    {{ parent() }}
     <div class="modal modal-initialized fade" id="modal-add-permission" data-show="{{ isValid ? 'false' : 'true' }}">
         <div class="modal-dialog">
             <div class="modal-content">

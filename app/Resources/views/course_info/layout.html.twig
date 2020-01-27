@@ -9,9 +9,7 @@
         <li class="nav-item">
             <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
         </li>
-        <li class="nav-item d-none d-sm-inline-block">
-            <h3>{{ courseInfo.title }}</h3>
-        </li>
+
     </ul>
 {% endblock %}
 
@@ -23,23 +21,25 @@
                     <a class="nav-link menu-tab"
                        href="{{ path('course_presentation', { 'id': courseInfo.id }) }}"
                        id="menu-presentation">
-                        <i>1</i>&nbsp;
-                        <p>Présentation générale</p>
+                        <i class="fas fa-star"></i>
+                        <p>
+                            Présentation Générale
+                        </p>
                     </a>
                 </li>
                 <li class="nav-item has-treeview">
                     <a class="nav-link menu-tab"
                        id="menu-activities"
                        href="{{ path('course_activities', { 'id': courseInfo.id }) }}">
-                        <i>2</i>&nbsp;
+                        <i class="fas fa-list-alt"></i>
                         <p>Contenu et activités</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-tab" id="menu-objective"
-                       href="{{ path('course_info_objectives', { 'id': courseInfo.id }) }}"
-                       id="menu-objectives_course">
-                        <i>3</i>&nbsp;
+                    <a class="nav-link menu-tab"
+                       id="menu-objectives"
+                       href="{{ path('course_info_objectives', { 'id': courseInfo.id }) }}">
+                        <i class="fas fa-bullseye"></i>
                         <p>Objectifs du cours</p>
                     </a>
                 </li>
@@ -47,27 +47,29 @@
                     <a class="nav-link menu-tab"
                        id="menu-evaluation"
                        href="{{ path('course_evaluation', { 'id': courseInfo.id }) }}">
-                        <i>4</i>&nbsp;
+                        <i class="fas fa-medal"></i>
                         <p>Modalités d'évaluation</p>
                     </a>
                 </li>
                 <li class="nav-item menu-tab">
-                    <a class="nav-link" href="{{ path('edit_equipments_course_info', { 'id': courseInfo.id }) }}">
-                        <i>5</i>&nbsp;
+                    <a class="nav-link"
+                       id="menu-resource"
+                       href="{{ path('course_equipment', { 'id': courseInfo.id }) }}">
+                        <i class="fas fa-tools"></i>
                         <p>Matériel et ressources</p>
                     </a>
                 </li>
                 <li class="nav-item menu-tab">
                     <a class="nav-link" href="{{ path('course_info_info', { 'id': courseInfo.id }) }}"
                        id="menu-info">
-                        <i>6</i>&nbsp;
+                        <i class="fas fa-info-circle"></i>
                         <p>Informations pratiques</p>
                     </a>
                 </li>
                 <li class="nav-item menu-tab">
                     <a class="nav-link" href="{{ path('course_closing_remarks', { 'id': courseInfo.id }) }}"
                        id="menu-closing_remarks">
-                        <i>7</i>&nbsp;
+                        <i class="fas fa-flag-checkered"></i>
                         <p>Le mot de la fin</p>
                     </a>
                 </li>
@@ -76,9 +78,16 @@
     </div>
 {% endblock %}
 {% block content %}
-    <div class="container-fluid pt-2">
-        {% block subContent %}{% endblock %}
+    <div class="content-header">
+        <div class="container-fluid">
+            <h3>{{ courseInfo.title }}</h3>
+        </div><!-- /.container-fluid -->
     </div>
+    <section id="content-{{ contentName|default('default') }}" class="content">
+        <div class="container-fluid">
+            {% block subContent %}{% endblock %}
+        </div>
+    </section>
 {% endblock %}
 
 {% block javascripts %}

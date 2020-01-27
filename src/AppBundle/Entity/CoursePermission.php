@@ -134,6 +134,4 @@ class CoursePermission
         return $this;
     }
 
-
-
 }
