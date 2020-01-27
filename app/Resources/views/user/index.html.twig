@@ -3,7 +3,9 @@
 {% block subContent %}
 
     <div class="card">
-        <!-- /.card-header -->
+        <div class="card-header">
+            <a class="btn btn-primary float-right" href="{{ path('app_admin_user_new') }}">Ajouter un utilisateur</a>
+        </div>
         <div class="card-body">
             {% if pagination.totalItemCount > 0 %}
                 <table class="table table-bordered table-responsive-sm">
