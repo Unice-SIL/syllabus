@@ -5,7 +5,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseSection;
-use AppBundle\Form\CourseInfo\Activities\AddSectionType;
+use AppBundle\Form\CourseInfo\Activities\SectionType;
 use AppBundle\Form\CourseInfo\Activities\RemoveSectionType;
 use AppBundle\Manager\CourseInfoManager;
 use Ramsey\Uuid\Uuid;
@@ -17,18 +17,28 @@ use Symfony\Component\Routing\Annotation\Route;
 class CourseInfoActivitiesController extends AbstractController
 {
     /**
-     * @Route("/course/{id}/activities", name="course_activities")
+     * @Route("/course/{id}/activities/{sectionId}", name="course_activities", defaults={"sectionId"=null})
      *
      * @param CourseInfo $courseInfo
+     * @param CourseSection|null $activeSection
      * @return \Symfony\Component\HttpFoundation\Response
+     * @ParamConverter("activeSection", options={"mapping": {"sectionId": "id"}})
      */
-    public function indexAction(CourseInfo $courseInfo)
+    public function indexAction(CourseInfo $courseInfo, ?CourseSection $activeSection)
     {
+        if (!$activeSection)
+        {
+            if (!empty($courseInfo->getCourseSections()))
+            {
+                $activeSection = $courseInfo->getCourseSections()->current();
+            }
+        }
         return $this->render('course_info/activities/activities.html.twig', [
-            'courseInfo' => $courseInfo
+            'courseInfo' => $courseInfo,
+            'activeSection' => $activeSection
         ]);
     }
-
+    
     /**
      * @Route("/course/{id}/activities/section/add", name="course_activities_add_section"))
      *
@@ -38,7 +48,7 @@ class CourseInfoActivitiesController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function addTeachersAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
+    public function addSectionAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
     {
         if (!$courseInfo instanceof CourseInfo)
         {
@@ -52,7 +62,7 @@ class CourseInfoActivitiesController extends AbstractController
         $message = null;
         $section = new CourseSection();
 
-        $form = $this->createForm(AddSectionType::class, $section);
+        $form = $this->createForm(SectionType::class, $section);
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {

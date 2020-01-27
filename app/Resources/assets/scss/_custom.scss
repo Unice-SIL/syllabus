@@ -208,6 +208,22 @@ label.toggle-off {
 .course-title {
     font-family: "Apex New Book";
 }
+
+/*
+    Forms
+ */
+label.required:before {
+    content: "* ";
+    color: red;
+}
+
+/*
+    Navs
+ */
+li.active{
+    background-color: $primary;
+}
+
 /*
 .button-gradient {
     background: linear-gradient(to bottom, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.2) 49%, rgba(0, 0, 0, 0.15) 51%, rgba(0, 0, 0, 0.05)) repeat-x;
@@ -250,11 +266,6 @@ form {
     & > button:last-of-type {
         margin-top: 1rem;
     }
-}
-
-label.required:before {
-    content: "* ";
-    color: red;
 }
 
 .custom-switch {
