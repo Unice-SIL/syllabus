@@ -533,7 +533,7 @@ class CourseInfo
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="CourseSection", mappedBy="courseInfo", cascade={ "persist" })
+     * @ORM\OneToMany(targetEntity="CourseSection", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"order" = "ASC"})
      */
     private $courseSections;
@@ -573,7 +573,7 @@ class CourseInfo
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="CourseResourceEquipment", mappedBy="courseInfo", cascade={ "persist" })
+     * @ORM\OneToMany(targetEntity="CourseResourceEquipment", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"order" = "ASC"})
      */
     private $courseResourceEquipments;
@@ -1977,7 +1977,6 @@ class CourseInfo
             }
         }
         return $this;
-
     }
 
     /**
@@ -2016,8 +2015,14 @@ class CourseInfo
      */
     public function removeCourseSection(CourseSection $courseSection): CourseInfo
     {
-        $this->courseSections->removeElement($courseSection);
-
+        if ($this->courseSections->contains($courseSection))
+        {
+            $this->courseSections->removeElement($courseSection);
+            if ($courseSection->getCourseInfo() === $this)
+            {
+                $courseSection->setCourseInfo(null);
+            }
+        }
         return $this;
     }
 
@@ -2236,10 +2241,15 @@ class CourseInfo
      */
     public function removeCourseResourceEquipment(CourseResourceEquipment $courseResourceEquipment): CourseInfo
     {
-        $this->courseResourceEquipments->removeElement($courseResourceEquipment);
-
+        if ($this->courseResourceEquipments->contains($courseResourceEquipment))
+        {
+            $this->courseResourceEquipments->removeElement($courseResourceEquipment);
+            if ($courseResourceEquipment->getCourseInfo() === $this)
+            {
+                $courseResourceEquipment->setCourseInfo(null);
+            }
+        }
         return $this;
-
     }
 
     /**

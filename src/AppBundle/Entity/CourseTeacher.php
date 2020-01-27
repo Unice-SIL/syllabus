@@ -75,10 +75,10 @@ class CourseTeacher
     }
 
     /**
-     * @param string $id
+     * @param string|null $id
      * @return CourseTeacher
      */
-    public function setId(string $id): CourseTeacher
+    public function setId(?string $id): CourseTeacher
     {
         $this->id = $id;
 
@@ -182,9 +182,9 @@ class CourseTeacher
 
 
     /**
-     * @return CourseInfo
+     * @return CourseInfo|null
      */
-    public function getCourseInfo(): CourseInfo
+    public function getCourseInfo(): ?CourseInfo
     {
         return $this->courseInfo;
     }

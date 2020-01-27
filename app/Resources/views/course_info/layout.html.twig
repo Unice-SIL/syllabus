@@ -9,9 +9,7 @@
         <li class="nav-item">
             <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
         </li>
-        <li class="nav-item d-none d-sm-inline-block">
-            <h3>{{ courseInfo.title }}</h3>
-        </li>
+
     </ul>
 {% endblock %}
 
@@ -38,9 +36,9 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-tab" id="menu-objective"
-                       href="{{ path('course_info_objectives', { 'id': courseInfo.id }) }}"
-                       id="menu-objectives_course">
+                    <a class="nav-link menu-tab"
+                       id="menu-objectives"
+                       href="{{ path('course_info_objectives', { 'id': courseInfo.id }) }}">
                         <i class="fas fa-bullseye"></i>
                         <p>Objectifs du cours</p>
                     </a>
@@ -54,7 +52,9 @@
                     </a>
                 </li>
                 <li class="nav-item menu-tab">
-                    <a class="nav-link" href="{{ path('edit_equipments_course_info', { 'id': courseInfo.id }) }}">
+                    <a class="nav-link"
+                       id="menu-resource"
+                       href="{{ path('course_equipment', { 'id': courseInfo.id }) }}">
                         <i class="fas fa-tools"></i>
                         <p>Matériel et ressources</p>
                     </a>
@@ -78,9 +78,16 @@
     </div>
 {% endblock %}
 {% block content %}
-    <div class="container-fluid pt-2">
-        {% block subContent %}{% endblock %}
+    <div class="content-header">
+        <div class="container-fluid">
+            <h3>{{ courseInfo.title }}</h3>
+        </div><!-- /.container-fluid -->
     </div>
+    <section id="content-{{ contentName|default('default') }}" class="content">
+        <div class="container-fluid">
+            {% block subContent %}{% endblock %}
+        </div>
+    </section>
 {% endblock %}
 
 {% block javascripts %}

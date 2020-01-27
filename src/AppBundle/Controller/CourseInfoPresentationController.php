@@ -12,6 +12,7 @@ use AppBundle\Form\CourseInfo\Presentation\SynopsisType;
 use AppBundle\Form\CourseInfo\Presentation\TeachersType;
 use AppBundle\Form\CourseInfo\Presentation\TeachingModeType;
 use AppBundle\Manager\CourseInfoManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -85,6 +86,7 @@ class CourseInfoPresentationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            dump($form);
             $courseInfo->checkMedia();
             $manager->update($courseInfo);
             $render = $this->get('twig')->render('course_info/presentation/view/general.html.twig', [
@@ -192,7 +194,7 @@ class CourseInfoPresentationController extends AbstractController
     }
 
     /**
-     * @Route("/course/{id}/presentation/teachers/delete/{teacherId}", name="course_presentation_remove_teacher"))
+     * @Route("/course/{id}/presentation/teachers/remove/{teacherId}", name="course_presentation_remove_teacher"))
      *
      * @param CourseInfo $courseInfo
      * @param CourseTeacher $teacher
@@ -200,8 +202,9 @@ class CourseInfoPresentationController extends AbstractController
      * @param CourseInfoManager $manager
      * @return JsonResponse
      * @throws \Exception
+     * @ParamConverter("teacher", options={"mapping": {"teacherId": "id"}})
      */
-    public function deleteTeacherAction(CourseInfo $courseInfo, CourseTeacher $teacher, Request $request, CourseInfoManager $manager)
+    public function removeTeacherAction(CourseInfo $courseInfo, CourseTeacher $teacher, Request $request, CourseInfoManager $manager)
     {
         if (!$courseInfo instanceof CourseInfo)
         {
@@ -224,8 +227,6 @@ class CourseInfoPresentationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
-            /** @var CourseTeacher $teacher */
-            $teacher = $form->getData();
             $courseInfo->removeCourseTeacher($teacher);
             $manager->update($courseInfo);
             return $this->json([

@@ -49,6 +49,16 @@ class CourseInfoField
     private $automaticDuplication = 0;
 
     /**
+     * CourseInfoField constructor.
+     * @param string $field
+     */
+    public function __construct(?string $field)
+    {
+        $this->field = $field;
+    }
+
+
+    /**
      * @return int
      */
     public function getId(): int

@@ -71,10 +71,10 @@ class CourseEvaluationCt
     }
 
     /**
-     * @param string $id
+     * @param null|string $id
      * @return CourseEvaluationCt
      */
-    public function setId(string $id): CourseEvaluationCt
+    public function setId(?string $id): CourseEvaluationCt
     {
         $this->id = $id;
 
@@ -166,10 +166,10 @@ class CourseEvaluationCt
     }
 
     /**
-     * @param CourseInfo $courseInfo
+     * @param null|CourseInfo $courseInfo
      * @return CourseEvaluationCt
      */
-    public function setCourseInfo(CourseInfo $courseInfo): CourseEvaluationCt
+    public function setCourseInfo(?CourseInfo $courseInfo): CourseEvaluationCt
     {
         $this->courseInfo = $courseInfo;
 

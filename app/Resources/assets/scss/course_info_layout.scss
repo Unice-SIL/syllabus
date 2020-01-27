@@ -1,0 +1,44 @@
+
+/*
+ * Loader
+ */
+.card-syllabus .progress
+{
+  border-radius: 5px;
+}
+
+
+/*
+ * Card.
+ */
+
+.card-syllabus {
+  .card-header {
+    background-color: #fdfdfd;
+
+    h3 {
+      font-weight: 500;
+      text-shadow: 1px 1px 1px #bbb;
+    }
+  }
+}
+
+/*
+ * Focus.
+ */
+
+.hasActiveChild .toggle-focus:not(.active) {
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.empty-data {
+  color: $gray-500;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+.mandatory-data > .empty-data {
+  color: #902b2b;
+}
+
