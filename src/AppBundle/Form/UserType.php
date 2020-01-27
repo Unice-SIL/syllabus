@@ -15,26 +15,29 @@ class UserType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $context = $options['context'];
+        $disabled = $context === 'new' ? false : true;
         $builder
             ->add('username', null, [
-                'disabled' => true,
+                'disabled' => $disabled,
                 'label' => 'Identifiant'
             ])
             ->add('firstname', null, [
-                'disabled' => true,
+                'disabled' => $disabled,
                 'label' => 'Prénom'
             ])
             ->add('lastname', null, [
-                'disabled' => true,
+                'disabled' => $disabled,
                 'label' => 'Nom'
             ])
             ->add('email', null, [
-                'disabled' => true,
+                'disabled' => $disabled,
                 'label' => 'Email'
             ])
             ->add('roles', ChoiceType::class, [
                 'choices' => array_combine(UserRole::ROLES, UserRole::ROLES),
-                'multiple' => true
+                'multiple' => true,
+                'expanded' => true
             ]);
     }/**
      * {@inheritdoc}
@@ -42,7 +45,8 @@ class UserType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\User'
+            'data_class' => 'AppBundle\Entity\User',
+            'context' => 'edit'
         ));
     }
 

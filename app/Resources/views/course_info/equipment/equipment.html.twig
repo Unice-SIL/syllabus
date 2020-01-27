@@ -1,0 +1,43 @@
+{% extends 'course_info/layout.html.twig' %}
+
+{% block subContent %}
+
+    <div id="card-equipment" class="card my-2 shadow card-syllabus"
+         data-view-url="{{ path('course_equipment_equipment_view', {'id': courseInfo.id }) }}"
+    >
+        <div class="card-header">
+            <div class="d-flex justify-content-between">
+                <h3>Matériel</h3>
+            </div>
+        </div>
+        <div class="card-body">
+        </div>
+    </div>
+
+    <div class="card my-2 shadow card-syllabus"
+         data-view-url="{{ path('course_equipment_resource_view', {'id': courseInfo.id }) }}"
+         data-form-url="{{ path('course_equipment_resource_form', {'id': courseInfo.id }) }}"
+    >
+        <div class="card-header">
+            <div class="d-flex justify-content-between">
+                <h3>Ressources</h3>
+                <button type="button" class="edit-button btn btn-primary rounded">
+                    Mettre à jour
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            $('#menu-resource').addClass('active');
+            $('#menu-resource').addClass('border-bottom-3 border-white');
+        });
+    </script>
+{% endblock %}

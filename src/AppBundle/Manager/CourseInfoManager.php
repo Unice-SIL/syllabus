@@ -37,7 +37,7 @@ class CourseInfoManager
      */
     private static $fieldsToDuplicate;
     /**
-     * @var CourseInfoDoctrineRepository
+     * @var CourseInfoRepositoryInterface
      */
     private $repository;
     /**
@@ -130,7 +130,7 @@ class CourseInfoManager
                     break;
             }
         }
-
+        self::$fieldsToDuplicate = $this->em->getRepository(CourseInfoField::class)->findByManuallyDuplication(true);
         //=================================================Error Management=================================================
         if (!$report) {
             $report = ReportingHelper::createReport();
@@ -183,7 +183,6 @@ class CourseInfoManager
 
             //Stocks data to duplicate in a variable
             $CourseInfoSenderData = $propertyAccessor->getValue($courseInfoSender, $property);
-
 
             // if the data to duplicate is a instance of collection we do a specific treatment (erase every old elements before duplicate the new ones)
             if ($CourseInfoSenderData instanceof Collection) {
@@ -241,6 +240,7 @@ class CourseInfoManager
     /**
      * @param string $pathName
      * @return Report
+     * @throws \League\Csv\Exception
      */
     public function importMcc(string $pathName)
     {
@@ -373,26 +373,17 @@ class CourseInfoManager
                     if ($type === 'boolean') {
                         switch (strtoupper($data)) {
                             case 'OUI':
-                                $data = true;
-                                break;
                             case 'TRUE':
-                                $data = true;
-                                break;
                             case '1':
                                 $data = true;
                                 break;
                             case 'NON':
-                                $data = false;
-                                break;
                             case 'FALSE':
-                                $data = false;
-                                break;
                             case '0':
                                 $data = false;
                                 break;
                             default:
                                 $reportLine->addComment("La valeur du champ {$name} devrait être OUI ou NON. La valeur saisie est {$data}.");
-                                continue;
                                 break;
                         }
                     }
@@ -413,18 +404,18 @@ class CourseInfoManager
                             case 'CC':
                                 $courseInfo->setMccCcCoeffSession1(100);
                                 $courseInfo->setMccCtCoeffSession1(0);
-                                continue;
+                                break;
                             case 'CT':
                                 $courseInfo->setMccCcCoeffSession1(0);
                                 $courseInfo->setMccCtCoeffSession1(100);
-                                continue;
+                                break;
                             case 'CC&CT':
                                 if (in_array($record[$name], [null, '']) and $property) {
                                     $reportLine->addComment(
                                         "Le champ {$controlType} est du type " . strtoupper($record[$controlType]) . " mais aucun {$matching['mccCtCoeffSession1']['name'] } n'a été renseigné.
                                     Impossible de répartir les coefficients entre CC et CT"
                                     );
-                                    continue;
+                                    break;
                                 }
                                 $coeff = (int) $data;
                                 $courseInfo->setMccCcCoeffSession1(100 - $coeff);
@@ -432,7 +423,7 @@ class CourseInfoManager
                                 break;
                             default:
                                 $reportLine->addComment("La valeur du champ {$name} devrait être CC, CT ou CC&CT. La valeur saisie est {$record[$controlType]}");
-                                continue;
+                                break;
                         }
                     }
 

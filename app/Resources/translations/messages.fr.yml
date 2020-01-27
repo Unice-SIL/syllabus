@@ -14,6 +14,7 @@ evaluation: 'évaluation'
 list of activity: Liste des activités
 list of evaluation: Liste des évaluations
 
+
 app:
   form:
     activity:
@@ -67,3 +68,11 @@ app:
     permission:
       WRITE: 'Ecriture'
       READ: 'Lecture'
+    level:
+      beginner: 'Débutant'
+      intermediate: 'Intermédiaire'
+      advanced: 'Avancé'
+    teaching_mode:
+      class: 'Présentiel'
+      hybrid: 'Hybride'
+      distant: 'A distance'

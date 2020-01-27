@@ -48,18 +48,18 @@ class CourseAchievement
     private $courseInfo;
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getId(): string
+    public function getId(): ?string
     {
         return $this->id;
     }
 
     /**
-     * @param string $id
+     * @param null|string $id
      * @return CourseAchievement
      */
-    public function setId(string $id): CourseAchievement
+    public function setId(?string $id): CourseAchievement
     {
         $this->id = $id;
 

@@ -1,136 +1,60 @@
-<div class="row mt-3">
-    <div class="col">
-        <div class="d-flex">
-            <div class="d-flex flex-column">
-                        <span class="font-weight-bold">
-                            {% if courseInfo.period is null %}
-                                <i class="fas fa-exclamation-circle text-warning"></i>
-                            {% endif %}
-                            Période
-                        </span>
-                {% if courseInfo.period is null %}
-                    <span class="text-warning">
-                                Non-renseigné
-                            </span>
-                {% else %}
-                    <span class="text-muted">
-                                {{ courseInfo.period }}
-                            </span>
-                {% endif %}
-            </div>
-        </div>
-        <div class="d-flex">
-            <div class="d-flex flex-column">
-                        <span class="font-weight-bold">
-                            {% if courseInfo.domain is null %}
-                                <i class="fas fa-exclamation-circle text-danger"></i>
-                            {% endif %}
-                            Domaine
-                        </span>
-                {% if courseInfo.domain is null %}
-                    <span class="text-danger">
-                                Non-renseigné
-                            </span>
-                {% else %}
-                    <span class="text-muted">
-                                {{ courseInfo.domain }}
-                            </span>
-                {% endif %}
-            </div>
-        </div>
-        <div class="d-flex">
-            <div class="d-flex flex-column">
-                        <span class="font-weight-bold">
-                            {% if courseInfo.languages is null %}
-                                <i class="fas fa-exclamation-circle text-warning"></i>
-                            {% endif %}
-                            Langues
-                        </span>
-                {% if courseInfo.languages is null %}
-                    <span class="text-warning">
-                                Non-renseigné
-                            </span>
-                {% else %}
-                    <span class="text-muted">
-                                {{ courseInfo.languages }}
-                            </span>
-                {% endif %}
-            </div>
-        </div>
+
+<div class="row">
+    <div class="col-md-6">
+        <dl>
+            <dt>Domaine</dt>
+            <dd class="mandatory-data">{{ courseInfo.domain|humanizeEmptyData() }}</dd>
+        </dl>
+        <dl>
+            <dt>Niveau du cours</dt>
+            <dd class="mandatory-data">{{ ('app.const.level.' ~ courseInfo.level)|trans|humanizeEmptyData() }}</dd>
+        </dl>
     </div>
-    <div class="col">
-        <div class="d-flex">
-            <div class="d-flex flex-column">
-                        <span class="font-weight-bold">
-                            {% if courseInfo.level is null %}
-                                <i class="fas fa-exclamation-circle text-danger"></i>
-                            {% endif %}
-                            Niveau du cours
-                        </span>
-                {% if courseInfo.level is null %}
-                    <span class="text-danger">
-                                Non-renseigné
-                            </span>
-                {% else %}
-                    <span class="text-muted">
-                                {% for key, value in constant("AppBundle\\Constant\\Level::CHOICES") %}
-                                    {% if courseInfo.level is same as(value) %}
-                                        {{ key }}
-                                    {% endif %}
-                                {% endfor %}
-                            </span>
-                {% endif %}
+    <div class="col-md-6">
+        <dl>
+            <dt>Période</dt>
+            <dd>{{ courseInfo.period|humanizeEmptyData }}</dd>
+        </dl>
+        <dl>
+            <dt>Langues</dt>
+            <dd>{{ courseInfo.languages|humanizeEmptyData() }}</dd>
+        </dl>
+    </div>
+</div>
+<div class="row mt-2">
+    <div class="col-md-6" style="min-height: 150px;">
+        {% if courseInfo.mediaType == 'image' and courseInfo.image is not null %}
+            {% set imgSrc = courseInfo.image | split('/') | last%}
+            <img class="img-thumbnail" src="{{ asset('data/' ~ imgSrc) }}">
+        {% elseif courseInfo.mediaType == 'video' and courseInfo.video is not null %}
+            <div class="embed-responsive embed-responsive-16by9">
+                {{ courseInfo.video|raw }}
             </div>
-        </div>
+        {% else %}
+            <div class="h-100 border rounded d-flex align-items-center justify-content-center">
+                <i class="fas fa-4x fa-images text-light"></i>
+            </div>
+        {% endif %}
+
+    </div>
+    <div class="col-md-6" style="min-height: 150px;">
+        {% if courseInfo.summary is not empty  %}
+            {{ courseInfo.summary|purify }}
+        {% else %}
+            <div class="h-100 d-flex align-items-center justify-content-center">
+                <span class="empty-data text-center">
+                    Vous n'avez pas renseigné de résumé
+                </span>
+            </div>
+        {% endif %}
     </div>
 </div>
 
-<div class="row mt-2">
-    <div class="col">
-        <div class="d-flex">
-            <div class="d-flex flex-column">
-                        <span class="font-weight-bold">
-                            {% if courseInfo.summary is null %}
-                                <i class="fas fa-exclamation-circle text-danger"></i>
-                            {% endif %}
-                            Résumé
-                        </span>
-                {% if courseInfo.summary is null %}
-                    <span class="text-danger">
-                                Non-renseigné
-                            </span>
-                {% else %}
-                    <span class="text-muted">
-                                {{ courseInfo.summary | purify }}
-                            </span>
-                {% endif %}
-            </div>
-        </div>
-    </div>
-    <div class="col">
-        <div class="d-flex">
-            <p class="d-flex flex-column">
-                        <span class="font-weight-bold">
-                            {% if courseInfo.image is null and courseInfo.video is null %}
-                                <i class="fas fa-exclamation-circle text-danger"></i>
-                            {% endif %}
-                            Média
-                        </span>
-                {% if courseInfo.image is null and courseInfo.video is null %}
-                    <span class="text-danger">
-                                    Non-renseigné
-                                </span>
-                {% elseif courseInfo.image is not null %}
-                    <span class="text-muted">
-                                {% set imgSrc = courseInfo.image | split('/') | last%}
-                        <img class="img-thumbnail" src="{{ asset('data/' ~ imgSrc) }}">
-                                </span>
-                {% elseif courseInfo.video is not null %}
-                    <span class="text-muted">
-                                    {{ courseInfo.video }}
-                                </span>
-                {% endif %}
-            </p>
-        </div>
-    </div>
-</div>
+<script>
+    /**
+     * Change the media type value when clicking on media tab
+     */
+    $(document).on('click', '#media_type > li > a', function(){
+        $("#general_mediaType").val($(this).data('media-type'));
+    });
+</script>
