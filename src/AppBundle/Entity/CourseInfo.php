@@ -534,7 +534,7 @@ class CourseInfo
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\OneToMany(targetEntity="CourseSection", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
-     * @ORM\OrderBy({"order" = "ASC"})
+     * @ORM\OrderBy({"position" = "ASC"})
      */
     private $courseSections;
 
