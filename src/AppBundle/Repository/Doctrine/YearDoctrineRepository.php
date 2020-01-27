@@ -4,8 +4,8 @@ namespace AppBundle\Repository\Doctrine;
 
 use AppBundle\Entity\Year;
 use AppBundle\Repository\YearRepositoryInterface;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * Class YearDoctrineRepository
@@ -16,10 +16,10 @@ class YearDoctrineRepository  extends AbstractDoctrineRepository implements Year
 
     /**
      * YearDoctrineRepository constructor.
-     * @param EntityManager $entityManager
+     * @param EntityManagerInterface $entityManager
      */
     public function __construct(
-        EntityManager $entityManager
+        EntityManagerInterface $entityManager
     )
     {
         $this->entityManager = $entityManager;
@@ -80,6 +80,26 @@ class YearDoctrineRepository  extends AbstractDoctrineRepository implements Year
         }catch (\Exception $e){
             throw $e;
         }
+    }
+
+    public function findLikeQuery(string $query, string $field): array
+    {
+        $qb = $this->getIndexQueryBuilder();
+
+        if (in_array($field, ['y.label'])) {
+            $qb->andWhere($field.' LIKE :query ')
+                ->setParameter('query', '%' . $query . '%')
+            ;
+        }
+        return $qb->getQuery()->getResult();
+    }
+
+    public function getIndexQueryBuilder(): QueryBuilder
+    {
+        return $this->entityManager->getRepository(Year::class)
+            ->createQueryBuilder('y')
+            ->addOrderBy('y.id', 'ASC')
+            ;
     }
 
 }
