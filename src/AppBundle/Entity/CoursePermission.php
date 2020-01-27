@@ -9,7 +9,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * CoursePermission
  *
- * @ORM\Table(name="course_permission", indexes={@ORM\Index(name="fk_course_permission_course_info1_idx", columns={"course_info_id"}), @ORM\Index(name="fk_course_permission_user1_idx", columns={"user_id"})})
+ * @ORM\Table(name="course_permission")
  * @ORM\Entity
  * @UniqueEntity(
  *     fields={"user", "courseInfo", "permission"},

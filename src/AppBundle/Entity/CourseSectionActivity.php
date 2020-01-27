@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * CourseSectionActivity
  *
- * @ORM\Table(name="course_section_activity", indexes={@ORM\Index(name="fk_course_section_activity_course_section1_idx", columns={"course_section_id"}), @ORM\Index(name="fk_course_section_activity_activity1_idx", columns={"activity_id"})})
+ * @ORM\Table(name="course_section_activity")
  * @ORM\Entity
  */
 class CourseSectionActivity
@@ -52,9 +52,9 @@ class CourseSectionActivity
     /**
      * @var int
      *
-     * @ORM\Column(name="ord", type="integer", nullable=false)
+     * @ORM\Column(name="position", type="integer", nullable=false)
      */
-    private $order = 0;
+    private $position = 0;
 
     /**
      * @var \AppBundle\Entity\Activity
@@ -65,6 +65,26 @@ class CourseSectionActivity
      * })
      */
     private $activity;
+
+    /**
+     * @var \AppBundle\Entity\ActivityType
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ActivityType")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="activity_type_id", referencedColumnName="id", nullable=true)
+     * })
+     */
+    private $activityType;
+
+    /**
+     * @var \AppBundle\Entity\ActivityMode
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ActivityMode")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="activity_mode_id", referencedColumnName="id", nullable=true)
+     * })
+     */
+    private $activityMode;
 
     /**
      * @var \AppBundle\Entity\CourseSection
@@ -174,18 +194,18 @@ class CourseSectionActivity
     /**
      * @return int
      */
-    public function getOrder(): int
+    public function getPosition(): int
     {
-        return $this->order;
+        return $this->position;
     }
 
     /**
-     * @param int $order
+     * @param int $position
      * @return CourseSectionActivity
      */
-    public function setOrder(int $order): CourseSectionActivity
+    public function setPosition(int $position): CourseSectionActivity
     {
-        $this->order = $order;
+        $this->position = $position;
 
         return $this;
     }
@@ -229,4 +249,39 @@ class CourseSectionActivity
         return $this;
     }
 
+    /**
+     * @return ActivityType
+     */
+    public function getActivityType(): ActivityType
+    {
+        return $this->activityType;
+    }
+
+    /**
+     * @param ActivityType $activityType
+     * @return CourseSectionActivity
+     */
+    public function setActivityType(ActivityType $activityType): CourseSectionActivity
+    {
+        $this->activityType = $activityType;
+        return $this;
+    }
+
+    /**
+     * @return ActivityMode
+     */
+    public function getActivityMode(): ActivityMode
+    {
+        return $this->activityMode;
+    }
+
+    /**
+     * @param ActivityMode $activityMode
+     * @return CourseSectionActivity
+     */
+    public function setActivityMode(ActivityMode $activityMode): CourseSectionActivity
+    {
+        $this->activityMode = $activityMode;
+        return $this;
+    }
 }

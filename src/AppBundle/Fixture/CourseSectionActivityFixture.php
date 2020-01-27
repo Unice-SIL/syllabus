@@ -30,7 +30,7 @@ class CourseSectionActivityFixture extends Fixture implements DependentFixtureIn
         $courseSectionActivity1 = new CourseSectionActivity();
         $courseSectionActivity1->setId(Uuid::uuid4())
             ->setDescription('')
-            ->setOrder(1)
+            ->setPosition(1)
             ->setActivity($this->getReference(ActivityFixture::ACTIVITY_1))
             ->setCourseSection($this->getReference(CourseSectionFixture::COURSE_SECTION_1));
 
@@ -40,7 +40,7 @@ class CourseSectionActivityFixture extends Fixture implements DependentFixtureIn
         $courseSectionActivity2 = new CourseSectionActivity();
         $courseSectionActivity2->setId(Uuid::uuid4())
             ->setDescription('Projet Syllabus')
-            ->setOrder(2)
+            ->setPosition(2)
             ->setActivity($this->getReference(ActivityFixture::ACTIVITY_2))
             ->setCourseSection($this->getReference(CourseSectionFixture::COURSE_SECTION_1));
 
