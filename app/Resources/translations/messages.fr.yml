@@ -14,6 +14,7 @@ evaluation: 'évaluation'
 list of activity: Liste des activités
 list of evaluation: Liste des évaluations
 
+
 app:
   form:
     activity:
@@ -24,10 +25,12 @@ app:
     course_info:
       label:
         title: 'Titre'
+        structure: 'Structure'
     course:
       label:
         type: 'Type'
         etb_id: 'Code établissement'
+        parents: 'Cours parents'
     year:
       label:
         label: 'Année'
@@ -65,3 +68,11 @@ app:
     permission:
       WRITE: 'Ecriture'
       READ: 'Lecture'
+    level:
+      beginner: 'Débutant'
+      intermediate: 'Intermédiaire'
+      advanced: 'Avancé'
+    teaching_mode:
+      class: 'Présentiel'
+      hybrid: 'Hybride'
+      distant: 'A distance'

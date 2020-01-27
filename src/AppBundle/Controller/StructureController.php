@@ -12,6 +12,7 @@ use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PropertyAccess\PropertyAccess;
@@ -134,5 +135,24 @@ class StructureController extends Controller
         $structures = array_unique($structures);
 
         return $this->json(['query' =>  $query, 'suggestions' => $structures, 'data' => $structures]);
+    }
+
+    /**
+     * @Route("/autocompleteS2", name="autocompleteS2", methods={"GET"})
+     * @param StructureDoctrineRepository $structureDoctrineRepository
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function autocompleteS2(StructureDoctrineRepository $structureDoctrineRepository, Request $request)
+    {
+        $query = $request->query->get('q');
+
+        $structures = $structureDoctrineRepository->findLikeQuery($query, 'label');
+
+        $data = array_map(function ($s) use ($request) {
+            return ['id' => $s->getId(), 'text' => $s->getLabel()];
+        }, $structures);
+
+        return $this->json($data);
     }
 }

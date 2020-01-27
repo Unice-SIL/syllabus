@@ -7,12 +7,15 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * CourseInfo
  *
  * @ORM\Table(name="course_info", indexes={@ORM\Index(name="fk_course_info_user2_idx", columns={"publisher"}), @ORM\Index(name="fk_course_info_course1_idx", columns={"course_id"}), @ORM\Index(name="fk_course_info_structure1_idx", columns={"structure_id"}), @ORM\Index(name="fk_course_info_user1_idx", columns={"last_updater"}), @ORM\Index(name="fk_course_info_year1_idx", columns={"year_id"})})
  * @ORM\Entity
+ * @UniqueEntity(fields={"year", "course"}, message="Le cours {{ value }} existe déjà pour cette année", errorPath="course")
  */
 class CourseInfo
 {
@@ -29,6 +32,7 @@ class CourseInfo
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=200, nullable=false)
+     * @Assert\NotBlank(groups={"new"})
      */
     private $title;
 
@@ -472,6 +476,7 @@ class CourseInfo
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="course_id", referencedColumnName="id", nullable=false)
      * })
+     * @Assert\NotBlank()
      */
     private $course;
 
@@ -482,6 +487,7 @@ class CourseInfo
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="structure_id", referencedColumnName="id", nullable=false)
      * })
+     * @Assert\NotBlank(groups={"new"})
      */
     private $structure;
 
@@ -512,6 +518,7 @@ class CourseInfo
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="year_id", referencedColumnName="id", nullable=false)
      * })
+     * @Assert\NotBlank(groups={"new"})
      */
     private $year;
 
@@ -533,7 +540,7 @@ class CourseInfo
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="CourseSection", mappedBy="courseInfo", cascade={ "persist" })
+     * @ORM\OneToMany(targetEntity="CourseSection", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"order" = "ASC"})
      */
     private $courseSections;
@@ -573,7 +580,7 @@ class CourseInfo
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="CourseResourceEquipment", mappedBy="courseInfo", cascade={ "persist" })
+     * @ORM\OneToMany(targetEntity="CourseResourceEquipment", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"order" = "ASC"})
      */
     private $courseResourceEquipments;
@@ -620,7 +627,7 @@ class CourseInfo
     /**
      * @return string
      */
-    public function getTitle(): string
+    public function getTitle(): ?string
     {
         return $this->title;
     }
@@ -1796,7 +1803,7 @@ class CourseInfo
     /**
      * @return Course
      */
-    public function getCourse(): Course
+    public function getCourse(): ?Course
     {
         return $this->course;
     }
@@ -1815,7 +1822,7 @@ class CourseInfo
     /**
      * @return Structure
      */
-    public function getStructure(): Structure
+    public function getStructure(): ?Structure
     {
         return $this->structure;
     }
@@ -1872,7 +1879,7 @@ class CourseInfo
     /**
      * @return Year
      */
-    public function getYear(): Year
+    public function getYear(): ?Year
     {
         return $this->year;
     }
@@ -1977,7 +1984,6 @@ class CourseInfo
             }
         }
         return $this;
-
     }
 
     /**
@@ -2016,8 +2022,14 @@ class CourseInfo
      */
     public function removeCourseSection(CourseSection $courseSection): CourseInfo
     {
-        $this->courseSections->removeElement($courseSection);
-
+        if ($this->courseSections->contains($courseSection))
+        {
+            $this->courseSections->removeElement($courseSection);
+            if ($courseSection->getCourseInfo() === $this)
+            {
+                $courseSection->setCourseInfo(null);
+            }
+        }
         return $this;
     }
 
@@ -2236,10 +2248,15 @@ class CourseInfo
      */
     public function removeCourseResourceEquipment(CourseResourceEquipment $courseResourceEquipment): CourseInfo
     {
-        $this->courseResourceEquipments->removeElement($courseResourceEquipment);
-
+        if ($this->courseResourceEquipments->contains($courseResourceEquipment))
+        {
+            $this->courseResourceEquipments->removeElement($courseResourceEquipment);
+            if ($courseResourceEquipment->getCourseInfo() === $this)
+            {
+                $courseResourceEquipment->setCourseInfo(null);
+            }
+        }
         return $this;
-
     }
 
     /**

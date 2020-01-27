@@ -1,4 +1,4 @@
-{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('objective_course_remove_prerequisite', {'id': courseInfo.id, 'prerequisiteId': form.vars.data.id}) }}) }}
+{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('objective_course_remove_prerequisite', {'id': courseInfo.id, 'prerequisiteId': form.vars.data.id}), 'data-card': 'card-prerequisite' }}) }}
 {{ form_errors(form) }}
 <h5>Êtes-vous sûr(e) de vouloir supprimer le prérequis "{{ form.vars.data.description }}" ?</h5>
 <div class="d-flex justify-content-center">

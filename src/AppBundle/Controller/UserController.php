@@ -4,7 +4,9 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
 use AppBundle\Form\UserType;
+use AppBundle\Manager\UserManager;
 use AppBundle\Repository\Doctrine\UserDoctrineRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -22,6 +24,9 @@ class UserController extends Controller
      *
      * @Route("/", name="index")
      * @Method("GET")
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexAction(Request $request)
     {
@@ -37,10 +42,36 @@ class UserController extends Controller
     }
 
     /**
+     * @Route("/new", name="new")
+     */
+    public function newAction(Request $request, EntityManagerInterface $em, UserManager $userManager)
+    {
+        $user = $userManager->create();
+        $form = $this->createForm(UserType::class, $user, ['context' => 'new']);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+            $em->persist($user);
+            $em->flush();
+
+            $this->addFlash('success', 'L\'utilisateur a bien été enregistré');
+
+            return $this->redirectToRoute('app_admin_user_index');
+        }
+
+
+        return $this->render('user/new.html.twig', ['form' => $form->createView()]);
+    }
+
+    /**
      * Displays a form to edit an existing user entity.
      *
      * @Route("/{id}/edit", name="edit")
      * @Method({"GET", "POST"})
+     *
+     * @param Request $request
+     * @param User $user
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function editAction(Request $request, User $user)
     {
@@ -62,6 +93,10 @@ class UserController extends Controller
 
     /**
      * @Route("/autocompleteS2", name="autocompleteS2", methods={"GET"})
+     *
+     * @param UserDoctrineRepository $userDoctrineRepository
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function autocompleteS2(UserDoctrineRepository $userDoctrineRepository, Request $request)
     {

@@ -5,6 +5,8 @@ namespace AppBundle\Repository\Doctrine;
 use AppBundle\Entity\Course;
 use AppBundle\Repository\CourseRepositoryInterface;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * Class CourseDoctrineRepository
@@ -15,10 +17,10 @@ class CourseDoctrineRepository  extends AbstractDoctrineRepository implements Co
 
     /**
      * CourseDoctrineRepository constructor.
-     * @param EntityManager $entityManager
+     * @param EntityManagerInterface $entityManager
      */
     public function __construct(
-        EntityManager $entityManager
+        EntityManagerInterface $entityManager
     )
     {
         $this->entityManager = $entityManager;
@@ -82,6 +84,26 @@ class CourseDoctrineRepository  extends AbstractDoctrineRepository implements Co
         }catch (\Exception $e){
             throw $e;
         }
+    }
+
+    public function findLikeQuery(string $query, string $field): array
+    {
+        $qb = $this->getIndexQueryBuilder();
+
+        if (in_array($field, ['c.etbId'])) {
+            $qb->andWhere($field.' LIKE :query ')
+                ->setParameter('query', '%' . $query . '%')
+            ;
+        }
+        return $qb->getQuery()->getResult();
+    }
+
+    public function getIndexQueryBuilder(): QueryBuilder
+    {
+        return $this->entityManager->getRepository(Course::class)
+            ->createQueryBuilder('c')
+            ->addOrderBy('c.etbId', 'ASC')
+            ;
     }
 
 }

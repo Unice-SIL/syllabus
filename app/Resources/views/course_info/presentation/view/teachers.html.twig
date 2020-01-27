@@ -1,41 +1,36 @@
 {% if courseInfo.courseTeachers is empty %}
-    <div class="row mt-3">
-        <div class="col">
-            <div class="d-flex">
-                <div class="d-flex flex-column">
-                    <span class="font-weight-bold">
-                        <i class="fas fa-exclamation-circle text-danger"></i>
-                        Équipe enseignante
-                    </span>
-                    <span class="text-danger">
-                        Non-renseigné
-                    </span>
-                </div>
-            </div>
-        </div>
+    <div class="d-flex justify-content-center align-items-center mandatory-data">
+        <span class="empty-data">
+            Aucun enseignant n'a encore été ajouté à l'équipe
+        </span>
     </div>
 {% else %}
-    <div class="table-responsive p-0">
+    <div class="table-responsive">
         <table class="table table-hover">
             <thead>
-            <tr class="text-center">
-                <th>Nom</th>
-                <th>Prénom</th>
-                <th>Email</th>
-                <th>Responsable</th>
-                <th>Supprimer</th>
-            </tr>
+                <tr class="text-center">
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Email</th>
+                    <th>Attributs</th>
+                    <th></th>
+                </tr>
             </thead>
             <tbody>
             {% for teacher in courseInfo.courseTeachers %}
                 <tr class="text-center">
                     <td>{{ teacher.lastname }}</td>
                     <td>{{ teacher.firstname }}</td>
+                    <td>{{ teacher.email }}</td>
                     <td>
-                        {{ teacher.emailVisibility ? 'Visible' : 'Invisible' }}
-                    </td>
-                    <td>
-                        {{ teacher.manager ? 'Oui' : 'Non' }}
+                        {% if teacher.emailVisibility %}
+                            <i class="fas fa-eye" data-toggle="tooltip" title="Email visible"></i>
+                        {% else %}
+                            <i class="fas fa-eye-slash" data-toggle="tooltip" title="Email non visible"></i>
+                        {% endif %}
+                        {% if teacher.manager %}
+                            <i class="fas fa-graduation-cap" data-toggle="tooltip" title="Responsable"></i>
+                        {% endif %}
                     </td>
                     <td>
                         <button type="button" class="btn btn-link modal-action p-0"
@@ -50,3 +45,9 @@
         </table>
     </div>
 {% endif %}
+
+<script>
+    $('[data-toggle="tooltip"]').tooltip({
+        container: '.content-wrapper'
+    });
+</script>

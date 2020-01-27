@@ -1,6 +1,7 @@
 import Syllabus from './syllabus';
 
 $(document).ready(function () {
+
     $('.card-syllabus').each(function () {
         let $card = $(this);
         let $cardBody = $card.find('.card-body');
