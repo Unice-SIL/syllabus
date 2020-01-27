@@ -40,6 +40,7 @@ class CourseWithHierarchyType extends AbstractType
                     'data-autocomplete-path' => $this->generator->generate('app_admin_course_autocomplete', ['field' => 'etbId'])
                 ]
             ])
+            /*
             ->add('parents', Select2EntityType::class, [
                 'label' => 'app.form.course.label.parents',
                 'multiple' => true,
@@ -50,6 +51,7 @@ class CourseWithHierarchyType extends AbstractType
                 'placeholder' => 'Choisissez une code établissement',
                 'required' => true,
             ])
+            */
             ;
 
 
