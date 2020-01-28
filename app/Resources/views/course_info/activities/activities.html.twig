@@ -19,6 +19,11 @@
                         <button class="btn dropdown-icon float-right text-white" type="button" data-toggle="dropdown" aria-expanded="false"><i class="fas fa-ellipsis-v"></i> </button>
                         <div class="dropdown-menu">
                             <button type="button" class="dropdown-item modal-action text-center"
+                                    data-action-title="Modifier une section"
+                                    data-action-url="{{ path('course_activities_edit_section', {'id': courseInfo.id, 'sectionId': section.id}) }}">
+                                Modifier
+                            </button>
+                            <button type="button" class="dropdown-item modal-action text-center"
                                     data-action-title="Supprimer une section"
                                     data-action-url="{{ path('course_activities_remove_section', {'id': courseInfo.id, 'sectionId': section.id}) }}">
                                 Supprimer

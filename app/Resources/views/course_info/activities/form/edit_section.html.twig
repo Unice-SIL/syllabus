@@ -1,0 +1,11 @@
+{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('course_activities_edit_section', {'id': courseInfo.id, 'sectionId': sectionId })}}) }}
+{{ form_errors(form) }}
+{{ form_row(form.title) }}
+{{ form_row(form.description) }}
+<div class="d-flex justify-content-center">
+    <button type="submit" class="btn btn-primary rounded">
+        Modifier
+    </button>
+</div>
+{{ form_widget(form._token) }}
+{{ form_end(form) }}
