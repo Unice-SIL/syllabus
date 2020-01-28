@@ -1,5 +1,6 @@
 /.web-server-pid
 /app/config/parameters.yml
+/app/config/jwt/
 /app/Resources/views/jquery.collection.html.twig
 /build/
 /phpunit.xml
