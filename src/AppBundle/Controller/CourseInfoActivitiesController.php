@@ -7,6 +7,7 @@ use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseSection;
 use AppBundle\Form\CourseInfo\Activities\SectionType;
 use AppBundle\Form\CourseInfo\Activities\RemoveSectionType;
+use AppBundle\Manager\ActivityManager;
 use AppBundle\Manager\CourseInfoManager;
 use Ramsey\Uuid\Uuid;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -24,7 +25,7 @@ class CourseInfoActivitiesController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\Response
      * @ParamConverter("activeSection", options={"mapping": {"sectionId": "id"}})
      */
-    public function indexAction(CourseInfo $courseInfo, ?CourseSection $activeSection)
+    public function indexAction(CourseInfo $courseInfo, ?CourseSection $activeSection, ActivityManager $manager)
     {
         if (!$activeSection)
         {
@@ -33,9 +34,11 @@ class CourseInfoActivitiesController extends AbstractController
                 $activeSection = $courseInfo->getCourseSections()->current();
             }
         }
+        $activities = $manager->findAll();
         return $this->render('course_info/activities/activities.html.twig', [
             'courseInfo' => $courseInfo,
-            'activeSection' => $activeSection
+            'activeSection' => $activeSection,
+            'activities' => $activities
         ]);
     }
 

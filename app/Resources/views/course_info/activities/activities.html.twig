@@ -67,42 +67,13 @@
                                     <i class="fas fa-chevron-left"></i>
                                 </button>
                                 <div class="activity-carousel-items">
-                                    <a href="#">
-                                        <div class="activity-carousel-item text-center">
-                                            <h3>Test1</h3>
-                                            <h6>Test2</h6>
+                                    {% for activity in activities %}
+                                    <a class="m-auto" href="#">
+                                        <div class="activity-carousel-item text-center d-flex">
+                                            <div class="m-auto">{{ activity.label }}</div>
                                         </div>
                                     </a>
-                                    <a href="#">
-                                        <div class="activity-carousel-item text-center">
-                                            <h3>Test1</h3>
-                                            <h6>Test2</h6>
-                                        </div>
-                                    </a>
-                                    <a href="#">
-                                        <div class="activity-carousel-item text-center">
-                                            <h3>Test1</h3>
-                                            <h6>Test2</h6>
-                                        </div>
-                                    </a>
-                                    <a href="#">
-                                        <div class="activity-carousel-item text-center">
-                                            <h3>Test1</h3>
-                                            <h6>Test2</h6>
-                                        </div>
-                                    </a>
-                                    <a href="#">
-                                        <div class="activity-carousel-item text-center">
-                                            <h3>Test1</h3>
-                                            <h6>Test2</h6>
-                                        </div>
-                                    </a>
-                                    <a href="#">
-                                        <div class="activity-carousel-item text-center">
-                                            <h3>Test1</h3>
-                                            <h6>Test2</h6>
-                                        </div>
-                                    </a>
+                                    {% endfor %}
                                 </div>
                                 <button class="activity-carousel-next btn btn-link">
                                     <i class="fas fa-chevron-right"></i>
