@@ -492,9 +492,6 @@ class CourseInfoObjectivesCourseController extends Controller
             ]);
         }
 
-        //$courseInfo->setTutoring($action);
-        //$manager->update($courseInfo);
-
         $render = $this->get('twig')->render('course_info/objectives_course/form/assist_tutoring.html.twig', [
             'courseInfo' => $courseInfo,
             'form' => $form->createView()
@@ -506,8 +503,30 @@ class CourseInfoObjectivesCourseController extends Controller
         ]);
     }
 
-    public function activeTutoringAction()
+    /**
+     * @Route("/course/{id}/objective_course/tutoring/{action}", name="objective_course_active_tutoring"))
+     *
+     * @param CourseInfo $courseInfo
+     * @param $action
+     * @param CourseInfoManager $manager
+     * @return JsonResponse
+     * @throws Exception
+     */
+    public function activeTutoringAction(CourseInfo $courseInfo, $action, CourseInfoManager $manager)
     {
-        
+        if (!$courseInfo instanceof CourseInfo) {
+            return $this->json([
+                'status' => false,
+                'content' => "Une erreur est survenue : Le cours n'existe pas."
+            ]);
+        }
+
+        $courseInfo->setTutoring($action);
+        $manager->update($courseInfo);
+
+        return $this->json([
+            'status' => $action,
+            'content' => null
+        ]);
     }
 }
