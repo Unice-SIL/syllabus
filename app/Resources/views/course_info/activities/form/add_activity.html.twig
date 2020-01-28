@@ -1,0 +1,21 @@
+<h5>
+    {{ activity.label }}
+</h5>
+{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('course_activities_add_activity', {'sectionId': courseSection.id, 'activityId': activity.id })}}) }}
+{{ form_errors(form) }}
+{{ form_row(form.description) }}
+Type: Autonomy / Class
+Mode
+{{ form_row(form.evaluationRate) }}
+Si oui
+-> CC / CT
+-> Coef
+-> Eval par pairs
+-> Eval par enseignants
+<div class="d-flex justify-content-center">
+    <button type="submit" class="btn btn-primary rounded">
+        Ajouter
+    </button>
+</div>
+{{ form_widget(form._token) }}
+{{ form_end(form) }}

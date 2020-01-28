@@ -11,26 +11,26 @@
                 </div>
             {% else %}
                 <ul class="nav nav-pills flex-column">
-                {% for section in courseInfo.courseSections %}
-                    <li class="nav-item {% if section is same as (activeSection) %}active{% endif %}">
-                        <a class="d-inline-block text-truncate nav-link menu-tab text-white align-middle" href="#">
-                            {{ section.title }}
-                        </a>
-                        <button class="btn dropdown-icon float-right text-white" type="button" data-toggle="dropdown" aria-expanded="false"><i class="fas fa-ellipsis-v"></i> </button>
-                        <div class="dropdown-menu">
-                            <button type="button" class="dropdown-item modal-action text-center"
-                                    data-action-title="Modifier une section"
-                                    data-action-url="{{ path('course_activities_edit_section', {'id': courseInfo.id, 'sectionId': section.id}) }}">
-                                Modifier
-                            </button>
-                            <button type="button" class="dropdown-item modal-action text-center"
-                                    data-action-title="Supprimer une section"
-                                    data-action-url="{{ path('course_activities_remove_section', {'id': courseInfo.id, 'sectionId': section.id}) }}">
-                                Supprimer
-                            </button>
-                        </div>
-                    </li>
-                {% endfor %}
+                    {% for section in courseInfo.courseSections %}
+                        <li class="nav-item {% if section is same as (activeSection) %}active{% endif %}">
+                            <a class="d-inline-block text-truncate nav-link menu-tab text-white align-middle" href="{{ path('course_activities', { 'id': courseInfo.id, 'sectionId': section.id }) }}">
+                                {{ section.title }}
+                            </a>
+                            <button class="btn dropdown-icon float-right text-white" type="button" data-toggle="dropdown" aria-expanded="false"><i class="fas fa-ellipsis-v"></i> </button>
+                            <div class="dropdown-menu">
+                                <button type="button" class="dropdown-item modal-action text-center"
+                                        data-action-title="Modifier une section"
+                                        data-action-url="{{ path('course_activities_edit_section', {'id': courseInfo.id, 'sectionId': section.id}) }}">
+                                    Modifier
+                                </button>
+                                <button type="button" class="dropdown-item modal-action text-center"
+                                        data-action-title="Supprimer une section"
+                                        data-action-url="{{ path('course_activities_remove_section', {'id': courseInfo.id, 'sectionId': section.id}) }}">
+                                    Supprimer
+                                </button>
+                            </div>
+                        </li>
+                    {% endfor %}
                 </ul>
             {% endif %}
             <hr class="mb-2">
@@ -43,8 +43,16 @@
             </div>
         </div>
         <div id="activity-content" class="col-sm p-0" style="width: calc(100% - 250px); left: 250px">
-            <div style="min-height: 300px;" class="bg-danger mb-2">
-
+            <div style="min-height: 300px;" class="mb-2">
+                {% if activeSection.courseSectionActivities is empty %}
+                    <div class="text-center ">
+                        <h3 class="text-danger">Aucune activité n'a été ajoutée à la section</h3>
+                        <div class="text-bold">
+                            Pour ajouter des activités veuillez sélectionner une activité dans le carousel ci-dessous.
+                        </div>
+                        <i class="fas fa-arrow-down fa-5x"></i>
+                    </div>
+                {% endif %}
             </div>
 
             <div class="card">
@@ -59,7 +67,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="card-body">
+                <div class="card-body p-0">
                     <div class="tab-content">
                         <div id="tab_1" class="tab-pane active">
                             <div class="activity-carousel">
@@ -68,11 +76,13 @@
                                 </button>
                                 <div class="activity-carousel-items">
                                     {% for activity in activities %}
-                                    <a class="m-auto" href="#">
-                                        <div class="activity-carousel-item text-center d-flex">
-                                            <div class="m-auto">{{ activity.label }}</div>
-                                        </div>
-                                    </a>
+                                        <a class="m-auto modal-action"
+                                           data-action-title="Ajouter une activité"
+                                           data-action-url="{{ path("course_activities_add_activity", {'sectionId': activeSection.id, 'activityId': activity.id}) }}">
+                                            <div class="activity-carousel-item text-center d-flex shadow">
+                                                <div class="m-auto">{{ activity.label }}</div>
+                                            </div>
+                                        </a>
                                     {% endfor %}
                                 </div>
                                 <button class="activity-carousel-next btn btn-link">
