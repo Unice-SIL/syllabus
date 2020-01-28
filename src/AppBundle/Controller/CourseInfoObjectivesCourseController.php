@@ -9,6 +9,7 @@ use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CoursePrerequisite;
 use AppBundle\Entity\CourseTutoringResource;
 use AppBundle\Form\CourseInfo\CourseAchievement\CourseAchievementType;
+use AppBundle\Form\CourseInfo\CourseAchievement\CourseAssistTutoringType;
 use AppBundle\Form\CourseInfo\CourseAchievement\CoursePrerequisiteType;
 use AppBundle\Form\CourseInfo\CourseAchievement\CourseTutoringResourcesType;
 use AppBundle\Form\CourseInfo\CourseAchievement\RemoveCourseAchievementType;
@@ -115,7 +116,6 @@ class CourseInfoObjectivesCourseController extends Controller
     public function editAchievementAction(CourseAchievement $achievement, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-
         $form = $this->createForm(CourseAchievementType::class, $achievement);
         $form->handleRequest($request);
 
@@ -257,7 +257,6 @@ class CourseInfoObjectivesCourseController extends Controller
     public function editPrerequisiteAction(CoursePrerequisite $prerequisite, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-
         $form = $this->createForm(CoursePrerequisiteType::class, $prerequisite);
         $form->handleRequest($request);
 
@@ -466,15 +465,15 @@ class CourseInfoObjectivesCourseController extends Controller
     }
 
     /**
-     * @Route("/course/{id}/objective_course/tutoring/{action}", name="objective_course_tutoring"))
+     * @Route("/course/{id}/objective_course/tutoring", name="objective_course_tutoring"))
      *
      * @param CourseInfo $courseInfo
-     * @param $action
      * @param CourseInfoManager $manager
+     * @param Request $request
      * @return JsonResponse
      * @throws Exception
      */
-    public function addTutoringAction(CourseInfo $courseInfo, $action, CourseInfoManager $manager)
+    public function addTutoringAction(CourseInfo $courseInfo, CourseInfoManager $manager, Request $request)
     {
         if (!$courseInfo instanceof CourseInfo) {
             return $this->json([
@@ -482,13 +481,33 @@ class CourseInfoObjectivesCourseController extends Controller
                 'content' => "Une erreur est survenue : Le cours n'existe pas."
             ]);
         }
+        $form = $this->createForm(CourseAssistTutoringType::class, $courseInfo);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $courseInfo = $form->getData();
+            $manager->update($courseInfo);
+            return $this->json([
+                'status' => true,
+                'content' => null
+            ]);
+        }
 
-        $courseInfo->setTutoring($action);
-        $manager->update($courseInfo);
+        //$courseInfo->setTutoring($action);
+        //$manager->update($courseInfo);
+
+        $render = $this->get('twig')->render('course_info/objectives_course/form/assist_tutoring.html.twig', [
+            'courseInfo' => $courseInfo,
+            'form' => $form->createView()
+        ]);
 
         return $this->json([
-            'status' => $action,
-            'content' => null
+            'status' => true,
+            'content' => $render
         ]);
+    }
+
+    public function activeTutoringAction()
+    {
+        
     }
 }
