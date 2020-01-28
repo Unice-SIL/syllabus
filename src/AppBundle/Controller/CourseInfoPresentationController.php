@@ -86,7 +86,6 @@ class CourseInfoPresentationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            dump($form);
             $courseInfo->checkMedia();
             $manager->update($courseInfo);
             $render = $this->get('twig')->render('course_info/presentation/view/general.html.twig', [
