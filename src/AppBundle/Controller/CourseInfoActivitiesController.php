@@ -5,7 +5,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseSection;
-use AppBundle\Form\CourseInfo\Activities\AddSectionType;
+use AppBundle\Form\CourseInfo\Activities\SectionType;
 use AppBundle\Form\CourseInfo\Activities\RemoveSectionType;
 use AppBundle\Manager\CourseInfoManager;
 use Ramsey\Uuid\Uuid;
@@ -17,15 +17,72 @@ use Symfony\Component\Routing\Annotation\Route;
 class CourseInfoActivitiesController extends AbstractController
 {
     /**
-     * @Route("/course/{id}/activities", name="course_activities")
+     * @Route("/course/{id}/activities/{sectionId}", name="course_activities", defaults={"sectionId"=null})
      *
      * @param CourseInfo $courseInfo
+     * @param CourseSection|null $activeSection
      * @return \Symfony\Component\HttpFoundation\Response
+     * @ParamConverter("activeSection", options={"mapping": {"sectionId": "id"}})
      */
-    public function indexAction(CourseInfo $courseInfo)
+    public function indexAction(CourseInfo $courseInfo, ?CourseSection $activeSection)
     {
+        if (!$activeSection)
+        {
+            if (!empty($courseInfo->getCourseSections()))
+            {
+                $activeSection = $courseInfo->getCourseSections()->current();
+            }
+        }
         return $this->render('course_info/activities/activities.html.twig', [
-            'courseInfo' => $courseInfo
+            'courseInfo' => $courseInfo,
+            'activeSection' => $activeSection
+        ]);
+    }
+
+    /**
+     * @Route("/course/{id}/activities/section/edit/{sectionId}", name="course_activities_edit_section"))
+     *
+     * @param CourseInfo $courseInfo
+     * @param CourseSection|null $section
+     * @param Request $request
+     * @param CourseInfoManager $manager
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
+     * @ParamConverter("section", options={"mapping": {"sectionId": "id"}})
+     */
+    public function editSectionAction(CourseInfo $courseInfo, ?CourseSection $section, Request $request, CourseInfoManager $manager)
+    {
+        if (!$courseInfo instanceof CourseInfo)
+        {
+            return $this->json([
+                'status' => false,
+                'render' => "Une erreur est survenue : Le cours n'existe pas"
+            ]);
+        }
+
+        if (!$section instanceof CourseSection)
+        {
+            return $this->json([
+                'status' => false,
+                'render' => "Une erreur est survenue : La section n'existe pas"
+            ]);
+        }
+
+        $form = $this->createForm(SectionType::class, $section);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+                $manager->update($courseInfo);
+        }
+
+        $render = $this->get('twig')->render('course_info/activities/form/edit_section.html.twig', [
+            'courseInfo' => $courseInfo,
+            'form' => $form->createView(),
+            'sectionId' => $section->getId()
+        ]);
+        return $this->json([
+            'status' => true,
+            'content' => $render
         ]);
     }
 
@@ -38,7 +95,7 @@ class CourseInfoActivitiesController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function addTeachersAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
+    public function addSectionAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
     {
         if (!$courseInfo instanceof CourseInfo)
         {
@@ -52,7 +109,7 @@ class CourseInfoActivitiesController extends AbstractController
         $message = null;
         $section = new CourseSection();
 
-        $form = $this->createForm(AddSectionType::class, $section);
+        $form = $this->createForm(SectionType::class, $section);
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
