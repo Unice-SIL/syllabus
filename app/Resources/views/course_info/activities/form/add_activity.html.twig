@@ -9,7 +9,6 @@
 {% endif %}
 Mode
 
-<input type="checkbox" checked data-toggle="toggle" data-on="Ready" data-off="Not Ready" data-onstyle="success" data-offstyle="danger">
 {{ form_row(form.evaluable) }}
 {{ form_row(form.evaluationRate) }}
 {{ form_row(form.evaluationCt) }}
@@ -22,3 +21,7 @@ Mode
 </div>
 {{ form_widget(form._token) }}
 {{ form_end(form) }}
+
+<script>
+    $('#course_section_activity_evaluable').bootstrapToggle();
+</script>
