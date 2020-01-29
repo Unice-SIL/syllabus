@@ -38,6 +38,20 @@ class CourseSectionActivity
     /**
      * @var bool
      *
+     * @ORM\Column(name="evaluable", type="boolean", nullable=false)
+     */
+    private $evaluable = false;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="evaluation_ct", type="boolean", nullable=false)
+     */
+    private $evaluationCt = false;
+
+    /**
+     * @var bool
+     *
      * @ORM\Column(name="evaluation_teacher", type="boolean", nullable=false)
      */
     private $evaluationTeacher = false;
@@ -140,6 +154,42 @@ class CourseSectionActivity
     public function getEvaluationRate()
     {
         return $this->evaluationRate;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEvaluable(): bool
+    {
+        return $this->evaluable;
+    }
+
+    /**
+     * @param bool $evaluable
+     * @return CourseSectionActivity
+     */
+    public function setEvaluable(bool $evaluable): CourseSectionActivity
+    {
+        $this->evaluable = $evaluable;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEvaluationCt(): bool
+    {
+        return $this->evaluationCt;
+    }
+
+    /**
+     * @param bool $evaluationCt
+     * @return CourseSectionActivity
+     */
+    public function setEvaluationCt(bool $evaluationCt): CourseSectionActivity
+    {
+        $this->evaluationCt = $evaluationCt;
+        return $this;
     }
 
     /**
@@ -250,9 +300,9 @@ class CourseSectionActivity
     }
 
     /**
-     * @return ActivityType
+     * @return ActivityType|null
      */
-    public function getActivityType(): ActivityType
+    public function getActivityType(): ?ActivityType
     {
         return $this->activityType;
     }

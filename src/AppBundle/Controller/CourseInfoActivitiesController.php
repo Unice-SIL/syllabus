@@ -32,12 +32,13 @@ class CourseInfoActivitiesController extends AbstractController
     {
         if (!$activeSection)
         {
-            if (!empty($courseInfo->getCourseSections()))
+            if (!$courseInfo->getCourseSections()->isEmpty())
             {
                 $activeSection = $courseInfo->getCourseSections()->current();
             }
         }
         $activities = $manager->findAll();
+
         return $this->render('course_info/activities/activities.html.twig', [
             'courseInfo' => $courseInfo,
             'activeSection' => $activeSection,
@@ -227,7 +228,9 @@ class CourseInfoActivitiesController extends AbstractController
 
         $courseSectionActivity = new CourseSectionActivity();
 
-        $form = $this->createForm(CourseSectionActivityType::class, $courseSectionActivity);
+        $form = $this->createForm(CourseSectionActivityType::class, $courseSectionActivity, [
+            'activity' => $activity
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid())
@@ -235,6 +238,7 @@ class CourseInfoActivitiesController extends AbstractController
             $courseSectionActivity->setId(Uuid::uuid4())
                 ->setCourseSection($courseSection)
                 ->setActivity($activity);
+            dump($courseSectionActivity);
         }
 
         $render = $this->get('twig')->render('course_info/activities/form/add_activity.html.twig', [

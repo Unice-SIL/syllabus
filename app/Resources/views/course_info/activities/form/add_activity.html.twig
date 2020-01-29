@@ -4,14 +4,17 @@
 {{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('course_activities_add_activity', {'sectionId': courseSection.id, 'activityId': activity.id })}}) }}
 {{ form_errors(form) }}
 {{ form_row(form.description) }}
-Type: Autonomy / Class
+{% if form.activityType is defined %}
+    {{ form_row(form.activityType, {label_attr: {class: 'radio-custom'} }) }}
+{% endif %}
 Mode
+
+<input type="checkbox" checked data-toggle="toggle" data-on="Ready" data-off="Not Ready" data-onstyle="success" data-offstyle="danger">
+{{ form_row(form.evaluable) }}
 {{ form_row(form.evaluationRate) }}
-Si oui
--> CC / CT
--> Coef
--> Eval par pairs
--> Eval par enseignants
+{{ form_row(form.evaluationCt) }}
+{{ form_row(form.evaluationTeacher) }}
+{{ form_row(form.evaluationPeer) }}
 <div class="d-flex justify-content-center">
     <button type="submit" class="btn btn-primary rounded">
         Ajouter
