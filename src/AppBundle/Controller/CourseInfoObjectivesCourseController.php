@@ -524,9 +524,13 @@ class CourseInfoObjectivesCourseController extends Controller
         $courseInfo->setTutoring($action);
         $manager->update($courseInfo);
 
+        $render = $this->get('twig')->render('course_info/objectives_course/view/tutoring_resources.html.twig', [
+            'courseInfo' => $courseInfo
+        ]);
+
         return $this->json([
             'status' => $action,
-            'content' => null
+            'content' => $render
         ]);
     }
 }
