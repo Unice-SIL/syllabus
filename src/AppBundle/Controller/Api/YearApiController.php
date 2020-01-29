@@ -1,15 +1,18 @@
 <?php
 
-
 namespace AppBundle\Controller\Api;
 
 
 use AppBundle\Entity\Year;
 use AppBundle\Helper\ApiHelper;
+use AppBundle\Repository\Doctrine\YearDoctrineRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Swagger\Annotations as SWG;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class YearApiController
@@ -69,14 +72,17 @@ class YearApiController extends Controller
      *     description="The limit of results per page"
      * )
      */
-    public function listYearAction(ApiHelper $apiHelper)
+    public function indexAction(Request $request, ApiHelper $apiHelper, YearDoctrineRepository $yearDoctrineRepository)
     {
-
-        $responseArray = $apiHelper->getListApiResponse(Year::class, [
-            'validFilterKeys' => ['id', 'label', 'import', 'edit', 'current']
+        $config = $apiHelper->createConfigFromRequest($request, [
+            'validFilterKeys' => ['id' => 'text', 'label' => 'text', 'import' => 'boolean', 'edit' => 'boolean', 'current' => 'boolean']
         ]);
 
-        return $this->json($responseArray);
+        $qb = $yearDoctrineRepository->findQueryBuilderForApi($config);
+
+        $response = $apiHelper->setDataAndGetResponse($qb, $config);
+
+        return $this->json($response);
     }
 
 }

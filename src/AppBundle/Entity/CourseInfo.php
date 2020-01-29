@@ -9,6 +9,7 @@ use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use JMS\Serializer\Annotation\Groups;
 
 /**
  * CourseInfo
@@ -16,6 +17,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table(name="course_info")
  * @ORM\Entity
  * @UniqueEntity(fields={"year", "course"}, message="Le cours {{ value }} existe déjà pour cette année", errorPath="course")
+ *
  */
 class CourseInfo
 {
@@ -548,14 +550,6 @@ class CourseInfo
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="CourseEvaluationCt", mappedBy="courseInfo", cascade={ "persist" })
-     * @ORM\OrderBy({"order" = "ASC"})
-     */
-    private $courseEvaluationCts;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
      * @ORM\OneToMany(targetEntity="CourseAchievement", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"order" = "ASC"})
      */
@@ -598,7 +592,6 @@ class CourseInfo
         $this->coursePermissions = new ArrayCollection();
         $this->courseTeachers = new ArrayCollection();
         $this->courseSections = new ArrayCollection();
-        $this->courseEvaluationCts = new ArrayCollection();
         $this->courseAchievements = new ArrayCollection();
         $this->coursePrerequisites = new ArrayCollection();
         $this->courseTutoringResources = new ArrayCollection();
@@ -2033,46 +2026,6 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
-    public function getCourseEvaluationCts(): Collection
-    {
-        return $this->courseEvaluationCts;
-    }
-
-    /**
-     * @param Collection $courseEvaluationCts
-     * @return CourseInfo
-     */
-    public function setCourseEvaluationCts(Collection $courseEvaluationCts): CourseInfo
-    {
-        $this->courseEvaluationCts = $courseEvaluationCts;
-
-        return $this;
-    }
-
-    /**
-     * @param CourseEvaluationCt $courseEvaluationCt
-     * @return CourseInfo
-     */
-    public function addCourseEvaluationCt(CourseEvaluationCt $courseEvaluationCt): CourseInfo
-    {
-        $this->courseEvaluationCts->add($courseEvaluationCt);
-
-        return $this;
-    }
-
-    /**
-     * @param CourseSection $courseEvaluationCt
-     * @return CourseInfo
-     */
-    public function removeCourseEvaluationCt(CourseEvaluationCt $courseEvaluationCt): CourseInfo
-    {
-        $this->courseEvaluationCts->removeElement($courseEvaluationCt);
-
-        return $this;
-    }
 
     /**
      * @return Collection
@@ -2317,18 +2270,6 @@ class CourseInfo
             $courseSection->setId(Uuid::uuid4())
                 ->setCourseInfo($this);
             $this->courseSections->offsetSet($k, $courseSection);
-        }
-
-        $this->courseEvaluationCts = clone $this->courseEvaluationCts;
-        /**
-         * @var  $k
-         * @var  CourseEvaluationCt $courseEvaluationCt
-         */
-        foreach ($this->courseEvaluationCts as $k => $courseEvaluationCt){
-            $courseEvaluationCt = clone $courseEvaluationCt;
-            $courseEvaluationCt->setId(Uuid::uuid4())
-                ->setCourseInfo($this);
-            $this->courseEvaluationCts->offsetSet($k, $courseEvaluationCt);
         }
 
         $this->courseAchievements = clone $this->courseAchievements;
