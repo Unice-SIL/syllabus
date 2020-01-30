@@ -36,7 +36,7 @@ class CourseSectionActivityType extends AbstractType
                 'required' => false
             ])
             ->add('evaluable', CheckboxType::class, [
-                'label' => "Evaluable",
+                'label' => false,
                 'required' => false,
                 'attr' => [
                     'type' => 'checkbox',
@@ -50,8 +50,18 @@ class CourseSectionActivityType extends AbstractType
                 ]
             ])
             ->add('evaluationCt', CheckboxType::class, [
-                'label' => "CT",
-                'required' => false
+                'label' => false,
+                'required' => false,
+                'attr' => [
+                    'type' => 'checkbox',
+                    'data-toggle' => 'toggle',
+                    'data-witdth' => '100',
+                    'data-onstyle' => 'primary',
+                    'data-offstyle' => 'secondary',
+                    'data-style' => 'ios',
+                    'data-on' => 'CT',
+                    'data-off' => 'CC'
+                ]
             ])
             ->add('evaluationTeacher', CheckboxType::class, [
                 'label' => "Évaluation par les enseignants",
