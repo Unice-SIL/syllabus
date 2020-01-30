@@ -6,16 +6,18 @@
 {{ form_row(form.description) }}
 {% if form.activityType is defined %}
     {{ form_row(form.activityType, {label_attr: {class: 'radio-custom'} }) }}
+    {{ form_row(form.activityMode) }}
 {% endif %}
-<p>Mode</p>
 
 <label>Cette activité est-elle évaluable ?</label>
 {{ form_row(form.evaluable) }}
-<label>Type de contrôle (Continu / Terminal) :</label>
-{{ form_row(form.evaluationCt) }}
-{{ form_row(form.evaluationRate) }}
-{{ form_row(form.evaluationTeacher) }}
-{{ form_row(form.evaluationPeer) }}
+<div id="eval-content" class="d-none">
+    <label>Type de contrôle (Continu / Terminal) :</label>
+    {{ form_row(form.evaluationCt) }}
+    {{ form_row(form.evaluationRate) }}
+    {{ form_row(form.evaluationTeacher) }}
+    {{ form_row(form.evaluationPeer) }}
+</div>
 <div class="d-flex justify-content-center">
     <button type="submit" class="btn btn-primary rounded">
         Ajouter
@@ -27,4 +29,43 @@
 <script>
     $('#course_section_activity_evaluable').bootstrapToggle();
     $('#course_section_activity_evaluationCt').bootstrapToggle();
+
+    let $activityType = $('#course_section_activity_activityType');
+    $activityType.change(function () {
+        let $form = $(this).closest('form');
+        let data = {};
+        data[$activityType.attr('name')] = $activityType.val();
+        console.log(data);
+        console.log($activityType.val());
+        $.ajax({
+            url : $form.attr('action'),
+            type: $form.attr('method'),
+            data : data,
+            success: function (html) {
+                $('#course_section_activity_activityMode').replaceWith(
+                    $(html).find('#course_section_activity_activityMode')
+                )
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        displayEvalContent();
+
+        $(document).on('change', '#course_section_activity_evaluable', function () {
+            displayEvalContent();
+        });
+
+        function displayEvalContent() {
+            let display = $('#course_section_activity_evaluable').closest('div .toggle');
+            if (display.hasClass("off"))
+            {
+                $('#eval-content').addClass('d-none');
+            }
+            else
+            {
+                $('#eval-content').removeClass('d-none');
+            }
+        }
+    })
 </script>

@@ -318,9 +318,9 @@ class CourseSectionActivity
     }
 
     /**
-     * @return ActivityMode
+     * @return ActivityMode|null
      */
-    public function getActivityMode(): ActivityMode
+    public function getActivityMode(): ?ActivityMode
     {
         return $this->activityMode;
     }

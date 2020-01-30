@@ -3,6 +3,7 @@
 namespace AppBundle\Form\CourseInfo\Activities;
 
 use AppBundle\Entity\Activity;
+use AppBundle\Entity\ActivityMode;
 use AppBundle\Entity\ActivityType;
 use AppBundle\Entity\CourseSectionActivity;
 use Symfony\Component\Form\AbstractType;
@@ -11,6 +12,9 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -28,9 +32,10 @@ class CourseSectionActivityType extends AbstractType
         /** @var Activity $activity */
         $activity = $options['activity'];
         $activityTypes = $activity->getActivityTypes()->toArray();
+
         $builder->add('description', TextType::class, [
-                'label' => "Description de l'activité"
-            ])
+            'label' => "Description de l'activité"
+        ])
             ->add('evaluationRate', NumberType::class, [
                 'label' => "Coefficient",
                 'required' => false
@@ -41,7 +46,8 @@ class CourseSectionActivityType extends AbstractType
                 'attr' => [
                     'type' => 'checkbox',
                     'data-toggle' => 'toggle',
-                    'data-witdth' => '100',
+                    'data-width' => '100',
+                    'data-height' => '40',
                     'data-onstyle' => 'primary',
                     'data-offstyle' => 'secondary',
                     'data-style' => 'ios',
@@ -55,7 +61,8 @@ class CourseSectionActivityType extends AbstractType
                 'attr' => [
                     'type' => 'checkbox',
                     'data-toggle' => 'toggle',
-                    'data-witdth' => '100',
+                    'data-width' => '100',
+                    'data-height' => '40',
                     'data-onstyle' => 'primary',
                     'data-offstyle' => 'secondary',
                     'data-style' => 'ios',
@@ -70,10 +77,8 @@ class CourseSectionActivityType extends AbstractType
             ->add('evaluationPeer', CheckboxType::class, [
                 'label' => "Évaluation par les pairs",
                 'required' => false
-            ]);
-        if (!empty($activityTypes))
-        {
-            $builder->add('activityType', ChoiceType::class, [
+            ])
+            ->add('activityType', ChoiceType::class, [
                 'label' => "Type d'activité",
                 'required' => true,
                 'multiple' => false,
@@ -85,7 +90,39 @@ class CourseSectionActivityType extends AbstractType
                 },
                 'data' => current($activityTypes)
             ]);
-        }
+
+        $formModifier = function (FormInterface $form, ActivityType $activityType = null) {
+            $modes = null === $activityType ? [] : $activityType->getActivityModes();
+
+            $form->add('activityMode', ChoiceType::class, [
+                'label' => "Mode d'enseignement",
+                'required' => true,
+                'multiple' => false,
+                'expanded' => true,
+                'placeholder' => false,
+                'choices' => $modes,
+                'choice_label' => function(ActivityMode $activityMode) {
+                    return $activityMode->getLabel();
+                },
+                'data' => current($modes)
+            ]);
+        };
+
+        $builder->addEventListener(
+            FormEvents::PRE_SET_DATA,
+            function (FormEvent $event) use ($formModifier) {
+                $data = $event->getData();
+
+                $formModifier($event->getForm(), $data->getActivityType());
+            });
+
+        $builder->get('activityType')->addEventListener(
+            FormEvents::POST_SUBMIT,
+            function (FormEvent $event) use ($formModifier) {
+                $activityType = $event->getForm()->getData();
+                $formModifier($event->getForm()->getParent(), $activityType);
+            }
+        );
     }
 
     /**
