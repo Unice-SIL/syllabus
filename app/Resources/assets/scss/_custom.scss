@@ -212,9 +212,18 @@ label.toggle-off {
 /*
     Forms
  */
-label.required:before {
+label.required:not(.custom-control-label):before {
     content: "* ";
     color: red;
+}
+
+legend.required:before {
+    content: "* ";
+    color: red;
+}
+
+legend.required {
+    font-weight: 700;
 }
 
 /*

@@ -42,6 +42,16 @@ class ActivityDoctrineRepository extends AbstractDoctrineRepository implements A
     }
 
     /**
+     * @return array|mixed|object[]
+     */
+    public function findAll()
+    {
+        $activities = $this->entityManager->getRepository(Activity::class)->findAll();
+
+        return $activities;
+    }
+
+    /**
      * @param $type
      * @param $mode
      * @param $grp

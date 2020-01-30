@@ -189,7 +189,11 @@ class CourseSection
      */
     public function addCourseSectionActivity(CourseSectionActivity $courseSectionActivity): CourseSection
     {
-        $this->courseSectionActivities->add($courseSectionActivity);
+        if (!$this->courseSectionActivities->contains($courseSectionActivity))
+        {
+            $this->courseSectionActivities->add($courseSectionActivity);
+            $courseSectionActivity->setCourseSection($this);
+        }
 
         return $this;
     }
