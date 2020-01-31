@@ -210,6 +210,9 @@ class CourseInfoActivitiesController extends AbstractController
      */
     public function addActivityAction(CourseSection $courseSection, Activity $activity, Request $request)
     {
+        $status = true;
+        $message = null;
+
         if (!$courseSection instanceof CourseSection)
         {
             return $this->json([
@@ -227,18 +230,29 @@ class CourseInfoActivitiesController extends AbstractController
         }
 
         $courseSectionActivity = new CourseSectionActivity();
+        if (!$activity->getActivityTypes()->isEmpty())
+        {
+            $courseSectionActivity->setActivityType($activity->getActivityTypes()->current());
+        }
 
         $form = $this->createForm(CourseSectionActivityType::class, $courseSectionActivity, [
             'activity' => $activity
         ]);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
+        if ($form->isSubmitted())
         {
+            if ($form->isValid())
+            {
             $courseSectionActivity->setId(Uuid::uuid4())
                 ->setCourseSection($courseSection)
                 ->setActivity($activity);
-            dump($courseSectionActivity);
+            }
+            else
+            {
+                $status = false;
+                $message = ['type' => 'none'];
+            }
         }
 
         $render = $this->get('twig')->render('course_info/activities/form/add_activity.html.twig', [
@@ -247,8 +261,9 @@ class CourseInfoActivitiesController extends AbstractController
             'form' => $form->createView()
         ]);
         return $this->json([
-            'status' => true,
-            'content' => $render
+            'status' => $status,
+            'content' => $render,
+            'message' => $message
         ]);
     }
 }

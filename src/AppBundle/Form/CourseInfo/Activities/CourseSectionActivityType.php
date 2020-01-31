@@ -6,6 +6,8 @@ use AppBundle\Entity\Activity;
 use AppBundle\Entity\ActivityMode;
 use AppBundle\Entity\ActivityType;
 use AppBundle\Entity\CourseSectionActivity;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -31,10 +33,10 @@ class CourseSectionActivityType extends AbstractType
     {
         /** @var Activity $activity */
         $activity = $options['activity'];
-        $activityTypes = $activity->getActivityTypes()->toArray();
 
         $builder->add('description', TextType::class, [
-            'label' => "Description de l'activité"
+            'label' => "Description de l'activité",
+            'required' => false
         ])
             ->add('evaluationRate', NumberType::class, [
                 'label' => "Coefficient",
@@ -78,33 +80,37 @@ class CourseSectionActivityType extends AbstractType
                 'label' => "Évaluation par les pairs",
                 'required' => false
             ])
-            ->add('activityType', ChoiceType::class, [
+            ->add('activityType', EntityType::class, [
+                'class' => ActivityType::class,
                 'label' => "Type d'activité",
-                'required' => true,
                 'multiple' => false,
                 'expanded' => true,
-                'placeholder' => false,
-                'choices' => $activityTypes,
-                'choice_label' => function(ActivityType $activityType) {
-                    return $activityType->getLabel();
+                'query_builder' => function (EntityRepository $er) use ($activity) {
+                    $qb = $er->createQueryBuilder('at');
+                    $qb->andWhere(":activity MEMBER OF at.activities")
+                        ->setParameter("activity", $activity)
+                        ->orderBy('at.label', 'ASC');
+                    return $qb;
                 },
-                'data' => current($activityTypes)
+                'choice_label' => 'label'
             ]);
 
         $formModifier = function (FormInterface $form, ActivityType $activityType = null) {
-            $modes = null === $activityType ? [] : $activityType->getActivityModes();
+            $modes = null === $activityType ? [] : $activityType->getActivityModes()->toArray();
 
-            $form->add('activityMode', ChoiceType::class, [
+            $form->add('activityMode', EntityType::class, [
+                'class' => ActivityMode::class,
                 'label' => "Mode d'enseignement",
-                'required' => true,
                 'multiple' => false,
                 'expanded' => true,
-                'placeholder' => false,
-                'choices' => $modes,
-                'choice_label' => function(ActivityMode $activityMode) {
-                    return $activityMode->getLabel();
+                'query_builder' => function (EntityRepository $er) use ($activityType) {
+                    $qb = $er->createQueryBuilder('am');
+                    $qb->andWhere(":activityType MEMBER OF am.activityTypes")
+                        ->setParameter("activityType", $activityType)
+                        ->orderBy('am.label', 'ASC');
+                    return $qb;
                 },
-                'data' => current($modes)
+                'choice_label' => 'label'
             ]);
         };
 
@@ -112,7 +118,6 @@ class CourseSectionActivityType extends AbstractType
             FormEvents::PRE_SET_DATA,
             function (FormEvent $event) use ($formModifier) {
                 $data = $event->getData();
-
                 $formModifier($event->getForm(), $data->getActivityType());
             });
 

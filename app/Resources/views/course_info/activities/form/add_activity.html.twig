@@ -4,10 +4,9 @@
 {{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('course_activities_add_activity', {'sectionId': courseSection.id, 'activityId': activity.id })}}) }}
 {{ form_errors(form) }}
 {{ form_row(form.description) }}
-{% if form.activityType is defined %}
-    {{ form_row(form.activityType, {label_attr: {class: 'radio-custom'} }) }}
-    {{ form_row(form.activityMode) }}
-{% endif %}
+{{ form_row(form.activityType, {label_attr: {class: 'radio-custom'} }) }}
+
+{{ form_row(form.activityMode, {label_attr: {class: 'radio-custom'} }) }}
 
 <label>Cette activité est-elle évaluable ?</label>
 {{ form_row(form.evaluable) }}
@@ -30,20 +29,19 @@
     $('#course_section_activity_evaluable').bootstrapToggle();
     $('#course_section_activity_evaluationCt').bootstrapToggle();
 
-    let $activityType = $('#course_section_activity_activityType');
+    var $activityType = $('#course_section_activity_activityType');
+
     $activityType.change(function () {
         let $form = $(this).closest('form');
         let data = {};
         data[$activityType.attr('name')] = $activityType.val();
-        console.log(data);
-        console.log($activityType.val());
         $.ajax({
-            url : $form.attr('action'),
+            url : $form.data('action-url'),
             type: $form.attr('method'),
-            data : data,
+            data : $form.serialize(),
             success: function (html) {
                 $('#course_section_activity_activityMode').replaceWith(
-                    $(html).find('#course_section_activity_activityMode')
+                    $(html['content']).find('#course_section_activity_activityMode')
                 )
             }
         });
