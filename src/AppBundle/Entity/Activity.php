@@ -63,7 +63,7 @@ class Activity
     /**
      * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\ActivityType", mappedBy="activityModes")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\ActivityType", mappedBy="activities")
      */
     private $activityTypes;
 
@@ -208,9 +208,9 @@ class Activity
         if (!$this->activityTypes->contains($activityType))
         {
             $this->activityTypes->add($activityType);
-            if (!$activityType->getActivityModes()->contains($this))
+            if (!$activityType->getActivities()->contains($this))
             {
-                $activityType->getActivityModes()->add($this);
+                $activityType->getActivities()->add($this);
             }
         }
         return $this;
@@ -225,9 +225,9 @@ class Activity
         if ($this->activityTypes->contains($activityType))
         {
             $this->activityTypes->removeElement($activityType);
-            if ($activityType->getActivityModes()->contains($this))
+            if ($activityType->getActivities()->contains($this))
             {
-                $activityType->getActivityModes()->removeElement($this);
+                $activityType->getActivities()->removeElement($this);
             }
         }
         return $this;

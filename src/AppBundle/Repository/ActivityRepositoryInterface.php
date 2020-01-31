@@ -18,6 +18,11 @@ interface ActivityRepositoryInterface
     public function find(string $id): ?Activity;
 
     /**
+     * @return mixed
+     */
+    public function findAll();
+
+    /**
      * @param $type
      * @param $mode
      * @param $grp
