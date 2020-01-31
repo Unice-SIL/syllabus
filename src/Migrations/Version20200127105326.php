@@ -21,8 +21,7 @@ final class Version20200127105326 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
-/*
+        
         // Drop old foreign keys
         $this->addSql('ALTER TABLE course_evaluation_ct DROP FOREIGN KEY FK_61B9EA7181C06096');
         $this->addSql('ALTER TABLE course_section_activity DROP FOREIGN KEY FK_B95D28E681C06096');
@@ -57,7 +56,7 @@ final class Version20200127105326 extends AbstractMigration
         $this->addSql('DROP INDEX fk_course_teacher_course_info1_idx ON course_teacher');
         $this->addSql('DROP INDEX fk_course_permission_course_info1_idx ON course_permission');
         $this->addSql('DROP INDEX fk_course_permission_user1_idx ON course_permission');
-*/
+
         // Drop useless table
         $this->addSql('DROP TABLE course_domain');
 
