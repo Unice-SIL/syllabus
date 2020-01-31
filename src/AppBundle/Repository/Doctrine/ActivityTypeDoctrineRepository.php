@@ -4,6 +4,7 @@ namespace AppBundle\Repository\Doctrine;
 
 use AppBundle\Entity\ActivityType;
 use AppBundle\Repository\ActivityTypeRepositoryInterface;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Class ActivityTypeDoctrineRepository
@@ -11,8 +12,20 @@ use AppBundle\Repository\ActivityTypeRepositoryInterface;
  */
 class ActivityTypeDoctrineRepository extends AbstractDoctrineRepository implements ActivityTypeRepositoryInterface
 {
+
     /**
-     * @return mixed
+     * ActivityTypeDoctrineRepository constructor.
+     * @param EntityManagerInterface $entityManager
+     */
+    public function __construct(
+        EntityManagerInterface $entityManager
+    )
+    {
+        $this->entityManager = $entityManager;
+    }
+
+    /**
+     * @return \ArrayObject|mixed
      * @throws \Exception
      */
     public function findAll()
@@ -22,7 +35,6 @@ class ActivityTypeDoctrineRepository extends AbstractDoctrineRepository implemen
             $qb = $this->entityManager->getRepository(ActivityType::class)->createQueryBuilder('at');
             $qb->where($qb->expr()->eq('at.obsolete', ':obsolete'))
                 ->setParameter('obsolete', false)
-                ->orderBy('at.position', 'ASC')
                 ->addOrderBy('at.label', 'ASC');
             foreach ($qb->getQuery()->getResult() as $activityType){
                 $activityTypes->append($activityType);
