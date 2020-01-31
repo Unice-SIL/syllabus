@@ -22,7 +22,7 @@ final class Version20200127105326 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-
+/*
         // Drop old foreign keys
         $this->addSql('ALTER TABLE course_evaluation_ct DROP FOREIGN KEY FK_61B9EA7181C06096');
         $this->addSql('ALTER TABLE course_section_activity DROP FOREIGN KEY FK_B95D28E681C06096');
@@ -32,7 +32,7 @@ final class Version20200127105326 extends AbstractMigration
         $this->addSql('ALTER TABLE course_info DROP FOREIGN KEY FK_32BEC51591CC992');
         $this->addSql('ALTER TABLE course_info DROP FOREIGN KEY FK_32BEC519CE8D546');
         $this->addSql('ALTER TABLE course_section DROP FOREIGN KEY FK_25B07F035548C414');
-        $this->addSql('ALTER TABLE course_section_activity DROP FOREIGN KEY FK_B95D28E67C1ADF9');
+        //$this->addSql('ALTER TABLE course_section_activity DROP FOREIGN KEY FK_B95D28E67C1ADF9');
         $this->addSql('ALTER TABLE course_resource_equipment DROP FOREIGN KEY FK_E2585800517FE9FE');
         $this->addSql('ALTER TABLE course_resource_equipment DROP FOREIGN KEY FK_E25858005548C414');
         $this->addSql('ALTER TABLE course_achievement DROP FOREIGN KEY FK_E21D4F255548C414');
@@ -57,7 +57,7 @@ final class Version20200127105326 extends AbstractMigration
         $this->addSql('DROP INDEX fk_course_teacher_course_info1_idx ON course_teacher');
         $this->addSql('DROP INDEX fk_course_permission_course_info1_idx ON course_permission');
         $this->addSql('DROP INDEX fk_course_permission_user1_idx ON course_permission');
-
+*/
         // Drop useless table
         $this->addSql('DROP TABLE course_domain');
 
@@ -97,7 +97,7 @@ final class Version20200127105326 extends AbstractMigration
         $this->addSql('ALTER TABLE course_section_activity ADD CONSTRAINT FK_B95D28E681C06096 FOREIGN KEY (activity_id) REFERENCES activity (id)');
         $this->addSql('ALTER TABLE course_section_activity ADD CONSTRAINT FK_B95D28E6C51EFA73 FOREIGN KEY (activity_type_id) REFERENCES activity_type (id)');
         $this->addSql('ALTER TABLE course_section_activity ADD CONSTRAINT FK_B95D28E677B7F3AA FOREIGN KEY (activity_mode_id) REFERENCES activity_mode (id)');
-        $this->addSql('ALTER TABLE course_section_activity ADD CONSTRAINT FK_B95D28E67C1ADF9 FOREIGN KEY (course_section_id) REFERENCES course_section (id)');
+        //$this->addSql('ALTER TABLE course_section_activity ADD CONSTRAINT FK_B95D28E67C1ADF9 FOREIGN KEY (course_section_id) REFERENCES course_section (id)');
         $this->addSql('ALTER TABLE activity_type_activity ADD CONSTRAINT FK_6059E7626E098B10 FOREIGN KEY (activitytype_id) REFERENCES activity_type (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE activity_type_activity ADD CONSTRAINT FK_6059E76281C06096 FOREIGN KEY (activity_id) REFERENCES activity (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE activity_type_activity_mode ADD CONSTRAINT FK_642514846E098B10 FOREIGN KEY (activitytype_id) REFERENCES activity_type (id) ON DELETE CASCADE');
@@ -129,7 +129,7 @@ final class Version20200127105326 extends AbstractMigration
         $this->addSql('ALTER TABLE course_section_activity DROP FOREIGN KEY FK_B95D28E681C06096');
         $this->addSql('ALTER TABLE course_section_activity DROP FOREIGN KEY FK_B95D28E6C51EFA73');
         $this->addSql('ALTER TABLE course_section_activity DROP FOREIGN KEY FK_B95D28E677B7F3AA');
-        $this->addSql('ALTER TABLE course_section_activity DROP FOREIGN KEY FK_B95D28E67C1ADF9');
+        //$this->addSql('ALTER TABLE course_section_activity DROP FOREIGN KEY FK_B95D28E67C1ADF9');
         $this->addSql('ALTER TABLE activity_type_activity DROP FOREIGN KEY FK_6059E7626E098B10');
         $this->addSql('ALTER TABLE activity_type_activity DROP FOREIGN KEY FK_6059E76281C06096');
         $this->addSql('ALTER TABLE activity_type_activity_mode DROP FOREIGN KEY FK_642514846E098B10');
@@ -209,7 +209,7 @@ final class Version20200127105326 extends AbstractMigration
         $this->addSql('ALTER TABLE course_info ADD CONSTRAINT FK_32BEC519CE8D546 FOREIGN KEY (publisher) REFERENCES user (id)');
         $this->addSql('ALTER TABLE course_info ADD CONSTRAINT FK_32BEC5140C1FEA7 FOREIGN KEY (year_id) REFERENCES year (id)');
         $this->addSql('ALTER TABLE course_section ADD CONSTRAINT FK_25B07F035548C414 FOREIGN KEY (course_info_id) REFERENCES course_info (id)');
-        $this->addSql('ALTER TABLE course_section_activity ADD CONSTRAINT FK_B95D28E67C1ADF9 FOREIGN KEY (course_section_id) REFERENCES course_section (id)');
+        //$this->addSql('ALTER TABLE course_section_activity ADD CONSTRAINT FK_B95D28E67C1ADF9 FOREIGN KEY (course_section_id) REFERENCES course_section (id)');
         $this->addSql('ALTER TABLE course_resource_equipment ADD CONSTRAINT FK_E2585800517FE9FE FOREIGN KEY (equipment_id) REFERENCES equipment (id)');
         $this->addSql('ALTER TABLE course_resource_equipment ADD CONSTRAINT FK_E25858005548C414 FOREIGN KEY (course_info_id) REFERENCES course_info (id)');
         $this->addSql('ALTER TABLE course_achievement ADD CONSTRAINT FK_E21D4F255548C414 FOREIGN KEY (course_info_id) REFERENCES course_info (id)');

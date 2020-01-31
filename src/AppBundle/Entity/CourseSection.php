@@ -80,7 +80,7 @@ class CourseSection
      * @param string $id
      * @return CourseSection
      */
-    public function setId(?string $id): CourseSection
+    public function setId(?string $id): self
     {
         $this->id = $id;
 
@@ -137,7 +137,7 @@ class CourseSection
      * @param int $position
      * @return CourseSection
      */
-    public function setPosition(int $position): CourseSection
+    public function setPosition(int $position): self
     {
         $this->position = $position;
 
@@ -157,7 +157,7 @@ class CourseSection
      * @param $courseInfo
      * @return CourseSection
      */
-    public function setCourseInfo(?CourseInfo $courseInfo): CourseSection
+    public function setCourseInfo(?CourseInfo $courseInfo): self
     {
         $this->courseInfo = $courseInfo;
 
@@ -176,7 +176,7 @@ class CourseSection
      * @param Collection $courseSectionActivities
      * @return CourseSection
      */
-    public function setCourseSectionActivities(Collection $courseSectionActivities): CourseSection
+    public function setCourseSectionActivities(Collection $courseSectionActivities): self
     {
         $this->courseSectionActivities = $courseSectionActivities;
 
@@ -187,9 +187,13 @@ class CourseSection
      * @param CourseSectionActivity $courseSectionActivity
      * @return CourseSection
      */
-    public function addCourseSectionActivity(CourseSectionActivity $courseSectionActivity): CourseSection
+    public function addCourseSectionActivity(CourseSectionActivity $courseSectionActivity): self
     {
-        $this->courseSectionActivities->add($courseSectionActivity);
+        if(!$this->courseSectionActivities->contains($courseSectionActivity))
+        {
+            $this->courseSectionActivities->add($courseSectionActivity);
+            $courseSectionActivity->setCourseSection($this);
+        }
 
         return $this;
     }
@@ -198,7 +202,7 @@ class CourseSection
      * @param CourseSectionActivity $courseSectionActivity
      * @return CourseSection
      */
-    public function removeCourseSectionActivity(CourseSectionActivity $courseSectionActivity): CourseSection
+    public function removeCourseSectionActivity(CourseSectionActivity $courseSectionActivity): self
     {
         if ($this->courseSectionActivities->contains($courseSectionActivity))
         {
