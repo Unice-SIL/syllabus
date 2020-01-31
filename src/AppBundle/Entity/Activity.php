@@ -63,7 +63,7 @@ class Activity
     /**
      * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\ActivityType", mappedBy="activityModes")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\ActivityType", mappedBy="activities")
      */
     private $activityTypes;
 
