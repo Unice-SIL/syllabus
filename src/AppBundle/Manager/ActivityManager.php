@@ -46,7 +46,7 @@ class ActivityManager
     }
 
     /**
-     * @return \ArrayObject
+     * @return mixed
      */
     public function findAll()
     {

@@ -42,11 +42,25 @@ class ActivityDoctrineRepository extends AbstractDoctrineRepository implements A
     }
 
     /**
-     * @return array|mixed|object[]
+     * @return \ArrayObject|mixed
+     * @throws \Exception
      */
     public function findAll()
     {
-        $activities = $this->entityManager->getRepository(Activity::class)->findAll();
+        $activities = new \ArrayObject();
+        try {
+            $qb = $this->entityManager->getRepository(Activity::class)->createQueryBuilder('a');
+            $qb->where($qb->expr()->eq('a.obsolete', ':obsolete'))
+                ->setParameter('obsolete', false)
+                ->orderBy('a.position', 'ASC')
+                ->addOrderBy('a.label', 'ASC');
+            foreach ($qb->getQuery()->getResult() as $activity){
+                $activities->append($activity);
+            }
+        } catch (\Exception $exception)
+        {
+            throw $exception;
+        }
 
         return $activities;
     }
@@ -65,19 +79,11 @@ class ActivityDoctrineRepository extends AbstractDoctrineRepository implements A
             $qb = $this->entityManager->getRepository(Activity::class)->createQueryBuilder('a');
             $qb->where($qb->expr()->eq('a.obsolete', ':obsolete'))
                 ->setParameter('obsolete', false)
-                ->orderBy('a.ord', 'ASC')
+                ->orderBy('a.position', 'ASC')
                 ->addOrderBy('a.label', 'ASC');
             if(!is_null($type)){
                 $qb->andWhere($qb->expr()->eq('a.type', ':type'))
                     ->setParameter('type', $type);
-            }
-            if(!is_null($mode)){
-                $qb->andWhere($qb->expr()->eq('a.mode', ':mode'))
-                    ->setParameter('mode', $mode);
-            }
-            if(!is_null($grp)){
-                $qb->andWhere($qb->expr()->eq('a.grp', ':grp'))
-                    ->setParameter('grp', $grp);
             }
             foreach ($qb->getQuery()->getResult() as $activity){
                 $activities->append($activity);

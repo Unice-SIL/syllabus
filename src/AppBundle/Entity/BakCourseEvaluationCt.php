@@ -7,10 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * CourseEvaluationCt
  *
- * @ORM\Table(name="course_evaluation_ct", indexes={@ORM\Index(name="fk_course_evaluation_ct_course_info1_idx", columns={"course_info_id"}), @ORM\Index(name="fk_course_evaluation_ct_activity1_idx", columns={"activity_id"})})
+ * @ORM\Table(name="bak_course_evaluation_ct")
  * @ORM\Entity
  */
-class CourseEvaluationCt
+class BakCourseEvaluationCt
 {
     /**
      * @var string
@@ -43,9 +43,9 @@ class CourseEvaluationCt
     private $order = 0;
 
     /**
-     * @var \AppBundle\Entity\Activity
+     * @var \AppBundle\Entity\BakActivity
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Activity")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\BakActivity")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="activity_id", referencedColumnName="id", nullable=false)
      * })
@@ -55,10 +55,9 @@ class CourseEvaluationCt
     /**
      * @var \AppBundle\Entity\CourseInfo
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CourseInfo", inversedBy="courseEvaluationCts")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
-     * })
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CourseInfo")
+     * @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
+     *
      */
     private $courseInfo;
 
@@ -71,10 +70,10 @@ class CourseEvaluationCt
     }
 
     /**
-     * @param null|string $id
-     * @return CourseEvaluationCt
+     * @param string $id
+     * @return BakCourseEvaluationCt
      */
-    public function setId(?string $id): CourseEvaluationCt
+    public function setId(string $id): self
     {
         $this->id = $id;
 
@@ -90,10 +89,10 @@ class CourseEvaluationCt
     }
 
     /**
-     * @param null|string $description
-     * @return CourseEvaluationCt
+     * @param $description
+     * @return BakCourseEvaluationCt
      */
-    public function setDescription($description)
+    public function setDescription($description): self
     {
         $this->description = $description;
 
@@ -109,10 +108,10 @@ class CourseEvaluationCt
     }
 
     /**
-     * @param float|null $evaluationRate
-     * @return CourseEvaluationCt
+     * @param $evaluationRate
+     * @return BakCourseEvaluationCt
      */
-    public function setEvaluationRate($evaluationRate)
+    public function setEvaluationRate($evaluationRate): self
     {
         $this->evaluationRate = $evaluationRate;
 
@@ -129,9 +128,9 @@ class CourseEvaluationCt
 
     /**
      * @param int $order
-     * @return CourseEvaluationCt
+     * @return BakCourseEvaluationCt
      */
-    public function setOrder(int $order): CourseEvaluationCt
+    public function setOrder(int $order): self
     {
         $this->order = $order;
 
@@ -139,9 +138,9 @@ class CourseEvaluationCt
     }
 
     /**
-     * @return Activity
+     * @return BakActivity
      */
-    public function getActivity(): Activity
+    public function getActivity(): BakActivity
     {
         return $this->activity;
     }
@@ -150,7 +149,7 @@ class CourseEvaluationCt
      * @param Activity $activity
      * @return CourseEvaluationCt
      */
-    public function setActivity(Activity $activity): CourseEvaluationCt
+    public function setActivity(Activity $activity): self
     {
         $this->activity = $activity;
 
@@ -166,10 +165,10 @@ class CourseEvaluationCt
     }
 
     /**
-     * @param null|CourseInfo $courseInfo
+     * @param CourseInfo $courseInfo
      * @return CourseEvaluationCt
      */
-    public function setCourseInfo(?CourseInfo $courseInfo): CourseEvaluationCt
+    public function setCourseInfo(CourseInfo $courseInfo): self
     {
         $this->courseInfo = $courseInfo;
 
