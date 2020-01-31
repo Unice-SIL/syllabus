@@ -24,11 +24,9 @@ interface ActivityRepositoryInterface
 
     /**
      * @param $type
-     * @param $mode
-     * @param $grp
      * @return \ArrayObject
      */
-    public function findByCriteria($type, $mode, $grp): \ArrayObject;
+    public function findByCriteria($type): \ArrayObject;
 
     /**
      * Create activity

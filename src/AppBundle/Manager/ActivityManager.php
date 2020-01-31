@@ -54,6 +54,12 @@ class ActivityManager
         return $activities;
     }
 
+    public function findByCriteria($type)
+    {
+        $activities = $this->repository->findByCriteria($type);
+        return $activities;
+    }
+
     public function getModeChoicesByType($type)
     {
         switch ($type) {

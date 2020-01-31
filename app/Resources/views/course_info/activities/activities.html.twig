@@ -70,27 +70,33 @@
                     </div>
                     <div class="card-body p-0">
                         <div class="tab-content">
-                            <div id="tab_1" class="tab-pane active">
-                                <div class="activity-carousel">
-                                    <button class="activity-carousel-prev btn btn-link">
-                                        <i class="fas fa-chevron-left"></i>
-                                    </button>
-                                    <div class="activity-carousel-items">
-                                        {% for activity in activities %}
-                                            <a class="m-auto modal-action"
-                                               data-action-title="Ajouter une activité"
-                                               data-action-url="{{ path("course_activities_add_activity", {'sectionId': activeSection.id, 'activityId': activity.id}) }}">
-                                                <div class="activity-carousel-item text-center d-flex shadow">
-                                                    <div class="m-auto">{{ activity.label }}</div>
-                                                </div>
-                                            </a>
-                                        {% endfor %}
+                            {% for activityType in activityTypes %}
+                                <div id="tab_{{ activityType.label }}" class="tab-pane active">
+                                    <div class="activity-carousel">
+                                        <button class="activity-carousel-prev btn btn-link">
+                                            <i class="fas fa-chevron-left"></i>
+                                        </button>
+                                        <div class="activity-carousel-items">
+                                            {% for activity in activities %}
+                                                {% if activity.activityTypes is not empty %}
+                                                    {% if activityType in activity.activityTypes %}
+                                                        <a class="m-auto modal-action"
+                                                           data-action-title="Ajouter une activité"
+                                                           data-action-url="{{ path("course_activities_add_activity", {'sectionId': activeSection.id, 'activityId': activity.id}) }}">
+                                                            <div class="activity-carousel-item text-center d-flex shadow">
+                                                                <div class="m-auto">{{ activity.label }}</div>
+                                                            </div>
+                                                        </a>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                        <button class="activity-carousel-next btn btn-link">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </button>
                                     </div>
-                                    <button class="activity-carousel-next btn btn-link">
-                                        <i class="fas fa-chevron-right"></i>
-                                    </button>
                                 </div>
-                            </div>
+                            {% endfor %}
                             <div id="tab_2" class="tab-pane">
                                 <div class="activity-carousel">
                                     <button class="activity-carousel-prev btn btn-link">

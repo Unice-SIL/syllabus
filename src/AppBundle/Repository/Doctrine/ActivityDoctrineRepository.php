@@ -67,12 +67,10 @@ class ActivityDoctrineRepository extends AbstractDoctrineRepository implements A
 
     /**
      * @param $type
-     * @param $mode
-     * @param $grp
      * @return \ArrayObject
      * @throws \Exception
      */
-    public function findByCriteria($type, $mode, $grp): \ArrayObject
+    public function findByCriteria($type): \ArrayObject
     {
         $activities = new \ArrayObject();
         try{
@@ -82,8 +80,8 @@ class ActivityDoctrineRepository extends AbstractDoctrineRepository implements A
                 ->orderBy('a.position', 'ASC')
                 ->addOrderBy('a.label', 'ASC');
             if(!is_null($type)){
-                $qb->andWhere($qb->expr()->eq('a.type', ':type'))
-                    ->setParameter('type', $type);
+                $qb->andWhere(":activityType MEMBER OF a.activityTypes")
+                    ->setParameter("activityType", $type);
             }
             foreach ($qb->getQuery()->getResult() as $activity){
                 $activities->append($activity);
