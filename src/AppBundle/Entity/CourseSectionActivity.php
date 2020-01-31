@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * CourseSectionActivity
@@ -81,22 +82,24 @@ class CourseSectionActivity
     private $activity;
 
     /**
-     * @var \AppBundle\Entity\ActivityType
+     * @var ActivityType|null
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ActivityType")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="activity_type_id", referencedColumnName="id", nullable=true)
+     *   @ORM\JoinColumn(name="activity_type_id", referencedColumnName="id", nullable=false)
      * })
+     * @Assert\NotBlank()
      */
     private $activityType;
 
     /**
-     * @var \AppBundle\Entity\ActivityMode
+     * @var \AppBundle\Entity\ActivityMode|null
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ActivityMode")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="activity_mode_id", referencedColumnName="id", nullable=true)
+     *   @ORM\JoinColumn(name="activity_mode_id", referencedColumnName="id", nullable=false)
      * })
+     * @Assert\NotBlank()
      */
     private $activityMode;
 
@@ -308,10 +311,10 @@ class CourseSectionActivity
     }
 
     /**
-     * @param ActivityType $activityType
+     * @param ActivityType|null $activityType
      * @return CourseSectionActivity
      */
-    public function setActivityType(ActivityType $activityType): CourseSectionActivity
+    public function setActivityType(?ActivityType $activityType): CourseSectionActivity
     {
         $this->activityType = $activityType;
         return $this;
@@ -326,10 +329,10 @@ class CourseSectionActivity
     }
 
     /**
-     * @param ActivityMode $activityMode
+     * @param ActivityMode|null $activityMode
      * @return CourseSectionActivity
      */
-    public function setActivityMode(ActivityMode $activityMode): CourseSectionActivity
+    public function setActivityMode(?ActivityMode $activityMode): CourseSectionActivity
     {
         $this->activityMode = $activityMode;
         return $this;
