@@ -548,14 +548,6 @@ class CourseInfo
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="CourseEvaluationCt", mappedBy="courseInfo", cascade={ "persist" })
-     * @ORM\OrderBy({"order" = "ASC"})
-     */
-    private $courseEvaluationCts;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
      * @ORM\OneToMany(targetEntity="CourseAchievement", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"order" = "ASC"})
      */
@@ -2030,47 +2022,6 @@ class CourseInfo
                 $courseSection->setCourseInfo(null);
             }
         }
-        return $this;
-    }
-
-    /**
-     * @return Collection
-     */
-    public function getCourseEvaluationCts(): Collection
-    {
-        return $this->courseEvaluationCts;
-    }
-
-    /**
-     * @param Collection $courseEvaluationCts
-     * @return CourseInfo
-     */
-    public function setCourseEvaluationCts(Collection $courseEvaluationCts): CourseInfo
-    {
-        $this->courseEvaluationCts = $courseEvaluationCts;
-
-        return $this;
-    }
-
-    /**
-     * @param CourseEvaluationCt $courseEvaluationCt
-     * @return CourseInfo
-     */
-    public function addCourseEvaluationCt(CourseEvaluationCt $courseEvaluationCt): CourseInfo
-    {
-        $this->courseEvaluationCts->add($courseEvaluationCt);
-
-        return $this;
-    }
-
-    /**
-     * @param CourseSection $courseEvaluationCt
-     * @return CourseInfo
-     */
-    public function removeCourseEvaluationCt(CourseEvaluationCt $courseEvaluationCt): CourseInfo
-    {
-        $this->courseEvaluationCts->removeElement($courseEvaluationCt);
-
         return $this;
     }
 
