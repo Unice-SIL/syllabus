@@ -2,6 +2,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Activity
@@ -26,6 +27,14 @@ class BakActivity
      * @ORM\Column(name="label", type="string", length=100, nullable=false)
      */
     private $label;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="description", type="string", length=200, nullable=true)
+     * @Assert\Length(max="200")
+     */
+    private $description;
 
     /**
      * @var bool
@@ -103,6 +112,25 @@ class BakActivity
     public function setLabel(string $label): self
     {
         $this->label = $label;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param null|string $description
+     * @return BakActivity
+     */
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }
