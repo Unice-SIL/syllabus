@@ -49,6 +49,7 @@ twig:
         - '@LexikFormFilter/Form/form_div_layout.html.twig'
 
 # Doctrine Configuration
+
 doctrine:
     dbal:
         default_connection: syllabus
@@ -188,3 +189,14 @@ nelmio_api_doc:
                 in: header
         security:
             - Bearer: []
+
+stof_doctrine_extensions:
+    orm:
+        syllabus:
+            timestampable: true
+            blameable: true
+
+jms_serializer:
+    object_constructors:
+        doctrine:
+            fallback_strategy: "exception" # possible values ("null" | "exception" | "fallback")

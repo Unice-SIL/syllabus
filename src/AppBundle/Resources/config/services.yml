@@ -88,6 +88,10 @@ services:
             - { name: doctrine.event_listener, event: postUpdate }
             - { name: doctrine.event_listener, event: postLoad }
 
+    AppBundle\Listener\ExceptionListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
+
     # SUBSCRIBER
     AppBundle\Subscriber\UserSubscriber:
         tags:
@@ -161,3 +165,7 @@ services:
     # PROVIDERS
     AppBundle\Security\Provider\TestUserProvider:
         arguments: ['%test_authenticator%']
+
+    #JMS
+    jms_serializer.object_constructor:
+        alias: jms_serializer.doctrine_object_constructor

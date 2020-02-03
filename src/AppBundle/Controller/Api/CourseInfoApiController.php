@@ -2,13 +2,20 @@
 
 namespace AppBundle\Controller\Api;
 
+use AppBundle\Entity\CourseInfo;
+use AppBundle\Exception\ResourceValidationException;
 use AppBundle\Helper\ApiHelper;
 use AppBundle\Repository\Doctrine\CourseInfoDoctrineRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use JMS\Serializer\SerializerInterface;
+use Ramsey\Uuid\Uuid;
 use Swagger\Annotations as SWG;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * Class CourseInfoApiController
@@ -76,5 +83,31 @@ class CourseInfoApiController extends Controller
         $response = $apiHelper->setDataAndGetResponse($qb, $config);
 
         return $this->json($response);
+    }
+
+    /**
+     * @Route("/", name="new", methods={"POST"})
+     */
+    public function newAction(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, ValidatorInterface $validator)
+    {
+        $data = $request->getContent();
+
+        $courseInfo = $serializer->deserialize($data, CourseInfo::class, 'json');
+        $courseInfo = clone $courseInfo;
+        if (count($violations = $validator->validate($courseInfo))) {
+            $message = "Data sent are invalid: [";
+            foreach ($violations as $violation){
+                $message.= "{$violation->getPropertyPath()}: {$violation->getMessage()}, ";
+            }
+            $message = rtrim($message, ', ');
+            $message.= "]";
+            throw new ResourceValidationException($message);
+        }
+
+        $em->persist($courseInfo);
+        $em->flush();
+
+        return $this->json($serializer->toArray($courseInfo), Response::HTTP_CREATED);
+
     }
 }
