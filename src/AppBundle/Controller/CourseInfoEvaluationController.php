@@ -5,38 +5,40 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Form\CourseInfo\Evaluation\SpecificationsType;
 use AppBundle\Manager\CourseInfoManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class CourseInfoEvaluationController
  * @package AppBundle\Controller
+ *
+ * @Route("/course/{id}/evaluation", name="course_evaluation_specifications_")
+ * @Security("is_granted('WRITE', courseInfo)")
+ *
  */
 class CourseInfoEvaluationController extends AbstractController
 {
     /**
-     * @Route("/course/{id}/evaluation", name="course_evaluation")
+     * @Route("/", name="index")
      *
-     * @param $id
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param CourseInfo $courseInfo
+     * @return Response
      */
-    public function indexAction($id)
+    public function indexAction(CourseInfo $courseInfo)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $courseInfo = $em->getRepository(CourseInfo::class)->find($id);
-
         return $this->render('course_info/evaluation/evaluation.html.twig', [
             'courseInfo' => $courseInfo
         ]);
     }
 
     /**
-     * @Route("/course/{id}/evaluation/specifications/view", name="course_evaluation_specifications_view"))
+     * @Route("/specifications/view", name="view"))
      *
      * @param CourseInfo $courseInfo
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      * @throws \Exception
      */
     public function generalViewAction(CourseInfo $courseInfo)
@@ -59,12 +61,12 @@ class CourseInfoEvaluationController extends AbstractController
     }
 
     /**
-     * @Route("/course/{id}/evaluation/specifications/form", name="course_evaluation_specifications_form"))
+     * @Route("/specifications/form", name="form"))
      *
      * @param CourseInfo $courseInfo
      * @param Request $request
      * @param CourseInfoManager $manager
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      * @throws \Exception
      */
     public function specificationsFormAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)

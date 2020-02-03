@@ -13,16 +13,25 @@ use AppBundle\Form\CourseInfo\Equipment\ResourceEquipmentType;
 use AppBundle\Form\CourseInfo\Equipment\Resourcetype;
 use AppBundle\Manager\CourseInfoManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class CourseInfoEquipmentController extends Controller
+/**
+ * Class CourseInfoEquipmentController
+ * @package AppBundle\Controller
+ *
+ * @Route("/course/{id}/equipment", name="course_equipment_")
+ * @Security("is_granted('WRITE', courseInfo)")
+ *
+ */
+class CourseInfoEquipmentController extends AbstractController
 {
     /**
-     * @Route("/course/{id}/equipment", name="course_equipment")
+     * @Route("/", name="index")
      *
      * @param $id
      * @return Response
@@ -35,7 +44,7 @@ class CourseInfoEquipmentController extends Controller
     }
 
     /**
-     * @Route("/course/{id}/equipment/equipment/view", name="course_equipment_equipment_view"))
+     * @Route("/equipment/view", name="equipment_view"))
      *
      * @param CourseInfo $courseInfo
      * @return Response
@@ -64,7 +73,7 @@ class CourseInfoEquipmentController extends Controller
     }
 
     /**
-     * @Route("/course/{id}/equipment/add/{idEquipment}", name="course_equipment_equipment_add"))
+     * @Route("/add/{idEquipment}", name="equipment_add"))
      *
      * @param CourseInfo $courseInfo
      * @param Equipment $equipment
@@ -118,15 +127,24 @@ class CourseInfoEquipmentController extends Controller
     }
 
     /**
-     * @Route("/course/equipment/edit/{id}", name="course_equipment_equipment_edit"))
+     * @Route("/edit/{resourceEquipementId}", name="equipment_edit"))
      *
+     * @param CourseInfo $courseInfo
      * @param CourseResourceEquipment $resourceEquipment
      * @param Request $request
      * @return JsonResponse
+     * @ParamConverter("resourceEquipment", options={"mapping": {"resourceEquipementId": "id"}})
      */
-    public function editDescriptionResourceEquipmentAction(CourseResourceEquipment $resourceEquipment, Request $request)
+    public function editDescriptionResourceEquipmentAction(CourseInfo $courseInfo, CourseResourceEquipment $resourceEquipment, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
+
+        if (!$courseInfo instanceof CourseInfo) {
+            return $this->json([
+                'status' => false,
+                'content' => "Une erreur est survenue : le cours n'existe pas."
+            ]);
+        }
 
         $form = $this->createForm(ResourceEquipmentEditType::class, $resourceEquipment);
         $form->handleRequest($request);
@@ -152,7 +170,7 @@ class CourseInfoEquipmentController extends Controller
     }
 
     /**
-     * @Route("/course/{id}/equipment/remove/{idResourceEquipment}", name="course_equipment_equipment_remove"))
+     * @Route("/remove/{idResourceEquipment}", name="equipment_remove"))
      *
      * @param CourseInfo $courseInfo
      * @param CourseResourceEquipment $resourceEquipment
@@ -204,7 +222,7 @@ class CourseInfoEquipmentController extends Controller
     }
 
     /**
-     * @Route("/course/{id}/equipment/teaching/view", name="course_equipment_resource_view"))
+     * @Route("/teaching/view", name="resource_view"))
      *
      * @param CourseInfo $courseInfo
      * @return Response
@@ -229,7 +247,7 @@ class CourseInfoEquipmentController extends Controller
     }
 
     /**
-     * @Route("/course/{id}/equipment/teaching/form", name="course_equipment_resource_form"))
+     * @Route("/teaching/form", name="resource_form"))
      *
      * @param CourseInfo $courseInfo
      * @param Request $request

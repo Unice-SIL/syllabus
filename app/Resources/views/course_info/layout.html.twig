@@ -19,7 +19,7 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item has-treeview">
                     <a class="nav-link menu-tab"
-                       href="{{ path('course_presentation', { 'id': courseInfo.id }) }}"
+                       href="{{ path('course_presentation_index', { 'id': courseInfo.id }) }}"
                        id="menu-presentation">
                         <i class="fas fa-star"></i>
                         <p>
@@ -38,7 +38,7 @@
                 <li class="nav-item">
                     <a class="nav-link menu-tab"
                        id="menu-objectives"
-                       href="{{ path('course_info_objectives', { 'id': courseInfo.id }) }}">
+                       href="{{ path('objective_course_index', { 'id': courseInfo.id }) }}">
                         <i class="fas fa-bullseye"></i>
                         <p>Objectifs du cours</p>
                     </a>
@@ -46,7 +46,7 @@
                 <li class="nav-item">
                     <a class="nav-link menu-tab"
                        id="menu-evaluation"
-                       href="{{ path('course_evaluation', { 'id': courseInfo.id }) }}">
+                       href="{{ path('course_evaluation_specifications_index', { 'id': courseInfo.id }) }}">
                         <i class="fas fa-medal"></i>
                         <p>Modalités d'évaluation</p>
                     </a>
@@ -54,20 +54,20 @@
                 <li class="nav-item menu-tab">
                     <a class="nav-link"
                        id="menu-resource"
-                       href="{{ path('course_equipment', { 'id': courseInfo.id }) }}">
+                       href="{{ path('course_equipment_index', { 'id': courseInfo.id }) }}">
                         <i class="fas fa-tools"></i>
                         <p>Matériel et ressources</p>
                     </a>
                 </li>
                 <li class="nav-item menu-tab">
-                    <a class="nav-link" href="{{ path('course_info_info', { 'id': courseInfo.id }) }}"
+                    <a class="nav-link" href="{{ path('course_info_index', { 'id': courseInfo.id }) }}"
                        id="menu-info">
                         <i class="fas fa-info-circle"></i>
                         <p>Informations pratiques</p>
                     </a>
                 </li>
                 <li class="nav-item menu-tab">
-                    <a class="nav-link" href="{{ path('course_closing_remarks', { 'id': courseInfo.id }) }}"
+                    <a class="nav-link" href="{{ path('course_closing_remarks_index', { 'id': courseInfo.id }) }}"
                        id="menu-closing_remarks">
                         <i class="fas fa-flag-checkered"></i>
                         <p>Le mot de la fin</p>

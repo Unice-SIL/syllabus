@@ -604,11 +604,6 @@ $blue: #5E7FDC;
 
 $break: 400px;
 
-*, *:before, *:after {
-    box-sizing: content-box;
-    transform: translate3d(0, 0, 0);
-}
-
 .face {
     width: 300px;
     height: 300px;

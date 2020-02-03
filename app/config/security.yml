@@ -21,5 +21,9 @@ security:
             logout_on_user_change: true
             anonymous: ~
 
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_USER
+
     access_control:
         - { path: ^/, role: ROLE_USER }
+        - { path: ^/admin, role: ROLE_ADMIN }

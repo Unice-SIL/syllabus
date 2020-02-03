@@ -31,7 +31,7 @@
                     <button type="button"
                             class="btn btn-link modal-action p-0"
                             data-action-title="Modifier un prérequis"
-                            data-action-url="{{ path('objective_course_edit_prerequisite', {'id': prerequisite.id}) }}">
+                            data-action-url="{{ path('objective_course_edit_prerequisite', {'id': courseInfo.id, 'prerequisiteId': prerequisite.id}) }}">
                         <i class="fas fa-edit"></i>
                     </button>
                     <button type="button" class="btn btn-link modal-action p-0"

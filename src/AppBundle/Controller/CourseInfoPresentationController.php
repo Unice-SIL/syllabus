@@ -13,6 +13,7 @@ use AppBundle\Form\CourseInfo\Presentation\TeachersType;
 use AppBundle\Form\CourseInfo\Presentation\TeachingModeType;
 use AppBundle\Manager\CourseInfoManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,11 +22,13 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Class CourseInfoPresentationController
  * @package AppBundle\Controller
+ * @Route("/course/{id}/presentation", name="course_presentation_")
+ * @Security("is_granted('WRITE', courseInfo)")
  */
 class CourseInfoPresentationController extends AbstractController
 {
     /**
-     * @Route("/course/{id}/presentation", name="course_presentation")
+     * @Route("/", name="index")
      *
      * @param CourseInfo $courseInfo
      * @return \Symfony\Component\HttpFoundation\Response
@@ -39,7 +42,7 @@ class CourseInfoPresentationController extends AbstractController
     }
 
     /**
-     * @Route("/course/{id}/presentation/general/view", name="course_presentation_general_view"))
+     * @Route("/general/view", name="general_view"))
      *
      * @param CourseInfo|null $courseInfo
      * @return \Symfony\Component\HttpFoundation\Response
@@ -64,7 +67,7 @@ class CourseInfoPresentationController extends AbstractController
     }
 
     /**
-     * @Route("/course/{id}/presentation/general/form", name="course_presentation_general_form"))
+     * @Route("/general/form", name="general_form"))
      *
      * @param CourseInfo $courseInfo
      * @param Request $request
@@ -108,7 +111,7 @@ class CourseInfoPresentationController extends AbstractController
     }
 
     /**
-     * @Route("/course/{id}/presentation/teachers/view", name="course_presentation_teachers_view"))
+     * @Route("/teachers/view", name="teachers_view"))
      *
      * @param CourseInfo $courseInfo
      * @return \Symfony\Component\HttpFoundation\Response
@@ -134,7 +137,7 @@ class CourseInfoPresentationController extends AbstractController
     }
 
     /**
-     * @Route("/course/{id}/presentation/teachers/form", name="course_presentation_teachers_form"))
+     * @Route("/teachers/form", name="teachers_form"))
      *
      * @param CourseInfo $courseInfo
      * @param Request $request
@@ -193,7 +196,7 @@ class CourseInfoPresentationController extends AbstractController
     }
 
     /**
-     * @Route("/course/{id}/presentation/teachers/remove/{teacherId}", name="course_presentation_remove_teacher"))
+     * @Route("/teachers/remove/{teacherId}", name="remove_teacher"))
      *
      * @param CourseInfo $courseInfo
      * @param CourseTeacher $teacher
@@ -245,7 +248,7 @@ class CourseInfoPresentationController extends AbstractController
     }
 
     /**
-     * @Route("/course/{id}/presentation/teaching_mode/view", name="course_presentation_teaching_mode_view"))
+     * @Route("/teaching_mode/view", name="teaching_mode_view"))
      *
      * @param CourseInfo $courseInfo
      * @return \Symfony\Component\HttpFoundation\Response
@@ -271,7 +274,7 @@ class CourseInfoPresentationController extends AbstractController
     }
 
     /**
-     * @Route("/course/{id}/presentation/teaching_mode/form", name="course_presentation_teaching_mode_form"))
+     * @Route("/teaching_mode/form", name="teaching_mode_form"))
      *
      * @param CourseInfo $courseInfo
      * @param Request $request
@@ -310,29 +313,5 @@ class CourseInfoPresentationController extends AbstractController
             'status' => true,
             'content' => $render
         ]);
-    }
-
-    /**
-     * @Route("/teachers/select2/list", name="teachers_select2_list")
-     *
-     * @param Request $request
-     * @param ImportCourseTeacherFactory $factory
-     * @return JsonResponse
-     * @throws \Exception
-     */
-    public function listUsersFromExternalRepositoryAction(Request $request, ImportCourseTeacherFactory $factory)
-    {
-        $courseTeachersArray = [];
-        $term = $request->query->get('q');
-        $source = $request->query->get('source');
-        //$source = 'ldap_uns';
-        $courseTeachers = $factory->getSearchQuery($source)->setTerm($term)->execute();
-        foreach ($courseTeachers as $courseTeacher){
-            $courseTeachersArray[] = [
-                'id' => $courseTeacher->getId(),
-                'text' => $courseTeacher->getLastname().' '.$courseTeacher->getFirstname().' ('.$courseTeacher->getEmail().')'
-            ];
-        }
-        return new JsonResponse($courseTeachersArray);
     }
 }

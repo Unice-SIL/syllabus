@@ -30,7 +30,7 @@
                     <button type="button"
                             class="btn btn-link modal-action p-0"
                             data-action-title="Modifier une compétence"
-                            data-action-url="{{ path('objective_course_edit_achievement', {'id': achievement.id}) }}">
+                            data-action-url="{{ path('objective_course_edit_achievement', {'id': courseInfo.id, 'achievementId': achievement.id}) }}">
                         <i class="fas fa-edit"></i>
                     </button>
                     <button type="button" class="btn btn-link modal-action p-0"

@@ -8,15 +8,23 @@ use AppBundle\Entity\CourseInfo;
 use AppBundle\Form\CourseInfo\Closing_remarks\Closing_remarksType;
 use AppBundle\Manager\CourseInfoManager;
 use Exception;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class CourseInfoClosingRemarksController extends Controller
+/**
+ * Class CourseInfoClosingRemarksController
+ * @package AppBundle\Controller
+ *
+ * @Route("/course/{id}/closing_remarks", name="course_closing_remarks_")
+ * @Security("is_granted('WRITE', courseInfo)")
+ */
+class CourseInfoClosingRemarksController extends AbstractController
 {
     /**
-     * @Route("/course/{id}/closing_remarks", name="course_closing_remarks")
+     * @Route("/", name="index")
      *
      * @param CourseInfo $courseInfo
      * @return Response
@@ -29,7 +37,7 @@ class CourseInfoClosingRemarksController extends Controller
     }
 
     /**
-     * @Route("/course/{id}/closing_remarks/end_word/view", name="course_closing_remarks_message_view"))
+     * @Route("/end_word/view", name="message_view"))
      *
      * @param CourseInfo|null $courseInfo
      * @param Request $request
@@ -59,7 +67,7 @@ class CourseInfoClosingRemarksController extends Controller
     }
 
     /**
-     * @Route("/course/{id}/closing_remarks/end_word/form", name="course_closing_remarks_message_form"))
+     * @Route("/end_word/form", name="message_form"))
      *
      * @param CourseInfo|null $courseInfo
      * @param Request $request
