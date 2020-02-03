@@ -160,3 +160,31 @@ unice_sil_shibboleth:
 knp_paginator:
     template:
         pagination: 'partial/_pagination.html.twig'
+
+lexik_jwt_authentication:
+    secret_key:       '%kernel.project_dir%/app/config/jwt/private.pem' # required for token creation
+    public_key:       '%kernel.project_dir%/app/config/jwt/public.pem'  # required for token verification
+    pass_phrase:      '%jwt_authentication_passphrase%' # required for token creation, usage of an environment variable is recommended
+    token_ttl:        3600
+    user_identity_field: username
+
+nelmio_api_doc:
+    areas:
+        path_patterns: # an array of regexps
+            - ^/api(?!/doc$)
+
+    documentation:
+        host: '%api_host%'
+        schemes: [http, https]
+        info:
+            title: '%app_name%'
+            description: Find wahtever you want about the %app_name% api in this documentation
+            version: 1.0.0
+        securityDefinitions:
+            Bearer:
+                type: apiKey
+                description: 'Value: Bearer {jwt}'
+                name: Authorization
+                in: header
+        security:
+            - Bearer: []

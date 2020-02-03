@@ -1,5 +1,6 @@
 ROLE_USER: 'Utilisateur'
 ROLE_ADMIN: 'Administrateur'
+ROLE_API: 'Utilisateur de l''API'
 collective: 'Collectif'
 groups: 'En groupe'
 individual: 'Individuel'
@@ -17,6 +18,12 @@ list of evaluation: Liste des évaluations
 
 app:
   form:
+    security:
+      label:
+        password: 'Mot de passe'
+        repeat_password: 'Confirmation du mot de passe'
+      errors:
+        password_matching: 'Les deux mots de passe ne sont pas identiques'
     activity:
       label:
         label: 'Intitulé'
