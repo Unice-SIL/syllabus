@@ -64,6 +64,7 @@ class User implements UserInterface
      * @var string|null
      *
      * @ORM\Column(name="password", type="string", length=255, nullable=true)
+     * @Assert\NotBlank(groups={"reset_password"})
      */
     private $password;
 
@@ -84,6 +85,12 @@ class User implements UserInterface
      * )
      */
     private $roles;
+
+    /**
+     * @var string|null
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $resetPasswordToken;
 
     /**
      * @return string
@@ -248,6 +255,28 @@ class User implements UserInterface
         }
         return $this;
     }
+
+    public function hasRole(string $role): bool
+    {
+        return in_array($role, $this->roles);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getResetPasswordToken(): ?string
+    {
+        return $this->resetPasswordToken;
+    }
+
+    /**
+     * @param string|null $resetPasswordToken
+     */
+    public function setResetPasswordToken(?string $resetPasswordToken)
+    {
+        $this->resetPasswordToken = $resetPasswordToken;
+    }
+
 
     /**
      * Removes sensitive data from the user.

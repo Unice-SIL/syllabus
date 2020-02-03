@@ -1,11 +1,17 @@
 # To get started with security, check out the documentation:
 # https://symfony.com/doc/current/security.html
 security:
+    encoders:
+        AppBundle\Entity\User:
+            algorithm: bcrypt
+            cost: 12
 
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
         main:
             id: '%provider%'
+        user_db:
+            entity: { class: AppBundle\Entity\User, property: username }
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
@@ -13,6 +19,23 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
+        login:
+            pattern:  ^/api/login
+            stateless: true
+            anonymous: true
+            json_login:
+                check_path:               /api/login_check
+                success_handler:          lexik_jwt_authentication.handler.authentication_success
+                failure_handler:          lexik_jwt_authentication.handler.authentication_failure
+                provider:                 user_db
+
+        api:
+            pattern:   ^/api(?!/doc$)
+            stateless: true
+            guard:
+                provider: user_db
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
         main:
             pattern: ^/
             guard:
@@ -22,4 +45,6 @@ security:
             anonymous: ~
 
     access_control:
+        - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api,       roles: ROLE_API }
         - { path: ^/, role: ROLE_USER }

@@ -3,6 +3,8 @@ services:
         autowire: true
         autoconfigure: true
         public: false
+        bind:
+            $mailerSource: '%mailer_source%'
 
     AppBundle\:
         resource: '../../*'
@@ -86,6 +88,11 @@ services:
             - { name: doctrine.event_listener, event: preUpdate }
             - { name: doctrine.event_listener, event: postUpdate }
             - { name: doctrine.event_listener, event: postLoad }
+
+    # SUBSCRIBER
+    AppBundle\Subscriber\UserSubscriber:
+        tags:
+            - { name: doctrine.event_subscriber }
 
     # QUERY
     AppBundle\Query\CourseTeacher\Adapter\Ldap\SearchCourseTeacherLdapQuery:
