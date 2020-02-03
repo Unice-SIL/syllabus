@@ -7,15 +7,23 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Form\CourseInfo\Info\InfoType;
 use AppBundle\Manager\CourseInfoManager;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class CourseInfoInfoController extends Controller
+/**
+ * Class CourseInfoInfoController
+ * @package AppBundle\Controller
+ *
+ * @Route("/course/{id}/info_course", name="course_info_")
+ * @Security("is_granted('WRITE', courseInfo)")
+ */
+class CourseInfoInfoController extends AbstractController
 {
     /**
-     * @Route("/course/{id}/info_course", name="course_info_info")
+     * @Route("/", name="index")
      *
      * @param CourseInfo $courseInfo
      * @return Response
@@ -28,7 +36,7 @@ class CourseInfoInfoController extends Controller
     }
 
     /**
-     * @Route("/course/{id}/info_course/info/view", name="course_info_convenient_view")
+     * @Route("/info/view", name="convenient_view")
      *
      * @param CourseInfo $courseInfo
      * @param Request $request
@@ -57,7 +65,7 @@ class CourseInfoInfoController extends Controller
     }
 
     /**
-     * @Route("/course/{id}/info_course/info/form", name="course_info_convenient_form")
+     * @Route("/info/form", name="convenient_form")
      *
      * @param CourseInfo $courseInfo
      * @param Request $request

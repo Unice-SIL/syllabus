@@ -12,7 +12,8 @@ use AppBundle\Form\Course\EditActivitiesCourseInfoType;
 use AppBundle\Helper\CoursePermissionHelper;
 use AppBundle\Query\Course\FindCourseInfoByIdQuery;
 use Psr\Log\LoggerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,11 +21,17 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Twig\Environment;
 
-class CourseInfoContentActivitiesController extends Controller
+/**
+ * Class CourseInfoContentActivitiesController
+ * @package AppBundle\Controller
+ *
+ */
+class CourseInfoContentActivitiesController extends AbstractController
 {
 
     /**
      * @Route("/course/{id}/activities", name="course_info_content_activities")
+     * @Security("is_granted('WRITE', courseInfo)")
      *
      * @param string $id
      * @param Request $request

@@ -18,16 +18,25 @@ use AppBundle\Form\CourseInfo\CourseAchievement\RemoveCourseTutoringResourcesTyp
 use AppBundle\Manager\CourseInfoManager;
 use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class CourseInfoObjectivesCourseController extends Controller
+/**
+ * Class CourseInfoObjectivesCourseController
+ * @package AppBundle\Controller
+ *
+ * @Route("/course/{id}/objectives_course", name="objective_course_")
+ * @Security("is_granted('WRITE', courseInfo)")
+ */
+class CourseInfoObjectivesCourseController extends AbstractController
 {
     /**
-     * @Route("/course/{id}/objectives_course", name="course_info_objectives")
+     * @Route("/", name="index")
      *
      * @param CourseInfo $courseInfo
      * @return Response
@@ -40,7 +49,7 @@ class CourseInfoObjectivesCourseController extends Controller
     }
 
     /**
-     * @Route("/course/{id}/objective_course/achievement/view", name="objective_course_achievement_view"))
+     * @Route("/achievement/view", name="achievement_view"))
      *
      * @param CourseInfo $courseInfo
      * @return Response
@@ -64,7 +73,7 @@ class CourseInfoObjectivesCourseController extends Controller
     }
 
     /**
-     * @Route("/course/{id}/objective_course/achievement", name="objective_course_achievement"))
+     * @Route("/achievement/form", name="achievement_form"))
      *
      * @param CourseInfo $courseInfo
      * @param Request $request
@@ -107,13 +116,15 @@ class CourseInfoObjectivesCourseController extends Controller
     }
 
     /**
-     * @Route("/course/objective_course/edit/achievement/{id}", name="objective_course_edit_achievement"))
+     * @Route("/achievement/edit/{achievementId}", name="edit_achievement"))
      *
+     * @param CourseInfo $courseInfo
      * @param CourseAchievement $achievement
      * @param Request $request
      * @return JsonResponse
+     * @ParamConverter("achievement", options={"mapping": {"achievementId": "id"}})
      */
-    public function editAchievementAction(CourseAchievement $achievement, Request $request)
+    public function editAchievementAction(CourseInfo $courseInfo, CourseAchievement $achievement, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(CourseAchievementType::class, $achievement);
@@ -140,7 +151,7 @@ class CourseInfoObjectivesCourseController extends Controller
     }
 
     /**
-     * @Route("/course/{id}/objective_course/achievement/delete/{achievementId}", name="objective_course_remove_achievement"))
+     * @Route("/achievement/delete/{achievementId}", name="remove_achievement"))
      *
      * @param CourseInfo $courseInfo
      * @param CourseAchievement $achievement
@@ -181,7 +192,7 @@ class CourseInfoObjectivesCourseController extends Controller
     }
 
     /**
-     * @Route("/course/{id}/objective_course/prerequisite/view", name="objective_course_prerequisite_view"))
+     * @Route("/prerequisite/view", name="prerequisite_view"))
      *
      * @param CourseInfo $courseInfo
      * @return Response
@@ -205,7 +216,7 @@ class CourseInfoObjectivesCourseController extends Controller
     }
 
     /**
-     * @Route("/course/{id}/objective_course/prerequisite", name="objective_course_prerequisite"))
+     * @Route("objective_course/prerequisite/form", name="prerequisite_form"))
      *
      * @param CourseInfo $courseInfo
      * @param Request $request
@@ -248,13 +259,15 @@ class CourseInfoObjectivesCourseController extends Controller
     }
 
     /**
-     * @Route("/course/objective_course/edit/prerequisite/{id}", name="objective_course_edit_prerequisite"))
+     * @Route("prerequisite/edit/{prerequisiteId}", name="edit_prerequisite"))
      *
+     * @param CourseInfo $courseInfo
      * @param CoursePrerequisite $prerequisite
      * @param Request $request
      * @return JsonResponse
+     * @ParamConverter("prerequisite", options={"mapping": {"prerequisiteId": "id"}})
      */
-    public function editPrerequisiteAction(CoursePrerequisite $prerequisite, Request $request)
+    public function editPrerequisiteAction(CourseInfo $courseInfo, CoursePrerequisite $prerequisite, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(CoursePrerequisiteType::class, $prerequisite);
@@ -281,7 +294,7 @@ class CourseInfoObjectivesCourseController extends Controller
     }
 
     /**
-     * @Route("/course/{id}/objective_course/prerequisite/delete/{prerequisiteId}", name="objective_course_remove_prerequisite"))
+     * @Route("prerequisite/delete/{prerequisiteId}", name="remove_prerequisite"))
      *
      * @param CourseInfo $courseInfo
      * @param CoursePrerequisite $prerequisite
@@ -323,7 +336,7 @@ class CourseInfoObjectivesCourseController extends Controller
     }
 
     /**
-     * @Route("/course/{id}/objective_course/tutoring_resources/view", name="objective_course_tutoring_resources_view"))
+     * @Route("tutoring_resources/view", name="tutoring_resources_view"))
      *
      * @param CourseInfo $courseInfo
      * @return Response
@@ -347,7 +360,7 @@ class CourseInfoObjectivesCourseController extends Controller
     }
 
     /**
-     * @Route("/course/{id}/objective_course/tutoring_resources", name="objective_course_tutoring_resources"))
+     * @Route("tutoring_resources/form", name="tutoring_resources_form"))
      *
      * @param CourseInfo $courseInfo
      * @param Request $request
@@ -390,22 +403,24 @@ class CourseInfoObjectivesCourseController extends Controller
     }
 
     /**
-     * @Route("/course/objective_course/edit/tutoring_resources/{id}", name="objective_course_edit_tutoring_resources"))
+     * @Route("tutoring_resources/edit/{tutoringResourcesId}", name="edit_tutoring_resources"))
      *
-     * @param CourseTutoringResource $tutoringResource
+     * @param CourseInfo $courseInfo
+     * @param CourseTutoringResource $tutoringResources
      * @param Request $request
      * @return JsonResponse
+     * @ParamConverter("tutoringResources", options={"mapping": {"tutoringResourcesId": "id"}})
      */
-    public function editTutoringResourceAction(CourseTutoringResource $tutoringResource, Request $request)
+    public function editTutoringResourceAction(CourseInfo $courseInfo, CourseTutoringResource $tutoringResources, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $form = $this->createForm(CourseTutoringResourcesType::class, $tutoringResource);
+        $form = $this->createForm(CourseTutoringResourcesType::class, $tutoringResources);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $tutoringResource = $form->getData();
-            $em->persist($tutoringResource);
+            $tutoringResources = $form->getData();
+            $em->persist($tutoringResources);
             $em->flush();
             return $this->json([
                 'status' => true,
@@ -424,7 +439,7 @@ class CourseInfoObjectivesCourseController extends Controller
     }
 
     /**
-     * @Route("/course/{id}/objective_course/tutoring_resources/delete/{tutoringResourcesId}", name="objective_course_remove_tutoring_resources"))
+     * @Route("tutoring_resources/delete/{tutoringResourcesId}", name="remove_tutoring_resources"))
      *
      * @param CourseInfo $courseInfo
      * @param CourseTutoringResource $tutoringResources
@@ -465,7 +480,7 @@ class CourseInfoObjectivesCourseController extends Controller
     }
 
     /**
-     * @Route("/course/{id}/objective_course/tutoring", name="objective_course_tutoring"))
+     * @Route("tutoring/form", name="tutoring_form"))
      *
      * @param CourseInfo $courseInfo
      * @param CourseInfoManager $manager
@@ -504,7 +519,7 @@ class CourseInfoObjectivesCourseController extends Controller
     }
 
     /**
-     * @Route("/course/{id}/objective_course/tutoring/{action}", name="objective_course_active_tutoring"))
+     * @Route("tutoring/{action}", name="active_tutoring"))
      *
      * @param CourseInfo $courseInfo
      * @param $action
