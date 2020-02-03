@@ -63,7 +63,7 @@
                             {% if activityTypes is not empty %}
                                 {% for activityType in activityTypes %}
                                     <li class="nav-item">
-                                        <a class="nav-link {% if activityType.id is same as(activityTypes[0].id) %}active{% endif %}" href="#tab_{{ activityType.id }}" data-toggle="tab">{{ activityType.label }}</a>
+                                        <a class="nav-link {% if loop.first %}active{% endif %}" href="#tab_{{ activityType.id }}" data-toggle="tab">{{ activityType.label }}</a>
                                     </li>
                                 {% endfor %}
                             {% endif %}
@@ -72,7 +72,7 @@
                     <div class="card-body p-0">
                         <div class="tab-content">
                             {% for activityType in activityTypes %}
-                                <div id="tab_{{ activityType.id }}" class="tab-pane active">
+                                <div id="tab_{{ activityType.id }}" class="tab-pane {% if loop.first %}active{% endif %}">
                                     <div class="activity-carousel">
                                         <button class="activity-carousel-prev btn btn-link">
                                             <i class="fas fa-chevron-left"></i>
