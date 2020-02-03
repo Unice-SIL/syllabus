@@ -11,7 +11,7 @@
                 <button type="button"
                         class="btn btn-primary rounded modal-action"
                         data-action-title="Ajouter une compétence"
-                        data-action-url="{{ path('objective_course_achievement', {'id': courseInfo.id }) }}">
+                        data-action-url="{{ path('objective_course_achievement_form', {'id': courseInfo.id }) }}">
                     Ajouter une compétence
                 </button>
             </div>
@@ -33,7 +33,7 @@
                 <h3>Prérequis</h3>
                 <button type="button" class="btn btn-primary modal-action rounded"
                         data-action-title="Ajouter un prérequis"
-                        data-action-url="{{ path('objective_course_prerequisite', {'id': courseInfo.id }) }}">
+                        data-action-url="{{ path('objective_course_prerequisite_form', {'id': courseInfo.id }) }}">
                     Ajouter un prérequis
                 </button>
             </div>
@@ -51,7 +51,7 @@
                 <button type="button" class="btn btn-primary modal-action rounded "
                         data-action-title="Ajouter une remédiation"
                         data-card="card-tutoring-resources"
-                        data-action-url="{{ path('objective_course_tutoring_resources', {'id': courseInfo.id }) }}">
+                        data-action-url="{{ path('objective_course_tutoring_resources_form', {'id': courseInfo.id }) }}">
                     Ajouter une remédiation
                 </button>
             </div>

@@ -69,7 +69,7 @@
                                 <button type="button"
                                         class="btn btn-link modal-action p-0"
                                         data-action-title="Modifier une description de matériel"
-                                        data-action-url="{{ path('course_equipment_equipment_edit', {'id': ResourceEquipment.id}) }}">
+                                        data-action-url="{{ path('course_equipment_equipment_edit', {'id': courseInfo.id, 'resourceEquipementId': ResourceEquipment.id}) }}">
                                     <i class="fas fa-edit"></i>
                                 </button>
                                 <button type="button"

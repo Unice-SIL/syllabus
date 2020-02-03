@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -44,6 +45,7 @@ class CourseInfoFieldController extends Controller
      * @param EntityManagerInterface $entityManager
      * @param CourseInfoField $courseInfoField
      * @param Request $request
+     * @return JsonResponse
      */
     public function editAction(EntityManagerInterface $entityManager, CourseInfoField $courseInfoField, Request $request)
     {
