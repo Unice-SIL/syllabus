@@ -104,7 +104,7 @@ class CourseSectionActivity
     private $activityMode;
 
     /**
-     * @var \AppBundle\Entity\CourseSection
+     * @var \AppBundle\Entity\CourseSection|null
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CourseSection", inversedBy="courseSectionActivities",)
      * @ORM\JoinColumns({
@@ -284,18 +284,18 @@ class CourseSectionActivity
     }
 
     /**
-     * @return CourseSection
+     * @return CourseSection|null
      */
-    public function getCourseSection(): CourseSection
+    public function getCourseSection(): ?CourseSection
     {
         return $this->courseSection;
     }
 
     /**
-     * @param CourseSection $courseSection
+     * @param CourseSection|null $courseSection
      * @return CourseSectionActivity
      */
-    public function setCourseSection(CourseSection $courseSection): CourseSectionActivity
+    public function setCourseSection(?CourseSection $courseSection): CourseSectionActivity
     {
         $this->courseSection = $courseSection;
 

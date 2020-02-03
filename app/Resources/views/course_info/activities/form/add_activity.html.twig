@@ -13,7 +13,16 @@
 <div id="eval-content" class="d-none">
     <label>Type de contrôle (Continu / Terminal) :</label>
     {{ form_row(form.evaluationCt) }}
-    {{ form_row(form.evaluationRate) }}
+    <div class="input-group mb-3">
+    {{ form_errors(form.evaluationRate) }}
+    {{ form_label(form.evaluationRate) }}
+    {{ form_widget(form.evaluationRate) }}
+    <div class="input-group-append">
+        <span class="input-group-text">
+            <i class="fas fa-percent"></i>
+        </span>
+    </div>
+    </div>
     {{ form_row(form.evaluationTeacher) }}
     {{ form_row(form.evaluationPeer) }}
 </div>
@@ -34,11 +43,11 @@
     $activityType.change(function () {
         let $form = $(this).closest('form');
         let data = {};
-        data[$activityType.attr('name')] = $activityType.val();
+        data['activity_type'] = $('input[name="course_section_activity[activityType]"]:checked').val();
         $.ajax({
             url : $form.data('action-url'),
-            type: $form.attr('method'),
-            data : $form.serialize(),
+            type: 'GET',
+            data : data,
             success: function (html) {
                 $('#course_section_activity_activityMode').replaceWith(
                     $(html['content']).find('#course_section_activity_activityMode')

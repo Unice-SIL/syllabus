@@ -1,0 +1,56 @@
+<div style="min-height: 300px;" class="mb-2">
+    {% if activeSection.courseSectionActivities is empty %}
+        <div class="text-center ">
+            <h3 class="text-danger">Aucune activité n'a été ajoutée à la section</h3>
+            <div class="text-bold">
+                Pour ajouter des activités veuillez sélectionner une activité dans le carousel ci-dessous.
+            </div>
+            <i class="fas fa-arrow-down fa-5x"></i>
+        </div>
+    {% else %}
+        <div class="text-center">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                    <tr class="text-center">
+                        <th>Nom de l'activité</th>
+                        <th>Type</th>
+                        <th>Mode</th>
+                        <th>Evaluable</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for sectionActivity in activeSection.courseSectionActivities %}
+                        <tr class="text-center">
+                            <td>{{ sectionActivity.activity.label }}</td>
+                            <td>{{ sectionActivity.activityType.label }}</td>
+                            <td>{{ sectionActivity.activityMode.label }}</td>
+                            <td>
+                                {% if sectionActivity.evaluable %}
+                                    <div>{{ sectionActivity.evaluationCt ? 'Contrôle Terminal' : 'Contrôle Continu' }}</div>
+                                    <div>
+                                        Evaluation par les enseignants : {{ sectionActivity.evaluationTeacher ? 'Oui' : 'Non' }}
+                                    </div>
+                                    <div>
+                                        Evaluation par les pairs : {{ sectionActivity.evaluationPeer ? 'Oui' : 'Non' }}
+                                    </div>
+                                {% else %}
+                                    Non
+                                {% endif %}
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-link modal-action p-0"
+                                        data-action-title="Supprimer une activité"
+                                        data-action-url="{{ path('course_activities_remove_activity', {'sectionId': activeSection.id, 'courseSectionActivityId': sectionActivity.id }) }}">
+                                    <i class="fas fa-trash-alt text-danger"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% endif %}
+</div>

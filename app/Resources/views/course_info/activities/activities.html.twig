@@ -44,17 +44,7 @@
         </div>
         {% if activeSection is not null %}
             <div id="activity-content" class="col-sm p-0" style="width: calc(100% - 250px); left: 250px">
-                <div style="min-height: 300px;" class="mb-2">
-                    {% if activeSection.courseSectionActivities is empty %}
-                        <div class="text-center ">
-                            <h3 class="text-danger">Aucune activité n'a été ajoutée à la section</h3>
-                            <div class="text-bold">
-                                Pour ajouter des activités veuillez sélectionner une activité dans le carousel ci-dessous.
-                            </div>
-                            <i class="fas fa-arrow-down fa-5x"></i>
-                        </div>
-                    {% endif %}
-                </div>
+                {% include 'course_info/activities/view/activity_content.html.twig' %}
 
                 <div class="card">
                     <div class="card-header d-flex p-0">

@@ -4,10 +4,12 @@ namespace AppBundle\Controller;
 
 
 use AppBundle\Entity\Activity;
+use AppBundle\Entity\ActivityType;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseSection;
 use AppBundle\Entity\CourseSectionActivity;
 use AppBundle\Form\CourseInfo\Activities\CourseSectionActivityType;
+use AppBundle\Form\CourseInfo\Activities\RemoveCourseSectionActivityType;
 use AppBundle\Form\CourseInfo\Activities\SectionType;
 use AppBundle\Form\CourseInfo\Activities\RemoveSectionType;
 use AppBundle\Manager\ActivityManager;
@@ -84,7 +86,7 @@ class CourseInfoActivitiesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-                $manager->update($courseInfo);
+            $manager->update($courseInfo);
         }
 
         $render = $this->get('twig')->render('course_info/activities/form/edit_section.html.twig', [
@@ -161,7 +163,7 @@ class CourseInfoActivitiesController extends AbstractController
      * @throws \Exception
      * @ParamConverter("section", options={"mapping": {"sectionId": "id"}})
      */
-    public function removeTeacherAction(CourseInfo $courseInfo, CourseSection $section, Request $request, CourseInfoManager $manager)
+    public function removeSectionAction(CourseInfo $courseInfo, CourseSection $section, Request $request, CourseInfoManager $manager)
     {
         if (!$courseInfo instanceof CourseInfo)
         {
@@ -217,6 +219,8 @@ class CourseInfoActivitiesController extends AbstractController
     {
         $status = true;
         $message = null;
+        $activityType = null;
+        $courseSectionActivity = new CourseSectionActivity();
 
         if (!$courseSection instanceof CourseSection)
         {
@@ -234,12 +238,24 @@ class CourseInfoActivitiesController extends AbstractController
             ]);
         }
 
-        $courseSectionActivity = new CourseSectionActivity();
         if (!$activity->getActivityTypes()->isEmpty())
         {
             $courseSectionActivity->setActivityType($activity->getActivityTypes()->current());
         }
 
+        $typeId = $request->query->get('activity_type');
+        if ($typeId)
+        {
+            $activityTypes = array_filter($activity->getActivityTypes()->toArray(), function (ActivityType $type) use ($typeId) {
+               return $type->getId() === $typeId;
+            });
+            dump($activityTypes);
+            if (count($activityTypes) > 0)
+            {
+                $courseSectionActivity->setActivityType(current($activityTypes));
+            }
+        }
+        dump($activityType, $typeId);
         $form = $this->createForm(CourseSectionActivityType::class, $courseSectionActivity, [
             'activity' => $activity
         ]);
@@ -249,9 +265,12 @@ class CourseInfoActivitiesController extends AbstractController
         {
             if ($form->isValid())
             {
-            $courseSectionActivity->setId(Uuid::uuid4())
-                ->setCourseSection($courseSection)
-                ->setActivity($activity);
+                $courseSectionActivity->setId(Uuid::uuid4())
+                    ->setCourseSection($courseSection)
+                    ->setActivity($activity);
+                $courseSection->addCourseSectionActivity($courseSectionActivity);
+                $this->getDoctrine()->getManager()->persist($courseSection);
+                $this->getDoctrine()->getManager()->flush();
             }
             else
             {
@@ -263,6 +282,67 @@ class CourseInfoActivitiesController extends AbstractController
         $render = $this->get('twig')->render('course_info/activities/form/add_activity.html.twig', [
             'courseSection' => $courseSection,
             'activity' => $activity,
+            'form' => $form->createView()
+        ]);
+        return $this->json([
+            'status' => $status,
+            'content' => $render,
+            'message' => $message
+        ]);
+    }
+
+    /**
+     * @Route("/course/activities/section/{sectionId}/activity/{courseSectionActivityId}/remove", name="course_activities_remove_activity"))
+     *
+     * @param CourseSection $courseSection
+     * @param CourseSectionActivity $courseSectionActivity
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @ParamConverter("courseSection", options={"mapping": {"sectionId": "id"}})
+     * @ParamConverter("courseSectionActivity", options={"mapping": {"courseSectionActivityId": "id"}})
+     */
+    public function removeSectionActivityAction(CourseSection $courseSection, CourseSectionActivity $courseSectionActivity, Request $request)
+    {
+        $status = true;
+        $message = null;
+
+        if (!$courseSection instanceof CourseSection)
+        {
+            return $this->json([
+                'status' => false,
+                'render' => "Une erreur est survenue : La section n'existe pas"
+            ]);
+        }
+
+        if (!$courseSectionActivity instanceof CourseSectionActivity)
+        {
+            return $this->json([
+                'status' => false,
+                'render' => "Une erreur est survenue : L'activité n'existe pas"
+            ]);
+        }
+
+        $form = $this->createForm(RemoveCourseSectionActivityType::class, $courseSectionActivity);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted())
+        {
+            if ($form->isValid())
+            {
+                $courseSection->removeCourseSectionActivity($courseSectionActivity);
+                $this->getDoctrine()->getManager()->persist($courseSection);
+                $this->getDoctrine()->getManager()->flush();
+            }
+            else
+            {
+                $status = false;
+                $message = ['type' => 'none'];
+            }
+        }
+
+        $render = $this->get('twig')->render('course_info/activities/form/remove_activity.html.twig', [
+            'courseSection' => $courseSection,
+            'courseSectionActivity' => $courseSectionActivity,
             'form' => $form->createView()
         ]);
         return $this->json([
