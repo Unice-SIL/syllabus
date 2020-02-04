@@ -30,7 +30,7 @@ class CourseInfoApiController extends Controller
      * @param CourseInfoDoctrineRepository $courseInfoDoctrineRepository
      * @return JsonResponse
      *
-     * @Route("/", name="index", methods={"GET"})
+     * @Route("", name="index", methods={"GET"})
      * @SWG\Response(
      *     response=200,
      *     description="Returns the list of syllabus records"
@@ -38,31 +38,31 @@ class CourseInfoApiController extends Controller
      * @SWG\Parameter(
      *     name="id",
      *     in="query",
-     *     type="text",
+     *     type="string",
      *     description="A field used to filter syllabus"
      * )
      * @SWG\Parameter(
      *     name="etbId",
      *     in="query",
-     *     type="text",
+     *     type="string",
      *     description="A field used to filter syllabus"
      * )
      * @SWG\Parameter(
      *     name="yearId",
      *     in="query",
-     *     type="text",
+     *     type="string",
      *     description="A field used to filter syllabus"
      * )
      * @SWG\Parameter(
      *     name="structureId",
      *     in="query",
-     *     type="text",
+     *     type="string",
      *     description="A field used to filter syllabus"
      * )
      * @SWG\Parameter(
      *     name="title",
      *     in="query",
-     *     type="text",
+     *     type="string",
      *     description="A field used to filter syllabus"
      * )
      * @SWG\Parameter(
@@ -86,7 +86,7 @@ class CourseInfoApiController extends Controller
     }
 
     /**
-     * @Route("/", name="new", methods={"POST"})
+     * @Route("", name="new", methods={"POST"})
      */
     public function newAction(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, ValidatorInterface $validator)
     {

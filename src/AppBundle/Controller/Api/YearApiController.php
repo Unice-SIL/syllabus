@@ -23,7 +23,7 @@ class YearApiController extends Controller
 {
 
     /**
-     * @Route("/", name="index", methods={"GET"})
+     * @Route("", name="index", methods={"GET"})
      * @return JsonResponse
      * @SWG\Response(
      *     response=200,
