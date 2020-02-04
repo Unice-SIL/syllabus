@@ -36,11 +36,6 @@ class EditActivitiesCourseInfoQuery implements QueryInterface
     private $courseSectionActivityRepository;
 
     /**
-     * @var CourseEvaluationCtRepositoryInterface
-     */
-    private $courseEvaluationCtRepository;
-
-    /**
      * @var EditActivitiesCourseInfoCommand
      */
     private $editActivitiesCourseInfoCommand;
@@ -55,21 +50,18 @@ class EditActivitiesCourseInfoQuery implements QueryInterface
      * @param CourseInfoRepositoryInterface $courseInfoRepository
      * @param CourseSectionRepositoryInterface $courseSectionRepository
      * @param CourseSectionActivityRepositoryInterface $courseSectionActivityRepository
-     * @param CourseEvaluationCtRepositoryInterface $courseEvaluationCtRepository
      * @param Security $security
      */
     public function __construct(
         CourseInfoRepositoryInterface $courseInfoRepository,
         CourseSectionRepositoryInterface $courseSectionRepository,
         CourseSectionActivityRepositoryInterface $courseSectionActivityRepository,
-        CourseEvaluationCtRepositoryInterface $courseEvaluationCtRepository,
         Security $security
     )
     {
         $this->courseInfoRepository = $courseInfoRepository;
         $this->courseSectionRepository = $courseSectionRepository;
         $this->courseSectionActivityRepository = $courseSectionActivityRepository;
-        $this->courseEvaluationCtRepository = $courseEvaluationCtRepository;
         $this->security = $security;
     }
 

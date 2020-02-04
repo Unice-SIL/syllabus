@@ -56,13 +56,21 @@ class SecurityController extends Controller
             $user->setPassword($passwordEncoder->encodePassword($user, $password));
             $manager->flush();
 
-            $this->addFlash('info', 'Mot de passe mis à jour');
 
-            return $this->redirectToRoute('app_admin_course_info_index');
+            return $this->redirectToRoute('app.security.reset_password_success');
         }else {
 
             return $this->render('security/reset_password.html.twig', ['token' => $token, 'form' => $form->createView()]);
         }
 
+    }
+
+    /**
+     * @return Response
+     * @Route("/reset-password-success", name="reset_password_success", methods={"GET"})
+     */
+    public function resetPasswordSuccess()
+    {
+        return $this->render('security/reset_password_success.html.twig');
     }
 }

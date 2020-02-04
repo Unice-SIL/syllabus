@@ -145,4 +145,48 @@ class CourseInfoDoctrineRepository  extends AbstractDoctrineRepository implement
         ;
     }
 
+    public function findQueryBuilderForApi(array $config): QueryBuilder
+    {
+        $qb = $this->getIndexQueryBuilder();
+
+        foreach ($config['filters'] as $filter => $value) {
+            $valueName = 'value'.$filter;
+            switch ($filter) {
+                case 'id':
+                    $qb->andWhere($qb->expr()->eq($qb->getRootAlias() . '.' . $filter, ':'.valueName))
+                        ->setParameter($valueName, $value)
+                    ;
+                    break;
+                case 'title':
+                    $qb->andWhere($qb->expr()->like($qb->getRootAlias() . '.' . $filter, ':'.$valueName))
+                        ->setParameter($valueName, '%' . $value . '%')
+                    ;
+                    break;
+                case 'etbId':
+                    $qb->andWhere($qb->expr()->eq('c.etbId', ':'.$valueName))
+                        ->setParameter($valueName, $value)
+                    ;
+                    break;
+                case 'yearId':
+                    $qb->andWhere($qb->expr()->eq('y.id', ':'.$valueName))
+                        ->setParameter($valueName, $value)
+                    ;
+                    break;
+                case 'structureId':
+                    $qb->andWhere($qb->expr()->eq('s.id', ':'.$valueName))
+                        ->setParameter($valueName, $value)
+                    ;
+                    break;
+                case 'published':
+                    if (true === $value) {
+                        $qb->andWhere($qb->expr()->isNotNull($qb->getRootAlias() . '.publicationDate'))
+                        ;
+                    }
+                    break;
+            }
+        }
+
+        return $qb;
+    }
+
 }

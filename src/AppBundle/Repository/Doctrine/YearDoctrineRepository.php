@@ -6,6 +6,7 @@ use AppBundle\Entity\Year;
 use AppBundle\Repository\YearRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * Class YearDoctrineRepository
@@ -100,6 +101,20 @@ class YearDoctrineRepository  extends AbstractDoctrineRepository implements Year
             ->createQueryBuilder('y')
             ->addOrderBy('y.id', 'ASC')
             ;
+    }
+
+    public function findQueryBuilderForApi(array $config): QueryBuilder
+    {
+        $qb = $this->getIndexQueryBuilder();
+
+        foreach ($config['filters'] as $filter => $value) {
+            $valueName = 'value'.$filter;
+            $qb->andWhere($qb->expr()->eq($qb->getRootAlias() . '.' . $filter, ':' . $valueName))
+                ->setParameter($valueName, $value)
+            ;
+        }
+
+        return $qb;
     }
 
 }

@@ -4,26 +4,15 @@
 namespace AppBundle\Helper;
 
 
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\QueryBuilder;
+use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
+
 
 class ApiHelper
 {
-    /**
-     * @var RequestStack
-     */
-    private $requestStack;
-    /**
-     * @var Request
-     */
-    private $currentRequest;
-    /**
-     * @var EntityManagerInterface
-     */
-    private $em;
     /**
      * @var SerializerInterface
      */
@@ -35,71 +24,109 @@ class ApiHelper
 
     /**
      * ApiHelper constructor.
-     * @param RequestStack $requestStack
-     * @param EntityManagerInterface $em
      * @param SerializerInterface $serializer
      * @param PaginatorInterface $paginator
      */
     public function __construct(
-        RequestStack $requestStack,
-        EntityManagerInterface $em,
         SerializerInterface $serializer,
         PaginatorInterface $paginator
     )
     {
-        $this->requestStack = $requestStack;
-        $this->currentRequest = $requestStack->getCurrentRequest();
-        $this->em = $em;
         $this->serializer = $serializer;
         $this->paginator = $paginator;
     }
 
-    public function getListApiResponse(string $className, array $options = []): array
+    public function createConfigFromRequest(Request $request, array $options = []): array
     {
 
         $options = array_merge($defaultOptions = [
-            'validFilterKeys' => []
+            'validFilterKeys' => [],
         ], $options);
 
-        $response = [
-            'page' => $this->currentRequest->query->get('page'),
-            'limit' => $this->currentRequest->query->get('limit'),
+        $config = [
+            'page' => $request->query->get('page'),
+            'limit' => $request->query->get('limit'),
             'filters' => [],
             'data' => []
         ];
 
-        foreach ($options['validFilterKeys'] as $validFilterKey) {
-            $filter = $this->currentRequest->query->get($validFilterKey);
-            if (null !== $filter) {
-                $response['filters'][$validFilterKey] = $filter;
+        foreach ($options['validFilterKeys'] as $validFilterKey => $type) {
+
+            if (null === $value = $request->query->get($validFilterKey)) {
+                continue;
+            }
+
+            if (null === $value = $this->formatValue($type, $value)) {
+                continue;
+            }
+
+            $config['filters'][$validFilterKey] = $value;
+        }
+
+        if (null !== $config['page'] or null !== $config['limit']) {
+            if ((!is_numeric($config['page']) or $config['page'] <= 0)) {
+                $config['page'] = 1;
+            }
+
+            if ((!is_numeric($config['limit']) or $config['limit'] <= 0)) {
+                $config['limit'] = 10;
             }
         }
 
-        if (null !== $response['page'] or null !== $response['limit']) {
-            if ((!is_numeric($response['page']) or $response['page'] <= 0)) {
-                $response['page'] = 1;
-            }
+        return $config;
 
-            if ((!is_numeric($response['limit']) or $response['limit'] <= 0)) {
-                $response['limit'] = 10;
-            }
-        }
+    }
 
-        $years = $this->em->getRepository($className)->findBy($response['filters']);
+    public function setDataAndGetResponse(QueryBuilder $qb, array $config, array $options = [])
+    {
+        $options = array_merge($defaultOptions = [
+            'groups' => [],
+        ], $options);
 
-        if ($response['page'] and $response['limit']) {
-            $years = $this->paginator->paginate(
-                $years,
-                $response['page'],
-                $response['limit']
+        if ($config['page'] and $config['limit']) {
+            $results = $this->paginator->paginate(
+                $qb,
+                $config['page'],
+                $config['limit']
             );
         }
-
-        foreach ($years as $year) {
-            $year = $this->serializer->toArray($year);
-            $response['data'][] = $year;
+        else {
+            $results = $qb->getQuery()->getResult();
         }
 
-        return $response;
+        $context = null;
+        if (!empty($options['groups'])) {
+            $context = SerializationContext::create()->setGroups($options['groups']);
+        }
+        foreach ($results as $result) {
+            $result = $this->serializer->toArray($result, $context);
+            $config['data'][] = $result;
+        }
+
+        return $config;
     }
+
+    private function formatValue($type, $value)
+    {
+        if ($type === 'boolean') {
+            if (!is_numeric($value)) {
+                return null;
+            }
+            if ($value != 0 and $value != 1) {
+                return null;
+            }
+
+            switch ($value) {
+                case 0:
+                    return false;
+                    break;
+                case 1:
+                    return true;
+                    break;
+            }
+        }
+
+        return $value;
+    }
+
 }

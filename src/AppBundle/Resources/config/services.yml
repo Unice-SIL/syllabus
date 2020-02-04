@@ -28,7 +28,6 @@ services:
     AppBundle\Repository\ActivityRepositoryInterface: '@activity_doctrine_repository'
     AppBundle\Repository\CourseRepositoryInterface: '@course_doctrine_repository'
     AppBundle\Repository\CourseAchievementRepositoryInterface: '@course_achievement_doctrine_repository'
-    AppBundle\Repository\CourseEvaluationCtRepositoryInterface: '@course_evaluation_ct_doctrine_repository'
     AppBundle\Repository\CourseInfoRepositoryInterface: '@course_info_doctrine_repository'
     AppBundle\Repository\CoursePrerequisiteRepositoryInterface: '@course_prerequisite_doctrine_repository'
     AppBundle\Repository\CourseResourceEquipmentRepositoryInterface: '@course_resource_equipment_doctrine_repository'
@@ -89,6 +88,10 @@ services:
             - { name: doctrine.event_listener, event: postUpdate }
             - { name: doctrine.event_listener, event: postLoad }
 
+    AppBundle\Listener\ExceptionListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
+
     # SUBSCRIBER
     AppBundle\Subscriber\UserSubscriber:
         tags:
@@ -117,10 +120,6 @@ services:
 
     course_achievement_doctrine_repository:
         class: AppBundle\Repository\Doctrine\CourseAchievementDoctrineRepository
-        arguments: ['@syllabus_entity_manager']
-
-    course_evaluation_ct_doctrine_repository:
-        class: AppBundle\Repository\Doctrine\CourseEvaluationCtDoctrineRepository
         arguments: ['@syllabus_entity_manager']
 
     course_info_doctrine_repository:
@@ -166,3 +165,7 @@ services:
     # PROVIDERS
     AppBundle\Security\Provider\TestUserProvider:
         arguments: ['%test_authenticator%']
+
+    #JMS
+    jms_serializer.object_constructor:
+        alias: jms_serializer.doctrine_object_constructor

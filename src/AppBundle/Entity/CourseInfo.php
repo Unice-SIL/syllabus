@@ -7,8 +7,11 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Gedmo\Mapping\Annotation as Gedmo;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * CourseInfo
@@ -16,6 +19,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table(name="course_info")
  * @ORM\Entity
  * @UniqueEntity(fields={"year", "course"}, message="Le cours {{ value }} existe déjà pour cette année", errorPath="course")
+ *
  */
 class CourseInfo
 {
@@ -24,7 +28,8 @@ class CourseInfo
      *
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
      */
     private $id;
 
@@ -403,6 +408,7 @@ class CourseInfo
      * @var \DateTime|null
      *
      * @ORM\Column(name="creation_date", type="datetime", nullable=false)
+     * @Gedmo\Timestampable(on="create")
      */
     private $creationDate;
 
@@ -470,13 +476,14 @@ class CourseInfo
     private $temClosingRemarksTabValid = false;
 
     /**
-     * @var \AppBundle\Entity\Course
+     * @var Course
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Course", inversedBy="courseInfos", cascade={ "persist" })
+     * @ORM\ManyToOne(targetEntity="Course", inversedBy="courseInfos", cascade={ "persist" })
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="course_id", referencedColumnName="id", nullable=false)
      * })
      * @Assert\NotBlank()
+     * @JMS\Type("AppBundle\Entity\Course")
      */
     private $course;
 
@@ -488,6 +495,7 @@ class CourseInfo
      *   @ORM\JoinColumn(name="structure_id", referencedColumnName="id", nullable=false)
      * })
      * @Assert\NotBlank(groups={"new"})
+     * @JMS\Type("AppBundle\Entity\Structure")
      */
     private $structure;
 
@@ -498,6 +506,7 @@ class CourseInfo
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="last_updater", referencedColumnName="id")
      * })
+     * @Gedmo\Blameable(on="update")
      */
     private $lastUpdater;
 
@@ -508,6 +517,7 @@ class CourseInfo
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="publisher", referencedColumnName="id")
      * })
+     * @Gedmo\Blameable(on="create")
      */
     private $publisher;
 
@@ -519,6 +529,7 @@ class CourseInfo
      *   @ORM\JoinColumn(name="year_id", referencedColumnName="id", nullable=false)
      * })
      * @Assert\NotBlank(groups={"new"})
+     * @JMS\Type("AppBundle\Entity\Year")
      */
     private $year;
 
@@ -532,7 +543,7 @@ class CourseInfo
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="CourseTeacher", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="CourseTeacher", mappedBy="courseInfo", cascade={ "persist", "merge" }, orphanRemoval=true)
      * @ORM\OrderBy({"lastname" = "ASC"})
      */
     private $courseTeachers;
@@ -540,15 +551,16 @@ class CourseInfo
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="CourseSection", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="CourseSection", mappedBy="courseInfo", cascade={ "persist", "merge" }, orphanRemoval=true)
      * @ORM\OrderBy({"position" = "ASC"})
+     * @JMS\Type("ArrayCollection<AppBundle\Entity\CourseSection>")
      */
     private $courseSections;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="CourseAchievement", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="CourseAchievement", mappedBy="courseInfo", cascade={ "persist", "merge" }, orphanRemoval=true)
      * @ORM\OrderBy({"order" = "ASC"})
      */
     private $courseAchievements;
@@ -556,7 +568,7 @@ class CourseInfo
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="CoursePrerequisite", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="CoursePrerequisite", mappedBy="courseInfo", cascade={ "persist", "merge" }, orphanRemoval=true)
      * @ORM\OrderBy({"order" = "ASC"})
      */
     private $coursePrerequisites;
@@ -564,7 +576,7 @@ class CourseInfo
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="CourseTutoringResource", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="CourseTutoringResource", mappedBy="courseInfo", cascade={ "persist", "merge" }, orphanRemoval=true)
      * @ORM\OrderBy({"order" = "ASC"})
      */
     private $courseTutoringResources;
@@ -572,7 +584,7 @@ class CourseInfo
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="CourseResourceEquipment", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="CourseResourceEquipment", mappedBy="courseInfo", cascade={ "persist", "merge" }, orphanRemoval=true)
      * @ORM\OrderBy({"order" = "ASC"})
      */
     private $courseResourceEquipments;
@@ -590,7 +602,6 @@ class CourseInfo
         $this->coursePermissions = new ArrayCollection();
         $this->courseTeachers = new ArrayCollection();
         $this->courseSections = new ArrayCollection();
-        $this->courseEvaluationCts = new ArrayCollection();
         $this->courseAchievements = new ArrayCollection();
         $this->coursePrerequisites = new ArrayCollection();
         $this->courseTutoringResources = new ArrayCollection();
@@ -1890,7 +1901,7 @@ class CourseInfo
     /**
      * @return Collection
      */
-    public function getCoursePermissions(): Collection
+    public function getCoursePermissions(): ?Collection
     {
         return $this->coursePermissions;
     }
@@ -1931,7 +1942,7 @@ class CourseInfo
     /**
      * @return Collection
      */
-    public function getCourseTeachers(): Collection
+    public function getCourseTeachers(): ?Collection
     {
         return $this->courseTeachers;
     }
@@ -1981,7 +1992,7 @@ class CourseInfo
     /**
      * @return Collection
      */
-    public function getCourseSections(): Collection
+    public function getCourseSections(): ?Collection
     {
         return $this->courseSections;
     }
@@ -2025,10 +2036,11 @@ class CourseInfo
         return $this;
     }
 
+
     /**
      * @return Collection
      */
-    public function getCourseAchievements(): Collection
+    public function getCourseAchievements(): ?Collection
     {
         return $this->courseAchievements;
     }
@@ -2076,7 +2088,7 @@ class CourseInfo
     /**
      * @return Collection
      */
-    public function getCoursePrerequisites(): Collection
+    public function getCoursePrerequisites(): ?Collection
     {
         return $this->coursePrerequisites;
     }
@@ -2124,7 +2136,7 @@ class CourseInfo
     /**
      * @return Collection
      */
-    public function getCourseTutoringResources(): Collection
+    public function getCourseTutoringResources(): ?Collection
     {
         return $this->courseTutoringResources;
     }
@@ -2166,7 +2178,7 @@ class CourseInfo
     /**
      * @return Collection
      */
-    public function getCourseResourceEquipments(): Collection
+    public function getCourseResourceEquipments(): ?Collection
     {
         return $this->courseResourceEquipments;
     }
@@ -2234,100 +2246,127 @@ class CourseInfo
 
     public function __clone()
     {
-        $this->coursePermissions = clone $this->coursePermissions;
-        /**
-         * @var  $k
-         * @var  CoursePermission $coursePermission
-         */
-        foreach ($this->coursePermissions as $k => $coursePermission){
-            $coursePermission = clone $coursePermission;
-            $coursePermission->setId(Uuid::uuid4())
-                ->setCourseInfo($this);
-            $this->coursePermissions->offsetSet($k, $coursePermission);
+        if ($this->coursePermissions instanceof ArrayCollection) {
+            $this->coursePermissions = clone $this->coursePermissions;
+            /**
+             * @var  $k
+             * @var  CoursePermission $coursePermission
+             */
+            foreach ($this->coursePermissions as $k => $coursePermission){
+                if (!$coursePermission instanceof CoursePermission) {
+                    continue;
+                }
+                $coursePermission = clone $coursePermission;
+                $coursePermission->setId(Uuid::uuid4())
+                    ->setCourseInfo($this);
+                $this->coursePermissions->offsetSet($k, $coursePermission);
+            }
         }
 
-        $this->courseTeachers = clone $this->courseTeachers;
-        /**
-         * @var  $k
-         * @var  CourseTeacher $courseTeacher
-         */
-        foreach ($this->courseTeachers as $k => $courseTeacher){
-            $courseTeacher = clone $courseTeacher;
-            $courseTeacher->setId(Uuid::uuid4())
-                ->setCourseInfo($this);
-            $this->courseTeachers->offsetSet($k, $courseTeacher);
+        if ($this->courseTeachers instanceof ArrayCollection) {
+            $this->courseTeachers = clone $this->courseTeachers;
+            /**
+             * @var  $k
+             * @var  CourseTeacher $courseTeacher
+             */
+            foreach ($this->courseTeachers as $k => $courseTeacher) {
+                if (!$courseTeacher instanceof CourseTeacher) {
+                    continue;
+                }
+                $courseTeacher = clone $courseTeacher;
+                $courseTeacher->setId(Uuid::uuid4())
+                    ->setCourseInfo($this);
+                $this->courseTeachers->offsetSet($k, $courseTeacher);
+            }
         }
 
-        $this->courseSections = clone $this->courseSections;
-        /**
-         * @var  $k
-         * @var  CourseSection $courseSection
-         */
-        foreach ($this->courseSections as $k => $courseSection){
-            $courseSection = clone $courseSection;
-            $courseSection->setId(Uuid::uuid4())
-                ->setCourseInfo($this);
-            $this->courseSections->offsetSet($k, $courseSection);
+        if ($this->courseSections instanceof ArrayCollection) {
+            $this->courseSections = clone $this->courseSections;
+            /**
+             * @var  $k
+             * @var  CourseSection $courseSection
+             */
+            foreach ($this->courseSections as $k => $courseSection) {
+                if (!$courseSection instanceof CourseSection) {
+                    continue;
+                }
+                $courseSection = clone $courseSection;
+                $courseSection->setId(Uuid::uuid4())
+                    ->setCourseInfo($this);
+                $this->courseSections->offsetSet($k, $courseSection);
+            }
         }
 
-        $this->courseEvaluationCts = clone $this->courseEvaluationCts;
-        /**
-         * @var  $k
-         * @var  CourseEvaluationCt $courseEvaluationCt
-         */
-        foreach ($this->courseEvaluationCts as $k => $courseEvaluationCt){
-            $courseEvaluationCt = clone $courseEvaluationCt;
-            $courseEvaluationCt->setId(Uuid::uuid4())
-                ->setCourseInfo($this);
-            $this->courseEvaluationCts->offsetSet($k, $courseEvaluationCt);
+        if ($this->courseAchievements instanceof ArrayCollection) {
+
+            $this->courseAchievements = clone $this->courseAchievements;
+            /**
+             * @var  $k
+             * @var  CourseAchievement $courseAchievement
+             */
+            foreach ($this->courseAchievements as $k => $courseAchievement){
+                if (!$courseAchievement instanceof CourseAchievement) {
+                    continue;
+                }
+                $courseAchievement = clone $courseAchievement;
+                $courseAchievement->setId(Uuid::uuid4())
+                    ->setCourseInfo($this);
+                $this->courseAchievements->offsetSet($k, $courseAchievement);
+            }
         }
 
-        $this->courseAchievements = clone $this->courseAchievements;
-        /**
-         * @var  $k
-         * @var  CourseAchievement $courseAchievement
-         */
-        foreach ($this->courseAchievements as $k => $courseAchievement){
-            $courseAchievement = clone $courseAchievement;
-            $courseAchievement->setId(Uuid::uuid4())
-                ->setCourseInfo($this);
-            $this->courseAchievements->offsetSet($k, $courseAchievement);
+        if ($this->coursePrerequisites instanceof ArrayCollection) {
+
+            $this->coursePrerequisites = clone $this->coursePrerequisites;
+            /**
+             * @var  $k
+             * @var  CoursePrerequisite $coursePrerequisite
+             */
+            foreach ($this->coursePrerequisites as $k => $coursePrerequisite){
+                if (!$coursePrerequisite instanceof CoursePrerequisite) {
+                    continue;
+                }
+                $coursePrerequisite = clone $coursePrerequisite;
+                $coursePrerequisite->setId(Uuid::uuid4())
+                    ->setCourseInfo($this);
+                $this->coursePrerequisites->offsetSet($k, $coursePrerequisite);
+            }
         }
 
-        $this->coursePrerequisites = clone $this->coursePrerequisites;
-        /**
-         * @var  $k
-         * @var  CoursePrerequisite $coursePrerequisite
-         */
-        foreach ($this->coursePrerequisites as $k => $coursePrerequisite){
-            $coursePrerequisite = clone $coursePrerequisite;
-            $coursePrerequisite->setId(Uuid::uuid4())
-                ->setCourseInfo($this);
-            $this->coursePrerequisites->offsetSet($k, $coursePrerequisite);
+        if ($this->courseTutoringResources instanceof ArrayCollection) {
+
+            $this->courseTutoringResources = clone $this->courseTutoringResources;
+            /**
+             * @var  $k
+             * @var  CourseTutoringResource $courseTutoringResource
+             */
+            foreach ($this->courseTutoringResources as $k => $courseTutoringResource){
+                if (!$courseTutoringResource instanceof CourseTutoringResource) {
+                    continue;
+                }
+                $courseTutoringResource = clone $courseTutoringResource;
+                $courseTutoringResource->setId(Uuid::uuid4())
+                    ->setCourseInfo($this);
+                $this->courseTutoringResources->offsetSet($k, $courseTutoringResource);
+            }
         }
 
-        $this->courseTutoringResources = clone $this->courseTutoringResources;
-        /**
-         * @var  $k
-         * @var  CourseTutoringResource $courseTutoringResource
-         */
-        foreach ($this->courseTutoringResources as $k => $courseTutoringResource){
-            $courseTutoringResource = clone $courseTutoringResource;
-            $courseTutoringResource->setId(Uuid::uuid4())
-                ->setCourseInfo($this);
-            $this->courseTutoringResources->offsetSet($k, $courseTutoringResource);
-        }
+        if ($this->courseResourceEquipments instanceof ArrayCollection) {
 
-        $this->courseResourceEquipments = clone $this->courseResourceEquipments;
-        /**
-         * @var  $k
-         * @var CourseResourceEquipment $courseResourceEquipment
-         */
-        foreach ($this->courseResourceEquipments as $k => $courseResourceEquipment){
-            $courseResourceEquipment = clone $courseResourceEquipment;
-            $courseResourceEquipment->setId(Uuid::uuid4())
-                ->setCourseInfo($this);
-            $this->courseResourceEquipments->offsetSet($k, $courseResourceEquipment);
+            $this->courseResourceEquipments = clone $this->courseResourceEquipments;
+            /**
+             * @var  $k
+             * @var CourseResourceEquipment $courseResourceEquipment
+             */
+            foreach ($this->courseResourceEquipments as $k => $courseResourceEquipment){
+                if (!$courseResourceEquipment instanceof CourseResourceEquipment) {
+                    continue;
+                }
+                $courseResourceEquipment = clone $courseResourceEquipment;
+                $courseResourceEquipment->setId(Uuid::uuid4())
+                    ->setCourseInfo($this);
+                $this->courseResourceEquipments->offsetSet($k, $courseResourceEquipment);
+            }
         }
     }
 
@@ -2376,5 +2415,35 @@ class CourseInfo
             return $this->course->getEtbId() . '__UNION__' . $this->year->getId();
         }
         return $this->course->getEtbId() . '-' . $this->year->getId();
+    }
+
+    public function setAllRelations()
+    {
+        $relations = [
+            'coursePermissions',
+            'courseTeachers',
+            'courseSections',
+            'courseAchievements',
+            'coursePrerequisites',
+            'courseTutoringResources',
+            'courseResourceEquipments',
+        ];
+
+        $propertyAccessor = PropertyAccess::createPropertyAccessor();
+        foreach ($relations as $relation) {
+            $arrayCollection = $propertyAccessor->getValue($this, $relation);
+            if (null === $arrayCollection) {
+                continue;
+            }
+            foreach ($arrayCollection as $element)
+            {
+                $propertyAccessor->setValue($element, 'courseInfo', $this);
+                if ($element instanceof CourseSection) {
+                    foreach ($element->getCourseSectionActivities() as $courseSectionActivity) {
+                        $courseSectionActivity->setCourseSection($element);
+                    }
+                }
+            }
+        }
     }
 }
