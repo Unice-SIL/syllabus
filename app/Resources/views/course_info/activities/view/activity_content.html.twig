@@ -13,41 +13,49 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col">
-                            <dt>Nom</dt>
+                            <dt>Nom de l'activité</dt>
                             <dd>
                                 {{ sectionActivity.activity.label }}
                             </dd>
-                            <dt>Type - Mode</dt>
+                            <dt>Type d'activité - Mode d'enseignement</dt>
                             <dd>
                                 {{ sectionActivity.activityType.label }} - {{ sectionActivity.activityMode.label }}
                             </dd>
-                            <dt>Evaluable</dt>
-                            <dd>
-                                {{ sectionActivity.evaluable ? 'Oui' : 'Non' }}
-                            </dd>
-                            <button type="button" class="btn text-primary modal-action"
+                            <button type="button" class="btn text-primary modal-action pl-0"
                                     data-action-title="Modifier une activité"
                                     data-action-url="{{ path('course_activities_edit_activity', {'courseSectionActivityId': sectionActivity.id, 'activityId': sectionActivity.activity.id }) }}">
                                 <i class="fas fa-edit"></i> Modifier
                             </button>
-                            <button type="button" class="btn text-danger modal-action"
+                            <button type="button" class="btn text-danger modal-action p-0"
                                     data-action-title="Supprimer une activité"
                                     data-action-url="{{ path('course_activities_remove_activity', {'sectionId': activeSection.id, 'courseSectionActivityId': sectionActivity.id }) }}">
                                 <i class="fas fa-trash-alt text-danger"></i> Supprimer
                             </button>
                         </div>
+                        <div class="col">
+                            <dt>Evaluable</dt>
+                            <dd>
+                                {{ sectionActivity.evaluable ? 'Oui' : 'Non' }}
+                            </dd>
+                        </div>
                         {% if sectionActivity.evaluable %}
                             <div class="col-4">
-                                <dt>Contrôle : </dt>
-                                <dd>
-                                    {{ sectionActivity.evaluationCt ? 'Terminal' : 'Continu' }}
-                                </dd>
-                                {% if sectionActivity.evaluationRate %}
-                                    <dt>Coefficient :</dt>
-                                    <dd>
-                                        {{ sectionActivity.evaluationRate }}%
-                                    </dd>
-                                {% endif %}
+                                <div class="row">
+                                    <div class="col">
+                                        <dt>Contrôle : </dt>
+                                        <dd>
+                                            {{ sectionActivity.evaluationCt ? 'Terminal' : 'Continu' }}
+                                        </dd>
+                                    </div>
+                                    <div class="col">
+                                        {% if sectionActivity.evaluationRate %}
+                                            <dt>Coefficient :</dt>
+                                            <dd>
+                                                {{ sectionActivity.evaluationRate }}%
+                                            </dd>
+                                        {% endif %}
+                                    </div>
+                                </div>
                                 <dt>Evaluation par les enseignants : </dt>
                                 <dd>
                                     {{ sectionActivity.evaluationTeacher ? 'Oui' : 'Non' }}

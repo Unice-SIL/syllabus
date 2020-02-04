@@ -1,10 +1,10 @@
 {% extends 'course_info/layout.html.twig' %}
 
 {% block subContent %}
-    <div style="margin-top: -0.5rem; margin-left: -7.5px; margin-right: -7.5px">
+    <div id="section-activities-content">
         {% include 'course_info/activities/view/sidebar_sections.html.twig' %}
         {% if activeSection is not null %}
-            <div id="activity-content" class="col-sm p-0" style="width: calc(100% - 250px); left: 250px">
+            <div id="activity-content" class="col-sm p-0">
                 {% include 'course_info/activities/view/activity_content.html.twig' %}
                 <div class="card">
                     <div class="card-header d-flex p-0">
@@ -92,6 +92,19 @@
             $('#menu-activities').addClass('active');
             $('#menu-activities').addClass('border-bottom-3 border-white');
             $('#content-{{ contentName|default('default') }}').addClass('p-0');
+
+            $('#button-minimize').click(function () {
+                let $sectionActivitiesContent = $('#section-activities-content');
+                if ($sectionActivitiesContent.hasClass('sidebar-mini'))
+                {
+                    $sectionActivitiesContent.removeClass('sidebar-mini');
+                }
+                else
+                {
+                    $sectionActivitiesContent.addClass('sidebar-mini');
+                }
+            });
+
 
             /**
              * Init carousel values
