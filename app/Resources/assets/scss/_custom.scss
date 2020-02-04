@@ -203,12 +203,25 @@ label.toggle-off {
     z-index: 1050;
 }
 
+/*
+    Title
+ */
+
+.title-bold-light {
+    color: #848c93;
+    font-weight: bold;
+}
+
 
 /*
     Buttons.
  */
 .course-title {
     font-family: "Apex New Book";
+}
+
+.toggle-off.btn {
+    padding-left: 1.4rem !important;
 }
 
 /*

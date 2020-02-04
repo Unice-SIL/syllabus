@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * Class CourseInfoDashboard
@@ -38,7 +39,7 @@ class CourseInfoDashboard extends AbstractController
      * @param CourseInfo $courseInfo
      * @return Response
      */
-    public function dashboardViewAction(CourseInfo $courseInfo)
+    public function dashboardViewAction(CourseInfo $courseInfo, ValidatorInterface $validator)
     {
         if (!$courseInfo instanceof CourseInfo) {
             return $this->json([
@@ -47,8 +48,18 @@ class CourseInfoDashboard extends AbstractController
             ]);
         }
 
+        $validationsGroups = ['presentation', 'contentActivities', 'objectives', 'evaluation', 'equipment', 'info', 'closingRemark'];
+        $violations = [];
+        foreach ($validationsGroups as $validationsGroup)
+        {
+            $violations[$validationsGroup] = $validator->validate($courseInfo, null, $validationsGroup);
+        }
+
+        dump($violations);
+
         $render = $this->get('twig')->render('course_info/dashboard/view/dashboard.html.twig', [
-            'courseInfo' => $courseInfo
+            'courseInfo' => $courseInfo,
+            'violations' => $violations
         ]);
         return $this->json([
             'status' => true,
