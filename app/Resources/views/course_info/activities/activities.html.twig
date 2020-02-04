@@ -2,50 +2,10 @@
 
 {% block subContent %}
     <div style="margin-top: -0.5rem; margin-left: -7.5px; margin-right: -7.5px">
-        <div class="bg-dark text-center p-3 col-sm" style="position: absolute; width: 250px; min-height: calc(100vh - 5.4rem - 3px);">
-            <h5>Sections</h5>
-            <hr class="mb-2">
-            {% if courseInfo.courseSections is empty %}
-                <div class="mb-1 text-warning">
-                    Aucune section n'a été créée
-                </div>
-            {% else %}
-                <ul class="nav nav-pills flex-column">
-                    {% for section in courseInfo.courseSections %}
-                        <li class="nav-item {% if section is same as (activeSection) %}active{% endif %}">
-                            <a class="d-inline-block text-truncate nav-link menu-tab text-white align-middle" href="{{ path('course_activities', { 'id': courseInfo.id, 'sectionId': section.id }) }}">
-                                {{ section.title }}
-                            </a>
-                            <button class="btn dropdown-icon float-right text-white" type="button" data-toggle="dropdown" aria-expanded="false"><i class="fas fa-ellipsis-v"></i> </button>
-                            <div class="dropdown-menu">
-                                <button type="button" class="dropdown-item modal-action text-center"
-                                        data-action-title="Modifier une section"
-                                        data-action-url="{{ path('course_activities_edit_section', {'id': courseInfo.id, 'sectionId': section.id}) }}">
-                                    Modifier
-                                </button>
-                                <button type="button" class="dropdown-item modal-action text-center"
-                                        data-action-title="Supprimer une section"
-                                        data-action-url="{{ path('course_activities_remove_section', {'id': courseInfo.id, 'sectionId': section.id}) }}">
-                                    Supprimer
-                                </button>
-                            </div>
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-            <hr class="mb-2">
-            <div class="mb-1">
-                <button type="button" class="btn btn-link modal-action p-0 text-primary"
-                        data-action-title="Ajouter une section"
-                        data-action-url="{{ path('course_activities_add_section', {'id': courseInfo.id}) }}">
-                    <i class="fas fa-plus-circle"></i> Ajouter une section
-                </button>
-            </div>
-        </div>
+        {% include 'course_info/activities/view/sidebar_sections.html.twig' %}
         {% if activeSection is not null %}
             <div id="activity-content" class="col-sm p-0" style="width: calc(100% - 250px); left: 250px">
                 {% include 'course_info/activities/view/activity_content.html.twig' %}
-
                 <div class="card">
                     <div class="card-header d-flex p-0">
                         <h3 class="card-title p-3 text-black-50">Activités</h3>

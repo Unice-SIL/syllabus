@@ -8,7 +8,61 @@
             <i class="fas fa-arrow-down fa-5x"></i>
         </div>
     {% else %}
-        <div class="text-center">
+        {% for sectionActivity in activeSection.courseSectionActivities %}
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <dt>Nom</dt>
+                            <dd>
+                                {{ sectionActivity.activity.label }}
+                            </dd>
+                            <dt>Type - Mode</dt>
+                            <dd>
+                                {{ sectionActivity.activityType.label }} - {{ sectionActivity.activityMode.label }}
+                            </dd>
+                            <dt>Evaluable</dt>
+                            <dd>
+                                {{ sectionActivity.evaluable ? 'Oui' : 'Non' }}
+                            </dd>
+                            <button type="button" class="btn text-primary modal-action"
+                                    data-action-title="Modifier une activité"
+                                    data-action-url="{{ path('course_activities_edit_activity', {'courseSectionActivityId': sectionActivity.id, 'activityId': sectionActivity.activity.id }) }}">
+                                <i class="fas fa-edit"></i> Modifier
+                            </button>
+                            <button type="button" class="btn text-danger modal-action"
+                                    data-action-title="Supprimer une activité"
+                                    data-action-url="{{ path('course_activities_remove_activity', {'sectionId': activeSection.id, 'courseSectionActivityId': sectionActivity.id }) }}">
+                                <i class="fas fa-trash-alt text-danger"></i> Supprimer
+                            </button>
+                        </div>
+                        {% if sectionActivity.evaluable %}
+                            <div class="col-4">
+                                <dt>Contrôle : </dt>
+                                <dd>
+                                    {{ sectionActivity.evaluationCt ? 'Terminal' : 'Continu' }}
+                                </dd>
+                                {% if sectionActivity.evaluationRate %}
+                                    <dt>Coefficient :</dt>
+                                    <dd>
+                                        {{ sectionActivity.evaluationRate }}%
+                                    </dd>
+                                {% endif %}
+                                <dt>Evaluation par les enseignants : </dt>
+                                <dd>
+                                    {{ sectionActivity.evaluationTeacher ? 'Oui' : 'Non' }}
+                                </dd>
+                                <dt>Evaluation par les pairs : </dt>
+                                <dd>
+                                    {{ sectionActivity.evaluationPeer ? 'Oui' : 'Non' }}
+                                </dd>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        {#<div class="text-center">
             <div class="table-responsive">
                 <table class="table table-hover">
                     <thead>
@@ -35,6 +89,7 @@
                                     <div>
                                         Evaluation par les pairs : {{ sectionActivity.evaluationPeer ? 'Oui' : 'Non' }}
                                     </div>
+                                    {% if sectionActivity.evaluationRate %}<div>Coefficient : {{ sectionActivity.evaluationRate }}%</div>{% endif %}
                                 {% else %}
                                     Non
                                 {% endif %}
@@ -51,6 +106,6 @@
                     </tbody>
                 </table>
             </div>
-        </div>
+        </div>#}
     {% endif %}
 </div>
