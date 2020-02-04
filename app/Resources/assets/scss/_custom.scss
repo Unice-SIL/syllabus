@@ -181,8 +181,10 @@ th.sortable {
 .autocomplete strong { font-weight: normal; color: #3399FF; }
 
 
-.toggle.ios, .toggle-on.ios, .toggle-off.ios { border-radius: 20rem; }
-.toggle.ios .toggle-handle { border-radius: 20rem; }
+.toggle.ios, div.toggle[data-style="ios"]
+{
+    border-radius: 20rem;
+}
 
 label.toggle-on,
 label.toggle-off {

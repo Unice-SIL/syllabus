@@ -15,7 +15,7 @@ class TeachingModeType extends AbstractType
     {
         $builder
             ->add('teachingMode', ChoiceType::class, [
-                'label' => "Mode d'enseignement",
+                'label' => false,
                 'expanded'  => true,
                 'multiple' => false,
                 'required' => false,
@@ -39,9 +39,10 @@ class TeachingModeType extends AbstractType
             ])
             ->add('teachingOtherClass', TextType::class, [
                 'required' => false,
-                'label' => 'h Autre (facultatif)',
+                'label' => 'Volume',
                 'attr' => [
-                    'data-teaching-mode' => 'class'
+                    'data-teaching-mode' => 'class',
+                    'placeholder' => 'Volume (H)'
                 ]
             ])
             ->add('teachingOtherTypeClass', TextType::class, [
@@ -49,7 +50,7 @@ class TeachingModeType extends AbstractType
                 'label' => 'Type',
                 'attr' => [
                     'data-teaching-mode' => 'class',
-                    'placeholder' => 'Ex: Heures personnelles'
+                    'placeholder' => 'Type (Ex: Heures personnelles)'
                 ]
             ])
             ->add('teachingCmHybridClass', TextType::class, [
