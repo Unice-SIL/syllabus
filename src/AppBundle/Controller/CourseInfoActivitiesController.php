@@ -3,10 +3,14 @@
 namespace AppBundle\Controller;
 
 
+use AppBundle\Entity\Activity;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseSection;
+use AppBundle\Entity\CourseSectionActivity;
+use AppBundle\Form\CourseInfo\Activities\CourseSectionActivityType;
 use AppBundle\Form\CourseInfo\Activities\SectionType;
 use AppBundle\Form\CourseInfo\Activities\RemoveSectionType;
+use AppBundle\Manager\ActivityManager;
 use AppBundle\Manager\CourseInfoManager;
 use Ramsey\Uuid\Uuid;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -24,18 +28,21 @@ class CourseInfoActivitiesController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\Response
      * @ParamConverter("activeSection", options={"mapping": {"sectionId": "id"}})
      */
-    public function indexAction(CourseInfo $courseInfo, ?CourseSection $activeSection)
+    public function indexAction(CourseInfo $courseInfo, ?CourseSection $activeSection, ActivityManager $manager)
     {
         if (!$activeSection)
         {
-            if (!empty($courseInfo->getCourseSections()))
+            if (!$courseInfo->getCourseSections()->isEmpty())
             {
                 $activeSection = $courseInfo->getCourseSections()->current();
             }
         }
+        $activities = $manager->findAll();
+
         return $this->render('course_info/activities/activities.html.twig', [
             'courseInfo' => $courseInfo,
-            'activeSection' => $activeSection
+            'activeSection' => $activeSection,
+            'activities' => $activities
         ]);
     }
 
@@ -187,6 +194,76 @@ class CourseInfoActivitiesController extends AbstractController
         return $this->json([
             'status' => true,
             'content' => $render
+        ]);
+    }
+
+    /**
+     * @Route("/course/activities/section/{sectionId}/activity/{activityId}/add", name="course_activities_add_activity"))
+     *
+     * @param CourseSection $courseSection
+     * @param Activity $activity
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
+     * @ParamConverter("courseSection", options={"mapping": {"sectionId": "id"}})
+     * @ParamConverter("activity", options={"mapping": {"activityId": "id"}})
+     */
+    public function addActivityAction(CourseSection $courseSection, Activity $activity, Request $request)
+    {
+        $status = true;
+        $message = null;
+
+        if (!$courseSection instanceof CourseSection)
+        {
+            return $this->json([
+                'status' => false,
+                'render' => "Une erreur est survenue : La section n'existe pas"
+            ]);
+        }
+
+        if (!$activity instanceof Activity)
+        {
+            return $this->json([
+                'status' => false,
+                'render' => "Une erreur est survenue : L'activité n'existe pas"
+            ]);
+        }
+
+        $courseSectionActivity = new CourseSectionActivity();
+        if (!$activity->getActivityTypes()->isEmpty())
+        {
+            $courseSectionActivity->setActivityType($activity->getActivityTypes()->current());
+        }
+
+        $form = $this->createForm(CourseSectionActivityType::class, $courseSectionActivity, [
+            'activity' => $activity
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted())
+        {
+            if ($form->isValid())
+            {
+            $courseSectionActivity->setId(Uuid::uuid4())
+                ->setCourseSection($courseSection)
+                ->setActivity($activity);
+            }
+            else
+            {
+                $status = false;
+                $message = ['type' => 'none'];
+            }
+        }
+
+        $render = $this->get('twig')->render('course_info/activities/form/add_activity.html.twig', [
+            'courseSection' => $courseSection,
+            'activity' => $activity,
+            'form' => $form->createView()
+        ]);
+        return $this->json([
+            'status' => $status,
+            'content' => $render,
+            'message' => $message
         ]);
     }
 }

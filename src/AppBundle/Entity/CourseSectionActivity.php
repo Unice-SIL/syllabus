@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * CourseSectionActivity
@@ -40,6 +41,20 @@ class CourseSectionActivity
     /**
      * @var bool
      *
+     * @ORM\Column(name="evaluable", type="boolean", nullable=false)
+     */
+    private $evaluable = false;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="evaluation_ct", type="boolean", nullable=false)
+     */
+    private $evaluationCt = false;
+
+    /**
+     * @var bool
+     *
      * @ORM\Column(name="evaluation_teacher", type="boolean", nullable=false)
      */
     private $evaluationTeacher = false;
@@ -70,22 +85,24 @@ class CourseSectionActivity
     private $activity;
 
     /**
-     * @var \AppBundle\Entity\ActivityType
+     * @var ActivityType|null
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ActivityType")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="activity_type_id", referencedColumnName="id", nullable=true)
+     *   @ORM\JoinColumn(name="activity_type_id", referencedColumnName="id", nullable=false)
      * })
+     * @Assert\NotBlank()
      */
     private $activityType;
 
     /**
-     * @var \AppBundle\Entity\ActivityMode
+     * @var \AppBundle\Entity\ActivityMode|null
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ActivityMode")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="activity_mode_id", referencedColumnName="id", nullable=true)
+     *   @ORM\JoinColumn(name="activity_mode_id", referencedColumnName="id", nullable=false)
      * })
+     * @Assert\NotBlank()
      */
     private $activityMode;
 
@@ -143,6 +160,42 @@ class CourseSectionActivity
     public function getEvaluationRate()
     {
         return $this->evaluationRate;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEvaluable(): bool
+    {
+        return $this->evaluable;
+    }
+
+    /**
+     * @param bool $evaluable
+     * @return CourseSectionActivity
+     */
+    public function setEvaluable(bool $evaluable): CourseSectionActivity
+    {
+        $this->evaluable = $evaluable;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEvaluationCt(): bool
+    {
+        return $this->evaluationCt;
+    }
+
+    /**
+     * @param bool $evaluationCt
+     * @return CourseSectionActivity
+     */
+    public function setEvaluationCt(bool $evaluationCt): CourseSectionActivity
+    {
+        $this->evaluationCt = $evaluationCt;
+        return $this;
     }
 
     /**
@@ -253,36 +306,36 @@ class CourseSectionActivity
     }
 
     /**
-     * @return ActivityType
+     * @return ActivityType|null
      */
-    public function getActivityType(): ActivityType
+    public function getActivityType(): ?ActivityType
     {
         return $this->activityType;
     }
 
     /**
-     * @param ActivityType $activityType
+     * @param ActivityType|null $activityType
      * @return CourseSectionActivity
      */
-    public function setActivityType(ActivityType $activityType): CourseSectionActivity
+    public function setActivityType(?ActivityType $activityType): CourseSectionActivity
     {
         $this->activityType = $activityType;
         return $this;
     }
 
     /**
-     * @return ActivityMode
+     * @return ActivityMode|null
      */
-    public function getActivityMode(): ActivityMode
+    public function getActivityMode(): ?ActivityMode
     {
         return $this->activityMode;
     }
 
     /**
-     * @param ActivityMode $activityMode
+     * @param ActivityMode|null $activityMode
      * @return CourseSectionActivity
      */
-    public function setActivityMode(ActivityMode $activityMode): CourseSectionActivity
+    public function setActivityMode(?ActivityMode $activityMode): CourseSectionActivity
     {
         $this->activityMode = $activityMode;
         return $this;

@@ -1,0 +1,36 @@
+<div class="d-flex flex-column">
+    <div class="row">
+        <div class="col-6">
+            <div>
+                <div class="border p-2">
+                    <p>Parties du syllabus a remplir obligatoirement</p>
+                </div>
+            </div>
+            <div class="mt-2">
+                <div class="border p-2">
+                    <p>Syllabus publié pour les étudiants</p>
+                </div>
+            </div>
+            <div class="mt-2">
+                <div class="border p-2">
+                    <p>Duplication du syllabus</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="border p-2">
+                <div>
+                    <p class="mb-0 text-bold">Création</p>
+                    <span>{{ courseInfo.creationDate|localizeddate('full', 'none', null) }} {{ courseInfo.creationDate|date('H:i') }}</span>
+                </div>
+                <div>
+                    <p class="mt-2 mb-0 text-bold">Dernière modification</p>
+                    <span>{{ courseInfo.modificationDate|localizeddate('full', 'none', null) }} {{ courseInfo.modificationDate|date('H:i') }}</span>
+                    {% if courseInfo.lastUpdater is not null %}
+                        <span>par {{ courseInfo.lastUpdater.email }}</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

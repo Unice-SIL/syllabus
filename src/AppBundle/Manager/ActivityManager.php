@@ -8,6 +8,7 @@ use AppBundle\Constant\ActivityGroup;
 use AppBundle\Constant\ActivityMode;
 use AppBundle\Constant\ActivityType;
 use AppBundle\Entity\Activity;
+use AppBundle\Repository\ActivityRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Ramsey\Uuid\Uuid;
 
@@ -18,12 +19,16 @@ class ActivityManager
      */
     private $em;
 
+    /**
+     * @var ActivityRepositoryInterface
+     */
+    private $repository;
 
-    public function __construct(
-        EntityManagerInterface $em
-    )
+
+    public function __construct(EntityManagerInterface $em, ActivityRepositoryInterface $repository)
     {
         $this->em = $em;
+        $this->repository = $repository;
     }
 
     public function create(string $type)
@@ -35,10 +40,18 @@ class ActivityManager
         $activity = new Activity();
         $activity->isNew = true; // This dynamic property helps to track the new state of this entity
         $activity->setId(Uuid::uuid4());
-        $activity->setType($type);
         $this->em->persist($activity);
 
         return $activity;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function findAll()
+    {
+        $activities = $this->repository->findAll();
+        return $activities;
     }
 
     public function getModeChoicesByType($type)
