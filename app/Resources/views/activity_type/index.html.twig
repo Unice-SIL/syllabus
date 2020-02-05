@@ -1,0 +1,37 @@
+{% extends 'admin_layout.html.twig' %}
+{% set h1 = 'Liste des types d\'activités' %}
+{% block subContent %}
+
+<div class="card">
+        <div class="card-body">
+            {% if pagination.totalItemCount > 0 %}
+                <table class="table table-bordered table-responsive-sm">
+                    <thead>
+                    <tr>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.equipment.label.label'|trans, 'e.label') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.equipment.label.obsolete'|trans, 'e.obsolete') }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for activityType in pagination %}
+                        <tr>
+                            <td>{{ activityType.label }}</td>
+                            <td>{{ activityType.obsolete|humanizeBoolean }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="alert alert-info">Aucun type d'activité ne correspond à ces critères</div>
+            {% endif %}
+        </div>
+        <!-- /.card-body -->
+        {% if knp_pagination_render(pagination) %}
+            <div class="card-footer clearfix">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        {% endif %}
+    </div>
+
+    {% endblock %}
+

@@ -29,7 +29,6 @@ class ActivityController extends Controller
      */
     public function indexAction(Request $request, $type, EntityManagerInterface $em, FilterBuilderUpdaterInterface $filterBuilderUpdater)
     {
-
         $qb =  $em->getRepository(Activity::class)->createQueryBuilder('a')->andWhere('a.type = :type')->setParameter('type', $type);
 
         $form = $this->get('form.factory')->create(ActivityFilterType::class, null, ['type' => $type]);
