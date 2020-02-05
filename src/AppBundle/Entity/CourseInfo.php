@@ -18,7 +18,7 @@ use JMS\Serializer\Annotation as JMS;
  *
  * @ORM\Table(name="course_info")
  * @ORM\Entity
- * @UniqueEntity(fields={"year", "course"}, message="Le cours {{ value }} existe déjà pour cette année", errorPath="course")
+ * @UniqueEntity(fields={"year", "course"}, message="Le cours {{ value }} existe déjà pour cette année", errorPath="course", payload={"ignoreForPutApi"} )
  *
  */
 class CourseInfo
@@ -30,6 +30,7 @@ class CourseInfo
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @JMS\Groups(groups={"api"})
      */
     private $id;
 
@@ -38,6 +39,7 @@ class CourseInfo
      *
      * @ORM\Column(name="title", type="string", length=200, nullable=false)
      * @Assert\NotBlank(groups={"new"})
+     * @JMS\Groups(groups={"api"})
      */
     private $title;
 
@@ -45,6 +47,7 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="ects", type="float", nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $ects;
 
@@ -52,6 +55,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="level", type="string", length=15, nullable=true, options={"fixed"=true})
+     * @JMS\Groups(groups={"api"})
      *
      */
     private $level;
@@ -60,6 +64,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="languages", type="string", length=200, nullable=true)
+     * @JMS\Groups(groups={"api"})
      *
      */
     private $languages;
@@ -68,6 +73,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="domain", type="string", length=100, nullable=true, options={"fixed"=true})
+     * @JMS\Groups(groups={"api"})
      *
      */
     private $domain;
@@ -76,6 +82,7 @@ class CourseInfo
      * @var int|null
      *
      * @ORM\Column(name="semester", type="integer", nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $semester;
 
@@ -83,6 +90,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="summary", type="text", length=65535, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $summary;
 
@@ -90,6 +98,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="period", type="string", length=255, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $period;
 
@@ -97,6 +106,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="media_type", type="string", length=10, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $mediaType;
 
@@ -104,6 +114,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="image", type="text", length=65535, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $image;
 
@@ -111,6 +122,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="video", type="text", length=65535, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $video;
 
@@ -118,6 +130,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="teaching_mode", type="string", length=15, nullable=true, options={"fixed"=true})
+     * @JMS\Groups(groups={"api"})
      *
      */
     private $teachingMode;
@@ -126,6 +139,7 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_cm_class", type="float", precision=10, scale=0, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $teachingCmClass;
 
@@ -133,6 +147,7 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_td_class", type="float", precision=10, scale=0, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $teachingTdClass;
 
@@ -140,6 +155,7 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_tp_class", type="float", precision=10, scale=0, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $teachingTpClass;
 
@@ -147,6 +163,7 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_other_class", type="float", precision=10, scale=0, nullable=true)
+     * @JMS\Groups(groups={"api"})
      *
      */
     private $teachingOtherClass;
@@ -155,6 +172,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="teaching_other_type_class", type="string", length=65, nullable=true)
+     * @JMS\Groups(groups={"api"})
      *
      */
     private $teachingOtherTypeClass;
@@ -163,6 +181,7 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_cm_hybrid_class", type="float", precision=10, scale=0, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $teachingCmHybridClass;
 
@@ -170,6 +189,7 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_td_hybrid_class", type="float", precision=10, scale=0, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $teachingTdHybridClass;
 
@@ -177,6 +197,7 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_tp_hybrid_class", type="float", precision=10, scale=0, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $teachingTpHybridClass;
 
@@ -184,6 +205,7 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_other_hybrid_class", type="float", precision=10, scale=0, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $teachingOtherHybridClass;
 
@@ -191,6 +213,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="teaching_other_type_hybrid_class", type="string", length=65, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $teachingOtherTypeHybridClass;
 
@@ -198,6 +221,7 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_cm_hybrid_dist", type="float", precision=10, scale=0, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $teachingCmHybridDist;
 
@@ -205,6 +229,7 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_td_hybrid_dist", type="float", precision=10, scale=0, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $teachingTdHybridDist;
 
@@ -212,6 +237,7 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_other_hybrid_dist", type="float", precision=10, scale=0, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $teachingOtherHybridDist;
 
@@ -219,6 +245,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="teaching_other_type_hybrid_distant", type="string", length=65, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $teachingOtherTypeHybridDistant;
 
@@ -226,6 +253,7 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_cm_dist", type="float", precision=10, scale=0, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $teachingCmDist;
 
@@ -233,6 +261,7 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_td_dist", type="float", precision=10, scale=0, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $teachingTdDist;
 
@@ -240,6 +269,7 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_other_dist", type="float", precision=10, scale=0, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $teachingOtherDist;
 
@@ -247,6 +277,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="teaching_other_type_distant", type="string", length=65, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $teachingOtherTypeDist;
 
@@ -254,6 +285,7 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="mcc_weight", type="float", precision=10, scale=0, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $mccWeight;
 
@@ -261,6 +293,7 @@ class CourseInfo
      * @var bool
      *
      * @ORM\Column(name="mcc_compensable", type="boolean", nullable=false)
+     * @JMS\Groups(groups={"api"})
      */
     private $mccCompensable = false;
 
@@ -268,6 +301,7 @@ class CourseInfo
      * @var bool
      *
      * @ORM\Column(name="mcc_capitalizable", type="boolean", nullable=false)
+     * @JMS\Groups(groups={"api"})
      */
     private $mccCapitalizable = false;
 
@@ -275,6 +309,7 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="mcc_cc_coeff_session_1", type="float", precision=10, scale=0, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $mccCcCoeffSession1;
 
@@ -282,6 +317,7 @@ class CourseInfo
      * @var int|null
      *
      * @ORM\Column(name="mcc_cc_nb_eval_session_1", type="integer", nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $mccCcNbEvalSession1;
 
@@ -289,6 +325,7 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="mcc_ct_coeff_session_1", type="float", precision=10, scale=0, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $mccCtCoeffSession1;
 
@@ -296,6 +333,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="mcc_ct_nat_session_1", type="string", length=100, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $mccCtNatSession1;
 
@@ -303,6 +341,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="mcc_ct_duration_session_1", type="string", length=100, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $mccCtDurationSession1;
 
@@ -310,6 +349,7 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="mcc_ct_coeff_session_2", type="float", precision=10, scale=0, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $mccCtCoeffSession2;
 
@@ -317,6 +357,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="mcc_ct_nat_session_2", type="string", length=100, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $mccCtNatSession2;
 
@@ -324,13 +365,16 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="mcc_ct_duration_session_2", type="string", length=100, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $mccCtDurationSession2;
+
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="mcc_advice", type="text", length=65535, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $mccAdvice;
 
@@ -338,6 +382,7 @@ class CourseInfo
      * @var bool
      *
      * @ORM\Column(name="tutoring", type="boolean", nullable=false)
+     * @JMS\Groups(groups={"api"})
      */
     private $tutoring = false;
 
@@ -345,6 +390,7 @@ class CourseInfo
      * @var bool
      *
      * @ORM\Column(name="tutoring_teacher", type="boolean", nullable=false)
+     * @JMS\Groups(groups={"api"})
      */
     private $tutoringTeacher = false;
 
@@ -352,6 +398,7 @@ class CourseInfo
      * @var bool
      *
      * @ORM\Column(name="tutoring_student", type="boolean", nullable=false)
+     * @JMS\Groups(groups={"api"})
      */
     private $tutoringStudent = false;
 
@@ -359,6 +406,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="tutoring_description", type="text", length=65535, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $tutoringDescription;
 
@@ -366,6 +414,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="educational_resources", type="text", length=65535, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $educationalResources;
 
@@ -373,6 +422,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="bibliographic_resources", type="text", length=65535, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $bibliographicResources;
 
@@ -380,6 +430,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="agenda", type="text", length=65535, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $agenda;
 
@@ -387,6 +438,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="organization", type="text", length=65535, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $organization;
 
@@ -394,6 +446,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="closing_remarks", type="text", length=65535, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $closingRemarks;
 
@@ -401,6 +454,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="closing_video", type="text", length=65535, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $closingVideo;
 
@@ -409,6 +463,7 @@ class CourseInfo
      *
      * @ORM\Column(name="creation_date", type="datetime", nullable=false)
      * @Gedmo\Timestampable(on="create")
+     * @JMS\Groups(groups={"api"})
      */
     private $creationDate;
 
@@ -416,6 +471,7 @@ class CourseInfo
      * @var \DateTime|null
      *
      * @ORM\Column(name="modification_date", type="datetime", nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $modificationDate;
 
@@ -423,6 +479,7 @@ class CourseInfo
      * @var \DateTime|null
      *
      * @ORM\Column(name="publication_date", type="datetime", nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $publicationDate;
 
@@ -430,6 +487,7 @@ class CourseInfo
      * @var bool
      *
      * @ORM\Column(name="tem_presentation_tab_valid", type="boolean", nullable=false)
+     * @JMS\Groups(groups={"api"})
      */
     private $temPresentationTabValid = false;
 
@@ -437,6 +495,7 @@ class CourseInfo
      * @var bool
      *
      * @ORM\Column(name="tem_activities_tab_valid", type="boolean", nullable=false)
+     * @JMS\Groups(groups={"api"})
      */
     private $temActivitiesTabValid = false;
 
@@ -444,6 +503,7 @@ class CourseInfo
      * @var bool
      *
      * @ORM\Column(name="tem_objectives_tab_valid", type="boolean", nullable=false)
+     * @JMS\Groups(groups={"api"})
      */
     private $temObjectivesTabValid = false;
 
@@ -451,6 +511,7 @@ class CourseInfo
      * @var bool
      *
      * @ORM\Column(name="tem_mcc_tab_valid", type="boolean", nullable=false)
+     * @JMS\Groups(groups={"api"})
      */
     private $temMccTabValid = false;
 
@@ -458,6 +519,7 @@ class CourseInfo
      * @var bool
      *
      * @ORM\Column(name="tem_equipments_tab_valid", type="boolean", nullable=false)
+     * @JMS\Groups(groups={"api"})
      */
     private $temEquipmentsTabValid = false;
 
@@ -465,6 +527,7 @@ class CourseInfo
      * @var bool
      *
      * @ORM\Column(name="tem_infos_tab_valid", type="boolean", nullable=false)
+     * @JMS\Groups(groups={"api"})
      */
     private $temInfosTabValid = false;
 
@@ -472,6 +535,7 @@ class CourseInfo
      * @var bool
      *
      * @ORM\Column(name="tem_closing_remarks_tab_valid", type="boolean", nullable=false)
+     * @JMS\Groups(groups={"api"})
      */
     private $temClosingRemarksTabValid = false;
 
@@ -591,6 +655,7 @@ class CourseInfo
 
     /**
      * @var string|null
+     * @JMS\Groups(groups={"api"})
      */
     private $previousImage = null;
 
@@ -1812,6 +1877,16 @@ class CourseInfo
     }
 
     /**
+     * @JMS\VirtualProperty()
+     * @JMS\Groups(groups={"api"})
+     * @JMS\SerializedName("course")
+     */
+    public function getCourseApi()
+    {
+        return ['id' => $this->getCourse()->getId()];
+    }
+
+    /**
      * @param Course $course
      * @return CourseInfo
      */
@@ -1828,6 +1903,16 @@ class CourseInfo
     public function getStructure(): ?Structure
     {
         return $this->structure;
+    }
+
+    /**
+     * @JMS\VirtualProperty()
+     * @JMS\Groups(groups={"api"})
+     * @JMS\SerializedName("structure")
+     */
+    public function getStructureApi()
+    {
+        return ['id' => $this->getStructure()->getId()];
     }
 
     /**
@@ -1885,6 +1970,16 @@ class CourseInfo
     public function getYear(): ?Year
     {
         return $this->year;
+    }
+
+    /**
+     * @JMS\VirtualProperty()
+     * @JMS\Groups(groups={"api"})
+     * @JMS\SerializedName("year")
+     */
+    public function getYearApi()
+    {
+        return ['id' => $this->getYear()->getId()];
     }
 
     /**
@@ -2246,6 +2341,7 @@ class CourseInfo
 
     public function __clone()
     {
+
         if ($this->coursePermissions instanceof ArrayCollection) {
             $this->coursePermissions = clone $this->coursePermissions;
             /**

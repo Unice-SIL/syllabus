@@ -2,11 +2,14 @@
 
 namespace AppBundle\Controller\Api;
 
+use AppBundle\Decorator\Validator;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Exception\ResourceValidationException;
+use AppBundle\Form\Api\CourseInfoType;
 use AppBundle\Helper\ApiHelper;
 use AppBundle\Repository\Doctrine\CourseInfoDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
 use Ramsey\Uuid\Uuid;
 use Swagger\Annotations as SWG;
@@ -15,6 +18,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
@@ -86,14 +91,12 @@ class CourseInfoApiController extends Controller
     }
 
     /**
-     * @Route("/", name="new", methods={"POST"})
+     * @Route("", name="post", methods={"POST"})
      */
-    public function newAction(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, ValidatorInterface $validator)
+    public function postAction(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, ValidatorInterface $validator)
     {
-        $data = $request->getContent();
+        $courseInfo = $serializer->deserialize($request->getContent(), CourseInfo::class, 'json');
 
-        $courseInfo = $serializer->deserialize($data, CourseInfo::class, 'json');
-        $courseInfo = clone $courseInfo;
         if (count($violations = $validator->validate($courseInfo))) {
             $message = "Data sent are invalid: [";
             foreach ($violations as $violation){
@@ -107,7 +110,44 @@ class CourseInfoApiController extends Controller
         $em->persist($courseInfo);
         $em->flush();
 
-        return $this->json($serializer->toArray($courseInfo), Response::HTTP_CREATED);
+        $response = new Response($serializer->serialize($courseInfo, 'json', SerializationContext::create()->setGroups('api')), Response::HTTP_CREATED);
+        $response->headers->set('Content-Type', 'application/json');
 
+        return $response;
+
+    }
+
+    /**
+     * @Route("/{id}", name="put", methods={"PUT"})
+     * @param Request $request
+     * @param SerializerInterface $serializer
+     * @param EntityManagerInterface $em
+     * @param Validator $validator
+     * @param string $id
+     * @return JsonResponse
+     * @throws ResourceValidationException
+     */
+    public function putAction(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, Validator $validator, CourseInfo $ci)
+    {
+        $courseInfo = $serializer->deserialize($request->getContent(), CourseInfo::class, 'json');
+        $courseInfo->setId($ci->getId());
+
+        if (count($violations = $validator->validateOnPut($courseInfo))) {
+            $message = "Data sent are invalid: [";
+            foreach ($violations as $violation) {
+                $message .= "{$violation->getPropertyPath()}: {$violation->getMessage()}, ";
+            }
+            $message = rtrim($message, ', ');
+            $message .= "]";
+            throw new ResourceValidationException($message);
+        }
+
+        $em->merge($courseInfo);
+        $em->flush();
+
+        $response = new Response($serializer->serialize($courseInfo, 'json', SerializationContext::create()->setGroups('api')), Response::HTTP_OK);
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
     }
 }

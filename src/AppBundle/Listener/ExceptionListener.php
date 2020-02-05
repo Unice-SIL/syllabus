@@ -7,6 +7,7 @@ use JMS\Serializer\Exception\ObjectConstructionException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ExceptionListener
 {
@@ -18,7 +19,6 @@ class ExceptionListener
             // You get the exception object from the received event
             $exception = $event->getException();
 
-
             $response = new Response();
 
             if ($exception instanceof ObjectConstructionException) {
@@ -27,7 +27,12 @@ class ExceptionListener
             } elseif ($exception instanceof ResourceValidationException) {
                 $response->setStatusCode(Response::HTTP_BAD_REQUEST);
                 $message = $exception->getMessage();
-            } else {
+            }
+            elseif ($exception instanceof NotFoundHttpException) {
+                $response->setStatusCode($exception->getStatusCode());
+                $message = 'Page not fount';
+            }
+            else {
                 $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
                 $message = "Internal Error Server";
             }

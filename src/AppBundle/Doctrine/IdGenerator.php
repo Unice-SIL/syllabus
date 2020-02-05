@@ -19,12 +19,6 @@ class IdGenerator extends AbstractIdGenerator
      */
     public function generate(EntityManager $em, $entity)
     {
-        $uuid = Uuid::uuid4();
-
-        if (null !== $em->getRepository(get_class($entity))->findOneBy(['id' => $uuid])) {
-            $uuid = $this->generate($em, $entity);
-        }
-
-        return $uuid;
+        return Uuid::uuid4();
     }
 }
