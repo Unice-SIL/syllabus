@@ -3,8 +3,9 @@
 {% block subContent %}
     <div id="section-activities-content">
         {% include 'course_info/activities/view/sidebar_sections.html.twig' %}
+        <button id="button-minimize" class="btn text-secondary mt-2"><i class="fas fa-caret-square-left"></i></button>
         {% if activeSection is not null %}
-            <div id="activity-content" class="col-sm p-0">
+            <div id="activity-content" class="col p-0">
                 {% include 'course_info/activities/view/activity_content.html.twig' %}
                 <div class="card">
                     <div class="card-header d-flex p-0">
@@ -98,10 +99,12 @@
                 if ($sectionActivitiesContent.hasClass('sidebar-mini'))
                 {
                     $sectionActivitiesContent.removeClass('sidebar-mini');
+                    $(this).html('<i class="fas fa-caret-square-left"></i>');
                 }
                 else
                 {
                     $sectionActivitiesContent.addClass('sidebar-mini');
+                    $(this).html('<i class="fas fa-caret-square-right"></i>');
                 }
             });
 

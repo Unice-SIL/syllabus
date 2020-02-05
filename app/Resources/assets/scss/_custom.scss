@@ -244,7 +244,24 @@ li.active{
 }
 
 #section-activities-content.sidebar-mini .sidebar-activities{
-    width: 50px;
+    width: 40px;
+}
+
+.sidebar-activities > * {
+  transition-duration: 0.5s;
+  -webkit-transition-duration: 0.5s;
+  transition-property: opacity;
+  -webkit-transition-property: opacity;
+  transition-timing-function: ease-in-out;
+  -webkit-transition-timing-function: ease-in-out;
+}
+
+#section-activities-content.sidebar-mini .sidebar-activities > * {
+    opacity: 0;
+}
+
+#section-activities-content.sidebar-mini .sidebar-activities:hover > * {
+  opacity: 1;
 }
 
 .sidebar-activities {
@@ -270,17 +287,21 @@ li.active{
     left: 250px;
     transition-duration: 0.5s;
     -webkit-transition-duration: 0.5s;
-    transition-property: width left;
-    -webkit-transition-property: width left;
+    transition-property: width, left;
+    -webkit-transition-property: width, left;
     transition-timing-function: ease-in-out;
     -webkit-transition-timing-function: ease-in-out;
 }
 
 #section-activities-content.sidebar-mini #activity-content {
-    width: calc(100% - 50px);
-    left: 50px;
+    width: calc(100% - 40px);
+    left: 40px;
 }
 
+#button-minimize {
+    position: absolute;
+    z-index: 101;
+}
 
 /*
 .button-gradient {
