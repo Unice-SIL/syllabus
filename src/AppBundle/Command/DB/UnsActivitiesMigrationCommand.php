@@ -672,11 +672,11 @@ class UnsActivitiesMigrationCommand extends Command
                     ->setEvaluationPeer($oldSectionActivity->isEvaluationPeer())
                     ->setActivityMode($modes[self::MODE_INDIVIDUAL_ID]);
             } // Cours Magistral
-            elseif ($sectionActivity->getActivity()->getId() === '43521e2b-be92-4667-bbda-73cef56c9702')
+            elseif ($oldSectionActivity->getActivity()->getId() === '43521e2b-be92-4667-bbda-73cef56c9702')
             {
                 $sectionActivity->setActivityMode($modes[self::MODE_TOGETHER_ID]);
             }
-            elseif ($sectionActivity->getActivity()->getId() === 'bbfde579-6b10-43f5-a99f-4795c33e131c')
+            elseif ($oldSectionActivity->getActivity()->getId() === 'bbfde579-6b10-43f5-a99f-4795c33e131c')
             {
                 $sectionActivity->setActivityMode($modes[self::MODE_INDIVIDUAL_ID]);
             }
@@ -688,7 +688,7 @@ class UnsActivitiesMigrationCommand extends Command
 
                 if (!array_key_exists($oldSectionActivity->getActivity()->getGrp(), $modesMatching)) {
                     $io->warning(
-                        "Le mode {$oldSectionActivity->getActivity()->getGrp()} n'est pas referencee pas dans la table de correspondance des modes d'activite"
+                        "Le mode {$oldSectionActivity->getActivity()->getGrp()} n'est pas referencee pas dans la table de correspondance des modes d'activite(activité: {$oldSectionActivity->getActivity()->getId()})"
                     );
                     continue;
                 }
