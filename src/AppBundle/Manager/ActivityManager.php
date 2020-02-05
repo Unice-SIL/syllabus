@@ -31,18 +31,9 @@ class ActivityManager
         $this->repository = $repository;
     }
 
-    public function create(string $type)
+    public function create()
     {
-        if (!in_array($type, ActivityType::TYPES)) {
-            throw new \LogicException('This activity type' . $type . 'is not handled by the application!');
-        }
-
-        $activity = new Activity();
-        $activity->isNew = true; // This dynamic property helps to track the new state of this entity
-        $activity->setId(Uuid::uuid4());
-        $this->em->persist($activity);
-
-        return $activity;
+        return new Activity();
     }
 
     /**
@@ -52,28 +43,6 @@ class ActivityManager
     {
         $activities = $this->repository->findAll();
         return $activities;
-    }
-
-    public function getModeChoicesByType($type)
-    {
-        switch ($type) {
-            case ActivityType::ACTIVITY:
-                return ActivityMode::ACTIVITY_MODES;
-            case ActivityType::EVALUATION:
-                return ActivityMode::EVALUATION_MODES;
-            default:
-                throw new \LogicException('This activity type' . $type . 'is not handled!');
-        }
-    }
-
-    public function getGroupeChoicesByType($type)
-    {
-        switch ($type) {
-            case ActivityType::ACTIVITY:
-                return ActivityGroup::ACTIVITY_GROUPS;
-            default:
-                throw new \LogicException('This activity type' . $type . 'is not handled!');
-        }
     }
 
 }

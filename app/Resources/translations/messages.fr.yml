@@ -26,6 +26,8 @@ app:
         password_matching: 'Les deux mots de passe ne sont pas identiques'
     activity:
       label:
+        obsolete: 'Obsolète'
+        activityTypes: 'Types'
         label: 'Intitulé'
         mode: 'Mode'
         grp: 'Groupe'

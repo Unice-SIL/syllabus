@@ -1,5 +1,5 @@
 {% extends 'admin_layout.html.twig' %}
-{% set h1 = 'Ajouter une ' ~ form.vars.value.type|trans %}
+{% set h1 = 'Ajouter une activité' %}
 {% block subContent %}
 
     <div class="card card-primary">
@@ -8,11 +8,7 @@
         {{ form_start(form) }}
             <div class="card-body">
                 {{ form_row(form.label) }}
-                {{ form_row(form.description) }}
-                {{ form_row(form.mode) }}
-                {% if form.grp is defined %}
-                    {{ form_row(form.grp) }}
-                {% endif %}
+                {{ form_row(form.activityTypes) }}
             </div>
             <!-- /.card-body -->
 

@@ -1,5 +1,5 @@
 {% extends 'admin_layout.html.twig' %}
-{% set h1 = 'Modifier une ' ~ form.vars.value.type|trans %}
+{% set h1 = 'Modifier une activité' %}
 {% block subContent %}
 
     <div class="card card-primary">
@@ -9,11 +9,7 @@
         <div class="card-body">
 
             {{ form_row(form.label) }}
-            {{ form_row(form.description) }}
-            {{ form_row(form.mode) }}
-            {% if form.grp is defined %}
-                {{ form_row(form.grp) }}
-            {% endif %}
+            {{ form_row(form.activityTypes) }}
             <div class="custom-control custom-switch">
                 {{ form_row(form.obsolete) }}
             </div>

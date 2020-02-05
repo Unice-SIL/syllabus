@@ -3,6 +3,7 @@
 namespace AppBundle\Form;
 
 use AppBundle\Form\Subscriber\ActivityTypeSubscriber;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -25,7 +26,12 @@ class ActivityType extends AbstractType
     {
         $builder
             ->add('label')
-            ->add('description')
+            ->add('activityTypes', EntityType::class, [
+                'class' => \AppBundle\Entity\ActivityType::class,
+                'multiple' => true,
+                'by_reference' => false,
+                'required' => false
+            ])
             ->addEventSubscriber($this->activityTypeSubscriber)
         ;
 
