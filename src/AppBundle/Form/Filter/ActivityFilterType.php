@@ -6,6 +6,9 @@ use AppBundle\Constant\ActivityGroup;
 use AppBundle\Constant\ActivityMode;
 use AppBundle\Constant\ActivityType;
 use AppBundle\Manager\ActivityManager;
+use Doctrine\ORM\Query\Expr;
+use Doctrine\ORM\QueryBuilder;
+use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderExecuterInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterOperands;
 use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\ChoiceFilterType;
 use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\TextFilterType;
@@ -27,30 +30,28 @@ class ActivityFilterType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $type = $options['type'];
-
-
-        $builder->add('label', TextFilterType::class, [
+        $builder
+        ->add('label', TextFilterType::class, [
             'condition_pattern' => FilterOperands::STRING_CONTAINS,
             'label' => 'app.form.activity.label.label',
             'attr' => [
                 'class' => 'autocomplete-input',
-                'data-autocomplete-path' => $this->generator->generate('app_admin_activity_autocomplete', ['type' => $type])
+                'data-autocomplete-path' => $this->generator->generate('app_admin_activity_autocomplete')
             ]
-        ]);
+        ])
+//        ->add('course', ActivityTypeFilterType::class, [
+//        'label' => false,
+//        'add_shared' => function (FilterBuilderExecuterInterface $qbe) {
+//
+//                $closure = function (QueryBuilder $filterBuilder, $alias, $joinAlias, Expr $expr) {
+//                    $filterBuilder->leftJoin($alias . '.activityTypes', $joinAlias);
+//                };
+//
+//                $qbe->addOnce($qbe->getAlias().'.activityTypes', 'at', $closure);
+//            }
+//        ])
+        ;
 
-        $modeChoices = $this->activityManager->getModeChoicesByType($type);
-        $builder->add('mode', ChoiceFilterType::class, [
-            'label' => 'app.form.activity.label.mode',
-            'choices' => array_combine($modeChoices, $modeChoices)
-        ]);
-        if ($type === ActivityType::ACTIVITY) {
-            $grpChoices = $this->activityManager->getGroupeChoicesByType($type);
-            $builder->add('grp', ChoiceFilterType::class, [
-                'label' => 'app.form.activity.label.grp',
-                'choices' => array_combine($grpChoices, $grpChoices)
-            ]);
-        }
     }
 
     public function getBlockPrefix()

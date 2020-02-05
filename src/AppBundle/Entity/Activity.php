@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -67,6 +68,12 @@ class Activity
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\ActivityType", mappedBy="activities")
      */
     private $activityTypes;
+
+    public function __construct()
+    {
+        $this->activityTypes = new ArrayCollection();
+    }
+
 
     /**
      * @return string
@@ -185,7 +192,7 @@ class Activity
     /**
      * @return Collection
      */
-    public function getActivityTypes(): Collection
+    public function getActivityTypes(): ?Collection
     {
         return $this->activityTypes;
     }
