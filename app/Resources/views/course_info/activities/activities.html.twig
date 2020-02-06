@@ -33,7 +33,7 @@
                                                 {% if activity.activityTypes is not empty and activityType in activity.activityTypes %}
                                                     <a class="m-auto modal-action"
                                                        data-action-title="Ajouter une activité"
-                                                       data-action-url="{{ path("course_activities_add_activity", {'sectionId': activeSection.id, 'activityId': activity.id}) }}">
+                                                       data-action-url="{{ path("course_activities_add_activity", {'sectionId': activeSection.id, 'activityId': activity.id, 'activityTypeId': activityType.id}) }}">
                                                         <div class="activity-carousel-item text-center d-flex shadow">
                                                             <div class="m-auto">{{ activity.label }}</div>
                                                         </div>

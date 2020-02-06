@@ -205,17 +205,19 @@ class CourseInfoActivitiesController extends AbstractController
     }
 
     /**
-     * @Route("/course/activities/section/{sectionId}/activity/{activityId}/add", name="course_activities_add_activity"))
+     * @Route("/course/activities/section/{sectionId}/activity/{activityId}/activityType/{activityTypeId}/add", name="course_activities_add_activity"))
      *
      * @param CourseSection $courseSection
      * @param Activity $activity
+     * @param ActivityType $activityType
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      * @ParamConverter("courseSection", options={"mapping": {"sectionId": "id"}})
      * @ParamConverter("activity", options={"mapping": {"activityId": "id"}})
+     * @ParamConverter("activityType", options={"mapping": {"activityTypeId": "id"}})
      */
-    public function addActivityAction(CourseSection $courseSection, Activity $activity, Request $request)
+    public function addActivityAction(CourseSection $courseSection, Activity $activity, ActivityType $activityType, Request $request)
     {
         $status = true;
         $message = null;
@@ -229,6 +231,14 @@ class CourseInfoActivitiesController extends AbstractController
             ]);
         }
 
+        if (!$activityType instanceof ActivityType)
+        {
+            return $this->json([
+                'status' => false,
+                'render' => "Une erreur est survenue : Le type d'activité n'existe pas"
+            ]);
+        }
+
         if (!$activity instanceof Activity)
         {
             return $this->json([
@@ -237,10 +247,7 @@ class CourseInfoActivitiesController extends AbstractController
             ]);
         }
 
-        if (!$activity->getActivityTypes()->isEmpty())
-        {
-            $courseSectionActivity->setActivityType($activity->getActivityTypes()->current());
-        }
+        $courseSectionActivity->setActivityType($activityType);
 
         $typeId = $request->query->get('activity_type');
         if ($typeId)
