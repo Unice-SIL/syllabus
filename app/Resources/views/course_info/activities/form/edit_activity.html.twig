@@ -1,7 +1,7 @@
 <h5>
     {{ activity.label }}
 </h5>
-{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('course_activities_add_activity', {'sectionId': courseSection.id, 'activityId': activity.id })}}) }}
+{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('course_activities_edit_activity', {'courseSectionActivityId': courseSectionActivity.id, 'activityId': activity.id })}}) }}
 {{ form_errors(form) }}
 {{ form_row(form.description) }}
 {{ form_row(form.activityType, {label_attr: {class: 'radio-custom'} }) }}
@@ -14,21 +14,21 @@
     <label>Type de contrôle (Continu / Terminal) :</label>
     {{ form_row(form.evaluationCt) }}
     <div class="input-group mb-3">
-    {{ form_errors(form.evaluationRate) }}
-    {{ form_label(form.evaluationRate) }}
-    {{ form_widget(form.evaluationRate) }}
-    <div class="input-group-append">
+        {{ form_errors(form.evaluationRate) }}
+        {{ form_label(form.evaluationRate) }}
+        {{ form_widget(form.evaluationRate) }}
+        <div class="input-group-append">
         <span class="input-group-text">
             <i class="fas fa-percent"></i>
         </span>
-    </div>
+        </div>
     </div>
     {{ form_row(form.evaluationTeacher) }}
     {{ form_row(form.evaluationPeer) }}
 </div>
 <div class="d-flex justify-content-center">
     <button type="submit" class="btn btn-primary rounded">
-        Ajouter
+        Modifier
     </button>
 </div>
 {{ form_widget(form._token) }}

@@ -39,17 +39,17 @@ class ActivityFilterType extends AbstractType
                 'data-autocomplete-path' => $this->generator->generate('app_admin_activity_autocomplete')
             ]
         ])
-//        ->add('course', ActivityTypeFilterType::class, [
-//        'label' => false,
-//        'add_shared' => function (FilterBuilderExecuterInterface $qbe) {
-//
-//                $closure = function (QueryBuilder $filterBuilder, $alias, $joinAlias, Expr $expr) {
-//                    $filterBuilder->leftJoin($alias . '.activityTypes', $joinAlias);
-//                };
-//
-//                $qbe->addOnce($qbe->getAlias().'.activityTypes', 'at', $closure);
-//            }
-//        ])
+        ->add('activityTypes', ActivityTypeFilterType::class, [
+        'label' => false,
+        'add_shared' => function (FilterBuilderExecuterInterface $qbe) {
+
+                $closure = function (QueryBuilder $filterBuilder, $alias, $joinAlias, Expr $expr) {
+                    $filterBuilder->leftJoin($alias . '.activityTypes', $joinAlias);
+                };
+
+                $qbe->addOnce($qbe->getAlias().'.activityTypes', 'at', $closure);
+            }
+        ])
         ;
 
     }

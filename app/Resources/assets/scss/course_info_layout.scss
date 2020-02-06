@@ -27,7 +27,7 @@
  * Focus.
  */
 
-.hasActiveChild .toggle-focus:not(.active) {
+.hasActiveChild .card-syllabus:not(.active) {
   opacity: 0.2;
   pointer-events: none;
 }

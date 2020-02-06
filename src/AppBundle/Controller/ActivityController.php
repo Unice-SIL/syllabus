@@ -40,7 +40,9 @@ class ActivityController extends Controller
         if ($request->query->has($form->getName())) {
 
             $form->submit($request->query->get($form->getName()));
+
             $filterBuilderUpdater->addFilterConditions($form, $qb);
+
 
         }
 

@@ -44,13 +44,13 @@ class ActivityTypeDoctrineRepository extends AbstractDoctrineRepository implemen
      */
     public function findAll(): \ArrayObject
     {
-        $activityType = new \ArrayObject();
-        $qb = $this->entityManager->getRepository(ActivityType::class)->createQueryBuilder('a');
-        $qb->where($qb->expr()->eq('a.obsolete', ':obsolete'))
-            ->setParameter('obsolete', false)
-            ->orderBy('a.position', 'ASC')
-            ->addOrderBy('a.label', 'ASC');
         try {
+            $activityType = new \ArrayObject();
+            $qb = $this->entityManager->getRepository(ActivityType::class)->createQueryBuilder('a');
+            $qb->where($qb->expr()->eq('a.obsolete', ':obsolete'))
+                ->setParameter('obsolete', false)
+                ->orderBy('a.position', 'ASC')
+                ->addOrderBy('a.label', 'ASC');
             foreach($this->entityManager->getRepository(ActivityType::class)
                         ->findBy([], ['label' => 'ASC']) as $activityType) {
                 $activityType->append($activityType);
@@ -59,33 +59,6 @@ class ActivityTypeDoctrineRepository extends AbstractDoctrineRepository implemen
             throw $e;
         }
         return $activityType;
-    }
-
-    /**
-     * @param $mode
-     * @return \ArrayObject
-     * @throws \Exception
-     */
-    public function findByCriteria($mode): \ArrayObject
-    {
-        $activitiesType = new \ArrayObject();
-        try{
-            $qb = $this->entityManager->getRepository(ActivityType::class)->createQueryBuilder('a');
-            $qb->where($qb->expr()->eq('a.obsolete', ':obsolete'))
-                ->setParameter('obsolete', false)
-                ->orderBy('a.position', 'ASC')
-                ->addOrderBy('a.label', 'ASC');
-            if(!is_null($mode)){
-                $qb->andWhere($qb->expr()->eq('a.mode', ':mode'))
-                    ->setParameter('mode', $mode);
-            }
-            foreach ($qb->getQuery()->getResult() as $activity){
-                $activitiesType->append($activity);
-            }
-        }catch (\Exception $e){
-            throw $e;
-        }
-        return $activitiesType;
     }
 
     /**

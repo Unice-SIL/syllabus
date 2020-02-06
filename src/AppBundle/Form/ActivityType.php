@@ -26,11 +26,12 @@ class ActivityType extends AbstractType
     {
         $builder
             ->add('label')
+            ->add('description')
             ->add('activityTypes', EntityType::class, [
+                'label' => "Types d'activité",
                 'class' => \AppBundle\Entity\ActivityType::class,
                 'multiple' => true,
-                'by_reference' => false,
-                'required' => false
+                'by_reference' => false
             ])
             ->addEventSubscriber($this->activityTypeSubscriber)
         ;

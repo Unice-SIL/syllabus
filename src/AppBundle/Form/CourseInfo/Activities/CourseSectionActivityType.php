@@ -18,6 +18,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Class ActivityType
@@ -40,7 +41,8 @@ class CourseSectionActivityType extends AbstractType
         ])
             ->add('evaluationRate', NumberType::class, [
                 'label' => "Coefficient",
-                'required' => false
+                'required' => false,
+                'label_attr' => ['class' => 'mr-2 my-auto']
             ])
             ->add('evaluable', CheckboxType::class, [
                 'label' => false,
@@ -96,8 +98,6 @@ class CourseSectionActivityType extends AbstractType
             ]);
 
         $formModifier = function (FormInterface $form, ActivityType $activityType = null) {
-            $modes = null === $activityType ? [] : $activityType->getActivityModes()->toArray();
-
             $form->add('activityMode', EntityType::class, [
                 'class' => ActivityMode::class,
                 'label' => "Mode d'enseignement",
@@ -138,7 +138,7 @@ class CourseSectionActivityType extends AbstractType
         $resolver->setDefaults([
             'data_class' => CourseSectionActivity::class,
             'allow_extra_fields' => true,
-            'activity' => Activity::class
+            'activity' => null
         ]);
 
         $resolver->setAllowedTypes('activity', Activity::class);
