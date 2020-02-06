@@ -6,6 +6,8 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\ActivityType;
 use AppBundle\Form\ActivityTypeType;
+use AppBundle\Manager\ActivityTypeManager;
+use AppBundle\Repository\Doctrine\ActivityTypeDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;

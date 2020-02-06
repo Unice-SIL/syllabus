@@ -113,14 +113,19 @@ class ActivityTypeDoctrineRepository extends AbstractDoctrineRepository implemen
             ->addOrderBy('a.label', 'ASC');
     }
 
-    public function findLikeQuery(string $query, string $type): array
+    /**
+     * @param string $query
+     * @param string $field
+     * @return array
+     */
+    public function findLikeQuery(string $query, string $field): array
     {
-        return $this->entityManager->getRepository(ActivityType::class)->createQueryBuilder('a')
-            ->andWhere('a.label LIKE :query ')
-            ->andWhere('a.mode = :mode ')
-            ->setParameter('query', '%' . $query . '%')
-            ->setParameter('mode', $type)
-            ->getQuery()
-            ->getResult();
+        $qb = $this->getIndexQueryBuilder();
+        if (in_array($field, ['label'])) {
+            $qb->andWhere($qb->getRootAlias().'.'.$field.' LIKE :query ')
+                ->setParameter('query', '%' . $query . '%')
+            ;
+        }
+        return $qb->getQuery()->getResult();
     }
 }
