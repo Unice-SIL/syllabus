@@ -5,11 +5,13 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Course
  *
  * @ORM\Table(name="course", uniqueConstraints={@ORM\UniqueConstraint(name="etb_id_UNIQUE", columns={"etb_id"})})
+ * @UniqueEntity(fields={"etbId"}, message="Le cours avec pour code établissement {{ value }} existe déjà", errorPath="etbId")
  * @ORM\Entity
  */
 class Course

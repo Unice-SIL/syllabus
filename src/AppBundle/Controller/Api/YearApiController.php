@@ -8,11 +8,14 @@ use AppBundle\Helper\ApiHelper;
 use AppBundle\Repository\Doctrine\YearDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
+use JMS\Serializer\SerializationContext;
+use JMS\Serializer\SerializerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class YearApiController
@@ -83,6 +86,19 @@ class YearApiController extends Controller
         $response = $apiHelper->setDataAndGetResponse($qb, $config);
 
         return $this->json($response);
+    }
+
+    /**
+     * @Route("/{id}", name="show", methods={"GET"})
+     */
+    public function showAction(Year $year, SerializerInterface $serializer)
+    {
+        $year = $serializer->serialize($year, 'json');
+
+        $response = new Response($year, Response::HTTP_OK);
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
     }
 
 }

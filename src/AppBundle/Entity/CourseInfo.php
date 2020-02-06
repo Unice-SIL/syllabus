@@ -18,7 +18,7 @@ use JMS\Serializer\Annotation as JMS;
  *
  * @ORM\Table(name="course_info")
  * @ORM\Entity
- * @UniqueEntity(fields={"year", "course"}, message="Le cours {{ value }} existe déjà pour cette année", errorPath="course", payload={"ignoreForPutApi"} )
+ * @UniqueEntity(fields={"year", "course"}, message="Le cours {{ value }} existe déjà pour cette année", errorPath="course")
  *
  */
 class CourseInfo
