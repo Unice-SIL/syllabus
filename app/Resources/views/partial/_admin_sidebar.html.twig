@@ -25,7 +25,7 @@
             </a>
         </li>
 
-        {% set referentielLink = ['app_admin_activity', 'app_admin_year', 'app_admin_equipment', 'app_admin_structure'] %}
+        {% set referentielLink = ['app_admin_activity', 'app_admin_type_activity', 'app_admin_year', 'app_admin_equipment', 'app_admin_structure'] %}
         <li class="nav-item has-treeview {{ printActiveAdminSidebarLink(referentielLink) ? 'menu-open' }}">
             <a href="#" class="nav-link {{ printActiveAdminSidebarLink(referentielLink) }}">
                 <i class="nav-icon fas fa-book"></i>
@@ -36,9 +36,9 @@
             </a>
             <ul class="nav nav-treeview"
                 style="display: {{ printActiveAdminSidebarLink(referentielLink) ? 'block' : 'none' }};">
-
-                <li class="nav-item has-treeview">
-                    <a href="#" class="nav-link {{ printActiveAdminSidebarLink(['app_admin_activity']) }}">
+                {% set activityLink = ['app_admin_activity', 'app_admin_type_activity'] %}
+                <li class="nav-item has-treeview {{ printActiveAdminSidebarLink(activityLink) ? 'menu-open' }}">
+                    <a href="#" class="nav-link {{ printActiveAdminSidebarLink(activityLink) }}">
                         <i class="nav-icon fas fa-film"></i>
                         <p>
                             Activités
@@ -46,9 +46,10 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview"
-                        style="display: {{ printActiveAdminSidebarLink(referentielLink) ? 'block' : 'none' }};">
+                        style="display: {{ printActiveAdminSidebarLink(activityLink) ? 'block' : 'none' }};">
                         <li>
-                            <a href="{{ path('app_admin_activity_index') }}" class="nav-link">
+                            <a href="{{ path('app_admin_activity_index') }}"
+                               class="nav-link {{ printActiveAdminSidebarLink(['app_admin_activity']) }}">
                                 <i class="fas fa-dot-circle nav-icon"></i>
                                 <p>
                                     Activités
@@ -56,7 +57,8 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{ path('app_admin_type_activity_index') }}" class="nav-link">
+                            <a href="{{ path('app_admin_type_activity_index') }}"
+                               class="nav-link {{ printActiveAdminSidebarLink(['app_admin_type_activity']) }}">
                                 <i class="fas fa-dot-circle nav-icon"></i>
                                 <p>
                                     Types
@@ -77,7 +79,8 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ path('app_admin_equipment_index') }}" class="nav-link {{ printActiveAdminSidebarLink(['app_admin_equipment']) }}">
+                    <a href="{{ path('app_admin_equipment_index') }}"
+                       class="nav-link {{ printActiveAdminSidebarLink(['app_admin_equipment']) }}">
                         <i class="nav-icon fas fa-drafting-compass"></i>
                         <p>
                             Equipements

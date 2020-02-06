@@ -31,6 +31,9 @@ app:
         label: 'Intitulé'
         mode: 'Mode'
         grp: 'Groupe'
+    activity_type:
+      label:
+        label: 'Titre'
     course_info:
       label:
         title: 'Titre'
