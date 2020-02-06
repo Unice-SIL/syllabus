@@ -58,7 +58,7 @@ class ActivityMode
     /**
      * @return string
      */
-    public function getId(): string
+    public function getId(): ?string
     {
         return $this->id;
     }
@@ -159,5 +159,10 @@ class ActivityMode
             }
         }
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getLabel();
     }
 }

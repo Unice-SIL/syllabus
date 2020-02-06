@@ -45,6 +45,11 @@ class ActivityTypeDoctrineRepository extends AbstractDoctrineRepository implemen
     public function findAll(): \ArrayObject
     {
         $activityType = new \ArrayObject();
+        $qb = $this->entityManager->getRepository(ActivityType::class)->createQueryBuilder('a');
+        $qb->where($qb->expr()->eq('a.obsolete', ':obsolete'))
+            ->setParameter('obsolete', false)
+            ->orderBy('a.position', 'ASC')
+            ->addOrderBy('a.label', 'ASC');
         try {
             foreach($this->entityManager->getRepository(ActivityType::class)
                         ->findBy([], ['label' => 'ASC']) as $activityType) {
@@ -54,6 +59,33 @@ class ActivityTypeDoctrineRepository extends AbstractDoctrineRepository implemen
             throw $e;
         }
         return $activityType;
+    }
+
+    /**
+     * @param $mode
+     * @return \ArrayObject
+     * @throws \Exception
+     */
+    public function findByCriteria($mode): \ArrayObject
+    {
+        $activitiesType = new \ArrayObject();
+        try{
+            $qb = $this->entityManager->getRepository(ActivityType::class)->createQueryBuilder('a');
+            $qb->where($qb->expr()->eq('a.obsolete', ':obsolete'))
+                ->setParameter('obsolete', false)
+                ->orderBy('a.position', 'ASC')
+                ->addOrderBy('a.label', 'ASC');
+            if(!is_null($mode)){
+                $qb->andWhere($qb->expr()->eq('a.mode', ':mode'))
+                    ->setParameter('mode', $mode);
+            }
+            foreach ($qb->getQuery()->getResult() as $activity){
+                $activitiesType->append($activity);
+            }
+        }catch (\Exception $e){
+            throw $e;
+        }
+        return $activitiesType;
     }
 
     /**
@@ -108,19 +140,14 @@ class ActivityTypeDoctrineRepository extends AbstractDoctrineRepository implemen
             ->addOrderBy('a.label', 'ASC');
     }
 
-    /**
-     * @param string $query
-     * @param string $field
-     * @return array
-     */
-    public function findLikeQuery(string $query, string $field): array
+    public function findLikeQuery(string $query, string $type): array
     {
-        $qb = $this->getIndexQueryBuilder();
-        if (in_array($field, ['label'])) {
-            $qb->andWhere($qb->getRootAlias().'.'.$field.' LIKE :query ')
-                ->setParameter('query', '%' . $query . '%')
-            ;
-        }
-        return $qb->getQuery()->getResult();
+        return $this->entityManager->getRepository(ActivityType::class)->createQueryBuilder('a')
+            ->andWhere('a.label LIKE :query ')
+            ->andWhere('a.mode = :mode ')
+            ->setParameter('query', '%' . $query . '%')
+            ->setParameter('mode', $type)
+            ->getQuery()
+            ->getResult();
     }
 }

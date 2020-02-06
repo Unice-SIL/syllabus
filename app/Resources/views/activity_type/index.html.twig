@@ -2,20 +2,34 @@
 {% set h1 = 'Liste des types d\'activités' %}
 {% block subContent %}
 
-<div class="card">
+    <div class="card">
+        <div class="card-header">
+            <div class="row ui-front">
+                <a class="btn btn-primary float-right" style="margin-top: 32px"
+                   href="{{ path('app_admin_type_activity_new') }}">Ajouter un type d'activité</a>
+            </div>
+        </div>
         <div class="card-body">
             {% if pagination.totalItemCount > 0 %}
                 <table class="table table-bordered table-responsive-sm">
                     <thead>
                     <tr>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.equipment.label.label'|trans, 'e.label') }}</th>
+                        <th>Modes</th>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.equipment.label.obsolete'|trans, 'e.obsolete') }}</th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for activityType in pagination %}
                         <tr>
-                            <td>{{ activityType.label }}</td>
+                            <td>
+                                <a href="{{ path('app_admin_type_activity_edit', { 'id' : activityType.id }) }}">{{ activityType.label }}</a>
+                            </td>
+                            <td>
+                                {% for activityMode in activityType.activityModes %}
+                                    {{ not loop.first ? ', ' }}{{ activityMode.label }}
+                                {% endfor %}
+                            </td>
                             <td>{{ activityType.obsolete|humanizeBoolean }}</td>
                         </tr>
                     {% endfor %}
@@ -32,6 +46,5 @@
             </div>
         {% endif %}
     </div>
-
-    {% endblock %}
+{% endblock %}
 
