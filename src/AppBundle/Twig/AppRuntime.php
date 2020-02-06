@@ -33,24 +33,6 @@ class AppRuntime implements RuntimeExtensionInterface
 
         foreach ($routes as $route) {
 
-            //Special treatment if the route starts by 'app_admin_activity'. Here we have to check attributes to render the appropriate active policy
-            if (strpos($route, 'app_admin_activity') !== false) {
-                if (array_key_exists('activityType', $options)) {
-                    if (in_array($this->masterRequest->attributes->get('type'), $options['activityType'])) {
-                        return 'active';
-                    }
-
-                    return null;
-                }
-
-                if (strpos($this->masterRequest->get('_route'), $route) !== false) {
-                    return 'active';
-                }
-
-                continue;
-
-            }
-
             //Some routes starts by app_admin_course_info but are stored in different tabs in the admin sidebar
             $specialCourseInfoRoutes = ['app_admin_course_info_import_mcc', 'app_admin_course_info_import_mcc', 'app_admin_course_info_field_index'];
             if (in_array($this->masterRequest->get('_route'), $specialCourseInfoRoutes)) {

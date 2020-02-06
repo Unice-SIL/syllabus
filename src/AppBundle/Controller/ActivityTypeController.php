@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 
 
 use AppBundle\Entity\ActivityType;
+use AppBundle\Repository\Doctrine\ActivityDoctrineRepository;
 use AppBundle\Repository\Doctrine\ActivityTypeDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -44,6 +45,27 @@ class ActivityTypeController extends Controller
         return $this->render('activity_type/index.html.twig', array(
             'pagination' => $pagination
         ));
+    }
+
+    /**
+     * @Route("/autocomplete", name="autocomplete", methods={"GET"})
+     * @param ActivityTypeDoctrineRepository $activityTypeDoctrineRepository
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function autocomplete(ActivityTypeDoctrineRepository $activityTypeDoctrineRepository, Request $request)
+    {
+        $query = $request->query->get('query');
+
+        $activitieTypes = $activityTypeDoctrineRepository->findLikeQuery($query, $request->query->get('field'));
+        $activitieTypes = array_map(function($activityType){
+            return $activityType->getLabel();
+        }, $activitieTypes);
+
+        $activitieTypes = array_unique($activitieTypes);
+        $activitieTypes = array_values($activitieTypes);
+
+        return $this->json(['query' =>  $query, 'suggestions' => $activitieTypes, 'data' => $activitieTypes]);
     }
 
 }

@@ -66,8 +66,5 @@ interface ActivityTypeRepositoryInterface
      * @return array
      */
     public function findLikeQuery(string $query, string $field): array;
-    /**
-     * @return mixed
-    public function findAll();
-     */
+
 }
