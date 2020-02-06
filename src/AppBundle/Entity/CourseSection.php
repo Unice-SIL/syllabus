@@ -59,7 +59,7 @@ class CourseSection
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="CourseSectionActivity", mappedBy="courseSection", cascade={ "persist" }, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="CourseSectionActivity", mappedBy="courseSection", cascade={ "persist", "remove", "merge" }, orphanRemoval=true)
      * @ORM\OrderBy({"position" = "ASC"})
      */
     private $courseSectionActivities;
