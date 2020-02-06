@@ -1,27 +1,38 @@
 <?php
 
-
 namespace AppBundle\Manager;
 
 
-use AppBundle\Entity\ActivityType;
+use AppBundle\Repository\ActivityTypeRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ActivityTypeManager
 {
     /**
-     * @var ObjectRepository
+     * @var \Doctrine\Persistence\ObjectRepository
      */
     private $em;
 
+    /**
+     * @var ActivityTypeRepositoryInterface
+     */
+    private $repository;
 
-    public function __construct(
-        EntityManagerInterface $em
-    )
+
+    public function __construct(EntityManagerInterface $em, ActivityTypeRepositoryInterface $repository)
     {
         $this->em = $em;
+        $this->repository = $repository;
     }
 
+    /**
+     * @return mixed
+     */
+    public function findAll()
+    {
+        $activities = $this->repository->findAll();
+        return $activities;
+    }
     public function create()
     {
 

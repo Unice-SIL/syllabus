@@ -1,144 +1,52 @@
 {% extends 'course_info/layout.html.twig' %}
 
 {% block subContent %}
-    <div style="margin-top: -0.5rem; margin-left: -7.5px; margin-right: -7.5px">
-        <div class="bg-dark text-center p-3 col-sm" style="position: absolute; width: 250px; min-height: calc(100vh - 5.4rem - 3px);">
-            <h5>Sections</h5>
-            <hr class="mb-2">
-            {% if courseInfo.courseSections is empty %}
-                <div class="mb-1 text-warning">
-                    Aucune section n'a été créée
-                </div>
-            {% else %}
-                <ul class="nav nav-pills flex-column">
-                    {% for section in courseInfo.courseSections %}
-                        <li class="nav-item {% if section is same as (activeSection) %}active{% endif %}">
-                            <a class="d-inline-block text-truncate nav-link menu-tab text-white align-middle" href="{{ path('course_activities', { 'id': courseInfo.id, 'sectionId': section.id }) }}">
-                                {{ section.title }}
-                            </a>
-                            <button class="btn dropdown-icon float-right text-white" type="button" data-toggle="dropdown" aria-expanded="false"><i class="fas fa-ellipsis-v"></i> </button>
-                            <div class="dropdown-menu">
-                                <button type="button" class="dropdown-item modal-action text-center"
-                                        data-action-title="Modifier une section"
-                                        data-action-url="{{ path('course_activities_edit_section', {'id': courseInfo.id, 'sectionId': section.id}) }}">
-                                    Modifier
-                                </button>
-                                <button type="button" class="dropdown-item modal-action text-center"
-                                        data-action-title="Supprimer une section"
-                                        data-action-url="{{ path('course_activities_remove_section', {'id': courseInfo.id, 'sectionId': section.id}) }}">
-                                    Supprimer
-                                </button>
-                            </div>
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-            <hr class="mb-2">
-            <div class="mb-1">
-                <button type="button" class="btn btn-link modal-action p-0 text-primary"
-                        data-action-title="Ajouter une section"
-                        data-action-url="{{ path('course_activities_add_section', {'id': courseInfo.id}) }}">
-                    <i class="fas fa-plus-circle"></i> Ajouter une section
-                </button>
-            </div>
-        </div>
+    <div id="section-activities-content">
+        {% include 'course_info/activities/view/sidebar_sections.html.twig' %}
+        <button id="button-minimize" class="btn text-secondary mt-2"><i class="fas fa-caret-square-left"></i></button>
         {% if activeSection is not null %}
-            <div id="activity-content" class="col-sm p-0" style="width: calc(100% - 250px); left: 250px">
-                <div style="min-height: 300px;" class="mb-2">
-                    {% if activeSection.courseSectionActivities is empty %}
-                        <div class="text-center ">
-                            <h3 class="text-danger">Aucune activité n'a été ajoutée à la section</h3>
-                            <div class="text-bold">
-                                Pour ajouter des activités veuillez sélectionner une activité dans le carousel ci-dessous.
-                            </div>
-                            <i class="fas fa-arrow-down fa-5x"></i>
-                        </div>
-                    {% endif %}
-                </div>
-
+            <div id="activity-content" class="col p-0">
+                {% include 'course_info/activities/view/activity_content.html.twig' %}
                 <div class="card">
                     <div class="card-header d-flex p-0">
                         <h3 class="card-title p-3 text-black-50">Activités</h3>
                         <ul class="nav nav-pills ml-auto p-2">
-                            <li class="nav-item">
-                                <a class="nav-link active" href="#tab_1" data-toggle="tab">Tab 1</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#tab_2" data-toggle="tab">Tab 2</a>
-                            </li>
+                            {% if activityTypes is not empty %}
+                                {% for activityType in activityTypes %}
+                                    <li class="nav-item">
+                                        <a class="nav-link {% if loop.first %}active{% endif %}" href="#tab_{{ activityType.id }}" data-toggle="tab">{{ activityType.label }}</a>
+                                    </li>
+                                {% endfor %}
+                            {% endif %}
                         </ul>
                     </div>
                     <div class="card-body p-0">
                         <div class="tab-content">
-                            <div id="tab_1" class="tab-pane active">
-                                <div class="activity-carousel">
-                                    <button class="activity-carousel-prev btn btn-link">
-                                        <i class="fas fa-chevron-left"></i>
-                                    </button>
-                                    <div class="activity-carousel-items">
-                                        {% for activity in activities %}
-                                            <a class="m-auto modal-action"
-                                               data-action-title="Ajouter une activité"
-                                               data-action-url="{{ path("course_activities_add_activity", {'sectionId': activeSection.id, 'activityId': activity.id}) }}">
-                                                <div class="activity-carousel-item text-center d-flex shadow">
-                                                    <div class="m-auto">{{ activity.label }}</div>
-                                                </div>
-                                            </a>
-                                        {% endfor %}
+                            {% for activityType in activityTypes %}
+                                <div id="tab_{{ activityType.id }}" class="tab-pane {% if loop.first %}active{% endif %}">
+                                    <div class="activity-carousel">
+                                        <button class="activity-carousel-prev btn btn-link">
+                                            <i class="fas fa-chevron-left"></i>
+                                        </button>
+                                        <div class="activity-carousel-items">
+                                            {% for activity in activities %}
+                                                {% if activity.activityTypes is not empty and activityType in activity.activityTypes %}
+                                                    <a class="m-auto modal-action"
+                                                       data-action-title="Ajouter une activité"
+                                                       data-action-url="{{ path("course_activities_add_activity", {'sectionId': activeSection.id, 'activityId': activity.id}) }}">
+                                                        <div class="activity-carousel-item text-center d-flex shadow">
+                                                            <div class="m-auto">{{ activity.label }}</div>
+                                                        </div>
+                                                    </a>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                        <button class="activity-carousel-next btn btn-link">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </button>
                                     </div>
-                                    <button class="activity-carousel-next btn btn-link">
-                                        <i class="fas fa-chevron-right"></i>
-                                    </button>
                                 </div>
-                            </div>
-                            <div id="tab_2" class="tab-pane">
-                                <div class="activity-carousel">
-                                    <button class="activity-carousel-prev btn btn-link">
-                                        <i class="fas fa-chevron-left"></i>
-                                    </button>
-                                    <div class="activity-carousel-items">
-                                        <a href="#">
-                                            <div class="activity-carousel-item text-center">
-                                                <h3>Test3</h3>
-                                                <h6>Test4</h6>
-                                            </div>
-                                        </a>
-                                        <a href="#">
-                                            <div class="activity-carousel-item text-center">
-                                                <h3>Test3</h3>
-                                                <h6>Test4</h6>
-                                            </div>
-                                        </a>
-                                        <a href="#">
-                                            <div class="activity-carousel-item text-center">
-                                                <h3>Test3</h3>
-                                                <h6>Test4</h6>
-                                            </div>
-                                        </a>
-                                        <a href="#">
-                                            <div class="activity-carousel-item text-center">
-                                                <h3>Test3</h3>
-                                                <h6>Test4</h6>
-                                            </div>
-                                        </a>
-                                        <a href="#">
-                                            <div class="activity-carousel-item text-center">
-                                                <h3>Test3</h3>
-                                                <h6>Test4</h6>
-                                            </div>
-                                        </a>
-                                        <a href="#">
-                                            <div class="activity-carousel-item text-center">
-                                                <h3>Test3</h3>
-                                                <h6>Test4</h6>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <button class="activity-carousel-next btn btn-link">
-                                        <i class="fas fa-chevron-right"></i>
-                                    </button>
-                                </div>
-                            </div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
@@ -185,6 +93,21 @@
             $('#menu-activities').addClass('active');
             $('#menu-activities').addClass('border-bottom-3 border-white');
             $('#content-{{ contentName|default('default') }}').addClass('p-0');
+
+            $('#button-minimize').click(function () {
+                let $sectionActivitiesContent = $('#section-activities-content');
+                if ($sectionActivitiesContent.hasClass('sidebar-mini'))
+                {
+                    $sectionActivitiesContent.removeClass('sidebar-mini');
+                    $(this).html('<i class="fas fa-caret-square-left"></i>');
+                }
+                else
+                {
+                    $sectionActivitiesContent.addClass('sidebar-mini');
+                    $(this).html('<i class="fas fa-caret-square-right"></i>');
+                }
+            });
+
 
             /**
              * Init carousel values

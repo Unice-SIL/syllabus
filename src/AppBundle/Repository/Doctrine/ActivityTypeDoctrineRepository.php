@@ -42,18 +42,23 @@ class ActivityTypeDoctrineRepository extends AbstractDoctrineRepository implemen
      * @return \ArrayObject
      * @throws \Exception
      */
-    public function findAll(): \ArrayObject
+    public function findAll() : \ArrayObject
     {
-        $activityType = new \ArrayObject();
+        $activityTypes = new \ArrayObject();
         try {
-            foreach($this->entityManager->getRepository(ActivityType::class)
-                        ->findBy([], ['label' => 'ASC']) as $activityType) {
-                $activityType->append($activityType);
+            $qb = $this->entityManager->getRepository(ActivityType::class)->createQueryBuilder('at');
+            $qb->where($qb->expr()->eq('at.obsolete', ':obsolete'))
+                ->setParameter('obsolete', false)
+                ->addOrderBy('at.label', 'ASC');
+            foreach ($qb->getQuery()->getResult() as $activityType){
+                $activityTypes->append($activityType);
             }
-        } catch(\Exception $e) {
-            throw $e;
+        } catch (\Exception $exception)
+        {
+            throw $exception;
         }
-        return $activityType;
+
+        return $activityTypes;
     }
 
     /**
