@@ -1,15 +1,18 @@
 <?php
 
+
 namespace AppBundle\Manager;
 
 
+use AppBundle\Entity\ActivityType;
 use AppBundle\Repository\ActivityTypeRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ObjectRepository;
 
 class ActivityTypeManager
 {
     /**
-     * @var \Doctrine\Persistence\ObjectRepository
+     * @var ObjectRepository
      */
     private $em;
 
@@ -25,22 +28,17 @@ class ActivityTypeManager
         $this->repository = $repository;
     }
 
+    public function create()
+    {
+        return new ActivityType();
+    }
+
     /**
      * @return mixed
      */
     public function findAll()
     {
-        $activities = $this->repository->findAll();
-        return $activities;
-    }
-    public function create()
-    {
-
-        $activityType = new ActivityType();
-        $activityType->isNew = true; // This dynamic property helps to track the new state of this entity
-        $activityType->setId(Uuid::uuid4());
-        $this->em->persist($activityType);
-
-        return $activityType;
+        $activitiesType = $this->repository->findAll();
+        return $activitiesType;
     }
 }

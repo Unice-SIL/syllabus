@@ -12,7 +12,10 @@ use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Activity controller.
@@ -88,6 +91,9 @@ class ActivityController extends Controller
      *
      * @Route("/{id}/edit", name="edit")
      * @Method({"GET", "POST"})
+     * @param Request $request
+     * @param Activity $activity
+     * @return RedirectResponse|Response
      */
     public function editAction(Request $request, Activity $activity)
     {
@@ -110,6 +116,9 @@ class ActivityController extends Controller
 
     /**
      * @Route("/autocomplete", name="autocomplete", methods={"GET"})
+     * @param ActivityDoctrineRepository $activityDoctrineRepository
+     * @param Request $request
+     * @return JsonResponse
      */
     public function autocomplete(ActivityDoctrineRepository $activityDoctrineRepository, Request $request)
     {

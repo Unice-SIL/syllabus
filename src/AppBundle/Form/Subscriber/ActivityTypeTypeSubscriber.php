@@ -3,23 +3,21 @@
 
 namespace AppBundle\Form\Subscriber;
 
-use AppBundle\Constant\ActivityType;
-use AppBundle\Entity\Activity;
-use AppBundle\Manager\ActivityManager;
+
+use AppBundle\Entity\ActivityType;
+use AppBundle\Manager\ActivityTypeManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
-class ActivityTypeSubscriber implements EventSubscriberInterface
+class ActivityTypeTypeSubscriber implements EventSubscriberInterface
 {
+    private $activityTypeManager;
 
-    private $activityManager;
-
-    public function __construct(ActivityManager $activityManager)
+    public function __construct(ActivityTypeManager $activityTypeManager)
     {
-        $this->activityManager = $activityManager;
+        $this->activityTypeManager = $activityTypeManager;
     }
 
 
@@ -34,11 +32,12 @@ class ActivityTypeSubscriber implements EventSubscriberInterface
     {
         $form = $event->getForm();
 
-        /** @var Activity $activity */
-        $activity = $event->getData();
+        /** @var ActivityType $activityType */
+        $activityType = $event->getData();
 
         //Edit mode
-        if ($activity and $activity->getId()) {
+        if ($activityType and $activityType->getId()) {
+
             $form->add('obsolete', CheckboxType::class, [
                 'label' => 'Obsolète',
                 'required' => false,
@@ -52,6 +51,4 @@ class ActivityTypeSubscriber implements EventSubscriberInterface
             ;
         }
     }
-
-
 }
