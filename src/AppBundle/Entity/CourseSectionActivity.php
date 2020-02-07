@@ -21,6 +21,7 @@ class CourseSectionActivity
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @JMS\Groups(groups={"api"})
      */
     private $id;
 
@@ -28,6 +29,7 @@ class CourseSectionActivity
      * @var string|null
      *
      * @ORM\Column(name="description", type="string", length=255, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $description;
 
@@ -35,6 +37,7 @@ class CourseSectionActivity
      * @var float|null
      *
      * @ORM\Column(name="evaluation_rate", type="float", nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $evaluationRate;
 
@@ -42,6 +45,7 @@ class CourseSectionActivity
      * @var bool
      *
      * @ORM\Column(name="evaluable", type="boolean", nullable=false)
+     * @JMS\Groups(groups={"api"})
      */
     private $evaluable = false;
 
@@ -49,6 +53,7 @@ class CourseSectionActivity
      * @var bool
      *
      * @ORM\Column(name="evaluation_ct", type="boolean", nullable=false)
+     * @JMS\Groups(groups={"api"})
      */
     private $evaluationCt = false;
 
@@ -56,6 +61,7 @@ class CourseSectionActivity
      * @var bool
      *
      * @ORM\Column(name="evaluation_teacher", type="boolean", nullable=false)
+     * @JMS\Groups(groups={"api"})
      */
     private $evaluationTeacher = false;
 
@@ -63,6 +69,7 @@ class CourseSectionActivity
      * @var bool
      *
      * @ORM\Column(name="evaluation_peer", type="boolean", nullable=false)
+     * @JMS\Groups(groups={"api"})
      */
     private $evaluationPeer = false;
 
@@ -70,6 +77,7 @@ class CourseSectionActivity
      * @var int
      *
      * @ORM\Column(name="position", type="integer", nullable=false)
+     * @JMS\Groups(groups={"api"})
      */
     private $position = 0;
 
@@ -92,6 +100,7 @@ class CourseSectionActivity
      *   @ORM\JoinColumn(name="activity_type_id", referencedColumnName="id", nullable=false)
      * })
      * @Assert\NotBlank()
+     * @JMS\Groups(groups={"api"})
      */
     private $activityType;
 
@@ -103,6 +112,7 @@ class CourseSectionActivity
      *   @ORM\JoinColumn(name="activity_mode_id", referencedColumnName="id", nullable=false)
      * })
      * @Assert\NotBlank()
+     * @JMS\Groups(groups={"api"})
      */
     private $activityMode;
 
@@ -119,7 +129,7 @@ class CourseSectionActivity
     /**
      * @return string
      */
-    public function getId(): string
+    public function getId(): ?string
     {
         return $this->id;
     }
@@ -128,7 +138,7 @@ class CourseSectionActivity
      * @param string $id
      * @return CourseSectionActivity
      */
-    public function setId(string $id): CourseSectionActivity
+    public function setId(?string $id): CourseSectionActivity
     {
         $this->id = $id;
 
@@ -270,9 +280,20 @@ class CourseSectionActivity
     /**
      * @return Activity
      */
-    public function getActivity(): Activity
+    public function getActivity(): ?Activity
     {
         return $this->activity;
+    }
+
+    /**
+     * @JMS\VirtualProperty()
+     * @JMS\Groups(groups={"api"})
+     * @JMS\SerializedName("activity")
+     * @return Activity
+     */
+    public function getActivityApi(): string
+    {
+        return $this->getActivity()->getId();
     }
 
     /**
@@ -289,7 +310,7 @@ class CourseSectionActivity
     /**
      * @return CourseSection
      */
-    public function getCourseSection(): CourseSection
+    public function getCourseSection(): ?CourseSection
     {
         return $this->courseSection;
     }
@@ -298,7 +319,7 @@ class CourseSectionActivity
      * @param CourseSection $courseSection
      * @return CourseSectionActivity
      */
-    public function setCourseSection(CourseSection $courseSection): CourseSectionActivity
+    public function setCourseSection(?CourseSection $courseSection): CourseSectionActivity
     {
         $this->courseSection = $courseSection;
 

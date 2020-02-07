@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * CourseTutoringResource
@@ -19,6 +20,7 @@ class CourseTutoringResource
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @JMS\Groups(groups={"api"})
      */
     private $id;
 
@@ -26,6 +28,7 @@ class CourseTutoringResource
      * @var null|string
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $description = "";
 
@@ -33,6 +36,7 @@ class CourseTutoringResource
      * @var int
      *
      * @ORM\Column(name="ord", type="integer", nullable=false)
+     * @JMS\Groups(groups={"api"})
      */
     private $order = 0;
 
@@ -88,7 +92,7 @@ class CourseTutoringResource
     /**
      * @return int
      */
-    public function getOrder(): int
+    public function getOrder(): ?int
     {
         return $this->order;
     }

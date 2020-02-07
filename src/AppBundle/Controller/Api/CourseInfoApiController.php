@@ -4,6 +4,7 @@ namespace AppBundle\Controller\Api;
 
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Exception\ResourceValidationException;
+use AppBundle\Form\Api\CourseInfoType;
 use AppBundle\Helper\ApiHelper;
 use AppBundle\Repository\Doctrine\CourseInfoDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -103,21 +104,24 @@ class CourseInfoApiController extends Controller
      * @param Request $request
      * @param SerializerInterface $serializer
      * @param EntityManagerInterface $em
-     * @param ValidatorInterface $validator
      * @param ApiHelper $apiHelper
      * @return Response
      * @throws ResourceValidationException
      */
-    public function postAction(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, ValidatorInterface $validator, ApiHelper $apiHelper)
+    public function postAction(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, ApiHelper $apiHelper)
     {
-        $courseInfo = $serializer->deserialize($request->getContent(), CourseInfo::class, 'json');
+        $coureInfo = new CourseInfo();
+        $form = $this->createForm(CourseInfoType::class, $coureInfo, ['validation_groups' => 'new']);
 
-        $apiHelper->throwExceptionIfEntityInvalid($courseInfo, $validator);
+        $form->submit(json_decode($request->getContent(), true));
 
-        $em->persist($courseInfo);
+        $apiHelper->throwExceptionIfEntityInvalid($form);
+
+        $em->persist($coureInfo);
         $em->flush();
 
-        $response = new Response($serializer->serialize($courseInfo, 'json', SerializationContext::create()->setGroups('api')), Response::HTTP_CREATED);
+        $em->refresh($coureInfo);
+        $response = new Response($serializer->serialize($coureInfo, 'json', SerializationContext::create()->setGroups('api')), Response::HTTP_CREATED);
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
@@ -129,24 +133,26 @@ class CourseInfoApiController extends Controller
      * @param Request $request
      * @param SerializerInterface $serializer
      * @param EntityManagerInterface $em
-     * @param CourseInfo $ci
+     * @param CourseInfo $courseInfo
      * @param ApiHelper $apiHelper
      * @return JsonResponse
      * @throws ResourceValidationException
      */
-    public function putAction(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, CourseInfo $ci, ApiHelper $apiHelper)
+    public function putAction(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, CourseInfo $courseInfo, ApiHelper $apiHelper)
     {
-        $courseInfo = $apiHelper->adIdToRequestContent($request, $ci->getId());
+        $form = $this->createForm(CourseInfoType::class, $courseInfo);
 
-        $courseInfo = $serializer->deserialize($courseInfo, CourseInfo::class, 'json');
+        $form->submit(json_decode($request->getContent(), true));
 
-        $apiHelper->throwExceptionIfEntityInvalid($courseInfo);
+        $apiHelper->throwExceptionIfEntityInvalid($form);
 
         $em->flush();
 
+        $em->refresh($courseInfo);
         $response = new Response($serializer->serialize($courseInfo, 'json', SerializationContext::create()->setGroups('api')), Response::HTTP_OK);
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
+
     }
 }

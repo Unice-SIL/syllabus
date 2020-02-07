@@ -10,6 +10,7 @@ use Doctrine\ORM\QueryBuilder;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -146,18 +147,22 @@ class ApiHelper
         return $value;
     }
 
-    public function throwExceptionIfEntityInvalid($entity)
+    public function throwExceptionIfEntityInvalid(FormInterface $form)
     {
-        if (count($violations = $this->validator->validate($entity))) {
+
+        if (count($errors = $form->getErrors(true))) {
+
             $message = "Data sent are invalid: [";
-            foreach ($violations as $violation){
-                $message.= "{$violation->getPropertyPath()}: {$violation->getMessage()}, ";
+            foreach ($errors as $error){
+                $message.= "{$error->getMessage()}, ";
             }
             $message = rtrim($message, ', ');
             $message.= "]";
 
             throw new ResourceValidationException($message);
         }
+
+
     }
 
     public function adIdToRequestContent(Request $request, string $id)

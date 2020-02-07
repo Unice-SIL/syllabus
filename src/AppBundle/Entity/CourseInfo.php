@@ -601,6 +601,7 @@ class CourseInfo
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\OneToMany(targetEntity="CoursePermission", mappedBy="courseInfo", cascade={ "all" }, orphanRemoval=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $coursePermissions;
 
@@ -609,6 +610,7 @@ class CourseInfo
      *
      * @ORM\OneToMany(targetEntity="CourseTeacher", mappedBy="courseInfo", cascade={ "persist", "merge" }, orphanRemoval=true)
      * @ORM\OrderBy({"lastname" = "ASC"})
+     * @JMS\Groups(groups={"api"})
      */
     private $courseTeachers;
 
@@ -618,6 +620,7 @@ class CourseInfo
      * @ORM\OneToMany(targetEntity="CourseSection", mappedBy="courseInfo", cascade={ "persist", "merge" }, orphanRemoval=true)
      * @ORM\OrderBy({"position" = "ASC"})
      * @JMS\Type("ArrayCollection<AppBundle\Entity\CourseSection>")
+     * @JMS\Groups(groups={"api"})
      */
     private $courseSections;
 
@@ -626,6 +629,7 @@ class CourseInfo
      *
      * @ORM\OneToMany(targetEntity="CourseAchievement", mappedBy="courseInfo", cascade={ "persist", "merge" }, orphanRemoval=true)
      * @ORM\OrderBy({"order" = "ASC"})
+     * @JMS\Groups(groups={"api"})
      */
     private $courseAchievements;
 
@@ -634,6 +638,7 @@ class CourseInfo
      *
      * @ORM\OneToMany(targetEntity="CoursePrerequisite", mappedBy="courseInfo", cascade={ "persist", "merge" }, orphanRemoval=true)
      * @ORM\OrderBy({"order" = "ASC"})
+     * @JMS\Groups(groups={"api"})
      */
     private $coursePrerequisites;
 
@@ -642,6 +647,7 @@ class CourseInfo
      *
      * @ORM\OneToMany(targetEntity="CourseTutoringResource", mappedBy="courseInfo", cascade={ "persist", "merge" }, orphanRemoval=true)
      * @ORM\OrderBy({"order" = "ASC"})
+     * @JMS\Groups(groups={"api"})
      */
     private $courseTutoringResources;
 
@@ -650,6 +656,7 @@ class CourseInfo
      *
      * @ORM\OneToMany(targetEntity="CourseResourceEquipment", mappedBy="courseInfo", cascade={ "persist", "merge" }, orphanRemoval=true)
      * @ORM\OrderBy({"order" = "ASC"})
+     * @JMS\Groups(groups={"api"})
      */
     private $courseResourceEquipments;
 
@@ -676,7 +683,7 @@ class CourseInfo
     /**
      * @return string
      */
-    public function getId(): string
+    public function getId(): ?string
     {
         return $this->id;
     }
@@ -685,7 +692,7 @@ class CourseInfo
      * @param string $id
      * @return CourseInfo
      */
-    public function setId(string $id): CourseInfo
+    public function setId(?string $id): CourseInfo
     {
         $this->id = $id;
 
@@ -1883,7 +1890,7 @@ class CourseInfo
      */
     public function getCourseApi()
     {
-        return ['id' => $this->getCourse()->getId()];
+        return $this->getCourse()->getId();
     }
 
     /**
@@ -1912,7 +1919,7 @@ class CourseInfo
      */
     public function getStructureApi()
     {
-        return ['id' => $this->getStructure()->getId()];
+        return $this->getStructure()->getId();
     }
 
     /**
@@ -1979,7 +1986,7 @@ class CourseInfo
      */
     public function getYearApi()
     {
-        return ['id' => $this->getYear()->getId()];
+        return $this->getYear()->getId();
     }
 
     /**
@@ -2018,7 +2025,11 @@ class CourseInfo
      */
     public function addPermission(CoursePermission $coursePermission): CourseInfo
     {
-        $this->coursePermissions->add($coursePermission);
+        if (!$this->courseTeachers->contains($coursePermission))
+        {
+            $this->courseTeachers->add($coursePermission);
+            $coursePermission->setCourseInfo($this);
+        }
 
         return $this;
     }
@@ -2029,7 +2040,14 @@ class CourseInfo
      */
     public function removePermissoin(CoursePermission $coursePermission): CourseInfo
     {
-        $this->coursePermissions->removeElement($coursePermission);
+        if ($this->coursePermissions->contains($coursePermission))
+        {
+            $this->coursePermissions->removeElement($coursePermission);
+            if ($coursePermission->getCourseInfo() === $this)
+            {
+                $coursePermission->setCourseInfo(null);
+            }
+        }
 
         return $this;
     }
@@ -2109,7 +2127,11 @@ class CourseInfo
      */
     public function addCourseSection(CourseSection $courseSection): CourseInfo
     {
-        $this->courseSections->add($courseSection);
+        if (!$this->courseSections->contains($courseSection)) {
+            $this->courseSections->add($courseSection);
+
+            $courseSection->setCourseInfo($this);
+        }
 
         return $this;
     }

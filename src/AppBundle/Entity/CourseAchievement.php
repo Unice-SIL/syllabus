@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * CourseAchievement
@@ -20,6 +21,7 @@ class CourseAchievement
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @JMS\Groups(groups={"api"})
      */
     private $id;
 
@@ -27,6 +29,7 @@ class CourseAchievement
      * @var null|string
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $description = "";
 
@@ -34,6 +37,7 @@ class CourseAchievement
      * @var int
      *
      * @ORM\Column(name="ord", type="integer", nullable=false)
+     * @JMS\Groups(groups={"api"})
      */
     private $order = 0;
 
@@ -89,7 +93,7 @@ class CourseAchievement
     /**
      * @return int
      */
-    public function getOrder(): int
+    public function getOrder(): ?int
     {
         return $this->order;
     }

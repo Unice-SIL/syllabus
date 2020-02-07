@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * CoursePermission
@@ -24,7 +25,9 @@ class CoursePermission
      *
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @JMS\Groups(groups={"api"})
      */
     private $id;
 
@@ -33,6 +36,7 @@ class CoursePermission
      *
      * @ORM\Column(name="permission", type="string", length=45, nullable=false, options={"fixed"=true})
      * @Assert\NotBlank()
+     * @JMS\Groups(groups={"api"})
      */
     private $permission = 'READ';
 
@@ -61,7 +65,7 @@ class CoursePermission
     /**
      * @return string
      */
-    public function getId(): string
+    public function getId(): ?string
     {
         return $this->id;
     }
@@ -121,6 +125,16 @@ class CoursePermission
     public function getUser(): ?User
     {
         return $this->user;
+    }
+
+    /**
+     * @JMS\VirtualProperty()
+     * @JMS\Groups(groups={"api"})
+     * @JMS\SerializedName("user")
+     */
+    public function getUserApi()
+    {
+        return $this->getUser()->getId();
     }
 
     /**

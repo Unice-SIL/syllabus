@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * CourseTeacher
@@ -19,6 +20,7 @@ class CourseTeacher
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @JMS\Groups(groups={"api"})
      */
     private $id;
 
@@ -26,6 +28,7 @@ class CourseTeacher
      * @var string|null
      *
      * @ORM\Column(name="firstname", type="string", length=100, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $firstname;
 
@@ -33,6 +36,7 @@ class CourseTeacher
      * @var string|null
      *
      * @ORM\Column(name="lastname", type="string", length=100, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $lastname;
 
@@ -40,6 +44,7 @@ class CourseTeacher
      * @var string|null
      *
      * @ORM\Column(name="email", type="string", length=255, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $email;
 
@@ -47,6 +52,7 @@ class CourseTeacher
      * @var bool
      *
      * @ORM\Column(name="manager", type="boolean", nullable=false)
+     * @JMS\Groups(groups={"api"})
      */
     private $manager = false;
 
@@ -54,6 +60,7 @@ class CourseTeacher
      * @var bool
      *
      * @ORM\Column(name="email_visibility", type="boolean", nullable=false)
+     * @JMS\Groups(groups={"api"})
      */
     private $emailVisibility = false;
 
@@ -146,7 +153,7 @@ class CourseTeacher
     /**
      * @return bool
      */
-    public function isManager(): bool
+    public function isManager(): ?bool
     {
         return $this->manager;
     }
@@ -165,7 +172,7 @@ class CourseTeacher
     /**
      * @return bool
      */
-    public function isEmailVisibility(): bool
+    public function isEmailVisibility(): ?bool
     {
         return $this->emailVisibility;
     }

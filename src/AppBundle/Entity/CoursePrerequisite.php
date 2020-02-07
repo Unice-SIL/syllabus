@@ -3,7 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use JMS\Serializer\Annotation as JMS;
 /**
  * CoursePrerequisite
  *
@@ -19,6 +19,7 @@ class CoursePrerequisite
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @JMS\Groups(groups={"api"})
      */
     private $id;
 
@@ -26,6 +27,7 @@ class CoursePrerequisite
      * @var null|string
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $description = "";
 
@@ -33,6 +35,7 @@ class CoursePrerequisite
      * @var int
      *
      * @ORM\Column(name="ord", type="integer", nullable=false)
+     * @JMS\Groups(groups={"api"})
      */
     private $order = 0;
 
@@ -88,7 +91,7 @@ class CoursePrerequisite
     /**
      * @return int
      */
-    public function getOrder(): int
+    public function getOrder(): ?int
     {
         return $this->order;
     }

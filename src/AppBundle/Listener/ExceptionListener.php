@@ -33,6 +33,7 @@ class ExceptionListener
                 $message = 'Page not fount';
             }
             else {
+                return;
                 $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
                 $message = "Internal Error Server";
             }

@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * CourseResourceEquipment
@@ -19,6 +20,7 @@ class CourseResourceEquipment
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @JMS\Groups(groups={"api"})
      */
     private $id;
 
@@ -26,6 +28,7 @@ class CourseResourceEquipment
      * @var string|null
      *
      * @ORM\Column(name="description", type="string", length=255, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $description;
 
@@ -33,6 +36,7 @@ class CourseResourceEquipment
      * @var int
      *
      * @ORM\Column(name="ord", type="integer", nullable=false)
+     * @JMS\Groups(groups={"api"})*
      */
     private $order = 0;
 
@@ -97,7 +101,7 @@ class CourseResourceEquipment
     /**
      * @return int
      */
-    public function getOrder(): int
+    public function getOrder(): ?int
     {
         return $this->order;
     }
@@ -136,9 +140,20 @@ class CourseResourceEquipment
     /**
      * @return Equipment
      */
-    public function getEquipment(): Equipment
+    public function getEquipment(): ?Equipment
     {
         return $this->equipment;
+    }
+
+    /**
+     * @JMS\VirtualProperty()
+     * @JMS\Groups(groups={"api"})
+     * @JMS\SerializedName("equipment")
+     * @return Equipment|null
+     */
+    public function getEquipmentApi()
+    {
+        return $this->getEquipment()->getId();
     }
 
     /**

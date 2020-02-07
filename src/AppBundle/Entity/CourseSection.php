@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * CourseSection
@@ -22,6 +23,7 @@ class CourseSection
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @JMS\Groups(groups={"api"})
      */
     private $id;
 
@@ -29,6 +31,7 @@ class CourseSection
      * @var null|string
      *
      * @ORM\Column(name="title", type="string", length=200, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $title;
 
@@ -36,6 +39,7 @@ class CourseSection
      * @var string|null
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=true)
+     * @JMS\Groups(groups={"api"})
      */
     private $description;
 
@@ -43,6 +47,7 @@ class CourseSection
      * @var int
      *
      * @ORM\Column(name="position", type="integer", nullable=false)
+     * @JMS\Groups(groups={"api"})
      */
     private $position = 0;
 
@@ -53,6 +58,7 @@ class CourseSection
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
      * })
+     *
      */
     private $courseInfo;
 
@@ -61,6 +67,7 @@ class CourseSection
      *
      * @ORM\OneToMany(targetEntity="CourseSectionActivity", mappedBy="courseSection", cascade={ "persist", "remove", "merge" }, orphanRemoval=true)
      * @ORM\OrderBy({"position" = "ASC"})
+     * @JMS\Groups(groups={"api"})
      */
     private $courseSectionActivities;
 
@@ -72,7 +79,7 @@ class CourseSection
     /**
      * @return string
      */
-    public function getId(): string
+    public function getId(): ?string
     {
         return $this->id;
     }
@@ -129,7 +136,7 @@ class CourseSection
     /**
      * @return int
      */
-    public function getPosition(): int
+    public function getPosition(): ?int
     {
         return $this->position;
     }
@@ -138,7 +145,7 @@ class CourseSection
      * @param int $position
      * @return CourseSection
      */
-    public function setPosition(int $position): self
+    public function setPosition(?int $position): self
     {
         $this->position = $position;
 
@@ -149,7 +156,7 @@ class CourseSection
     /**
      * @return CourseInfo
      */
-    public function getCourseInfo(): CourseInfo
+    public function getCourseInfo(): ?CourseInfo
     {
         return $this->courseInfo;
     }
