@@ -42,8 +42,6 @@ class ActivityController extends Controller
             $form->submit($request->query->get($form->getName()));
 
             $filterBuilderUpdater->addFilterConditions($form, $qb);
-
-
         }
 
         $pagination = $this->get('knp_paginator')->paginate(

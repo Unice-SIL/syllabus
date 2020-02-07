@@ -1,0 +1,56 @@
+{% extends 'admin_layout.html.twig' %}
+{% set h1 = 'Liste des modes d\'activités' %}
+{% block subContent %}
+
+<div class="card">
+    <div class="card-header">
+        {{ form_start(form) }}
+        <div class="row ui-front">
+            <div class="col-md-2">
+                {{ form_row(form.label) }}
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <a class="btn btn-danger" style="margin-top: 32px" href="{{  path('app_admin_mode_activity_index')  }}">Réinitialiser les filtres</a>
+            </div>
+            <div class="offset-md-2"></div>
+            <div class="col-md-3 col-sm-6">
+                <a class="btn btn-primary float-right" style="margin-top: 32px" href="{{  path('app_admin_type_activity_new')  }}">Ajouter une activité</a>
+            </div>
+        </div>
+        <input type="submit" style="position: absolute; left: -9999px"/>
+        {{ form_end(form) }}
+    </div>
+        <input type="submit" style="position: absolute; left: -9999px"/>
+        <div class="card-body">
+            {% if pagination.totalItemCount > 0 %}
+                <table class="table table-bordered table-responsive-sm">
+                    <thead>
+                    <tr>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.equipment.label.label'|trans, 'e.label') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.equipment.label.obsolete'|trans, 'e.obsolete') }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for activityMode in pagination %}
+                        <tr>
+                            <td>
+                                <a href="{{ path('app_admin_mode_activity_edit', { 'id' : activityMode.id }) }}">{{ activityMode.label }}</a>
+                            </td>
+                            <td>{{ activityMode.obsolete|humanizeBoolean }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="alert alert-info">Aucun type de mode d'activité ne correspond à ces critères</div>
+            {% endif %}
+        </div>
+        <!-- /.card-body -->
+        {% if knp_pagination_render(pagination) %}
+            <div class="card-footer clearfix">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        {% endif %}
+    </div>
+    {% endblock %}
+
