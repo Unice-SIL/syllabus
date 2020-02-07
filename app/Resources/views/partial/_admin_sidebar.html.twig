@@ -36,7 +36,7 @@
             </a>
             <ul class="nav nav-treeview"
                 style="display: {{ printActiveAdminSidebarLink(referentielLink) ? 'block' : 'none' }};">
-                {% set activityLink = ['app_admin_activity', 'app_admin_type_activity'] %}
+                {% set activityLink = ['app_admin_activity', 'app_admin_type_activity', 'app_admin_mode_activity'] %}
                 <li class="nav-item has-treeview {{ printActiveAdminSidebarLink(activityLink) ? 'menu-open' }}">
                     <a href="#" class="nav-link {{ printActiveAdminSidebarLink(activityLink) }}">
                         <i class="nav-icon fas fa-film"></i>
@@ -62,6 +62,15 @@
                                 <i class="fas fa-dot-circle nav-icon"></i>
                                 <p>
                                     Types
+                                </p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('app_admin_mode_activity_index') }}"
+                               class="nav-link {{ printActiveAdminSidebarLink(['app_admin_mode_activity']) }}">
+                                <i class="fas fa-dot-circle nav-icon"></i>
+                                <p>
+                                    Modes
                                 </p>
                             </a>
                         </li>

@@ -4,10 +4,25 @@
 
     <div class="card">
         <div class="card-header">
+            {{ form_start(form) }}
             <div class="row ui-front">
-                <a class="btn btn-primary float-right" style="margin-top: 32px"
-                   href="{{ path('app_admin_type_activity_new') }}">Ajouter un type d'activité</a>
+                <div class="col-md-2">
+                    {{ form_row(form.label) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_label(form.activityModes.label, 'Modes') }}
+                    {{ form_widget(form.activityModes.label) }}
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <a class="btn btn-danger" style="margin-top: 32px" href="{{  path('app_admin_type_activity_index')  }}">Réinitialiser les filtres</a>
+                </div>
+                <div class="offset-md-2"></div>
+                <div class="col-md-3 col-sm-6">
+                    <a class="btn btn-primary float-right" style="margin-top: 32px" href="{{  path('app_admin_type_activity_new')  }}">Ajouter un type d'activité</a>
+                </div>
             </div>
+            <input type="submit" style="position: absolute; left: -9999px"/>
+            {{ form_end(form) }}
         </div>
         <div class="card-body">
             {% if pagination.totalItemCount > 0 %}

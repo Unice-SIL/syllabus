@@ -76,7 +76,7 @@ class ActivityMode
     /**
      * @return string
      */
-    public function getLabel(): string
+    public function getLabel(): ?string
     {
         return $this->label;
     }

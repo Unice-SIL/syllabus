@@ -6,10 +6,12 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\ActivityType;
 use AppBundle\Form\ActivityTypeType;
+use AppBundle\Form\Filter\ActivityTypeFilterType;
 use AppBundle\Manager\ActivityTypeManager;
 use AppBundle\Repository\Doctrine\ActivityTypeDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -35,9 +37,18 @@ class ActivityTypeController extends AbstractController
      * @Method("GET")
      * @return Response
      */
-    public function IndexAction(Request $request, EntityManagerInterface $em, PaginatorInterface $paginator)
+    public function IndexAction(Request $request, EntityManagerInterface $em, PaginatorInterface $paginator, FilterBuilderUpdaterInterface $filterBuilderUpdater)
     {
-        $qb =  $em->getRepository(ActivityType::class)->createQueryBuilder('a');
+        $qb =  $em->getRepository(ActivityType::class)->createQueryBuilder('at');
+
+        $form = $this->get('form.factory')->create(ActivityTypeFilterType::class);
+
+        if ($request->query->has($form->getName())) {
+
+            $form->submit($request->query->get($form->getName()));
+
+            $filterBuilderUpdater->addFilterConditions($form, $qb);
+        }
 
         $pagination = $paginator->paginate(
             $qb,
@@ -46,7 +57,8 @@ class ActivityTypeController extends AbstractController
         );
 
         return $this->render('activity_type/index.html.twig', array(
-            'pagination' => $pagination
+            'pagination' => $pagination,
+            'form' => $form->createView(),
         ));
     }
 
@@ -62,7 +74,6 @@ class ActivityTypeController extends AbstractController
     public function newAction(Request $request, ActivityTypeManager $activityTypeManager)
     {
         $activityType = $activityTypeManager->create();
-        dump($activityType);
         $form = $this->createForm(ActivityTypeType::class, $activityType);
         $form->handleRequest($request);
 
