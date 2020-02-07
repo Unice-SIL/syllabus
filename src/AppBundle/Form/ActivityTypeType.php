@@ -31,8 +31,7 @@ class ActivityTypeType extends AbstractType
                 'class' => ActivityMode::class,
                 'multiple' => true,
                 'by_reference' => false,
-                'required' => false,
-                'expanded' => true
+                'required' => false
             ])
             ->addEventSubscriber($this->activityTypeTypeSubscriber)
         ;

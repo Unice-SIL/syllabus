@@ -39,7 +39,6 @@ class ActivityTypeController extends AbstractController
      */
     public function IndexAction(Request $request, EntityManagerInterface $em, PaginatorInterface $paginator, FilterBuilderUpdaterInterface $filterBuilderUpdater)
     {
-        dump('ok');
         $qb =  $em->getRepository(ActivityType::class)->createQueryBuilder('at');
 
         $form = $this->get('form.factory')->create(ActivityTypeFilterType::class);

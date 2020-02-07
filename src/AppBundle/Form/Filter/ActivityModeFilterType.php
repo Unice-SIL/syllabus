@@ -5,6 +5,7 @@ namespace AppBundle\Form\Filter;
 
 
 use Lexik\Bundle\FormFilterBundle\Filter\FilterOperands;
+use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\SharedableFilterType;
 use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\TextFilterType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -32,6 +33,11 @@ class ActivityModeFilterType extends AbstractType
                 ]
             ])
         ;
+    }
+
+    public function getParent()
+    {
+        return SharedableFilterType::class; // this allow us to use the "add_shared" option
     }
 
     public function getBlockPrefix()
