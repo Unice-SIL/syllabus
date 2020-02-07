@@ -1,10 +1,10 @@
 <div class="sidebar-activities bg-dark text-center p-0 col">
     <div class="p-3" style="width: 250px;">
-        <h5>Sections</h5>
+        <h5>{{ 'app.activities.view.sidebar.title' | trans }}</h5>
         <hr class="mb-2">
         {% if courseInfo.courseSections is empty %}
             <div class="mb-1 text-warning">
-                Aucune section n'a été créée
+                {{ 'app.activities.view.sidebar.empty_section' | trans }}
             </div>
         {% else %}
             <ul class="nav nav-pills flex-column">
@@ -16,14 +16,14 @@
                         <button class="btn dropdown-icon float-right text-white" type="button" data-toggle="dropdown" aria-expanded="false"><i class="fas fa-ellipsis-v"></i> </button>
                         <div class="dropdown-menu">
                             <button type="button" class="dropdown-item modal-action text-center"
-                                    data-action-title="Modifier une section"
+                                    data-action-title="{{ 'app.activities.view.sidebar.edit_section' | trans }}"
                                     data-action-url="{{ path('course_activities_edit_section', {'id': courseInfo.id, 'sectionId': section.id}) }}">
-                                Modifier
+                                {{ 'app.general.button.edit' | trans }}
                             </button>
                             <button type="button" class="dropdown-item modal-action text-center"
-                                    data-action-title="Supprimer une section"
+                                    data-action-title="{{ 'app.activities.view.sidebar.delete_section' | trans }}"
                                     data-action-url="{{ path('course_activities_remove_section', {'id': courseInfo.id, 'sectionId': section.id}) }}">
-                                Supprimer
+                                {{ 'app.general.button.delete' | trans }}
                             </button>
                         </div>
                     </li>
@@ -33,9 +33,9 @@
         <hr class="mb-2">
         <div class="mb-1">
             <button type="button" class="btn btn-link modal-action p-0 text-primary"
-                    data-action-title="Ajouter une section"
+                    data-action-title="{{ 'app.activities.view.sidebar.add_section' | trans }}"
                     data-action-url="{{ path('course_activities_add_section', {'id': courseInfo.id}) }}">
-                <i class="fas fa-plus-circle"></i> Ajouter une section
+                <i class="fas fa-plus-circle"></i> {{ 'app.activities.view.sidebar.add_section' | trans }}
             </button>
         </div>
     </div>

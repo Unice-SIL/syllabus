@@ -1,9 +1,9 @@
 <div style="min-height: 300px;" class="mb-2">
     {% if activeSection.courseSectionActivities is empty %}
         <div class="text-center ">
-            <h3 class="text-danger">Aucune activité n'a été ajoutée à la section</h3>
+            <h3 class="text-danger">{{ 'app.activities.view.activity.empty_activity' | trans }}</h3>
             <div class="text-bold">
-                Pour ajouter des activités veuillez sélectionner une activité dans le carousel ci-dessous.
+                {{ 'app.activities.view.activity.add_activities' | trans }}
             </div>
             <i class="fas fa-arrow-down fa-5x"></i>
         </div>
@@ -13,109 +13,64 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm">
-                            <dt>Nom de l'activité</dt>
+                            <dt>{{ 'app.activities.view.activity.name' | trans }}</dt>
                             <dd>
                                 {{ sectionActivity.activity.label }}
                             </dd>
-                            <dt>Type d'activité - Mode d'enseignement</dt>
+                            <dt>{{ 'app.activities.view.activity.activity_type' | trans }} - {{ 'app.activities.view.activity.activity_mode' | trans }}</dt>
                             <dd>
-                                {{ sectionActivity.activityType.label }} - {{ sectionActivity.activityMode.label }}
+                                {{ sectionActivity.activityType.label | lower | trans }} - {{ sectionActivity.activityMode.label | lower | trans }}
                             </dd>
                         </div>
                         <div class="col-sm">
-                            <dt>Evaluable</dt>
+                            <dt>{{ 'app.activities.view.activity.evaluable' | trans }}</dt>
                             <dd>
-                                {{ sectionActivity.evaluable ? 'Oui' : 'Non' }}
+                                {{ sectionActivity.evaluable | humanizeBoolean }}
                             </dd>
                         </div>
                         {% if sectionActivity.evaluable %}
                             <div class="col-sm">
                                 <div class="row">
                                     <div class="col">
-                                        <dt>Contrôle : </dt>
+                                        <dt>{{ 'app.activities.view.activity.control' | trans }} : </dt>
                                         <dd>
                                             {{ sectionActivity.evaluationCt ? 'Terminal' : 'Continu' }}
                                         </dd>
                                     </div>
                                     <div class="col">
                                         {% if sectionActivity.evaluationRate %}
-                                            <dt>Coefficient :</dt>
+                                            <dt>{{ 'app.activities.view.activity.evaluation_rate' | trans }} :</dt>
                                             <dd>
                                                 {{ sectionActivity.evaluationRate }}%
                                             </dd>
                                         {% endif %}
                                     </div>
                                 </div>
-                                <dt>Evaluation par les enseignants : </dt>
+                                <dt>{{ 'app.activities.view.activity.evaluation_teachers' | trans }} : </dt>
                                 <dd>
-                                    {{ sectionActivity.evaluationTeacher ? 'Oui' : 'Non' }}
+                                    {{ sectionActivity.evaluationTeacher | humanizeBoolean }}
                                 </dd>
-                                <dt>Evaluation par les pairs : </dt>
+                                <dt>{{ 'app.activities.view.activity.evaluation_peers' | trans }} : </dt>
                                 <dd>
-                                    {{ sectionActivity.evaluationPeer ? 'Oui' : 'Non' }}
+                                    {{ sectionActivity.evaluationPeer | humanizeBoolean }}
                                 </dd>
                             </div>
                         {% endif %}
                     </div>
                     <div>
                         <button type="button" class="btn text-primary modal-action pl-0"
-                                data-action-title="Modifier une activité"
+                                data-action-title="{{ 'app.activities.view.activity.edit_activity' | trans }}"
                                 data-action-url="{{ path('course_activities_edit_activity', {'courseSectionActivityId': sectionActivity.id, 'activityId': sectionActivity.activity.id }) }}">
-                            <i class="fas fa-edit"></i> Modifier
+                            <i class="fas fa-edit"></i> {{ 'app.general.button.edit' | trans }}
                         </button>
                         <button type="button" class="btn text-danger modal-action p-0"
-                                data-action-title="Supprimer une activité"
+                                data-action-title="{{ 'app.activities.view.activity.delete_activity' | trans }}"
                                 data-action-url="{{ path('course_activities_remove_activity', {'sectionId': activeSection.id, 'courseSectionActivityId': sectionActivity.id }) }}">
-                            <i class="fas fa-trash-alt text-danger"></i> Supprimer
+                            <i class="fas fa-trash-alt text-danger"></i> {{ 'app.general.button.delete' | trans }}
                         </button>
                     </div>
                 </div>
             </div>
         {% endfor %}
-        {#<div class="text-center">
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead>
-                    <tr class="text-center">
-                        <th>Nom de l'activité</th>
-                        <th>Type</th>
-                        <th>Mode</th>
-                        <th>Evaluable</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for sectionActivity in activeSection.courseSectionActivities %}
-                        <tr class="text-center">
-                            <td>{{ sectionActivity.activity.label }}</td>
-                            <td>{{ sectionActivity.activityType.label }}</td>
-                            <td>{{ sectionActivity.activityMode.label }}</td>
-                            <td>
-                                {% if sectionActivity.evaluable %}
-                                    <div>{{ sectionActivity.evaluationCt ? 'Contrôle Terminal' : 'Contrôle Continu' }}</div>
-                                    <div>
-                                        Evaluation par les enseignants : {{ sectionActivity.evaluationTeacher ? 'Oui' : 'Non' }}
-                                    </div>
-                                    <div>
-                                        Evaluation par les pairs : {{ sectionActivity.evaluationPeer ? 'Oui' : 'Non' }}
-                                    </div>
-                                    {% if sectionActivity.evaluationRate %}<div>Coefficient : {{ sectionActivity.evaluationRate }}%</div>{% endif %}
-                                {% else %}
-                                    Non
-                                {% endif %}
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-link modal-action p-0"
-                                        data-action-title="Supprimer une activité"
-                                        data-action-url="{{ path('course_activities_remove_activity', {'sectionId': activeSection.id, 'courseSectionActivityId': sectionActivity.id }) }}">
-                                    <i class="fas fa-trash-alt text-danger"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>#}
     {% endif %}
 </div>
