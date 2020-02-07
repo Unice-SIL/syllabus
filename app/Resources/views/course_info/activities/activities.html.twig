@@ -7,10 +7,15 @@
         {% if activeSection is not null %}
             <div id="activity-content" class="col p-0">
                 {% include 'course_info/activities/view/activity_content.html.twig' %}
+
+                <div class="m-2 rounded border border-primary">
+                    <input class="form-control" type="text" placeholder="Rechercher une activité" aria-label="Search">
+                </div>
+
                 <div class="card">
                     <div class="card-header d-flex p-0">
                         <h3 class="card-title p-3 text-black-50">Activités</h3>
-                        <ul class="nav nav-pills ml-auto p-2">
+                        <ul id="tab-links" class="nav nav-pills ml-auto p-2">
                             {% if activityTypes is not empty %}
                                 {% for activityType in activityTypes %}
                                     <li class="nav-item">
@@ -88,6 +93,26 @@
                 $('.activity-carousel-next').hide();
             }
         }
+
+        let carouselItems = $('.tab-content > div > div > div > a'),
+            tabsContent = $('.tab-content > div > div > div > a > div > div'),
+            tabContent = [],
+            i,
+            j;
+
+        for (i = 0; i < tabsContent.length; i++) {
+            tabContent[i] = tabsContent.eq(i).text().toLowerCase();
+        }
+        $('input').on('input', function() {
+            let string = $(this).val().toLowerCase();
+            for (j = 0; j < tabsContent.length; j++) {
+                if (tabContent[j].includes(string)) {
+                    carouselItems.eq(j).show();
+                } else {
+                    carouselItems.eq(j).hide();
+                }
+            }
+        });
 
         $(document).ready(function() {
             $('#menu-activities').addClass('active');
