@@ -1,85 +1,116 @@
-ROLE_USER: 'Utilisateur'
-ROLE_ADMIN: 'Administrateur'
-ROLE_API: 'Utilisateur de l''API'
-collective: 'Collectif'
-groups: 'En groupe'
-individual: 'Individuel'
-head: 'Entête'
-together: 'Ensemble'
-autonomy: 'En autonomie'
-class: 'En présentiel'
-cc: 'Contrôle continu'
-ct: 'Contrôle terminal'
-activity: 'activité'
-evaluation: 'évaluation'
+ROLE_USER: Utilisateur
+ROLE_ADMIN: Administrateur
+ROLE_API: Utilisateur de l'API
+collective: Collectif
+groups: En groupe
+individual: Individuel
+head: Entête
+together: Ensemble
+autonomy: En autonomie
+class: En présentiel
+distant: A distance
+cc: Contrôle continu
+ct: Contrôle terminal
+activity: activité
+evaluation: évaluation
 list of activity: Liste des activités
 list of evaluation: Liste des évaluations
 
 
 app:
-  form:
-    security:
-      label:
-        password: 'Mot de passe'
-        repeat_password: 'Confirmation du mot de passe'
-      errors:
-        password_matching: 'Les deux mots de passe ne sont pas identiques'
-    activity:
-      label:
-        label: 'Intitulé'
-        mode: 'Mode'
-        grp: 'Groupe'
-    course_info:
-      label:
-        title: 'Titre'
-        structure: 'Structure'
-    course:
-      label:
-        type: 'Type'
-        etb_id: 'Code établissement'
-        parents: 'Cours parents'
-    year:
-      label:
-        label: 'Année'
-    structure:
-      label:
-        label: 'Label'
-        etbId: 'Code établissement'
-        campus: 'Campus'
-        obsolete: 'Obsolète'
-        structure: 'Structure'
-    equipment:
-      label:
-        label: 'Label'
-        label_visibility: 'Afficher le label'
-        obsolete: 'Obsolète'
-    course_info_field:
-      label:
-        label: 'Label'
-        mannually_duplication: 'Duplication manuelle'
-        automatic_duplication: 'Duplication depuis CSV'
-    global:
-      action: 'Action'
-    duplicate_course_info:
-      label:
-        to: 'Syllabus récepteur'
-    course_permission:
-      label:
-        user: 'Utilisateur'
-        permission: 'Permission'
-    import:
-      label:
-        csv: 'Fichier au format CSV'
+  activities:
+    view:
+      activity:
+        activity_mode: Mode d'enseignement
+        activity_type: Type d'activité
+        add_activities: Pour ajouter des activités veuillez sélectionner une activité dans le carousel ci-dessous.
+        delete_activity: Supprimer une activité
+        edit_activity: Modifier une activité
+        empty_activity: Aucune activité n'a été ajoutée à la section
+        evaluation_peers: Évaluation par les pairs
+        evaluation_rate: Coefficient
+        evaluation_teachers: Évaluation par les enseignants
+        control: Contrôle
+        evaluable: Evaluable
+        name: Nom de l'activité
+      carousel:
+        add_activity: Ajouter une activité
+        search_activity: Rechercher une activité
+      sidebar:
+        add_section: Ajouter une section
+        delete_section: Supprimer une section
+        edit_section: Modifier une section
+        empty_section: Aucune section n'a été créée
+        title: Sections
 
   const:
     permission:
-      WRITE: 'Ecriture'
-      READ: 'Lecture'
+      WRITE: Ecriture
+      READ: Lecture
     level:
-      beginner: 'Débutant'
-      intermediate: 'Intermédiaire'
-      advanced: 'Avancé'
+      beginner: Débutant
+      intermediate: Intermédiaire
+      advanced: Avancé
     teaching_mode:
-      class: 'Présentiel'
-      hybrid: 'Hybride'
-      distant: 'A distance'
+      class: Présentiel
+      hybrid: Hybride
+      distant: A distance
+
+  form:
+    security:
+      label:
+        password: Mot de passe
+        repeat_password: Confirmation du mot de passe
+      errors:
+        password_matching: Les deux mots de passe ne sont pas identiques
+    activity:
+      label:
+        label: Intitulé
+        mode: Mode
+        grp: Groupe
+    course_info:
+      label:
+        title: Titre
+        structure: Structure
+    course:
+      label:
+        type: Type
+        etb_id: Code établissement
+        parents: Cours parents
+    year:
+      label:
+        label: Année
+    structure:
+      label:
+        label: Label
+        etbId: Code établissement
+        campus: Campus
+        obsolete: Obsolète
+        structure: Structure
+    equipment:
+      label:
+        label: Label
+        label_visibility: Afficher le label
+        obsolete: Obsolète
+    course_info_field:
+      label:
+        label: Label
+        mannually_duplication: Duplication manuelle
+        automatic_duplication: Duplication depuis CSV
+    global:
+      action: Action
+    duplicate_course_info:
+      label:
+        to: Syllabus récepteur
+    course_permission:
+      label:
+        user: Utilisateur
+        permission: Permission
+    import:
+      label:
+        csv: Fichier au format CSV
+
+  general:
+    button:
+      edit: Modifier
+      delete: Supprimer

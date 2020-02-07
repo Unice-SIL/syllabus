@@ -9,17 +9,17 @@
                 {% include 'course_info/activities/view/activity_content.html.twig' %}
 
                 <div class="m-2 rounded border border-primary">
-                    <input class="form-control" type="text" placeholder="Rechercher une activité" aria-label="Search">
+                    <input class="form-control" type="text" placeholder="{{ 'app.activities.view.carousel.search_activity' | trans }}" aria-label="Search">
                 </div>
 
                 <div class="card">
                     <div class="card-header d-flex p-0">
-                        <h3 class="card-title p-3 text-black-50">Activités</h3>
+                        <h3 class="card-title p-3 text-black-50">{{ 'list of activity' | trans }}</h3>
                         <ul id="tab-links" class="nav nav-pills ml-auto p-2">
                             {% if activityTypes is not empty %}
                                 {% for activityType in activityTypes %}
                                     <li class="nav-item">
-                                        <a class="nav-link {% if loop.first %}active{% endif %}" href="#tab_{{ activityType.id }}" data-toggle="tab">{{ activityType.label }}</a>
+                                        <a class="nav-link {% if loop.first %}active{% endif %}" href="#tab_{{ activityType.id }}" data-toggle="tab">{{ activityType.label | lower | trans }}</a>
                                     </li>
                                 {% endfor %}
                             {% endif %}
@@ -37,7 +37,7 @@
                                             {% for activity in activities %}
                                                 {% if activity.activityTypes is not empty and activityType in activity.activityTypes %}
                                                     <a class="m-auto modal-action"
-                                                       data-action-title="Ajouter une activité"
+                                                       data-action-title="{{ 'app.activities.view.carousel.add_activity' | trans }}"
                                                        data-action-url="{{ path("course_activities_add_activity", {'sectionId': activeSection.id, 'activityId': activity.id, 'activityTypeId': activityType.id}) }}">
                                                         <div class="activity-carousel-item text-center d-flex shadow">
                                                             <div class="m-auto">{{ activity.label }}</div>

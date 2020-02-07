@@ -22,7 +22,7 @@ class ActivityTypeFixture extends Fixture implements FixtureGroupInterface
     {
         $activityType = new ActivityType();
         $activityType->setId(Uuid::uuid4())
-            ->setLabel("A distance")
+            ->setLabel("Distant")
             ->addActivity($this->getReference(ActivityFixture::ACTIVITY_1))
             ->addActivity($this->getReference(ActivityFixture::ACTIVITY_2))
             ->addActivity($this->getReference(ActivityFixture::ACTIVITY_4))
