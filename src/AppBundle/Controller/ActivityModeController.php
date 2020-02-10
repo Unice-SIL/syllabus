@@ -7,14 +7,13 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\ActivityMode;
 use AppBundle\Form\ActivityModeType;
 use AppBundle\Form\Filter\ActivityModeFilterType;
-use AppBundle\Form\Filter\ActivityTypeFilterType;
 use AppBundle\Manager\ActivityModeManager;
 use AppBundle\Repository\Doctrine\ActivityModeDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,16 +26,16 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * @Route("/admin/mode_activity", name="app_admin_mode_activity_")
  */
-class ActivityModeController extends Controller
+class ActivityModeController extends AbstractController
 {
     /**
      * @param Request $request
      * @param EntityManagerInterface $em
      * @param PaginatorInterface $paginator
+     * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
      * @return Response
      * @Route("/",name="index" )
      * @Method("GET")
-     * @return Response
      */
     public function IndexAction(Request $request, EntityManagerInterface $em, PaginatorInterface $paginator, FilterBuilderUpdaterInterface $filterBuilderUpdater)
     {

@@ -27,6 +27,29 @@ class StructureDoctrineRepository  extends AbstractDoctrineRepository implements
     }
 
     /**
+     * @return \ArrayObject
+     * @throws \Exception
+     */
+    public function findAll(): \ArrayObject
+    {
+        $structures = new \ArrayObject();
+        try {
+            $qb = $this->entityManager->getRepository(Structure::class)->createQueryBuilder('s');
+            $qb->where($qb->expr()->eq('s.obsolete', ':obsolete'))
+                ->setParameter('obsolete', false)
+                ->addOrderBy('s.label', 'ASC');
+            foreach ($qb->getQuery()->getResult() as $structure){
+                $structures->append($structure);
+            }
+        } catch (\Exception $exception)
+        {
+            throw $exception;
+        }
+
+        return $structures;
+    }
+
+    /**
      * @param string $id
      * @return Structure|null
      * @throws \Exception

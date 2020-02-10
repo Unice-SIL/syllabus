@@ -35,7 +35,6 @@ class ActivityType extends AbstractType
             ])
             ->addEventSubscriber($this->activityTypeSubscriber)
         ;
-
     }
     /**
      * {@inheritdoc}
