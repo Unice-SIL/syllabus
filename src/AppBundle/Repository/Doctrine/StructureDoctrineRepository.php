@@ -12,7 +12,7 @@ use Doctrine\ORM\QueryBuilder;
  * Class StructureDoctrineRepository
  * @package AppBundle\Repository\Doctrine
  */
-class StructureDoctrineRepository  extends AbstractDoctrineRepository implements StructureRepositoryInterface
+class StructureDoctrineRepository extends AbstractDoctrineRepository implements StructureRepositoryInterface
 {
 
     /**

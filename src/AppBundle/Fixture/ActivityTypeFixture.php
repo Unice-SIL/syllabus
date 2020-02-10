@@ -21,7 +21,7 @@ class ActivityTypeFixture extends Fixture implements FixtureGroupInterface
     public function load(ObjectManager $manager)
     {
         $activityType = new ActivityType();
-        $activityType->setId(Uuid::uuid4())
+        $activityType
             ->setLabel("Distant")
             ->addActivity($this->getReference(ActivityFixture::ACTIVITY_1))
             ->addActivity($this->getReference(ActivityFixture::ACTIVITY_2))
@@ -34,7 +34,7 @@ class ActivityTypeFixture extends Fixture implements FixtureGroupInterface
         $manager->persist($activityType);
 
         $activityType = new ActivityType();
-        $activityType->setId(Uuid::uuid4())
+        $activityType
             ->setLabel("Autonomy")
             ->addActivity($this->getReference(ActivityFixture::ACTIVITY_1))
             ->addActivity($this->getReference(ActivityFixture::ACTIVITY_3))
@@ -46,7 +46,7 @@ class ActivityTypeFixture extends Fixture implements FixtureGroupInterface
         $manager->persist($activityType);
 
         $activityType = new ActivityType();
-        $activityType->setId(Uuid::uuid4())
+        $activityType
             ->setLabel("Class")
             ->addActivity($this->getReference(ActivityFixture::ACTIVITY_2))
             ->addActivity($this->getReference(ActivityFixture::ACTIVITY_3))
