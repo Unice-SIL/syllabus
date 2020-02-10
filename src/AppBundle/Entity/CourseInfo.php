@@ -30,7 +30,7 @@ class CourseInfo
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $id;
 
@@ -39,7 +39,7 @@ class CourseInfo
      *
      * @ORM\Column(name="title", type="string", length=200, nullable=false)
      * @Assert\NotBlank(groups={"new"})
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $title;
 
@@ -47,7 +47,7 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="ects", type="float", nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $ects;
 
@@ -57,6 +57,7 @@ class CourseInfo
      * @ORM\Column(name="level", type="string", length=15, nullable=true, options={"fixed"=true})
      * @Assert\NotBlank(groups={"presentation"})
      * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      *
      */
     private $level;
@@ -65,7 +66,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="languages", type="string", length=200, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      *
      */
     private $languages;
@@ -76,6 +77,7 @@ class CourseInfo
      * @ORM\Column(name="domain", type="string", length=100, nullable=true, options={"fixed"=true})
      * @Assert\NotBlank(groups={"presentation"})
      * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      *
      */
     private $domain;
@@ -84,7 +86,7 @@ class CourseInfo
      * @var int|null
      *
      * @ORM\Column(name="semester", type="integer", nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $semester;
 
@@ -94,6 +96,7 @@ class CourseInfo
      * @ORM\Column(name="summary", type="text", length=65535, nullable=true)
      * @Assert\NotBlank(groups={"presentation"})
      * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $summary;
 
@@ -101,7 +104,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="period", type="string", length=255, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $period;
 
@@ -109,7 +112,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="media_type", type="string", length=10, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $mediaType;
 
@@ -117,7 +120,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="image", type="text", length=65535, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $image;
 
@@ -125,7 +128,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="video", type="text", length=65535, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $video;
 
@@ -133,7 +136,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="teaching_mode", type="string", length=15, nullable=true, options={"fixed"=true})
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      *
      */
     private $teachingMode;
@@ -142,7 +145,7 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_cm_class", type="float", precision=10, scale=0, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $teachingCmClass;
 
@@ -150,7 +153,7 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_td_class", type="float", precision=10, scale=0, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $teachingTdClass;
 
@@ -158,7 +161,7 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_tp_class", type="float", precision=10, scale=0, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $teachingTpClass;
 
@@ -166,7 +169,7 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_other_class", type="float", precision=10, scale=0, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      *
      */
     private $teachingOtherClass;
@@ -175,7 +178,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="teaching_other_type_class", type="string", length=65, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      *
      */
     private $teachingOtherTypeClass;
@@ -184,7 +187,7 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_cm_hybrid_class", type="float", precision=10, scale=0, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $teachingCmHybridClass;
 
@@ -192,7 +195,7 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_td_hybrid_class", type="float", precision=10, scale=0, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $teachingTdHybridClass;
 
@@ -200,7 +203,7 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_tp_hybrid_class", type="float", precision=10, scale=0, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $teachingTpHybridClass;
 
@@ -208,7 +211,7 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_other_hybrid_class", type="float", precision=10, scale=0, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $teachingOtherHybridClass;
 
@@ -216,7 +219,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="teaching_other_type_hybrid_class", type="string", length=65, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $teachingOtherTypeHybridClass;
 
@@ -224,7 +227,7 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_cm_hybrid_dist", type="float", precision=10, scale=0, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $teachingCmHybridDist;
 
@@ -232,7 +235,7 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_td_hybrid_dist", type="float", precision=10, scale=0, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $teachingTdHybridDist;
 
@@ -240,7 +243,7 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_other_hybrid_dist", type="float", precision=10, scale=0, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $teachingOtherHybridDist;
 
@@ -248,7 +251,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="teaching_other_type_hybrid_distant", type="string", length=65, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $teachingOtherTypeHybridDistant;
 
@@ -256,7 +259,7 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_cm_dist", type="float", precision=10, scale=0, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $teachingCmDist;
 
@@ -264,7 +267,7 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_td_dist", type="float", precision=10, scale=0, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $teachingTdDist;
 
@@ -272,7 +275,7 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_other_dist", type="float", precision=10, scale=0, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $teachingOtherDist;
 
@@ -280,7 +283,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="teaching_other_type_distant", type="string", length=65, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $teachingOtherTypeDist;
 
@@ -288,7 +291,7 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="mcc_weight", type="float", precision=10, scale=0, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $mccWeight;
 
@@ -296,7 +299,7 @@ class CourseInfo
      * @var bool
      *
      * @ORM\Column(name="mcc_compensable", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $mccCompensable = false;
 
@@ -304,7 +307,7 @@ class CourseInfo
      * @var bool
      *
      * @ORM\Column(name="mcc_capitalizable", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $mccCapitalizable = false;
 
@@ -312,7 +315,7 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="mcc_cc_coeff_session_1", type="float", precision=10, scale=0, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $mccCcCoeffSession1;
 
@@ -320,7 +323,7 @@ class CourseInfo
      * @var int|null
      *
      * @ORM\Column(name="mcc_cc_nb_eval_session_1", type="integer", nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $mccCcNbEvalSession1;
 
@@ -328,7 +331,7 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="mcc_ct_coeff_session_1", type="float", precision=10, scale=0, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $mccCtCoeffSession1;
 
@@ -336,7 +339,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="mcc_ct_nat_session_1", type="string", length=100, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $mccCtNatSession1;
 
@@ -344,7 +347,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="mcc_ct_duration_session_1", type="string", length=100, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $mccCtDurationSession1;
 
@@ -352,7 +355,7 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="mcc_ct_coeff_session_2", type="float", precision=10, scale=0, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $mccCtCoeffSession2;
 
@@ -360,7 +363,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="mcc_ct_nat_session_2", type="string", length=100, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $mccCtNatSession2;
 
@@ -368,7 +371,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="mcc_ct_duration_session_2", type="string", length=100, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $mccCtDurationSession2;
 
@@ -377,7 +380,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="mcc_advice", type="text", length=65535, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $mccAdvice;
 
@@ -385,7 +388,7 @@ class CourseInfo
      * @var bool
      *
      * @ORM\Column(name="tutoring", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $tutoring = false;
 
@@ -393,7 +396,7 @@ class CourseInfo
      * @var bool
      *
      * @ORM\Column(name="tutoring_teacher", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $tutoringTeacher = false;
 
@@ -401,7 +404,7 @@ class CourseInfo
      * @var bool
      *
      * @ORM\Column(name="tutoring_student", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $tutoringStudent = false;
 
@@ -409,7 +412,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="tutoring_description", type="text", length=65535, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $tutoringDescription;
 
@@ -417,7 +420,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="educational_resources", type="text", length=65535, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $educationalResources;
 
@@ -425,7 +428,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="bibliographic_resources", type="text", length=65535, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $bibliographicResources;
 
@@ -433,7 +436,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="agenda", type="text", length=65535, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $agenda;
 
@@ -441,7 +444,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="organization", type="text", length=65535, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $organization;
 
@@ -449,7 +452,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="closing_remarks", type="text", length=65535, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $closingRemarks;
 
@@ -457,7 +460,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="closing_video", type="text", length=65535, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $closingVideo;
 
@@ -466,7 +469,7 @@ class CourseInfo
      *
      * @ORM\Column(name="creation_date", type="datetime", nullable=false)
      * @Gedmo\Timestampable(on="create")
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $creationDate;
 
@@ -474,7 +477,7 @@ class CourseInfo
      * @var \DateTime|null
      *
      * @ORM\Column(name="modification_date", type="datetime", nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $modificationDate;
 
@@ -482,65 +485,9 @@ class CourseInfo
      * @var \DateTime|null
      *
      * @ORM\Column(name="publication_date", type="datetime", nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $publicationDate;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="tem_presentation_tab_valid", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"api"})
-     */
-    private $temPresentationTabValid = false;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="tem_activities_tab_valid", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"api"})
-     */
-    private $temActivitiesTabValid = false;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="tem_objectives_tab_valid", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"api"})
-     */
-    private $temObjectivesTabValid = false;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="tem_mcc_tab_valid", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"api"})
-     */
-    private $temMccTabValid = false;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="tem_equipments_tab_valid", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"api"})
-     */
-    private $temEquipmentsTabValid = false;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="tem_infos_tab_valid", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"api"})
-     */
-    private $temInfosTabValid = false;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="tem_closing_remarks_tab_valid", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"api"})
-     */
-    private $temClosingRemarksTabValid = false;
 
     /**
      * @var Course
@@ -551,6 +498,7 @@ class CourseInfo
      * })
      * @Assert\NotBlank()
      * @JMS\Type("AppBundle\Entity\Course")
+     * @JMS\Groups(groups={"course_info"})
      */
     private $course;
 
@@ -563,6 +511,7 @@ class CourseInfo
      * })
      * @Assert\NotBlank(groups={"new"})
      * @JMS\Type("AppBundle\Entity\Structure")
+     * @JMS\Groups(groups={"course_info"})
      */
     private $structure;
 
@@ -574,6 +523,7 @@ class CourseInfo
      *   @ORM\JoinColumn(name="last_updater", referencedColumnName="id")
      * })
      * @Gedmo\Blameable(on="update")
+     * @JMS\Groups(groups={"course_info"})
      */
     private $lastUpdater;
 
@@ -582,9 +532,10 @@ class CourseInfo
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="publisher", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="publisher", referencedColumnName="id", nullable=true)
      * })
      * @Gedmo\Blameable(on="create")
+     * @JMS\Groups(groups={"course_info"})
      */
     private $publisher;
 
@@ -597,62 +548,69 @@ class CourseInfo
      * })
      * @Assert\NotBlank(groups={"new"})
      * @JMS\Type("AppBundle\Entity\Year")
+     * @JMS\Groups(groups={"course_info"})
      */
     private $year;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="CoursePermission", mappedBy="courseInfo", cascade={ "all" }, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="CoursePermission", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      */
     private $coursePermissions;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="CourseTeacher", mappedBy="courseInfo", cascade={ "persist", "merge" }, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="CourseTeacher", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"lastname" = "ASC"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $courseTeachers;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="CourseSection", mappedBy="courseInfo", cascade={ "persist", "merge" }, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="CourseSection", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"position" = "ASC"})
      * @JMS\Type("ArrayCollection<AppBundle\Entity\CourseSection>")
+     * @JMS\Groups(groups={"course_info"})
      */
     private $courseSections;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="CourseAchievement", mappedBy="courseInfo", cascade={ "persist", "merge" }, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="CourseAchievement", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"order" = "ASC"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $courseAchievements;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="CoursePrerequisite", mappedBy="courseInfo", cascade={ "persist", "merge" }, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="CoursePrerequisite", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"order" = "ASC"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $coursePrerequisites;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="CourseTutoringResource", mappedBy="courseInfo", cascade={ "persist", "merge" }, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="CourseTutoringResource", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"order" = "ASC"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $courseTutoringResources;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="CourseResourceEquipment", mappedBy="courseInfo", cascade={ "persist", "merge" }, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="CourseResourceEquipment", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"order" = "ASC"})
+     * @JMS\Groups(groups={"course_info"})
      */
     private $courseResourceEquipments;
 
@@ -1739,139 +1697,6 @@ class CourseInfo
     }
 
     /**
-     * @return bool
-     */
-    public function isTemPresentationTabValid(): bool
-    {
-        return $this->temPresentationTabValid;
-    }
-
-    /**
-     * @param bool $temPresentationTabValid
-     * @return CourseInfo
-     */
-    public function setTemPresentationTabValid(bool $temPresentationTabValid): CourseInfo
-    {
-        $this->temPresentationTabValid = $temPresentationTabValid;
-
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isTemActivitiesTabValid(): bool
-    {
-        return $this->temActivitiesTabValid;
-    }
-
-    /**
-     * @param bool $temActivitiesTabValid
-     * @return CourseInfo
-     */
-    public function setTemActivitiesTabValid(bool $temActivitiesTabValid): CourseInfo
-    {
-        $this->temActivitiesTabValid = $temActivitiesTabValid;
-
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isTemObjectivesTabValid(): bool
-    {
-        return $this->temObjectivesTabValid;
-    }
-
-    /**
-     * @param bool $temObjectivesTabValid
-     * @return CourseInfo
-     */
-    public function setTemObjectivesTabValid(bool $temObjectivesTabValid): CourseInfo
-    {
-        $this->temObjectivesTabValid = $temObjectivesTabValid;
-
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isTemMccTabValid(): bool
-    {
-        return $this->temMccTabValid;
-    }
-
-    /**
-     * @param bool $temMccTabValid
-     * @return CourseInfo
-     */
-    public function setTemMccTabValid(bool $temMccTabValid): CourseInfo
-    {
-        $this->temMccTabValid = $temMccTabValid;
-
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isTemEquipmentsTabValid(): bool
-    {
-        return $this->temEquipmentsTabValid;
-    }
-
-    /**
-     * @param bool $temEquipmentsTabValid
-     * @return CourseInfo
-     */
-    public function setTemEquipmentsTabValid(bool $temEquipmentsTabValid): CourseInfo
-    {
-        $this->temEquipmentsTabValid = $temEquipmentsTabValid;
-
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isTemInfosTabValid(): bool
-    {
-        return $this->temInfosTabValid;
-    }
-
-    /**
-     * @param bool $temInfosTabValid
-     * @return CourseInfo
-     */
-    public function setTemInfosTabValid(bool $temInfosTabValid): CourseInfo
-    {
-        $this->temInfosTabValid = $temInfosTabValid;
-
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isTemClosingRemarksTabValid(): bool
-    {
-        return $this->temClosingRemarksTabValid;
-    }
-
-    /**
-     * @param bool $temClosingRemarksTabValid
-     * @return CourseInfo
-     */
-    public function setTemClosingRemarksTabValid(bool $temClosingRemarksTabValid): CourseInfo
-    {
-        $this->temClosingRemarksTabValid = $temClosingRemarksTabValid;
-
-        return $this;
-    }
-
-    /**
      * @return Course
      */
     public function getCourse(): ?Course
@@ -1941,7 +1766,7 @@ class CourseInfo
      * @param User|null $lastUpdater
      * @return CourseInfo
      */
-    public function setLastUpdater($lastUpdater): CourseInfo
+    public function setLastUpdater(?$lastUpdater): CourseInfo
     {
         $this->lastUpdater = $lastUpdater;
 
@@ -1960,7 +1785,7 @@ class CourseInfo
      * @param User|null $publisher
      * @return CourseInfo
      */
-    public function setPublisher($publisher): CourseInfo
+    public function setPublisher(?$publisher): CourseInfo
     {
         $this->publisher = $publisher;
 
@@ -2021,7 +1846,14 @@ class CourseInfo
      */
     public function addPermission(CoursePermission $coursePermission): CourseInfo
     {
-        $this->coursePermissions->add($coursePermission);
+        if(!$this->coursePermissions->contains($coursePermission))
+        {
+            $this->coursePermissions->add($coursePermission);
+            if($coursePermission->getCourseInfo() !== $this)
+            {
+                $coursePermission->setCourseInfo($this);
+            }
+        }
 
         return $this;
     }
@@ -2030,9 +1862,16 @@ class CourseInfo
      * @param CoursePermission $coursePermission
      * @return CourseInfo
      */
-    public function removePermissoin(CoursePermission $coursePermission): CourseInfo
+    public function removePermission(CoursePermission $coursePermission): CourseInfo
     {
-        $this->coursePermissions->removeElement($coursePermission);
+        if($this->coursePermissions->contains($coursePermission))
+        {
+            $this->coursePermissions->removeElement($coursePermission);
+            if ($coursePermission->getCourseInfo() === $this)
+            {
+                $coursePermission->setCourseInfo(null);
+            }
+        }
 
         return $this;
     }
@@ -2040,7 +1879,7 @@ class CourseInfo
     /**
      * @return Collection
      */
-    public function getCourseTeachers(): ?Collection
+    public function getCourseTeachers(): Collection
     {
         return $this->courseTeachers;
     }
@@ -2049,7 +1888,7 @@ class CourseInfo
      * @param Collection $courseTeachers
      * @return CourseInfo
      */
-    public function setCourseTeachers(Collection $courseTeachers): CourseInfo
+    public function setCourseTeachers(Collection $courseTeachers): self
     {
         $this->courseTeachers = $courseTeachers;
 
@@ -2060,13 +1899,17 @@ class CourseInfo
      * @param CourseTeacher $courseTeacher
      * @return CourseInfo
      */
-    public function addCourseTeacher(CourseTeacher $courseTeacher): CourseInfo
+    public function addCourseTeacher(CourseTeacher $courseTeacher): self
     {
-        if (!$this->courseTeachers->contains($courseTeacher))
+        if(!$this->courseTeachers->contains($courseTeacher))
         {
             $this->courseTeachers->add($courseTeacher);
-            $courseTeacher->setCourseInfo($this);
+            if($courseTeacher->getCourseInfo() !== $this)
+            {
+                $courseTeacher->setCourseInfo($this);
+            }
         }
+
         return $this;
     }
 
@@ -2074,7 +1917,7 @@ class CourseInfo
      * @param CourseTeacher $courseTeacher
      * @return CourseInfo
      */
-    public function removeCourseTeacher(CourseTeacher $courseTeacher): CourseInfo
+    public function removeCourseTeacher(CourseTeacher $courseTeacher): self
     {
         if ($this->courseTeachers->contains($courseTeacher))
         {
@@ -2090,7 +1933,7 @@ class CourseInfo
     /**
      * @return Collection
      */
-    public function getCourseSections(): ?Collection
+    public function getCourseSections(): Collection
     {
         return $this->courseSections;
     }
@@ -2099,7 +1942,7 @@ class CourseInfo
      * @param Collection $courseSections
      * @return CourseInfo
      */
-    public function setCourseSections(Collection $courseSections): CourseInfo
+    public function setCourseSections(Collection $courseSections): self
     {
         $this->courseSections = $courseSections;
 
@@ -2110,9 +1953,16 @@ class CourseInfo
      * @param CourseSection $courseSection
      * @return CourseInfo
      */
-    public function addCourseSection(CourseSection $courseSection): CourseInfo
+    public function addCourseSection(CourseSection $courseSection): self
     {
-        $this->courseSections->add($courseSection);
+        if(!$this->courseSections->contains($courseSection))
+        {
+            $this->courseSections->add($courseSection);
+            if($courseSection->getCourseInfo() !== $this)
+            {
+                $courseSection->setCourseInfo($this);
+            }
+        }
 
         return $this;
     }
@@ -2121,7 +1971,7 @@ class CourseInfo
      * @param CourseSection $courseSection
      * @return CourseInfo
      */
-    public function removeCourseSection(CourseSection $courseSection): CourseInfo
+    public function removeCourseSection(CourseSection $courseSection): self
     {
         if ($this->courseSections->contains($courseSection))
         {
@@ -2138,7 +1988,7 @@ class CourseInfo
     /**
      * @return Collection
      */
-    public function getCourseAchievements(): ?Collection
+    public function getCourseAchievements(): Collection
     {
         return $this->courseAchievements;
     }
@@ -2147,7 +1997,7 @@ class CourseInfo
      * @param Collection $courseAchievements
      * @return CourseInfo
      */
-    public function setCourseAchievements(Collection $courseAchievements): CourseInfo
+    public function setCourseAchievements(Collection $courseAchievements): self
     {
         $this->courseAchievements = $courseAchievements;
 
@@ -2158,10 +2008,16 @@ class CourseInfo
      * @param CourseAchievement $courseAchievement
      * @return CourseInfo
      */
-    public function addCourseAchievement(CourseAchievement $courseAchievement): CourseInfo
+    public function addCourseAchievement(CourseAchievement $courseAchievement): self
     {
-        $this->courseAchievements->add($courseAchievement);
-        $courseAchievement->setCourseInfo($this);
+        if(!$this->courseAchievements->contains($courseAchievement))
+        {
+            $this->courseAchievements->add($courseAchievement);
+            if($courseAchievement->getCourseInfo() !== $this)
+            {
+                $courseAchievement->setCourseInfo($this);
+            }
+        }
 
         return $this;
     }
@@ -2170,7 +2026,7 @@ class CourseInfo
      * @param CourseAchievement $courseAchievement
      * @return CourseInfo
      */
-    public function removeCourseAchievement(CourseAchievement $courseAchievement): CourseInfo
+    public function removeCourseAchievement(CourseAchievement $courseAchievement): self
     {
         if ($this->courseAchievements->contains($courseAchievement))
         {
@@ -2186,7 +2042,7 @@ class CourseInfo
     /**
      * @return Collection
      */
-    public function getCoursePrerequisites(): ?Collection
+    public function getCoursePrerequisites(): Collection
     {
         return $this->coursePrerequisites;
     }
@@ -2195,7 +2051,7 @@ class CourseInfo
      * @param Collection $coursePrerequisites
      * @return CourseInfo
      */
-    public function setCoursePrerequisites(Collection $coursePrerequisites): CourseInfo
+    public function setCoursePrerequisites(Collection $coursePrerequisites): self
     {
         $this->coursePrerequisites = $coursePrerequisites;
 
@@ -2206,10 +2062,16 @@ class CourseInfo
      * @param CoursePrerequisite $coursePrerequisite
      * @return CourseInfo
      */
-    public function addCoursePrerequisite(CoursePrerequisite $coursePrerequisite): CourseInfo
+    public function addCoursePrerequisite(CoursePrerequisite $coursePrerequisite): self
     {
-        $this->coursePrerequisites->add($coursePrerequisite);
-        $coursePrerequisite->setCourseInfo($this);
+        if(!$this->coursePrerequisites->contains($coursePrerequisite))
+        {
+            $this->coursePrerequisites->add($coursePrerequisite);
+            if($coursePrerequisite->getCourseInfo() !== $this)
+            {
+                $coursePrerequisite->setCourseInfo($this);
+            }
+        }
 
         return $this;
     }
@@ -2218,7 +2080,7 @@ class CourseInfo
      * @param CoursePrerequisite $coursePrerequisite
      * @return CourseInfo
      */
-    public function removeCoursePrerequisite(CoursePrerequisite $coursePrerequisite): CourseInfo
+    public function removeCoursePrerequisite(CoursePrerequisite $coursePrerequisite): self
     {
         if ($this->coursePrerequisites->contains($coursePrerequisite))
         {
@@ -2228,13 +2090,14 @@ class CourseInfo
                 $coursePrerequisite->setCourseInfo(null);
             }
         }
+
         return $this;
     }
 
     /**
      * @return Collection
      */
-    public function getCourseTutoringResources(): ?Collection
+    public function getCourseTutoringResources(): Collection
     {
         return $this->courseTutoringResources;
     }
@@ -2243,7 +2106,7 @@ class CourseInfo
      * @param Collection $courseTutoringResources
      * @return CourseInfo
      */
-    public function setCourseTutoringResources(Collection $courseTutoringResources): CourseInfo
+    public function setCourseTutoringResources(Collection $courseTutoringResources): self
     {
         $this->courseTutoringResources = $courseTutoringResources;
 
@@ -2254,10 +2117,16 @@ class CourseInfo
      * @param CourseTutoringResource $courseTutoringResource
      * @return CourseInfo
      */
-    public function addCourseTutoringResource(CourseTutoringResource $courseTutoringResource): CourseInfo
+    public function addCourseTutoringResource(CourseTutoringResource $courseTutoringResource): self
     {
-        $this->courseTutoringResources->add($courseTutoringResource);
-        $courseTutoringResource->setCourseInfo($this);
+        if(!$this->courseTutoringResources->contains($courseTutoringResource))
+        {
+            $this->courseTutoringResources->add($courseTutoringResource);
+            if($courseTutoringResource->getCourseInfo() !== $this)
+            {
+                $courseTutoringResource->setCourseInfo($this);
+            }
+        }
 
         return $this;
     }
@@ -2266,9 +2135,16 @@ class CourseInfo
      * @param CourseTutoringResource $courseTutoringResource
      * @return CourseInfo
      */
-    public function removeCourseTutoringResource(CourseTutoringResource $courseTutoringResource): CourseInfo
+    public function removeCourseTutoringResource(CourseTutoringResource $courseTutoringResource): self
     {
-        $this->courseTutoringResources->removeElement($courseTutoringResource);
+        if ($this->courseTutoringResources->contains($courseTutoringResource))
+        {
+            $this->courseTutoringResources->removeElement($courseTutoringResource);
+            if ($courseTutoringResource->getCourseInfo() === $this)
+            {
+                $courseTutoringResource->setCourseInfo(null);
+            }
+        }
 
         return $this;
     }
@@ -2298,7 +2174,14 @@ class CourseInfo
      */
     public function addCourseResourceEquipment(CourseResourceEquipment $courseResourceEquipment): CourseInfo
     {
-        $this->courseResourceEquipments->add($courseResourceEquipment);
+        if(!$this->courseResourceEquipments->contains($courseResourceEquipment))
+        {
+            $this->courseResourceEquipments->add($courseResourceEquipment);
+            if($courseResourceEquipment->getCourseInfo() !== $this)
+            {
+                $courseResourceEquipment->setCourseInfo($this);
+            }
+        }
 
         return $this;
     }
