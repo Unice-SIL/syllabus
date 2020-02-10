@@ -1,8 +1,8 @@
 {{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('course_activities_remove_activity', {'sectionId': courseSection.id, 'courseSectionActivityId': form.vars.data.id })}}) }}
 {{ form_errors(form) }}
-<h5>Êtes-vous sûr(e) de vouloir supprimer l'activité "{{ form.vars.data.activity.label }}" ?</h5>
+<h5>{{ 'app.activities.form.activity.delete' | trans({'%label%': form.vars.data.activity.label}) }}</h5>
 <div class="d-flex justify-content-center">
-    <button type="submit" class="btn btn-danger rounded mr-2">Supprimer</button>
+    <button type="submit" class="btn btn-danger rounded mr-2">{{ "app.general.button.delete" | trans }}</button>
 </div>
 {{ form_widget(form._token) }}
 {{ form_end(form) }}

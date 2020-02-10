@@ -8,10 +8,10 @@
 
 {{ form_row(form.activityMode, {label_attr: {class: 'radio-custom'} }) }}
 
-<label>Cette activité est-elle évaluable ?</label>
+<label>{{ "app.activities.form.activity.evaluable" | trans }}</label>
 {{ form_row(form.evaluable) }}
 <div id="eval-content" class="d-none">
-    <label>Type de contrôle (Continu / Terminal) :</label>
+    <label>{{ "app.activities.form.activity.control" | trans }}</label>
     {{ form_row(form.evaluationCt) }}
     <div class="input-group mb-3">
     {{ form_errors(form.evaluationRate) }}
@@ -28,7 +28,7 @@
 </div>
 <div class="d-flex justify-content-center">
     <button type="submit" class="btn btn-primary rounded">
-        Ajouter
+        {{ "app.general.button.add" | trans }}
     </button>
 </div>
 {{ form_widget(form._token) }}

@@ -36,11 +36,11 @@ class CourseSectionActivityType extends AbstractType
         $activity = $options['activity'];
 
         $builder->add('description', TextType::class, [
-            'label' => "Description de l'activité",
+            'label' => "app.activities.form.activity.description",
             'required' => false
         ])
             ->add('evaluationRate', NumberType::class, [
-                'label' => "Coefficient",
+                'label' => "app.activities.view.activity.evaluation_rate",
                 'required' => false,
                 'label_attr' => ['class' => 'mr-2 my-auto']
             ])
@@ -75,16 +75,16 @@ class CourseSectionActivityType extends AbstractType
                 ]
             ])
             ->add('evaluationTeacher', CheckboxType::class, [
-                'label' => "Évaluation par les enseignants",
+                'label' => "app.activities.view.activity.evaluation_teachers",
                 'required' => false
             ])
             ->add('evaluationPeer', CheckboxType::class, [
-                'label' => "Évaluation par les pairs",
+                'label' => "app.activities.view.activity.evaluation_peers",
                 'required' => false
             ])
             ->add('activityType', EntityType::class, [
                 'class' => ActivityType::class,
-                'label' => "Type d'activité",
+                'label' => "app.activities.form.activity.activity_type",
                 'multiple' => false,
                 'expanded' => true,
                 'query_builder' => function (EntityRepository $er) use ($activity) {
@@ -100,7 +100,7 @@ class CourseSectionActivityType extends AbstractType
         $formModifier = function (FormInterface $form, ActivityType $activityType = null) {
             $form->add('activityMode', EntityType::class, [
                 'class' => ActivityMode::class,
-                'label' => "Mode d'enseignement",
+                'label' => "app.activities.form.activity.activity_mode",
                 'multiple' => false,
                 'expanded' => true,
                 'query_builder' => function (EntityRepository $er) use ($activityType) {
