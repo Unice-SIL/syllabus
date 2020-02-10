@@ -2,7 +2,10 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinTable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -53,6 +56,22 @@ class Structure
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
      */
     private $obsolete = '0';
+
+    /**
+     * @var Collection
+     *
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Domain", inversedBy="structures")
+     * @JoinTable(name="domain_structure")
+     */
+    private $domains;
+
+    /**
+     * Structure constructor.
+     */
+    public function __construct()
+    {
+        $this->domains = new ArrayCollection();
+    }
 
     /**
      * @return string
@@ -150,4 +169,50 @@ class Structure
         return $this;
     }
 
+    /**
+     * @param Domain $domain
+     * @return Structure
+     */
+    public function addDomain(Domain $domain): self
+    {
+        if (!$this->domains->contains($domain))
+        {
+            $this->domains->add($domain);
+            if (!$domain->getStructures()->contains($this))
+            {
+                $domain->getStructures()->add($this);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @param Domain $domain
+     * @return Structure
+     */
+    public function removeDomain(Domain $domain): self
+    {
+        if ($this->domains->contains($domain))
+        {
+            $this->domains->removeElement($domain);
+            if ($domain->getActivityTypes()->contains($this))
+            {
+                $domain->getActivityTypes()->removeElement($this);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getDomains()
+    {
+        return $this->domains;
+    }
+
+    public function __toString()
+    {
+        return $this->getLabel();
+    }
 }
