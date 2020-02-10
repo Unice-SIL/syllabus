@@ -646,7 +646,7 @@ class CourseInfo
      * @param string $id
      * @return CourseInfo
      */
-    public function setId(string $id): CourseInfo
+    public function setId(string $id): self
     {
         $this->id = $id;
 
@@ -665,7 +665,7 @@ class CourseInfo
      * @param string $title
      * @return CourseInfo
      */
-    public function setTitle(string $title): CourseInfo
+    public function setTitle(string $title): self
     {
         $this->title = $title;
 
@@ -1142,7 +1142,7 @@ class CourseInfo
      * @param float|null $teachingCmDist
      * @return CourseInfo
      */
-    public function setTeachingCmDist(?float $teachingCmDist): CourseInfo
+    public function setTeachingCmDist(?float $teachingCmDist): self
     {
         $this->teachingCmDist = $teachingCmDist;
         return $this;
@@ -1160,7 +1160,7 @@ class CourseInfo
      * @param float|null $teachingTdDist
      * @return CourseInfo
      */
-    public function setTeachingTdDist(?float $teachingTdDist): CourseInfo
+    public function setTeachingTdDist(?float $teachingTdDist): self
     {
         $this->teachingTdDist = $teachingTdDist;
         return $this;
@@ -1178,7 +1178,7 @@ class CourseInfo
      * @param float|null $teachingOtherDist
      * @return CourseInfo
      */
-    public function setTeachingOtherDist(?float $teachingOtherDist): CourseInfo
+    public function setTeachingOtherDist(?float $teachingOtherDist): self
     {
         $this->teachingOtherDist = $teachingOtherDist;
         return $this;
@@ -1196,7 +1196,7 @@ class CourseInfo
      * @param null|string $teachingOtherTypeDist
      * @return CourseInfo
      */
-    public function setTeachingOtherTypeDist(?string $teachingOtherTypeDist): CourseInfo
+    public function setTeachingOtherTypeDist(?string $teachingOtherTypeDist): self
     {
         $this->teachingOtherTypeDist = $teachingOtherTypeDist;
         return $this;
@@ -1233,7 +1233,7 @@ class CourseInfo
      * @param bool $mccCompensable
      * @return CourseInfo
      */
-    public function setMccCompensable(bool $mccCompensable): CourseInfo
+    public function setMccCompensable(bool $mccCompensable): self
     {
         $this->mccCompensable = $mccCompensable;
 
@@ -1252,7 +1252,7 @@ class CourseInfo
      * @param bool $mccCapitalizable
      * @return CourseInfo
      */
-    public function setMccCapitalizable(bool $mccCapitalizable): CourseInfo
+    public function setMccCapitalizable(bool $mccCapitalizable): self
     {
         $this->mccCapitalizable = $mccCapitalizable;
 
@@ -1442,7 +1442,7 @@ class CourseInfo
      * @param bool $tutoring
      * @return CourseInfo
      */
-    public function setTutoring(bool $tutoring): CourseInfo
+    public function setTutoring(bool $tutoring): self
     {
         $this->tutoring = $tutoring;
 
@@ -1461,7 +1461,7 @@ class CourseInfo
      * @param bool $tutoringTeacher
      * @return CourseInfo
      */
-    public function setTutoringTeacher(bool $tutoringTeacher): CourseInfo
+    public function setTutoringTeacher(bool $tutoringTeacher): self
     {
         $this->tutoringTeacher = $tutoringTeacher;
 
@@ -1480,7 +1480,7 @@ class CourseInfo
      * @param bool $tutoringStudent
      * @return CourseInfo
      */
-    public function setTutoringStudent(bool $tutoringStudent): CourseInfo
+    public function setTutoringStudent(bool $tutoringStudent): self
     {
         $this->tutoringStudent = $tutoringStudent;
 
@@ -1718,7 +1718,7 @@ class CourseInfo
      * @param Course $course
      * @return CourseInfo
      */
-    public function setCourse(Course $course): CourseInfo
+    public function setCourse(Course $course): self
     {
         $this->course = $course;
 
@@ -1747,7 +1747,7 @@ class CourseInfo
      * @param Structure $structure
      * @return CourseInfo
      */
-    public function setStructure(Structure $structure): CourseInfo
+    public function setStructure(Structure $structure): self
     {
         $this->structure = $structure;
 
@@ -1766,7 +1766,7 @@ class CourseInfo
      * @param User|null $lastUpdater
      * @return CourseInfo
      */
-    public function setLastUpdater(?$lastUpdater): CourseInfo
+    public function setLastUpdater(?User $lastUpdater): self
     {
         $this->lastUpdater = $lastUpdater;
 
@@ -1785,7 +1785,7 @@ class CourseInfo
      * @param User|null $publisher
      * @return CourseInfo
      */
-    public function setPublisher(?$publisher): CourseInfo
+    public function setPublisher(?User $publisher): self
     {
         $this->publisher = $publisher;
 
@@ -1814,7 +1814,7 @@ class CourseInfo
      * @param Year $year
      * @return CourseInfo
      */
-    public function setYear(Year $year): CourseInfo
+    public function setYear(Year $year): self
     {
         $this->year = $year;
 
@@ -1833,7 +1833,7 @@ class CourseInfo
      * @param Collection $coursePermissions
      * @return CourseInfo
      */
-    public function setCoursePermissions(Collection $coursePermissions): CourseInfo
+    public function setCoursePermissions(Collection $coursePermissions): self
     {
         $this->coursePermissions = $coursePermissions;
 
@@ -1844,7 +1844,7 @@ class CourseInfo
      * @param CoursePermission $coursePermission
      * @return CourseInfo
      */
-    public function addPermission(CoursePermission $coursePermission): CourseInfo
+    public function addPermission(CoursePermission $coursePermission): self
     {
         if(!$this->coursePermissions->contains($coursePermission))
         {
@@ -1862,7 +1862,7 @@ class CourseInfo
      * @param CoursePermission $coursePermission
      * @return CourseInfo
      */
-    public function removePermission(CoursePermission $coursePermission): CourseInfo
+    public function removePermission(CoursePermission $coursePermission): self
     {
         if($this->coursePermissions->contains($coursePermission))
         {
@@ -2161,7 +2161,7 @@ class CourseInfo
      * @param Collection $courseResourceEquipments
      * @return CourseInfo
      */
-    public function setCourseResourceEquipments(Collection $courseResourceEquipments): CourseInfo
+    public function setCourseResourceEquipments(Collection $courseResourceEquipments): self
     {
         $this->courseResourceEquipments = $courseResourceEquipments;
 
@@ -2172,7 +2172,7 @@ class CourseInfo
      * @param CourseResourceEquipment $courseResourceEquipment
      * @return CourseInfo
      */
-    public function addCourseResourceEquipment(CourseResourceEquipment $courseResourceEquipment): CourseInfo
+    public function addCourseResourceEquipment(CourseResourceEquipment $courseResourceEquipment): self
     {
         if(!$this->courseResourceEquipments->contains($courseResourceEquipment))
         {
@@ -2190,7 +2190,7 @@ class CourseInfo
      * @param CourseResourceEquipment $courseResourceEquipment
      * @return CourseInfo
      */
-    public function removeCourseResourceEquipment(CourseResourceEquipment $courseResourceEquipment): CourseInfo
+    public function removeCourseResourceEquipment(CourseResourceEquipment $courseResourceEquipment): self
     {
         if ($this->courseResourceEquipments->contains($courseResourceEquipment))
         {

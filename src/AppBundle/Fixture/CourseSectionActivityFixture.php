@@ -32,6 +32,8 @@ class CourseSectionActivityFixture extends Fixture implements DependentFixtureIn
             ->setDescription('')
             ->setPosition(1)
             ->setActivity($this->getReference(ActivityFixture::ACTIVITY_1))
+            ->setActivityType($this->getReference(ActivityTypeFixture::ACTIVITY_TYPE_1))
+            ->setActivityMode($this->getReference(ActivityModeFixture::ACTIVITY_MODE_1))
             ->setCourseSection($this->getReference(CourseSectionFixture::COURSE_SECTION_1));
 
         $this->addReference(self::COURSE_SECTION_ACTIVITY_1, $courseSectionActivity1);
@@ -42,6 +44,8 @@ class CourseSectionActivityFixture extends Fixture implements DependentFixtureIn
             ->setDescription('Projet Syllabus')
             ->setPosition(2)
             ->setActivity($this->getReference(ActivityFixture::ACTIVITY_2))
+            ->setActivityType($this->getReference(ActivityTypeFixture::ACTIVITY_TYPE_1))
+            ->setActivityMode($this->getReference(ActivityModeFixture::ACTIVITY_MODE_1))
             ->setCourseSection($this->getReference(CourseSectionFixture::COURSE_SECTION_1));
 
         $this->addReference(self::COURSE_SECTION_ACTIVITY_2, $courseSectionActivity2);

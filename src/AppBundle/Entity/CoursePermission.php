@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -14,7 +15,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity(
  *     fields={"user", "courseInfo", "permission"},
  *     errorPath="user",
- *     message="Cet utilisateur a déjà ce droit."
+ *     message="Cet utilisateur possède déjà une permission identique."
  * )
  */
 class CoursePermission
@@ -25,6 +26,7 @@ class CoursePermission
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
+     * @JMS\Groups(groups={"course_permission"})
      */
     private $id;
 
@@ -33,6 +35,7 @@ class CoursePermission
      *
      * @ORM\Column(name="permission", type="string", length=45, nullable=false, options={"fixed"=true})
      * @Assert\NotBlank()
+     * @JMS\Groups(groups={"course_permission"})
      */
     private $permission = 'READ';
 
@@ -44,6 +47,7 @@ class CoursePermission
      *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
      * })
      * @Assert\NotBlank()
+     * @JMS\Groups(groups={"course_permission"})
      */
     private $courseInfo;
 
@@ -55,6 +59,7 @@ class CoursePermission
      *   @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      * })
      * @Assert\NotBlank()
+     * @JMS\Groups(groups={"course_permission"})
      */
     private $user;
 
@@ -105,10 +110,10 @@ class CoursePermission
     }
 
     /**
-     * @param CourseInfo $courseInfo
+     * @param CourseInfo|null $courseInfo
      * @return CoursePermission
      */
-    public function setCourseInfo(CourseInfo $courseInfo): CoursePermission
+    public function setCourseInfo(?CourseInfo $courseInfo): CoursePermission
     {
         $this->courseInfo = $courseInfo;
 
