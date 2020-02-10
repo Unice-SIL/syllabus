@@ -14,7 +14,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity(
  *     fields={"user", "courseInfo", "permission"},
  *     errorPath="user",
- *     message="Cet utilisateur a déjà ce droit."
+ *     message="Cet utilisateur possède déjà une permission identique."
  * )
  */
 class CoursePermission
