@@ -253,7 +253,6 @@ li.active{
  */
 
 #section-activities-content {
-    margin-top: -0.5rem;
     margin-left: -7.5px;
     margin-right: -7.5px;
 }
@@ -282,8 +281,7 @@ li.active{
 .sidebar-activities {
     position: absolute;
     width: 250px;
-    min-height: calc(100vh - 5.4rem - 3px);
-    overflow: hidden;
+    min-height: calc(100% - 1.8rem - 3px);
     z-index: 100;
     transition-duration: 0.5s;
     -webkit-transition-duration: 0.5s;

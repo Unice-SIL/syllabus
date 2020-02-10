@@ -24,9 +24,11 @@ app:
         activity_mode: Mode d'enseignement
         activity_type: Type d'activité
         add_activities: Pour ajouter des activités veuillez sélectionner une activité dans le carousel ci-dessous.
+        add_sections: Pour ajouter des sections veuillez cliquer sur le bouton "Ajouter une section" dans le menu ci-contre.
         delete_activity: Supprimer une activité
         edit_activity: Modifier une activité
         empty_activity: Aucune activité n'a été ajoutée à la section
+        empty_section: Aucune section n'a été ajoutée
         evaluation_peers: Évaluation par les pairs
         evaluation_rate: Coefficient
         evaluation_teachers: Évaluation par les enseignants
