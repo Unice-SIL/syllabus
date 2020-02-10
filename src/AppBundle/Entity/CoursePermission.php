@@ -25,6 +25,7 @@ class CoursePermission
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
+     * @JMS\Groups(groups={"course_permission"})
      */
     private $id;
 
@@ -33,6 +34,7 @@ class CoursePermission
      *
      * @ORM\Column(name="permission", type="string", length=45, nullable=false, options={"fixed"=true})
      * @Assert\NotBlank()
+     * @JMS\Groups(groups={"course_permission"})
      */
     private $permission = 'READ';
 
@@ -44,6 +46,7 @@ class CoursePermission
      *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
      * })
      * @Assert\NotBlank()
+     * @JMS\Groups(groups={"course_permission"})
      */
     private $courseInfo;
 
@@ -55,6 +58,7 @@ class CoursePermission
      *   @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      * })
      * @Assert\NotBlank()
+     * @JMS\Groups(groups={"course_permission"})
      */
     private $user;
 
@@ -105,10 +109,10 @@ class CoursePermission
     }
 
     /**
-     * @param CourseInfo $courseInfo
+     * @param CourseInfo|null $courseInfo
      * @return CoursePermission
      */
-    public function setCourseInfo(CourseInfo $courseInfo): CoursePermission
+    public function setCourseInfo(?CourseInfo $courseInfo): CoursePermission
     {
         $this->courseInfo = $courseInfo;
 
