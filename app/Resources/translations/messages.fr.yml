@@ -44,6 +44,18 @@ app:
         edit_section: Modifier une section
         empty_section: Aucune section n'a été créée
         title: Sections
+    form:
+      activity:
+        activity_mode: Mode d'enseignement
+        activity_type: Type d'activité
+        control: Type de contrôle (Continu / Terminal) :
+        delete: Êtes-vous sûr(e) de vouloir supprimer l'activité "%label%" ?
+        description: Description de l'activité
+        evaluable: Cette activité est-elle évaluable ?
+      section:
+        description: Description
+        delete: Êtes-vous sûr(e) de vouloir supprimer la section "%title%" ?
+        title: Titre de la section
 
   const:
     permission:
@@ -119,5 +131,6 @@ app:
 
   general:
     button:
+      add: Ajouter
       edit: Modifier
       delete: Supprimer

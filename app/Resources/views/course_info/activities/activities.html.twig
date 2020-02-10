@@ -27,7 +27,7 @@
                             {% if activityTypes is not empty %}
                                 {% for activityType in activityTypes %}
                                     <li class="nav-item">
-                                        <a class="nav-link {% if loop.first %}active{% endif %}" href="#tab_{{ activityType.id }}" data-toggle="tab">{{ activityType.label | lower | trans }}</a>
+                                        <a class="nav-link {% if loop.first %}active{% endif %}" href="#tab_{{ activityType.id }}" data-toggle="tab">{{ activityType.label }}</a>
                                     </li>
                                 {% endfor %}
                             {% endif %}
