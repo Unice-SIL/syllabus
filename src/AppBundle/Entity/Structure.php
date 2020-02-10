@@ -66,11 +66,20 @@ class Structure
     private $domains;
 
     /**
+     * @var Collection
+     *
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Period", inversedBy="structures")
+     * @JoinTable(name="period_structure")
+     */
+    private $periods;
+
+    /**
      * Structure constructor.
      */
     public function __construct()
     {
         $this->domains = new ArrayCollection();
+        $this->periods = new ArrayCollection();
     }
 
     /**
@@ -195,9 +204,9 @@ class Structure
         if ($this->domains->contains($domain))
         {
             $this->domains->removeElement($domain);
-            if ($domain->getActivityTypes()->contains($this))
+            if ($domain->getDomain()->contains($this))
             {
-                $domain->getActivityTypes()->removeElement($this);
+                $domain->getDomain()->removeElement($this);
             }
         }
         return $this;
@@ -209,6 +218,48 @@ class Structure
     public function getDomains()
     {
         return $this->domains;
+    }
+
+    /**
+     * @param Period $period
+     * @return Structure
+     */
+    public function addPeriod(Period $period): self
+    {
+        if (!$this->periods->contains($period))
+        {
+            $this->periods->add($period);
+            if (!$period->getStructures()->contains($this))
+            {
+                $period->getStructures()->add($this);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @param Period $period
+     * @return Structure
+     */
+    public function removePeriod(Period $period): self
+    {
+        if ($this->periods->contains($period))
+        {
+            $this->periods->removeElement($period);
+            if ($period->getPeriod()->contains($this))
+            {
+                $period->getPeriod()->removeElement($this);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getPeriods()
+    {
+        return $this->periods;
     }
 
     public function __toString()
