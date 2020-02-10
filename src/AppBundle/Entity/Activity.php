@@ -74,7 +74,6 @@ class Activity
         $this->activityTypes = new ArrayCollection();
     }
 
-
     /**
      * @return string
      */
