@@ -108,6 +108,26 @@
                 </li>
 
                 <li class="nav-item">
+                    <a href="{{ path('app_admin_language_index') }}"
+                       class="nav-link {{ printActiveAdminSidebarLink(['app_admin_language']) }}">
+                        <i class="nav-icon fas fa-calendar"></i>
+                        <p>
+                            Langues
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ path('app_admin_campus_index') }}"
+                       class="nav-link {{ printActiveAdminSidebarLink(['app_admin_campus']) }}">
+                        <i class="nav-icon fas fa-calendar"></i>
+                        <p>
+                            Campus
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
                     <a href="{{ path('app_admin_equipment_index') }}"
                        class="nav-link {{ printActiveAdminSidebarLink(['app_admin_equipment']) }}">
                         <i class="nav-icon fas fa-drafting-compass"></i>

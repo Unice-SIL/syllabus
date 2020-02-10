@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * Course
@@ -21,6 +22,7 @@ class Course
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @JMS\Groups(groups={"course", "course_info"})
      */
     private $id;
 
@@ -28,6 +30,7 @@ class Course
      * @var string
      *
      * @ORM\Column(name="type", type="string", length=5, nullable=false, options={"fixed"=true})
+     * @JMS\Groups(groups={"course", "course_info"})
      */
     private $type;
 
@@ -35,6 +38,7 @@ class Course
      * @var string
      *
      * @ORM\Column(name="etb_id", type="string", length=36, nullable=false, options={"fixed"=true})
+     * @JMS\Groups(groups={"course", "course_info"})
      */
     private $etbId;
 
