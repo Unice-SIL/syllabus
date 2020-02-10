@@ -181,8 +181,10 @@ th.sortable {
 .autocomplete strong { font-weight: normal; color: #3399FF; }
 
 
-.toggle.ios, .toggle-on.ios, .toggle-off.ios { border-radius: 20rem; }
-.toggle.ios .toggle-handle { border-radius: 20rem; }
+.toggle.ios, div.toggle[data-style="ios"]
+{
+    border-radius: 20rem;
+}
 
 label.toggle-on,
 label.toggle-off {
@@ -201,12 +203,25 @@ label.toggle-off {
     z-index: 1050;
 }
 
+/*
+    Title
+ */
+
+.title-bold-light {
+    color: #848c93;
+    font-weight: bold;
+}
+
 
 /*
     Buttons.
  */
 .course-title {
     font-family: "Apex New Book";
+}
+
+.toggle-off.btn {
+    padding-left: 1.4rem !important;
 }
 
 /*

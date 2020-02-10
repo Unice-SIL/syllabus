@@ -1,37 +1,27 @@
 {{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('course_presentation_teachers_form', {'id': courseInfo.id }), 'data-card': 'card-teacher'}}) }}
 {{ form_errors(form) }}
-<div class="row mt-3">
-    <div class="col">
-        <div>
-            <div class="col">
-                <label class="required font-weight-bold">Qui fait partie de l'équipe enseignante ?</label>
-            </div>
-        </div>
-        <div class="mb-2">
-            <label placeholder="Source"></label>
-            {{ form_row(form.teacherSource) }}
-        </div>
-        <div class="mb-2">
-            {{ form_row(form.login) }}
-        </div>
-        <div class="mb-2">
-            {{ form_widget(form.emailVisibility, { label_attr: {class: 'checkbox-custom'}}) }}
-            {{ form_widget(form.manager, { label_attr: {class: 'checkbox-custom'}}) }}
-        </div>
+    {{ form_row(form.teacherSource) }}
+    {{ form_row(form.login) }}
+    <div class="form-group row">
+        <label class="col-form-label col-sm-auto">L'adresse mail doit-elle être visible ?</label>
+        {{ form_widget(form.emailVisibility) }}
     </div>
-</div>
-<div class="d-flex justify-content-center">
-    <button type="submit" class="btn btn-primary rounded" id="create_button">
-        Ajouter
-    </button>
-</div>
-{{ form_widget(form._token) }}
-{{ form_end(form, {'render_rest': false }) }}
+    <div class="form-group row">
+        <label class="col-form-label col-sm-auto">Responsable du cours ?</label>
+        {{ form_widget(form.manager) }}
+    </div>
+    <div class="d-flex justify-content-center mt-3">
+        <button type="submit" class="btn btn-primary rounded" id="create_button">
+            Ajouter
+        </button>
+    </div>
+{{ form_end(form) }}
 
 <script src="{{ asset('bundles/tetranzselect2entity/js/select2entity.js') }}"></script>
 <script>
-
     $(document).ready(function(){
+        $('input[data-toggle="toggle"]').bootstrapToggle();
+
         let select2minimumInputLength = 2;
         $('#teachers_login').select2({
             minimumInputLength: select2minimumInputLength,

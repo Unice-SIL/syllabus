@@ -23,7 +23,8 @@ class User implements UserInterface
      *
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
      */
     private $id;
 
@@ -64,6 +65,15 @@ class User implements UserInterface
      * @var string|null
      *
      * @ORM\Column(name="password", type="string", length=255, nullable=true)
+     * @Assert\Length(
+     *     min = 8,
+     *     groups={"reset_password"},
+     * )
+     * @Assert\Regex(
+     *     pattern     = "/(?=(.*\d){1})(?=(.*[a-z]){1})(?=(.*[A-Z]){1})/",
+     *     groups={"reset_password"},
+     *     message="Votre mot de passe doit contenir au moins une minuscule, une majuscule et un chiffre"
+     * )
      * @Assert\NotBlank(groups={"reset_password"})
      */
     private $password;

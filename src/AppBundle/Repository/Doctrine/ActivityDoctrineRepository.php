@@ -134,14 +134,12 @@ class ActivityDoctrineRepository extends AbstractDoctrineRepository implements A
         }
     }
 
-    public function findLikeQuery(string $query, string $type): array
+    public function findLikeQuery(string $query): array
     {
 
         return $this->entityManager->getRepository(Activity::class)->createQueryBuilder('a')
             ->andWhere('a.label LIKE :query ')
-            ->andWhere('a.type = :type ')
             ->setParameter('query', '%' . $query . '%')
-            ->setParameter('type', $type)
             ->getQuery()
             ->getResult()
             ;

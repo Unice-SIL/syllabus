@@ -21,7 +21,8 @@ class ActivityType
      *
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
      */
     private $id;
 
@@ -68,7 +69,7 @@ class ActivityType
     /**
      * @return string
      */
-    public function getId(): string
+    public function getId(): ?string
     {
         return $this->id;
     }
@@ -86,7 +87,7 @@ class ActivityType
     /**
      * @return string
      */
-    public function getLabel(): string
+    public function getLabel(): ?string
     {
         return $this->label;
     }
@@ -222,4 +223,10 @@ class ActivityType
         }
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->getLabel();
+    }
+
 }

@@ -9,12 +9,24 @@
         <li class="nav-item">
             <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
         </li>
-
+        <h3>{{ courseInfo.title }}</h3>
     </ul>
 {% endblock %}
 
 {% block sidebar %}
     <div class="sidebar">
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column user-panel" data-widget="treeview" role="menu" data-accordion="false">
+                <li class="nav-item has-treeview">
+                    <a class="nav-link menu-tab"
+                       href="{{ path('course_dashboard_index', { 'id': courseInfo.id }) }}"
+                       id="menu-dashboard">
+                        <i class="fas fa-th"></i>
+                        <p>Tableau de bord</p>
+                    </a>
+                </li>
+            </ul>
+        </nav>
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item has-treeview">
@@ -22,9 +34,7 @@
                        href="{{ path('course_presentation_index', { 'id': courseInfo.id }) }}"
                        id="menu-presentation">
                         <i class="fas fa-star"></i>
-                        <p>
-                            Présentation Générale
-                        </p>
+                        <p>Présentation Générale</p>
                     </a>
                 </li>
                 <li class="nav-item has-treeview">
@@ -35,15 +45,15 @@
                         <p>Contenu et activités</p>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item has-treeview">
                     <a class="nav-link menu-tab"
-                       id="menu-objectives"
+                       id="menu-objectives-course"
                        href="{{ path('objective_course_index', { 'id': courseInfo.id }) }}">
                         <i class="fas fa-bullseye"></i>
                         <p>Objectifs du cours</p>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item has-treeview">
                     <a class="nav-link menu-tab"
                        id="menu-evaluation"
                        href="{{ path('course_evaluation_specifications_index', { 'id': courseInfo.id }) }}">
@@ -51,7 +61,7 @@
                         <p>Modalités d'évaluation</p>
                     </a>
                 </li>
-                <li class="nav-item menu-tab">
+                <li class="nav-item menu-tab has-treeview">
                     <a class="nav-link"
                        id="menu-resource"
                        href="{{ path('course_equipment_index', { 'id': courseInfo.id }) }}">
@@ -59,14 +69,14 @@
                         <p>Matériel et ressources</p>
                     </a>
                 </li>
-                <li class="nav-item menu-tab">
+                <li class="nav-item menu-tab has-treeview">
                     <a class="nav-link" href="{{ path('course_info_index', { 'id': courseInfo.id }) }}"
                        id="menu-info">
                         <i class="fas fa-info-circle"></i>
                         <p>Informations pratiques</p>
                     </a>
                 </li>
-                <li class="nav-item menu-tab">
+                <li class="nav-item menu-tab has-treeview">
                     <a class="nav-link" href="{{ path('course_closing_remarks_index', { 'id': courseInfo.id }) }}"
                        id="menu-closing_remarks">
                         <i class="fas fa-flag-checkered"></i>
@@ -79,9 +89,6 @@
 {% endblock %}
 {% block content %}
     <div class="content-header">
-        <div class="container-fluid">
-            <h3>{{ courseInfo.title }}</h3>
-        </div><!-- /.container-fluid -->
     </div>
     <section id="content-{{ contentName|default('default') }}" class="content">
         <div class="container-fluid">

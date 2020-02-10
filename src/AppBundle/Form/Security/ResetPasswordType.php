@@ -17,6 +17,7 @@ class ResetPasswordType extends AbstractType
 
         $builder->add('password', RepeatedType::class, [
             'type' => PasswordType::class,
+            'label' => false,
             'invalid_message' => 'Les mots de passes doivent être identiques',
             'required' => true,
             'first_options'  => ['label' => 'app.form.security.label.password'],

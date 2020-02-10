@@ -50,6 +50,7 @@ class TeachersType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('teacherSource', ChoiceType::class, [
+            'label' => 'Source de données',
             'mapped' => false,
             'multiple' => false,
             'expanded' => false,
@@ -82,12 +83,26 @@ class TeachersType extends AbstractType
                 ]);
             })
             ->add('emailVisibility', CheckboxType::class, [
-                'label' => "Email visible",
-                'required' => false
+                'label' => false,
+                'required' => false,
+                'attr' => [
+                    'data-toggle' => 'toggle',
+                    'data-style' => 'ios',
+                    'data-on' => 'Oui',
+                    'data-off' => 'Non',
+                    'data-width' => 60
+                ]
             ])
             ->add('manager', CheckboxType::class, [
-                'label' => "Responsable",
-                'required' => false
+                'label' => false,
+                'required' => false,
+                'attr' => [
+                    'data-toggle' => 'toggle',
+                    'data-style' => 'ios',
+                    'data-on' => 'Oui',
+                    'data-off' => 'Non',
+                    'data-width' => 60
+                ]
             ]);
     }
 
