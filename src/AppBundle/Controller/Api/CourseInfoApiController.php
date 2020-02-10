@@ -144,7 +144,15 @@ class CourseInfoApiController extends Controller
 
         $form->submit(json_decode($request->getContent(), true));
 
-        $apiHelper->throwExceptionIfEntityInvalid($form);
+        if(!$form->isValid())
+        {
+            $errors = [];
+            foreach ($form->getErrors(true) as $error)
+            {
+                $errors[] = $error->getCause();
+            }
+            throw new ResourceValidationException(implode(',', $errors));
+        }
 
         $em->flush();
 

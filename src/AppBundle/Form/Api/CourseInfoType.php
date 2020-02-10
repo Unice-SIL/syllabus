@@ -2,10 +2,14 @@
 
 namespace AppBundle\Form\Api;
 
+use AppBundle\Entity\CourseInfo;
+use AppBundle\Entity\CourseSection;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CourseInfoType extends AbstractType
@@ -134,6 +138,35 @@ class CourseInfoType extends AbstractType
                 'error_bubbling' => false,
                 'by_reference' => false
             ])
+            ->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event){
+                $data = $event->getData();
+                /** @var CourseInfo $courseInfo */
+                $courseInfo = $event->getForm()->getData();
+                if(array_key_exists('courseSections', $data))
+                {
+                    $submittedSections = $data['courseSections'];
+                    $courseSections = [];
+
+                    foreach ($courseInfo->getCourseSections()->toArray() as $i => $courseSection)
+                    {
+                        foreach ($submittedSections as $j => $submittedSection)
+                        {
+                            if(array_key_exists('id', $submittedSection) and $submittedSection['id'] === $courseSection->getId())
+                            {
+                                $courseSections[$i] = $submittedSection;
+                                unset($submittedSections[$j]);
+                            }
+                        }
+                    }
+                    if(!empty($submittedSections))
+                    {
+                        $courseSections = array_merge($courseSections, $submittedSections);
+                    }
+                    $data['courseSections'] = $courseSections;
+                        var_dump($courseSections);
+                }
+                $event->setData($data);
+            })
         ;
     }/**
      * {@inheritdoc}
