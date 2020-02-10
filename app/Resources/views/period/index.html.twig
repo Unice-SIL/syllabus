@@ -1,0 +1,68 @@
+{% extends 'admin_layout.html.twig' %}
+{% set h1 = 'Liste des périodes' %}
+{% block subContent %}
+
+    <div class="card">
+        <div class="card-header">
+            {{ form_start(form) }}
+            <div class="row ui-front">
+                <div class="col-md-2">
+                    {{ form_row(form.label) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_label(form.structures.label, 'Structures') }}
+                    {{ form_widget(form.structures.label) }}
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <a class="btn btn-danger" style="margin-top: 32px" href="{{  path('app_admin_period_index')  }}">Réinitialiser les filtres</a>
+                </div>
+                <div class="offset-md-2"></div>
+                <div class="col-md-3 col-sm-6">
+                    <a class="btn btn-primary float-right" style="margin-top: 32px" href="{{  path('app_admin_period_new')  }}">Ajouter une période</a>
+                </div>
+            </div>
+            <input type="submit" style="position: absolute; left: -9999px"/>
+            {{ form_end(form) }}
+        </div>
+
+        <div class="card-body">
+            {% if pagination.totalItemCount > 0 %}
+                <table class="table table-bordered table-responsive-sm">
+                    <thead>
+                    <tr>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.activity.label.label'|trans, 'a.label') }}</th>
+                        <th>Structure</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.activity.label.obsolete'|trans, 'a.obsolete') }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for period in pagination %}
+                        <tr>
+                            <td>
+                                <a href="{{ path('app_admin_period_edit', { 'id' : period.id }) }}">{{ period.label }}</a>
+                            </td>
+                            <td>
+                                {% for structure in period.structures %}
+                                    {{ not loop.first ? ', ' }}{{ structure }}
+                                {% endfor %}
+                            </td>
+                            <td>
+                                {{ period.obsolete|humanizeBoolean }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="alert alert-info">Aucune periode n'a été trouvé avec ces critères</div>
+            {% endif %}
+        </div>
+        <!-- /.card-body -->
+        {% if knp_pagination_render(pagination) %}
+            <div class="card-footer clearfix">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        {% endif %}
+    </div>
+
+{% endblock %}

@@ -98,6 +98,16 @@
                 </li>
 
                 <li class="nav-item">
+                    <a href="{{ path('app_admin_period_index') }}"
+                       class="nav-link {{ printActiveAdminSidebarLink(['app_admin_period']) }}">
+                        <i class="nav-icon fas fa-calendar"></i>
+                        <p>
+                            Périodes
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
                     <a href="{{ path('app_admin_equipment_index') }}"
                        class="nav-link {{ printActiveAdminSidebarLink(['app_admin_equipment']) }}">
                         <i class="nav-icon fas fa-drafting-compass"></i>
