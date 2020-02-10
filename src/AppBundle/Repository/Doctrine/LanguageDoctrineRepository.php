@@ -4,16 +4,18 @@
 namespace AppBundle\Repository\Doctrine;
 
 
-use AppBundle\Entity\Period;
-use AppBundle\Repository\PeriodRepositoryInterface;
+use AppBundle\Entity\Language;
+use AppBundle\Repository\LanguageRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 
-class PeriodDoctrineRepository extends AbstractDoctrineRepository implements PeriodRepositoryInterface
+/**
+ * @property EntityManagerInterface entityManager
+ */
+class LanguageDoctrineRepository extends AbstractDoctrineRepository implements LanguageRepositoryInterface
 {
-
     /**
-     * PeriodDoctrineRepository constructor.
+     * LanguageDoctrineRepository constructor.
      * @param EntityManagerInterface $entityManager
      */
     public function __construct(
@@ -25,18 +27,18 @@ class PeriodDoctrineRepository extends AbstractDoctrineRepository implements Per
 
     /**
      * @param string $id
-     * @return Period|null
+     * @return Language|null
      * @throws \Exception
      */
-    public function find(string $id): ?Period
+    public function find(string $id): ?Language
     {
-        $period = null;
+        $language = null;
         try{
-            $period = $this->entityManager->getRepository(period::class)->find($id);
+            $language = $this->entityManager->getRepository(Language::class)->find($id);
         }catch (\Exception $e){
             throw $e;
         }
-        return $period;
+        return $language;
     }
 
     /**
@@ -45,31 +47,31 @@ class PeriodDoctrineRepository extends AbstractDoctrineRepository implements Per
      */
     public function findAll(): \ArrayObject
     {
-        $periods = new \ArrayObject();
+        $languages = new \ArrayObject();
         try {
-            $qb = $this->entityManager->getRepository(Period::class)->createQueryBuilder('p');
-            $qb->where($qb->expr()->eq('p.obsolete', ':obsolete'))
+            $qb = $this->entityManager->getRepository(Language::class)->createQueryBuilder('l');
+            $qb->where($qb->expr()->eq('l.obsolete', ':obsolete'))
                 ->setParameter('obsolete', false)
-                ->addOrderBy('p.label', 'ASC');
-            foreach ($qb->getQuery()->getResult() as $period){
-                $period->append($period);
+                ->addOrderBy('l.label', 'ASC');
+            foreach ($qb->getQuery()->getResult() as $language){
+                $language->append($language);
             }
         } catch (\Exception $exception)
         {
             throw $exception;
         }
 
-        return $periods;
+        return $languages;
     }
 
     /**
-     * @param Period $period
+     * @param Language $language
      * @throws \Exception
      */
-    public function create(Period $period): void
+    public function create(Language $language): void
     {
         try{
-            $this->entityManager->persist($period);
+            $this->entityManager->persist($language);
             $this->entityManager->flush();
         }catch (\Exception $e){
             throw $e;
@@ -77,13 +79,13 @@ class PeriodDoctrineRepository extends AbstractDoctrineRepository implements Per
     }
 
     /**
-     * @param Period $period
+     * @param Language $language
      * @throws \Exception
      */
-    public function update(Period $period): void
+    public function update(Language $language): void
     {
         try{
-            $this->entityManager->persist($period);
+            $this->entityManager->persist($language);
             $this->entityManager->flush();
         }catch (\Exception $e){
             throw $e;
@@ -91,10 +93,10 @@ class PeriodDoctrineRepository extends AbstractDoctrineRepository implements Per
     }
 
     /**
-     * Delete period
-     * @param Period $period
+     * Delete Language
+     * @param Language $language
      */
-    public function delete(Period $period): void
+    public function delete(Language $language): void
     {
         // TODO: Implement delete() method.
     }
@@ -104,9 +106,9 @@ class PeriodDoctrineRepository extends AbstractDoctrineRepository implements Per
      */
     public function getIndexQueryBuilder(): QueryBuilder
     {
-        return $this->entityManager->getRepository(Period::class)
-            ->createQueryBuilder('p')
-            ->addOrderBy('p.label', 'ASC')
+        return $this->entityManager->getRepository(Language::class)
+            ->createQueryBuilder('l')
+            ->addOrderBy('l.label', 'ASC')
             ;
     }
 
@@ -117,8 +119,8 @@ class PeriodDoctrineRepository extends AbstractDoctrineRepository implements Per
      */
     public function findLikeQuery(string $query): array
     {
-        return $this->entityManager->getRepository(Period::class)->createQueryBuilder('p')
-            ->andWhere('p.label LIKE :query ')
+        return $this->entityManager->getRepository(Language::class)->createQueryBuilder('l')
+            ->andWhere('l.label LIKE :query ')
             ->setParameter('query', '%' . $query . '%')
             ->getQuery()
             ->getResult()
