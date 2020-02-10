@@ -1,6 +1,6 @@
-<div style="min-height: 300px;" class="mb-2">
+<div style="min-height: 300px;">
     {% if activeSection.courseSectionActivities is empty %}
-        <div class="text-center ">
+        <div class="text-center p-2">
             <h3 class="text-danger">{{ 'app.activities.view.activity.empty_activity' | trans }}</h3>
             <div class="text-bold">
                 {{ 'app.activities.view.activity.add_activities' | trans }}
@@ -9,7 +9,7 @@
         </div>
     {% else %}
         {% for sectionActivity in activeSection.courseSectionActivities %}
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm">

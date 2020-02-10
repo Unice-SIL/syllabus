@@ -4,8 +4,16 @@
     <div id="section-activities-content">
         {% include 'course_info/activities/view/sidebar_sections.html.twig' %}
         <button id="button-minimize" class="btn text-secondary mt-2"><i class="fas fa-caret-square-left"></i></button>
-        {% if activeSection is not null %}
-            <div id="activity-content" class="col p-0">
+        <div id="activity-content" class="col p-0">
+            {% if activeSection is null %}
+                <div class="text-center p-2">
+                    <h3 class="text-danger">{{ 'app.activities.view.activity.empty_section' | trans }}</h3>
+                    <div class="text-bold">
+                        {{ 'app.activities.view.activity.add_sections' | trans }}
+                    </div>
+                    <i class="fas fa-arrow-left fa-5x"></i>
+                </div>
+            {% else %}
                 {% include 'course_info/activities/view/activity_content.html.twig' %}
 
                 <div class="m-2 rounded border border-primary">
@@ -55,8 +63,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        {% endif %}
+            {% endif %}
+        </div>
     </div>
 {% endblock %}
 
