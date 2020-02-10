@@ -336,6 +336,10 @@ class CourseInfoActivitiesController extends AbstractController
                 $courseSection->removeCourseSectionActivity($courseSectionActivity);
                 $this->getDoctrine()->getManager()->persist($courseSection);
                 $this->getDoctrine()->getManager()->flush();
+                return $this->json([
+                    'status' => true,
+                    'content' => null
+                ]);
             }
             else
             {
@@ -346,7 +350,6 @@ class CourseInfoActivitiesController extends AbstractController
 
         $render = $this->get('twig')->render('course_info/activities/form/remove_activity.html.twig', [
             'courseSection' => $courseSection,
-            'courseSectionActivity' => $courseSectionActivity,
             'form' => $form->createView()
         ]);
         return $this->json([

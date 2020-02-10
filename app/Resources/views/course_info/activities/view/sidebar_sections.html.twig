@@ -10,7 +10,7 @@
             <ul class="nav nav-pills flex-column">
                 {% for section in courseInfo.courseSections %}
                     <li class="nav-item {% if section is same as (activeSection) %}active{% endif %}">
-                        <a class="d-inline-block text-truncate nav-link menu-tab text-white align-middle" href="{{ path('course_activities', { 'id': courseInfo.id, 'sectionId': section.id }) }}">
+                        <a class="d-inline-block text-truncate nav-link menu-tab text-white align-middle overflow-hidden" href="{{ path('course_activities', { 'id': courseInfo.id, 'sectionId': section.id }) }}">
                             {{ section.title }}
                         </a>
                         <button class="btn dropdown-icon float-right text-white" type="button" data-toggle="dropdown" aria-expanded="false"><i class="fas fa-ellipsis-v"></i> </button>
