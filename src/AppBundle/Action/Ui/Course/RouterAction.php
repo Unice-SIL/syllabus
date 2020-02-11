@@ -91,7 +91,6 @@ class RouterAction implements ActionInterface
     }
 
     /**
-     * @Route("/course/router/{etbId}/{year}/{iframe}", name="course_router", defaults={"iframe"=null})
      * @param $etbId
      * @param $year
      * @param Request $request

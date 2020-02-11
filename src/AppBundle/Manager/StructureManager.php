@@ -15,11 +15,11 @@ class StructureManager
 {
     /**
      * @return Structure
+     * @throws \Exception
      */
     public function create()
     {
         $structure = new Structure();
-        $structure->setId(Uuid::uuid4());
 
         return $structure;
     }
