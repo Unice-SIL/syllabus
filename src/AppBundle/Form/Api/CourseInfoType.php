@@ -155,15 +155,17 @@ class CourseInfoType extends AbstractType
                             {
                                 $courseSections[$i] = $submittedSection;
                                 unset($submittedSections[$j]);
+                                break;
                             }
                         }
                     }
-                    if(!empty($submittedSections))
+
+                    $i = $courseInfo->getCourseSections()->count();
+                    foreach ($submittedSections as $submittedSection)
                     {
-                        $courseSections = array_merge($courseSections, $submittedSections);
+                        $courseSections[$i++] = $submittedSection;
                     }
                     $data['courseSections'] = $courseSections;
-                        var_dump($courseSections);
                 }
                 $event->setData($data);
             })
