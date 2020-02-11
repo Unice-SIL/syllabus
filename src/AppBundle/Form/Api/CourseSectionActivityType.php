@@ -33,7 +33,8 @@ class CourseSectionActivityType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => CourseSectionActivity::class
+            'data_class' => CourseSectionActivity::class,
+            'csrf_protection' => false
         ));
     }
 

@@ -260,7 +260,7 @@ class CourseSectionActivity
     /**
      * @return int
      */
-    public function getPosition(): int
+    public function getPosition(): ?int
     {
         return $this->position;
     }
@@ -269,7 +269,7 @@ class CourseSectionActivity
      * @param int $position
      * @return CourseSectionActivity
      */
-    public function setPosition(int $position): CourseSectionActivity
+    public function setPosition(?int $position): CourseSectionActivity
     {
         $this->position = $position;
 
