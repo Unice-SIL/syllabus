@@ -36,6 +36,48 @@
             </a>
             <ul class="nav nav-treeview"
                 style="display: {{ printActiveAdminSidebarLink(referentielLink) ? 'block' : 'none' }};">
+
+
+                <li class="nav-item">
+                    <a href="{{ path('app_admin_year_index') }}"
+                       class="nav-link {{ printActiveAdminSidebarLink(['app_admin_year']) }}">
+                        <i class="nav-icon fas fa-calendar"></i>
+                        <p>
+                            Années
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ path('app_admin_period_index') }}"
+                       class="nav-link {{ printActiveAdminSidebarLink(['app_admin_period']) }}">
+                        <i class="nav-icon fas fa-calendar-week"></i>
+                        <p>
+                            Périodes
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ path('app_admin_language_index') }}"
+                       class="nav-link {{ printActiveAdminSidebarLink(['app_admin_language']) }}">
+                        <i class="fas fa-language nav-icon"></i>
+                        <p>
+                            Langues
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ path('app_admin_domain_index') }}"
+                       class="nav-link {{ printActiveAdminSidebarLink(['app_admin_domain']) }}">
+                        <i class="fas fa-gem nav-icon"></i>
+                        <p>
+                            Domaines
+                        </p>
+                    </a>
+                </li>
+
                 {% set activityLink = ['app_admin_activity', 'app_admin_type_activity', 'app_admin_mode_activity'] %}
                 <li class="nav-item has-treeview {{ printActiveAdminSidebarLink(activityLink) ? 'menu-open' }}">
                     <a href="#" class="nav-link {{ printActiveAdminSidebarLink(activityLink) }}">
@@ -78,56 +120,6 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ path('app_admin_year_index') }}"
-                       class="nav-link {{ printActiveAdminSidebarLink(['app_admin_year']) }}">
-                        <i class="nav-icon fas fa-calendar"></i>
-                        <p>
-                            Années
-                        </p>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a href="{{ path('app_admin_domain_index') }}"
-                       class="nav-link {{ printActiveAdminSidebarLink(['app_admin_domain']) }}">
-                        <i class="nav-icon fas fa-calendar"></i>
-                        <p>
-                            Domaines
-                        </p>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a href="{{ path('app_admin_period_index') }}"
-                       class="nav-link {{ printActiveAdminSidebarLink(['app_admin_period']) }}">
-                        <i class="nav-icon fas fa-calendar"></i>
-                        <p>
-                            Périodes
-                        </p>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a href="{{ path('app_admin_language_index') }}"
-                       class="nav-link {{ printActiveAdminSidebarLink(['app_admin_language']) }}">
-                        <i class="nav-icon fas fa-calendar"></i>
-                        <p>
-                            Langues
-                        </p>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a href="{{ path('app_admin_campus_index') }}"
-                       class="nav-link {{ printActiveAdminSidebarLink(['app_admin_campus']) }}">
-                        <i class="nav-icon fas fa-calendar"></i>
-                        <p>
-                            Campus
-                        </p>
-                    </a>
-                </li>
-
-                <li class="nav-item">
                     <a href="{{ path('app_admin_equipment_index') }}"
                        class="nav-link {{ printActiveAdminSidebarLink(['app_admin_equipment']) }}">
                         <i class="nav-icon fas fa-drafting-compass"></i>
@@ -143,6 +135,16 @@
                         <i class="nav-icon fas fa-building"></i>
                         <p>
                             Structures
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ path('app_admin_campus_index') }}"
+                       class="nav-link {{ printActiveAdminSidebarLink(['app_admin_campus']) }}">
+                        <i class="fas fa-map-marker-alt nav-icon"></i>
+                        <p>
+                            Campus
                         </p>
                     </a>
                 </li>
