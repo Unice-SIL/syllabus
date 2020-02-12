@@ -72,17 +72,6 @@ class CourseInfo
     private $languages;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="domain", type="string", length=100, nullable=true, options={"fixed"=true})
-     * @Assert\NotBlank(groups={"presentation"})
-     * @JMS\Groups(groups={"api"})
-     * @JMS\Groups(groups={"course_info"})
-     *
-     */
-    private $domain;
-
-    /**
      * @var int|null
      *
      * @ORM\Column(name="semester", type="integer", nullable=true)
