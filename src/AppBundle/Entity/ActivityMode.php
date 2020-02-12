@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -22,6 +23,7 @@ class ActivityMode
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @JMS\Groups(groups={"activity_type", "activity_mode", "course_info", "course_section", "course_section_activity"})
      */
     private $id;
 
@@ -30,6 +32,7 @@ class ActivityMode
      *
      * @ORM\Column(name="label", type="string", length=100, nullable=false)
      * @Assert\NotBlank()
+     * @JMS\Groups(groups={"activity_type", "activity_mode", "course_info", "course_section", "course_section_activity"})
      */
     private $label;
 
@@ -37,6 +40,7 @@ class ActivityMode
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
+     * @JMS\Groups(groups={"activity_mode"})
      */
     private $obsolete = false;
 
@@ -44,6 +48,7 @@ class ActivityMode
      * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\ActivityType", mappedBy="activityModes")
+     * @JMS\Groups(groups={"activity_mode"})
      */
     private $activityTypes;
 
@@ -67,7 +72,7 @@ class ActivityMode
      * @param string $id
      * @return ActivityMode
      */
-    public function setId(string $id): ActivityMode
+    public function setId(string $id): self
     {
         $this->id = $id;
         return $this;
@@ -85,7 +90,7 @@ class ActivityMode
      * @param string $label
      * @return ActivityMode
      */
-    public function setLabel(string $label): ActivityMode
+    public function setLabel(string $label): self
     {
         $this->label = $label;
         return $this;
@@ -103,7 +108,7 @@ class ActivityMode
      * @param bool $obsolete
      * @return ActivityMode
      */
-    public function setObsolete(bool $obsolete): ActivityMode
+    public function setObsolete(bool $obsolete): self
     {
         $this->obsolete = $obsolete;
         return $this;
@@ -121,7 +126,7 @@ class ActivityMode
      * @param Collection $activityTypes
      * @return ActivityMode
      */
-    public function setActivityTypes(Collection $activityTypes): ActivityMode
+    public function setActivityTypes(Collection $activityTypes): self
     {
         $this->activityTypes = $activityTypes;
         return $this;
@@ -161,6 +166,9 @@ class ActivityMode
         return $this;
     }
 
+    /**
+     * @return null|string
+     */
     public function __toString()
     {
         return $this->getLabel();

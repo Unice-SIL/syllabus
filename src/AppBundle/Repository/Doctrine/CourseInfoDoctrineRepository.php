@@ -53,13 +53,15 @@ class CourseInfoDoctrineRepository  extends AbstractDoctrineRepository implement
         $courseInfo = null;
         try{
             $qb = $this->entityManager->getRepository(CourseInfo::class)->createQueryBuilder('ci');
-            $qb->join('ci.course', 'c')
-                ->join('ci.year', 'y')
-                ->where($qb->expr()->eq('c.etbId', ':etbId'))
-                ->andWhere($qb->expr()->eq('y.id', ':year'))
-                ->setParameter('etbId', $etbId)
-                ->setParameter('year', $year);
-            $courseInfos = $qb->getQuery()->getResult();
+            if(!empty($year)){
+                $qb->join('ci.course', 'c')
+                    ->join('ci.year', 'y')
+                    ->where($qb->expr()->eq('c.etbId', ':etbId'))
+                    ->andWhere($qb->expr()->eq('y.id', ':year'))
+                    ->setParameter('etbId', $etbId)
+                    ->setParameter('year', $year);
+                $courseInfos = $qb->getQuery()->getResult();
+            }
             if(!empty($courseInfos)){
                 $courseInfo = current($courseInfos);
             }

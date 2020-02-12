@@ -41,6 +41,16 @@ class YearDoctrineRepository  extends AbstractDoctrineRepository implements Year
         }
     }
 
+    public function findCurrentYear(): ?Year
+    {
+        try{
+            $year = $this->entityManager->getRepository(Year::class)->findOneBy(['current' => 1]);
+            return $year;
+        }catch (\Exception $e){
+            throw $e;
+        }
+    }
+
     /**
      * @return array
      * @throws \Exception

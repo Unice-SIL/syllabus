@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -22,6 +23,7 @@ class Activity
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @JMS\Groups(groups={"activity", "course_info", "course_section", "course_section_activity"})
      */
     private $id;
 
@@ -30,6 +32,7 @@ class Activity
      *
      * @ORM\Column(name="label", type="string", length=100, nullable=false)
      * @Assert\NotBlank()
+     * @JMS\Groups(groups={"activity", "course_info", "course_section", "course_section_activity"})
      */
     private $label;
 
@@ -38,6 +41,7 @@ class Activity
      *
      * @ORM\Column(name="description", type="string", length=200, nullable=true)
      * @Assert\Length(max="200")
+     * @JMS\Groups(groups={"activity", "course_info", "course_section", "course_section_activity"})
      */
     private $description;
 
@@ -45,6 +49,7 @@ class Activity
      * @var bool
      *
      * @ORM\Column(name="label_visibility", type="boolean", nullable=false, options={"comment"="Témoin affichage de l'intitulé de l'activité"})
+     * @JMS\Groups(groups={"activity", "course_info", "course_section", "course_section_activity"})
      */
     private $labelVisibility = true;
 
@@ -52,6 +57,7 @@ class Activity
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
+     * @JMS\Groups(groups={"activity"})
      */
     private $obsolete = false;
 
@@ -59,6 +65,7 @@ class Activity
      * @var int
      *
      * @ORM\Column(name="position", type="integer", nullable=false)
+     * @JMS\Groups(groups={"activity", "course_info", "course_section", "course_section_activity"})
      */
     private $position = 0;
 
@@ -66,9 +73,13 @@ class Activity
      * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\ActivityType", mappedBy="activities")
+     * @JMS\Groups(groups={"activity"})
      */
     private $activityTypes;
 
+    /**
+     * Activity constructor.
+     */
     public function __construct()
     {
         $this->activityTypes = new ArrayCollection();
@@ -86,7 +97,7 @@ class Activity
      * @param string $id
      * @return Activity
      */
-    public function setId(string $id): Activity
+    public function setId(string $id): self
     {
         $this->id = $id;
 
@@ -105,7 +116,7 @@ class Activity
      * @param string $label
      * @return Activity
      */
-    public function setLabel(?string $label): Activity
+    public function setLabel(?string $label): self
     {
         $this->label = $label;
 
@@ -124,7 +135,7 @@ class Activity
      * @param bool $labelVisibility
      * @return Activity
      */
-    public function setLabelVisibility(bool $labelVisibility): Activity
+    public function setLabelVisibility(bool $labelVisibility): self
     {
         $this->labelVisibility = $labelVisibility;
 
@@ -143,7 +154,7 @@ class Activity
      * @param bool $obsolete
      * @return Activity
      */
-    public function setObsolete(bool $obsolete): Activity
+    public function setObsolete(bool $obsolete): self
     {
         $this->obsolete = $obsolete;
 
@@ -162,7 +173,7 @@ class Activity
      * @param int $position
      * @return Activity
      */
-    public function setPosition(int $position): Activity
+    public function setPosition(int $position): self
     {
         $this->position = $position;
 
@@ -200,7 +211,7 @@ class Activity
      * @param Collection $activityTypes
      * @return Activity
      */
-    public function setActivityTypes(Collection $activityTypes): Activity
+    public function setActivityTypes(Collection $activityTypes): self
     {
         $this->activityTypes = $activityTypes;
         return $this;
@@ -238,5 +249,14 @@ class Activity
             }
         }
         return $this;
+    }
+
+
+    /**
+     * @return null|string
+     */
+    public function __toString()
+    {
+        return $this->getLabel();
     }
 }
