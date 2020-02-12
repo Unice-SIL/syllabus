@@ -23,7 +23,7 @@ class Activity
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"activity", "course_info", "course_section"})
+     * @JMS\Groups(groups={"activity", "course_info", "course_section", "course_section_activity"})
      */
     private $id;
 
@@ -32,7 +32,7 @@ class Activity
      *
      * @ORM\Column(name="label", type="string", length=100, nullable=false)
      * @Assert\NotBlank()
-     * @JMS\Groups(groups={"activity", "course_info", "course_section"})
+     * @JMS\Groups(groups={"activity", "course_info", "course_section", "course_section_activity"})
      */
     private $label;
 
@@ -41,7 +41,7 @@ class Activity
      *
      * @ORM\Column(name="description", type="string", length=200, nullable=true)
      * @Assert\Length(max="200")
-     * @JMS\Groups(groups={"activity", "course_info", "course_section"})
+     * @JMS\Groups(groups={"activity", "course_info", "course_section", "course_section_activity"})
      */
     private $description;
 
@@ -49,7 +49,7 @@ class Activity
      * @var bool
      *
      * @ORM\Column(name="label_visibility", type="boolean", nullable=false, options={"comment"="Témoin affichage de l'intitulé de l'activité"})
-     * @JMS\Groups(groups={"activity", "course_info", "course_section"})
+     * @JMS\Groups(groups={"activity", "course_info", "course_section", "course_section_activity"})
      */
     private $labelVisibility = true;
 
@@ -57,7 +57,7 @@ class Activity
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"activity", "course_info", "course_section"})
+     * @JMS\Groups(groups={"activity"})
      */
     private $obsolete = false;
 
@@ -65,7 +65,7 @@ class Activity
      * @var int
      *
      * @ORM\Column(name="position", type="integer", nullable=false)
-     * @JMS\Groups(groups={"activity", "course_info", "course_section"})
+     * @JMS\Groups(groups={"activity", "course_info", "course_section", "course_section_activity"})
      */
     private $position = 0;
 
@@ -249,5 +249,14 @@ class Activity
             }
         }
         return $this;
+    }
+
+
+    /**
+     * @return null|string
+     */
+    public function __toString()
+    {
+        return $this->getLabel();
     }
 }
