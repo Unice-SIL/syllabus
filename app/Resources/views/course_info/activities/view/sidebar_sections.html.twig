@@ -10,20 +10,20 @@
             <ul class="nav nav-pills flex-column">
                 {% for section in courseInfo.courseSections %}
                     <li class="nav-item {% if section is same as (activeSection) %}active{% endif %}">
-                        <a style="width: 180px" class="d-inline-block text-truncate nav-link menu-tab text-white align-middle overflow-hidden" href="{{ path('course_activities', { 'id': courseInfo.id, 'sectionId': section.id }) }}">
+                        <a style="width: 180px" class="d-inline-block bg-transparent text-truncate nav-link menu-tab text-white align-middle overflow-hidden" href="{{ path('course_activities', { 'id': courseInfo.id, 'sectionId': section.id }) }}">
                             {{ section.title }}
                         </a>
                         <button class="btn dropdown-icon float-right text-white" type="button" data-toggle="dropdown" aria-expanded="false"><i class="fas fa-ellipsis-v"></i> </button>
                         <div class="dropdown-menu">
-                            <button type="button" class="dropdown-item modal-action text-center"
+                            <button type="button" class="dropdown-item text-info modal-action text-center"
                                     data-action-title="{{ 'app.activities.view.sidebar.edit_section' | trans }}"
                                     data-action-url="{{ path('course_activities_edit_section', {'id': courseInfo.id, 'sectionId': section.id}) }}">
-                                {{ 'app.general.button.edit' | trans }}
+                                <i class="fas fa-edit"></i> {{ 'app.general.button.edit' | trans }}
                             </button>
-                            <button type="button" class="dropdown-item modal-action text-center"
+                            <button type="button" class="dropdown-item text-danger modal-action text-center"
                                     data-action-title="{{ 'app.activities.view.sidebar.delete_section' | trans }}"
                                     data-action-url="{{ path('course_activities_remove_section', {'id': courseInfo.id, 'sectionId': section.id}) }}">
-                                {{ 'app.general.button.delete' | trans }}
+                                <i class="fas fa-trash-alt"></i> {{ 'app.general.button.delete' | trans }}
                             </button>
                         </div>
                     </li>
