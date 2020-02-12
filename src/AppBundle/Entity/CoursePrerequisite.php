@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * CoursePrerequisite
@@ -19,6 +20,7 @@ class CoursePrerequisite
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @JMS\Groups(groups={"course_info", "course_prerequisite"})
      */
     private $id;
 
@@ -26,6 +28,7 @@ class CoursePrerequisite
      * @var null|string
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=true)
+     * @JMS\Groups(groups={"course_info", "course_prerequisite"})
      */
     private $description = "";
 
@@ -33,6 +36,7 @@ class CoursePrerequisite
      * @var int
      *
      * @ORM\Column(name="ord", type="integer", nullable=false)
+     * @JMS\Groups(groups={"course_info", "course_prerequisite"})
      */
     private $order = 0;
 
@@ -43,6 +47,7 @@ class CoursePrerequisite
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
      * })
+     * @JMS\Groups(groups={"course_info"})
      */
     private $courseInfo;
 
@@ -58,7 +63,7 @@ class CoursePrerequisite
      * @param null|string $id
      * @return CoursePrerequisite
      */
-    public function setId(?string $id): CoursePrerequisite
+    public function setId(?string $id): self
     {
         $this->id = $id;
 
@@ -68,7 +73,7 @@ class CoursePrerequisite
     /**
      * @return null|string
      */
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -77,13 +82,12 @@ class CoursePrerequisite
      * @param null|string $description
      * @return CoursePrerequisite
      */
-    public function setDescription($description)
+    public function setDescription($description): self
     {
         $this->description = $description;
 
         return $this;
     }
-
 
     /**
      * @return int
@@ -97,14 +101,13 @@ class CoursePrerequisite
      * @param int $order
      * @return CoursePrerequisite
      */
-    public function setOrder(int $order): CoursePrerequisite
+    public function setOrder(int $order): self
     {
         $this->order = $order;
 
         return $this;
     }
-
-
+    
     /**
      * @return CourseInfo|null
      */
@@ -117,11 +120,19 @@ class CoursePrerequisite
      * @param CourseInfo|null $courseInfo
      * @return CoursePrerequisite
      */
-    public function setCourseInfo(?CourseInfo $courseInfo): CoursePrerequisite
+    public function setCourseInfo(?CourseInfo $courseInfo): self
     {
         $this->courseInfo = $courseInfo;
 
         return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function __toString()
+    {
+        return $this->getDescription();
     }
 
 }
