@@ -63,7 +63,6 @@ class Course
      */
     private $children;
 
-
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
@@ -94,7 +93,7 @@ class Course
      * @param string $id
      * @return Course
      */
-    public function setId(string $id): Course
+    public function setId(string $id): self
     {
         $this->id = $id;
 
@@ -113,7 +112,7 @@ class Course
      * @param string $type
      * @return Course
      */
-    public function setType(string $type): Course
+    public function setType(string $type): self
     {
         $this->type = $type;
 
@@ -132,7 +131,7 @@ class Course
      * @param string $etbId
      * @return Course
      */
-    public function setEtbId(string $etbId): Course
+    public function setEtbId(string $etbId): self
     {
         $this->etbId = $etbId;
 
@@ -151,7 +150,7 @@ class Course
      * @param Collection $parents
      * @return Course
      */
-    public function setParents(Collection $parents): Course
+    public function setParents(Collection $parents): self
     {
         $this->parents = $parents;
 
@@ -162,9 +161,16 @@ class Course
      * @param Course $course
      * @return Course
      */
-    public function addParent(Course $course): Course
+    public function addParent(Course $course): self
     {
-        $this->parents->add($course);
+        if(!$this->parents->contains($course))
+        {
+            $this->parents->add($course);
+            if(!$course->getChildren()->contains($this))
+            {
+                $course->addChild($this);
+            }
+        }
 
         return $this;
     }
@@ -173,9 +179,16 @@ class Course
      * @param Course $course
      * @return Course
      */
-    public function removeParent(Course $course): Course
+    public function removeParent(Course $course): self
     {
-        $this->parents->removeElement($course);
+        if($this->parents->contains($course))
+        {
+            $this->parents->removeElement($course);
+            if($course->getChildren()->contains($this))
+            {
+                $course->removeChild($this);
+            }
+        }
 
         return $this;
     }
@@ -192,7 +205,7 @@ class Course
      * @param Collection $children
      * @return Course
      */
-    public function setChildren(Collection $children): Course
+    public function setChildren(Collection $children): self
     {
         $this->children = $children;
 
@@ -203,9 +216,17 @@ class Course
      * @param Course $course
      * @return Course
      */
-    public function addChild(Course $course): Course
+    public function addChild(Course $course): self
     {
-        $this->children->add($course);
+
+        if(!$this->children->contains($course))
+        {
+            $this->children->add($course);
+            if(!$course->getParents()->contains($this))
+            {
+                $course->addParent($this);
+            }
+        }
 
         return $this;
     }
@@ -214,9 +235,16 @@ class Course
      * @param Course $course
      * @return Course
      */
-    public function removeChild(Course $course): Course
+    public function removeChild(Course $course): self
     {
-        $this->children->removeElement($course);
+        if($this->children->contains($course))
+        {
+            $this->children->removeElement($course);
+            if($course->getParents()->contains($this))
+            {
+                $course->removeParent($this);
+            }
+        }
 
         return $this;
     }
@@ -233,7 +261,7 @@ class Course
      * @param Collection $courseInfos
      * @return Course
      */
-    public function setCourseInfos(Collection $courseInfos): Course
+    public function setCourseInfos(Collection $courseInfos): self
     {
         $this->courseInfos = $courseInfos;
 
@@ -244,8 +272,16 @@ class Course
      * @param CourseInfo $courseInfo
      * @return Course
      */
-    public function addCourseInfo(CourseInfo $courseInfo): Course
+    public function addCourseInfo(CourseInfo $courseInfo): self
     {
+        if(!$this->courseInfos->contains($courseInfo))
+        {
+            $this->courseInfos->add($courseInfo);
+            if($courseInfo->getCourse() !== $this)
+            {
+                $courseInfo->setCourse($this);
+            }
+        }
         $this->courseInfos->add($courseInfo);
 
         return $this;
@@ -255,13 +291,17 @@ class Course
      * @param CourseInfo $courseInfo
      * @return Course
      */
-    public function removeCourseInfo(CourseInfo $courseInfo): Course
+    public function removeCourseInfo(CourseInfo $courseInfo): self
     {
         $this->courseInfos->removeElement($courseInfo);
+        // Do not set course $courseInfo->course to null !
 
         return $this;
     }
 
+    /**
+     * @return null|string
+     */
     public function __toString()
     {
         return $this->getEtbId();
