@@ -16,6 +16,7 @@
             {% else %}
                 {% include 'course_info/activities/view/activity_content.html.twig' %}
 
+                <div class="border-top border-primary">
                 <div class="m-2 rounded border border-primary">
                     <input class="form-control" type="text" placeholder="{{ 'app.activities.view.carousel.search_activity' | trans }}" aria-label="Search">
                 </div>
@@ -62,6 +63,7 @@
                             {% endfor %}
                         </div>
                     </div>
+                </div>
                 </div>
             {% endif %}
         </div>
