@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Constant\Permission;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -37,7 +38,7 @@ class CoursePermission
      * @Assert\NotBlank()
      * @JMS\Groups(groups={"course_permission"})
      */
-    private $permission = 'READ';
+    private $permission = Permission::READ;
 
     /**
      * @var \AppBundle\Entity\CourseInfo
