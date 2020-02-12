@@ -20,7 +20,7 @@ class CourseInfoType extends ApiAbstractType
     public function buildApiForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('id')
+
             ->add('title')
             ->add('ects')
             ->add('level')
@@ -86,7 +86,6 @@ class CourseInfoType extends ApiAbstractType
             ->add('temClosingRemarksTabValid')
             ->add('course')
             ->add('structure')
-            ->add('lastUpdater')
             ->add('publisher')
             ->add('year')
             ->add('coursePermissions', CollectionType::class, [

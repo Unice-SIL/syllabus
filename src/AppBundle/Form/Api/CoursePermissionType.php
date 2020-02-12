@@ -2,7 +2,9 @@
 
 namespace AppBundle\Form\Api;
 
+use AppBundle\Constant\Permission;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -15,7 +17,10 @@ class CoursePermissionType extends AbstractType
     {
         $builder
             ->add('id')
-            ->add('permission')
+            ->add('permission', ChoiceType::class, [
+                'choices' => array_combine(Permission::PERMISSIONS, Permission::PERMISSIONS)
+            ])
+            ->add('courseInfo')
             ->add('user')
         ;
     }/**
@@ -24,7 +29,8 @@ class CoursePermissionType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\CoursePermission'
+            'data_class' => 'AppBundle\Entity\CoursePermission',
+            'csrf_protection' => false
         ));
     }
 

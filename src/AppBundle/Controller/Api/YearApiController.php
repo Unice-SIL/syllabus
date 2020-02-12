@@ -4,16 +4,19 @@ namespace AppBundle\Controller\Api;
 
 
 use AppBundle\Entity\Year;
+use AppBundle\Exception\ResourceValidationException;
+use AppBundle\Form\Api\YearType;
 use AppBundle\Helper\ApiHelper;
 use AppBundle\Repository\Doctrine\YearDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\QueryBuilder;
+use Gedmo\Timestampable\Traits\Timestampable;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Swagger\Annotations as SWG;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -31,12 +34,6 @@ class YearApiController extends Controller
      * @SWG\Response(
      *     response=200,
      *     description="Returns the list of year records",
-     * )
-     * @SWG\Parameter(
-     *     name="id",
-     *     in="query",
-     *     type="string",
-     *     description="A field used to filter years"
      * )
      * @SWG\Parameter(
      *     name="label",
@@ -66,7 +63,7 @@ class YearApiController extends Controller
      *     name="page",
      *     in="query",
      *     type="integer",
-     *     description="The result page of the pagination expected"
+     *     description="The results page of the pagination expected"
      * )
      * @SWG\Parameter(
      *     name="limit",
@@ -78,7 +75,7 @@ class YearApiController extends Controller
     public function indexAction(Request $request, ApiHelper $apiHelper, YearDoctrineRepository $yearDoctrineRepository)
     {
         $config = $apiHelper->createConfigFromRequest($request, [
-            'validFilterKeys' => ['id' => 'text', 'label' => 'text', 'import' => 'boolean', 'edit' => 'boolean', 'current' => 'boolean']
+            'validFilterKeys' => ['label' => 'text', 'import' => 'boolean', 'edit' => 'boolean', 'current' => 'boolean']
         ]);
 
         $qb = $yearDoctrineRepository->findQueryBuilderForApi($config);
@@ -90,6 +87,17 @@ class YearApiController extends Controller
 
     /**
      * @Route("/{id}", name="show", methods={"GET"})
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns a year by id",
+     * )
+     * @SWG\Parameter(
+     *     name="id",
+     *     in="path",
+     *     type="string",
+     *     description="The id of the expected year"
+     * )
+     *
      */
     public function showAction(Year $year, SerializerInterface $serializer)
     {
@@ -99,6 +107,81 @@ class YearApiController extends Controller
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
+    }
+
+    /**
+     * @Route("", name="post", methods={"POST"})
+     * @param Request $request
+     * @param SerializerInterface $serializer
+     * @param EntityManagerInterface $em
+     * @param ApiHelper $apiHelper
+     * @return Response
+     * @throws ResourceValidationException
+     *
+     * @SWG\Response(
+     *     response=201,
+     *     description="Save the year from the body request",
+     *     @Model(type=Year::class)
+     * )
+     */
+    public function postAction(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, ApiHelper $apiHelper)
+    {
+        $year = new Year();
+        $form = $this->createForm(YearType::class, $year, ['validation_groups' => 'new']);
+
+        $form->submit(json_decode($request->getContent()));
+
+        $apiHelper->throwExceptionIfEntityInvalid($form);
+
+        $em->persist($year);
+        $em->flush();
+
+        $em->refresh($year);
+        $response = new Response($serializer->serialize($year, 'json', SerializationContext::create()->setGroups('api')), Response::HTTP_CREATED);
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+
+    }
+
+    /**
+     * @Route("/{id}", name="put", methods={"PUT"})
+     * @param Request $request
+     * @param SerializerInterface $serializer
+     * @param EntityManagerInterface $em
+     * @param Year $year
+     * @param ApiHelper $apiHelper
+     * @return JsonResponse
+     * @throws ResourceValidationException
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Update the complete year from the body request",
+     *     @Model(type=Year::class)
+     * )
+     * @SWG\Parameter(
+     *     name="id",
+     *     in="path",
+     *     type="string",
+     *     description="The id of the expected year"
+     * )
+     */
+    public function putAction(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, Year $year, ApiHelper $apiHelper)
+    {
+        $form = $this->createForm(YearType::class, $year);
+
+        $form->submit(json_decode($request->getContent()));
+
+        $apiHelper->throwExceptionIfEntityInvalid($form);
+
+        $em->flush();
+
+        $em->refresh($year);
+        $response = new Response($serializer->serialize($year, 'json', SerializationContext::create()->setGroups('api')), Response::HTTP_OK);
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+
     }
 
 }

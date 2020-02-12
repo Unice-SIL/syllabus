@@ -150,16 +150,27 @@ class ApiHelper
     public function throwExceptionIfEntityInvalid(FormInterface $form)
     {
 
-        if (count($errors = $form->getErrors(true))) {
+        if(!$form->isValid())
+        {
+            $errors = [];
+            foreach ($form->getErrors(true) as $error)
+            {
+                $type = $error->getOrigin();
+                $errorMessage = '';
 
-            $message = "Data sent are invalid: [";
-            foreach ($errors as $error){
-                $message.= "{$error->getMessage()}, ";
+                while ($type->getParent()) {
+                    //if it's not the lower level we prefix by a . (e.g: higherLevel.mediumLevel.lowerLevel
+                    $errorMessage = $errorMessage ? '.'.$errorMessage : ''.$errorMessage;
+
+                    $errorMessage = $type->getName() . $errorMessage;
+                    $type = $type->getParent();
+                }
+
+                $errorMessage = $errorMessage . ': ' . $error->getMessage();
+                $errors[] = $errorMessage;
             }
-            $message = rtrim($message, ', ');
-            $message.= "]";
 
-            throw new ResourceValidationException($message);
+            throw new ResourceValidationException(implode('__glue__', $errors));
         }
 
 
@@ -167,8 +178,8 @@ class ApiHelper
 
     public function adIdToRequestContent(Request $request, string $id)
     {
-        $entity = json_decode($request->getContent(), true);
-        $entity['id'] = $id;
+        $entity = json_decode($request->getContent());
+        $entity->id = $id;
         $entity = json_encode($entity);
 
         return $entity;

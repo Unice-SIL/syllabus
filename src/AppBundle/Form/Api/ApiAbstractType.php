@@ -27,6 +27,7 @@ abstract class ApiAbstractType extends AbstractType
         }
 
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) use ($collectionNames){
+
             $propertyAccessor = PropertyAccess::createPropertyAccessor();
             foreach ($collectionNames as $collectionName) {
 

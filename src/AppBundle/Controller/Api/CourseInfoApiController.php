@@ -3,6 +3,7 @@
 namespace AppBundle\Controller\Api;
 
 use AppBundle\Entity\CourseInfo;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use AppBundle\Exception\ResourceValidationException;
 use AppBundle\Form\Api\CourseInfoType;
 use AppBundle\Helper\ApiHelper;
@@ -16,7 +17,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * Class CourseInfoApiController
@@ -37,33 +37,27 @@ class CourseInfoApiController extends Controller
      *     description="Returns the list of syllabus records"
      * )
      * @SWG\Parameter(
-     *     name="id",
+     *     name="courseId",
      *     in="query",
-     *     type="text",
-     *     description="A field used to filter syllabus"
-     * )
-     * @SWG\Parameter(
-     *     name="etbId",
-     *     in="query",
-     *     type="text",
+     *     type="string",
      *     description="A field used to filter syllabus"
      * )
      * @SWG\Parameter(
      *     name="yearId",
      *     in="query",
-     *     type="text",
+     *     type="string",
      *     description="A field used to filter syllabus"
      * )
      * @SWG\Parameter(
      *     name="structureId",
      *     in="query",
-     *     type="text",
+     *     type="string",
      *     description="A field used to filter syllabus"
      * )
      * @SWG\Parameter(
      *     name="title",
      *     in="query",
-     *     type="text",
+     *     type="string",
      *     description="A field used to filter syllabus"
      * )
      * @SWG\Parameter(
@@ -71,6 +65,18 @@ class CourseInfoApiController extends Controller
      *     in="query",
      *     type="boolean",
      *     description="A field used to filter syllabus"
+     * )
+     * @SWG\Parameter(
+     *     name="page",
+     *     in="query",
+     *     type="integer",
+     *     description="The results page of the pagination expected"
+     * )
+     * @SWG\Parameter(
+     *     name="limit",
+     *     in="query",
+     *     type="integer",
+     *     description="The limit of results per page"
      * )
      */
     public function indexAction(Request $request, ApiHelper $apiHelper, CourseInfoDoctrineRepository $courseInfoDoctrineRepository)
@@ -88,6 +94,17 @@ class CourseInfoApiController extends Controller
 
     /**
      * @Route("/{id}", name="show", methods={"GET"})
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns a course info by id",
+     * )
+     * @SWG\Parameter(
+     *     name="id",
+     *     in="path",
+     *     type="string",
+     *     description="The id of the expected course info"
+     * )
+     *
      */
     public function showAction(CourseInfo $courseInfo, SerializerInterface $serializer)
     {
@@ -107,13 +124,19 @@ class CourseInfoApiController extends Controller
      * @param ApiHelper $apiHelper
      * @return Response
      * @throws ResourceValidationException
+     *
+     * @SWG\Response(
+     *     response=201,
+     *     description="Save the course info from the body request",
+     *     @Model(type=CourseInfo::class)
+     * )
      */
     public function postAction(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, ApiHelper $apiHelper)
     {
         $coureInfo = new CourseInfo();
         $form = $this->createForm(CourseInfoType::class, $coureInfo, ['validation_groups' => 'new']);
 
-        $form->submit(json_decode($request->getContent(), true));
+        $form->submit(json_decode($request->getContent()));
 
         $apiHelper->throwExceptionIfEntityInvalid($form);
 
@@ -137,6 +160,19 @@ class CourseInfoApiController extends Controller
      * @param ApiHelper $apiHelper
      * @return JsonResponse
      * @throws ResourceValidationException
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Update the complete course info from the body request",
+     *     @Model(type=CourseInfo::class)
+     * )
+     *
+     * @SWG\Parameter(
+     *     name="id",
+     *     in="path",
+     *     type="string",
+     *     description="The id of the expected course info"
+     * )
      */
     public function putAction(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, CourseInfo $courseInfo, ApiHelper $apiHelper)
     {
@@ -144,15 +180,7 @@ class CourseInfoApiController extends Controller
 
         $form->submit(json_decode($request->getContent(), true));
 
-        if(!$form->isValid())
-        {
-            $errors = [];
-            foreach ($form->getErrors(true) as $error)
-            {
-                $errors[] = $error->getCause();
-            }
-            throw new ResourceValidationException(implode(',', $errors));
-        }
+        $apiHelper->throwExceptionIfEntityInvalid($form);
 
         $em->flush();
 

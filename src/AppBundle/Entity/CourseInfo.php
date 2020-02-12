@@ -30,7 +30,6 @@ class CourseInfo
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"api"})
      */
     private $id;
 
@@ -621,6 +620,7 @@ class CourseInfo
      * @ORM\OrderBy({"position" = "ASC"})
      * @JMS\Type("ArrayCollection<AppBundle\Entity\CourseSection>")
      * @JMS\Groups(groups={"api"})
+     * @Assert\Valid
      */
     private $courseSections;
 

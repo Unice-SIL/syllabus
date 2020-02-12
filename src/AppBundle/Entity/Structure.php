@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Traits\Importable;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -13,6 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Structure
 {
+    use Importable;
     /**
      * @var string
      *
@@ -22,14 +24,6 @@ class Structure
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
      */
     private $id;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="etbId", type="string", length=45, nullable=false)
-     * @Assert\NotBlank()
-     */
-    private $etbId;
 
     /**
      * @var string|null
@@ -72,26 +66,6 @@ class Structure
 
         return $this;
     }
-
-    /**
-     * @return string
-     */
-    public function getEtbId(): ?string
-    {
-        return $this->etbId;
-    }
-
-    /**
-     * @param string $etbId
-     * @return Structure
-     */
-    public function setEtbId(string $etbId): Structure
-    {
-        $this->etbId = $etbId;
-
-        return $this;
-    }
-
 
     /**
      * @return null|string

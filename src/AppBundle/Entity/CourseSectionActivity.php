@@ -85,10 +85,12 @@ class CourseSectionActivity
      * @var \AppBundle\Entity\Activity
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Activity")
+     * @Assert\NotBlank(groups={"new"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="activity_id", referencedColumnName="id", nullable=false)
      * })
      * @JMS\Type("AppBundle\Entity\Activity")
+     * @Assert\NotBlank()
      */
     private $activity;
 
@@ -99,7 +101,6 @@ class CourseSectionActivity
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="activity_type_id", referencedColumnName="id", nullable=false)
      * })
-     * @Assert\NotBlank()
      * @JMS\Groups(groups={"api"})
      */
     private $activityType;
@@ -291,7 +292,7 @@ class CourseSectionActivity
      * @JMS\SerializedName("activity")
      * @return Activity
      */
-    public function getActivityApi(): string
+    public function getActivityApi(): ?string
     {
         return $this->getActivity()->getId();
     }
@@ -300,7 +301,7 @@ class CourseSectionActivity
      * @param Activity $activity
      * @return CourseSectionActivity
      */
-    public function setActivity(Activity $activity): CourseSectionActivity
+    public function setActivity(?Activity $activity): CourseSectionActivity
     {
         $this->activity = $activity;
 
