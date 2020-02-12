@@ -311,6 +311,12 @@ li.active{
     left: 40px;
 }
 
+#list-activities {
+    min-height: 300px;
+    max-height: calc(100vh - 310px);
+    overflow: auto;
+}
+
 #button-minimize {
     position: absolute;
     z-index: 101;
