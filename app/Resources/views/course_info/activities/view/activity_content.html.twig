@@ -1,4 +1,4 @@
-<div style="min-height: 300px;">
+<div id="list-activities" class="p-2">
     {% if activeSection.courseSectionActivities is empty %}
         <div class="text-center p-2">
             <h3 class="text-danger">{{ 'app.activities.view.activity.empty_activity' | trans }}</h3>
@@ -9,7 +9,7 @@
         </div>
     {% else %}
         {% for sectionActivity in activeSection.courseSectionActivities %}
-            <div class="card mb-2">
+            <div class="card mb-2 shadow">
                 <div class="card-body">
                     <div class="row">
                         <div class="col my-auto">
@@ -46,64 +46,6 @@
                                 {% endif %}
                             </div>
                         {% endif %}
-                        {#<div class="row">
-                            <div class="col-sm">
-                                <dt>{{ 'app.activities.view.activity.name' | trans }}</dt>
-                                <dd>
-                                    {{ sectionActivity.activity.label }}
-                                </dd>
-                                <dt>{{ 'app.activities.view.activity.activity_type' | trans }} - {{ 'app.activities.view.activity.activity_mode' | trans }}</dt>
-                                <dd>
-                                    {{ sectionActivity.activityType.label }} - {{ sectionActivity.activityMode.label }}
-                                </dd>
-                            </div>
-                            <div class="col-sm">
-                                <dt>{{ 'app.activities.view.activity.evaluable' | trans }}</dt>
-                                <dd>
-                                    {{ sectionActivity.evaluable | humanizeBoolean }}
-                                </dd>
-                            </div>
-                            {% if sectionActivity.evaluable %}
-                                <div class="col-sm">
-                                    <div class="row">
-                                        <div class="col">
-                                            <dt>{{ 'app.activities.view.activity.control' | trans }} : </dt>
-                                            <dd>
-                                                {{ sectionActivity.evaluationCt ? 'Terminal' : 'Continu' }}
-                                            </dd>
-                                        </div>
-                                        <div class="col">
-                                            {% if sectionActivity.evaluationRate %}
-                                                <dt>{{ 'app.activities.view.activity.evaluation_rate' | trans }} :</dt>
-                                                <dd>
-                                                    {{ sectionActivity.evaluationRate }}%
-                                                </dd>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                    <dt>{{ 'app.activities.view.activity.evaluation_teachers' | trans }} : </dt>
-                                    <dd>
-                                        {{ sectionActivity.evaluationTeacher | humanizeBoolean }}
-                                    </dd>
-                                    <dt>{{ 'app.activities.view.activity.evaluation_peers' | trans }} : </dt>
-                                    <dd>
-                                        {{ sectionActivity.evaluationPeer | humanizeBoolean }}
-                                    </dd>
-                                </div>
-                            {% endif %}
-                        </div>
-                        <div>
-                            <button type="button" class="btn text-primary modal-action pl-0"
-                                    data-action-title="{{ 'app.activities.view.activity.edit_activity' | trans }}"
-                                    data-action-url="{{ path('course_activities_edit_activity', {'courseSectionActivityId': sectionActivity.id, 'activityId': sectionActivity.activity.id }) }}">
-                                <i class="fas fa-edit"></i> {{ 'app.general.button.edit' | trans }}
-                            </button>
-                            <button type="button" class="btn text-danger modal-action p-0"
-                                    data-action-title="{{ 'app.activities.view.activity.delete_activity' | trans }}"
-                                    data-action-url="{{ path('course_activities_remove_activity', {'sectionId': activeSection.id, 'courseSectionActivityId': sectionActivity.id }) }}">
-                                <i class="fas fa-trash-alt text-danger"></i> {{ 'app.general.button.delete' | trans }}
-                            </button>
-                        </div>#}
                     </div>
                 </div>
             </div>
