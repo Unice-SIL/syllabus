@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -27,6 +28,7 @@ class Year
      *     pattern="/^\d{4}$/",
      *     message="Cette valeure doit respecter le format AAAA"
      * )
+     * @JMS\Groups(groups={"course_info", "year"})
      */
     private $id;
 
@@ -39,27 +41,31 @@ class Year
      *     pattern="/^\d{4}-\d{4}$/",
      *     message="Cette valeure doit respecter le format AAAA-AAAA"
      * )
+     * @JMS\Groups(groups={"course_info", "year"})
      */
     private $label;
 
     /**
-     * @var bool|null
+     * @var bool
      *
      * @ORM\Column(name="import", type="boolean", nullable=true)
+     * @JMS\Groups(groups={"year"})
      */
     private $import = false;
 
     /**
-     * @var bool|null
+     * @var bool
      *
      * @ORM\Column(name="edit", type="boolean", nullable=true)
+     * @JMS\Groups(groups={"year"})
      */
     private $edit = false;
 
     /**
-     * @var bool|null
+     * @var bool
      *
      * @ORM\Column(name="current", type="boolean", nullable=true)
+     * @JMS\Groups(groups={"year"})
      */
     private $current = false;
 
@@ -75,7 +81,7 @@ class Year
      * @param string $id
      * @return Year
      */
-    public function setId(string $id): Year
+    public function setId(string $id): self
     {
         $this->id = $id;
 
@@ -85,7 +91,7 @@ class Year
     /**
      * @return null|string
      */
-    public function getLabel()
+    public function getLabel(): ?string
     {
         return $this->label;
     }
@@ -94,7 +100,7 @@ class Year
      * @param null|string $label
      * @return Year
      */
-    public function setLabel($label)
+    public function setLabel($label): self
     {
         $this->label = $label;
 
@@ -102,18 +108,18 @@ class Year
     }
 
     /**
-     * @return bool|null
+     * @return bool
      */
-    public function getImport()
+    public function getImport(): bool
     {
         return $this->import;
     }
 
     /**
-     * @param bool|null $import
+     * @param bool $import
      * @return Year
      */
-    public function setImport($import)
+    public function setImport(bool $import): self
     {
         $this->import = $import;
 
@@ -121,18 +127,18 @@ class Year
     }
 
     /**
-     * @return bool|null
+     * @return bool
      */
-    public function getEdit()
+    public function getEdit(): bool
     {
         return $this->edit;
     }
 
     /**
-     * @param bool|null $edit
+     * @param bool $edit
      * @return Year
      */
-    public function setEdit($edit)
+    public function setEdit(bool $edit): self
     {
         $this->edit = $edit;
 
@@ -140,24 +146,27 @@ class Year
     }
 
     /**
-     * @return bool|null
+     * @return bool
      */
-    public function getCurrent()
+    public function getCurrent(): bool
     {
         return $this->current;
     }
 
     /**
-     * @param bool|null $current
+     * @param bool $current
      * @return Year
      */
-    public function setCurrent($current)
+    public function setCurrent(bool $current): self
     {
         $this->current = $current;
 
         return $this;
     }
 
+    /**
+     * @return null|string
+     */
     public function __toString()
     {
         return $this->getLabel();
