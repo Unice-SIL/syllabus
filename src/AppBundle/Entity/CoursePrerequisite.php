@@ -107,7 +107,7 @@ class CoursePrerequisite
 
         return $this;
     }
-    
+
     /**
      * @return CourseInfo|null
      */
