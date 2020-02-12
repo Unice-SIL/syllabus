@@ -3,6 +3,7 @@
 namespace AppBundle\Repository;
 
 use AppBundle\Entity\CoursePermission;
+use AppBundle\Entity\User;
 
 /**
  * Interface CoursePermissionRepositoryInterface
@@ -16,6 +17,12 @@ interface CoursePermissionRepositoryInterface
      * @return CoursePermission|null
      */
     public function find(string $id): ?CoursePermission;
+
+    /**
+     * @param string $id
+     * @return mixed
+     */
+    public function getCourseBypermission(User $user);
 
     /**
      * Create permission
