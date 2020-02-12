@@ -21,6 +21,7 @@ class CourseSectionActivity
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @JMS\Groups(groups={"course_info", "course_section", "course_section_activity"})
      */
     private $id;
 
@@ -28,6 +29,7 @@ class CourseSectionActivity
      * @var string|null
      *
      * @ORM\Column(name="description", type="string", length=255, nullable=true)
+     * @JMS\Groups(groups={"course_info", "course_section", "course_section_activity"})
      */
     private $description;
 
@@ -35,6 +37,7 @@ class CourseSectionActivity
      * @var float|null
      *
      * @ORM\Column(name="evaluation_rate", type="float", nullable=true)
+     * @JMS\Groups(groups={"course_info", "course_section", "course_section_activity"})
      */
     private $evaluationRate;
 
@@ -42,6 +45,7 @@ class CourseSectionActivity
      * @var bool
      *
      * @ORM\Column(name="evaluable", type="boolean", nullable=false)
+     * @JMS\Groups(groups={"course_info", "course_section", "course_section_activity"})
      */
     private $evaluable = false;
 
@@ -49,6 +53,7 @@ class CourseSectionActivity
      * @var bool
      *
      * @ORM\Column(name="evaluation_ct", type="boolean", nullable=false)
+     * @JMS\Groups(groups={"course_info", "course_section", "course_section_activity"})
      */
     private $evaluationCt = false;
 
@@ -56,6 +61,7 @@ class CourseSectionActivity
      * @var bool
      *
      * @ORM\Column(name="evaluation_teacher", type="boolean", nullable=false)
+     * @JMS\Groups(groups={"course_info", "course_section", "course_section_activity"})
      */
     private $evaluationTeacher = false;
 
@@ -63,6 +69,7 @@ class CourseSectionActivity
      * @var bool
      *
      * @ORM\Column(name="evaluation_peer", type="boolean", nullable=false)
+     * @JMS\Groups(groups={"course_info", "course_section", "course_section_activity"})
      */
     private $evaluationPeer = false;
 
@@ -70,6 +77,7 @@ class CourseSectionActivity
      * @var int
      *
      * @ORM\Column(name="position", type="integer", nullable=false)
+     * @JMS\Groups(groups={"course_info", "course_section", "course_section_activity"})
      */
     private $position = 0;
 
@@ -81,6 +89,7 @@ class CourseSectionActivity
      *   @ORM\JoinColumn(name="activity_id", referencedColumnName="id", nullable=false)
      * })
      * @JMS\Type("AppBundle\Entity\Activity")
+     * @JMS\Groups(groups={"course_info", "course_section", "course_section_activity"})
      */
     private $activity;
 
@@ -92,6 +101,7 @@ class CourseSectionActivity
      *   @ORM\JoinColumn(name="activity_type_id", referencedColumnName="id", nullable=false)
      * })
      * @Assert\NotBlank()
+     * @JMS\Groups(groups={"course_info", "course_section", "course_section_activity"})
      */
     private $activityType;
 
@@ -103,6 +113,7 @@ class CourseSectionActivity
      *   @ORM\JoinColumn(name="activity_mode_id", referencedColumnName="id", nullable=false)
      * })
      * @Assert\NotBlank()
+     * @JMS\Groups(groups={"course_info", "course_section", "course_section_activity"})
      */
     private $activityMode;
 
@@ -113,6 +124,7 @@ class CourseSectionActivity
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="course_section_id", referencedColumnName="id", nullable=false)
      * })
+     * @JMS\Groups(groups={"course_section_activity"})
      */
     private $courseSection;
 
@@ -128,7 +140,7 @@ class CourseSectionActivity
      * @param string $id
      * @return CourseSectionActivity
      */
-    public function setId(string $id): CourseSectionActivity
+    public function setId(string $id): self
     {
         $this->id = $id;
 
@@ -138,7 +150,7 @@ class CourseSectionActivity
     /**
      * @return null|string
      */
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -147,7 +159,7 @@ class CourseSectionActivity
      * @param null|string $description
      * @return CourseSectionActivity
      */
-    public function setDescription($description)
+    public function setDescription($description): self
     {
         $this->description = $description;
 
@@ -157,7 +169,7 @@ class CourseSectionActivity
     /**
      * @return float|null
      */
-    public function getEvaluationRate()
+    public function getEvaluationRate(): ?float
     {
         return $this->evaluationRate;
     }
@@ -174,7 +186,7 @@ class CourseSectionActivity
      * @param bool $evaluable
      * @return CourseSectionActivity
      */
-    public function setEvaluable(bool $evaluable): CourseSectionActivity
+    public function setEvaluable(bool $evaluable): self
     {
         $this->evaluable = $evaluable;
         return $this;
@@ -192,7 +204,7 @@ class CourseSectionActivity
      * @param bool $evaluationCt
      * @return CourseSectionActivity
      */
-    public function setEvaluationCt(bool $evaluationCt): CourseSectionActivity
+    public function setEvaluationCt(bool $evaluationCt): self
     {
         $this->evaluationCt = $evaluationCt;
         return $this;
@@ -202,7 +214,7 @@ class CourseSectionActivity
      * @param float|null $evaluationRate
      * @return CourseSectionActivity
      */
-    public function setEvaluationRate($evaluationRate)
+    public function setEvaluationRate($evaluationRate): ?float
     {
         $this->evaluationRate = $evaluationRate;
 
@@ -221,7 +233,7 @@ class CourseSectionActivity
      * @param bool $evaluationTeacher
      * @return CourseSectionActivity
      */
-    public function setEvaluationTeacher(bool $evaluationTeacher): CourseSectionActivity
+    public function setEvaluationTeacher(bool $evaluationTeacher): self
     {
         $this->evaluationTeacher = $evaluationTeacher;
 
@@ -240,7 +252,7 @@ class CourseSectionActivity
      * @param bool $evaluationPeer
      * @return CourseSectionActivity
      */
-    public function setEvaluationPeer(bool $evaluationPeer): CourseSectionActivity
+    public function setEvaluationPeer(bool $evaluationPeer): self
     {
         $this->evaluationPeer = $evaluationPeer;
 
@@ -259,7 +271,7 @@ class CourseSectionActivity
      * @param int $position
      * @return CourseSectionActivity
      */
-    public function setPosition(int $position): CourseSectionActivity
+    public function setPosition(int $position): self
     {
         $this->position = $position;
 
@@ -279,7 +291,7 @@ class CourseSectionActivity
      * @param Activity $activity
      * @return CourseSectionActivity
      */
-    public function setActivity(Activity $activity): CourseSectionActivity
+    public function setActivity(Activity $activity): self
     {
         $this->activity = $activity;
 
@@ -298,7 +310,7 @@ class CourseSectionActivity
      * @param CourseSection|null $courseSection
      * @return CourseSectionActivity
      */
-    public function setCourseSection(?CourseSection $courseSection): CourseSectionActivity
+    public function setCourseSection(?CourseSection $courseSection): self
     {
         $this->courseSection = $courseSection;
 
@@ -317,7 +329,7 @@ class CourseSectionActivity
      * @param ActivityType|null $activityType
      * @return CourseSectionActivity
      */
-    public function setActivityType(?ActivityType $activityType): CourseSectionActivity
+    public function setActivityType(?ActivityType $activityType): self
     {
         $this->activityType = $activityType;
         return $this;
@@ -335,9 +347,17 @@ class CourseSectionActivity
      * @param ActivityMode|null $activityMode
      * @return CourseSectionActivity
      */
-    public function setActivityMode(?ActivityMode $activityMode): CourseSectionActivity
+    public function setActivityMode(?ActivityMode $activityMode): self
     {
         $this->activityMode = $activityMode;
         return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function __toString()
+    {
+        return $this->getActivity()->getLabel();
     }
 }
