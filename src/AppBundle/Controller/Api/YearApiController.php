@@ -9,7 +9,7 @@ use AppBundle\Form\Api\YearType;
 use AppBundle\Helper\ApiHelper;
 use AppBundle\Repository\Doctrine\YearDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Gedmo\Timestampable\Traits\Timestampable;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -71,6 +71,7 @@ class YearApiController extends Controller
      *     type="integer",
      *     description="The limit of results per page"
      * )
+     * @IsGranted("ROLE_API_GET_YEARS")
      */
     public function indexAction(Request $request, ApiHelper $apiHelper, YearDoctrineRepository $yearDoctrineRepository)
     {
@@ -97,7 +98,7 @@ class YearApiController extends Controller
      *     type="string",
      *     description="The id of the expected year"
      * )
-     *
+     * @IsGranted("ROLE_API_GET_YEAR")
      */
     public function showAction(Year $year, SerializerInterface $serializer)
     {
@@ -123,6 +124,8 @@ class YearApiController extends Controller
      *     description="Save the year from the body request",
      *     @Model(type=Year::class)
      * )
+     *
+     * @IsGranted("ROLE_API_POST_YEAR")
      */
     public function postAction(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, ApiHelper $apiHelper)
     {
@@ -165,6 +168,8 @@ class YearApiController extends Controller
      *     type="string",
      *     description="The id of the expected year"
      * )
+     *
+     * @IsGranted("ROLE_API_PUT_YEAR")
      */
     public function putAction(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, Year $year, ApiHelper $apiHelper)
     {
