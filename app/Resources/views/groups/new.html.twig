@@ -1,0 +1,43 @@
+{% extends 'admin_layout.html.twig' %}
+{% set h1 = 'Ajouter un groupe' %}
+
+{% form_theme form.roles _self %}
+
+{%- block choice_widget_expanded -%}
+    <div {{ block('widget_container_attributes') }}>
+        {% for name, choices in form.vars.choices %}
+            {% if choices is iterable  %}
+
+            <label class="choice_category">
+                <strong>
+                    {{ choice_translation_domain is same as(false) ? name : name|trans({}, choice_translation_domain) }}
+                </strong>
+            </label>
+            <div>
+                {% for key,choice in choices %}
+                    {{ form_widget(form[key]) }}
+                    {{ form_label(form[key]) }}
+                {% endfor %}
+            </div>
+
+        {% else %}
+
+            {{- form_widget(form[name]) -}}
+            {{- form_label(form[name], null, {translation_domain: choice_translation_domain}) -}}
+
+        {% endif %}
+    {% endfor %}
+{%- endblock choice_widget_expanded -%}
+
+{% block subContent %}
+    <div class="card">
+        <div class="card-body">
+            {{ form_start(form) }}
+                {{ form_row(form.label) }}
+                {{ form_row(form.roles) }}
+                <button class="btn btn-primary">Enregistrer</button>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
+

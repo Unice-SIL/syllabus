@@ -1,6 +1,22 @@
 ROLE_USER: Utilisateur
 ROLE_ADMIN: Administrateur
 ROLE_API: Utilisateur de l'API
+ROLE_API_GET_COURSE: Traduction
+ROLE_API_GET_COURSES: Traduction
+ROLE_API_POST_COURSE: Traduction
+ROLE_API_PUT_COURSE: Traduction
+ROLE_API_GET_COURSE_INFO: Traduction
+ROLE_API_GET_COURSES_INFO: Traduction
+ROLE_API_POST_COURSE_INFO: Traduction
+ROLE_API_PUT_COURSE_INFO: Traduction
+ROLE_API_GET_COURSE_PERMISSION: Traduction
+ROLE_API_GET_COURSE_PERMISSIONS: Traduction
+ROLE_API_POST_COURSE_PERMISSION: Traduction
+ROLE_API_PUT_COURSE_PERMISSION: Traduction
+ROLE_API_GET_YEAR: Traduction
+ROLE_API_GET_YEARS: Traduction
+ROLE_API_POST_YEAR: Traduction
+ROLE_API_PUT_YEAR: Traduction
 collective: Collectif
 groups: En groupe
 individual: Individuel
@@ -132,6 +148,7 @@ app:
       label:
         label: 'Label'
         obsolete: 'Obsolète'
+        roles: 'Rôles'
 
   general:
     button:

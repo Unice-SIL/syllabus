@@ -2,6 +2,8 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -27,6 +29,7 @@ class Groups
      * @var string
      *
      * @ORM\Column(name="label", type="string", length=50, unique=true)
+     * @Assert\NotBlank()
      */
     private $label;
 
@@ -38,6 +41,11 @@ class Groups
     private $obsolete = false;
 
     /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", mappedBy="groups")
+     */
+    private $users;
+
+    /**
      * @var array
      *
      * @ORM\Column(name="roles", type="array", nullable=true)
@@ -47,6 +55,12 @@ class Groups
      * )
      */
     private $roles = [];
+
+    public function __construct()
+    {
+        $this->users = new ArrayCollection();
+    }
+
 
     /**
      * Get id.
@@ -112,6 +126,53 @@ class Groups
     public function setObsolete($obsolete)
     {
         $this->obsolete = $obsolete;
+    }
+
+    /**
+     * @return null|Collection
+     */
+    public function getUsers(): ?Collection
+    {
+        return $this->users;
+    }
+
+    /**
+     * @param null|Collection $users
+     * @return $this
+     */
+    public function setUsers(?Collection $users): self
+    {
+        $this->users = $users;
+
+        return $this;
+    }
+
+    /**
+     * @param User $user
+     * @return $this
+     */
+    public function addUser(?User $user): self
+    {
+        if(!$this->getUsers()->contains($user)){
+
+            $this->getUsers()->add($user);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param User $user
+     * @return $this
+     */
+    public function removeUser(User $user): self
+    {
+        if($this->getUsers()->contains($user))
+        {
+            $this->getUsers()->removeElement($user);
+        }
+
+        return $this;
     }
 
 }

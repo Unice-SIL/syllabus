@@ -2,6 +2,8 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -112,6 +114,21 @@ class User implements UserInterface
      * @JMS\Exclude()
      */
     protected $resetPasswordToken;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Groups", inversedBy="users")
+     */
+    private $groups;
+
+    /**
+     * User constructor.
+     * @param $groups
+     */
+    public function __construct()
+    {
+        $this->groups = new ArrayCollection();
+    }
+
 
     /**
      * @return string|null
@@ -251,7 +268,14 @@ class User implements UserInterface
      */
     public function getRoles(): ?array
     {
-        return $this->roles;
+        $roles = $this->roles;
+        $groups = $this->getGroups();
+        foreach ($groups as $group) {
+            $roles = array_merge($roles, $group->getRoles());
+        }
+        $roles = array_unique($roles);
+        $roles = array_values($roles);
+        return $roles;
     }
 
     /**
@@ -320,6 +344,60 @@ class User implements UserInterface
     public function getSelect2Name()
     {
         return $this->lastname . ' ' . $this->firstname . ' (' . $this->username . ')';
+    }
+
+    /**
+     * @return null|Collection
+     */
+    public function getGroups(): ?Collection
+    {
+        return $this->groups;
+    }
+
+    /**
+     * @param null|Collection $groups
+     * @return User
+     */
+    public function setGroups(?Collection $groups): self
+    {
+        $this->groups = $groups;
+
+        return $this;
+    }
+
+    /**
+     * @param Groups $groups
+     * @return $this
+     */
+    public function addGroups(?Groups $groups): self
+    {
+        if(!$this->getGroups()->contains($groups)){
+            $this->getGroups()->add($groups);
+
+            if (!$groups->getUsers()->contains($this)) {
+                $groups->getUsers()->add($this);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Groups $groups
+     * @return $this
+     */
+    public function removeGroups(Groups $groups): self
+    {
+        if($this->getGroups()->contains($groups))
+        {
+            $this->getGroups()->removeElement($groups);
+            if ($groups->getUsers()->contains($this))
+            {
+                $groups->removeUser($this);
+            }
+        }
+
+        return $this;
     }
 
 }

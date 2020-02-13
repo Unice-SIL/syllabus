@@ -4,7 +4,9 @@
 namespace AppBundle\Controller;
 
 
+use AppBundle\Entity\Groups;
 use AppBundle\Form\Filter\GroupsFilterType;
+use AppBundle\Form\GroupsType;
 use AppBundle\Repository\Doctrine\GroupsDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
@@ -53,6 +55,33 @@ class GroupsController extends Controller
         return $this->render('groups/index.html.twig', array(
             'pagination' => $pagination,
             'form' => $form->createView()
+        ));
+    }
+
+    /**
+     * Creates a new groups entity.
+     *
+     * @Route("/new", name="new", methods={"GET", "POST"})
+     */
+    public function newAction(Request $request)
+    {
+        $group = new Groups();
+
+        $form = $this->createForm(GroupsType::class, $group);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($group);
+            $em->flush();
+
+            $this->addFlash('success', 'Le groupe a été ajouté avec succès.');
+
+            return $this->redirectToRoute('app_admin_groups_index');
+        }
+
+        return $this->render('groups/new.html.twig', array(
+            'form' => $form->createView(),
         ));
     }
 
