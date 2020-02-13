@@ -1,7 +1,7 @@
 {% if courseInfo.teachingMode is null %}
     <div class="d-flex justify-content-center align-items-center mandatory-data">
         <span class="empty-data">
-            Aucun mode d'enseignement sélectionné
+            {{ 'app.presentation.view.teaching_mode.empty_teaching_mode' | trans }}
         </span>
     </div>
 {% else %}
