@@ -154,7 +154,7 @@ class CourseTeacher
     /**
      * @return bool
      */
-    public function isManager(): bool
+    public function isManager(): ?bool
     {
         return $this->manager;
     }
@@ -173,7 +173,7 @@ class CourseTeacher
     /**
      * @return bool
      */
-    public function isEmailVisibility(): bool
+    public function isEmailVisibility(): ?bool
     {
         return $this->emailVisibility;
     }

@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Ramsey\Uuid\Uuid;
+use JMS\Serializer\Annotation as JMS;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * CourseSection
@@ -82,7 +84,7 @@ class CourseSection
     /**
      * @return string
      */
-    public function getId(): string
+    public function getId(): ?string
     {
         return $this->id;
     }
@@ -139,7 +141,7 @@ class CourseSection
     /**
      * @return int
      */
-    public function getPosition(): int
+    public function getPosition(): ?int
     {
         return $this->position;
     }
@@ -148,7 +150,7 @@ class CourseSection
      * @param int $position
      * @return CourseSection
      */
-    public function setPosition(int $position): self
+    public function setPosition(?int $position): self
     {
         $this->position = $position;
 
@@ -159,7 +161,7 @@ class CourseSection
     /**
      * @return CourseInfo
      */
-    public function getCourseInfo(): CourseInfo
+    public function getCourseInfo(): ?CourseInfo
     {
         return $this->courseInfo;
     }

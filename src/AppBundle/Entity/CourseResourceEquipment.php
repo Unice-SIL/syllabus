@@ -103,7 +103,7 @@ class CourseResourceEquipment
     /**
      * @return int
      */
-    public function getOrder(): int
+    public function getOrder(): ?int
     {
         return $this->order;
     }
@@ -142,9 +142,20 @@ class CourseResourceEquipment
     /**
      * @return Equipment
      */
-    public function getEquipment(): Equipment
+    public function getEquipment(): ?Equipment
     {
         return $this->equipment;
+    }
+
+    /**
+     * @JMS\VirtualProperty()
+     * @JMS\Groups(groups={"api"})
+     * @JMS\SerializedName("equipment")
+     * @return Equipment|null
+     */
+    public function getEquipmentApi()
+    {
+        return $this->getEquipment()->getId();
     }
 
     /**

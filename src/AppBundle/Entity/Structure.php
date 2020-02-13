@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Traits\Importable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,6 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Structure
 {
+    use Importable;
     /**
      * @var string|null
      *
@@ -27,15 +29,6 @@ class Structure
      * @JMS\Groups(groups={"course_info", "structure"})
      */
     private $id;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="etbId", type="string", length=45, nullable=false)
-     * @Assert\NotBlank()
-     * @JMS\Groups(groups={"course_info", "structure"})
-     */
-    private $etbId;
 
     /**
      * @var string|null
@@ -99,26 +92,6 @@ class Structure
 
         return $this;
     }
-
-    /**
-     * @return string
-     */
-    public function getEtbId(): ?string
-    {
-        return $this->etbId;
-    }
-
-    /**
-     * @param string $etbId
-     * @return Structure
-     */
-    public function setEtbId(string $etbId): self
-    {
-        $this->etbId = $etbId;
-
-        return $this;
-    }
-
 
     /**
      * @return null|string

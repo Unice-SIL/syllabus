@@ -29,14 +29,14 @@ class CourseFixture extends Fixture  implements FixtureGroupInterface
         $course1 = new Course();
         $course1->setId(Uuid::uuid4())
             ->setType('ECUE')
-            ->setEtbId('SLEPB111');
+            ->setCode('SLEPB111');
         $this->addReference(self::COURSE_1, $course1);
 
         // Course 2
         $course2 = new Course();
         $course2->setId(Uuid::uuid4())
             ->setType('UE')
-            ->setEtbId('SLUPB11');
+            ->setCode('SLUPB11');
         $this->addReference(self::COURSE_2, $course2);
 
         // Course hierarchy

@@ -26,7 +26,8 @@ class CoursePermission
      *
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
      * @JMS\Groups(groups={"course_permission"})
      */
     private $id;
@@ -67,16 +68,16 @@ class CoursePermission
     /**
      * @return string
      */
-    public function getId(): string
+    public function getId(): ?string
     {
         return $this->id;
     }
 
     /**
-     * @param string $id
+     * @param string|null $id
      * @return CoursePermission
      */
-    public function setId(string $id): CoursePermission
+    public function setId(?string $id): CoursePermission
     {
         $this->id = $id;
 
@@ -127,6 +128,16 @@ class CoursePermission
     public function getUser(): ?User
     {
         return $this->user;
+    }
+
+    /**
+     * @JMS\VirtualProperty()
+     * @JMS\Groups(groups={"api"})
+     * @JMS\SerializedName("user")
+     */
+    public function getUserApi()
+    {
+        return $this->getUser()->getId();
     }
 
     /**

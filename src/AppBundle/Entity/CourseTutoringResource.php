@@ -93,7 +93,7 @@ class CourseTutoringResource
     /**
      * @return int
      */
-    public function getOrder(): int
+    public function getOrder(): ?int
     {
         return $this->order;
     }

@@ -85,6 +85,7 @@ class CourseSectionActivity
      * @var \AppBundle\Entity\Activity
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Activity")
+     * @Assert\NotBlank(groups={"new"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="activity_id", referencedColumnName="id", nullable=false)
      * })
@@ -131,7 +132,7 @@ class CourseSectionActivity
     /**
      * @return string
      */
-    public function getId(): string
+    public function getId(): ?string
     {
         return $this->id;
     }
@@ -262,7 +263,7 @@ class CourseSectionActivity
     /**
      * @return int
      */
-    public function getPosition(): int
+    public function getPosition(): ?int
     {
         return $this->position;
     }
@@ -282,9 +283,20 @@ class CourseSectionActivity
     /**
      * @return Activity
      */
-    public function getActivity(): Activity
+    public function getActivity(): ?Activity
     {
         return $this->activity;
+    }
+
+    /**
+     * @JMS\VirtualProperty()
+     * @JMS\Groups(groups={"api"})
+     * @JMS\SerializedName("activity")
+     * @return Activity
+     */
+    public function getActivityApi(): ?string
+    {
+        return $this->getActivity()->getId();
     }
 
     /**

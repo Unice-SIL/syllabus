@@ -106,4 +106,23 @@ class CourseDoctrineRepository  extends AbstractDoctrineRepository implements Co
             ;
     }
 
+    public function findQueryBuilderForApi(array $config)
+    {
+        $qb = $this->getIndexQueryBuilder();
+
+        foreach ($config['filters'] as $filter => $value) {
+            $valueName = 'value'.$filter;
+            switch ($filter) {
+                case 'etbId':
+                case 'type':
+                    $qb->andWhere($qb->expr()->like($qb->getRootAlias() . '.' . $filter, ':'.$valueName))
+                        ->setParameter($valueName, '%' . $value . '%')
+                    ;
+                    break;
+            }
+        }
+
+        return $qb;
+    }
+
 }
