@@ -21,7 +21,7 @@ trait Importable
 
     /**
      * @var string|null
-     * @ORM\Column(type="string", length=50, nullable=false, options={"default" : "import effectué avant la mise en place de ce champ" })
+     * @ORM\Column(type="string", length=50, nullable=true, options={"default" : "import effectué avant la mise en place de ce champ" })
      * @JMS\Groups(groups={"default"})
      */
     private $source;
