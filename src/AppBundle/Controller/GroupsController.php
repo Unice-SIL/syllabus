@@ -86,6 +86,32 @@ class GroupsController extends Controller
     }
 
     /**
+     * Displays a form to edit an existing groups entity.
+     *
+     * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
+     *
+     */
+    public function editAction(Request $request, Groups $groups, EntityManagerInterface $entityManager)
+    {
+        $form = $this->createForm(GroupsType::class, $groups);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $entityManager->flush();
+
+
+            $this->addFlash('success', 'Le groups a été modifié avec succès.');
+
+            return $this->redirectToRoute('app_admin_groups_edit', array('id' => $groups->getId()));
+        }
+
+        return $this->render('groups/edit.html.twig', array(
+            'form' => $form->createView(),
+        ));
+    }
+
+    /**
      * @Route("/autocomplete/{field}", name="autocomplete", methods={"GET"}, requirements={"field" = "label"})
      *
      * @param GroupsDoctrineRepository $groupsDoctrineRepository

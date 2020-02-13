@@ -5,9 +5,13 @@ namespace AppBundle\Form;
 
 
 use AppBundle\Constant\UserRole;
+use AppBundle\Entity\Groups;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 
 class GroupsType extends AbstractType
 {
@@ -33,6 +37,25 @@ class GroupsType extends AbstractType
                 },
             ])
         ;
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            /** @var Groups $groups */
+            $groups = $event->getData();
+            $form = $event->getForm();
+
+            //If not new (then edit mode)
+            if (!$groups || null !== $groups->getId()) {
+                $form->add('obsolete', CheckboxType::class, [
+                    'label' => 'app.form.groups.label.obsolete',
+                    'required' => false,
+                    'label_attr' => [
+                        'class' => 'custom-control-label'
+                    ],
+                    'attr' => [
+                        'class' => 'custom-control-input'
+                    ]
+                ]);
+            }
+        });
     }
 
 }

@@ -32,8 +32,7 @@
                     <tbody>
                     {% for groups in pagination %}
                         <tr>
-                            {#<td><a href="{{ path('app_admin_year_edit', { 'id' : year.id }) }}">{{ year.label }}</a></td>#}
-                            <td>{{ groups.label }}</td>
+                            <td><a href="{{ path('app_admin_groups_edit', { 'id' : groups.id }) }}">{{ groups.label }}</a></td>
                             <td>{{ groups.obsolete|humanizeBoolean }}</td>
                         </tr>
                     {% endfor %}

@@ -1,0 +1,13 @@
+{% form_theme form.roles 'form/groups_field.html.twig' %}
+
+{{ form_start(form) }}
+    {{ form_row(form.label) }}
+    {% if form.obsolete is defined %}
+        <div class="custom-control custom-switch">
+            {{ form_widget(form.obsolete) }}
+            {{ form_label(form.obsolete) }}
+        </div>
+    {% endif %}
+    {{ form_row(form.roles) }}
+    <button class="btn btn-primary">Enregistrer</button>
+{{ form_end(form) }}
