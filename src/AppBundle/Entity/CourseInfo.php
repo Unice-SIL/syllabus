@@ -30,7 +30,7 @@ class CourseInfo
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"course_info"})
+     * @JMS\Groups(groups={"default", "course_info"})
      */
     private $id;
 
@@ -39,7 +39,7 @@ class CourseInfo
      *
      * @ORM\Column(name="title", type="string", length=200, nullable=false)
      * @Assert\NotBlank(groups={"new"})
-     * @JMS\Groups(groups={"course_info"})
+     * @JMS\Groups(groups={"default", "course_info"})
      */
     private $title;
 
@@ -500,7 +500,7 @@ class CourseInfo
      * })
      * @Assert\NotBlank(groups={"new"})
      * @JMS\Type("AppBundle\Entity\Structure")
-     * @JMS\Groups(groups={"course_info"})
+     * @JMS\Groups(groups={"default", "course_info"})
      */
     private $structure;
 
@@ -537,7 +537,7 @@ class CourseInfo
      * })
      * @Assert\NotBlank(groups={"new"})
      * @JMS\Type("AppBundle\Entity\Year")
-     * @JMS\Groups(groups={"course_info"})
+     * @JMS\Groups(groups={"default", "course_info"})
      */
     private $year;
 
@@ -632,10 +632,10 @@ class CourseInfo
     }
 
     /**
-     * @param string $id
+     * @param null|string $id
      * @return CourseInfo
      */
-    public function setId(string $id): self
+    public function setId(?string $id): self
     {
         $this->id = $id;
 
