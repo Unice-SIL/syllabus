@@ -27,8 +27,8 @@ class StructureFixture extends Fixture  implements FixtureGroupInterface
         $structure = new Structure();
         $structure->setId(Uuid::uuid4())
             ->setLabel('UFR Sciences')
-            ->setCode('SCI')
-            ->setCampus('Valrose');
+            ->setSource('fixtures')
+            ->setCode('SCI');
         $this->addReference(self::SCIENCES, $structure);
         $manager->persist($structure);
         $manager->flush();

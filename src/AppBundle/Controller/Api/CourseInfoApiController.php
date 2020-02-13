@@ -3,6 +3,7 @@
 namespace AppBundle\Controller\Api;
 
 use AppBundle\Entity\CourseInfo;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use AppBundle\Exception\ResourceValidationException;
 use AppBundle\Form\Api\CourseInfoType;
@@ -78,6 +79,7 @@ class CourseInfoApiController extends Controller
      *     type="integer",
      *     description="The limit of results per page"
      * )
+     * @IsGranted("ROLE_API_GET_COURSES_INFO")
      */
     public function indexAction(Request $request, ApiHelper $apiHelper, CourseInfoDoctrineRepository $courseInfoDoctrineRepository)
     {
@@ -104,7 +106,7 @@ class CourseInfoApiController extends Controller
      *     type="string",
      *     description="The id of the expected course info"
      * )
-     *
+     * @IsGranted("ROLE_API_GET_COURSE_INFO")
      */
     public function showAction(CourseInfo $courseInfo, SerializerInterface $serializer)
     {
@@ -130,6 +132,7 @@ class CourseInfoApiController extends Controller
      *     description="Save the course info from the body request",
      *     @Model(type=CourseInfo::class)
      * )
+     * @IsGranted("ROLE_API_POST_COURSES_INFO")
      */
     public function postAction(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, ApiHelper $apiHelper)
     {
@@ -173,6 +176,7 @@ class CourseInfoApiController extends Controller
      *     type="string",
      *     description="The id of the expected course info"
      * )
+     * @IsGranted("ROLE_API_PUT_COURSES_INFO")
      */
     public function putAction(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, CourseInfo $courseInfo, ApiHelper $apiHelper)
     {

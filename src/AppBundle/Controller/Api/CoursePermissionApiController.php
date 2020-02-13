@@ -16,6 +16,7 @@ use JMS\Serializer\SerializerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Swagger\Annotations as SWG;
@@ -64,6 +65,7 @@ class CoursePermissionApiController extends Controller
      *     type="integer",
      *     description="The limit of results per page"
      * )
+     * @IsGranted("ROLE_API_GET_COURSE_PERMISSIONS")
      */
     public function indexAction(Request $request, ApiHelper $apiHelper, CoursePermissionDoctrineRepository $coursePermissionDoctrineRepository)
     {
@@ -94,6 +96,7 @@ class CoursePermissionApiController extends Controller
      *     type="string",
      *     description="The id of the expected course permission"
      * )
+     * @IsGranted("ROLE_API_GET_COURSE_PERMISSION")
      */
     public function showAction(CoursePermission $coursePermission, SerializerInterface $serializer)
     {
@@ -119,6 +122,7 @@ class CoursePermissionApiController extends Controller
      *     description="Save the course permission from the body request",
      *     @Model(type=CoursePermission::class)
      * )
+     * @IsGranted("ROLE_API_POST_COURSE_PERMISSION")
      */
     public function postAction(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, ApiHelper $apiHelper)
     {
@@ -162,6 +166,7 @@ class CoursePermissionApiController extends Controller
      *     type="string",
      *     description="The id of the expected course permission"
      * )
+     * @IsGranted("ROLE_API_PUT_COURSE_PERMISSION")
      */
     public function putAction(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, CoursePermission $coursePermission, ApiHelper $apiHelper)
     {

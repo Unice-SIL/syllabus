@@ -24,7 +24,7 @@ final class Version20200212151811 extends AbstractMigration
 
         $this->addSql('ALTER TABLE structure CHANGE etbId code VARCHAR(50) NOT NULL');
         $this->addSql('ALTER TABLE structure ADD source VARCHAR(50) DEFAULT \'import effectué avant la mise en place de ce champ\' NOT NULL');
-        $this->addSql('ALTER TABLE course CHANGE etb_id code CHAR(50) NOT NULL');
+        $this->addSql('ALTER TABLE course CHANGE etb_id code VARCHAR(50) NOT NULL');
         $this->addSql('ALTER TABLE course RENAME INDEX etb_id_UNIQUE TO code_UNIQUE');
         $this->addSql('ALTER TABLE course ADD source VARCHAR(50) DEFAULT \'import effectué avant la mise en place de ce champ\' NOT NULL');
     }

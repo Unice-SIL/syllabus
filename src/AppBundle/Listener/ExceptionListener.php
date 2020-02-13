@@ -6,6 +6,7 @@ use AppBundle\Exception\ResourceValidationException;
 use JMS\Serializer\Exception\ObjectConstructionException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -34,6 +35,11 @@ class ExceptionListener
                 $response->setStatusCode($exception->getStatusCode());
                 $bodyResponse['statusCode'] = $exception->getStatusCode();
                 $bodyResponse['message'] = 'Page not fount';
+            }
+            elseif ($exception instanceof AccessDeniedHttpException) {
+                $response->setStatusCode(Response::HTTP_FORBIDDEN);
+                $bodyResponse['statusCode'] = Response::HTTP_FORBIDDEN;
+                $bodyResponse['message'] = 'Access Denied';
             }
             else {
                 $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
