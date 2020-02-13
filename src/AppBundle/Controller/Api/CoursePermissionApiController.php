@@ -1,63 +1,56 @@
 <?php
 
+
 namespace AppBundle\Controller\Api;
 
 
-use AppBundle\Entity\Year;
+use AppBundle\Entity\CoursePermission;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use AppBundle\Exception\ResourceValidationException;
-use AppBundle\Form\Api\YearType;
+use AppBundle\Form\Api\CoursePermissionType;
 use AppBundle\Helper\ApiHelper;
-use AppBundle\Repository\Doctrine\YearDoctrineRepository;
+use AppBundle\Repository\Doctrine\CoursePermissionDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Gedmo\Timestampable\Traits\Timestampable;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Swagger\Annotations as SWG;
-use Nelmio\ApiDocBundle\Annotation\Model;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Swagger\Annotations as SWG;
 
 /**
- * Class YearApiController
+ * Class CoursePermissionApiController
  * @package AppBundle\Controller\Api
- * @Route("/api/year", name="api.year.")
+ * @Route("/api/course-permission", name="app.permission.")
  */
-class YearApiController extends Controller
+class CoursePermissionApiController extends Controller
 {
 
     /**
-     * @Route("", name="index", methods={"GET"})
+     * @Route("/", name="index", methods={"GET"})
+     * @param Request $request
+     * @param ApiHelper $apiHelper
+     * @param CoursePermissionDoctrineRepository $coursePermissionDoctrineRepository
      * @return JsonResponse
+    /**
+     * @Route("/", name="index", methods={"GET"})
      * @SWG\Response(
      *     response=200,
-     *     description="Returns the list of year records",
+     *     description="Returns the list of course permissions records"
      * )
      * @SWG\Parameter(
-     *     name="label",
+     *     name="permission",
      *     in="query",
      *     type="string",
-     *     description="A field used to filter years"
+     *     description="A field used to filter course permissions"
      * )
      * @SWG\Parameter(
-     *     name="import",
+     *     name="userId",
      *     in="query",
-     *     type="boolean",
-     *     description="A field used to filter years"
-     * )
-     * @SWG\Parameter(
-     *     name="edit",
-     *     in="query",
-     *     type="boolean",
-     *     description="A field used to filter years"
-     * )
-     * @SWG\Parameter(
-     *     name="current",
-     *     in="query",
-     *     type="boolean",
-     *     description="A field used to filter years"
+     *     type="string",
+     *     description="A field used to filter course permissions"
      * )
      * @SWG\Parameter(
      *     name="page",
@@ -72,13 +65,13 @@ class YearApiController extends Controller
      *     description="The limit of results per page"
      * )
      */
-    public function indexAction(Request $request, ApiHelper $apiHelper, YearDoctrineRepository $yearDoctrineRepository)
+    public function indexAction(Request $request, ApiHelper $apiHelper, CoursePermissionDoctrineRepository $coursePermissionDoctrineRepository)
     {
         $config = $apiHelper->createConfigFromRequest($request, [
-            'validFilterKeys' => ['label' => 'text', 'import' => 'boolean', 'edit' => 'boolean', 'current' => 'boolean']
+            'validFilterKeys' => ['permission' => 'text', 'userId' => 'text']
         ]);
 
-        $qb = $yearDoctrineRepository->findQueryBuilderForApi($config);
+        $qb = $coursePermissionDoctrineRepository->findQueryBuilderForApi($config);
 
         $response = $apiHelper->setDataAndGetResponse($qb, $config);
 
@@ -87,23 +80,26 @@ class YearApiController extends Controller
 
     /**
      * @Route("/{id}", name="show", methods={"GET"})
+     * @param CoursePermission $coursePermission
+     * @param SerializerInterface $serializer
+     * @return Response
+     *
      * @SWG\Response(
      *     response=200,
-     *     description="Returns a year by id",
+     *     description="Returns a course permission by id",
      * )
      * @SWG\Parameter(
      *     name="id",
      *     in="path",
      *     type="string",
-     *     description="The id of the expected year"
+     *     description="The id of the expected course permission"
      * )
-     *
      */
-    public function showAction(Year $year, SerializerInterface $serializer)
+    public function showAction(CoursePermission $coursePermission, SerializerInterface $serializer)
     {
-        $year = $serializer->serialize($year, 'json');
+        $course = $serializer->serialize($coursePermission, 'json');
 
-        $response = new Response($year, Response::HTTP_OK);
+        $response = new Response($course, Response::HTTP_OK);
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
@@ -120,24 +116,24 @@ class YearApiController extends Controller
      *
      * @SWG\Response(
      *     response=201,
-     *     description="Save the year from the body request",
-     *     @Model(type=Year::class)
+     *     description="Save the course permission from the body request",
+     *     @Model(type=CoursePermission::class)
      * )
      */
     public function postAction(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, ApiHelper $apiHelper)
     {
-        $year = new Year();
-        $form = $this->createForm(YearType::class, $year, ['validation_groups' => 'new']);
+        $coursePermission = new CoursePermission();
+        $form = $this->createForm(CoursePermissionType::class, $coursePermission, ['validation_groups' => 'new']);
 
         $form->submit(json_decode($request->getContent()));
 
         $apiHelper->throwExceptionIfEntityInvalid($form);
 
-        $em->persist($year);
+        $em->persist($coursePermission);
         $em->flush();
 
-        $em->refresh($year);
-        $response = new Response($serializer->serialize($year, 'json', SerializationContext::create()->setGroups('api')), Response::HTTP_CREATED);
+        $em->refresh($coursePermission);
+        $response = new Response($serializer->serialize($coursePermission, 'json', SerializationContext::create()->setGroups('api')), Response::HTTP_CREATED);
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
@@ -149,26 +145,27 @@ class YearApiController extends Controller
      * @param Request $request
      * @param SerializerInterface $serializer
      * @param EntityManagerInterface $em
-     * @param Year $year
+     * @param CoursePermission $coursePermission
      * @param ApiHelper $apiHelper
      * @return JsonResponse
      * @throws ResourceValidationException
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Update the complete year from the body request",
-     *     @Model(type=Year::class)
+     *     description="Update the complete course permission from the body request",
+     *     @Model(type=CoursePermission::class)
      * )
+     *
      * @SWG\Parameter(
      *     name="id",
      *     in="path",
      *     type="string",
-     *     description="The id of the expected year"
+     *     description="The id of the expected course permission"
      * )
      */
-    public function putAction(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, Year $year, ApiHelper $apiHelper)
+    public function putAction(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, CoursePermission $coursePermission, ApiHelper $apiHelper)
     {
-        $form = $this->createForm(YearType::class, $year);
+        $form = $this->createForm(CoursePermissionType::class, $coursePermission);
 
         $form->submit(json_decode($request->getContent()));
 
@@ -176,12 +173,11 @@ class YearApiController extends Controller
 
         $em->flush();
 
-        $em->refresh($year);
-        $response = new Response($serializer->serialize($year, 'json', SerializationContext::create()->setGroups('api')), Response::HTTP_OK);
+        $em->refresh($coursePermission);
+        $response = new Response($serializer->serialize($coursePermission, 'json', SerializationContext::create()->setGroups('api')), Response::HTTP_OK);
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
 
     }
-
 }

@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -14,17 +15,19 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity
  * @UniqueEntity("username")
  * @UniqueEntity("email")
+ * @JMS\ExclusionPolicy("none")
  */
 class User implements UserInterface
 {
 
     /**
-     * @var string
+     * @var string|null
      *
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @JMS\Groups(groups={"course_info", "course_permission", "user"})
      */
     private $id;
 
@@ -33,6 +36,7 @@ class User implements UserInterface
      *
      * @ORM\Column(name="username", type="string", length=255, nullable=true)
      * @Assert\NotBlank()
+     * @JMS\Groups(groups={"course_info", "course_permission", "user"})
      */
     private $username;
 
@@ -41,6 +45,7 @@ class User implements UserInterface
      *
      * @ORM\Column(name="firstname", type="string", length=100, nullable=true, options={"fixed"=true})
      * @Assert\NotBlank()
+     * @JMS\Groups(groups={"course_info", "course_permission", "user"})
      */
     private $firstname;
 
@@ -49,6 +54,7 @@ class User implements UserInterface
      *
      * @ORM\Column(name="lastname", type="string", length=100, nullable=true, options={"fixed"=true})
      * @Assert\NotBlank()
+     * @JMS\Groups(groups={"course_info", "course_permission", "user"})
      */
     private $lastname;
 
@@ -58,6 +64,7 @@ class User implements UserInterface
      * @ORM\Column(name="email", type="string", length=255, nullable=true)
      * @Assert\NotBlank()
      * @Assert\Email()
+     * @JMS\Groups(groups={"course_info", "course_permission", "user"})
      */
     private $email;
 
@@ -75,6 +82,7 @@ class User implements UserInterface
      *     message="Votre mot de passe doit contenir au moins une minuscule, une majuscule et un chiffre"
      * )
      * @Assert\NotBlank(groups={"reset_password"})
+     * @JMS\Exclude()
      */
     private $password;
 
@@ -82,6 +90,7 @@ class User implements UserInterface
      * @var string|null
      *
      * @ORM\Column(name="salt", type="string", length=255, nullable=true)
+     * @JMS\Exclude()
      */
     private $salt;
 
@@ -93,19 +102,21 @@ class User implements UserInterface
      *      min = 1,
      *      minMessage = "Vous devez selectionner au moins un rôle",
      * )
+     * @JMS\Groups(groups={"user"})
      */
     private $roles;
 
     /**
      * @var string|null
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @JMS\Exclude()
      */
     protected $resetPasswordToken;
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getId(): string
+    public function getId(): ?string
     {
         return $this->id;
     }
@@ -114,7 +125,7 @@ class User implements UserInterface
      * @param string $id
      * @return User
      */
-    public function setId(string $id): User
+    public function setId(string $id): self
     {
         $this->id = $id;
 
@@ -124,7 +135,7 @@ class User implements UserInterface
     /**
      * @return null|string
      */
-    public function getUsername()
+    public function getUsername(): ?string
     {
         return $this->username;
     }
@@ -133,7 +144,7 @@ class User implements UserInterface
      * @param null|string $username
      * @return User
      */
-    public function setUsername($username)
+    public function setUsername($username): self
     {
         $this->username = $username;
 
@@ -143,7 +154,7 @@ class User implements UserInterface
     /**
      * @return null|string
      */
-    public function getFirstname()
+    public function getFirstname(): ?string
     {
         return $this->firstname;
     }
@@ -152,7 +163,7 @@ class User implements UserInterface
      * @param null|string $firstname
      * @return User
      */
-    public function setFirstname($firstname)
+    public function setFirstname($firstname): self
     {
         $this->firstname = $firstname;
 
@@ -162,7 +173,7 @@ class User implements UserInterface
     /**
      * @return null|string
      */
-    public function getLastname()
+    public function getLastname(): ?string
     {
         return $this->lastname;
     }
@@ -171,7 +182,7 @@ class User implements UserInterface
      * @param null|string $lastname
      * @return User
      */
-    public function setLastname($lastname)
+    public function setLastname($lastname): self
     {
         $this->lastname = $lastname;
 
@@ -181,7 +192,7 @@ class User implements UserInterface
     /**
      * @return null|string
      */
-    public function getEmail()
+    public function getEmail(): ?string
     {
         return $this->email;
     }
@@ -190,7 +201,7 @@ class User implements UserInterface
      * @param null|string $email
      * @return User
      */
-    public function setEmail($email)
+    public function setEmail($email): self
     {
         $this->email = $email;
 
@@ -200,7 +211,7 @@ class User implements UserInterface
     /**
      * @return null|string
      */
-    public function getPassword()
+    public function getPassword(): ?string
     {
         return $this->password;
     }
@@ -209,7 +220,7 @@ class User implements UserInterface
      * @param null|string $password
      * @return User
      */
-    public function setPassword($password)
+    public function setPassword($password): self
     {
         $this->password = $password;
 
@@ -219,7 +230,7 @@ class User implements UserInterface
     /**
      * @return null|string
      */
-    public function getSalt()
+    public function getSalt(): ?string
     {
         return $this->salt;
     }
@@ -228,7 +239,7 @@ class User implements UserInterface
      * @param null|string $salt
      * @return User
      */
-    public function setSalt($salt)
+    public function setSalt($salt): self
     {
         $this->salt = $salt;
 
@@ -238,7 +249,7 @@ class User implements UserInterface
     /**
      * @return null|array
      */
-    public function getRoles()
+    public function getRoles(): ?array
     {
         return $this->roles;
     }
@@ -247,7 +258,7 @@ class User implements UserInterface
      * @param null|array $roles
      * @return User
      */
-    public function setRoles($roles)
+    public function setRoles($roles): self
     {
         $this->roles = $roles;
 
@@ -258,7 +269,7 @@ class User implements UserInterface
      * @param $role
      * @return $this
      */
-    public function addRole($role)
+    public function addRole($role): self
     {
         if(!in_array($role, $this->roles)){
             $this->roles[] = $role;
@@ -280,11 +291,14 @@ class User implements UserInterface
     }
 
     /**
-     * @param string|null $resetPasswordToken
+     * @param null|string $resetPasswordToken
+     * @return User
      */
-    public function setResetPasswordToken(?string $resetPasswordToken)
+    public function setResetPasswordToken(?string $resetPasswordToken): self
     {
         $this->resetPasswordToken = $resetPasswordToken;
+
+        return $this;
     }
 
 

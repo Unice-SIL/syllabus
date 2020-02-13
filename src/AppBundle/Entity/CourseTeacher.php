@@ -87,7 +87,7 @@ class CourseTeacher
      * @param string|null $id
      * @return CourseTeacher
      */
-    public function setId(?string $id): CourseTeacher
+    public function setId(?string $id): self
     {
         $this->id = $id;
 
@@ -97,7 +97,7 @@ class CourseTeacher
     /**
      * @return null|string
      */
-    public function getFirstname()
+    public function getFirstname(): ?string
     {
         return $this->firstname;
     }
@@ -106,7 +106,7 @@ class CourseTeacher
      * @param null|string $firstname
      * @return CourseTeacher
      */
-    public function setFirstname($firstname)
+    public function setFirstname($firstname): self
     {
         $this->firstname = $firstname;
 
@@ -116,7 +116,7 @@ class CourseTeacher
     /**
      * @return null|string
      */
-    public function getLastname()
+    public function getLastname(): ?string
     {
         return $this->lastname;
     }
@@ -125,7 +125,7 @@ class CourseTeacher
      * @param null|string $lastname
      * @return CourseTeacher
      */
-    public function setLastname($lastname)
+    public function setLastname($lastname): self
     {
         $this->lastname = $lastname;
 
@@ -135,7 +135,7 @@ class CourseTeacher
     /**
      * @return null|string
      */
-    public function getEmail()
+    public function getEmail(): ?string
     {
         return $this->email;
     }
@@ -144,7 +144,7 @@ class CourseTeacher
      * @param null|string $email
      * @return CourseTeacher
      */
-    public function setEmail($email)
+    public function setEmail($email): self
     {
         $this->email = $email;
 
@@ -154,7 +154,7 @@ class CourseTeacher
     /**
      * @return bool
      */
-    public function isManager(): bool
+    public function isManager(): ?bool
     {
         return $this->manager;
     }
@@ -163,7 +163,7 @@ class CourseTeacher
      * @param bool $manager
      * @return CourseTeacher
      */
-    public function setManager(bool $manager): CourseTeacher
+    public function setManager(bool $manager): self
     {
         $this->manager = $manager;
 
@@ -173,7 +173,7 @@ class CourseTeacher
     /**
      * @return bool
      */
-    public function isEmailVisibility(): bool
+    public function isEmailVisibility(): ?bool
     {
         return $this->emailVisibility;
     }
@@ -182,7 +182,7 @@ class CourseTeacher
      * @param bool $emailVisibility
      * @return CourseTeacher
      */
-    public function setEmailVisibility(bool $emailVisibility): CourseTeacher
+    public function setEmailVisibility(bool $emailVisibility): self
     {
         $this->emailVisibility = $emailVisibility;
 
@@ -202,7 +202,7 @@ class CourseTeacher
      * @param CourseInfo|null $courseInfo
      * @return CourseTeacher
      */
-    public function setCourseInfo(?CourseInfo $courseInfo): CourseTeacher
+    public function setCourseInfo(?CourseInfo $courseInfo): self
     {
         $this->courseInfo = $courseInfo;
 

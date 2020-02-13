@@ -2,10 +2,12 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Traits\Importable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinTable;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -16,44 +18,32 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Structure
 {
+    use Importable;
     /**
-     * @var string
+     * @var string|null
      *
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @JMS\Groups(groups={"course_info", "structure"})
      */
     private $id;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="etbId", type="string", length=45, nullable=false)
-     * @Assert\NotBlank()
-     */
-    private $etbId;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="label", type="string", length=100, nullable=true)
      * @Assert\NotBlank()
-     *
+     * @JMS\Groups(groups={"course_info", "structure"})
      */
     private $label;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="campus", type="string", length=100, nullable=true)
-     */
-    private $campus;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
+     * @JMS\Groups(groups={"course_info", "structure"})
      */
     private $obsolete = '0';
 
@@ -62,6 +52,7 @@ class Structure
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Domain", inversedBy="structures")
      * @JoinTable(name="domain_structure")
+     * @JMS\Groups(groups={"structure"})
      */
     private $domains;
 
@@ -70,6 +61,7 @@ class Structure
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Period", inversedBy="structures")
      * @JoinTable(name="period_structure")
+     * @JMS\Groups(groups={"structure"})
      */
     private $periods;
 
@@ -83,9 +75,9 @@ class Structure
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getId(): string
+    public function getId(): ?string
     {
         return $this->id;
     }
@@ -94,7 +86,7 @@ class Structure
      * @param string $id
      * @return Structure
      */
-    public function setId(string $id): Structure
+    public function setId(string $id): self
     {
         $this->id = $id;
 
@@ -102,29 +94,9 @@ class Structure
     }
 
     /**
-     * @return string
-     */
-    public function getEtbId(): ?string
-    {
-        return $this->etbId;
-    }
-
-    /**
-     * @param string $etbId
-     * @return Structure
-     */
-    public function setEtbId(string $etbId): Structure
-    {
-        $this->etbId = $etbId;
-
-        return $this;
-    }
-
-
-    /**
      * @return null|string
      */
-    public function getLabel()
+    public function getLabel(): ?string
     {
         return $this->label;
     }
@@ -133,28 +105,9 @@ class Structure
      * @param null|string $label
      * @return Structure
      */
-    public function setLabel($label)
+    public function setLabel($label): self
     {
         $this->label = $label;
-
-        return $this;
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getCampus()
-    {
-        return $this->campus;
-    }
-
-    /**
-     * @param null|string $campus
-     * @return Structure
-     */
-    public function setCampus($campus)
-    {
-        $this->campus = $campus;
 
         return $this;
     }
@@ -171,9 +124,28 @@ class Structure
      * @param bool $obsolete
      * @return Structure
      */
-    public function setObsolete(bool $obsolete): Structure
+    public function setObsolete(bool $obsolete): self
     {
         $this->obsolete = $obsolete;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getDomains(): Collection
+    {
+        return $this->domains;
+    }
+
+    /**
+     * @param Collection $domains
+     * @return Structure
+     */
+    public function setDomains(Collection $domains): self
+    {
+        $this->domains = $domains;
 
         return $this;
     }
@@ -204,9 +176,9 @@ class Structure
         if ($this->domains->contains($domain))
         {
             $this->domains->removeElement($domain);
-            if ($domain->getDomain()->contains($this))
+            if ($domain->getStructures()->contains($this))
             {
-                $domain->getDomain()->removeElement($this);
+                $domain->getStructures()->removeElement($this);
             }
         }
         return $this;
@@ -215,9 +187,20 @@ class Structure
     /**
      * @return Collection
      */
-    public function getDomains()
+    public function getPeriods(): Collection
     {
-        return $this->domains;
+        return $this->periods;
+    }
+
+    /**
+     * @param Collection $periods
+     * @return Structure
+     */
+    public function setPeriods(Collection $periods): self
+    {
+        $this->periods = $periods;
+
+        return $this;
     }
 
     /**
@@ -246,22 +229,17 @@ class Structure
         if ($this->periods->contains($period))
         {
             $this->periods->removeElement($period);
-            if ($period->getPeriod()->contains($this))
+            if ($period->getStructures()->contains($this))
             {
-                $period->getPeriod()->removeElement($this);
+                $period->getStructures()->removeElement($this);
             }
         }
         return $this;
     }
 
     /**
-     * @return Collection
+     * @return null|string
      */
-    public function getPeriods()
-    {
-        return $this->periods;
-    }
-
     public function __toString()
     {
         return $this->getLabel();

@@ -5,7 +5,10 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 use Ramsey\Uuid\Uuid;
+use JMS\Serializer\Annotation as JMS;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * CourseSection
@@ -22,6 +25,7 @@ class CourseSection
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @JMS\Groups(groups={"course_info", "course_section"})
      */
     private $id;
 
@@ -29,6 +33,7 @@ class CourseSection
      * @var null|string
      *
      * @ORM\Column(name="title", type="string", length=200, nullable=true)
+     * @JMS\Groups(groups={"course_info", "course_section"})
      */
     private $title;
 
@@ -36,6 +41,7 @@ class CourseSection
      * @var string|null
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=true)
+     * @JMS\Groups(groups={"course_info", "course_section"})
      */
     private $description;
 
@@ -43,6 +49,7 @@ class CourseSection
      * @var int
      *
      * @ORM\Column(name="position", type="integer", nullable=false)
+     * @JMS\Groups(groups={"course_info", "course_section"})
      */
     private $position = 0;
 
@@ -53,6 +60,7 @@ class CourseSection
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
      * })
+     * @JMS\Groups(groups={"course_section"})
      */
     private $courseInfo;
 
@@ -61,6 +69,7 @@ class CourseSection
      *
      * @ORM\OneToMany(targetEntity="CourseSectionActivity", mappedBy="courseSection", cascade={ "persist", "remove", "merge" }, orphanRemoval=true)
      * @ORM\OrderBy({"position" = "ASC"})
+     * @JMS\Groups(groups={"course_info", "course_section"})
      */
     private $courseSectionActivities;
 
@@ -75,7 +84,7 @@ class CourseSection
     /**
      * @return string
      */
-    public function getId(): string
+    public function getId(): ?string
     {
         return $this->id;
     }
@@ -94,7 +103,7 @@ class CourseSection
     /**
      * @return null|string
      */
-    public function getTitle()
+    public function getTitle(): ?string
     {
         return $this->title;
     }
@@ -103,7 +112,7 @@ class CourseSection
      * @param null|string $title
      * @return CourseSection
      */
-    public function setTitle($title)
+    public function setTitle($title): self
     {
         $this->title = $title;
 
@@ -113,7 +122,7 @@ class CourseSection
     /**
      * @return null|string
      */
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -122,7 +131,7 @@ class CourseSection
      * @param null|string $description
      * @return CourseSection
      */
-    public function setDescription($description)
+    public function setDescription($description): self
     {
         $this->description = $description;
 
@@ -132,7 +141,7 @@ class CourseSection
     /**
      * @return int
      */
-    public function getPosition(): int
+    public function getPosition(): ?int
     {
         return $this->position;
     }
@@ -141,7 +150,7 @@ class CourseSection
      * @param int $position
      * @return CourseSection
      */
-    public function setPosition(int $position): self
+    public function setPosition(?int $position): self
     {
         $this->position = $position;
 
@@ -152,7 +161,7 @@ class CourseSection
     /**
      * @return CourseInfo
      */
-    public function getCourseInfo(): CourseInfo
+    public function getCourseInfo(): ?CourseInfo
     {
         return $this->courseInfo;
     }
@@ -196,7 +205,10 @@ class CourseSection
         if(!$this->courseSectionActivities->contains($courseSectionActivity))
         {
             $this->courseSectionActivities->add($courseSectionActivity);
-            $courseSectionActivity->setCourseSection($this);
+            if($courseSectionActivity->getCourseSection() !== $this)
+            {
+                $courseSectionActivity->setCourseSection($this);
+            }
         }
 
         return $this;
@@ -219,6 +231,17 @@ class CourseSection
         return $this;
     }
 
+    /**
+     * @return null|string
+     */
+    public function __toString()
+    {
+        return $this->getTitle();
+    }
+
+    /**
+     *
+     */
     public function __clone()
     {
         $this->courseSectionActivities = clone $this->courseSectionActivities;

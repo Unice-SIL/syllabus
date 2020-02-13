@@ -154,18 +154,13 @@ class CourseInfoDoctrineRepository  extends AbstractDoctrineRepository implement
         foreach ($config['filters'] as $filter => $value) {
             $valueName = 'value'.$filter;
             switch ($filter) {
-                case 'id':
-                    $qb->andWhere($qb->expr()->eq($qb->getRootAlias() . '.' . $filter, ':'.valueName))
-                        ->setParameter($valueName, $value)
-                    ;
-                    break;
                 case 'title':
                     $qb->andWhere($qb->expr()->like($qb->getRootAlias() . '.' . $filter, ':'.$valueName))
                         ->setParameter($valueName, '%' . $value . '%')
                     ;
                     break;
-                case 'etbId':
-                    $qb->andWhere($qb->expr()->eq('c.etbId', ':'.$valueName))
+                case 'courseId':
+                    $qb->andWhere($qb->expr()->eq('c.id', ':'.$valueName))
                         ->setParameter($valueName, $value)
                     ;
                     break;

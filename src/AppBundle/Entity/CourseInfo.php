@@ -18,7 +18,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @ORM\Table(name="course_info")
  * @ORM\Entity
- * @UniqueEntity(fields={"year", "course"}, message="Le cours {{ value }} existe déjà pour cette année", errorPath="course", payload={"ignoreForPutApi"} )
+ * @UniqueEntity(fields={"year", "course"}, message="Le cours {{ value }} existe déjà pour cette année", errorPath="course")
  *
  */
 class CourseInfo
@@ -70,17 +70,6 @@ class CourseInfo
      *
      */
     private $languages;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="domain", type="string", length=100, nullable=true, options={"fixed"=true})
-     * @Assert\NotBlank(groups={"presentation"})
-     * @JMS\Groups(groups={"api"})
-     * @JMS\Groups(groups={"course_info"})
-     *
-     */
-    private $domain;
 
     /**
      * @var int|null
@@ -637,7 +626,7 @@ class CourseInfo
     /**
      * @return string
      */
-    public function getId(): string
+    public function getId(): ?string
     {
         return $this->id;
     }
@@ -1711,7 +1700,7 @@ class CourseInfo
      */
     public function getCourseApi()
     {
-        return ['id' => $this->getCourse()->getId()];
+        return $this->getCourse()->getId();
     }
 
     /**
@@ -1740,7 +1729,7 @@ class CourseInfo
      */
     public function getStructureApi()
     {
-        return ['id' => $this->getStructure()->getId()];
+        return $this->getStructure()->getId();
     }
 
     /**
@@ -1807,7 +1796,7 @@ class CourseInfo
      */
     public function getYearApi()
     {
-        return ['id' => $this->getYear()->getId()];
+        return $this->getYear()->getId();
     }
 
     /**
@@ -1981,6 +1970,7 @@ class CourseInfo
                 $courseSection->setCourseInfo(null);
             }
         }
+
         return $this;
     }
 
@@ -2036,6 +2026,7 @@ class CourseInfo
                 $courseAchievement->setCourseInfo(null);
             }
         }
+
         return $this;
     }
 
@@ -2224,7 +2215,6 @@ class CourseInfo
     /**
      *
      */
-
     public function __clone()
     {
 

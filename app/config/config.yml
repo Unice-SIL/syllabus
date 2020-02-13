@@ -202,3 +202,8 @@ jms_serializer:
     object_constructors:
         doctrine:
             fallback_strategy: "exception" # possible values ("null" | "exception" | "fallback")
+    property_naming:
+        id: 'jms_serializer.identical_property_naming_strategy'
+    handlers:
+        datetime:
+            default_format: "Y-m-d h:i:s" # ISO8601

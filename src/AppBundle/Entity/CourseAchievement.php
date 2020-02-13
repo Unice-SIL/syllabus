@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Ramsey\Uuid\UuidInterface;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * CourseAchievement
@@ -64,7 +65,7 @@ class CourseAchievement
      * @param null|string $id
      * @return CourseAchievement
      */
-    public function setId(?string $id): CourseAchievement
+    public function setId(?string $id): self
     {
         $this->id = $id;
 
@@ -74,7 +75,7 @@ class CourseAchievement
     /**
      * @return null|string
      */
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -83,7 +84,7 @@ class CourseAchievement
      * @param null|string $description
      * @return CourseAchievement
      */
-    public function setDescription($description)
+    public function setDescription($description): self
     {
         $this->description = $description;
 
@@ -94,7 +95,7 @@ class CourseAchievement
     /**
      * @return int
      */
-    public function getOrder(): int
+    public function getOrder(): ?int
     {
         return $this->order;
     }
@@ -103,7 +104,7 @@ class CourseAchievement
      * @param int $order
      * @return CourseAchievement
      */
-    public function setOrder(int $order): CourseAchievement
+    public function setOrder(int $order): self
     {
         $this->order = $order;
 
@@ -123,7 +124,7 @@ class CourseAchievement
      * @param CourseInfo|null $courseInfo
      * @return CourseAchievement
      */
-    public function setCourseInfo(?CourseInfo $courseInfo): CourseAchievement
+    public function setCourseInfo(?CourseInfo $courseInfo): self
     {
         $this->courseInfo = $courseInfo;
 
