@@ -21,7 +21,7 @@ class CourseSectionActivity
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"course_info", "course_section", "course_section_activity"})
+     * @JMS\Groups(groups={"default", "course_section_activity"})
      */
     private $id;
 
@@ -29,7 +29,7 @@ class CourseSectionActivity
      * @var string|null
      *
      * @ORM\Column(name="description", type="string", length=255, nullable=true)
-     * @JMS\Groups(groups={"course_info", "course_section", "course_section_activity"})
+     * @JMS\Groups(groups={"default", "course_section_activity"})
      */
     private $description;
 
@@ -37,7 +37,7 @@ class CourseSectionActivity
      * @var float|null
      *
      * @ORM\Column(name="evaluation_rate", type="float", nullable=true)
-     * @JMS\Groups(groups={"course_info", "course_section", "course_section_activity"})
+     * @JMS\Groups(groups={"default", "course_section_activity"})
      */
     private $evaluationRate;
 
@@ -45,7 +45,7 @@ class CourseSectionActivity
      * @var bool
      *
      * @ORM\Column(name="evaluable", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"course_info", "course_section", "course_section_activity"})
+     * @JMS\Groups(groups={"default", "course_section_activity"})
      */
     private $evaluable = false;
 
@@ -53,7 +53,7 @@ class CourseSectionActivity
      * @var bool
      *
      * @ORM\Column(name="evaluation_ct", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"course_info", "course_section", "course_section_activity"})
+     * @JMS\Groups(groups={"default", "course_section_activity"})
      */
     private $evaluationCt = false;
 
@@ -61,7 +61,7 @@ class CourseSectionActivity
      * @var bool
      *
      * @ORM\Column(name="evaluation_teacher", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"course_info", "course_section", "course_section_activity"})
+     * @JMS\Groups(groups={"default", "course_section_activity"})
      */
     private $evaluationTeacher = false;
 
@@ -69,7 +69,7 @@ class CourseSectionActivity
      * @var bool
      *
      * @ORM\Column(name="evaluation_peer", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"course_info", "course_section", "course_section_activity"})
+     * @JMS\Groups(groups={"default", "course_section_activity"})
      */
     private $evaluationPeer = false;
 
@@ -77,7 +77,7 @@ class CourseSectionActivity
      * @var int
      *
      * @ORM\Column(name="position", type="integer", nullable=false)
-     * @JMS\Groups(groups={"course_info", "course_section", "course_section_activity"})
+     * @JMS\Groups(groups={"default", "course_section_activity"})
      */
     private $position = 0;
 
@@ -138,10 +138,10 @@ class CourseSectionActivity
     }
 
     /**
-     * @param string $id
+     * @param null|string $id
      * @return CourseSectionActivity
      */
-    public function setId(string $id): self
+    public function setId(? string $id): self
     {
         $this->id = $id;
 
@@ -289,17 +289,6 @@ class CourseSectionActivity
     }
 
     /**
-     * @JMS\VirtualProperty()
-     * @JMS\Groups(groups={"api"})
-     * @JMS\SerializedName("activity")
-     * @return Activity
-     */
-    public function getActivityApi(): ?string
-    {
-        return $this->getActivity()->getId();
-    }
-
-    /**
      * @param Activity $activity
      * @return CourseSectionActivity
      */
@@ -363,6 +352,43 @@ class CourseSectionActivity
     {
         $this->activityMode = $activityMode;
         return $this;
+    }
+
+    /**
+     * @JMS\VirtualProperty()
+     * @JMS\Groups(groups={"api"})
+     * @JMS\SerializedName("activity")
+     *
+     * @return null|string
+     */
+    public function getActivityApi(): ?string
+    {
+        return $this->getActivity()->getId();
+    }
+
+    /**
+     * @JMS\VirtualProperty()
+     * @JMS\Groups(groups={"api"})
+     * @JMS\SerializedName("activity")
+     *
+     * @return null|string
+     */
+    public function getActivityTypeApi(): ?string
+    {
+        return $this->getActivityType()->getId();
+    }
+
+
+    /**
+     * @JMS\VirtualProperty()
+     * @JMS\Groups(groups={"api"})
+     * @JMS\SerializedName("activity")
+     *
+     * @return null|string
+     */
+    public function getActivityModeApi(): ?string
+    {
+        return $this->getActivityMode()->getId();
     }
 
     /**
