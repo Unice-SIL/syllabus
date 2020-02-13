@@ -23,7 +23,7 @@ class ActivityMode
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"activity_type", "activity_mode", "course_info", "course_section", "course_section_activity"})
+     * @JMS\Groups(groups={"default", "activity_mode"})
      */
     private $id;
 
@@ -32,7 +32,7 @@ class ActivityMode
      *
      * @ORM\Column(name="label", type="string", length=100, nullable=false)
      * @Assert\NotBlank()
-     * @JMS\Groups(groups={"activity_type", "activity_mode", "course_info", "course_section", "course_section_activity"})
+     * @JMS\Groups(groups={"default", "activity_mode"})
      */
     private $label;
 
@@ -40,7 +40,7 @@ class ActivityMode
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"activity_mode"})
+     * @JMS\Groups(groups={"default", "activity_mode"})
      */
     private $obsolete = false;
 
@@ -69,10 +69,10 @@ class ActivityMode
     }
 
     /**
-     * @param string $id
+     * @param null|string $id
      * @return ActivityMode
      */
-    public function setId(string $id): self
+    public function setId(?string $id): self
     {
         $this->id = $id;
         return $this;
