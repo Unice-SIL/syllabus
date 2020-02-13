@@ -158,12 +158,12 @@ class CourseInfoManager
         }
 
         //todo: add addSelect to the request to get every relations if necessary (optimisation)
-        if (!$courseInfoSender = $this->repository->findByEtbIdAndYear($courseInfoSender[0], $courseInfoSender[1])) {
+        if (!$courseInfoSender = $this->repository->findByCodeAndYear($courseInfoSender[0], $courseInfoSender[1])) {
             $reportLine->addComment('Le syllabus émetteur n\'éxiste pas.');
         }
 
         //todo: add addSelect to the request to get every relations if necessary (optimisation)
-        if (!$courseInfoRecipient = $this->repository->findByEtbIdAndYear($courseInfoRecipient[0], $courseInfoRecipient[1])) {
+        if (!$courseInfoRecipient = $this->repository->findByCodeAndYear($courseInfoRecipient[0], $courseInfoRecipient[1])) {
             $reportLine->addComment('Le syllabus récépteur n\'éxiste pas.');
         }
 
@@ -300,7 +300,7 @@ class CourseInfoManager
         ];
 
         $controlType = 'evaluationType';
-        $etbId = 'etbId';
+        $code = 'code';
         $year = 'year';
         //===================================End Matching===================================
 
@@ -320,7 +320,7 @@ class CourseInfoManager
             }
             return $name;
         }, $matching, array_keys($matching));
-        $appropriatesFields = array_merge($appropriatesFields, [$controlType, $etbId, $year]);
+        $appropriatesFields = array_merge($appropriatesFields, [$controlType, $code, $year]);
 
         //if(!AppHelper::sameArrays($csv->getHeader(), $appropriatesFields)) {
         if(!is_array($csv->getHeader()) or !is_array($appropriatesFields))
@@ -337,10 +337,10 @@ class CourseInfoManager
 
             foreach ($csv as $offset => $record) {
 
-                $lineId = $record[$etbId] . '-' . $record[$year];
+                $lineId = $record[$code] . '-' . $record[$year];
                 $reportLine = new ReportLine($lineId);
 
-                $courseInfo = $this->repository->findByEtbIdAndYear($record[$etbId], $record[$year]);
+                $courseInfo = $this->repository->findByCodeAndYear($record[$code], $record[$year]);
 
                 if (!$courseInfo) {
                     $reportLine->addComment('Ce syllabus n\'existe pas');

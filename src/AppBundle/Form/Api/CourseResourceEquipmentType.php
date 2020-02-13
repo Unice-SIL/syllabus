@@ -16,7 +16,7 @@ class CourseResourceEquipmentType extends AbstractType
         $builder
             ->add('id')
             ->add('description')
-            ->add('order')
+            ->add('position')
             ->add('equipment')
         ;
     }/**

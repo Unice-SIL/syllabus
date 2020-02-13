@@ -30,7 +30,7 @@ class CourseTutoringResourceType extends AbstractType
                     'placeholder' => 'Exemple : Se remettre à niveau (lien vers votre site web de cours, un MOOC, ...)'
                 ]
             ])
-            ->add('order', HiddenType::class);
+            ->add('position', HiddenType::class);
     }
 
     /**

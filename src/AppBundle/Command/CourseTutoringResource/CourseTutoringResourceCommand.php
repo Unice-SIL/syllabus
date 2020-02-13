@@ -29,7 +29,7 @@ class CourseTutoringResourceCommand implements CommandInterface
     /**
      * @var int
      */
-    private $order = 0;
+    private $position = 0;
 
     /**
      * @var CourseInfo
@@ -47,7 +47,7 @@ class CourseTutoringResourceCommand implements CommandInterface
         }else{
             $this->id = $courseTutoringResource->getId();
             $this->description = $courseTutoringResource->getDescription();
-            $this->order = $courseTutoringResource->getOrder();
+            $this->position = $courseTutoringResource->getPosition();
             $this->courseInfo = $courseTutoringResource->getCourseInfo();
         }
     }
@@ -93,18 +93,18 @@ class CourseTutoringResourceCommand implements CommandInterface
     /**
      * @return int
      */
-    public function getOrder(): int
+    public function getPosition(): int
     {
-        return $this->order;
+        return $this->position;
     }
 
     /**
-     * @param int $order
+     * @param int $position
      * @return CourseTutoringResourceCommand
      */
-    public function setOrder(int $order): CourseTutoringResourceCommand
+    public function setPosition(int $position): CourseTutoringResourceCommand
     {
-        $this->order = $order;
+        $this->position = $position;
 
         return $this;
     }
@@ -137,7 +137,7 @@ class CourseTutoringResourceCommand implements CommandInterface
     {
         $entity->setId($this->getId())
             ->setDescription($this->getDescription())
-            ->setOrder($this->getOrder());
+            ->setPosition($this->getPosition());
         if(!is_null($this->getCourseInfo())){
             $entity->setCourseInfo($this->getCourseInfo());
         }

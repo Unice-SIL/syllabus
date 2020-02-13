@@ -29,7 +29,7 @@ class CourseAchievementCommand implements CommandInterface
     /**
      * @var int
      */
-    private $order = 0;
+    private $position = 0;
 
     /**
      * @var CourseInfo
@@ -48,7 +48,7 @@ class CourseAchievementCommand implements CommandInterface
         }else{
             $this->id = $courseAchievement->getId();
             $this->description = $courseAchievement->getDescription();
-            $this->order = $courseAchievement->getOrder();
+            $this->position = $courseAchievement->getPosition();
             $this->courseInfo = $courseAchievement->getCourseInfo();
         }
     }
@@ -95,18 +95,18 @@ class CourseAchievementCommand implements CommandInterface
     /**
      * @return int
      */
-    public function getOrder(): int
+    public function getPosition(): int
     {
-        return $this->order;
+        return $this->position;
     }
 
     /**
-     * @param int $order
+     * @param int $position
      * @return CourseAchievementCommand
      */
-    public function setOrder(int $order): CourseAchievementCommand
+    public function setPosition(int $position): CourseAchievementCommand
     {
-        $this->order = $order;
+        $this->position = $position;
 
         return $this;
     }
@@ -139,7 +139,7 @@ class CourseAchievementCommand implements CommandInterface
     {
         $entity->setId($this->getId())
             ->setDescription($this->getDescription())
-            ->setOrder($this->getOrder());
+            ->setPosition($this->getPosition());
         if(!is_null($this->getCourseInfo())){
             $entity->setCourseInfo($this->getCourseInfo());
         }

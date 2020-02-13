@@ -99,21 +99,21 @@ class CoursesDuplicateCommand extends Command
             /** @var CourseInfo $courseInfo */
             foreach ($coursesInfo as $key => $courseInfo){
                 try {
-                    $etbId = $courseInfo['course']['etbId'];
+                    $code = $courseInfo['course']['code'];
                     // Search if CourseInfo for new year already exist
                     $qb = $repo->createQueryBuilder('ci');
                     $qb->join('ci.course', 'c')
                         ->join('ci.year', 'y')
-                        ->where($qb->expr()->eq('c.etbId', ':etbId'))
+                        ->where($qb->expr()->eq('c.code', ':code'))
                         ->andWhere($qb->expr()->eq('y.id', ':year'))
-                        ->setParameter('etbId', $etbId)
+                        ->setParameter('code', $code)
                         ->setParameter('year', $newyear);
                     $duplicateCourseInfo = $qb->getQuery()->getArrayResult();
                     if (!empty($duplicateCourseInfo)) {
-                        $output->writeln("Course info for {$etbId} and year {$newyear} already exist");
+                        $output->writeln("Course info for {$code} and year {$newyear} already exist");
                         continue;
                     }
-                    $output->writeln(sprintf("Start duplicate course %s (%d KB used) :", $etbId, (memory_get_usage()/1024)));
+                    $output->writeln(sprintf("Start duplicate course %s (%d KB used) :", $code, (memory_get_usage()/1024)));
 
                     $output->writeln("- Initilization");
                     // Find CourseInfo

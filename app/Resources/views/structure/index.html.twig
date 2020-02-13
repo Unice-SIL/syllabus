@@ -7,7 +7,7 @@
             {{ form_start(form) }}
             <div class="row ui-front">
                 <div class="col-md-2">
-                    {{ form_row(form.etbId) }}
+                    {{ form_row(form.code) }}
                 </div>
                 <div class="col-md-2">
                     {{ form_row(form.label) }}
@@ -28,7 +28,7 @@
                 <table class="table table-bordered table-responsive-sm">
                     <thead>
                     <tr>
-                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.structure.label.etbId'|trans, 's.etbId') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.structure.label.code'|trans, 's.code') }}</th>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.structure.label.label'|trans, 's.structure') }}</th>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.structure.label.campus'|trans, 's.campus') }}</th>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.structure.label.obsolete'|trans, 's.obsolete') }}</th>
@@ -37,7 +37,7 @@
                     <tbody>
                     {% for structure in pagination %}
                         <tr>
-                            <td><a href="{{ path('app_admin_structure_edit', { 'id' : structure.id }) }}">{{ structure.etbId }}</a></td>
+                            <td><a href="{{ path('app_admin_structure_edit', { 'id' : structure.id }) }}">{{ structure.code }}</a></td>
                             <td>{{ structure.label }}</td>
                             <td>{{ structure.campus }}</td>
                             <td>{{ structure.obsolete|humanizeBoolean }}</td>
