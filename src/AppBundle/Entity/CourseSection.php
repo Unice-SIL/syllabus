@@ -7,7 +7,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Ramsey\Uuid\Uuid;
-use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -25,7 +24,7 @@ class CourseSection
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"course_info", "course_section"})
+     * @JMS\Groups(groups={"default", "course_section"})
      */
     private $id;
 
@@ -33,7 +32,7 @@ class CourseSection
      * @var null|string
      *
      * @ORM\Column(name="title", type="string", length=200, nullable=true)
-     * @JMS\Groups(groups={"course_info", "course_section"})
+     * @JMS\Groups(groups={"default", "course_section"})
      */
     private $title;
 
@@ -41,7 +40,7 @@ class CourseSection
      * @var string|null
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=true)
-     * @JMS\Groups(groups={"course_info", "course_section"})
+     * @JMS\Groups(groups={"default", "course_section"})
      */
     private $description;
 
@@ -49,7 +48,7 @@ class CourseSection
      * @var int
      *
      * @ORM\Column(name="position", type="integer", nullable=false)
-     * @JMS\Groups(groups={"course_info", "course_section"})
+     * @JMS\Groups(groups={"default", "course_section"})
      */
     private $position = 0;
 

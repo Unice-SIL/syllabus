@@ -3,6 +3,7 @@
 namespace AppBundle\Controller\Api;
 
 use AppBundle\Decorator\Validator;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use AppBundle\Entity\Course;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use AppBundle\Exception\ResourceValidationException;
@@ -33,7 +34,7 @@ class CourseApiController extends Controller
      *     description="Returns the list of course records"
      * )
      * @SWG\Parameter(
-     *     name="etbId",
+     *     name="code",
      *     in="query",
      *     type="string",
      *     description="A field used to filter course"
@@ -56,11 +57,13 @@ class CourseApiController extends Controller
      *     type="integer",
      *     description="The limit of results per page"
      * )
+     *
+     * @IsGranted("ROLE_API_GET_COURSES")
      */
     public function indexAction(Request $request, ApiHelper $apiHelper, CourseDoctrineRepository $courseDoctrineRepository)
     {
         $config = $apiHelper->createConfigFromRequest($request, [
-            'validFilterKeys' => ['etbId' => 'text', 'type' => 'text']
+            'validFilterKeys' => ['code' => 'text', 'type' => 'text']
         ]);
 
         $qb = $courseDoctrineRepository->findQueryBuilderForApi($config);
@@ -82,6 +85,8 @@ class CourseApiController extends Controller
      *     type="string",
      *     description="The id of the expected course"
      * )
+     *
+     * @IsGranted("ROLE_API_GET_COURSE")
      */
     public function showAction(Course $course, SerializerInterface $serializer)
     {
@@ -107,6 +112,7 @@ class CourseApiController extends Controller
      *     description="Save the course from the body request",
      *     @Model(type=Course::class)
      * )
+     * @IsGranted("ROLE_API_POST_COURSE")
      */
     public function postAction(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, ApiHelper $apiHelper)
     {
@@ -150,6 +156,7 @@ class CourseApiController extends Controller
      *     type="string",
      *     description="The id of the expected course"
      * )
+     * @IsGranted("ROLE_API_PUT_COURSE")
      */
     public function putAction(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, Course $course, ApiHelper $apiHelper)
     {

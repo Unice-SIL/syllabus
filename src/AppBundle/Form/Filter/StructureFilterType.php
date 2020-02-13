@@ -44,12 +44,12 @@ class StructureFilterType extends AbstractType
         ]);
 
         if ($options['context'] === 'structure') {
-            $builder->add('etbId', TextFilterType::class, [
+            $builder->add('code', TextFilterType::class, [
                 'condition_pattern' => FilterOperands::STRING_CONTAINS,
-                'label' => 'app.form.structure.label.etbId',
+                'label' => 'app.form.structure.label.code',
                 'attr' => [
                     'class' => 'autocomplete-input',
-                    'data-autocomplete-path' => $this->generator->generate($dataAutocompletePath, ['field' => 'etbId'])
+                    'data-autocomplete-path' => $this->generator->generate($dataAutocompletePath, ['field' => 'code'])
                 ]
             ]);
         }

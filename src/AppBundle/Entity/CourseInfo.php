@@ -30,7 +30,7 @@ class CourseInfo
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"course_info"})
+     * @JMS\Groups(groups={"default", "course_info"})
      */
     private $id;
 
@@ -39,7 +39,7 @@ class CourseInfo
      *
      * @ORM\Column(name="title", type="string", length=200, nullable=false)
      * @Assert\NotBlank(groups={"new"})
-     * @JMS\Groups(groups={"course_info"})
+     * @JMS\Groups(groups={"default", "course_info"})
      */
     private $title;
 
@@ -500,7 +500,7 @@ class CourseInfo
      * })
      * @Assert\NotBlank(groups={"new"})
      * @JMS\Type("AppBundle\Entity\Structure")
-     * @JMS\Groups(groups={"course_info"})
+     * @JMS\Groups(groups={"default", "course_info"})
      */
     private $structure;
 
@@ -537,7 +537,7 @@ class CourseInfo
      * })
      * @Assert\NotBlank(groups={"new"})
      * @JMS\Type("AppBundle\Entity\Year")
-     * @JMS\Groups(groups={"course_info"})
+     * @JMS\Groups(groups={"default", "course_info"})
      */
     private $year;
 
@@ -571,7 +571,7 @@ class CourseInfo
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\OneToMany(targetEntity="CourseAchievement", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
-     * @ORM\OrderBy({"order" = "ASC"})
+     * @ORM\OrderBy({"position" = "ASC"})
      * @JMS\Groups(groups={"course_info"})
      */
     private $courseAchievements;
@@ -580,7 +580,7 @@ class CourseInfo
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\OneToMany(targetEntity="CoursePrerequisite", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
-     * @ORM\OrderBy({"order" = "ASC"})
+     * @ORM\OrderBy({"position" = "ASC"})
      * @JMS\Groups(groups={"course_info"})
      */
     private $coursePrerequisites;
@@ -589,7 +589,7 @@ class CourseInfo
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\OneToMany(targetEntity="CourseTutoringResource", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
-     * @ORM\OrderBy({"order" = "ASC"})
+     * @ORM\OrderBy({"position" = "ASC"})
      * @JMS\Groups(groups={"course_info"})
      */
     private $courseTutoringResources;
@@ -598,7 +598,7 @@ class CourseInfo
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\OneToMany(targetEntity="CourseResourceEquipment", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
-     * @ORM\OrderBy({"order" = "ASC"})
+     * @ORM\OrderBy({"position" = "ASC"})
      * @JMS\Groups(groups={"course_info"})
      */
     private $courseResourceEquipments;
@@ -632,10 +632,10 @@ class CourseInfo
     }
 
     /**
-     * @param string $id
+     * @param null|string $id
      * @return CourseInfo
      */
-    public function setId(string $id): self
+    public function setId(?string $id): self
     {
         $this->id = $id;
 
@@ -2381,12 +2381,12 @@ class CourseInfo
         }
     }
 
-    public function getEtbIdYear(bool $dev = null)
+    public function getCodeYear(bool $dev = null)
     {
         if ($dev) {
-            return $this->course->getEtbId() . '__UNION__' . $this->year->getId();
+            return $this->course->getCode() . '__UNION__' . $this->year->getId();
         }
-        return $this->course->getEtbId() . '-' . $this->year->getId();
+        return $this->course->getCode() . '-' . $this->year->getId();
     }
 
     public function setAllRelations()

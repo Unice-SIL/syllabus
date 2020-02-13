@@ -85,7 +85,7 @@ class DuplicateCourseInfoQuery implements QueryInterface
     public function execute(): void
     {
         try {
-            $courseInfo = $this->courseInfoRepository->findByEtbIdAndYear($this->courseInfo->getCourse()->getEtbId(), $this->year->getId());
+            $courseInfo = $this->courseInfoRepository->findByCodeAndYear($this->courseInfo->getCourse()->getCode(), $this->year->getId());
             if(!is_null($courseInfo))
             {
                 throw new CourseInfoAlreadyExistException();

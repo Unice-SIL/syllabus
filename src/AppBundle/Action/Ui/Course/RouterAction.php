@@ -6,7 +6,7 @@ use AppBundle\Action\ActionInterface;
 use AppBundle\Constant\Permission;
 use AppBundle\Exception\CourseInfoNotFoundException;
 use AppBundle\Helper\CoursePermissionHelper;
-use AppBundle\Query\Course\FindCourseInfoByEtbIdAndYearQuery;
+use AppBundle\Query\Course\FindCourseInfoByCodeAndYearQuery;
 use AppBundle\Query\Course\FindCourseInfoByIdQuery;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -27,9 +27,9 @@ use Twig\Environment;
 class RouterAction implements ActionInterface
 {
     /**
-     * @var FindCourseInfoByEtbIdAndYearQuery
+     * @var FindCourseInfoByCodeAndYearQuery
      */
-    private $findCourseInfoByEtbIdAndYearQuery;
+    private $findCourseInfoByCodeAndYearQuery;
 
     /**
      * @var CoursePermissionHelper
@@ -63,7 +63,7 @@ class RouterAction implements ActionInterface
 
     /**
      * RouterAction constructor.
-     * @param FindCourseInfoByEtbIdAndYearQuery $findCourseInfoByEtbIdAndYearQuery
+     * @param FindCourseInfoByCodeAndYearQuery $findCourseInfoByCodeAndYearQuery
      * @param CoursePermissionHelper $coursePermissionHelper
      * @param Environment $templating
      * @param Security $security
@@ -72,7 +72,7 @@ class RouterAction implements ActionInterface
      * @param LoggerInterface $logger
      */
     public function __construct(
-        FindCourseInfoByEtbIdAndYearQuery $findCourseInfoByEtbIdAndYearQuery,
+        FindCourseInfoByCodeAndYearQuery $findCourseInfoByCodeAndYearQuery,
         CoursePermissionHelper $coursePermissionHelper,
         Environment $templating,
         Security $security,
@@ -81,7 +81,7 @@ class RouterAction implements ActionInterface
         LoggerInterface $logger
     )
     {
-        $this->findCourseInfoByEtbIdAndYearQuery = $findCourseInfoByEtbIdAndYearQuery;
+        $this->findCourseInfoByCodeAndYearQuery = $findCourseInfoByCodeAndYearQuery;
         $this->coursePermissionHelper = $coursePermissionHelper;
         $this->templating = $templating;
         $this->security = $security;
@@ -91,17 +91,17 @@ class RouterAction implements ActionInterface
     }
 
     /**
-     * @param $etbId
+     * @param $code
      * @param $year
      * @param Request $request
      * @return RedirectResponse
      */
-    public function __invoke($etbId, $year, Request $request)
+    public function __invoke($code, $year, Request $request)
     {
         $courseInfo = null;
-        $id = $etbId;
+        $id = $code;
         try {
-            $courseInfo = $this->findCourseInfoByEtbIdAndYearQuery->setEtbId($id)->setYear($year)->execute();
+            $courseInfo = $this->findCourseInfoByCodeAndYearQuery->setCode($id)->setYear($year)->execute();
             if($this->coursePermissionHelper->hasPermission($courseInfo, $this->security->getUser(), Permission::WRITE)){
                 return new RedirectResponse($this->router->generate('edit_course', [
                     'id' => $courseInfo->getId(),

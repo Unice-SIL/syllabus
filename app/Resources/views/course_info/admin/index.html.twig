@@ -70,7 +70,7 @@
                 <table class="table table-bordered table-responsive-sm">
                     <thead>
                     <tr>
-                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.course.label.etb_id'|trans, 'c.etbId') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.course.label.code'|trans, 'c.code') }}</th>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.course.label.type'|trans, 'c.type') }}</th>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.year.label.label'|trans , 'y.label') }}</th>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.course_info.label.title'|trans , 'ci.title') }}</th>
@@ -81,13 +81,13 @@
                     <tbody>
                     {% for syllabus in pagination %}
                         <tr>
-                            <td>{{ syllabus.course.etbId }}</td>
+                            <td>{{ syllabus.course.code }}</td>
                             <td>{{ syllabus.course.type }}</td>
                             <td>{{ syllabus.year.label }}</td>
                             <td>{{ syllabus.title }}</td>
                             <td>{{ syllabus.structure.label }}</td>
                             <td>
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#courseInfoDuplicationModal" data-etbid-year="{{ syllabus.etbIdYear(true) }}">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#courseInfoDuplicationModal" data-code-year="{{ syllabus.codeYear(true) }}">
                                     Dupliquer les infos
                                 </button>
                             </td>

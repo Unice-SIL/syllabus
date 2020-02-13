@@ -28,7 +28,7 @@ class CourseResourceEquipmentCommand implements CommandInterface
     /**
      * @var int
      */
-    private $order;
+    private $position;
 
     /**
      * @var CourseInfo|null
@@ -48,13 +48,13 @@ class CourseResourceEquipmentCommand implements CommandInterface
     {
         if(is_null($courseResourceEquipment)) {
             $this->id = Uuid::uuid4();
-            $this->order = 0;
+            $this->position = 0;
         }else{
             $this->id = $courseResourceEquipment->getId();
             $this->courseInfo = $courseResourceEquipment->getCourseInfo();
             $this->equipment = $courseResourceEquipment->getEquipment();
             $this->description = $courseResourceEquipment->getDescription();
-            $this->order = $courseResourceEquipment->getOrder();
+            $this->position = $courseResourceEquipment->getPosition();
         }
     }
 
@@ -99,18 +99,18 @@ class CourseResourceEquipmentCommand implements CommandInterface
     /**
      * @return int
      */
-    public function getOrder(): int
+    public function getPosition(): int
     {
-        return $this->order;
+        return $this->position;
     }
 
     /**
-     * @param int $order
+     * @param int $position
      * @return CourseResourceEquipmentCommand
      */
-    public function setOrder(int $order): CourseResourceEquipmentCommand
+    public function setPosition(int $position): CourseResourceEquipmentCommand
     {
-        $this->order = $order;
+        $this->position = $position;
 
         return $this;
     }
@@ -161,7 +161,7 @@ class CourseResourceEquipmentCommand implements CommandInterface
     {
         $entity->setId($this->getId())
             ->setDescription($this->getDescription())
-            ->setOrder($this->getOrder());
+            ->setPosition($this->getPosition());
         if(!is_null($this->getEquipment())){
             $entity->setEquipment($this->getEquipment());
         }

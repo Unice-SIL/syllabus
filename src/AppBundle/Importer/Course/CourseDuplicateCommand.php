@@ -7,7 +7,7 @@ use AppBundle\Exception\CourseInfoAlreadyExistException;
 use AppBundle\Exception\YearNotFoundException;
 use AppBundle\Helper\FileUploaderHelper;
 use AppBundle\Query\Course\DuplicateCourseInfoQuery;
-use AppBundle\Query\Course\FindCourseInfoByEtbIdAndYearQuery;
+use AppBundle\Query\Course\FindCourseInfoByCodeAndYearQuery;
 use AppBundle\Query\Year\FindYearById;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -27,9 +27,9 @@ class CourseDuplicateCommand extends Command
     protected static $defaultName = "syllabus:duplicate:course";
 
     /**
-     * @var FindCourseInfoByEtbIdAndYearQuery
+     * @var FindCourseInfoByCodeAndYearQuery
      */
-    private $findCourseInfoByEtbIdAndYearQuery;
+    private $findCourseInfoByCodeAndYearQuery;
 
     /**
      * @var FindYearById
@@ -44,17 +44,17 @@ class CourseDuplicateCommand extends Command
 
     /**
      * CourseDuplicateCommand constructor.
-     * @param FindCourseInfoByEtbIdAndYearQuery $findCourseInfoByEtbIdAndYearQuery
+     * @param FindCourseInfoByCodeAndYearQuery $findCourseInfoByCodeAndYearQuery
      * @param FindYearById $findYearById
      * @param DuplicateCourseInfoQuery $duplicateCourseInfoQuery
      */
     public function __construct(
-        FindCourseInfoByEtbIdAndYearQuery $findCourseInfoByEtbIdAndYearQuery,
+        FindCourseInfoByCodeAndYearQuery $findCourseInfoByCodeAndYearQuery,
         FindYearById $findYearById,
         DuplicateCourseInfoQuery $duplicateCourseInfoQuery
     )
     {
-        $this->findCourseInfoByEtbIdAndYearQuery = $findCourseInfoByEtbIdAndYearQuery;
+        $this->findCourseInfoByCodeAndYearQuery = $findCourseInfoByCodeAndYearQuery;
         $this->findYearById = $findYearById;
         $this->duplicateCourseInfoQuery = $duplicateCourseInfoQuery;
         parent::__construct();
@@ -70,7 +70,7 @@ class CourseDuplicateCommand extends Command
             ->setHelp(
                 "This command allow you to duplicate Course info for a year with a new year"
             )
-            ->addArgument('etbId', InputArgument::REQUIRED, 'Institution course id to duplicate')
+            ->addArgument('code', InputArgument::REQUIRED, 'Institution course id to duplicate')
             ->addArgument('year', InputArgument::REQUIRED, 'Course info year to duplicate')
             ->addArgument('newyear', InputArgument::REQUIRED, 'Course info new year');
         parent::configure();
@@ -82,25 +82,25 @@ class CourseDuplicateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $etbId = $input->getArgument('etbId');
+        $code = $input->getArgument('code');
         $year = $input->getArgument('year');
         $newyear = $input->getArgument('newyear');
 
         $output->writeln("==============================");
-        $output->writeln("Start duplication infos for course {$etbId} and year {$year} to year {$newyear}");
+        $output->writeln("Start duplication infos for course {$code} and year {$year} to year {$newyear}");
         $output->writeln(date('d/m/Y H:i:s', time()));
         $output->writeln($this->getDescription());
         $output->writeln("==============================");
 
         try {
 
-            $courseInfo = $this->findCourseInfoByEtbIdAndYearQuery->setEtbId($etbId)->setYear($year)->execute();
+            $courseInfo = $this->findCourseInfoByCodeAndYearQuery->setCode($code)->setYear($year)->execute();
             $newYear = $this->findYearById->setId($newyear)->execute();
             $this->duplicateCourseInfoQuery->setCourseInfo($courseInfo)->setYear($newYear)->execute();
         }catch (YearNotFoundException $e){
             $output->writeln("Year {$newyear} not found");
         }catch (CourseInfoAlreadyExistException $e) {
-            $output->writeln("Course {$etbId} already exist for year {$newyear}");
+            $output->writeln("Course {$code} already exist for year {$newyear}");
         }catch (\Exception $e){
             $output->writeln((string)$e);
         }

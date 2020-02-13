@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -23,6 +24,7 @@ class Language
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @JMS\Groups(groups={"default", "language"})
      */
     private $id;
 
@@ -31,6 +33,7 @@ class Language
      *
      * @ORM\Column(name="label", type="string", length=100, nullable=false)
      * @Assert\NotBlank()
+     * @JMS\Groups(groups={"default", "language"})
      */
     private $label;
 
@@ -38,57 +41,70 @@ class Language
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
+     * @JMS\Groups(groups={"default", "language"})
      */
     private $obsolete = false;
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getId()
+    public function getId(): ?string
     {
         return $this->id;
     }
 
     /**
-     * @param string $id
+     * @param null|string $id
+     * @return Language
      */
-    public function setId($id)
+    public function setId(?string $id): self
     {
         $this->id = $id;
+
+        return $this;
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getLabel()
+    public function getLabel(): ?string
     {
         return $this->label;
     }
 
     /**
-     * @param string $label
+     * @param null|string $label
+     * @return Language
      */
-    public function setLabel($label)
+    public function setLabel(?string $label): self
     {
         $this->label = $label;
+
+        return $this;
     }
 
     /**
      * @return bool
      */
-    public function isObsolete()
+    public function isObsolete(): bool
     {
         return $this->obsolete;
     }
 
     /**
-     * @param bool $obsolete
+     * @param $obsolete
+     * @return Language
      */
-    public function setObsolete($obsolete)
+    public function setObsolete($obsolete): self
     {
         $this->obsolete = $obsolete;
+
+        return $this;
     }
 
+    /**
+     * @return null|string
+     */
     public function __toString()
     {
         return $this->getLabel();

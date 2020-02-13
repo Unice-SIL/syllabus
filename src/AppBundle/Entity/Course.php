@@ -41,7 +41,7 @@ class Course
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=50, nullable=false, options={"fixed"=true})
+     * @ORM\Column(type="string", length=50, nullable=false)
      * @JMS\Groups(groups={"course", "course_info"})
      */
     private $code;
@@ -289,7 +289,7 @@ class Course
      */
     public function __toString()
     {
-        return $this->getEtbId();
+        return $this->getCode();
     }
 
 

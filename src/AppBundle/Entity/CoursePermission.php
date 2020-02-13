@@ -28,7 +28,7 @@ class CoursePermission
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"course_permission"})
+     * @JMS\Groups(groups={"default", "course_permission"})
      */
     private $id;
 
@@ -37,7 +37,7 @@ class CoursePermission
      *
      * @ORM\Column(name="permission", type="string", length=45, nullable=false, options={"fixed"=true})
      * @Assert\NotBlank()
-     * @JMS\Groups(groups={"course_permission"})
+     * @JMS\Groups(groups={"default", "course_permission"})
      */
     private $permission = Permission::READ;
 
@@ -77,7 +77,7 @@ class CoursePermission
      * @param string|null $id
      * @return CoursePermission
      */
-    public function setId(?string $id): CoursePermission
+    public function setId(?string $id): self
     {
         $this->id = $id;
 
@@ -87,7 +87,7 @@ class CoursePermission
     /**
      * @return null|string
      */
-    public function getPermission()
+    public function getPermission(): ?string
     {
         return $this->permission;
     }
@@ -96,7 +96,7 @@ class CoursePermission
      * @param null|string $permission
      * @return CoursePermission
      */
-    public function setPermission($permission)
+    public function setPermission($permission): self
     {
         $this->permission = $permission;
 
@@ -115,7 +115,7 @@ class CoursePermission
      * @param CourseInfo|null $courseInfo
      * @return CoursePermission
      */
-    public function setCourseInfo(?CourseInfo $courseInfo): CoursePermission
+    public function setCourseInfo(?CourseInfo $courseInfo): self
     {
         $this->courseInfo = $courseInfo;
 
@@ -134,8 +134,10 @@ class CoursePermission
      * @JMS\VirtualProperty()
      * @JMS\Groups(groups={"api"})
      * @JMS\SerializedName("user")
+     *
+     * @return null|string
      */
-    public function getUserApi()
+    public function getUserApi(): ?string
     {
         return $this->getUser()->getId();
     }
@@ -144,7 +146,7 @@ class CoursePermission
      * @param User $user
      * @return CoursePermission
      */
-    public function setUser(User $user): CoursePermission
+    public function setUser(User $user): self
     {
         $this->user = $user;
 

@@ -43,12 +43,12 @@ class CourseInfoDoctrineRepository  extends AbstractDoctrineRepository implement
     }
 
     /**
-     * @param $etbId
+     * @param $code
      * @param $year
      * @return CourseInfo|null
      * @throws \Exception
      */
-    public function findByEtbIdAndYear($etbId, $year): ?CourseInfo
+    public function findByCodeAndYear($code, $year): ?CourseInfo
     {
         $courseInfo = null;
         try{
@@ -56,9 +56,9 @@ class CourseInfoDoctrineRepository  extends AbstractDoctrineRepository implement
             if(!empty($year)){
                 $qb->join('ci.course', 'c')
                     ->join('ci.year', 'y')
-                    ->where($qb->expr()->eq('c.etbId', ':etbId'))
+                    ->where($qb->expr()->eq('c.code', ':code'))
                     ->andWhere($qb->expr()->eq('y.id', ':year'))
-                    ->setParameter('etbId', $etbId)
+                    ->setParameter('code', $code)
                     ->setParameter('year', $year);
                 $courseInfos = $qb->getQuery()->getResult();
             }
@@ -124,7 +124,7 @@ class CourseInfoDoctrineRepository  extends AbstractDoctrineRepository implement
     {
         $qb = $this->getIndexQueryBuilder();
 
-        if (in_array($field, ['c.etbId', 'c.type', 'ci.title', 'y.label', 's.label'])) {
+        if (in_array($field, ['c.code', 'c.type', 'ci.title', 'y.label', 's.label'])) {
             $qb->andWhere($field.' LIKE :query ')
             ->setParameter('query', '%' . $query . '%')
             ;
@@ -141,7 +141,7 @@ class CourseInfoDoctrineRepository  extends AbstractDoctrineRepository implement
             ->innerJoin('ci.year', 'y')
             ->innerJoin('ci.structure', 's')
             ->addSelect('y', 'c', 's')
-            ->addOrderBy('c.etbId', 'ASC')
+            ->addOrderBy('c.code', 'ASC')
             ->addOrderBy('y.id', 'ASC')
             ->addOrderBy('ci.title', 'ASC')
         ;

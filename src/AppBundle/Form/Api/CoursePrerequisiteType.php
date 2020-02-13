@@ -16,7 +16,7 @@ class CoursePrerequisiteType extends AbstractType
         $builder
             ->add('id')
             ->add('description')
-            ->add('order')
+            ->add('position')
         ;
     }/**
      * {@inheritdoc}

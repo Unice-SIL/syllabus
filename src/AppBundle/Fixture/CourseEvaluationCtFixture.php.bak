@@ -29,7 +29,7 @@ class CourseEvaluationCtFixture extends Fixture implements DependentFixtureInter
         $courseEvaluationCt1 = new CourseEvaluationCt();
         $courseEvaluationCt1->setId(Uuid::uuid4())
             ->setDescription('')
-            ->setOrder(1)
+            ->setPosition(1)
             ->setActivity($this->getReference(ActivityFixture::ACTIVITY_7))
             ->setCourseInfo($this->getReference(CourseInfoFixture::COURSE_INFO_1));
 

@@ -40,7 +40,7 @@ class BakCourseEvaluationCt
      *
      * @ORM\Column(name="ord", type="integer", nullable=false)
      */
-    private $order = 0;
+    private $position = 0;
 
     /**
      * @var \AppBundle\Entity\BakActivity
@@ -121,18 +121,18 @@ class BakCourseEvaluationCt
     /**
      * @return int
      */
-    public function getOrder(): int
+    public function getPosition(): int
     {
-        return $this->order;
+        return $this->position;
     }
 
     /**
-     * @param int $order
+     * @param int $position
      * @return BakCourseEvaluationCt
      */
-    public function setOrder(int $order): self
+    public function setPosition(int $position): self
     {
-        $this->order = $order;
+        $this->position = $position;
 
         return $this;
     }

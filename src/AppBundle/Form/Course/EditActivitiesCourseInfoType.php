@@ -96,7 +96,7 @@ class EditActivitiesCourseInfoType extends AbstractType
                 if(array_key_exists('sections', $data)){
                     $sections = array_values($data['sections']);
                     foreach ($sections as $i => $section){
-                        $sections[$i]['order'] = $i+1;
+                        $sections[$i]['position'] = $i+1;
                     }
                     $data['sections'] = $sections;
                 }
@@ -104,7 +104,7 @@ class EditActivitiesCourseInfoType extends AbstractType
                 if(array_key_exists('evaluations', $data)){
                     $evaluations = array_values($data['evaluations']);
                     foreach ($evaluations as $i => $evaluation){
-                        $evaluations[$i]['order'] = $i+1;
+                        $evaluations[$i]['position'] = $i+1;
                     }
                     $data['evaluations'] = $evaluations;
                 }

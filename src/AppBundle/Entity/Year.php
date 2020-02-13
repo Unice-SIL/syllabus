@@ -28,7 +28,7 @@ class Year
      *     pattern="/^\d{4}$/",
      *     message="Cette valeure doit respecter le format AAAA"
      * )
-     * @JMS\Groups(groups={"course_info", "year"})
+     * @JMS\Groups(groups={"default", "year"})
      */
     private $id;
 
@@ -41,7 +41,7 @@ class Year
      *     pattern="/^\d{4}-\d{4}$/",
      *     message="Cette valeure doit respecter le format AAAA-AAAA"
      * )
-     * @JMS\Groups(groups={"course_info", "year"})
+     * @JMS\Groups(groups={"default", "year"})
      */
     private $label;
 
@@ -70,7 +70,7 @@ class Year
     private $current = false;
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getId(): ?string
     {
@@ -78,10 +78,10 @@ class Year
     }
 
     /**
-     * @param string $id
+     * @param null|string $id
      * @return Year
      */
-    public function setId(string $id): self
+    public function setId(?string $id): self
     {
         $this->id = $id;
 
@@ -100,7 +100,7 @@ class Year
      * @param null|string $label
      * @return Year
      */
-    public function setLabel($label): self
+    public function setLabel(?string $label): self
     {
         $this->label = $label;
 
