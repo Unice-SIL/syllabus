@@ -2,21 +2,21 @@
 <div class="row">
     <div class="col-md-6">
         <dl>
-            <dt>Domaine</dt>
+            <dt>{{ 'app.presentation.view.general.domain' | trans }}</dt>
             <dd class="mandatory-data">{{ courseInfo.domain|humanizeEmptyData() }}</dd>
         </dl>
         <dl>
-            <dt>Niveau du cours</dt>
+            <dt>{{ 'app.presentation.view.general.level' | trans }}</dt>
             <dd class="mandatory-data">{{ ('app.const.level.' ~ courseInfo.level)|trans|humanizeEmptyData() }}</dd>
         </dl>
     </div>
     <div class="col-md-6">
         <dl>
-            <dt>Période</dt>
+            <dt>{{ 'app.presentation.view.general.period' | trans }}</dt>
             <dd>{{ courseInfo.period|humanizeEmptyData }}</dd>
         </dl>
         <dl>
-            <dt>Langues</dt>
+            <dt>{{ 'app.presentation.view.general.languages' | trans }}</dt>
             <dd>{{ courseInfo.languages|humanizeEmptyData() }}</dd>
         </dl>
     </div>
@@ -43,7 +43,7 @@
         {% else %}
             <div class="h-100 d-flex align-items-center justify-content-center">
                 <span class="empty-data text-center">
-                    Vous n'avez pas renseigné de résumé
+                    {{ 'app.presentation.view.general.empty_summary' | trans }}
                 </span>
             </div>
         {% endif %}

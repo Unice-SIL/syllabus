@@ -56,6 +56,47 @@ app:
         description: Description
         delete: Êtes-vous sûr(e) de vouloir supprimer la section "%title%" ?
         title: Titre de la section
+  presentation:
+    view:
+      general:
+        domain: Domaine
+        empty_summary: Vous n'avez pas renseigné de résumé
+        languages: Langue(s)
+        level: Niveau du cours
+        period: Période
+      teachers:
+        empty_teacher: Aucun enseignant n'a encore été ajouté à l'équipe
+        title: Qui fait parti de l'équipe enseignante ?
+        lastname: Nom
+        firstname: Prénom
+        mail: Email
+        attributes: Attributs
+        delete_teacher: Supprimer un enseignant
+        mail_visible: Email visible
+        mail_invisible: Mail non visible
+        responsible: Responsable
+      teaching_mode:
+        empty_teaching_mode: Aucun mode d'enseignement sélectionné
+    form:
+      general:
+        level_label: Quel est le niveau de ce cours ?
+        media_label: Intégrer une ressource vidéo (ou audio) ou téléverser un fichier image de présentation du cours, en respectant la règlementation sur les droits d'auteur.
+        picture: Image
+        video: Vidéo
+        file_type: Fichier de type jpeg ou png (2Mo maximum)
+        summary: Résumé
+        add_video: Comment ajouter une vidéo
+        add_video_info:
+          part1: Afin de pouvoir intégrer une vidéo dans votre cours, veuillez vous assurer que celle-ci soit hébergée sur un serveur externe à Moodle (ex: UNSPOD, Youtube, ...).
+          part2: Si ce n’est pas le cas, vous pouvez demander de l’aide pour la déposer sur une de ces plateformes.
+          part3: Une fois qu’elle y est stockée, vous pouvez cliquer sur “Partager / Intégrer” afin de récupérer le lien d'intégration ressemblant à :
+          part4: Copiez ce code et insérez-le dans le champ “Vidéo” ci-dessous. La vidéo sera visible par vos étudiants directement sur votre syllabus.
+        level:
+          beginner: <li><strong>Débutant</strong> : Ce cours demande peu ou pas de connaissances préaables.</li>
+          intermediary: <li><strong>Intermédiaire</strong> : Ce cours demande quelques connaissances préalables.</li>
+          advanced: <li><strong>Avancé</strong> : Ce cours demande d'importantes connaissances préalables.</li>
+      teacher:
+        delete: Êtes-vous sûr(e) de vouloir supprimer l'enseignant "%lastname% %firstname%" ?
 
   const:
     permission:
@@ -134,3 +175,4 @@ app:
       add: Ajouter
       edit: Modifier
       delete: Supprimer
+      save: Sauvegarder

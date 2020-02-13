@@ -1,10 +1,10 @@
 <h6 class="mb-3">
-    Qui fait parti de l'équipe enseignante ?
+    {{ 'app.presentation.view.teachers.title' | trans }}
 </h6>
 {% if courseInfo.courseTeachers is empty %}
     <div class="d-flex justify-content-center align-items-center mandatory-data">
         <span class="empty-data">
-            Aucun enseignant n'a encore été ajouté à l'équipe
+            {{ 'app.presentation.view.teachers.empty_teacher' | trans }}
         </span>
     </div>
 {% else %}
@@ -12,10 +12,10 @@
         <table class="table table-hover">
             <thead>
                 <tr class="text-center">
-                    <th>Nom</th>
-                    <th>Prénom</th>
-                    <th>Email</th>
-                    <th>Attributs</th>
+                    <th>{{ 'app.presentation.view.teachers.lastname' | trans }}</th>
+                    <th>{{ 'app.presentation.view.teachers.firstname' | trans }}</th>
+                    <th>{{ 'app.presentation.view.teachers.mail' | trans }}</th>
+                    <th>{{ 'app.presentation.view.teachers.attributes' | trans }}</th>
                     <th></th>
                 </tr>
             </thead>
@@ -27,17 +27,17 @@
                     <td>{{ teacher.email }}</td>
                     <td>
                         {% if teacher.emailVisibility %}
-                            <i class="fas fa-eye" data-toggle="tooltip" title="Email visible"></i>
+                            <i class="fas fa-eye" data-toggle="tooltip" title="{{ 'app.presentation.view.teachers.mail_visible' | trans }}"></i>
                         {% else %}
-                            <i class="fas fa-eye-slash" data-toggle="tooltip" title="Email non visible"></i>
+                            <i class="fas fa-eye-slash" data-toggle="tooltip" title="{{ 'app.presentation.view.teachers.mail_invisible' | trans }}"></i>
                         {% endif %}
                         {% if teacher.manager %}
-                            <i class="fas fa-graduation-cap" data-toggle="tooltip" title="Responsable"></i>
+                            <i class="fas fa-graduation-cap" data-toggle="tooltip" title="{{ 'app.presentation.view.teachers.responsible' | trans }}"></i>
                         {% endif %}
                     </td>
                     <td>
                         <button type="button" class="btn btn-link modal-action p-0"
-                                data-action-title="Supprimer un enseignant"
+                                data-action-title="{{ 'app.presentation.view.teachers.delete_teacher' | trans }}"
                                 data-action-url="{{ path('course_presentation_remove_teacher', {'id': courseInfo.id, 'teacherId': teacher.id}) }}">
                             <i class="fas fa-trash-alt text-danger"></i>
                         </button>
