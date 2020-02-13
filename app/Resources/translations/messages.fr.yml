@@ -128,6 +128,10 @@ app:
     import:
       label:
         csv: Fichier au format CSV
+    groups:
+      label:
+        label: 'Label'
+        obsolete: 'Obsolète'
 
   general:
     button:
