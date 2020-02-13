@@ -90,7 +90,7 @@ class EditEquipmentsCourseInfoType extends AbstractType
                 if(array_key_exists('courseResourceEquipments', $data)){
                     $equipments = array_values($data['courseResourceEquipments']);
                     foreach ($equipments as $i => $equipment){
-                        $equipments[$i]['order'] = $i+1;
+                        $equipments[$i]['position'] = $i+1;
                     }
                     $data['courseResourceEquipments'] = $equipments;
                 }

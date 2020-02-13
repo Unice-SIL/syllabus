@@ -206,7 +206,7 @@ class CourseSectionType extends AbstractType
                 'error_bubbling' => false,
                 'prototype_name' => '__activity__'
             ])
-            ->add('order', HiddenType::class)
+            ->add('position', HiddenType::class)
             ->addEventListener(FormEvents::PRE_SUBMIT, function(FormEvent $event){
                 // Get data
                 $data = $event->getData();
@@ -214,7 +214,7 @@ class CourseSectionType extends AbstractType
                 if(array_key_exists('activities', $data)){
                     $activities = array_values($data['activities']);
                     foreach ($activities as $i => $activity){
-                        $activities[$i]['order'] = $i+1;
+                        $activities[$i]['position'] = $i+1;
                     }
                     $data['activities'] = $activities;
                 }

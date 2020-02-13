@@ -29,7 +29,7 @@ class CoursePrerequisiteCommand implements CommandInterface
     /**
      * @var int
      */
-    private $order = 0;
+    private $position = 0;
 
     /**
      * @var CourseInfo
@@ -47,7 +47,7 @@ class CoursePrerequisiteCommand implements CommandInterface
         }else{
             $this->id = $coursePrerequisite->getId();
             $this->description = $coursePrerequisite->getDescription();
-            $this->order = $coursePrerequisite->getOrder();
+            $this->position = $coursePrerequisite->getPosition();
             $this->courseInfo = $coursePrerequisite->getCourseInfo();
         }
     }
@@ -93,18 +93,18 @@ class CoursePrerequisiteCommand implements CommandInterface
     /**
      * @return int
      */
-    public function getOrder(): int
+    public function getPosition(): int
     {
-        return $this->order;
+        return $this->position;
     }
 
     /**
-     * @param int $order
+     * @param int $position
      * @return CoursePrerequisiteCommand
      */
-    public function setOrder(int $order): CoursePrerequisiteCommand
+    public function setPosition(int $position): CoursePrerequisiteCommand
     {
-        $this->order = $order;
+        $this->position = $position;
 
         return $this;
     }
@@ -137,7 +137,7 @@ class CoursePrerequisiteCommand implements CommandInterface
     {
         $entity->setId($this->getId())
             ->setDescription($this->getDescription())
-            ->setOrder($this->getOrder());
+            ->setPosition($this->getPosition());
         if(!is_null($this->getCourseInfo())){
             $entity->setCourseInfo($this->getCourseInfo());
         }
