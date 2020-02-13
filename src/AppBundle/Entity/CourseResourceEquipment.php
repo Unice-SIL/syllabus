@@ -20,7 +20,7 @@ class CourseResourceEquipment
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"course_info", "course_resource_equipment"})
+     * @JMS\Groups(groups={"default", "course_resource_equipment"})
      */
     private $id;
 
@@ -28,17 +28,17 @@ class CourseResourceEquipment
      * @var string|null
      *
      * @ORM\Column(name="description", type="string", length=255, nullable=true)
-     * @JMS\Groups(groups={"course_info", "course_resource_equipment"})
+     * @JMS\Groups(groups={"default", "course_resource_equipment"})
      */
     private $description;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="ord", type="integer", nullable=false)
-     * @JMS\Groups(groups={"course_info", "course_resource_equipment"})
+     * @ORM\Column(name="position", type="integer", nullable=false)
+     * @JMS\Groups(groups={"default", "course_resource_equipment"})
      */
-    private $order = 0;
+    private $position = 0;
 
     /**
      * @var \AppBundle\Entity\CourseInfo
@@ -58,7 +58,7 @@ class CourseResourceEquipment
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="equipment_id", referencedColumnName="id", nullable=false)
      * })
-     * @JMS\Groups(groups={"course_resource_equipment"})
+     * @JMS\Groups(groups={"course_info", "course_resource_equipment"})
      */
     private $equipment;
 
@@ -103,18 +103,18 @@ class CourseResourceEquipment
     /**
      * @return int
      */
-    public function getOrder(): ?int
+    public function getPosition(): ?int
     {
-        return $this->order;
+        return $this->position;
     }
 
     /**
-     * @param int $order
+     * @param int $position
      * @return CourseResourceEquipment
      */
-    public function setOrder(int $order): self
+    public function setPosition(int $position): self
     {
-        $this->order = $order;
+        $this->position = $position;
 
         return $this;
     }
@@ -151,6 +151,7 @@ class CourseResourceEquipment
      * @JMS\VirtualProperty()
      * @JMS\Groups(groups={"api"})
      * @JMS\SerializedName("equipment")
+     * 
      * @return Equipment|null
      */
     public function getEquipmentApi()
