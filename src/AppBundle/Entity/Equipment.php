@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -14,12 +15,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Equipment
 {
     /**
-     * @var string
+     * @var string|null
      *
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @JMS\Groups(groups={"default", "equipment"})
      */
     private $id;
 
@@ -28,6 +30,7 @@ class Equipment
      *
      * @ORM\Column(name="label", type="string", length=100, nullable=false)
      * @Assert\NotBlank()
+     * @JMS\Groups(groups={"default", "equipment"})
      */
     private $label;
 
@@ -35,6 +38,7 @@ class Equipment
      * @var bool
      *
      * @ORM\Column(name="label_visibility", type="boolean", nullable=false)
+     * @JMS\Groups(groups={"default", "equipment"})
      */
     private $labelVisibility = true;
 
@@ -42,6 +46,7 @@ class Equipment
      * @var string|null
      *
      * @ORM\Column(name="icon", type="text", length=65535, nullable=true)
+     * @JMS\Groups(groups={"default", "equipment"})
      */
     private $icon;
 
@@ -49,29 +54,31 @@ class Equipment
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
+     * @JMS\Groups(groups={"default", "equipment"})
      */
     private $obsolete = false;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="ord", type="integer", nullable=false)
+     * @ORM\Column(name="position", type="integer", nullable=false)
+     * @JMS\Groups(groups={"default", "equipment"})
      */
-    private $ord = 0;
+    private $position = 0;
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getId(): string
+    public function getId(): ?string
     {
         return $this->id;
     }
 
     /**
-     * @param string $id
+     * @param null|string $id
      * @return Equipment
      */
-    public function setId(string $id): Equipment
+    public function setId(?string $id): self
     {
         $this->id = $id;
 
@@ -81,16 +88,16 @@ class Equipment
     /**
      * @return null|string
      */
-    public function getLabel()
+    public function getLabel(): ?string
     {
         return $this->label;
     }
 
     /**
      * @param null|string $label
-     * @return Equipment
+     * @return $this
      */
-    public function setLabel($label)
+    public function setLabel(?string $label): self
     {
         $this->label = $label;
 
@@ -109,7 +116,7 @@ class Equipment
      * @param bool $labelVisibility
      * @return Equipment
      */
-    public function setLabelVisibility(bool $labelVisibility): Equipment
+    public function setLabelVisibility(bool $labelVisibility): self
     {
         $this->labelVisibility = $labelVisibility;
 
@@ -119,7 +126,7 @@ class Equipment
     /**
      * @return null|string
      */
-    public function getIcon()
+    public function getIcon(): ?string
     {
         return $this->icon;
     }
@@ -128,7 +135,7 @@ class Equipment
      * @param null|string $icon
      * @return Equipment
      */
-    public function setIcon($icon)
+    public function setIcon(?string $icon): self
     {
         $this->icon = $icon;
 
@@ -147,7 +154,7 @@ class Equipment
      * @param bool $obsolete
      * @return Equipment
      */
-    public function setObsolete(bool $obsolete): Equipment
+    public function setObsolete(bool $obsolete): self
     {
         $this->obsolete = $obsolete;
 
@@ -157,21 +164,28 @@ class Equipment
     /**
      * @return int
      */
-    public function getOrd(): int
+    public function getPosition(): int
     {
-        return $this->ord;
+        return $this->position;
     }
 
     /**
-     * @param int $ord
+     * @param int $position
      * @return Equipment
      */
-    public function setOrd(int $ord): Equipment
+    public function setPosition(int $position): self
     {
-        $this->ord = $ord;
+        $this->position = $position;
 
         return $this;
     }
 
+    /**
+     * @return null|string
+     */
+    public function __toString()
+    {
+        return $this->getLabel();
+    }
 
 }
