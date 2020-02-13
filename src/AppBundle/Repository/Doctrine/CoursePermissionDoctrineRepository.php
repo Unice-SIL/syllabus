@@ -2,7 +2,9 @@
 
 namespace AppBundle\Repository\Doctrine;
 
+use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CoursePermission;
+use AppBundle\Entity\User;
 use AppBundle\Repository\CoursePermissionRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
@@ -11,7 +13,7 @@ use Doctrine\ORM\QueryBuilder;
  * Class StructureDoctrineRepository
  * @package AppBundle\Repository\Doctrine
  */
-class CoursePermissionDoctrineRepository  extends AbstractDoctrineRepository implements CoursePermissionRepositoryInterface
+class CoursePermissionDoctrineRepository extends AbstractDoctrineRepository implements CoursePermissionRepositoryInterface
 {
 
     /**
@@ -23,6 +25,21 @@ class CoursePermissionDoctrineRepository  extends AbstractDoctrineRepository imp
     )
     {
         $this->entityManager = $entityManager;
+    }
+
+    /**
+     * @param string $id
+     * @return mixed
+     */
+    public function getCourseBypermission(User $user)
+    {
+        $qb = $this->entityManager->getRepository(CourseInfo::class)->createQueryBuilder('ci');
+            $qb->join('ci.coursePermissions', 'cp')
+                ->where($qb->expr()->eq('cp.user', ':user'))
+                ->setParameter('user', $user);
+            $courseInfos = $qb->getQuery()->getResult();
+
+            return $courseInfos;
     }
 
     /**

@@ -6,6 +6,7 @@ use AppBundle\Traits\Importable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
@@ -26,6 +27,7 @@ class Course
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @JMS\Groups(groups={"course", "course_info"})
      */
     private $id;
 
@@ -33,12 +35,14 @@ class Course
      * @var string
      *
      * @ORM\Column(name="type", type="string", length=5, nullable=false, options={"fixed"=true})
+     * @JMS\Groups(groups={"course", "course_info"})
      */
     private $type;
 
     /**
      * @var string
      * @ORM\Column(type="string", length=50, nullable=false, options={"fixed"=true})
+     * @JMS\Groups(groups={"course", "course_info"})
      */
     private $code;
 
@@ -62,7 +66,6 @@ class Course
      * @ORM\ManyToMany(targetEntity="Course", mappedBy="parents")
      */
     private $children;
-
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -94,7 +97,7 @@ class Course
      * @param string $id
      * @return Course
      */
-    public function setId(string $id): Course
+    public function setId(string $id): self
     {
         $this->id = $id;
 
@@ -113,7 +116,7 @@ class Course
      * @param string $type
      * @return Course
      */
-    public function setType(string $type): Course
+    public function setType(string $type): self
     {
         $this->type = $type;
 
@@ -132,7 +135,7 @@ class Course
      * @param Collection $parents
      * @return Course
      */
-    public function setParents(Collection $parents): Course
+    public function setParents(Collection $parents): self
     {
         $this->parents = $parents;
 
@@ -143,9 +146,16 @@ class Course
      * @param Course $course
      * @return Course
      */
-    public function addParent(Course $course): Course
+    public function addParent(Course $course): self
     {
-        $this->parents->add($course);
+        if(!$this->parents->contains($course))
+        {
+            $this->parents->add($course);
+            if(!$course->getChildren()->contains($this))
+            {
+                $course->addChild($this);
+            }
+        }
 
         return $this;
     }
@@ -154,9 +164,16 @@ class Course
      * @param Course $course
      * @return Course
      */
-    public function removeParent(Course $course): Course
+    public function removeParent(Course $course): self
     {
-        $this->parents->removeElement($course);
+        if($this->parents->contains($course))
+        {
+            $this->parents->removeElement($course);
+            if($course->getChildren()->contains($this))
+            {
+                $course->removeChild($this);
+            }
+        }
 
         return $this;
     }
@@ -173,7 +190,7 @@ class Course
      * @param Collection $children
      * @return Course
      */
-    public function setChildren(Collection $children): Course
+    public function setChildren(Collection $children): self
     {
         $this->children = $children;
 
@@ -184,9 +201,17 @@ class Course
      * @param Course $course
      * @return Course
      */
-    public function addChild(Course $course): Course
+    public function addChild(Course $course): self
     {
-        $this->children->add($course);
+
+        if(!$this->children->contains($course))
+        {
+            $this->children->add($course);
+            if(!$course->getParents()->contains($this))
+            {
+                $course->addParent($this);
+            }
+        }
 
         return $this;
     }
@@ -195,9 +220,16 @@ class Course
      * @param Course $course
      * @return Course
      */
-    public function removeChild(Course $course): Course
+    public function removeChild(Course $course): self
     {
-        $this->children->removeElement($course);
+        if($this->children->contains($course))
+        {
+            $this->children->removeElement($course);
+            if($course->getParents()->contains($this))
+            {
+                $course->removeParent($this);
+            }
+        }
 
         return $this;
     }
@@ -214,7 +246,7 @@ class Course
      * @param Collection $courseInfos
      * @return Course
      */
-    public function setCourseInfos(Collection $courseInfos): Course
+    public function setCourseInfos(Collection $courseInfos): self
     {
         $this->courseInfos = $courseInfos;
 
@@ -225,8 +257,16 @@ class Course
      * @param CourseInfo $courseInfo
      * @return Course
      */
-    public function addCourseInfo(CourseInfo $courseInfo): Course
+    public function addCourseInfo(CourseInfo $courseInfo): self
     {
+        if(!$this->courseInfos->contains($courseInfo))
+        {
+            $this->courseInfos->add($courseInfo);
+            if($courseInfo->getCourse() !== $this)
+            {
+                $courseInfo->setCourse($this);
+            }
+        }
         $this->courseInfos->add($courseInfo);
 
         return $this;
@@ -236,13 +276,17 @@ class Course
      * @param CourseInfo $courseInfo
      * @return Course
      */
-    public function removeCourseInfo(CourseInfo $courseInfo): Course
+    public function removeCourseInfo(CourseInfo $courseInfo): self
     {
         $this->courseInfos->removeElement($courseInfo);
+        // Do not set course $courseInfo->course to null !
 
         return $this;
     }
 
+    /**
+     * @return null|string
+     */
     public function __toString()
     {
         return $this->getEtbId();

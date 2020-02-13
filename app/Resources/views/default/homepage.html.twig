@@ -1,0 +1,62 @@
+{% extends 'base_homepage.html.twig' %}
+{% set h1 = 'Liste des syllabus' %}
+{% block navbar %}
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
+        </li>
+    </ul>
+{% endblock %}
+{% block content %}
+
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">{{ h1|default('Il faut ajouter un h1') }}</h1>
+                </div><!-- /.col -->
+
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+
+
+    <section id="content-{{ contentName|default('default') }}" class="content">
+        <div class="container-fluid">
+            {% block subContent %}
+                {% for key,course in courses %}
+                    <div></div>
+                    <table class="table table-bordered table-responsive-sm">
+                        <thead>
+                        <tr>
+                            <th style="width: 50%">{{ key }}</th>
+                            <th style="width: 25%">Type</th>
+                            <th style="width: 25%">Etablissement</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for courseInfo in course %}
+                            <tr>
+                                <td style="width: 50%">
+                                    <a href="{{ path('course_dashboard_index', { 'id' : courseInfo.id }) }}">{{ courseInfo.title }}</a>
+                                </td>
+                                <td style="width: 25%">
+                                    {{ courseInfo.course.type }}
+                                </td>
+                                <td style="width: 25%">
+                                    {{ courseInfo.course.etbId }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% endfor %}
+            {% endblock %}
+        </div>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('course_info_layout') }}
+{% endblock %}

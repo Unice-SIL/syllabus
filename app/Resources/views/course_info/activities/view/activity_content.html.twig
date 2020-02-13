@@ -1,0 +1,54 @@
+<div id="list-activities" class="p-2">
+    {% if activeSection.courseSectionActivities is empty %}
+        <div class="text-center p-2">
+            <h3 class="text-danger">{{ 'app.activities.view.activity.empty_activity' | trans }}</h3>
+            <div class="text-bold">
+                {{ 'app.activities.view.activity.add_activities' | trans }}
+            </div>
+            <i class="fas fa-arrow-down fa-5x"></i>
+        </div>
+    {% else %}
+        {% for sectionActivity in activeSection.courseSectionActivities %}
+            <div class="card mb-2 shadow">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col my-auto">
+                            {{ sectionActivity.activity.label }} ({{ sectionActivity.activityMode }}) {% if sectionActivity.description %} : {{ sectionActivity.description }}{% endif %}
+                        </div>
+                        <div class="col-2 my-auto">
+                            <span class="badge badge-primary rounded float-right">{{ sectionActivity.activityType }}</span>
+                        </div>
+                        <div class="col-1 my-auto btn-group dropleft" style="z-index: 15">
+                            <button class="btn dropdown-icon" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-v"></i> </button>
+                            <div class="dropdown-menu">
+                                <button type="button" class="dropdown-item text-info modal-action text-center"
+                                        data-action-title="{{ 'app.activities.view.activity.edit_activity' | trans }}"
+                                        data-action-url="{{ path('course_activities_edit_activity', {'courseSectionActivityId': sectionActivity.id, 'activityId': sectionActivity.activity.id }) }}">
+                                    <i class="fas fa-edit"></i> {{ 'app.general.button.edit' | trans }}
+                                </button>
+                                <button type="button" class="dropdown-item text-danger modal-action text-center"
+                                        data-action-title="{{ 'app.activities.view.activity.delete_activity' | trans }}"
+                                        data-action-url="{{ path('course_activities_remove_activity', {'sectionId': activeSection.id, 'courseSectionActivityId': sectionActivity.id }) }}">
+                                    <i class="fas fa-trash-alt"></i> {{ 'app.general.button.delete' | trans }}
+                                </button>
+                            </div>
+                        </div>
+                        {% if sectionActivity.evaluable %}
+                            <div class="ribbon-wrapper">
+                                {% if sectionActivity.evaluationRate %}
+                                    <div class="ribbon bg-primary">
+                                        {{ sectionActivity.evaluationRate }}%
+                                    </div>
+                                {% else %}
+                                    <div class="ribbon bg-danger">
+                                        0%
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>

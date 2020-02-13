@@ -20,7 +20,7 @@ class CourseResourceEquipment
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info", "course_resource_equipment"})
      */
     private $id;
 
@@ -28,7 +28,7 @@ class CourseResourceEquipment
      * @var string|null
      *
      * @ORM\Column(name="description", type="string", length=255, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info", "course_resource_equipment"})
      */
     private $description;
 
@@ -36,7 +36,7 @@ class CourseResourceEquipment
      * @var int
      *
      * @ORM\Column(name="ord", type="integer", nullable=false)
-     * @JMS\Groups(groups={"api"})*
+     * @JMS\Groups(groups={"course_info", "course_resource_equipment"})
      */
     private $order = 0;
 
@@ -47,6 +47,7 @@ class CourseResourceEquipment
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
      * })
+     * @JMS\Groups(groups={"course_resource_equipment"})
      */
     private $courseInfo;
 
@@ -57,6 +58,7 @@ class CourseResourceEquipment
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="equipment_id", referencedColumnName="id", nullable=false)
      * })
+     * @JMS\Groups(groups={"course_resource_equipment"})
      */
     private $equipment;
 
@@ -72,7 +74,7 @@ class CourseResourceEquipment
      * @param null|string $id
      * @return CourseResourceEquipment
      */
-    public function setId(?string $id): CourseResourceEquipment
+    public function setId(?string $id): self
     {
         $this->id = $id;
 
@@ -82,7 +84,7 @@ class CourseResourceEquipment
     /**
      * @return null|string
      */
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -91,7 +93,7 @@ class CourseResourceEquipment
      * @param null|string $description
      * @return CourseResourceEquipment
      */
-    public function setDescription($description)
+    public function setDescription($description): self
     {
         $this->description = $description;
 
@@ -110,7 +112,7 @@ class CourseResourceEquipment
      * @param int $order
      * @return CourseResourceEquipment
      */
-    public function setOrder(int $order): CourseResourceEquipment
+    public function setOrder(int $order): self
     {
         $this->order = $order;
 
@@ -130,7 +132,7 @@ class CourseResourceEquipment
      * @param CourseInfo|null $courseInfo
      * @return CourseResourceEquipment
      */
-    public function setCourseInfo(?CourseInfo $courseInfo): CourseResourceEquipment
+    public function setCourseInfo(?CourseInfo $courseInfo): self
     {
         $this->courseInfo = $courseInfo;
 
@@ -160,7 +162,7 @@ class CourseResourceEquipment
      * @param Equipment $equipment
      * @return CourseResourceEquipment
      */
-    public function setEquipment(Equipment $equipment): CourseResourceEquipment
+    public function setEquipment(Equipment $equipment): self
     {
         $this->equipment = $equipment;
 

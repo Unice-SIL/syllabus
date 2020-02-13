@@ -203,12 +203,25 @@ label.toggle-off {
     z-index: 1050;
 }
 
+/*
+    Title
+ */
+
+.title-bold-light {
+    color: #848c93;
+    font-weight: bold;
+}
+
 
 /*
     Buttons.
  */
 .course-title {
     font-family: "Apex New Book";
+}
+
+.toggle-off.btn {
+    padding-left: 1.4rem !important;
 }
 
 /*
@@ -233,6 +246,80 @@ legend.required {
  */
 li.active{
     background-color: $primary;
+}
+
+/*
+    Activities tab
+ */
+
+#section-activities-content {
+    margin-left: -7.5px;
+    margin-right: -7.5px;
+}
+
+#section-activities-content.sidebar-mini .sidebar-activities{
+    width: 40px;
+}
+
+.sidebar-activities > * {
+  transition-duration: 0.5s;
+  -webkit-transition-duration: 0.5s;
+  transition-property: opacity;
+  -webkit-transition-property: opacity;
+  transition-timing-function: ease-in-out;
+  -webkit-transition-timing-function: ease-in-out;
+}
+
+#section-activities-content.sidebar-mini .sidebar-activities > * {
+    opacity: 0;
+}
+
+#section-activities-content.sidebar-mini .sidebar-activities:hover > * {
+  opacity: 1;
+}
+
+.sidebar-activities {
+    position: absolute;
+    width: 250px;
+    min-height: calc(100% - 1.8rem - 3px);
+    z-index: 100;
+    transition-duration: 0.5s;
+    -webkit-transition-duration: 0.5s;
+    transition-property: width;
+    -webkit-transition-property: width;
+    transition-timing-function: ease-in-out;
+    -webkit-transition-timing-function: ease-in-out;
+}
+
+#section-activities-content.sidebar-mini .sidebar-activities:hover {
+    width: 250px;
+}
+
+#activity-content {
+    width: calc(100% - 250px);
+    left: 250px;
+    transition-duration: 0.5s;
+    -webkit-transition-duration: 0.5s;
+    transition-property: width, left;
+    -webkit-transition-property: width, left;
+    transition-timing-function: ease-in-out;
+    -webkit-transition-timing-function: ease-in-out;
+}
+
+#section-activities-content.sidebar-mini #activity-content {
+    width: calc(100% - 40px);
+    left: 40px;
+}
+
+#list-activities {
+    min-height: 300px;
+    max-height: calc(100vh - 310px);
+    overflow: auto;
+}
+
+#button-minimize {
+    position: absolute;
+    z-index: 101;
 }
 
 /*

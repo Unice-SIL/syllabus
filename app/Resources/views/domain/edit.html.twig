@@ -1,0 +1,25 @@
+{% extends 'admin_layout.html.twig' %}
+{% set h1 = 'Modifier un domaine' %}
+{% block subContent %}
+
+    <div class="card card-primary">
+        <!-- /.card-header -->
+        <!-- form start -->
+        {{ form_start(form) }}
+        <div class="card-body">
+
+            {{ form_row(form.label) }}
+            {{ form_row(form.structures) }}
+            <div class="custom-control custom-switch">
+                {{ form_row(form.obsolete) }}
+            </div>
+
+        </div>
+        <!-- /.card-body -->
+
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

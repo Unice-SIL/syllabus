@@ -20,7 +20,7 @@ class CourseTutoringResource
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info", "course_tutoring_resource"})
      */
     private $id;
 
@@ -28,7 +28,7 @@ class CourseTutoringResource
      * @var null|string
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info", "course_tutoring_resource"})
      */
     private $description = "";
 
@@ -36,7 +36,7 @@ class CourseTutoringResource
      * @var int
      *
      * @ORM\Column(name="ord", type="integer", nullable=false)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info", "course_tutoring_resource"})
      */
     private $order = 0;
 
@@ -47,6 +47,7 @@ class CourseTutoringResource
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
      * })
+     * @JMS\Groups(groups={"course_tutoring_resource"})
      */
     private $courseInfo;
 
@@ -62,7 +63,7 @@ class CourseTutoringResource
      * @param null|string $id
      * @return CourseTutoringResource
      */
-    public function setId(?string $id): CourseTutoringResource
+    public function setId(?string $id): self
     {
         $this->id = $id;
 
@@ -72,7 +73,7 @@ class CourseTutoringResource
     /**
      * @return null|string
      */
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -81,7 +82,7 @@ class CourseTutoringResource
      * @param null|string $description
      * @return CourseTutoringResource
      */
-    public function setDescription($description)
+    public function setDescription($description): self
     {
         $this->description = $description;
 
@@ -101,7 +102,7 @@ class CourseTutoringResource
      * @param int $order
      * @return CourseTutoringResource
      */
-    public function setOrder(int $order): CourseTutoringResource
+    public function setOrder(int $order): self
     {
         $this->order = $order;
 
@@ -121,12 +122,19 @@ class CourseTutoringResource
      * @param CourseInfo|null $courseInfo
      * @return CourseTutoringResource
      */
-    public function setCourseInfo(?CourseInfo $courseInfo): CourseTutoringResource
+    public function setCourseInfo(?CourseInfo $courseInfo): self
     {
         $this->courseInfo = $courseInfo;
 
         return $this;
     }
 
-    
+    /**
+     * @return null|string
+     */
+    public function __toString()
+    {
+        return $this->getDescription();
+    }
+
 }

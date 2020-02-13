@@ -21,32 +21,40 @@ class ActivityTypeFixture extends Fixture implements FixtureGroupInterface
     public function load(ObjectManager $manager)
     {
         $activityType = new ActivityType();
-        $activityType->setId(Uuid::uuid4())
+        $activityType
+            ->setLabel("Distant")
+            ->addActivity($this->getReference(ActivityFixture::ACTIVITY_1))
+            ->addActivity($this->getReference(ActivityFixture::ACTIVITY_2))
+            ->addActivity($this->getReference(ActivityFixture::ACTIVITY_4))
+            ->addActivity($this->getReference(ActivityFixture::ACTIVITY_5))
+            ->addActivityMode($this->getReference(ActivityModeFixture::ACTIVITY_MODE_1))
+            ->addActivityMode($this->getReference(ActivityModeFixture::ACTIVITY_MODE_2))
+            ->setObsolete(false);
+        $this->addReference(self::ACTIVITY_TYPE_3, $activityType);
+        $manager->persist($activityType);
+
+        $activityType = new ActivityType();
+        $activityType
             ->setLabel("Autonomy")
             ->addActivity($this->getReference(ActivityFixture::ACTIVITY_1))
+            ->addActivity($this->getReference(ActivityFixture::ACTIVITY_3))
+            ->addActivity($this->getReference(ActivityFixture::ACTIVITY_4))
+            ->addActivity($this->getReference(ActivityFixture::ACTIVITY_6))
             ->addActivityMode($this->getReference(ActivityModeFixture::ACTIVITY_MODE_1))
             ->setObsolete(false);
         $this->addReference(self::ACTIVITY_TYPE_1, $activityType);
         $manager->persist($activityType);
 
         $activityType = new ActivityType();
-        $activityType->setId(Uuid::uuid4())
+        $activityType
             ->setLabel("Class")
             ->addActivity($this->getReference(ActivityFixture::ACTIVITY_2))
+            ->addActivity($this->getReference(ActivityFixture::ACTIVITY_3))
+            ->addActivity($this->getReference(ActivityFixture::ACTIVITY_4))
+            ->addActivity($this->getReference(ActivityFixture::ACTIVITY_7))
             ->addActivityMode($this->getReference(ActivityModeFixture::ACTIVITY_MODE_2))
             ->setObsolete(false);
         $this->addReference(self::ACTIVITY_TYPE_2, $activityType);
-        $manager->persist($activityType);
-
-        $activityType = new ActivityType();
-        $activityType->setId(Uuid::uuid4())
-            ->setLabel("A distance")
-            ->addActivity($this->getReference(ActivityFixture::ACTIVITY_1))
-            ->addActivity($this->getReference(ActivityFixture::ACTIVITY_2))
-            ->addActivityMode($this->getReference(ActivityModeFixture::ACTIVITY_MODE_1))
-            ->addActivityMode($this->getReference(ActivityModeFixture::ACTIVITY_MODE_2))
-            ->setObsolete(false);
-        $this->addReference(self::ACTIVITY_TYPE_3, $activityType);
         $manager->persist($activityType);
 
         $manager->flush();

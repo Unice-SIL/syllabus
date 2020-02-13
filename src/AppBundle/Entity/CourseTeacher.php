@@ -20,7 +20,7 @@ class CourseTeacher
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info", "course_teacher"})
      */
     private $id;
 
@@ -28,7 +28,7 @@ class CourseTeacher
      * @var string|null
      *
      * @ORM\Column(name="firstname", type="string", length=100, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info", "course_teacher"})
      */
     private $firstname;
 
@@ -36,7 +36,7 @@ class CourseTeacher
      * @var string|null
      *
      * @ORM\Column(name="lastname", type="string", length=100, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info", "course_teacher"})
      */
     private $lastname;
 
@@ -44,7 +44,7 @@ class CourseTeacher
      * @var string|null
      *
      * @ORM\Column(name="email", type="string", length=255, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info", "course_teacher"})
      */
     private $email;
 
@@ -52,7 +52,7 @@ class CourseTeacher
      * @var bool
      *
      * @ORM\Column(name="manager", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info", "course_teacher"})
      */
     private $manager = false;
 
@@ -60,7 +60,7 @@ class CourseTeacher
      * @var bool
      *
      * @ORM\Column(name="email_visibility", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info", "course_teacher"})
      */
     private $emailVisibility = false;
 
@@ -71,6 +71,7 @@ class CourseTeacher
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
      * })
+     * @JMS\Groups(groups={"course_teacher"})
      */
     private $courseInfo;
 
@@ -86,7 +87,7 @@ class CourseTeacher
      * @param string|null $id
      * @return CourseTeacher
      */
-    public function setId(?string $id): CourseTeacher
+    public function setId(?string $id): self
     {
         $this->id = $id;
 
@@ -96,7 +97,7 @@ class CourseTeacher
     /**
      * @return null|string
      */
-    public function getFirstname()
+    public function getFirstname(): ?string
     {
         return $this->firstname;
     }
@@ -105,7 +106,7 @@ class CourseTeacher
      * @param null|string $firstname
      * @return CourseTeacher
      */
-    public function setFirstname($firstname)
+    public function setFirstname($firstname): self
     {
         $this->firstname = $firstname;
 
@@ -115,7 +116,7 @@ class CourseTeacher
     /**
      * @return null|string
      */
-    public function getLastname()
+    public function getLastname(): ?string
     {
         return $this->lastname;
     }
@@ -124,7 +125,7 @@ class CourseTeacher
      * @param null|string $lastname
      * @return CourseTeacher
      */
-    public function setLastname($lastname)
+    public function setLastname($lastname): self
     {
         $this->lastname = $lastname;
 
@@ -134,7 +135,7 @@ class CourseTeacher
     /**
      * @return null|string
      */
-    public function getEmail()
+    public function getEmail(): ?string
     {
         return $this->email;
     }
@@ -143,7 +144,7 @@ class CourseTeacher
      * @param null|string $email
      * @return CourseTeacher
      */
-    public function setEmail($email)
+    public function setEmail($email): self
     {
         $this->email = $email;
 
@@ -162,7 +163,7 @@ class CourseTeacher
      * @param bool $manager
      * @return CourseTeacher
      */
-    public function setManager(bool $manager): CourseTeacher
+    public function setManager(bool $manager): self
     {
         $this->manager = $manager;
 
@@ -181,7 +182,7 @@ class CourseTeacher
      * @param bool $emailVisibility
      * @return CourseTeacher
      */
-    public function setEmailVisibility(bool $emailVisibility): CourseTeacher
+    public function setEmailVisibility(bool $emailVisibility): self
     {
         $this->emailVisibility = $emailVisibility;
 
@@ -198,10 +199,10 @@ class CourseTeacher
     }
 
     /**
-     * @param $courseInfo
+     * @param CourseInfo|null $courseInfo
      * @return CourseTeacher
      */
-    public function setCourseInfo($courseInfo): CourseTeacher
+    public function setCourseInfo(?CourseInfo $courseInfo): self
     {
         $this->courseInfo = $courseInfo;
 

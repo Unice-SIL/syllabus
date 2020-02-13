@@ -11,6 +11,12 @@ use Doctrine\ORM\QueryBuilder;
  */
 interface StructureRepositoryInterface
 {
+
+    /**
+     * @return \ArrayObject
+     */
+    public function findAll(): \ArrayObject;
+
     /**
      * Find structure info by id
      * @param string $id

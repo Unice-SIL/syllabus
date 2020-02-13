@@ -1,25 +1,34 @@
 <h5>
     {{ activity.label }}
 </h5>
-{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('course_activities_add_activity', {'sectionId': courseSection.id, 'activityId': activity.id })}}) }}
+{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('course_activities_add_activity', {'sectionId': courseSection.id, 'activityId': activity.id, 'activityTypeId': form.vars.value.activityType.id })}}) }}
 {{ form_errors(form) }}
 {{ form_row(form.description) }}
 {{ form_row(form.activityType, {label_attr: {class: 'radio-custom'} }) }}
 
 {{ form_row(form.activityMode, {label_attr: {class: 'radio-custom'} }) }}
 
-<label>Cette activité est-elle évaluable ?</label>
+<label>{{ "app.activities.form.activity.evaluable" | trans }}</label>
 {{ form_row(form.evaluable) }}
 <div id="eval-content" class="d-none">
-    <label>Type de contrôle (Continu / Terminal) :</label>
+    <label>{{ "app.activities.form.activity.control" | trans }}</label>
     {{ form_row(form.evaluationCt) }}
-    {{ form_row(form.evaluationRate) }}
+    <div class="input-group mb-3">
+    {{ form_errors(form.evaluationRate) }}
+    {{ form_label(form.evaluationRate) }}
+    {{ form_widget(form.evaluationRate) }}
+    <div class="input-group-append">
+        <span class="input-group-text">
+            <i class="fas fa-percent"></i>
+        </span>
+    </div>
+    </div>
     {{ form_row(form.evaluationTeacher) }}
     {{ form_row(form.evaluationPeer) }}
 </div>
 <div class="d-flex justify-content-center">
     <button type="submit" class="btn btn-primary rounded">
-        Ajouter
+        {{ "app.general.button.add" | trans }}
     </button>
 </div>
 {{ form_widget(form._token) }}
@@ -34,11 +43,11 @@
     $activityType.change(function () {
         let $form = $(this).closest('form');
         let data = {};
-        data[$activityType.attr('name')] = $activityType.val();
+        data['activity_type'] = $('input[name="course_section_activity[activityType]"]:checked').val();
         $.ajax({
             url : $form.data('action-url'),
-            type: $form.attr('method'),
-            data : $form.serialize(),
+            type: 'GET',
+            data : data,
             success: function (html) {
                 $('#course_section_activity_activityMode').replaceWith(
                     $(html['content']).find('#course_section_activity_activityMode')

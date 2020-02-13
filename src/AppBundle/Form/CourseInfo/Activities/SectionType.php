@@ -22,7 +22,7 @@ class SectionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('description', CKEditorType::class, [
-            'label' => 'Description',
+            'label' => 'app.activities.form.section.description',
             'required' => false,
             'config' => array(
                 'extraPlugins' => 'wordcount',
@@ -42,7 +42,7 @@ class SectionType extends AbstractType
             ),
         ])
             ->add('title', TextType::class, [
-                'label' => "Titre de la section"
+                'label' => "app.activities.form.section.title"
             ]);
     }
 

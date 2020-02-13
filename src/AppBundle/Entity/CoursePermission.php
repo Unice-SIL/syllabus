@@ -2,10 +2,11 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Constant\Permission;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use JMS\Serializer\Annotation as JMS;
 
 /**
  * CoursePermission
@@ -15,7 +16,7 @@ use JMS\Serializer\Annotation as JMS;
  * @UniqueEntity(
  *     fields={"user", "courseInfo", "permission"},
  *     errorPath="user",
- *     message="Cet utilisateur a déjà ce droit."
+ *     message="Cet utilisateur possède déjà une permission identique."
  * )
  */
 class CoursePermission
@@ -27,7 +28,7 @@ class CoursePermission
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_permission"})
      */
     private $id;
 
@@ -36,9 +37,9 @@ class CoursePermission
      *
      * @ORM\Column(name="permission", type="string", length=45, nullable=false, options={"fixed"=true})
      * @Assert\NotBlank()
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_permission"})
      */
-    private $permission = 'READ';
+    private $permission = Permission::READ;
 
     /**
      * @var \AppBundle\Entity\CourseInfo
@@ -48,6 +49,7 @@ class CoursePermission
      *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
      * })
      * @Assert\NotBlank()
+     * @JMS\Groups(groups={"course_permission"})
      */
     private $courseInfo;
 
@@ -59,6 +61,7 @@ class CoursePermission
      *   @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      * })
      * @Assert\NotBlank()
+     * @JMS\Groups(groups={"course_permission"})
      */
     private $user;
 
@@ -71,10 +74,10 @@ class CoursePermission
     }
 
     /**
-     * @param string $id
+     * @param string|null $id
      * @return CoursePermission
      */
-    public function setId(string $id): CoursePermission
+    public function setId(?string $id): CoursePermission
     {
         $this->id = $id;
 
@@ -109,10 +112,10 @@ class CoursePermission
     }
 
     /**
-     * @param CourseInfo $courseInfo
+     * @param CourseInfo|null $courseInfo
      * @return CoursePermission
      */
-    public function setCourseInfo(CourseInfo $courseInfo): CoursePermission
+    public function setCourseInfo(?CourseInfo $courseInfo): CoursePermission
     {
         $this->courseInfo = $courseInfo;
 

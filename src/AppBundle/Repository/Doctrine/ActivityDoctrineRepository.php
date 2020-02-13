@@ -67,12 +67,10 @@ class ActivityDoctrineRepository extends AbstractDoctrineRepository implements A
 
     /**
      * @param $type
-     * @param $mode
-     * @param $grp
      * @return \ArrayObject
      * @throws \Exception
      */
-    public function findByCriteria($type, $mode, $grp): \ArrayObject
+    public function findByCriteria($type): \ArrayObject
     {
         $activities = new \ArrayObject();
         try{
@@ -82,8 +80,8 @@ class ActivityDoctrineRepository extends AbstractDoctrineRepository implements A
                 ->orderBy('a.position', 'ASC')
                 ->addOrderBy('a.label', 'ASC');
             if(!is_null($type)){
-                $qb->andWhere($qb->expr()->eq('a.type', ':type'))
-                    ->setParameter('type', $type);
+                $qb->andWhere(":activityType MEMBER OF a.activityTypes")
+                    ->setParameter("activityType", $type);
             }
             foreach ($qb->getQuery()->getResult() as $activity){
                 $activities->append($activity);
@@ -136,14 +134,12 @@ class ActivityDoctrineRepository extends AbstractDoctrineRepository implements A
         }
     }
 
-    public function findLikeQuery(string $query, string $type): array
+    public function findLikeQuery(string $query): array
     {
 
         return $this->entityManager->getRepository(Activity::class)->createQueryBuilder('a')
             ->andWhere('a.label LIKE :query ')
-            ->andWhere('a.type = :type ')
             ->setParameter('query', '%' . $query . '%')
-            ->setParameter('type', $type)
             ->getQuery()
             ->getResult()
             ;

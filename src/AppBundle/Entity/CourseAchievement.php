@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 use Ramsey\Uuid\UuidInterface;
 use JMS\Serializer\Annotation as JMS;
 
@@ -21,7 +22,7 @@ class CourseAchievement
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_achievement", "course_info"})
      */
     private $id;
 
@@ -29,7 +30,7 @@ class CourseAchievement
      * @var null|string
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=true)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_achievement", "course_info"})
      */
     private $description = "";
 
@@ -37,7 +38,7 @@ class CourseAchievement
      * @var int
      *
      * @ORM\Column(name="ord", type="integer", nullable=false)
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_achievement", "course_info"})
      */
     private $order = 0;
 
@@ -48,6 +49,7 @@ class CourseAchievement
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
      * })
+     * @JMS\Groups(groups={"course_achievement"})
      */
     private $courseInfo;
 
@@ -63,7 +65,7 @@ class CourseAchievement
      * @param null|string $id
      * @return CourseAchievement
      */
-    public function setId(?string $id): CourseAchievement
+    public function setId(?string $id): self
     {
         $this->id = $id;
 
@@ -73,7 +75,7 @@ class CourseAchievement
     /**
      * @return null|string
      */
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -82,7 +84,7 @@ class CourseAchievement
      * @param null|string $description
      * @return CourseAchievement
      */
-    public function setDescription($description)
+    public function setDescription($description): self
     {
         $this->description = $description;
 
@@ -102,7 +104,7 @@ class CourseAchievement
      * @param int $order
      * @return CourseAchievement
      */
-    public function setOrder(int $order): CourseAchievement
+    public function setOrder(int $order): self
     {
         $this->order = $order;
 
@@ -122,7 +124,7 @@ class CourseAchievement
      * @param CourseInfo|null $courseInfo
      * @return CourseAchievement
      */
-    public function setCourseInfo(?CourseInfo $courseInfo): CourseAchievement
+    public function setCourseInfo(?CourseInfo $courseInfo): self
     {
         $this->courseInfo = $courseInfo;
 

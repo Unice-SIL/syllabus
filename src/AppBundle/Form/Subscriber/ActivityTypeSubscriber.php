@@ -4,6 +4,7 @@
 namespace AppBundle\Form\Subscriber;
 
 use AppBundle\Constant\ActivityType;
+use AppBundle\Entity\Activity;
 use AppBundle\Manager\ActivityManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -32,28 +33,12 @@ class ActivityTypeSubscriber implements EventSubscriberInterface
     public function preSetData(FormEvent $event)
     {
         $form = $event->getForm();
+
+        /** @var Activity $activity */
         $activity = $event->getData();
-        $type = $activity->getType();
-
-        $modeChoices = $this->activityManager->getModeChoicesByType($type);
-        $form->add('mode', ChoiceType::class, [
-            'label' => 'app.form.activity.label.mode',
-            'choices' => array_combine($modeChoices, $modeChoices)
-        ]);
-
-        if ($type === ActivityType::ACTIVITY) {
-            $grpChoices = $this->activityManager->getGroupeChoicesByType($type);
-            $form->add('grp', ChoiceType::class, [
-                    'label' => 'app.form.activity.label.grp',
-                    'choices' => array_combine($grpChoices, $grpChoices)
-                ])
-            ;
-        }
 
         //Edit mode
-        //$activity->isNew is a dynamic property set in AppBundle\Manager\ActivityManager::create() to track the new state of the entity
-        if ($activity and !isset($activity->isNew)) {
-
+        if ($activity and $activity->getId()) {
             $form->add('obsolete', CheckboxType::class, [
                 'label' => 'Obsolète',
                 'required' => false,

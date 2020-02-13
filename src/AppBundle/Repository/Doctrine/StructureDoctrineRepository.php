@@ -12,7 +12,7 @@ use Doctrine\ORM\QueryBuilder;
  * Class StructureDoctrineRepository
  * @package AppBundle\Repository\Doctrine
  */
-class StructureDoctrineRepository  extends AbstractDoctrineRepository implements StructureRepositoryInterface
+class StructureDoctrineRepository extends AbstractDoctrineRepository implements StructureRepositoryInterface
 {
 
     /**
@@ -24,6 +24,29 @@ class StructureDoctrineRepository  extends AbstractDoctrineRepository implements
     )
     {
         $this->entityManager = $entityManager;
+    }
+
+    /**
+     * @return \ArrayObject
+     * @throws \Exception
+     */
+    public function findAll(): \ArrayObject
+    {
+        $structures = new \ArrayObject();
+        try {
+            $qb = $this->entityManager->getRepository(Structure::class)->createQueryBuilder('s');
+            $qb->where($qb->expr()->eq('s.obsolete', ':obsolete'))
+                ->setParameter('obsolete', false)
+                ->addOrderBy('s.label', 'ASC');
+            foreach ($qb->getQuery()->getResult() as $structure){
+                $structures->append($structure);
+            }
+        } catch (\Exception $exception)
+        {
+            throw $exception;
+        }
+
+        return $structures;
     }
 
     /**

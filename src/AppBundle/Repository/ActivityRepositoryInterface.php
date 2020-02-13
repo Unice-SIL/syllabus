@@ -24,11 +24,9 @@ interface ActivityRepositoryInterface
 
     /**
      * @param $type
-     * @param $mode
-     * @param $grp
      * @return \ArrayObject
      */
-    public function findByCriteria($type, $mode, $grp): \ArrayObject;
+    public function findByCriteria($type): \ArrayObject;
 
     /**
      * Create activity
@@ -67,9 +65,8 @@ interface ActivityRepositoryInterface
      * Find activities by type with label like $query
      *
      * @param $query
-     * @param $type
      * @return \ArrayObject
      */
-    public function findLikeQuery(string $query, string $type): array;
+    public function findLikeQuery(string $query): array;
 
 }

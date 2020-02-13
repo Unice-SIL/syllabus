@@ -17,6 +17,12 @@ interface YearRepositoryInterface
      */
     public function find(string $id): ?Year;
 
+    /**
+     * Find current year
+     * @return Year|null
+     */
+    public function findCurrentYear(): ?Year;
+
 
     /**
      * Find year to import

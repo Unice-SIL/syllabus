@@ -31,7 +31,7 @@ class CourseInfoApiController extends Controller
      * @param CourseInfoDoctrineRepository $courseInfoDoctrineRepository
      * @return JsonResponse
      *
-     * @Route("/", name="index", methods={"GET"})
+     * @Route("", name="index", methods={"GET"})
      * @SWG\Response(
      *     response=200,
      *     description="Returns the list of syllabus records"
