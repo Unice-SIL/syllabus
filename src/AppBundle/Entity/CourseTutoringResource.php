@@ -20,7 +20,7 @@ class CourseTutoringResource
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"course_info", "course_tutoring_resource"})
+     * @JMS\Groups(groups={"default", "course_tutoring_resource"})
      */
     private $id;
 
@@ -28,17 +28,17 @@ class CourseTutoringResource
      * @var null|string
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=true)
-     * @JMS\Groups(groups={"course_info", "course_tutoring_resource"})
+     * @JMS\Groups(groups={"default", "course_tutoring_resource"})
      */
     private $description = "";
 
     /**
      * @var int
      *
-     * @ORM\Column(name="ord", type="integer", nullable=false)
-     * @JMS\Groups(groups={"course_info", "course_tutoring_resource"})
+     * @ORM\Column(name="position", type="integer", nullable=false)
+     * @JMS\Groups(groups={"default", "course_tutoring_resource"})
      */
-    private $order = 0;
+    private $position = 0;
 
     /**
      * @var \AppBundle\Entity\CourseInfo
@@ -93,18 +93,18 @@ class CourseTutoringResource
     /**
      * @return int
      */
-    public function getOrder(): ?int
+    public function getPosition(): ?int
     {
-        return $this->order;
+        return $this->position;
     }
 
     /**
-     * @param int $order
+     * @param int $position
      * @return CourseTutoringResource
      */
-    public function setOrder(int $order): self
+    public function setPosition(int $position): self
     {
-        $this->order = $order;
+        $this->position = $position;
 
         return $this;
     }
