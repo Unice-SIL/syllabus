@@ -151,7 +151,7 @@ class CourseResourceEquipment
      * @JMS\VirtualProperty()
      * @JMS\Groups(groups={"api"})
      * @JMS\SerializedName("equipment")
-     * 
+     *
      * @return Equipment|null
      */
     public function getEquipmentApi()
