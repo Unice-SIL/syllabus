@@ -1953,9 +1953,6 @@ class CourseInfo
             }
         }
 
-            $courseSection->setCourseInfo($this);
-        }
-
         return $this;
     }
 
@@ -1973,6 +1970,7 @@ class CourseInfo
                 $courseSection->setCourseInfo(null);
             }
         }
+
         return $this;
     }
 
@@ -2028,6 +2026,7 @@ class CourseInfo
                 $courseAchievement->setCourseInfo(null);
             }
         }
+
         return $this;
     }
 
@@ -2216,7 +2215,6 @@ class CourseInfo
     /**
      *
      */
-
     public function __clone()
     {
 
