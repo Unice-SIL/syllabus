@@ -27,7 +27,7 @@ class User implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"course_info", "course_permission", "user"})
+     * @JMS\Groups(groups={"default", "user"})
      */
     private $id;
 
@@ -36,7 +36,7 @@ class User implements UserInterface
      *
      * @ORM\Column(name="username", type="string", length=255, nullable=true)
      * @Assert\NotBlank()
-     * @JMS\Groups(groups={"course_info", "course_permission", "user"})
+     * @JMS\Groups(groups={"default", "user"})
      */
     private $username;
 
@@ -45,7 +45,7 @@ class User implements UserInterface
      *
      * @ORM\Column(name="firstname", type="string", length=100, nullable=true, options={"fixed"=true})
      * @Assert\NotBlank()
-     * @JMS\Groups(groups={"course_info", "course_permission", "user"})
+     * @JMS\Groups(groups={"default", "user"})
      */
     private $firstname;
 
@@ -54,7 +54,7 @@ class User implements UserInterface
      *
      * @ORM\Column(name="lastname", type="string", length=100, nullable=true, options={"fixed"=true})
      * @Assert\NotBlank()
-     * @JMS\Groups(groups={"course_info", "course_permission", "user"})
+     * @JMS\Groups(groups={"default", "user"})
      */
     private $lastname;
 
@@ -64,7 +64,7 @@ class User implements UserInterface
      * @ORM\Column(name="email", type="string", length=255, nullable=true)
      * @Assert\NotBlank()
      * @Assert\Email()
-     * @JMS\Groups(groups={"course_info", "course_permission", "user"})
+     * @JMS\Groups(groups={"default", "user"})
      */
     private $email;
 
@@ -125,7 +125,7 @@ class User implements UserInterface
      * @param string $id
      * @return User
      */
-    public function setId(string $id): self
+    public function setId(?string $id): self
     {
         $this->id = $id;
 
@@ -144,7 +144,7 @@ class User implements UserInterface
      * @param null|string $username
      * @return User
      */
-    public function setUsername($username): self
+    public function setUsername(?string $username): self
     {
         $this->username = $username;
 
@@ -163,7 +163,7 @@ class User implements UserInterface
      * @param null|string $firstname
      * @return User
      */
-    public function setFirstname($firstname): self
+    public function setFirstname(?string $firstname): self
     {
         $this->firstname = $firstname;
 
@@ -182,7 +182,7 @@ class User implements UserInterface
      * @param null|string $lastname
      * @return User
      */
-    public function setLastname($lastname): self
+    public function setLastname(?string $lastname): self
     {
         $this->lastname = $lastname;
 
@@ -201,7 +201,7 @@ class User implements UserInterface
      * @param null|string $email
      * @return User
      */
-    public function setEmail($email): self
+    public function setEmail(?string $email): self
     {
         $this->email = $email;
 
@@ -220,7 +220,7 @@ class User implements UserInterface
      * @param null|string $password
      * @return User
      */
-    public function setPassword($password): self
+    public function setPassword(?string $password): self
     {
         $this->password = $password;
 
@@ -239,7 +239,7 @@ class User implements UserInterface
      * @param null|string $salt
      * @return User
      */
-    public function setSalt($salt): self
+    public function setSalt(?string $salt): self
     {
         $this->salt = $salt;
 
@@ -258,7 +258,7 @@ class User implements UserInterface
      * @param null|array $roles
      * @return User
      */
-    public function setRoles($roles): self
+    public function setRoles(array $roles): self
     {
         $this->roles = $roles;
 
@@ -277,6 +277,10 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @param string $role
+     * @return bool
+     */
     public function hasRole(string $role): bool
     {
         return in_array($role, $this->roles);
