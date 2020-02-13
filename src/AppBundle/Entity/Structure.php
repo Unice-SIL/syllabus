@@ -26,7 +26,7 @@ class Structure
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"course_info", "structure"})
+     * @JMS\Groups(groups={"default", "structure"})
      */
     private $id;
 
@@ -35,7 +35,7 @@ class Structure
      *
      * @ORM\Column(name="label", type="string", length=100, nullable=true)
      * @Assert\NotBlank()
-     * @JMS\Groups(groups={"course_info", "structure"})
+     * @JMS\Groups(groups={"default", "structure"})
      */
     private $label;
 
@@ -43,7 +43,7 @@ class Structure
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"course_info", "structure"})
+     * @JMS\Groups(groups={"default", "structure"})
      */
     private $obsolete = '0';
 
@@ -83,10 +83,10 @@ class Structure
     }
 
     /**
-     * @param string $id
+     * @param null|string $id
      * @return Structure
      */
-    public function setId(string $id): self
+    public function setId(?string $id): self
     {
         $this->id = $id;
 
@@ -105,7 +105,7 @@ class Structure
      * @param null|string $label
      * @return Structure
      */
-    public function setLabel($label): self
+    public function setLabel(?string $label): self
     {
         $this->label = $label;
 

@@ -20,7 +20,7 @@ class CoursePrerequisite
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"course_info", "course_prerequisite"})
+     * @JMS\Groups(groups={"default", "course_prerequisite"})
      */
     private $id;
 
@@ -28,17 +28,17 @@ class CoursePrerequisite
      * @var null|string
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=true)
-     * @JMS\Groups(groups={"course_info", "course_prerequisite"})
+     * @JMS\Groups(groups={"default", "course_prerequisite"})
      */
     private $description = "";
 
     /**
      * @var int
      *
-     * @ORM\Column(name="ord", type="integer", nullable=false)
-     * @JMS\Groups(groups={"course_info", "course_prerequisite"})
+     * @ORM\Column(name="position", type="integer", nullable=false)
+     * @JMS\Groups(groups={"default", "course_prerequisite"})
      */
-    private $order = 0;
+    private $position = 0;
 
     /**
      * @var \AppBundle\Entity\CourseInfo
@@ -47,7 +47,7 @@ class CoursePrerequisite
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
      * })
-     * @JMS\Groups(groups={"course_info"})
+     * @JMS\Groups(groups={"course_prerequisite"})
      */
     private $courseInfo;
 
@@ -92,18 +92,18 @@ class CoursePrerequisite
     /**
      * @return int
      */
-    public function getOrder(): ?int
+    public function getPosition(): ?int
     {
-        return $this->order;
+        return $this->position;
     }
 
     /**
-     * @param int $order
+     * @param int $position
      * @return CoursePrerequisite
      */
-    public function setOrder(int $order): self
+    public function setPosition(int $position): self
     {
-        $this->order = $order;
+        $this->position = $position;
 
         return $this;
     }
