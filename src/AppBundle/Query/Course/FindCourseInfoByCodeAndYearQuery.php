@@ -11,7 +11,7 @@ use AppBundle\Repository\CourseInfoRepositoryInterface;
  * Class FindCourseInfoByIdQuery
  * @package AppBundle\Query\Course
  */
-class FindCourseInfoByEtbIdAndYearQuery implements QueryInterface
+class FindCourseInfoByCodeAndYearQuery implements QueryInterface
 {
 
     /**
@@ -22,7 +22,7 @@ class FindCourseInfoByEtbIdAndYearQuery implements QueryInterface
     /**
      * @var string
      */
-    private $etbId;
+    private $code;
 
     /**
      * @var string
@@ -41,20 +41,20 @@ class FindCourseInfoByEtbIdAndYearQuery implements QueryInterface
     }
 
     /**
-     * @param string $etbId
-     * @return FindCourseInfoByEtbIdAndYearQuery
+     * @param string $code
+     * @return FindCourseInfoByCodeAndYearQuery
      */
-    public function setEtbId(string $etbId): FindCourseInfoByEtbIdAndYearQuery
+    public function setCode(string $code): FindCourseInfoByCodeAndYearQuery
     {
-        $this->etbId = $etbId;
+        $this->code = $code;
         return $this;
     }
 
     /**
      * @param string $year
-     * @return FindCourseInfoByEtbIdAndYearQuery
+     * @return FindCourseInfoByCodeAndYearQuery
      */
-    public function setYear(string $year): FindCourseInfoByEtbIdAndYearQuery
+    public function setYear(string $year): FindCourseInfoByCodeAndYearQuery
     {
         $this->year = $year;
         return $this;
@@ -68,9 +68,9 @@ class FindCourseInfoByEtbIdAndYearQuery implements QueryInterface
     {
         $courseInfo = null;
         try{
-            $courseInfo = $this->courseInfoRepository->findByEtbIdAndYear($this->etbId, $this->year);
+            $courseInfo = $this->courseInfoRepository->findByCodeAndYear($this->code, $this->year);
             if(is_null($courseInfo)){
-                throw new CourseInfoNotFoundException(sprintf("CourseInfo with establishment id %s for year %s not found.", $this->etbId, $this->year));
+                throw new CourseInfoNotFoundException(sprintf("CourseInfo with establishment id %s for year %s not found.", $this->code, $this->year));
             }
         }catch (\Exception $e){
             throw $e;

@@ -1,7 +1,7 @@
 <div>
     <p>
         Bonjour,<br><br><br>
-        {{ user.firstname }} {{ user.lastname }} ({{ user.username }}) demande un avis sur le syllabus du cours <a href="{{ absolute_url(path('course_router', {'etbId': courseInfo.course.etbId, 'year': courseInfo.year.id})) }}">« {{ courseInfo.title }} »</a>.
+        {{ user.firstname }} {{ user.lastname }} ({{ user.username }}) demande un avis sur le syllabus du cours <a href="{{ absolute_url(path('course_router', {'code': courseInfo.course.code, 'year': courseInfo.year.id})) }}">« {{ courseInfo.title }} »</a>.
     </p>
     <p>
         Répondez simplement à ce courriel pour le lui faire parvenir.

@@ -16,20 +16,20 @@ use Symfony\Component\Routing\Annotation\Route;
 class DefaultController extends AbstractController
 {
     /**
-     * @Route("/course/router/{etbId}/{year}", name="app_router", defaults={"year"=null})
-     * @param $etbId
+     * @Route("/course/router/{code}/{year}", name="app_router", defaults={"year"=null})
+     * @param $code
      * @param string $year
      * @param CourseInfoRepositoryInterface $repository
      * @param YearRepositoryInterface $yearRepository
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function routerAction($etbId, $year, CourseInfoRepositoryInterface $repository, YearRepositoryInterface $yearRepository)
+    public function routerAction($code, $year, CourseInfoRepositoryInterface $repository, YearRepositoryInterface $yearRepository)
     {
         if (empty($year)) {
             $year = $yearRepository->findCurrentYear();
         }
         /** @var CourseInfo $courseInfo */
-        $courseInfo = $repository->findByEtbIdAndYear($etbId, $year);
+        $courseInfo = $repository->findByCodeAndYear($code, $year);
         if (empty($courseInfo)) {
             return $this->render('error/courseNotFound.html.twig');
         }

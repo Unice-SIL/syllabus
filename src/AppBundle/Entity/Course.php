@@ -289,7 +289,7 @@ class Course
      */
     public function __toString()
     {
-        return $this->getEtbId();
+        return $this->getCode();
     }
 
 

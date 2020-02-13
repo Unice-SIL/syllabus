@@ -2,7 +2,7 @@
 Bonjour,
 
 
-{{ user.firstname }} {{ user.lastname }} ({{ user.username }}) demande un avis sur le syllabus du cours « {{ courseInfo.title }} » ({{ absolute_url(path('course_router', {'etbId': courseInfo.course.etbId, 'year': courseInfo.year.id})) }}).
+{{ user.firstname }} {{ user.lastname }} ({{ user.username }}) demande un avis sur le syllabus du cours « {{ courseInfo.title }} » ({{ absolute_url(path('course_router', {'code': courseInfo.course.code, 'year': courseInfo.year.id})) }}).
 
 Répondez simplement à ce courriel pour le lui faire parvenir.
 

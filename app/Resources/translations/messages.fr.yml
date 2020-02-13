@@ -102,7 +102,7 @@ app:
     structure:
       label:
         label: Label
-        etbId: Code établissement
+        code: Code établissement
         campus: Campus
         obsolete: Obsolète
         structure: Structure

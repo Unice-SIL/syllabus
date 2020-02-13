@@ -34,7 +34,7 @@ class CourseApiController extends Controller
      *     description="Returns the list of course records"
      * )
      * @SWG\Parameter(
-     *     name="etbId",
+     *     name="code",
      *     in="query",
      *     type="string",
      *     description="A field used to filter course"
@@ -63,7 +63,7 @@ class CourseApiController extends Controller
     public function indexAction(Request $request, ApiHelper $apiHelper, CourseDoctrineRepository $courseDoctrineRepository)
     {
         $config = $apiHelper->createConfigFromRequest($request, [
-            'validFilterKeys' => ['etbId' => 'text', 'type' => 'text']
+            'validFilterKeys' => ['code' => 'text', 'type' => 'text']
         ]);
 
         $qb = $courseDoctrineRepository->findQueryBuilderForApi($config);

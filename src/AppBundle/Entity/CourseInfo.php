@@ -2381,12 +2381,12 @@ class CourseInfo
         }
     }
 
-    public function getEtbIdYear(bool $dev = null)
+    public function getCodeYear(bool $dev = null)
     {
         if ($dev) {
-            return $this->course->getEtbId() . '__UNION__' . $this->year->getId();
+            return $this->course->getCode() . '__UNION__' . $this->year->getId();
         }
-        return $this->course->getEtbId() . '-' . $this->year->getId();
+        return $this->course->getCode() . '-' . $this->year->getId();
     }
 
     public function setAllRelations()
