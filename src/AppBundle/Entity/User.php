@@ -268,6 +268,9 @@ class User implements UserInterface
      */
     public function getRoles(): ?array
     {
+        if ($this->roles === null) {
+            $this->roles = [];
+        }
         $roles = $this->roles;
         $groups = $this->getGroups();
         foreach ($groups as $group) {
