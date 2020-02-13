@@ -20,7 +20,7 @@ class CourseTeacher
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"course_info", "course_teacher"})
+     * @JMS\Groups(groups={"default", "course_teacher"})
      */
     private $id;
 
@@ -28,7 +28,7 @@ class CourseTeacher
      * @var string|null
      *
      * @ORM\Column(name="firstname", type="string", length=100, nullable=true)
-     * @JMS\Groups(groups={"course_info", "course_teacher"})
+     * @JMS\Groups(groups={"default", "course_teacher"})
      */
     private $firstname;
 
@@ -36,7 +36,7 @@ class CourseTeacher
      * @var string|null
      *
      * @ORM\Column(name="lastname", type="string", length=100, nullable=true)
-     * @JMS\Groups(groups={"course_info", "course_teacher"})
+     * @JMS\Groups(groups={"default", "course_teacher"})
      */
     private $lastname;
 
@@ -44,7 +44,7 @@ class CourseTeacher
      * @var string|null
      *
      * @ORM\Column(name="email", type="string", length=255, nullable=true)
-     * @JMS\Groups(groups={"course_info", "course_teacher"})
+     * @JMS\Groups(groups={"default", "course_teacher"})
      */
     private $email;
 
@@ -52,7 +52,7 @@ class CourseTeacher
      * @var bool
      *
      * @ORM\Column(name="manager", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"course_info", "course_teacher"})
+     * @JMS\Groups(groups={"default", "course_teacher"})
      */
     private $manager = false;
 
@@ -60,7 +60,7 @@ class CourseTeacher
      * @var bool
      *
      * @ORM\Column(name="email_visibility", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"course_info", "course_teacher"})
+     * @JMS\Groups(groups={"default", "course_teacher"})
      */
     private $emailVisibility = false;
 
