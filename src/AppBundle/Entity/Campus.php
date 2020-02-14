@@ -3,7 +3,9 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Traits\Importable;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -48,6 +50,21 @@ class Campus
      * @JMS\Groups(groups={"default", "campus"})
      */
     private $obsolete = false;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\CourseInfo", mappedBy="campuses")
+     */
+    private $courseInfos;
+
+    /**
+     * Campus constructor.
+     */
+    public function __construct()
+    {
+        $this->courseInfos = new ArrayCollection();
+    }
 
     /**
      * @return null|string
@@ -107,8 +124,61 @@ class Campus
     }
 
     /**
+     * @return Collection
+     */
+    public function getCourseInfos(): Collection
+    {
+        return $this->courseInfos;
+    }
+
+    /**
+     * @param Collection $courseInfos
+     * @return Campus
+     */
+    public function setCourseInfos(Collection $courseInfos): self
+    {
+        $this->courseInfos = $courseInfos;
+
+        return $this;
+    }
+
+    /**
      * @return null|string
      */
+    /**
+     * @param CourseInfo $courseInfo
+     * @return Campus
+     */
+    public function addCourseInfo(CourseInfo $courseInfo): self
+    {
+        if (!$this->courseInfos->contains($courseInfo))
+        {
+            $this->courseInfos->add($courseInfo);
+            if (!$courseInfo->getCampuses()->contains($this))
+            {
+                $courseInfo->getCampuses()->add($this);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @param CourseInfo $courseInfo
+     * @return Campus
+     */
+    public function removeCourseInfo(CourseInfo $courseInfo): self
+    {
+        if ($this->courseInfos->contains($courseInfo))
+        {
+            $this->courseInfos->removeElement($courseInfo);
+            if ($courseInfo->getCampuses()->contains($this))
+            {
+                $courseInfo->getCampuses()->removeElement($this);
+            }
+        }
+        return $this;
+    }
+
     public function __toString()
     {
         return $this->getLabel();

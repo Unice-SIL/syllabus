@@ -48,10 +48,17 @@ class Period
     /**
      * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Structure", mappedBy="periods")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Structure", inversedBy="periods")
      * @JMS\Groups(groups={"period"})
      */
     private $structures;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\CourseInfo", mappedBy="periods")
+     */
+    private $courseInfos;
 
     /**
      * Period constructor.
@@ -59,6 +66,7 @@ class Period
     public function __construct()
     {
         $this->structures = new ArrayCollection();
+        $this->courseInfos = new ArrayCollection();
     }
 
     /**
@@ -168,6 +176,48 @@ class Period
             }
         }
         return $this;
+    }
+
+    /**
+     * @param CourseInfo $courseInfo
+     * @return Period
+     */
+    public function addCourseInfo(CourseInfo $courseInfo): self
+    {
+        if (!$this->courseInfos->contains($courseInfo))
+        {
+            $this->courseInfos->add($courseInfo);
+            if (!$courseInfo->getPeriods()->contains($this))
+            {
+                $courseInfo->getPeriods()->add($this);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @param CourseInfo $courseInfo
+     * @return Period
+     */
+    public function removeCourseInfo(CourseInfo $courseInfo): self
+    {
+        if ($this->courseInfos->contains($courseInfo))
+        {
+            $this->courseInfos->removeElement($courseInfo);
+            if ($courseInfo->getPeriods()->contains($this))
+            {
+                $courseInfo->getPeriods()->removeElement($this);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getCourseInfos(): Collection
+    {
+        return $this->courseInfos;
     }
 
     /**
