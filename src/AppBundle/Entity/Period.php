@@ -6,6 +6,7 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinTable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -54,7 +55,16 @@ class Period
     public function __construct()
     {
         $this->structures = new ArrayCollection();
+        $this->courseInfos = new ArrayCollection();
     }
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\CourseInfo", inversedBy="periods")
+     * @JoinTable(name="courseInfo_period")
+     */
+    private $courseInfos;
 
     /**
      * @return string
@@ -159,5 +169,47 @@ class Period
             }
         }
         return $this;
+    }
+
+    /**
+     * @param CourseInfo $courseInfo
+     * @return Period
+     */
+    public function addCourseInfo(CourseInfo $courseInfo): self
+    {
+        if (!$this->courseInfos->contains($courseInfo))
+        {
+            $this->courseInfos->add($courseInfo);
+            if (!$courseInfo->getPeriods()->contains($this))
+            {
+                $courseInfo->getPeriods()->add($this);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @param CourseInfo $courseInfo
+     * @return Period
+     */
+    public function removeCourseInfo(CourseInfo $courseInfo): self
+    {
+        if ($this->courseInfos->contains($courseInfo))
+        {
+            $this->courseInfos->removeElement($courseInfo);
+            if ($courseInfo->getPeriods()->contains($this))
+            {
+                $courseInfo->getPeriods()->removeElement($this);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getCourseInfos()
+    {
+        return $this->courseInfos;
     }
 }

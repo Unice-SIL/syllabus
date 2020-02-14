@@ -63,24 +63,42 @@ class CourseInfo
     private $level;
 
     /**
-     * @var string|null
+     * @var Collection
      *
-     * @ORM\Column(name="languages", type="string", length=200, nullable=true)
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Campus", mappedBy="courseInfos")
+     * @JMS\Groups(groups={"course_info"})
+     *
+     */
+    private $campuses;
+
+    /**
+     * @var Collection
+     *
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Language", mappedBy="courseInfos")
      * @JMS\Groups(groups={"course_info"})
      *
      */
     private $languages;
 
     /**
-     * @var string|null
+     * @var Collection
      *
-     * @ORM\Column(name="domain", type="string", length=100, nullable=true, options={"fixed"=true})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Domain", mappedBy="courseInfos")
+     * @JMS\Type("ArrayCollection<AppBundle\Entity\Domain>")
      * @Assert\NotBlank(groups={"presentation"})
      * @JMS\Groups(groups={"api"})
      * @JMS\Groups(groups={"course_info"})
-     *
      */
-    private $domain;
+    private $domains;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Period", mappedBy="courseInfos")
+     * @JMS\Type("ArrayCollection<AppBundle\Entity\Period>")
+     * @JMS\Groups(groups={"course_info"})
+     */
+    private $periods;
 
     /**
      * @var int|null
@@ -99,14 +117,6 @@ class CourseInfo
      * @JMS\Groups(groups={"course_info"})
      */
     private $summary;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="period", type="string", length=255, nullable=true)
-     * @JMS\Groups(groups={"course_info"})
-     */
-    private $period;
 
     /**
      * @var string|null
@@ -553,14 +563,14 @@ class CourseInfo
     private $year;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="CoursePermission", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      */
     private $coursePermissions;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="CourseTeacher", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"lastname" = "ASC"})
@@ -569,7 +579,7 @@ class CourseInfo
     private $courseTeachers;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="CourseSection", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"position" = "ASC"})
@@ -579,7 +589,7 @@ class CourseInfo
     private $courseSections;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="CourseAchievement", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"order" = "ASC"})
@@ -588,7 +598,7 @@ class CourseInfo
     private $courseAchievements;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="CoursePrerequisite", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"order" = "ASC"})
@@ -597,7 +607,7 @@ class CourseInfo
     private $coursePrerequisites;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="CourseTutoringResource", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"order" = "ASC"})
@@ -606,7 +616,7 @@ class CourseInfo
     private $courseTutoringResources;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="CourseResourceEquipment", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"order" = "ASC"})
@@ -632,6 +642,10 @@ class CourseInfo
         $this->coursePrerequisites = new ArrayCollection();
         $this->courseTutoringResources = new ArrayCollection();
         $this->courseResourceEquipments = new ArrayCollection();
+        $this->campuses = new ArrayCollection();
+        $this->languages = new ArrayCollection();
+        $this->domains = new ArrayCollection();
+        $this->periods = new ArrayCollection();
     }
 
     /**
@@ -711,44 +725,6 @@ class CourseInfo
     }
 
     /**
-     * @return null|string
-     */
-    public function getLanguages()
-    {
-        return $this->languages;
-    }
-
-    /**
-     * @param null|string $languages
-     * @return CourseInfo
-     */
-    public function setLanguages($languages)
-    {
-        $this->languages = $languages;
-
-        return $this;
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getDomain()
-    {
-        return $this->domain;
-    }
-
-    /**
-     * @param null|string $domain
-     * @return CourseInfo
-     */
-    public function setDomain($domain)
-    {
-        $this->domain = $domain;
-
-        return $this;
-    }
-
-    /**
      * @return int|null
      */
     public function getSemester()
@@ -782,25 +758,6 @@ class CourseInfo
     public function setSummary($summary)
     {
         $this->summary = $summary;
-
-        return $this;
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getPeriod()
-    {
-        return $this->period;
-    }
-
-    /**
-     * @param null|string $period
-     * @return CourseInfo
-     */
-    public function setPeriod($period)
-    {
-        $this->period = $period;
 
         return $this;
     }
@@ -2219,6 +2176,174 @@ class CourseInfo
         $this->previousImage = $this->getImage();
 
         return $this;
+    }
+
+    /**
+     * @param Language $language
+     * @return CourseInfo
+     */
+    public function addLanguage(Language $language): self
+    {
+        if (!$this->languages->contains($language))
+        {
+            $this->languages->add($language);
+            if (!$language->getCourseInfos()->contains($this))
+            {
+                $language->getCourseInfos()->add($this);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @param Language $language
+     * @return CourseInfo
+     */
+    public function removeLanguage(Language $language): self
+    {
+        if ($this->languages->contains($language))
+        {
+            $this->languages->removeElement($language);
+            if ($language->getCourseInfos()->contains($this))
+            {
+                $language->getCourseInfos()->removeElement($this);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getLanguages()
+    {
+        return $this->languages;
+    }
+
+    /**
+     * @param Campus $campus
+     * @return CourseInfo
+     */
+    public function addCampus(Campus $campus): self
+    {
+        if (!$this->campuses->contains($campus))
+        {
+            $this->campuses->add($campus);
+            if (!$campus->getCourseInfos()->contains($this))
+            {
+                $campus->getCourseInfos()->add($this);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @param Campus $campus
+     * @return CourseInfo
+     */
+    public function removeCampus(Campus $campus): self
+    {
+        if ($this->campuses->contains($campus))
+        {
+            $this->campuses->removeElement($campus);
+            if ($campus->getCourseInfos()->contains($this))
+            {
+                $campus->getCourseInfos()->removeElement($this);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getCampuses()
+    {
+        return $this->campuses;
+    }
+
+    /**
+     * @param Domain $domain
+     * @return CourseInfo
+     */
+    public function addDomain(Domain $domain): self
+    {
+        if (!$this->domains->contains($domain))
+        {
+            $this->domains->add($domain);
+            if (!$domain->getCourseInfos()->contains($this))
+            {
+                $domain->getCourseInfos()->add($this);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @param Domain $domain
+     * @return CourseInfo
+     */
+    public function removeDomain(Domain $domain): self
+    {
+        if ($this->domains->contains($domain))
+        {
+            $this->domains->removeElement($domain);
+            if ($domain->getCourseInfos()->contains($this))
+            {
+                $domain->getCourseInfos()->removeElement($this);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getDomains()
+    {
+        return $this->domains;
+    }
+
+    /**
+     * @param Period $period
+     * @return CourseInfo
+     */
+    public function addPeriod(Period $period): self
+    {
+        if (!$this->periods->contains($period))
+        {
+            $this->periods->add($period);
+            if (!$period->getCourseInfos()->contains($this))
+            {
+                $period->getCourseInfos()->add($this);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @param Period $period
+     * @return CourseInfo
+     */
+    public function removePeriod(Period $period): self
+    {
+        if ($this->periods->contains($period))
+        {
+            $this->periods->removeElement($period);
+            if ($period->getCourseInfos()->contains($this))
+            {
+                $period->getCourseInfos()->removeElement($this);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getPeriods()
+    {
+        return $this->periods;
     }
 
     /**

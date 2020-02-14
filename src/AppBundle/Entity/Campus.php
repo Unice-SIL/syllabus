@@ -3,7 +3,9 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinTable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -40,6 +42,22 @@ class Campus
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
      */
     private $obsolete = false;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\CourseInfo", inversedBy="campuses")
+     * @JoinTable(name="courseInfo_campus")
+     */
+    private $courseInfos;
+
+    /**
+     * Campus constructor.
+     */
+    public function __construct()
+    {
+        $this->courseInfos = new ArrayCollection();
+    }
 
     /**
      * @return string
@@ -87,6 +105,48 @@ class Campus
     public function setObsolete($obsolete)
     {
         $this->obsolete = $obsolete;
+    }
+
+    /**
+     * @param CourseInfo $courseInfo
+     * @return Campus
+     */
+    public function addCourseInfo(CourseInfo $courseInfo): self
+    {
+        if (!$this->courseInfos->contains($courseInfo))
+        {
+            $this->courseInfos->add($courseInfo);
+            if (!$courseInfo->getCampuses()->contains($this))
+            {
+                $courseInfo->getCampuses()->add($this);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @param CourseInfo $courseInfo
+     * @return Campus
+     */
+    public function removeCourseInfo(CourseInfo $courseInfo): self
+    {
+        if ($this->courseInfos->contains($courseInfo))
+        {
+            $this->courseInfos->removeElement($courseInfo);
+            if ($courseInfo->getCampuses()->contains($this))
+            {
+                $courseInfo->getCampuses()->removeElement($this);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getCourseInfos()
+    {
+        return $this->courseInfos;
     }
 
     public function __toString()

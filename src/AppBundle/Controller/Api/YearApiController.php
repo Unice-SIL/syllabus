@@ -3,16 +3,13 @@
 namespace AppBundle\Controller\Api;
 
 
-use AppBundle\Entity\Year;
 use AppBundle\Helper\ApiHelper;
 use AppBundle\Repository\Doctrine\YearDoctrineRepository;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\QueryBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class YearApiController

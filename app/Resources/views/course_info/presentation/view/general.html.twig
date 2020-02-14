@@ -1,30 +1,65 @@
-
 <div class="row">
     <div class="col-md-6">
         <dl>
             <dt>Domaine</dt>
-            <dd class="mandatory-data">{{ courseInfo.domain|humanizeEmptyData() }}</dd>
+            {% if courseInfo.domains is not empty %}
+                <dd class="mb-0">
+                    {% for domain in courseInfo.domains %}
+                        {{ not loop.first ? ',' }} {{ domain.label }}
+                    {% endfor %}
+                </dd>
+            {% else %}
+                <dd>Non renseigné</dd>
+            {% endif %}
         </dl>
         <dl>
             <dt>Niveau du cours</dt>
             <dd class="mandatory-data">{{ ('app.const.level.' ~ courseInfo.level)|trans|humanizeEmptyData() }}</dd>
         </dl>
+        <dl>
+            <dt>Campus</dt>
+            {% if courseInfo.campuses is not empty %}
+                <dd class="mb-0">
+                    {% for campus in courseInfo.campuses %}
+                        {{ not loop.first ? ',' }} {{ campus.label }}
+                    {% endfor %}
+                </dd>
+            {% else %}
+                <dd>Non renseigné</dd>
+            {% endif %}
+        </dl>
     </div>
     <div class="col-md-6">
         <dl>
             <dt>Période</dt>
-            <dd>{{ courseInfo.period|humanizeEmptyData }}</dd>
+            {% if courseInfo.periods is not empty %}
+                <dd class="mb-0">
+                    {% for period in courseInfo.periods %}
+                        {{ not loop.first ? ',' }} {{ period.label }}
+                    {% endfor %}
+                </dd>
+            {% else %}
+                <dd>Non renseigné</dd>
+            {% endif %}
         </dl>
         <dl>
             <dt>Langues</dt>
-            <dd>{{ courseInfo.languages|humanizeEmptyData() }}</dd>
+            {% if courseInfo.languages is not empty %}
+                <dd class="mb-0">
+                    {% for language in courseInfo.languages %}
+                        {{ not loop.first ? ',' }} {{ language.label }}
+                    {% endfor %}
+                </dd>
+            {% else %}
+                <dd>Non renseigné</dd>
+            {% endif %}
         </dl>
     </div>
 </div>
 <div class="row mt-2">
     <div class="col-md-6" style="min-height: 150px;">
         {% if courseInfo.mediaType == 'image' and courseInfo.image is not null %}
-            {% set imgSrc = courseInfo.image | split('/') | last%}
+            {% set imgSrc = courseInfo.image | split('/') | last %}
             <img class="img-thumbnail" src="{{ asset('data/' ~ imgSrc) }}">
         {% elseif courseInfo.mediaType == 'video' and courseInfo.video is not null %}
             <div class="embed-responsive embed-responsive-16by9">
@@ -38,7 +73,7 @@
 
     </div>
     <div class="col-md-6" style="min-height: 150px;">
-        {% if courseInfo.summary is not empty  %}
+        {% if courseInfo.summary is not empty %}
             {{ courseInfo.summary|purify }}
         {% else %}
             <div class="h-100 d-flex align-items-center justify-content-center">
@@ -54,7 +89,7 @@
     /**
      * Change the media type value when clicking on media tab
      */
-    $(document).on('click', '#media_type > li > a', function(){
+    $(document).on('click', '#media_type > li > a', function () {
         $("#general_mediaType").val($(this).data('media-type'));
     });
 </script>

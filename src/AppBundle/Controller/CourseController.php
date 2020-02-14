@@ -5,11 +5,10 @@ namespace AppBundle\Controller;
 
 
 use AppBundle\Repository\Doctrine\CourseDoctrineRepository;
-use AppBundle\Repository\Doctrine\StructureDoctrineRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class CourseController

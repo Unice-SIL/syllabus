@@ -7,6 +7,7 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinTable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -50,11 +51,20 @@ class Domain
     private $structures;
 
     /**
+     * @var ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\CourseInfo", inversedBy="domains")
+     * @JoinTable(name="courseInfo_domain")
+     */
+    private $courseInfos;
+
+    /**
      * Domain constructor.
      */
     public function __construct()
     {
         $this->structures = new ArrayCollection();
+        $this->courseInfos = new ArrayCollection();
     }
 
     /**
@@ -155,6 +165,48 @@ class Domain
             }
         }
         return $this;
+    }
+
+    /**
+     * @param CourseInfo $courseInfo
+     * @return Domain
+     */
+    public function addCourseInfo(CourseInfo $courseInfo): self
+    {
+        if (!$this->courseInfos->contains($courseInfo))
+        {
+            $this->courseInfos->add($courseInfo);
+            if (!$courseInfo->getCampuses()->contains($this))
+            {
+                $courseInfo->getCampuses()->add($this);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @param CourseInfo $courseInfo
+     * @return Domain
+     */
+    public function removeCourseInfo(CourseInfo $courseInfo): self
+    {
+        if ($this->courseInfos->contains($courseInfo))
+        {
+            $this->courseInfos->removeElement($courseInfo);
+            if ($courseInfo->getCampuses()->contains($this))
+            {
+                $courseInfo->getCampuses()->removeElement($this);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getCourseInfos()
+    {
+        return $this->courseInfos;
     }
 
     public function __toString()

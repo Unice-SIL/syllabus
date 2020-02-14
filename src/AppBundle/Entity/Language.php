@@ -4,7 +4,10 @@
 namespace AppBundle\Entity;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinTable;
+use mysql_xdevapi\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -40,6 +43,22 @@ class Language
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
      */
     private $obsolete = false;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\CourseInfo", inversedBy="languages")
+     * @JoinTable(name="courseInfo_language")
+     */
+    private $courseInfos;
+
+    /**
+     * Language constructor.
+     */
+    public function __construct()
+    {
+        $this->courseInfos = new ArrayCollection();
+    }
 
     /**
      * @return string
@@ -92,5 +111,47 @@ class Language
     public function __toString()
     {
         return $this->getLabel();
+    }
+
+    /**
+     * @param CourseInfo $courseInfo
+     * @return Language
+     */
+    public function addCourseInfo(CourseInfo $courseInfo): self
+    {
+        if (!$this->courseInfos->contains($courseInfo))
+        {
+            $this->courseInfos->add($courseInfo);
+            if (!$courseInfo->getLanguages()->contains($this))
+            {
+                $courseInfo->getLanguages()->add($this);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @param CourseInfo $courseInfo
+     * @return Language
+     */
+    public function removeCourseInfo(CourseInfo $courseInfo): self
+    {
+        if ($this->courseInfos->contains($courseInfo))
+        {
+            $this->courseInfos->removeElement($courseInfo);
+            if ($courseInfo->getLanguages()->contains($this))
+            {
+                $courseInfo->getLanguages()->removeElement($this);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getCourseInfos()
+    {
+        return $this->courseInfos;
     }
 }
