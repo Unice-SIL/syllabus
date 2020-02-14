@@ -37,10 +37,6 @@ class Year
      *
      * @ORM\Column(name="label", type="string", length=45, nullable=true, options={"fixed"=true})
      * @Assert\NotBlank(message="Ce champ ne doit pas être vide")
-     * @Assert\Regex(
-     *     pattern="/^\d{4}-\d{4}$/",
-     *     message="Cette valeure doit respecter le format AAAA-AAAA"
-     * )
      * @JMS\Groups(groups={"default", "year"})
      */
     private $label;

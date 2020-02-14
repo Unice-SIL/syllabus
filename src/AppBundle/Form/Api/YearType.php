@@ -13,18 +13,27 @@ class YearType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('id')
             ->add('label')
             ->add('import')
             ->add('edit')
             ->add('current')
         ;
+        if($options['context'] === 'POST')
+        {
+            $builder
+                ->add('id')
+            ;
+        }
     }
 
+    /**
+     * @param OptionsResolver $resolver
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'csrf_protection' => false
+            'csrf_protection' => false,
+            'context' => null
         ]);
     }
 

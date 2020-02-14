@@ -8,6 +8,7 @@ use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Class UserFixture
@@ -18,10 +19,19 @@ class UserFixture extends Fixture  implements FixtureGroupInterface
     const REF_PREFIX = 'user_';
     public const USER_1 = 'user1';
     public const USER_2 = 'user2';
-    public const USER_FREDERIC = 'Frederic';
-    public const USER_STEPHANE = 'Stéphane';
-    public const USER_KEVIN = 'Kevin';
+    public const USER_FREDERIC = 'casazza';
+    public const USER_STEPHANE = 'shauser';
+    public const USER_KEVIN = 'genes';
     public const USER_SALIM = 'Salim';
+
+    /**
+     * @var UserPasswordEncoderInterface
+     */
+    private $encoder;
+
+    public function __construct(UserPasswordEncoderInterface $encoder) {
+        $this->encoder = $encoder;
+    }
 
     /**
      * @param ObjectManager $manager
@@ -49,6 +59,7 @@ class UserFixture extends Fixture  implements FixtureGroupInterface
                 'firstname' => 'Frederic',
                 'lastname' => 'DevTeam',
                 'email' => self::USER_FREDERIC,
+                'password' => self::USER_FREDERIC,
                 'roles' => ['ROLE_USER']
             ],
             [
@@ -56,6 +67,7 @@ class UserFixture extends Fixture  implements FixtureGroupInterface
                 'firstname' => 'Stéphane',
                 'lastname' => 'DevTeam',
                 'email' => self::USER_STEPHANE,
+                'password' => self::USER_STEPHANE,
                 'roles' => ['ROLE_USER']
             ],
             [
@@ -63,6 +75,7 @@ class UserFixture extends Fixture  implements FixtureGroupInterface
                 'firstname' => 'Kevin',
                 'lastname' => 'DevTeam',
                 'email' => self::USER_KEVIN,
+                'password' => self::USER_KEVIN,
                 'roles' => ['ROLE_USER']
             ],
             [
@@ -84,6 +97,9 @@ class UserFixture extends Fixture  implements FixtureGroupInterface
                 switch ($property) {
                     case 'email':
                         $value .= '@unice.fr';
+                        break;
+                    case 'password':
+                        $value = $this->encoder->encodePassword($user, $value);
                         break;
                 }
 
