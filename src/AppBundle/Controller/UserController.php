@@ -4,12 +4,14 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
 use AppBundle\Form\UserType;
+use AppBundle\Helper\MailHelper;
 use AppBundle\Manager\UserManager;
 use AppBundle\Repository\Doctrine\UserDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -56,7 +58,7 @@ class UserController extends Controller
 
             $this->addFlash('success', 'L\'utilisateur a bien été enregistré');
 
-            return $this->redirectToRoute('app_admin_user_index');
+            return $this->redirectToRoute('app_admin_user_edit', ['id' => $user->getId()]);
         }
 
 
@@ -71,7 +73,7 @@ class UserController extends Controller
      *
      * @param Request $request
      * @param User $user
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function editAction(Request $request, User $user)
     {
@@ -118,4 +120,24 @@ class UserController extends Controller
         return $this->json($data);
     }
 
+    /**
+     * @Route("/{id}/send-password-token", name="send_password_token", methods={"GET"})
+     * @param User $user
+     * @param UserManager $userManager
+     * @param MailHelper $mailer
+     * @return RedirectResponse
+     */
+    public function sendPasswordToken(User $user, UserManager $userManager, MailHelper $mailer)
+    {
+        $token = $userManager->setResetPasswordToken($user, ['flush' => true]);
+
+        if ($mailer->sendResetPasswordMessage($user, $token)) {
+            $this->addFlash('success', 'Le mail a bien été envoyé.');
+            return $this->redirectToRoute('app_admin_user_edit', ['id' => $user->getId()]);
+        }
+
+        $this->addFlash('danger', 'Un problème est survenu lors de l\'envoie du mail.');
+        return $this->redirectToRoute('app_admin_user_edit', ['id' => $user->getId()]);
+
+    }
 }
