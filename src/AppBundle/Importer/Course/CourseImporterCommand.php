@@ -152,11 +152,11 @@ class CourseImporterCommand extends AbstractImporterCommand
      */
     private function prepareCourse(CourseInterface $c): ?Course
     {
-        $this->output->writeln(sprintf("Import course %s (%d KB used)", $c->getEtbId(), (memory_get_usage()/1024)));
+        $this->output->writeln(sprintf("Import course %s (%d KB used)", $c->getCode(), (memory_get_usage()/1024)));
 
         // COURSE
         // Retrieve course in Syllabus by establishment id
-        $course = $this->courseRepository->findByEtbId($c->getEtbId());
+        $course = $this->courseRepository->findByCode($c->getCode());
         // If course not exist in Syllabus and if createCourseIfNotExist is true then instantiate new course
         if(is_null($course)) {
             if($c->createIfNotExist() == false){
@@ -166,7 +166,7 @@ class CourseImporterCommand extends AbstractImporterCommand
             $course = new Course();
             $course->setId(Uuid::uuid4());
         }
-        $course->setEtbId($c->getEtbId())
+        $course->setCode($c->getCode())
             ->setType($c->getType());
 
         // COURSE INFO
@@ -216,7 +216,7 @@ class CourseImporterCommand extends AbstractImporterCommand
             $structure = $this->prepareStructure($ci->getStructure());
 
             // Get course info for year
-            $courseInfo = $this->courseInfoRepository->findByEtbIdAndYear($course->getEtbId(), $ci->getYearId());
+            $courseInfo = $this->courseInfoRepository->findByCodeAndYear($course->getCode(), $ci->getYearId());
             // If course info not exist create new instance
             if (is_null($courseInfo)) {
                 $oldCourseInfo = $course->getCourseInfos()->last();
@@ -267,16 +267,16 @@ class CourseImporterCommand extends AbstractImporterCommand
      */
     private function prepareStructure(StructureInterface $s): Structure
     {
-        $structure = $this->structureRepository->findByEtbId($s->getEtbId());
+        $structure = $this->structureRepository->findByCode($s->getCode());
         if (is_null($structure)) {
             if($s->createIfNotExist()){
                 $structure = new Structure();
                 $structure->setId(Uuid::uuid4())
-                    ->setEtbId($s->getEtbId())
+                    ->setCode($s->getCode())
                     ->setLabel($s->getLabel());
                 $this->structureRepository->update($structure);
             }else{
-                throw new StructureNotFoundException(sprintf("Cannot import info, structure %s does not exist", $s->getEtbId()));
+                throw new StructureNotFoundException(sprintf("Cannot import info, structure %s does not exist", $s->getCode()));
             }
         }
         return $structure;

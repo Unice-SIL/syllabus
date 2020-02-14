@@ -113,7 +113,7 @@ class StructureController extends Controller
     }
 
     /**
-     * @Route("/autocomplete/{field}", name="autocomplete", methods={"GET"}, requirements={"field" = "etbId|label|campus"})
+     * @Route("/autocomplete/{field}", name="autocomplete", methods={"GET"}, requirements={"field" = "code|label|campus"})
      *
      * @param StructureDoctrineRepository $structureDoctrineRepository
      * @param Request $request

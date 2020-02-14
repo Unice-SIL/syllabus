@@ -43,15 +43,15 @@ class CourseDoctrineRepository  extends AbstractDoctrineRepository implements Co
     }
 
     /**
-     * @param $etbId
+     * @param $code
      * @return Course|null
      * @throws \Exception
      */
-    public function findByEtbId($etbId): ?Course
+    public function findByCode($code): ?Course
     {
         $course = null;
         try{
-            $course = $this->entityManager->getRepository(Course::class)->findOneByEtbId($etbId);
+            $course = $this->entityManager->getRepository(Course::class)->findOneByCode($code);
         }catch (\Exception $e){
             throw $e;
         }
@@ -90,7 +90,7 @@ class CourseDoctrineRepository  extends AbstractDoctrineRepository implements Co
     {
         $qb = $this->getIndexQueryBuilder();
 
-        if (in_array($field, ['c.etbId'])) {
+        if (in_array($field, ['c.code'])) {
             $qb->andWhere($field.' LIKE :query ')
                 ->setParameter('query', '%' . $query . '%')
             ;
@@ -102,7 +102,7 @@ class CourseDoctrineRepository  extends AbstractDoctrineRepository implements Co
     {
         return $this->entityManager->getRepository(Course::class)
             ->createQueryBuilder('c')
-            ->addOrderBy('c.etbId', 'ASC')
+            ->addOrderBy('c.code', 'ASC')
             ;
     }
 
@@ -113,7 +113,7 @@ class CourseDoctrineRepository  extends AbstractDoctrineRepository implements Co
         foreach ($config['filters'] as $filter => $value) {
             $valueName = 'value'.$filter;
             switch ($filter) {
-                case 'etbId':
+                case 'code':
                 case 'type':
                     $qb->andWhere($qb->expr()->like($qb->getRootAlias() . '.' . $filter, ':'.$valueName))
                         ->setParameter($valueName, '%' . $value . '%')

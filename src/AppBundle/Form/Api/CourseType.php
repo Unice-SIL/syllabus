@@ -15,7 +15,7 @@ class CourseType extends AbstractType
         $builder
             ->add('id')
             ->add('type')
-            ->add('etbId')
+            ->add('code')
         ;
     }
 

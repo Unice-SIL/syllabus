@@ -37,7 +37,7 @@ class FindCourseInfoByYearQuery implements QueryInterface
 
     /**
      * @param string $year
-     * @return FindCourseInfoByEtbIdAndYearQuery
+     * @return FindCourseInfoByCodeAndYearQuery
      */
     public function setYear(string $year): FindCourseInfoByYearQuery
     {
