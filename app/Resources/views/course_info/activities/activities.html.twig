@@ -73,6 +73,15 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
+        let sortable = new Sortable($("#list-activities").get(0), {
+            animation: 150,
+            onEnd: function (evt) {
+                $.get({{ path('course_activities_sort_activities', {'courseSectionId': activeSection}) }}, function (data) {
+                    console.log(data);
+                })
+            }
+        });
+
         /**
          * calculates the maximum position to which the carousel can translate to the left
          * @returns {number}

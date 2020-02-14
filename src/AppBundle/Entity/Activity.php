@@ -39,7 +39,7 @@ class Activity
     /**
      * @var string|null
      *
-     * @ORM\Column(name="description", type="string", length=200, nullable=true)
+     * @ORM\Column(name="description", type="string", length=400, nullable=true)
      * @Assert\Length(max="200")
      * @JMS\Groups(groups={"default", "activity"})
      */

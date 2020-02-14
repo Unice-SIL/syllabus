@@ -217,7 +217,7 @@ class CourseInfoActivitiesController extends AbstractController
      * @ParamConverter("activity", options={"mapping": {"activityId": "id"}})
      * @ParamConverter("activityType", options={"mapping": {"activityTypeId": "id"}})
      */
-    public function addActivityAction(CourseSection $courseSection, Activity $activity, ActivityType $activityType, Request $request)
+    public function addCourseSectionActivityAction(CourseSection $courseSection, Activity $activity, ActivityType $activityType, Request $request)
     {
         $status = true;
         $message = null;
@@ -360,7 +360,7 @@ class CourseInfoActivitiesController extends AbstractController
     }
 
     /**
-     * @Route("/course/activities/section/{courseSectionActivityId}/activity/{activityId}/edit", name="course_activities_edit_activity"))
+     * @Route("/course/activities/courseSectionActivity/{courseSectionActivityId}/activity/{activityId}/edit", name="course_activities_edit_activity"))
      *
      * @param CourseSectionActivity $courseSectionActivity
      * @param Activity $activity
@@ -370,7 +370,7 @@ class CourseInfoActivitiesController extends AbstractController
      * @ParamConverter("courseSectionActivity", options={"mapping": {"courseSectionActivityId": "id"}})
      * @ParamConverter("activity", options={"mapping": {"activityId": "id"}})
      */
-    public function editCourseSectionActivity(CourseSectionActivity $courseSectionActivity, Activity $activity, Request $request)
+    public function editCourseSectionActivityAction(CourseSectionActivity $courseSectionActivity, Activity $activity, Request $request)
     {
         $status = true;
         $message = null;
@@ -431,6 +431,24 @@ class CourseInfoActivitiesController extends AbstractController
             'status' => $status,
             'content' => $render,
             'message' => $message
+        ]);
+    }
+
+    /**
+     * @Route("/course/activities/section/{courseSectionId}/courseSectionActivities/sort", name="course_activities_sort_activities"))
+     *
+     * @param CourseSection $courseSection
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @throws \Exception
+     * @ParamConverter("courseSection", options={"mapping": {"courseSectionId": "id"}})
+     */
+    public function sortActivitiesAction(CourseSection $courseSection)
+    {
+        $activities = $courseSection->getCourseSectionActivities();
+
+        return $this->json([
+            'status' => true,
+            'content' => null
         ]);
     }
 }

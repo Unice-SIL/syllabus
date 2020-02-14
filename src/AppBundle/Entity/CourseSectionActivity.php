@@ -215,7 +215,7 @@ class CourseSectionActivity
      * @param float|null $evaluationRate
      * @return CourseSectionActivity
      */
-    public function setEvaluationRate($evaluationRate): ?float
+    public function setEvaluationRate($evaluationRate): self
     {
         $this->evaluationRate = $evaluationRate;
 
