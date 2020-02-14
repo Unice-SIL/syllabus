@@ -52,7 +52,7 @@ class CourseSectionActivityCommand implements CommandInterface
     /**
      * @var int
      */
-    private $order;
+    private $position;
 
     /**
      * @var CourseSection|null
@@ -74,7 +74,7 @@ class CourseSectionActivityCommand implements CommandInterface
             $this->id = Uuid::uuid4();
             $this->evaluationTeacher = false;
             $this->evaluationPeer = false;
-            $this->order = 0;
+            $this->position = 0;
         }else{
             $this->id = $courseSectionActivity->getId();
             $this->courseSection = $courseSectionActivity->getCourseSection();
@@ -83,7 +83,7 @@ class CourseSectionActivityCommand implements CommandInterface
             $this->evaluationRate = $courseSectionActivity->getEvaluationRate();
             $this->evaluationTeacher = $courseSectionActivity->isEvaluationTeacher();
             $this->evaluationPeer = $courseSectionActivity->isEvaluationPeer();
-            $this->order = $courseSectionActivity->getOrder();
+            $this->position = $courseSectionActivity->getPosition();
         }
     }
 
@@ -185,18 +185,18 @@ class CourseSectionActivityCommand implements CommandInterface
     /**
      * @return int
      */
-    public function getOrder(): int
+    public function getPosition(): int
     {
-        return $this->order;
+        return $this->position;
     }
 
     /**
-     * @param int $order
+     * @param int $position
      * @return CourseSectionActivityCommand
      */
-    public function setOrder(int $order): CourseSectionActivityCommand
+    public function setPosition(int $position): CourseSectionActivityCommand
     {
-        $this->order = $order;
+        $this->position = $position;
 
         return $this;
     }
@@ -250,7 +250,7 @@ class CourseSectionActivityCommand implements CommandInterface
             ->setEvaluationRate($this->getEvaluationRate())
             ->setEvaluationTeacher($this->isEvaluationTeacher())
             ->setEvaluationPeer($this->isEvaluationPeer())
-            ->setOrder($this->getOrder());
+            ->setPosition($this->getPosition());
         if(!is_null($this->getActivity())){
             $entity->setActivity($this->getActivity());
         }

@@ -27,7 +27,7 @@ class CoursePrerequisiteType extends AbstractType
                 'label' => false,
                 'required' => false,
             ])
-            ->add('order', HiddenType::class);
+            ->add('position', HiddenType::class);
     }
 
     /**

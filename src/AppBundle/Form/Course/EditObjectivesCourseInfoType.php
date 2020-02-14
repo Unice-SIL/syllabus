@@ -99,7 +99,7 @@ class EditObjectivesCourseInfoType extends AbstractType
                 if(array_key_exists('courseAchievements', $data)){
                     $achievements = array_values($data['courseAchievements']);
                     foreach ($achievements as $i => $achievement){
-                        $achievements[$i]['order'] = $i+1;
+                        $achievements[$i]['position'] = $i+1;
                     }
                     $data['courseAchievements'] = $achievements;
                 }
@@ -107,7 +107,7 @@ class EditObjectivesCourseInfoType extends AbstractType
                 if(array_key_exists('coursePrerequisites', $data)){
                     $prerequisites = array_values($data['coursePrerequisites']);
                     foreach ($prerequisites as $i => $prerequisite){
-                        $prerequisites[$i]['order'] = $i+1;
+                        $prerequisites[$i]['position'] = $i+1;
                     }
                     $data['coursePrerequisites'] = $prerequisites;
                 }
@@ -115,7 +115,7 @@ class EditObjectivesCourseInfoType extends AbstractType
                 if(array_key_exists('courseTutoringResources', $data)){
                     $tutoringResources = array_values($data['courseTutoringResources']);
                     foreach ($tutoringResources as $i => $tutoringResource){
-                        $tutoringResources[$i]['order'] = $i+1;
+                        $tutoringResources[$i]['position'] = $i+1;
                     }
                     $data['courseTutoringResources'] = $tutoringResources;
                 }
