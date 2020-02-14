@@ -49,7 +49,7 @@ class Domain
     /**
      * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Structure", mappedBy="domains")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Structure", inversedBy="domains")
      * @JMS\Groups(groups={"domain"})
      */
     private $structures;
@@ -57,8 +57,7 @@ class Domain
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\CourseInfo", inversedBy="domains")
-     * @ORM\JoinTable(name="courseInfo_domain")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\CourseInfo", mappedBy="domains")
      */
     private $courseInfos;
 

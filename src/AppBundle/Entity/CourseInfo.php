@@ -65,16 +65,19 @@ class CourseInfo
     /**
      * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Campus", mappedBy="courseInfos")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Campus", inversedBy="courseInfos")
+     * @ORM\JoinTable(name="course_info_campus")
+     * @JMS\Type("ArrayCollection<AppBundle\Entity\Campus>")
      * @JMS\Groups(groups={"course_info"})
-     *
      */
     private $campuses;
 
     /**
      * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Language", mappedBy="courseInfos")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Language", inversedBy="courseInfos")
+     * @ORM\JoinTable(name="course_info_language")
+     * @JMS\Type("ArrayCollection<AppBundle\Entity\Language>")
      * @JMS\Groups(groups={"course_info"})
      *
      */
@@ -83,10 +86,10 @@ class CourseInfo
     /**
      * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Domain", mappedBy="courseInfos")
-     * @JMS\Type("ArrayCollection<AppBundle\Entity\Domain>")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Domain", inversedBy="courseInfos")
+     * @ORM\JoinTable(name="course_info_domain")
      * @Assert\NotBlank(groups={"presentation"})
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Type("ArrayCollection<AppBundle\Entity\Domain>")
      * @JMS\Groups(groups={"course_info"})
      */
     private $domains;
@@ -94,7 +97,8 @@ class CourseInfo
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Period", mappedBy="courseInfos")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Period", inversedBy="courseInfos")
+     * @ORM\JoinTable(name="course_info_period")
      * @JMS\Type("ArrayCollection<AppBundle\Entity\Period>")
      * @JMS\Groups(groups={"course_info"})
      */

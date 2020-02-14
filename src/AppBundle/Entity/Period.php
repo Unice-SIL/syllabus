@@ -48,10 +48,17 @@ class Period
     /**
      * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Structure", mappedBy="periods")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Structure", inversedBy="periods")
      * @JMS\Groups(groups={"period"})
      */
     private $structures;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\CourseInfo", mappedBy="periods")
+     */
+    private $courseInfos;
 
     /**
      * Period constructor.
@@ -61,14 +68,6 @@ class Period
         $this->structures = new ArrayCollection();
         $this->courseInfos = new ArrayCollection();
     }
-
-    /**
-     * @var ArrayCollection
-     *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\CourseInfo", inversedBy="periods")
-     * @ORM\JoinTable(name="courseInfo_period")
-     */
-    private $courseInfos;
 
     /**
      * @return null|string

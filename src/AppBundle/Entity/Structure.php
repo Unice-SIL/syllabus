@@ -50,8 +50,7 @@ class Structure
     /**
      * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Domain", inversedBy="structures")
-     * @JoinTable(name="domain_structure")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Domain", mappedBy="structures")
      * @JMS\Groups(groups={"structure"})
      */
     private $domains;
@@ -59,8 +58,7 @@ class Structure
     /**
      * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Period", inversedBy="structures")
-     * @JoinTable(name="period_structure")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Period", mappedBy="structures")
      * @JMS\Groups(groups={"structure"})
      */
     private $periods;

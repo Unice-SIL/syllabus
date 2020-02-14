@@ -54,8 +54,7 @@ class Campus
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\CourseInfo", inversedBy="campuses")
-     * @ORM\JoinTable(name="courseInfo_campus")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\CourseInfo", mappedBy="campuses")
      */
     private $courseInfos;
 

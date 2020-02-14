@@ -50,8 +50,7 @@ class Language
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\CourseInfo", inversedBy="languages")
-     * @ORM\JoinTable(name="courseInfo_language")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\CourseInfo", mappedBy="languages")
      */
     private $courseInfos;
 
