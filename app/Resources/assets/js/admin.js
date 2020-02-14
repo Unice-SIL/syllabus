@@ -30,14 +30,14 @@ $(document).ready(function () {
 
     $('#courseInfoDuplicationModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget) ;
-        var etbIdYear = button.data('etbid-year') ;
+        var codeYear = button.data('code-year') ;
 
-        //add the from course info etbIdYear to ajax request
+        //add the from course info codeYear to ajax request
         var s2 = $(this).find('.select2entity');
-        s2.data()['ajax-Url'] = s2.data()['ajax-Url'] + '&fromEtbIdYear=' + etbIdYear;
+        s2.data()['ajax-Url'] = s2.data()['ajax-Url'] + '&fromCodeYear=' + codeYear;
         s2.select2entity();
 
-        $('#appbundle_duplicate_course_info_from').val(etbIdYear);
+        $('#appbundle_duplicate_course_info_from').val(codeYear);
     });
 
     /* ================End Course info================ */

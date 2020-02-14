@@ -34,10 +34,10 @@ class CourseWithHierarchyType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('etbId', null, [
+            ->add('code', null, [
                 'attr' => [
                     'class' => 'autocomplete-input',
-                    'data-autocomplete-path' => $this->generator->generate('app_admin_course_autocomplete', ['field' => 'etbId'])
+                    'data-autocomplete-path' => $this->generator->generate('app_admin_course_autocomplete', ['field' => 'code'])
                 ]
             ])
             /*
@@ -46,7 +46,7 @@ class CourseWithHierarchyType extends AbstractType
                 'multiple' => true,
                 'remote_route' => 'app_admin_course_autocompleteS2',
                 'class' => Course::class,
-                'text_property' => 'etbId',
+                'text_property' => 'code',
                 'page_limit' => 10,
                 'placeholder' => 'Choisissez une code établissement',
                 'required' => true,

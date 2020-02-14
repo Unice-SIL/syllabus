@@ -25,10 +25,10 @@ interface StructureRepositoryInterface
     public function find(string $id): ?Structure;
 
     /**
-     * @param string $etbId
+     * @param string $code
      * @return Structure|null
      */
-    public function findByEtbId(string $etbId): ?Structure;
+    public function findByCode(string $code): ?Structure;
 
     /**
      * Create structure

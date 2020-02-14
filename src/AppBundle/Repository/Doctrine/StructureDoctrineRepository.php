@@ -66,15 +66,15 @@ class StructureDoctrineRepository extends AbstractDoctrineRepository implements 
     }
 
     /**
-     * @param string $etbId
+     * @param string $code
      * @return Structure|null
      * @throws \Exception
      */
-    public function findByEtbId(string $etbId): ?Structure
+    public function findByCode(string $code): ?Structure
     {
         $structure = null;
         try{
-            $structure = $this->entityManager->getRepository(Structure::class)->findOneByEtbId($etbId);
+            $structure = $this->entityManager->getRepository(Structure::class)->findOneByCode($code);
         }catch (\Exception $e){
             throw $e;
         }
@@ -116,7 +116,7 @@ class StructureDoctrineRepository extends AbstractDoctrineRepository implements 
     {
         return $this->entityManager->getRepository(Structure::class)
             ->createQueryBuilder('s')
-            ->addOrderBy('s.etbId', 'ASC')
+            ->addOrderBy('s.code', 'ASC')
             ->addOrderBy('s.label', 'ASC')
             ->addOrderBy('s.campus', 'ASC')
             ;
@@ -132,7 +132,7 @@ class StructureDoctrineRepository extends AbstractDoctrineRepository implements 
     {
         $qb = $this->getIndexQueryBuilder();
 
-        if (in_array($field, ['etbId', 'label', 'campus'])) {
+        if (in_array($field, ['code', 'label', 'campus'])) {
             $qb->andWhere($qb->getRootAlias().'.'.$field.' LIKE :query ')
                 ->setParameter('query', '%' . $query . '%')
             ;

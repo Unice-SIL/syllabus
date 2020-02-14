@@ -19,10 +19,10 @@ interface CourseRepositoryInterface
 
     /**
      * Find course info by establishment id
-     * @param $etbId
+     * @param $code
      * @return Course|null
      */
-    public function findByEtbId($etbId): ?Course;
+    public function findByCode($code): ?Course;
 
     /**
      * Create course

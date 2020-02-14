@@ -110,7 +110,7 @@ app:
     course:
       label:
         type: Type
-        etb_id: Code établissement
+        code: Code établissement
         parents: Cours parents
     year:
       label:
@@ -118,7 +118,7 @@ app:
     structure:
       label:
         label: Label
-        etbId: Code établissement
+        code: Code établissement
         campus: Campus
         obsolete: Obsolète
         structure: Structure

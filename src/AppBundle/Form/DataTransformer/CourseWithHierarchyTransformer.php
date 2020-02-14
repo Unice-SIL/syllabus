@@ -33,12 +33,12 @@ class CourseWithHierarchyTransformer implements DataTransformerInterface
         $course = $value;
         $parents = $course->getParents();
 
-        $course = $this->em->getRepository(Course::class)->findOneBy(['etbId' => $course->getEtbId()]);
+        $course = $this->em->getRepository(Course::class)->findOneBy(['code' => $course->getCode()]);
 
         if (null === $course) {
             throw new TransformationFailedException(sprintf(
                 'An issue with number "%s" does not exist!',
-                $value->getEtbId()
+                $value->getCode()
             ));
         }
 

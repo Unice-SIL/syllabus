@@ -59,7 +59,7 @@ class CourseInfoController extends Controller
                 $from = $data['from'];
 
                 /** @var  CourseInfo $to */
-                $to = $data['to']->getEtbIdYear(true);
+                $to = $data['to']->getCodeYear(true);
 
 
                 /** @var Report $report */
@@ -181,7 +181,7 @@ class CourseInfoController extends Controller
     }
 
     /**
-     * @Route("/autocomplete/{field}", name="autocomplete", methods={"GET"}, requirements={"field" = "ci.title|c.etbId|c.type|y.label|s.label"})
+     * @Route("/autocomplete/{field}", name="autocomplete", methods={"GET"}, requirements={"field" = "ci.title|c.code|c.type|y.label|s.label"})
      * @param CourseInfoDoctrineRepository $courseInfoDoctrineRepository
      * @param Request $request
      * @param $field
@@ -197,8 +197,8 @@ class CourseInfoController extends Controller
         $suggestions = array_map(function($courseInfo) use ($field){
 
             switch ($field) {
-                case 'c.etbId':
-                    return $courseInfo->getCourse()->getEtbId();
+                case 'c.code':
+                    return $courseInfo->getCourse()->getCode();
                 case 'ci.title':
                     return $courseInfo->getTitle();
                 case 'c.type':
@@ -230,17 +230,17 @@ class CourseInfoController extends Controller
 
         switch ($field) {
             default:
-                $searchField = 'c.etbId';
+                $searchField = 'c.code';
                 break;
         }
 
         $courseInfos = $courseInfoDoctrineRepository->findLikeQuery($query, $searchField);
 
         $data = array_map(function ($ci) use ($request) {
-            if ($fromEtbIdYear = $request->query->get('fromEtbIdYear') and $ci->getEtbIdYear(true) == $fromEtbIdYear) {
+            if ($fromCodeYear = $request->query->get('fromCodeYear') and $ci->getCodeYear(true) == $fromCodeYear) {
                 return false;
             }
-            return ['id' => $ci->getId(), 'text' => $ci->getEtbIdYear()];
+            return ['id' => $ci->getId(), 'text' => $ci->getCodeYear()];
         }, $courseInfos);
 
         return $this->json($data);
