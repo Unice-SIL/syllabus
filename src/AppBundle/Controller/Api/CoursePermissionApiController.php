@@ -75,7 +75,9 @@ class CoursePermissionApiController extends Controller
 
         $qb = $coursePermissionDoctrineRepository->findQueryBuilderForApi($config);
 
-        $response = $apiHelper->setDataAndGetResponse($qb, $config);
+        $response = $apiHelper->setDataAndGetResponse($qb, $config, [
+            'groups' => ['default', 'course_permission']
+        ]);
 
         return $this->json($response);
     }
@@ -100,7 +102,7 @@ class CoursePermissionApiController extends Controller
      */
     public function showAction(CoursePermission $coursePermission, SerializerInterface $serializer)
     {
-        $course = $serializer->serialize($coursePermission, 'json');
+        $course = $serializer->serialize($coursePermission, 'json', SerializationContext::create()->setGroups(['default', 'course_permission']));
 
         $response = new Response($course, Response::HTTP_OK);
         $response->headers->set('Content-Type', 'application/json');
@@ -127,9 +129,9 @@ class CoursePermissionApiController extends Controller
     public function postAction(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, ApiHelper $apiHelper)
     {
         $coursePermission = new CoursePermission();
-        $form = $this->createForm(CoursePermissionType::class, $coursePermission, ['validation_groups' => 'new']);
+        $form = $this->createForm(CoursePermissionType::class, $coursePermission);
 
-        $form->submit(json_decode($request->getContent()));
+        $form->submit(json_decode($request->getContent(), true));
 
         $apiHelper->throwExceptionIfEntityInvalid($form);
 
@@ -137,7 +139,7 @@ class CoursePermissionApiController extends Controller
         $em->flush();
 
         $em->refresh($coursePermission);
-        $response = new Response($serializer->serialize($coursePermission, 'json', SerializationContext::create()->setGroups('api')), Response::HTTP_CREATED);
+        $response = new Response($serializer->serialize($coursePermission, 'json', SerializationContext::create()->setGroups(['default', 'course_permission'])), Response::HTTP_CREATED);
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
@@ -172,14 +174,14 @@ class CoursePermissionApiController extends Controller
     {
         $form = $this->createForm(CoursePermissionType::class, $coursePermission);
 
-        $form->submit(json_decode($request->getContent()));
+        $form->submit(json_decode($request->getContent(), true));
 
         $apiHelper->throwExceptionIfEntityInvalid($form);
 
         $em->flush();
 
         $em->refresh($coursePermission);
-        $response = new Response($serializer->serialize($coursePermission, 'json', SerializationContext::create()->setGroups('api')), Response::HTTP_OK);
+        $response = new Response($serializer->serialize($coursePermission, 'json', SerializationContext::create()->setGroups(['default', 'course_permission'])), Response::HTTP_OK);
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;

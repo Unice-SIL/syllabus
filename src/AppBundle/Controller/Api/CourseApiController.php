@@ -68,7 +68,9 @@ class CourseApiController extends Controller
 
         $qb = $courseDoctrineRepository->findQueryBuilderForApi($config);
 
-        $response = $apiHelper->setDataAndGetResponse($qb, $config);
+        $response = $apiHelper->setDataAndGetResponse($qb, $config, [
+            'groups' => ['course']
+        ]);
 
         return $this->json($response);
     }
@@ -90,7 +92,7 @@ class CourseApiController extends Controller
      */
     public function showAction(Course $course, SerializerInterface $serializer)
     {
-        $course = $serializer->serialize($course, 'json');
+        $course = $serializer->serialize($course, 'json', SerializationContext::create()->setGroups(['course']));
 
         $response = new Response($course, Response::HTTP_OK);
         $response->headers->set('Content-Type', 'application/json');
@@ -119,7 +121,7 @@ class CourseApiController extends Controller
         $year = new Course();
         $form = $this->createForm(CourseType::class, $year, ['validation_groups' => 'new']);
 
-        $form->submit(json_decode($request->getContent()));
+        $form->submit(json_decode($request->getContent(), true));
 
         $apiHelper->throwExceptionIfEntityInvalid($form);
 
@@ -127,7 +129,7 @@ class CourseApiController extends Controller
         $em->flush();
 
         $em->refresh($year);
-        $response = new Response($serializer->serialize($year, 'json', SerializationContext::create()->setGroups('api')), Response::HTTP_CREATED);
+        $response = new Response($serializer->serialize($year, 'json', SerializationContext::create()->setGroups(['course'])), Response::HTTP_CREATED);
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
@@ -162,14 +164,14 @@ class CourseApiController extends Controller
     {
         $form = $this->createForm(CourseType::class, $course);
 
-        $form->submit(json_decode($request->getContent()));
+        $form->submit(json_decode($request->getContent(), true));
 
         $apiHelper->throwExceptionIfEntityInvalid($form);
 
         $em->flush();
 
         $em->refresh($course);
-        $response = new Response($serializer->serialize($course, 'json', SerializationContext::create()->setGroups('api')), Response::HTTP_OK);
+        $response = new Response($serializer->serialize($course, 'json', SerializationContext::create()->setGroups(['course'])), Response::HTTP_OK);
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
