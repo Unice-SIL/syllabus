@@ -34,7 +34,9 @@ final class Version20200213133322 extends AbstractMigration
         $this->addSql('ALTER TABLE course_info_language ADD CONSTRAINT FK_AB015B7EA80E736 FOREIGN KEY (courseinfo_id) REFERENCES course_info (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE course_info_period ADD CONSTRAINT FK_325070B4EC8B7ADE FOREIGN KEY (period_id) REFERENCES period (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE course_info_period ADD CONSTRAINT FK_325070B4A80E736 FOREIGN KEY (courseinfo_id) REFERENCES course_info (id) ON DELETE CASCADE');
-        $this->addSql('ALTER TABLE course_info DROP languages, DROP domain, DROP period');
+        $this->addSql('ALTER TABLE course_info DROP COLUMN languages');
+        $this->addSql('ALTER TABLE course_info DROP COLUMN domain');
+        $this->addSql('ALTER TABLE course_info DROP COLUMN period');
     }
 
     public function down(Schema $schema) : void
