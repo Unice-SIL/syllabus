@@ -92,11 +92,6 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.exception }
 
-    # SUBSCRIBER
-    AppBundle\Subscriber\UserSubscriber:
-        tags:
-            - { name: doctrine.event_subscriber }
-
     # QUERY
     AppBundle\Query\CourseTeacher\Adapter\Ldap\SearchCourseTeacherLdapQuery:
         public: true

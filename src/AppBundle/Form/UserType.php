@@ -3,6 +3,7 @@
 namespace AppBundle\Form;
 
 use AppBundle\Constant\UserRole;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -34,8 +35,7 @@ class UserType extends AbstractType
                 'disabled' => $disabled,
                 'label' => 'Email'
             ])
-            ->add('roles', ChoiceType::class, [
-                'choices' => array_combine(UserRole::ROLES, UserRole::ROLES),
+            ->add('groups', null, [
                 'multiple' => true,
                 'expanded' => true
             ]);
@@ -46,7 +46,7 @@ class UserType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\User',
-            'context' => 'edit'
+            'context' => 'edit',
         ));
     }
 

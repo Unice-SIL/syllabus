@@ -47,6 +47,6 @@ class MailHelper
                 'text/html'
             );
 
-        $this->mailer->send($message);
+        return $this->mailer->send($message);
     }
 }
