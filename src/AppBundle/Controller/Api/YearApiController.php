@@ -81,7 +81,9 @@ class YearApiController extends Controller
 
         $qb = $yearDoctrineRepository->findQueryBuilderForApi($config);
 
-        $response = $apiHelper->setDataAndGetResponse($qb, $config);
+        $response = $apiHelper->setDataAndGetResponse($qb, $config, [
+            'groups' => ['default', 'year']
+        ]);
 
         return $this->json($response);
     }
@@ -130,9 +132,9 @@ class YearApiController extends Controller
     public function postAction(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, ApiHelper $apiHelper)
     {
         $year = new Year();
-        $form = $this->createForm(YearType::class, $year, ['validation_groups' => 'new']);
+        $form = $this->createForm(YearType::class, $year, ['context' => 'POST']);
 
-        $form->submit(json_decode($request->getContent()));
+        $form->submit(json_decode($request->getContent(), true));
 
         $apiHelper->throwExceptionIfEntityInvalid($form);
 
@@ -140,7 +142,7 @@ class YearApiController extends Controller
         $em->flush();
 
         $em->refresh($year);
-        $response = new Response($serializer->serialize($year, 'json', SerializationContext::create()->setGroups('api')), Response::HTTP_CREATED);
+        $response = new Response($serializer->serialize($year, 'json', SerializationContext::create()->setGroups(['default', 'year'])), Response::HTTP_CREATED);
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
@@ -154,7 +156,7 @@ class YearApiController extends Controller
      * @param EntityManagerInterface $em
      * @param Year $year
      * @param ApiHelper $apiHelper
-     * @return JsonResponse
+     * @return Response
      * @throws ResourceValidationException
      *
      * @SWG\Response(
@@ -175,14 +177,14 @@ class YearApiController extends Controller
     {
         $form = $this->createForm(YearType::class, $year);
 
-        $form->submit(json_decode($request->getContent()));
+        $form->submit(json_decode($request->getContent(), true));
 
         $apiHelper->throwExceptionIfEntityInvalid($form);
 
         $em->flush();
 
         $em->refresh($year);
-        $response = new Response($serializer->serialize($year, 'json', SerializationContext::create()->setGroups('api')), Response::HTTP_OK);
+        $response = new Response($serializer->serialize($year, 'json', SerializationContext::create()->setGroups(['default', 'year'])), Response::HTTP_OK);
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;

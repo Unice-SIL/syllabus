@@ -54,6 +54,11 @@ class ApiHelper
         $this->validator = $validator;
     }
 
+    /**
+     * @param Request $request
+     * @param array $options
+     * @return array
+     */
     public function createConfigFromRequest(Request $request, array $options = []): array
     {
 
@@ -95,6 +100,12 @@ class ApiHelper
 
     }
 
+    /**
+     * @param QueryBuilder $qb
+     * @param array $config
+     * @param array $options
+     * @return array
+     */
     public function setDataAndGetResponse(QueryBuilder $qb, array $config, array $options = [])
     {
         $options = array_merge($defaultOptions = [
@@ -124,9 +135,22 @@ class ApiHelper
         return $config;
     }
 
+    /**
+     * @param $type
+     * @param $value
+     * @return bool|null
+     */
     private function formatValue($type, $value)
     {
         if ($type === 'boolean') {
+            if (strtolower($value) == 'true') {
+                return true;
+            }
+
+            if (strtolower($value) == 'false') {
+                return false;
+            }
+
             if (!is_numeric($value)) {
                 return null;
             }
@@ -147,6 +171,10 @@ class ApiHelper
         return $value;
     }
 
+    /**
+     * @param FormInterface $form
+     * @throws ResourceValidationException
+     */
     public function throwExceptionIfEntityInvalid(FormInterface $form)
     {
 
@@ -176,6 +204,11 @@ class ApiHelper
 
     }
 
+    /**
+     * @param Request $request
+     * @param string $id
+     * @return mixed|string
+     */
     public function adIdToRequestContent(Request $request, string $id)
     {
         $entity = json_decode($request->getContent());
