@@ -20,11 +20,11 @@ interface CourseInfoRepositoryInterface
 
     /**
      * Find course info by course etablishment id and year
-     * @param $etbId
+     * @param $code
      * @param $year
      * @return CourseInfo|null
      */
-    public function findByEtbIdAndYear($etbId, $year): ?CourseInfo;
+    public function findByCodeAndYear($code, $year): ?CourseInfo;
 
     /**
      * Find courses info by year

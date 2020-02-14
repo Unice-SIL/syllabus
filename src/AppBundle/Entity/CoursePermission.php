@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Constant\Permission;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -25,8 +26,9 @@ class CoursePermission
      *
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     * @JMS\Groups(groups={"course_permission"})
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @JMS\Groups(groups={"default", "course_permission"})
      */
     private $id;
 
@@ -35,9 +37,9 @@ class CoursePermission
      *
      * @ORM\Column(name="permission", type="string", length=45, nullable=false, options={"fixed"=true})
      * @Assert\NotBlank()
-     * @JMS\Groups(groups={"course_permission"})
+     * @JMS\Groups(groups={"default", "course_permission"})
      */
-    private $permission = 'READ';
+    private $permission = Permission::READ;
 
     /**
      * @var \AppBundle\Entity\CourseInfo
@@ -66,16 +68,16 @@ class CoursePermission
     /**
      * @return string
      */
-    public function getId(): string
+    public function getId(): ?string
     {
         return $this->id;
     }
 
     /**
-     * @param string $id
+     * @param string|null $id
      * @return CoursePermission
      */
-    public function setId(string $id): CoursePermission
+    public function setId(?string $id): self
     {
         $this->id = $id;
 
@@ -85,7 +87,7 @@ class CoursePermission
     /**
      * @return null|string
      */
-    public function getPermission()
+    public function getPermission(): ?string
     {
         return $this->permission;
     }
@@ -94,7 +96,7 @@ class CoursePermission
      * @param null|string $permission
      * @return CoursePermission
      */
-    public function setPermission($permission)
+    public function setPermission($permission): self
     {
         $this->permission = $permission;
 
@@ -113,7 +115,7 @@ class CoursePermission
      * @param CourseInfo|null $courseInfo
      * @return CoursePermission
      */
-    public function setCourseInfo(?CourseInfo $courseInfo): CoursePermission
+    public function setCourseInfo(?CourseInfo $courseInfo): self
     {
         $this->courseInfo = $courseInfo;
 
@@ -129,10 +131,22 @@ class CoursePermission
     }
 
     /**
+     * @JMS\VirtualProperty()
+     * @JMS\Groups(groups={"api"})
+     * @JMS\SerializedName("user")
+     *
+     * @return null|string
+     */
+    public function getUserApi(): ?string
+    {
+        return $this->getUser()->getId();
+    }
+
+    /**
      * @param User $user
      * @return CoursePermission
      */
-    public function setUser(User $user): CoursePermission
+    public function setUser(User $user): self
     {
         $this->user = $user;
 

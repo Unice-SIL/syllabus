@@ -4,7 +4,7 @@
     <div class="col-6">
         {{ form_row(form.domains, {label_attr: {class: 'required'}}) }}
         <label class="required font-weight-bold">
-            Quel est le niveau de ce cours ?
+            {{ 'app.presentation.form.general.level_label' | trans }}
             <img id="infos_level" src="{{ asset('images/info_32.png') }}" style="cursor: pointer;">
         </label>
         {{ form_errors(form.level) }}
@@ -22,21 +22,20 @@
 <div class="row mt-4">
     <div class="col-6">
         <label class="re">
-            Intégrer une ressource vidéo (ou audio) ou téléverser un fichier image de présentation du cours, en
-            respectant la règlementation sur les droits d'auteur.
+            {{ 'app.presentation.form.general.media_label' | trans }}
         </label>
 
         <div>
             <input type="radio" id="radio_image" value="image" onclick="image();">
-            <label class="mr-2" for="image">Image</label>
+            <label class="mr-2" for="image">{{ 'app.presentation.form.general.picture' | trans }}</label>
 
             <input class="" type="radio" id="radio_video" value="video" onclick="video();">
-            <label for="video">Video</label>
+            <label for="video">{{ 'app.presentation.form.general.video' | trans }}</label>
         </div>
 
         <div class="border p-2">
             <div id="image">
-                <small class="font-weight-bold">Fichier de type jpeg ou png (2Mo maximum)</small>
+                <small class="font-weight-bold">{{ 'app.presentation.form.general.file_type' | trans }}</small>
                 {{ form_widget(form.image, {label_attr: {class: 'file-custom'} }) }}
                 {% if form.vars.data.image is not null %}
                     {% if courseInfo.image == form.vars.data.image %}
@@ -51,14 +50,14 @@
             <div id="video">
                 <button class="btn btn-light" type="button" data-toggle="collapse" data-target="#collapseExample"
                         aria-expanded="false" aria-controls="collapseExample">
-                    Comment ajouter une vidéo
+                    {{ 'app.presentation.form.general.add_video' | trans }}
                 </button>
                 <div class="alert alert-light collapse" role="alert" id="collapseExample">
-                    <span>Afin de pouvoir intégrer une vidéo dans votre cours, veuillez vous assurer que celle-ci soit hébergée sur un serveur externe à Moodle (ex: UNSPOD, Youtube, ...).</br>
-                        Si ce n’est pas le cas, vous pouvez demander de l’aide pour la déposer sur une de ces plateformes.</br>
-                        Une fois qu’elle y est stockée, vous pouvez cliquer sur “Partager / Intégrer” afin de récupérer le lien d'intégration ressemblant à :</span>
+                    <span>{{ 'app.presentation.form.general.add_video_info.part1' | trans }}<br/>
+                        {{ 'app.presentation.form.general.add_video_info.part2' | trans }}<br/>
+                        {{ 'app.presentation.form.general.add_video_info.part3' | trans }}</span>
                     <pre class="mb-0">&lt;iframe ... &gt;&lt;/iframe&gt;</pre>
-                    <span>Copiez ce code et insérez-le dans le champ “Vidéo” ci-dessous. La vidéo sera visible par vos étudiants directement sur votre syllabus.</span>
+                    <span>{{ 'app.presentation.form.general.add_video_info.part4' | trans }}</span>
                 </div>
                 {{ form_widget(form.video) }}
                 <label placeholder="URL"></label>
@@ -67,7 +66,7 @@
     </div>
     <div class="col-6">
         <label class="required font-weight-bold">
-            Résumé
+            {{ 'app.presentation.form.general.summary' | trans }}
         </label>
         {{ form_errors(form.summary) }}
         {{ form_widget(form.summary) }}
@@ -76,11 +75,11 @@
 <div class="mt-2">
     <button type="submit" class="submit-button btn btn-primary submit rounded"
             data-url="{{ path('course_presentation_general_view', {'id': courseInfo.id}) }}">
-        Sauvegarder
+        {{ 'app.general.button.save' | trans }}
     </button>
     <button type="button" class="cancel-button btn btn-secondary rounded"
             data-url="{{ path('course_presentation_general_view', {'id': courseInfo.id}) }}">
-        Annuler
+        {{ 'app.general.button.cancel' | trans }}
     </button>
 </div>
 {{ form_widget(form._token) }}
@@ -109,9 +108,9 @@
 
     $('#infos_level').click(function () {
         var message = '<ul>' +
-            '<li><strong>Débutant</strong> : Ce cours demande peu ou pas de connaissances préaables.</li>' +
-            '<li><strong>Intermédiaire</strong> : Ce cours demande quelques connaissances préalables.</li>' +
-            '<li><strong>Avancé</strong> : Ce cours demande d\'importantes connaissances préalables.</li>' +
+            {{ 'app.presentation.form.general.level.beginner' | trans }} +
+            {{ 'app.presentation.form.general.level.intermediary' | trans }} +
+            {{ 'app.presentation.form.general.level.advanced' | trans }} +
             '</ul>';
         bootbox.dialog({
             message: message,
@@ -120,4 +119,3 @@
         });
     });
 </script>
-

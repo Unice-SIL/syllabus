@@ -7,7 +7,7 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\JoinTable;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -19,12 +19,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Domain
 {
     /**
-     * @var string
+     * @var null|string
      *
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @JMS\Groups(groups={"default", "domain"})
      */
     private $id;
 
@@ -33,6 +34,7 @@ class Domain
      *
      * @ORM\Column(name="label", type="string", length=100, nullable=false)
      * @Assert\NotBlank()
+     * @JMS\Groups(groups={"default", "domain"})
      */
     private $label;
 
@@ -40,6 +42,7 @@ class Domain
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
+     * @JMS\Groups(groups={"default", "domain"})
      */
     private $obsolete = false;
 
@@ -47,6 +50,7 @@ class Domain
      * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Structure", mappedBy="domains")
+     * @JMS\Groups(groups={"domain"})
      */
     private $structures;
 
@@ -54,7 +58,7 @@ class Domain
      * @var ArrayCollection
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\CourseInfo", inversedBy="domains")
-     * @JoinTable(name="courseInfo_domain")
+     * @ORM\JoinTable(name="courseInfo_domain")
      */
     private $courseInfos;
 
@@ -68,51 +72,60 @@ class Domain
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getId()
+    public function getId(): ?string
     {
         return $this->id;
     }
 
     /**
-     * @param string $id
+     * @param null|string $id
+     * @return Domain
      */
-    public function setId($id)
+    public function setId(?string $id): self
     {
         $this->id = $id;
+
+        return $this;
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getLabel()
+    public function getLabel(): ?string
     {
         return $this->label;
     }
 
     /**
-     * @param string $label
+     * @param null|string $label
+     * @return Domain
      */
-    public function setLabel($label)
+    public function setLabel(?string $label): self
     {
         $this->label = $label;
+
+        return $this;
     }
 
     /**
      * @return bool
      */
-    public function isObsolete()
+    public function isObsolete(): bool
     {
         return $this->obsolete;
     }
 
     /**
      * @param bool $obsolete
+     * @return Domain
      */
-    public function setObsolete($obsolete)
+    public function setObsolete(bool $obsolete): self
     {
         $this->obsolete = $obsolete;
+
+        return $this;
     }
 
     /**
@@ -176,9 +189,9 @@ class Domain
         if (!$this->courseInfos->contains($courseInfo))
         {
             $this->courseInfos->add($courseInfo);
-            if (!$courseInfo->getCampuses()->contains($this))
+            if (!$courseInfo->getDomains()->contains($this))
             {
-                $courseInfo->getCampuses()->add($this);
+                $courseInfo->getDomains()->add($this);
             }
         }
         return $this;
@@ -193,9 +206,9 @@ class Domain
         if ($this->courseInfos->contains($courseInfo))
         {
             $this->courseInfos->removeElement($courseInfo);
-            if ($courseInfo->getCampuses()->contains($this))
+            if ($courseInfo->getDomains()->contains($this))
             {
-                $courseInfo->getCampuses()->removeElement($this);
+                $courseInfo->getDomains()->removeElement($this);
             }
         }
         return $this;
@@ -209,6 +222,9 @@ class Domain
         return $this->courseInfos;
     }
 
+    /**
+     * @return null|string
+     */
     public function __toString()
     {
         return $this->getLabel();

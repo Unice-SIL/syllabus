@@ -4,11 +4,15 @@
 namespace AppBundle\Helper;
 
 
+use AppBundle\Exception\ResourceValidationException;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 
 class ApiHelper
@@ -21,21 +25,40 @@ class ApiHelper
      * @var PaginatorInterface
      */
     private $paginator;
+    /**
+     * @var EntityManagerInterface
+     */
+    private $em;
+    /**
+     * @var ValidatorInterface
+     */
+    private $validator;
 
     /**
      * ApiHelper constructor.
      * @param SerializerInterface $serializer
      * @param PaginatorInterface $paginator
+     * @param EntityManagerInterface $em
+     * @param ValidatorInterface $validator
      */
     public function __construct(
         SerializerInterface $serializer,
-        PaginatorInterface $paginator
+        PaginatorInterface $paginator,
+        EntityManagerInterface $em,
+        ValidatorInterface $validator
     )
     {
         $this->serializer = $serializer;
         $this->paginator = $paginator;
+        $this->em = $em;
+        $this->validator = $validator;
     }
 
+    /**
+     * @param Request $request
+     * @param array $options
+     * @return array
+     */
     public function createConfigFromRequest(Request $request, array $options = []): array
     {
 
@@ -77,6 +100,12 @@ class ApiHelper
 
     }
 
+    /**
+     * @param QueryBuilder $qb
+     * @param array $config
+     * @param array $options
+     * @return array
+     */
     public function setDataAndGetResponse(QueryBuilder $qb, array $config, array $options = [])
     {
         $options = array_merge($defaultOptions = [
@@ -94,11 +123,11 @@ class ApiHelper
             $results = $qb->getQuery()->getResult();
         }
 
-        $context = null;
-        if (!empty($options['groups'])) {
-            $context = SerializationContext::create()->setGroups($options['groups']);
-        }
         foreach ($results as $result) {
+            $context = null;
+            if (!empty($options['groups'])) {
+                $context = SerializationContext::create()->setGroups($options['groups']);
+            }
             $result = $this->serializer->toArray($result, $context);
             $config['data'][] = $result;
         }
@@ -106,9 +135,22 @@ class ApiHelper
         return $config;
     }
 
+    /**
+     * @param $type
+     * @param $value
+     * @return bool|null
+     */
     private function formatValue($type, $value)
     {
         if ($type === 'boolean') {
+            if (strtolower($value) == 'true') {
+                return true;
+            }
+
+            if (strtolower($value) == 'false') {
+                return false;
+            }
+
             if (!is_numeric($value)) {
                 return null;
             }
@@ -127,6 +169,53 @@ class ApiHelper
         }
 
         return $value;
+    }
+
+    /**
+     * @param FormInterface $form
+     * @throws ResourceValidationException
+     */
+    public function throwExceptionIfEntityInvalid(FormInterface $form)
+    {
+
+        if(!$form->isValid())
+        {
+            $errors = [];
+            foreach ($form->getErrors(true) as $error)
+            {
+                $type = $error->getOrigin();
+                $errorMessage = '';
+
+                while ($type->getParent()) {
+                    //if it's not the lower level we prefix by a . (e.g: higherLevel.mediumLevel.lowerLevel
+                    $errorMessage = $errorMessage ? '.'.$errorMessage : ''.$errorMessage;
+
+                    $errorMessage = $type->getName() . $errorMessage;
+                    $type = $type->getParent();
+                }
+
+                $errorMessage = $errorMessage . ': ' . $error->getMessage();
+                $errors[] = $errorMessage;
+            }
+
+            throw new ResourceValidationException(implode('__glue__', $errors));
+        }
+
+
+    }
+
+    /**
+     * @param Request $request
+     * @param string $id
+     * @return mixed|string
+     */
+    public function adIdToRequestContent(Request $request, string $id)
+    {
+        $entity = json_decode($request->getContent());
+        $entity->id = $id;
+        $entity = json_encode($entity);
+
+        return $entity;
     }
 
 }

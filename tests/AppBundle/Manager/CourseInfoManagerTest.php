@@ -28,9 +28,9 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class CourseInfoManagerTest extends TestCase
 {
-    const COURSE_INFO_SENDER_ETBID = 'SLEP111';
+    const COURSE_INFO_SENDER_CODE = 'SLEP111';
     const COURSE_INFO_SENDER_YEAR = '2018';
-    const COURSE_INFO_RECIPIENT_ETBID = 'SLEP111';
+    const COURSE_INFO_RECIPIENT_CODE = 'SLEP111';
     const COURSE_INFO_RECIPIENT_YEAR = '2019';
     const COURSE_INFO_CORRECT_UNION_ID = '__UNION__';
 
@@ -235,64 +235,64 @@ class CourseInfoManagerTest extends TestCase
             'no_user_authenticate'  => [
                 false,
                 true,
-                self::COURSE_INFO_SENDER_ETBID . self::COURSE_INFO_CORRECT_UNION_ID . self::COURSE_INFO_SENDER_YEAR,
-                self::COURSE_INFO_RECIPIENT_ETBID . self::COURSE_INFO_CORRECT_UNION_ID . self::COURSE_INFO_RECIPIENT_YEAR,
+                self::COURSE_INFO_SENDER_CODE . self::COURSE_INFO_CORRECT_UNION_ID . self::COURSE_INFO_SENDER_YEAR,
+                self::COURSE_INFO_RECIPIENT_CODE . self::COURSE_INFO_CORRECT_UNION_ID . self::COURSE_INFO_RECIPIENT_YEAR,
                 1,
                 0
             ],
             'no_course_info_field_activate'  => [
                 true,
                 false,
-                self::COURSE_INFO_SENDER_ETBID . self::COURSE_INFO_CORRECT_UNION_ID . self::COURSE_INFO_SENDER_YEAR,
-                self::COURSE_INFO_RECIPIENT_ETBID . self::COURSE_INFO_CORRECT_UNION_ID . self::COURSE_INFO_RECIPIENT_YEAR,
+                self::COURSE_INFO_SENDER_CODE . self::COURSE_INFO_CORRECT_UNION_ID . self::COURSE_INFO_SENDER_YEAR,
+                self::COURSE_INFO_RECIPIENT_CODE . self::COURSE_INFO_CORRECT_UNION_ID . self::COURSE_INFO_RECIPIENT_YEAR,
                 1,
                 0
             ],
             'course_info_sender_wrong_format'  => [
                 true,
                 true,
-                self::COURSE_INFO_SENDER_ETBID . '__UNION' . self::COURSE_INFO_SENDER_YEAR,
-                self::COURSE_INFO_RECIPIENT_ETBID . self::COURSE_INFO_CORRECT_UNION_ID . self::COURSE_INFO_RECIPIENT_YEAR,
+                self::COURSE_INFO_SENDER_CODE . '__UNION' . self::COURSE_INFO_SENDER_YEAR,
+                self::COURSE_INFO_RECIPIENT_CODE . self::COURSE_INFO_CORRECT_UNION_ID . self::COURSE_INFO_RECIPIENT_YEAR,
                 1,
                 0
             ],
             'course_info_recipient_wrong_format'  => [
                 true,
                 true,
-                self::COURSE_INFO_SENDER_ETBID . self::COURSE_INFO_CORRECT_UNION_ID . self::COURSE_INFO_SENDER_YEAR,
-                self::COURSE_INFO_RECIPIENT_ETBID . '__UNION' . self::COURSE_INFO_RECIPIENT_YEAR,
+                self::COURSE_INFO_SENDER_CODE . self::COURSE_INFO_CORRECT_UNION_ID . self::COURSE_INFO_SENDER_YEAR,
+                self::COURSE_INFO_RECIPIENT_CODE . '__UNION' . self::COURSE_INFO_RECIPIENT_YEAR,
                 1,
                 0
             ],
             'course_info_sender_same_as_recipient'  => [
                 true,
                 true,
-                self::COURSE_INFO_SENDER_ETBID . self::COURSE_INFO_CORRECT_UNION_ID . self::COURSE_INFO_SENDER_YEAR,
-                self::COURSE_INFO_SENDER_ETBID . self::COURSE_INFO_CORRECT_UNION_ID . self::COURSE_INFO_SENDER_YEAR,
+                self::COURSE_INFO_SENDER_CODE . self::COURSE_INFO_CORRECT_UNION_ID . self::COURSE_INFO_SENDER_YEAR,
+                self::COURSE_INFO_SENDER_CODE . self::COURSE_INFO_CORRECT_UNION_ID . self::COURSE_INFO_SENDER_YEAR,
                 0,
                 1
             ],
             'no_course_info_sender_find_in_db'  => [
                 true,
                 true,
-                self::COURSE_INFO_SENDER_ETBID . self::COURSE_INFO_CORRECT_UNION_ID . '2089',
-                self::COURSE_INFO_RECIPIENT_ETBID . self::COURSE_INFO_CORRECT_UNION_ID . self::COURSE_INFO_RECIPIENT_YEAR,
+                self::COURSE_INFO_SENDER_CODE . self::COURSE_INFO_CORRECT_UNION_ID . '2089',
+                self::COURSE_INFO_RECIPIENT_CODE . self::COURSE_INFO_CORRECT_UNION_ID . self::COURSE_INFO_RECIPIENT_YEAR,
                 0,
                 1
             ],
             'no_course_info_recipient_find_in_db'  => [
                 true,
                 true,
-                self::COURSE_INFO_SENDER_ETBID . self::COURSE_INFO_CORRECT_UNION_ID . self::COURSE_INFO_SENDER_YEAR,
-                self::COURSE_INFO_RECIPIENT_ETBID . self::COURSE_INFO_CORRECT_UNION_ID . '2087',
+                self::COURSE_INFO_SENDER_CODE . self::COURSE_INFO_CORRECT_UNION_ID . self::COURSE_INFO_SENDER_YEAR,
+                self::COURSE_INFO_RECIPIENT_CODE . self::COURSE_INFO_CORRECT_UNION_ID . '2087',
                 0,
                 1
             ],
             'no_errors'  => [
                 true,
                 true,
-                self::COURSE_INFO_SENDER_ETBID . self::COURSE_INFO_CORRECT_UNION_ID . self::COURSE_INFO_SENDER_YEAR,
-                self::COURSE_INFO_RECIPIENT_ETBID . self::COURSE_INFO_CORRECT_UNION_ID . self::COURSE_INFO_RECIPIENT_YEAR,
+                self::COURSE_INFO_SENDER_CODE . self::COURSE_INFO_CORRECT_UNION_ID . self::COURSE_INFO_SENDER_YEAR,
+                self::COURSE_INFO_RECIPIENT_CODE . self::COURSE_INFO_CORRECT_UNION_ID . self::COURSE_INFO_RECIPIENT_YEAR,
                 0,
                 0
             ],
@@ -346,10 +346,10 @@ class CourseInfoManagerTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $courseInfoRepository->expects($this->any())
-            ->method('findByEtbIdAndYear')
+            ->method('findByCodeAndYear')
             ->will($this->returnValueMap([
-                [self::COURSE_INFO_SENDER_ETBID, self::COURSE_INFO_SENDER_YEAR, $courseInfoSender],
-                [self::COURSE_INFO_RECIPIENT_ETBID, self::COURSE_INFO_RECIPIENT_YEAR, $courseInfoRecipient]
+                [self::COURSE_INFO_SENDER_CODE, self::COURSE_INFO_SENDER_YEAR, $courseInfoSender],
+                [self::COURSE_INFO_RECIPIENT_CODE, self::COURSE_INFO_RECIPIENT_YEAR, $courseInfoRecipient]
             ]));
 
         // Mock token storage

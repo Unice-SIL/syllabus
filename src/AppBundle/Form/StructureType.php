@@ -17,7 +17,7 @@ class StructureType extends AbstractType
         $context = $options['context'];
         $disabled = $context == 'edit' ? true : false;
         $builder
-            ->add('etbId', null, [
+            ->add('code', null, [
                 'disabled' => $disabled
             ])
             ->add('label', null, [

@@ -4,8 +4,10 @@
 namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use AppBundle\Traits\Importable;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\JoinTable;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -18,13 +20,17 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Campus
 {
+
+    use Importable;
+
     /**
-     * @var string
+     * @var null|string
      *
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @JMS\Groups(groups={"default", "campus"})
      */
     private $id;
 
@@ -33,6 +39,7 @@ class Campus
      *
      * @ORM\Column(name="label", type="string", length=100, nullable=false)
      * @Assert\NotBlank()
+     * @JMS\Groups(groups={"default", "campus"})
      */
     private $label;
 
@@ -40,6 +47,7 @@ class Campus
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
+     * @JMS\Groups(groups={"default", "campus"})
      */
     private $obsolete = false;
 
@@ -47,7 +55,7 @@ class Campus
      * @var ArrayCollection
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\CourseInfo", inversedBy="campuses")
-     * @JoinTable(name="courseInfo_campus")
+     * @ORM\JoinTable(name="courseInfo_campus")
      */
     private $courseInfos;
 
@@ -60,53 +68,84 @@ class Campus
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getId()
+    public function getId(): ?string
     {
         return $this->id;
     }
 
     /**
-     * @param string $id
+     * @param null|string $id
+     * @return Campus
      */
-    public function setId($id)
+    public function setId(?string $id):self
     {
         $this->id = $id;
+
+        return $this;
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getLabel()
+    public function getLabel(): ?string
     {
         return $this->label;
     }
 
     /**
-     * @param string $label
+     * @param null|string $label
+     * @return Campus
      */
-    public function setLabel($label)
+    public function setLabel(?string $label): self
     {
         $this->label = $label;
+
+        return $this;
     }
 
     /**
      * @return bool
      */
-    public function isObsolete()
+    public function isObsolete(): bool
     {
         return $this->obsolete;
     }
 
     /**
      * @param bool $obsolete
+     * @return Campus
      */
-    public function setObsolete($obsolete)
+    public function setObsolete(bool $obsolete): self
     {
         $this->obsolete = $obsolete;
+
+        return $this;
     }
 
+    /**
+     * @return Collection
+     */
+    public function getCourseInfos(): Collection
+    {
+        return $this->courseInfos;
+    }
+
+    /**
+     * @param Collection $courseInfos
+     * @return Campus
+     */
+    public function setCourseInfos(Collection $courseInfos): self
+    {
+        $this->courseInfos = $courseInfos;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
     /**
      * @param CourseInfo $courseInfo
      * @return Campus
@@ -139,14 +178,6 @@ class Campus
             }
         }
         return $this;
-    }
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getCourseInfos()
-    {
-        return $this->courseInfos;
     }
 
     public function __toString()

@@ -21,7 +21,7 @@ class CourseAchievement
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"course_achievement", "course_info"})
+     * @JMS\Groups(groups={"default", "course_achievement"})
      */
     private $id;
 
@@ -29,17 +29,17 @@ class CourseAchievement
      * @var null|string
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=true)
-     * @JMS\Groups(groups={"course_achievement", "course_info"})
+     * @JMS\Groups(groups={"default", "course_achievement"})
      */
     private $description = "";
 
     /**
      * @var int
      *
-     * @ORM\Column(name="ord", type="integer", nullable=false)
-     * @JMS\Groups(groups={"course_achievement", "course_info"})
+     * @ORM\Column(name="position", type="integer", nullable=false)
+     * @JMS\Groups(groups={"default", "course_achievement"})
      */
-    private $order = 0;
+    private $position = 0;
 
     /**
      * @var \AppBundle\Entity\CourseInfo
@@ -64,7 +64,7 @@ class CourseAchievement
      * @param null|string $id
      * @return CourseAchievement
      */
-    public function setId(?string $id): CourseAchievement
+    public function setId(?string $id): self
     {
         $this->id = $id;
 
@@ -74,7 +74,7 @@ class CourseAchievement
     /**
      * @return null|string
      */
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -83,29 +83,28 @@ class CourseAchievement
      * @param null|string $description
      * @return CourseAchievement
      */
-    public function setDescription($description)
+    public function setDescription($description): self
     {
         $this->description = $description;
 
         return $this;
     }
 
-
     /**
      * @return int
      */
-    public function getOrder(): int
+    public function getPosition(): ?int
     {
-        return $this->order;
+        return $this->position;
     }
 
     /**
-     * @param int $order
+     * @param int $position
      * @return CourseAchievement
      */
-    public function setOrder(int $order): CourseAchievement
+    public function setPosition(int $position): self
     {
-        $this->order = $order;
+        $this->position = $position;
 
         return $this;
     }
@@ -123,7 +122,7 @@ class CourseAchievement
      * @param CourseInfo|null $courseInfo
      * @return CourseAchievement
      */
-    public function setCourseInfo(?CourseInfo $courseInfo): CourseAchievement
+    public function setCourseInfo(?CourseInfo $courseInfo): self
     {
         $this->courseInfo = $courseInfo;
 

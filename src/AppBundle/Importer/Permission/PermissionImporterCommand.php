@@ -201,10 +201,10 @@ class PermissionImporterCommand extends AbstractImporterCommand
      */
     private function prepareCourseInfo(CourseInterface $c, CourseInfoInterface $ci): ?CourseInfo
     {
-        $this->output->writeln(sprintf("Import permission for course %s and year  %s (%d KB used)", $c->getEtbId(), $ci->getYearId(), (memory_get_usage()/1024)));
+        $this->output->writeln(sprintf("Import permission for course %s and year  %s (%d KB used)", $c->getCode(), $ci->getYearId(), (memory_get_usage()/1024)));
 
         // COURSE INFO
-        $courseInfo = $this->courseInfoRepository->findByEtbIdAndYear($c->getEtbId(), $ci->getYearId());
+        $courseInfo = $this->courseInfoRepository->findByCodeAndYear($c->getCode(), $ci->getYearId());
         if(is_null($courseInfo)){
             return null;
         }

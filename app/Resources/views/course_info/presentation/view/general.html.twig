@@ -13,7 +13,7 @@
             {% endif %}
         </dl>
         <dl>
-            <dt>Niveau du cours</dt>
+            <dt>{{ 'app.presentation.view.general.level' | trans }}</dt>
             <dd class="mandatory-data">{{ ('app.const.level.' ~ courseInfo.level)|trans|humanizeEmptyData() }}</dd>
         </dl>
         <dl>
@@ -78,7 +78,7 @@
         {% else %}
             <div class="h-100 d-flex align-items-center justify-content-center">
                 <span class="empty-data text-center">
-                    Vous n'avez pas renseigné de résumé
+                    {{ 'app.presentation.view.general.empty_summary' | trans }}
                 </span>
             </div>
         {% endif %}

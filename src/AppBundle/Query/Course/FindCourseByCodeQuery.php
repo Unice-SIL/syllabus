@@ -8,10 +8,10 @@ use AppBundle\Query\QueryInterface;
 use AppBundle\Repository\CourseRepositoryInterface;
 
 /**
- * Class FindCourseByEtbIdQuery
+ * Class FindCourseByCodeQuery
  * @package AppBundle\Query\Course
  */
-class FindCourseByEtbIdQuery implements QueryInterface
+class FindCourseByCodeQuery implements QueryInterface
 {
 
     /**
@@ -22,10 +22,10 @@ class FindCourseByEtbIdQuery implements QueryInterface
     /**
      * @var string
      */
-    private $etbId;
+    private $code;
 
     /**
-     * FindCourseByEtbIdQuery constructor.
+     * FindCourseByCodeQuery constructor.
      * @param CourseRepositoryInterface $courseRepository
      */
     public function __construct(
@@ -36,12 +36,12 @@ class FindCourseByEtbIdQuery implements QueryInterface
     }
 
     /**
-     * @param string $etbId
-     * @return FindCourseByEtbIdQuery
+     * @param string $code
+     * @return FindCourseByCodeQuery
      */
-    public function setEtbId(string $etbId): FindCourseByEtbIdQuery
+    public function setCode(string $code): FindCourseByCodeQuery
     {
-        $this->etbId = $etbId;
+        $this->code = $code;
         return $this;
     }
 
@@ -53,9 +53,9 @@ class FindCourseByEtbIdQuery implements QueryInterface
     {
         $course = null;
         try{
-            $course = $this->courseRepository->findByEtbId($this->etbId);
+            $course = $this->courseRepository->findByCode($this->code);
             if(is_null($course)){
-                throw new CourseNotFoundException(sprintf("Course with establishment id %s not found", $this->etbId));
+                throw new CourseNotFoundException(sprintf("Course with establishment id %s not found", $this->code));
             }
         }catch (\Exception $e){
             throw $e;

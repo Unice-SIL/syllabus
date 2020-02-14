@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * CoursePrerequisite
@@ -19,6 +20,7 @@ class CoursePrerequisite
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @JMS\Groups(groups={"default", "course_prerequisite"})
      */
     private $id;
 
@@ -26,15 +28,17 @@ class CoursePrerequisite
      * @var null|string
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=true)
+     * @JMS\Groups(groups={"default", "course_prerequisite"})
      */
     private $description = "";
 
     /**
      * @var int
      *
-     * @ORM\Column(name="ord", type="integer", nullable=false)
+     * @ORM\Column(name="position", type="integer", nullable=false)
+     * @JMS\Groups(groups={"default", "course_prerequisite"})
      */
-    private $order = 0;
+    private $position = 0;
 
     /**
      * @var \AppBundle\Entity\CourseInfo
@@ -43,6 +47,7 @@ class CoursePrerequisite
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
      * })
+     * @JMS\Groups(groups={"course_prerequisite"})
      */
     private $courseInfo;
 
@@ -58,7 +63,7 @@ class CoursePrerequisite
      * @param null|string $id
      * @return CoursePrerequisite
      */
-    public function setId(?string $id): CoursePrerequisite
+    public function setId(?string $id): self
     {
         $this->id = $id;
 
@@ -68,7 +73,7 @@ class CoursePrerequisite
     /**
      * @return null|string
      */
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -77,33 +82,31 @@ class CoursePrerequisite
      * @param null|string $description
      * @return CoursePrerequisite
      */
-    public function setDescription($description)
+    public function setDescription($description): self
     {
         $this->description = $description;
 
         return $this;
     }
 
-
     /**
      * @return int
      */
-    public function getOrder(): int
+    public function getPosition(): ?int
     {
-        return $this->order;
+        return $this->position;
     }
 
     /**
-     * @param int $order
+     * @param int $position
      * @return CoursePrerequisite
      */
-    public function setOrder(int $order): CoursePrerequisite
+    public function setPosition(int $position): self
     {
-        $this->order = $order;
+        $this->position = $position;
 
         return $this;
     }
-
 
     /**
      * @return CourseInfo|null
@@ -117,11 +120,19 @@ class CoursePrerequisite
      * @param CourseInfo|null $courseInfo
      * @return CoursePrerequisite
      */
-    public function setCourseInfo(?CourseInfo $courseInfo): CoursePrerequisite
+    public function setCourseInfo(?CourseInfo $courseInfo): self
     {
         $this->courseInfo = $courseInfo;
 
         return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function __toString()
+    {
+        return $this->getDescription();
     }
 
 }

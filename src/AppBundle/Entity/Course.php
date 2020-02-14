@@ -2,19 +2,24 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Traits\Importable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Course
  *
- * @ORM\Table(name="course", uniqueConstraints={@ORM\UniqueConstraint(name="etb_id_UNIQUE", columns={"etb_id"})})
+ * @ORM\Table(name="course", uniqueConstraints={@ORM\UniqueConstraint(name="code_UNIQUE", columns={"code"})})
+ * @UniqueEntity(fields={"code"}, message="Le cours avec pour code établissement {{ value }} existe déjà", errorPath="code")
  * @ORM\Entity
  */
 class Course
 {
+    use Importable;
+
     /**
      * @var string
      *
@@ -36,11 +41,10 @@ class Course
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="etb_id", type="string", length=36, nullable=false, options={"fixed"=true})
+     * @ORM\Column(type="string", length=50, nullable=false)
      * @JMS\Groups(groups={"course", "course_info"})
      */
-    private $etbId;
+    private $code;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -84,7 +88,7 @@ class Course
     /**
      * @return string
      */
-    public function getId(): string
+    public function getId(): ?string
     {
         return $this->id;
     }
@@ -103,7 +107,7 @@ class Course
     /**
      * @return string
      */
-    public function getType(): string
+    public function getType(): ?string
     {
         return $this->type;
     }
@@ -115,25 +119,6 @@ class Course
     public function setType(string $type): self
     {
         $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getEtbId(): ?string
-    {
-        return $this->etbId;
-    }
-
-    /**
-     * @param string $etbId
-     * @return Course
-     */
-    public function setEtbId(string $etbId): self
-    {
-        $this->etbId = $etbId;
 
         return $this;
     }
@@ -304,7 +289,7 @@ class Course
      */
     public function __toString()
     {
-        return $this->getEtbId();
+        return $this->getCode();
     }
 
 

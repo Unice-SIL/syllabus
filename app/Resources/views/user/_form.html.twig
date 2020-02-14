@@ -17,9 +17,15 @@
             {{ form_widget(form.email) }}
         </div>
         <div class="col-md-6">
-            {{ form_label(form.roles) }}
-            {{ form_widget(form.roles) }}
+            <div class="form-group">
+                {{ form_label(form.groups) }}
+                {{ form_widget(form.groups) }}
+            </div>
         </div>
     </div>
     <button type="submit" class="btn btn-primary">{{ buttonLabel|default('Modifier') }}</button>
+    {% set user = form.vars.data %}
+    {% if user.id %}
+        <a type="submit" class="btn btn-primary" href="{{ path('app_admin_user_send_password_token', {'id' : user.id}) }}">Envoyer un mail de réinitialisation de mot de passe</a>
+    {% endif %}
 {{ form_end(form) }}

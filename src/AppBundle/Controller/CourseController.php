@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CourseController extends Controller
 {
     /**
-     * @Route("/autocomplete/{field}", name="autocomplete", methods={"GET"}, requirements={"field" = "etbId"})
+     * @Route("/autocomplete/{field}", name="autocomplete", methods={"GET"}, requirements={"field" = "code"})
      *
      * @param CourseDoctrineRepository $courseDoctrineRepository
      * @param Request $request
@@ -53,14 +53,14 @@ class CourseController extends Controller
     public function autocompleteS2(CourseDoctrineRepository $courseDoctrineRepository, Request $request)
     {
         $query = $request->query->get('q');
-        $courses = $courseDoctrineRepository->findLikeQuery($query, 'c.etbId');
+        $courses = $courseDoctrineRepository->findLikeQuery($query, 'c.code');
 
         $data = array_map(function ($c) use ($request) {
 
-            if (strtolower($c->getEtbId()) == strtolower($request->query->get('etbId'))) {
+            if (strtolower($c->getCode()) == strtolower($request->query->get('code'))) {
                 return false;
             }
-            return ['id' => $c->getId(), 'text' => $c->getEtbId()];
+            return ['id' => $c->getId(), 'text' => $c->getCode()];
         }, $courses);
 
         return $this->json($data);

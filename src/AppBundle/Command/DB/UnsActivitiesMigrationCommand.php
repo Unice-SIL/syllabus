@@ -632,7 +632,7 @@ class UnsActivitiesMigrationCommand extends Command
 
             $sectionActivity->setId($oldSectionActivity->getId())
                 ->setDescription($oldSectionActivity->getDescription())
-                ->setPosition($oldSectionActivity->getOrder())
+                ->setPosition($oldSectionActivity->getPosition())
                 ->setCourseSection($oldSectionActivity->getCourseSection());
 
             if (!array_key_exists($oldSectionActivity->getActivity()->getId(), $activitiesMatching)) {
@@ -769,7 +769,7 @@ class UnsActivitiesMigrationCommand extends Command
                     ->setEvaluationRate($oldSectionEvaluation->getEvaluationRate())
                     ->setActivityType($types[self::TYPE_CLASS_ID])
                     ->setActivityMode($modes[self::MODE_INDIVIDUAL_ID])
-                    ->setPosition($oldSectionEvaluation->getOrder())
+                    ->setPosition($oldSectionEvaluation->getPosition())
                     ->setCourseSection($sectionCt);
 
                 if (!array_key_exists($oldSectionEvaluation->getActivity()->getId(), $activitiesMatching)) {
@@ -823,7 +823,7 @@ class UnsActivitiesMigrationCommand extends Command
 
             $sectionActivity->setId($oldSectionEvaluation->getId())
                 ->setDescription($oldSectionEvaluation->getDescription())
-                ->setPosition($oldSectionEvaluation->getOrder())
+                ->setPosition($oldSectionEvaluation->getPosition())
                 ->setCourseSection($oldSectionEvaluation->getCourseSection());
         }
         */

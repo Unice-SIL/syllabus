@@ -6,7 +6,7 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\JoinTable;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -24,6 +24,7 @@ class Period
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @JMS\Groups(groups={"default", "period"})
      */
     private $id;
 
@@ -32,6 +33,7 @@ class Period
      *
      * @ORM\Column(name="label", type="string", length=100, nullable=false)
      * @Assert\NotBlank()
+     * @JMS\Groups(groups={"default", "period"})
      */
     private $label;
 
@@ -39,6 +41,7 @@ class Period
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
+     * @JMS\Groups(groups={"default", "period"})
      */
     private $obsolete = false;
 
@@ -46,6 +49,7 @@ class Period
      * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Structure", mappedBy="periods")
+     * @JMS\Groups(groups={"period"})
      */
     private $structures;
 
@@ -62,61 +66,65 @@ class Period
      * @var ArrayCollection
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\CourseInfo", inversedBy="periods")
-     * @JoinTable(name="courseInfo_period")
+     * @ORM\JoinTable(name="courseInfo_period")
      */
     private $courseInfos;
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getId()
+    public function getId(): ?string
     {
         return $this->id;
     }
 
     /**
-     * @param string $id
+     * @param null|string $id
+     * @return Period
      */
-    public function setId($id)
+    public function setId(?string $id): self
     {
         $this->id = $id;
+
+        return $this;
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getLabel()
+    public function getLabel(): ?string
     {
         return $this->label;
     }
 
     /**
-     * @param string $label
+     * @param null|string $label
+     * @return Period
      */
-    public function setLabel($label)
+    public function setLabel(?string $label): self
     {
         $this->label = $label;
+
+        return $this;
     }
 
     /**
      * @return bool
      */
-    public function isObsolete()
+    public function isObsolete(): bool
     {
         return $this->obsolete;
     }
 
     /**
      * @param bool $obsolete
+     * @return Period
      */
-    public function setObsolete($obsolete)
+    public function setObsolete(bool $obsolete): self
     {
         $this->obsolete = $obsolete;
-    }
 
-    public function __toString()
-    {
-        return $this->getLabel();
+        return $this;
     }
 
     /**
@@ -139,7 +147,7 @@ class Period
 
     /**
      * @param Structure $structure
-     * @return Domain
+     * @return Period
      */
     public function addStructure(Structure $structure): self
     {
@@ -156,7 +164,7 @@ class Period
 
     /**
      * @param Structure $structure
-     * @return Domain
+     * @return Period
      */
     public function removeStructure(Structure $structure): self
     {
@@ -206,10 +214,20 @@ class Period
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getCourseInfos()
+    public function getCourseInfos(): Collection
     {
         return $this->courseInfos;
     }
+
+    /**
+     * @return null|string
+     */
+    public function __toString()
+    {
+        return $this->getLabel();
+    }
+
+
 }

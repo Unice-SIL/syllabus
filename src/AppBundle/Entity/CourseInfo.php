@@ -18,7 +18,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @ORM\Table(name="course_info")
  * @ORM\Entity
- * @UniqueEntity(fields={"year", "course"}, message="Le cours {{ value }} existe déjà pour cette année", errorPath="course", payload={"ignoreForPutApi"} )
+ * @UniqueEntity(fields={"year", "course"}, message="Le cours {{ value }} existe déjà pour cette année", errorPath="course")
  *
  */
 class CourseInfo
@@ -30,7 +30,7 @@ class CourseInfo
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"course_info"})
+     * @JMS\Groups(groups={"default", "course_info"})
      */
     private $id;
 
@@ -39,7 +39,7 @@ class CourseInfo
      *
      * @ORM\Column(name="title", type="string", length=200, nullable=false)
      * @Assert\NotBlank(groups={"new"})
-     * @JMS\Groups(groups={"course_info"})
+     * @JMS\Groups(groups={"default", "course_info"})
      */
     private $title;
 
@@ -521,7 +521,7 @@ class CourseInfo
      * })
      * @Assert\NotBlank(groups={"new"})
      * @JMS\Type("AppBundle\Entity\Structure")
-     * @JMS\Groups(groups={"course_info"})
+     * @JMS\Groups(groups={"default", "course_info"})
      */
     private $structure;
 
@@ -558,7 +558,7 @@ class CourseInfo
      * })
      * @Assert\NotBlank(groups={"new"})
      * @JMS\Type("AppBundle\Entity\Year")
-     * @JMS\Groups(groups={"course_info"})
+     * @JMS\Groups(groups={"default", "course_info"})
      */
     private $year;
 
@@ -592,7 +592,7 @@ class CourseInfo
      * @var Collection
      *
      * @ORM\OneToMany(targetEntity="CourseAchievement", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
-     * @ORM\OrderBy({"order" = "ASC"})
+     * @ORM\OrderBy({"position" = "ASC"})
      * @JMS\Groups(groups={"course_info"})
      */
     private $courseAchievements;
@@ -601,7 +601,7 @@ class CourseInfo
      * @var Collection
      *
      * @ORM\OneToMany(targetEntity="CoursePrerequisite", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
-     * @ORM\OrderBy({"order" = "ASC"})
+     * @ORM\OrderBy({"position" = "ASC"})
      * @JMS\Groups(groups={"course_info"})
      */
     private $coursePrerequisites;
@@ -610,7 +610,7 @@ class CourseInfo
      * @var Collection
      *
      * @ORM\OneToMany(targetEntity="CourseTutoringResource", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
-     * @ORM\OrderBy({"order" = "ASC"})
+     * @ORM\OrderBy({"position" = "ASC"})
      * @JMS\Groups(groups={"course_info"})
      */
     private $courseTutoringResources;
@@ -619,7 +619,7 @@ class CourseInfo
      * @var Collection
      *
      * @ORM\OneToMany(targetEntity="CourseResourceEquipment", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
-     * @ORM\OrderBy({"order" = "ASC"})
+     * @ORM\OrderBy({"position" = "ASC"})
      * @JMS\Groups(groups={"course_info"})
      */
     private $courseResourceEquipments;
@@ -651,16 +651,16 @@ class CourseInfo
     /**
      * @return string
      */
-    public function getId(): string
+    public function getId(): ?string
     {
         return $this->id;
     }
 
     /**
-     * @param string $id
+     * @param null|string $id
      * @return CourseInfo
      */
-    public function setId(string $id): self
+    public function setId(?string $id): self
     {
         $this->id = $id;
 
@@ -1668,7 +1668,7 @@ class CourseInfo
      */
     public function getCourseApi()
     {
-        return ['id' => $this->getCourse()->getId()];
+        return $this->getCourse()->getId();
     }
 
     /**
@@ -1697,7 +1697,7 @@ class CourseInfo
      */
     public function getStructureApi()
     {
-        return ['id' => $this->getStructure()->getId()];
+        return $this->getStructure()->getId();
     }
 
     /**
@@ -1764,7 +1764,7 @@ class CourseInfo
      */
     public function getYearApi()
     {
-        return ['id' => $this->getYear()->getId()];
+        return $this->getYear()->getId();
     }
 
     /**
@@ -1938,6 +1938,7 @@ class CourseInfo
                 $courseSection->setCourseInfo(null);
             }
         }
+
         return $this;
     }
 
@@ -1993,6 +1994,7 @@ class CourseInfo
                 $courseAchievement->setCourseInfo(null);
             }
         }
+
         return $this;
     }
 
@@ -2349,7 +2351,6 @@ class CourseInfo
     /**
      *
      */
-
     public function __clone()
     {
 
@@ -2516,12 +2517,12 @@ class CourseInfo
         }
     }
 
-    public function getEtbIdYear(bool $dev = null)
+    public function getCodeYear(bool $dev = null)
     {
         if ($dev) {
-            return $this->course->getEtbId() . '__UNION__' . $this->year->getId();
+            return $this->course->getCode() . '__UNION__' . $this->year->getId();
         }
-        return $this->course->getEtbId() . '-' . $this->year->getId();
+        return $this->course->getCode() . '-' . $this->year->getId();
     }
 
     public function setAllRelations()

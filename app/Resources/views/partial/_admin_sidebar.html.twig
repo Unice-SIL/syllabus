@@ -152,7 +152,7 @@
             </ul>
         </li>
 
-        {% set administrationLink = ['app_admin_user'] %}
+        {% set administrationLink = ['app_admin_user', 'app_admin_groups'] %}
         <li class="nav-item has-treeview {{ printActiveAdminSidebarLink(administrationLink) ? 'menu-open' }}">
             <a href="#" class="nav-link {{ printActiveAdminSidebarLink(administrationLink) }}">
                 <i class="nav-icon fas fa-cogs"></i>
@@ -169,6 +169,15 @@
                         <i class="nav-icon fas fa-user"></i>
                         <p>
                             Utilisateurs
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ path('app_admin_groups_index') }}"
+                       class="nav-link {{ printActiveAdminSidebarLink(['app_admin_groups']) }}">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            Groupes
                         </p>
                     </a>
                 </li>

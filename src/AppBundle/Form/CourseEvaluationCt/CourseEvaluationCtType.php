@@ -53,7 +53,7 @@ class CourseEvaluationCtType extends AbstractType
             ->add('evaluationRate', TextType::class, [
                 'required' => false,
             ])
-            ->add('order', HiddenType::class);
+            ->add('position', HiddenType::class);
     }
 
     /**

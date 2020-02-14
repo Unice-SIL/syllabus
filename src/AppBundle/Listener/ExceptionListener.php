@@ -6,6 +6,7 @@ use AppBundle\Exception\ResourceValidationException;
 use JMS\Serializer\Exception\ObjectConstructionException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -23,21 +24,32 @@ class ExceptionListener
 
             if ($exception instanceof ObjectConstructionException) {
                 $response->setStatusCode(Response::HTTP_BAD_REQUEST);
-                $message = 'One of the relation id\'s doesn\'t exist';
+                $bodyResponse['statusCode'] = Response::HTTP_BAD_REQUEST;
+                $bodyResponse['message'] = 'One of the relation id\'s doesn\'t exist';
             } elseif ($exception instanceof ResourceValidationException) {
                 $response->setStatusCode(Response::HTTP_BAD_REQUEST);
-                $message = $exception->getMessage();
+                $bodyResponse['statusCode'] = Response::HTTP_BAD_REQUEST;
+                $bodyResponse['message'] = explode('__glue__', $exception->getMessage());
             }
             elseif ($exception instanceof NotFoundHttpException) {
                 $response->setStatusCode($exception->getStatusCode());
-                $message = 'Page not fount';
+                $bodyResponse['statusCode'] = $exception->getStatusCode();
+                $bodyResponse['message'] = 'Page not fount';
+            }
+            elseif ($exception instanceof AccessDeniedHttpException) {
+                $response->setStatusCode(Response::HTTP_FORBIDDEN);
+                $bodyResponse['statusCode'] = Response::HTTP_FORBIDDEN;
+                $bodyResponse['message'] = 'Access Denied';
             }
             else {
                 $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
-                $message = "Internal Error Server";
+                $bodyResponse['statusCode'] = Response::HTTP_INTERNAL_SERVER_ERROR;
+                $bodyResponse['message'] =  'Internal Error Server';
             }
 
-            $response->setContent($message);
+
+            $response->setContent(json_encode($bodyResponse));
+            $response->headers->set('Content-Type', 'application/json');
 
             $event->setResponse($response);
         }

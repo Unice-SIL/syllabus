@@ -35,7 +35,7 @@ class CourseEvaluationCtCommand implements CommandInterface
     /**
      * @var int
      */
-    private $order;
+    private $position;
 
     /**
      * @var Activity|null
@@ -56,14 +56,14 @@ class CourseEvaluationCtCommand implements CommandInterface
     {
         if(is_null($courseEvaluationCt)) {
             $this->id = Uuid::uuid4();
-            $this->order = 0;
+            $this->position = 0;
         }else{
             $this->id = $courseEvaluationCt->getId();
             $this->courseInfo = $courseEvaluationCt->getCourseInfo();
             $this->activity = $courseEvaluationCt->getActivity();
             $this->description = $courseEvaluationCt->getDescription();
             $this->evaluationRate = $courseEvaluationCt->getEvaluationRate();
-            $this->order = $courseEvaluationCt->getOrder();
+            $this->position = $courseEvaluationCt->getPosition();
         }
     }
 
@@ -128,18 +128,18 @@ class CourseEvaluationCtCommand implements CommandInterface
     /**
      * @return int
      */
-    public function getOrder(): int
+    public function getPosition(): int
     {
-        return $this->order;
+        return $this->position;
     }
 
     /**
-     * @param int $order
+     * @param int $position
      * @return CourseEvaluationCtCommand
      */
-    public function setOrder(int $order): CourseEvaluationCtCommand
+    public function setPosition(int $position): CourseEvaluationCtCommand
     {
-        $this->order = $order;
+        $this->position = $position;
 
         return $this;
     }
@@ -192,7 +192,7 @@ class CourseEvaluationCtCommand implements CommandInterface
         $entity->setId($this->getId())
             ->setDescription($this->getDescription())
             ->setEvaluationRate($this->getEvaluationRate())
-            ->setOrder($this->getOrder());
+            ->setPosition($this->getPosition());
         if(!is_null($this->getActivity())){
             $entity->setActivity($this->getActivity());
         }
