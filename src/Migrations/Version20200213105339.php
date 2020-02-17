@@ -26,7 +26,6 @@ final class Version20200213105339 extends AbstractMigration
         $this->addSql('ALTER TABLE course CHANGE source source VARCHAR(50) DEFAULT \'import effectué avant la mise en place de ce champ\'');
         $this->addSql('CREATE UNIQUE INDEX code_UNIQUE ON course (code)');
         $this->addSql('ALTER TABLE course_achievement CHANGE ord position INT NOT NULL');
-        $this->addSql('ALTER TABLE course_info DROP domain');
         $this->addSql('ALTER TABLE course_prerequisite CHANGE ord position INT NOT NULL');
         $this->addSql('ALTER TABLE course_resource_equipment CHANGE ord position INT NOT NULL');
         //$this->addSql('ALTER TABLE course_section_activity CHANGE activity_type_id activity_type_id CHAR(36) NOT NULL, CHANGE activity_mode_id activity_mode_id CHAR(36) NOT NULL');
@@ -45,7 +44,6 @@ final class Version20200213105339 extends AbstractMigration
         $this->addSql('DROP INDEX code_UNIQUE ON course');
         $this->addSql('ALTER TABLE course CHANGE source source VARCHAR(50) CHARACTER SET utf8 DEFAULT \'import effectué avant la mise en place de ce champ\' NOT NULL COLLATE `utf8_unicode_ci`');
         $this->addSql('ALTER TABLE course_achievement CHANGE position ord INT NOT NULL');
-        $this->addSql('ALTER TABLE course_info ADD domain CHAR(100) CHARACTER SET utf8 DEFAULT NULL COLLATE `utf8_unicode_ci`');
         $this->addSql('ALTER TABLE course_prerequisite CHANGE position ord INT NOT NULL');
         $this->addSql('ALTER TABLE course_resource_equipment CHANGE position ord INT NOT NULL');
         //$this->addSql('ALTER TABLE course_section_activity DROP FOREIGN KEY FK_B95D28E67C1ADF9');

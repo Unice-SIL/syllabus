@@ -4,6 +4,8 @@
 namespace AppBundle\Entity;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -44,6 +46,21 @@ class Language
      * @JMS\Groups(groups={"default", "language"})
      */
     private $obsolete = false;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\CourseInfo", mappedBy="languages")
+     */
+    private $courseInfos;
+
+    /**
+     * Language constructor.
+     */
+    public function __construct()
+    {
+        $this->courseInfos = new ArrayCollection();
+    }
 
     /**
      * @return null|string
@@ -101,6 +118,49 @@ class Language
 
         return $this;
     }
+
+    /**
+     * @param CourseInfo $courseInfo
+     * @return Language
+     */
+    public function addCourseInfo(CourseInfo $courseInfo): self
+    {
+        if (!$this->courseInfos->contains($courseInfo))
+        {
+            $this->courseInfos->add($courseInfo);
+            if (!$courseInfo->getLanguages()->contains($this))
+            {
+                $courseInfo->getLanguages()->add($this);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @param CourseInfo $courseInfo
+     * @return Language
+     */
+    public function removeCourseInfo(CourseInfo $courseInfo): self
+    {
+        if ($this->courseInfos->contains($courseInfo))
+        {
+            $this->courseInfos->removeElement($courseInfo);
+            if ($courseInfo->getLanguages()->contains($this))
+            {
+                $courseInfo->getLanguages()->removeElement($this);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getCourseInfos(): Collection
+    {
+        return $this->courseInfos;
+    }
+
 
     /**
      * @return null|string

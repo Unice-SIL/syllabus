@@ -4,14 +4,16 @@
 namespace AppBundle\Controller;
 
 
+use AppBundle\Entity\Language;
 use AppBundle\Factory\ImportCourseTeacherFactory;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use AppBundle\Manager\LanguageManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class Select2UserController extends AbstractController
+class Select2Controller extends AbstractController
 {
     /**
      * @Route("/teachers/select2/list", name="teachers_select2_list")
@@ -36,4 +38,5 @@ class Select2UserController extends AbstractController
         }
         return new JsonResponse($courseTeachersArray);
     }
+
 }

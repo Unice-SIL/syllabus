@@ -54,7 +54,7 @@ class LanguageDoctrineRepository extends AbstractDoctrineRepository implements L
                 ->setParameter('obsolete', false)
                 ->addOrderBy('l.label', 'ASC');
             foreach ($qb->getQuery()->getResult() as $language){
-                $language->append($language);
+                $languages->append($language);
             }
         } catch (\Exception $exception)
         {
@@ -114,7 +114,6 @@ class LanguageDoctrineRepository extends AbstractDoctrineRepository implements L
 
     /**
      * @param string $query
-     * @param string $field
      * @return array
      */
     public function findLikeQuery(string $query): array

@@ -53,7 +53,7 @@ class CourseResourceEquipmentType extends AbstractType
                 ],
                 'em' => $this->syllabusEntityManager
             ])
-            ->add('order', HiddenType::class);
+            ->add('position', HiddenType::class);
     }
 
     /**

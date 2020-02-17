@@ -4,7 +4,11 @@ namespace AppBundle\Form\CourseInfo\Presentation;
 
 
 use AppBundle\Constant\Level;
+use AppBundle\Entity\Campus;
 use AppBundle\Entity\CourseInfo;
+use AppBundle\Entity\Domain;
+use AppBundle\Entity\Language;
+use AppBundle\Entity\Period;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -16,6 +20,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 
 class GeneralType extends AbstractType
 {
@@ -26,26 +31,54 @@ class GeneralType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('period', TextType::class, [
+            ->add('structure', HiddenType::class, [
+                'disabled' => true,
+            ])
+            ->add('periods', Select2EntityType::class, [
                 'label' => 'Période (facultatif)',
-                'required' => false,
-                'attr' => [
-                    'placeholder' => 'Ex: Tout le semestre'
-                ]
+                'multiple' => true,
+                'remote_route' => 'app_admin_period_autocompleteS2',
+                'class' => Period::class,
+                'text_property' => 'label',
+                'language' => 'fr',
+                'minimum_input_length' => 0,
+                'remote_params' => [
+                    'structure' => $builder->getData()->getStructure()->getId()
+                ],
+                'required' => false
             ])
-            ->add('domain', TextType::class, [
+            ->add('domains', Select2EntityType::class, [
                 'label' => 'Domaine',
-                'required' => false,
-                'attr' => [
-                    'placeholder' => 'Ex: Chimie'
-                ]
+                'multiple' => true,
+                'remote_route' => 'app_admin_domain_autocompleteS2',
+                'class' => Domain::class,
+                'text_property' => 'label',
+                'language' => 'fr',
+                'minimum_input_length' => 0,
+                'remote_params' => [
+                    'structure' => $builder->getData()->getStructure()->getId()
+                ],
+                'required' => false
             ])
-            ->add('languages', TextType::class, [
+            ->add('languages', Select2EntityType::class, [
+                'multiple' => true,
+                'remote_route' => 'app_admin_language_autocompleteS2',
+                'class' => Language::class,
+                'text_property' => 'label',
                 'label' => 'En quelle(s) langue(s) est dispensé ce cours (facultatif)',
-                'required' => false,
-                'attr' => [
-                    'placeholder' => 'Ex: allemand, russe'
-                ]
+                'language' => 'fr',
+                'minimum_input_length' => 0,
+                'required' => false
+            ])
+            ->add('campuses', Select2EntityType::class, [
+                'multiple' => true,
+                'remote_route' => 'app_admin_campus_autocompleteS2',
+                'class' => Campus::class,
+                'text_property' => 'label',
+                'label' => 'Campus',
+                'language' => 'fr',
+                'minimum_input_length' => 0,
+                'required' => false
             ])
             ->add('level', ChoiceType::class, [
                 'label' => 'Niveau',

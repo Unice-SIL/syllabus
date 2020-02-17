@@ -53,7 +53,7 @@ class BakCourseSectionActivity
      *
      * @ORM\Column(name="ord", type="integer", nullable=false)
      */
-    private $order = 0;
+    private $position = 0;
 
     /**
      * @var \AppBundle\Entity\BakActivity
@@ -173,18 +173,18 @@ class BakCourseSectionActivity
     /**
      * @return int
      */
-    public function getOrder(): int
+    public function getPosition(): int
     {
-        return $this->order;
+        return $this->position;
     }
 
     /**
-     * @param int $order
+     * @param int $position
      * @return BakCourseSectionActivity
      */
-    public function setOrder(int $order): self
+    public function setPosition(int $position): self
     {
-        $this->order = $order;
+        $this->position = $position;
 
         return $this;
     }

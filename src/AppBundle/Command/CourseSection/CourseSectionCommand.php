@@ -43,7 +43,7 @@ class CourseSectionCommand implements CommandInterface
     /**
      * @var int
      */
-    private $order = 0;
+    private $position = 0;
 
     /**
      * @var CourseInfo|null
@@ -75,7 +75,7 @@ class CourseSectionCommand implements CommandInterface
             $this->courseInfo = $courseSection->getCourseInfo();
             $this->title = $courseSection->getTitle();
             $this->description = $courseSection->getDescription();
-            $this->order = $courseSection->getOrder();
+            $this->position = $courseSection->getPosition();
             $this->activities = new ArrayCollection();
             foreach ($courseSection->getCourseSectionActivities() as $courseSectionActivity) {
                 $this->activities->add(new CourseSectionActivityCommand($courseSectionActivity));
@@ -144,18 +144,18 @@ class CourseSectionCommand implements CommandInterface
     /**
      * @return int
      */
-    public function getOrder(): int
+    public function getPosition(): int
     {
-        return $this->order;
+        return $this->position;
     }
 
     /**
-     * @param int|null $order
+     * @param int|null $position
      * @return CourseSectionCommand
      */
-    public function setOrder($order = 0): CourseSectionCommand
+    public function setPosition($position = 0): CourseSectionCommand
     {
-        $this->order = $order;
+        $this->position = $position;
 
         return $this;
     }
@@ -232,7 +232,7 @@ class CourseSectionCommand implements CommandInterface
         $entity->setId($this->getId())
             ->setTitle($this->getTitle())
             ->setDescription($this->getDescription())
-            ->setOrder($this->getOrder());
+            ->setPosition($this->getPosition());
         $courseSectionActivities = new ArrayCollection();
         foreach ($this->activities as $activity){
             $id = $activity->getId();

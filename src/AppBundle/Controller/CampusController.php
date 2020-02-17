@@ -13,6 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -141,5 +142,32 @@ class CampusController extends AbstractController
         $campuss = array_values($campuss);
 
         return $this->json(['query' =>  $query, 'suggestions' => $campuss, 'data' => $campuss]);
+    }
+
+    /**
+     * @Route("autocompleteS2", name="autocompleteS2")
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function autocompleteS2(Request $request)
+    {
+        $query = $request->query->get('c');
+
+        $em = $this->getDoctrine()->getRepository(Campus::class);
+        $campuses = $em->createQueryBuilder('c')
+            ->andWhere('c.label LIKE :query ')
+            ->andWhere('c.obsolete = 0')
+            ->setParameter('query', '%' . $query . '%')
+            ->getQuery()
+            ->getResult()
+        ;
+
+        $data = [];
+        foreach ($campuses as $campus)
+        {
+            $data[] = ['id' => $campus->getId(), 'text' => $campus->getLabel()];
+        }
+        return $this->json($data);
     }
 }

@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 
 
 use AppBundle\Entity\Period;
+use AppBundle\Entity\Structure;
 use AppBundle\Form\Filter\PeriodFilterType;
 use AppBundle\Form\PeriodType;
 use AppBundle\Manager\PeriodManager;
@@ -142,5 +143,23 @@ class PeriodController extends AbstractController
         $periods = array_values($periods);
 
         return $this->json(['query' =>  $query, 'suggestions' => $periods, 'data' => $periods]);
+    }
+
+    /**
+     * @Route("/autocompleteS2/{structure}", name="autocompleteS2")
+     *
+     * @param Structure $structure
+     * @return Response
+     */
+    public function autocompleteS2(Structure $structure)
+    {
+        $data = [];
+        $periods = $structure->getPeriods();
+        if(!empty($periods)){
+            foreach ($periods as $period){
+                $data[] = ['id' => $period->getId(), 'text' => $period->getLabel()];
+            }
+        }
+        return $this->json($data);
     }
 }
