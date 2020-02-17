@@ -118,7 +118,6 @@ class StructureDoctrineRepository extends AbstractDoctrineRepository implements 
             ->createQueryBuilder('s')
             ->addOrderBy('s.code', 'ASC')
             ->addOrderBy('s.label', 'ASC')
-            ->addOrderBy('s.campus', 'ASC')
             ;
     }
 
@@ -132,7 +131,7 @@ class StructureDoctrineRepository extends AbstractDoctrineRepository implements 
     {
         $qb = $this->getIndexQueryBuilder();
 
-        if (in_array($field, ['code', 'label', 'campus'])) {
+        if (in_array($field, ['code', 'label'])) {
             $qb->andWhere($qb->getRootAlias().'.'.$field.' LIKE :query ')
                 ->setParameter('query', '%' . $query . '%')
             ;

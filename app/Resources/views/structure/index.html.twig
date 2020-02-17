@@ -30,8 +30,8 @@
                     <tr>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.structure.label.code'|trans, 's.code') }}</th>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.structure.label.label'|trans, 's.structure') }}</th>
-                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.structure.label.campus'|trans, 's.campus') }}</th>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.structure.label.obsolete'|trans, 's.obsolete') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.structure.label.synchronized'|trans, 's.synchronized') }}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -39,8 +39,8 @@
                         <tr>
                             <td><a href="{{ path('app_admin_structure_edit', { 'id' : structure.id }) }}">{{ structure.code }}</a></td>
                             <td>{{ structure.label }}</td>
-                            <td>{{ structure.campus }}</td>
                             <td>{{ structure.obsolete|humanizeBoolean }}</td>
+                            <td>{{ structure.synchronized|humanizeBoolean }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>

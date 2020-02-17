@@ -1,13 +1,15 @@
 {% extends 'admin_layout.html.twig' %}
-{% set h1 = "Ajouter un campus"%}
-{% block subContent %}
+{% set h1 = 'Modifier un cours' %}
 
+{% block subContent %}
     <div class="card card-primary">
         <!-- /.card-header -->
         <!-- form start -->
         {{ form_start(form) }}
         <div class="card-body">
-            {{ form_row(form.label) }}
+            {{ form_row(form.code) }}
+            {{ form_row(form.title) }}
+            {{ form_row(form.type) }}
             <div class="custom-control custom-switch">
                 {{ form_widget(form.synchronized) }}
                 {{ form_label(form.synchronized) }}
@@ -16,8 +18,9 @@
         <!-- /.card-body -->
 
         <div class="card-footer">
-            <button type="submit" class="btn btn-primary">Enregistrer</button>
+            <button type="submit" class="btn btn-primary">Modifier</button>
         </div>
         {{ form_end(form) }}
     </div>
 {% endblock %}
+

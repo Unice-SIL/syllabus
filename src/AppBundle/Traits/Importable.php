@@ -14,17 +14,24 @@ trait Importable
 {
     /**
      * @var string|null
-     * @ORM\Column(type="string", length=50, nullable=false)
+     * @ORM\Column(type="string", length=50, nullable=true)
      * @JMS\Groups(groups={"default"})
      */
     private $code;
 
     /**
      * @var string|null
-     * @ORM\Column(type="string", length=50, nullable=true, options={"default" : "import effectué avant la mise en place de ce champ" })
+     * @ORM\Column(type="string", length=50, nullable=true)
      * @JMS\Groups(groups={"default"})
      */
     private $source;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="synchronized", type="boolean")
+     */
+    private $synchronized = false;
 
     /**
      * @return string|null
@@ -60,6 +67,25 @@ trait Importable
     public function setSource(?string $source)
     {
         $this->source = $source;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSynchronized(): ?bool
+    {
+        return $this->synchronized;
+    }
+
+    /**
+     * @param bool $synchronized
+     * @return Importable
+     */
+    public function setSynchronized(?bool $synchronized): self
+    {
+        $this->synchronized = $synchronized;
 
         return $this;
     }

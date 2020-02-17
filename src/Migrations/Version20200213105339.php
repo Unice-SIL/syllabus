@@ -22,7 +22,7 @@ final class Version20200213105339 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE campus ADD code VARCHAR(50) NOT NULL, ADD source VARCHAR(50) DEFAULT \'import effectué avant la mise en place de ce champ\'');
+        $this->addSql('ALTER TABLE campus ADD code VARCHAR(50) NOT NULL, ADD source VARCHAR(50) DEFAULT NULL');
         $this->addSql('ALTER TABLE course CHANGE source source VARCHAR(50) DEFAULT \'import effectué avant la mise en place de ce champ\'');
         $this->addSql('CREATE UNIQUE INDEX code_UNIQUE ON course (code)');
         $this->addSql('ALTER TABLE course_achievement CHANGE ord position INT NOT NULL');

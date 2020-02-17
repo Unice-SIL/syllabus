@@ -141,6 +141,7 @@ app:
         label: Intitulé
         mode: Mode
         grp: Groupe
+        synchronized: Synchronisé
     activity_type:
       label:
         label: Titre
@@ -153,6 +154,8 @@ app:
         type: Type
         code: Code établissement
         parents: Cours parents
+        title: Titre
+        synchronized: Synchronisé
     year:
       label:
         label: Année
@@ -163,6 +166,7 @@ app:
         campus: Campus
         obsolete: Obsolète
         structure: Structure
+        synchronized: Synchronisé
     equipment:
       label:
         label: Label

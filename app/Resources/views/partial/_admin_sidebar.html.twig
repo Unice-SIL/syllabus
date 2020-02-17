@@ -25,6 +25,16 @@
             </a>
         </li>
 
+        <li class="nav-item">
+            <a href="{{ path('app_admin.course_index') }}"
+               class="nav-link {{ printActiveAdminSidebarLink(['app_admin.course_']) }}">
+                <i class="nav-icon fas fa-book"></i>
+                <p>
+                    Cours
+                </p>
+            </a>
+        </li>
+
         {% set referentielLink = ['app_admin_activity', 'app_admin_type_activity', 'app_admin_mode_activity','app_admin_year',
             'app_admin_equipment', 'app_admin_structure', 'app_admin_domain', 'app_admin_period_index', 'app_admin_language_index',
             'app_admin_campus'] %}
