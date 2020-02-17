@@ -487,7 +487,6 @@ class CourseInfo
      * })
      * @Assert\NotBlank()
      * @JMS\Type("AppBundle\Entity\Course")
-     * @JMS\Groups(groups={"course_info"})
      */
     private $course;
 
@@ -500,7 +499,6 @@ class CourseInfo
      * })
      * @Assert\NotBlank(groups={"new"})
      * @JMS\Type("AppBundle\Entity\Structure")
-     * @JMS\Groups(groups={"default", "course_info"})
      */
     private $structure;
 
@@ -537,7 +535,6 @@ class CourseInfo
      * })
      * @Assert\NotBlank(groups={"new"})
      * @JMS\Type("AppBundle\Entity\Year")
-     * @JMS\Groups(groups={"default", "course_info"})
      */
     private $year;
 
@@ -553,6 +550,7 @@ class CourseInfo
      *
      * @ORM\OneToMany(targetEntity="CourseTeacher", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"lastname" = "ASC"})
+     * @JMS\Type("ArrayCollection<AppBundle\Entity\CourseTeacher>")
      * @JMS\Groups(groups={"course_info"})
      */
     private $courseTeachers;
@@ -571,7 +569,8 @@ class CourseInfo
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\OneToMany(targetEntity="CourseAchievement", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
-     * @ORM\OrderBy({"order" = "ASC"})
+     * @ORM\OrderBy({"position" = "ASC"})
+     * @JMS\Type("ArrayCollection<AppBundle\Entity\CourseAchievement>")
      * @JMS\Groups(groups={"course_info"})
      */
     private $courseAchievements;
@@ -580,7 +579,8 @@ class CourseInfo
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\OneToMany(targetEntity="CoursePrerequisite", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
-     * @ORM\OrderBy({"order" = "ASC"})
+     * @ORM\OrderBy({"position" = "ASC"})
+     * @JMS\Type("ArrayCollection<AppBundle\Entity\CoursePrerequisite>")
      * @JMS\Groups(groups={"course_info"})
      */
     private $coursePrerequisites;
@@ -589,7 +589,7 @@ class CourseInfo
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\OneToMany(targetEntity="CourseTutoringResource", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
-     * @ORM\OrderBy({"order" = "ASC"})
+     * @ORM\OrderBy({"position" = "ASC"})
      * @JMS\Groups(groups={"course_info"})
      */
     private $courseTutoringResources;
@@ -598,7 +598,7 @@ class CourseInfo
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\OneToMany(targetEntity="CourseResourceEquipment", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
-     * @ORM\OrderBy({"order" = "ASC"})
+     * @ORM\OrderBy({"position" = "ASC"})
      * @JMS\Groups(groups={"course_info"})
      */
     private $courseResourceEquipments;
@@ -1695,7 +1695,7 @@ class CourseInfo
 
     /**
      * @JMS\VirtualProperty()
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"default", "course_info"})
      * @JMS\SerializedName("course")
      */
     public function getCourseApi()
@@ -1724,7 +1724,7 @@ class CourseInfo
 
     /**
      * @JMS\VirtualProperty()
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"default", "course_info"})
      * @JMS\SerializedName("structure")
      */
     public function getStructureApi()
@@ -1791,7 +1791,7 @@ class CourseInfo
 
     /**
      * @JMS\VirtualProperty()
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"default", "course_info"})
      * @JMS\SerializedName("year")
      */
     public function getYearApi()
