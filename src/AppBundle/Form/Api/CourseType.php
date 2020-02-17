@@ -14,6 +14,7 @@ class CourseType extends AbstractType
     {
         $builder
             ->add('id')
+            ->add('title')
             ->add('type')
             ->add('code')
         ;

@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Form\Type\CustomCheckboxType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -23,7 +24,9 @@ class StructureType extends AbstractType
             ->add('label', null, [
                 'disabled' => $disabled
             ])
-            ->add('campus')
+            ->add('synchronized', CustomCheckboxType::class, [
+                'label' => 'Synchronisé'
+            ])
             ;
             if ($context == 'edit') {
                $builder

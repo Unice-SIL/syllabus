@@ -4,9 +4,16 @@
 namespace AppBundle\Controller;
 
 
+use AppBundle\Entity\Course;
+use AppBundle\Form\CourseType;
+use AppBundle\Form\Filter\CourseFilterType;
 use AppBundle\Repository\Doctrine\CourseDoctrineRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -14,12 +21,103 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class CourseController
  * @package AppBundle\Controller
  *
- * @Route("/course", name="app_admin_course_")
+ * @Route("/course", name="app_admin.course_")
  */
 class CourseController extends Controller
 {
+
     /**
-     * @Route("/autocomplete/{field}", name="autocomplete", methods={"GET"}, requirements={"field" = "code"})
+     * @Route("/", name="index")
+     *
+     * @param Request $request
+     * @param CourseDoctrineRepository $courseDoctrineRepository
+     * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
+     * @return Response
+     */
+    public function indexAction(
+        Request $request,
+        CourseDoctrineRepository $courseDoctrineRepository,
+        FilterBuilderUpdaterInterface $filterBuilderUpdater
+    )
+    {
+
+        $qb = $courseDoctrineRepository->getIndexQueryBuilder();
+
+        $form = $this->createForm(CourseFilterType::class, null,  ['context'=> 'course']);
+
+        if ($request->query->has($form->getName())) {
+            $form->submit($request->query->get($form->getName()));
+            $filterBuilderUpdater->addFilterConditions($form, $qb);
+
+        }
+
+        $pagination = $this->get('knp_paginator')->paginate(
+            $qb,
+            $request->query->getInt('page', 1),
+            10
+        );
+
+        return $this->render('course/index.html.twig', array(
+            'pagination' => $pagination,
+            'form' => $form->createView(),
+        ));
+    }
+
+    /**
+     * @Route("/new", name="new")
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+    public function newAction(Request $request, EntityManagerInterface $em)
+    {
+        $course = new Course();
+        $form = $this->createForm(CourseType::class, $course);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+            $em->persist($course);
+            $em->flush();
+
+            $this->addFlash('success', 'Le cours a été enregistré avec succès');
+
+            return $this->redirectToRoute('app_admin.course_index');
+        }
+        return $this->render('course/new.html.twig', ['form' => $form->createView()]);
+    }
+
+    /**
+     * Displays a form to edit an existing course entity.
+     *
+     * @Route("/{id}/edit", name="edit")
+     * @Method({"GET", "POST"})
+     * @param Request $request
+     * @param Course $course
+     * @param EntityManagerInterface $entityManager
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+    public function editAction(Request $request, Course $course, EntityManagerInterface $entityManager)
+    {
+        $form = $this->createForm(CourseType::class, $course);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $entityManager->flush();
+
+
+            $this->addFlash('success', 'Le cours a été modifié avec succès.');
+
+            return $this->redirectToRoute('app_admin.course_edit', array('id' => $course->getId()));
+        }
+
+        return $this->render('course/edit.html.twig', array(
+            'form' => $form->createView(),
+        ));
+    }
+
+    /**
+     * @Route("/autocomplete/{field}", name="autocomplete", methods={"GET"}, requirements={"field" = "code|title"})
      *
      * @param CourseDoctrineRepository $courseDoctrineRepository
      * @param Request $request
@@ -53,7 +151,7 @@ class CourseController extends Controller
     public function autocompleteS2(CourseDoctrineRepository $courseDoctrineRepository, Request $request)
     {
         $query = $request->query->get('q');
-        $courses = $courseDoctrineRepository->findLikeQuery($query, 'c.code');
+        $courses = $courseDoctrineRepository->findLikeQuery($query, 'code');
 
         $data = array_map(function ($c) use ($request) {
 

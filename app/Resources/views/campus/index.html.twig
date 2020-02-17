@@ -26,8 +26,9 @@
                 <table class="table table-bordered table-responsive-sm">
                     <thead>
                     <tr>
-                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.activity.label.label'|trans, 'a.label') }}</th>
-                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.activity.label.obsolete'|trans, 'a.obsolete') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.activity.label.label'|trans, 'l.label') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.activity.label.obsolete'|trans, 'l.obsolete') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.activity.label.synchronized'|trans, 'l.synchronized') }}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -38,6 +39,9 @@
                             </td>
                             <td>
                                 {{ campus.obsolete|humanizeBoolean }}
+                            </td>
+                            <td>
+                                {{ campus.synchronized|humanizeBoolean }}
                             </td>
                         </tr>
                     {% endfor %}

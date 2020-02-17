@@ -8,12 +8,15 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Course
  *
- * @ORM\Table(name="course", uniqueConstraints={@ORM\UniqueConstraint(name="code_UNIQUE", columns={"code"})})
- * @UniqueEntity(fields={"code"}, message="Le cours avec pour code établissement {{ value }} existe déjà", errorPath="code")
+ * @ORM\Table(name="course", uniqueConstraints={
+ *     @ORM\UniqueConstraint(name="code_source_on_course_UNIQUE", columns={"code", "source"}),
+ * })
+ * @UniqueEntity(fields={"code", "source"}, message="Le cours avec pour code établissement {{ value }} existe déjà pour cette source", errorPath="code")
  * @ORM\Entity
  */
 class Course
@@ -36,15 +39,18 @@ class Course
      *
      * @ORM\Column(name="type", type="string", length=5, nullable=false, options={"fixed"=true})
      * @JMS\Groups(groups={"course", "default"})
+     * @Assert\NotBlank()
      */
     private $type;
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=50, nullable=false)
+     *
+     * @ORM\Column(name="title", type="string", length=150, nullable=false)
      * @JMS\Groups(groups={"course", "default"})
+     * @Assert\NotBlank()
      */
-    private $code;
+    private $title;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -293,5 +299,23 @@ class Course
         return $this->getCode();
     }
 
+    /**
+     * @return string
+     */
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string $title
+     * @return Course
+     */
+    public function setTitle(?string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
+    }
 
 }
