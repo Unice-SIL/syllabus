@@ -92,7 +92,7 @@ class CourseApiController extends Controller
      */
     public function showAction(Course $course, SerializerInterface $serializer)
     {
-        $course = $serializer->serialize($course, 'json', SerializationContext::create()->setGroups(['course']));
+        $course = $serializer->serialize($course, 'json', SerializationContext::create()->setGroups(['default', 'course']));
 
         $response = new Response($course, Response::HTTP_OK);
         $response->headers->set('Content-Type', 'application/json');
@@ -129,7 +129,7 @@ class CourseApiController extends Controller
         $em->flush();
 
         $em->refresh($year);
-        $response = new Response($serializer->serialize($year, 'json', SerializationContext::create()->setGroups(['course'])), Response::HTTP_CREATED);
+        $response = new Response($serializer->serialize($year, 'json', SerializationContext::create()->setGroups(['default', 'course'])), Response::HTTP_CREATED);
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
@@ -171,7 +171,7 @@ class CourseApiController extends Controller
         $em->flush();
 
         $em->refresh($course);
-        $response = new Response($serializer->serialize($course, 'json', SerializationContext::create()->setGroups(['course'])), Response::HTTP_OK);
+        $response = new Response($serializer->serialize($course, 'json', SerializationContext::create()->setGroups(['default', 'course'])), Response::HTTP_OK);
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
