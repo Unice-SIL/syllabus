@@ -70,8 +70,8 @@ class CourseSectionActivityType extends AbstractType
                     'data-onstyle' => 'primary',
                     'data-offstyle' => 'secondary',
                     'data-style' => 'ios',
-                    'data-on' => 'CT',
-                    'data-off' => 'CC'
+                    'data-on' => 'Terminal',
+                    'data-off' => 'Continu'
                 ]
             ])
             ->add('evaluationTeacher', CheckboxType::class, [
