@@ -3,14 +3,16 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\CourseInfo;
-use AppBundle\Entity\CoursePermission;
 use AppBundle\Form\CourseInfo\Permission\AddCourseInfoPermissionType;
 use AppBundle\Manager\CoursePermissionManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * CoursePermission controller.
@@ -23,6 +25,13 @@ class CoursePermissionController extends Controller
      *
      * @Route("/course/{id}/permissions", name="app_course_permission")
      * @Method("GET")
+     * @Security("is_granted('WRITE', courseInfo)")
+     * @param CourseInfo $courseInfo
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @param CoursePermissionManager $coursePermissionManager
+     * @return RedirectResponse|Response
+     * @throws \Exception
      */
     public function indexAction(CourseInfo $courseInfo, Request $request, EntityManagerInterface $em, CoursePermissionManager $coursePermissionManager)
     {

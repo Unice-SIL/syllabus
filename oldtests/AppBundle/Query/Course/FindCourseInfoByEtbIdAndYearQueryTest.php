@@ -6,16 +6,16 @@ use AppBundle\Entity\Course;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\Year;
 use AppBundle\Exception\CourseInfoNotFoundException;
-use AppBundle\Query\Course\FindCourseInfoByEtbIdAndYearQuery;
+use AppBundle\Query\Course\FindCourseInfoByCodeAndYearQuery;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
 
 /**
- * Class FindCourseInfoByEtbIdAndYearQueryTest
+ * Class FindCourseInfoByCodeAndYearQueryTest
  * @package tests\AppBundle\Query\User
  */
-class FindCourseInfoByEtbIdAndYearQueryTest extends TestCase
+class FindCourseInfoByCodeAndYearQueryTest extends TestCase
 {
     /**
      * @var MockObject
@@ -40,7 +40,7 @@ class FindCourseInfoByEtbIdAndYearQueryTest extends TestCase
         $course = new Course();
         $course->setId(Uuid::uuid4())
             ->setType('ECUE')
-            ->setEtbId('Code1');
+            ->setCode('Code1');
 
         // Year
         $year = new Year();
@@ -58,15 +58,15 @@ class FindCourseInfoByEtbIdAndYearQueryTest extends TestCase
     /**
      * @test
      */
-    public function findByEtbIdAndYearSuccessful(){
+    public function findByCodeAndYearSuccessful(){
         $this->courseInfoRepository->expects($this->once())
-            ->method('findByEtbIdAndYear')
-            ->with($this->courseInfo->getCourse()->getEtbId(), $this->courseInfo->getYear()->getId())
+            ->method('findByCodeAndYear')
+            ->with($this->courseInfo->getCourse()->getCode(), $this->courseInfo->getYear()->getId())
             ->willReturn($this->courseInfo);
 
-        $findCourseInfoByEtbIdAndYearQuery = new FindCourseInfoByEtbIdAndYearQuery($this->courseInfoRepository);
-        $courseInfo = $findCourseInfoByEtbIdAndYearQuery
-            ->setEtbId($this->courseInfo->getCourse()->getEtbId())
+        $findCourseInfoByCodeAndYearQuery = new FindCourseInfoByCodeAndYearQuery($this->courseInfoRepository);
+        $courseInfo = $findCourseInfoByCodeAndYearQuery
+            ->setCode($this->courseInfo->getCourse()->getCode())
             ->setYear($this->courseInfo->getYear()->getId())
             ->execute();
         $this->assertEquals($this->courseInfo, $courseInfo);
@@ -75,17 +75,17 @@ class FindCourseInfoByEtbIdAndYearQueryTest extends TestCase
     /**
      * @test
      */
-    public function findByEtbIdAndYearException(){
+    public function findByCodeAndYearException(){
         $this->expectException(\Exception::class);
 
         $this->courseInfoRepository->expects($this->once())
-            ->method('findByEtbIdAndYear')
-            ->with($this->courseInfo->getCourse()->getEtbId(), $this->courseInfo->getYear()->getId())
+            ->method('findByCodeAndYear')
+            ->with($this->courseInfo->getCourse()->getCode(), $this->courseInfo->getYear()->getId())
             ->willThrowException(new \Exception());
 
-        $findCourseInfoByEtbIdAndYearQuery = new FindCourseInfoByEtbIdAndYearQuery($this->courseInfoRepository);
-        $courseInfo = $findCourseInfoByEtbIdAndYearQuery
-            ->setEtbId($this->courseInfo->getCourse()->getEtbId())
+        $findCourseInfoByCodeAndYearQuery = new FindCourseInfoByCodeAndYearQuery($this->courseInfoRepository);
+        $courseInfo = $findCourseInfoByCodeAndYearQuery
+            ->setCode($this->courseInfo->getCourse()->getCode())
             ->setYear($this->courseInfo->getYear()->getId())
             ->execute();
         $this->assertNull($courseInfo);
@@ -98,13 +98,13 @@ class FindCourseInfoByEtbIdAndYearQueryTest extends TestCase
         $this->expectException(CourseInfoNotFoundException::class);
 
         $this->courseInfoRepository->expects($this->once())
-            ->method('findByEtbIdAndYear')
-            ->with($this->courseInfo->getCourse()->getEtbId(), $this->courseInfo->getYear()->getId())
+            ->method('findByCodeAndYear')
+            ->with($this->courseInfo->getCourse()->getCode(), $this->courseInfo->getYear()->getId())
             ->willReturn(null);
 
-        $findCourseInfoByEtbIdAndYearQuery = new FindCourseInfoByEtbIdAndYearQuery($this->courseInfoRepository);
-        $courseInfo = $findCourseInfoByEtbIdAndYearQuery
-            ->setEtbId($this->courseInfo->getCourse()->getEtbId())
+        $findCourseInfoByCodeAndYearQuery = new FindCourseInfoByCodeAndYearQuery($this->courseInfoRepository);
+        $courseInfo = $findCourseInfoByCodeAndYearQuery
+            ->setCode($this->courseInfo->getCourse()->getCode())
             ->setYear($this->courseInfo->getYear()->getId())
             ->execute();
         $this->assertNull($courseInfo);

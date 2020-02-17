@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 
 
 use AppBundle\Entity\Domain;
+use AppBundle\Entity\Structure;
 use AppBundle\Form\DomainType;
 use AppBundle\Form\Filter\DomainFilterType;
 use AppBundle\Manager\DomainManager;
@@ -141,5 +142,23 @@ class DomainController extends AbstractController
         $domains = array_values($domains);
 
         return $this->json(['query' =>  $query, 'suggestions' => $domains, 'data' => $domains]);
+    }
+
+    /**
+     * @Route("/autocompleteS2/{structure}", name="autocompleteS2")
+     *
+     * @param Structure $structure
+     * @return Response
+     */
+    public function autocompleteS2(Structure $structure)
+    {
+        $data = [];
+        $domains = $structure->getDomains();
+        if(!empty($domains)){
+            foreach ($domains as $domain){
+                $data[] = ['id' => $domain->getId(), 'text' => $domain->getLabel()];
+            }
+        }
+        return $this->json($data);
     }
 }

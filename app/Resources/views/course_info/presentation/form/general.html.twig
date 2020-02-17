@@ -2,16 +2,19 @@
 {{ form_errors(form) }}
 <div class="row mt-3">
     <div class="col-6">
-        {{ form_row(form.domain, {label_attr: {class: 'required'}}) }}
+        {{ form_row(form.domains, {label_attr: {class: 'required'}}) }}
         <label class="required font-weight-bold">
             {{ 'app.presentation.form.general.level_label' | trans }}
             <img id="infos_level" src="{{ asset('images/info_32.png') }}" style="cursor: pointer;">
         </label>
         {{ form_errors(form.level) }}
         {{ form_widget(form.level, {label_attr: {class: 'radio-custom'} }) }}
+        <div class="mt-3">
+            {{ form_row(form.campuses) }}
+        </div>
     </div>
     <div class="col-6">
-        {{ form_row(form.period) }}
+        {{ form_row(form.periods) }}
         {{ form_row(form.languages) }}
     </div>
 </div>
@@ -86,6 +89,7 @@
 
     $(document).ready(function () {
         image();
+        $('form[name="general"]').find('.select2entity').select2entity();
     });
 
     function image() {
@@ -104,9 +108,9 @@
 
     $('#infos_level').click(function () {
         var message = '<ul>' +
-            {{ 'app.presentation.form.general.level.beginner' | trans }} +
-            {{ 'app.presentation.form.general.level.intermediary' | trans }} +
-            {{ 'app.presentation.form.general.level.advanced' | trans }} +
+            '{{ 'app.presentation.form.general.level.beginner' | trans }}' +
+            '{{ 'app.presentation.form.general.level.intermediary' | trans }}' +
+            '{{ 'app.presentation.form.general.level.advanced' | trans }}' +
             '</ul>';
         bootbox.dialog({
             message: message,

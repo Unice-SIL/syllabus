@@ -142,4 +142,31 @@ class LanguageController extends AbstractController
 
         return $this->json(['query' =>  $query, 'suggestions' => $languages, 'data' => $languages]);
     }
+
+    /**
+     * @Route("/autocompleteS2", name="autocompleteS2")
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function autocompleteS2(Request $request)
+    {
+        $query = $request->query->get('q');
+
+        $em = $this->getDoctrine()->getRepository(Language::class);
+        $languages = $em->createQueryBuilder('l')
+            ->andWhere('l.label LIKE :query ')
+            ->andWhere('l.obsolete = 0')
+            ->setParameter('query', '%' . $query . '%')
+            ->getQuery()
+            ->getResult()
+        ;
+
+        $data = [];
+        foreach ($languages as $language)
+        {
+            $data[] = ['id' => $language->getId(), 'text' => $language->getLabel()];
+        }
+        return $this->json($data);
+    }
 }

@@ -37,6 +37,7 @@ class CourseInfoDashboard extends AbstractController
      * @Route("/view", name="view"))
      *
      * @param CourseInfo $courseInfo
+     * @param ValidatorInterface $validator
      * @return Response
      */
     public function dashboardViewAction(CourseInfo $courseInfo, ValidatorInterface $validator)
@@ -54,8 +55,6 @@ class CourseInfoDashboard extends AbstractController
         {
             $violations[$validationsGroup] = $validator->validate($courseInfo, null, $validationsGroup);
         }
-
-        dump($violations);
 
         $render = $this->get('twig')->render('course_info/dashboard/view/dashboard.html.twig', [
             'courseInfo' => $courseInfo,
