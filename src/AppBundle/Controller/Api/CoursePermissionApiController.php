@@ -147,44 +147,20 @@ class CoursePermissionApiController extends Controller
     }
 
     /**
-     * @Route("/{id}", name="put", methods={"PUT"})
-     * @param Request $request
-     * @param SerializerInterface $serializer
-     * @param EntityManagerInterface $em
+     * @Route("/{id}", name="delete", methods={"DELETE"})
+     * @IsGranted("ROLE_API_DELETE_COURSE_PERMISSION")
      * @param CoursePermission $coursePermission
-     * @param ApiHelper $apiHelper
-     * @return JsonResponse
-     * @throws ResourceValidationException
-     *
-     * @SWG\Response(
-     *     response=200,
-     *     description="Update the complete course permission from the body request",
-     *     @Model(type=CoursePermission::class)
-     * )
-     *
-     * @SWG\Parameter(
-     *     name="id",
-     *     in="path",
-     *     type="string",
-     *     description="The id of the expected course permission"
-     * )
-     * @IsGranted("ROLE_API_PUT_COURSE_PERMISSION")
+     * @param EntityManagerInterface $entityManager
+     * @return Response
      */
-    public function putAction(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, CoursePermission $coursePermission, ApiHelper $apiHelper)
-    {
-        $form = $this->createForm(CoursePermissionType::class, $coursePermission);
+    public function delete(CoursePermission $coursePermission, EntityManagerInterface $entityManager) {
 
-        $form->submit(json_decode($request->getContent(), true));
+        $entityManager->remove($coursePermission);
+        $entityManager->flush();
 
-        $apiHelper->throwExceptionIfEntityInvalid($form);
-
-        $em->flush();
-
-        $em->refresh($coursePermission);
-        $response = new Response($serializer->serialize($coursePermission, 'json', SerializationContext::create()->setGroups(['default', 'course_permission'])), Response::HTTP_OK);
+        $response = new Response('OK', Response::HTTP_OK);
         $response->headers->set('Content-Type', 'application/json');
 
-        return $response;
-
+        return  $response;
     }
 }

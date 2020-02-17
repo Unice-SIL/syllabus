@@ -12,7 +12,7 @@ ROLE_API_PUT_COURSE_INFO: Mettre à jour un syllabus
 ROLE_API_GET_COURSE_PERMISSION: Récupérer une permission par son id
 ROLE_API_GET_COURSE_PERMISSIONS: Récupérer une liste de permissions
 ROLE_API_POST_COURSE_PERMISSION: Créer une permission
-ROLE_API_PUT_COURSE_PERMISSION: Mettre à jour une permission
+ROLE_API_DELETE_COURSE_PERMISSION: Supprimer une permission
 ROLE_API_GET_YEAR: Récupérer une année par son id
 ROLE_API_GET_YEARS: Récupérer une liste d'années
 ROLE_API_POST_YEAR: Créer une anée
