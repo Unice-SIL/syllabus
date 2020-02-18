@@ -15,7 +15,7 @@ trait Importable
     /**
      * @var string|null
      * @ORM\Column(type="string", length=50, nullable=true)
-     * @JMS\Groups(groups={"default", "course"})
+     * @JMS\Groups(groups={"default"})
      */
     private $code;
 
