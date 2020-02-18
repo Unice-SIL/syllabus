@@ -1,0 +1,20 @@
+{% extends 'admin_layout.html.twig' %}
+{% set h1 = 'Ajouter un cours' %}
+
+{% block subContent %}
+    <div class="card">
+        <div class="card-body">
+            {{ form_start(form) }}
+            {{ form_row(form.title) }}
+            {{ form_row(form.type) }}
+            {{ form_row(form.code) }}
+            <div class="custom-control custom-switch">
+                {{ form_widget(form.synchronized) }}
+                {{ form_label(form.synchronized) }}
+            </div>
+            <button class="btn btn-primary">Enregistrer</button>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
+

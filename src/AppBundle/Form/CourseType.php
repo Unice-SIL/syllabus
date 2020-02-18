@@ -1,49 +1,41 @@
 <?php
 
-
 namespace AppBundle\Form;
 
-
-use AppBundle\Form\Subscriber\CampusTypeSubscriber;
+use AppBundle\Entity\Course;
 use AppBundle\Form\Type\CustomCheckboxType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CampusType extends AbstractType
+class CourseType extends AbstractType
 {
-    private $campusTypeSubscriber;
-
-    /**
-     * PeriodType constructor.
-     * @param CampusTypeSubscriber $campusTypeSubscriber
-     */
-    public function __construct(CampusTypeSubscriber $campusTypeSubscriber)
-    {
-        $this->campusTypeSubscriber = $campusTypeSubscriber;
-    }
-
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('label')
+            ->add('type', null, [
+                'label' => 'app.form.course.label.type'
+            ])
+            ->add('title', null, [
+                'label' => 'app.form.course.label.title'
+            ])
+            ->add('code', null, [
+                'label' => 'app.form.course.label.code'
+            ])
             ->add('synchronized', CustomCheckboxType::class, [
                 'label' => 'Synchronisé'
             ])
-            ->addEventSubscriber($this->campusTypeSubscriber)
-        ;
-    }
-    /**
+            ;
+    }/**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Campus'
+            'data_class' => Course::class
         ));
     }
 
@@ -52,6 +44,8 @@ class CampusType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_campus';
+        return 'appbundle_course';
     }
+
+
 }

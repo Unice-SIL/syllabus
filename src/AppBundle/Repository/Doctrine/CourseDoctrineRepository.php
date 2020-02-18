@@ -90,8 +90,8 @@ class CourseDoctrineRepository  extends AbstractDoctrineRepository implements Co
     {
         $qb = $this->getIndexQueryBuilder();
 
-        if (in_array($field, ['c.code'])) {
-            $qb->andWhere($field.' LIKE :query ')
+        if (in_array($field, ['code', 'title'])) {
+            $qb->andWhere('c.'.$field.' LIKE :query ')
                 ->setParameter('query', '%' . $query . '%')
             ;
         }

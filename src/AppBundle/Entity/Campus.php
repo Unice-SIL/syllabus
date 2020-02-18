@@ -9,12 +9,15 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Class Campus
  * @package AppBundle\Entity
- * @ORM\Table(name="campus")
+ * @ORM\Table(name="campus", uniqueConstraints={
+ *     @ORM\UniqueConstraint(name="code_source_on_campus_UNIQUE", columns={"code", "source"}),
+ * })
+ * @UniqueEntity(fields={"code", "source"}, message="Le campus avec pour code établissement {{ value }} existe déjà pour cette source", errorPath="code")
  * @ORM\Entity
  *
  */
