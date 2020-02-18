@@ -1,22 +1,22 @@
 ROLE_USER: Utilisateur
 ROLE_ADMIN: Administrateur
 ROLE_API: Utilisateur de l'API
-ROLE_API_GET_COURSE: Traduction
-ROLE_API_GET_COURSES: Traduction
-ROLE_API_POST_COURSE: Traduction
-ROLE_API_PUT_COURSE: Traduction
-ROLE_API_GET_COURSE_INFO: Traduction
-ROLE_API_GET_COURSES_INFO: Traduction
-ROLE_API_POST_COURSE_INFO: Traduction
-ROLE_API_PUT_COURSE_INFO: Traduction
-ROLE_API_GET_COURSE_PERMISSION: Traduction
-ROLE_API_GET_COURSE_PERMISSIONS: Traduction
-ROLE_API_POST_COURSE_PERMISSION: Traduction
-ROLE_API_PUT_COURSE_PERMISSION: Traduction
-ROLE_API_GET_YEAR: Traduction
-ROLE_API_GET_YEARS: Traduction
-ROLE_API_POST_YEAR: Traduction
-ROLE_API_PUT_YEAR: Traduction
+ROLE_API_GET_COURSE: Récupérer un cours par son id
+ROLE_API_GET_COURSES: Récupérer une liste de cours
+ROLE_API_POST_COURSE: Créer un cours
+ROLE_API_PUT_COURSE: Mettre à jour un cours
+ROLE_API_GET_COURSE_INFO: Récupérer un syllabus par son id
+ROLE_API_GET_COURSES_INFO: Récupérer une liste de syllabus
+ROLE_API_POST_COURSE_INFO: Créer un syllabus
+ROLE_API_PUT_COURSE_INFO: Mettre à jour un syllabus
+ROLE_API_GET_COURSE_PERMISSION: Récupérer une permission par son id
+ROLE_API_GET_COURSE_PERMISSIONS: Récupérer une liste de permissions
+ROLE_API_POST_COURSE_PERMISSION: Créer une permission
+ROLE_API_DELETE_COURSE_PERMISSION: Supprimer une permission
+ROLE_API_GET_YEAR: Récupérer une année par son id
+ROLE_API_GET_YEARS: Récupérer une liste d'années
+ROLE_API_POST_YEAR: Créer une anée
+ROLE_API_PUT_YEAR: Mettre à jour une année
 collective: Collectif
 groups: En groupe
 individual: Individuel

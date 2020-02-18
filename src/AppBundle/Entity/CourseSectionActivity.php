@@ -90,7 +90,6 @@ class CourseSectionActivity
      *   @ORM\JoinColumn(name="activity_id", referencedColumnName="id", nullable=false)
      * })
      * @JMS\Type("AppBundle\Entity\Activity")
-     * @JMS\Groups(groups={"course_info", "course_section", "course_section_activity"})
      */
     private $activity;
 
@@ -356,7 +355,7 @@ class CourseSectionActivity
 
     /**
      * @JMS\VirtualProperty()
-     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info", "course_section", "course_section_activity"})
      * @JMS\SerializedName("activity")
      *
      * @return null|string

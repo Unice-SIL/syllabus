@@ -27,7 +27,7 @@ class Course
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"course", "course_info"})
+     * @JMS\Groups(groups={"course", "default"})
      */
     private $id;
 
@@ -35,14 +35,14 @@ class Course
      * @var string
      *
      * @ORM\Column(name="type", type="string", length=5, nullable=false, options={"fixed"=true})
-     * @JMS\Groups(groups={"course", "course_info"})
+     * @JMS\Groups(groups={"course", "default"})
      */
     private $type;
 
     /**
      * @var string
      * @ORM\Column(type="string", length=50, nullable=false)
-     * @JMS\Groups(groups={"course", "course_info"})
+     * @JMS\Groups(groups={"course", "default"})
      */
     private $code;
 
@@ -72,6 +72,7 @@ class Course
      *
      * @ORM\OneToMany(targetEntity="CourseInfo", mappedBy="course", cascade={ "persist" })
      * @ORM\OrderBy({"year" = "ASC"})
+     * @JMS\Groups(groups={"course"})
      */
     private $courseInfos;
 

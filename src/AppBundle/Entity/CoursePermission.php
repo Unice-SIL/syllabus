@@ -146,7 +146,7 @@ class CoursePermission
      * @param User $user
      * @return CoursePermission
      */
-    public function setUser(User $user): self
+    public function setUser(?User $user): self
     {
         $this->user = $user;
 
