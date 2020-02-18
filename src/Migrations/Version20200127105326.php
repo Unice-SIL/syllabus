@@ -31,7 +31,7 @@ final class Version20200127105326 extends AbstractMigration
         $this->addSql('ALTER TABLE course_info DROP FOREIGN KEY FK_32BEC51591CC992');
         $this->addSql('ALTER TABLE course_info DROP FOREIGN KEY FK_32BEC519CE8D546');
         $this->addSql('ALTER TABLE course_section DROP FOREIGN KEY FK_25B07F035548C414');
-        //$this->addSql('ALTER TABLE course_section_activity DROP FOREIGN KEY FK_B95D28E67C1ADF9');
+        $this->addSql('ALTER TABLE course_section_activity DROP FOREIGN KEY FK_B95D28E67C1ADF9');
         $this->addSql('ALTER TABLE course_resource_equipment DROP FOREIGN KEY FK_E2585800517FE9FE');
         $this->addSql('ALTER TABLE course_resource_equipment DROP FOREIGN KEY FK_E25858005548C414');
         $this->addSql('ALTER TABLE course_achievement DROP FOREIGN KEY FK_E21D4F255548C414');
@@ -74,7 +74,13 @@ final class Version20200127105326 extends AbstractMigration
         $this->addSql('CREATE TABLE activity_type_activity (activitytype_id CHAR(36) NOT NULL, activity_id CHAR(36) NOT NULL, INDEX IDX_6059E7626E098B10 (activitytype_id), INDEX IDX_6059E76281C06096 (activity_id), PRIMARY KEY(activitytype_id, activity_id)) DEFAULT CHARACTER SET UTF8 COLLATE `UTF8_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE activity_type_activity_mode (activitytype_id CHAR(36) NOT NULL, activitymode_id CHAR(36) NOT NULL, INDEX IDX_642514846E098B10 (activitytype_id), INDEX IDX_64251484DCA082C9 (activitymode_id), PRIMARY KEY(activitytype_id, activitymode_id)) DEFAULT CHARACTER SET UTF8 COLLATE `UTF8_unicode_ci` ENGINE = InnoDB');
 
+        // Rename fields
+        $this->addSql('ALTER TABLE course_achievement CHANGE ord position INT NOT NULL');
+        $this->addSql('ALTER TABLE course_prerequisite CHANGE ord position INT NOT NULL');
+        $this->addSql('ALTER TABLE course_resource_equipment CHANGE ord position INT NOT NULL');
         $this->addSql('ALTER TABLE course_section CHANGE ord position INT NOT NULL');
+        $this->addSql('ALTER TABLE course CHANGE etb_id code CHAR(36)');
+        $this->addSql('ALTER TABLE structure CHANGE etbId code CHAR(36)');
 
         // Create new indexes
         $this->addSql('CREATE INDEX IDX_32BEC51591CC992 ON course_info (course_id)');
@@ -96,7 +102,7 @@ final class Version20200127105326 extends AbstractMigration
         $this->addSql('ALTER TABLE course_section_activity ADD CONSTRAINT FK_B95D28E681C06096 FOREIGN KEY (activity_id) REFERENCES activity (id)');
         $this->addSql('ALTER TABLE course_section_activity ADD CONSTRAINT FK_B95D28E6C51EFA73 FOREIGN KEY (activity_type_id) REFERENCES activity_type (id)');
         $this->addSql('ALTER TABLE course_section_activity ADD CONSTRAINT FK_B95D28E677B7F3AA FOREIGN KEY (activity_mode_id) REFERENCES activity_mode (id)');
-        //$this->addSql('ALTER TABLE course_section_activity ADD CONSTRAINT FK_B95D28E67C1ADF9 FOREIGN KEY (course_section_id) REFERENCES course_section (id)');
+        $this->addSql('ALTER TABLE course_section_activity ADD CONSTRAINT FK_B95D28E67C1ADF9 FOREIGN KEY (course_section_id) REFERENCES course_section (id)');
         $this->addSql('ALTER TABLE activity_type_activity ADD CONSTRAINT FK_6059E7626E098B10 FOREIGN KEY (activitytype_id) REFERENCES activity_type (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE activity_type_activity ADD CONSTRAINT FK_6059E76281C06096 FOREIGN KEY (activity_id) REFERENCES activity (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE activity_type_activity_mode ADD CONSTRAINT FK_642514846E098B10 FOREIGN KEY (activitytype_id) REFERENCES activity_type (id) ON DELETE CASCADE');
@@ -113,7 +119,6 @@ final class Version20200127105326 extends AbstractMigration
         $this->addSql('ALTER TABLE course_prerequisite ADD CONSTRAINT FK_C45EDAC55548C414 FOREIGN KEY (course_info_id) REFERENCES course_info (id)');
         $this->addSql('ALTER TABLE course_tutoring_resource ADD CONSTRAINT FK_A718CCA45548C414 FOREIGN KEY (course_info_id) REFERENCES course_info (id)');
         $this->addSql('ALTER TABLE course_teacher ADD CONSTRAINT FK_B835A3395548C414 FOREIGN KEY (course_info_id) REFERENCES course_info (id)');
-        //$this->addSql('ALTER TABLE course_evaluation_ct ADD CONSTRAINT FK_61B9EA7181C06096 FOREIGN KEY (activity_id) REFERENCES activity (id)');
         $this->addSql('ALTER TABLE course_permission ADD CONSTRAINT FK_3FABDC295548C414 FOREIGN KEY (course_info_id) REFERENCES course_info (id)');
         $this->addSql('ALTER TABLE course_permission ADD CONSTRAINT FK_3FABDC29A76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
 
@@ -128,7 +133,6 @@ final class Version20200127105326 extends AbstractMigration
         $this->addSql('ALTER TABLE course_section_activity DROP FOREIGN KEY FK_B95D28E681C06096');
         $this->addSql('ALTER TABLE course_section_activity DROP FOREIGN KEY FK_B95D28E6C51EFA73');
         $this->addSql('ALTER TABLE course_section_activity DROP FOREIGN KEY FK_B95D28E677B7F3AA');
-        //$this->addSql('ALTER TABLE course_section_activity DROP FOREIGN KEY FK_B95D28E67C1ADF9');
         $this->addSql('ALTER TABLE activity_type_activity DROP FOREIGN KEY FK_6059E7626E098B10');
         $this->addSql('ALTER TABLE activity_type_activity DROP FOREIGN KEY FK_6059E76281C06096');
         $this->addSql('ALTER TABLE activity_type_activity_mode DROP FOREIGN KEY FK_642514846E098B10');
@@ -145,7 +149,6 @@ final class Version20200127105326 extends AbstractMigration
         $this->addSql('ALTER TABLE course_prerequisite DROP FOREIGN KEY FK_C45EDAC55548C414');
         $this->addSql('ALTER TABLE course_tutoring_resource DROP FOREIGN KEY FK_A718CCA45548C414');
         $this->addSql('ALTER TABLE course_teacher DROP FOREIGN  KEY FK_B835A3395548C414');
-        //$this->addSql('ALTER TABLE course_evaluation_ct DROP FOREIGN  KEY FK_61B9EA7181C06096');
         $this->addSql('ALTER TABLE course_permission DROP FOREIGN  KEY FK_3FABDC295548C414');
         $this->addSql('ALTER TABLE course_permission DROP FOREIGN  KEY FK_3FABDC29A76ED395');
 
@@ -181,7 +184,13 @@ final class Version20200127105326 extends AbstractMigration
         $this->addSql('ALTER TABLE bak_course_section_activity RENAME TO course_section_activity');
         $this->addSql('ALTER TABLE bak_course_evaluation_ct RENAME TO course_evaluation_ct');
 
+        // Rename fields
+        $this->addSql('ALTER TABLE course_achievement CHANGE position ord INT NOT NULL');
+        $this->addSql('ALTER TABLE course_prerequisite CHANGE position ord INT NOT NULL');
+        $this->addSql('ALTER TABLE course_resource_equipment CHANGE ord position INT NOT NULL');
         $this->addSql('ALTER TABLE course_section CHANGE position ord INT NOT NULL');
+        $this->addSql('ALTER TABLE course CHANGE code etb_id CHAR(36) NOT NULL');
+        $this->addSql('ALTER TABLE structure CHANGE code etbId CHAR(36) NOT NULL');
 
         // Recreate old indexes
         $this->addSql('CREATE INDEX fk_course_info_course1_idx ON course_info (course_id)');
@@ -208,7 +217,6 @@ final class Version20200127105326 extends AbstractMigration
         $this->addSql('ALTER TABLE course_info ADD CONSTRAINT FK_32BEC519CE8D546 FOREIGN KEY (publisher) REFERENCES user (id)');
         $this->addSql('ALTER TABLE course_info ADD CONSTRAINT FK_32BEC5140C1FEA7 FOREIGN KEY (year_id) REFERENCES year (id)');
         $this->addSql('ALTER TABLE course_section ADD CONSTRAINT FK_25B07F035548C414 FOREIGN KEY (course_info_id) REFERENCES course_info (id)');
-        //$this->addSql('ALTER TABLE course_section_activity ADD CONSTRAINT FK_B95D28E67C1ADF9 FOREIGN KEY (course_section_id) REFERENCES course_section (id)');
         $this->addSql('ALTER TABLE course_resource_equipment ADD CONSTRAINT FK_E2585800517FE9FE FOREIGN KEY (equipment_id) REFERENCES equipment (id)');
         $this->addSql('ALTER TABLE course_resource_equipment ADD CONSTRAINT FK_E25858005548C414 FOREIGN KEY (course_info_id) REFERENCES course_info (id)');
         $this->addSql('ALTER TABLE course_achievement ADD CONSTRAINT FK_E21D4F255548C414 FOREIGN KEY (course_info_id) REFERENCES course_info (id)');

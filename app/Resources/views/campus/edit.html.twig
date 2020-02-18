@@ -10,6 +10,10 @@
 
             {{ form_row(form.label) }}
             <div class="custom-control custom-switch">
+                {{ form_widget(form.synchronized) }}
+                {{ form_label(form.synchronized) }}
+            </div>
+            <div class="custom-control custom-switch">
                 {{ form_row(form.obsolete) }}
             </div>
 

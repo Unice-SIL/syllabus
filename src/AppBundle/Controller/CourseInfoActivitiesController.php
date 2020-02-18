@@ -252,14 +252,17 @@ class CourseInfoActivitiesController extends AbstractController
     }
 
     /**
-     * @Route("/course/activities/section/{sectionId}/duplicate", name="course_activities_duplicate_section"))
+     * @Route("/course/{id}/activities/section/{sectionId}/duplicate", name="course_activities_duplicate_section"))
      *
+     * @param CourseInfo $courseInfo
      * @param CourseSection $courseSection
      * @param Request $request
+     * @param CourseInfoManager $manager
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      * @ParamConverter("courseSection", options={"mapping": {"sectionId": "id"}})
+     * @throws \Exception
      */
-    public function duplicateSectionAction(CourseSection $courseSection, Request $request)
+    public function duplicateSectionAction(CourseInfo $courseInfo, CourseSection $courseSection, Request $request, CourseInfoManager $manager)
     {
         if (!$courseSection instanceof CourseSection)
         {
@@ -276,8 +279,15 @@ class CourseInfoActivitiesController extends AbstractController
         {
             $newSection = clone $courseSection;
 
-            $this->getDoctrine()->getManager()->persist($newSection);
-            $this->getDoctrine()->getManager()->flush();
+            foreach ($courseInfo->getCourseSections() as $section) {
+                if ($courseSection->getPosition() < $section->getPosition())
+                $section->setPosition($section->getPosition() + 1);
+            }
+            $newSection->setPosition($courseSection->getPosition() + 1);
+            $courseInfo->addCourseSection($newSection);
+            
+            $manager->update($courseInfo);
+
             return $this->json([
                 'status' => true,
                 'content' => null
@@ -285,6 +295,7 @@ class CourseInfoActivitiesController extends AbstractController
         }
 
         $render = $this->get('twig')->render('course_info/activities/form/duplicate_section.html.twig', [
+            'courseInfo' => $courseInfo,
             'courseSection' => $courseSection,
             'form' => $form->createView()
         ]);

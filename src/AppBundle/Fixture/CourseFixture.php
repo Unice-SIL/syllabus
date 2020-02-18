@@ -30,7 +30,8 @@ class CourseFixture extends Fixture  implements FixtureGroupInterface
         $course1->setId(Uuid::uuid4())
             ->setType('ECUE')
             ->setSource('fixtures')
-            ->setCode('SLEPB111');
+            ->setCode('SLEPB111')
+            ->setTitle('Cours 1');
         $this->addReference(self::COURSE_1, $course1);
 
         // Course 2
@@ -38,7 +39,8 @@ class CourseFixture extends Fixture  implements FixtureGroupInterface
         $course2->setId(Uuid::uuid4())
             ->setType('UE')
             ->setSource('fixtures')
-            ->setCode('SLUPB11');
+            ->setCode('SLUPB11')
+            ->setTitle('Cours 2');
         $this->addReference(self::COURSE_2, $course2);
 
         // Course hierarchy

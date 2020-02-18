@@ -22,7 +22,7 @@
                             </button>
                             <button type="button" class="dropdown-item text-info modal-action text-center"
                                     data-action-title="{{ 'app.activities.view.sidebar.duplicate_section' | trans }}"
-                                    data-action-url="{{ path('course_activities_duplicate_section', {'sectionId': section.id}) }}">
+                                    data-action-url="{{ path('course_activities_duplicate_section', {'id': courseInfo.id, 'sectionId': section.id}) }}">
                                 <i class="fas fa-clone"></i> {{ 'app.general.button.duplicate' | trans }}
                             </button>
                             <button type="button" class="dropdown-item text-danger modal-action text-center"

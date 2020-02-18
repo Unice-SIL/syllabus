@@ -9,7 +9,10 @@
         <div class="card-body">
             {{ form_row(form.code) }}
             {{ form_row(form.label) }}
-            {{ form_row(form.campus) }}
+            <div class="custom-control custom-switch">
+                {{ form_widget(form.synchronized) }}
+                {{ form_label(form.synchronized) }}
+            </div>
             <div class="custom-control custom-switch">
                 {{ form_widget(form.obsolete) }}
                 {{ form_label(form.obsolete) }}

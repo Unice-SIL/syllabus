@@ -7,7 +7,10 @@
             {{ form_start(form) }}
                 {{ form_row(form.label) }}
                 {{ form_row(form.code) }}
-                {{ form_row(form.campus) }}
+                <div class="custom-control custom-switch">
+                    {{ form_widget(form.synchronized) }}
+                    {{ form_label(form.synchronized) }}
+                </div>
                 <button class="btn btn-primary">Enregistrer</button>
             {{ form_end(form) }}
         </div>
