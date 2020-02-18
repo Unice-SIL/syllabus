@@ -49,6 +49,13 @@ class CourseInfoField
     private $automaticDuplication = 0;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(name="import", type="boolean", nullable=false, options={"default" : 0})
+     */
+    private $import = 0;
+
+    /**
      * CourseInfoField constructor.
      * @param string $field
      */
@@ -136,4 +143,19 @@ class CourseInfoField
         return $this;
     }
 
+    /**
+     * @return bool
+     */
+    public function isImport()
+    {
+        return $this->import;
+    }
+
+    /**
+     * @param bool $import
+     */
+    public function setImport($import)
+    {
+        $this->import = $import;
+    }
 }

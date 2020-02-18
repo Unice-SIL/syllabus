@@ -179,6 +179,7 @@ app:
         label: Label
         mannually_duplication: Duplication manuelle
         automatic_duplication: Duplication depuis CSV
+        import: 'Import'
     global:
       action: Action
     duplicate_course_info:

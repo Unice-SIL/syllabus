@@ -13,13 +13,11 @@ use AppBundle\Helper\Report\ReportingHelper;
 use AppBundle\Helper\Report\ReportLine;
 use AppBundle\Helper\Report\ReportMessage;
 use AppBundle\Repository\CourseInfoRepositoryInterface;
-use AppBundle\Repository\Doctrine\CourseInfoDoctrineRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use League\Csv\Reader;
 use Ramsey\Uuid\Uuid;
-use Symfony\Component\Inflector\Inflector;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -30,6 +28,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 class CourseInfoManager
 {
     const DUPLICATION_CONTEXTE_MANUALLY = 'manually';
+    const DUPLICATION_CONTEXTE_AUTOMATIC = 'automatic';
     const DUPLICATION_CONTEXTE_IMPORT = 'import';
 
     /**
@@ -49,6 +48,10 @@ class CourseInfoManager
      * @var User
      */
     private $user;
+    /**
+     * @var \Symfony\Component\PropertyAccess\PropertyAccessor
+     */
+    private $propertyAccessor;
 
     /**
      * CourseInfoManager constructor.
@@ -64,6 +67,7 @@ class CourseInfoManager
     {
         $this->repository = $repository;
         $this->em = $em;
+        $this->propertyAccessor = PropertyAccess::createPropertyAccessor();
 
         if ($token = $tokenStorage->getToken()) {
             $this->user = $token->getUser();
@@ -119,24 +123,11 @@ class CourseInfoManager
      */
     public function duplicate(?string $courseInfoSender, ?string $courseInfoRecipient, string $context, Report $report = null): Report
     {
-        //If we're looping on this function it's no necessary to get fields from the database every time (we put them in a static property cache)
-        if (!self::$fieldsToDuplicate) {
-            switch ($context) {
-                case self::DUPLICATION_CONTEXTE_IMPORT:
-                    self::$fieldsToDuplicate = $this->em->getRepository(CourseInfoField::class)->findByAutomaticDuplication(true);
-                    break;
-                default:
-                    self::$fieldsToDuplicate = $this->em->getRepository(CourseInfoField::class)->findByManuallyDuplication(true);
-                    break;
-            }
-        }
-        self::$fieldsToDuplicate = $this->em->getRepository(CourseInfoField::class)->findByManuallyDuplication(true);
+        $this->setFieldsToDuplicate($context);
+
         //=================================================Error Management=================================================
         if (!$report) {
             $report = ReportingHelper::createReport();
-        }
-        if (!$this->user) {
-            $report->createMessage('Aucun utilisateur n\'est authentifié', ReportMessage::TYPE_DANGER);
         }
 
         if (count(self::$fieldsToDuplicate) <= 0) {
@@ -175,33 +166,71 @@ class CourseInfoManager
         //===============================================End Error Management============================================
 
         //===============================================Duplication Process============================================
-        $propertyAccessor = PropertyAccess::createPropertyAccessor();
+        $this->duplicationProcess(self::$fieldsToDuplicate, $courseInfoSender, $courseInfoRecipient);
+        //==============================================End Duplication Process===========================================
 
-        foreach (self::$fieldsToDuplicate as $field) {
+        return $report;
+    }
+
+    public function createOrUpdate(CourseInfo $courseInfoData)
+    {
+        if (!$courseInfo = $this->repository->findByCodeAndYear($courseInfoData->getCourse()->getCode(), $courseInfoData->getYear()->getId())) {
+            $courseInfo = new CourseInfo();
+            $this->em->persist($courseInfo);
+        }
+
+        $this->setFieldsToDuplicate(self::DUPLICATION_CONTEXTE_IMPORT);
+
+        $this->duplicationProcess(self::$fieldsToDuplicate, $courseInfoData, $courseInfo);
+
+        return $courseInfo;
+    }
+
+    private function setFieldsToDuplicate(string $context, bool $refresh = false)
+    {
+        if ($refresh) {
+            self::$fieldsToDuplicate = null;
+        }
+
+        //If we're looping on this function it's no necessary to get fields from the database every time (we put them in a static property cache)
+        if (!self::$fieldsToDuplicate) {
+            switch ($context) {
+                case self::DUPLICATION_CONTEXTE_AUTOMATIC:
+                    self::$fieldsToDuplicate = $this->em->getRepository(CourseInfoField::class)->findByAutomaticDuplication(true);
+                    break;
+                default:
+                    self::$fieldsToDuplicate = $this->em->getRepository(CourseInfoField::class)->findByManuallyDuplication(true);
+                    break;
+            }
+        }
+    }
+
+
+    private function duplicationProcess(array $fieldsToDuplicate, CourseInfo $courseInfoSender, CourseInfo $courseInfoRecipient)
+    {
+
+        foreach ($fieldsToDuplicate as $field) {
 
             $property = $field->getField();
 
             //Stocks data to duplicate in a variable
-            $CourseInfoSenderData = $propertyAccessor->getValue($courseInfoSender, $property);
+            $CourseInfoSenderData = $this->propertyAccessor->getValue($courseInfoSender, $property);
 
             // if the data to duplicate is a instance of collection we do a specific treatment (erase every old elements before duplicate the new ones)
             if ($CourseInfoSenderData instanceof Collection) {
 
-               $this->duplicateCollectionProperty($CourseInfoSenderData, $courseInfoRecipient, $property, 'courseInfo');
+                $this->duplicateCollectionProperty($CourseInfoSenderData, $courseInfoRecipient, $property, 'courseInfo');
 
                 continue;
             }
 
             //if the data is not a instance of collection we can simply set it into the toCourseInfo $property
-            $propertyAccessor->setValue($courseInfoRecipient, $property, $CourseInfoSenderData);
+            $this->propertyAccessor->setValue($courseInfoRecipient, $property, $CourseInfoSenderData);
 
         }
 
         $courseInfoRecipient->setLastUpdater($this->user);
         $courseInfoRecipient->setModificationDate(new \DateTime());
-        //==============================================End Duplication Process===========================================
-
-        return $report;
     }
 
     /**
@@ -213,10 +242,9 @@ class CourseInfoManager
      */
     private function duplicateCollectionProperty(Collection $CourseInfoSenderData, CourseInfo $courseInfoRecipient, string $property, string $inversedBy)
     {
-        $propertyAccessor = PropertyAccess::createPropertyAccessor();
 
         //erases every current items
-        foreach ($propertyAccessor->getValue($courseInfoRecipient, $property) as $item) {
+        foreach ($this->propertyAccessor->getValue($courseInfoRecipient, $property) as $item) {
             $this->em->remove($item);
         }
 
@@ -228,12 +256,12 @@ class CourseInfoManager
 
             $dataClone->setId(Uuid::uuid4());
 
-            $propertyAccessor->setValue($dataClone, $inversedBy, $courseInfoRecipient);
+            $this->propertyAccessor->setValue($dataClone, $inversedBy, $courseInfoRecipient);
 
             $collection->add($dataClone);
         }
 
-        $propertyAccessor->setValue($courseInfoRecipient, $property, $collection);
+        $this->propertyAccessor->setValue($courseInfoRecipient, $property, $collection);
 
     }
 
@@ -303,8 +331,6 @@ class CourseInfoManager
         $code = 'code';
         $year = 'year';
         //===================================End Matching===================================
-
-        $propertyAccessor = PropertyAccess::createPropertyAccessor();
 
         $csv = Reader::createFromPath($pathName);
         $csv->setHeaderOffset(0);
@@ -436,7 +462,7 @@ class CourseInfoManager
                     }
 
                     try {
-                        $propertyAccessor->setValue($courseInfo, $property, $data);
+                        $this->propertyAccessor->setValue($courseInfo, $property, $data);
                     }catch (\Exception $e) {
                         $reportLine->addComment('Un problème inconnu est survenu.');
                     }
@@ -482,7 +508,7 @@ class CourseInfoManager
             $result = $this->duplicate(
                 $record['cod_elp_exp'] . '__UNION__' .  $record['annee_exp'],
                 $record['cod_elp_dest'] . '__UNION__' . $record['annee_dest'],
-                self::DUPLICATION_CONTEXTE_IMPORT,
+                self::DUPLICATION_CONTEXTE_AUTOMATIC,
                 $report
             );
 
