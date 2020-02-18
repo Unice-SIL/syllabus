@@ -1,0 +1,8 @@
+{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('course_activities_duplicate_section', {'sectionId': courseSection.id})}}) }}
+{{ form_errors(form) }}
+<h5>{{ 'app.activities.form.section.duplicate' | trans({'%title%': courseSection.title}) }}</h5>
+<div class="d-flex justify-content-center">
+    <button type="submit" class="btn btn-primary rounded mr-2">{{ "app.general.button.duplicate" | trans }}</button>
+</div>
+{{ form_widget(form._token) }}
+{{ form_end(form) }}

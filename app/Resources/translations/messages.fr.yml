@@ -57,6 +57,7 @@ app:
       sidebar:
         add_section: Ajouter une section
         delete_section: Supprimer une section
+        duplicate_section: Dupliquer une section
         edit_section: Modifier une section
         empty_section: Aucune section n'a été créée
         title: Sections
@@ -71,6 +72,7 @@ app:
       section:
         description: Description
         delete: Êtes-vous sûr(e) de vouloir supprimer la section "%title%" ?
+        duplicate: Êtes-vous sûr(e) de vouloir dupliquer la section "%title%" ?
         title: Titre de la section
   presentation:
     view:
@@ -196,4 +198,5 @@ app:
       add: Ajouter
       edit: Modifier
       delete: Supprimer
+      duplicate: Dupliquer
       save: Sauvegarder
