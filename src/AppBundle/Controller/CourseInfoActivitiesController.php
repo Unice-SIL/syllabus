@@ -131,7 +131,11 @@ class CourseInfoActivitiesController extends AbstractController
             {
                 $section->setId(Uuid::uuid4())
                     ->setCourseInfo($courseInfo);
+
                 $courseInfo->addCourseSection($section);
+                foreach ($courseInfo->getCourseSections() as $section) {
+                    $section->setPosition($section->getPosition() + 1);
+                }
                 $manager->update($courseInfo);
             }
             else
@@ -217,7 +221,7 @@ class CourseInfoActivitiesController extends AbstractController
      * @ParamConverter("activity", options={"mapping": {"activityId": "id"}})
      * @ParamConverter("activityType", options={"mapping": {"activityTypeId": "id"}})
      */
-    public function addActivityAction(CourseSection $courseSection, Activity $activity, ActivityType $activityType, Request $request)
+    public function addCourseSectionActivityAction(CourseSection $courseSection, Activity $activity, ActivityType $activityType, Request $request)
     {
         $status = true;
         $message = null;
@@ -253,7 +257,7 @@ class CourseInfoActivitiesController extends AbstractController
         if ($typeId)
         {
             $activityTypes = array_filter($activity->getActivityTypes()->toArray(), function (ActivityType $type) use ($typeId) {
-               return $type->getId() === $typeId;
+                return $type->getId() === $typeId;
             });
             if (count($activityTypes) > 0)
             {
@@ -273,6 +277,9 @@ class CourseInfoActivitiesController extends AbstractController
                     ->setCourseSection($courseSection)
                     ->setActivity($activity);
                 $courseSection->addCourseSectionActivity($courseSectionActivity);
+                foreach ($courseSection->getCourseSectionActivities() as $courseSectionActivity) {
+                    $courseSectionActivity->setPosition($courseSectionActivity->getPosition() + 1);
+                }
                 $this->getDoctrine()->getManager()->persist($courseSection);
                 $this->getDoctrine()->getManager()->flush();
             }
@@ -360,7 +367,7 @@ class CourseInfoActivitiesController extends AbstractController
     }
 
     /**
-     * @Route("/course/activities/section/{courseSectionActivityId}/activity/{activityId}/edit", name="course_activities_edit_activity"))
+     * @Route("/course/activities/courseSectionActivity/{courseSectionActivityId}/activity/{activityId}/edit", name="course_activities_edit_activity"))
      *
      * @param CourseSectionActivity $courseSectionActivity
      * @param Activity $activity
@@ -370,7 +377,7 @@ class CourseInfoActivitiesController extends AbstractController
      * @ParamConverter("courseSectionActivity", options={"mapping": {"courseSectionActivityId": "id"}})
      * @ParamConverter("activity", options={"mapping": {"activityId": "id"}})
      */
-    public function editCourseSectionActivity(CourseSectionActivity $courseSectionActivity, Activity $activity, Request $request)
+    public function editCourseSectionActivityAction(CourseSectionActivity $courseSectionActivity, Activity $activity, Request $request)
     {
         $status = true;
         $message = null;
@@ -431,6 +438,82 @@ class CourseInfoActivitiesController extends AbstractController
             'status' => $status,
             'content' => $render,
             'message' => $message
+        ]);
+    }
+
+    /**
+     * @Route("/course/activities/section/{courseSectionId}/courseSectionActivities/sort", name="course_activities_sort_activities"))
+     *
+     * @param CourseSection $courseSection
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @ParamConverter("courseSection", options={"mapping": {"courseSectionId": "id"}})
+     */
+    public function sortActivitiesAction(CourseSection $courseSection, Request $request)
+    {
+        if (!$courseSection instanceof CourseSection) {
+            return $this->json([
+                'status' => false,
+                'render' => "Une erreur est survenue : La section n'existe pas"
+            ]);
+        }
+
+        $activities = $courseSection->getCourseSectionActivities();
+        $dataActivities = $request->request->get('data_activities');
+
+        if ($dataActivities)
+        {
+            foreach ($activities as $activity) {
+                if (in_array($activity->getId(), $dataActivities)) {
+                    $activity->setPosition(array_search($activity->getId(), $dataActivities));
+                }
+            }
+
+            $this->getDoctrine()->getManager()->persist($courseSection);
+            $this->getDoctrine()->getManager()->flush();
+        }
+
+        return $this->json([
+            'status' => true,
+            'content' => null
+        ]);
+    }
+
+    /**
+     * @Route("/course/activities/courseInfo/{courseInfoId}/courseSections/sort", name="course_activities_sort_sections"))
+     *
+     * @param CourseInfo $courseInfo
+     * @param Request $request
+     * @param CourseInfoManager $manager
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @throws \Exception
+     * @ParamConverter("courseInfo", options={"mapping": {"courseInfoId": "id"}})
+     */
+    public function sortSectionsAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
+    {
+        if (!$courseInfo instanceof CourseInfo) {
+            return $this->json([
+                'status' => false,
+                'render' => "Une erreur est survenue : Le cours n'existe pas"
+            ]);
+        }
+
+        $sections = $courseInfo->getCourseSections();
+        $dataSections = $request->request->get('data_sections');
+
+        if ($dataSections)
+        {
+            foreach ($sections as $section) {
+                if (in_array($section->getId(), $dataSections)) {
+                    $section->setPosition(array_search($section->getId(), $dataSections));
+                }
+            }
+            $manager->update($courseInfo);
+        }
+
+        return $this->json([
+            'status' => true,
+            'content' => null
         ]);
     }
 }

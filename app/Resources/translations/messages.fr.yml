@@ -66,7 +66,7 @@ app:
         activity_type: Type d'activité
         control: Type de contrôle (Continu / Terminal) :
         delete: Êtes-vous sûr(e) de vouloir supprimer l'activité "%label%" ?
-        description: Description de l'activité
+        description: Description de l'activité (maximum 255 caractères)
         evaluable: Cette activité est-elle évaluable ?
       section:
         description: Description
