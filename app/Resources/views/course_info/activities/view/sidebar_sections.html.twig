@@ -20,6 +20,11 @@
                                     data-action-url="{{ path('course_activities_edit_section', {'id': courseInfo.id, 'sectionId': section.id}) }}">
                                 <i class="fas fa-edit"></i> {{ 'app.general.button.edit' | trans }}
                             </button>
+                            <button type="button" class="dropdown-item text-info modal-action text-center"
+                                    data-action-title="{{ 'app.activities.view.sidebar.duplicate_section' | trans }}"
+                                    data-action-url="{{ path('course_activities_duplicate_section', {'sectionId': section.id}) }}">
+                                <i class="fas fa-clone"></i> {{ 'app.general.button.duplicate' | trans }}
+                            </button>
                             <button type="button" class="dropdown-item text-danger modal-action text-center"
                                     data-action-title="{{ 'app.activities.view.sidebar.delete_section' | trans }}"
                                     data-action-url="{{ path('course_activities_remove_section', {'id': courseInfo.id, 'sectionId': section.id}) }}">
