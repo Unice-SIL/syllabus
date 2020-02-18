@@ -89,7 +89,9 @@ class CourseInfoApiController extends Controller
 
         $qb = $courseInfoDoctrineRepository->findQueryBuilderForApi($config);
 
-        $response = $apiHelper->setDataAndGetResponse($qb, $config, ['groups' => ['api']]);
+        $response = $apiHelper->setDataAndGetResponse($qb, $config, [
+            'groups' => ['default', 'course_info']
+        ]);
 
         return $this->json($response);
     }
@@ -110,7 +112,7 @@ class CourseInfoApiController extends Controller
      */
     public function showAction(CourseInfo $courseInfo, SerializerInterface $serializer)
     {
-        $courseInfo = $serializer->serialize($courseInfo, 'json', SerializationContext::create()->setGroups(['api']));
+        $courseInfo = $serializer->serialize($courseInfo, 'json', SerializationContext::create()->setGroups(['default', 'course_info']));
 
         $response = new Response($courseInfo, Response::HTTP_OK);
         $response->headers->set('Content-Type', 'application/json');
@@ -132,14 +134,14 @@ class CourseInfoApiController extends Controller
      *     description="Save the course info from the body request",
      *     @Model(type=CourseInfo::class)
      * )
-     * @IsGranted("ROLE_API_POST_COURSES_INFO")
+     * @IsGranted("ROLE_API_POST_COURSE_INFO")
      */
     public function postAction(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, ApiHelper $apiHelper)
     {
         $coureInfo = new CourseInfo();
         $form = $this->createForm(CourseInfoType::class, $coureInfo, ['validation_groups' => 'new']);
 
-        $form->submit(json_decode($request->getContent()));
+        $form->submit(json_decode($request->getContent(), true));
 
         $apiHelper->throwExceptionIfEntityInvalid($form);
 
@@ -147,7 +149,7 @@ class CourseInfoApiController extends Controller
         $em->flush();
 
         $em->refresh($coureInfo);
-        $response = new Response($serializer->serialize($coureInfo, 'json', SerializationContext::create()->setGroups('api')), Response::HTTP_CREATED);
+        $response = new Response($serializer->serialize($coureInfo, 'json', SerializationContext::create()->setGroups(['default', 'course_info'])), Response::HTTP_CREATED);
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
@@ -176,7 +178,7 @@ class CourseInfoApiController extends Controller
      *     type="string",
      *     description="The id of the expected course info"
      * )
-     * @IsGranted("ROLE_API_PUT_COURSES_INFO")
+     * @IsGranted("ROLE_API_PUT_COURSE_INFO")
      */
     public function putAction(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, CourseInfo $courseInfo, ApiHelper $apiHelper)
     {
@@ -189,7 +191,7 @@ class CourseInfoApiController extends Controller
         $em->flush();
 
         $em->refresh($courseInfo);
-        $response = new Response($serializer->serialize($courseInfo, 'json', SerializationContext::create()->setGroups('api')), Response::HTTP_OK);
+        $response = new Response($serializer->serialize($courseInfo, 'json', SerializationContext::create()->setGroups(['default', 'course_info'])), Response::HTTP_OK);
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
