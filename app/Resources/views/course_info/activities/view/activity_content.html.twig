@@ -7,9 +7,9 @@
         <i class="fas fa-arrow-down fa-5x"></i>
     </div>
 {% else %}
-    <div id="list-activities" class="p-2">
+    <div class="p-2 list-sortable" data-url="{{ path('course_activities_sort_activities', {'courseSectionId': activeSection.id}) }}">
         {% for sectionActivity in activeSection.courseSectionActivities %}
-            <div class="card mb-2 shadow activity-sort" data-id="{{ sectionActivity.id }}">
+            <div class="card mb-2 shadow item-sortable" data-id="{{ sectionActivity.id }}">
                 <div class="card-body">
                     <div class="row">
                         <div class="col my-auto">

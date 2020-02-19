@@ -73,39 +73,23 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
-        {% if activeSection is not null and activeSection.courseSectionActivities is not empty %}
-        let sortActivities = new Sortable($("#list-activities").get(0), {
-            animation: 150,
-            onEnd: function (evt) {
-                let activitiesList = $('.activity-sort').map(function () {
-                    return $(this).data('id');
-                }).get();
-                let url = "{{ path('course_activities_sort_activities', {'courseSectionId': activeSection.id}) }}";
-                $.ajax({
-                    url: url,
-                    type: "POST",
-                    data: {data_activities: activitiesList}
-                });
-            }
+        $('.list-sortable').each(function () {
+            let $list = $(this);
+            let url = $list.data('url');
+            new Sortable($list.get(0), {
+                animation: 150,
+                onEnd: function (evt) {
+                    let sortList = $list.find('.item-sortable').map(function () {
+                        return $(this).data('id');
+                    }).get();
+                    $.ajax({
+                        url: url,
+                        type: "POST",
+                        data: {data: sortList}
+                    });
+                }
+            });
         });
-        {% endif %}
-
-        {% if courseInfo is not null and courseInfo.courseSections is not empty %}
-        let sortSections = new Sortable($("#list-sections").get(0), {
-            animation: 150,
-            onEnd: function (evt) {
-                let sectionsList = $('.section-sort').map(function () {
-                    return $(this).data('id');
-                }).get();
-                let url = "{{ path('course_activities_sort_sections', {'courseInfoId': courseInfo.id}) }}";
-                $.ajax({
-                    url: url,
-                    type: "POST",
-                    data: {data_sections: sectionsList}
-                });
-            }
-        });
-        {% endif %}
 
         /**
          * calculates the maximum position to which the carousel can translate to the left
