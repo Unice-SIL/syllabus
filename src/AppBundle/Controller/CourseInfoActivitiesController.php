@@ -235,7 +235,6 @@ class CourseInfoActivitiesController extends AbstractController
         $sections = $courseInfo->getCourseSections();
         $dataSections = $request->request->get('data');
 
-        dump($dataSections, $sections->toArray());
         if ($dataSections)
         {
             foreach ($sections as $section) {
@@ -243,7 +242,6 @@ class CourseInfoActivitiesController extends AbstractController
                     $section->setPosition(array_search($section->getId(), $dataSections));
                 }
             }
-            dump($sections->toArray());
             $manager->update($courseInfo);
         }
 
