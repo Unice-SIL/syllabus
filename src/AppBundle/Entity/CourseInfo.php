@@ -683,7 +683,7 @@ class CourseInfo
      * @param string $title
      * @return CourseInfo
      */
-    public function setTitle(string $title): self
+    public function setTitle(?string $title): self
     {
         $this->title = $title;
 

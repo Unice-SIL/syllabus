@@ -7,6 +7,7 @@ use AppBundle\Constant\TeachingMode;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseInfoField;
 use AppBundle\Entity\User;
+use AppBundle\Entity\Year;
 use AppBundle\Helper\AppHelper;
 use AppBundle\Helper\Report\Report;
 use AppBundle\Helper\Report\ReportingHelper;
@@ -20,6 +21,8 @@ use League\Csv\Reader;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Translation\Exception\InvalidResourceException;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * Class CourseInfoManager
@@ -31,10 +34,9 @@ class CourseInfoManager
     const DUPLICATION_CONTEXTE_AUTOMATIC = 'automatic';
     const DUPLICATION_CONTEXTE_IMPORT = 'import';
 
-    /**
-     * @var CourseInfo|null
-     */
-    private static $fieldsToDuplicate;
+    private static $fieldsToDuplicate = [];
+    private static $yearsConcernedByImport;
+
     /**
      * @var CourseInfoRepositoryInterface
      */
@@ -52,21 +54,28 @@ class CourseInfoManager
      * @var \Symfony\Component\PropertyAccess\PropertyAccessor
      */
     private $propertyAccessor;
+    /**
+     * @var ValidatorInterface
+     */
+    private $validator;
 
     /**
      * CourseInfoManager constructor.
      * @param CourseInfoRepositoryInterface $repository
      * @param EntityManagerInterface $em
      * @param TokenStorageInterface $tokenStorage
+     * @param ValidatorInterface $validator
      */
     public function __construct(
         CourseInfoRepositoryInterface $repository,
         EntityManagerInterface $em,
-        TokenStorageInterface $tokenStorage
+        TokenStorageInterface $tokenStorage,
+        ValidatorInterface $validator
     )
     {
         $this->repository = $repository;
         $this->em = $em;
+        $this->validator = $validator;
         $this->propertyAccessor = PropertyAccess::createPropertyAccessor();
 
         if ($token = $tokenStorage->getToken()) {
@@ -130,7 +139,7 @@ class CourseInfoManager
             $report = ReportingHelper::createReport();
         }
 
-        if (count(self::$fieldsToDuplicate) <= 0) {
+        if (count(self::$fieldsToDuplicate[$context]) <= 0) {
             $report->createMessage('Aucun champ n\'est activé pour import.', ReportMessage::TYPE_DANGER);
         }
 
@@ -166,40 +175,67 @@ class CourseInfoManager
         //===============================================End Error Management============================================
 
         //===============================================Duplication Process============================================
-        $this->duplicationProcess(self::$fieldsToDuplicate, $courseInfoSender, $courseInfoRecipient);
+        $this->duplicationProcess(self::$fieldsToDuplicate[$context], $courseInfoSender, $courseInfoRecipient);
         //==============================================End Duplication Process===========================================
 
         return $report;
     }
 
-    public function createOrUpdate(CourseInfo $courseInfoData)
+    public function createOrUpdate(CourseInfo $courseInfoData, array $options = [])
     {
-        if (!$courseInfo = $this->repository->findByCodeAndYear($courseInfoData->getCourse()->getCode(), $courseInfoData->getYear()->getId())) {
-            $courseInfo = new CourseInfo();
-            $this->em->persist($courseInfo);
+
+        $options = array_merge([
+            'flush' => false,
+            'validation_groups' => null
+        ], $options);
+
+        //If we're looping on this function it's no necessary to get $year from the database every time (we put them in a static property cache)
+        if (!self::$yearsConcernedByImport) {
+            self::$yearsConcernedByImport = $this->em->getRepository(Year::class)->findByImport(true);
         }
 
-        $this->setFieldsToDuplicate(self::DUPLICATION_CONTEXTE_IMPORT);
+        foreach (self::$yearsConcernedByImport as $year) {
 
-        $this->duplicationProcess(self::$fieldsToDuplicate, $courseInfoData, $courseInfo);
+            if (!$courseInfo = $this->repository->findByCodeAndYear($courseInfoData->getCourse()->getCode(), $year->getId())) {
+                $courseInfo = new CourseInfo();
+                $courseInfo->setCourse($courseInfoData->getCourse());
+                $courseInfo->setYear($year);
+                $this->em->persist($courseInfo);
+            }
 
-        return $courseInfo;
+            $this->setFieldsToDuplicate(self::DUPLICATION_CONTEXTE_IMPORT);
+
+            $this->duplicationProcess(self::$fieldsToDuplicate[self::DUPLICATION_CONTEXTE_IMPORT], $courseInfoData, $courseInfo);
+
+            $violations = $this->validator->validate($courseInfo, null, $options['validation_groups']);
+
+            if (count($violations) > 0) {
+                $message = 'Cannot validate the data.' . "\n";
+                foreach ($violations as $violation) {
+                    $error = $violation->getPropertyPath() . ' => ' . $violation->getMessage() . "\n";
+                    $message .= ' ' . $error;
+                }
+                throw new InvalidResourceException($message);
+            }
+
+            if (true === $options['flush']) {
+                $this->em->flush();
+            }
+
+        }
+
     }
 
-    private function setFieldsToDuplicate(string $context, bool $refresh = false)
+    private function setFieldsToDuplicate(string $context)
     {
-        if ($refresh) {
-            self::$fieldsToDuplicate = null;
-        }
-
         //If we're looping on this function it's no necessary to get fields from the database every time (we put them in a static property cache)
-        if (!self::$fieldsToDuplicate) {
+        if (!isset(self::$fieldsToDuplicate[$context])) {
             switch ($context) {
                 case self::DUPLICATION_CONTEXTE_AUTOMATIC:
-                    self::$fieldsToDuplicate = $this->em->getRepository(CourseInfoField::class)->findByAutomaticDuplication(true);
+                    self::$fieldsToDuplicate[$context] = $this->em->getRepository(CourseInfoField::class)->findByAutomaticDuplication(true);
                     break;
                 default:
-                    self::$fieldsToDuplicate = $this->em->getRepository(CourseInfoField::class)->findByManuallyDuplication(true);
+                    self::$fieldsToDuplicate[$context] = $this->em->getRepository(CourseInfoField::class)->findByManuallyDuplication(true);
                     break;
             }
         }
