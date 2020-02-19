@@ -3,8 +3,10 @@
 
 namespace AppBundle\Command\Test;
 
+use AppBundle\Entity\Course;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Manager\CourseInfoManager;
+use AppBundle\Manager\CourseManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -21,13 +23,13 @@ class TestCommand extends Command
     /**
      * @var CourseInfoManager
      */
-    private $courseInfoManager;
+    private $courseManager;
 
-    public function __construct(EntityManagerInterface $em, CourseInfoManager $courseInfoManager)
+    public function __construct(EntityManagerInterface $em, CourseManager $courseManager)
     {
         parent::__construct();
         $this->em = $em;
-        $this->courseInfoManager = $courseInfoManager;
+        $this->courseManager = $courseManager;
     }
 
 
@@ -39,8 +41,11 @@ class TestCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $courseInfoData = $this->em->find(CourseInfo::class, '6760fbcf-8b08-4b71-8cf2-7219700954ff');
-        $this->courseInfoManager->createOrUpdate($courseInfoData, ['flush' => true, 'validation_groups' => ['new', 'presentation']]);
+        $course = $this->em->find(Course::class, '23ebd733-4a8e-4af0-a57a-a22026af194f');
+        $course->setTitle('hi');
+        $course->removeChild($this->em->find(Course::class, '23ebd733-4a8e-4af0-a57a-a22026af194f'));
+
+        $this->courseManager->createOrUpdate($course, ['flush' => true]);
 
     }
 }
