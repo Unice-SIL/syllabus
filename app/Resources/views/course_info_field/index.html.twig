@@ -13,6 +13,7 @@
                         <th>{{ 'app.form.course_info_field.label.label'|trans }}</th>
                         <th>{{ 'app.form.course_info_field.label.mannually_duplication'|trans }}</th>
                         <th>{{ 'app.form.course_info_field.label.automatic_duplication'|trans }}</th>
+                        <th>{{ 'app.form.course_info_field.label.import'|trans }}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -28,21 +29,30 @@
                                     }
                                 }
                             )}}
-                                <td>{{ field.label }}</td>
-                                <td>
-                                    <div class="custom-control custom-switch">
-                                        {{ form_widget(formView.manuallyDuplication, { 'id' : formView.manuallyDuplication.vars.id ~ '_' ~ field.id, 'attr' : {
-                                            'class' : 'custom-control-input course-info-field-edit-ajax',
-                                            'checked' : field.manuallyDuplication,
-                                            'data-target' : '#course-info-field-'~field.id
-                                        } }) }}
-                                    </div>
-                                </td>
+                            <td>{{ field.label }}</td>
+                            <td>
+                                <div class="custom-control custom-switch">
+                                    {{ form_widget(formView.manuallyDuplication, { 'id' : formView.manuallyDuplication.vars.id ~ '_' ~ field.id, 'attr' : {
+                                        'class' : 'custom-control-input course-info-field-edit-ajax',
+                                        'checked' : field.manuallyDuplication,
+                                        'data-target' : '#course-info-field-'~field.id
+                                    } }) }}
+                                </div>
+                            </td>
                             <td>
                                 <div class="custom-control custom-switch">
                                     {{ form_widget(formView.automaticDuplication, { 'id' : formView.automaticDuplication.vars.id ~ '_' ~ field.id, 'attr' : {
                                         'class' : 'custom-control-input course-info-field-edit-ajax',
                                         'checked' : field.automaticDuplication,
+                                        'data-target' : '#course-info-field-'~field.id
+                                    } }) }}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="custom-control custom-switch">
+                                    {{ form_widget(formView.import, { 'id' : formView.import.vars.id ~ '_' ~ field.id, 'attr' : {
+                                        'class' : 'custom-control-input course-info-field-edit-ajax',
+                                        'checked' : field.import,
                                         'data-target' : '#course-info-field-'~field.id
                                     } }) }}
                                 </div>

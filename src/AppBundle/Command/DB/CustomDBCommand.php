@@ -43,6 +43,7 @@ class CustomDBCommand extends Command
         foreach ($courseInfoFileds as $field) {
             $field->setManuallyDuplication(true);
             $field->setAutomaticDuplication(true);
+            $field->setImport(true);
             $io->progressAdvance();
         }
 

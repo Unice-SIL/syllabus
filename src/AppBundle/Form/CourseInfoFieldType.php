@@ -3,6 +3,7 @@
 namespace AppBundle\Form;
 
 use AppBundle\Entity\CourseInfoField;
+use AppBundle\Form\Type\CustomCheckboxType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,26 +17,16 @@ class CourseInfoFieldType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('manuallyDuplication', CheckboxType::class, [
+            ->add('manuallyDuplication', CustomCheckboxType::class, [
                 'label' => false,
-                'required' => false,
-                'label_attr' => [
-                    'class' => 'custom-control-label'
-                ],
-                'attr' => [
-                    'class' => 'custom-control-input'
-                ]
             ])
-            ->add('automaticDuplication', CheckboxType::class, [
+            ->add('automaticDuplication', CustomCheckboxType::class, [
                 'label' => false,
-                'required' => false,
-                'label_attr' => [
-                    'class' => 'custom-control-label'
-                ],
-                'attr' => [
-                    'class' => 'custom-control-input'
-                ]
-            ]);
+            ])
+            ->add('import', CustomCheckboxType::class, [
+                'label' => false,
+            ])
+        ;
     }/**
      * {@inheritdoc}
      */
