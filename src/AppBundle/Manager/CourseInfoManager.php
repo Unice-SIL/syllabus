@@ -9,6 +9,7 @@ use AppBundle\Entity\CourseInfoField;
 use AppBundle\Entity\User;
 use AppBundle\Entity\Year;
 use AppBundle\Helper\AppHelper;
+use AppBundle\Helper\ErrorManager;
 use AppBundle\Helper\Report\Report;
 use AppBundle\Helper\Report\ReportingHelper;
 use AppBundle\Helper\Report\ReportLine;
@@ -54,28 +55,30 @@ class CourseInfoManager
      * @var \Symfony\Component\PropertyAccess\PropertyAccessor
      */
     private $propertyAccessor;
+
     /**
-     * @var ValidatorInterface
+     * @var ErrorManager
      */
-    private $validator;
+    private $errorManager;
+
 
     /**
      * CourseInfoManager constructor.
      * @param CourseInfoRepositoryInterface $repository
      * @param EntityManagerInterface $em
      * @param TokenStorageInterface $tokenStorage
-     * @param ValidatorInterface $validator
+     * @param ErrorManager $errorManager
      */
     public function __construct(
         CourseInfoRepositoryInterface $repository,
         EntityManagerInterface $em,
         TokenStorageInterface $tokenStorage,
-        ValidatorInterface $validator
+        ErrorManager $errorManager
     )
     {
         $this->repository = $repository;
         $this->em = $em;
-        $this->validator = $validator;
+        $this->errorManager = $errorManager;
         $this->propertyAccessor = PropertyAccess::createPropertyAccessor();
 
         if ($token = $tokenStorage->getToken()) {
@@ -201,22 +204,15 @@ class CourseInfoManager
                 $courseInfo->setCourse($courseInfoData->getCourse());
                 $courseInfo->setYear($year);
                 $this->em->persist($courseInfo);
+            } elseif (!$courseInfo->getCourse()->isSynchronized()) {
+              throw new \Exception('Ce syllabus n\'est pas synchronisable.');
             }
 
             $this->setFieldsToDuplicate(self::DUPLICATION_CONTEXTE_IMPORT);
 
             $this->duplicationProcess(self::$fieldsToDuplicate[self::DUPLICATION_CONTEXTE_IMPORT], $courseInfoData, $courseInfo);
 
-            $violations = $this->validator->validate($courseInfo, null, $options['validation_groups']);
-
-            if (count($violations) > 0) {
-                $message = 'Cannot validate the data.' . "\n";
-                foreach ($violations as $violation) {
-                    $error = $violation->getPropertyPath() . ' => ' . $violation->getMessage() . "\n";
-                    $message .= ' ' . $error;
-                }
-                throw new InvalidResourceException($message);
-            }
+            $this->errorManager->throwExceptionIfError($courseInfo, null, $options['validation_groups']);
 
             if (true === $options['flush']) {
                 $this->em->flush();
