@@ -3,14 +3,12 @@
 namespace AppBundle\Security\Provider;
 
 
-use AppBundle\Command\User\CreateUserCommand;
-use AppBundle\Command\User\EditUserCommand;
 use AppBundle\Entity\User;
-use AppBundle\Exception\UserNotFoundException;
-use AppBundle\Query\User\EditUserQuery;
-use AppBundle\Query\User\FindUserByIdQuery;
-use AppBundle\Query\User\FindUserByUsernameQuery;
 use AppBundle\Repository\UserRepositoryInterface;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use UniceSIL\ShibbolethBundle\Security\User\ShibbolethUserProviderInterface;
@@ -28,19 +26,9 @@ class ShibbolethUserProvider implements ShibbolethUserProviderInterface
     const DEFAULT_ROLE = 'ROLE_USER';
 
     /**
-     * @var FindUserByIdQuery
+     * @var EntityManager
      */
-    private $findUserByIdQuery;
-
-    /**
-     * @var FindUserByUsernameQuery
-     */
-    private $findUserByUsernameQuery;
-
-    /**
-     * @var EditUserQuery
-     */
-    private $editUserQuery;
+    private $em;
 
     /**
      * @var UserRepositoryInterface
@@ -49,26 +37,22 @@ class ShibbolethUserProvider implements ShibbolethUserProviderInterface
 
     /**
      * ShibbolethUserProvider constructor.
-     * @param FindUserByIdQuery $findUserByIdQuery
-     * @param FindUserByUsernameQuery $findUserByUsernameQuery
-     * @param EditUserQuery $editUserQuery
+     * @param RegistryInterface $registry
      * @param UserRepositoryInterface $userRepository
      */
     public function __construct(
-        FindUserByIdQuery $findUserByIdQuery,
-        FindUserByUsernameQuery $findUserByUsernameQuery,
-        EditUserQuery $editUserQuery,
+        RegistryInterface $registry,
         UserRepositoryInterface $userRepository)
     {
-        $this->findUserByIdQuery = $findUserByIdQuery;
-        $this->findUserByUsernameQuery = $findUserByUsernameQuery;
-        $this->editUserQuery = $editUserQuery;
+        $this->em = $registry->getEntityManager();
         $this->userRepository = $userRepository;
     }
 
     /**
      * @param array $credentials
-     * @return User|null
+     * @return User|object|null
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function loadUser(array $credentials)
     {
@@ -78,57 +62,53 @@ class ShibbolethUserProvider implements ShibbolethUserProviderInterface
 
         $username = $credentials['username'];
 
-        $user = null;
-        $command = null;
-        try {
-            $user = $this->findUserByUsernameQuery->setUsername($username)->execute();
-            $command = new EditUserCommand($user);
-        }catch (UserNotFoundException $e){
+
+        $user = $this->em->getRepository(User::class)->findOneBy(['username' => $username]);
+        if(!$user instanceof User)
+        {
             $user = new User();
-            $command = new CreateUserCommand();
-            $command->setUsername($username);
+            $user->setUsername($username);
         }
 
         if(array_key_exists('givenName', $credentials)) {
-            $command->setFirstname($credentials['givenName']);
+            $user->setFirstname($credentials['givenName']);
         }else{
-            $command->setFirstname("");
+            $user->setFirstname("");
         }
 
         if(array_key_exists('sn', $credentials)) {
-            $command->setLastname($credentials['sn']);
+            $user->setLastname($credentials['sn']);
         }else{
-            $command->setLastname("");
+            $user->setLastname("");
         }
 
         if(array_key_exists('mail', $credentials)) {
-            $command->setEmail($credentials['mail']);
+            $user->setEmail($credentials['mail']);
         }else{
-            $command->setEmail("");
+            $user->setEmail("");
         }
 
-        $roles = $command->getRoles();
+        $roles = $user->getRoles();
         if(!in_array(self::DEFAULT_ROLE, $roles))
         {
             $roles[] = self::DEFAULT_ROLE;
         }
-        $command->setRoles($roles);
-
-        $user = $command->filledEntity($user);
+        $user->setRoles($roles);
 
         // On ne créé pas l'utilisateur en Bdd
-        if(is_a($command, EditUserCommand::class)){
-            $this->editUserQuery->setEditUserCommand($command)->execute();
+        if(!empty($user->getId())){
+            $this->em->persist($user);
+            $this->em->flush();
         }
-
-        //$user = $this->findUserByIdQuery->setId($command->getId())->execute();
 
         return $user;
     }
 
     /**
      * @param string $username
-     * @return User
+     * @return User|object|UserInterface|null
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function loadUserByUsername($username)
     {
@@ -141,11 +121,9 @@ class ShibbolethUserProvider implements ShibbolethUserProviderInterface
      */
     public function refresh($username)
     {
-        try{
-            return $this->findUserByUsernameQuery->setUsername($username)->execute();
-        }catch (\Exception $e){
-            return null;
-        }
+        /** @var User|null $user */
+        $user = $this->em->getRepository(User::class)->findOneBy(['username' => $username]);
+        return $user;
     }
 
     /**
