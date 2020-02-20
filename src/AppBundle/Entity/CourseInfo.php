@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\OneToMany;
 use JMS\Serializer\Annotation as JMS;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\File\File;
@@ -635,6 +636,11 @@ class CourseInfo
     private $previousImage = null;
 
     /**
+     * @OneToMany(targetEntity="CourseCriticalAchievement", mappedBy="courseInfo")
+     */
+    private $courseCriticalAchievements;
+
+    /**
      * CourseInfo constructor.
      */
     public function __construct()
@@ -650,6 +656,7 @@ class CourseInfo
         $this->languages = new ArrayCollection();
         $this->domains = new ArrayCollection();
         $this->periods = new ArrayCollection();
+        $this->courseCriticalAchievements = new ArrayCollection();
     }
 
     /**
@@ -2350,6 +2357,50 @@ class CourseInfo
     public function getPeriods()
     {
         return $this->periods;
+    }
+
+    /**
+     * @param CourseCriticalAchievement $courseCriticalAchievement
+     * @return CourseInfo
+     */
+    public function addCourseCriticalAchievement(CourseCriticalAchievement $courseCriticalAchievement): self
+    {
+        if (!$this->courseCriticalAchievements->contains($courseCriticalAchievement))
+        {
+            $this->courseCriticalAchievements->add($courseCriticalAchievement);
+        }
+        return $this;
+    }
+
+    /**
+     * @param CourseCriticalAchievement $courseCriticalAchievement
+     * @return CourseInfo
+     */
+    public function removeCourseCriticalAchievement(CourseCriticalAchievement $courseCriticalAchievement): self
+    {
+        if ($this->courseCriticalAchievements->contains($courseCriticalAchievement))
+        {
+            $this->courseCriticalAchievements->removeElement($courseCriticalAchievement);
+        }
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCourseCriticalAchievements()
+    {
+        return $this->courseCriticalAchievements;
+    }
+
+    /**
+     * @param $courseCriticalAchievements
+     * @return CourseInfo
+     */
+    public function setCourseCriticalAchievements($courseCriticalAchievements): CourseInfo
+    {
+        $this->courseCriticalAchievements = $courseCriticalAchievements;
+        return $this;
     }
 
     /**

@@ -6,6 +6,8 @@ use AppBundle\Traits\Importable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\ManyToMany;
+use Doctrine\ORM\Mapping\OneToMany;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -47,7 +49,7 @@ class Course
     private $code;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="Course", inversedBy="children", cascade={ "persist" })
      * @ORM\JoinTable(name="course_hierarchy",
@@ -62,18 +64,24 @@ class Course
     private $parents;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      * @ORM\ManyToMany(targetEntity="Course", mappedBy="parents")
      */
     private $children;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="CourseInfo", mappedBy="course", cascade={ "persist" })
      * @ORM\OrderBy({"year" = "ASC"})
      */
     private $courseInfos;
+
+    /**
+     * @var Collection
+     * @ORM\ManyToMany(targetEntity="CriticalAchievement", inversedBy="courses")
+     */
+    private $criticalAchievements;
 
     /**
      * Constructor
@@ -83,6 +91,7 @@ class Course
         $this->parents = new ArrayCollection();
         $this->children = new ArrayCollection();
         $this->courseInfos = new ArrayCollection();
+        $this->criticalAchievements = new ArrayCollection();
     }
 
     /**
@@ -285,12 +294,62 @@ class Course
     }
 
     /**
+     * @param CriticalAchievement $criticalAchievement
+     * @return Course
+     */
+    public function addCriticalAchievement(CriticalAchievement $criticalAchievement): self
+    {
+        if(!$this->criticalAchievements->contains($criticalAchievement))
+        {
+            $this->criticalAchievements->add($criticalAchievement);
+            if($criticalAchievement->getCourses() !== $this)
+            {
+                $criticalAchievement->getCourses($this);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @param CriticalAchievement $criticalAchievement
+     * @return Course
+     */
+    public function removeCriticalAchievement(CriticalAchievement $criticalAchievement): self
+    {
+        if ($this->criticalAchievements->contains($criticalAchievement))
+        {
+            $this->criticalAchievements->removeElement($criticalAchievement);
+            if ($criticalAchievement->getActivities()->contains($this))
+            {
+                $criticalAchievement->getActivities()->removeElement($this);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getCriticalAchievements(): Collection
+    {
+        return $this->criticalAchievements;
+    }
+
+    /**
+     * @param Collection $criticalAchievements
+     * @return Course
+     */
+    public function setCriticalAchievements(Collection $criticalAchievements): Course
+    {
+        $this->criticalAchievements = $criticalAchievements;
+        return $this;
+    }
+
+    /**
      * @return null|string
      */
     public function __toString()
     {
         return $this->getCode();
     }
-
-
 }

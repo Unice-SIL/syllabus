@@ -4,6 +4,7 @@
 namespace AppBundle\Controller;
 
 
+use AppBundle\Entity\Course;
 use AppBundle\Repository\Doctrine\CourseDoctrineRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -64,6 +65,25 @@ class CourseController extends Controller
         }, $courses);
 
         return $this->json($data);
+    }
+
+    /**
+     * @Route("/autocompleteS3", name="autocompleteS3", methods={"GET"})
+     *
+     * @param CourseDoctrineRepository $courseDoctrineRepository
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function autocompleteS3()
+    {
+        $results = $this->getDoctrine()->getRepository(Course::class)->findAll();
+        $courses = [];
+        foreach($results as $course)
+        {
+            $courses[] = ['id' => $course->getId(), 'text' => $course->getCode()];
+        }
+
+        return $this->json($courses);
     }
 
 }
