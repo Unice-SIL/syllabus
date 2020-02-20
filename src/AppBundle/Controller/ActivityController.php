@@ -29,6 +29,10 @@ class ActivityController extends Controller
      *
      * @Route("", name="index" )
      * @Method("GET")
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
+     * @return Response
      */
     public function indexAction(Request $request, EntityManagerInterface $em, FilterBuilderUpdaterInterface $filterBuilderUpdater)
     {

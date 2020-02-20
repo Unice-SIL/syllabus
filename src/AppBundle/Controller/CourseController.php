@@ -164,4 +164,23 @@ class CourseController extends Controller
         return $this->json($data);
     }
 
+    /**
+     * @Route("/autocompleteS3", name="autocompleteS3", methods={"GET"})
+     *
+     * @param CourseDoctrineRepository $courseDoctrineRepository
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function autocompleteS3()
+    {
+        $results = $this->getDoctrine()->getRepository(Course::class)->findAll();
+        $courses = [];
+        foreach($results as $course)
+        {
+            $courses[] = ['id' => $course->getId(), 'text' => $course->getCode()];
+        }
+
+        return $this->json($courses);
+    }
+
 }
