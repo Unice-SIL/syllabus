@@ -42,6 +42,7 @@ class ExceptionListener
                 $bodyResponse['message'] = 'Access Denied';
             }
             else {
+                return;
                 $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
                 $bodyResponse['statusCode'] = Response::HTTP_INTERNAL_SERVER_ERROR;
                 $bodyResponse['message'] =  'Internal Error Server';

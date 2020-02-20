@@ -17,6 +17,14 @@ ROLE_API_GET_YEAR: Récupérer une année par son id
 ROLE_API_GET_YEARS: Récupérer une liste d'années
 ROLE_API_POST_YEAR: Créer une anée
 ROLE_API_PUT_YEAR: Mettre à jour une année
+ROLE_API_GET_CAMPUS: Récupérer un campus par son id
+ROLE_API_GET_CAMPUSES: Récupérer une liste de campus
+ROLE_API_GET_PERIOD: Récupérer une période par son id
+ROLE_API_GET_PERIODS: Récupérer une liste de périodes
+ROLE_API_GET_DOMAIN: Récupérer un domaine par son id
+ROLE_API_GET_DOMAINS: Récupérer une liste de domaines
+ROLE_API_GET_LANGUAGE: Récupérer une langue par son id
+ROLE_API_GET_LANGUAGES: Récupérer une liste de langues
 collective: Collectif
 groups: En groupe
 individual: Individuel

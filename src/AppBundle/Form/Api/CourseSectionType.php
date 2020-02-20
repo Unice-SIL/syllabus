@@ -3,6 +3,7 @@
 namespace AppBundle\Form\Api;
 
 use AppBundle\Entity\CourseSection;
+use AppBundle\Form\Api\Type\ApiCollectionType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -20,7 +21,7 @@ class CourseSectionType extends ApiAbstractType
             ->add('title')
             ->add('description')
             ->add('position')
-            ->add('courseSectionActivities', CollectionType::class, [
+            ->add('courseSectionActivities', ApiCollectionType::class, [
                 'entry_type' => CourseSectionActivityType::class,
                 'allow_add' => true,
                 'allow_delete' => true,

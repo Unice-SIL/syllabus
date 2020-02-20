@@ -2,14 +2,14 @@
 
 namespace AppBundle\Form\Api;
 
-use AppBundle\Entity\CourseInfo;
-use AppBundle\Entity\CourseSection;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use AppBundle\Entity\Campus;
+use AppBundle\Entity\Domain;
+use AppBundle\Entity\Language;
+use AppBundle\Entity\Period;
+use AppBundle\Form\Api\Type\ApiCollectionType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CourseInfoType extends ApiAbstractType
@@ -20,15 +20,14 @@ class CourseInfoType extends ApiAbstractType
     public function buildApiForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-
+            ->add('id', null, [
+                'disabled' => true
+            ])
             ->add('title')
             ->add('ects')
             ->add('level')
-            ->add('languages')
-            ->add('domain')
             ->add('semester')
             ->add('summary')
-            ->add('period')
             ->add('mediaType')
             ->add('image')
             ->add('video')
@@ -77,65 +76,46 @@ class CourseInfoType extends ApiAbstractType
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd hh:ii:ss'
             ])
-            ->add('temPresentationTabValid')
-            ->add('temActivitiesTabValid')
-            ->add('temObjectivesTabValid')
-            ->add('temMccTabValid')
-            ->add('temEquipmentsTabValid')
-            ->add('temInfosTabValid')
-            ->add('temClosingRemarksTabValid')
             ->add('course')
             ->add('structure')
             ->add('publisher')
             ->add('year')
-            ->add('coursePermissions', CollectionType::class, [
+            ->add('languages',EntityType::class, [
+                'class' => Language::class,
+                'multiple' => true
+            ])
+            ->add('domains',EntityType::class, [
+                'class' => Domain::class,
+                'multiple' => true
+            ])
+            ->add('periods',EntityType::class, [
+                'class' => Period::class,
+                'multiple' => true
+            ])
+            ->add('campuses',EntityType::class, [
+                'class' => Campus::class,
+                'multiple' => true
+            ])
+            ->add('coursePermissions', ApiCollectionType::class, [
                 'entry_type' => CoursePermissionType::class,
-                'allow_add' => true,
-                'allow_delete' => true,
-                'error_bubbling' => false,
-                'by_reference' => true
             ])
-            ->add('courseTeachers', CollectionType::class, [
+            ->add('courseTeachers', ApiCollectionType::class, [
                 'entry_type' => CourseTeacherType::class,
-                'allow_add' => true,
-                'allow_delete' => true,
-                'error_bubbling' => false,
-                'by_reference' => false
             ])
-            ->add('courseSections', CollectionType::class, [
+            ->add('courseSections', ApiCollectionType::class, [
                 'entry_type' => CourseSectionType::class,
-                'allow_add' => true,
-                'allow_delete' => true,
-                'error_bubbling' => false,
-                'by_reference' => false
             ])
-            ->add('courseAchievements', CollectionType::class, [
+            ->add('courseAchievements', ApiCollectionType::class, [
                 'entry_type' => CourseAchievementType::class,
-                'allow_add' => true,
-                'allow_delete' => true,
-                'error_bubbling' => false,
-                'by_reference' => false
             ])
-            ->add('coursePrerequisites', CollectionType::class, [
+            ->add('coursePrerequisites', ApiCollectionType::class, [
                 'entry_type' => CoursePrerequisiteType::class,
-                'allow_add' => true,
-                'allow_delete' => true,
-                'error_bubbling' => false,
-                'by_reference' => false
             ])
-            ->add('courseTutoringResources', CollectionType::class, [
+            ->add('courseTutoringResources', ApiCollectionType::class, [
                 'entry_type' => CourseTutoringResourceType::class,
-                'allow_add' => true,
-                'allow_delete' => true,
-                'error_bubbling' => false,
-                'by_reference' => false
             ])
-            ->add('courseResourceEquipments', CollectionType::class, [
+            ->add('courseResourceEquipments', ApiCollectionType::class, [
                 'entry_type' => CourseResourceEquipmentType::class,
-                'allow_add' => true,
-                'allow_delete' => true,
-                'error_bubbling' => false,
-                'by_reference' => false
             ])
         ;
     }
