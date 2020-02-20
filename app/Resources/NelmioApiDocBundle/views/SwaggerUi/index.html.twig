@@ -14,6 +14,11 @@
             </a>
         {% endblock header %}
 
+        {% block swagger_ui %}
+            Test
+            {{ parent() }}
+        {% endblock %}
+
 {% block javascripts %}
     {{ parent() }}
     <script type="text/javascript" src="{{ asset('js/custom-request-signer.js') }}"></script>

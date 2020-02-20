@@ -64,48 +64,6 @@ class CourseInfo
     private $level;
 
     /**
-     * @var Collection
-     *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Campus", inversedBy="courseInfos")
-     * @ORM\JoinTable(name="course_info_campus")
-     * @JMS\Type("ArrayCollection<AppBundle\Entity\Campus>")
-     * @JMS\Groups(groups={"course_info"})
-     */
-    private $campuses;
-
-    /**
-     * @var Collection
-     *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Language", inversedBy="courseInfos")
-     * @ORM\JoinTable(name="course_info_language")
-     * @JMS\Type("ArrayCollection<AppBundle\Entity\Language>")
-     * @JMS\Groups(groups={"course_info"})
-     *
-     */
-    private $languages;
-
-    /**
-     * @var Collection
-     *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Domain", inversedBy="courseInfos")
-     * @ORM\JoinTable(name="course_info_domain")
-     * @Assert\NotBlank(groups={"presentation"})
-     * @JMS\Type("ArrayCollection<AppBundle\Entity\Domain>")
-     * @JMS\Groups(groups={"course_info"})
-     */
-    private $domains;
-
-    /**
-     * @var ArrayCollection
-     *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Period", inversedBy="courseInfos")
-     * @ORM\JoinTable(name="course_info_period")
-     * @JMS\Type("ArrayCollection<AppBundle\Entity\Period>")
-     * @JMS\Groups(groups={"course_info"})
-     */
-    private $periods;
-
-    /**
      * @var int|null
      *
      * @ORM\Column(name="semester", type="integer", nullable=true)
@@ -513,6 +471,7 @@ class CourseInfo
      * })
      * @Assert\NotBlank()
      * @JMS\Type("AppBundle\Entity\Course")
+     * @JMS\Groups(groups={"course_info"})
      */
     private $course;
 
@@ -527,6 +486,49 @@ class CourseInfo
      * @JMS\Type("AppBundle\Entity\Structure")
      */
     private $structure;
+
+    /**
+     * @var Collection
+     *
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Campus", inversedBy="courseInfos")
+     * @ORM\JoinTable(name="course_info_campus")
+     * @JMS\Type("ArrayCollection<AppBundle\Entity\Campus>")
+     * @JMS\Groups(groups={"course_info"})
+     */
+    private $campuses;
+
+    /**
+     * @var Collection
+     *
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Language", inversedBy="courseInfos")
+     * @ORM\JoinTable(name="course_info_language")
+     * @JMS\Type("ArrayCollection<AppBundle\Entity\Language>")
+     * @JMS\Groups(groups={"course_info"})
+     *
+     */
+    private $languages;
+
+    /**
+     * @var Collection
+     *
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Domain", inversedBy="courseInfos")
+     * @ORM\JoinTable(name="course_info_domain")
+     * @Assert\NotBlank(groups={"presentation"})
+     * @JMS\Type("ArrayCollection<AppBundle\Entity\Domain>")
+     * @JMS\Groups(groups={"course_info"})
+     */
+    private $domains;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Period", inversedBy="courseInfos")
+     * @ORM\JoinTable(name="course_info_period")
+     * @JMS\Type("ArrayCollection<AppBundle\Entity\Period>")
+     * @JMS\Groups(groups={"course_info"})
+     */
+    private $periods;
+
 
     /**
      * @var User|null
