@@ -10,19 +10,6 @@ services:
         resource: '../../*'
         exclude: '../../{Entity,Repository,Tests}'
 
-    # GENERAL
-    _instanceof:
-        AppBundle\Action\ActionInterface:
-            public: true
-            autowire: true
-            tags: ['controller.service_arguments']
-
-    # ACTION
-    AppBundle\Action\Ui\Course\AskForAdviceCourseInfoAction:
-        arguments: ['%mailer_source%', '%mailer_target%']
-    AppBundle\Action\Ui\Course\PublishCourseInfoAction:
-        arguments: ['%mailer_source%', '%mailer_target%']
-
     # ALIAS
     AppBundle\Repository\UserRepositoryInterface: '@user_doctrine_repository'
     AppBundle\Repository\ActivityRepositoryInterface: '@activity_doctrine_repository'
@@ -91,14 +78,6 @@ services:
     AppBundle\Listener\ExceptionListener:
         tags:
             - { name: kernel.event_listener, event: kernel.exception }
-
-    # QUERY
-    AppBundle\Query\CourseTeacher\Adapter\Ldap\SearchCourseTeacherLdapQuery:
-        public: true
-        autowire: true
-    AppBundle\Query\CourseTeacher\Adapter\Ldap\FindCourseTeacherByIdLdapQuery:
-        public: true
-        autowire: true
 
     # REPOSITORY
     user_doctrine_repository:
