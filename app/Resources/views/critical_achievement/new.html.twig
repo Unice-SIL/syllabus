@@ -1,0 +1,20 @@
+{% extends 'admin_layout.html.twig' %}
+{% set h1 = 'Ajouter un acquis critique' %}
+{% block subContent %}
+
+    <div class="card card-primary">
+        <!-- /.card-header -->
+        <!-- form start -->
+        {{ form_start(form) }}
+        <div class="card-body">
+            {{ form_row(form.label) }}
+            {{ form_row(form.courses) }}
+        </div>
+        <!-- /.card-body -->
+
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

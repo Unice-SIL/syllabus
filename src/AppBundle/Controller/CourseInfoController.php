@@ -9,6 +9,7 @@ use AppBundle\Form\CourseInfo\ImportType;
 use AppBundle\Form\Filter\CourseInfoFilterType;
 use AppBundle\Helper\Report\Report;
 use AppBundle\Manager\CourseInfoManager;
+use AppBundle\Repository\Doctrine\CourseDoctrineRepository;
 use AppBundle\Repository\Doctrine\CourseInfoDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
@@ -244,6 +245,25 @@ class CourseInfoController extends Controller
         }, $courseInfos);
 
         return $this->json($data);
+    }
+
+    /**
+     * @Route("/autocompleteS3", name="autocompleteS3", methods={"GET"})
+     *
+     * @param CourseDoctrineRepository $courseDoctrineRepository
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function autocompleteS3()
+    {
+        $results = $this->getDoctrine()->getRepository(Course::class)->findAll();
+        $courses = [];
+        foreach($results as $course)
+        {
+            $courses[] = ['id' => $course->getId(), 'text' => $course->getCode()];
+        }
+
+        return $this->json($courses);
     }
 
     /**

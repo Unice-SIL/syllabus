@@ -16,7 +16,8 @@
 {% block sidebar %}
     <div class="sidebar">
         <nav class="mt-2">
-            <ul class="nav nav-pills nav-sidebar flex-column user-panel" data-widget="treeview" role="menu" data-accordion="false">
+            <ul class="nav nav-pills nav-sidebar flex-column user-panel" data-widget="treeview" role="menu"
+                data-accordion="false">
                 <li class="nav-item has-treeview">
                     <a class="nav-link menu-tab"
                        href="{{ path('course_dashboard_index', { 'id': courseInfo.id }) }}"
@@ -25,6 +26,16 @@
                         <p>Tableau de bord</p>
                     </a>
                 </li>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li class="nav-item has-treeview">
+                        <a class="nav-link menu-tab"
+                           href="{{ path('app_course_permission', { 'id': courseInfo.id }) }}"
+                           id="menu-dashboard">
+                            <i class="fas fa-user-shield"></i>
+                            <p>Permissions</p>
+                        </a>
+                    </li>
+                {% endif %}
             </ul>
         </nav>
         <nav class="mt-2">

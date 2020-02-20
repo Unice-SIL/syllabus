@@ -12,8 +12,6 @@ use AppBundle\Repository\Doctrine\CampusDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -31,7 +29,6 @@ class CampusController extends AbstractController
 {
     /**
      * @Route("/",name="index" )
-     * @Method("GET")
      *
      * @param Request $request
      * @param EntityManagerInterface $em
@@ -68,7 +65,6 @@ class CampusController extends AbstractController
     /**
      *
      * @Route("/new", name="new")
-     * @Method({"GET", "POST"})
      * @param Request $request
      * @param CampusManager $campusManager
      * @return RedirectResponse|Response
@@ -99,7 +95,6 @@ class CampusController extends AbstractController
      * Displays a form to edit an existing activity entity.
      *
      * @Route("/{id}/edit", name="edit")
-     * @Method({"GET", "POST"})
      * @param Request $request
      * @param Campus $campus
      * @return RedirectResponse|Response
