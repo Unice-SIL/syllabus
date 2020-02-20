@@ -2,14 +2,14 @@
     <div class="p-3" style="width: 250px;">
         <h5>{{ 'app.activities.view.sidebar.title' | trans }}</h5>
         <hr class="mb-2">
-        {% if courseInfo.courseSections is empty %}
-            <div class="mb-1 text-warning">
-                {{ 'app.activities.view.sidebar.empty_section' | trans }}
-            </div>
-        {% else %}
-            <ul id="list-sections" class="nav nav-pills flex-column">
+        <ul id="sections-list" class="nav nav-pills flex-column list-sortable" data-url="{{ path('course_activities_sort_sections', {'courseInfoId': courseInfo.id}) }}">
+            {% if courseInfo.courseSections is empty %}
+                <li class="mb-1 text-warning">
+                    {{ 'app.activities.view.sidebar.empty_section' | trans }}
+                </li>
+            {% else %}
                 {% for section in courseInfo.courseSections %}
-                    <li class="section-sort nav-item {% if section is same as (activeSection) %}active{% endif %}" data-id="{{ section.id }}">
+                    <li class="item-sortable nav-item {% if section is same as (activeSection) %}active{% endif %}" data-id="{{ section.id }}">
                         <a style="width: 180px" class="d-inline-block bg-transparent text-truncate nav-link menu-tab text-white align-middle overflow-hidden" href="{{ path('course_activities', { 'id': courseInfo.id, 'sectionId': section.id }) }}">
                             {{ section.title }}
                         </a>
@@ -33,8 +33,8 @@
                         </div>
                     </li>
                 {% endfor %}
-            </ul>
-        {% endif %}
+            {% endif %}
+        </ul>
         <hr class="mb-2">
         <div class="mb-1">
             <button type="button" class="btn btn-link modal-action p-0 text-primary"

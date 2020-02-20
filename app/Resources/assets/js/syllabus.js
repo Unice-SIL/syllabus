@@ -4,6 +4,8 @@
 
  */
 
+import Sortable from 'sortablejs';
+import 'jquery-sortablejs';
 
 var Syllabus = ( function ( ) {
 
@@ -292,6 +294,30 @@ var Syllabus = ( function ( ) {
 
     };
 
+    /*
+        Sortable
+     */
+
+    var sortable = function ($list) {
+        let url = $list.data('url');
+        new Sortable($list.get(0), {
+            animation: 150,
+            onEnd: function (evt) {
+                if (evt.oldIndex !== evt.newIndex)
+                {
+                    let sortList = $list.find('.item-sortable').map(function () {
+                        return $(this).data('id');
+                    }).get();
+                    $.ajax({
+                        url: url,
+                        type: "POST",
+                        data: {data: sortList}
+                    });
+                }
+            }
+        });
+    };
+
 
     /*
         Public pointers to exposed items.
@@ -306,7 +332,8 @@ var Syllabus = ( function ( ) {
         removeListElement: removeListElement,
         setMediaFrameAttributes: setMediaFrameAttributes,
         submitPanelForm: submitPanelForm,
-        tabsInit: tabsInit
+        tabsInit: tabsInit,
+        sortable: sortable
     };
 
 

@@ -20,8 +20,6 @@ bootbox.addLocale( 'fr', {
 } );
 bootbox.setLocale( 'fr' );
 
-
-
 /*
     AJAX error handler.
 */
