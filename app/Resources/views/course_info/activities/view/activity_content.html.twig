@@ -1,13 +1,13 @@
-{% if activeSection.courseSectionActivities is empty %}
-    <div class="text-center p-2" style="min-height: 300px">
-        <h3 class="text-danger">{{ 'app.activities.view.activity.empty_activity' | trans }}</h3>
-        <div class="text-bold">
-            {{ 'app.activities.view.activity.add_activities' | trans }}
+<div id="activities-list" class="p-2 list-sortable" data-url="{{ path('course_activities_sort_activities', {'courseSectionId': activeSection.id}) }}">
+    {% if activeSection.courseSectionActivities is empty %}
+        <div class="text-center" style="min-height: 300px">
+            <h3 class="text-danger">{{ 'app.activities.view.activity.empty_activity' | trans }}</h3>
+            <div class="text-bold">
+                {{ 'app.activities.view.activity.add_activities' | trans }}
+            </div>
+            <i class="fas fa-arrow-down fa-5x"></i>
         </div>
-        <i class="fas fa-arrow-down fa-5x"></i>
-    </div>
-{% else %}
-    <div class="p-2 list-sortable" data-url="{{ path('course_activities_sort_activities', {'courseSectionId': activeSection.id}) }}">
+    {% else %}
         {% for sectionActivity in activeSection.courseSectionActivities %}
             <div class="card mb-2 shadow item-sortable" data-id="{{ sectionActivity.id }}">
                 <div class="card-body">
@@ -65,5 +65,5 @@
                 </div>
             </div>
         {% endfor %}
-    </div>
-{% endif %}
+    {% endif %}
+</div>

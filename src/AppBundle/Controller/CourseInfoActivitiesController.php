@@ -225,13 +225,6 @@ class CourseInfoActivitiesController extends AbstractController
      */
     public function sortSectionsAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
     {
-        if (!$courseInfo instanceof CourseInfo) {
-            return $this->json([
-                'status' => false,
-                'render' => "Une erreur est survenue : Le cours n'existe pas"
-            ]);
-        }
-
         $sections = $courseInfo->getCourseSections();
         $dataSections = $request->request->get('data');
 

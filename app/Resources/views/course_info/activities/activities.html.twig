@@ -73,24 +73,11 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
-        $('.list-sortable').each(function () {
-            let $list = $(this);
-            let url = $list.data('url');
-            new Sortable($list.get(0), {
-                animation: 150,
-                onEnd: function (evt) {
-                    let sortList = $list.find('.item-sortable').map(function () {
-                        return $(this).data('id');
-                    }).get();
-                    $.ajax({
-                        url: url,
-                        type: "POST",
-                        data: {data: sortList}
-                    });
-                }
-            });
-        });
-
+        if ($('#activities-list').length)
+        {
+            Syllabus.sortable($('#activities-list'));
+        }
+        Syllabus.sortable($('#sections-list'));
         /**
          * calculates the maximum position to which the carousel can translate to the left
          * @returns {number}
