@@ -512,6 +512,7 @@ class CourseInfo
      * })
      * @Assert\NotBlank()
      * @JMS\Type("AppBundle\Entity\Course")
+     * @JMS\Groups(groups={"course_info"})
      */
     private $course;
 
@@ -524,6 +525,7 @@ class CourseInfo
      * })
      * @Assert\NotBlank(groups={"new"})
      * @JMS\Type("AppBundle\Entity\Structure")
+     * @JMS\Groups(groups={"course_info"})
      */
     private $structure;
 
@@ -560,6 +562,7 @@ class CourseInfo
      * })
      * @Assert\NotBlank(groups={"new"})
      * @JMS\Type("AppBundle\Entity\Year")
+     * @JMS\Groups(groups={"course_info"})
      */
     private $year;
 
@@ -1676,10 +1679,11 @@ class CourseInfo
     }
 
     /**
+    /**
      * @param Course $course
      * @return CourseInfo
      */
-    public function setCourse(Course $course): self
+    public function setCourse(?Course $course): self
     {
         $this->course = $course;
 
