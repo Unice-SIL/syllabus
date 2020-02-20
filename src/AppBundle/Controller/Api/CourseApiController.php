@@ -69,7 +69,7 @@ class CourseApiController extends Controller
         $qb = $courseDoctrineRepository->findQueryBuilderForApi($config);
 
         $response = $apiHelper->setDataAndGetResponse($qb, $config, [
-            'groups' => ['course']
+            'groups' => ['course', 'default']
         ]);
 
         return $this->json($response);
