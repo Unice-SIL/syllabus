@@ -10,6 +10,8 @@ use AppBundle\Query\User\CreateUserQuery;
 use AppBundle\Query\User\EditUserQuery;
 use AppBundle\Query\User\FindUserByIdQuery;
 use AppBundle\Query\User\FindUserByUsernameQuery;
+use Doctrine\ORM\EntityManager;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -26,46 +28,22 @@ class TestUserProvider implements UserProviderInterface
     private $config;
 
     /**
-     * @var FindUserByUsernameQuery
+     * @var EntityManager
      */
-    private $findUserByUsernameQuery;
-
-    /**
-     * @var CreateUserQuery
-     */
-    private $createUserQuery;
-
-    /**
-     * @var EditUserQuery
-     */
-    private $editUserQuery;
-
-    /**
-     * @var FindUserByIdQuery
-     */
-    private $findUserByIdQuery;
+    private $em;
 
     /**
      * TestUserProvider constructor.
      * @param array $config
-     * @param FindUserByUsernameQuery $findUserByUsernameQuery
-     * @param CreateUserQuery $createUserQuery
-     * @param EditUserQuery $editUserQuery
-     * @param FindUserByIdQuery $findUserByIdQuery
+     * @param RegistryInterface $registry
      */
     public function __construct(
         array $config = array(),
-        FindUserByUsernameQuery $findUserByUsernameQuery,
-        CreateUserQuery $createUserQuery,
-        EditUserQuery $editUserQuery,
-        FindUserByIdQuery $findUserByIdQuery
+        RegistryInterface $registry
     )
     {
         $this->config = $config;
-        $this->findUserByUsernameQuery = $findUserByUsernameQuery;
-        $this->createUserQuery = $createUserQuery;
-        $this->editUserQuery = $editUserQuery;
-        $this->findUserByIdQuery = $findUserByIdQuery;
+        $this->em = $registry->getEntityManager();
     }
 
     /**
@@ -79,36 +57,26 @@ class TestUserProvider implements UserProviderInterface
         }
         $credentials = $this->config['users'][$username];
 
-        $user = null;
-        $command = null;
-        try {
-            $user = $this->findUserByUsernameQuery->setUsername($username)->execute();
-            $command = new EditUserCommand($user);
-        }catch (UserNotFoundException $e){
-            $command = new CreateUserCommand();
-            $command->setUsername($username);
+        $user = $this->em->getRepository(User::class)->findOneBy(['username' => $username]);
+
+        if(!$user instanceof User)
+        {
+            $user = new User();
+            $user->setUsername($username);
         }
 
         if(array_key_exists('firstname', $credentials)){
-            $command->setFirstname($credentials['firstname']);
+            $user->setFirstname($credentials['firstname']);
         }
         if(array_key_exists('lastname', $credentials)){
-            $command->setLastname($credentials['lastname']);
+            $user->setLastname($credentials['lastname']);
         }
         if(array_key_exists('email', $credentials)){
-            $command->setEmail($credentials['email']);
+            $user->setEmail($credentials['email']);
         }
         if(array_key_exists('roles', $credentials)){
-            $command->setRoles($credentials['roles']);
+            $user->setRoles($credentials['roles']);
         }
-
-        if(is_a($command, CreateUserCommand::class)){
-            $this->createUserQuery->setCreateUserCommand($command)->execute();
-        }else{
-            $this->editUserQuery->setEditUserCommand($command)->execute();
-        }
-
-        $user = $this->findUserByIdQuery->setId($command->getId())->execute();
 
         return $user;
     }
@@ -119,7 +87,7 @@ class TestUserProvider implements UserProviderInterface
      */
     public function refresh($username)
     {
-        return $this->findUserByUsernameQuery->setUsername($username)->execute();
+        return $this->loadUserByUsername($username);
     }
 
     /**
