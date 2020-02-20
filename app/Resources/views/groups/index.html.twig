@@ -27,6 +27,7 @@
                     <tr>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.groups.label.label'|trans, 'g.label') }}</th>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.groups.label.obsolete'|trans, 'g.obsolete') }}</th>
+                        <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -34,6 +35,10 @@
                         <tr>
                             <td><a href="{{ path('app_admin_groups_edit', { 'id' : groups.id }) }}">{{ groups.label }}</a></td>
                             <td>{{ groups.obsolete|humanizeBoolean }}</td>
+                            {% set id = groups.id %}
+                            <td>
+                                {{ form(deleteFormsView[id]) }}
+                            </td>
                         </tr>
                     {% endfor %}
                     </tbody>
