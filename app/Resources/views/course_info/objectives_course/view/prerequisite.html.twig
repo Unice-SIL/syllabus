@@ -23,9 +23,9 @@
             <th class="text-center" style="width: 20%">Modifier/Supprimer</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody id="prerequisites-list" class="list-sortable" data-url="{{ path('objective_course_sort_prerequisites', {'id': courseInfo.id}) }}">
         {% for prerequisite in courseInfo.coursePrerequisites %}
-            <tr>
+            <tr class="item-sortable" data-id="{{ prerequisite.id }}">
                 <td class="text-left">{{ prerequisite.description }}</td>
                 <td class="text-center">
                     <button type="button"
@@ -45,3 +45,11 @@
         </tbody>
     </table>
 {% endif %}
+
+
+<script>
+    if ($('#prerequisites-list').length)
+    {
+        Syllabus.sortable($('#prerequisites-list'));
+    }
+</script>

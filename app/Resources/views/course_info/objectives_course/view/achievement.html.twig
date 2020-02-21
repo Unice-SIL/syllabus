@@ -22,9 +22,9 @@
             <th class="text-center" style="width: 20%">Modifier/Supprimer</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody id="achievements-list" class="list-sortable" data-url="{{ path('objective_course_sort_achievements', {'id': courseInfo.id}) }}">
         {% for achievement in courseInfo.courseAchievements %}
-            <tr>
+            <tr class="item-sortable" data-id="{{ achievement.id }}">
                 <td class="text-left">{{ achievement.description }}</td>
                 <td class="text-center">
                     <button type="button"
@@ -44,3 +44,10 @@
         </tbody>
     </table>
 {% endif %}
+
+<script>
+    if ($('#achievements-list').length)
+    {
+        Syllabus.sortable($('#achievements-list'));
+    }
+</script>
