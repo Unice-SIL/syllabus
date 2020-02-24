@@ -33,7 +33,7 @@ class CourseInfoEquipmentController extends AbstractController
     /**
      * @Route("/", name="index")
      *
-     * @param $id
+     * @param CourseInfo $courseInfo
      * @return Response
      */
     public function indexAction(CourseInfo $courseInfo)
@@ -60,6 +60,11 @@ class CourseInfoEquipmentController extends AbstractController
                 'content' => "Une erreur est survenue : Le cours n'existe pas"
             ]);
         }
+
+        setlocale(LC_ALL, "fr_FR.utf8");
+        usort($equipments, function ($a, $b) {
+            return strcoll($a->getLabel(), $b->getLabel());
+        });
 
         $render = $this->get('twig')->render('course_info/equipment/view/equipment.html.twig', [
             'courseInfo' => $courseInfo,
@@ -218,6 +223,36 @@ class CourseInfoEquipmentController extends AbstractController
         return $this->json([
             'status' => true,
             'content' => $render
+        ]);
+    }
+
+    /**
+     * @Route("/equipments/sort", name="sort_equipments"))
+     *
+     * @param CourseInfo $courseInfo
+     * @param Request $request
+     * @param CourseInfoManager $manager
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @throws \Exception
+     */
+    public function sortCourseResourcesEquipmentsAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
+    {
+        $equipments = $courseInfo->getCourseResourceEquipments();
+        $dataEquipments = $request->request->get('data');
+
+        if ($dataEquipments)
+        {
+            foreach ($equipments as $equipment) {
+                if (in_array($equipment->getId(), $dataEquipments)) {
+                    $equipment->setPosition(array_search($equipment->getId(), $dataEquipments));
+                }
+            }
+            $manager->update($courseInfo);
+        }
+
+        return $this->json([
+            'status' => true,
+            'content' => null
         ]);
     }
 
