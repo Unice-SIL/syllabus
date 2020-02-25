@@ -6,8 +6,8 @@ namespace AppBundle\Helper\Report;
 
 class ReportingHelper
 {
-    public static function createReport()
+    public static function createReport(string $title = null)
     {
-        return new Report();
+        return new Report($title);
     }
 }
