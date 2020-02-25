@@ -2,6 +2,7 @@
 
 namespace AppBundle\Repository\Doctrine;
 
+use AppBundle\Entity\Activity;
 use Doctrine\Common\Persistence\Mapping\MappingException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -17,13 +18,17 @@ class AbstractDoctrineRepository
      */
     protected $entityManager;
 
+    protected $repository;
+
     /**
      * AbstractDoctrineRepository constructor.
      * @param EntityManagerInterface $entityManager
+     * @param string $entityClassName
      */
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, string $entityClassName)
     {
         $this->entityManager = $entityManager;
+        $this->repository = $entityManager->getRepository($entityClassName);
     }
 
     /**

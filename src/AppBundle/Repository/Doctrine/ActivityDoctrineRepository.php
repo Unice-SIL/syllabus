@@ -26,8 +26,8 @@ class ActivityDoctrineRepository extends AbstractDoctrineRepository implements A
      */
     public function __construct(EntityManagerInterface $entityManager)
     {
-        parent::__construct($entityManager);
-        $this->repository = $this->entityManager->getRepository(Activity::class);
+        parent::__construct($entityManager, Activity::class);
+
     }
 
     /**
