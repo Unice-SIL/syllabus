@@ -85,4 +85,21 @@ class Report
         return !$this->lines->isEmpty();
     }
 
+    public function addCommentToLine($error, string $lineIdReport)
+    {
+        if (!$line = $this->getLineReport($lineIdReport)) {
+            $line =  new ReportLine($lineIdReport);
+            $this->addLine($line);
+        }
+
+        $line->addComment($error);
+
+        return $line;
+    }
+
+    public function getLineReport(string $lineIdReport)
+    {
+        return $this->getLines()->filter(function ($line) use($lineIdReport){return $line->getId() === $lineIdReport;})->first();
+    }
+
 }

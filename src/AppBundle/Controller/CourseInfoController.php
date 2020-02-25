@@ -3,15 +3,18 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\CourseInfo;
+use AppBundle\Entity\CourseInfoField;
 use AppBundle\Form\CourseInfo\CourseInfoAdminType;
 use AppBundle\Form\CourseInfo\DuplicateCourseInfoType;
 use AppBundle\Form\CourseInfo\ImportType;
 use AppBundle\Form\Filter\CourseInfoFilterType;
 use AppBundle\Helper\Report\Report;
 use AppBundle\Manager\CourseInfoManager;
+use AppBundle\Parser\CourseInfoCsvParser;
 use AppBundle\Repository\Doctrine\CourseDoctrineRepository;
 use AppBundle\Repository\Doctrine\CourseInfoDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use League\Csv\Exception;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -272,9 +275,11 @@ class CourseInfoController extends Controller
      * @param Request $request
      * @param EntityManagerInterface $em
      * @param CourseInfoManager $courseInfoManager
+     * @param CourseInfoCsvParser $courseInfoCsvParser
      * @return RedirectResponse|Response
+     * @throws \Exception
      */
-    public function importMccAction(Request $request, EntityManagerInterface $em, CourseInfoManager $courseInfoManager)
+    public function importMccAction(Request $request, EntityManagerInterface $em, CourseInfoManager $courseInfoManager, CourseInfoCsvParser $courseInfoCsvParser)
     {
         $form = $this->createForm(ImportType::class);
         $form->handleRequest($request);
@@ -282,18 +287,38 @@ class CourseInfoController extends Controller
         if ($form->isSubmitted() and $form->isValid())
         {
 
-            $report = $courseInfoManager->importMcc($form->getData()['file']->getPathName());
+            $courseInfos = $courseInfoCsvParser->parse($form->getData()['file']->getPathName(), ['allow_extra_field' => true, 'allow_less_field' => true]);
 
-            $em->flush();
+            $report = $courseInfoCsvParser->getReport();
 
-            $request->getSession()->set('importMccReport', $report);
+            $courseInfoFields = $em->getRepository(CourseInfoField::class)->findByImport(true);
+            $fieldsToUpdate = array_map(function ($courseInfoField) {
+                return $courseInfoField->getField();
+                }, $courseInfoFields);
+
+            foreach ($courseInfos as $lineIdReport => $courseInfo) {
+
+                $courseInfoManager->updateIfExistsOrCreate($courseInfo, $fieldsToUpdate, [
+                    'flush' => true,
+                    'find_by_parameters' => [
+                        'course' => $courseInfo->getCourse(),
+                        'year' => $courseInfo->getYear(),
+                    ],
+                    'lineIdReport' => $lineIdReport,
+                    'report' => $report
+                ]);
+
+
+            }
+
+            $request->getSession()->set('importCourseInfoReport', $report);
             return $this->redirectToRoute('app_admin_course_info_import_mcc');
 
         }
 
         return $this->render('course_info/admin/import_mcc.html.twig', [
             'form' => $form->createView(),
-            'report' => $request->getSession()->remove('importMccReport')
+            'report' => $request->getSession()->remove('importCourseInfoReport')
         ]);
     }
 
