@@ -11,6 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
 abstract class ApiAbstractType extends AbstractType
@@ -54,35 +55,49 @@ abstract class ApiAbstractType extends AbstractType
 
                 if (isset($data[$entityName])) {
 
-                    //If the field contains an array, there is a process to find the id
-                    if (is_array($data[$entityName]))
-                    {
-                        //Special treatment if the option multiple => true
-                        if ($event->getForm()->get($entityName)->getConfig()->getOptions()['multiple']) {
-                            $collection = [];
-                            /*              if (!is_array($data[$entityName])) {
-                                              continue;
-                                          }*/
-                            foreach ($data[$entityName] as $key => $value) {
-                                if (array_key_exists('id', $value)) {
-                                    $collection[$key] = $value['id'];
+                        //anonymous function setId definition
+                        $setId = function (&$valueToTest, FormInterface $form, $fieldName, $options = []) {
+                            $options = array_merge([
+                                'key' => null
+                            ], $options);
+                            //If the field contains an array, there is a process to find the id
+                            if (is_array($valueToTest)) {
+
+                                if (array_key_exists('id', $valueToTest)) {
+                                    $valueToTest = $valueToTest['id'];
                                 } else {
                                     //todo: improve the origin message
-                                    $event->getForm()->addError(new FormError('Il n\'y pas d\'id sur le champ ' . $entityName . '.' . $key ));
+                                    $message = 'Il n\'y pas d\'id sur le champ ' . $fieldName;
+
+                                    if (null !== $options['key']) {
+                                        $message .= '.' . $options['key'];
+                                    }
+                                    $form->addError(new FormError($message ));
                                 }
+
                             }
+
+                        };
+
+                        //Treatment if the option multiple is set to true
+                        if ($event->getForm()->get($entityName)->getConfig()->getOptions()['multiple']) {
+
+                            $collection = [];
+
+                            foreach ($data[$entityName] as $key => $value) {
+                                $setId($value, $event->getForm(), $entityName, ['key' => $key]);
+                                $collection[] = $value;
+                            }
+
                             $data[$entityName] = $collection;
                             $event->setData($data);
                             continue;
                         }
 
-                        if (array_key_exists('id', $data[$entityName])) {
-                            $data[$entityName] = $data[$entityName]['id'];
-                        } else {
-                            //todo: improve the origin message
-                            $event->getForm()->addError(new FormError('Il n\'y pas d\'id sur le champ ' . $entityName ));
-                        }
-                    }
+                        //Treatment if the option multiple is set to false
+                        $setId($data[$entityName], $event->getForm(), $entityName);
+
+
 
                 }
 
