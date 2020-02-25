@@ -2,12 +2,10 @@
 
 namespace AppBundle\Form\CourseSection;
 
-use AppBundle\Command\CourseSection\CourseSectionCommand;
 use AppBundle\Constant\ActivityGroup;
 use AppBundle\Constant\ActivityMode;
 use AppBundle\Constant\ActivityType;
 use AppBundle\Entity\Activity;
-use AppBundle\Entity\SectionType;
 use AppBundle\Form\CourseSectionActivity\CourseSectionActivityType;
 use AppBundle\Repository\ActivityRepositoryInterface;
 use Doctrine\ORM\EntityManager;

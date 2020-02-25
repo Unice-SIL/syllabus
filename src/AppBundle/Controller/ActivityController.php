@@ -6,11 +6,10 @@ use AppBundle\Form\ActivityType;
 use AppBundle\Entity\Activity;
 use AppBundle\Form\Filter\ActivityFilterType;
 use AppBundle\Manager\ActivityManager;
-use AppBundle\Repository\Doctrine\ActivityDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,8 +26,7 @@ class ActivityController extends Controller
     /**
      * Lists all activity entities.
      *
-     * @Route("", name="index" )
-     * @Method("GET")
+     * @Route("", name="index", methods={"GET"})
      * @param Request $request
      * @param EntityManagerInterface $em
      * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
@@ -39,6 +37,7 @@ class ActivityController extends Controller
 
         $qb =  $em->getRepository(Activity::class)->createQueryBuilder('a');
 
+        /** @var FormInterface $form */
         $form = $this->get('form.factory')->create(ActivityFilterType::class);
 
         if ($request->query->has($form->getName())) {
@@ -61,22 +60,21 @@ class ActivityController extends Controller
     }
 
     /**
-     * Creates a new activity.
-     *
-     * @Route("/new", name="new")
-     * @Method({"GET", "POST"})
+     * @Route("/new", name="new", methods={"GET", "POST"})
+     * @param Request $request
+     * @param ActivityManager $activityManager
+     * @return RedirectResponse|Response
      */
     public function newAction(Request $request, ActivityManager $activityManager)
     {
-        $activity = $activityManager->create();
+        $activity = $activityManager->new();
+
+        /** @var FormInterface $form */
         $form = $this->createForm(ActivityType::class, $activity);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($activity);
-            $em->flush();
+            $activityManager->create($activity);
 
             $this->addFlash('success', 'L\'activité a été ajoutée avec succès.');
 
@@ -89,22 +87,21 @@ class ActivityController extends Controller
     }
 
     /**
-     * Displays a form to edit an existing activity entity.
-     *
-     * @Route("/{id}/edit", name="edit")
-     * @Method({"GET", "POST"})
+     * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
      * @param Request $request
      * @param Activity $activity
+     * @param ActivityManager $activityManager
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, Activity $activity)
+    public function editAction(Request $request, Activity $activity, ActivityManager $activityManager)
     {
+        /** @var FormInterface $form */
         $form = $this->createForm(ActivityType::class, $activity);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $this->getDoctrine()->getManager()->flush();
+            $activityManager->update($activity);
 
             $this->addFlash('success', 'L\'activité a été modifiée avec succès.');
 
@@ -118,16 +115,16 @@ class ActivityController extends Controller
 
     /**
      * @Route("/autocomplete", name="autocomplete", methods={"GET"})
-     * @param ActivityDoctrineRepository $activityDoctrineRepository
      * @param Request $request
+     * @param ActivityManager $activityManager
      * @return JsonResponse
      */
-    public function autocomplete(ActivityDoctrineRepository $activityDoctrineRepository, Request $request)
+    public function autocomplete(Request $request, ActivityManager $activityManager)
     {
-        $query = $request->query->get('query');
+        $query = $request->query->get('query', '');
 
-        $activities = $activityDoctrineRepository->findLikeQuery($query);
-        $activities = array_map(function($activity){
+        $activities = $activityManager->findLikeQuery($query);
+        $activities = array_map(function(Activity $activity){
             return $activity->getLabel();
         }, $activities);
 
