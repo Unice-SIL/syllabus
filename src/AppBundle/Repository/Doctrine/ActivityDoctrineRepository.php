@@ -4,8 +4,10 @@ namespace AppBundle\Repository\Doctrine;
 
 use AppBundle\Entity\Activity;
 use AppBundle\Repository\ActivityRepositoryInterface;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
+use Doctrine\Persistence\ObjectRepository;
 
 /**
  * Class ActivityDoctrineRepository
@@ -13,130 +15,71 @@ use Doctrine\ORM\EntityManagerInterface;
  */
 class ActivityDoctrineRepository extends AbstractDoctrineRepository implements ActivityRepositoryInterface
 {
-
     /**
      * ActivityDoctrineRepository constructor.
-     * @param EntityManager $entityManager
+     * @param EntityManagerInterface $entityManager
      */
-    public function __construct(
-        EntityManagerInterface $entityManager
-    )
+    public function __construct(EntityManagerInterface $entityManager)
     {
-        $this->entityManager = $entityManager;
+        parent::__construct($entityManager, Activity::class);
+
     }
 
     /**
-     * @param string $id
+     * @param $id
      * @return Activity|null
-     * @throws \Exception
      */
-    public function find(string $id): ?Activity
+    public function find($id): ?Activity
     {
-        $activity = null;
-        try{
-            $activity = $this->entityManager->getRepository(Activity::class)->find($id);
-        }catch (\Exception $e){
-            throw $e;
-        }
-        return $activity;
+        return $this->repository->find($id);
     }
 
     /**
-     * @return \ArrayObject|mixed
-     * @throws \Exception
+     * @return array
      */
-    public function findAll()
+    public function findAll(): array
     {
-        $activities = new \ArrayObject();
-        try {
-            $qb = $this->entityManager->getRepository(Activity::class)->createQueryBuilder('a');
-            $qb->where($qb->expr()->eq('a.obsolete', ':obsolete'))
-                ->setParameter('obsolete', false)
-                ->orderBy('a.position', 'ASC')
-                ->addOrderBy('a.label', 'ASC');
-            foreach ($qb->getQuery()->getResult() as $activity){
-                $activities->append($activity);
-            }
-        } catch (\Exception $exception)
-        {
-            throw $exception;
-        }
-
-        return $activities;
-    }
-
-    /**
-     * @param $type
-     * @return \ArrayObject
-     * @throws \Exception
-     */
-    public function findByCriteria($type): \ArrayObject
-    {
-        $activities = new \ArrayObject();
-        try{
-            $qb = $this->entityManager->getRepository(Activity::class)->createQueryBuilder('a');
-            $qb->where($qb->expr()->eq('a.obsolete', ':obsolete'))
-                ->setParameter('obsolete', false)
-                ->orderBy('a.position', 'ASC')
-                ->addOrderBy('a.label', 'ASC');
-            if(!is_null($type)){
-                $qb->andWhere(":activityType MEMBER OF a.activityTypes")
-                    ->setParameter("activityType", $type);
-            }
-            foreach ($qb->getQuery()->getResult() as $activity){
-                $activities->append($activity);
-            }
-        }catch (\Exception $e){
-            throw $e;
-        }
-        return $activities;
+        return $this->repository->findAll();
     }
 
     /**
      * @param Activity $activity
-     * @throws \Exception
-     */
-    public function update(Activity $activity): void
-    {
-        try{
-            $this->entityManager->persist($activity);
-            $this->entityManager->flush();
-        }catch (\Exception $e){
-            throw $e;
-        }
-    }
-
-    /**
-     * @param Activity $activity
-     * @throws \Exception
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function create(Activity $activity): void
     {
-        try{
-            $this->entityManager->persist($activity);
-            $this->entityManager->flush();
-        }catch (\Exception $e){
-            throw $e;
-        }
+        $this->entityManager->persist($activity);
+        $this->entityManager->flush();
     }
 
     /**
      * @param Activity $activity
-     * @throws \Exception
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function update(Activity $activity): void
+    {
+        $this->entityManager->flush();
+    }
+
+    /**
+     * @param Activity $activity
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function delete(Activity $activity): void
     {
-        try {
-            $this->entityManager->remove($activity);
-            $this->entityManager->flush();
-        }catch (\Exception $e){
-            throw $e;
-        }
+        $this->entityManager->remove($activity);
+        $this->entityManager->flush();
     }
 
+    /**
+     * @param string $query
+     * @return array
+     */
     public function findLikeQuery(string $query): array
     {
-
         return $this->entityManager->getRepository(Activity::class)->createQueryBuilder('a')
             ->andWhere('a.label LIKE :query ')
             ->setParameter('query', '%' . $query . '%')

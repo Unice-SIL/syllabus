@@ -57,25 +57,25 @@
                         <th class="text-center" style="width: 20%">Modifier/Supprimer</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    {% for ResourceEquipment in courseInfo.courseResourceEquipments %}
-                        <tr>
+                    <tbody  id="equipments-list" class="list-sortable" data-url="{{ path('course_equipment_sort_equipments', {'id': courseInfo.id}) }}">
+                    {% for resourceEquipment in courseInfo.courseResourceEquipments %}
+                        <tr class="item-sortable" data-id="{{ resourceEquipment.id }}">
                             <td class="text-left">
-                                <span>{{ ResourceEquipment.equipment.label }}</span></br>
+                                <span>{{ resourceEquipment.equipment.label }}</span></br>
                                 <span class="font-italic"
-                                      style="font-size: 0.9em">{{ ResourceEquipment.description }}</span>
+                                      style="font-size: 0.9em">{{ resourceEquipment.description }}</span>
                             </td>
                             <td class="text-center">
                                 <button type="button"
                                         class="btn btn-link modal-action p-0"
                                         data-action-title="Modifier une description de matériel"
-                                        data-action-url="{{ path('course_equipment_equipment_edit', {'id': courseInfo.id, 'resourceEquipementId': ResourceEquipment.id}) }}">
+                                        data-action-url="{{ path('course_equipment_equipment_edit', {'id': courseInfo.id, 'resourceEquipementId': resourceEquipment.id}) }}">
                                     <i class="fas fa-edit"></i>
                                 </button>
                                 <button type="button"
                                         class="btn btn-link modal-action p-0"
                                         data-action-title="Supprimer un matériel"
-                                        data-action-url="{{ path('course_equipment_equipment_remove', {'id': courseInfo.id, 'idResourceEquipment': ResourceEquipment.id}) }}">
+                                        data-action-url="{{ path('course_equipment_equipment_remove', {'id': courseInfo.id, 'idResourceEquipment': resourceEquipment.id}) }}">
                                     <i class="fas fa-trash-alt text-danger"></i>
                                 </button>
                             </td>
@@ -87,3 +87,11 @@
         {% endif %}
     </div>
 </div>
+
+
+<script>
+    if ($('#equipments-list').length)
+    {
+        Syllabus.sortable($('#equipments-list'));
+    }
+</script>

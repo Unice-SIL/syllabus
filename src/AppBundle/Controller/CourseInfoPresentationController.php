@@ -127,8 +127,15 @@ class CourseInfoPresentationController extends AbstractController
             ]);
         }
 
+        $teachers = $courseInfo->getCourseTeachers()->toArray();
+        setlocale(LC_ALL, "fr_FR.utf8");
+        usort($teachers, function ($a, $b) {
+            return strcoll($a->getLastname(), $b->getLastname());
+        });
+
         $render = $this->get('twig')->render('course_info/presentation/view/teachers.html.twig', [
-            'courseInfo' => $courseInfo
+            'courseInfo' => $courseInfo,
+            'teachers' => $teachers
         ]);
         return $this->json([
             'status' => true,

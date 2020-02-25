@@ -90,6 +90,7 @@ class CourseSectionActivity
      *   @ORM\JoinColumn(name="activity_id", referencedColumnName="id", nullable=false)
      * })
      * @JMS\Type("AppBundle\Entity\Activity")
+     * @JMS\Groups(groups={"course_info", "course_section", "course_section_activity"})
      */
     private $activity;
 

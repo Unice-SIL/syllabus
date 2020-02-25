@@ -2,7 +2,10 @@
 
 namespace AppBundle\Repository\Doctrine;
 
+use AppBundle\Entity\Activity;
+use Doctrine\Common\Persistence\Mapping\MappingException;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Class AbstractDoctrineRepository
@@ -15,67 +18,56 @@ class AbstractDoctrineRepository
      */
     protected $entityManager;
 
+    protected $repository;
+
     /**
-     * Begin a transaction
-     * @throws \Exception
+     * AbstractDoctrineRepository constructor.
+     * @param EntityManagerInterface $entityManager
+     * @param string $entityClassName
+     */
+    public function __construct(EntityManagerInterface $entityManager, string $entityClassName)
+    {
+        $this->entityManager = $entityManager;
+        $this->repository = $entityManager->getRepository($entityClassName);
+    }
+
+    /**
+     *
      */
     public function beginTransaction(): void
     {
-        try{
-            $this->entityManager->beginTransaction();
-        }catch (\Exception $e){
-            throw $e;
-        }
+        $this->entityManager->beginTransaction();
     }
 
     /**
-     * Commit change in database
-     * @throws \Exception
+     *
      */
     public function commit(): void
     {
-        try{
-            $this->entityManager->commit();
-        }catch (\Exception $e){
-            throw $e;
-        }
+        $this->entityManager->commit();
     }
 
     /**
-     * Rollback change
-     * @throws \Exception
+     *
      */
     public function rollback(): void
     {
-        try{
-            $this->entityManager->rollback();
-        }catch (\Exception $e){
-            throw $e;
-        }
+        $this->entityManager->rollback();
     }
 
     /**
      * @param $entity
-     * @throws \Exception
      */
     public function detach($entity): void
     {
-        try{
-            $this->entityManager->detach($entity);
-        }catch (\Exception $e){
-            throw $e;
-        }
+        $this->entityManager->detach($entity);
     }
 
     /**
-     * @throws \Exception
+     * @throws MappingException
      */
     public function clear(){
-        try{
-            $this->entityManager->clear();
-        }catch (\Exception $e){
-            throw $e;
-        }
+        $this->entityManager->clear();
     }
 
     /**

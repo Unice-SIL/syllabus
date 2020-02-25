@@ -7,12 +7,12 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CourseSectionActivityType extends AbstractType
+class CourseSectionActivityType extends ApiAbstractType
 {
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildApiForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('id')

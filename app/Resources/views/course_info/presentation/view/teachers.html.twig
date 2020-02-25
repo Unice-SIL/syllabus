@@ -1,7 +1,7 @@
 <h6 class="mb-3">
     {{ 'app.presentation.view.teachers.title' | trans }}
 </h6>
-{% if courseInfo.courseTeachers is empty %}
+{% if teachers is empty %}
     <div class="d-flex justify-content-center align-items-center mandatory-data">
         <span class="empty-data">
             {{ 'app.presentation.view.teachers.empty_teacher' | trans }}
@@ -20,7 +20,7 @@
                 </tr>
             </thead>
             <tbody>
-            {% for teacher in courseInfo.courseTeachers %}
+            {% for teacher in teachers %}
                 <tr class="text-center">
                     <td>{{ teacher.lastname }}</td>
                     <td>{{ teacher.firstname }}</td>
