@@ -16,11 +16,6 @@ use Doctrine\Persistence\ObjectRepository;
 class ActivityDoctrineRepository extends AbstractDoctrineRepository implements ActivityRepositoryInterface
 {
     /**
-     * @var ObjectRepository|ObjectRepository
-     */
-    private $repository;
-
-    /**
      * ActivityDoctrineRepository constructor.
      * @param EntityManagerInterface $entityManager
      */
