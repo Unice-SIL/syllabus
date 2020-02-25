@@ -8,64 +8,37 @@ use AppBundle\Entity\Activity;
  * Interface ActivityRepositoryInterface
  * @package AppBundle\Repository
  */
-interface ActivityRepositoryInterface
+interface ActivityRepositoryInterface extends RepositoryInterface
 {
     /**
-     * Find activity by id
-     * @param string $id
+     * @param $id
      * @return Activity|null
      */
-    public function find(string $id): ?Activity;
+    public function find($id): ?Activity;
 
     /**
-     * @return mixed
+     * @return Activity[]
      */
-    public function findAll();
+    public function findAll(): array;
 
     /**
-     * @param $type
-     * @return \ArrayObject
-     */
-    public function findByCriteria($type): \ArrayObject;
-
-    /**
-     * Create activity
      * @param Activity $activity
      */
     public function create(Activity $activity): void;
 
     /**
-     * Update activity
      * @param Activity $activity
      */
     public function update(Activity $activity): void;
 
     /**
-     * Delete activity
      * @param Activity $activity
      */
     public function delete(Activity $activity): void;
 
     /**
-     * Begin a transaction
-     */
-    public function beginTransaction(): void;
-
-    /**
-     * Commit change
-     */
-    public function commit(): void;
-
-    /**
-     * Rollback change
-     */
-    public function rollback(): void;
-
-    /**
-     * Find activities by type with label like $query
-     *
-     * @param $query
-     * @return \ArrayObject
+     * @param string $query
+     * @return array
      */
     public function findLikeQuery(string $query): array;
 
