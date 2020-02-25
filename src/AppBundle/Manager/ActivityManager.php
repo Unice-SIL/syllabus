@@ -3,19 +3,19 @@
 
 namespace AppBundle\Manager;
 
-
-use AppBundle\Constant\ActivityGroup;
-use AppBundle\Constant\ActivityMode;
-use AppBundle\Constant\ActivityType;
 use AppBundle\Entity\Activity;
 use AppBundle\Repository\ActivityRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use Ramsey\Uuid\Uuid;
+use Doctrine\Persistence\ObjectRepository;
 
+/**
+ * Class ActivityManager
+ * @package AppBundle\Manager
+ */
 class ActivityManager
 {
     /**
-     * @var \Doctrine\Persistence\ObjectRepository
+     * @var ObjectRepository
      */
     private $em;
 
@@ -24,53 +24,72 @@ class ActivityManager
      */
     private $repository;
 
-
-    public function __construct(EntityManagerInterface $em, ActivityRepositoryInterface $repository)
+    /**
+     * ActivityManager constructor.
+     * @param ActivityRepositoryInterface $repository
+     * @param EntityManagerInterface $em
+     */
+    public function __construct(ActivityRepositoryInterface $repository, EntityManagerInterface $em)
     {
         $this->em = $em;
         $this->repository = $repository;
     }
 
-    public function create()
+    /**
+     * @return Activity
+     */
+    public function new()
     {
         return new Activity();
     }
 
     /**
-     * @return mixed
+     * @param $id
+     * @return Activity|null
+     */
+    public function find($id): ?Activity
+    {
+        return $this->repository->find($id);
+    }
+
+    /**
+     * @return object[]
      */
     public function findAll()
     {
-        $activities = $this->repository->findAll();
-        return $activities;
+        return $this->repository->findAll();
     }
 
-    public function findByCriteria($type)
+    /**
+     * @param Activity $activity
+     */
+    public function create(Activity $activity)
     {
-        $activities = $this->repository->findByCriteria($type);
-        return $activities;
+        $this->repository->create($activity);
     }
 
-    public function getModeChoicesByType($type)
+    /**
+     * @param Activity $activity
+     */
+    public function update(Activity $activity)
     {
-        switch ($type) {
-            case ActivityType::ACTIVITY:
-                return ActivityMode::ACTIVITY_MODES;
-            case ActivityType::EVALUATION:
-                return ActivityMode::EVALUATION_MODES;
-            default:
-                throw new \LogicException('This activity type' . $type . 'is not handled!');
-        }
+        $this->repository->update($activity);
     }
 
-    public function getGroupeChoicesByType($type)
+    /**
+     * @param Activity $activity
+     */
+    public function delete(Activity $activity)
     {
-        switch ($type) {
-            case ActivityType::ACTIVITY:
-                return ActivityGroup::ACTIVITY_GROUPS;
-            default:
-                throw new \LogicException('This activity type' . $type . 'is not handled!');
-        }
+        $this->repository->delete($activity);
     }
 
+    /**
+     * @param $query
+     * @return array
+     */
+    public function findLikeQuery($query): array
+    {
+        return $this->repository->findLikeQuery($query);
+    }
 }
