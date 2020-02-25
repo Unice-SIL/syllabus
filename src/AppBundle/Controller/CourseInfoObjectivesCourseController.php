@@ -270,6 +270,9 @@ class CourseInfoObjectivesCourseController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $prerequisite = $form->getData();
             $courseInfo->addCoursePrerequisite($prerequisite);
+            foreach ($courseInfo->getCoursePrerequisites() as $prerequisite) {
+                $prerequisite->setPosition($prerequisite->getPosition() + 1);
+            }
             $manager->update($courseInfo);
 
             return $this->json([
@@ -552,6 +555,9 @@ class CourseInfoObjectivesCourseController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $courseInfo = $form->getData();
+            foreach ($courseInfo->getCourseTutoringResources() as $tutoringResource) {
+                $tutoringResource->setPosition($tutoringResource->getPosition() + 1);
+            }
             $manager->update($courseInfo);
             return $this->json([
                 'status' => true,

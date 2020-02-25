@@ -79,6 +79,13 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.exception }
 
+    # QUERY
+    AppBundle\Query\CourseTeacher\Adapter\Ldap\SearchCourseTeacherLdapQuery:
+        public: true
+        autowire: true
+    AppBundle\Query\CourseTeacher\Adapter\Ldap\FindCourseTeacherByIdLdapQuery:
+        public: true
+        autowire: true
     # REPOSITORY
     user_doctrine_repository:
         class: AppBundle\Repository\Doctrine\UserDoctrineRepository
