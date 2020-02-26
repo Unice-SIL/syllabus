@@ -17,42 +17,47 @@ class CourseAchievementDoctrineRepository extends AbstractDoctrineRepository imp
      * CourseAchievementDoctrineRepository constructor.
      * @param EntityManager $entityManager
      */
-    public function __construct(
-        EntityManager $entityManager
-    )
+    public function __construct(EntityManager $entityManager)
     {
-        $this->entityManager = $entityManager;
+        parent::__construct($entityManager, CourseAchievement::class);
     }
 
     /**
      * @param string $id
      * @return CourseAchievement|null
-     * @throws \Exception
      */
     public function find(string $id): ?CourseAchievement
     {
-        $courseAchievement = null;
-        try{
-            $courseAchievement = $this->entityManager->getRepository(CourseAchievement::class)->find($id);
-            return $courseAchievement;
-        }catch (\Exception $e){
-            throw $e;
-        }
+        return $this->repository->find($id);
     }
 
+    /**
+     * @return array
+     */
+    public function findAll(): array
+    {
+        return $this->repository->findAll();
+    }
 
     /**
      * @param CourseAchievement $courseAchievement
-     * @throws \Exception
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function create(CourseAchievement $courseAchievement): void
     {
-        try{
-            $this->entityManager->persist($courseAchievement);
-            $this->entityManager->flush();
-        }catch (\Exception $e){
-            throw $e;
-        }
+        $this->entityManager->persist($courseAchievement);
+        $this->entityManager->flush();
+    }
+
+    /**
+     * @param CourseAchievement $courseAchievement
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function update(CourseAchievement $courseAchievement): void
+    {
+        $this->entityManager->flush();
     }
 
     /**
@@ -68,5 +73,4 @@ class CourseAchievementDoctrineRepository extends AbstractDoctrineRepository imp
             throw $e;
         }
     }
-
 }
