@@ -3,73 +3,33 @@
 namespace AppBundle\Repository\Doctrine;
 
 use AppBundle\Entity\Activity;
-use AppBundle\Repository\ActivityRepositoryInterface;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * Class ActivityDoctrineRepository
  * @package AppBundle\Repository\Doctrine
  */
-class ActivityDoctrineRepository extends AbstractDoctrineRepository implements ActivityRepositoryInterface
+class ActivityDoctrineRepository extends ServiceEntityRepository
 {
     /**
      * ActivityDoctrineRepository constructor.
-     * @param EntityManagerInterface $entityManager
+     * @param ManagerRegistry $registry
      */
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($entityManager, Activity::class);
+        parent::__construct($registry, Activity::class);
     }
 
     /**
-     * @param $id
-     * @return Activity|null
+     * @return QueryBuilder
      */
-    public function find($id): ?Activity
+    public function getIndexQueryBuilder(): QueryBuilder
     {
-        return $this->repository->find($id);
-    }
-
-    /**
-     * @return array
-     */
-    public function findAll(): array
-    {
-        return $this->repository->findAll();
-    }
-
-    /**
-     * @param Activity $activity
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    public function create(Activity $activity): void
-    {
-        $this->entityManager->persist($activity);
-        $this->entityManager->flush();
-    }
-
-    /**
-     * @param Activity $activity
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    public function update(Activity $activity): void
-    {
-        $this->entityManager->flush();
-    }
-
-    /**
-     * @param Activity $activity
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    public function delete(Activity $activity): void
-    {
-        $this->entityManager->remove($activity);
-        $this->entityManager->flush();
+        return $this->_em->getRepository(Activity::class)
+            ->createQueryBuilder('a')
+            ->addOrderBy('a.label', 'ASC');
     }
 
     /**
@@ -78,12 +38,11 @@ class ActivityDoctrineRepository extends AbstractDoctrineRepository implements A
      */
     public function findLikeQuery(string $query): array
     {
-        return $this->entityManager->getRepository(Activity::class)->createQueryBuilder('a')
+        return $this->getIndexQueryBuilder()
             ->andWhere('a.label LIKE :query ')
             ->setParameter('query', '%' . $query . '%')
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 
 }

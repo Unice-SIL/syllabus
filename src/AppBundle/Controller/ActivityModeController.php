@@ -31,16 +31,16 @@ class ActivityModeController extends AbstractController
     /**
      * @Route("/", name="index", methods={"GET"})
      * @param Request $request
-     * @param EntityManagerInterface $em
+     * @param ActivityModeDoctrineRepository $repository
      * @param PaginatorInterface $paginator
      * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
      * @return Response
      */
-    public function indexAction(Request $request, EntityManagerInterface $em, PaginatorInterface $paginator, FilterBuilderUpdaterInterface $filterBuilderUpdater)
+    public function indexAction(Request $request, ActivityModeDoctrineRepository $repository, PaginatorInterface $paginator, FilterBuilderUpdaterInterface $filterBuilderUpdater)
     {
-        $qb =  $em->getRepository(ActivityMode::class)->createQueryBuilder('am');
+        $qb =  $repository->getIndexQueryBuilder();
 
-        $form = $this->get('form.factory')->create(ActivityModeFilterType::class);
+        $form = $this->createForm(ActivityModeFilterType::class);
 
         if ($request->query->has($form->getName())) {
 
@@ -117,15 +117,15 @@ class ActivityModeController extends AbstractController
 
     /**
      * @Route("/autocomplete", name="autocomplete", methods={"GET"})
-     * @param ActivityModeManager $activityModeManager
+     * @param ActivityModeDoctrineRepository $repository
      * @param Request $request
      * @return JsonResponse
      */
-    public function autocomplete(ActivityModeManager $activityModeManager, Request $request)
+    public function autocomplete(ActivityModeDoctrineRepository $repository, Request $request)
     {
         $query = $request->query->get('query');
 
-        $activitiesModes = $activityModeManager->findLikeQuery($query);
+        $activitiesModes = $repository->findLikeQuery($query);
         $activitiesModes = array_map(function($mode){
             return $mode->getLabel();
         }, $activitiesModes);

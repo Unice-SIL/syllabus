@@ -4,6 +4,8 @@ namespace AppBundle\Manager;
 
 use AppBundle\Entity\ActivityMode;
 use AppBundle\Repository\ActivityModeRepositoryInterface;
+use AppBundle\Repository\Doctrine\ActivityModeDoctrineRepository;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Class ActivityModeManager
@@ -12,16 +14,23 @@ use AppBundle\Repository\ActivityModeRepositoryInterface;
 class ActivityModeManager
 {
     /**
+     * @var EntityManagerInterface
+     */
+    private $em;
+
+    /**
      * @var ActivityModeRepositoryInterface
      */
     private $repository;
 
     /**
      * ActivityModeManager constructor.
-     * @param ActivityModeRepositoryInterface $repository
+     * @param EntityManagerInterface $em
+     * @param ActivityModeDoctrineRepository $repository
      */
-    public function __construct(ActivityModeRepositoryInterface $repository)
+    public function __construct(EntityManagerInterface $em, ActivityModeDoctrineRepository $repository)
     {
+        $this->em = $em;
         $this->repository = $repository;
     }
 
@@ -34,7 +43,7 @@ class ActivityModeManager
     }
 
     /**
-     * @param $id
+     * @param mixed $id
      * @return ActivityMode|null
      */
     public function find($id): ?ActivityMode
@@ -43,9 +52,9 @@ class ActivityModeManager
     }
 
     /**
-     * @return object[]
+     * @return array
      */
-    public function findAll()
+    public function findAll(): array
     {
         return $this->repository->findAll();
     }
@@ -55,7 +64,8 @@ class ActivityModeManager
      */
     public function create(ActivityMode $activityMode)
     {
-        $this->repository->create($activityMode);
+        $this->em->persist($activityMode);
+        $this->em->flush();
     }
 
     /**
@@ -63,7 +73,7 @@ class ActivityModeManager
      */
     public function update(ActivityMode $activityMode)
     {
-        $this->repository->update($activityMode);
+        $this->em->flush();
     }
 
     /**
@@ -71,15 +81,8 @@ class ActivityModeManager
      */
     public function delete(ActivityMode $activityMode)
     {
-        $this->repository->delete($activityMode);
+        $this->em->remove($activityMode);
+        $this->em->flush();
     }
 
-    /**
-     * @param $query
-     * @return array
-     */
-    public function findLikeQuery($query): array
-    {
-        return $this->repository->findLikeQuery($query);
-    }
 }

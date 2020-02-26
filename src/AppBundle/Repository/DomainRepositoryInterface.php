@@ -1,21 +1,26 @@
 <?php
 
-
 namespace AppBundle\Repository;
-
 
 use AppBundle\Entity\Domain;
 use Doctrine\ORM\QueryBuilder;
 
-interface DomainRepositoryInterface
+/**
+ * Interface DomainRepositoryInterface
+ * @package AppBundle\Repository
+ */
+interface DomainRepositoryInterface extends RepositoryInterface
 {
-
+    /**
+     * @param string $id
+     * @return Domain|null
+     */
     public function find(string $id): ?Domain;
 
     /**
-     * @return \ArrayObject
+     * @return Domain[]
      */
-    public function findAll(): \ArrayObject;
+    public function findAll(): array;
 
     /**
      * Create domain
@@ -34,27 +39,6 @@ interface DomainRepositoryInterface
      * @param Domain $domain
      */
     public function delete(Domain $domain): void;
-
-    /**
-     * Begin a transaction
-     */
-    public function beginTransaction(): void;
-
-    /**
-     * Commit change
-     */
-    public function commit(): void;
-
-    /**
-     * Rollback change
-     */
-    public function rollback(): void;
-
-
-    /**
-     * @return QueryBuilder
-     */
-    public function getIndexQueryBuilder(): QueryBuilder;
 
     /**
      * @param string $query

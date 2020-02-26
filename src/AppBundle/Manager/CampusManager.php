@@ -4,7 +4,8 @@ namespace AppBundle\Manager;
 
 use AppBundle\Entity\Campus;
 use AppBundle\Repository\CampusRepositoryInterface;
-use Doctrine\ORM\QueryBuilder;
+use AppBundle\Repository\Doctrine\CampusDoctrineRepository;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Class CampusManager
@@ -13,12 +14,18 @@ use Doctrine\ORM\QueryBuilder;
 class CampusManager
 {
     /**
+     * @var EntityManagerInterface
+     */
+    private $em;
+
+    /**
      * @var CampusRepositoryInterface
      */
     private $repository;
 
-    public function __construct(CampusRepositoryInterface $repository)
+    public function __construct(EntityManagerInterface $em, CampusDoctrineRepository $repository)
     {
+        $this->em = $em;
         $this->repository = $repository;
     }
 
@@ -40,9 +47,9 @@ class CampusManager
     }
 
     /**
-     * @return Campus[]|array
+     * @return array
      */
-    public function findAll()
+    public function findAll(): array
     {
         return $this->repository->findAll();
     }
@@ -50,42 +57,26 @@ class CampusManager
     /**
      * @param Campus $campus
      */
-    public function create(Campus $campus)
+    public function create(Campus $campus): void
     {
-        $this->repository->create($campus);
+        $this->em->persist($campus);
+        $this->em->flush();
     }
 
     /**
      * @param Campus $campus
      */
-    public function update(Campus $campus)
+    public function update(Campus $campus): void
     {
-        $this->repository->update($campus);
+        $this->em->flush();
     }
 
     /**
      * @param Campus $campus
      */
-    public function delete(Campus $campus)
+    public function delete(Campus $campus): void
     {
-        $this->repository->delete($campus);
-    }
-
-    /**
-     * @param $query
-     * @return array
-     */
-    public function findLikeQuery($query): array
-    {
-        return $this->repository->findLikeQuery($query);
-    }
-
-    /**
-     * @param array $config
-     * @return QueryBuilder
-     */
-    public function findQueryBuilderForApi(array $config): QueryBuilder
-    {
-        $this->repository->findQueryBuilderForApi($config);
+        $this->em->remove($campus);
+        $this->em->flush();
     }
 }

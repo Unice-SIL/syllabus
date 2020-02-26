@@ -3,7 +3,8 @@
 namespace AppBundle\Manager;
 
 use AppBundle\Entity\ActivityType;
-use AppBundle\Repository\ActivityTypeRepositoryInterface;
+use AppBundle\Repository\Doctrine\ActivityTypeDoctrineRepository;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Class ActivityTypeManager
@@ -12,13 +13,19 @@ use AppBundle\Repository\ActivityTypeRepositoryInterface;
 class ActivityTypeManager
 {
     /**
-     * @var ActivityTypeRepositoryInterface
+     * @var EntityManagerInterface
+     */
+    private $em;
+
+    /**
+     * @var ActivityTypeDoctrineRepository
      */
     private $repository;
 
 
-    public function __construct(ActivityTypeRepositoryInterface $repository)
+    public function __construct(EntityManagerInterface $em, ActivityTypeDoctrineRepository $repository)
     {
+        $this->em = $em;
         $this->repository = $repository;
     }
 
@@ -26,16 +33,20 @@ class ActivityTypeManager
     {
         return new ActivityType();
     }
-    
+
+    /**
+     * @param string $id
+     * @return ActivityType|null
+     */
     public function find($id): ?ActivityType
     {
         return $this->repository->find($id);
     }
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function findAll()
+    public function findAll(): array
     {
         return $this->repository->findAll();
     }
@@ -43,34 +54,26 @@ class ActivityTypeManager
     /**
      * @param ActivityType $activityType
      */
-    public function create(ActivityType $activityType)
+    public function create(ActivityType $activityType): void
     {
-        $this->repository->create($activityType);
+        $this->em->persist($activityType);
+        $this->em->flush();
     }
 
     /**
      * @param ActivityType $activityType
      */
-    public function update(ActivityType $activityType)
+    public function update(ActivityType $activityType): void
     {
-        $this->repository->update($activityType);
+        $this->em->flush();
     }
 
     /**
      * @param ActivityType $activityType
      */
-    public function delete(ActivityType $activityType)
+    public function delete(ActivityType $activityType): void
     {
-        $this->repository->delete($activityType);
-    }
-
-    /**
-     * @param $query
-     * @param $field
-     * @return array
-     */
-    public function findLikeQuery($query, $field): array
-    {
-        return $this->repository->findLikeQuery($query, $field);
+        $this->em->remove($activityType);
+        $this->em->flush();
     }
 }

@@ -31,17 +31,16 @@ class CampusController extends AbstractController
      * @Route("/",name="index", methods={"GET"})
      *
      * @param Request $request
-     * @param EntityManagerInterface $em
+     * @param CampusDoctrineRepository $repository
      * @param PaginatorInterface $paginator
      * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
      * @return Response
-     *
      */
-    public function IndexAction(Request $request, EntityManagerInterface $em, PaginatorInterface $paginator, FilterBuilderUpdaterInterface $filterBuilderUpdater)
+    public function IndexAction(Request $request, CampusDoctrineRepository $repository, PaginatorInterface $paginator, FilterBuilderUpdaterInterface $filterBuilderUpdater)
     {
-        $qb =  $em->getRepository(Campus::class)->createQueryBuilder('l');
+        $qb =  $repository->getIndexQueryBuilder();
 
-        $form = $this->get('form.factory')->create(CampusFilterType::class);
+        $form = $this->createForm(CampusFilterType::class);
 
         if ($request->query->has($form->getName())) {
 
@@ -94,6 +93,7 @@ class CampusController extends AbstractController
      * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
      * @param Request $request
      * @param Campus $campus
+     * @param CampusManager $campusManager
      * @return RedirectResponse|Response
      */
     public function editAction(Request $request, Campus $campus, CampusManager $campusManager)
@@ -117,15 +117,15 @@ class CampusController extends AbstractController
 
     /**
      * @Route("/autocomplete", name="autocomplete", methods={"GET"})
-     * @param CampusManager $campusManager
+     * @param CampusDoctrineRepository $repository
      * @param Request $request
      * @return JsonResponse
      */
-    public function autocomplete(CampusManager $campusManager, Request $request)
+    public function autocomplete(CampusDoctrineRepository $repository, Request $request)
     {
         $query = $request->query->get('query');
 
-        $campuses = $campusManager->findLikeQuery($query);
+        $campuses = $repository->findLikeQuery($query);
         $campuses = array_map(function($campus){
             return $campus->getLabel();
         }, $campuses);
@@ -139,16 +139,16 @@ class CampusController extends AbstractController
     /**
      * @Route("autocompleteS2", name="autocompleteS2", methods={"GET"})
      *
+     * @param CampusDoctrineRepository $repository
      * @param Request $request
      * @return Response
      */
-    public function autocompleteS2(Request $request)
+    public function autocompleteS2(CampusDoctrineRepository $repository, Request $request)
     {
         $query = $request->query->get('c');
 
-        $em = $this->getDoctrine()->getRepository(Campus::class);
-        $campuses = $em->createQueryBuilder('c')
-            ->andWhere('c.label LIKE :query ')
+        $em = $repository->getIndexQueryBuilder();
+        $campuses = $em->andWhere('c.label LIKE :query ')
             ->andWhere('c.obsolete = 0')
             ->setParameter('query', '%' . $query . '%')
             ->getQuery()
