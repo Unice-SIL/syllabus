@@ -48,7 +48,7 @@ class ActivityTypeManager
      */
     public function findAll(): array
     {
-        $this->repository->findAll();
+        return $this->repository->findAll();
     }
 
     /**
