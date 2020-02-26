@@ -18,10 +18,9 @@ use AppBundle\Form\CourseInfo\CourseAchievement\RemoveCourseAchievementType;
 use AppBundle\Form\CourseInfo\CourseAchievement\RemoveCourseCriticalAchievementType;
 use AppBundle\Form\CourseInfo\CourseAchievement\RemoveCoursePrerequisiteType;
 use AppBundle\Form\CourseInfo\CourseAchievement\RemoveCourseTutoringResourcesType;
-use AppBundle\Manager\CourseAchievementManager;
 use AppBundle\Form\CourseInfo\CourseAchievement\RemoveLearningAchievementType;
+use AppBundle\Manager\CourseAchievementManager;
 use AppBundle\Manager\CourseInfoManager;
-use Doctrine\ORM\EntityManager;
 use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -120,6 +119,7 @@ class CourseInfoObjectivesCourseController extends AbstractController
     /**
      * @Route("/achievement/edit/{achievementId}", name="edit_achievement"))
      *
+     * @param CourseInfo $courseInfo
      * @param CourseAchievement $achievement
      * @param Request $request
      * @param CourseAchievementManager $courseAchievementManager
@@ -158,6 +158,7 @@ class CourseInfoObjectivesCourseController extends AbstractController
      * @param CourseAchievementManager $courseAchievementManager
      * @return JsonResponse
      * @ParamConverter("achievement", options={"mapping": {"achievementId": "id"}})
+     * @throws Exception
      */
     public function deleteAchievementAction(CourseInfo $courseInfo, CourseAchievement $achievement, Request $request, CourseAchievementManager $courseAchievementManager)
     {

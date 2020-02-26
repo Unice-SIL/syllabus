@@ -4,7 +4,8 @@ namespace AppBundle\Manager;
 
 use AppBundle\Entity\CourseAchievement;
 use AppBundle\Entity\CourseInfo;
-use AppBundle\Repository\CourseAchievementRepositoryInterface;
+use AppBundle\Repository\Doctrine\CourseAchievementDoctrineRepository;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Class CourseAchievementManager
@@ -13,16 +14,23 @@ use AppBundle\Repository\CourseAchievementRepositoryInterface;
 class CourseAchievementManager
 {
     /**
-     * @var CourseAchievementRepositoryInterface
+     * @var EntityManagerInterface
+     */
+    private $em;
+
+    /**
+     * @var CourseAchievementDoctrineRepository
      */
     private $repository;
 
     /**
      * CourseAchievementManager constructor.
-     * @param CourseAchievementRepositoryInterface $repository
+     * @param EntityManagerInterface $em
+     * @param CourseAchievementDoctrineRepository $repository
      */
-    public function __construct(CourseAchievementRepositoryInterface $repository)
+    public function __construct(EntityManagerInterface $em, CourseAchievementDoctrineRepository $repository)
     {
+        $this->em = $em;
         $this->repository = $repository;
     }
 
@@ -38,18 +46,18 @@ class CourseAchievementManager
     }
 
     /**
-     * @param $id
+     * @param string $id
      * @return CourseAchievement|null
      */
-    public function find($id): ?CourseAchievement
+    public function find(string $id): ?CourseAchievement
     {
         return $this->repository->find($id);
     }
 
     /**
-     * @return object[]
+     * @return array
      */
-    public function findAll()
+    public function findAll(): array
     {
         return $this->repository->findAll();
     }
@@ -57,24 +65,27 @@ class CourseAchievementManager
     /**
      * @param CourseAchievement $courseAchievement
      */
-    public function create(CourseAchievement $courseAchievement)
+    public function create(CourseAchievement $courseAchievement): void
     {
-        $this->repository->create($courseAchievement);
+        $this->em->persist($courseAchievement);
+        $this->em->flush();
     }
 
     /**
      * @param CourseAchievement $courseAchievement
      */
-    public function update(CourseAchievement $courseAchievement)
+    public function update(CourseAchievement $courseAchievement): void
     {
-        $this->repository->update($courseAchievement);
+        $this->em->flush();
     }
 
     /**
      * @param CourseAchievement $courseAchievement
+     * @throws \Exception
      */
-    public function delete(CourseAchievement $courseAchievement)
+    public function delete(CourseAchievement $courseAchievement): void
     {
-        $this->repository->delete($courseAchievement);
+        $this->em->remove($courseAchievement);
+        $this->em->flush();
     }
 }
