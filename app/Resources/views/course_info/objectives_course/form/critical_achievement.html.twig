@@ -1,0 +1,45 @@
+{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('objective_course_critical_achievement_form', {'id': courseInfo.id }), 'data-card': 'card-critical_achievement'}}) }}
+{{ form_errors(form) }}
+<div class="row mt-3">
+    <div class="col">
+        <div>
+            <div>
+                <label>Choisir un apprentissage critique</label>
+                {{ form_widget(form.criticalAchievement) }}
+            </div>
+            <div class="my-2">
+                <label>Choisir une règle par :</label>
+                {{ form_widget(form.rule) }}
+            </div>
+            <div id='form_score' class="my-2">
+                <label>Score :</label>
+                {{ form_widget(form.score) }}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="d-flex justify-content-center mt-3">
+    <button type="submit" class="btn btn-primary rounded" id="create_button">
+        Ajouter
+    </button>
+</div>
+{{ form_widget(form._token) }}
+{{ form_end(form, {'render_rest': false }) }}
+
+<script>
+
+    $(document).ready(function () {
+        $('form[name="course_critical_achievement"]').find('.select2entity').select2entity();
+        $('#form_score').hide();
+
+        $(document).on('click', '#course_critical_achievement_rule', function () {
+            if($('#course_critical_achievement_rule').val() === 'Score'){
+                $('#form_score').show();
+            }else {
+                $('#form_score').hide();
+            }
+
+        });
+
+    });
+</script>

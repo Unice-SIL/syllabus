@@ -4,6 +4,7 @@
 namespace AppBundle\Repository;
 
 
+use AppBundle\Entity\Course;
 use AppBundle\Entity\CriticalAchievement;
 
 interface CriticalAchievementRepositoryInterface
@@ -43,4 +44,11 @@ interface CriticalAchievementRepositoryInterface
      * @return array
      */
     public function findLikeQuery(string $query): array;
+
+    /**
+     * @param string $query
+     * @param Course $course
+     * @return array
+     */
+    public function findLikeQueryByCourse(string $query, Course $course): array;
 }

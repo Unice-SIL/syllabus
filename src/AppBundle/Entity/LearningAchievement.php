@@ -34,7 +34,14 @@ class LearningAchievement
     private $description;
 
     /**
-     * @ManyToOne(targetEntity="LearningAchievement", inversedBy="learningAchievements")
+     * @var int
+     *
+     * @ORM\Column(name="score", type="integer")
+     */
+    private $score = 0;
+
+    /**
+     * @ManyToOne(targetEntity="CourseCriticalAchievement", inversedBy="learningAchievements")
      * @JoinColumn(name="course_critical_achievement_learning_achievement", referencedColumnName="id")
      */
     private $courseCriticalAchievement;
@@ -42,7 +49,7 @@ class LearningAchievement
     /**
      * @return string
      */
-    public function getId(): string
+    public function getId(): ?string
     {
         return $this->id;
     }
@@ -60,7 +67,7 @@ class LearningAchievement
     /**
      * @return string
      */
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -91,5 +98,21 @@ class LearningAchievement
     {
         $this->courseCriticalAchievement = $courseCriticalAchievement;
         return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getScore(): ?int
+    {
+        return $this->score;
+    }
+
+    /**
+     * @param int $score
+     */
+    public function setScore(int $score): void
+    {
+        $this->score = $score;
     }
 }

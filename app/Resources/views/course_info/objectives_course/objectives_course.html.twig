@@ -7,12 +7,12 @@
     >
         <div class="card-header">
             <div class="d-flex justify-content-between">
-                <h3>Capacités visées / acquis d'apprentissage</h3>
+                <h3>Capacités visées</h3>
                 <button type="button"
                         class="btn btn-primary rounded modal-action"
                         data-action-title="Ajouter une compétence"
                         data-action-url="{{ path('objective_course_achievement_form', {'id': courseInfo.id }) }}">
-                    Ajouter une compétence
+                    Ajouter une capacité
                 </button>
             </div>
             <a href="https://lms.univ-cotedazur.fr/course/view.php?id=22948"
@@ -20,6 +20,25 @@
                target="_blank">
                 Cours dédié à l'« Approche par Compétences » (auto inscription)
             </a>
+        </div>
+        <div class="card-body">
+        </div>
+    </div>
+
+
+    <div id="card-critical_achievement" class="card my-2 shadow card-syllabus"
+         data-view-url="{{ path('objective_course_critical_achievement_view', {'id': courseInfo.id }) }}"
+    >
+        <div class="card-header">
+            <div class="d-flex justify-content-between">
+                <h3>Objectif d'apprentissage APC</h3>
+                <button type="button"
+                        class="btn btn-primary rounded modal-action"
+                        data-action-title="Ajouter un apprentissage critique"
+                        data-action-url="{{ path('objective_course_critical_achievement_form', {'id': courseInfo.id }) }}">
+                    Ajouter un apprentissage critique
+                </button>
+            </div>
         </div>
         <div class="card-body">
         </div>
