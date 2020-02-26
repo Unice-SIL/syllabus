@@ -6,31 +6,28 @@ namespace AppBundle\Manager;
 
 use AppBundle\Entity\ActivityType;
 use AppBundle\Repository\ActivityTypeRepositoryInterface;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Persistence\ObjectRepository;
 
 class ActivityTypeManager
 {
-    /**
-     * @var ObjectRepository
-     */
-    private $em;
-
     /**
      * @var ActivityTypeRepositoryInterface
      */
     private $repository;
 
 
-    public function __construct(EntityManagerInterface $em, ActivityTypeRepositoryInterface $repository)
+    public function __construct(ActivityTypeRepositoryInterface $repository)
     {
-        $this->em = $em;
         $this->repository = $repository;
     }
 
-    public function create()
+    public function new()
     {
         return new ActivityType();
+    }
+    
+    public function find($id): ?ActivityType
+    {
+        return $this->repository->find($id);
     }
 
     /**
@@ -38,7 +35,40 @@ class ActivityTypeManager
      */
     public function findAll()
     {
-        $activitiesType = $this->repository->findAll();
-        return $activitiesType;
+        return $this->repository->findAll();
+    }
+
+    /**
+     * @param ActivityType $activityType
+     */
+    public function create(ActivityType $activityType)
+    {
+        $this->repository->create($activityType);
+    }
+
+    /**
+     * @param ActivityType $activityType
+     */
+    public function update(ActivityType $activityType)
+    {
+        $this->repository->update($activityType);
+    }
+
+    /**
+     * @param ActivityType $activityType
+     */
+    public function delete(ActivityType $activityType)
+    {
+        $this->repository->delete($activityType);
+    }
+
+    /**
+     * @param $query
+     * @param $field
+     * @return array
+     */
+    public function findLikeQuery($query, $field): array
+    {
+        return $this->repository->findLikeQuery($query, $field);
     }
 }

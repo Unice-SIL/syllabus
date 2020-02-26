@@ -76,14 +76,6 @@ class ActivityModeManager
     }
 
     /**
-     * @return QueryBuilder
-     */
-    public function getIndexQueryBuilder(): QueryBuilder
-    {
-        return $this->repository->getIndexQueryBuilder();
-    }
-
-    /**
      * @param $query
      * @return array
      */

@@ -72,16 +72,6 @@ class ActivityModeDoctrineRepository extends AbstractDoctrineRepository implemen
     }
 
     /**
-     * @return QueryBuilder
-     */
-    public function getIndexQueryBuilder(): QueryBuilder
-    {
-        return $this->entityManager->getRepository(ActivityMode::class)
-            ->createQueryBuilder('a')
-            ->addOrderBy('a.label', 'ASC');
-    }
-
-    /**
      * @param string $query
      * @return array
      */

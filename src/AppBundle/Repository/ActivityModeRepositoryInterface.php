@@ -36,11 +36,6 @@ interface ActivityModeRepositoryInterface extends RepositoryInterface
     public function delete(ActivityMode $activityMode): void;
 
     /**
-     * @return QueryBuilder
-     */
-    public function getIndexQueryBuilder(): QueryBuilder;
-
-    /**
      * @param string $query
      * @return array
      */

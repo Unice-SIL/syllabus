@@ -7,7 +7,6 @@ use AppBundle\Repository\ActivityRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
-use Doctrine\Persistence\ObjectRepository;
 
 /**
  * Class ActivityDoctrineRepository
