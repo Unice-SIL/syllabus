@@ -8,6 +8,7 @@ use AppBundle\Form\Filter\ActivityFilterType;
 use AppBundle\Manager\ActivityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -21,12 +22,12 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * @Route("/admin/activity", name="app_admin_activity_")
  */
-class ActivityController extends Controller
+class ActivityController extends AbstractController
 {
     /**
      * Lists all activity entities.
      *
-     * @Route("", name="index", methods={"GET"})
+     * @Route("/", name="index", methods={"GET"})
      * @param Request $request
      * @param EntityManagerInterface $em
      * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
