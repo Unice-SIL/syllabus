@@ -15,11 +15,9 @@ class ActivityModeDoctrineRepository extends AbstractDoctrineRepository implemen
      * ActivityModeDoctrineRepository constructor.
      * @param EntityManagerInterface $entityManager
      */
-    public function __construct(
-        EntityManagerInterface $entityManager
-    )
+    public function __construct(EntityManagerInterface $entityManager)
     {
-        $this->entityManager = $entityManager;
+        parent::__construct($entityManager, ActivityMode::class);
     }
 
     /**
@@ -29,78 +27,48 @@ class ActivityModeDoctrineRepository extends AbstractDoctrineRepository implemen
      */
     public function find(string $id): ?ActivityMode
     {
-        $activityType = null;
-        try {
-            $activityType = $this->entityManager->getRepository(ActivityMode::class)->find($id);
-        } catch(\Exception $e) {
-            throw $e;
-        }
-        return $activityType;
+        return $this->repository->find($id);
     }
 
     /**
-     * @return \ArrayObject
+     * @return array
      * @throws \Exception
      */
-    public function findAll(): \ArrayObject
+    public function findAll(): array
     {
-        try {
-            $activityMode = new \ArrayObject();
-            $qb = $this->entityManager->getRepository(ActivityMode::class)->createQueryBuilder('a');
-            $qb->where($qb->expr()->eq('a.obsolete', ':obsolete'))
-                ->setParameter('obsolete', false)
-                ->orderBy('a.position', 'ASC')
-                ->addOrderBy('a.label', 'ASC');
-            foreach($this->entityManager->getRepository(ActivityMode::class)
-                        ->findBy([], ['label' => 'ASC']) as $activityMode) {
-                $activityMode->append($activityMode);
-            }
-        } catch(\Exception $e) {
-            throw $e;
-        }
-        return $activityMode;
+        return $this->repository->findAll();
     }
 
     /**
      * @param ActivityMode $activityMode
-     * @throws \Exception
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function create(ActivityMode $activityMode): void
     {
-        try {
-            $this->entityManager->persist($activityMode);
-            $this->entityManager->flush();
-        } catch (\Exception $e){
-            throw $e;
-        }
+        $this->entityManager->persist($activityMode);
+        $this->entityManager->flush();
     }
 
     /**
      * @param ActivityMode $activityMode
-     * @throws \Exception
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function update(ActivityMode $activityMode): void
     {
-        try {
-            $this->entityManager->persist($activityMode);
-            $this->entityManager->flush();
-        } catch(\Exception $e) {
-            throw $e;
-        }
+        $this->entityManager->flush();
     }
 
     /**
      * @param ActivityMode $activityMode
-     * @throws \Exception
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function delete(ActivityMode $activityMode): void
     {
-        try {
-            $this->entityManager->remove($activityMode);
-            $this->entityManager->flush();
-        } catch(\Exception $e) {
-            throw $e;
-        }
+        $this->entityManager->remove($activityMode);
+        $this->entityManager->flush();
     }
 
     /**
@@ -115,7 +83,6 @@ class ActivityModeDoctrineRepository extends AbstractDoctrineRepository implemen
 
     /**
      * @param string $query
-     * @param string $field
      * @return array
      */
     public function findLikeQuery(string $query): array

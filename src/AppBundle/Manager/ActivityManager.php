@@ -5,8 +5,6 @@ namespace AppBundle\Manager;
 
 use AppBundle\Entity\Activity;
 use AppBundle\Repository\ActivityRepositoryInterface;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Persistence\ObjectRepository;
 
 /**
  * Class ActivityManager
@@ -15,11 +13,6 @@ use Doctrine\Persistence\ObjectRepository;
 class ActivityManager
 {
     /**
-     * @var ObjectRepository
-     */
-    private $em;
-
-    /**
      * @var ActivityRepositoryInterface
      */
     private $repository;
@@ -27,11 +20,9 @@ class ActivityManager
     /**
      * ActivityManager constructor.
      * @param ActivityRepositoryInterface $repository
-     * @param EntityManagerInterface $em
      */
-    public function __construct(ActivityRepositoryInterface $repository, EntityManagerInterface $em)
+    public function __construct(ActivityRepositoryInterface $repository)
     {
-        $this->em = $em;
         $this->repository = $repository;
     }
 

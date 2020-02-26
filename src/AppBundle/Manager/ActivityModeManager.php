@@ -7,38 +7,88 @@ namespace AppBundle\Manager;
 use AppBundle\Entity\ActivityMode;
 use AppBundle\Repository\ActivityModeRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ObjectRepository;
 
 class ActivityModeManager
 {
     /**
-     * @var ObjectRepository
-     */
-    private $em;
-
-    /**
      * @var ActivityModeRepositoryInterface
      */
     private $repository;
 
-
-    public function __construct(EntityManagerInterface $em, ActivityModeRepositoryInterface $repository)
+    /**
+     * ActivityModeManager constructor.
+     * @param ActivityModeRepositoryInterface $repository
+     */
+    public function __construct(ActivityModeRepositoryInterface $repository)
     {
-        $this->em = $em;
         $this->repository = $repository;
     }
 
-    public function create()
+    /**
+     * @return ActivityMode
+     */
+    public function new()
     {
         return new ActivityMode();
     }
 
     /**
-     * @return mixed
+     * @param $id
+     * @return ActivityMode|null
+     */
+    public function find($id): ?ActivityMode
+    {
+        return $this->repository->find($id);
+    }
+
+    /**
+     * @return object[]
      */
     public function findAll()
     {
-        $activitiesmode = $this->repository->findAll();
-        return $activitiesmode;
+        return $this->repository->findAll();
+    }
+
+    /**
+     * @param ActivityMode $activityMode
+     */
+    public function create(ActivityMode $activityMode)
+    {
+        $this->repository->create($activityMode);
+    }
+
+    /**
+     * @param ActivityMode $activityMode
+     */
+    public function update(ActivityMode $activityMode)
+    {
+        $this->repository->update($activityMode);
+    }
+
+    /**
+     * @param ActivityMode $activityMode
+     */
+    public function delete(ActivityMode $activityMode)
+    {
+        $this->repository->delete($activityMode);
+    }
+
+    /**
+     * @return QueryBuilder
+     */
+    public function getIndexQueryBuilder(): QueryBuilder
+    {
+        return $this->repository->getIndexQueryBuilder();
+    }
+
+    /**
+     * @param $query
+     * @return array
+     */
+    public function findLikeQuery($query): array
+    {
+        return $this->repository->findLikeQuery($query);
     }
 }
