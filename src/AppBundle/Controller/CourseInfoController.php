@@ -9,6 +9,7 @@ use AppBundle\Form\CourseInfo\DuplicateCourseInfoType;
 use AppBundle\Form\CourseInfo\ImportType;
 use AppBundle\Form\Filter\CourseInfoFilterType;
 use AppBundle\Helper\Report\Report;
+use AppBundle\Helper\Report\ReportingHelper;
 use AppBundle\Manager\CourseInfoManager;
 use AppBundle\Parser\CourseInfoCsvParser;
 use AppBundle\Repository\Doctrine\CourseDoctrineRepository;
@@ -279,7 +280,7 @@ class CourseInfoController extends Controller
      * @return RedirectResponse|Response
      * @throws \Exception
      */
-    public function importMccAction(Request $request, EntityManagerInterface $em, CourseInfoManager $courseInfoManager, CourseInfoCsvParser $courseInfoCsvParser)
+    public function importCsv(Request $request, EntityManagerInterface $em, CourseInfoManager $courseInfoManager, CourseInfoCsvParser $courseInfoCsvParser)
     {
         $form = $this->createForm(ImportType::class);
         $form->handleRequest($request);
@@ -287,38 +288,45 @@ class CourseInfoController extends Controller
         if ($form->isSubmitted() and $form->isValid())
         {
 
-            $courseInfos = $courseInfoCsvParser->parse($form->getData()['file']->getPathName(), ['allow_extra_field' => true, 'allow_less_field' => true]);
-
-            $report = $courseInfoCsvParser->getReport();
+            $courseInfos = $courseInfoCsvParser->parse($form->getData()['file']->getPathName(), [
+                'allow_extra_field' => true,
+                'allow_less_field' => true,
+                'report' => ReportingHelper::createReport('Parsing du Fichier Csv'),
+            ]);
 
             $courseInfoFields = $em->getRepository(CourseInfoField::class)->findByImport(true);
             $fieldsToUpdate = array_map(function ($courseInfoField) {
                 return $courseInfoField->getField();
                 }, $courseInfoFields);
 
+            $validationReport = ReportingHelper::createReport('Insertion en base de données');
+
             foreach ($courseInfos as $lineIdReport => $courseInfo) {
 
-                $courseInfoManager->updateIfExistsOrCreate($courseInfo, $fieldsToUpdate, [
+                $validationReport = $courseInfoManager->updateIfExistsOrCreate($courseInfo, $fieldsToUpdate, [
                     'flush' => true,
                     'find_by_parameters' => [
                         'course' => $courseInfo->getCourse(),
                         'year' => $courseInfo->getYear(),
                     ],
                     'lineIdReport' => $lineIdReport,
-                    'report' => $report
+                    'report' => ReportingHelper::createReport('Insertion en base de données'),
                 ]);
 
 
             }
 
-            $request->getSession()->set('importCourseInfoReport', $report);
+            $validationReport->finishReport(count($courseInfos));
+            $request->getSession()->set('parsingCsvReport', $courseInfoCsvParser->getReport());
+            $request->getSession()->set('validationReport', $validationReport);
             return $this->redirectToRoute('app_admin_course_info_import_mcc');
 
         }
 
         return $this->render('course_info/admin/import_mcc.html.twig', [
             'form' => $form->createView(),
-            'report' => $request->getSession()->remove('importCourseInfoReport')
+            'parsingCsvReport' => $request->getSession()->remove('parsingCsvReport'),
+            'validationReport' => $request->getSession()->remove('validationReport'),
         ]);
     }
 

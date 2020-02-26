@@ -144,7 +144,6 @@ abstract class AbstractCsvParser extends AbstractParser
                     continue;
                 }
 
-
                 try {
                     $this->propertyAccessor->setValue($entity, $property, $data);
                 }catch (\Exception $e) {

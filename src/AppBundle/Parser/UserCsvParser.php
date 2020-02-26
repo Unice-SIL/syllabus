@@ -48,7 +48,7 @@ class UserCsvParser extends AbstractCsvParser implements ParserInterface
 
     protected function getLineIds(): array
     {
-        return ['email'];
+        return ['username', 'lastname', 'firstname'];
     }
 
     protected function manageSpecialCase($entity, string $property, string $name, string $type, $data, ReportLine $reportLine): bool

@@ -4,6 +4,7 @@
 namespace AppBundle\Manager;
 
 use AppBundle\Helper\ErrorManager;
+use AppBundle\Helper\Report\ReportingHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
@@ -50,9 +51,10 @@ abstract class AbstractManager
             'flush' => false,
             'validations_groups_new' => ['new'],
             'validations_groups_edit' => ['edit'],
-            'report' => null,
+            'report' => ReportingHelper::createReport('Insertion en base de données'),
             'lineIdReport' => null,
         ], $options);
+
 
         if (!isset($options['find_by_parameters'])) {
             $options['find_by_parameters'] = ['id' => $entityData->getId()];
@@ -79,7 +81,7 @@ abstract class AbstractManager
         if ($options['report'] and $options['lineIdReport']) {
             $line = $this->errorManager->hydrateLineReportIfInvalidEntity($entity, $options['report'], $options['lineIdReport'], ['groups' => $options['validation_groups']]);
             if (null !== $line) {
-                return;
+                return $options['report'];
             }
         } else {
             $this->errorManager->throwExceptionIfError($entity, null, ['groups' => $options['validation_groups']]);
@@ -90,6 +92,8 @@ abstract class AbstractManager
         if (true === $options['flush']) {
             $this->em->flush();
         }
+
+        return $options['report'];
     }
 
     abstract protected function getClass(): string;

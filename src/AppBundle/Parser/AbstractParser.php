@@ -62,8 +62,9 @@ abstract class AbstractParser
 
     public function parse(string $source, array $options = []): array
     {
+
         $options = array_merge([
-            'report' => ReportingHelper::createReport()
+            'report' => ReportingHelper::createReport('Parsing')
         ], $options);
 
         if (!$options['report'] instanceof Report) {
