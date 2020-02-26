@@ -1,15 +1,14 @@
 <?php
 
-
 namespace AppBundle\Manager;
-
 
 use AppBundle\Entity\ActivityMode;
 use AppBundle\Repository\ActivityModeRepositoryInterface;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\QueryBuilder;
-use Doctrine\Persistence\ObjectRepository;
 
+/**
+ * Class ActivityModeManager
+ * @package AppBundle\Manager
+ */
 class ActivityModeManager
 {
     /**

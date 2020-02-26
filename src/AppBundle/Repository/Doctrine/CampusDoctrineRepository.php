@@ -1,117 +1,78 @@
 <?php
 
-
 namespace AppBundle\Repository\Doctrine;
 
-
 use AppBundle\Entity\Campus;
-use AppBundle\Repository\CampusRepositoryinterface;
+use AppBundle\Repository\CampusRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 
+/**
+ * Class CampusDoctrineRepository
+ * @package AppBundle\Repository\Doctrine
+ */
 class CampusDoctrineRepository extends AbstractDoctrineRepository implements CampusRepositoryInterface
 {
     /**
      * CampusDoctrineRepository constructor.
      * @param EntityManagerInterface $entityManager
      */
-    public function __construct(
-        EntityManagerInterface $entityManager
-    )
+    public function __construct(EntityManagerInterface $entityManager)
     {
-        $this->entityManager = $entityManager;
+        parent::__construct($entityManager, Campus::class);
     }
 
     /**
-     * @param string $id
+     * @param $id
      * @return Campus|null
-     * @throws \Exception
      */
-    public function find(string $id): ?Campus
+    public function find($id): ?Campus
     {
-        $campus = null;
-        try{
-            $campus = $this->entityManager->getRepository(Campus::class)->find($id);
-        }catch (\Exception $e){
-            throw $e;
-        }
-        return $campus;
+        return $this->repository->find($id);
     }
 
     /**
-     * @return \ArrayObject
-     * @throws \Exception
+     * @return array
      */
-    public function findAll(): \ArrayObject
+    public function findAll(): array
     {
-        $campuss = new \ArrayObject();
-        try {
-            $qb = $this->entityManager->getRepository(Campus::class)->createQueryBuilder('c');
-            $qb->where($qb->expr()->eq('c.obsolete', ':obsolete'))
-                ->setParameter('obsolete', false)
-                ->addOrderBy('c.label', 'ASC');
-            foreach ($qb->getQuery()->getResult() as $campus){
-                $campus->append($campus);
-            }
-        } catch (\Exception $exception)
-        {
-            throw $exception;
-        }
-
-        return $campuss;
+        return $this->repository->findAll();
     }
 
     /**
      * @param Campus $campus
-     * @throws \Exception
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function create(Campus $campus): void
     {
-        try{
-            $this->entityManager->persist($campus);
-            $this->entityManager->flush();
-        }catch (\Exception $e){
-            throw $e;
-        }
+        $this->entityManager->persist($campus);
+        $this->entityManager->flush();
     }
 
     /**
      * @param Campus $campus
-     * @throws \Exception
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function update(Campus $campus): void
     {
-        try{
-            $this->entityManager->persist($campus);
-            $this->entityManager->flush();
-        }catch (\Exception $e){
-            throw $e;
-        }
+        $this->entityManager->flush();
     }
 
     /**
-     * Delete Campus
      * @param Campus $campus
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function delete(Campus $campus): void
     {
-        // TODO: Implement delete() method.
-    }
-
-    /**
-     * @return QueryBuilder
-     */
-    public function getIndexQueryBuilder(): QueryBuilder
-    {
-        return $this->entityManager->getRepository(Campus::class)
-            ->createQueryBuilder('l')
-            ->addOrderBy('l.label', 'ASC')
-            ;
+        $this->entityManager->remove($campus);
+        $this->entityManager->flush();
     }
 
     /**
      * @param string $query
-     * @param string $field
      * @return array
      */
     public function findLikeQuery(string $query): array
@@ -124,13 +85,19 @@ class CampusDoctrineRepository extends AbstractDoctrineRepository implements Cam
             ;
     }
 
+    /**
+     * @param array $config
+     * @return QueryBuilder
+     */
     public function findQueryBuilderForApi(array $config): QueryBuilder
     {
-        $qb = $this->getIndexQueryBuilder();
+        $qb = $this->entityManager->getRepository(Campus::class)
+            ->createQueryBuilder('c')
+            ->addOrderBy('c.label', 'ASC');
 
         foreach ($config['filters'] as $filter => $value) {
             $valueName = 'value'.$filter;
-            $qb->andWhere($qb->expr()->eq($qb->getRootAlias() . '.' . $filter, ':' . $valueName))
+            $qb->andWhere($qb->expr()->eq('c.' . $filter, ':' . $valueName))
                 ->setParameter($valueName, $value)
             ;
         }

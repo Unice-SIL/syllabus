@@ -1,18 +1,14 @@
 <?php
 
-
 namespace AppBundle\Controller;
-
 
 use AppBundle\Entity\ActivityType;
 use AppBundle\Form\ActivityTypeType;
 use AppBundle\Form\Filter\ActivityTypeFilterType;
 use AppBundle\Manager\ActivityTypeManager;
-use AppBundle\Repository\Doctrine\ActivityTypeDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;

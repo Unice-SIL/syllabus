@@ -1,14 +1,15 @@
 <?php
 
-
 namespace AppBundle\Repository\Doctrine;
-
 
 use AppBundle\Entity\ActivityType;
 use AppBundle\Repository\ActivityTypeRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\QueryBuilder;
 
+/**
+ * Class ActivityTypeDoctrineRepository
+ * @package AppBundle\Repository\Doctrine
+ */
 class ActivityTypeDoctrineRepository extends AbstractDoctrineRepository implements ActivityTypeRepositoryInterface
 {
     /**

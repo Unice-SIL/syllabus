@@ -1,12 +1,14 @@
 <?php
 
-
 namespace AppBundle\Manager;
-
 
 use AppBundle\Entity\ActivityType;
 use AppBundle\Repository\ActivityTypeRepositoryInterface;
 
+/**
+ * Class ActivityTypeManager
+ * @package AppBundle\Manager
+ */
 class ActivityTypeManager
 {
     /**

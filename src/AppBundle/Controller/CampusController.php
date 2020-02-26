@@ -28,7 +28,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CampusController extends AbstractController
 {
     /**
-     * @Route("/",name="index" )
+     * @Route("/",name="index", methods={"GET"})
      *
      * @param Request $request
      * @param EntityManagerInterface $em
@@ -64,22 +64,19 @@ class CampusController extends AbstractController
 
     /**
      *
-     * @Route("/new", name="new")
+     * @Route("/new", name="new", methods={"GET", "POST"})
      * @param Request $request
      * @param CampusManager $campusManager
      * @return RedirectResponse|Response
      */
     public function newAction(Request $request, CampusManager $campusManager)
     {
-        $campus = $campusManager->create();
+        $campus = $campusManager->new();
         $form = $this->createForm(CampusType::class, $campus);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($campus);
-            $em->flush();
+            $campusManager->create($campus);
 
             $this->addFlash('success', 'La langue a été ajoutée avec succès.');
 
@@ -94,19 +91,19 @@ class CampusController extends AbstractController
     /**
      * Displays a form to edit an existing activity entity.
      *
-     * @Route("/{id}/edit", name="edit")
+     * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
      * @param Request $request
      * @param Campus $campus
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, Campus $campus)
+    public function editAction(Request $request, Campus $campus, CampusManager $campusManager)
     {
         $form = $this->createForm(CampusType::class, $campus);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $this->getDoctrine()->getManager()->flush();
+            $campusManager->update($campus);
 
             $this->addFlash('success', 'La Campus été modifié avec succès.');
 
@@ -120,27 +117,27 @@ class CampusController extends AbstractController
 
     /**
      * @Route("/autocomplete", name="autocomplete", methods={"GET"})
-     * @param CampusDoctrineRepository $campusDoctrineRepository
+     * @param CampusManager $campusManager
      * @param Request $request
      * @return JsonResponse
      */
-    public function autocomplete(CampusDoctrineRepository $campusDoctrineRepository, Request $request)
+    public function autocomplete(CampusManager $campusManager, Request $request)
     {
         $query = $request->query->get('query');
 
-        $campuss = $campusDoctrineRepository->findLikeQuery($query);
-        $campuss = array_map(function($campus){
+        $campuses = $campusManager->findLikeQuery($query);
+        $campuses = array_map(function($campus){
             return $campus->getLabel();
-        }, $campuss);
+        }, $campuses);
 
-        $campuss = array_unique($campuss);
-        $campuss = array_values($campuss);
+        $campuses = array_unique($campuses);
+        $campuses = array_values($campuses);
 
-        return $this->json(['query' =>  $query, 'suggestions' => $campuss, 'data' => $campuss]);
+        return $this->json(['query' =>  $query, 'suggestions' => $campuses, 'data' => $campuses]);
     }
 
     /**
-     * @Route("autocompleteS2", name="autocompleteS2")
+     * @Route("autocompleteS2", name="autocompleteS2", methods={"GET"})
      *
      * @param Request $request
      * @return Response

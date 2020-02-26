@@ -3,10 +3,12 @@
 
 namespace AppBundle\Repository;
 
-
 use AppBundle\Entity\ActivityType;
-use Doctrine\ORM\QueryBuilder;
 
+/**
+ * Interface ActivityTypeRepositoryInterface
+ * @package AppBundle\Repository
+ */
 interface ActivityTypeRepositoryInterface extends RepositoryInterface
 {
     /**
