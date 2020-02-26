@@ -1,4 +1,5 @@
 {% if report is defined and report is not null %}
+    <h2>Titre du rapport: {{ report.title }}</h2>
     {% for message in report.messages %}
         <div class="alert alert-{{ message.type }}">
             {{ message.content }}
@@ -29,4 +30,5 @@
             </tbody>
         </table>
     {% endif %}
+    <hr>
 {% endif %}

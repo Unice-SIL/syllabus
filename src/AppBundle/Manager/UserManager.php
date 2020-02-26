@@ -5,32 +5,36 @@ namespace AppBundle\Manager;
 
 
 use AppBundle\Entity\User;
+use AppBundle\Helper\ErrorManager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
-class UserManager
+class UserManager extends AbstractManager
 {
     private $tokenGenerator;
-    private $em;
 
     /**
      * UserManager constructor.
      * @param TokenGeneratorInterface $tokenGenerator
      * @param EntityManagerInterface $em
+     * @param ErrorManager $errorManager
      */
-    public function __construct(TokenGeneratorInterface $tokenGenerator, EntityManagerInterface $em)
+    public function __construct(
+        TokenGeneratorInterface $tokenGenerator,
+        EntityManagerInterface $em,
+        ErrorManager $errorManager
+    )
     {
+        parent::__construct($em, $errorManager);
         $this->tokenGenerator = $tokenGenerator;
-        $this->em = $em;
     }
 
     public function create()
     {
-        $user = new User();
-        return $user;
+        return new User();
     }
 
     public function setResetPasswordToken(User $user, array $options = [])
@@ -50,4 +54,11 @@ class UserManager
 
         return $token;
     }
+
+    protected function getClass(): string
+    {
+        return User::class;
+    }
+
+
 }

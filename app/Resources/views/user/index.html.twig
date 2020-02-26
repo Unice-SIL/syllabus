@@ -26,8 +26,8 @@
                             <td>{{ user.firstname }}</td>
                             <td>{{ user.email }}</td>
                             <td>
-                                {% for role in user.roles %}
-                                    {{ not loop.first ? ',' }}{{ role }}
+                                {% for group in user.groups %}
+                                    {{ not loop.first ? ', ' }}{{ group }}
                                 {% endfor %}
                             </td>
                         </tr>
