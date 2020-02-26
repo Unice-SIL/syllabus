@@ -6,10 +6,32 @@ namespace AppBundle\Parser;
 use AppBundle\Helper\Report\Report;
 use AppBundle\Helper\Report\ReportLine;
 use AppBundle\Helper\Report\ReportMessage;
+use League\Csv\AbstractCsv;
 use League\Csv\Reader;
 
 abstract class AbstractCsvParser extends AbstractParser
 {
+
+    private $csv;
+
+    /**
+     * @return AbstractCsv
+     */
+    public function getCsv(): AbstractCsv
+    {
+        return $this->csv;
+    }
+
+    /**
+     * @param AbstractCsv $csv
+     * @return AbstractCsvParser
+     */
+    private function setCsv(AbstractCsv $csv): self
+    {
+        $this->csv = $csv;
+        return $this;
+    }
+    
 
     public function subParse($source, $options = [], Report $report): array
     {
@@ -21,15 +43,15 @@ abstract class AbstractCsvParser extends AbstractParser
             'allow_less_field' => false
         ], $options);
 
-        $csv = Reader::createFromPath($source);
-        $csv->setHeaderOffset($options['headerOffset']);
-        $csv->setDelimiter($options['delimiter']);
+        $this->setCsv(Reader::createFromPath($source));
+        $this->getCsv()->setHeaderOffset($options['headerOffset']);
+        $this->getCsv()->setDelimiter($options['delimiter']);
 
         $fields = $this->getFields();
 
         if(
             false === $options['allow_extra_field']
-            and count($unknowFields = array_diff($csv->getHeader(), $fields)) > 0
+            and count($unknowFields = array_diff($this->getCsv()->getHeader(), $fields)) > 0
         )
         {
             $report->createMessage(
@@ -41,7 +63,7 @@ abstract class AbstractCsvParser extends AbstractParser
 
         if(
             false === $options['allow_less_field']
-            and count($missingFields = array_diff($fields, $csv->getHeader())) > 0
+            and count($missingFields = array_diff($fields, $this->getCsv()->getHeader())) > 0
         )
         {
             $report->createMessage(
@@ -52,7 +74,7 @@ abstract class AbstractCsvParser extends AbstractParser
         }
 
         $lineIds = $this->getLineIds();
-        if (count($missingFields = array_diff($lineIds, $csv->getHeader())) > 0)
+        if (count($missingFields = array_diff($lineIds, $this->getCsv()->getHeader())) > 0)
         {
             $report->createMessage(
                 "Les champs suivants sont nécessaires pour pouvoir identifier les lignes : "
@@ -67,7 +89,7 @@ abstract class AbstractCsvParser extends AbstractParser
         }
 
         $entities = [];
-        foreach ($csv as $offset => $record) {
+        foreach ($this->getCsv() as $offset => $record) {
 
             $lineId = '';
             foreach ($lineIds as $id) {
@@ -160,7 +182,7 @@ abstract class AbstractCsvParser extends AbstractParser
 
         }
 
-        $report->finishReport(iterator_count($csv));
+        $report->finishReport(iterator_count($this->getCsv()));
 
         return $entities;
     }

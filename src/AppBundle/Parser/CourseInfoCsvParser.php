@@ -4,6 +4,7 @@
 namespace AppBundle\Parser;
 
 use AppBundle\Entity\Course;
+use AppBundle\Entity\Structure;
 use AppBundle\Entity\Year;
 use AppBundle\Helper\Report\ReportLine;
 use AppBundle\Manager\CourseInfoManager;
@@ -39,13 +40,10 @@ class CourseInfoCsvParser extends AbstractCsvParser implements ParserInterface
         return [
             'course' => ['name' => 'code', 'type'=> 'object', 'entity' => Course::class, 'findBy' => 'code'],
             'year' => ['name' => 'year', 'type'=> 'object', 'entity' => Year::class, 'findBy' => 'id'],
+            'structure' => ['name' => 'structure', 'type' => 'object', 'entity' => Structure::class, 'findBy' => 'code'],
             'title',
             'ects' => ['type' => 'float'],
-            'level',
-            'languages',
-            'domain',
             'summary',
-            'period',
             'teachingMode',
             'teachingCmClass' => ['type' => 'float'],
             'teachingTdClass' => ['type' => 'float'],
