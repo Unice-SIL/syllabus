@@ -39,7 +39,7 @@ class CourseInfo
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=200, nullable=false)
-     * @Assert\NotBlank(groups={"new"})
+     * @Assert\NotBlank(groups={"new", "edit"})
      * @JMS\Groups(groups={"default", "course_info"})
      */
     private $title;
@@ -482,7 +482,7 @@ class CourseInfo
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="structure_id", referencedColumnName="id", nullable=false)
      * })
-     * @Assert\NotBlank(groups={"new"})
+     * @Assert\NotBlank(groups={"new", "edit"})
      * @JMS\Type("AppBundle\Entity\Structure")
      * @JMS\Groups(groups={"course_info"})
      */
@@ -1720,7 +1720,7 @@ class CourseInfo
      * @param Structure $structure
      * @return CourseInfo
      */
-    public function setStructure(Structure $structure): self
+    public function setStructure(?Structure $structure): self
     {
         $this->structure = $structure;
 

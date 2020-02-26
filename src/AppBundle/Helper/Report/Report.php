@@ -14,12 +14,21 @@ class Report
     private $lines;
 
     /**
-     * Report constructor.
+     * @var string|null
      */
-    public function __construct()
+    private $title = 'Aucun';
+
+    /**
+     * Report constructor.
+     * @param string|null $title
+     */
+    public function __construct(string $title = null)
     {
         $this->messages = new ArrayCollection();
         $this->lines = new ArrayCollection();
+        if (null !== $title) {
+            $this->setTitle($title);
+        }
 
     }
 
@@ -72,7 +81,7 @@ class Report
             $failedMessage->setType(ReportMessage::TYPE_DANGER);
         }
 
-        $this->addMessage(new ReportMessage($totalLine - $this->getLines()->count() . ' ligne(s) a/ont été importée(s) avec succès', ReportMessage::TYPE_SUCCESS));
+        $this->addMessage(new ReportMessage($totalLine - $this->getLines()->count() . ' ligne(s) a/ont réussi', ReportMessage::TYPE_SUCCESS));
     }
 
     public function hasMessages()
@@ -83,6 +92,41 @@ class Report
     public function hasLines()
     {
         return !$this->lines->isEmpty();
+    }
+
+    public function addCommentToLine($error, string $lineIdReport)
+    {
+        if (!$line = $this->getLineReport($lineIdReport)) {
+            $line =  new ReportLine($lineIdReport);
+            $this->addLine($line);
+        }
+
+        $line->addComment($error);
+
+        return $line;
+    }
+
+    public function getLineReport(string $lineIdReport)
+    {
+        return $this->getLines()->filter(function ($line) use($lineIdReport){return $line->getId() === $lineIdReport;})->first();
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string|null $title
+     */
+    public function setTitle(?string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
     }
 
 }

@@ -4,6 +4,7 @@
 namespace AppBundle\Helper;
 
 
+use AppBundle\Helper\Report\Report;
 use Symfony\Component\Translation\Exception\InvalidResourceException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -39,5 +40,26 @@ class ErrorManager
 
             throw new InvalidResourceException($message);
         }
+    }
+
+    public function hydrateLineReportIfInvalidEntity($value, Report $report, string $lineIdReport, $options = [])
+    {
+        $options = array_merge([
+            'constraints' => null,
+            'groups' => null,
+        ], $options);
+
+        $violations = $this->validator->validate($value, $options['constraints'], $options['groups']);
+        if (count($violations) > 0) {
+
+            foreach ($violations as $violation) {
+                $error = $violation->getPropertyPath() . ' => ' . $violation->getMessage() . "\n";
+                $line = $report->addCommentToLine($error, $lineIdReport);
+            }
+
+            return $line;
+        }
+
+        return null;
     }
 }

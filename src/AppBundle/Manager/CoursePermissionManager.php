@@ -5,32 +5,36 @@ namespace AppBundle\Manager;
 
 
 use AppBundle\Entity\CoursePermission;
+use AppBundle\Helper\ErrorManager;
+use AppBundle\Helper\Report\ReportingHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Ramsey\Uuid\Uuid;
 
-class CoursePermissionManager
+class CoursePermissionManager extends AbstractManager
 {
-    /**
-     * @var EntityManagerInterface
-     */
-    private $em;
 
-    public function __construct(EntityManagerInterface $em)
+    /**
+     * CoursePermissionManager constructor.
+     * @param EntityManagerInterface $em
+     * @param ErrorManager $errorManager
+     */
+    public function __construct(EntityManagerInterface $em, ErrorManager $errorManager)
     {
-        $this->em = $em;
+        parent::__construct($em, $errorManager);
     }
 
     /**
      * @return CoursePermission
      * @throws \Exception
      */
-    public function create()
+    public function create(): CoursePermission
     {
-        $coursePermission = new CoursePermission();
+        return new CoursePermission();
+    }
 
-        $coursePermission->setId(Uuid::uuid4());
-
-        return $coursePermission;
+    protected function getClass(): string
+    {
+        return CoursePermission::class;
     }
 
 }

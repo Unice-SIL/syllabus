@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use AppBundle\Constant\Permission;
+use AppBundle\Traits\Importable;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -21,6 +22,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class CoursePermission
 {
+
+    use Importable;
+
     /**
      * @var string
      *
