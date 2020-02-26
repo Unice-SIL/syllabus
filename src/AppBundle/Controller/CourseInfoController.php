@@ -298,6 +298,7 @@ class CourseInfoController extends Controller
             $fieldsToUpdate = array_map(function ($courseInfoField) {
                 return $courseInfoField->getField();
                 }, $courseInfoFields);
+            $fieldsToUpdate = array_intersect($fieldsToUpdate, $courseInfoCsvParser->getCsv()->getHeader());
 
             $validationReport = ReportingHelper::createReport('Insertion en base de données');
 
