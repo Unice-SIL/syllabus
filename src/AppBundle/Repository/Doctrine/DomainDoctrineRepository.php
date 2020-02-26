@@ -1,102 +1,26 @@
 <?php
 
-
 namespace AppBundle\Repository\Doctrine;
 
-
 use AppBundle\Entity\Domain;
-use AppBundle\Repository\DomainRepositoryInterface;
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
 
-class DomainDoctrineRepository extends AbstractDoctrineRepository implements DomainRepositoryInterface
+/**
+ * Class DomainDoctrineRepository
+ * @package AppBundle\Repository\Doctrine
+ */
+class DomainDoctrineRepository extends ServiceEntityRepository
 {
 
     /**
      * DomainDoctrineRepository constructor.
-     * @param EntityManagerInterface $entityManager
+     * @param ManagerRegistry $registry
      */
-    public function __construct(
-        EntityManagerInterface $entityManager
-    )
+    public function __construct(ManagerRegistry $registry)
     {
-        $this->entityManager = $entityManager;
-    }
-
-    /**
-     * @param string $id
-     * @return Domain|null
-     * @throws \Exception
-     */
-    public function find(string $id): ?Domain
-    {
-        $domain = null;
-        try {
-            $domain = $this->entityManager->getRepository(Domain::class)->find($id);
-        } catch(\Exception $e) {
-            throw $e;
-        }
-        return $domain;
-    }
-
-    /**
-     * @return \ArrayObject
-     * @throws \Exception
-     */
-    public function findAll(): \ArrayObject
-    {
-        $domain = new \ArrayObject();
-        try {
-            foreach($this->entityManager->getRepository(Domain::class)
-                        ->findBy([], ['label' => 'ASC']) as $domain) {
-                $domain->append($domain);
-            }
-        } catch(\Exception $e) {
-            throw $e;
-        }
-        return $domain;
-    }
-
-    /**
-     * @param Domain $domain
-     * @throws \Exception
-     */
-    public function create(Domain $domain): void
-    {
-        try {
-            $this->entityManager->persist($domain);
-            $this->entityManager->flush();
-        } catch (\Exception $e){
-            throw $e;
-        }
-    }
-
-    /**
-     * @param Domain $domain
-     * @throws \Exception
-     */
-    public function update(Domain $domain): void
-    {
-        try {
-            $this->entityManager->persist($domain);
-            $this->entityManager->flush();
-        } catch(\Exception $e) {
-            throw $e;
-        }
-    }
-
-    /**
-     * @param Domain $domain
-     * @throws \Exception
-     */
-    public function delete(Domain $domain): void
-    {
-        try {
-            $this->entityManager->remove($domain);
-            $this->entityManager->flush();
-        } catch(\Exception $e) {
-            throw $e;
-        }
+        parent::__construct($registry, Domain::class);
     }
 
     /**
@@ -104,7 +28,7 @@ class DomainDoctrineRepository extends AbstractDoctrineRepository implements Dom
      */
     public function getIndexQueryBuilder(): QueryBuilder
     {
-        return $this->entityManager->getRepository(Domain::class)
+        return $this->_em->getRepository(Domain::class)
             ->createQueryBuilder('d')
             ->addOrderBy('d.label', 'ASC')
             ;
@@ -112,26 +36,28 @@ class DomainDoctrineRepository extends AbstractDoctrineRepository implements Dom
 
     /**
      * @param string $query
-     * @param string $field
      * @return array
      */
     public function findLikeQuery(string $query): array
     {
-        return $this->entityManager->getRepository(Domain::class)->createQueryBuilder('d')
+        return $this->getIndexQueryBuilder()
             ->andWhere('d.label LIKE :query ')
             ->setParameter('query', '%' . $query . '%')
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 
+    /**
+     * @param array $config
+     * @return QueryBuilder
+     */
     public function findQueryBuilderForApi(array $config): QueryBuilder
     {
         $qb = $this->getIndexQueryBuilder();
 
         foreach ($config['filters'] as $filter => $value) {
             $valueName = 'value'.$filter;
-            $qb->andWhere($qb->expr()->eq($qb->getRootAlias() . '.' . $filter, ':' . $valueName))
+            $qb->andWhere($qb->expr()->eq('d.' . $filter, ':' . $valueName))
                 ->setParameter($valueName, $value)
             ;
         }

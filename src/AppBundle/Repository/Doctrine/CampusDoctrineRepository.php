@@ -3,72 +3,33 @@
 namespace AppBundle\Repository\Doctrine;
 
 use AppBundle\Entity\Campus;
-use AppBundle\Repository\CampusRepositoryInterface;
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
 
 /**
  * Class CampusDoctrineRepository
  * @package AppBundle\Repository\Doctrine
  */
-class CampusDoctrineRepository extends AbstractDoctrineRepository implements CampusRepositoryInterface
+class CampusDoctrineRepository extends ServiceEntityRepository
 {
     /**
      * CampusDoctrineRepository constructor.
-     * @param EntityManagerInterface $entityManager
+     * @param ManagerRegistry $registry
      */
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($entityManager, Campus::class);
+        parent::__construct($registry, Campus::class);
     }
 
     /**
-     * @param $id
-     * @return Campus|null
+     * @return QueryBuilder
      */
-    public function find($id): ?Campus
+    public function getIndexQueryBuilder(): QueryBuilder
     {
-        return $this->repository->find($id);
-    }
-
-    /**
-     * @return array
-     */
-    public function findAll(): array
-    {
-        return $this->repository->findAll();
-    }
-
-    /**
-     * @param Campus $campus
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
-    public function create(Campus $campus): void
-    {
-        $this->entityManager->persist($campus);
-        $this->entityManager->flush();
-    }
-
-    /**
-     * @param Campus $campus
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
-    public function update(Campus $campus): void
-    {
-        $this->entityManager->flush();
-    }
-
-    /**
-     * @param Campus $campus
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
-    public function delete(Campus $campus): void
-    {
-        $this->entityManager->remove($campus);
-        $this->entityManager->flush();
+        return $this->_em->getRepository(Campus::class)
+            ->createQueryBuilder('c')
+            ->addOrderBy('c.label', 'ASC');
     }
 
     /**
@@ -77,12 +38,11 @@ class CampusDoctrineRepository extends AbstractDoctrineRepository implements Cam
      */
     public function findLikeQuery(string $query): array
     {
-        return $this->entityManager->getRepository(Campus::class)->createQueryBuilder('c')
+        return $this->getIndexQueryBuilder()
             ->andWhere('c.label LIKE :query ')
             ->setParameter('query', '%' . $query . '%')
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 
     /**
@@ -91,9 +51,7 @@ class CampusDoctrineRepository extends AbstractDoctrineRepository implements Cam
      */
     public function findQueryBuilderForApi(array $config): QueryBuilder
     {
-        $qb = $this->entityManager->getRepository(Campus::class)
-            ->createQueryBuilder('c')
-            ->addOrderBy('c.label', 'ASC');
+        $qb = $this->getIndexQueryBuilder();
 
         foreach ($config['filters'] as $filter => $value) {
             $valueName = 'value'.$filter;

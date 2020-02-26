@@ -3,71 +3,33 @@
 namespace AppBundle\Repository\Doctrine;
 
 use AppBundle\Entity\ActivityType;
-use AppBundle\Repository\ActivityTypeRepositoryInterface;
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * Class ActivityTypeDoctrineRepository
  * @package AppBundle\Repository\Doctrine
  */
-class ActivityTypeDoctrineRepository extends AbstractDoctrineRepository implements ActivityTypeRepositoryInterface
+class ActivityTypeDoctrineRepository extends ServiceEntityRepository
 {
     /**
-     * TypeActivityDoctrineRepository constructor.
-     * @param EntityManagerInterface $entityManager
+     * ActivityTypeDoctrineRepository constructor.
+     * @param ManagerRegistry $registry
      */
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($entityManager, ActivityType::class);
+        parent::__construct($registry, ActivityType::class);
     }
 
     /**
-     * @param string $id
-     * @return ActivityType|null
+     * @return QueryBuilder
      */
-    public function find(string $id): ?ActivityType
+    public function getIndexQueryBuilder(): QueryBuilder
     {
-        return $this->repository->find($id);
-    }
-
-    /**
-     * @return array
-     */
-    public function findAll(): array
-    {
-        $this->repository->findAll();
-    }
-
-    /**
-     * @param ActivityType $activityType
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
-    public function create(ActivityType $activityType): void
-    {
-        $this->entityManager->persist($activityType);
-        $this->entityManager->flush();
-    }
-
-    /**
-     * @param ActivityType $activityType
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
-    public function update(ActivityType $activityType): void
-    {
-        $this->entityManager->flush();
-    }
-
-    /**
-     * @param ActivityType $activityType
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
-    public function delete(ActivityType $activityType): void
-    {
-        $this->entityManager->remove($activityType);
-        $this->entityManager->flush();
+        return $this->_em->getRepository(ActivityType::class)
+            ->createQueryBuilder('at')
+            ->addOrderBy('at.label', 'ASC');
     }
 
     /**
@@ -77,10 +39,9 @@ class ActivityTypeDoctrineRepository extends AbstractDoctrineRepository implemen
      */
     public function findLikeQuery(string $query, string $field): array
     {
-        return $this->entityManager->getRepository(ActivityType::class)->createQueryBuilder('a')
-            ->andWhere('a.'.$field.' LIKE :query ')
+        return $this->getIndexQueryBuilder()
+            ->andWhere('at.'.$field.' LIKE :query ')
             ->setParameter('query', '%' . $query . '%')
-            ->addOrderBy('a.label', 'ASC')
             ->getQuery()
             ->getResult();
     }

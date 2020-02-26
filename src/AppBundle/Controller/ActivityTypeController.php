@@ -6,7 +6,7 @@ use AppBundle\Entity\ActivityType;
 use AppBundle\Form\ActivityTypeType;
 use AppBundle\Form\Filter\ActivityTypeFilterType;
 use AppBundle\Manager\ActivityTypeManager;
-use Doctrine\ORM\EntityManagerInterface;
+use AppBundle\Repository\Doctrine\ActivityTypeDoctrineRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,16 +27,16 @@ class ActivityTypeController extends AbstractController
     /**
      * @Route("/",name="index", methods={"GET"})
      * @param Request $request
-     * @param EntityManagerInterface $em
+     * @param ActivityTypeDoctrineRepository $repository
      * @param PaginatorInterface $paginator
-     * @return Response
+     * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
      * @return Response
      */
-    public function indexAction(Request $request, EntityManagerInterface $em, PaginatorInterface $paginator, FilterBuilderUpdaterInterface $filterBuilderUpdater)
+    public function indexAction(Request $request, ActivityTypeDoctrineRepository $repository, PaginatorInterface $paginator, FilterBuilderUpdaterInterface $filterBuilderUpdater)
     {
-        $qb =  $em->getRepository(ActivityType::class)->createQueryBuilder('at');
+        $qb =  $repository->getIndexQueryBuilder();
 
-        $form = $this->get('form.factory')->create(ActivityTypeFilterType::class);
+        $form = $this->createForm(ActivityTypeFilterType::class);
 
         if ($request->query->has($form->getName())) {
 
@@ -114,15 +114,15 @@ class ActivityTypeController extends AbstractController
 
     /**
      * @Route("/autocomplete", name="autocomplete", methods={"GET"})
-     * @param ActivityTypeManager $activityTypeManager
+     * @param ActivityTypeDoctrineRepository $repository
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function autocomplete(ActivityTypeManager $activityTypeManager, Request $request)
+    public function autocomplete(ActivityTypeDoctrineRepository $repository, Request $request)
     {
         $query = $request->query->get('query');
 
-        $activitieTypes = $activityTypeManager->findLikeQuery($query, $request->query->get('field'));
+        $activitieTypes = $repository->findLikeQuery($query, $request->query->get('field'));
         $activitieTypes = array_map(function($activityType){
             return $activityType->getLabel();
         }, $activitieTypes);

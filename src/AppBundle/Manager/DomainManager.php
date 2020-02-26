@@ -1,11 +1,9 @@
 <?php
 
-
 namespace AppBundle\Manager;
 
-
 use AppBundle\Entity\Domain;
-use AppBundle\Repository\DomainRepositoryInterface;
+use AppBundle\Repository\Doctrine\DomainDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 class DomainManager
@@ -16,19 +14,36 @@ class DomainManager
     private $em;
 
     /**
-     * @var DomainRepositoryInterface
+     * @var DomainDoctrineRepository
      */
     private $repository;
 
-    public function __construct(EntityManagerInterface $em, DomainRepositoryInterface $repository)
+    /**
+     * DomainManager constructor.
+     * @param EntityManagerInterface $em
+     * @param DomainDoctrineRepository $repository
+     */
+    public function __construct(EntityManagerInterface $em, DomainDoctrineRepository $repository)
     {
         $this->em = $em;
         $this->repository = $repository;
     }
 
-    public function create()
+    /**
+     * @return Domain
+     */
+    public function new()
     {
         return new Domain();
+    }
+
+    /**
+     * @param $id
+     * @return Domain|null
+     */
+    public function find($id): ?Domain
+    {
+        return $this->repository->find($id);
     }
 
     /**
@@ -36,8 +51,33 @@ class DomainManager
      */
     public function findAll()
     {
-        $domains = $this->repository->findAll();
-        return $domains;
+        return $this->repository->findAll();
+    }
+
+    /**
+     * @param Domain $domain
+     */
+    public function create(Domain $domain)
+    {
+        $this->em->persist($domain);
+        $this->em->flush();
+    }
+
+    /**
+     * @param Domain $domain
+     */
+    public function update(Domain $domain): void
+    {
+        $this->em->flush();
+    }
+
+    /**
+     * @param Domain $domain
+     */
+    public function delete(Domain $domain): void
+    {
+        $this->em->remove($domain);
+        $this->em->flush();
     }
 
 }
