@@ -1,116 +1,73 @@
 <?php
 
-
 namespace AppBundle\Repository\Doctrine;
-
 
 use AppBundle\Entity\ActivityType;
 use AppBundle\Repository\ActivityTypeRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\QueryBuilder;
 
+/**
+ * Class ActivityTypeDoctrineRepository
+ * @package AppBundle\Repository\Doctrine
+ */
 class ActivityTypeDoctrineRepository extends AbstractDoctrineRepository implements ActivityTypeRepositoryInterface
 {
     /**
      * TypeActivityDoctrineRepository constructor.
      * @param EntityManagerInterface $entityManager
      */
-    public function __construct(
-        EntityManagerInterface $entityManager
-    )
+    public function __construct(EntityManagerInterface $entityManager)
     {
-        $this->entityManager = $entityManager;
+        parent::__construct($entityManager, ActivityType::class);
     }
 
     /**
      * @param string $id
      * @return ActivityType|null
-     * @throws \Exception
      */
     public function find(string $id): ?ActivityType
     {
-        $activityType = null;
-        try {
-            $activityType = $this->entityManager->getRepository(ActivityType::class)->find($id);
-        } catch(\Exception $e) {
-            throw $e;
-        }
-        return $activityType;
+        return $this->repository->find($id);
     }
 
     /**
-     * @return \ArrayObject
-     * @throws \Exception
+     * @return array
      */
-    public function findAll(): \ArrayObject
+    public function findAll(): array
     {
-        try {
-            $activityTypes = new \ArrayObject();
-            $qb = $this->entityManager->getRepository(ActivityType::class)->createQueryBuilder('a');
-            $qb->where($qb->expr()->eq('a.obsolete', ':obsolete'))
-                ->setParameter('obsolete', false)
-                ->orderBy('a.position', 'ASC')
-                ->addOrderBy('a.label', 'ASC');
-            foreach($this->entityManager->getRepository(ActivityType::class)
-                        ->findBy([], ['label' => 'ASC']) as $activityType) {
-                $activityTypes->append($activityType);
-            }
-        } catch(\Exception $e) {
-            throw $e;
-        }
-        return $activityTypes;
+        $this->repository->findAll();
     }
 
     /**
      * @param ActivityType $activityType
-     * @throws \Exception
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function create(ActivityType $activityType): void
     {
-        try {
-            $this->entityManager->persist($activityType);
-            $this->entityManager->flush();
-        } catch (\Exception $e){
-            throw $e;
-        }
+        $this->entityManager->persist($activityType);
+        $this->entityManager->flush();
     }
 
     /**
      * @param ActivityType $activityType
-     * @throws \Exception
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function update(ActivityType $activityType): void
     {
-        try {
-            $this->entityManager->persist($activityType);
-            $this->entityManager->flush();
-        } catch(\Exception $e) {
-            throw $e;
-        }
+        $this->entityManager->flush();
     }
 
     /**
      * @param ActivityType $activityType
-     * @throws \Exception
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function delete(ActivityType $activityType): void
     {
-        try {
-            $this->entityManager->remove($activityType);
-            $this->entityManager->flush();
-        } catch(\Exception $e) {
-            throw $e;
-        }
-    }
-
-    /**
-     * @return QueryBuilder
-     */
-    public function getIndexQueryBuilder(): QueryBuilder
-    {
-        return $this->entityManager->getRepository(ActivityType::class)
-            ->createQueryBuilder('a')
-            ->addOrderBy('a.label', 'ASC');
+        $this->entityManager->remove($activityType);
+        $this->entityManager->flush();
     }
 
     /**
@@ -120,12 +77,11 @@ class ActivityTypeDoctrineRepository extends AbstractDoctrineRepository implemen
      */
     public function findLikeQuery(string $query, string $field): array
     {
-        $qb = $this->getIndexQueryBuilder();
-        if (in_array($field, ['label'])) {
-            $qb->andWhere($qb->getRootAlias().'.'.$field.' LIKE :query ')
-                ->setParameter('query', '%' . $query . '%')
-            ;
-        }
-        return $qb->getQuery()->getResult();
+        return $this->entityManager->getRepository(ActivityType::class)->createQueryBuilder('a')
+            ->andWhere('a.'.$field.' LIKE :query ')
+            ->setParameter('query', '%' . $query . '%')
+            ->addOrderBy('a.label', 'ASC')
+            ->getQuery()
+            ->getResult();
     }
 }

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace AppBundle\Controller;
-
 
 use AppBundle\Entity\CourseAchievement;
 use AppBundle\Entity\CourseInfo;
@@ -15,6 +13,7 @@ use AppBundle\Form\CourseInfo\CourseAchievement\CourseTutoringResourcesType;
 use AppBundle\Form\CourseInfo\CourseAchievement\RemoveCourseAchievementType;
 use AppBundle\Form\CourseInfo\CourseAchievement\RemoveCoursePrerequisiteType;
 use AppBundle\Form\CourseInfo\CourseAchievement\RemoveCourseTutoringResourcesType;
+use AppBundle\Manager\CourseAchievementManager;
 use AppBundle\Manager\CourseInfoManager;
 use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -76,11 +75,10 @@ class CourseInfoObjectivesCourseController extends AbstractController
      *
      * @param CourseInfo $courseInfo
      * @param Request $request
-     * @param CourseInfoManager $manager
+     * @param CourseAchievementManager $courseAchievementManager
      * @return Response
-     * @throws Exception
      */
-    public function addAchievementAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
+    public function addAchievementAction(CourseInfo $courseInfo, Request $request, CourseAchievementManager $courseAchievementManager)
     {
         if (!$courseInfo instanceof CourseInfo) {
             return $this->json([
@@ -89,14 +87,12 @@ class CourseInfoObjectivesCourseController extends AbstractController
             ]);
         }
 
-        $courseAchievement = new CourseAchievement();
+        $courseAchievement = $courseAchievementManager->new($courseInfo);
         $form = $this->createForm(CourseAchievementType::class, $courseAchievement);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $courseAchievement = $form->getData();
-            $courseInfo->addCourseAchievement($courseAchievement);
-            $manager->update($courseInfo);
+            $courseAchievementManager->create($courseAchievement);
 
             return $this->json([
                 'status' => true,
@@ -117,22 +113,19 @@ class CourseInfoObjectivesCourseController extends AbstractController
     /**
      * @Route("/achievement/edit/{achievementId}", name="edit_achievement"))
      *
-     * @param CourseInfo $courseInfo
      * @param CourseAchievement $achievement
      * @param Request $request
+     * @param CourseAchievementManager $courseAchievementManager
      * @return JsonResponse
      * @ParamConverter("achievement", options={"mapping": {"achievementId": "id"}})
      */
-    public function editAchievementAction(CourseInfo $courseInfo, CourseAchievement $achievement, Request $request)
+    public function editAchievementAction(CourseInfo $courseInfo, CourseAchievement $achievement, Request $request, CourseAchievementManager $courseAchievementManager)
     {
-        $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(CourseAchievementType::class, $achievement);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $achievement = $form->getData();
-            $em->persist($achievement);
-            $em->flush();
+            $courseAchievementManager->update($achievement);
             return $this->json([
                 'status' => true,
                 'content' => null
@@ -155,12 +148,11 @@ class CourseInfoObjectivesCourseController extends AbstractController
      * @param CourseInfo $courseInfo
      * @param CourseAchievement $achievement
      * @param Request $request
-     * @param CourseInfoManager $manager
+     * @param CourseAchievementManager $courseAchievementManager
      * @return JsonResponse
-     * @throws Exception
      * @ParamConverter("achievement", options={"mapping": {"achievementId": "id"}})
      */
-    public function deleteAchievementAction(CourseInfo $courseInfo, CourseAchievement $achievement, Request $request, CourseInfoManager $manager)
+    public function deleteAchievementAction(CourseInfo $courseInfo, CourseAchievement $achievement, Request $request, CourseAchievementManager $courseAchievementManager)
     {
         if (!$achievement instanceof CourseAchievement) {
             return $this->json([
@@ -171,10 +163,7 @@ class CourseInfoObjectivesCourseController extends AbstractController
         $form = $this->createForm(RemoveCourseAchievementType::class, $achievement);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var CourseAchievement $achievement */
-            $achievement = $form->getData();
-            $courseInfo->removeCourseAchievement($achievement);
-            $manager->update($courseInfo);
+            $courseAchievementManager->delete($achievement);
             return $this->json([
                 'status' => true,
                 'content' => null
@@ -205,15 +194,6 @@ class CourseInfoObjectivesCourseController extends AbstractController
         $dataAchievements = $request->request->get('data');
 
         $this->sortList($courseInfo, $achievements, $dataAchievements, $manager);
-        /*if ($dataAchievements)
-        {
-            foreach ($achievements as $achievement) {
-                if (in_array($achievement->getId(), $dataAchievements)) {
-                    $achievement->setPosition(array_search($achievement->getId(), $dataAchievements));
-                }
-            }
-            $manager->update($courseInfo);
-        }*/
 
         return $this->json([
             'status' => true,

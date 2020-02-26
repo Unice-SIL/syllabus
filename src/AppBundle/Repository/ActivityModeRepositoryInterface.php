@@ -3,10 +3,12 @@
 
 namespace AppBundle\Repository;
 
-
 use AppBundle\Entity\ActivityMode;
-use Doctrine\ORM\QueryBuilder;
 
+/**
+ * Interface ActivityModeRepositoryInterface
+ * @package AppBundle\Repository
+ */
 interface ActivityModeRepositoryInterface extends RepositoryInterface
 {
     /**
@@ -34,11 +36,6 @@ interface ActivityModeRepositoryInterface extends RepositoryInterface
      * @param ActivityMode $activityMode
      */
     public function delete(ActivityMode $activityMode): void;
-
-    /**
-     * @return QueryBuilder
-     */
-    public function getIndexQueryBuilder(): QueryBuilder;
 
     /**
      * @param string $query

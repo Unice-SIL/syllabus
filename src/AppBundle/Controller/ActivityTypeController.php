@@ -1,18 +1,14 @@
 <?php
 
-
 namespace AppBundle\Controller;
-
 
 use AppBundle\Entity\ActivityType;
 use AppBundle\Form\ActivityTypeType;
 use AppBundle\Form\Filter\ActivityTypeFilterType;
 use AppBundle\Manager\ActivityTypeManager;
-use AppBundle\Repository\Doctrine\ActivityTypeDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,15 +25,14 @@ class ActivityTypeController extends AbstractController
 {
 
     /**
+     * @Route("/",name="index", methods={"GET"})
      * @param Request $request
      * @param EntityManagerInterface $em
      * @param PaginatorInterface $paginator
      * @return Response
-     * @Route("/",name="index" )
-     * @Method("GET")
      * @return Response
      */
-    public function IndexAction(Request $request, EntityManagerInterface $em, PaginatorInterface $paginator, FilterBuilderUpdaterInterface $filterBuilderUpdater)
+    public function indexAction(Request $request, EntityManagerInterface $em, PaginatorInterface $paginator, FilterBuilderUpdaterInterface $filterBuilderUpdater)
     {
         $qb =  $em->getRepository(ActivityType::class)->createQueryBuilder('at');
 
@@ -65,23 +60,19 @@ class ActivityTypeController extends AbstractController
     /**
      * Creates a new activity.
      *
-     * @Route("/new", name="new")
-     * @Method({"GET", "POST"})
+     * @Route("/new", name="new", methods={"GET", "POST"})
      * @param Request $request
      * @param ActivityTypeManager $activityTypeManager
      * @return RedirectResponse|Response
      */
     public function newAction(Request $request, ActivityTypeManager $activityTypeManager)
     {
-        $activityType = $activityTypeManager->create();
+        $activityType = $activityTypeManager->new();
         $form = $this->createForm(ActivityTypeType::class, $activityType);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($activityType);
-            $em->flush();
+            $activityTypeManager->create($activityType);
 
             $this->addFlash('success', 'Le type d\'activité a été ajoutée avec succès.');
 
@@ -96,20 +87,20 @@ class ActivityTypeController extends AbstractController
     /**
      * Displays a form to edit an existing activity entity.
      *
-     * @Route("/{id}/edit", name="edit")
-     * @Method({"GET", "POST"})
+     * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
      * @param Request $request
      * @param ActivityType $activityType
+     * @param ActivityTypeManager $activityTypeManager
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, ActivityType $activityType)
+    public function editAction(Request $request, ActivityType $activityType, ActivityTypeManager $activityTypeManager)
     {
         $form = $this->createForm(ActivityTypeType::class, $activityType);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $this->getDoctrine()->getManager()->flush();
+            $activityTypeManager->update($activityType);
 
             $this->addFlash('success', 'L\'activité a été modifiée avec succès.');
 
@@ -120,17 +111,18 @@ class ActivityTypeController extends AbstractController
             'form' => $form->createView(),
         ));
     }
+
     /**
      * @Route("/autocomplete", name="autocomplete", methods={"GET"})
-     * @param ActivityTypeDoctrineRepository $activityTypeDoctrineRepository
+     * @param ActivityTypeManager $activityTypeManager
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function autocomplete(ActivityTypeDoctrineRepository $activityTypeDoctrineRepository, Request $request)
+    public function autocomplete(ActivityTypeManager $activityTypeManager, Request $request)
     {
         $query = $request->query->get('query');
 
-        $activitieTypes = $activityTypeDoctrineRepository->findLikeQuery($query, $request->query->get('field'));
+        $activitieTypes = $activityTypeManager->findLikeQuery($query, $request->query->get('field'));
         $activitieTypes = array_map(function($activityType){
             return $activityType->getLabel();
         }, $activitieTypes);

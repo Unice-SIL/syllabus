@@ -1,14 +1,15 @@
 <?php
 
-
 namespace AppBundle\Repository\Doctrine;
-
 
 use AppBundle\Entity\ActivityMode;
 use AppBundle\Repository\ActivityModeRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\QueryBuilder;
 
+/**
+ * Class ActivityModeDoctrineRepository
+ * @package AppBundle\Repository\Doctrine
+ */
 class ActivityModeDoctrineRepository extends AbstractDoctrineRepository implements ActivityModeRepositoryInterface
 {
     /**
@@ -69,16 +70,6 @@ class ActivityModeDoctrineRepository extends AbstractDoctrineRepository implemen
     {
         $this->entityManager->remove($activityMode);
         $this->entityManager->flush();
-    }
-
-    /**
-     * @return QueryBuilder
-     */
-    public function getIndexQueryBuilder(): QueryBuilder
-    {
-        return $this->entityManager->getRepository(ActivityMode::class)
-            ->createQueryBuilder('a')
-            ->addOrderBy('a.label', 'ASC');
     }
 
     /**
