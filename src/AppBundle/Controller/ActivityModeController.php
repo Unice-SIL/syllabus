@@ -29,15 +29,14 @@ use Symfony\Component\Routing\Annotation\Route;
 class ActivityModeController extends AbstractController
 {
     /**
+     * @Route("/", name="index", methods={"GET"})
      * @param Request $request
      * @param EntityManagerInterface $em
      * @param PaginatorInterface $paginator
      * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
      * @return Response
-     * @Route("/",name="index" )
-     * @Method("GET")
      */
-    public function IndexAction(Request $request, EntityManagerInterface $em, PaginatorInterface $paginator, FilterBuilderUpdaterInterface $filterBuilderUpdater)
+    public function indexAction(Request $request, EntityManagerInterface $em, PaginatorInterface $paginator, FilterBuilderUpdaterInterface $filterBuilderUpdater)
     {
         $qb =  $em->getRepository(ActivityMode::class)->createQueryBuilder('am');
 
@@ -63,8 +62,7 @@ class ActivityModeController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="new")
-     * @Method({"GET", "POST"})
+     * @Route("/new", name="new", methods={"GET", "POST"})
      *
      * @param Request $request
      * @param ActivityModeManager $activityTypeManager
@@ -72,15 +70,13 @@ class ActivityModeController extends AbstractController
      */
     public function newAction(Request $request, ActivityModeManager $activityTypeManager)
     {
-        $activityMode = $activityTypeManager->create();
+        $activityMode = $activityTypeManager->new();
         $form = $this->createForm(ActivityModeType::class, $activityMode);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($activityMode);
-            $em->flush();
+            $activityTypeManager->create($activityMode);
 
             $this->addFlash('success', 'Le mode d\'activité a été ajoutée avec succès.');
 
@@ -93,21 +89,21 @@ class ActivityModeController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="edit")
-     * @Method({"GET", "POST"})
+     * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
      *
      * @param Request $request
      * @param ActivityMode $activityMode
+     * @param ActivityModeManager $activityModeManager
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, ActivityMode $activityMode)
+    public function editAction(Request $request, ActivityMode $activityMode, ActivityModeManager $activityModeManager)
     {
         $form = $this->createForm(ActivityModeType::class, $activityMode);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $this->getDoctrine()->getManager()->flush();
+            $activityModeManager->update($activityMode);
 
             $this->addFlash('success', 'Le mode d\'activité a été modifiée avec succès.');
 
@@ -121,15 +117,15 @@ class ActivityModeController extends AbstractController
 
     /**
      * @Route("/autocomplete", name="autocomplete", methods={"GET"})
-     * @param ActivityModeDoctrineRepository $activityModeDoctrineRepository
+     * @param ActivityModeManager $activityModeManager
      * @param Request $request
      * @return JsonResponse
      */
-    public function autocomplete(ActivityModeDoctrineRepository $activityModeDoctrineRepository, Request $request)
+    public function autocomplete(ActivityModeManager $activityModeManager, Request $request)
     {
         $query = $request->query->get('query');
 
-        $activitiesModes = $activityModeDoctrineRepository->findLikeQuery($query);
+        $activitiesModes = $activityModeManager->findLikeQuery($query);
         $activitiesModes = array_map(function($mode){
             return $mode->getLabel();
         }, $activitiesModes);
