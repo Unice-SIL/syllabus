@@ -3,94 +3,33 @@
 namespace AppBundle\Repository\Doctrine;
 
 use AppBundle\Entity\User;
-use AppBundle\Repository\UserRepositoryInterface;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * Class UserDoctrineRepository
  * @package AppBundle\Repository\Doctrine
  */
-class UserDoctrineRepository implements UserRepositoryInterface
+class UserDoctrineRepository extends ServiceEntityRepository
 {
     /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-
-    /**
      * UserDoctrineRepository constructor.
-     * @param EntityManagerInterface $entityManager
+     * @param ManagerRegistry $registry
      */
-    public function __construct(
-        EntityManagerInterface $entityManager
-    )
+    public function __construct(ManagerRegistry $registry)
     {
-        $this->entityManager = $entityManager;
+        parent::__construct($registry, User::class);
     }
 
     /**
-     * Find a user by id
-     * @param string $id
-     * @return User|null
-     * @throws \Exception
+     * @return QueryBuilder
      */
-    public function find(string $id): ?User
+    public function getIndexQueryBuilder(): QueryBuilder
     {
-        $user = null;
-        try{
-            $user = $this->entityManager->getRepository(User::class)->find($id);
-        }catch (\Exception $e){
-            throw $e;
-        }
-        return $user;
-    }
-
-    /**
-     * Find a user by username
-     * @param string $username
-     * @return User|null
-     * @throws \Exception
-     */
-    public function findByUsername(string $username): ?User
-    {
-        $user = null;
-        try {
-            $user = $this->entityManager->getRepository(User::class)->findOneByUsername($username);
-        }catch (\Exception $e){
-            throw $e;
-        }
-        return $user;
-    }
-
-    /**
-     * Create a user
-     * @param User $user
-     * @throws \Exception
-     */
-    public function create(User $user): void
-    {
-        try {
-            $this->entityManager->persist($user);
-            $this->entityManager->flush();
-        }catch (\Exception $e){
-            throw $e;
-        }
-    }
-
-    /**
-     * Update a user
-     * @param User $user
-     * @throws \Exception
-     */
-    public function update(User $user): void
-    {
-        try {
-            $this->entityManager->persist($user);
-            $this->entityManager->flush();
-        }catch (\Exception $e){
-            throw $e;
-        }
+        return $this->_em->getRepository(User::class)
+            ->createQueryBuilder('u')
+            ->addOrderBy('u.lastname', 'ASC');
     }
 
     /**
@@ -100,19 +39,15 @@ class UserDoctrineRepository implements UserRepositoryInterface
      */
     public function findLikeQuery($query, array $searchFields): array
     {
-        $qb = $this->entityManager->getRepository(User::class)
-            ->createQueryBuilder('u')
-            ->setParameter('query', '%' . $query . '%')
-            ;
+        $qb = $this->getIndexQueryBuilder()
+            ->setParameter('query', '%' . $query . '%');
 
         foreach ($searchFields as $field) {
             if (!in_array($field, ['u.firstname', 'u.lastname'])) {
                 continue;
             }
-
             $qb->orWhere($field . ' LIKE :query');
         }
-
         return $qb->getQuery()->getResult();
     }
 }
