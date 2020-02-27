@@ -7,8 +7,6 @@ use AppBundle\Form\UserType;
 use AppBundle\Helper\MailHelper;
 use AppBundle\Manager\UserManager;
 use AppBundle\Repository\Doctrine\UserDoctrineRepository;
-use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,8 +22,7 @@ class UserController extends Controller
     /**
      * Lists all user entities.
      *
-     * @Route("/", name="index")
-     * @Method("GET")
+     * @Route("/", name="index", methods={"GET"})
      *
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
@@ -45,17 +42,18 @@ class UserController extends Controller
 
     /**
      * @Route("/new", name="new")
+     * @param Request $request
+     * @param UserManager $userManager
+     * @return RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function newAction(Request $request, EntityManagerInterface $em, UserManager $userManager)
+    public function newAction(Request $request, UserManager $userManager)
     {
-        $user = $userManager->create();
+        $user = $userManager->new();
         $form = $this->createForm(UserType::class, $user, ['context' => 'new']);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() and $form->isValid()) {
-            $em->persist($user);
-            $em->flush();
-
+            $userManager->create($user);
             $this->addFlash('success', 'L\'utilisateur a bien été enregistré');
 
             return $this->redirectToRoute('app_admin_user_edit', ['id' => $user->getId()]);
@@ -68,20 +66,20 @@ class UserController extends Controller
     /**
      * Displays a form to edit an existing user entity.
      *
-     * @Route("/{id}/edit", name="edit")
-     * @Method({"GET", "POST"})
+     * @Route("/{id}/edit", name="edit"), methods={"GET", "POST"}
      *
      * @param Request $request
      * @param User $user
+     * @param UserManager $userManager
      * @return RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function editAction(Request $request, User $user)
+    public function editAction(Request $request, User $user, UserManager $userManager)
     {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $userManager->update($user);
 
             $this->addFlash('success', 'L\'utilisateur a bien été modifié.');
 
