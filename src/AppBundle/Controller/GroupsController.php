@@ -158,7 +158,8 @@ class GroupsController extends Controller
      *
      * @Route("/{id}", name="delete", methods={"DELETE"})
      * @param Request $request
-     * @param Groups $group
+     * @param Groups $groups
+     * @param GroupsManager $groupsManager
      * @return RedirectResponse
      */
     public function deleteAction(Request $request, Groups $groups, GroupsManager $groupsManager)

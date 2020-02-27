@@ -7,9 +7,7 @@ use AppBundle\Form\Filter\StructureFilterType;
 use AppBundle\Form\StructureType;
 use AppBundle\Manager\StructureManager;
 use AppBundle\Repository\Doctrine\StructureDoctrineRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -67,16 +65,18 @@ class StructureController extends Controller
 
     /**
      * @Route("/new", name="new")
+     * @param Request $request
+     * @param StructureManager $structureManager
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function newAction(Request $request, EntityManagerInterface $em, StructureManager $structureManager)
+    public function newAction(Request $request, StructureManager $structureManager)
     {
-        $structure = $structureManager->create();
+        $structure = $structureManager->new();
         $form = $this->createForm(StructureType::class, $structure, ['context' => 'new']);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() and $form->isValid()) {
-            $em->persist($structure);
-            $em->flush();
+            $structureManager->create($structure);
 
             $this->addFlash('success', 'La structure a été enregistrée avec succès');
 
@@ -88,22 +88,21 @@ class StructureController extends Controller
     /**
      * Displays a form to edit an existing structure entity.
      *
-     * @Route("/{id}/edit", name="edit")
-     * @Method({"GET", "POST"})
-     *
+     * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
+     * @param Request $request
+     * @param Structure $structure
+     * @param StructureManager $structureManager
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function editAction(Request $request, Structure $structure, EntityManagerInterface $entityManager)
+    public function editAction(Request $request, Structure $structure, StructureManager $structureManager)
     {
         $form = $this->createForm(StructureType::class, $structure);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $entityManager->flush();
-
+            $structureManager->update($structure);
 
             $this->addFlash('success', 'La strucutre a été modifiée avec succès.');
-
             return $this->redirectToRoute('app_admin_structure_edit', array('id' => $structure->getId()));
         }
 
