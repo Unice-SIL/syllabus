@@ -3,110 +3,23 @@
 namespace AppBundle\Repository\Doctrine;
 
 use AppBundle\Entity\Structure;
-use AppBundle\Repository\StructureRepositoryInterface;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
 
 /**
  * Class StructureDoctrineRepository
  * @package AppBundle\Repository\Doctrine
  */
-class StructureDoctrineRepository extends AbstractDoctrineRepository implements StructureRepositoryInterface
+class StructureDoctrineRepository extends ServiceEntityRepository
 {
-
     /**
      * StructureDoctrineRepository constructor.
-     * @param EntityManager $entityManager
+     * @param ManagerRegistry $registry
      */
-    public function __construct(
-        EntityManagerInterface $entityManager
-    )
+    public function __construct(ManagerRegistry $registry)
     {
-        $this->entityManager = $entityManager;
-    }
-
-    /**
-     * @return \ArrayObject
-     * @throws \Exception
-     */
-    public function findAll(): \ArrayObject
-    {
-        $structures = new \ArrayObject();
-        try {
-            $qb = $this->entityManager->getRepository(Structure::class)->createQueryBuilder('s');
-            $qb->where($qb->expr()->eq('s.obsolete', ':obsolete'))
-                ->setParameter('obsolete', false)
-                ->addOrderBy('s.label', 'ASC');
-            foreach ($qb->getQuery()->getResult() as $structure){
-                $structures->append($structure);
-            }
-        } catch (\Exception $exception)
-        {
-            throw $exception;
-        }
-
-        return $structures;
-    }
-
-    /**
-     * @param string $id
-     * @return Structure|null
-     * @throws \Exception
-     */
-    public function find(string $id): ?Structure
-    {
-        $structure = null;
-        try{
-            $structure = $this->entityManager->getRepository(Structure::class)->find($id);
-        }catch (\Exception $e){
-            throw $e;
-        }
-        return $structure;
-    }
-
-    /**
-     * @param string $code
-     * @return Structure|null
-     * @throws \Exception
-     */
-    public function findByCode(string $code): ?Structure
-    {
-        $structure = null;
-        try{
-            $structure = $this->entityManager->getRepository(Structure::class)->findOneByCode($code);
-        }catch (\Exception $e){
-            throw $e;
-        }
-        return $structure;
-    }
-
-    /**
-     * @param Structure $structure
-     * @throws \Exception
-     */
-    public function create(Structure $structure): void
-    {
-        try{
-            $this->entityManager->persist($structure);
-            $this->entityManager->flush();
-        }catch (\Exception $e){
-            throw $e;
-        }
-    }
-
-    /**
-     * @param Structure $structure
-     * @throws \Exception
-     */
-    public function update(Structure $structure): void
-    {
-        try{
-            $this->entityManager->persist($structure);
-            $this->entityManager->flush();
-        }catch (\Exception $e){
-            throw $e;
-        }
+        parent::__construct($registry, Structure::class);
     }
 
     /**
@@ -114,13 +27,11 @@ class StructureDoctrineRepository extends AbstractDoctrineRepository implements 
      */
     public function getIndexQueryBuilder(): QueryBuilder
     {
-        return $this->entityManager->getRepository(Structure::class)
+        return $this->_em->getRepository(Structure::class)
             ->createQueryBuilder('s')
             ->addOrderBy('s.code', 'ASC')
-            ->addOrderBy('s.label', 'ASC')
-            ;
+            ->addOrderBy('s.label', 'ASC');
     }
-
 
     /**
      * @param string $query
@@ -132,12 +43,10 @@ class StructureDoctrineRepository extends AbstractDoctrineRepository implements 
         $qb = $this->getIndexQueryBuilder();
 
         if (in_array($field, ['code', 'label'])) {
-            $qb->andWhere($qb->getRootAlias().'.'.$field.' LIKE :query ')
-                ->setParameter('query', '%' . $query . '%')
-            ;
+            $qb->andWhere('s.'.$field.' LIKE :query ')
+                ->setParameter('query', '%' . $query . '%');
         }
-        return $qb->getQuery()->getResult()
-            ;
+        return $qb->getQuery()->getResult();
     }
 
 }

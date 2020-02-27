@@ -20,7 +20,7 @@
         <div id="card-achievement" class="card my-2 shadow card-syllabus"
              data-view-url="{{ path('objective_course_achievement_view', {'id': courseInfo.id }) }}"
         >
-            <div class="card-header" style="background-color: #8CD0D3">
+            <div class="card-header" style="background-color: #c0c0c0">
                 <div class="d-flex justify-content-between">
                     <h5>{{ criticalAchievement.criticalAchievement.label }}</h5>
                     <div>
@@ -51,10 +51,18 @@
             <div class="card my-2 shadow card-syllabus">
                 <div class="card-header">
                     <div class="d-flex justify-content-between">
-                    <span>
-                        Règle de validation de l'objectif d'apprentissage :
+                    <span class="text-bold">
+
                         {% if criticalAchievement.rule == 'Score' %}
-                            {{ criticalAchievement.score }} points sont nécessaire
+                            {% if criticalAchievement.id in tabValideScore %}
+                                <i class="fas fa-circle success"></i>
+                            {% else %}
+                                <i class="fas fa-circle danger"></i>
+                            {% endif %}
+                        {% endif %}
+                        <span>Règle de validation de l'objectif d'apprentissage :</span>
+                        {% if criticalAchievement.rule == 'Score' %}
+                            {{ criticalAchievement.score }} points sont nécessaires
                         {% else %}
                             {{ criticalAchievement.rule }}
                         {% endif %}

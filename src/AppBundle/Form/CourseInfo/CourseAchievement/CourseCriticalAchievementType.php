@@ -34,7 +34,6 @@ class CourseCriticalAchievementType extends AbstractType
             ])
             ->add('rule', ChoiceType::class, [
                 'choices' => CriticalAchievementRules::RULES,
-                'data' => CriticalAchievementRules::NO_RULE,
                 'required' => true
             ])
             ->add('score', IntegerType::class, [
