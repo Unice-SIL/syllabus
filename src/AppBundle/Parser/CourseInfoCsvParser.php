@@ -4,6 +4,7 @@
 namespace AppBundle\Parser;
 
 use AppBundle\Entity\Course;
+use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\Structure;
 use AppBundle\Entity\Year;
 use AppBundle\Helper\Report\ReportLine;
@@ -38,8 +39,8 @@ class CourseInfoCsvParser extends AbstractCsvParser implements ParserInterface
     protected function getBaseMatching(): array
     {
         return [
-            'course' => ['name' => 'code', 'type'=> 'object', 'entity' => Course::class, 'findBy' => 'code'],
-            'year' => ['name' => 'year', 'type'=> 'object', 'entity' => Year::class, 'findBy' => 'id'],
+            'course' => ['name' => 'code', 'required' => true, 'type'=> 'object', 'entity' => Course::class, 'findBy' => 'code', 'description' => "Code du cours du syllabus"],
+            'year' => ['name' => 'year', 'required' => true, 'type'=> 'object', 'entity' => Year::class, 'findBy' => 'id', 'description' => "Année du syllabus"],
             'structure' => ['name' => 'structure', 'type' => 'object', 'entity' => Structure::class, 'findBy' => 'code'],
             'title',
             'ects' => ['type' => 'float'],
@@ -89,6 +90,15 @@ class CourseInfoCsvParser extends AbstractCsvParser implements ParserInterface
         return ['code', 'year'];
     }
 
+    /**
+     * @param CourseInfo $entity
+     * @param string $property
+     * @param string $name
+     * @param string $type
+     * @param $data
+     * @param ReportLine $reportLine
+     * @return bool
+     */
     protected function manageSpecialCase($entity, string $property, string $name, string $type, $data, ReportLine $reportLine): bool
     {
         switch ($name) {

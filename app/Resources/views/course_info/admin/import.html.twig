@@ -1,0 +1,75 @@
+{% extends 'admin_layout.html.twig' %}
+{% set h1 = 'Importer des MCC' %}
+
+{% block modals %}
+    {{parent()}}
+{% endblock %}
+{% block subContent %}
+
+    <div class="card">
+        <div class="card-body">
+            {{ form_start(form) }}
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <div class="custom-file">
+                            {{ form_label(form.file) }}
+                            {{ form_widget(form.file) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary">Importer</button>
+                    </div>
+                </div>
+            </div>
+
+            {{ form_end(form) }}
+
+            {{ report_render(parsingCsvReport) }}
+
+            {{ report_render(validationReport) }}
+
+            <h5>Format du fichier CSV</h5>
+            <ul>
+                <li>
+                    La 1ère ligne du fichier correspond à l'entête et doit contenir les noms des champs à importer
+                </li>
+                <li>
+                    Chaque champs que ce soit pour le nom dans l'entête ou pour les valeurs doivent être séparés par un point-virgule (;).
+                </li>
+                <li>
+                    La liste des champs pouvant être spécifiés dans le fichier d'import est présentée ci-dessous.
+                </li>
+                <li>
+                    Pour évite tout problème d'encodage, le fichier doit être encodé en UTF-8.
+                </li>
+            </ul>
+
+            <p>
+                Exemple:<br>
+                code;year;title<br>
+                SLEPB111;2018;"Introduction à la Microbiologie"<br>
+            </p>
+
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Obligatoire</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for field in courseInfoFieldsAllowed %}
+                        <tr>
+                            <td>{{ field.name }}</td>
+                            <td>{{ field.required|humanizeBoolean }}</td>
+                            <td>{{ field.description }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+{% endblock %}

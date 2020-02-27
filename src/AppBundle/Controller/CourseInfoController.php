@@ -271,7 +271,7 @@ class CourseInfoController extends Controller
     }
 
     /**
-     * @Route("/import-mcc", name="import_mcc", methods={"GET", "POST"})
+     * @Route("/import-csv", name="import_csv", methods={"GET", "POST"})
      *
      * @param Request $request
      * @param EntityManagerInterface $em
@@ -285,6 +285,15 @@ class CourseInfoController extends Controller
         $form = $this->createForm(ImportType::class);
         $form->handleRequest($request);
 
+        $courseInfoFields = $em->getRepository(CourseInfoField::class)->findByImport(true);
+        $fieldsToUpdate = array_map(function ($courseInfoField) {
+            return $courseInfoField->getField();
+        }, $courseInfoFields);
+
+        $courseInfoFieldsAllowed = array_filter(iterator_to_array($courseInfoCsvParser->getCompleteMatching()), function ($value, $key) use ($fieldsToUpdate){
+            return in_array($key, $fieldsToUpdate) || (is_array($value) && array_key_exists('required', $value) && $value['required'] === true);
+        }, ARRAY_FILTER_USE_BOTH);
+
         if ($form->isSubmitted() and $form->isValid())
         {
 
@@ -294,10 +303,7 @@ class CourseInfoController extends Controller
                 'report' => ReportingHelper::createReport('Parsing du Fichier Csv'),
             ]);
 
-            $courseInfoFields = $em->getRepository(CourseInfoField::class)->findByImport(true);
-            $fieldsToUpdate = array_map(function ($courseInfoField) {
-                return $courseInfoField->getField();
-                }, $courseInfoFields);
+
             $fieldsToUpdate = array_intersect($fieldsToUpdate, $courseInfoCsvParser->getCsv()->getHeader());
 
             $validationReport = ReportingHelper::createReport('Insertion en base de données');
@@ -324,10 +330,11 @@ class CourseInfoController extends Controller
 
         }
 
-        return $this->render('course_info/admin/import_mcc.html.twig', [
+        return $this->render('course_info/admin/import.html.twig', [
             'form' => $form->createView(),
             'parsingCsvReport' => $request->getSession()->remove('parsingCsvReport'),
             'validationReport' => $request->getSession()->remove('validationReport'),
+            'courseInfoFieldsAllowed' => $courseInfoFieldsAllowed
         ]);
     }
 
