@@ -29,21 +29,19 @@ use Symfony\Component\Routing\Annotation\Route;
 class LanguageController extends AbstractController
 {
     /**
-     * @Route("/",name="index" )
-     * @Method("GET")
+     * @Route("/",name="index", methods={"GET"})
      *
      * @param Request $request
-     * @param EntityManagerInterface $em
+     * @param LanguageDoctrineRepository $repository
      * @param PaginatorInterface $paginator
      * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
      * @return Response
-     *
      */
-    public function IndexAction(Request $request, EntityManagerInterface $em, PaginatorInterface $paginator, FilterBuilderUpdaterInterface $filterBuilderUpdater)
+    public function IndexAction(Request $request, LanguageDoctrineRepository $repository, PaginatorInterface $paginator, FilterBuilderUpdaterInterface $filterBuilderUpdater)
     {
-        $qb =  $em->getRepository(Language::class)->createQueryBuilder('l');
+        $qb =  $repository->getIndexQueryBuilder();
 
-        $form = $this->get('form.factory')->create(LanguageFilterType::class);
+        $form = $this->createForm(LanguageFilterType::class);
 
         if ($request->query->has($form->getName())) {
 
@@ -66,24 +64,19 @@ class LanguageController extends AbstractController
 
     /**
      *
-     * @Route("/new", name="new")
-     * @Method({"GET", "POST"})
+     * @Route("/new", name="new", methods={"GET", "POST"})
      * @param Request $request
      * @param LanguageManager $languageManager
      * @return RedirectResponse|Response
      */
     public function newAction(Request $request, LanguageManager $languageManager)
     {
-        $language = $languageManager->create();
+        $language = $languageManager->new();
         $form = $this->createForm(LanguageType::class, $language);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($language);
-            $em->flush();
-
+            $languageManager->create($language);
             $this->addFlash('success', 'La langue a été ajoutée avec succès.');
 
             return $this->redirectToRoute('app_admin_language_index');
@@ -97,20 +90,20 @@ class LanguageController extends AbstractController
     /**
      * Displays a form to edit an existing activity entity.
      *
-     * @Route("/{id}/edit", name="edit")
-     * @Method({"GET", "POST"})
+     * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
      * @param Request $request
      * @param Language $language
+     * @param LanguageManager $languageManager
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, Language $language)
+    public function editAction(Request $request, Language $language, LanguageManager $languageManager)
     {
         $form = $this->createForm(LanguageType::class, $language);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $this->getDoctrine()->getManager()->flush();
+            $languageManager->update($language);
 
             $this->addFlash('success', 'La language été modifiée avec succès.');
 
@@ -146,15 +139,15 @@ class LanguageController extends AbstractController
     /**
      * @Route("/autocompleteS2", name="autocompleteS2")
      *
+     * @param LanguageDoctrineRepository $repository
      * @param Request $request
      * @return Response
      */
-    public function autocompleteS2(Request $request)
+    public function autocompleteS2(LanguageDoctrineRepository $repository, Request $request)
     {
         $query = $request->query->get('q');
 
-        $em = $this->getDoctrine()->getRepository(Language::class);
-        $languages = $em->createQueryBuilder('l')
+        $languages = $repository->getIndexQueryBuilder()
             ->andWhere('l.label LIKE :query ')
             ->andWhere('l.obsolete = 0')
             ->setParameter('query', '%' . $query . '%')

@@ -37,7 +37,6 @@ class ActivityController extends AbstractController
 
         $qb =  $repository->getIndexQueryBuilder();
 
-        /** @var FormInterface $form */
         $form = $this->createForm(ActivityFilterType::class);
 
         if ($request->query->has($form->getName())) {
