@@ -7,16 +7,16 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Groups;
 use AppBundle\Form\Filter\GroupsFilterType;
 use AppBundle\Form\GroupsType;
+use AppBundle\Manager\GroupsManager;
 use AppBundle\Repository\Doctrine\GroupsDoctrineRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class GroupsController
@@ -29,6 +29,10 @@ class GroupsController extends Controller
      * Lists all groups entities.
      *
      * @Route("/", name="index", methods={"GET"})
+     * @param Request $request
+     * @param GroupsDoctrineRepository $groupsDoctrineRepository
+     * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexAction(
         Request $request,
@@ -71,18 +75,19 @@ class GroupsController extends Controller
      * Creates a new groups entity.
      *
      * @Route("/new", name="new", methods={"GET", "POST"})
+     * @param Request $request
+     * @param GroupsManager $groupsManager
+     * @return RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request, GroupsManager $groupsManager)
     {
-        $group = new Groups();
+        $groups = $groupsManager->new();
 
-        $form = $this->createForm(GroupsType::class, $group);
+        $form = $this->createForm(GroupsType::class, $groups);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($group);
-            $em->flush();
+            $groupsManager->create($groups);
 
             $this->addFlash('success', 'Le groupe a été ajouté avec succès.');
 
@@ -98,16 +103,19 @@ class GroupsController extends Controller
      * Displays a form to edit an existing groups entity.
      *
      * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
-     *
+     * @param Request $request
+     * @param Groups $groups
+     * @param GroupsManager $groupsManager
+     * @return RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function editAction(Request $request, Groups $groups, EntityManagerInterface $entityManager)
+    public function editAction(Request $request, Groups $groups, GroupsManager $groupsManager)
     {
         $form = $this->createForm(GroupsType::class, $groups);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $entityManager->flush();
+            $groupsManager->flush($groups);
 
 
             $this->addFlash('success', 'Le groups a été modifié avec succès.');
@@ -153,15 +161,13 @@ class GroupsController extends Controller
      * @param Groups $group
      * @return RedirectResponse
      */
-    public function deleteAction(Request $request, Groups $group)
+    public function deleteAction(Request $request, Groups $groups, GroupsManager $groupsManager)
     {
-        $form = $this->createDeleteForm($group);
+        $form = $this->createDeleteForm($groups);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($group);
-            $em->flush();
+            $groupsManager->delete($groups);
         }
 
         return $this->redirectToRoute('app_admin_groups_index');
@@ -169,10 +175,8 @@ class GroupsController extends Controller
 
     /**
      * Creates a form to delete a groups entity.
-     *
-     * @param Groups $group The group entity
-     *
-     * @return \Symfony\Component\Form\Form The form
+     * @param Groups $group
+     * @return \Symfony\Component\Form\FormInterface
      */
     private function createDeleteForm(Groups $group)
     {
@@ -185,7 +189,6 @@ class GroupsController extends Controller
                     'class' => 'btn btn-danger float-right'
                 ]
             ])
-            ->getForm()
-            ;
+            ->getForm();
     }
 }

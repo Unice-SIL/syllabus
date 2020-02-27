@@ -3,47 +3,50 @@
 namespace AppBundle\Repository\Doctrine;
 
 use AppBundle\Entity\Groups;
-use AppBundle\Repository\GroupsRepositoryInterface;
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
 
 /**
  * Class GroupsDoctrineRepository
  * @package AppBundle\Repository\Doctrine
  */
-class GroupsDoctrineRepository  extends AbstractDoctrineRepository implements GroupsRepositoryInterface
+class GroupsDoctrineRepository  extends ServiceEntityRepository
 {
 
     /**
      * GroupsDoctrineRepository constructor.
-     * @param EntityManagerInterface $entityManager
+     * @param ManagerRegistry $registry
      */
-    public function __construct(
-        EntityManagerInterface $entityManager
-    )
+    public function __construct(ManagerRegistry $registry)
     {
-        $this->entityManager = $entityManager;
+        parent::__construct($registry, Groups::class);
     }
 
+    /**
+     * @return QueryBuilder
+     */
+    public function getIndexQueryBuilder(): QueryBuilder
+    {
+        return $this->_em->getRepository(Groups::class)
+            ->createQueryBuilder('g')
+            ->addOrderBy('g.id', 'ASC');
+    }
 
+    /**
+     * @param string $query
+     * @param string $field
+     * @return array
+     */
     public function findLikeQuery(string $query, string $field): array
     {
         $qb = $this->getIndexQueryBuilder();
 
         if (in_array($field, ['label'])) {
             $qb->andWhere('g.'.$field.' LIKE :query ')
-                ->setParameter('query', '%' . $query . '%')
-            ;
+                ->setParameter('query', '%' . $query . '%');
         }
         return $qb->getQuery()->getResult();
-    }
-
-    public function getIndexQueryBuilder(): QueryBuilder
-    {
-        return $this->entityManager->getRepository(Groups::class)
-            ->createQueryBuilder('g')
-            ->addOrderBy('g.id', 'ASC')
-            ;
     }
 
 }
