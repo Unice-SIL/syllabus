@@ -66,7 +66,7 @@ class CourseInfoCsvParser extends AbstractCsvParser implements ParserInterface
             'teachingOtherTypeDist',
             'mccWeight' => ['type' => 'int'],
             'mccCapitalizable' => ['type' => 'boolean'],
-            'mccCompensable' => ['type' => 'boolean', 'name' => 'Compensable'],
+            'mccCompensable' => ['type' => 'boolean'],
             'evaluationType' => [ 'choices' => ['CC', 'CT', 'CC&CT']],
             'mccCtCoeffSession1' => ['type' => 'int'],
             'mccCcNbEvalSession1' => ['type' => 'int'],

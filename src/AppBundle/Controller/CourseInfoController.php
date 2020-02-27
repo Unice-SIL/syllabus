@@ -305,6 +305,10 @@ class CourseInfoController extends Controller
 
 
             $fieldsToUpdate = array_intersect($fieldsToUpdate, $courseInfoCsvParser->getCsv()->getHeader());
+            if(in_array('mccCtCoeffSession1', $fieldsToUpdate))
+            {
+                $fieldsToUpdate[] = 'mccCcCoeffSession1';
+            }
 
             $validationReport = ReportingHelper::createReport('Insertion en base de données');
 
@@ -326,7 +330,7 @@ class CourseInfoController extends Controller
             $validationReport->finishReport(count($courseInfos));
             $request->getSession()->set('parsingCsvReport', $courseInfoCsvParser->getReport());
             $request->getSession()->set('validationReport', $validationReport);
-            return $this->redirectToRoute('app_admin_course_info_import_mcc');
+            //return $this->redirectToRoute('app_admin_course_info_import_csv');
 
         }
 
