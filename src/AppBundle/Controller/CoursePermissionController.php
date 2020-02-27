@@ -6,9 +6,8 @@ use AppBundle\Entity\CourseInfo;
 use AppBundle\Form\CourseInfo\Permission\AddCourseInfoPermissionType;
 use AppBundle\Manager\CoursePermissionManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,13 +17,12 @@ use Symfony\Component\Routing\Annotation\Route;
  * CoursePermission controller.
  *
  */
-class CoursePermissionController extends Controller
+class CoursePermissionController extends AbstractController
 {
     /**
      * Lists all CoursePermission entities.
      *
-     * @Route("/course/{id}/permissions", name="app_course_permission")
-     * @Method("GET")
+     * @Route("/course/{id}/permissions", name="app_course_permission", methods={"GET"})
      * @Security("is_granted('WRITE', courseInfo)")
      * @param CourseInfo $courseInfo
      * @param Request $request

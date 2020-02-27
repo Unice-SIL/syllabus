@@ -3,23 +3,19 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\CourseInfo;
-use AppBundle\Entity\CourseInfoField;
 use AppBundle\Form\CourseInfo\CourseInfoAdminType;
 use AppBundle\Form\CourseInfo\DuplicateCourseInfoType;
 use AppBundle\Form\CourseInfo\ImportType;
 use AppBundle\Form\Filter\CourseInfoFilterType;
 use AppBundle\Helper\Report\Report;
-use AppBundle\Helper\Report\ReportingHelper;
 use AppBundle\Manager\CourseInfoManager;
-use AppBundle\Parser\CourseInfoCsvParser;
 use AppBundle\Repository\Doctrine\CourseDoctrineRepository;
 use AppBundle\Repository\Doctrine\CourseInfoDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use League\Csv\Exception;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -268,78 +264,6 @@ class CourseInfoController extends Controller
         }
 
         return $this->json($courses);
-    }
-
-    /**
-     * @Route("/import-csv", name="import_csv", methods={"GET", "POST"})
-     *
-     * @param Request $request
-     * @param EntityManagerInterface $em
-     * @param CourseInfoManager $courseInfoManager
-     * @param CourseInfoCsvParser $courseInfoCsvParser
-     * @return RedirectResponse|Response
-     * @throws \Exception
-     */
-    public function importCsv(Request $request, EntityManagerInterface $em, CourseInfoManager $courseInfoManager, CourseInfoCsvParser $courseInfoCsvParser)
-    {
-        $form = $this->createForm(ImportType::class);
-        $form->handleRequest($request);
-
-        $courseInfoFields = $em->getRepository(CourseInfoField::class)->findByImport(true);
-        $fieldsToUpdate = array_map(function ($courseInfoField) {
-            return $courseInfoField->getField();
-        }, $courseInfoFields);
-
-        $courseInfoFieldsAllowed = array_filter(iterator_to_array($courseInfoCsvParser->getCompleteMatching()), function ($value, $key) use ($fieldsToUpdate){
-            return in_array($key, $fieldsToUpdate) || (is_array($value) && array_key_exists('required', $value) && $value['required'] === true);
-        }, ARRAY_FILTER_USE_BOTH);
-
-        if ($form->isSubmitted() and $form->isValid())
-        {
-
-            $courseInfos = $courseInfoCsvParser->parse($form->getData()['file']->getPathName(), [
-                'allow_extra_field' => true,
-                'allow_less_field' => true,
-                'report' => ReportingHelper::createReport('Parsing du Fichier Csv'),
-            ]);
-
-
-            $fieldsToUpdate = array_intersect($fieldsToUpdate, $courseInfoCsvParser->getCsv()->getHeader());
-            if(in_array('mccCtCoeffSession1', $fieldsToUpdate))
-            {
-                $fieldsToUpdate[] = 'mccCcCoeffSession1';
-            }
-
-            $validationReport = ReportingHelper::createReport('Insertion en base de données');
-
-            foreach ($courseInfos as $lineIdReport => $courseInfo) {
-
-                $validationReport = $courseInfoManager->updateIfExistsOrCreate($courseInfo, $fieldsToUpdate, [
-                    'flush' => true,
-                    'find_by_parameters' => [
-                        'course' => $courseInfo->getCourse(),
-                        'year' => $courseInfo->getYear(),
-                    ],
-                    'lineIdReport' => $lineIdReport,
-                    'report' => ReportingHelper::createReport('Insertion en base de données'),
-                ]);
-
-
-            }
-
-            $validationReport->finishReport(count($courseInfos));
-            $request->getSession()->set('parsingCsvReport', $courseInfoCsvParser->getReport());
-            $request->getSession()->set('validationReport', $validationReport);
-            //return $this->redirectToRoute('app_admin_course_info_import_csv');
-
-        }
-
-        return $this->render('course_info/admin/import.html.twig', [
-            'form' => $form->createView(),
-            'parsingCsvReport' => $request->getSession()->remove('parsingCsvReport'),
-            'validationReport' => $request->getSession()->remove('validationReport'),
-            'courseInfoFieldsAllowed' => $courseInfoFieldsAllowed
-        ]);
     }
 
 }

@@ -162,7 +162,7 @@
             </ul>
         </li>
 
-        {% set importLink = ['app_admin_course_info_import_csv'] %}
+        {% set importLink = ['app_admin_import_csv_course_info'] %}
         <li class="nav-item has-treeview {{ printActiveAdminSidebarLink(importLink) ? 'menu-open' }}">
             <a href="#" class="nav-link {{ printActiveAdminSidebarLink(importLink) }}">
                 <i class="nav-icon fas fa-download"></i>
@@ -174,8 +174,8 @@
             <ul class="nav nav-treeview"
                 style="display: {{ printActiveAdminSidebarLink(importLink) ? 'block' : 'none' }};">
                 <li class="nav-item pl-2">
-                    <a href="{{ path('app_admin_course_info_import_csv') }}"
-                       class="nav-link {{ printActiveAdminSidebarLink(['app_admin_course_info_import_csv']) }}">
+                    <a href="{{ path('app_admin_import_csv_course_info') }}"
+                       class="nav-link {{ printActiveAdminSidebarLink(['app_admin_import_csv_course_info']) }}">
                         <i class="nav-icon fas fa-graduation-cap"></i>
                         <p>
                             Syllabus
@@ -183,8 +183,8 @@
                     </a>
                 </li>
                 <li class="nav-item pl-2">
-                    <a href=""
-                       class="nav-link {{ printActiveAdminSidebarLink(['app_admin_import_course_permission']) }}">
+                    <a href="{{ path('app_admin_import_csv_permission') }}"
+                       class="nav-link {{ printActiveAdminSidebarLink(['app_admin_import_csv_permission']) }}">
                         <i class="nav-icon fas fa-user-lock"></i>
                         <p>
                             Permissions
@@ -193,7 +193,7 @@
                 </li>
                 <li class="nav-item pl-2">
                     <a href=""
-                       class="nav-link {{ printActiveAdminSidebarLink(['app_admin_import_user']) }}">
+                       class="nav-link {{ printActiveAdminSidebarLink(['app_admin_import_csv_user']) }}">
                         <i class="nav-icon fas fa-user"></i>
                         <p>
                             Utilisateurs

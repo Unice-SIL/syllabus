@@ -1,5 +1,5 @@
 {% extends 'admin_layout.html.twig' %}
-{% set h1 = 'Importer des MCC' %}
+{% set h1 = 'Importer infos syllabus' %}
 
 {% block modals %}
     {{parent()}}
@@ -51,24 +51,7 @@
                 SLEPB111;2018;"Introduction à la Microbiologie"<br>
             </p>
 
-            <table class="table table-sm">
-                <thead>
-                    <tr>
-                        <th>Nom</th>
-                        <th>Obligatoire</th>
-                        <th>Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for field in courseInfoFieldsAllowed %}
-                        <tr>
-                            <td>{{ field.name }}</td>
-                            <td>{{ field.required|humanizeBoolean }}</td>
-                            <td>{{ field.description }}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            {% include 'import/_fields_allowed.html.twig' %}
 
         </div>
     </div>

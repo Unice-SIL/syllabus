@@ -68,7 +68,7 @@ class TestCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
 
-        /*
+
         $path = __DIR__ . '/../../../../no_commit/course_permission.csv' ;
 
         $coursePermissions = $this->coursePermissionParser->parse($path, ['allow_extra_field' => true, 'allow_less_field' => true]);
@@ -89,7 +89,7 @@ class TestCommand extends Command
             ]);
         }
         dump($report);
-        */
+
 
         /*
         $path = __DIR__ . '/../../../../no_commit/user.csv' ;
@@ -112,7 +112,7 @@ class TestCommand extends Command
 
         dump($report);
         */
-
+/*
         $path = __DIR__ . '/../../../../no_commit/course_info.csv' ;
 
         $courseInfos = $this->courseInfoParser->parse($path, ['allow_extra_field' => true, 'allow_less_field' => true]);
@@ -140,5 +140,6 @@ class TestCommand extends Command
         }
 
         dump($report);
+*/
     }
 }
