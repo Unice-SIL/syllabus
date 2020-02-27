@@ -224,8 +224,25 @@ class CourseInfoObjectivesCourseController extends AbstractController
             ]);
         }
 
+        $CriticalAchievements = $courseInfo->getCourseCriticalAchievements();
+
+        $tabValideScore = [];
+        foreach ($CriticalAchievements as $ca) {
+            $scoreTotal = 0;
+            $score = 0;
+            if ($ca->getRule() == 'Score') {
+                $scoreTotal = $ca->getScore();
+                foreach ($ca->getLearningAchievements() as $la) {
+                    $score += $la->getScore();
+                }
+            }
+            if ($score >= $scoreTotal) {
+                $tabValideScore[] = $ca->getId();
+            }
+        }
         $render = $this->get('twig')->render('course_info/objectives_course/view/critical_achievement.html.twig', [
-            'courseInfo' => $courseInfo
+            'courseInfo' => $courseInfo,
+            'tabValideScore' => $tabValideScore
         ]);
         return $this->json([
             'status' => true,
@@ -865,7 +882,7 @@ class CourseInfoObjectivesCourseController extends AbstractController
     public function sortTutoringResourcesAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
     {
         $tutoringResources = $courseInfo->getCourseTutoringResources();
-        $dataTutoringResources= $request->request->get('data');
+        $dataTutoringResources = $request->request->get('data');
 
         $this->sortList($courseInfo, $tutoringResources, $dataTutoringResources, $manager);
 
@@ -884,8 +901,7 @@ class CourseInfoObjectivesCourseController extends AbstractController
      */
     private function sortList(CourseInfo $courseInfo, $courseInfoList, $data, CourseInfoManager $manager)
     {
-        if ($data)
-        {
+        if ($data) {
             foreach ($courseInfoList as $item) {
                 if (in_array($item->getId(), $data)) {
                     $item->setPosition(array_search($item->getId(), $data));
