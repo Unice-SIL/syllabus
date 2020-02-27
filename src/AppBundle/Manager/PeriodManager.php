@@ -5,10 +5,15 @@ namespace AppBundle\Manager;
 
 
 use AppBundle\Entity\Period;
+use AppBundle\Repository\Doctrine\PeriodDoctrineRepository;
 use AppBundle\Repository\PeriodRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
 
+/**
+ * Class PeriodManager
+ * @package AppBundle\Manager
+ */
 class PeriodManager
 {
     /**
@@ -17,27 +22,64 @@ class PeriodManager
     private $em;
 
     /**
-     * @var PeriodRepositoryInterface
+     * @var PeriodDoctrineRepository
      */
     private $repository;
 
-    public function __construct(EntityManagerInterface $em, PeriodRepositoryInterface $repository)
+    public function __construct(EntityManagerInterface $em, PeriodDoctrineRepository $repository)
     {
         $this->em = $em;
         $this->repository = $repository;
     }
 
-    public function create()
+    /**
+     * @return Period
+     */
+    public function new()
     {
         return new Period();
     }
 
     /**
-     * @return mixed
+     * @param $id
+     * @return Period|null
      */
-    public function findAll()
+    public function find($id): ?Period
     {
-        $period = $this->repository->findAll();
-        return $period;
+        return $this->repository->find($id);
+    }
+
+    /**
+     * @return array
+     */
+    public function findAll(): array
+    {
+        return $this->repository->findAll();
+    }
+
+    /**
+     * @param Period $period
+     */
+    public function create(Period $period): void
+    {
+        $this->em->persist($period);
+        $this->em->flush();
+    }
+
+    /**
+     * @param Period $period
+     */
+    public function update(Period $period): void
+    {
+        $this->em->flush();
+    }
+
+    /**
+     * @param Period $period
+     */
+    public function delete(Period $period): void
+    {
+        $this->em->remove($period);
+        $this->em->flush();
     }
 }
