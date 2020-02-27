@@ -8,7 +8,6 @@ use AppBundle\Form\Filter\EquipmentFilterType;
 use AppBundle\Manager\EquipmentManager;
 use AppBundle\Repository\Doctrine\EquipmentDoctrineRepository;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -64,8 +63,7 @@ class EquipmentController extends Controller
     /**
      * Creates a new equipment.
      *
-     * @Route("/new", name="new")
-     * @Method({"GET", "POST"})
+     * @Route("/new", name="new", methods={"GET", "POST"})
      *
      * @param Request $request
      * @param EquipmentManager $equipmentManager
@@ -73,15 +71,13 @@ class EquipmentController extends Controller
      */
     public function newAction(Request $request, EquipmentManager $equipmentManager)
     {
-        $equipment = $equipmentManager->create();
+        $equipment = $equipmentManager->new();
         $form = $this->createForm(EquipmentType::class, $equipment);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $em = $this->getDoctrine()->getManager();
-            $em->flush();
+            $equipmentManager->create($equipment);
 
             $this->addFlash('success', 'L\'équipement a été ajouté avec succès.');
 
@@ -96,21 +92,20 @@ class EquipmentController extends Controller
     /**
      * Displays a form to edit an existing equipment entity.
      *
-     * @Route("/{id}/edit", name="edit")
-     * @Method({"GET", "POST"})
+     * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
      *
      * @param Request $request
      * @param Equipment $equipment
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function editAction(Request $request, Equipment $equipment)
+    public function editAction(Request $request, Equipment $equipment, EquipmentManager $equipmentManager)
     {
         $form = $this->createForm(EquipmentType::class, $equipment);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $this->getDoctrine()->getManager()->flush();
+            $equipmentManager->update($equipment);
 
             $this->addFlash('success', 'L\'équipement a été modifié avec succès.');
 

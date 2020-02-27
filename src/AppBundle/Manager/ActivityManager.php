@@ -4,7 +4,8 @@
 namespace AppBundle\Manager;
 
 use AppBundle\Entity\Activity;
-use AppBundle\Repository\ActivityRepositoryInterface;
+use AppBundle\Repository\Doctrine\ActivityDoctrineRepository;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Class ActivityManager
@@ -13,16 +14,23 @@ use AppBundle\Repository\ActivityRepositoryInterface;
 class ActivityManager
 {
     /**
-     * @var ActivityRepositoryInterface
+     * @var \Doctrine\Persistence\ObjectRepository
+     */
+    private $em;
+
+    /**
+     * @var ActivityDoctrineRepository
      */
     private $repository;
 
     /**
      * ActivityManager constructor.
-     * @param ActivityRepositoryInterface $repository
+     * @param EntityManagerInterface $em
+     * @param ActivityDoctrineRepository $repository
      */
-    public function __construct(ActivityRepositoryInterface $repository)
+    public function __construct(EntityManagerInterface $em, ActivityDoctrineRepository $repository)
     {
+        $this->em = $em;
         $this->repository = $repository;
     }
 
@@ -44,7 +52,7 @@ class ActivityManager
     }
 
     /**
-     * @return object[]
+     * @return array
      */
     public function findAll()
     {
@@ -56,7 +64,8 @@ class ActivityManager
      */
     public function create(Activity $activity)
     {
-        $this->repository->create($activity);
+        $this->em->persist($activity);
+        $this->em->flush();
     }
 
     /**
@@ -64,7 +73,7 @@ class ActivityManager
      */
     public function update(Activity $activity)
     {
-        $this->repository->update($activity);
+        $this->em->flush();
     }
 
     /**
@@ -72,15 +81,7 @@ class ActivityManager
      */
     public function delete(Activity $activity)
     {
-        $this->repository->delete($activity);
-    }
-
-    /**
-     * @param $query
-     * @return array
-     */
-    public function findLikeQuery($query): array
-    {
-        return $this->repository->findLikeQuery($query);
+        $this->em->remove($activity);
+        $this->em->flush();
     }
 }

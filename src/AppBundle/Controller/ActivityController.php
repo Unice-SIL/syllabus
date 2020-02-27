@@ -2,14 +2,13 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Form\ActivityType;
 use AppBundle\Entity\Activity;
+use AppBundle\Form\ActivityType;
 use AppBundle\Form\Filter\ActivityFilterType;
 use AppBundle\Manager\ActivityManager;
-use Doctrine\ORM\EntityManagerInterface;
+use AppBundle\Repository\Doctrine\ActivityDoctrineRepository;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -29,17 +28,16 @@ class ActivityController extends AbstractController
      *
      * @Route("/", name="index", methods={"GET"})
      * @param Request $request
-     * @param EntityManagerInterface $em
+     * @param ActivityDoctrineRepository $repository
      * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
      * @return Response
      */
-    public function indexAction(Request $request, EntityManagerInterface $em, FilterBuilderUpdaterInterface $filterBuilderUpdater)
+    public function indexAction(Request $request, ActivityDoctrineRepository $repository, FilterBuilderUpdaterInterface $filterBuilderUpdater)
     {
 
-        $qb =  $em->getRepository(Activity::class)->createQueryBuilder('a');
+        $qb =  $repository->getIndexQueryBuilder();
 
-        /** @var FormInterface $form */
-        $form = $this->get('form.factory')->create(ActivityFilterType::class);
+        $form = $this->createForm(ActivityFilterType::class);
 
         if ($request->query->has($form->getName())) {
 
@@ -117,14 +115,14 @@ class ActivityController extends AbstractController
     /**
      * @Route("/autocomplete", name="autocomplete", methods={"GET"})
      * @param Request $request
-     * @param ActivityManager $activityManager
+     * @param ActivityDoctrineRepository $repository
      * @return JsonResponse
      */
-    public function autocomplete(Request $request, ActivityManager $activityManager)
+    public function autocomplete(Request $request, ActivityDoctrineRepository $repository)
     {
         $query = $request->query->get('query', '');
 
-        $activities = $activityManager->findLikeQuery($query);
+        $activities = $repository->findLikeQuery($query);
         $activities = array_map(function(Activity $activity){
             return $activity->getLabel();
         }, $activities);

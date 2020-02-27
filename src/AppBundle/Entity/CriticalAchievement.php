@@ -41,7 +41,7 @@ class CriticalAchievement
     private $obsolete = false;
 
     /**
-     * @OneToMany(targetEntity="CourseCriticalAchievement", mappedBy="courseCriticalAchievement")
+     * @OneToMany(targetEntity="CourseCriticalAchievement", mappedBy="criticalAchievement")
      */
     private $courseCriticalAchievements;
 

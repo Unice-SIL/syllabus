@@ -4,6 +4,7 @@
 namespace AppBundle\Repository\Doctrine;
 
 
+use AppBundle\Entity\Course;
 use AppBundle\Entity\CriticalAchievement;
 use AppBundle\Repository\CriticalAchievementRepositoryInterface;
 use Doctrine\ORM\EntityManager;
@@ -30,9 +31,9 @@ class CriticalAchievementDoctrineRepository extends AbstractDoctrineRepository i
     public function find(string $id): CriticalAchievement
     {
         $criticalAchievement = null;
-        try{
+        try {
             $criticalAchievement = $this->entityManager->getRepository(CriticalAchievement::class)->find($id);
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             throw $e;
         }
         return $criticalAchievement;
@@ -50,11 +51,10 @@ class CriticalAchievementDoctrineRepository extends AbstractDoctrineRepository i
             $qb->where($qb->expr()->eq('ca.obsolete', ':obsolete'))
                 ->setParameter('obsolete', false)
                 ->addOrderBy('ca.label', 'ASC');
-            foreach ($qb->getQuery()->getResult() as $criticalAchievement){
+            foreach ($qb->getQuery()->getResult() as $criticalAchievement) {
                 $criticalAchievements->append($criticalAchievement);
             }
-        } catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
             throw $exception;
         }
 
@@ -68,10 +68,10 @@ class CriticalAchievementDoctrineRepository extends AbstractDoctrineRepository i
      */
     public function update(CriticalAchievement $criticalAchievement): void
     {
-        try{
+        try {
             $this->entityManager->persist($criticalAchievement);
             $this->entityManager->flush();
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             throw $e;
         }
     }
@@ -82,10 +82,10 @@ class CriticalAchievementDoctrineRepository extends AbstractDoctrineRepository i
      */
     public function create(CriticalAchievement $criticalAchievement): void
     {
-        try{
+        try {
             $this->entityManager->persist($criticalAchievement);
             $this->entityManager->flush();
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             throw $e;
         }
     }
@@ -99,7 +99,7 @@ class CriticalAchievementDoctrineRepository extends AbstractDoctrineRepository i
         try {
             $this->entityManager->remove($criticalAchievement);
             $this->entityManager->flush();
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             throw $e;
         }
     }
@@ -110,7 +110,22 @@ class CriticalAchievementDoctrineRepository extends AbstractDoctrineRepository i
             ->andWhere('ca.label LIKE :query ')
             ->setParameter('query', '%' . $query . '%')
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
+    }
+
+    /**
+     * @param string|null $query
+     * @param Course $course
+     * @return array
+     */
+    public function findLikeQueryByCourse(string $query, Course $course): array
+    {
+        $qb = $this->entityManager->getRepository(CriticalAchievement::class)->createQueryBuilder('ca');
+        $qb->andWhere('ca.label LIKE :query ')
+            ->andWhere(':course MEMBER OF ca.courses' )
+            ->setParameter('query', '%' . $query . '%')
+            ->setParameter('course', $course);
+
+        return $qb->getQuery()->getResult();
     }
 }

@@ -1,44 +1,79 @@
 <?php
 
-
 namespace AppBundle\Manager;
 
-
 use AppBundle\Entity\ActivityType;
-use AppBundle\Repository\ActivityTypeRepositoryInterface;
+use AppBundle\Repository\Doctrine\ActivityTypeDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Persistence\ObjectRepository;
 
+/**
+ * Class ActivityTypeManager
+ * @package AppBundle\Manager
+ */
 class ActivityTypeManager
 {
     /**
-     * @var ObjectRepository
+     * @var EntityManagerInterface
      */
     private $em;
 
     /**
-     * @var ActivityTypeRepositoryInterface
+     * @var ActivityTypeDoctrineRepository
      */
     private $repository;
 
 
-    public function __construct(EntityManagerInterface $em, ActivityTypeRepositoryInterface $repository)
+    public function __construct(EntityManagerInterface $em, ActivityTypeDoctrineRepository $repository)
     {
         $this->em = $em;
         $this->repository = $repository;
     }
 
-    public function create()
+    public function new()
     {
         return new ActivityType();
     }
 
     /**
-     * @return mixed
+     * @param string $id
+     * @return ActivityType|null
      */
-    public function findAll()
+    public function find($id): ?ActivityType
     {
-        $activitiesType = $this->repository->findAll();
-        return $activitiesType;
+        return $this->repository->find($id);
+    }
+
+    /**
+     * @return array
+     */
+    public function findAll(): array
+    {
+        return $this->repository->findAll();
+    }
+
+    /**
+     * @param ActivityType $activityType
+     */
+    public function create(ActivityType $activityType): void
+    {
+        $this->em->persist($activityType);
+        $this->em->flush();
+    }
+
+    /**
+     * @param ActivityType $activityType
+     */
+    public function update(ActivityType $activityType): void
+    {
+        $this->em->flush();
+    }
+
+    /**
+     * @param ActivityType $activityType
+     */
+    public function delete(ActivityType $activityType): void
+    {
+        $this->em->remove($activityType);
+        $this->em->flush();
     }
 }
