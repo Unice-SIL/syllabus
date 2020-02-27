@@ -3,125 +3,60 @@
 namespace AppBundle\Repository\Doctrine;
 
 use AppBundle\Entity\Year;
-use AppBundle\Repository\YearRepositoryInterface;
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
-use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * Class YearDoctrineRepository
  * @package AppBundle\Repository\Doctrine
  */
-class YearDoctrineRepository  extends AbstractDoctrineRepository implements YearRepositoryInterface
+class YearDoctrineRepository  extends ServiceEntityRepository
 {
-
     /**
      * YearDoctrineRepository constructor.
-     * @param EntityManagerInterface $entityManager
+     * @param ManagerRegistry $registry
      */
-    public function __construct(
-        EntityManagerInterface $entityManager
-    )
+    public function __construct(ManagerRegistry $registry)
     {
-        $this->entityManager = $entityManager;
+        parent::__construct($registry, Year::class);
+    }
+
+    public function getIndexQueryBuilder(): QueryBuilder
+    {
+        return $this->_em->getRepository(Year::class)
+            ->createQueryBuilder('y')
+            ->addOrderBy('y.id', 'ASC');
     }
 
     /**
-     * @param string $id
-     * @return Year|null
-     * @throws \Exception
-     */
-    public function find(string $id): ?Year
-    {
-        try{
-            $year = $this->entityManager->getRepository(Year::class)->find($id);
-            return $year;
-        }catch (\Exception $e){
-            throw $e;
-        }
-    }
-
-    public function findCurrentYear(): ?Year
-    {
-        try{
-            $year = $this->entityManager->getRepository(Year::class)->findOneBy(['current' => 1]);
-            return $year;
-        }catch (\Exception $e){
-            throw $e;
-        }
-    }
-
-    /**
+     * @param string $query
+     * @param string $field
      * @return array
-     * @throws \Exception
      */
-    public function findToImport(): array
-    {
-        try{
-            $years = $this->entityManager->getRepository(Year::class)->findByImport(true);
-            return $years;
-        }catch (\Exception $e){
-            throw $e;
-        }
-    }
-
-    /**
-     * @param Year $year
-     * @throws \Exception
-     */
-    public function create(Year $year): void
-    {
-        try{
-            $this->entityManager->persist($year);
-            $this->entityManager->flush();
-        }catch (\Exception $e){
-            throw $e;
-        }
-    }
-
-    /**
-     * @param Year $year
-     * @throws \Exception
-     */
-    public function update(Year $year): void
-    {
-        try{
-            $this->entityManager->persist($year);
-            $this->entityManager->flush();
-        }catch (\Exception $e){
-            throw $e;
-        }
-    }
-
     public function findLikeQuery(string $query, string $field): array
     {
         $qb = $this->getIndexQueryBuilder();
 
         if (in_array($field, ['y.label'])) {
             $qb->andWhere($field.' LIKE :query ')
-                ->setParameter('query', '%' . $query . '%')
-            ;
+                ->setParameter('query', '%' . $query . '%');
         }
         return $qb->getQuery()->getResult();
     }
 
-    public function getIndexQueryBuilder(): QueryBuilder
-    {
-        return $this->entityManager->getRepository(Year::class)
-            ->createQueryBuilder('y')
-            ->addOrderBy('y.id', 'ASC')
-            ;
-    }
-
+    /**
+     * @param array $config
+     * @return QueryBuilder
+     */
     public function findQueryBuilderForApi(array $config): QueryBuilder
     {
         $qb = $this->getIndexQueryBuilder();
 
         foreach ($config['filters'] as $filter => $value) {
             $valueName = 'value'.$filter;
-            $qb->andWhere($qb->expr()->eq($qb->getRootAlias() . '.' . $filter, ':' . $valueName))
-                ->setParameter($valueName, $value)
-            ;
+            $qb->andWhere($qb->expr()->eq('y.' . $filter, ':' . $valueName))
+                ->setParameter($valueName, $value);
         }
 
         return $qb;

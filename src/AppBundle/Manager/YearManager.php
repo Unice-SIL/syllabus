@@ -1,42 +1,104 @@
 <?php
 
-
 namespace AppBundle\Manager;
 
-
 use AppBundle\Entity\Year;
+use AppBundle\Repository\Doctrine\YearDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
+/**
+ * Class YearManager
+ * @package AppBundle\Manager
+ */
 class YearManager
 {
 
+    /**
+     * @var EntityManagerInterface
+     */
+    private $em;
 
-    public function __construct(
-        EntityManagerInterface $em
-    )
+    /**
+     * @var YearDoctrineRepository
+     */
+    private $repository;
+
+    /**
+     * YearManager constructor.
+     * @param EntityManagerInterface $em
+     * @param YearDoctrineRepository $repository
+     */
+    public function __construct(EntityManagerInterface $em, YearDoctrineRepository $repository)
     {
-        $this->repository = $em->getRepository(Year::class);
+        $this->em = $em;
+        $this->repository = $repository;
     }
 
-
-    public function create()
+    /**
+     * @return Year
+     */
+    public function new()
     {
-        $year = new Year();
-
-        return $year;
+        return new Year();
     }
 
-    public function update(Year $year)
+    /**
+     * @param $id
+     * @return Year|null
+     */
+    public function find($id): ?Year
     {
-        //Set current property to false for the others years
-        if ($year->getCurrent()) {
-            $currentYears = $this->repository->findByCurrent(true);
+        return $this->repository->find($id);
+    }
 
-            foreach ($currentYears as $currentYear) {
+    /**
+     * @return Year|null
+     */
+    public function findCurrentYear(): ?Year
+    {
+        return $this->repository->findOneBy(['current' => 1]);
+    }
+
+    /**
+     * @return array
+     */
+    public function findToImport(): array
+    {
+        return $this->repository->findBy(['import' => 1]);
+    }
+
+    /**
+     * @param Year $year
+     */
+    public function create(Year $year): void
+    {
+        $this->em->persist($year);
+        $this->em->flush();
+    }
+
+    /**
+     * @param Year $year
+     */
+    public function update(Year $year): void
+    {
+        if ($year->getCurrent())
+        {
+            $currentYears = $this->repository->findBy(['current' => 1]);
+            foreach ($currentYears as $currentYear)
+            {
                 $currentYear->setCurrent(false);
             }
+            $year->setCurrent(true);
         }
+        $this->em->flush();
+    }
 
-        return true;
+    /**
+     * @param Year $year
+     */
+    public function delete(Year $year)
+    {
+        $this->em->remove($year);
+        $this->em->flush();
     }
 }
