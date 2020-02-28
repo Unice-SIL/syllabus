@@ -20,6 +20,7 @@ use AppBundle\Form\CourseInfo\CourseAchievement\RemoveCoursePrerequisiteType;
 use AppBundle\Form\CourseInfo\CourseAchievement\RemoveCourseTutoringResourcesType;
 use AppBundle\Form\CourseInfo\CourseAchievement\RemoveLearningAchievementType;
 use AppBundle\Manager\CourseAchievementManager;
+use AppBundle\Manager\CourseCriticalAchievementManager;
 use AppBundle\Manager\CourseInfoManager;
 use AppBundle\Manager\CoursePrerequisiteManager;
 use AppBundle\Manager\CourseTutoringResourceManager;
@@ -226,10 +227,10 @@ class CourseInfoObjectivesCourseController extends AbstractController
             ]);
         }
 
-        $CriticalAchievements = $courseInfo->getCourseCriticalAchievements();
+        $criticalAchievements = $courseInfo->getCourseCriticalAchievements();
 
         $tabValideScore = [];
-        foreach ($CriticalAchievements as $ca) {
+        foreach ($criticalAchievements as $ca) {
             $scoreTotal = 0;
             $score = 0;
             if ($ca->getRule() == 'Score') {
@@ -257,18 +258,16 @@ class CourseInfoObjectivesCourseController extends AbstractController
      *
      * @param CourseInfo $courseInfo
      * @param Request $request
+     * @param CourseCriticalAchievementManager $courseCriticalAchievementManager
      * @return Response
      */
-    public function addCriticalAchievementAction(CourseInfo $courseInfo, Request $request)
+    public function addCriticalAchievementAction(CourseInfo $courseInfo, Request $request, CourseCriticalAchievementManager $courseCriticalAchievementManager)
     {
-        $courseCriticalAchievement = new CourseCriticalAchievement();
-        $courseCriticalAchievement->setCourseInfo($courseInfo);
+        $courseCriticalAchievement = $courseCriticalAchievementManager->new($courseInfo);
         $form = $this->createForm(CourseCriticalAchievementType::class, $courseCriticalAchievement);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($courseCriticalAchievement);
-            $em->flush();
+            $courseCriticalAchievementManager->create($courseCriticalAchievement);
             return $this->json([
                 'status' => true,
                 'content' => null
@@ -291,19 +290,17 @@ class CourseInfoObjectivesCourseController extends AbstractController
      * @param CourseInfo $courseInfo
      * @param CourseCriticalAchievement $criticalAchievement
      * @param Request $request
+     * @param CourseCriticalAchievementManager $courseCriticalAchievementManager
      * @return JsonResponse
      * @ParamConverter("criticalAchievement", options={"mapping": {"criticalAchievementId": "id"}})
      */
-    public function editCriticalAchievementAction(CourseInfo $courseInfo, CourseCriticalAchievement $criticalAchievement, Request $request)
+    public function editCriticalAchievementAction(CourseInfo $courseInfo, CourseCriticalAchievement $criticalAchievement, Request $request, CourseCriticalAchievementManager $courseCriticalAchievementManager)
     {
-        $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(CourseCriticalAchievementType::class, $criticalAchievement);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $criticalAchievement = $form->getData();
-            $em->persist($criticalAchievement);
-            $em->flush();
+            $courseCriticalAchievementManager->update($criticalAchievement);
             return $this->json([
                 'status' => true,
                 'content' => null
@@ -327,20 +324,17 @@ class CourseInfoObjectivesCourseController extends AbstractController
      * @param CourseInfo $courseInfo
      * @param CourseCriticalAchievement $courseCriticalAchievement
      * @param Request $request
+     * @param CourseCriticalAchievementManager $courseCriticalAchievementManager
      * @return JsonResponse
      * @ParamConverter("courseCriticalAchievement", options={"mapping": {"criticalAchievementId": "id"}})
      */
     public function deleteCriticalAchievementAction(CourseInfo $courseInfo, CourseCriticalAchievement $courseCriticalAchievement,
-                                                    Request $request)
+                                                    Request $request, CourseCriticalAchievementManager $courseCriticalAchievementManager)
     {
-        $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(RemoveCourseCriticalAchievementType::class, $courseCriticalAchievement);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var CourseCriticalAchievement $courseCriticalAchievement */
-            $courseCriticalAchievement = $form->getData();
-            $em->remove($courseCriticalAchievement);
-            $em->flush();
+            $courseCriticalAchievementManager->delete($courseCriticalAchievement);
             return $this->json([
                 'status' => true,
                 'content' => null
