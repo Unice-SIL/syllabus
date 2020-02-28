@@ -138,6 +138,9 @@ app:
       distant: A distance
 
   form:
+    cron:
+      label:
+        label: 'Label'
     security:
       label:
         password: Mot de passe

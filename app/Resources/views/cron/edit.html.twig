@@ -1,0 +1,13 @@
+{% extends 'admin_layout.html.twig' %}
+{% set h1 = 'Modifier un cron' %}
+{% block subContent %}
+
+    <div class="card card-primary">
+
+        <div class="card-body">
+            {{ include('cron/_form.html.twig', {'button_label' : 'Modifier'}) }}
+        </div>
+
+    </div>
+{% endblock %}
+

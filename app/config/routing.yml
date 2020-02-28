@@ -1,3 +1,7 @@
+app_cron:
+    resource: "@AppBundle/Controller/CronController.php"
+    type:     annotation
+
 app_year:
     resource: "@AppBundle/Controller/YearController.php"
     type:     annotation

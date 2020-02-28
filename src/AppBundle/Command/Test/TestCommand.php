@@ -3,70 +3,25 @@
 
 namespace AppBundle\Command\Test;
 
-use AppBundle\Entity\CourseInfoField;
-use AppBundle\Helper\ErrorManager;
-use AppBundle\Manager\CourseInfoManager;
-use AppBundle\Manager\CoursePermissionManager;
-use AppBundle\Manager\UserManager;
-use AppBundle\Parser\CourseInfoCsvParser;
-use AppBundle\Parser\CoursePermissionCsvParser;
-use AppBundle\Parser\UserCsvParser;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Console\Command\Command;
+use AppBundle\Command\Scheduler\AbstractCron;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class TestCommand extends Command
+class TestCommand extends AbstractCron
 {
     // the name of the command (the part after "bin/console")
     protected static $defaultName = 'app:test';
 
-    /**
-     * @var UserManager
-     */
-    private $coursePermissionManager;
-    private $coursePermissionParser;
-    private $userManager;
-    private $userParser;
-    private $courseInfoManager;
-    private $courseInfoParser;
-    /**
-     * @var ErrorManager
-     */
-    private $errorManager;
-    private $em;
-
-    public function __construct(
-        CoursePermissionManager $coursePermissionManager,
-        CoursePermissionCsvParser $coursePermissionParser,
-        UserManager $userManager,
-        UserCsvParser $userParser,
-        CourseInfoManager $courseInfoManager,
-        CourseInfoCsvParser $courseInfoParser,
-        EntityManagerInterface $em,
-        ErrorManager $errorManager
-    )
-    {
-        parent::__construct();
-        $this->coursePermissionManager = $coursePermissionManager;
-        $this->coursePermissionParser = $coursePermissionParser;
-        $this->userManager = $userManager;
-        $this->userParser = $userParser;
-        $this->courseInfoManager = $courseInfoManager;
-        $this->courseInfoParser = $courseInfoParser;
-        $this->em = $em;
-        $this->errorManager = $errorManager;
-    }
-
-
     protected function configure()
     {
+        parent::configure();
         $this
             ->setDescription('Command to test something');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function subExecute(InputInterface $input, OutputInterface $output)
     {
+        sleep(1);
 
 
         $path = __DIR__ . '/../../../../no_commit/course_permission.csv' ;
