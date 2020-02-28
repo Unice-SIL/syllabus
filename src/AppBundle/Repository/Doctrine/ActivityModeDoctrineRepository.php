@@ -1,74 +1,25 @@
 <?php
 
-
 namespace AppBundle\Repository\Doctrine;
 
-
 use AppBundle\Entity\ActivityMode;
-use AppBundle\Repository\ActivityModeRepositoryInterface;
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
 
-class ActivityModeDoctrineRepository extends AbstractDoctrineRepository implements ActivityModeRepositoryInterface
+/**
+ * Class ActivityModeDoctrineRepository
+ * @package AppBundle\Repository\Doctrine
+ */
+class ActivityModeDoctrineRepository extends ServiceEntityRepository
 {
     /**
      * ActivityModeDoctrineRepository constructor.
-     * @param EntityManagerInterface $entityManager
+     * @param ManagerRegistry $registry
      */
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($entityManager, ActivityMode::class);
-    }
-
-    /**
-     * @param string $id
-     * @return ActivityMode|null
-     * @throws \Exception
-     */
-    public function find(string $id): ?ActivityMode
-    {
-        return $this->repository->find($id);
-    }
-
-    /**
-     * @return array
-     * @throws \Exception
-     */
-    public function findAll(): array
-    {
-        return $this->repository->findAll();
-    }
-
-    /**
-     * @param ActivityMode $activityMode
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
-    public function create(ActivityMode $activityMode): void
-    {
-        $this->entityManager->persist($activityMode);
-        $this->entityManager->flush();
-    }
-
-    /**
-     * @param ActivityMode $activityMode
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
-    public function update(ActivityMode $activityMode): void
-    {
-        $this->entityManager->flush();
-    }
-
-    /**
-     * @param ActivityMode $activityMode
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
-    public function delete(ActivityMode $activityMode): void
-    {
-        $this->entityManager->remove($activityMode);
-        $this->entityManager->flush();
+        parent::__construct($registry, ActivityMode::class);
     }
 
     /**
@@ -76,9 +27,9 @@ class ActivityModeDoctrineRepository extends AbstractDoctrineRepository implemen
      */
     public function getIndexQueryBuilder(): QueryBuilder
     {
-        return $this->entityManager->getRepository(ActivityMode::class)
-            ->createQueryBuilder('a')
-            ->addOrderBy('a.label', 'ASC');
+        return $this->_em->getRepository(ActivityMode::class)
+            ->createQueryBuilder('am')
+            ->addOrderBy('am.label', 'ASC');
     }
 
     /**
@@ -87,7 +38,7 @@ class ActivityModeDoctrineRepository extends AbstractDoctrineRepository implemen
      */
     public function findLikeQuery(string $query): array
     {
-        return $this->entityManager->getRepository(ActivityMode::class)->createQueryBuilder('am')
+        return $this->getIndexQueryBuilder()
             ->andWhere('am.label LIKE :query ')
             ->setParameter('query', '%' . $query . '%')
             ->getQuery()

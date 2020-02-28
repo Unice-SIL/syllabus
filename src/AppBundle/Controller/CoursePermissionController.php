@@ -6,9 +6,8 @@ use AppBundle\Entity\CourseInfo;
 use AppBundle\Form\CourseInfo\Permission\AddCourseInfoPermissionType;
 use AppBundle\Manager\CoursePermissionManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,13 +17,12 @@ use Symfony\Component\Routing\Annotation\Route;
  * CoursePermission controller.
  *
  */
-class CoursePermissionController extends Controller
+class CoursePermissionController extends AbstractController
 {
     /**
      * Lists all CoursePermission entities.
      *
-     * @Route("/course/{id}/permissions", name="app_course_permission")
-     * @Method("GET")
+     * @Route("/course/{id}/permissions", name="app_course_permission", methods={"GET"})
      * @Security("is_granted('WRITE', courseInfo)")
      * @param CourseInfo $courseInfo
      * @param Request $request
@@ -35,9 +33,7 @@ class CoursePermissionController extends Controller
      */
     public function indexAction(CourseInfo $courseInfo, Request $request, EntityManagerInterface $em, CoursePermissionManager $coursePermissionManager)
     {
-
-        $coursePermission = $coursePermissionManager->create();
-        $coursePermission->setCourseInfo($courseInfo);
+        $coursePermission = $coursePermissionManager->new($courseInfo);
         $form = $this->createForm(AddCourseInfoPermissionType::class, $coursePermission);
         $form->handleRequest($request);
 
@@ -45,14 +41,11 @@ class CoursePermissionController extends Controller
         if ($form->isSubmitted()) {
 
             if ($form->isValid()) {
-                $em->persist($coursePermission);
-                $em->flush();
+                $coursePermissionManager->create($coursePermission);
 
                 $this->addFlash('success', 'La permission a été ajoutée avec succès');
-
                 return $this->redirectToRoute('app_course_permission', ['id' => $courseInfo->getId()]);
             }
-
             $isValid = false;
         }
 
@@ -63,5 +56,4 @@ class CoursePermissionController extends Controller
             'isValid' => $isValid
         ));
     }
-
 }

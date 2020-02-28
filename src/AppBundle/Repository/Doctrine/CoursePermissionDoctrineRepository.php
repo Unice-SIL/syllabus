@@ -5,98 +5,56 @@ namespace AppBundle\Repository\Doctrine;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CoursePermission;
 use AppBundle\Entity\User;
-use AppBundle\Repository\CoursePermissionRepositoryInterface;
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
 
 /**
  * Class StructureDoctrineRepository
  * @package AppBundle\Repository\Doctrine
  */
-class CoursePermissionDoctrineRepository extends AbstractDoctrineRepository implements CoursePermissionRepositoryInterface
+class CoursePermissionDoctrineRepository extends ServiceEntityRepository
 {
-
     /**
-     * StructureDoctrineRepository constructor.
-     * @param EntityManagerInterface $entityManager
+     * CoursePermissionDoctrineRepository constructor.
+     * @param ManagerRegistry $registry
      */
-    public function __construct(
-        EntityManagerInterface $entityManager
-    )
+    public function __construct(ManagerRegistry $registry)
     {
-        $this->entityManager = $entityManager;
+        parent::__construct($registry, CoursePermission::class);
     }
 
     /**
-     * @param string $id
+     * @param User $user
      * @return mixed
      */
-    public function getCourseBypermission(User $user)
+    public function getCourseByPermission(User $user)
     {
-        $qb = $this->entityManager->getRepository(CourseInfo::class)->createQueryBuilder('ci');
-            $qb->join('ci.coursePermissions', 'cp')
-                ->where($qb->expr()->eq('cp.user', ':user'))
-                ->setParameter('user', $user);
-            $courseInfos = $qb->getQuery()->getResult();
+        $qb = $this->_em->getRepository(CourseInfo::class)->createQueryBuilder('ci');
+        $qb->join('ci.coursePermissions', 'cp')
+            ->where($qb->expr()->eq('cp.user', ':user'))
+            ->setParameter('user', $user);
+        $courseInfos = $qb->getQuery()->getResult();
 
-            return $courseInfos;
+        return $courseInfos;
     }
 
     /**
-     * @param string $id
-     * @return CoursePermission|null
-     * @throws \Exception
+     * @return QueryBuilder
      */
-    public function find(string $id): ?CoursePermission
-    {
-        $permission = null;
-        try{
-            $permission = $this->entityManager->getRepository(CoursePermission::class)->find($id);
-        }catch (\Exception $e){
-            throw $e;
-        }
-        return $permission;
-    }
-
-
-    /**
-     * @param CoursePermission $permission
-     * @throws \Exception
-     */
-    public function create(CoursePermission $permission): void
-    {
-        try{
-            $this->entityManager->persist($permission);
-            $this->entityManager->flush();
-        }catch (\Exception $e){
-            throw $e;
-        }
-    }
-
-    /**
-     * @param CoursePermission $permission
-     * @throws \Exception
-     */
-    public function update(CoursePermission $permission): void
-    {
-        try{
-            $this->entityManager->persist($permission);
-            $this->entityManager->flush();
-        }catch (\Exception $e){
-            throw $e;
-        }
-    }
-
     public function getIndexQueryBuilder(): QueryBuilder
     {
-        return $this->entityManager->getRepository(CoursePermission::class)
+        return $this->_em->getRepository(CoursePermission::class)
             ->createQueryBuilder('cp')
             ->innerJoin('cp.user', 'u')
             ->addSelect('u')
-            ->addOrderBy('cp.permission', 'ASC')
-            ;
+            ->addOrderBy('cp.permission', 'ASC');
     }
 
+    /**
+     * @param array $config
+     * @return QueryBuilder
+     */
     public function findQueryBuilderForApi(array $config): QueryBuilder
     {
         $qb = $this->getIndexQueryBuilder();
@@ -106,17 +64,14 @@ class CoursePermissionDoctrineRepository extends AbstractDoctrineRepository impl
             switch ($filter) {
                 case 'permission':
                     $qb->andWhere($qb->expr()->eq('cp.permission', ':'.$valueName))
-                        ->setParameter($valueName, $value)
-                    ;
+                        ->setParameter($valueName, $value);
                     break;
                 case 'userId':
                     $qb->andWhere($qb->expr()->eq('u.id', ':'.$valueName))
-                        ->setParameter($valueName, $value)
-                    ;
+                        ->setParameter($valueName, $value);
                     break;
             }
         }
-
         return $qb;
     }
 

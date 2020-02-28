@@ -27,9 +27,11 @@ class CourseCriticalAchievement
     private $id;
 
     /**
-     * @ORM\Column(name="rule", type="integer")
+     * @var string|null
+     *
+     * @ORM\Column(name="rule", type="text", length=50, nullable=false)
      */
-    private $rule = 0;
+    private $rule;
 
     /**
      * @var int
@@ -39,18 +41,18 @@ class CourseCriticalAchievement
     private $score = 0;
 
     /**
-     * @OneToMany(targetEntity="LearningAchievement", mappedBy="courseCriticalAchievement")
+     * @OneToMany(targetEntity="LearningAchievement", mappedBy="courseCriticalAchievement", cascade={"persist"}, orphanRemoval=true)
      */
     private $learningAchievements;
 
     /**
-     * @ManyToOne(targetEntity="CriticalAchievement", inversedBy="courseCriticalAchievements")
+     * @ManyToOne(targetEntity="CriticalAchievement", inversedBy="courseCriticalAchievements", cascade={"persist"})
      * @JoinColumn(name="critical_achievement_course_critical_achievement", referencedColumnName="id")
      */
-    private $courseCriticalAchievement;
+    private $criticalAchievement;
 
     /**
-     * @ManyToOne(targetEntity="CourseInfo", inversedBy="courseCriticalAchievements")
+     * @ManyToOne(targetEntity="CourseInfo", inversedBy="courseCriticalAchievements", cascade={"persist"})
      * @JoinColumn(name="course_info_course_critical_achievement", referencedColumnName="id")
      */
     private $courseInfo;
@@ -81,18 +83,18 @@ class CourseCriticalAchievement
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function getRule(): int
+    public function getRule(): ?string
     {
         return $this->rule;
     }
 
     /**
-     * @param int $rule
+     * @param string $rule
      * @return CourseCriticalAchievement
      */
-    public function setRule(int $rule): CourseCriticalAchievement
+    public function setRule(string $rule): CourseCriticalAchievement
     {
         $this->rule = $rule;
         return $this;
@@ -163,17 +165,17 @@ class CourseCriticalAchievement
     /**
      * @return mixed
      */
-    public function getCourseCriticalAchievement()
+    public function getCriticalAchievement()
     {
-        return $this->courseCriticalAchievement;
+        return $this->criticalAchievement;
     }
 
     /**
-     * @param mixed $courseCriticalAchievement
+     * @param $criticalAchievement
      */
-    public function setCourseCriticalAchievement($courseCriticalAchievement): void
+    public function setCriticalAchievement($criticalAchievement): void
     {
-        $this->courseCriticalAchievement = $courseCriticalAchievement;
+        $this->criticalAchievement = $criticalAchievement;
     }
 
     /**

@@ -3,7 +3,9 @@
 
 namespace AppBundle\Parser;
 
+use AppBundle\Constant\TeachingMode;
 use AppBundle\Entity\Course;
+use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\Structure;
 use AppBundle\Entity\Year;
 use AppBundle\Helper\Report\ReportLine;
@@ -37,50 +39,60 @@ class CourseInfoCsvParser extends AbstractCsvParser implements ParserInterface
 
     protected function getBaseMatching(): array
     {
+        $years = $this->em->getRepository(Year::class)->findAll();
+        $years = array_map(function (Year $year){
+            return $year->getId();
+        }, $years);
+
+        $structures = $this->em->getRepository(Structure::class)->findAll();
+        $structures = array_map(function (Structure $structure){
+            return $structure->getCode();
+        }, $structures);
+
         return [
-            'course' => ['name' => 'code', 'type'=> 'object', 'entity' => Course::class, 'findBy' => 'code'],
-            'year' => ['name' => 'year', 'type'=> 'object', 'entity' => Year::class, 'findBy' => 'id'],
-            'structure' => ['name' => 'structure', 'type' => 'object', 'entity' => Structure::class, 'findBy' => 'code'],
-            'title',
-            'ects' => ['type' => 'float'],
-            'summary',
-            'teachingMode',
-            'teachingCmClass' => ['type' => 'float'],
-            'teachingTdClass' => ['type' => 'float'],
-            'teachingTpClass' => ['type' => 'float'],
-            'teachingOtherClass' => ['type' => 'float'],
-            'teachingOtherTypeClass',
-            'teachingCmHybridClass' => ['type' => 'float'],
-            'teachingTdHybridClass' => ['type' => 'float'],
-            'teachingTpHybridClass' => ['type' => 'float'],
-            'teachingOtherHybridClass' => ['type' => 'float'],
-            'teachingOtherTypeHybridClass',
-            'teachingCmHybridDist' => ['type' => 'float'],
-            'teachingTdHybridDist' => ['type' => 'float'],
-            'teachingOtherHybridDist' => ['type' => 'float'],
-            'teachingOtherTypeHybridDistant',
-            'teachingCmDist' => ['type' => 'float'],
-            'teachingTdDist' => ['type' => 'float'],
-            'teachingOtherDist' => ['type' => 'float'],
-            'teachingOtherTypeDist',
-            'mccWeight' => ['type' => 'int'],
-            'mccCapitalizable' => ['type' => 'boolean'],
-            'mccCompensable' => ['type' => 'boolean', 'name' => 'Compensable'],
-            'evaluationType' => [ 'choices' => ['CC', 'CT', 'CC&CT']],
-            'mccCtCoeffSession1' => ['type' => 'int'],
-            'mccCcNbEvalSession1' => ['type' => 'int'],
-            'mccCtNatSession1',
-            'mccCtDurationSession1',
-            'mccAdvice',
-            'tutoring' => ['type' => 'boolean'],
-            'tutoringTeacher' => ['type' => 'boolean'],
-            'tutoringStudent' => ['type' => 'boolean'],
-            'tutoringDescription',
-            'educationalResources',
-            'bibliographicResources',
+            'course' => ['name' => 'code', 'required' => true, 'type'=> 'object', 'entity' => Course::class, 'findBy' => 'code', 'description' => "Code du cours du syllabus"],
+            'year' => ['name' => 'year', 'required' => true, 'type'=> 'object', 'entity' => Year::class, 'findBy' => 'id', 'choices' => $years, 'description' => "Année du syllabus"],
+            'structure' => ['name' => 'structure', 'type' => 'object', 'entity' => Structure::class, 'findBy' => 'code', 'choices' => $structures, 'description' => "Code de la structure"],
+            'title' => ['description' => "Titre du syllabus"],
+            'ects' => ['type' => 'float', 'description' => "Nombre de crédit ECTS"],
+            'summary' => ['description' => "Résumé du cours"],
+            'teachingMode' => ['choices' => TeachingMode::TEACHING_MODES, 'description' => "Mode d'enseignement"],
+            'teachingCmClass' => ['type' => 'float', 'description' => "Volume horaire CM pour le mode '".TeachingMode::IN_CLASS."'"],
+            'teachingTdClass' => ['type' => 'float', 'description' => "Volume horaire TD pour le mode '".TeachingMode::IN_CLASS."'"],
+            'teachingTpClass' => ['type' => 'float', 'description' => "Volume horaire TP pour le mode '".TeachingMode::IN_CLASS."'"],
+            'teachingOtherClass' => ['type' => 'float', 'description' => "Volume horaire 'Autre' pour le mode '".TeachingMode::IN_CLASS."'"],
+            'teachingOtherTypeClass' => ['description' => "Type de volume horaire 'Autre' pour le mode '".TeachingMode::IN_CLASS."'"],
+            'teachingCmHybridClass' => ['type' => 'float', 'description' => "Volume horaire CM pour le mode '".TeachingMode::HYBRID."' en présentiel"],
+            'teachingTdHybridClass' => ['type' => 'float', 'description' => "Volume horaire TD pour le mode '".TeachingMode::HYBRID."' en présentiel"],
+            'teachingTpHybridClass' => ['type' => 'float', 'description' => "Volume horaire TP pour le mode '".TeachingMode::HYBRID."' en présentiel"],
+            'teachingOtherHybridClass' => ['type' => 'float', 'description' => "Volume horaire 'Autre' pour le mode '".TeachingMode::HYBRID."' en présentiel"],
+            'teachingOtherTypeHybridClass' => ['description' => "Type de volume horaire 'Autre' pour le mode '".TeachingMode::IN_CLASS."' en présentiel"],
+            'teachingCmHybridDist' => ['type' => 'float', 'description' => "Volume horaire CM pour le mode '".TeachingMode::HYBRID."' à distance"],
+            'teachingTdHybridDist' => ['type' => 'float', 'description' => "Volume horaire TD pour le mode '".TeachingMode::HYBRID."' à distance"],
+            'teachingOtherHybridDist' => ['type' => 'float', 'description' => "Volume horaire 'Autre' pour le mode '".TeachingMode::HYBRID."' à distance"],
+            'teachingOtherTypeHybridDistant' => ['description' => "Type de volume horaire 'Autre' pour le mode '".TeachingMode::HYBRID."' à distance"],
+            'teachingCmDist' => ['type' => 'float', 'description' => "Volume horaire CM pour le mode '".TeachingMode::DIST."'"],
+            'teachingTdDist' => ['type' => 'float', 'description' => "Volume horaire TD pour le mode '".TeachingMode::DIST."'"],
+            'teachingOtherDist' => ['type' => 'float', 'description' => "Volume horaire 'Autre' pour le mode '".TeachingMode::DIST."'"],
+            'teachingOtherTypeDist' => ['description' => "Type volume horaire 'Autre' pour le mode '".TeachingMode::DIST."'"],
+            'mccWeight' => ['type' => 'int', 'description' => "Poids de l'ECUE dans l'UE"],
+            'mccCapitalizable' => ['type' => 'boolean', 'choices' => ['OUI', 'NON', 'TRUE', 'FALSE'], 'description' => "Témoin UE/ECUE capitalisable"],
+            'mccCompensable' => ['type' => 'boolean', 'choices' => ['OUI', 'NON', 'TRUE', 'FALSE'], 'description' => "Témoin UE/ECUE compensable"],
+            'evaluationType' => [ 'choices' => ['CC', 'CT', 'CC&CT'], 'description' => "Type d'évaluation contrôle continu, terminal ou les deux"],
+            'mccCtCoeffSession1' => ['type' => 'int', 'description' => "Coefficient Contrôle Continu pour la 1ère session (le coefficient du Contrôle Terminal est calculé automatiquement en fonction du type d'avaluation et du coefficient CC)"],
+            'mccCcNbEvalSession1' => ['type' => 'int', 'description' => "Nombre d'évaluation(s) en contrôle continu pour la 1ère session"],
+            'mccCtNatSession1' => ['description' => "Nature du contrôle terminal pour la 1ère session"],
+            'mccCtDurationSession1' => ['description' => "Durée du contrôle terminal pour la 1ère session"],
+            'mccAdvice' => ['description' => "Précisions sur les modalités d'évaluation"],
+            'tutoring' => ['type' => 'boolean', 'description' => "Précisions sur les modalités d'évaluation"],
+            'tutoringTeacher' => ['type' => 'boolean', 'description' => "Précisions sur les modalités d'évaluation"],
+            'tutoringStudent' => ['type' => 'boolean', 'description' => "Précisions sur les modalités d'évaluation"],
+            'tutoringDescription' => ['description' => "Précisions sur les modalités d'évaluation"],
+            'educationalResources' => ['description' => "Resources pédagogiques"],
+            'bibliographicResources' => ['description' => "Resources bibliographiques"],
             'agenda',
-            'organization',
-            'closingRemarks'
+            'organization' => ['description' => "Organisation du cours"],
+            'closingRemarks' => ['description' => "Mot de la fin"]
         ];
     }
 
@@ -89,6 +101,15 @@ class CourseInfoCsvParser extends AbstractCsvParser implements ParserInterface
         return ['code', 'year'];
     }
 
+    /**
+     * @param CourseInfo $entity
+     * @param string $property
+     * @param string $name
+     * @param string $type
+     * @param $data
+     * @param ReportLine $reportLine
+     * @return bool
+     */
     protected function manageSpecialCase($entity, string $property, string $name, string $type, $data, ReportLine $reportLine): bool
     {
         switch ($name) {

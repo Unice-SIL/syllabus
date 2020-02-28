@@ -34,7 +34,7 @@ class AppRuntime implements RuntimeExtensionInterface
         foreach ($routes as $route) {
 
             //Some routes starts by app_admin_course_info but are stored in different tabs in the admin sidebar
-            $specialCourseInfoRoutes = ['app_admin_course_info_import_mcc', 'app_admin_course_info_import_mcc', 'app_admin_course_info_field_index'];
+            $specialCourseInfoRoutes = ['app_admin_course_info_field_index'];
             if (in_array($this->masterRequest->get('_route'), $specialCourseInfoRoutes)) {
                 return $this->masterRequest->get('_route') === $route ? 'active' : null;
             }

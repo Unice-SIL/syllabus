@@ -18,6 +18,7 @@ class CriticalAchievementType extends AbstractType
     {
         $this->criticalAchievementTypeSubscriber = $criticalAchievementTypeSubscriber;
     }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -25,14 +26,13 @@ class CriticalAchievementType extends AbstractType
             ->add('courses', Select2EntityType::class, [
                 'label' => 'Cours',
                 'multiple' => true,
-                'remote_route' => 'app_admin_course_autocompleteS3',
+                'remote_route' => 'app_admin.course_autocompleteS3',
                 'class' => Course::class,
                 'text_property' => 'code',
                 'language' => 'fr',
                 'minimum_input_length' => 0,
                 'required' => false
             ])
-            ->addEventSubscriber($this->criticalAchievementTypeSubscriber)
-        ;
+            ->addEventSubscriber($this->criticalAchievementTypeSubscriber);
     }
 }

@@ -4,6 +4,7 @@
 namespace AppBundle\Controller;
 
 
+use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CriticalAchievement;
 use AppBundle\Form\CriticalAchievementType;
 use AppBundle\Form\Filter\CriticalAchievementFilterType;
@@ -136,5 +137,28 @@ class CriticalAchievementController extends AbstractController
         $criticalAchievements = array_values($criticalAchievements);
 
         return $this->json(['query' =>  $query, 'suggestions' => $criticalAchievements, 'data' => $criticalAchievements]);
+    }
+
+    /**
+     * @Route("/autocompleteByCourse/{courseInfo}", name="autocompleteByCourse", methods={"GET"})
+     *
+     * @param CriticalAchievementDoctrineRepository $criticalAchievementDoctrineRepository
+     * @param CourseInfo $courseInfo
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function autocompleteByCourse(CourseInfo $courseInfo, CriticalAchievementDoctrineRepository $criticalAchievementDoctrineRepository,
+                                          Request $request)
+    {
+        $query = $request->query->get('q', '');
+
+        $criticalAchievements = $criticalAchievementDoctrineRepository->findLikeQueryByCourse($query, $courseInfo->getCourse());
+        $result = [];
+        foreach ($criticalAchievements as $ca){
+            $result[] = ['id' => $ca->getId(), 'text' => $ca->getLabel()];
+        }
+
+        return $this->json($result);
+
     }
 }

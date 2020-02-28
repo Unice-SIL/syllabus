@@ -11,11 +11,13 @@ use AppBundle\Entity\CourseSectionActivity;
 use AppBundle\Form\CourseInfo\Activities\CourseSectionActivityType;
 use AppBundle\Form\CourseInfo\Activities\DuplicateCourseSectionType;
 use AppBundle\Form\CourseInfo\Activities\RemoveCourseSectionActivityType;
-use AppBundle\Form\CourseInfo\Activities\SectionType;
 use AppBundle\Form\CourseInfo\Activities\RemoveSectionType;
+use AppBundle\Form\CourseInfo\Activities\SectionType;
 use AppBundle\Manager\ActivityManager;
 use AppBundle\Manager\ActivityTypeManager;
 use AppBundle\Manager\CourseInfoManager;
+use AppBundle\Manager\CourseSectionActivityManager;
+use AppBundle\Manager\CourseSectionManager;
 use Ramsey\Uuid\Uuid;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -64,10 +66,11 @@ class CourseInfoActivitiesController extends AbstractController
      * @param CourseInfo $courseInfo
      * @param Request $request
      * @param CourseInfoManager $manager
+     * @param CourseSectionManager $courseSectionManager
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function addSectionAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
+    public function addSectionAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager, CourseSectionManager $courseSectionManager)
     {
         if (!$courseInfo instanceof CourseInfo)
         {
@@ -79,7 +82,7 @@ class CourseInfoActivitiesController extends AbstractController
 
         $status = true;
         $message = null;
-        $section = new CourseSection();
+        $section = $courseSectionManager->new();
 
         $form = $this->createForm(SectionType::class, $section);
         $form->handleRequest($request);
@@ -120,12 +123,11 @@ class CourseInfoActivitiesController extends AbstractController
      * @param CourseInfo $courseInfo
      * @param CourseSection|null $section
      * @param Request $request
-     * @param CourseInfoManager $manager
+     * @param CourseSectionManager $courseSectionManager
      * @return \Symfony\Component\HttpFoundation\Response
-     * @throws \Exception
      * @ParamConverter("section", options={"mapping": {"sectionId": "id"}})
      */
-    public function editSectionAction(CourseInfo $courseInfo, ?CourseSection $section, Request $request, CourseInfoManager $manager)
+    public function editSectionAction(CourseInfo $courseInfo, ?CourseSection $section, Request $request, CourseSectionManager $courseSectionManager)
     {
         if (!$courseInfo instanceof CourseInfo)
         {
@@ -147,7 +149,7 @@ class CourseInfoActivitiesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $manager->update($courseInfo);
+            $courseSectionManager->update($section);
         }
 
         $render = $this->get('twig')->render('course_info/activities/form/edit_section.html.twig', [
@@ -167,12 +169,11 @@ class CourseInfoActivitiesController extends AbstractController
      * @param CourseInfo $courseInfo
      * @param CourseSection $section
      * @param Request $request
-     * @param CourseInfoManager $manager
+     * @param CourseSectionManager $courseSectionManager
      * @return \Symfony\Component\HttpFoundation\JsonResponse
-     * @throws \Exception
      * @ParamConverter("section", options={"mapping": {"sectionId": "id"}})
      */
-    public function removeSectionAction(CourseInfo $courseInfo, CourseSection $section, Request $request, CourseInfoManager $manager)
+    public function removeSectionAction(CourseInfo $courseInfo, CourseSection $section, Request $request, CourseSectionManager $courseSectionManager)
     {
         if (!$courseInfo instanceof CourseInfo)
         {
@@ -195,8 +196,7 @@ class CourseInfoActivitiesController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
-            $courseInfo->removeCourseSection($section);
-            $manager->update($courseInfo);
+            $courseSectionManager->delete($section);
             return $this->json([
                 'status' => true,
                 'content' => null
@@ -309,17 +309,20 @@ class CourseInfoActivitiesController extends AbstractController
      * @param Activity $activity
      * @param ActivityType $activityType
      * @param Request $request
+     * @param CourseSectionActivityManager $courseSectionActivityManager
+     * @param CourseSectionManager $courseSectionManager
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      * @ParamConverter("courseSection", options={"mapping": {"sectionId": "id"}})
      * @ParamConverter("activity", options={"mapping": {"activityId": "id"}})
      * @ParamConverter("activityType", options={"mapping": {"activityTypeId": "id"}})
      */
-    public function addCourseSectionActivityAction(CourseSection $courseSection, Activity $activity, ActivityType $activityType, Request $request)
+    public function addCourseSectionActivityAction(CourseSection $courseSection, Activity $activity, ActivityType $activityType, Request $request,
+                                                   CourseSectionActivityManager $courseSectionActivityManager, CourseSectionManager $courseSectionManager)
     {
         $status = true;
         $message = null;
-        $courseSectionActivity = new CourseSectionActivity();
+        $courseSectionActivity = $courseSectionActivityManager->new();
 
         if (!$courseSection instanceof CourseSection)
         {
@@ -370,12 +373,11 @@ class CourseInfoActivitiesController extends AbstractController
                 $courseSectionActivity->setId(Uuid::uuid4())
                     ->setCourseSection($courseSection)
                     ->setActivity($activity);
-                $courseSection->addCourseSectionActivity($courseSectionActivity);
+                $courseSectionActivityManager->create($courseSectionActivity);
                 foreach ($courseSection->getCourseSectionActivities() as $courseSectionActivity) {
                     $courseSectionActivity->setPosition($courseSectionActivity->getPosition() + 1);
                 }
-                $this->getDoctrine()->getManager()->persist($courseSection);
-                $this->getDoctrine()->getManager()->flush();
+                $courseSectionManager->update($courseSection);
             }
             else
             {
@@ -402,12 +404,12 @@ class CourseInfoActivitiesController extends AbstractController
      * @param CourseSectionActivity $courseSectionActivity
      * @param Activity $activity
      * @param Request $request
+     * @param CourseSectionActivityManager $manager
      * @return \Symfony\Component\HttpFoundation\JsonResponse
-     * @throws \Exception
      * @ParamConverter("courseSectionActivity", options={"mapping": {"courseSectionActivityId": "id"}})
      * @ParamConverter("activity", options={"mapping": {"activityId": "id"}})
      */
-    public function editCourseSectionActivityAction(CourseSectionActivity $courseSectionActivity, Activity $activity, Request $request)
+    public function editCourseSectionActivityAction(CourseSectionActivity $courseSectionActivity, Activity $activity, Request $request, CourseSectionActivityManager $manager)
     {
         $status = true;
         $message = null;
@@ -449,8 +451,7 @@ class CourseInfoActivitiesController extends AbstractController
         {
             if ($form->isValid())
             {
-                $this->getDoctrine()->getManager()->persist($courseSectionActivity);
-                $this->getDoctrine()->getManager()->flush();
+                $manager->update($courseSectionActivity);
             }
             else
             {
@@ -477,11 +478,12 @@ class CourseInfoActivitiesController extends AbstractController
      * @param CourseSection $courseSection
      * @param CourseSectionActivity $courseSectionActivity
      * @param Request $request
+     * @param CourseSectionActivityManager $manager
      * @return \Symfony\Component\HttpFoundation\Response
      * @ParamConverter("courseSection", options={"mapping": {"sectionId": "id"}})
      * @ParamConverter("courseSectionActivity", options={"mapping": {"courseSectionActivityId": "id"}})
      */
-    public function removeCourseSectionActivityAction(CourseSection $courseSection, CourseSectionActivity $courseSectionActivity, Request $request)
+    public function removeCourseSectionActivityAction(CourseSection $courseSection, CourseSectionActivity $courseSectionActivity, Request $request, CourseSectionActivityManager $manager)
     {
         $status = true;
         $message = null;
@@ -509,9 +511,7 @@ class CourseInfoActivitiesController extends AbstractController
         {
             if ($form->isValid())
             {
-                $courseSection->removeCourseSectionActivity($courseSectionActivity);
-                $this->getDoctrine()->getManager()->persist($courseSection);
-                $this->getDoctrine()->getManager()->flush();
+                $manager->delete($courseSectionActivity);
                 return $this->json([
                     'status' => true,
                     'content' => null

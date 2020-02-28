@@ -12,6 +12,7 @@ use AppBundle\Form\CourseInfo\Presentation\SynopsisType;
 use AppBundle\Form\CourseInfo\Presentation\TeachersType;
 use AppBundle\Form\CourseInfo\Presentation\TeachingModeType;
 use AppBundle\Manager\CourseInfoManager;
+use AppBundle\Manager\CourseTeacherManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -148,12 +149,12 @@ class CourseInfoPresentationController extends AbstractController
      *
      * @param CourseInfo $courseInfo
      * @param Request $request
-     * @param CourseInfoManager $manager
+     * @param CourseTeacherManager $courseTeacherManager
      * @param ImportCourseTeacherFactory $factory
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function addTeachersAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager, ImportCourseTeacherFactory $factory)
+    public function addTeachersAction(CourseInfo $courseInfo, Request $request, CourseTeacherManager $courseTeacherManager, ImportCourseTeacherFactory $factory)
     {
         if (!$courseInfo instanceof CourseInfo)
         {
@@ -165,7 +166,7 @@ class CourseInfoPresentationController extends AbstractController
 
         $status = true;
         $message = null;
-        $teacher = new CourseTeacher();
+        $teacher = $courseTeacherManager->new();
 
         $form = $this->createForm(TeachersType::class, $teacher);
         $form->handleRequest($request);
@@ -181,8 +182,7 @@ class CourseInfoPresentationController extends AbstractController
                 $courseTeacher->setManager($data->isManager())
                     ->setEmailVisibility($data->isEmailVisibility())
                     ->setCourseInfo($courseInfo);
-                $courseInfo->addCourseTeacher($courseTeacher);
-                $manager->update($courseInfo);
+                $courseTeacherManager->create($courseTeacher);
             }
             else
             {
@@ -208,12 +208,11 @@ class CourseInfoPresentationController extends AbstractController
      * @param CourseInfo $courseInfo
      * @param CourseTeacher $teacher
      * @param Request $request
-     * @param CourseInfoManager $manager
+     * @param CourseTeacherManager $courseTeacherManager
      * @return JsonResponse
-     * @throws \Exception
      * @ParamConverter("teacher", options={"mapping": {"teacherId": "id"}})
      */
-    public function removeTeacherAction(CourseInfo $courseInfo, CourseTeacher $teacher, Request $request, CourseInfoManager $manager)
+    public function removeTeacherAction(CourseInfo $courseInfo, CourseTeacher $teacher, Request $request, CourseTeacherManager $courseTeacherManager)
     {
         if (!$courseInfo instanceof CourseInfo)
         {
@@ -236,8 +235,7 @@ class CourseInfoPresentationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
-            $courseInfo->removeCourseTeacher($teacher);
-            $manager->update($courseInfo);
+            $courseTeacherManager->delete($teacher);
             return $this->json([
                 'status' => true,
                 'content' => null

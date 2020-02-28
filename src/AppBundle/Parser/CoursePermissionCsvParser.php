@@ -3,6 +3,7 @@
 
 namespace AppBundle\Parser;
 
+use AppBundle\Constant\Permission;
 use AppBundle\Entity\User;
 use AppBundle\Helper\Report\ReportLine;
 use AppBundle\Manager\CoursePermissionManager;
@@ -46,10 +47,10 @@ class CoursePermissionCsvParser extends AbstractCsvParser implements ParserInter
     protected function getBaseMatching(): array
     {
         return [
-            'code',
-            'year',
-            'user' => ['name'=> 'username', 'type' => 'object', 'entity' => User::class, 'findBy' => 'username'],
-            'permission' => ['choices' => ['READ', 'WRITE']],
+            'code' => ['required' => true, 'description' => "Code du cours du syllabus"],
+            'year' => ['required' => true, 'description' => "Année du syllabus"],
+            'user' => ['name'=> 'username', 'required' => true, 'type' => 'object', 'entity' => User::class, 'findBy' => 'username', 'description' => "Login de l'utilisateur"],
+            'permission' => ['choices' => Permission::PERMISSIONS, 'required' => true, 'description' => "Niveau de permission accordé"],
         ];
     }
 

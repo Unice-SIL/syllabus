@@ -1,0 +1,135 @@
+{% if courseInfo.courseCriticalAchievements is empty %}
+    <div class="row mt-10">
+        <div class="col">
+            <div class="d-flex">
+                <div class="d-flex flex-column">
+                            <span class="font-weight-bold">
+                                <i class="fas fa-exclamation-circle text-danger"></i>
+                                Acquis
+                            </span>
+                    <span class="text-danger">
+                                Non-renseigné
+                            </span>
+                </div>
+            </div>
+        </div>
+    </div>
+{% else %}
+    {% for criticalAchievement in courseInfo.courseCriticalAchievements %}
+
+        <div id="card-achievement" class="card my-2 shadow card-syllabus"
+             data-view-url="{{ path('objective_course_achievement_view', {'id': courseInfo.id }) }}"
+        >
+            <div class="card-header" style="background-color: #c0c0c0">
+                <div class="d-flex justify-content-between">
+                    <h5>{{ criticalAchievement.criticalAchievement.label }}</h5>
+                    <div>
+                        <button type="button"
+                                class="btn btn-link modal-action p-0"
+                                data-action-title="Modifier un acquis critique"
+                                data-action-url="{{ path('objective_course_critical_achievement_edit', {'id': courseInfo.id,
+                                    'criticalAchievementId': criticalAchievement.id}) }}">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button type="button" class="btn btn-link modal-action p-0 mr-2"
+                                data-action-title="Supprimer un acquis critique"
+                                data-action-url="{{ path('objective_course_critical_achievement_remove', {'id': courseInfo.id,
+                                    'criticalAchievementId': criticalAchievement.id}) }}">
+                            <i class="fas fa-trash-alt text-danger"
+                            ></i>
+                        </button>
+                        <button type="button"
+                                class="btn btn-primary rounded modal-action"
+                                data-action-title="Ajouter un acquis"
+                                data-action-url="{{ path('objective_course_learning_achievement_form', {'id': courseInfo.id,
+                                    'criticalAchievementId': criticalAchievement.id }) }}">
+                            Ajouter un acquis
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card my-2 shadow card-syllabus">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between">
+                    <span class="text-bold">
+
+                        {% if criticalAchievement.rule == 'Score' %}
+                            {% if criticalAchievement.id in tabValideScore %}
+                                <i class="fas fa-circle success"></i>
+                            {% else %}
+                                <i class="fas fa-circle danger"></i>
+                            {% endif %}
+                        {% endif %}
+                        <span>Règle de validation de l'objectif d'apprentissage :</span>
+                        {% if criticalAchievement.rule == 'Score' %}
+                            {{ criticalAchievement.score }} points sont nécessaires
+                        {% else %}
+                            {{ criticalAchievement.rule }}
+                        {% endif %}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                {% if criticalAchievement.learningAchievements is empty %}
+                    <div class="row mt-10">
+                        <div class="col">
+                            <div class="d-flex">
+                                <div class="d-flex flex-column">
+                            <span class="font-weight-bold">
+                                <i class="fas fa-exclamation-circle text-danger"></i>
+                                Acquis
+                            </span>
+                                    <span class="text-danger">
+                                Non-renseigné
+                            </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th class="text-left" style="width: 70%">Description</th>
+                            <th class="text-center" style="width: 10%">
+                                {% if criticalAchievement.rule == 'Score' %}
+                                    Score
+                                {% endif %}
+                            </th>
+                            <th class="text-center" style="width: 20%">Modifier/Supprimer</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for learningAchievement in criticalAchievement.learningAchievements %}
+                            <tr>
+                                <td class="text-left" style="width: 70%">{{ learningAchievement.description }}</td>
+                                <td class="text-center" style="width: 10%">
+                                    {% if criticalAchievement.rule == 'Score' %}
+                                        {{ learningAchievement.score }}
+                                    {% endif %}
+                                </td>
+                                <td class="text-center" style="width: 20%">
+                                    <button type="button"
+                                            class="btn btn-link modal-action p-0"
+                                            data-action-title="Modifier un acquis"
+                                            data-action-url="{{ path('objective_course_learning_achievement_edit', {'id': courseInfo.id,
+                                                'learningAchievementId': learningAchievement.id }) }}">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-link modal-action p-0"
+                                            data-action-title="Supprimer un acquis"
+                                            data-action-url="{{ path('objective_course_learning_achievement_remove', {'id': courseInfo.id,
+                                                'learningAchievementId': learningAchievement.id }) }}">
+                                        <i class="fas fa-trash-alt text-danger"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+{% endif %}

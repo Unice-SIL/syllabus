@@ -2,7 +2,7 @@
 {{ form_errors(form) }}
 <h5>{{ 'app.presentation.form.teacher.delete' | trans({'%lastname%': form.vars.data.lastname, '%firstname%': form.vars.data.firstname}) }}</h5>
 <div class="d-flex justify-content-center">
-    <button type="submit" class="btn btn-danger rounded mr-2">{{ 'app.general.button.delete' }}</button>
+    <button type="submit" class="btn btn-danger rounded mr-2">{{ 'app.general.button.delete' | trans }}</button>
 </div>
 {{ form_widget(form._token) }}
 {{ form_end(form) }}

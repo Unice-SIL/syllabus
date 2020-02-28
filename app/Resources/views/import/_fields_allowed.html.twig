@@ -1,0 +1,27 @@
+<table class="table table-sm">
+    <thead>
+    <tr>
+        <th>Nom</th>
+        <th>Obligatoire</th>
+        <th>Valeurs autorisées</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for field in fieldsAllowed %}
+        <tr>
+            <td>{{ field.name }}</td>
+            <td>{{ field.required|humanizeBoolean }}</td>
+            <td>
+                {% for choice in field.choices %}
+                    {% if not loop.first %}
+                        |
+                    {% endif %}
+                    {{ choice }}
+                {% endfor %}
+            </td>
+            <td>{{ field.description }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

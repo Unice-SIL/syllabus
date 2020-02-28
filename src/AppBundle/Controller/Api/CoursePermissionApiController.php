@@ -5,21 +5,22 @@ namespace AppBundle\Controller\Api;
 
 
 use AppBundle\Entity\CoursePermission;
-use Nelmio\ApiDocBundle\Annotation\Model;
 use AppBundle\Exception\ResourceValidationException;
 use AppBundle\Form\Api\CoursePermissionType;
 use AppBundle\Helper\ApiHelper;
+use AppBundle\Manager\CoursePermissionManager;
 use AppBundle\Repository\Doctrine\CoursePermissionDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Swagger\Annotations as SWG;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Response;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Swagger\Annotations as SWG;
 
 /**
  * Class CoursePermissionApiController
@@ -116,9 +117,9 @@ class CoursePermissionApiController extends Controller
      * @param SerializerInterface $serializer
      * @param EntityManagerInterface $em
      * @param ApiHelper $apiHelper
+     * @param CoursePermissionManager $coursePermissionManager
      * @return Response
      * @throws ResourceValidationException
-     *
      * @SWG\Response(
      *     response=201,
      *     description="Save the course permission from the body request",
@@ -126,17 +127,16 @@ class CoursePermissionApiController extends Controller
      * )
      * @IsGranted("ROLE_API_POST_COURSE_PERMISSION")
      */
-    public function postAction(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, ApiHelper $apiHelper)
+    public function postAction(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, ApiHelper $apiHelper, CoursePermissionManager $coursePermissionManager)
     {
-        $coursePermission = new CoursePermission();
+        $coursePermission = $coursePermissionManager->new();
         $form = $this->createForm(CoursePermissionType::class, $coursePermission);
 
         $form->submit(json_decode($request->getContent(), true));
 
         $apiHelper->throwExceptionIfEntityInvalid($form);
 
-        $em->persist($coursePermission);
-        $em->flush();
+        $coursePermissionManager->create($coursePermission);
 
         $em->refresh($coursePermission);
         $response = new Response($serializer->serialize($coursePermission, 'json', SerializationContext::create()->setGroups(['default', 'course_permission'])), Response::HTTP_CREATED);
@@ -153,10 +153,9 @@ class CoursePermissionApiController extends Controller
      * @param EntityManagerInterface $entityManager
      * @return Response
      */
-    public function delete(CoursePermission $coursePermission, EntityManagerInterface $entityManager) {
-
-        $entityManager->remove($coursePermission);
-        $entityManager->flush();
+    public function delete(CoursePermission $coursePermission, EntityManagerInterface $entityManager, CoursePermissionManager $coursePermissionManager)
+    {
+        $coursePermissionManager->delete($coursePermission);
 
         $response = new Response('OK', Response::HTTP_OK);
         $response->headers->set('Content-Type', 'application/json');

@@ -89,14 +89,18 @@ abstract class AbstractParser
      *     'title' => [
      *          'name' => 'Titre' // (name in the csv) optional, by default the name is the array key
      *          'type' => 'string' // (type in the entity) optional by default is string
-     *          'nullable' => 'false' //  optional by default is false
-     *          'choices' => '[]' //  optional by default is []
+     *          'nullable' => false //  optional by default is false
+     *          'choices' => [] //  optional by default is []
+     *          'findBy' => 'id' // optional by default is 'id'
+     *          'entity' => null // (entity classname) optional by default is null
+     *          'required' => false // optional by default is false
+     *          'description' => '' // optional by default is null
      *      ]
      * ]
      */
     abstract protected function getBaseMatching(): array;
 
-    protected function getCompleteMatching()
+    public function getCompleteMatching()
     {
         $matching = $this->getBaseMatching();
 
@@ -108,6 +112,8 @@ abstract class AbstractParser
             $choices = [];
             $findBy = 'id';
             $entity = null;
+            $required = false;
+            $description = null;
             if (is_array($value)) {
                 $property = $key;
                 $name = isset($value['name']) ? $value['name'] :  $property;
@@ -116,6 +122,8 @@ abstract class AbstractParser
                 $choices = isset($value['choices']) ? $value['choices'] : $choices;
                 $findBy = isset($value['findBy']) ? $value['findBy'] : $findBy;
                 $entity = isset($value['entity']) ? $value['entity'] : $entity;
+                $required = isset($value['required']) ? $value['required'] : $required;
+                $description = isset($value['description']) ? $value['description'] : $description;
 
             }
 
@@ -125,6 +133,8 @@ abstract class AbstractParser
                 'choices' => $choices,
                 'entity' => $entity,
                 'findBy' => $findBy,
+                'required' => $required,
+                'description' => $description
             ];
         }
     }

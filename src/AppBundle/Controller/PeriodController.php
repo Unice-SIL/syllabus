@@ -26,25 +26,22 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * @Route("/admin/period", name="app_admin_period_")
  */
-
 class PeriodController extends AbstractController
 {
     /**
-     * @Route("/",name="index" )
-     * @Method("GET")
+     * @Route("/",name="index", methods={"GET"})
      *
      * @param Request $request
-     * @param EntityManagerInterface $em
+     * @param PeriodDoctrineRepository $repository
      * @param PaginatorInterface $paginator
      * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
      * @return Response
-     *
      */
-    public function IndexAction(Request $request, EntityManagerInterface $em, PaginatorInterface $paginator, FilterBuilderUpdaterInterface $filterBuilderUpdater)
+    public function indexAction(Request $request, PeriodDoctrineRepository $repository, PaginatorInterface $paginator, FilterBuilderUpdaterInterface $filterBuilderUpdater)
     {
-        $qb =  $em->getRepository(Period::class)->createQueryBuilder('d');
+        $qb =  $repository->getIndexQueryBuilder();
 
-        $form = $this->get('form.factory')->create(PeriodFilterType::class);
+        $form = $this->createForm(PeriodFilterType::class);
 
         if ($request->query->has($form->getName())) {
 
@@ -67,23 +64,19 @@ class PeriodController extends AbstractController
 
     /**
      *
-     * @Route("/new", name="new")
-     * @Method({"GET", "POST"})
+     * @Route("/new", name="new", methods={"GET", "POST"})
      * @param Request $request
      * @param PeriodManager $periodManager
      * @return RedirectResponse|Response
      */
     public function newAction(Request $request, PeriodManager $periodManager)
     {
-        $period = $periodManager->create();
+        $period = $periodManager->new();
         $form = $this->createForm(PeriodType::class, $period);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($period);
-            $em->flush();
+            $periodManager->create($period);
 
             $this->addFlash('success', 'La période a été ajoutée avec succès.');
 
@@ -98,22 +91,20 @@ class PeriodController extends AbstractController
     /**
      * Displays a form to edit an existing activity entity.
      *
-     * @Route("/{id}/edit", name="edit")
-     * @Method({"GET", "POST"})
+     * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
      * @param Request $request
      * @param Period $period
+     * @param PeriodManager $periodManager
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, Period $period)
+    public function editAction(Request $request, Period $period, PeriodManager $periodManager)
     {
         $form = $this->createForm(PeriodType::class, $period);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-            dump($data);
-            $this->getDoctrine()->getManager()->flush();
-            dump('apres');
+            $periodManager->update($period);
+
             $this->addFlash('success', 'La période été modifiée avec succès.');
 
             return $this->redirectToRoute('app_admin_period_edit', array('id' => $period->getId()));

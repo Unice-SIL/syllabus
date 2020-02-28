@@ -3,11 +3,8 @@
 
 namespace AppBundle\Parser;
 
-use AppBundle\Entity\User;
 use AppBundle\Helper\Report\ReportLine;
-use AppBundle\Manager\CoursePermissionManager;
 use AppBundle\Manager\UserManager;
-use AppBundle\Repository\Doctrine\CourseInfoDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 class UserCsvParser extends AbstractCsvParser implements ParserInterface
@@ -39,10 +36,10 @@ class UserCsvParser extends AbstractCsvParser implements ParserInterface
     protected function getBaseMatching(): array
     {
         return [
-            'username',
-            'lastname',
-            'firstname',
-            'email',
+            'username' => ['required' => true, 'description' => "Login/identifiant de l'utilisateur"],
+            'lastname' => ['required' => true, 'description' => "Nom de l'utilisateur"],
+            'firstname' => ['required' => true, 'description' => "Prénom de l'utilisateur"],
+            'email' => ['required' => true, 'description' => "Adresse mail de l'utilisateur"],
         ];
     }
 

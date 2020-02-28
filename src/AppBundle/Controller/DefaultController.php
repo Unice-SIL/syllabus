@@ -6,8 +6,11 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\User;
+use AppBundle\Manager\YearManager;
 use AppBundle\Repository\CourseInfoRepositoryInterface;
 use AppBundle\Repository\CoursePermissionRepositoryInterface;
+use AppBundle\Repository\Doctrine\CoursePermissionDoctrineRepository;
+use AppBundle\Repository\Doctrine\YearDoctrineRepository;
 use AppBundle\Repository\YearRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,13 +27,13 @@ class DefaultController extends AbstractController
      * @param $code
      * @param string $year
      * @param CourseInfoRepositoryInterface $repository
-     * @param YearRepositoryInterface $yearRepository
+     * @param YearManager $yearManager
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function routerAction($code, $year, CourseInfoRepositoryInterface $repository, YearRepositoryInterface $yearRepository)
+    public function routerAction($code, $year, CourseInfoRepositoryInterface $repository, YearManager $yearManager)
     {
         if (empty($year)) {
-            $year = $yearRepository->findCurrentYear();
+            $year = $yearManager->findCurrentYear();
         }
         /** @var CourseInfo $courseInfo */
         $courseInfo = $repository->findByCodeAndYear($code, $year);
@@ -42,14 +45,14 @@ class DefaultController extends AbstractController
 
     /**
      * @Route("/courses", name="app_index")
-     * @param CoursePermissionRepositoryInterface $coursePermissionRepository
+     * @param CoursePermissionDoctrineRepository $coursePermissionRepository
      * @return Response
      */
-    public function indexAction(CoursePermissionRepositoryInterface $coursePermissionRepository)
+    public function indexAction(CoursePermissionDoctrineRepository $coursePermissionRepository)
     {
         /** @var User $user */
         $user = $this->getUser();
-        $courseInfos = $coursePermissionRepository->getCourseBypermission($user);
+        $courseInfos = $coursePermissionRepository->getCourseByPermission($user);
         $courseInfosByYear = [];
         foreach ($courseInfos as $courseInfo )
         {

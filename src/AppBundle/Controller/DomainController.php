@@ -30,21 +30,19 @@ class DomainController extends AbstractController
 {
 
     /**
-     * @Route("/",name="index" )
-     * @Method("GET")
+     * @Route("/",name="index", methods={"GET"})
      *
      * @param Request $request
-     * @param EntityManagerInterface $em
+     * @param DomainDoctrineRepository $repository
      * @param PaginatorInterface $paginator
      * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
      * @return Response
-     *
      */
-    public function IndexAction(Request $request, EntityManagerInterface $em, PaginatorInterface $paginator, FilterBuilderUpdaterInterface $filterBuilderUpdater)
+    public function indexAction(Request $request, DomainDoctrineRepository $repository, PaginatorInterface $paginator, FilterBuilderUpdaterInterface $filterBuilderUpdater)
     {
-        $qb =  $em->getRepository(Domain::class)->createQueryBuilder('d');
+        $qb =  $repository->getIndexQueryBuilder();
 
-        $form = $this->get('form.factory')->create(DomainFilterType::class);
+        $form = $this->createForm(DomainFilterType::class);
 
         if ($request->query->has($form->getName())) {
 
@@ -67,23 +65,19 @@ class DomainController extends AbstractController
 
     /**
      *
-     * @Route("/new", name="new")
-     * @Method({"GET", "POST"})
+     * @Route("/new", name="new", methods={"GET", "POST"})
      * @param Request $request
      * @param DomainManager $domainManager
      * @return RedirectResponse|Response
      */
     public function newAction(Request $request, DomainManager $domainManager)
     {
-        $domain = $domainManager->create();
+        $domain = $domainManager->new();
         $form = $this->createForm(DomainType::class, $domain);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($domain);
-            $em->flush();
+            $domainManager->create($domain);
 
             $this->addFlash('success', 'Le domaine a été ajoutée avec succès.');
 
@@ -98,20 +92,20 @@ class DomainController extends AbstractController
     /**
      * Displays a form to edit an existing activity entity.
      *
-     * @Route("/{id}/edit", name="edit")
-     * @Method({"GET", "POST"})
+     * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
      * @param Request $request
      * @param Domain $domain
+     * @param DomainManager $domainManager
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, Domain $domain)
+    public function editAction(Request $request, Domain $domain, DomainManager $domainManager)
     {
         $form = $this->createForm(DomainType::class, $domain);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $this->getDoctrine()->getManager()->flush();
+            $domainManager->update($domain);
 
             $this->addFlash('success', 'Le domaine été modifié avec succès.');
 

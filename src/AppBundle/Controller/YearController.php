@@ -6,7 +6,6 @@ use AppBundle\Entity\Year;
 use AppBundle\Form\YearType;
 use AppBundle\Manager\YearManager;
 use AppBundle\Repository\Doctrine\YearDoctrineRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,8 +20,9 @@ class YearController extends Controller
     /**
      * Lists all year entities.
      *
-     * @Route("/", name="index")
-     * @Method("GET")
+     * @Route("/", name="index", methods={"GET"})
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexAction(Request $request)
     {
@@ -40,21 +40,20 @@ class YearController extends Controller
     /**
      * Creates a new year entity.
      *
-     * @Route("/new", name="new")
-     * @Method({"GET", "POST"})
+     * @Route("/new", name="new", methods={"GET", "POST"})
+     * @param Request $request
+     * @param YearManager $yearManager
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function newAction(Request $request, YearManager $yearManager)
     {
-        $year = $yearManager->create();
+        $year = $yearManager->new();
 
         $form = $this->createForm(YearType::class, $year);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($year);
-            $em->flush();
-
+            $yearManager->create($year);
             $this->addFlash('success', 'L\'année a été ajoutée avec succès.');
 
             return $this->redirectToRoute('app_admin_year_index');
@@ -69,8 +68,11 @@ class YearController extends Controller
     /**
      * Displays a form to edit an existing year entity.
      *
-     * @Route("/{id}/edit", name="edit")
-     * @Method({"GET", "POST"})
+     * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
+     * @param Request $request
+     * @param Year $year
+     * @param YearManager $yearManager
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function editAction(Request $request, Year $year, YearManager $yearManager)
     {
@@ -80,9 +82,6 @@ class YearController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
 
             $yearManager->update($year);
-
-            $this->getDoctrine()->getManager()->flush();
-
 
             $this->addFlash('success', 'L\'année a été modifiée avec succès.');
 

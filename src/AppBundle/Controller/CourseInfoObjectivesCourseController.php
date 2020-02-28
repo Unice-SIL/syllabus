@@ -1,21 +1,29 @@
 <?php
 
-
 namespace AppBundle\Controller;
 
-
 use AppBundle\Entity\CourseAchievement;
+use AppBundle\Entity\CourseCriticalAchievement;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CoursePrerequisite;
 use AppBundle\Entity\CourseTutoringResource;
+use AppBundle\Entity\LearningAchievement;
 use AppBundle\Form\CourseInfo\CourseAchievement\CourseAchievementType;
 use AppBundle\Form\CourseInfo\CourseAchievement\CourseAssistTutoringType;
+use AppBundle\Form\CourseInfo\CourseAchievement\CourseCriticalAchievementType;
 use AppBundle\Form\CourseInfo\CourseAchievement\CoursePrerequisiteType;
 use AppBundle\Form\CourseInfo\CourseAchievement\CourseTutoringResourcesType;
+use AppBundle\Form\CourseInfo\CourseAchievement\LearningAchievementType;
 use AppBundle\Form\CourseInfo\CourseAchievement\RemoveCourseAchievementType;
+use AppBundle\Form\CourseInfo\CourseAchievement\RemoveCourseCriticalAchievementType;
 use AppBundle\Form\CourseInfo\CourseAchievement\RemoveCoursePrerequisiteType;
 use AppBundle\Form\CourseInfo\CourseAchievement\RemoveCourseTutoringResourcesType;
+use AppBundle\Form\CourseInfo\CourseAchievement\RemoveLearningAchievementType;
+use AppBundle\Manager\CourseAchievementManager;
+use AppBundle\Manager\CourseCriticalAchievementManager;
 use AppBundle\Manager\CourseInfoManager;
+use AppBundle\Manager\CoursePrerequisiteManager;
+use AppBundle\Manager\CourseTutoringResourceManager;
 use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -76,11 +84,10 @@ class CourseInfoObjectivesCourseController extends AbstractController
      *
      * @param CourseInfo $courseInfo
      * @param Request $request
-     * @param CourseInfoManager $manager
+     * @param CourseAchievementManager $courseAchievementManager
      * @return Response
-     * @throws Exception
      */
-    public function addAchievementAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
+    public function addAchievementAction(CourseInfo $courseInfo, Request $request, CourseAchievementManager $courseAchievementManager)
     {
         if (!$courseInfo instanceof CourseInfo) {
             return $this->json([
@@ -89,14 +96,12 @@ class CourseInfoObjectivesCourseController extends AbstractController
             ]);
         }
 
-        $courseAchievement = new CourseAchievement();
+        $courseAchievement = $courseAchievementManager->new($courseInfo);
         $form = $this->createForm(CourseAchievementType::class, $courseAchievement);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $courseAchievement = $form->getData();
-            $courseInfo->addCourseAchievement($courseAchievement);
-            $manager->update($courseInfo);
+            $courseAchievementManager->create($courseAchievement);
 
             return $this->json([
                 'status' => true,
@@ -120,19 +125,17 @@ class CourseInfoObjectivesCourseController extends AbstractController
      * @param CourseInfo $courseInfo
      * @param CourseAchievement $achievement
      * @param Request $request
+     * @param CourseAchievementManager $courseAchievementManager
      * @return JsonResponse
      * @ParamConverter("achievement", options={"mapping": {"achievementId": "id"}})
      */
-    public function editAchievementAction(CourseInfo $courseInfo, CourseAchievement $achievement, Request $request)
+    public function editAchievementAction(CourseInfo $courseInfo, CourseAchievement $achievement, Request $request, CourseAchievementManager $courseAchievementManager)
     {
-        $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(CourseAchievementType::class, $achievement);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $achievement = $form->getData();
-            $em->persist($achievement);
-            $em->flush();
+            $courseAchievementManager->update($achievement);
             return $this->json([
                 'status' => true,
                 'content' => null
@@ -155,12 +158,12 @@ class CourseInfoObjectivesCourseController extends AbstractController
      * @param CourseInfo $courseInfo
      * @param CourseAchievement $achievement
      * @param Request $request
-     * @param CourseInfoManager $manager
+     * @param CourseAchievementManager $courseAchievementManager
      * @return JsonResponse
-     * @throws Exception
      * @ParamConverter("achievement", options={"mapping": {"achievementId": "id"}})
+     * @throws Exception
      */
-    public function deleteAchievementAction(CourseInfo $courseInfo, CourseAchievement $achievement, Request $request, CourseInfoManager $manager)
+    public function deleteAchievementAction(CourseInfo $courseInfo, CourseAchievement $achievement, Request $request, CourseAchievementManager $courseAchievementManager)
     {
         if (!$achievement instanceof CourseAchievement) {
             return $this->json([
@@ -171,10 +174,7 @@ class CourseInfoObjectivesCourseController extends AbstractController
         $form = $this->createForm(RemoveCourseAchievementType::class, $achievement);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var CourseAchievement $achievement */
-            $achievement = $form->getData();
-            $courseInfo->removeCourseAchievement($achievement);
-            $manager->update($courseInfo);
+            $courseAchievementManager->delete($achievement);
             return $this->json([
                 'status' => true,
                 'content' => null
@@ -205,19 +205,278 @@ class CourseInfoObjectivesCourseController extends AbstractController
         $dataAchievements = $request->request->get('data');
 
         $this->sortList($courseInfo, $achievements, $dataAchievements, $manager);
-        /*if ($dataAchievements)
-        {
-            foreach ($achievements as $achievement) {
-                if (in_array($achievement->getId(), $dataAchievements)) {
-                    $achievement->setPosition(array_search($achievement->getId(), $dataAchievements));
-                }
-            }
-            $manager->update($courseInfo);
-        }*/
 
         return $this->json([
             'status' => true,
             'content' => null
+        ]);
+    }
+
+    /**
+     * @Route("/criticalAchievement/view", name="critical_achievement_view"))
+     *
+     * @param CourseInfo $courseInfo
+     * @return Response
+     */
+    public function criticalAchievementViewAction(CourseInfo $courseInfo)
+    {
+        if (!$courseInfo instanceof CourseInfo) {
+            return $this->json([
+                'status' => false,
+                'content' => "Une erreur est survenue : Le cours n'existe pas."
+            ]);
+        }
+
+        $criticalAchievements = $courseInfo->getCourseCriticalAchievements();
+
+        $tabValideScore = [];
+        foreach ($criticalAchievements as $ca) {
+            $scoreTotal = 0;
+            $score = 0;
+            if ($ca->getRule() == 'Score') {
+                $scoreTotal = $ca->getScore();
+                foreach ($ca->getLearningAchievements() as $la) {
+                    $score += $la->getScore();
+                }
+            }
+            if ($score >= $scoreTotal) {
+                $tabValideScore[] = $ca->getId();
+            }
+        }
+        $render = $this->get('twig')->render('course_info/objectives_course/view/critical_achievement.html.twig', [
+            'courseInfo' => $courseInfo,
+            'tabValideScore' => $tabValideScore
+        ]);
+        return $this->json([
+            'status' => true,
+            'content' => $render
+        ]);
+    }
+
+    /**
+     * @Route("/criticalAchievement/form", name="critical_achievement_form"))
+     *
+     * @param CourseInfo $courseInfo
+     * @param Request $request
+     * @param CourseCriticalAchievementManager $courseCriticalAchievementManager
+     * @return Response
+     */
+    public function addCriticalAchievementAction(CourseInfo $courseInfo, Request $request, CourseCriticalAchievementManager $courseCriticalAchievementManager)
+    {
+        $courseCriticalAchievement = $courseCriticalAchievementManager->new($courseInfo);
+        $form = $this->createForm(CourseCriticalAchievementType::class, $courseCriticalAchievement);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $courseCriticalAchievementManager->create($courseCriticalAchievement);
+            return $this->json([
+                'status' => true,
+                'content' => null
+            ]);
+        }
+
+        $render = $this->get('twig')->render('course_info/objectives_course/form/critical_achievement.html.twig', [
+            'courseInfo' => $courseInfo,
+            'form' => $form->createView()
+        ]);
+        return $this->json([
+            'status' => true,
+            'content' => $render
+        ]);
+    }
+
+    /**
+     * @Route("/criticalAchievement/edit/{criticalAchievementId}", name="critical_achievement_edit"))
+     *
+     * @param CourseInfo $courseInfo
+     * @param CourseCriticalAchievement $criticalAchievement
+     * @param Request $request
+     * @param CourseCriticalAchievementManager $courseCriticalAchievementManager
+     * @return JsonResponse
+     * @ParamConverter("criticalAchievement", options={"mapping": {"criticalAchievementId": "id"}})
+     */
+    public function editCriticalAchievementAction(CourseInfo $courseInfo, CourseCriticalAchievement $criticalAchievement, Request $request, CourseCriticalAchievementManager $courseCriticalAchievementManager)
+    {
+        $form = $this->createForm(CourseCriticalAchievementType::class, $criticalAchievement);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $courseCriticalAchievementManager->update($criticalAchievement);
+            return $this->json([
+                'status' => true,
+                'content' => null
+            ]);
+        }
+
+        $render = $this->get('twig')->render('course_info/objectives_course/form/edit_critical_achievement.html.twig', [
+            'courseInfo' => $courseInfo,
+            'form' => $form->createView()
+        ]);
+
+        return $this->json([
+            'status' => true,
+            'content' => $render
+        ]);
+    }
+
+    /**
+     * @Route("/criticalAchievement/delete/{criticalAchievementId}", name="critical_achievement_remove"))
+     *
+     * @param CourseInfo $courseInfo
+     * @param CourseCriticalAchievement $courseCriticalAchievement
+     * @param Request $request
+     * @param CourseCriticalAchievementManager $courseCriticalAchievementManager
+     * @return JsonResponse
+     * @ParamConverter("courseCriticalAchievement", options={"mapping": {"criticalAchievementId": "id"}})
+     */
+    public function deleteCriticalAchievementAction(CourseInfo $courseInfo, CourseCriticalAchievement $courseCriticalAchievement,
+                                                    Request $request, CourseCriticalAchievementManager $courseCriticalAchievementManager)
+    {
+        $form = $this->createForm(RemoveCourseCriticalAchievementType::class, $courseCriticalAchievement);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $courseCriticalAchievementManager->delete($courseCriticalAchievement);
+            return $this->json([
+                'status' => true,
+                'content' => null
+            ]);
+        }
+        $render = $this->get('twig')->render('course_info/objectives_course/form/remove_critical_achievement.html.twig', [
+            'courseInfo' => $courseInfo,
+            'form' => $form->createView()
+        ]);
+        return $this->json([
+            'status' => true,
+            'content' => $render
+        ]);
+    }
+
+    /**
+     * @Route("/learningAchievement/view", name="learning_achievement_view"))
+     *
+     * @param CourseInfo $courseInfo
+     * @return Response
+     */
+    public function learningAchievementViewAction(CourseInfo $courseInfo)
+    {
+        if (!$courseInfo instanceof CourseInfo) {
+            return $this->json([
+                'status' => false,
+                'content' => "Une erreur est survenue : Le cours n'existe pas."
+            ]);
+        }
+
+        $render = $this->get('twig')->render('course_info/objectives_course/view/critical_achievement.html.twig', [
+            'courseInfo' => $courseInfo
+        ]);
+        return $this->json([
+            'status' => true,
+            'content' => $render
+        ]);
+    }
+
+    /**
+     * @Route("/learningAchievement/{criticalAchievementId}/form", name="learning_achievement_form"))
+     *
+     * @param CourseInfo $courseInfo
+     * @param Request $request
+     * @param CourseCriticalAchievement $courseCriticalAchievement
+     * @return Response
+     * @ParamConverter("courseCriticalAchievement", options={"mapping": {"criticalAchievementId": "id"}})
+     */
+    public function addLearningAchievementAction(CourseInfo $courseInfo, CourseCriticalAchievement $courseCriticalAchievement, Request $request)
+    {
+        $learningAchievement = new LearningAchievement();
+        $learningAchievement->setCourseCriticalAchievement($courseCriticalAchievement);
+        $form = $this->createForm(LearningAchievementType::class, $learningAchievement);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($learningAchievement);
+            $em->flush();
+            return $this->json([
+                'status' => true,
+                'content' => null
+            ]);
+        }
+
+        $render = $this->get('twig')->render('course_info/objectives_course/form/learning_achievement.html.twig', [
+            'courseInfo' => $courseInfo,
+            'form' => $form->createView()
+        ]);
+        return $this->json([
+            'status' => true,
+            'content' => $render
+        ]);
+    }
+
+    /**
+     * @Route("/learningAchievement/edit/{learningAchievementId}", name="learning_achievement_edit"))
+     *
+     * @param CourseInfo $courseInfo
+     * @param LearningAchievement $learningAchievement
+     * @param Request $request
+     * @return JsonResponse
+     * @ParamConverter("learningAchievement", options={"mapping": {"learningAchievementId": "id"}})
+     */
+    public function editLearningAchievementAction(CourseInfo $courseInfo, LearningAchievement $learningAchievement, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $form = $this->createForm(LearningAchievementType::class, $learningAchievement);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $learningAchievement = $form->getData();
+            $em->persist($learningAchievement);
+            $em->flush();
+            return $this->json([
+                'status' => true,
+                'content' => null
+            ]);
+        }
+
+        $render = $this->get('twig')->render('course_info/objectives_course/form/edit_learning_achievement.html.twig', [
+            'courseInfo' => $courseInfo,
+            'form' => $form->createView()
+        ]);
+
+        return $this->json([
+            'status' => true,
+            'content' => $render
+        ]);
+    }
+
+    /**
+     * @Route("/learningAchievement/delete/{learningAchievementId}", name="learning_achievement_remove"))
+     *
+     * @param CourseInfo $courseInfo
+     * @param LearningAchievement $learningAchievement
+     * @param Request $request
+     * @return JsonResponse
+     * @ParamConverter("learningAchievement", options={"mapping": {"learningAchievementId": "id"}})
+     */
+    public function deleteLearningAchievementAction(CourseInfo $courseInfo, LearningAchievement $learningAchievement,
+                                                    Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $form = $this->createForm(RemoveLearningAchievementType::class, $learningAchievement);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var LearningAchievement $learningAchievement */
+            $learningAchievement = $form->getData();
+            $em->remove($learningAchievement);
+            $em->flush();
+            return $this->json([
+                'status' => true,
+                'content' => null
+            ]);
+        }
+        $render = $this->get('twig')->render('course_info/objectives_course/form/remove_learning_achievement.html.twig', [
+            'courseInfo' => $courseInfo,
+            'form' => $form->createView()
+        ]);
+        return $this->json([
+            'status' => true,
+            'content' => $render
         ]);
     }
 
@@ -297,19 +556,17 @@ class CourseInfoObjectivesCourseController extends AbstractController
      * @param CourseInfo $courseInfo
      * @param CoursePrerequisite $prerequisite
      * @param Request $request
+     * @param CoursePrerequisiteManager $coursePrerequisiteManager
      * @return JsonResponse
      * @ParamConverter("prerequisite", options={"mapping": {"prerequisiteId": "id"}})
      */
-    public function editPrerequisiteAction(CourseInfo $courseInfo, CoursePrerequisite $prerequisite, Request $request)
+    public function editPrerequisiteAction(CourseInfo $courseInfo, CoursePrerequisite $prerequisite, Request $request, CoursePrerequisiteManager $coursePrerequisiteManager)
     {
-        $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(CoursePrerequisiteType::class, $prerequisite);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $prerequisite = $form->getData();
-            $em->persist($prerequisite);
-            $em->flush();
+            $coursePrerequisiteManager->update($prerequisite);
             return $this->json([
                 'status' => true,
                 'content' => null
@@ -332,12 +589,11 @@ class CourseInfoObjectivesCourseController extends AbstractController
      * @param CourseInfo $courseInfo
      * @param CoursePrerequisite $prerequisite
      * @param Request $request
-     * @param CourseInfoManager $manager
+     * @param CoursePrerequisiteManager $coursePrerequisiteManager
      * @return JsonResponse
-     * @throws Exception
      * @ParamConverter("prerequisite", options={"mapping": {"prerequisiteId": "id"}})
      */
-    public function deletePrerequisitesAction(CourseInfo $courseInfo, CoursePrerequisite $prerequisite, Request $request, CourseInfoManager $manager)
+    public function deletePrerequisitesAction(CourseInfo $courseInfo, CoursePrerequisite $prerequisite, Request $request, CoursePrerequisiteManager $coursePrerequisiteManager)
     {
         if (!$prerequisite instanceof CoursePrerequisite) {
             return $this->json([
@@ -349,10 +605,7 @@ class CourseInfoObjectivesCourseController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var CoursePrerequisite $prerequisite */
-            $prerequisite = $form->getData();
-            $courseInfo->removeCoursePrerequisite($prerequisite);
-            $manager->update($courseInfo);
+            $coursePrerequisiteManager->delete($prerequisite);
             return $this->json([
                 'status' => true,
                 'content' => null
@@ -419,11 +672,10 @@ class CourseInfoObjectivesCourseController extends AbstractController
      *
      * @param CourseInfo $courseInfo
      * @param Request $request
-     * @param CourseInfoManager $manager
+     * @param CourseTutoringResourceManager $courseTutoringResourceManager
      * @return Response
-     * @throws Exception
      */
-    public function addTutoringResourceAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
+    public function addTutoringResourceAction(CourseInfo $courseInfo, Request $request, CourseTutoringResourceManager $courseTutoringResourceManager)
     {
         if (!$courseInfo instanceof CourseInfo) {
             return $this->json([
@@ -432,14 +684,12 @@ class CourseInfoObjectivesCourseController extends AbstractController
             ]);
         }
 
-        $tutoringResources = new CourseTutoringResource();
-        $form = $this->createForm(CourseTutoringResourcesType::class, $tutoringResources);
+        $tutoringResource = $courseTutoringResourceManager->new();
+        $form = $this->createForm(CourseTutoringResourcesType::class, $tutoringResource);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $tutoringResources = $form->getData();
-            $courseInfo->addCourseTutoringResource($tutoringResources);
-            $manager->update($courseInfo);
+            $courseTutoringResourceManager->create($tutoringResource);
 
             return $this->json([
                 'status' => true,
@@ -461,22 +711,19 @@ class CourseInfoObjectivesCourseController extends AbstractController
      * @Route("tutoring_resources/edit/{tutoringResourcesId}", name="edit_tutoring_resources"))
      *
      * @param CourseInfo $courseInfo
-     * @param CourseTutoringResource $tutoringResources
+     * @param CourseTutoringResource $tutoringResource
      * @param Request $request
+     * @param CourseTutoringResourceManager $courseTutoringResourceManager
      * @return JsonResponse
      * @ParamConverter("tutoringResources", options={"mapping": {"tutoringResourcesId": "id"}})
      */
-    public function editTutoringResourceAction(CourseInfo $courseInfo, CourseTutoringResource $tutoringResources, Request $request)
+    public function editTutoringResourceAction(CourseInfo $courseInfo, CourseTutoringResource $tutoringResource, Request $request, CourseTutoringResourceManager $courseTutoringResourceManager)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $form = $this->createForm(CourseTutoringResourcesType::class, $tutoringResources);
+        $form = $this->createForm(CourseTutoringResourcesType::class, $tutoringResource);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $tutoringResources = $form->getData();
-            $em->persist($tutoringResources);
-            $em->flush();
+            $courseTutoringResourceManager->update($tutoringResource);
             return $this->json([
                 'status' => true,
                 'content' => null
@@ -497,28 +744,25 @@ class CourseInfoObjectivesCourseController extends AbstractController
      * @Route("tutoring_resources/delete/{tutoringResourcesId}", name="remove_tutoring_resources"))
      *
      * @param CourseInfo $courseInfo
-     * @param CourseTutoringResource $tutoringResources
+     * @param CourseTutoringResource $tutoringResource
      * @param Request $request
-     * @param CourseInfoManager $manager
+     * @param CourseTutoringResourceManager $courseTutoringResourceManager
      * @return JsonResponse
-     * @throws Exception
      * @ParamConverter("tutoringResources", options={"mapping": {"tutoringResourcesId": "id"}})
      */
-    public function deleteTutoringResourcesAction(CourseInfo $courseInfo, CourseTutoringResource $tutoringResources, Request $request, CourseInfoManager $manager)
+    public function deleteTutoringResourcesAction(CourseInfo $courseInfo, CourseTutoringResource $tutoringResource, Request $request, CourseTutoringResourceManager $courseTutoringResourceManager)
     {
-        if (!$tutoringResources instanceof CourseTutoringResource) {
+        if (!$tutoringResource instanceof CourseTutoringResource) {
             return $this->json([
                 'status' => false,
                 'content' => "Une erreur est survenue : la remédiation n'existe pas"
             ]);
         }
-        $form = $this->createForm(RemoveCourseTutoringResourcesType::class, $tutoringResources);
+        $form = $this->createForm(RemoveCourseTutoringResourcesType::class, $tutoringResource);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var CourseTutoringResource $tutoringResources */
-            $tutoringResources = $form->getData();
-            $courseInfo->removeCourseTutoringResource($tutoringResources);
-            $manager->update($courseInfo);
+            $courseTutoringResourceManager->delete($tutoringResource);
+
             return $this->json([
                 'status' => true,
                 'content' => null
@@ -619,7 +863,7 @@ class CourseInfoObjectivesCourseController extends AbstractController
     public function sortTutoringResourcesAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
     {
         $tutoringResources = $courseInfo->getCourseTutoringResources();
-        $dataTutoringResources= $request->request->get('data');
+        $dataTutoringResources = $request->request->get('data');
 
         $this->sortList($courseInfo, $tutoringResources, $dataTutoringResources, $manager);
 
@@ -638,8 +882,7 @@ class CourseInfoObjectivesCourseController extends AbstractController
      */
     private function sortList(CourseInfo $courseInfo, $courseInfoList, $data, CourseInfoManager $manager)
     {
-        if ($data)
-        {
+        if ($data) {
             foreach ($courseInfoList as $item) {
                 if (in_array($item->getId(), $data)) {
                     $item->setPosition(array_search($item->getId(), $data));

@@ -43,6 +43,7 @@ abstract class AbstractManager
      *      find_by_parameters (array)
      * @param array $fieldsToUpdate
      * @param array $options
+     * @return mixed
      * @throws \Exception
      */
     public function updateIfExistsOrCreate(object $entityData, array $fieldsToUpdate = [], $options = [])
