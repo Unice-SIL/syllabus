@@ -21,6 +21,7 @@ use AppBundle\Form\CourseInfo\CourseAchievement\RemoveCourseTutoringResourcesTyp
 use AppBundle\Form\CourseInfo\CourseAchievement\RemoveLearningAchievementType;
 use AppBundle\Manager\CourseAchievementManager;
 use AppBundle\Manager\CourseInfoManager;
+use AppBundle\Manager\CourseTutoringResourceManager;
 use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -682,11 +683,10 @@ class CourseInfoObjectivesCourseController extends AbstractController
      *
      * @param CourseInfo $courseInfo
      * @param Request $request
-     * @param CourseInfoManager $manager
+     * @param CourseTutoringResourceManager $courseTutoringResourceManager
      * @return Response
-     * @throws Exception
      */
-    public function addTutoringResourceAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
+    public function addTutoringResourceAction(CourseInfo $courseInfo, Request $request, CourseTutoringResourceManager $courseTutoringResourceManager)
     {
         if (!$courseInfo instanceof CourseInfo) {
             return $this->json([
@@ -695,14 +695,12 @@ class CourseInfoObjectivesCourseController extends AbstractController
             ]);
         }
 
-        $tutoringResources = new CourseTutoringResource();
-        $form = $this->createForm(CourseTutoringResourcesType::class, $tutoringResources);
+        $tutoringResource = $courseTutoringResourceManager->new();
+        $form = $this->createForm(CourseTutoringResourcesType::class, $tutoringResource);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $tutoringResources = $form->getData();
-            $courseInfo->addCourseTutoringResource($tutoringResources);
-            $manager->update($courseInfo);
+            $courseTutoringResourceManager->create($tutoringResource);
 
             return $this->json([
                 'status' => true,
@@ -724,22 +722,19 @@ class CourseInfoObjectivesCourseController extends AbstractController
      * @Route("tutoring_resources/edit/{tutoringResourcesId}", name="edit_tutoring_resources"))
      *
      * @param CourseInfo $courseInfo
-     * @param CourseTutoringResource $tutoringResources
+     * @param CourseTutoringResource $tutoringResource
      * @param Request $request
+     * @param CourseTutoringResourceManager $courseTutoringResourceManager
      * @return JsonResponse
      * @ParamConverter("tutoringResources", options={"mapping": {"tutoringResourcesId": "id"}})
      */
-    public function editTutoringResourceAction(CourseInfo $courseInfo, CourseTutoringResource $tutoringResources, Request $request)
+    public function editTutoringResourceAction(CourseInfo $courseInfo, CourseTutoringResource $tutoringResource, Request $request, CourseTutoringResourceManager $courseTutoringResourceManager)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $form = $this->createForm(CourseTutoringResourcesType::class, $tutoringResources);
+        $form = $this->createForm(CourseTutoringResourcesType::class, $tutoringResource);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $tutoringResources = $form->getData();
-            $em->persist($tutoringResources);
-            $em->flush();
+            $courseTutoringResourceManager->update($tutoringResource);
             return $this->json([
                 'status' => true,
                 'content' => null
@@ -760,28 +755,25 @@ class CourseInfoObjectivesCourseController extends AbstractController
      * @Route("tutoring_resources/delete/{tutoringResourcesId}", name="remove_tutoring_resources"))
      *
      * @param CourseInfo $courseInfo
-     * @param CourseTutoringResource $tutoringResources
+     * @param CourseTutoringResource $tutoringResource
      * @param Request $request
-     * @param CourseInfoManager $manager
+     * @param CourseTutoringResourceManager $courseTutoringResourceManager
      * @return JsonResponse
-     * @throws Exception
      * @ParamConverter("tutoringResources", options={"mapping": {"tutoringResourcesId": "id"}})
      */
-    public function deleteTutoringResourcesAction(CourseInfo $courseInfo, CourseTutoringResource $tutoringResources, Request $request, CourseInfoManager $manager)
+    public function deleteTutoringResourcesAction(CourseInfo $courseInfo, CourseTutoringResource $tutoringResource, Request $request, CourseTutoringResourceManager $courseTutoringResourceManager)
     {
-        if (!$tutoringResources instanceof CourseTutoringResource) {
+        if (!$tutoringResource instanceof CourseTutoringResource) {
             return $this->json([
                 'status' => false,
                 'content' => "Une erreur est survenue : la remédiation n'existe pas"
             ]);
         }
-        $form = $this->createForm(RemoveCourseTutoringResourcesType::class, $tutoringResources);
+        $form = $this->createForm(RemoveCourseTutoringResourcesType::class, $tutoringResource);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var CourseTutoringResource $tutoringResources */
-            $tutoringResources = $form->getData();
-            $courseInfo->removeCourseTutoringResource($tutoringResources);
-            $manager->update($courseInfo);
+            $courseTutoringResourceManager->delete($tutoringResource);
+
             return $this->json([
                 'status' => true,
                 'content' => null
