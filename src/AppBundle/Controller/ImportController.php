@@ -9,8 +9,10 @@ use AppBundle\Form\CourseInfo\ImportType;
 use AppBundle\Helper\Report\ReportingHelper;
 use AppBundle\Manager\CourseInfoManager;
 use AppBundle\Manager\CoursePermissionManager;
+use AppBundle\Manager\UserManager;
 use AppBundle\Parser\CourseInfoCsvParser;
 use AppBundle\Parser\CoursePermissionCsvParser;
+use AppBundle\Parser\UserCsvParser;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -52,7 +54,7 @@ class ImportController extends AbstractController
             return in_array($key, $fieldsToUpdate) || (is_array($value) && array_key_exists('required', $value) && $value['required'] === true);
         }, ARRAY_FILTER_USE_BOTH);
         */
-        $courseInfoFieldsAllowed = iterator_to_array($courseInfoCsvParser->getCompleteMatching());
+        $fieldsAllowed = iterator_to_array($courseInfoCsvParser->getCompleteMatching());
 
 
         if ($form->isSubmitted() and $form->isValid())
@@ -99,7 +101,7 @@ class ImportController extends AbstractController
             'form' => $form->createView(),
             'parsingCsvReport' => $request->getSession()->remove('parsingCsvReport'),
             'validationReport' => $request->getSession()->remove('validationReport'),
-            'courseInfoFieldsAllowed' => $courseInfoFieldsAllowed
+            'fieldsAllowed' => $fieldsAllowed
         ]);
     }
 
@@ -108,20 +110,18 @@ class ImportController extends AbstractController
      * @Route("/permission", name="permission", methods={"GET", "POST"})
      *
      * @param Request $request
-     * @param EntityManagerInterface $em
      * @param CoursePermissionManager $coursePermissionManager
      * @param CoursePermissionCsvParser $coursePermissionCsvParser
      * @return RedirectResponse|Response
      * @throws Exception
      */
-    public function permission(Request $request, EntityManagerInterface $em, CoursePermissionManager $coursePermissionManager, CoursePermissionCsvParser $coursePermissionCsvParser)
+    public function permission(Request $request, CoursePermissionManager $coursePermissionManager, CoursePermissionCsvParser $coursePermissionCsvParser)
     {
 
         $form = $this->createForm(ImportType::class);
         $form->handleRequest($request);
 
-        $fieldsToUpdate = iterator_to_array($coursePermissionCsvParser->getCompleteMatching());
-        $courseInfoFieldsAllowed = $fieldsToUpdate;
+        $fieldsAllowed = iterator_to_array($coursePermissionCsvParser->getCompleteMatching());
 
         if ($form->isSubmitted() and $form->isValid()) {
 
@@ -158,9 +158,60 @@ class ImportController extends AbstractController
             'form' => $form->createView(),
             'parsingCsvReport' => $request->getSession()->remove('parsingCsvReport'),
             'validationReport' => $request->getSession()->remove('validationReport'),
-            'courseInfoFieldsAllowed' => $courseInfoFieldsAllowed
+            'fieldsAllowed' => $fieldsAllowed
         ]);
     }
 
+    /**
+     * @Route("/user", name="user", methods={"GET", "POST"})
+     *
+     * @param Request $request
+     * @param UserManager $userManager
+     * @param UserCsvParser $userCsvParser
+     * @return RedirectResponse|Response
+     * @throws Exception
+     */
+    public function user(Request $request, UserManager $userManager, UserCsvParser $userCsvParser)
+    {
+        $form = $this->createForm(ImportType::class);
+        $form->handleRequest($request);
+
+        $fieldsAllowed = iterator_to_array($userCsvParser->getCompleteMatching());
+        $fieldsToUpdate = array_keys($fieldsAllowed);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+
+            $users = $userCsvParser->parse($form->getData()['file']->getPathName(), [
+                'allow_extra_field' => false,
+                'allow_less_field' => true
+            ]);
+
+            $validationReport = ReportingHelper::createReport('Insertion en base de données');
+
+            foreach ($users as $lineIdReport => $user) {
+
+                $validationReport = $userManager->updateIfExistsOrCreate($user, $fieldsToUpdate, [
+                    'flush' => true,
+                    'find_by_parameters' => [
+                        'username' => $user->getUsername(),
+                    ],
+                    'lineIdReport' => $lineIdReport,
+                    'report' => $validationReport
+                ]);
+            }
+
+            $validationReport->finishReport(count($users));
+            $request->getSession()->set('parsingCsvReport', $userCsvParser->getReport());
+            $request->getSession()->set('validationReport', $validationReport);
+            return $this->redirectToRoute('app_admin_import_csv_user');
+        }
+
+        return $this->render('import/user.html.twig', [
+            'form' => $form->createView(),
+            'parsingCsvReport' => $request->getSession()->remove('parsingCsvReport'),
+            'validationReport' => $request->getSession()->remove('validationReport'),
+            'fieldsAllowed' => $fieldsAllowed
+        ]);
+    }
 
 }

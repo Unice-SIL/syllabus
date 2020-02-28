@@ -162,7 +162,7 @@
             </ul>
         </li>
 
-        {% set importLink = ['app_admin_import_csv_course_info'] %}
+        {% set importLink = ['app_admin_import_csv_course_info', 'app_admin_import_csv_permission', 'app_admin_import_csv_user'] %}
         <li class="nav-item has-treeview {{ printActiveAdminSidebarLink(importLink) ? 'menu-open' }}">
             <a href="#" class="nav-link {{ printActiveAdminSidebarLink(importLink) }}">
                 <i class="nav-icon fas fa-download"></i>
@@ -192,7 +192,7 @@
                     </a>
                 </li>
                 <li class="nav-item pl-2">
-                    <a href=""
+                    <a href="{{ path('app_admin_import_csv_user') }}"
                        class="nav-link {{ printActiveAdminSidebarLink(['app_admin_import_csv_user']) }}">
                         <i class="nav-icon fas fa-user"></i>
                         <p>

@@ -14,6 +14,13 @@ final class TeachingMode
 
     const DIST = 'distant';
 
+    const TEACHING_MODES = [
+        self::IN_CLASS,
+        self::HYBRID,
+        self::DIST
+    ];
+
+
     const CHOICES = [
         'Présentiel' => self::IN_CLASS,
         'Hybride' => self::HYBRID,
