@@ -9,6 +9,7 @@ use AppBundle\Entity\User;
 use AppBundle\Manager\YearManager;
 use AppBundle\Repository\CourseInfoRepositoryInterface;
 use AppBundle\Repository\CoursePermissionRepositoryInterface;
+use AppBundle\Repository\Doctrine\CoursePermissionDoctrineRepository;
 use AppBundle\Repository\Doctrine\YearDoctrineRepository;
 use AppBundle\Repository\YearRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -44,14 +45,14 @@ class DefaultController extends AbstractController
 
     /**
      * @Route("/courses", name="app_index")
-     * @param CoursePermissionRepositoryInterface $coursePermissionRepository
+     * @param CoursePermissionDoctrineRepository $coursePermissionRepository
      * @return Response
      */
-    public function indexAction(CoursePermissionRepositoryInterface $coursePermissionRepository)
+    public function indexAction(CoursePermissionDoctrineRepository $coursePermissionRepository)
     {
         /** @var User $user */
         $user = $this->getUser();
-        $courseInfos = $coursePermissionRepository->getCourseBypermission($user);
+        $courseInfos = $coursePermissionRepository->getCourseByPermission($user);
         $courseInfosByYear = [];
         foreach ($courseInfos as $courseInfo )
         {
