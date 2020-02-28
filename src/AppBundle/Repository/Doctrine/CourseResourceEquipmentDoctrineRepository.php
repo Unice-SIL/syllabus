@@ -3,72 +3,22 @@
 namespace AppBundle\Repository\Doctrine;
 
 use AppBundle\Entity\CourseResourceEquipment;
-use AppBundle\Repository\CourseResourceEquipmentRepositoryInterface;
-use Doctrine\ORM\EntityManager;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
  * Class CourseResourceEquipmentDoctrineRepository
  * @package AppBundle\Repository\Doctrine
  */
-class CourseResourceEquipmentDoctrineRepository extends AbstractDoctrineRepository implements CourseResourceEquipmentRepositoryInterface
+class CourseResourceEquipmentDoctrineRepository extends ServiceEntityRepository
 {
 
     /**
-     * UserDoctrineRepository constructor.
-     * @param EntityManager $entityManager
+     * CourseResourceEquipmentDoctrineRepository constructor.
+     * @param ManagerRegistry $registry
      */
-    public function __construct(
-        EntityManager $entityManager
-    )
+    public function __construct(ManagerRegistry $registry)
     {
-        $this->entityManager = $entityManager;
+        parent::__construct($registry, CourseResourceEquipment::class);
     }
-
-    /**
-     * Find  course resource equipment by id
-     * @param string $id
-     * @return CourseResourceEquipment|null
-     * @throws \Exception
-     */
-    public function find(string $id): ?CourseResourceEquipment
-    {
-        $courseResourceEquipment = null;
-        try{
-            $courseResourceEquipment = $this->entityManager->getRepository(CourseResourceEquipment::class)->find($id);
-        }catch (\Exception $e){
-            throw $e;
-        }
-        return $courseResourceEquipment;
-    }
-
-
-    /**
-     * @param CourseResourceEquipment $courseResourceEquipment
-     * @throws \Exception
-     */
-    public function create(CourseResourceEquipment $courseResourceEquipment): void
-    {
-        try{
-            $this->entityManager->persist($courseResourceEquipment);
-            $this->entityManager->flush();
-        }catch (\Exception $e){
-            throw $e;
-        }
-    }
-
-    /**
-     * Delete a course resource equipment
-     * @param CourseResourceEquipment $courseResourceEquipment
-     * @throws \Exception
-     */
-    public function delete(CourseResourceEquipment $courseResourceEquipment): void
-    {
-        try {
-            $this->entityManager->remove($courseResourceEquipment);
-            $this->entityManager->flush();
-        }catch (\Exception $e){
-            throw $e;
-        }
-    }
-
 }
