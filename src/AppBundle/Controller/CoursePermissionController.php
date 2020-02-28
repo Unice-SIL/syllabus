@@ -33,9 +33,7 @@ class CoursePermissionController extends AbstractController
      */
     public function indexAction(CourseInfo $courseInfo, Request $request, EntityManagerInterface $em, CoursePermissionManager $coursePermissionManager)
     {
-
-        $coursePermission = $coursePermissionManager->create();
-        $coursePermission->setCourseInfo($courseInfo);
+        $coursePermission = $coursePermissionManager->new($courseInfo);
         $form = $this->createForm(AddCourseInfoPermissionType::class, $coursePermission);
         $form->handleRequest($request);
 
@@ -43,14 +41,11 @@ class CoursePermissionController extends AbstractController
         if ($form->isSubmitted()) {
 
             if ($form->isValid()) {
-                $em->persist($coursePermission);
-                $em->flush();
+                $coursePermissionManager->create($coursePermission);
 
                 $this->addFlash('success', 'La permission a été ajoutée avec succès');
-
                 return $this->redirectToRoute('app_course_permission', ['id' => $courseInfo->getId()]);
             }
-
             $isValid = false;
         }
 
@@ -61,5 +56,4 @@ class CoursePermissionController extends AbstractController
             'isValid' => $isValid
         ));
     }
-
 }

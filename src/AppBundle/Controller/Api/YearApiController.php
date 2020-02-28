@@ -7,18 +7,19 @@ use AppBundle\Entity\Year;
 use AppBundle\Exception\ResourceValidationException;
 use AppBundle\Form\Api\YearType;
 use AppBundle\Helper\ApiHelper;
+use AppBundle\Manager\YearManager;
 use AppBundle\Repository\Doctrine\YearDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Swagger\Annotations as SWG;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Swagger\Annotations as SWG;
-use Nelmio\ApiDocBundle\Annotation\Model;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class YearApiController
@@ -118,9 +119,9 @@ class YearApiController extends Controller
      * @param SerializerInterface $serializer
      * @param EntityManagerInterface $em
      * @param ApiHelper $apiHelper
+     * @param YearManager $yearManager
      * @return Response
      * @throws ResourceValidationException
-     *
      * @SWG\Response(
      *     response=201,
      *     description="Save the year from the body request",
@@ -129,17 +130,16 @@ class YearApiController extends Controller
      *
      * @IsGranted("ROLE_API_POST_YEAR")
      */
-    public function postAction(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, ApiHelper $apiHelper)
+    public function postAction(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, ApiHelper $apiHelper, YearManager $yearManager)
     {
-        $year = new Year();
+        $year = $yearManager->new();
         $form = $this->createForm(YearType::class, $year, ['context' => 'POST']);
 
         $form->submit(json_decode($request->getContent(), true));
 
         $apiHelper->throwExceptionIfEntityInvalid($form);
 
-        $em->persist($year);
-        $em->flush();
+        $yearManager->create($year);
 
         $em->refresh($year);
         $response = new Response($serializer->serialize($year, 'json', SerializationContext::create()->setGroups(['default', 'year'])), Response::HTTP_CREATED);
@@ -156,9 +156,9 @@ class YearApiController extends Controller
      * @param EntityManagerInterface $em
      * @param Year $year
      * @param ApiHelper $apiHelper
+     * @param YearManager $yearManager
      * @return Response
      * @throws ResourceValidationException
-     *
      * @SWG\Response(
      *     response=200,
      *     description="Update the complete year from the body request",
@@ -173,7 +173,7 @@ class YearApiController extends Controller
      *
      * @IsGranted("ROLE_API_PUT_YEAR")
      */
-    public function putAction(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, Year $year, ApiHelper $apiHelper)
+    public function putAction(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, Year $year, ApiHelper $apiHelper, YearManager $yearManager)
     {
         $form = $this->createForm(YearType::class, $year);
 
@@ -181,14 +181,12 @@ class YearApiController extends Controller
 
         $apiHelper->throwExceptionIfEntityInvalid($form);
 
-        $em->flush();
+        $yearManager->update($year);
 
         $em->refresh($year);
         $response = new Response($serializer->serialize($year, 'json', SerializationContext::create()->setGroups(['default', 'year'])), Response::HTTP_OK);
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
-
     }
-
 }
