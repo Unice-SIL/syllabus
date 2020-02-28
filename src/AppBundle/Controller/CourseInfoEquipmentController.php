@@ -1,8 +1,6 @@
 <?php
 
-
 namespace AppBundle\Controller;
-
 
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseResourceEquipment;
@@ -12,6 +10,7 @@ use AppBundle\Form\CourseInfo\Equipment\ResourceEquipmentEditType;
 use AppBundle\Form\CourseInfo\Equipment\ResourceEquipmentType;
 use AppBundle\Form\CourseInfo\Equipment\Resourcetype;
 use AppBundle\Manager\CourseInfoManager;
+use AppBundle\Manager\CourseResourceEquipmentManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -83,12 +82,11 @@ class CourseInfoEquipmentController extends AbstractController
      * @param CourseInfo $courseInfo
      * @param Equipment $equipment
      * @param Request $request
-     * @param CourseInfoManager $manager
+     * @param CourseResourceEquipmentManager $courseResourceEquipmentManager
      * @return JsonResponse
-     * @throws \Exception
      * @ParamConverter("equipment", options={"mapping": {"idEquipment": "id"}})
      */
-    public function addEquipmentAction(CourseInfo $courseInfo, Equipment $equipment, Request $request, CourseInfoManager $manager)
+    public function addEquipmentAction(CourseInfo $courseInfo, Equipment $equipment, Request $request, CourseResourceEquipmentManager $courseResourceEquipmentManager)
     {
         if (!$equipment) {
             return $this->json([
@@ -104,16 +102,13 @@ class CourseInfoEquipmentController extends AbstractController
             ]);
         }
 
-        $courseResourceEquipment = new CourseResourceEquipment();
-        $courseResourceEquipment->setCourseInfo($courseInfo)->setEquipment($equipment);
+        $courseResourceEquipment = $courseResourceEquipmentManager->new($courseInfo, $equipment);
 
         $form = $this->createForm(ResourceEquipmentType::class, $courseResourceEquipment);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $courseResourceEquipment = $form->getData();
-            $courseInfo->addCourseResourceEquipment($courseResourceEquipment);
-            $manager->update($courseInfo);
+            $courseResourceEquipmentManager->create($courseResourceEquipment);
 
             return $this->json([
                 'status' => true,
@@ -137,13 +132,12 @@ class CourseInfoEquipmentController extends AbstractController
      * @param CourseInfo $courseInfo
      * @param CourseResourceEquipment $resourceEquipment
      * @param Request $request
+     * @param CourseResourceEquipmentManager $courseResourceEquipmentManager
      * @return JsonResponse
      * @ParamConverter("resourceEquipment", options={"mapping": {"resourceEquipementId": "id"}})
      */
-    public function editDescriptionResourceEquipmentAction(CourseInfo $courseInfo, CourseResourceEquipment $resourceEquipment, Request $request)
+    public function editDescriptionResourceEquipmentAction(CourseInfo $courseInfo, CourseResourceEquipment $resourceEquipment, Request $request, CourseResourceEquipmentManager $courseResourceEquipmentManager)
     {
-        $em = $this->getDoctrine()->getManager();
-
         if (!$courseInfo instanceof CourseInfo) {
             return $this->json([
                 'status' => false,
@@ -155,9 +149,7 @@ class CourseInfoEquipmentController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $courseResourceEquipment = $form->getData();
-            $em->persist($courseResourceEquipment);
-            $em->flush();
+            $courseResourceEquipmentManager->update($resourceEquipment);
             return $this->json([
                 'status' => true,
                 'content' => null
@@ -180,12 +172,11 @@ class CourseInfoEquipmentController extends AbstractController
      * @param CourseInfo $courseInfo
      * @param CourseResourceEquipment $resourceEquipment
      * @param Request $request
-     * @param CourseInfoManager $manager
+     * @param CourseResourceEquipmentManager $courseResourceEquipmentManager
      * @return JsonResponse
-     * @throws \Exception
      * @ParamConverter("resourceEquipment", options={"mapping": {"idResourceEquipment": "id"}})
      */
-    public function removeResourceEquipmentAction(CourseInfo $courseInfo, CourseResourceEquipment $resourceEquipment, Request $request, CourseInfoManager $manager)
+    public function removeResourceEquipmentAction(CourseInfo $courseInfo, CourseResourceEquipment $resourceEquipment, Request $request, CourseResourceEquipmentManager $courseResourceEquipmentManager)
     {
         if (!$resourceEquipment) {
             return $this->json([
@@ -206,9 +197,7 @@ class CourseInfoEquipmentController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
-            $resourceEquipment = $form->getData();
-            $courseInfo->removeCourseResourceEquipment($resourceEquipment);
-            $manager->update($courseInfo);
+            $courseResourceEquipmentManager->delete($resourceEquipment);
             return $this->json([
                 'status' => true,
                 'content' => null
