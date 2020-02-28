@@ -21,6 +21,7 @@ use AppBundle\Form\CourseInfo\CourseAchievement\RemoveCourseTutoringResourcesTyp
 use AppBundle\Form\CourseInfo\CourseAchievement\RemoveLearningAchievementType;
 use AppBundle\Manager\CourseAchievementManager;
 use AppBundle\Manager\CourseInfoManager;
+use AppBundle\Manager\CoursePrerequisiteManager;
 use AppBundle\Manager\CourseTutoringResourceManager;
 use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -561,19 +562,17 @@ class CourseInfoObjectivesCourseController extends AbstractController
      * @param CourseInfo $courseInfo
      * @param CoursePrerequisite $prerequisite
      * @param Request $request
+     * @param CoursePrerequisiteManager $coursePrerequisiteManager
      * @return JsonResponse
      * @ParamConverter("prerequisite", options={"mapping": {"prerequisiteId": "id"}})
      */
-    public function editPrerequisiteAction(CourseInfo $courseInfo, CoursePrerequisite $prerequisite, Request $request)
+    public function editPrerequisiteAction(CourseInfo $courseInfo, CoursePrerequisite $prerequisite, Request $request, CoursePrerequisiteManager $coursePrerequisiteManager)
     {
-        $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(CoursePrerequisiteType::class, $prerequisite);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $prerequisite = $form->getData();
-            $em->persist($prerequisite);
-            $em->flush();
+            $coursePrerequisiteManager->update($prerequisite);
             return $this->json([
                 'status' => true,
                 'content' => null
@@ -596,12 +595,11 @@ class CourseInfoObjectivesCourseController extends AbstractController
      * @param CourseInfo $courseInfo
      * @param CoursePrerequisite $prerequisite
      * @param Request $request
-     * @param CourseInfoManager $manager
+     * @param CoursePrerequisiteManager $coursePrerequisiteManager
      * @return JsonResponse
-     * @throws Exception
      * @ParamConverter("prerequisite", options={"mapping": {"prerequisiteId": "id"}})
      */
-    public function deletePrerequisitesAction(CourseInfo $courseInfo, CoursePrerequisite $prerequisite, Request $request, CourseInfoManager $manager)
+    public function deletePrerequisitesAction(CourseInfo $courseInfo, CoursePrerequisite $prerequisite, Request $request, CoursePrerequisiteManager $coursePrerequisiteManager)
     {
         if (!$prerequisite instanceof CoursePrerequisite) {
             return $this->json([
@@ -613,10 +611,7 @@ class CourseInfoObjectivesCourseController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var CoursePrerequisite $prerequisite */
-            $prerequisite = $form->getData();
-            $courseInfo->removeCoursePrerequisite($prerequisite);
-            $manager->update($courseInfo);
+            $coursePrerequisiteManager->delete($prerequisite);
             return $this->json([
                 'status' => true,
                 'content' => null
