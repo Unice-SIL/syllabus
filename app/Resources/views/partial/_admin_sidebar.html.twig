@@ -172,7 +172,7 @@
             </ul>
         </li>
 
-        {% set administrationLink = ['app_admin_user', 'app_admin_groups'] %}
+        {% set administrationLink = ['app_admin_user', 'app_admin_groups', 'app.admin.cron.'] %}
         <li class="nav-item has-treeview {{ printActiveAdminSidebarLink(administrationLink) ? 'menu-open' }}">
             <a href="#" class="nav-link {{ printActiveAdminSidebarLink(administrationLink) }}">
                 <i class="nav-icon fas fa-cogs"></i>
@@ -198,6 +198,15 @@
                         <i class="nav-icon fas fa-users"></i>
                         <p>
                             Groupes
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ path('app.admin.cron.index') }}"
+                       class="nav-link {{ printActiveAdminSidebarLink(['app.admin.cron.']) }}">
+                        <i class="nav-icon fas fa-clock"></i>
+                        <p>
+                            Cron
                         </p>
                     </a>
                 </li>

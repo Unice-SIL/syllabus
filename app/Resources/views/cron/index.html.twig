@@ -1,0 +1,60 @@
+{% extends 'admin_layout.html.twig' %}
+{% set h1 = 'Liste des crons' %}
+{% block subContent %}
+
+    <div class="card">
+        <div class="card-header">
+            {{ form_start(form) }}
+            <div class="row ui-front">
+                <div class="col-md-2">
+                    {{ form_row(form.label) }}
+                </div>
+                <div class="col-md-2 col-sm-6">
+                    <a class="btn btn-danger" style="margin-top: 32px" href="{{  path('app.admin.cron.index')  }}">Réinitialiser les filtres</a>
+                </div>
+                <input type="submit" style="position: absolute; left: -9999px"/>
+                <div class="col-md-8 col-sm-8">
+                    <a class="btn btn-primary float-right" style="margin-top: 32px" href="{{ path('app.admin.cron.new') }}">Ajouter un cron</a>
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            {% if pagination.totalItemCount > 0 %}
+                <table class="table table-bordered table-responsive-sm">
+                    <thead>
+                    <tr>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'Label', 'c.label') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'Import', 'c.command') }}</th>
+                        <th >Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for cron in pagination %}
+                        <tr class="{{ cron.obsolete ? 'bg-warning' }}">
+                            <td><a href="{{ path('app.admin.cron.edit', { 'id' : cron.id }) }}">{{ cron.label }}</a></td>
+                            <td>{{ cron.command }} {{ cron.obsolete ? '(Cette commande n\'existe plus)' }}</td>
+                            <td>
+                                {% set deleteFormView = deleteFormsView[cron.id] %}
+                                {{ form_start(deleteFormView) }}
+                                    <button class="btn btn-danger float-right">Supprimer</button>
+                                {{ form_end(deleteFormView) }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="alert alert-info">Aucun cron n'a été enregistré</div>
+            {% endif %}
+        </div>
+        <!-- /.card-body -->
+        {% if knp_pagination_render(pagination) %}
+            <div class="card-footer clearfix">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        {% endif %}
+    </div>
+
+{% endblock %}

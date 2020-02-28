@@ -39,3 +39,5 @@ Dans cet exemple, lancez les commandes suivantes:
 4. `php bin/console doctrine:fixtures:load --no-interaction --append`
 
 La commande `make build` fait appel à un nouveau block de commande qui sont les commandes 2, 3 et 4 indiquées juste au dessus.
+
+####3. Programmer le cron Scheduler (seulement en production)
