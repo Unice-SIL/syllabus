@@ -3,73 +3,22 @@
 namespace AppBundle\Repository\Doctrine;
 
 use AppBundle\Entity\CourseSection;
-use AppBundle\Repository\CourseSectionRepositoryInterface;
-use Doctrine\ORM\EntityManager;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
  * Class CourseSectionDoctrineRepository
  * @package AppBundle\Repository\Doctrine
  */
-class CourseSectionDoctrineRepository extends AbstractDoctrineRepository implements CourseSectionRepositoryInterface
+class CourseSectionDoctrineRepository extends ServiceEntityRepository
 {
 
     /**
      * CourseSectionDoctrineRepository constructor.
-     * @param EntityManager $entityManager
+     * @param ManagerRegistry $registry
      */
-    public function __construct(
-        EntityManager $entityManager
-    )
+    public function __construct(ManagerRegistry $registry)
     {
-        $this->entityManager = $entityManager;
+        parent::__construct($registry, CourseSection::class);
     }
-
-    /**
-     * Find  course section by id
-     * @param string $id
-     * @return CourseSection|null
-     * @throws \Exception
-     */
-    public function find(string $id): ?CourseSection
-    {
-        $courseSection = null;
-        try{
-            $courseSection = $this->entityManager->getRepository(CourseSection::class)->find($id);
-        }catch (\Exception $e){
-            throw $e;
-        }
-        return $courseSection;
-    }
-
-
-    /**
-     * Create a course section
-     * @param CourseSection $courseSection
-     * @throws \Exception
-     */
-    public function create(CourseSection $courseSection): void
-    {
-        try{
-            $this->entityManager->persist($courseSection);
-            $this->entityManager->flush();
-        }catch (\Exception $e){
-            throw $e;
-        }
-    }
-
-    /**
-     * Delete a course section
-     * @param CourseSection $courseSection
-     * @throws \Exception
-     */
-    public function delete(CourseSection $courseSection): void
-    {
-        try {
-            $this->entityManager->remove($courseSection);
-            $this->entityManager->flush();
-        }catch (\Exception $e){
-            throw $e;
-        }
-    }
-
 }
