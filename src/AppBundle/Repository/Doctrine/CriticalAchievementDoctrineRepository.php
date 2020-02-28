@@ -6,107 +6,38 @@ namespace AppBundle\Repository\Doctrine;
 
 use AppBundle\Entity\Course;
 use AppBundle\Entity\CriticalAchievement;
-use AppBundle\Repository\CriticalAchievementRepositoryInterface;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\QueryBuilder;
 
-class CriticalAchievementDoctrineRepository extends AbstractDoctrineRepository implements CriticalAchievementRepositoryInterface
+class CriticalAchievementDoctrineRepository extends ServiceEntityRepository
 {
     /**
-     * ActivityDoctrineRepository constructor.
-     * @param EntityManager $entityManager
+     * CriticalAchievementDoctrineRepository constructor.
+     * @param ManagerRegistry $registry
      */
-    public function __construct(
-        EntityManagerInterface $entityManager
-    )
+    public function __construct(ManagerRegistry $registry)
     {
-        $this->entityManager = $entityManager;
+        parent::__construct($registry, CriticalAchievement::class);
     }
 
     /**
-     * @param string $id
-     * @return object
-     * @throws \Exception
+     * @return QueryBuilder
      */
-    public function find(string $id): CriticalAchievement
+    public function getIndexQueryBuilder(): QueryBuilder
     {
-        $criticalAchievement = null;
-        try {
-            $criticalAchievement = $this->entityManager->getRepository(CriticalAchievement::class)->find($id);
-        } catch (\Exception $e) {
-            throw $e;
-        }
-        return $criticalAchievement;
+        return $this->_em->getRepository(CriticalAchievement::class)
+            ->createQueryBuilder('ca')
+            ->addOrderBy('ca.label', 'ASC');
     }
 
     /**
-     * @return \ArrayObject|mixed
-     * @throws \Exception
+     * @param string $query
+     * @return array
      */
-    public function findAll()
-    {
-        $criticalAchievements = new \ArrayObject();
-        try {
-            $qb = $this->entityManager->getRepository(CriticalAchievement::class)->createQueryBuilder('ca');
-            $qb->where($qb->expr()->eq('ca.obsolete', ':obsolete'))
-                ->setParameter('obsolete', false)
-                ->addOrderBy('ca.label', 'ASC');
-            foreach ($qb->getQuery()->getResult() as $criticalAchievement) {
-                $criticalAchievements->append($criticalAchievement);
-            }
-        } catch (\Exception $exception) {
-            throw $exception;
-        }
-
-        return $criticalAchievements;
-    }
-
-
-    /**
-     * @param CriticalAchievement $criticalAchievement
-     * @throws \Exception
-     */
-    public function update(CriticalAchievement $criticalAchievement): void
-    {
-        try {
-            $this->entityManager->persist($criticalAchievement);
-            $this->entityManager->flush();
-        } catch (\Exception $e) {
-            throw $e;
-        }
-    }
-
-    /**
-     * @param CriticalAchievement $criticalAchievement
-     * @throws \Exception
-     */
-    public function create(CriticalAchievement $criticalAchievement): void
-    {
-        try {
-            $this->entityManager->persist($criticalAchievement);
-            $this->entityManager->flush();
-        } catch (\Exception $e) {
-            throw $e;
-        }
-    }
-
-    /**
-     * @param CriticalAchievement $criticalAchievement
-     * @throws \Exception
-     */
-    public function delete(CriticalAchievement $criticalAchievement): void
-    {
-        try {
-            $this->entityManager->remove($criticalAchievement);
-            $this->entityManager->flush();
-        } catch (\Exception $e) {
-            throw $e;
-        }
-    }
-
     public function findLikeQuery(string $query): array
     {
-        return $this->entityManager->getRepository(CriticalAchievement::class)->createQueryBuilder('ca')
+        return $this->getIndexQueryBuilder()
             ->andWhere('ca.label LIKE :query ')
             ->setParameter('query', '%' . $query . '%')
             ->getQuery()
@@ -120,8 +51,8 @@ class CriticalAchievementDoctrineRepository extends AbstractDoctrineRepository i
      */
     public function findLikeQueryByCourse(string $query, Course $course): array
     {
-        $qb = $this->entityManager->getRepository(CriticalAchievement::class)->createQueryBuilder('ca');
-        $qb->andWhere('ca.label LIKE :query ')
+        $qb = $this->getIndexQueryBuilder()
+            ->andWhere('ca.label LIKE :query ')
             ->andWhere(':course MEMBER OF ca.courses' )
             ->setParameter('query', '%' . $query . '%')
             ->setParameter('course', $course);

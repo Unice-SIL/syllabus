@@ -30,18 +30,17 @@ class CriticalAchievementController extends AbstractController
     /**
      * @Route("/", name="index" )
      * @param Request $request
-     * @param EntityManagerInterface $em
-     * @param $
+     * @param CriticalAchievementDoctrineRepository $repository
      * @param PaginatorInterface $paginator
      * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
      * @return Response
      */
-    public function indexAction(Request $request, EntityManagerInterface $em, PaginatorInterface $paginator,
+    public function indexAction(Request $request, CriticalAchievementDoctrineRepository $repository, PaginatorInterface $paginator,
                                 FilterBuilderUpdaterInterface $filterBuilderUpdater)
     {
-        $qb =  $em->getRepository(CriticalAchievement::class)->createQueryBuilder('ca');
+        $qb =  $repository->getIndexQueryBuilder();
 
-        $form = $this->get('form.factory')->create(CriticalAchievementFilterType::class);
+        $form = $this->createForm(CriticalAchievementFilterType::class);
 
         if ($request->query->has($form->getName())) {
 
@@ -71,16 +70,12 @@ class CriticalAchievementController extends AbstractController
      */
     public function newAction(Request $request, CriticalAchievementManager $criticalAchievementManager)
     {
-        $criticalAchievement = $criticalAchievementManager->create();
+        $criticalAchievement = $criticalAchievementManager->new();
         $form = $this->createForm(CriticalAchievementType::class, $criticalAchievement);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($criticalAchievement);
-            $em->flush();
-
+            $criticalAchievementManager->create($criticalAchievement);
             $this->addFlash('success', 'L\'acquis critique a été ajouté avec succès.');
 
             return $this->redirectToRoute('app_admin_achievement_index');
@@ -96,19 +91,18 @@ class CriticalAchievementController extends AbstractController
      *
      * @param Request $request
      * @param CriticalAchievement $criticalAchievement
+     * @param CriticalAchievementManager $criticalAchievementManager
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, CriticalAchievement $criticalAchievement)
+    public function editAction(Request $request, CriticalAchievement $criticalAchievement, CriticalAchievementManager $criticalAchievementManager)
     {
         $form = $this->createForm(CriticalAchievementType::class, $criticalAchievement);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $this->getDoctrine()->getManager()->flush();
+            $criticalAchievementManager->update($criticalAchievement);
 
             $this->addFlash('success', 'L\'acquis critique a été modifié avec succès.');
-
             return $this->redirectToRoute('app_admin_achievement_edit', array('id' => $criticalAchievement->getId()));
         }
 
