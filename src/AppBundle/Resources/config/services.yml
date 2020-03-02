@@ -5,6 +5,7 @@ services:
         public: false
         bind:
             $mailerSource: '%mailer_source%'
+            $inMaintenance: '%in_maintenance%'
 
     AppBundle\:
         resource: '../../*'

@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+    <div class="content text-center">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <h1 class="text-center">Site en maintenance</h1>
+            </div>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="error-page">
+                <div>
+                    <p>
+                        <i class="fas fa-exclamation-triangle text-danger"></i>
+                        Le site est actuellement en maintenance. Un peu de patience,
+                        l'équipe de développement est sur le coup ;)
+                    </p>
+                </div>
+            </div>
+            <!-- /.error-page -->
+
+        </section>
+        <!-- /.content -->
+    </div>
+{% endblock %}
