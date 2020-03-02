@@ -49,7 +49,7 @@ class CourseInfoDoctrineRepository  extends ServiceEntityRepository
     {
         $courseInfo = null;
         try{
-            $qb = $this->getIndexQueryBuilder();
+            $qb = $this->_em->getRepository(CourseInfo::class)->createQueryBuilder('ci');
             if(!empty($year)){
                 $qb->join('ci.course', 'c')
                     ->join('ci.year', 'y')
@@ -138,7 +138,6 @@ class CourseInfoDoctrineRepository  extends ServiceEntityRepository
                     break;
             }
         }
-
         return $qb;
     }
 
