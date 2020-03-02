@@ -1,12 +1,11 @@
 <?php
 
-
 namespace AppBundle\Controller;
-
 
 use AppBundle\Entity\Course;
 use AppBundle\Form\CourseType;
 use AppBundle\Form\Filter\CourseFilterType;
+use AppBundle\Manager\CourseManager;
 use AppBundle\Repository\Doctrine\CourseDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
@@ -25,7 +24,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class CourseController extends Controller
 {
-
     /**
      * @Route("/", name="index")
      *
@@ -40,15 +38,12 @@ class CourseController extends Controller
         FilterBuilderUpdaterInterface $filterBuilderUpdater
     )
     {
-
         $qb = $courseDoctrineRepository->getIndexQueryBuilder();
-
         $form = $this->createForm(CourseFilterType::class, null,  ['context'=> 'course']);
 
         if ($request->query->has($form->getName())) {
             $form->submit($request->query->get($form->getName()));
             $filterBuilderUpdater->addFilterConditions($form, $qb);
-
         }
 
         $pagination = $this->get('knp_paginator')->paginate(
@@ -66,18 +61,17 @@ class CourseController extends Controller
     /**
      * @Route("/new", name="new")
      * @param Request $request
-     * @param EntityManagerInterface $em
+     * @param CourseManager $courseManager
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function newAction(Request $request, EntityManagerInterface $em)
+    public function newAction(Request $request, CourseManager $courseManager)
     {
-        $course = new Course();
+        $course = $courseManager->new();
         $form = $this->createForm(CourseType::class, $course);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() and $form->isValid()) {
-            $em->persist($course);
-            $em->flush();
+            $courseManager->create($course);
 
             $this->addFlash('success', 'Le cours a été enregistré avec succès');
 
@@ -93,24 +87,20 @@ class CourseController extends Controller
      * @Method({"GET", "POST"})
      * @param Request $request
      * @param Course $course
-     * @param EntityManagerInterface $entityManager
+     * @param CourseManager $courseManager
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function editAction(Request $request, Course $course, EntityManagerInterface $entityManager)
+    public function editAction(Request $request, Course $course, CourseManager $courseManager)
     {
         $form = $this->createForm(CourseType::class, $course);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $entityManager->flush();
-
+            $courseManager->update($course);
 
             $this->addFlash('success', 'Le cours a été modifié avec succès.');
-
             return $this->redirectToRoute('app_admin.course_edit', array('id' => $course->getId()));
         }
-
         return $this->render('course/edit.html.twig', array(
             'form' => $form->createView(),
         ));
@@ -167,13 +157,12 @@ class CourseController extends Controller
     /**
      * @Route("/autocompleteS3", name="autocompleteS3", methods={"GET"})
      *
-     * @param CourseDoctrineRepository $courseDoctrineRepository
-     * @param Request $request
+     * @param CourseManager $courseManager
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function autocompleteS3()
+    public function autocompleteS3(CourseManager $courseManager)
     {
-        $results = $this->getDoctrine()->getRepository(Course::class)->findAll();
+        $results = $courseManager->findAll();
         $courses = [];
         foreach($results as $course)
         {

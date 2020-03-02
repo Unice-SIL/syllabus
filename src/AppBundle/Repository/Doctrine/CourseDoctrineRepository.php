@@ -3,109 +3,55 @@
 namespace AppBundle\Repository\Doctrine;
 
 use AppBundle\Entity\Course;
-use AppBundle\Repository\CourseRepositoryInterface;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
 
 /**
  * Class CourseDoctrineRepository
  * @package AppBundle\Repository\Doctrine
  */
-class CourseDoctrineRepository  extends AbstractDoctrineRepository implements CourseRepositoryInterface
+class CourseDoctrineRepository  extends ServiceEntityRepository
 {
-
     /**
      * CourseDoctrineRepository constructor.
-     * @param EntityManagerInterface $entityManager
+     * @param ManagerRegistry $registry
      */
-    public function __construct(
-        EntityManagerInterface $entityManager
-    )
+    public function __construct(ManagerRegistry $registry)
     {
-        $this->entityManager = $entityManager;
+        parent::__construct($registry, Course::class);
     }
 
     /**
-     * @param string $id
-     * @return Course|null
-     * @throws \Exception
+     * @return QueryBuilder
      */
-    public function find(string $id): ?Course
+    public function getIndexQueryBuilder(): QueryBuilder
     {
-        $course = null;
-        try{
-            $course = $this->entityManager->getRepository(Course::class)->find($id);
-        }catch (\Exception $e){
-            throw $e;
-        }
-        return $course;
+        return $this->_em->getRepository(Course::class)
+            ->createQueryBuilder('c')
+            ->addOrderBy('c.code', 'ASC');
     }
 
     /**
-     * @param $code
-     * @return Course|null
-     * @throws \Exception
+     * @param string $query
+     * @param string $field
+     * @return array
      */
-    public function findByCode($code): ?Course
-    {
-        $course = null;
-        try{
-            $course = $this->entityManager->getRepository(Course::class)->findOneByCode($code);
-        }catch (\Exception $e){
-            throw $e;
-        }
-        return $course;
-    }
-
-    /**
-     * @param Course $course
-     * @throws \Exception
-     */
-    public function create(Course $course): void
-    {
-        try{
-            $this->entityManager->persist($course);
-            $this->entityManager->flush();
-        }catch (\Exception $e){
-            throw $e;
-        }
-    }
-
-    /**
-     * @param Course $course
-     * @throws \Exception
-     */
-    public function update(Course $course): void
-    {
-        try{
-            $this->entityManager->persist($course);
-            $this->entityManager->flush();
-        }catch (\Exception $e){
-            throw $e;
-        }
-    }
-
     public function findLikeQuery(string $query, string $field): array
     {
         $qb = $this->getIndexQueryBuilder();
 
         if (in_array($field, ['code', 'title'])) {
             $qb->andWhere('c.'.$field.' LIKE :query ')
-                ->setParameter('query', '%' . $query . '%')
-            ;
+                ->setParameter('query', '%' . $query . '%');
         }
         return $qb->getQuery()->getResult();
     }
 
-    public function getIndexQueryBuilder(): QueryBuilder
-    {
-        return $this->entityManager->getRepository(Course::class)
-            ->createQueryBuilder('c')
-            ->addOrderBy('c.code', 'ASC')
-            ;
-    }
-
+    /**
+     * @param array $config
+     * @return QueryBuilder
+     */
     public function findQueryBuilderForApi(array $config)
     {
         $qb = $this->getIndexQueryBuilder();
@@ -115,14 +61,11 @@ class CourseDoctrineRepository  extends AbstractDoctrineRepository implements Co
             switch ($filter) {
                 case 'code':
                 case 'type':
-                    $qb->andWhere($qb->expr()->like($qb->getRootAlias() . '.' . $filter, ':'.$valueName))
-                        ->setParameter($valueName, '%' . $value . '%')
-                    ;
+                    $qb->andWhere($qb->expr()->like('c.' . $filter, ':'.$valueName))
+                        ->setParameter($valueName, '%' . $value . '%');
                     break;
             }
         }
-
         return $qb;
     }
-
 }
