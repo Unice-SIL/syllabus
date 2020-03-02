@@ -27,7 +27,7 @@
 
         {% set referentielLink = ['app_admin_activity', 'app_admin_type_activity', 'app_admin_mode_activity','app_admin_year',
             'app_admin_equipment', 'app_admin_structure', 'app_admin_domain', 'app_admin_period_index', 'app_admin_language_index',
-            'app_admin_campus', 'app_admin_achievement'] %}
+            'app_admin_campus', 'app_admin_achievement', 'app_admin_course_info_field_index'] %}
         <li class="nav-item has-treeview {{ printActiveAdminSidebarLink(referentielLink) ? 'menu-open' }}">
             <a href="#" class="nav-link {{ printActiveAdminSidebarLink(referentielLink) }}">
                 <i class="nav-icon fas fa-book"></i>
@@ -242,6 +242,16 @@
                     </a>
                 </li>
             </ul>
+        </li>
+
+        <li class="nav-item">
+            <a href="{{ path('app_admin_ask_advice_index') }}"
+               class="nav-link {{ printActiveAdminSidebarLink(['app_admin_ask_advice_index']) }}">
+                <i class="nav-icon fas fa-copy"></i>
+                <p>
+                    Demande d'avis
+                </p>
+            </a>
         </li>
 
 

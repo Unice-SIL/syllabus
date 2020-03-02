@@ -106,7 +106,6 @@ class ActivityController extends AbstractController
 
             return $this->redirectToRoute('app_admin_activity_edit', array('id' => $activity->getId()));
         }
-
         return $this->render('activity/edit.html.twig', array(
             'form' => $form->createView(),
         ));

@@ -226,9 +226,7 @@ class CourseInfoObjectivesCourseController extends AbstractController
                 'content' => "Une erreur est survenue : Le cours n'existe pas."
             ]);
         }
-
-        $criticalAchievements = $courseInfo->getCourseCriticalAchievements();
-
+        $CriticalAchievements = $courseInfo->getCourseCriticalAchievements();
         $tabValideScore = [];
         foreach ($criticalAchievements as $ca) {
             $scoreTotal = 0;
