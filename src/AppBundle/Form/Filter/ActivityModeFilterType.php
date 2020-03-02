@@ -1,8 +1,6 @@
 <?php
 
-
 namespace AppBundle\Form\Filter;
-
 
 use Lexik\Bundle\FormFilterBundle\Filter\FilterOperands;
 use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\SharedableFilterType;
@@ -11,16 +9,30 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
+/**
+ * Class ActivityModeFilterType
+ * @package AppBundle\Form\Filter
+ */
 class ActivityModeFilterType extends AbstractType
 {
-
+    /**
+     * @var UrlGeneratorInterface
+     */
     private $generator;
 
+    /**
+     * ActivityModeFilterType constructor.
+     * @param UrlGeneratorInterface $generator
+     */
     public function __construct(UrlGeneratorInterface $generator)
     {
         $this->generator = $generator;
     }
 
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -35,11 +47,17 @@ class ActivityModeFilterType extends AbstractType
         ;
     }
 
+    /**
+     * @return null|string
+     */
     public function getParent()
     {
         return SharedableFilterType::class; // this allow us to use the "add_shared" option
     }
 
+    /**
+     * @return string
+     */
     public function getBlockPrefix()
     {
         return 'activity_mode_filter';

@@ -12,15 +12,30 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
+/**
+ * Class CourseInfoFilterType
+ * @package AppBundle\Form\Filter
+ */
 class CourseInfoFilterType extends AbstractType
 {
+    /**
+     * @var
+     */
     private  $generator;
 
+    /**
+     * CourseInfoFilterType constructor.
+     * @param UrlGeneratorInterface $generator
+     */
     public function __construct(UrlGeneratorInterface $generator)
     {
         $this->generator = $generator;
     }
 
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -70,11 +85,17 @@ class CourseInfoFilterType extends AbstractType
 
     }
 
+    /**
+     * @return string
+     */
     public function getBlockPrefix()
     {
         return 'course_info_filter';
     }
 
+    /**
+     * @param OptionsResolver $resolver
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(

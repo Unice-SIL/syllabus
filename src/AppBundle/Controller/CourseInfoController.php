@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Course;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Form\CourseInfo\CourseInfoAdminType;
 use AppBundle\Form\CourseInfo\DuplicateCourseInfoType;
@@ -9,7 +10,6 @@ use AppBundle\Form\CourseInfo\ImportType;
 use AppBundle\Form\Filter\CourseInfoFilterType;
 use AppBundle\Helper\Report\Report;
 use AppBundle\Manager\CourseInfoManager;
-use AppBundle\Repository\Doctrine\CourseDoctrineRepository;
 use AppBundle\Repository\Doctrine\CourseInfoDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
@@ -44,7 +44,6 @@ class CourseInfoController extends Controller
         EntityManagerInterface $em
     )
     {
-
         $qb = $courseInfoDoctrineRepository->getIndexQueryBuilder();
 
         $form = $this->createForm(CourseInfoFilterType::class);
@@ -55,7 +54,6 @@ class CourseInfoController extends Controller
         if ($duplicationForm->isSubmitted()) {
 
             if ($duplicationForm->isValid()) {
-
                 $data = $duplicationForm->getData();
                 $from = $data['from'];
 
@@ -130,21 +128,17 @@ class CourseInfoController extends Controller
      */
     public function newAction(Request $request, CourseInfoManager $courseInfoManager, EntityManagerInterface $em)
     {
-        $courseInfo = $courseInfoManager->createOne();
+        $courseInfo = $courseInfoManager->new();
 
         $form = $this->createForm(CourseInfoAdminType::class, $courseInfo, ['validation_groups' => ['Default', 'new']]);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() and $form->isValid()) {
-            $em->persist($courseInfo);
-            $em->flush();
+            $courseInfoManager->update($courseInfo);
 
             $this->addFlash('success', 'Le syllabus a été crée avec succès');
-
             return $this->redirectToRoute('app_admin_course_info_index');
         }
-
         return $this->render('course_info/admin/new.html.twig', ['form' => $form->createView()]);
     }
 
@@ -164,16 +158,12 @@ class CourseInfoController extends Controller
 
         if ($form->isSubmitted() and $form->isValid())
         {
-
             $report = $courseInfoManager->duplicateFromFile($form->getData()['file']->getPathName());
-
             $em->flush();
 
             $request->getSession()->set('duplicateSyllabus', $report);
             return $this->redirectToRoute('app_admin_course_info_duplicate_syllabus_from_file');
-
         }
-
         return $this->render('course_info/admin/duplicate_syllabus_from_file.html.twig', [
             'form' => $form->createView(),
             'report' => $request->getSession()->remove('duplicateSyllabus')
@@ -194,7 +184,6 @@ class CourseInfoController extends Controller
 
         $courseInfos = $courseInfoDoctrineRepository->findLikeQuery($query, $field);
 
-
         $suggestions = array_map(function($courseInfo) use ($field){
 
             switch ($field) {
@@ -211,7 +200,6 @@ class CourseInfoController extends Controller
             }
 
         }, $courseInfos);
-
         $suggestions = array_unique($suggestions);
 
         return $this->json(['query' =>  $query, 'suggestions' => $suggestions, 'data' => $suggestions]);
@@ -226,7 +214,6 @@ class CourseInfoController extends Controller
     public function autocompleteS2(CourseInfoDoctrineRepository $courseInfoDoctrineRepository, Request $request)
     {
         $query = $request->query->get('q');
-
         $field = $request->query->get('field_name');
 
         switch ($field) {
@@ -250,8 +237,6 @@ class CourseInfoController extends Controller
     /**
      * @Route("/autocompleteS3", name="autocompleteS3", methods={"GET"})
      *
-     * @param CourseDoctrineRepository $courseDoctrineRepository
-     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function autocompleteS3()
