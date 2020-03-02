@@ -184,12 +184,6 @@ class GroupsController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('app_admin_groups_delete', array('id' => $group->getId())))
             ->setMethod('DELETE')
-            ->add('submit', SubmitType::class, [
-                'label' => 'Supprimer',
-                'attr' => [
-                    'class' => 'btn btn-danger float-right'
-                ]
-            ])
             ->getForm();
     }
 }

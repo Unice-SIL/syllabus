@@ -1,5 +1,12 @@
 {% extends 'admin_layout.html.twig' %}
 {% set h1 = 'Liste des crons' %}
+
+{% block modals %}
+    {{ parent() }}
+    {{ include('partial/warning_delete_modal.html.twig') }}
+{% endblock %}
+
+
 {% block subContent %}
 
     <div class="card">
@@ -27,6 +34,11 @@
                     <tr>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'Label', 'c.label') }}</th>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'Import', 'c.command') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'Statut', 'c.lastStatus') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'Date d\'excecution', 'c.lastUseStart') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'Fin d\'excecution', 'c.lastUseEnd') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'Fréquence', 'c.frequencyCronFormat') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'Immédiat', 'c.immediately') }}</th>
                         <th >Actions</th>
                     </tr>
                     </thead>
@@ -35,11 +47,37 @@
                         <tr class="{{ cron.obsolete ? 'bg-warning' }}">
                             <td><a href="{{ path('app.admin.cron.edit', { 'id' : cron.id }) }}">{{ cron.label }}</a></td>
                             <td>{{ cron.command }} {{ cron.obsolete ? '(Cette commande n\'existe plus)' }}</td>
+                            <td>{{ ('app.const.cron.status.'~cron.lastStatus)|trans }}</td>
                             <td>
-                                {% set deleteFormView = deleteFormsView[cron.id] %}
-                                {{ form_start(deleteFormView) }}
-                                    <button class="btn btn-danger float-right">Supprimer</button>
-                                {{ form_end(deleteFormView) }}
+                                {%  if cron.lastUseStart %}
+                                    le {{ cron.lastUseStart|date('d-m-Y à h-i-s') }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {%  if cron.lastUseEnd %}
+                                    le {{  cron.lastUseEnd|date('d-m-Y à h-i-s') }}
+                                {% endif %}
+                            </td>
+                            <td>{{ cron.frequencyCronFormat }}</td>
+                            <td>{{ cron.immediately|humanizeBoolean }}</td>
+                            <td>
+                                {% if cron.lastStatus == constant('AppBundle\\Constant\\Cron::STATUS_IN_PROGRESS') %}
+                                    <button class="btn btn-primary disabled">Rapport</button>
+                                    <button class="btn btn-primary disabled">Executer</button>
+                                    <button class="btn btn-danger disabled"><i class="fas fa-trash"></i></button>
+                                {% else %}
+                                    <a href="{{ path('app.admin.cron.report', {'id': cron.id}) }}" class="btn btn-primary">Rapport</a>
+                                    <form method="POST" action="{{ path('app.admin.cron.run_command', {'id' :cron.id}) }}" class="d-inline">
+                                        <button href="{{ path('app.admin.cron.run_command', {'id': cron.id}) }}" class="btn btn-primary">Executer</button>
+                                        <input type="hidden" name="_token" value="{{ csrf_token('cron' ~ cron.id) }}">
+                                    </form>
+                                    {% set deleteFormView = deleteFormsView[cron.id] %}
+                                    {{ form_start(deleteFormView, {'attr' : {'class' : 'd-inline'}}) }}
+                                    <button type="button" class="btn btn-danger warning-delete" data-toggle="modal" data-target="#warningDeleteModal">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                    {{ form_end(deleteFormView) }}
+                                {% endif %}
                             </td>
                         </tr>
                     {% endfor %}

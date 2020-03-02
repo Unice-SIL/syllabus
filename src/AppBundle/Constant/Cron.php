@@ -14,10 +14,10 @@ class Cron
         self::COMMAND_TEST_2,
     ];
 
-    const STATUS_IN_PROGRESS = 0;
-    const STATUS_FAILED = 1;
-    const STATUS_SUCCESS = 2;
-    const STATUS_INIT = 4;
+    const STATUS_INIT = 0;
+    const STATUS_IN_PROGRESS = 1;
+    const STATUS_FAILED = 2;
+    const STATUS_SUCCESS = 3;
 
     const STATUSES = [
         self::STATUS_IN_PROGRESS,
