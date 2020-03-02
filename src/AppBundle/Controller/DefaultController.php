@@ -9,6 +9,7 @@ use AppBundle\Entity\User;
 use AppBundle\Manager\YearManager;
 use AppBundle\Repository\CourseInfoRepositoryInterface;
 use AppBundle\Repository\CoursePermissionRepositoryInterface;
+use AppBundle\Repository\Doctrine\CourseInfoDoctrineRepository;
 use AppBundle\Repository\Doctrine\CoursePermissionDoctrineRepository;
 use AppBundle\Repository\Doctrine\YearDoctrineRepository;
 use AppBundle\Repository\YearRepositoryInterface;
@@ -26,11 +27,12 @@ class DefaultController extends AbstractController
      * @Route("/course/router/{code}/{year}", name="app_router", defaults={"year"=null})
      * @param $code
      * @param string $year
-     * @param CourseInfoRepositoryInterface $repository
+     * @param CourseInfoDoctrineRepository $repository
      * @param YearManager $yearManager
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @throws \Exception
      */
-    public function routerAction($code, $year, CourseInfoRepositoryInterface $repository, YearManager $yearManager)
+    public function routerAction($code, $year, CourseInfoDoctrineRepository $repository, YearManager $yearManager)
     {
         if (empty($year)) {
             $year = $yearManager->findCurrentYear();

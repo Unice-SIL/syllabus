@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AppBundle\Form\Filter;
 
 use Lexik\Bundle\FormFilterBundle\Filter\FilterOperands;
@@ -10,16 +9,30 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-
+/**
+ * Class YearFilterType
+ * @package AppBundle\Form\Filter
+ */
 class YearFilterType extends AbstractType
 {
+    /**
+     * @var
+     */
     private  $generator;
 
+    /**
+     * YearFilterType constructor.
+     * @param UrlGeneratorInterface $generator
+     */
     public function __construct(UrlGeneratorInterface $generator)
     {
         $this->generator = $generator;
     }
 
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('label', TextFilterType::class, [
@@ -32,11 +45,17 @@ class YearFilterType extends AbstractType
         ]);
     }
 
+    /**
+     * @return null|string
+     */
     public function getParent()
     {
         return SharedableFilterType::class; // this allow us to use the "add_shared" option
     }
 
+    /**
+     * @return string
+     */
     public function getBlockPrefix()
     {
         return 'year_filter';

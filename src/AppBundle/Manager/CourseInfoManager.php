@@ -2,19 +2,16 @@
 
 namespace AppBundle\Manager;
 
-use AppBundle\Constant\Level;
-use AppBundle\Constant\TeachingMode;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseInfoField;
 use AppBundle\Entity\User;
-use AppBundle\Entity\Year;
 use AppBundle\Helper\AppHelper;
 use AppBundle\Helper\ErrorManager;
 use AppBundle\Helper\Report\Report;
 use AppBundle\Helper\Report\ReportingHelper;
 use AppBundle\Helper\Report\ReportLine;
 use AppBundle\Helper\Report\ReportMessage;
-use AppBundle\Repository\CourseInfoRepositoryInterface;
+use AppBundle\Repository\Doctrine\CourseInfoDoctrineRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,8 +19,6 @@ use League\Csv\Reader;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Translation\Exception\InvalidResourceException;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * Class CourseInfoManager
@@ -39,7 +34,7 @@ class CourseInfoManager extends AbstractManager
     private static $yearsConcernedByImport;
 
     /**
-     * @var CourseInfoRepositoryInterface
+     * @var CourseInfoDoctrineRepository
      */
     private $repository;
 
@@ -52,16 +47,15 @@ class CourseInfoManager extends AbstractManager
      */
     private $propertyAccessor;
 
-
     /**
      * CourseInfoManager constructor.
-     * @param CourseInfoRepositoryInterface $repository
+     * @param CourseInfoDoctrineRepository $repository
      * @param EntityManagerInterface $em
      * @param TokenStorageInterface $tokenStorage
      * @param ErrorManager $errorManager
      */
     public function __construct(
-        CourseInfoRepositoryInterface $repository,
+        CourseInfoDoctrineRepository $repository,
         EntityManagerInterface $em,
         TokenStorageInterface $tokenStorage,
         ErrorManager $errorManager
@@ -77,36 +71,9 @@ class CourseInfoManager extends AbstractManager
     }
 
     /**
-     * @param $id
-     * @return CourseInfo|null
-     * @throws \Exception
+     * @return CourseInfo
      */
-    public function find($id): ?CourseInfo
-    {
-        $courseInfo = $this->repository->find($id);
-        return $courseInfo;
-    }
-
-    /**
-     * @param CourseInfo $courseInfo
-     * @throws \Exception
-     */
-    public function create(CourseInfo $courseInfo)
-    {
-        $courseInfo->setId(Uuid::uuid4());
-        $this->repository->create($courseInfo);
-    }
-
-    /**
-     * @param CourseInfo $courseInfo
-     * @throws \Exception
-     */
-    public function update(CourseInfo $courseInfo)
-    {
-        $this->repository->update($courseInfo);
-    }
-
-    public function createOne()
+    public function new()
     {
         $courseInfo = new CourseInfo();
         $courseInfo->setCreationDate(new \DateTime());
@@ -114,6 +81,52 @@ class CourseInfoManager extends AbstractManager
         return$courseInfo;
     }
 
+    /**
+     * @param $id
+     * @return CourseInfo|null
+     */
+    public function find($id): ?CourseInfo
+    {
+        return $this->repository->find($id);
+    }
+
+    /**
+     * @return array
+     */
+    public function findAll(): array
+    {
+        return $this->repository->findAll();
+    }
+
+    /**
+     * @param CourseInfo $courseInfo
+     */
+    public function create(CourseInfo $courseInfo): void
+    {
+        $this->em->persist($courseInfo);
+        $this->em->flush();
+    }
+
+    /**
+     * @param CourseInfo $courseInfo
+     */
+    public function update(CourseInfo $courseInfo): void
+    {
+        $this->em->flush();
+    }
+
+    /**
+     * @param CourseInfo $courseInfo
+     */
+    public function delete(CourseInfo $courseInfo): void
+    {
+        $this->em->remove($courseInfo);
+        $this->em->flush();
+    }
+
+    /**
+     * @return string
+     */
     protected function getClass(): string
     {
         return CourseInfo::class;
@@ -178,6 +191,9 @@ class CourseInfoManager extends AbstractManager
         return $report;
     }
 
+    /**
+     * @param string $context
+     */
     private function setFieldsToDuplicate(string $context)
     {
         //If we're looping on this function it's no necessary to get fields from the database every time (we put them in a static property cache)
@@ -193,7 +209,12 @@ class CourseInfoManager extends AbstractManager
         }
     }
 
-
+    /**
+     * @param array $fieldsToDuplicate
+     * @param CourseInfo $courseInfoSender
+     * @param CourseInfo $courseInfoRecipient
+     * @throws \Exception
+     */
     private function duplicationProcess(array $fieldsToDuplicate, CourseInfo $courseInfoSender, CourseInfo $courseInfoRecipient)
     {
 
@@ -239,13 +260,9 @@ class CourseInfoManager extends AbstractManager
         //duplicates every items
         $collection = new ArrayCollection();
         foreach ($CourseInfoSenderData as $data){
-
             $dataClone = clone $data;
-
             $dataClone->setId(Uuid::uuid4());
-
             $this->propertyAccessor->setValue($dataClone, $inversedBy, $courseInfoRecipient);
-
             $collection->add($dataClone);
         }
 
@@ -253,7 +270,12 @@ class CourseInfoManager extends AbstractManager
 
     }
 
-
+    /**
+     * @param string $pathName
+     * @return Report
+     * @throws \League\Csv\Exception
+     * @throws \Exception
+     */
     public function duplicateFromFile(string $pathName)
     {
         $csv = Reader::createFromPath($pathName);
@@ -268,14 +290,12 @@ class CourseInfoManager extends AbstractManager
             $report->createMessage('Le format du tableau n\'est pas correct. Seuls les champs ' . implode('/', $appropriatesFields) . ' doivent être définit. Si les champs correspondend bien, vérifier que le délimiteur est bien "' . $delimiter . '"', ReportMessage::TYPE_DANGER);
         }
 
-
         if ($report->hasMessages()) {
             return $report;
         }
 
         $break = false;
         foreach ($csv as $record) {
-
             $result = $this->duplicate(
                 $record['cod_elp_exp'] . '__UNION__' .  $record['annee_exp'],
                 $record['cod_elp_dest'] . '__UNION__' . $record['annee_dest'],
@@ -287,7 +307,6 @@ class CourseInfoManager extends AbstractManager
                 $break = true;
                 break;
             }
-
         }
 
         if (!$break) {

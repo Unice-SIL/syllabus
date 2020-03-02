@@ -1,8 +1,6 @@
 <?php
 
-
 namespace AppBundle\Form\Filter;
-
 
 use Lexik\Bundle\FormFilterBundle\Filter\FilterOperands;
 use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\SharedableFilterType;
@@ -11,15 +9,30 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
+/**
+ * Class CriticalAchievementFilterType
+ * @package AppBundle\Form\Filter
+ */
 class CriticalAchievementFilterType extends AbstractType
 {
+    /**
+     * @var
+     */
     private $generator;
 
+    /**
+     * CriticalAchievementFilterType constructor.
+     * @param UrlGeneratorInterface $generator
+     */
     public function __construct(UrlGeneratorInterface $generator)
     {
         $this->generator = $generator;
     }
 
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -34,6 +47,9 @@ class CriticalAchievementFilterType extends AbstractType
         ;
     }
 
+    /**
+     * @return string
+     */
     public function getBlockPrefix()
     {
         return 'critical_achievement_filter';

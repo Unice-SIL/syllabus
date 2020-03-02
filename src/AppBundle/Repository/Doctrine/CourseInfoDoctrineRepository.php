@@ -3,43 +3,40 @@
 namespace AppBundle\Repository\Doctrine;
 
 use AppBundle\Entity\CourseInfo;
-use AppBundle\Repository\CourseInfoRepositoryInterface;
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
 
 /**
  * Class CourseInfoDoctrineRepository
  * @package AppBundle\Repository\Doctrine
  */
-class CourseInfoDoctrineRepository  extends AbstractDoctrineRepository implements CourseInfoRepositoryInterface
+class CourseInfoDoctrineRepository  extends ServiceEntityRepository
 {
 
     /**
-     * UserDoctrineRepository constructor.
-     * @param EntityManagerInterface $entityManager
+     * CourseInfoDoctrineRepository constructor.
+     * @param ManagerRegistry $registry
      */
-    public function __construct(
-        EntityManagerInterface $entityManager
-    )
+    public function __construct(ManagerRegistry $registry)
     {
-        $this->entityManager = $entityManager;
+        parent::__construct($registry, CourseInfo::class);
     }
 
     /**
-     * Find  course info by id
-     * @param string $id
-     * @return CourseInfo|null
-     * @throws \Exception
+     * @return QueryBuilder
      */
-    public function find(string $id): ?CourseInfo
+    public function getIndexQueryBuilder(): QueryBuilder
     {
-        $courseInfo = null;
-        try{
-            $courseInfo = $this->entityManager->getRepository(CourseInfo::class)->find($id);
-        }catch (\Exception $e){
-            throw $e;
-        }
-        return $courseInfo;
+        return $this->_em->getRepository(CourseInfo::class)
+            ->createQueryBuilder('ci')
+            ->innerJoin('ci.course', 'c')
+            ->innerJoin('ci.year', 'y')
+            ->innerJoin('ci.structure', 's')
+            ->addSelect('y', 'c', 's')
+            ->addOrderBy('c.code', 'ASC')
+            ->addOrderBy('y.id', 'ASC')
+            ->addOrderBy('ci.title', 'ASC');
     }
 
     /**
@@ -52,7 +49,7 @@ class CourseInfoDoctrineRepository  extends AbstractDoctrineRepository implement
     {
         $courseInfo = null;
         try{
-            $qb = $this->entityManager->getRepository(CourseInfo::class)->createQueryBuilder('ci');
+            $qb = $this->getIndexQueryBuilder();
             if(!empty($year)){
                 $qb->join('ci.course', 'c')
                     ->join('ci.year', 'y')
@@ -80,7 +77,7 @@ class CourseInfoDoctrineRepository  extends AbstractDoctrineRepository implement
     {
         $coursesInfo = [];
         try{
-            $qb = $this->entityManager->getRepository(CourseInfo::class)->createQueryBuilder('ci');
+            $qb = $this->getIndexQueryBuilder();
             $qb->join('ci.year', 'y')
                 ->where($qb->expr()->eq('y.id', ':year'))
                 ->setParameter('year', $year);
@@ -92,61 +89,25 @@ class CourseInfoDoctrineRepository  extends AbstractDoctrineRepository implement
     }
 
     /**
-     * @param CourseInfo $courseInfo
-     * @throws \Exception
+     * @param string $query
+     * @param string $field
+     * @return array
      */
-    public function create(CourseInfo $courseInfo): void
-    {
-        try{
-            $this->entityManager->persist($courseInfo);
-            $this->entityManager->flush();
-        }catch (\Exception $e){
-            throw $e;
-        }
-    }
-
-    /**
-     * Update course info
-     * @param CourseInfo $courseInfo
-     * @throws \Exception
-     */
-    public function update(CourseInfo $courseInfo): void
-    {
-        try{
-            $this->entityManager->persist($courseInfo);
-            $this->entityManager->flush();
-        }catch (\Exception $e){
-            throw $e;
-        }
-    }
-
     public function findLikeQuery(string $query, string $field): array
     {
         $qb = $this->getIndexQueryBuilder();
 
         if (in_array($field, ['c.code', 'c.type', 'ci.title', 'y.label', 's.label'])) {
             $qb->andWhere($field.' LIKE :query ')
-            ->setParameter('query', '%' . $query . '%')
-            ;
+            ->setParameter('query', '%' . $query . '%');
         }
-        return $qb->getQuery()->getResult()
-        ;
+        return $qb->getQuery()->getResult();
     }
 
-    public function getIndexQueryBuilder(): QueryBuilder
-    {
-        return $this->entityManager->getRepository(CourseInfo::class)
-            ->createQueryBuilder('ci')
-            ->innerJoin('ci.course', 'c')
-            ->innerJoin('ci.year', 'y')
-            ->innerJoin('ci.structure', 's')
-            ->addSelect('y', 'c', 's')
-            ->addOrderBy('c.code', 'ASC')
-            ->addOrderBy('y.id', 'ASC')
-            ->addOrderBy('ci.title', 'ASC')
-        ;
-    }
-
+    /**
+     * @param array $config
+     * @return QueryBuilder
+     */
     public function findQueryBuilderForApi(array $config): QueryBuilder
     {
         $qb = $this->getIndexQueryBuilder();
@@ -155,29 +116,24 @@ class CourseInfoDoctrineRepository  extends AbstractDoctrineRepository implement
             $valueName = 'value'.$filter;
             switch ($filter) {
                 case 'title':
-                    $qb->andWhere($qb->expr()->like($qb->getRootAlias() . '.' . $filter, ':'.$valueName))
-                        ->setParameter($valueName, '%' . $value . '%')
-                    ;
+                    $qb->andWhere($qb->expr()->like('ci.' . $filter, ':'.$valueName))
+                        ->setParameter($valueName, '%' . $value . '%');
                     break;
                 case 'courseId':
                     $qb->andWhere($qb->expr()->eq('c.id', ':'.$valueName))
-                        ->setParameter($valueName, $value)
-                    ;
+                        ->setParameter($valueName, $value);
                     break;
                 case 'yearId':
                     $qb->andWhere($qb->expr()->eq('y.id', ':'.$valueName))
-                        ->setParameter($valueName, $value)
-                    ;
+                        ->setParameter($valueName, $value);
                     break;
                 case 'structureId':
                     $qb->andWhere($qb->expr()->eq('s.id', ':'.$valueName))
-                        ->setParameter($valueName, $value)
-                    ;
+                        ->setParameter($valueName, $value);
                     break;
                 case 'published':
                     if (true === $value) {
-                        $qb->andWhere($qb->expr()->isNotNull($qb->getRootAlias() . '.publicationDate'))
-                        ;
+                        $qb->andWhere($qb->expr()->isNotNull($qb->getRootAlias() . '.publicationDate'));
                     }
                     break;
             }

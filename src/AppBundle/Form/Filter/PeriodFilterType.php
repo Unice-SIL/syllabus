@@ -1,8 +1,6 @@
 <?php
 
-
 namespace AppBundle\Form\Filter;
-
 
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
@@ -14,15 +12,30 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
+/**
+ * Class PeriodFilterType
+ * @package AppBundle\Form\Filter
+ */
 class PeriodFilterType extends AbstractType
 {
+    /**
+     * @var
+     */
     private  $generator;
 
+    /**
+     * PeriodFilterType constructor.
+     * @param UrlGeneratorInterface $generator
+     */
     public function __construct(UrlGeneratorInterface $generator)
     {
         $this->generator = $generator;
     }
 
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('label', TextFilterType::class, [
@@ -46,11 +59,17 @@ class PeriodFilterType extends AbstractType
             ]);
     }
 
+    /**
+     * @return string
+     */
     public function getBlockPrefix()
     {
         return 'period_filter';
     }
 
+    /**
+     * @param OptionsResolver $resolver
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(

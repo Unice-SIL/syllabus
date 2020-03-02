@@ -1,13 +1,9 @@
 <?php
 
-
 namespace AppBundle\Form\Filter;
 
-
-use AppBundle\Entity\Structure;
 use AppBundle\Manager\DomainManager;
-use AppBundle\Manager\StructureManager;
-use AppBundle\Repository\StructureRepositoryInterface;
+use AppBundle\Repository\Doctrine\StructureDoctrineRepository;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderExecuterInterface;
@@ -18,20 +14,44 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-
+/**
+ * Class DomainFilterType
+ * @package AppBundle\Form\Filter
+ */
 class DomainFilterType extends AbstractType
 {
+    /**
+     * @var UrlGeneratorInterface
+     */
     private $generator;
+
+    /**
+     * @var DomainManager
+     */
     private $domainManager;
+
+    /**
+     * @var StructureDoctrineRepository
+     */
     private $structureRepository;
 
-    public function __construct(UrlGeneratorInterface $generator, DomainManager $domainManager, StructureRepositoryInterface $structureRepository)
+    /**
+     * DomainFilterType constructor.
+     * @param UrlGeneratorInterface $generator
+     * @param DomainManager $domainManager
+     * @param StructureDoctrineRepository $structureRepository
+     */
+    public function __construct(UrlGeneratorInterface $generator, DomainManager $domainManager, StructureDoctrineRepository $structureRepository)
     {
         $this->generator = $generator;
         $this->domainManager = $domainManager;
         $this->structureRepository = $structureRepository;
     }
 
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -57,11 +77,17 @@ class DomainFilterType extends AbstractType
         ;
     }
 
+    /**
+     * @return string
+     */
     public function getBlockPrefix()
     {
         return 'activity_filter';
     }
 
+    /**
+     * @param OptionsResolver $resolver
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
