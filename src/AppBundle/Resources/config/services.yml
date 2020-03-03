@@ -5,6 +5,7 @@ services:
         public: false
         bind:
             $mailerSource: '%mailer_source%'
+            $adminNotifications: '%admin_notifications%'
 
     AppBundle\:
         resource: '../../*'
