@@ -23,7 +23,7 @@
                         <tr>
                             <td>
                                 {% if is_granted('ROLE_ADMIN_YEAR_UPDATE') %}
-                                    <a href="{{ path('app_admin_year_edit', { 'id' : year.id }) }}">
+                                    <a href="{{ path('app_admin.year_edit', { 'id' : year.id }) }}">
                                         {{ year.label }}
                                     </a>
                                 {% else %}

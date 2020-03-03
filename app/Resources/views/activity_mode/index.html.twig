@@ -41,11 +41,7 @@
                     {% for activityMode in pagination %}
                         <tr>
                             <td>
-                                {% if is_granted('ROLE_ADMIN_ACTIVITYMODE_UPDATE') %}
-                                    <a href="{{ path('app_admin_mode_activity_edit', { 'id' : activityMode.id }) }}">{{ activityMode.label }}</a>
-                                {% else %}
-                                    {{ activityMode.label }}
-                                {% endif %}
+                                <a href="{{ path('app_admin_mode_activity_edit', { 'id' : activityMode.id }) }}">{{ activityMode.label }}</a>
                             </td>
                             <td>{{ activityMode.obsolete|humanizeBoolean }}</td>
                         </tr>

@@ -24,7 +24,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class LanguageController
  * @package AppBundle\Controller
  *
- * @Route("/admin/language", name="app_admin_language_")
+ * @Route("/admin/language", name="app_admin.language_")
  */
 class LanguageController extends AbstractController
 {
@@ -79,7 +79,7 @@ class LanguageController extends AbstractController
             $languageManager->create($language);
             $this->addFlash('success', 'La langue a été ajoutée avec succès.');
 
-            return $this->redirectToRoute('app_admin_language_index');
+            return $this->redirectToRoute('app_admin.language_index');
         }
 
         return $this->render('language/new.html.twig', array(
@@ -107,7 +107,7 @@ class LanguageController extends AbstractController
 
             $this->addFlash('success', 'La language été modifiée avec succès.');
 
-            return $this->redirectToRoute('app_admin_language_edit', array('id' => $language->getId()));
+            return $this->redirectToRoute('app_admin.language_edit', array('id' => $language->getId()));
         }
 
         return $this->render('language/edit.html.twig', array(

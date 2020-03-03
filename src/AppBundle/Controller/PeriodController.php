@@ -24,7 +24,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @package AppBundle\Controller
  *
- * @Route("/admin/period", name="app_admin_period_")
+ * @Route("/admin/period", name="app_admin.period_")
  */
 class PeriodController extends AbstractController
 {
@@ -80,7 +80,7 @@ class PeriodController extends AbstractController
 
             $this->addFlash('success', 'La période a été ajoutée avec succès.');
 
-            return $this->redirectToRoute('app_admin_period_index');
+            return $this->redirectToRoute('app_admin.period_index');
         }
 
         return $this->render('period/new.html.twig', array(
@@ -107,7 +107,7 @@ class PeriodController extends AbstractController
 
             $this->addFlash('success', 'La période été modifiée avec succès.');
 
-            return $this->redirectToRoute('app_admin_period_edit', array('id' => $period->getId()));
+            return $this->redirectToRoute('app_admin.period_edit', array('id' => $period->getId()));
         }
 
         return $this->render('period/edit.html.twig', array(

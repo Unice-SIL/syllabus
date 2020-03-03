@@ -10,11 +10,11 @@
                     {{ form_row(form.label) }}
                 </div>
                 <div class="col-md-3 col-sm-6">
-                    <a class="btn btn-danger" style="margin-top: 32px" href="{{  path('app_admin_language_index')  }}">Réinitialiser les filtres</a>
+                    <a class="btn btn-danger" style="margin-top: 32px" href="{{  path('app_admin.language_index')  }}">Réinitialiser les filtres</a>
                 </div>
                 <div class="offset-md-4"></div>
                 <div class="col-md-3 col-sm-6 text-right">
-                    <a class="btn btn-primary float-right" style="margin-top: 32px" href="{{  path('app_admin_language_new')  }}">Ajouter un language</a>
+                    <a class="btn btn-primary float-right" style="margin-top: 32px" href="{{  path('app_admin.language_new')  }}">Ajouter un language</a>
                 </div>
             </div>
             <input type="submit" style="position: absolute; left: -9999px"/>
@@ -34,7 +34,7 @@
                     {% for language in pagination %}
                         <tr>
                             <td>
-                                <a href="{{ path('app_admin_language_edit', { 'id' : language.id }) }}">{{ language.label }}</a>
+                                <a href="{{ path('app_admin.language_edit', { 'id' : language.id }) }}">{{ language.label }}</a>
                             </td>
                             <td>
                                 {{ language.obsolete|humanizeBoolean }}

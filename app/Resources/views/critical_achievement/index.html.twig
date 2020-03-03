@@ -9,12 +9,12 @@
                 {{ form_row(form.label) }}
             </div>
             <div class="col-md-3 col-sm-6">
-                <a class="btn btn-danger" style="margin-top: 32px" href="{{  path('app_admin_achievement_index')  }}">Réinitialiser les filtres</a>
+                <a class="btn btn-danger" style="margin-top: 32px" href="{{  path('app_admin.achievement_index')  }}">Réinitialiser les filtres</a>
             </div>
             <div class="offset-md-4"></div>
             <div class="col-md-3 col-sm-6 text-right">
                 <a class="btn btn-primary float-right" style="margin-top: 32px"
-                   href="{{ path('app_admin_achievement_new') }}">Ajouter un acquis critique</a>
+                   href="{{ path('app_admin.achievement_new') }}">Ajouter un acquis critique</a>
             </div>
         </div>
         <input type="submit" style="position: absolute; left: -9999px"/>
@@ -33,7 +33,7 @@
                 {% for critical in pagination %}
                     <tr>
                         <td>
-                            <a href="{{ path('app_admin_achievement_edit', { 'id' : critical.id }) }}">{{ critical.label }}</a>
+                            <a href="{{ path('app_admin.achievement_edit', { 'id' : critical.id }) }}">{{ critical.label }}</a>
                         </td>
                         <td>
                             {{ critical.obsolete|humanizeBoolean }}
