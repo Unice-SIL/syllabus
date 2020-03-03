@@ -45,7 +45,11 @@
                     {% for activityType in pagination %}
                         <tr>
                             <td>
-                                <a href="{{ path('app_admin.type_activity_edit', { 'id' : activityType.id }) }}">{{ activityType.label }}</a>
+                                {% if is_granted('ROLE_ADMIN_ACTIVITYTYPE_UPDATE') %}
+                                    <a href="{{ path('app_admin.type_activity_edit', { 'id' : activityType.id }) }}">{{ activityType.label }}</a>
+                                {% else %}
+                                    {{ activityType.label }}
+                                {% endif %}
                             </td>
                             <td>
                                 {% for activityMode in activityType.activityModes %}

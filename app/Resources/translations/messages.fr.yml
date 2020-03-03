@@ -1,5 +1,6 @@
 ROLE_USER: Utilisateur
 ROLE_ADMIN: Administrateur
+ROLE_SUPER_ADMIN: Super Administrateur
 ROLE_ADMIN_YEAR: Gestion des années
 ROLE_ADMIN_YEAR_LIST: Consulter la liste des années
 ROLE_ADMIN_YEAR_CREATE: Créer une année
