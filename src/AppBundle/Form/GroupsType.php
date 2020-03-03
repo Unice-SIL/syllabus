@@ -12,29 +12,41 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use function foo\func;
+use function GuzzleHttp\Promise\some;
 
 class GroupsType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $fn = function($values, $arr = []) use (&$fn)
+        {
+            foreach ($values as $key => $value)
+            {
+                if(!is_array($value))
+                {
+                    $arr[$value] = $value;
+                }else{
+                    $arr[$key][$key] = $key;
+                    $arr[$key][] = $fn($value);
+                }
+            }
+            return $arr;
+        };
+
+        $choices = array_combine(UserRole::ROLES, UserRole::ROLES);
+        ksort($choices);
+
         $builder
             ->add('label', null, [
                 'label' => 'app.form.groups.label.label'
             ])
             ->add('roles', ChoiceType::class, [
+                'required' => false,
                 'label' => 'app.form.groups.label.roles',
-                'choices' => array_combine(UserRole::ROLES, UserRole::ROLES),
+                'choices' => $choices,
                 'multiple' => true,
                 'expanded' => true,
-                'group_by' => function($choice, $key, $value) {
-                    if (strpos($choice, 'ROLE_API') === 0) {
-                        return 'Api';
-                    } elseif (strpos($choice, 'ROLE_ADMIN') === 0)  {
-                        return 'Admin';
-                    } elseif ($choice === 'ROLE_USER')  {
-                        return 'Syllabus';
-                    }
-                },
             ])
         ;
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
