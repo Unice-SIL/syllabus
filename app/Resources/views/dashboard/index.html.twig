@@ -1,0 +1,67 @@
+{% extends 'admin_layout.html.twig' %}
+{% set h1 = 'Tableau de bord des syllabus' %}
+{% block subContent %}
+<div class="card-body">
+    <div class="row">
+        <!-- small box publish syllabus -->
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <h3>0</h3>
+                    <p>Syllabus publié</p>
+                </div>
+                <a class="small-box-footer">
+                    Plus d'infos
+                    <i class="fas fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- small box uncompleted syllabus -->
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-success">
+                <div class="inner">
+                    <h3>0 %</h3>
+                    <p>Syllabus en cours de remplissage</p>
+                </div>
+                <a class="small-box-footer">
+                    Plus d'infos
+                    <i class="fas fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- small box count askAdvices -->
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-warning">
+                <div class="inner">
+                    <h3>{{ askAdviceCount }}</h3>
+                    <p>Demandes d'avis a traiter</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-comment-dots"></i>
+                </div>
+                <a href="{{ path('app_admin_ask_advice_index') }}" class="small-box-footer">
+                    Plus d'infos
+                    <i class="fas fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- small box count ask primes -->
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-danger">
+                <div class="inner">
+                    <h3>0</h3>
+                    <p>Demandes de primes a traiter</p>
+                </div>
+                <a class="small-box-footer">
+                    Plus d'infos
+                    <i class="fas fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
