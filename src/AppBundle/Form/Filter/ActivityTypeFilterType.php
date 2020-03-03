@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AppBundle\Form\Filter;
 
 use AppBundle\Constant\ActivityMode;
@@ -15,16 +14,30 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-
+/**
+ * Class ActivityTypeFilterType
+ * @package AppBundle\Form\Filter
+ */
 class ActivityTypeFilterType extends AbstractType
 {
+    /**
+     * @var UrlGeneratorInterface
+     */
     private $generator;
 
+    /**
+     * ActivityTypeFilterType constructor.
+     * @param UrlGeneratorInterface $generator
+     */
     public function __construct(UrlGeneratorInterface $generator)
     {
         $this->generator = $generator;
     }
 
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('label', TextFilterType::class, [
@@ -48,16 +61,25 @@ class ActivityTypeFilterType extends AbstractType
             ]);
     }
 
+    /**
+     * @return null|string
+     */
     public function getParent()
     {
         return SharedableFilterType::class; // this allow us to use the "add_shared" option
     }
 
+    /**
+     * @return string
+     */
     public function getBlockPrefix()
     {
         return 'activity_type_filter';
     }
 
+    /**
+     * @param OptionsResolver $resolver
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(

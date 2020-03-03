@@ -1,26 +1,38 @@
 <?php
 
-
 namespace AppBundle\Form\Filter;
 
 use Lexik\Bundle\FormFilterBundle\Filter\FilterOperands;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\SharedableFilterType;
 use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\TextFilterType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-
+/**
+ * Class GroupsFilterType
+ * @package AppBundle\Form\Filter
+ */
 class GroupsFilterType extends AbstractType
 {
+    /**
+     * @var
+     */
     private  $generator;
 
+    /**
+     * GroupsFilterType constructor.
+     * @param UrlGeneratorInterface $generator
+     */
     public function __construct(UrlGeneratorInterface $generator)
     {
         $this->generator = $generator;
     }
 
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
@@ -35,11 +47,17 @@ class GroupsFilterType extends AbstractType
 
     }
 
+    /**
+     * @return string
+     */
     public function getBlockPrefix()
     {
         return 'groups_filter';
     }
 
+    /**
+     * @param OptionsResolver $resolver
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(

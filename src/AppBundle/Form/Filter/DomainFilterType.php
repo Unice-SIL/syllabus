@@ -1,12 +1,10 @@
 <?php
 
-
 namespace AppBundle\Form\Filter;
 
-
-use AppBundle\Entity\Structure;
 use AppBundle\Manager\DomainManager;
 use AppBundle\Manager\StructureManager;
+use AppBundle\Repository\Doctrine\StructureDoctrineRepository;
 use AppBundle\Repository\StructureRepositoryInterface;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
@@ -18,11 +16,25 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-
+/**
+ * Class DomainFilterType
+ * @package AppBundle\Form\Filter
+ */
 class DomainFilterType extends AbstractType
 {
+    /**
+     * @var UrlGeneratorInterface
+     */
     private $generator;
+
+    /**
+     * @var DomainManager
+     */
     private $domainManager;
+
+    /**
+     * @var StructureDoctrineRepository
+     */
     private $structureRepository;
 
     public function __construct(UrlGeneratorInterface $generator, DomainManager $domainManager, StructureRepositoryInterface $structureRepository)
@@ -32,6 +44,10 @@ class DomainFilterType extends AbstractType
         $this->structureRepository = $structureRepository;
     }
 
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -57,11 +73,17 @@ class DomainFilterType extends AbstractType
         ;
     }
 
+    /**
+     * @return string
+     */
     public function getBlockPrefix()
     {
         return 'activity_filter';
     }
 
+    /**
+     * @param OptionsResolver $resolver
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(

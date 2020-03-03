@@ -3,6 +3,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Traits\Importable;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping\JoinColumn;
@@ -16,6 +17,8 @@ use Doctrine\ORM\Mapping\OneToMany;
  */
 class CourseCriticalAchievement
 {
+    use Importable;
+
     /**
      * @var string
      *

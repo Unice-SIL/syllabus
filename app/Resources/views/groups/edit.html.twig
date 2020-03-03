@@ -8,3 +8,29 @@
         </div>
     </div>
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        function toggleRoles($role)
+        {
+            if($role.is(':checked'))
+            {
+                $('ul[data-parent="'+$role.attr('id')+'"]').show();
+            }else{
+                $('ul[data-parent="'+$role.attr('id')+'"]').hide();
+            }
+        }
+
+        $(document).ready(function(){
+            $('#groups_roles input[type="checkbox"]').each(function(){
+                toggleRoles($(this));
+            });
+
+            $(document).on('change', '#groups_roles input[type="checkbox"]', function () {
+                toggleRoles($(this));
+            });
+        });
+
+    </script>
+{% endblock %}

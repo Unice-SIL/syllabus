@@ -33,6 +33,7 @@ class AppExtension extends AbstractExtension
     {
         return [
             new TwigFunction('printActiveAdminSidebarLink', [AppRuntime::class, 'printActiveAdminSidebarLink']),
+            new TwigFunction('findChoiceIdByLabel', [AppRuntime::class, 'findChoiceIdByLabel']),
             new TwigFunction('report_render', [ReportRuntime::class, 'reportRender']),
         ];
     }

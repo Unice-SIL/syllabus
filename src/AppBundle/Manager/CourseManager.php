@@ -16,7 +16,7 @@ class CourseManager
      */
     private $repository;
     /**
-     * @var CourseDoctrineRepository
+     * @var ErrorManager
      */
     private $errorManager;
     /**
@@ -36,6 +36,71 @@ class CourseManager
         $this->em = $em;
     }
 
+    /**
+     * @return Course
+     */
+    public function new()
+    {
+        return new Course();
+    }
+
+    /**
+     * @param string $id
+     * @return Course|null
+     */
+    public function find(string $id): ?Course
+    {
+        return $this->repository->find($id);
+    }
+
+    /**
+     * @return array
+     */
+    public function findAll(): array
+    {
+        return $this->repository->findAll();
+    }
+
+    /**
+     * @param $code
+     * @return Course|null
+     */
+    public function findByCode($code): ?Course
+    {
+        return $this->repository->findOneBy(['code' => $code]);
+    }
+
+    /**
+     * @param Course $course
+     */
+    public function create(Course $course): void
+    {
+        $this->em->persist($course);
+        $this->em->flush();
+    }
+
+    /**
+     * @param Course $course
+     */
+    public function update(Course $course): void
+    {
+        $this->em->flush();
+    }
+
+    /**
+     * @param Course $course
+     */
+    public function delete(Course $course): void
+    {
+        $this->em->remove($course);
+        $this->em->flush();
+    }
+
+    /**
+     * @param Course $courseData
+     * @param array $options
+     * @throws \Exception
+     */
     public function createOrUpdate(Course $courseData, array $options = [])
     {
 

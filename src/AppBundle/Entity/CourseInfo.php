@@ -13,6 +13,7 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
+use AppBundle\Validator\Constraints as AssertCustom;
 
 /**
  * CourseInfo
@@ -590,6 +591,7 @@ class CourseInfo
      *
      * @ORM\OneToMany(targetEntity="CourseSection", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"position" = "ASC"})
+     * @Assert\NotBlank(groups={"contentActivities"})
      * @JMS\Type("ArrayCollection<AppBundle\Entity\CourseSection>")
      * @JMS\Groups(groups={"course_info"})
      */
@@ -601,15 +603,27 @@ class CourseInfo
      * @ORM\OneToMany(targetEntity="CourseAchievement", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"position" = "ASC"})
      * @JMS\Type("ArrayCollection<AppBundle\Entity\CourseAchievement>")
+     * @AssertCustom\AchievementConstraintValidator
      * @JMS\Groups(groups={"course_info"})
      */
     private $courseAchievements;
+
+    /**
+     * @OneToMany(targetEntity="CourseCriticalAchievement", mappedBy="courseInfo")
+     * @Assert\NotBlank(groups={"objectives"})
+     * @AssertCustom\AchievementConstraintValidator
+     */
+    private $courseCriticalAchievements;
 
     /**
      * @var Collection
      *
      * @ORM\OneToMany(targetEntity="CoursePrerequisite", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"position" = "ASC"})
+     * @Assert\Count(
+     *     groups={"objectives"},
+     *     min = 1
+     *     )
      * @JMS\Type("ArrayCollection<AppBundle\Entity\CoursePrerequisite>")
      * @JMS\Groups(groups={"course_info"})
      */
@@ -638,11 +652,6 @@ class CourseInfo
      * @JMS\Groups(groups={"api"})
      */
     private $previousImage = null;
-
-    /**
-     * @OneToMany(targetEntity="CourseCriticalAchievement", mappedBy="courseInfo")
-     */
-    private $courseCriticalAchievements;
 
     /**
      * CourseInfo constructor.

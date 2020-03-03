@@ -2,15 +2,13 @@
     <div class="col-md-6">
         <dl>
             <dt>Domaine</dt>
-            {% if courseInfo.domains is not empty %}
-                <dd class="mb-0">
-                    {% for domain in courseInfo.domains %}
-                        {{ not loop.first ? ',' }} {{ domain.label }}
-                    {% endfor %}
-                </dd>
-            {% else %}
-                <dd>Non renseigné</dd>
-            {% endif %}
+            <dd class="mandatory-data">
+                {% set domains = null %}
+                {% for domain in courseInfo.domains %}
+                    {%  set domains = domains ~ (not loop.first) ? ',' ~ domain.label %}
+                {% endfor %}
+                {{ domains|humanizeEmptyData() }}
+            </dd>
         </dl>
         <dl>
             <dt>{{ 'app.presentation.view.general.level' | trans }}</dt>
@@ -72,8 +70,8 @@
         {% endif %}
 
     </div>
-    <div class="col-md-6" style="min-height: 150px;">
-        {% if courseInfo.summary is not empty %}
+    <div class="col-md-6 mandatory-data" style="min-height: 150px;">
+
             {{ courseInfo.summary|purify }}
         {% else %}
             <div class="h-100 d-flex align-items-center justify-content-center">

@@ -36,7 +36,8 @@ class CampusController extends AbstractController
      * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
      * @return Response
      */
-    public function IndexAction(Request $request, CampusDoctrineRepository $repository, PaginatorInterface $paginator, FilterBuilderUpdaterInterface $filterBuilderUpdater)
+    public function IndexAction(Request $request, CampusDoctrineRepository $repository, PaginatorInterface $paginator,
+                                FilterBuilderUpdaterInterface $filterBuilderUpdater)
     {
         $qb =  $repository->getIndexQueryBuilder();
 
