@@ -11,22 +11,6 @@ services:
         resource: '../../*'
         exclude: '../../{Entity,Repository,Tests}'
 
-    # ALIAS
-    AppBundle\Repository\UserRepositoryInterface: '@user_doctrine_repository'
-    AppBundle\Repository\ActivityRepositoryInterface: '@activity_doctrine_repository'
-    AppBundle\Repository\CourseRepositoryInterface: '@course_doctrine_repository'
-    AppBundle\Repository\CourseAchievementRepositoryInterface: '@course_achievement_doctrine_repository'
-    AppBundle\Repository\CourseInfoRepositoryInterface: '@course_info_doctrine_repository'
-    AppBundle\Repository\CoursePrerequisiteRepositoryInterface: '@course_prerequisite_doctrine_repository'
-    AppBundle\Repository\CourseResourceEquipmentRepositoryInterface: '@course_resource_equipment_doctrine_repository'
-    AppBundle\Repository\CourseSectionRepositoryInterface: '@course_section_doctrine_repository'
-    AppBundle\Repository\CourseSectionActivityRepositoryInterface: '@course_section_activity_doctrine_repository'
-    AppBundle\Repository\CourseTeacherRepositoryInterface: '@course_teacher_doctrine_repository'
-    AppBundle\Repository\CourseTutoringResourceRepositoryInterface: '@course_tutoring_resource_doctrine_repository'
-    AppBundle\Repository\EquipmentRepositoryInterface: '@equipment_doctrine_repository'
-    AppBundle\Repository\StructureRepositoryInterface: '@structure_doctrine_repository'
-    AppBundle\Repository\YearRepositoryInterface: '@year_doctrine_repository'
-
     # AUTHENTICATOR
     AppBundle\Security\Authenticator\TestAuthenticator:
         arguments: ['%test_authenticator%']
@@ -87,62 +71,6 @@ services:
     AppBundle\Query\CourseTeacher\Adapter\Ldap\FindCourseTeacherByIdLdapQuery:
         public: true
         autowire: true
-    # REPOSITORY
-    user_doctrine_repository:
-        class: AppBundle\Repository\Doctrine\UserDoctrineRepository
-        arguments: ['@syllabus_entity_manager']
-
-    activity_doctrine_repository:
-        class: AppBundle\Repository\Doctrine\ActivityDoctrineRepository
-        arguments: ['@syllabus_entity_manager']
-
-    course_doctrine_repository:
-        class: AppBundle\Repository\Doctrine\CourseDoctrineRepository
-        arguments: ['@syllabus_entity_manager']
-
-    course_achievement_doctrine_repository:
-        class: AppBundle\Repository\Doctrine\CourseAchievementDoctrineRepository
-        arguments: ['@syllabus_entity_manager']
-
-    course_info_doctrine_repository:
-        class: AppBundle\Repository\Doctrine\CourseInfoDoctrineRepository
-        arguments: ['@syllabus_entity_manager']
-
-    course_prerequisite_doctrine_repository:
-        class: AppBundle\Repository\Doctrine\CoursePrerequisiteDoctrineRepository
-        arguments: ['@syllabus_entity_manager']
-
-    course_resource_equipment_doctrine_repository:
-        class: AppBundle\Repository\Doctrine\CourseResourceEquipmentDoctrineRepository
-        arguments: ['@syllabus_entity_manager']
-
-    course_section_doctrine_repository:
-        class: AppBundle\Repository\Doctrine\CourseSectionDoctrineRepository
-        arguments: ['@syllabus_entity_manager']
-
-    course_section_activity_doctrine_repository:
-        class: AppBundle\Repository\Doctrine\CourseSectionActivityDoctrineRepository
-        arguments: ['@syllabus_entity_manager']
-
-    course_teacher_doctrine_repository:
-        class: AppBundle\Repository\Doctrine\CourseTeacherDoctrineRepository
-        arguments: ['@syllabus_entity_manager']
-
-    course_tutoring_resource_doctrine_repository:
-        class: AppBundle\Repository\Doctrine\CourseTutoringResourceDoctrineRepository
-        arguments: ['@syllabus_entity_manager']
-
-    equipment_doctrine_repository:
-        class: AppBundle\Repository\Doctrine\EquipmentDoctrineRepository
-        arguments: ['@syllabus_entity_manager']
-
-    structure_doctrine_repository:
-        class: AppBundle\Repository\Doctrine\StructureDoctrineRepository
-        arguments: ['@syllabus_entity_manager']
-
-    year_doctrine_repository:
-        class: AppBundle\Repository\Doctrine\YearDoctrineRepository
-        arguments: ['@syllabus_entity_manager']
 
     # PROVIDERS
     AppBundle\Security\Provider\TestUserProvider:

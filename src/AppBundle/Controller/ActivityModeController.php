@@ -36,7 +36,8 @@ class ActivityModeController extends AbstractController
      * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
      * @return Response
      */
-    public function indexAction(Request $request, ActivityModeDoctrineRepository $repository, PaginatorInterface $paginator, FilterBuilderUpdaterInterface $filterBuilderUpdater)
+    public function indexAction(Request $request, ActivityModeDoctrineRepository $repository, PaginatorInterface $paginator,
+                                FilterBuilderUpdaterInterface $filterBuilderUpdater)
     {
         $qb =  $repository->getIndexQueryBuilder();
 

@@ -11,19 +11,19 @@
                     <tr>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.activity.label.label'|trans, 'a.label') }}</th>
                         <th class="sortable">Utilisateur</th>
-                        <th class="sortable">traité</th>
+                        <th class="sortable text-center">traité</th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for askAdvice in pagination %}
                         <tr>
                             <td>
-                                <a href="{{ path('app_admin_activity_edit', { 'id' : askAdvice.id }) }}">{{ askAdvice.courseInfo.title }}</a>
+                                <a href="{{ path('app_admin_ask_advice_view', { 'id' : askAdvice.id }) }}">{{ askAdvice.courseInfo.title }}</a>
                             </td>
                             <td>
                                 {{ askAdvice.user.lastname }} {{ askAdvice.user.firstname }}
                             </td>
-                            <td>
+                            <td class="text-center">
                                 {% if askAdvice.process == true %}
                                     <i class="fas fa-circle success"></i>
                                 {% else %}
@@ -45,5 +45,4 @@
             </div>
         {% endif %}
     </div>
-
 {% endblock %}

@@ -12,9 +12,11 @@ use AppBundle\Repository\Doctrine\GroupsDoctrineRepository;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -32,7 +34,7 @@ class GroupsController extends Controller
      * @param Request $request
      * @param GroupsDoctrineRepository $groupsDoctrineRepository
      * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function indexAction(
         Request $request,
@@ -77,7 +79,7 @@ class GroupsController extends Controller
      * @Route("/new", name="new", methods={"GET", "POST"})
      * @param Request $request
      * @param GroupsManager $groupsManager
-     * @return RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return RedirectResponse|Response
      */
     public function newAction(Request $request, GroupsManager $groupsManager)
     {
@@ -106,7 +108,7 @@ class GroupsController extends Controller
      * @param Request $request
      * @param Groups $groups
      * @param GroupsManager $groupsManager
-     * @return RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return RedirectResponse|Response
      */
     public function editAction(Request $request, Groups $groups, GroupsManager $groupsManager)
     {
@@ -115,7 +117,7 @@ class GroupsController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $groupsManager->flush($groups);
+            $groupsManager->update($groups);
 
 
             $this->addFlash('success', 'Le groups a été modifié avec succès.');
@@ -177,19 +179,13 @@ class GroupsController extends Controller
     /**
      * Creates a form to delete a groups entity.
      * @param Groups $group
-     * @return \Symfony\Component\Form\FormInterface
+     * @return FormInterface
      */
     private function createDeleteForm(Groups $group)
     {
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('app_admin_groups_delete', array('id' => $group->getId())))
             ->setMethod('DELETE')
-            ->add('submit', SubmitType::class, [
-                'label' => 'Supprimer',
-                'attr' => [
-                    'class' => 'btn btn-danger float-right'
-                ]
-            ])
             ->getForm();
     }
 }

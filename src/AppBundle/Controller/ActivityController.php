@@ -7,6 +7,7 @@ use AppBundle\Form\ActivityType;
 use AppBundle\Form\Filter\ActivityFilterType;
 use AppBundle\Manager\ActivityManager;
 use AppBundle\Repository\Doctrine\ActivityDoctrineRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
@@ -30,9 +31,11 @@ class ActivityController extends AbstractController
      * @param Request $request
      * @param ActivityDoctrineRepository $repository
      * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
+     * @param PaginatorInterface $paginator
      * @return Response
      */
-    public function indexAction(Request $request, ActivityDoctrineRepository $repository, FilterBuilderUpdaterInterface $filterBuilderUpdater)
+    public function indexAction(Request $request, ActivityDoctrineRepository $repository,
+                                FilterBuilderUpdaterInterface $filterBuilderUpdater, PaginatorInterface $paginator)
     {
 
         $qb =  $repository->getIndexQueryBuilder();
@@ -46,7 +49,7 @@ class ActivityController extends AbstractController
             $filterBuilderUpdater->addFilterConditions($form, $qb);
         }
 
-        $pagination = $this->get('knp_paginator')->paginate(
+        $pagination = $paginator->paginate(
             $qb,
             $request->query->getInt('page', 1),
             10

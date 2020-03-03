@@ -6,16 +6,30 @@ namespace AppBundle\Constant;
 
 class UserRole
 {
+    /*====================== USER ROLES ==================*/
     const ROLE_USER = 'ROLE_USER';
+
+
+
+    /*====================== ADMIN ROLES ==================*/
     const ROLE_ADMIN = 'ROLE_ADMIN';
 
-    /*====================== ROLE API ==================*/
+    // YEARS
+    const ROLE_ADMIN_YEAR = 'ROLE_ADMIN_YEAR';
+    const ROLE_ADMIN_YEAR_LIST = 'ROLE_ADMIN_YEAR_LIST';
+    const ROLE_ADMIN_YEAR_CREATE = 'ROLE_ADMIN_YEAR_CREATE';
+    const ROLE_ADMIN_YEAR_UPDATE = 'ROLE_ADMIN_YEAR_UPDATE';
+
+
+
+    /*====================== API ROLES ==================*/
     const ROLE_API = 'ROLE_API';
 
-    const ROLE_API_GET_COURSE = 'ROLE_API_GET_COURSE';
-    const ROLE_API_GET_COURSES = 'ROLE_API_GET_COURSES';
-    const ROLE_API_POST_COURSE = 'ROLE_API_POST_COURSE';
-    const ROLE_API_PUT_COURSE = 'ROLE_API_PUT_COURSE';
+    const ROLE_API_COURSE = 'ROLE_API_COURSE_VIEW';
+    const ROLE_API_COURSE_VIEW = 'ROLE_API_COURSE_VIEW';
+    const ROLE_API_COURSE_LIST = 'ROLE_API_COURSE_LIST';
+    const ROLE_API_COURSE_CREATE = 'ROLE_API_COURSE_CREATE';
+    const ROLE_API_COURSE_UPDATE = 'ROLE_API_COURSE_UPDATE';
 
     const ROLE_API_GET_COURSE_INFO = 'ROLE_API_GET_COURSE_INFO';
     const ROLE_API_GET_COURSES_INFO = 'ROLE_API_GET_COURSES_INFO';
@@ -48,11 +62,16 @@ class UserRole
     const ROLES = [
         self::ROLE_USER,
         self::ROLE_ADMIN,
+        self::ROLE_ADMIN_YEAR,
+        self::ROLE_ADMIN_YEAR_LIST,
+        self::ROLE_ADMIN_YEAR_CREATE,
+        self::ROLE_ADMIN_YEAR_UPDATE,
         self::ROLE_API,
-        self::ROLE_API_GET_COURSE,
-        self::ROLE_API_GET_COURSES,
-        self::ROLE_API_POST_COURSE,
-        self::ROLE_API_PUT_COURSE,
+        self::ROLE_API_COURSE,
+        self::ROLE_API_COURSE_VIEW,
+        self::ROLE_API_COURSE_LIST,
+        self::ROLE_API_COURSE_CREATE,
+        self::ROLE_API_COURSE_UPDATE,
         self::ROLE_API_GET_COURSE_INFO,
         self::ROLE_API_GET_COURSES_INFO,
         self::ROLE_API_POST_COURSE_INFO,
@@ -74,5 +93,23 @@ class UserRole
         self::ROLE_API_GET_DOMAINS,
         self::ROLE_API_GET_LANGUAGE,
         self::ROLE_API_GET_LANGUAGES,
+    ];
+
+    const HIERARCHY = [
+        self::ROLE_ADMIN => [
+            self::ROLE_ADMIN_YEAR => [
+                self::ROLE_ADMIN_YEAR_LIST,
+                self::ROLE_ADMIN_YEAR_CREATE,
+                self::ROLE_ADMIN_YEAR_UPDATE
+            ]
+        ],
+        self::ROLE_API => [
+            self::ROLE_API_COURSE => [
+                self::ROLE_API_COURSE_VIEW,
+                self::ROLE_API_COURSE_LIST,
+                self::ROLE_API_COURSE_CREATE,
+                self::ROLE_API_COURSE_UPDATE,
+            ],
+        ],
     ];
 }

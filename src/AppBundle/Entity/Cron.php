@@ -83,6 +83,21 @@ class Cron
      */
     private $obsolete = false;
 
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="immediately", type="boolean", nullable=false)
+     * @Assert\Type("bool")
+     */
+    private $immediately = false;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="report", type="text", nullable=true )
+     */
+    private $report;
+
 
     /**
      * Get id.
@@ -224,6 +239,38 @@ class Cron
     public function setLastUseEnd($lastUseEnd)
     {
         $this->lastUseEnd = $lastUseEnd;
+    }
+
+    /**
+     * @return string
+     */
+    public function getReport()
+    {
+        return $this->report;
+    }
+
+    /**
+     * @param string $report
+     */
+    public function setReport($report)
+    {
+        $this->report = $report;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isImmediately()
+    {
+        return $this->immediately;
+    }
+
+    /**
+     * @param bool $immediately
+     */
+    public function setImmediately($immediately)
+    {
+        $this->immediately = $immediately;
     }
 
 }

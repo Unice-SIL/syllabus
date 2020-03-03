@@ -4,6 +4,8 @@
 namespace AppBundle\Twig;
 
 
+use Symfony\Component\Form\ChoiceList\View\ChoiceView;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Extension\RuntimeExtensionInterface;
 
@@ -48,4 +50,26 @@ class AppRuntime implements RuntimeExtensionInterface
 
         return null;
     }
+
+    /**
+     * @param string $label
+     * @param array<ChoiceView> $choices
+     * @return int|null
+     */
+    public function findChoiceIdByLabel(string $label, array $choices): ?int
+    {
+        /** @var ChoiceView $choice */
+        foreach ($choices as $key => $choice)
+        {
+            if($choice instanceof ChoiceView)
+            {
+                if($choice->label === $label)
+                {
+                    return $key;
+                }
+            }
+        }
+        return null;
+    }
+    
 }

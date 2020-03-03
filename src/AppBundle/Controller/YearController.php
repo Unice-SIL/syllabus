@@ -6,14 +6,19 @@ use AppBundle\Entity\Year;
 use AppBundle\Form\YearType;
 use AppBundle\Manager\YearManager;
 use AppBundle\Repository\Doctrine\YearDoctrineRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Year controller.
  *
  * @Route("/admin/year", name="app_admin_year_")
+ * @Security("has_role('ROLE_ADMIN_YEAR')")
  */
 class YearController extends Controller
 {
@@ -21,8 +26,10 @@ class YearController extends Controller
      * Lists all year entities.
      *
      * @Route("/", name="index", methods={"GET"})
+     *
+     * @Security("has_role('ROLE_ADMIN_YEAR_LIST')")
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function indexAction(Request $request)
     {
@@ -41,9 +48,10 @@ class YearController extends Controller
      * Creates a new year entity.
      *
      * @Route("/new", name="new", methods={"GET", "POST"})
+     * @Security("has_role('ROLE_ADMIN_YEAR_CREATE')")
      * @param Request $request
      * @param YearManager $yearManager
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return RedirectResponse|Response
      */
     public function newAction(Request $request, YearManager $yearManager)
     {
@@ -69,10 +77,11 @@ class YearController extends Controller
      * Displays a form to edit an existing year entity.
      *
      * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
+     * @Security("has_role('ROLE_ADMIN_YEAR_UPDATE')")
      * @param Request $request
      * @param Year $year
      * @param YearManager $yearManager
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return RedirectResponse|Response
      */
     public function editAction(Request $request, Year $year, YearManager $yearManager)
     {
@@ -97,7 +106,7 @@ class YearController extends Controller
      * @Route("/autocompleteS2", name="autocompleteS2", methods={"GET"})
      * @param YearDoctrineRepository $yearDoctrineRepository
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return JsonResponse
      */
     public function autocompleteS2(YearDoctrineRepository $yearDoctrineRepository, Request $request)
     {
