@@ -4,28 +4,33 @@
 
     <div class="card">
         <div class="card-header">
-            {{ form_start(form) }}
-            <div class="row">
-                <div class="col text-right">
-                    {% include 'action/_activity_mode_create.html.twig' %}
-                </div>
-            </div>
-            <div class="row ui-front">
-                <div class="col-md-2">
-                    {{ form_row(form.label) }}
-                </div>
-                <div class="col-md-3 col-sm-6">
-                    <a class="btn btn-danger" style="margin-top: 32px" href="{{  path('app_admin_mode_activity_index')  }}">Réinitialiser les filtres</a>
-                </div>
-                <div class="offset-md-2"></div>
-            </div>
-            <input type="submit" style="position: absolute; left: -9999px"/>
-            {{ form_end(form) }}
+
         </div>
         <input type="submit" style="position: absolute; left: -9999px"/>
         <div class="card-body">
+
+            <div class="d-flex justify-content-end pb-3">
+                {% include 'action/_activity_mode_create.html.twig' %}
+            </div>
+
+            <div class="border p-3 mb-3">
+                {{ form_start(form) }}
+                <div class="row">
+                    <div class="col-lg-6 col-md-12">
+                        {{ form_row(form.label) }}
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Filtrer</button>
+                            <a class="btn btn-danger" href="{{  path('app_admin_mode_activity_index')  }}">Réinitialiser les filtres</a>
+                        </div>
+                    </div>
+                </div>
+                {{ form_end(form) }}
+            </div>
+
             {% if pagination.totalItemCount > 0 %}
-                <table class="table table-bordered table-responsive-sm">
+                <table class="table table-hover table-responsive-sm">
                     <thead>
                     <tr>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.equipment.label.label'|trans, 'e.label') }}</th>
