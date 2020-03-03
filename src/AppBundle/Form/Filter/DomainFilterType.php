@@ -3,7 +3,6 @@
 namespace AppBundle\Form\Filter;
 
 use AppBundle\Manager\DomainManager;
-use AppBundle\Manager\StructureManager;
 use AppBundle\Repository\Doctrine\StructureDoctrineRepository;
 use AppBundle\Repository\StructureRepositoryInterface;
 use Doctrine\ORM\Query\Expr;
@@ -37,7 +36,7 @@ class DomainFilterType extends AbstractType
      */
     private $structureRepository;
 
-    public function __construct(UrlGeneratorInterface $generator, DomainManager $domainManager, StructureRepositoryInterface $structureRepository)
+    public function __construct(UrlGeneratorInterface $generator, DomainManager $domainManager, StructureDoctrineRepository $structureRepository)
     {
         $this->generator = $generator;
         $this->domainManager = $domainManager;

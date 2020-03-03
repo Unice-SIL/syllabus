@@ -4,6 +4,7 @@
 namespace AppBundle\Twig;
 
 use AppBundle\Twig\Runtime\ReportRuntime;
+use Symfony\Component\Translation\TranslatorInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\Markup;
 use Twig\TwigFilter;
@@ -15,6 +16,20 @@ use Twig\TwigFunction;
  */
 class AppExtension extends AbstractExtension
 {
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
+
+    /**
+     * AppExtension constructor.
+     * @param TranslatorInterface $translator
+     */
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
+
     /**
      * @return array
      */
@@ -50,12 +65,13 @@ class AppExtension extends AbstractExtension
     /**
      * @param $data
      * @param null $class
+     * @param null $prefix
      * @return string
      */
-    public function humanizeEmptyData($data, $class = null)
+    public function humanizeEmptyData($data, $class = null, $prefix = null)
     {
-        $class = $class ?? 'empty-data';
-        return $data ?? new Markup('<span class="'. $class .'">Information non renseignée.</span>', 'UTF-8');
+        $class = empty($class) ? 'empty-data' : $class;
+        return empty($data) ? new Markup('<span class="'. $class .'">Information non renseignée.</span>', 'UTF-8') : $this->translator->trans($prefix . $data);
     }
 
 
