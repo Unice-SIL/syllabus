@@ -14,11 +14,11 @@
                     {{ form_widget(form.structures.label) }}
                 </div>
                 <div class="col-md-3 col-sm-6">
-                    <a class="btn btn-danger" style="margin-top: 32px" href="{{  path('app_admin_domain_index')  }}">Réinitialiser les filtres</a>
+                    <a class="btn btn-danger" style="margin-top: 32px" href="{{  path('app_admin.domain_index')  }}">Réinitialiser les filtres</a>
                 </div>
                 <div class="offset-md-2"></div>
                 <div class="col-md-3 col-sm-6">
-                    <a class="btn btn-primary float-right" style="margin-top: 32px" href="{{  path('app_admin_domain_new')  }}">Ajouter un domaine</a>
+                    <a class="btn btn-primary float-right" style="margin-top: 32px" href="{{  path('app_admin.domain_new')  }}">Ajouter un domaine</a>
                 </div>
             </div>
             <input type="submit" style="position: absolute; left: -9999px"/>
@@ -39,7 +39,7 @@
                     {% for domain in pagination %}
                         <tr>
                             <td>
-                                <a href="{{ path('app_admin_domain_edit', { 'id' : domain.id }) }}">{{ domain.label }}</a>
+                                <a href="{{ path('app_admin.domain_edit', { 'id' : domain.id }) }}">{{ domain.label }}</a>
                             </td>
                             <td>
                                 {% for structure in domain.structures %}

@@ -23,7 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class CampusController
  * @package AppBundle\Controller
  *
- * @Route("/admin/campus", name="app_admin_campus_")
+ * @Route("/admin/campus", name="app_admin.campus_")
  */
 class CampusController extends AbstractController
 {
@@ -80,7 +80,7 @@ class CampusController extends AbstractController
 
             $this->addFlash('success', 'La langue a été ajoutée avec succès.');
 
-            return $this->redirectToRoute('app_admin_campus_index');
+            return $this->redirectToRoute('app_admin.campus_index');
         }
 
         return $this->render('Campus/new.html.twig', array(
@@ -108,7 +108,7 @@ class CampusController extends AbstractController
 
             $this->addFlash('success', 'La Campus été modifié avec succès.');
 
-            return $this->redirectToRoute('app_admin_campus_edit', array('id' => $campus->getId()));
+            return $this->redirectToRoute('app_admin.campus_edit', array('id' => $campus->getId()));
         }
 
         return $this->render('campus/edit.html.twig', array(

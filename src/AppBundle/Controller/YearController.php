@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Year controller.
  *
- * @Route("/admin/year", name="app_admin_year_")
+ * @Route("/admin/year", name="app_admin.year_")
  * @Security("has_role('ROLE_ADMIN_YEAR')")
  */
 class YearController extends Controller
@@ -64,7 +64,7 @@ class YearController extends Controller
             $yearManager->create($year);
             $this->addFlash('success', 'L\'année a été ajoutée avec succès.');
 
-            return $this->redirectToRoute('app_admin_year_index');
+            return $this->redirectToRoute('app_admin.year_index');
         }
 
         return $this->render('year/new.html.twig', array(
@@ -94,7 +94,7 @@ class YearController extends Controller
 
             $this->addFlash('success', 'L\'année a été modifiée avec succès.');
 
-            return $this->redirectToRoute('app_admin_year_edit', array('id' => $year->getId()));
+            return $this->redirectToRoute('app_admin.year_edit', array('id' => $year->getId()));
         }
 
         return $this->render('year/edit.html.twig', array(

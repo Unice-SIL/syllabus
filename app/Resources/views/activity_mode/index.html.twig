@@ -10,11 +10,11 @@
                 {{ form_row(form.label) }}
             </div>
             <div class="col-md-3 col-sm-6">
-                <a class="btn btn-danger" style="margin-top: 32px" href="{{  path('app_admin_mode_activity_index')  }}">Réinitialiser les filtres</a>
+                <a class="btn btn-danger" style="margin-top: 32px" href="{{  path('app_admin.mode_activity_index')  }}">Réinitialiser les filtres</a>
             </div>
-            <div class="offset-md-2"></div>
+            <div class="offset-md-4"></div>
             <div class="col-md-3 col-sm-6">
-                <a class="btn btn-primary float-right" style="margin-top: 32px" href="{{  path('app_admin_mode_activity_new')  }}">Ajouter un mode d'activité</a>
+                <a class="btn btn-primary float-right" style="margin-top: 32px" href="{{  path('app_admin.mode_activity_new')  }}">Ajouter un mode d'activité</a>
             </div>
         </div>
         <input type="submit" style="position: absolute; left: -9999px"/>
@@ -34,7 +34,7 @@
                     {% for activityMode in pagination %}
                         <tr>
                             <td>
-                                <a href="{{ path('app_admin_mode_activity_edit', { 'id' : activityMode.id }) }}">{{ activityMode.label }}</a>
+                                <a href="{{ path('app_admin.mode_activity_edit', { 'id' : activityMode.id }) }}">{{ activityMode.label }}</a>
                             </td>
                             <td>{{ activityMode.obsolete|humanizeBoolean }}</td>
                         </tr>

@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class EquipmentController
  * @package AppBundle\Controller
  *
- * @Route("/admin/equipment", name="app_admin_equipment_")
+ * @Route("/admin/equipment", name="app_admin.equipment_")
  */
 class EquipmentController extends Controller
 {
@@ -81,7 +81,7 @@ class EquipmentController extends Controller
 
             $this->addFlash('success', 'L\'équipement a été ajouté avec succès.');
 
-            return $this->redirectToRoute('app_admin_equipment_index');
+            return $this->redirectToRoute('app_admin.equipment_index');
         }
 
         return $this->render('equipment/new.html.twig', array(
@@ -109,7 +109,7 @@ class EquipmentController extends Controller
 
             $this->addFlash('success', 'L\'équipement a été modifié avec succès.');
 
-            return $this->redirectToRoute('app_admin_equipment_edit', array('id' => $equipment->getId()));
+            return $this->redirectToRoute('app_admin.equipment_edit', array('id' => $equipment->getId()));
         }
 
         return $this->render('equipment/edit.html.twig', array(

@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Activity controller.
  *
- * @Route("/admin/activity", name="app_admin_activity_")
+ * @Route("/admin/activity", name="app_admin.activity_")
  */
 class ActivityController extends AbstractController
 {
@@ -80,7 +80,7 @@ class ActivityController extends AbstractController
 
             $this->addFlash('success', 'L\'activité a été ajoutée avec succès.');
 
-            return $this->redirectToRoute('app_admin_activity_index');
+            return $this->redirectToRoute('app_admin.activity_index');
         }
 
         return $this->render('activity/new.html.twig', array(
@@ -107,7 +107,7 @@ class ActivityController extends AbstractController
 
             $this->addFlash('success', 'L\'activité a été modifiée avec succès.');
 
-            return $this->redirectToRoute('app_admin_activity_edit', array('id' => $activity->getId()));
+            return $this->redirectToRoute('app_admin.activity_edit', array('id' => $activity->getId()));
         }
         return $this->render('activity/edit.html.twig', array(
             'form' => $form->createView(),
