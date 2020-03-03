@@ -23,7 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Activity controller.
  *
- * @Route("/admin/criticalAchievement", name="app_admin_achievement_")
+ * @Route("/admin/criticalAchievement", name="app_admin.achievement_")
  */
 class CriticalAchievementController extends AbstractController
 {
@@ -78,7 +78,7 @@ class CriticalAchievementController extends AbstractController
             $criticalAchievementManager->create($criticalAchievement);
             $this->addFlash('success', 'L\'acquis critique a été ajouté avec succès.');
 
-            return $this->redirectToRoute('app_admin_achievement_index');
+            return $this->redirectToRoute('app_admin.achievement_index');
         }
 
         return $this->render('critical_achievement/new.html.twig', array(
@@ -103,7 +103,7 @@ class CriticalAchievementController extends AbstractController
             $criticalAchievementManager->update($criticalAchievement);
 
             $this->addFlash('success', 'L\'acquis critique a été modifié avec succès.');
-            return $this->redirectToRoute('app_admin_achievement_edit', array('id' => $criticalAchievement->getId()));
+            return $this->redirectToRoute('app_admin.achievement_edit', array('id' => $criticalAchievement->getId()));
         }
 
         return $this->render('critical_achievement/edit.html.twig', array(

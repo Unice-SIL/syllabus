@@ -23,8 +23,8 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class ActivityModeController
  * @package AppBundle\Controller
  *
- * @Route("/admin/mode_activity", name="app_admin_mode_activity_")
  * @Security("has_role('ROLE_ADMIN_ACTIVITYMODE')")
+ * @Route("/admin/mode_activity", name="app_admin.mode_activity_")
  */
 class ActivityModeController extends AbstractController
 {
@@ -87,7 +87,7 @@ class ActivityModeController extends AbstractController
 
             $this->addFlash('success', 'Le mode d\'activité a été ajoutée avec succès.');
 
-            return $this->redirectToRoute('app_admin_mode_activity_index');
+            return $this->redirectToRoute('app_admin.mode_activity_index');
         }
 
         return $this->render('activity_mode/new.html.twig', array(
@@ -115,7 +115,7 @@ class ActivityModeController extends AbstractController
 
             $this->addFlash('success', 'Le mode d\'activité a été modifiée avec succès.');
 
-            return $this->redirectToRoute('app_admin_mode_activity_edit', array('id' => $activityMode->getId()));
+            return $this->redirectToRoute('app_admin.mode_activity_edit', array('id' => $activityMode->getId()));
         }
 
         return $this->render('activity_mode/edit.html.twig', array(

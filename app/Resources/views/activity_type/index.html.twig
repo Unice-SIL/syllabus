@@ -14,11 +14,11 @@
                     {{ form_widget(form.activityModes.label) }}
                 </div>
                 <div class="col-md-3 col-sm-6">
-                    <a class="btn btn-danger" style="margin-top: 32px" href="{{  path('app_admin_type_activity_index')  }}">Réinitialiser les filtres</a>
+                    <a class="btn btn-danger" style="margin-top: 32px" href="{{  path('app_admin.type_activity_index')  }}">Réinitialiser les filtres</a>
                 </div>
                 <div class="offset-md-2"></div>
                 <div class="col-md-3 col-sm-6">
-                    <a class="btn btn-primary float-right" style="margin-top: 32px" href="{{  path('app_admin_type_activity_new')  }}">Ajouter un type d'activité</a>
+                    <a class="btn btn-primary float-right" style="margin-top: 32px" href="{{  path('app_admin.type_activity_new')  }}">Ajouter un type d'activité</a>
                 </div>
             </div>
             <input type="submit" style="position: absolute; left: -9999px"/>
@@ -38,7 +38,7 @@
                     {% for activityType in pagination %}
                         <tr>
                             <td>
-                                <a href="{{ path('app_admin_type_activity_edit', { 'id' : activityType.id }) }}">{{ activityType.label }}</a>
+                                <a href="{{ path('app_admin.type_activity_edit', { 'id' : activityType.id }) }}">{{ activityType.label }}</a>
                             </td>
                             <td>
                                 {% for activityMode in activityType.activityModes %}

@@ -24,7 +24,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class DomainController
  * @package AppBundle\Controller
  *
- * @Route("/admin/domain", name="app_admin_domain_")
+ * @Route("/admin/domain", name="app_admin.domain_")
  */
 class DomainController extends AbstractController
 {
@@ -82,7 +82,7 @@ class DomainController extends AbstractController
 
             $this->addFlash('success', 'Le domaine a été ajoutée avec succès.');
 
-            return $this->redirectToRoute('app_admin_domain_index');
+            return $this->redirectToRoute('app_admin.domain_index');
         }
 
         return $this->render('domain/new.html.twig', array(
@@ -110,7 +110,7 @@ class DomainController extends AbstractController
 
             $this->addFlash('success', 'Le domaine été modifié avec succès.');
 
-            return $this->redirectToRoute('app_admin_domain_edit', array('id' => $domain->getId()));
+            return $this->redirectToRoute('app_admin.domain_edit', array('id' => $domain->getId()));
         }
 
         return $this->render('domain/edit.html.twig', array(

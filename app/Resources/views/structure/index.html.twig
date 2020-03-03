@@ -13,11 +13,11 @@
                     {{ form_row(form.label) }}
                 </div>
                 <div class="col-md-2 col-sm-6">
-                    <a class="btn btn-danger" style="margin-top: 32px" href="{{  path('app_admin_structure_index')  }}">Réinitialiser les filtres</a>
+                    <a class="btn btn-danger" style="margin-top: 32px" href="{{  path('app_admin.structure_index')  }}">Réinitialiser les filtres</a>
                 </div>
                 <input type="submit" style="position: absolute; left: -9999px"/>
                 <div class="col-md-6 col-sm-6">
-                    <a class="btn btn-primary float-right" style="margin-top: 32px" href="{{  path('app_admin_structure_new')  }}">Ajouter une structure</a>
+                    <a class="btn btn-primary float-right" style="margin-top: 32px" href="{{  path('app_admin.structure_new')  }}">Ajouter une structure</a>
                 </div>
             </div>
             {{ form_end(form) }}
@@ -37,7 +37,7 @@
                     <tbody>
                     {% for structure in pagination %}
                         <tr>
-                            <td><a href="{{ path('app_admin_structure_edit', { 'id' : structure.id }) }}">{{ structure.code }}</a></td>
+                            <td><a href="{{ path('app_admin.structure_edit', { 'id' : structure.id }) }}">{{ structure.code }}</a></td>
                             <td>{{ structure.label }}</td>
                             <td>{{ structure.obsolete|humanizeBoolean }}</td>
                             <td>{{ structure.synchronized|humanizeBoolean }}</td>
