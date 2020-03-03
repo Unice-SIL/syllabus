@@ -3,13 +3,16 @@
 
 namespace AppBundle\Constant;
 
-
+/**
+ * Class UserRole
+ * @package AppBundle\Constant
+ */
 class UserRole
 {
     /*====================== USER ROLES ==================*/
     const ROLE_USER = 'ROLE_USER';
 
-
+    const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
 
     /*====================== ADMIN ROLES ==================*/
     const ROLE_ADMIN = 'ROLE_ADMIN';
@@ -19,6 +22,12 @@ class UserRole
     const ROLE_ADMIN_YEAR_LIST = 'ROLE_ADMIN_YEAR_LIST';
     const ROLE_ADMIN_YEAR_CREATE = 'ROLE_ADMIN_YEAR_CREATE';
     const ROLE_ADMIN_YEAR_UPDATE = 'ROLE_ADMIN_YEAR_UPDATE';
+
+    // ACTIVITIES
+    const ROLE_ADMIN_ACTIVITY = 'ROLE_ADMIN_ACTIVITY';
+    const ROLE_ADMIN_ACTIVITY_LIST = 'ROLE_ADMIN_ACTIVITY_LIST';
+    const ROLE_ADMIN_ACTIVITY_CREATE = 'ROLE_ADMIN_ACTIVITY_CREATE';
+    const ROLE_ADMIN_ACTIVITY_UPDATE = 'ROLE_ADMIN_ACTIVITY_UPDATE';
 
 
 
@@ -61,11 +70,16 @@ class UserRole
 
     const ROLES = [
         self::ROLE_USER,
+        self::ROLE_SUPER_ADMIN,
         self::ROLE_ADMIN,
         self::ROLE_ADMIN_YEAR,
         self::ROLE_ADMIN_YEAR_LIST,
         self::ROLE_ADMIN_YEAR_CREATE,
         self::ROLE_ADMIN_YEAR_UPDATE,
+        self::ROLE_ADMIN_ACTIVITY,
+        self::ROLE_ADMIN_ACTIVITY_LIST,
+        self::ROLE_ADMIN_ACTIVITY_CREATE,
+        self::ROLE_ADMIN_ACTIVITY_UPDATE,
         self::ROLE_API,
         self::ROLE_API_COURSE,
         self::ROLE_API_COURSE_VIEW,
@@ -101,8 +115,14 @@ class UserRole
                 self::ROLE_ADMIN_YEAR_LIST,
                 self::ROLE_ADMIN_YEAR_CREATE,
                 self::ROLE_ADMIN_YEAR_UPDATE
+            ],
+            self::ROLE_ADMIN_ACTIVITY => [
+                self::ROLE_ADMIN_ACTIVITY_LIST,
+                self::ROLE_ADMIN_ACTIVITY_CREATE,
+                self::ROLE_ADMIN_ACTIVITY_UPDATE
             ]
         ],
+        self::ROLE_SUPER_ADMIN,
         self::ROLE_API => [
             self::ROLE_API_COURSE => [
                 self::ROLE_API_COURSE_VIEW,

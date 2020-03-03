@@ -9,6 +9,7 @@ use AppBundle\Manager\ActivityManager;
 use AppBundle\Repository\Doctrine\ActivityDoctrineRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -21,6 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Activity controller.
  *
  * @Route("/admin/activity", name="app_admin_activity_")
+ * @Security("has_role('ROLE_ADMIN_ACTIVITY')")
  */
 class ActivityController extends AbstractController
 {
@@ -28,14 +30,19 @@ class ActivityController extends AbstractController
      * Lists all activity entities.
      *
      * @Route("/", name="index", methods={"GET"})
+     * @Security("has_role('ROLE_ADMIN_ACTIVITY_LIST')")
      * @param Request $request
      * @param ActivityDoctrineRepository $repository
      * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
      * @param PaginatorInterface $paginator
      * @return Response
      */
-    public function indexAction(Request $request, ActivityDoctrineRepository $repository,
-                                FilterBuilderUpdaterInterface $filterBuilderUpdater, PaginatorInterface $paginator)
+    public function indexAction(
+        Request $request,
+        ActivityDoctrineRepository $repository,
+        FilterBuilderUpdaterInterface $filterBuilderUpdater,
+        PaginatorInterface $paginator
+    )
     {
 
         $qb =  $repository->getIndexQueryBuilder();
@@ -63,6 +70,7 @@ class ActivityController extends AbstractController
 
     /**
      * @Route("/new", name="new", methods={"GET", "POST"})
+     * @Security("has_role('ROLE_ADMIN_ACTIVITY_CREATE')")
      * @param Request $request
      * @param ActivityManager $activityManager
      * @return RedirectResponse|Response
@@ -90,6 +98,7 @@ class ActivityController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
+     * @Security("has_role('ROLE_ADMIN_ACTIVITY_UPDATE')")
      * @param Request $request
      * @param Activity $activity
      * @param ActivityManager $activityManager
