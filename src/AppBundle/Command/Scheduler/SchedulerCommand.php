@@ -8,9 +8,7 @@ use AppBundle\Entity\Cron;
 use Doctrine\ORM\EntityManagerInterface;
 use GO\Scheduler;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class SchedulerCommand extends Command
@@ -23,6 +21,7 @@ class SchedulerCommand extends Command
 
     /**
      * SchedulerCommand constructor.
+     * @param EntityManagerInterface $em
      */
     public function __construct(EntityManagerInterface $em)
     {
@@ -53,17 +52,30 @@ class SchedulerCommand extends Command
 
             $command = 'php bin/console ' . $cron->getCommand() . ' --cron-id=' . $cron->getId();
 
+            if ($cron->getLastStatus() === \AppBundle\Constant\Cron::STATUS_IN_PROGRESS) {
+                continue;
+            }
+
+            if ($cron->isImmediately()) {
+                $cron->setImmediately(false);
+                $scheduler
+                    ->raw($command)
+                    ->at('* * * * *')
+                ;
+
+                continue;
+            }
+
             $scheduler
                 ->raw($command)
                 ->at($cron->getFrequencyCronFormat())
-                ->when(function () use ($cron) {
-                    return $cron->getLastStatus() !== \AppBundle\Constant\Cron::STATUS_IN_PROGRESS;
-                })
             ;
 
         }
 
         $scheduler->run();
+
+        $this->em->flush();
 
     }
 

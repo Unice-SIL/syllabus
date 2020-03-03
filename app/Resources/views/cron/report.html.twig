@@ -1,0 +1,13 @@
+{% extends 'admin_layout.html.twig' %}
+{% set h1 = 'Rapport du cron ' ~ cron.label %}
+
+{% block subContent %}
+    {% if report %}
+        {{ report_render(report) }}
+    {% endif %}
+
+    {% if string %}
+        <p>{{ string }}</p>
+    {% endif %}
+{% endblock %}
+

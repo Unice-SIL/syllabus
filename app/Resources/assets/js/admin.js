@@ -40,6 +40,13 @@ $(document).ready(function () {
         $('#appbundle_duplicate_course_info_from').val(codeYear);
     });
 
+    $('#warningDeleteModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) ;
+        var form = button.closest('form').clone() ;
+        form.find('.warning-delete').attr('type', 'submit');
+        $(this).find('.modal-body').empty().append(form);
+    });
+
     /* ================End Course info================ */
 
     //Trigger submit of a filter form when a select is changed

@@ -129,6 +129,12 @@ app:
         delete: Êtes-vous sûr(e) de vouloir supprimer l'enseignant "%lastname% %firstname%" ?
 
   const:
+    cron:
+      status:
+        0: Initialisation
+        1: En cours
+        2: Echec
+        3: Succès
     permission:
       WRITE: Ecriture
       READ: Lecture

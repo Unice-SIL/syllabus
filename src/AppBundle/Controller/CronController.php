@@ -4,10 +4,11 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Cron;
 use AppBundle\Form\Filter\CronFilterType;
+use AppBundle\Helper\Report\Report;
 use AppBundle\Repository\Doctrine\CronDoctrineRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -33,7 +34,6 @@ class CronController extends Controller
      */
     public function indexAction(Request $request, FilterBuilderUpdaterInterface $filterBuilderUpdater, CronDoctrineRepository $cronDoctrineRepository)
     {
-
         $qb =  $cronDoctrineRepository->getIndexQueryBuilder();
 
         $form = $this->createForm(CronFilterType::class);
@@ -118,6 +118,36 @@ class CronController extends Controller
     }
 
     /**
+     * Displays the report for the given cron entity.
+     *
+     * @Route("/{id}/report", name="report", methods={"GET"})
+     * @param Request $request
+     * @param Cron $cron
+     * @return RedirectResponse|Response
+     */
+    public function reportAction(Request $request, Cron $cron)
+    {
+        if ($cron->getLastStatus() === \AppBundle\Constant\Cron::STATUS_IN_PROGRESS) {
+            return $this->redirectToRoute('app.admin.cron.index');
+        }
+
+        $report = unserialize($cron->getReport());
+        $string = null;
+
+        if (!$report instanceof Report) {
+            $string = $report;
+            $report = null;
+        }
+
+        return $this->render('cron/report.html.twig', array(
+            'report' => $report,
+            'string' => $string,
+            'cron' => $cron
+        ));
+    }
+
+
+    /**
      * Deletes a cron entity.
      *
      * @Route("/{id}", name="delete", methods={"DELETE"})
@@ -127,16 +157,22 @@ class CronController extends Controller
      */
     public function deleteAction(Request $request, Cron $cron)
     {
-        $form = $this->createDeleteForm($cron);
-        $form->handleRequest($request);
+        if ($cron->getLastStatus() !== \AppBundle\Constant\Cron::STATUS_IN_PROGRESS) {
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($cron);
-            $em->flush();
+            $form = $this->createDeleteForm($cron);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->remove($cron);
+                $em->flush();
+            }
+            return $this->redirectToRoute('app.admin.cron.index');
         }
 
+        $this->addFlash( 'danger', 'La commande est actuellement en cours d\'execution. Aucune action n\'est possible.');
         return $this->redirectToRoute('app.admin.cron.index');
+
     }
 
     /**
@@ -175,5 +211,31 @@ class CronController extends Controller
         $crons = array_values($crons);
 
         return $this->json(['query' =>  $query, 'suggestions' => $crons, 'data' => $crons]);
+    }
+
+    /**
+     * @Route("/run-command/{id}", name="run_command", methods={"POST"})
+     * @param Request $request
+     * @param Cron $cron
+     * @param EntityManagerInterface $em
+     * @return Response
+     */
+    public function runCommandAction(Request $request, Cron $cron, EntityManagerInterface $em)
+    {
+        if (!$this->isCsrfTokenValid('cron' . $cron->getId(), $request->request->get('_token'))) {
+            $this->addFlash( 'danger', 'Vous n\'êtes pas autorisé à effectuer cette action.');
+
+            return $this->redirectToRoute('app.admin.cron.index');
+        }
+
+        if ($cron->getLastStatus() !== \AppBundle\Constant\Cron::STATUS_IN_PROGRESS) {
+            $cron->setImmediately(true);
+            $em->flush();
+            return $this->redirectToRoute('app.admin.cron.index');
+        }
+
+        $this->addFlash( 'danger', 'La commande est actuellement en cours d\'execution. Aucune action n\'est possible.');
+
+        return $this->redirectToRoute('app.admin.cron.index');
     }
 }
