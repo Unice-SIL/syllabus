@@ -4,9 +4,13 @@
 namespace AppBundle\Controller;
 
 
+use AppBundle\Entity\AskAdvice;
+use AppBundle\Entity\Course;
+use AppBundle\Form\CourseInfo\dashboard\AskAdviceType;
 use AppBundle\Manager\AskAdviceManager;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -14,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class AskAdviceController
  * @package AppBundle\Controller
  *
- * @Route("/admin/campus", name="app_admin_ask_advice_")
+ * @Route("/admin/askDevice", name="app_admin_ask_advice_")
  */
 class AskAdviceController extends AbstractController
 {
@@ -41,13 +45,29 @@ class AskAdviceController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/view", name="view", methods={"GET"})
+     * @Route("/{id}/view", name="view")
      *
-     *
+     * @param Request $request
+     * @param AskAdvice $askAdvice
+     * @param AskAdviceManager $adviceManager
+     * @return JsonResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function viewAction()
+    public function viewAction(Request $request, AskAdvice $askAdvice, AskAdviceManager $adviceManager)
     {
+        $course = $this->getDoctrine()->getRepository(Course::class)->find($askAdvice->getCourseInfo()->getCourse()->getId());
+        $form = $this->createForm(AskAdviceType::class, $askAdvice);
+        $form->handleRequest($request);
 
+        if ($form->isSubmitted() && $form->isValid()) {
+            $adviceManager->update($askAdvice);
+            return $this->redirectToRoute('app_admin_ask_advice_index');
+        }
+
+        return $this->render('ask_advice/view.html.twig', array(
+            'askAdvice' => $askAdvice,
+            'course' => $course,
+            'form' => $form->createView(),
+        ));
     }
 
 }

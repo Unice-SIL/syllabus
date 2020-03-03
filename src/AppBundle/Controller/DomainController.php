@@ -38,7 +38,8 @@ class DomainController extends AbstractController
      * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
      * @return Response
      */
-    public function indexAction(Request $request, DomainDoctrineRepository $repository, PaginatorInterface $paginator, FilterBuilderUpdaterInterface $filterBuilderUpdater)
+    public function indexAction(Request $request, DomainDoctrineRepository $repository, PaginatorInterface $paginator,
+                                FilterBuilderUpdaterInterface $filterBuilderUpdater)
     {
         $qb =  $repository->getIndexQueryBuilder();
 
