@@ -1,5 +1,12 @@
 {% extends 'admin_layout.html.twig' %}
 {% set h1 = 'Liste des groupes' %}
+
+{% block modals %}
+    {{ parent() }}
+    {{ include('partial/warning_delete_modal.html.twig') }}
+{% endblock %}
+
+
 {% block subContent %}
 
     <div class="card">
@@ -35,9 +42,13 @@
                         <tr>
                             <td><a href="{{ path('app_admin_groups_edit', { 'id' : groups.id }) }}">{{ groups.label }}</a></td>
                             <td>{{ groups.obsolete|humanizeBoolean }}</td>
-                            {% set id = groups.id %}
                             <td>
-                                {{ form(deleteFormsView[id]) }}
+                                {% set deleteFormView = deleteFormsView[groups.id] %}
+                                {{ form_start(deleteFormView) }}
+                                <button type="button" class="btn btn-danger float-right warning-delete" data-toggle="modal" data-target="#warningDeleteModal">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                                {{ form_end(deleteFormView) }}
                             </td>
                         </tr>
                     {% endfor %}

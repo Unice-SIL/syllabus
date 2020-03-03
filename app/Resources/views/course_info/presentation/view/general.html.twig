@@ -3,7 +3,7 @@
         <dl>
             <dt>Domaine</dt>
             <dd class="mandatory-data">
-                {% set domains = null %}
+                {% set domains = "" %}
                 {% for domain in courseInfo.domains %}
                     {%  set domains = domains ~ (not loop.first) ? ',' ~ domain.label %}
                 {% endfor %}
@@ -12,45 +12,39 @@
         </dl>
         <dl>
             <dt>{{ 'app.presentation.view.general.level' | trans }}</dt>
-            <dd class="mandatory-data">{{ ('app.const.level.' ~ courseInfo.level)|trans|humanizeEmptyData() }}</dd>
+            <dd class="mandatory-data">{{ courseInfo.level|humanizeEmptyData(null, 'app.const.level.')}}</dd>
         </dl>
         <dl>
             <dt>Campus</dt>
-            {% if courseInfo.campuses is not empty %}
-                <dd class="mb-0">
-                    {% for campus in courseInfo.campuses %}
-                        {{ not loop.first ? ',' }} {{ campus.label }}
-                    {% endfor %}
-                </dd>
-            {% else %}
-                <dd>Non renseigné</dd>
-            {% endif %}
+            <dd>
+                {% set campuses = "" %}
+                {% for campus in courseInfo.campuses %}
+                    {% set campuses = campuses ~ (not loop.first) ? ',' ~ campus.label %}
+                {% endfor %}
+                {{ campuses|humanizeEmptyData() }}
+            </dd>
         </dl>
     </div>
     <div class="col-md-6">
         <dl>
             <dt>Période</dt>
-            {% if courseInfo.periods is not empty %}
-                <dd class="mb-0">
-                    {% for period in courseInfo.periods %}
-                        {{ not loop.first ? ',' }} {{ period.label }}
-                    {% endfor %}
-                </dd>
-            {% else %}
-                <dd>Non renseigné</dd>
-            {% endif %}
+            <dd>
+                {% set periods = "" %}
+                {% for period in courseInfo.periods %}
+                    {% set periods = periods ~ (not loop.first) ? ',' ~ period.label %}
+                {% endfor %}
+                {{ periods|humanizeEmptyData() }}
+            </dd>
         </dl>
         <dl>
             <dt>Langues</dt>
-            {% if courseInfo.languages is not empty %}
-                <dd class="mb-0">
-                    {% for language in courseInfo.languages %}
-                        {{ not loop.first ? ',' }} {{ language.label }}
-                    {% endfor %}
-                </dd>
-            {% else %}
-                <dd>Non renseigné</dd>
-            {% endif %}
+            <dd>
+                {% set languages = "" %}
+                {% for language in courseInfo.languages %}
+                    {% set languages = languages ~ (not loop.first) ? ',' ~ language.label %}
+                {% endfor %}
+                {{ languages|humanizeEmptyData() }}
+            </dd>
         </dl>
     </div>
 </div>
@@ -70,16 +64,8 @@
         {% endif %}
 
     </div>
-    <div class="col-md-6" style="min-height: 150px;">
-        {% if courseInfo.summary is not empty %}
-            {{ courseInfo.summary|purify }}
-        {% else %}
-            <div class="h-100 d-flex align-items-center justify-content-center">
-                <span class="empty-data text-center">
-                    {{ 'app.presentation.view.general.empty_summary' | trans }}
-                </span>
-            </div>
-        {% endif %}
+    <div id="general-summary" class="col-md-6 mandatory-data" style="min-height: 150px;">
+        {{ courseInfo.summary|humanizeEmptyData()|purify }}
     </div>
 </div>
 

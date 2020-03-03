@@ -43,13 +43,13 @@ abstract class AbstractCron extends Command
         }
 
         try {
-            $this->subExecute($input, $output);
+            $result = $this->subExecute($input, $output);
         } catch (\Exception $e) {
 
             if ($cron instanceof  Cron) {
 
                 $cron->setLastStatus(\AppBundle\Constant\Cron::STATUS_FAILED);
-
+                $cron->setReport(serialize($e->getMessage()));
                 $this->em->flush();
 
             }
@@ -60,7 +60,7 @@ abstract class AbstractCron extends Command
         if ($cron instanceof Cron) {
 
             $cron->setLastStatus(\AppBundle\Constant\Cron::STATUS_SUCCESS);
-
+            $cron->setReport(serialize($result));
             $this->em->flush();
 
         }

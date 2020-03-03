@@ -4,7 +4,7 @@
 
     <div class="card">
         <div class="card-header">
-            <a class="btn btn-primary float-right" href="{{ path('app_admin_year_new') }}">Ajouter une année</a>
+            {% include 'year/action/create.html.twig' %}
         </div>
         <!-- /.card-header -->
         <div class="card-body">
@@ -21,7 +21,15 @@
                     <tbody>
                     {% for year in pagination %}
                         <tr>
-                            <td><a href="{{ path('app_admin_year_edit', { 'id' : year.id }) }}">{{ year.label }}</a></td>
+                            <td>
+                                {% if is_granted('ROLE_ADMIN_YEAR_UPDATE') %}
+                                    <a href="{{ path('app_admin_year_edit', { 'id' : year.id }) }}">
+                                        {{ year.label }}
+                                    </a>
+                                {% else %}
+                                    {{ year.label }}
+                                {% endif %}
+                            </td>
                             <td>{{ year.import|humanizeBoolean }}</td>
                             <td>{{ year.edit|humanizeBoolean }}</td>
                             <td>{{ year.current|humanizeBoolean }}</td>
