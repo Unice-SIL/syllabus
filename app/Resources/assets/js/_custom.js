@@ -55,11 +55,34 @@ $( document ).ready( function( ) {
         $('.filter-form').submit();
     });
 
+    //Set a notification as shown if dismissed
+    $('.notification-alert button.close').on('click', function (e) {
+        e.stopPropagation();
+
+        let modal  = $('#modal-notification');
+        let alert  = $(this).closest('.alert');
+        let url = alert.data('path');
+        let token = alert.data('token');
+
+        $.post(url, {'_token': token },  function (data) {
+
+            if (data.success === true) {
+                alert.fadeOut(500, function () {
+                    alert.remove();
+                })
+                if (data.count === 0) {
+                    modal.modal('hide');
+                }
+            }
+
+        });
+    });
+
     //Autocomplete
     function initAutocomplete() {
         $('.autocomplete-input').each(function () {
             //todo: regenerate when resizing window
-            var width = $(this).outerWidth();
+            //var width = $(this).outerWidth();
 
             $(this).autocomplete({
                 serviceUrl: $(this).data('autocomplete-path'),
