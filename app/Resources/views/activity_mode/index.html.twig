@@ -2,24 +2,26 @@
 {% set h1 = 'Liste des modes d\'activités' %}
 {% block subContent %}
 
-<div class="card">
-    <div class="card-header">
-        {{ form_start(form) }}
-        <div class="row ui-front">
-            <div class="col-md-2">
-                {{ form_row(form.label) }}
+    <div class="card">
+        <div class="card-header">
+            {{ form_start(form) }}
+            <div class="row">
+                <div class="col text-right">
+                    {% include 'action/_activity_mode_create.html.twig' %}
+                </div>
             </div>
-            <div class="col-md-3 col-sm-6">
-                <a class="btn btn-danger" style="margin-top: 32px" href="{{  path('app_admin_mode_activity_index')  }}">Réinitialiser les filtres</a>
+            <div class="row ui-front">
+                <div class="col-md-2">
+                    {{ form_row(form.label) }}
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <a class="btn btn-danger" style="margin-top: 32px" href="{{  path('app_admin_mode_activity_index')  }}">Réinitialiser les filtres</a>
+                </div>
+                <div class="offset-md-2"></div>
             </div>
-            <div class="offset-md-2"></div>
-            <div class="col-md-3 col-sm-6">
-                <a class="btn btn-primary float-right" style="margin-top: 32px" href="{{  path('app_admin_mode_activity_new')  }}">Ajouter un mode d'activité</a>
-            </div>
+            <input type="submit" style="position: absolute; left: -9999px"/>
+            {{ form_end(form) }}
         </div>
-        <input type="submit" style="position: absolute; left: -9999px"/>
-        {{ form_end(form) }}
-    </div>
         <input type="submit" style="position: absolute; left: -9999px"/>
         <div class="card-body">
             {% if pagination.totalItemCount > 0 %}
@@ -34,7 +36,11 @@
                     {% for activityMode in pagination %}
                         <tr>
                             <td>
-                                <a href="{{ path('app_admin_mode_activity_edit', { 'id' : activityMode.id }) }}">{{ activityMode.label }}</a>
+                                {% if is_granted('ROLE_ADMIN_ACTIVITYMODE_UPDATE') %}
+                                    <a href="{{ path('app_admin_mode_activity_edit', { 'id' : activityMode.id }) }}">{{ activityMode.label }}</a>
+                                {% else %}
+                                    {{ activityMode.label }}
+                                {% endif %}
                             </td>
                             <td>{{ activityMode.obsolete|humanizeBoolean }}</td>
                         </tr>
@@ -52,5 +58,5 @@
             </div>
         {% endif %}
     </div>
-    {% endblock %}
+{% endblock %}
 

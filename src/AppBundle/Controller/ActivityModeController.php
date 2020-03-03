@@ -9,10 +9,9 @@ use AppBundle\Form\ActivityModeType;
 use AppBundle\Form\Filter\ActivityModeFilterType;
 use AppBundle\Manager\ActivityModeManager;
 use AppBundle\Repository\Doctrine\ActivityModeDoctrineRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -25,19 +24,25 @@ use Symfony\Component\Routing\Annotation\Route;
  * @package AppBundle\Controller
  *
  * @Route("/admin/mode_activity", name="app_admin_mode_activity_")
+ * @Security("has_role('ROLE_ADMIN_ACTIVITYMODE')")
  */
 class ActivityModeController extends AbstractController
 {
     /**
      * @Route("/", name="index", methods={"GET"})
+     * @Security("has_role('ROLE_ADMIN_ACTIVITYMODE_LIST')")
      * @param Request $request
      * @param ActivityModeDoctrineRepository $repository
      * @param PaginatorInterface $paginator
      * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
      * @return Response
      */
-    public function indexAction(Request $request, ActivityModeDoctrineRepository $repository, PaginatorInterface $paginator,
-                                FilterBuilderUpdaterInterface $filterBuilderUpdater)
+    public function indexAction(
+        Request $request,
+        ActivityModeDoctrineRepository $repository,
+        PaginatorInterface $paginator,
+        FilterBuilderUpdaterInterface $filterBuilderUpdater
+    )
     {
         $qb =  $repository->getIndexQueryBuilder();
 
@@ -64,6 +69,7 @@ class ActivityModeController extends AbstractController
 
     /**
      * @Route("/new", name="new", methods={"GET", "POST"})
+     * @Security("has_role('ROLE_ADMIN_ACTIVITYMODE_CREATE')")
      *
      * @param Request $request
      * @param ActivityModeManager $activityTypeManager
@@ -91,6 +97,7 @@ class ActivityModeController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
+     * @Security("has_role('ROLE_ADMIN_ACTIVITYMODE_UPDATE')")
      *
      * @param Request $request
      * @param ActivityMode $activityMode

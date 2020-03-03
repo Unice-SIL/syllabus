@@ -29,6 +29,12 @@ class UserRole
     const ROLE_ADMIN_ACTIVITY_CREATE = 'ROLE_ADMIN_ACTIVITY_CREATE';
     const ROLE_ADMIN_ACTIVITY_UPDATE = 'ROLE_ADMIN_ACTIVITY_UPDATE';
 
+    // ACTIVITIES MODES
+    const ROLE_ADMIN_ACTIVITYMODE = 'ROLE_ADMIN_ACTIVITYMODE';
+    const ROLE_ADMIN_ACTIVITYMODE_LIST = 'ROLE_ADMIN_ACTIVITYMODE_LIST';
+    const ROLE_ADMIN_ACTIVITYMODE_CREATE = 'ROLE_ADMIN_ACTIVITYMODE_CREATE';
+    const ROLE_ADMIN_ACTIVITYMODE_UPDATE = 'ROLE_ADMIN_ACTIVITYMODE_UPDATE';
+
 
 
     /*====================== API ROLES ==================*/
@@ -80,6 +86,10 @@ class UserRole
         self::ROLE_ADMIN_ACTIVITY_LIST,
         self::ROLE_ADMIN_ACTIVITY_CREATE,
         self::ROLE_ADMIN_ACTIVITY_UPDATE,
+        self::ROLE_ADMIN_ACTIVITYMODE,
+        self::ROLE_ADMIN_ACTIVITYMODE_LIST,
+        self::ROLE_ADMIN_ACTIVITYMODE_CREATE,
+        self::ROLE_ADMIN_ACTIVITYMODE_UPDATE,
         self::ROLE_API,
         self::ROLE_API_COURSE,
         self::ROLE_API_COURSE_VIEW,
@@ -120,6 +130,11 @@ class UserRole
                 self::ROLE_ADMIN_ACTIVITY_LIST,
                 self::ROLE_ADMIN_ACTIVITY_CREATE,
                 self::ROLE_ADMIN_ACTIVITY_UPDATE
+            ],
+            self::ROLE_ADMIN_ACTIVITYMODE => [
+                self::ROLE_ADMIN_ACTIVITYMODE_LIST,
+                self::ROLE_ADMIN_ACTIVITYMODE_CREATE,
+                self::ROLE_ADMIN_ACTIVITYMODE_UPDATE
             ]
         ],
         self::ROLE_SUPER_ADMIN,

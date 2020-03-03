@@ -8,6 +8,10 @@ ROLE_ADMIN_ACTIVITY: Gestion des activités
 ROLE_ADMIN_ACTIVITY_LIST: Consulter la liste des activités
 ROLE_ADMIN_ACTIVITY_CREATE: Créer une activité
 ROLE_ADMIN_ACTIVITY_UPDATE: Modifier une activité
+ROLE_ADMIN_ACTIVITYMODE: Gestion des modes d'activités
+ROLE_ADMIN_ACTIVITYMODE_LIST: Consulter la liste des modes d'activités
+ROLE_ADMIN_ACTIVITYMODE_CREATE: Créer un mode d'activité
+ROLE_ADMIN_ACTIVITYMODE_UPDATE: Modifier un mode d'activité
 ROLE_API: Utilisateur de l'API
 ROLE_API_GET_COURSE: Récupérer un cours par son id
 ROLE_API_GET_COURSES: Récupérer une liste de cours
