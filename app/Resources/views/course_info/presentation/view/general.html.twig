@@ -5,7 +5,7 @@
             <dd class="mandatory-data">
                 {% set domains = "" %}
                 {% for domain in courseInfo.domains %}
-                    {%  set domains = domains ~ (not loop.first) ? ',' ~ domain.label %}
+                    {% set domains = domains ~ (not loop.first ? ', ') ~ domain.label %}
                 {% endfor %}
                 {{ domains|humanizeEmptyData() }}
             </dd>
@@ -19,7 +19,7 @@
             <dd>
                 {% set campuses = "" %}
                 {% for campus in courseInfo.campuses %}
-                    {% set campuses = campuses ~ (not loop.first) ? ',' ~ campus.label %}
+                    {% set campuses = campuses ~ (not loop.first ? ', ') ~ campus.label %}
                 {% endfor %}
                 {{ campuses|humanizeEmptyData() }}
             </dd>
@@ -31,7 +31,7 @@
             <dd>
                 {% set periods = "" %}
                 {% for period in courseInfo.periods %}
-                    {% set periods = periods ~ (not loop.first) ? ',' ~ period.label %}
+                    {% set periods = periods ~ (not loop.first ? ', ') ~ period.label %}
                 {% endfor %}
                 {{ periods|humanizeEmptyData() }}
             </dd>
@@ -41,7 +41,7 @@
             <dd>
                 {% set languages = "" %}
                 {% for language in courseInfo.languages %}
-                    {% set languages = languages ~ (not loop.first) ? ',' ~ language.label %}
+                    {% set languages = languages ~ (not loop.first ? ', ') ~ language.label %}
                 {% endfor %}
                 {{ languages|humanizeEmptyData() }}
             </dd>
@@ -49,6 +49,7 @@
     </div>
 </div>
 <div class="row mt-2">
+    {{ dump(courseInfo.mediaType) }}
     <div class="col-md-6" style="min-height: 150px;">
         {% if courseInfo.mediaType == 'image' and courseInfo.image is not null %}
             {% set imgSrc = courseInfo.image | split('/') | last %}

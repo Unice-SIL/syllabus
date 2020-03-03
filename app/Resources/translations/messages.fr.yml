@@ -222,6 +222,7 @@ app:
   general:
     button:
       add: Ajouter
+      cancel: Annuler
       edit: Modifier
       delete: Supprimer
       duplicate: Dupliquer

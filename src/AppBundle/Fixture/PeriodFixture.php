@@ -19,22 +19,13 @@ class PeriodFixture extends Fixture  implements FixtureGroupInterface
     public function load(ObjectManager $manager)
     {
         $periods = [
-            [
-                'label' => self::PERIOD_1
-            ],
-            [
-                'label' => self::PERIOD_2
-            ],
-            [
-                'label' => self::PERIOD_3
-            ],
-            [
-                'label' => self::PERIOD_4
-            ]
+            ['label' => self::PERIOD_1],
+            ['label' => self::PERIOD_2],
+            ['label' => self::PERIOD_3],
+            ['label' => self::PERIOD_4]
         ];
 
         foreach ($periods as $p) {
-
             $period = new Period();
             $period->setLabel($p['label']);
             $manager->persist($period);
