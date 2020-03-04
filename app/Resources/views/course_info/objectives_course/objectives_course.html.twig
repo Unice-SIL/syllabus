@@ -3,7 +3,7 @@
 {% block subContent %}
 
     <div id="card-achievement" class="card my-2 shadow card-syllabus"
-         data-view-url="{{ path('objective_course_achievement_view', {'id': courseInfo.id }) }}"
+         data-view-url="{{ path('objectives.achievements', {'id': courseInfo.id }) }}"
     >
         <div class="card-header">
             <div class="d-flex justify-content-between">
@@ -27,7 +27,7 @@
 
 
     <div id="card-critical_achievement" class="card my-2 shadow card-syllabus"
-         data-view-url="{{ path('objective_course_critical_achievement_view', {'id': courseInfo.id }) }}"
+         data-view-url="{{ path('objectives.critical_achievements', {'id': courseInfo.id }) }}"
     >
         <div class="card-header">
             <div class="d-flex justify-content-between">
@@ -45,7 +45,7 @@
     </div>
 
     <div id="card-prerequisite" class="card my-2 shadow card-syllabus"
-         data-view-url="{{ path('objective_course_prerequisite_view', {'id': courseInfo.id }) }}"
+         data-view-url="{{ path('objectives.prerequisites', {'id': courseInfo.id }) }}"
     >
         <div class="card-header">
             <div class="d-flex justify-content-between">
@@ -62,7 +62,7 @@
     </div>
 
     <div id="card-tutoring-resources" class="card my-2 shadow card-syllabus"
-         data-view-url="{{ path('objective_course_tutoring_resources_view', {'id': courseInfo.id }) }}"
+         data-view-url="{{ path('objectives.tutoring_resources', {'id': courseInfo.id }) }}"
     >
         <div class="card-header">
             <div class="d-flex justify-content-between">
