@@ -144,7 +144,24 @@ app:
           advanced: "<li><strong>Avancé</strong> : Ce cours demande d'importantes connaissances préalables.</li>"
       teacher:
         delete: Êtes-vous sûr(e) de vouloir supprimer l'enseignant "%lastname% %firstname%" ?
-
+        mail_visibility: L'adresse mail doit-elle être visible ?
+        responsible: Responsable du cours ?
+        search_user: Rechercher un individu
+        source_data: Source de données
+      teaching_mode:
+        additionnal: Type d'enseignement supplémentaire (facultatif)
+        class: Présentiel
+        distant: A distance
+        volumes: Volumes horaires "Présentiel" importés
+        label: Quel est votre mode d'enseignement ?
+        placeholder:
+          teaching:
+            cm: Heures cours magistraux
+            other: Heures autre (facultatif)
+            other_class: Volume (H)
+            td: Heures travaux dirigés
+            tp: Heureux travaux pratiques
+            type: "Ex: Heures personnelles"
   const:
     cron:
       status:

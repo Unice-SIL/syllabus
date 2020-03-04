@@ -8,7 +8,6 @@ use AppBundle\Entity\CourseTeacher;
 use AppBundle\Factory\ImportCourseTeacherFactory;
 use AppBundle\Form\CourseInfo\Presentation\GeneralType;
 use AppBundle\Form\CourseInfo\Presentation\RemoveTeacherType;
-use AppBundle\Form\CourseInfo\Presentation\SynopsisType;
 use AppBundle\Form\CourseInfo\Presentation\TeachersType;
 use AppBundle\Form\CourseInfo\Presentation\TeachingModeType;
 use AppBundle\Manager\CourseInfoManager;
