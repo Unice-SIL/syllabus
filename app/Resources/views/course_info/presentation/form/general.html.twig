@@ -52,7 +52,6 @@
                     <span>{{ 'app.presentation.form.general.add_video_info.part4' | trans }}</span>
                 </div>
                 {{ form_widget(form.video) }}
-                <label placeholder="URL"></label>
             </div>
         </div>
     </div>
@@ -88,15 +87,15 @@
 
         function toggleMediaType() {
             let value = $('#general_mediaType').find('input[type="radio"]:checked').val();
-            if (value === 'image')
-            {
-                $('#image').show();
-                $('#video').hide();
-            }
-            else
+            if (value === 'video')
             {
                 $('#image').hide();
                 $('#video').show();
+            }
+            else
+            {
+                $('#image').show();
+                $('#video').hide();
             }
         }
         $('form[name="general"]').find('.select2entity').select2entity();

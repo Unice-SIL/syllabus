@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\CourseInfo;
 
 
 use AppBundle\Entity\CourseInfo;
@@ -20,12 +20,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class CourseInfoPresentationController
+ * Class PresentationController
  * @package AppBundle\Controller
  * @Route("/course/{id}/presentation", name="course_presentation_")
  * @Security("is_granted('WRITE', courseInfo)")
  */
-class CourseInfoPresentationController extends AbstractController
+class PresentationController extends AbstractController
 {
     /**
      * @Route("/", name="index")
