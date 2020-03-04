@@ -37,7 +37,7 @@
             </a>
         </li>
 
-        {% set referentielLink = ['app_admin.activity', 'app_admin.type_activity', 'app_admin.mode_activity','app_admin.year',
+        {% set referentielLink = ['app.admin.activity.', 'app.admin.activity_type.', 'app_admin.mode_activity','app_admin.year',
             'app_admin.equipment', 'app_admin.structure', 'app_admin.domain', 'app_admin.period_index', 'app_admin.language_index',
             'app_admin.campus', 'app_admin.achievement', 'app_admin.course_info_field_index'] %}
         <li class="nav-item has-treeview {{ printActiveAdminSidebarLink(referentielLink) ? 'menu-open' }}">
@@ -61,7 +61,7 @@
                     </a>
                 </li>
 
-                {% set activityLink = ['app_admin.activity', 'app_admin.type_activity', 'app_admin.mode_activity'] %}
+                {% set activityLink = ['app.admin.activity.', 'app.admin.activity_type.', 'app_admin.mode_activity'] %}
                 <li class="nav-item pl-2 has-treeview {{ printActiveAdminSidebarLink(activityLink) ? 'menu-open' }}">
                     <a href="#" class="nav-link {{ printActiveAdminSidebarLink(activityLink) }}">
                         <i class="nav-icon fas fa-film"></i>
@@ -74,8 +74,8 @@
                         style="display: {{ printActiveAdminSidebarLink(activityLink) ? 'block' : 'none' }};">
                         {% if is_granted('ROLE_ADMIN_ACTIVITY') %}
                             <li class="pl-3">
-                                <a href="{{ path('app.admin.activity') }}"
-                                   class="nav-link {{ printActiveAdminSidebarLink(['app_admin.activity']) }}">
+                                <a href="{{ path('app.admin.activity.index') }}"
+                                   class="nav-link {{ printActiveAdminSidebarLink(['app.admin.activity.']) }}">
                                     <i class="fas fa-dot-circle nav-icon"></i>
                                     <p>
                                         Activités
@@ -85,8 +85,8 @@
                         {% endif %}
                         {% if is_granted('ROLE_ADMIN_ACTIVITYTYPE') %}
                             <li class="pl-3">
-                                <a href="{{ path('app_admin.type_activity_index') }}"
-                                   class="nav-link {{ printActiveAdminSidebarLink(['app_admin.type_activity']) }}">
+                                <a href="{{ path('app.admin.activity_type.index') }}"
+                                   class="nav-link {{ printActiveAdminSidebarLink(['app.admin.activity_type.']) }}">
                                     <i class="fas fa-dot-circle nav-icon"></i>
                                     <p>
                                         Types

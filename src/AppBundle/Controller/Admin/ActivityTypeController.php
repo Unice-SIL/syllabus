@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\Admin;
 
 use AppBundle\Entity\ActivityType;
 use AppBundle\Form\ActivityTypeType;
@@ -21,14 +21,14 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class ActivityTypeController
  * @package AppBundle\Controller
  *
- * @Route("/admin/type_activity", name="app_admin.type_activity_")
+ * @Route("/admin/activity-type", name="app.admin.activity_type.")
  * @Security("has_role('ROLE_ADMIN_ACTIVITYTYPE')")
  */
 class ActivityTypeController extends AbstractController
 {
 
     /**
-     * @Route("/",name="index", methods={"GET"})
+     * @Route("/", name="index", methods={"GET"})
      * @Security("has_role('ROLE_ADMIN_ACTIVITYTYPE_LIST')")
      * @param Request $request
      * @param ActivityTypeDoctrineRepository $repository
@@ -36,7 +36,12 @@ class ActivityTypeController extends AbstractController
      * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
      * @return Response
      */
-    public function indexAction(Request $request, ActivityTypeDoctrineRepository $repository, PaginatorInterface $paginator, FilterBuilderUpdaterInterface $filterBuilderUpdater)
+    public function indexAction(
+        Request $request,
+        ActivityTypeDoctrineRepository $repository,
+        PaginatorInterface $paginator,
+        FilterBuilderUpdaterInterface $filterBuilderUpdater
+    )
     {
         $qb =  $repository->getIndexQueryBuilder();
 

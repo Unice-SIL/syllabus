@@ -33,7 +33,7 @@ class ActivityFilterType extends AbstractType
             'label' => 'app.form.activity.label.label',
             'attr' => [
                 'class' => 'autocomplete-input',
-                'data-autocomplete-path' => $this->generator->generate('app.admin.activity_autocomplete')
+                'data-autocomplete-path' => $this->generator->generate('app.admin.activity.autocomplete')
             ]
         ])
         ->add('activityTypes', ActivityTypeFilterType::class, [

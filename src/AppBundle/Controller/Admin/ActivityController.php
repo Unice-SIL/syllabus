@@ -22,14 +22,14 @@ use Symfony\Component\Routing\Annotation\Route;
  * Activity controller.
  *
  * @Security("has_role('ROLE_ADMIN_ACTIVITY')")
- * @Route("/admin/activity", name="app.admin.activity")
+ * @Route("/admin/activity", name="app.admin.activity.")
  */
 class ActivityController extends AbstractController
 {
     /**
      * Lists all activity entities.
      *
-     * @Route("/", name="", methods={"GET"})
+     * @Route("/", name="index", methods={"GET"})
      * @Security("has_role('ROLE_ADMIN_ACTIVITY_LIST')")
      * @param Request $request
      * @param ActivityDoctrineRepository $repository
@@ -69,7 +69,7 @@ class ActivityController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="_new", methods={"GET", "POST"})
+     * @Route("/new", name="new", methods={"GET", "POST"})
      * @Security("has_role('ROLE_ADMIN_ACTIVITY_CREATE')")
      * @param Request $request
      * @param ActivityManager $activityManager
@@ -97,7 +97,7 @@ class ActivityController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="_edit", methods={"GET", "POST"})
+     * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
      * @Security("has_role('ROLE_ADMIN_ACTIVITY_UPDATE')")
      * @param Request $request
      * @param Activity $activity
@@ -124,7 +124,7 @@ class ActivityController extends AbstractController
     }
 
     /**
-     * @Route("/autocomplete", name="_autocomplete", methods={"GET"})
+     * @Route("/autocomplete", name="autocomplete", methods={"GET"})
      * @param Request $request
      * @param ActivityDoctrineRepository $repository
      * @return JsonResponse
