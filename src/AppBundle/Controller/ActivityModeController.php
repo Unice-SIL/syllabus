@@ -23,8 +23,8 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class ActivityModeController
  * @package AppBundle\Controller
  *
- * @Security("has_role('ROLE_ADMIN_ACTIVITYMODE')")
  * @Route("/admin/mode_activity", name="app_admin.mode_activity_")
+ * @Security("has_role('ROLE_ADMIN_ACTIVITYMODE')")
  */
 class ActivityModeController extends AbstractController
 {

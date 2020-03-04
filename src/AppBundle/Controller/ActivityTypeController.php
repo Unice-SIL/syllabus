@@ -9,7 +9,9 @@ use AppBundle\Manager\ActivityTypeManager;
 use AppBundle\Repository\Doctrine\ActivityTypeDoctrineRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,12 +22,14 @@ use Symfony\Component\Routing\Annotation\Route;
  * @package AppBundle\Controller
  *
  * @Route("/admin/type_activity", name="app_admin.type_activity_")
+ * @Security("has_role('ROLE_ADMIN_ACTIVITYTYPE')")
  */
 class ActivityTypeController extends AbstractController
 {
 
     /**
      * @Route("/",name="index", methods={"GET"})
+     * @Security("has_role('ROLE_ADMIN_ACTIVITYTYPE_LIST')")
      * @param Request $request
      * @param ActivityTypeDoctrineRepository $repository
      * @param PaginatorInterface $paginator
@@ -61,6 +65,7 @@ class ActivityTypeController extends AbstractController
      * Creates a new activity.
      *
      * @Route("/new", name="new", methods={"GET", "POST"})
+     * @Security("has_role('ROLE_ADMIN_ACTIVITYTYPE_CREATE')")
      * @param Request $request
      * @param ActivityTypeManager $activityTypeManager
      * @return RedirectResponse|Response
@@ -88,6 +93,7 @@ class ActivityTypeController extends AbstractController
      * Displays a form to edit an existing activity entity.
      *
      * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
+     * @Security("has_role('ROLE_ADMIN_ACTIVITYTYPE_UPDATE')")
      * @param Request $request
      * @param ActivityType $activityType
      * @param ActivityTypeManager $activityTypeManager
@@ -116,7 +122,7 @@ class ActivityTypeController extends AbstractController
      * @Route("/autocomplete", name="autocomplete", methods={"GET"})
      * @param ActivityTypeDoctrineRepository $repository
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return JsonResponse
      */
     public function autocomplete(ActivityTypeDoctrineRepository $repository, Request $request)
     {
