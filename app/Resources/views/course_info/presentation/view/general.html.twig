@@ -49,7 +49,6 @@
     </div>
 </div>
 <div class="row mt-2">
-    {{ dump(courseInfo.mediaType) }}
     <div class="col-md-6" style="min-height: 150px;">
         {% if courseInfo.mediaType == 'image' and courseInfo.image is not null %}
             {% set imgSrc = courseInfo.image | split('/') | last %}

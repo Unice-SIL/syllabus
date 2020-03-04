@@ -21,16 +21,8 @@
 
 <div class="row mt-4">
     <div class="col-6">
-        <label class="re">
-            {{ 'app.presentation.form.general.media_label' | trans }}
-        </label>
-
         <div>
-            <input type="radio" id="radio_image" value="image" onclick="image();">
-            <label class="mr-2" for="image">{{ 'app.presentation.form.general.picture' | trans }}</label>
-
-            <input class="" type="radio" id="radio_video" value="video" onclick="video();">
-            <label for="video">{{ 'app.presentation.form.general.video' | trans }}</label>
+            {{ form_widget(form.mediaType, {label_attr: {class: 'radio-custom'}} ) }}
         </div>
 
         <div class="border p-2">
@@ -88,23 +80,27 @@
 <script>
 
     $(document).ready(function () {
-        image();
+        toggleMediaType();
+
+        $(document).on('change', '#general_mediaType', function () {
+            toggleMediaType();
+        });
+
+        function toggleMediaType() {
+            let value = $('#general_mediaType').find('input[type="radio"]:checked').val();
+            if (value === 'image')
+            {
+                $('#image').show();
+                $('#video').hide();
+            }
+            else
+            {
+                $('#image').hide();
+                $('#video').show();
+            }
+        }
         $('form[name="general"]').find('.select2entity').select2entity();
     });
-
-    function image() {
-        $('#radio_image').prop('checked', true);
-        $('#radio_video').prop('checked', false);
-        $('#image').show();
-        $('#video').hide();
-    }
-
-    function video() {
-        $('#radio_video').prop('checked', true);
-        $('#radio_image').prop('checked', false);
-        $('#image').hide();
-        $('#video').show();
-    }
 
     $('#infos_level').click(function () {
         var message = '<ul>' +

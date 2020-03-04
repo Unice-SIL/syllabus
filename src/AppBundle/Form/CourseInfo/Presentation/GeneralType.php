@@ -108,7 +108,17 @@ class GeneralType extends AbstractType
                     ),
                 ),
             ])
-            ->add('mediaType', HiddenType::class)
+            ->add('mediaType', ChoiceType::class, [
+                'label' => 'app.presentation.form.general.media_label',
+                'required' => false,
+                'multiple' => false,
+                'expanded' => true,
+                'placeholder' => false,
+                'choices' => [
+                    'app.presentation.form.general.picture' => 'image',
+                    'app.presentation.form.general.video' => 'video'
+                ]
+            ])
             ->add('image', FileType::class, [
                 'required' => false,
                 'label' => "Fichier image",
