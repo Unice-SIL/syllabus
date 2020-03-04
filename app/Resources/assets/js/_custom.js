@@ -55,28 +55,50 @@ $( document ).ready( function( ) {
         $('.filter-form').submit();
     });
 
-    //Set a notification as shown if dismissed
-    $('.notification-alert button.close').on('click', function (e) {
-        e.stopPropagation();
+    //show the admin notification if not empty
+    let adminNotificationsElement = $('#data-notifications');
+    let adminNotificationsLength = adminNotificationsElement.data('length');
+    if (adminNotificationsLength > 0) {
 
-        let modal  = $('#modal-notification');
-        let alert  = $(this).closest('.alert');
-        let url = alert.data('path');
-        let token = alert.data('token');
+        let adminNotifications = adminNotificationsElement.data('admin-notifications');
 
-        $.post(url, {'_token': token },  function (data) {
+        let steps = [];
+        let sweetNotifications = [];
+        let i = 1;
+        for (let key in adminNotifications) {
+            let notification = adminNotifications[key];
 
-            if (data.success === true) {
-                alert.fadeOut(500, function () {
-                    alert.remove();
-                })
-                if (data.count === 0) {
-                    modal.modal('hide');
-                }
+            let buttonText = 'Terminé';
+
+            if (i < adminNotificationsLength) {
+                buttonText = 'Suivant &rarr;';
             }
 
-        });
-    });
+            steps.push(i++);
+            sweetNotifications.push({
+                text: notification.message,
+                confirmButtonText: buttonText,
+                onClose: () => {
+                    $.post(notification.path , {'_token': notification.token });
+                }
+            });
+            Swal.mixin({
+                showCloseButton: true,
+                allowOutsideClick: false,
+                progressSteps: steps,
+            })
+                .queue(sweetNotifications)
+                .then((result) => {
+                    console.log(result);
+                    if (result.dismiss === Swal.DismissReason.close) {
+                        $.post('/notification/seen' , {'_token': adminNotificationsElement.data('token-seen') });
+                    }
+                })
+            ;
+            }
+
+        }
+
 
     //Autocomplete
     function initAutocomplete() {

@@ -161,6 +161,9 @@ app:
       distant: A distance
 
   form:
+    notification:
+      label:
+        message: 'Message'
     cron:
       label:
         label: 'Label'

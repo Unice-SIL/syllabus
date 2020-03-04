@@ -1,0 +1,52 @@
+{% extends 'admin_layout.html.twig' %}
+{% set h1 = 'Liste des Notifications' %}
+
+{% block modals %}
+    {{ parent() }}
+    {{ include('partial/warning_delete_modal.html.twig') }}
+{% endblock %}
+
+{% block subContent %}
+    <div class="card">
+        <div class="card-header">
+            <a href="{{ path('app.admin.notification.new') }}" class="btn btn-primary float-right">Créer une notification</a>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            {% if pagination.totalItemCount > 0 %}
+                <table class="table table-bordered table-responsive-sm">
+                    <thead>
+                    <tr>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.notification.label.message'|trans, 'n.message') }}</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for notification in pagination %}
+                        <tr>
+                            <td><a href="{{ path('app.admin.notification.edit', { 'id' : notification.id }) }}">{{ notification.message }}</a></td>
+                            <td>
+                                {% set deleteFormView = deleteFormsView[notification.id] %}
+                                {{ form_start(deleteFormView) }}
+                                {{ form_row(deleteFormView._token, {'id': deleteFormView._token.vars.id ~ notification.id }) }}
+                                    <button type="button" class="btn btn-danger float-right warning-delete" data-toggle="modal" data-target="#warningDeleteModal">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                {{ form_end(deleteFormView) }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="alert alert-info">Aucune notification n'a été enregistrée</div>
+            {% endif %}
+        </div>
+        <!-- /.card-body -->
+        {% if knp_pagination_render(pagination) %}
+            <div class="card-footer clearfix">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

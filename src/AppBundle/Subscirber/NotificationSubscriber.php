@@ -2,30 +2,54 @@
 
 namespace AppBundle\Subscirber;
 
+use AppBundle\Entity\Notification;
 use AppBundle\Helper\AppHelper;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
+use Symfony\Component\Security\Csrf\TokenGenerator\UriSafeTokenGenerator;
 
-class AdminNotificationSubscriber implements EventSubscriberInterface
+class NotificationSubscriber implements EventSubscriberInterface
 {
     /**
      * @var SessionInterface
      */
     private $session;
-    private $adminNotifications;
+    /**
+     * @var EntityManagerInterface
+     */
+    private $em;
+    /**
+     * @var UriSafeTokenGenerator
+     */
+    private $csrfTokenManager;
+    /**
+     * @var UrlGeneratorInterface
+     */
+    private $urlGenerator;
 
     /**
      * AdminNotificationSubscriber constructor.
      * @param SessionInterface $session
-     * @param array $adminNotifications
+     * @param EntityManagerInterface $em
+     * @param CsrfTokenManagerInterface $csrfTokenManager
+     * @param UrlGeneratorInterface $urlGenerator
      */
-    public function __construct(SessionInterface $session, $adminNotifications)
+    public function __construct(
+        SessionInterface $session,
+        EntityManagerInterface $em,
+        CsrfTokenManagerInterface $csrfTokenManager,
+        UrlGeneratorInterface $urlGenerator
+    )
     {
         $this->session = $session;
-        $this->adminNotifications = $adminNotifications;
+        $this->em = $em;
+        $this->csrfTokenManager = $csrfTokenManager;
+        $this->urlGenerator = $urlGenerator;
     }
 
     public static function getSubscribedEvents()
@@ -41,20 +65,18 @@ class AdminNotificationSubscriber implements EventSubscriberInterface
     public function setNotifications(GetResponseEvent $event)
     {
         $newAdminNotifications = [];
-        if (is_array($this->adminNotifications)) {
+        $adminNotifications = $this->em->getRepository(Notification::class)->findBy([], ['updatedAt' => 'DESC']);
 
-            foreach ($this->adminNotifications as $notification) {
+        if (is_array($adminNotifications)) {
 
-                //id and message are mandatory
-                if (!isset($notification['id']) or !isset($notification['message'])) {
-                    continue;
-                }
+            foreach ($adminNotifications as $notification) {
 
                 //default configuration for a notification
                 $newNotification = [
-                    'id' => $notification['id'],
-                    'message' => $notification['message'],
-                    'type' => $notification['type'] ?? null,
+                    'id' => $notification->getId(),
+                    'message' => $notification->getMessage(),
+                    'token' => $this->csrfTokenManager->getToken('notification' . $notification->getId())->getValue(),
+                    'path' => $this->urlGenerator->generate('app.notification.seen_one', ['id' => $notification->getId()])
                 ];
 
                 $oldAdminNotifications = $this->session->get('admin_notifications');
@@ -66,7 +88,6 @@ class AdminNotificationSubscriber implements EventSubscriberInterface
                     $oldToshow = $oldNotification['to_show'];
                     //unset "to_show" index to compare arrays on every values except the one with "to_show" index
                     unset($oldNotification['to_show']);
-
                     if (AppHelper::sameArrays($newNotification, $oldNotification)) {
                         //If the notification was not changed, we keep the to_show value
                         $newNotification['to_show'] = $oldToshow;
@@ -79,8 +100,7 @@ class AdminNotificationSubscriber implements EventSubscriberInterface
                     $newNotification['to_show'] = true;
                 }
 
-
-                $newAdminNotifications[$notification['id']] = $newNotification;
+                $newAdminNotifications[$newNotification['id']] = $newNotification;
             }
         }
 
