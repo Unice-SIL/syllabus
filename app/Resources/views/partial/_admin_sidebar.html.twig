@@ -74,7 +74,7 @@
                         style="display: {{ printActiveAdminSidebarLink(activityLink) ? 'block' : 'none' }};">
                         {% if is_granted('ROLE_ADMIN_ACTIVITY') %}
                             <li class="pl-3">
-                                <a href="{{ path('app_admin.activity_index') }}"
+                                <a href="{{ path('app.admin.activity') }}"
                                    class="nav-link {{ printActiveAdminSidebarLink(['app_admin.activity']) }}">
                                     <i class="fas fa-dot-circle nav-icon"></i>
                                     <p>
