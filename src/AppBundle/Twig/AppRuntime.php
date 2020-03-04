@@ -6,6 +6,7 @@ namespace AppBundle\Twig;
 
 use Symfony\Component\Form\ChoiceList\View\ChoiceView;
 use Symfony\Component\Form\FormView;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Extension\RuntimeExtensionInterface;
 
@@ -16,7 +17,7 @@ class AppRuntime implements RuntimeExtensionInterface
      */
     private $requestStack;
     /**
-     * @var \Symfony\Component\HttpFoundation\Request|null
+     * @var Request|null
      */
     private $masterRequest;
 

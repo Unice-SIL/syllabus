@@ -37,7 +37,7 @@
             </a>
         </li>
 
-        {% set referentielLink = ['app.admin.activity.', 'app.admin.activity_type.', 'app.admin.activity_mode.','app_admin.year',
+        {% set referentielLink = ['app.admin.activity.', 'app.admin.activity_type.', 'app.admin.activity_mode.','app.admin.year.',
             'app_admin.equipment', 'app_admin.structure', 'app_admin.domain', 'app_admin.period_index', 'app_admin.language_index',
             'app.admin.campus.', 'app_admin.achievement', 'app_admin.course_info_field_index'] %}
         <li class="nav-item has-treeview {{ printActiveAdminSidebarLink(referentielLink) ? 'menu-open' }}">
@@ -110,8 +110,8 @@
 
                 {% if is_granted('ROLE_ADMIN_YEAR') %}
                     <li class="nav-item pl-2">
-                        <a href="{{ path('app_admin.year_index') }}"
-                           class="nav-link {{ printActiveAdminSidebarLink(['app_admin.year']) }}">
+                        <a href="{{ path('app.admin.year.index') }}"
+                           class="nav-link {{ printActiveAdminSidebarLink(['app.admin.year.']) }}">
                             <i class="nav-icon fas fa-calendar"></i>
                             <p>
                                 Années
