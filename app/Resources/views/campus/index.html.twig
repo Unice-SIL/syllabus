@@ -19,7 +19,7 @@
                     <div class="col-12">
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Filtrer</button>
-                            <a class="btn btn-danger" href="{{  path('app_admin.campus_index')  }}">Réinitialiser les filtres</a>
+                            <a class="btn btn-danger" href="{{  path('app.admin.campus.index')  }}">Réinitialiser les filtres</a>
                         </div>
                     </div>
                 </div>
@@ -41,7 +41,7 @@
                         <tr>
                             <td>
                                 {% if is_granted('ROLE_ADMIN_CAMPUS_UPDATE') %}
-                                    <a href="{{ path('app_admin.campus_edit', { 'id' : campus.id }) }}">{{ campus.label }}</a>
+                                    <a href="{{ path('app.admin.campus.edit', { 'id' : campus.id }) }}">{{ campus.label }}</a>
                                 {% else %}
                                     {{ campus.label }}
                                 {% endif %}

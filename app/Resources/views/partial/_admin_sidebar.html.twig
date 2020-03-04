@@ -39,7 +39,7 @@
 
         {% set referentielLink = ['app.admin.activity.', 'app.admin.activity_type.', 'app.admin.activity_mode.','app_admin.year',
             'app_admin.equipment', 'app_admin.structure', 'app_admin.domain', 'app_admin.period_index', 'app_admin.language_index',
-            'app_admin.campus', 'app_admin.achievement', 'app_admin.course_info_field_index'] %}
+            'app.admin.campus.', 'app_admin.achievement', 'app_admin.course_info_field_index'] %}
         <li class="nav-item has-treeview {{ printActiveAdminSidebarLink(referentielLink) ? 'menu-open' }}">
             <a href="#" class="nav-link {{ printActiveAdminSidebarLink(referentielLink) }}">
                 <i class="nav-icon fas fa-book"></i>
@@ -122,8 +122,8 @@
 
                 {% if is_granted('ROLE_ADMIN_CAMPUS') %}
                     <li class="nav-item pl-2">
-                        <a href="{{ path('app_admin.campus_index') }}"
-                           class="nav-link {{ printActiveAdminSidebarLink(['app_admin.campus']) }}">
+                        <a href="{{ path('app.admin.campus.index') }}"
+                           class="nav-link {{ printActiveAdminSidebarLink(['app.admin.campus.']) }}">
                             <i class="fas fa-map-marker-alt nav-icon"></i>
                             <p>
                                 Campus
