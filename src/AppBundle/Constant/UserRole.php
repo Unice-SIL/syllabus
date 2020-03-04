@@ -41,7 +41,11 @@ class UserRole
     const ROLE_ADMIN_ACTIVITYTYPE_CREATE = 'ROLE_ADMIN_ACTIVITYTYPE_CREATE';
     const ROLE_ADMIN_ACTIVITYTYPE_UPDATE = 'ROLE_ADMIN_ACTIVITYTYPE_UPDATE';
 
-
+    // CAMPUSES
+    const ROLE_ADMIN_CAMPUS = 'ROLE_ADMIN_CAMPUS';
+    const ROLE_ADMIN_CAMPUS_LIST = 'ROLE_ADMIN_CAMPUS_LIST';
+    const ROLE_ADMIN_CAMPUS_CREATE = 'ROLE_ADMIN_CAMPUS_CREATE';
+    const ROLE_ADMIN_CAMPUS_UPDATE = 'ROLE_ADMIN_CAMPUS_UPDATE';
 
     /*====================== API ROLES ==================*/
     const ROLE_API = 'ROLE_API';
@@ -100,6 +104,10 @@ class UserRole
         self::ROLE_ADMIN_ACTIVITYTYPE_LIST,
         self::ROLE_ADMIN_ACTIVITYTYPE_CREATE,
         self::ROLE_ADMIN_ACTIVITYTYPE_UPDATE,
+        self::ROLE_ADMIN_CAMPUS,
+        self::ROLE_ADMIN_CAMPUS_LIST,
+        self::ROLE_ADMIN_CAMPUS_CREATE,
+        self::ROLE_ADMIN_CAMPUS_UPDATE,
         self::ROLE_API,
         self::ROLE_API_COURSE,
         self::ROLE_API_COURSE_VIEW,
@@ -150,6 +158,11 @@ class UserRole
                 self::ROLE_ADMIN_ACTIVITYTYPE_LIST,
                 self::ROLE_ADMIN_ACTIVITYTYPE_CREATE,
                 self::ROLE_ADMIN_ACTIVITYTYPE_UPDATE
+            ],
+            self::ROLE_ADMIN_CAMPUS => [
+                self::ROLE_ADMIN_CAMPUS_LIST,
+                self::ROLE_ADMIN_CAMPUS_CREATE,
+                self::ROLE_ADMIN_CAMPUS_UPDATE
             ]
         ],
         self::ROLE_SUPER_ADMIN,

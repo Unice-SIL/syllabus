@@ -72,55 +72,65 @@
                     </a>
                     <ul class="nav nav-treeview"
                         style="display: {{ printActiveAdminSidebarLink(activityLink) ? 'block' : 'none' }};">
-                        <li class="pl-3">
-                            <a href="{{ path('app_admin.activity_index') }}"
-                               class="nav-link {{ printActiveAdminSidebarLink(['app_admin.activity']) }}">
-                                <i class="fas fa-dot-circle nav-icon"></i>
-                                <p>
-                                    Activités
-                                </p>
-                            </a>
-                        </li>
-                        <li class="pl-3">
-                            <a href="{{ path('app_admin.type_activity_index') }}"
-                               class="nav-link {{ printActiveAdminSidebarLink(['app_admin.type_activity']) }}">
-                                <i class="fas fa-dot-circle nav-icon"></i>
-                                <p>
-                                    Types
-                                </p>
-                            </a>
-                        </li>
-                        <li class="pl-3">
-                            <a href="{{ path('app_admin.mode_activity_index') }}"
-                               class="nav-link {{ printActiveAdminSidebarLink(['app_admin.mode_activity']) }}">
-                                <i class="fas fa-dot-circle nav-icon"></i>
-                                <p>
-                                    Modes
-                                </p>
-                            </a>
-                        </li>
+                        {% if is_granted('ROLE_ADMIN_ACTIVITY') %}
+                            <li class="pl-3">
+                                <a href="{{ path('app_admin.activity_index') }}"
+                                   class="nav-link {{ printActiveAdminSidebarLink(['app_admin.activity']) }}">
+                                    <i class="fas fa-dot-circle nav-icon"></i>
+                                    <p>
+                                        Activités
+                                    </p>
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% if is_granted('ROLE_ADMIN_ACTIVITYTYPE') %}
+                            <li class="pl-3">
+                                <a href="{{ path('app_admin.type_activity_index') }}"
+                                   class="nav-link {{ printActiveAdminSidebarLink(['app_admin.type_activity']) }}">
+                                    <i class="fas fa-dot-circle nav-icon"></i>
+                                    <p>
+                                        Types
+                                    </p>
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% if is_granted('ROLE_ADMIN_ACTIVITYMODE') %}
+                            <li class="pl-3">
+                                <a href="{{ path('app_admin.mode_activity_index') }}"
+                                   class="nav-link {{ printActiveAdminSidebarLink(['app_admin.mode_activity']) }}">
+                                    <i class="fas fa-dot-circle nav-icon"></i>
+                                    <p>
+                                        Modes
+                                    </p>
+                                </a>
+                            </li>
+                        {% endif %}
                     </ul>
                 </li>
 
-                <li class="nav-item pl-2">
-                    <a href="{{ path('app_admin.year_index') }}"
-                       class="nav-link {{ printActiveAdminSidebarLink(['app_admin.year']) }}">
-                        <i class="nav-icon fas fa-calendar"></i>
-                        <p>
-                            Années
-                        </p>
-                    </a>
-                </li>
+                {% if is_granted('ROLE_ADMIN_YEAR') %}
+                    <li class="nav-item pl-2">
+                        <a href="{{ path('app_admin.year_index') }}"
+                           class="nav-link {{ printActiveAdminSidebarLink(['app_admin.year']) }}">
+                            <i class="nav-icon fas fa-calendar"></i>
+                            <p>
+                                Années
+                            </p>
+                        </a>
+                    </li>
+                {% endif %}
 
-                <li class="nav-item pl-2">
-                    <a href="{{ path('app_admin.campus_index') }}"
-                       class="nav-link {{ printActiveAdminSidebarLink(['app_admin.campus']) }}">
-                        <i class="fas fa-map-marker-alt nav-icon"></i>
-                        <p>
-                            Campus
-                        </p>
-                    </a>
-                </li>
+                {% if is_granted('ROLE_ADMIN_CAMPUS') %}
+                    <li class="nav-item pl-2">
+                        <a href="{{ path('app_admin.campus_index') }}"
+                           class="nav-link {{ printActiveAdminSidebarLink(['app_admin.campus']) }}">
+                            <i class="fas fa-map-marker-alt nav-icon"></i>
+                            <p>
+                                Campus
+                            </p>
+                        </a>
+                    </li>
+                {% endif %}
 
                 <li class="nav-item pl-2">
                     <a href="{{ path('app_admin.domain_index') }}"
