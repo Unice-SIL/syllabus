@@ -40,7 +40,7 @@ class CampusFilterType extends AbstractType
             'label' => 'Intitulé',
             'attr' => [
                 'class' => 'autocomplete-input',
-                'data-autocomplete-path' => $this->generator->generate('app_admin_campus_autocomplete', ['field' => 'label'])
+                'data-autocomplete-path' => $this->generator->generate('app_admin.campus_autocomplete', ['field' => 'label'])
             ]
         ]);
     }

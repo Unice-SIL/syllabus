@@ -9,9 +9,9 @@ use AppBundle\Form\CampusType;
 use AppBundle\Form\Filter\CampusFilterType;
 use AppBundle\Manager\CampusManager;
 use AppBundle\Repository\Doctrine\CampusDoctrineRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -23,12 +23,14 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class CampusController
  * @package AppBundle\Controller
  *
- * @Route("/admin/campus", name="app_admin_campus_")
+ * @Route("/admin/campus", name="app_admin.campus_")
+ * @Security("has_role('ROLE_ADMIN_CAMPUS')")
  */
 class CampusController extends AbstractController
 {
     /**
      * @Route("/",name="index", methods={"GET"})
+     * @Security("has_role('ROLE_ADMIN_CAMPUS_LIST')")
      *
      * @param Request $request
      * @param CampusDoctrineRepository $repository
@@ -36,8 +38,12 @@ class CampusController extends AbstractController
      * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
      * @return Response
      */
-    public function indexAction(Request $request, CampusDoctrineRepository $repository, PaginatorInterface $paginator,
-                                FilterBuilderUpdaterInterface $filterBuilderUpdater)
+    public function IndexAction(
+        Request $request,
+        CampusDoctrineRepository $repository,
+        PaginatorInterface $paginator,
+        FilterBuilderUpdaterInterface $filterBuilderUpdater
+    )
     {
         $qb =  $repository->getIndexQueryBuilder();
 
@@ -65,6 +71,8 @@ class CampusController extends AbstractController
     /**
      *
      * @Route("/new", name="new", methods={"GET", "POST"})
+     * @Security("has_role('ROLE_ADMIN_CAMPUS_CREATE')")
+     *
      * @param Request $request
      * @param CampusManager $campusManager
      * @return RedirectResponse|Response
@@ -80,7 +88,7 @@ class CampusController extends AbstractController
 
             $this->addFlash('success', 'La langue a été ajoutée avec succès.');
 
-            return $this->redirectToRoute('app_admin_campus_index');
+            return $this->redirectToRoute('app_admin.campus_index');
         }
 
         return $this->render('Campus/new.html.twig', array(
@@ -92,6 +100,8 @@ class CampusController extends AbstractController
      * Displays a form to edit an existing activity entity.
      *
      * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
+     * @Security("has_role('ROLE_ADMIN_CAMPUS_UPDATE')")
+     *
      * @param Request $request
      * @param Campus $campus
      * @param CampusManager $campusManager
@@ -108,7 +118,7 @@ class CampusController extends AbstractController
 
             $this->addFlash('success', 'La Campus été modifié avec succès.');
 
-            return $this->redirectToRoute('app_admin_campus_edit', array('id' => $campus->getId()));
+            return $this->redirectToRoute('app_admin.campus_edit', array('id' => $campus->getId()));
         }
 
         return $this->render('campus/edit.html.twig', array(

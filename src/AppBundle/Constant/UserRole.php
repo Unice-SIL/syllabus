@@ -3,13 +3,16 @@
 
 namespace AppBundle\Constant;
 
-
+/**
+ * Class UserRole
+ * @package AppBundle\Constant
+ */
 class UserRole
 {
     /*====================== USER ROLES ==================*/
     const ROLE_USER = 'ROLE_USER';
 
-
+    const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
 
     /*====================== ADMIN ROLES ==================*/
     const ROLE_ADMIN = 'ROLE_ADMIN';
@@ -20,7 +23,29 @@ class UserRole
     const ROLE_ADMIN_YEAR_CREATE = 'ROLE_ADMIN_YEAR_CREATE';
     const ROLE_ADMIN_YEAR_UPDATE = 'ROLE_ADMIN_YEAR_UPDATE';
 
+    // ACTIVITIES
+    const ROLE_ADMIN_ACTIVITY = 'ROLE_ADMIN_ACTIVITY';
+    const ROLE_ADMIN_ACTIVITY_LIST = 'ROLE_ADMIN_ACTIVITY_LIST';
+    const ROLE_ADMIN_ACTIVITY_CREATE = 'ROLE_ADMIN_ACTIVITY_CREATE';
+    const ROLE_ADMIN_ACTIVITY_UPDATE = 'ROLE_ADMIN_ACTIVITY_UPDATE';
 
+    // ACTIVITIES MODES
+    const ROLE_ADMIN_ACTIVITYMODE = 'ROLE_ADMIN_ACTIVITYMODE';
+    const ROLE_ADMIN_ACTIVITYMODE_LIST = 'ROLE_ADMIN_ACTIVITYMODE_LIST';
+    const ROLE_ADMIN_ACTIVITYMODE_CREATE = 'ROLE_ADMIN_ACTIVITYMODE_CREATE';
+    const ROLE_ADMIN_ACTIVITYMODE_UPDATE = 'ROLE_ADMIN_ACTIVITYMODE_UPDATE';
+
+    // ACTIVITIES TYPES
+    const ROLE_ADMIN_ACTIVITYTYPE = 'ROLE_ADMIN_ACTIVITYTYPE';
+    const ROLE_ADMIN_ACTIVITYTYPE_LIST = 'ROLE_ADMIN_ACTIVITYTYPE_LIST';
+    const ROLE_ADMIN_ACTIVITYTYPE_CREATE = 'ROLE_ADMIN_ACTIVITYTYPE_CREATE';
+    const ROLE_ADMIN_ACTIVITYTYPE_UPDATE = 'ROLE_ADMIN_ACTIVITYTYPE_UPDATE';
+
+    // CAMPUSES
+    const ROLE_ADMIN_CAMPUS = 'ROLE_ADMIN_CAMPUS';
+    const ROLE_ADMIN_CAMPUS_LIST = 'ROLE_ADMIN_CAMPUS_LIST';
+    const ROLE_ADMIN_CAMPUS_CREATE = 'ROLE_ADMIN_CAMPUS_CREATE';
+    const ROLE_ADMIN_CAMPUS_UPDATE = 'ROLE_ADMIN_CAMPUS_UPDATE';
 
     /*====================== API ROLES ==================*/
     const ROLE_API = 'ROLE_API';
@@ -61,11 +86,28 @@ class UserRole
 
     const ROLES = [
         self::ROLE_USER,
+        self::ROLE_SUPER_ADMIN,
         self::ROLE_ADMIN,
         self::ROLE_ADMIN_YEAR,
         self::ROLE_ADMIN_YEAR_LIST,
         self::ROLE_ADMIN_YEAR_CREATE,
         self::ROLE_ADMIN_YEAR_UPDATE,
+        self::ROLE_ADMIN_ACTIVITY,
+        self::ROLE_ADMIN_ACTIVITY_LIST,
+        self::ROLE_ADMIN_ACTIVITY_CREATE,
+        self::ROLE_ADMIN_ACTIVITY_UPDATE,
+        self::ROLE_ADMIN_ACTIVITYMODE,
+        self::ROLE_ADMIN_ACTIVITYMODE_LIST,
+        self::ROLE_ADMIN_ACTIVITYMODE_CREATE,
+        self::ROLE_ADMIN_ACTIVITYMODE_UPDATE,
+        self::ROLE_ADMIN_ACTIVITYTYPE,
+        self::ROLE_ADMIN_ACTIVITYTYPE_LIST,
+        self::ROLE_ADMIN_ACTIVITYTYPE_CREATE,
+        self::ROLE_ADMIN_ACTIVITYTYPE_UPDATE,
+        self::ROLE_ADMIN_CAMPUS,
+        self::ROLE_ADMIN_CAMPUS_LIST,
+        self::ROLE_ADMIN_CAMPUS_CREATE,
+        self::ROLE_ADMIN_CAMPUS_UPDATE,
         self::ROLE_API,
         self::ROLE_API_COURSE,
         self::ROLE_API_COURSE_VIEW,
@@ -101,8 +143,29 @@ class UserRole
                 self::ROLE_ADMIN_YEAR_LIST,
                 self::ROLE_ADMIN_YEAR_CREATE,
                 self::ROLE_ADMIN_YEAR_UPDATE
+            ],
+            self::ROLE_ADMIN_ACTIVITY => [
+                self::ROLE_ADMIN_ACTIVITY_LIST,
+                self::ROLE_ADMIN_ACTIVITY_CREATE,
+                self::ROLE_ADMIN_ACTIVITY_UPDATE
+            ],
+            self::ROLE_ADMIN_ACTIVITYMODE => [
+                self::ROLE_ADMIN_ACTIVITYMODE_LIST,
+                self::ROLE_ADMIN_ACTIVITYMODE_CREATE,
+                self::ROLE_ADMIN_ACTIVITYMODE_UPDATE
+            ],
+            self::ROLE_ADMIN_ACTIVITYTYPE => [
+                self::ROLE_ADMIN_ACTIVITYTYPE_LIST,
+                self::ROLE_ADMIN_ACTIVITYTYPE_CREATE,
+                self::ROLE_ADMIN_ACTIVITYTYPE_UPDATE
+            ],
+            self::ROLE_ADMIN_CAMPUS => [
+                self::ROLE_ADMIN_CAMPUS_LIST,
+                self::ROLE_ADMIN_CAMPUS_CREATE,
+                self::ROLE_ADMIN_CAMPUS_UPDATE
             ]
         ],
+        self::ROLE_SUPER_ADMIN,
         self::ROLE_API => [
             self::ROLE_API_COURSE => [
                 self::ROLE_API_COURSE_VIEW,

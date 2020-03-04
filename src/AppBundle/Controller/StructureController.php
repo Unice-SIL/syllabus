@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class StructureController
  * @package AppBundle\Controller
  *
- * @Route("/admin/structure", name="app_admin_structure_")
+ * @Route("/admin/structure", name="app_admin.structure_")
  */
 class StructureController extends Controller
 {
@@ -80,7 +80,7 @@ class StructureController extends Controller
 
             $this->addFlash('success', 'La structure a été enregistrée avec succès');
 
-            return $this->redirectToRoute('app_admin_structure_index');
+            return $this->redirectToRoute('app_admin.structure_index');
         }
         return $this->render('structure/new.html.twig', ['form' => $form->createView()]);
     }
@@ -103,7 +103,7 @@ class StructureController extends Controller
             $structureManager->update($structure);
 
             $this->addFlash('success', 'La strucutre a été modifiée avec succès.');
-            return $this->redirectToRoute('app_admin_structure_edit', array('id' => $structure->getId()));
+            return $this->redirectToRoute('app_admin.structure_edit', array('id' => $structure->getId()));
         }
 
         return $this->render('structure/edit.html.twig', array(

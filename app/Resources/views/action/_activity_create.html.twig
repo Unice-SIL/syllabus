@@ -1,0 +1,3 @@
+{% if is_granted('ROLE_ADMIN_ACTIVITY_CREATE') %}
+    <a class="btn btn-primary"  href="{{  path('app_admin.activity_new')  }}">Ajouter une activité</a>
+{% endif %}

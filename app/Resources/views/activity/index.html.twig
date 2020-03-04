@@ -3,31 +3,38 @@
 {% block subContent %}
 
     <div class="card">
-        <div class="card-header">
-            {{ form_start(form) }}
-                <div class="row ui-front">
-                    <div class="col-md-2">
+        <div class="card-body">
+            <div class="d-flex justify-content-end pb-3">
+                {% include 'action/_activity_create.html.twig' %}
+            </div>
+
+            <div class="border p-3 mb-3">
+                {{ form_start(form) }}
+                <div class="row">
+                    <div class="col-lg-6 col-md-12">
                         {{ form_row(form.label) }}
                     </div>
-                    <div class="col-md-2">
-                        {{ form_label(form.activityTypes.label, 'app.form.activity.label.activityTypes'|trans) }}
-                        {{ form_widget(form.activityTypes.label) }}
+                    <div class="col-lg-6 col-md-12">
+                        <div class="form-group">
+                            {{ form_label(form.activityTypes.label, 'app.form.activity.label.activityTypes'|trans) }}
+                            {{ form_widget(form.activityTypes.label) }}
+                        </div>
                     </div>
-                    <div class="col-md-3 col-sm-6">
-                        <a class="btn btn-danger" style="margin-top: 32px" href="{{  path('app_admin_activity_index')  }}">Réinitialiser les filtres</a>
-                    </div>
-                        <div class="offset-md-2"></div>
-                    <div class="col-md-3 col-sm-6">
-                        <a class="btn btn-primary float-right" style="margin-top: 32px" href="{{  path('app_admin_activity_new')  }}">Ajouter une activité</a>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Filtrer</button>
+                            <a class="btn btn-danger" href="{{  path('app_admin.activity_index')  }}">Réinitialiser les filtres</a>
+                        </div>
                     </div>
                 </div>
-            <input type="submit" style="position: absolute; left: -9999px"/>
-            {{ form_end(form) }}
-        </div>
 
-        <div class="card-body">
+                {% do form.activityTypes.activityModes.setRendered %}
+                {{ form_end(form) }}
+            </div>
+
+
             {% if pagination.totalItemCount > 0 %}
-                <table class="table table-bordered table-responsive-sm">
+                <table class="table table-hover table-responsive-sm">
                     <thead>
                     <tr>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.activity.label.label'|trans, 'a.label') }}</th>
@@ -39,7 +46,7 @@
                     {% for activity in pagination %}
                         <tr>
                             <td>
-                                <a href="{{ path('app_admin_activity_edit', { 'id' : activity.id }) }}">{{ activity.label }}</a>
+                                <a href="{{ path('app_admin.activity_edit', { 'id' : activity.id }) }}">{{ activity.label }}</a>
                             </td>
                             <td>
                                 {% for activityType in activity.activityTypes %}

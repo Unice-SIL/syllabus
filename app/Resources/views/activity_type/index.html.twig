@@ -3,30 +3,37 @@
 {% block subContent %}
 
     <div class="card">
-        <div class="card-header">
-            {{ form_start(form) }}
-            <div class="row ui-front">
-                <div class="col-md-2">
-                    {{ form_row(form.label) }}
-                </div>
-                <div class="col-md-2">
-                    {{ form_label(form.activityModes.label, 'Modes') }}
-                    {{ form_widget(form.activityModes.label) }}
-                </div>
-                <div class="col-md-3 col-sm-6">
-                    <a class="btn btn-danger" style="margin-top: 32px" href="{{  path('app_admin_type_activity_index')  }}">Réinitialiser les filtres</a>
-                </div>
-                <div class="offset-md-2"></div>
-                <div class="col-md-3 col-sm-6">
-                    <a class="btn btn-primary float-right" style="margin-top: 32px" href="{{  path('app_admin_type_activity_new')  }}">Ajouter un type d'activité</a>
-                </div>
-            </div>
-            <input type="submit" style="position: absolute; left: -9999px"/>
-            {{ form_end(form) }}
-        </div>
         <div class="card-body">
+
+            <div class="d-flex justify-content-end pb-3">
+                {% include 'action/_activity_type_create.html.twig' %}
+            </div>
+
+            <div class="border p-3 mb-3">
+                {{ form_start(form) }}
+                <div class="row">
+                    <div class="col-lg-6 col-md-12">
+                        {{ form_row(form.label) }}
+                    </div>
+                    <div class="col-lg-6 col-md-12">
+                        <div class="form-group">
+                            {{ form_label(form.activityModes.label, 'Modes') }}
+                            {{ form_widget(form.activityModes.label) }}
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Filtrer</button>
+                            <a class="btn btn-danger" href="{{  path('app_admin.type_activity_index')  }}">Réinitialiser les filtres</a>
+                        </div>
+                    </div>
+                </div>
+
+                {{ form_end(form) }}
+            </div>
+
             {% if pagination.totalItemCount > 0 %}
-                <table class="table table-bordered table-responsive-sm">
+                <table class="table table-hover table-responsive-sm">
                     <thead>
                     <tr>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.equipment.label.label'|trans, 'e.label') }}</th>
@@ -38,7 +45,11 @@
                     {% for activityType in pagination %}
                         <tr>
                             <td>
-                                <a href="{{ path('app_admin_type_activity_edit', { 'id' : activityType.id }) }}">{{ activityType.label }}</a>
+                                {% if is_granted('ROLE_ADMIN_ACTIVITYTYPE_UPDATE') %}
+                                    <a href="{{ path('app_admin.type_activity_edit', { 'id' : activityType.id }) }}">{{ activityType.label }}</a>
+                                {% else %}
+                                    {{ activityType.label }}
+                                {% endif %}
                             </td>
                             <td>
                                 {% for activityMode in activityType.activityModes %}

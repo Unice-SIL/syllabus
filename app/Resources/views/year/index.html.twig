@@ -4,7 +4,7 @@
 
     <div class="card">
         <div class="card-header">
-            {% include 'year/action/create.html.twig' %}
+            {% include 'action/_year_create.html.twig' %}
         </div>
         <!-- /.card-header -->
         <div class="card-body">
@@ -23,7 +23,7 @@
                         <tr>
                             <td>
                                 {% if is_granted('ROLE_ADMIN_YEAR_UPDATE') %}
-                                    <a href="{{ path('app_admin_year_edit', { 'id' : year.id }) }}">
+                                    <a href="{{ path('app_admin.year_edit', { 'id' : year.id }) }}">
                                         {{ year.label }}
                                     </a>
                                 {% else %}
