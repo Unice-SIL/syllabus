@@ -1,7 +1,7 @@
 <?php
 
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\CourseInfo;
 
 
 use AppBundle\Entity\CourseInfo;
@@ -15,13 +15,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class CourseInfoClosingRemarksController
- * @package AppBundle\Controller
+ * Class ClosingRemarkController
+ * @package AppBundle\Controller\CourseInfo
  *
- * @Route("/course/{id}/closing_remarks", name="course_closing_remarks_")
+ * @Route("/course-info/{id}/closing-remarks", name="app.course_info.closing_remarks.")
  * @Security("is_granted('WRITE', courseInfo)")
  */
-class CourseInfoClosingRemarksController extends AbstractController
+class ClosingRemarkController extends AbstractController
 {
     /**
      * @Route("/", name="index")
@@ -37,7 +37,7 @@ class CourseInfoClosingRemarksController extends AbstractController
     }
 
     /**
-     * @Route("/end_word/view", name="message_view"))
+     * @Route("/closing-remarks", name="closing_remarks"))
      *
      * @param CourseInfo|null $courseInfo
      * @param Request $request
@@ -67,7 +67,7 @@ class CourseInfoClosingRemarksController extends AbstractController
     }
 
     /**
-     * @Route("/end_word/form", name="message_form"))
+     * @Route("/edit", name="closing_remarks.edit"))
      *
      * @param CourseInfo|null $courseInfo
      * @param Request $request
