@@ -7,19 +7,28 @@ namespace AppBundle\Security\Voter;
 use AppBundle\Constant\Permission;
 use AppBundle\Entity\CourseAchievement;
 use AppBundle\Entity\CourseInfo;
-use AppBundle\Entity\CoursePermission;
 use AppBundle\Entity\CoursePrerequisite;
 use AppBundle\Entity\CourseTutoringResource;
 use AppBundle\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
-use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
+/**
+ * Class CourseInfoVoter
+ * @package AppBundle\Security\Voter
+ */
 class CourseInfoVoter extends Voter
 {
+    /**
+     * @var AccessDecisionManagerInterface
+     */
     private $decisionManager;
 
+    /**
+     * CourseInfoVoter constructor.
+     * @param AccessDecisionManagerInterface $decisionManager
+     */
     public function __construct(AccessDecisionManagerInterface $decisionManager)
     {
         $this->decisionManager = $decisionManager;
@@ -55,6 +64,10 @@ class CourseInfoVoter extends Voter
      */
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
     {
+        if ($this->decisionManager->decide($token, ['ROLE_ADMIN'])) {
+            return true;
+        }
+
         /** @var User $user */
         $user = $token->getUser();
 
@@ -63,28 +76,22 @@ class CourseInfoVoter extends Voter
                 return $this->getPermission($subject, $user, $attribute);
                 break;
             case CourseAchievement::class:
-                $courseInfo = $subject->getCourseInfo();
-                return $this->getPermission($courseInfo, $user, $attribute);
-                break;
             case CoursePrerequisite::class:
-                $courseInfo = $subject->getCourseInfo();
-                return $this->getPermission($courseInfo, $user, $attribute);
-                break;
             case CourseTutoringResource::class:
                 $courseInfo = $subject->getCourseInfo();
                 return $this->getPermission($courseInfo, $user, $attribute);
                 break;
         }
 
-        // A voir si on le met avant, je le mets ici pour test les classes //
-        if ($this->decisionManager->decide($token, ['ROLE_ADMIN'])) {
-            return true;
-        }
-        // end //
-
         return false;
     }
 
+    /**
+     * @param CourseInfo $couseInfo
+     * @param User $user
+     * @param $attribute
+     * @return bool
+     */
     private function getPermission(CourseInfo $couseInfo, User $user, $attribute){
         foreach ($couseInfo->getCoursePermissions() as $coursePermission) {
             if ($coursePermission->getUser()->getId() === $user->getId() && $coursePermission->getPermission() === $attribute) {
