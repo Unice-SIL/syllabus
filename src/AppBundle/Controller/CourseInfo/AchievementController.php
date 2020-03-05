@@ -18,6 +18,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
+ * Class AchievementController
+ * @package AppBundle\Controller\CourseInfo
  * @Route("/course-info/achievement/{id}", name="app.course_info.achievement.")
  */
 class AchievementController extends AbstractController

@@ -21,8 +21,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class PresentationController
- * @package AppBundle\Controller
- * @Route("/course/{id}/presentation", name="course_presentation_")
+ * @package AppBundle\Controller\CourseInfo
+ * @Route("/course-info/{id}/presentation", name="app.course_info.presentation.")
  * @Security("is_granted('WRITE', courseInfo)")
  */
 class PresentationController extends AbstractController
@@ -42,7 +42,7 @@ class PresentationController extends AbstractController
     }
 
     /**
-     * @Route("/general/view", name="general_view"))
+     * @Route("/general", name="general"))
      *
      * @param CourseInfo|null $courseInfo
      * @return \Symfony\Component\HttpFoundation\Response
@@ -67,7 +67,7 @@ class PresentationController extends AbstractController
     }
 
     /**
-     * @Route("/general/form", name="general_form"))
+     * @Route("/general/edit", name="general.edit"))
      *
      * @param CourseInfo $courseInfo
      * @param Request $request
@@ -112,7 +112,7 @@ class PresentationController extends AbstractController
     }
 
     /**
-     * @Route("/teachers/view", name="teachers_view"))
+     * @Route("/teachers", name="teachers"))
      *
      * @param CourseInfo $courseInfo
      * @return \Symfony\Component\HttpFoundation\Response
@@ -145,7 +145,7 @@ class PresentationController extends AbstractController
     }
 
     /**
-     * @Route("/teachers/form", name="teachers_form"))
+     * @Route("/teachers/edit", name="teachers.edit"))
      *
      * @param CourseInfo $courseInfo
      * @param Request $request
@@ -203,7 +203,7 @@ class PresentationController extends AbstractController
     }
 
     /**
-     * @Route("/teachers/remove/{teacherId}", name="remove_teacher"))
+     * @Route("/teachers/remove/{teacherId}", name="teacher.remove"))
      *
      * @param CourseInfo $courseInfo
      * @param CourseTeacher $teacher
@@ -253,7 +253,7 @@ class PresentationController extends AbstractController
     }
 
     /**
-     * @Route("/teaching_mode/view", name="teaching_mode_view"))
+     * @Route("/teaching-mode", name="teaching_mode"))
      *
      * @param CourseInfo $courseInfo
      * @return \Symfony\Component\HttpFoundation\Response
@@ -279,7 +279,7 @@ class PresentationController extends AbstractController
     }
 
     /**
-     * @Route("/teaching_mode/form", name="teaching_mode_form"))
+     * @Route("/teaching-mode/edit", name="teaching_mode.edit"))
      *
      * @param CourseInfo $courseInfo
      * @param Request $request

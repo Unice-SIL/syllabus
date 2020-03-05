@@ -14,8 +14,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
+ * Class ObjectivesController
+ * @package AppBundle\Controller\CourseInfo
  * @Route("/course-info/{id}/objectives", name="app.course_info.objectives.")
- *
  * @Security("is_granted('WRITE', courseInfo)")
  */
 class ObjectivesController extends AbstractController
