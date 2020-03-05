@@ -1,7 +1,6 @@
 <?php
 
-
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\Admin;
 
 
 use AppBundle\Entity\ActivityMode;
@@ -23,7 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class ActivityModeController
  * @package AppBundle\Controller
  *
- * @Route("/admin/mode_activity", name="app_admin.mode_activity_")
+ * @Route("/admin/activity-mode", name="app.admin.activity_mode.")
  * @Security("has_role('ROLE_ADMIN_ACTIVITYMODE')")
  */
 class ActivityModeController extends AbstractController

@@ -47,6 +47,12 @@ class UserRole
     const ROLE_ADMIN_CAMPUS_CREATE = 'ROLE_ADMIN_CAMPUS_CREATE';
     const ROLE_ADMIN_CAMPUS_UPDATE = 'ROLE_ADMIN_CAMPUS_UPDATE';
 
+    // DOMAIN
+    const ROLE_ADMIN_DOMAIN = 'ROLE_ADMIN_DOMAIN';
+    const ROLE_ADMIN_DOMAIN_LIST = 'ROLE_ADMIN_DOMAIN_LIST';
+    const ROLE_ADMIN_DOMAIN_CREATE = 'ROLE_ADMIN_DOMAIN_CREATE';
+    const ROLE_ADMIN_DOMAIN_UPDATE = 'ROLE_ADMIN_DOMAIN_UPDATE';
+
     /*====================== API ROLES ==================*/
     const ROLE_API = 'ROLE_API';
 
@@ -108,6 +114,10 @@ class UserRole
         self::ROLE_ADMIN_CAMPUS_LIST,
         self::ROLE_ADMIN_CAMPUS_CREATE,
         self::ROLE_ADMIN_CAMPUS_UPDATE,
+        self::ROLE_ADMIN_DOMAIN,
+        self::ROLE_ADMIN_DOMAIN_LIST,
+        self::ROLE_ADMIN_DOMAIN_CREATE,
+        self::ROLE_ADMIN_DOMAIN_UPDATE,
         self::ROLE_API,
         self::ROLE_API_COURSE,
         self::ROLE_API_COURSE_VIEW,
@@ -163,6 +173,11 @@ class UserRole
                 self::ROLE_ADMIN_CAMPUS_LIST,
                 self::ROLE_ADMIN_CAMPUS_CREATE,
                 self::ROLE_ADMIN_CAMPUS_UPDATE
+            ],
+            self::ROLE_ADMIN_DOMAIN => [
+                self::ROLE_ADMIN_DOMAIN_LIST,
+                self::ROLE_ADMIN_DOMAIN_CREATE,
+                self::ROLE_ADMIN_DOMAIN_UPDATE
             ]
         ],
         self::ROLE_SUPER_ADMIN,

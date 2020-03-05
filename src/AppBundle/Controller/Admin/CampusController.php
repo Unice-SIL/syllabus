@@ -1,7 +1,7 @@
 <?php
 
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\Admin;
 
 
 use AppBundle\Entity\Campus;
@@ -21,9 +21,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class CampusController
- * @package AppBundle\Controller
+ * @package AppBundle\Controller\Admin
  *
- * @Route("/admin/campus", name="app_admin.campus_")
+ * @Route("/admin/campus", name="app.admin.campus.")
  * @Security("has_role('ROLE_ADMIN_CAMPUS')")
  */
 class CampusController extends AbstractController
