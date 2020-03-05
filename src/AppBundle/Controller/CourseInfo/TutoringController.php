@@ -8,6 +8,7 @@ use AppBundle\Entity\CourseInfo;
 use AppBundle\Form\CourseInfo\CourseAchievement\CourseAssistTutoringType;
 use AppBundle\Manager\CourseInfoManager;
 use Exception;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,6 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * @package AppBundle\Controller\CourseInfo
  *
  * @Route("/course-info/{id}/tutoring", name="app.course_info.tutoring.")
+ * @Security("is_granted('WRITE', courseInfo)")
  */
 class TutoringController extends AbstractController
 {

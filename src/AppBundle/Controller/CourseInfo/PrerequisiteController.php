@@ -11,6 +11,7 @@ use AppBundle\Form\CourseInfo\CourseAchievement\RemoveCoursePrerequisiteType;
 use AppBundle\Manager\CourseInfoManager;
 use AppBundle\Manager\CoursePrerequisiteManager;
 use Exception;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,6 +28,7 @@ class PrerequisiteController extends AbstractController
 {
     /**
      * @Route("/create", name="create"))
+     * @Security("is_granted('WRITE', courseInfo)")
      *
      * @param CourseInfo $courseInfo
      * @param Request $request
@@ -73,6 +75,7 @@ class PrerequisiteController extends AbstractController
 
     /**
      * @Route("/edit", name="edit"))
+     * @Security("is_granted('WRITE', prerequisite)")
      *
      * @param CoursePrerequisite $prerequisite
      * @param Request $request
@@ -105,6 +108,7 @@ class PrerequisiteController extends AbstractController
 
     /**
      * @Route("/delete", name="delete"))
+     * @Security("is_granted('WRITE', prerequisite)")
      *
      * @param CoursePrerequisite $prerequisite
      * @param Request $request

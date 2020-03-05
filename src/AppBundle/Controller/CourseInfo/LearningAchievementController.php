@@ -8,6 +8,7 @@ use AppBundle\Entity\CourseCriticalAchievement;
 use AppBundle\Entity\LearningAchievement;
 use AppBundle\Form\CourseInfo\CourseAchievement\LearningAchievementType;
 use AppBundle\Form\CourseInfo\CourseAchievement\RemoveLearningAchievementType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,6 +25,7 @@ class LearningAchievementController extends AbstractController
 {
     /**
      * @Route("/create", name="create"))
+     * @Security("is_granted('WRITE', courseCriticalAchievement)")
      *
      * @param Request $request
      * @param CourseCriticalAchievement $courseCriticalAchievement
@@ -56,6 +58,7 @@ class LearningAchievementController extends AbstractController
 
     /**
      * @Route("/edit", name="edit"))
+     * @Security("is_granted('WRITE', learningAchievement)")
      *
      * @param LearningAchievement $learningAchievement
      * @param Request $request
@@ -89,6 +92,7 @@ class LearningAchievementController extends AbstractController
 
     /**
      * @Route("/delete", name="delete"))
+     * @Security("is_granted('WRITE', learningAchievement)")
      *
      * @param LearningAchievement $learningAchievement
      * @param Request $request

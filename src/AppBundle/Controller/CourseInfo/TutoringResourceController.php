@@ -9,6 +9,7 @@ use AppBundle\Entity\CourseTutoringResource;
 use AppBundle\Form\CourseInfo\CourseAchievement\CourseTutoringResourcesType;
 use AppBundle\Form\CourseInfo\CourseAchievement\RemoveCourseTutoringResourcesType;
 use AppBundle\Manager\CourseTutoringResourceManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,6 +26,7 @@ class TutoringResourceController extends AbstractController
 {
     /**
      * @Route("/create", name="create"))
+     * @Security("is_granted('WRITE', courseInfo)")
      *
      * @param CourseInfo $courseInfo
      * @param Request $request
@@ -66,6 +68,7 @@ class TutoringResourceController extends AbstractController
 
     /**
      * @Route("/edit", name="edit"))
+     * @Security("is_granted('WRITE', tutoringResources)")
      *
      * @param CourseTutoringResource $tutoringResources
      * @param Request $request
@@ -98,6 +101,7 @@ class TutoringResourceController extends AbstractController
 
     /**
      * @Route("/delete", name="delete"))
+     * @Security("is_granted('WRITE', tutoringResources)")
      *
      * @param CourseTutoringResource $tutoringResource
      * @param Request $request
