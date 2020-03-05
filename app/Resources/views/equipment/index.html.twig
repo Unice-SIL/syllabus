@@ -3,25 +3,30 @@
 {% block subContent %}
 
     <div class="card">
-        <div class="card-header">
-            <div class="card-header">
+
+        <div class="card-body">
+
+            <div class="d-flex justify-content-end pb-3">
+                {% include 'action/_equipment_create.html.twig' %}
+            </div>
+
+            <div class="border p-3 mb-3">
                 {{ form_start(form) }}
-                <div class="row ui-front">
-                    <div class="col-md-3">
+                <div class="row">
+                    <div class="col-lg-6 col-md-12">
                         {{ form_row(form.label) }}
                     </div>
-                    <div class="col-md-3 col-sm-6">
-                        <a class="btn btn-danger" style="margin-top: 32px" href="{{  path('app_admin.equipment_index')  }}">Réinitialiser les filtres</a>
-                    </div>
-                    <div class="offset-md-3"></div>
-                    <div class="col-md-3 col-sm-6">
-                        <a class="btn btn-primary float-right" style="margin-top: 32px" href="{{  path('app_admin.equipment_new')  }}">Ajouter un équipement</a>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Filtrer</button>
+                            <a class="btn btn-danger" href="{{  path('app.admin.equipment.index')  }}">Réinitialiser les filtres</a>
+                        </div>
                     </div>
                 </div>
+
                 {{ form_end(form) }}
-        </div>
-        <!-- /.card-header -->
-        <div class="card-body">
+            </div>
+
             {% if pagination.totalItemCount > 0 %}
                 <table class="table table-bordered table-responsive-sm">
                     <thead>
@@ -34,7 +39,13 @@
                     <tbody>
                     {% for equipment in pagination %}
                         <tr>
-                            <td><a href="{{ path('app_admin.equipment_edit', { 'id' : equipment.id }) }}">{{ equipment.label }}</a></td>
+                            <td>
+                                {% if is_granted('ROLE_ADMIN_EQUIPMENT_CREATE') %}
+                                    <a href="{{ path('app.admin.equipment.edit', { 'id' : equipment.id }) }}">{{ equipment.label }}</a>
+                                {% else %}
+                                    {{ equipment.label }}
+                                {% endif %}
+                            </td>
                             <td>{{ equipment.labelVisibility|humanizeBoolean }}</td>
                             <td>{{ equipment.obsolete|humanizeBoolean }}</td>
                         </tr>

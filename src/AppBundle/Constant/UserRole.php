@@ -53,6 +53,12 @@ class UserRole
     const ROLE_ADMIN_DOMAIN_CREATE = 'ROLE_ADMIN_DOMAIN_CREATE';
     const ROLE_ADMIN_DOMAIN_UPDATE = 'ROLE_ADMIN_DOMAIN_UPDATE';
 
+    // EQUIPMENT
+    const ROLE_ADMIN_EQUIPMENT = 'ROLE_ADMIN_EQUIPMENT';
+    const ROLE_ADMIN_EQUIPMENT_LIST = 'ROLE_ADMIN_EQUIPMENT_LIST';
+    const ROLE_ADMIN_EQUIPMENT_CREATE = 'ROLE_ADMIN_EQUIPMENT_CREATE';
+    const ROLE_ADMIN_EQUIPMENT_UPDATE = 'ROLE_ADMIN_EQUIPMENT_UPDATE';
+
     /*====================== API ROLES ==================*/
     const ROLE_API = 'ROLE_API';
 
@@ -118,6 +124,10 @@ class UserRole
         self::ROLE_ADMIN_DOMAIN_LIST,
         self::ROLE_ADMIN_DOMAIN_CREATE,
         self::ROLE_ADMIN_DOMAIN_UPDATE,
+        self::ROLE_ADMIN_EQUIPMENT,
+        self::ROLE_ADMIN_EQUIPMENT_LIST,
+        self::ROLE_ADMIN_EQUIPMENT_CREATE,
+        self::ROLE_ADMIN_EQUIPMENT_UPDATE,
         self::ROLE_API,
         self::ROLE_API_COURSE,
         self::ROLE_API_COURSE_VIEW,
@@ -178,6 +188,11 @@ class UserRole
                 self::ROLE_ADMIN_DOMAIN_LIST,
                 self::ROLE_ADMIN_DOMAIN_CREATE,
                 self::ROLE_ADMIN_DOMAIN_UPDATE
+            ],
+            self::ROLE_ADMIN_EQUIPMENT => [
+                self::ROLE_ADMIN_EQUIPMENT_LIST,
+                self::ROLE_ADMIN_EQUIPMENT_CREATE,
+                self::ROLE_ADMIN_EQUIPMENT_UPDATE
             ]
         ],
         self::ROLE_SUPER_ADMIN,
