@@ -11,8 +11,15 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Class PeriodType
+ * @package AppBundle\Form
+ */
 class PeriodType extends AbstractType
 {
+    /**
+     * @var PeriodTypeSubscriber
+     */
     private $periodTypeSubscriber;
 
     /**

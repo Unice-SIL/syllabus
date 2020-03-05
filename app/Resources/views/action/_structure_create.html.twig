@@ -1,0 +1,3 @@
+{% if is_granted('ROLE_ADMIN_STRUCTURE_CREATE') %}
+    <a class="btn btn-primary"  href="{{  path('app.admin.structure.new')  }}">Ajouter une structure</a>
+{% endif %}

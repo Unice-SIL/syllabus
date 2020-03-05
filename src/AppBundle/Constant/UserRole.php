@@ -71,6 +71,12 @@ class UserRole
     const ROLE_ADMIN_PERIOD_CREATE = 'ROLE_ADMIN_PERIOD_CREATE';
     const ROLE_ADMIN_PERIOD_UPDATE = 'ROLE_ADMIN_PERIOD_UPDATE';
 
+    // STRUCTURES
+    const ROLE_ADMIN_STRUCTURE = 'ROLE_ADMIN_STRUCTURE';
+    const ROLE_ADMIN_STRUCTURE_LIST = 'ROLE_ADMIN_STRUCTURE_LIST';
+    const ROLE_ADMIN_STRUCTURE_CREATE = 'ROLE_ADMIN_STRUCTURE_CREATE';
+    const ROLE_ADMIN_STRUCTURE_UPDATE = 'ROLE_ADMIN_STRUCTURE_UPDATE';
+
 
     /*====================== API ROLES ==================*/
     const ROLE_API = 'ROLE_API';
@@ -149,6 +155,10 @@ class UserRole
         self::ROLE_ADMIN_PERIOD_LIST,
         self::ROLE_ADMIN_PERIOD_CREATE,
         self::ROLE_ADMIN_PERIOD_UPDATE,
+        self::ROLE_ADMIN_STRUCTURE,
+        self::ROLE_ADMIN_STRUCTURE_LIST,
+        self::ROLE_ADMIN_STRUCTURE_CREATE,
+        self::ROLE_ADMIN_STRUCTURE_UPDATE,
         self::ROLE_API,
         self::ROLE_API_COURSE,
         self::ROLE_API_COURSE_VIEW,
@@ -224,6 +234,11 @@ class UserRole
                 self::ROLE_ADMIN_PERIOD_LIST,
                 self::ROLE_ADMIN_PERIOD_CREATE,
                 self::ROLE_ADMIN_PERIOD_UPDATE
+            ],
+            self::ROLE_ADMIN_STRUCTURE => [
+                self::ROLE_ADMIN_STRUCTURE_LIST,
+                self::ROLE_ADMIN_STRUCTURE_CREATE,
+                self::ROLE_ADMIN_STRUCTURE_UPDATE
             ]
         ],
         self::ROLE_SUPER_ADMIN,

@@ -1,15 +1,18 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\Admin;
 
 use AppBundle\Entity\Structure;
 use AppBundle\Form\Filter\StructureFilterType;
 use AppBundle\Form\StructureType;
 use AppBundle\Manager\StructureManager;
 use AppBundle\Repository\Doctrine\StructureDoctrineRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PropertyAccess\PropertyAccess;
@@ -19,22 +22,24 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class StructureController
  * @package AppBundle\Controller
  *
- * @Route("/admin/structure", name="app_admin.structure_")
+ * @Route("/admin/structure", name="app.admin.structure.")
+ * @Security("has_role('ROLE_ADMIN_STRUCTURE')")
  */
-class StructureController extends Controller
+class StructureController extends AbstractController
 {
-
-
     /**
      * @Route("/", name="index")
+     * @Security("has_role('ROLE_ADMIN_STRUCTURE_LIST')")
      *
      * @param Request $request
+     * @param PaginatorInterface $paginator
      * @param StructureDoctrineRepository $structureDoctrineRepository
      * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
      * @return Response
      */
     public function indexAction(
         Request $request,
+        PaginatorInterface $paginator,
         StructureDoctrineRepository $structureDoctrineRepository,
         FilterBuilderUpdaterInterface $filterBuilderUpdater
     )
@@ -51,7 +56,7 @@ class StructureController extends Controller
 
         }
 
-        $pagination = $this->get('knp_paginator')->paginate(
+        $pagination = $paginator->paginate(
             $qb,
             $request->query->getInt('page', 1),
             10
@@ -65,9 +70,11 @@ class StructureController extends Controller
 
     /**
      * @Route("/new", name="new")
+     * @Security("has_role('ROLE_ADMIN_STRUCTURE_CREATE')")
+     *
      * @param Request $request
      * @param StructureManager $structureManager
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @return RedirectResponse|Response
      */
     public function newAction(Request $request, StructureManager $structureManager)
     {
@@ -89,10 +96,12 @@ class StructureController extends Controller
      * Displays a form to edit an existing structure entity.
      *
      * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
+     * @Security("has_role('ROLE_ADMIN_STRUCTURE_UPDATE')")
+     *
      * @param Request $request
      * @param Structure $structure
      * @param StructureManager $structureManager
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @return RedirectResponse|Response
      */
     public function editAction(Request $request, Structure $structure, StructureManager $structureManager)
     {
@@ -117,7 +126,7 @@ class StructureController extends Controller
      * @param StructureDoctrineRepository $structureDoctrineRepository
      * @param Request $request
      * @param $field
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return JsonResponse
      */
     public function autocomplete(StructureDoctrineRepository $structureDoctrineRepository, Request $request, $field)
     {

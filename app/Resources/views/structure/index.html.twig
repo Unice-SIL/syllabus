@@ -3,33 +3,39 @@
 {% block subContent %}
 
     <div class="card">
-        <div class="card-header">
-            {{ form_start(form) }}
-            <div class="row ui-front">
-                <div class="col-md-2">
-                    {{ form_row(form.code) }}
-                </div>
-                <div class="col-md-2">
-                    {{ form_row(form.label) }}
-                </div>
-                <div class="col-md-2 col-sm-6">
-                    <a class="btn btn-danger" style="margin-top: 32px" href="{{  path('app_admin.structure_index')  }}">Réinitialiser les filtres</a>
-                </div>
-                <input type="submit" style="position: absolute; left: -9999px"/>
-                <div class="col-md-6 col-sm-6">
-                    <a class="btn btn-primary float-right" style="margin-top: 32px" href="{{  path('app_admin.structure_new')  }}">Ajouter une structure</a>
-                </div>
-            </div>
-            {{ form_end(form) }}
-        </div>
-        <!-- /.card-header -->
+
         <div class="card-body">
+
+            <div class="d-flex justify-content-end pb-3">
+                {% include 'action/_structure_create.html.twig' %}
+            </div>
+
+            <div class="border p-3 mb-3">
+                {{ form_start(form) }}
+                <div class="row">
+                    <div class="col-lg-6 col-md-12">
+                        {{ form_row(form.label) }}
+                    </div>
+                    <div class="col-lg-6 col-md-12">
+                        {{ form_row(form.code) }}
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Filtrer</button>
+                            <a class="btn btn-danger" href="{{  path('app.admin.structure.index')  }}">Réinitialiser les filtres</a>
+                        </div>
+                    </div>
+                </div>
+
+                {{ form_end(form) }}
+            </div>
+
             {% if pagination.totalItemCount > 0 %}
-                <table class="table table-bordered table-responsive-sm">
+                <table class="table table-hover table-responsive-sm">
                     <thead>
                     <tr>
-                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.structure.label.code'|trans, 's.code') }}</th>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.structure.label.label'|trans, 's.structure') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.structure.label.code'|trans, 's.code') }}</th>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.structure.label.obsolete'|trans, 's.obsolete') }}</th>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.structure.label.synchronized'|trans, 's.synchronized') }}</th>
                     </tr>
@@ -37,8 +43,14 @@
                     <tbody>
                     {% for structure in pagination %}
                         <tr>
-                            <td><a href="{{ path('app_admin.structure_edit', { 'id' : structure.id }) }}">{{ structure.code }}</a></td>
-                            <td>{{ structure.label }}</td>
+                            <td>
+                                {% if is_granted('ROLE_ADMIN_STRUCTURE_UPDATE') %}
+                                    <a href="{{ path('app.admin.structure.edit', { 'id' : structure.id }) }}">{{ structure.label }}</a>
+                                {% else %}
+                                    {{ structure.label }}
+                                {% endif %}
+                            </td>
+                            <td>{{ structure.code }}</td>
                             <td>{{ structure.obsolete|humanizeBoolean }}</td>
                             <td>{{ structure.synchronized|humanizeBoolean }}</td>
                         </tr>

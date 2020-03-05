@@ -38,7 +38,7 @@ class StructureFilterType extends AbstractType
     {
         switch ($options['context']) {
             case 'structure':
-                $dataAutocompletePath = 'app_admin.structure_autocomplete';
+                $dataAutocompletePath = 'app.admin.structure.autocomplete';
                 $fieldLabel = 'label';
                 break;
             case 'course_info':
