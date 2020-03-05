@@ -21,20 +21,13 @@
 
 <div class="row mt-4">
     <div class="col-6">
-        <label class="re">
-            {{ 'app.presentation.form.general.media_label' | trans }}
-        </label>
-
         <div>
-            <input type="radio" id="radio_image" value="image" onclick="image();">
-            <label class="mr-2" for="image">{{ 'app.presentation.form.general.picture' | trans }}</label>
-
-            <input class="" type="radio" id="radio_video" value="video" onclick="video();">
-            <label for="video">{{ 'app.presentation.form.general.video' | trans }}</label>
+            {{ form_widget(form.mediaType, {label_attr: {class: 'radio-custom'}} ) }}
         </div>
 
         <div class="border p-2">
             <div id="image">
+                {{ form_errors(form.image) }}
                 <small class="font-weight-bold">{{ 'app.presentation.form.general.file_type' | trans }}</small>
                 {{ form_widget(form.image, {label_attr: {class: 'file-custom'} }) }}
                 {% if form.vars.data.image is not null %}
@@ -60,7 +53,6 @@
                     <span>{{ 'app.presentation.form.general.add_video_info.part4' | trans }}</span>
                 </div>
                 {{ form_widget(form.video) }}
-                <label placeholder="URL"></label>
             </div>
         </div>
     </div>
@@ -88,23 +80,27 @@
 <script>
 
     $(document).ready(function () {
-        image();
+        toggleMediaType();
+
+        $(document).on('change', '#general_mediaType', function () {
+            toggleMediaType();
+        });
+
+        function toggleMediaType() {
+            let value = $('#general_mediaType').find('input[type="radio"]:checked').val();
+            if (value === 'video')
+            {
+                $('#image').hide();
+                $('#video').show();
+            }
+            else
+            {
+                $('#image').show();
+                $('#video').hide();
+            }
+        }
         $('form[name="general"]').find('.select2entity').select2entity();
     });
-
-    function image() {
-        $('#radio_image').prop('checked', true);
-        $('#radio_video').prop('checked', false);
-        $('#image').show();
-        $('#video').hide();
-    }
-
-    function video() {
-        $('#radio_video').prop('checked', true);
-        $('#radio_image').prop('checked', false);
-        $('#image').hide();
-        $('#video').show();
-    }
 
     $('#infos_level').click(function () {
         var message = '<ul>' +

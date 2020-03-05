@@ -1,0 +1,94 @@
+<div class="teaching-mode teaching-mode-hybrid d-none">
+    <div class="row mb-2">
+        <div class="col">
+            <h4 class="mb-2">{{ 'app.presentation.form.teaching_mode.class' | trans }}</h4>
+        </div>
+        <div class="col">
+            <h4 class="mb-2">{{ 'app.presentation.form.teaching_mode.distant' | trans }}</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <label>{{ 'app.presentation.form.teaching_mode.standard' | trans }}</label>
+            <div class="row mb-3">
+                <div class="col-sm" style="max-width: 170px;">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        CM
+                    </span>
+                        </div>
+                        {{ form_widget(form.teachingCmHybridClass) }}
+                    </div>
+                </div>
+                <div class="col-sm" style="max-width: 170px;">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        TD
+                    </span>
+                        </div>
+                        {{ form_widget(form.teachingTdHybridClass) }}
+                    </div>
+                </div>
+                <div class="col-sm" style="max-width: 170px;">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        TP
+                    </span>
+                        </div>
+                        {{ form_widget(form.teachingTpHybridClass) }}
+                    </div>
+                </div>
+            </div>
+
+            <label>{{ 'app.presentation.form.teaching_mode.additionnal' | trans }}</label>
+            {{ form_errors(form.teachingOtherTypeHybridClass) }}
+            <div class="row">
+                <div class="col-sm" style="max-width: 170px;">
+                    {{ form_widget(form.teachingOtherHybridClass) }}
+                </div>
+                <div class="col-sm">
+                    {{ form_widget(form.teachingOtherTypeHybridClass) }}
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <label>{{ 'app.presentation.form.teaching_mode.standard' | trans }}</label>
+            <div class="row mb-3">
+                <div class="col-sm" style="max-width: 170px;">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        CM
+                    </span>
+                        </div>
+                        {{ form_widget(form.teachingCmHybridDist) }}
+                    </div>
+                </div>
+                <div class="col-sm" style="max-width: 170px;">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        TD
+                    </span>
+                        </div>
+                        {{ form_widget(form.teachingTdHybridDist) }}
+                    </div>
+                </div>
+            </div>
+
+            <label>{{ 'app.presentation.form.teaching_mode.additionnal' | trans }}</label>
+            {{ form_errors(form.teachingOtherTypeHybridDistant) }}
+            <div class="row">
+                <div class="col-sm" style="max-width: 170px;">
+                    {{ form_widget(form.teachingOtherHybridDist) }}
+                </div>
+                <div class="col-sm">
+                    {{ form_widget(form.teachingOtherTypeHybridDistant) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

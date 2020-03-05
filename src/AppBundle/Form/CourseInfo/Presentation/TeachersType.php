@@ -50,14 +50,14 @@ class TeachersType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('teacherSource', ChoiceType::class, [
-            'label' => 'Source de données',
+            'label' => 'app.presentation.form.teacher.source_data',
             'mapped' => false,
             'multiple' => false,
             'expanded' => false,
             'choices' => $this->teacherSources
         ])
             ->add('login', ChoiceType::class,[
-                'label' => 'Rechercher un individu',
+                'label' => 'app.presentation.form.teacher.search_user',
                 'expanded' => false,
                 'multiple' => false,
                 'mapped' => false,
@@ -73,7 +73,7 @@ class TeachersType extends AbstractType
                     return;
                 }
                 $form->add('login', ChoiceType::class, [
-                    'label' => 'Rechercher un individu',
+                    'label' => 'app.presentation.form.teacher.search_user',
                     'expanded' => false,
                     'multiple' => false,
                     'mapped' => false,

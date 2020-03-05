@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\CourseInfo;
 
 
 use AppBundle\Entity\CourseInfo;
@@ -8,7 +8,6 @@ use AppBundle\Entity\CourseTeacher;
 use AppBundle\Factory\ImportCourseTeacherFactory;
 use AppBundle\Form\CourseInfo\Presentation\GeneralType;
 use AppBundle\Form\CourseInfo\Presentation\RemoveTeacherType;
-use AppBundle\Form\CourseInfo\Presentation\SynopsisType;
 use AppBundle\Form\CourseInfo\Presentation\TeachersType;
 use AppBundle\Form\CourseInfo\Presentation\TeachingModeType;
 use AppBundle\Manager\CourseInfoManager;
@@ -21,12 +20,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class CourseInfoPresentationController
+ * Class PresentationController
  * @package AppBundle\Controller
  * @Route("/course/{id}/presentation", name="course_presentation_")
  * @Security("is_granted('WRITE', courseInfo)")
  */
-class CourseInfoPresentationController extends AbstractController
+class PresentationController extends AbstractController
 {
     /**
      * @Route("/", name="index")
@@ -91,6 +90,7 @@ class CourseInfoPresentationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $courseInfo->checkMedia();
+            dump($form->getData());
             $manager->update($courseInfo);
             $render = $this->get('twig')->render('course_info/presentation/view/general.html.twig', [
                 'courseInfo' => $courseInfo

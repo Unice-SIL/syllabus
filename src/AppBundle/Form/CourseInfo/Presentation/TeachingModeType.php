@@ -22,27 +22,12 @@ class TeachingModeType extends AbstractType
                 'placeholder' => false,
                 'choices' => TeachingMode::CHOICES
             ])
-            ->add('teachingCmClass', TextType::class, [
-                'required' => false,
-                'disabled' => true,
-                'label' => 'h Cours Magistraux',
-            ])
-            ->add('teachingTdClass', TextType::class, [
-                'required' => false,
-                'disabled' => true,
-                'label' => 'h Travaux Dirigés',
-            ])
-            ->add('teachingTpClass', TextType::class, [
-                'required' => false,
-                'disabled' => true,
-                'label' => 'h Travaux Pratiques',
-            ])
             ->add('teachingOtherClass', TextType::class, [
                 'required' => false,
                 'label' => 'Volume',
                 'attr' => [
                     'data-teaching-mode' => 'class',
-                    'placeholder' => 'Volume (H)'
+                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.other_class'
                 ]
             ])
             ->add('teachingOtherTypeClass', TextType::class, [
@@ -50,34 +35,34 @@ class TeachingModeType extends AbstractType
                 'label' => 'Type',
                 'attr' => [
                     'data-teaching-mode' => 'class',
-                    'placeholder' => 'Type (Ex: Heures personnelles)'
+                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.type'
                 ]
             ])
             ->add('teachingCmHybridClass', TextType::class, [
                 'required' => false,
-                'label' => 'h Cours Magistraux',
                 'attr' => [
+                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.hours',
                     'data-teaching-mode' => 'hybrid'
                 ]
             ])
             ->add('teachingTdHybridClass', TextType::class, [
                 'required' => false,
-                'label' => 'h Travaux Dirigés',
                 'attr' => [
+                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.hours',
                     'data-teaching-mode' => 'hybrid'
                 ]
             ])
             ->add('teachingTpHybridClass', TextType::class, [
                 'required' => false,
-                'label' => 'h Travaux Pratiques',
                 'attr' => [
+                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.hours',
                     'data-teaching-mode' => 'hybrid'
                 ]
             ])
             ->add('teachingOtherHybridClass', TextType::class, [
                 'required' => false,
-                'label' => 'h Autre (facultatif)',
                 'attr' => [
+                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.hours',
                     'data-teaching-mode' => 'hybrid'
                 ]
             ])
@@ -86,27 +71,27 @@ class TeachingModeType extends AbstractType
                 'label' => 'Type',
                 'attr' => [
                     'data-teaching-mode' => 'hybrid',
-                    'placeholder' => 'Ex: Heures personnelles'
+                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.type'
                 ]
             ])
             ->add('teachingCmHybridDist', TextType::class, [
                 'required' => false,
-                'label' => 'h Cours Magistraux',
                 'attr' => [
+                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.hours',
                     'data-teaching-mode' => 'hybrid'
                 ]
             ])
             ->add('teachingTdHybridDist', TextType::class, [
                 'required' => false,
-                'label' => 'h Travaux Dirigés',
                 'attr' => [
+                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.hours',
                     'data-teaching-mode' => 'hybrid'
                 ]
             ])
             ->add('teachingOtherHybridDist', TextType::class, [
                 'required' => false,
-                'label' => 'h Autre (facultatif)',
                 'attr' => [
+                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.hours',
                     'data-teaching-mode' => 'hybrid'
                 ]
             ])
@@ -115,21 +100,25 @@ class TeachingModeType extends AbstractType
                 'label' => 'Type',
                 'attr' => [
                     'data-teaching-mode' => 'hybrid',
-                    'placeholder' => 'Ex: Heures personnelles'
+                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.type'
                 ]
             ])
             ->add('teachingCmDist', TextType::class, [
                 'required' => false,
-                'label' => 'h Cours Magistraux',
+                'attr' => [
+                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.hours',
+                ]
             ])
             ->add('teachingTdDist', TextType::class, [
                 'required' => false,
-                'label' => 'h Travaux Dirigés',
+                'attr' => [
+                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.hours',
+                ]
             ])
             ->add('teachingOtherDist', TextType::class, [
                 'required' => false,
-                'label' => 'h Autre (facultatif)',
                 'attr' => [
+                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.hours',
                     'data-teaching-mode' => 'class'
                 ]
             ])
@@ -138,7 +127,7 @@ class TeachingModeType extends AbstractType
                 'label' => 'Type',
                 'attr' => [
                     'data-teaching-mode' => 'class',
-                    'placeholder' => 'Ex: Heures personnelles'
+                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.type'
                 ]
             ]);
     }

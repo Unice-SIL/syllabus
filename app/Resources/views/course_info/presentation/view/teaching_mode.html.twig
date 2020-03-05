@@ -10,17 +10,17 @@
         <div class="row">
             {% if courseInfo.teachingCmClass is not null %}
                 <div class="col-md-3 col-sm-6 col-12">
-                    {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': 'Cours Magistraux', 'teachingTypeHours': courseInfo.teachingCmClass } %}
+                    {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': 'app.presentation.form.teaching_mode.cm', 'teachingTypeHours': courseInfo.teachingCmClass } %}
                 </div>
             {% endif %}
             {% if courseInfo.teachingTdClass is not null %}
                 <div class="col-md-3 col-sm-6 col-12">
-                    {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': 'Travaux Dirigés', 'teachingTypeHours': courseInfo.teachingTdClass } %}
+                    {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': 'app.presentation.form.teaching_mode.td', 'teachingTypeHours': courseInfo.teachingTdClass } %}
                 </div>
             {% endif %}
             {% if courseInfo.teachingTpClass is not null %}
                 <div class="col-md-3 col-sm-6 col-12">
-                    {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': 'Travaux Pratiques', 'teachingTypeHours': courseInfo.teachingTpClass } %}
+                    {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': 'app.presentation.form.teaching_mode.tp', 'teachingTypeHours': courseInfo.teachingTpClass } %}
                 </div>
             {% endif %}
             {% if courseInfo.teachingOtherClass is not null %}
@@ -33,12 +33,12 @@
         <div class="row">
             {% if courseInfo.teachingCmDist is not null %}
                 <div class="col-md-3 col-sm-6 col-12">
-                    {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': 'Cours Magistraux', 'teachingTypeHours': courseInfo.teachingCmDist } %}
+                    {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': 'app.presentation.form.teaching_mode.cm', 'teachingTypeHours': courseInfo.teachingCmDist } %}
                 </div>
             {% endif %}
             {% if courseInfo.teachingTdDist is not null %}
                 <div class="col-md-3 col-sm-6 col-12">
-                    {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': 'Travaux Dirigés', 'teachingTypeHours': courseInfo.teachingTdDist } %}
+                    {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': 'app.presentation.form.teaching_mode.td', 'teachingTypeHours': courseInfo.teachingTdDist } %}
                 </div>
             {% endif %}
             {% if courseInfo.teachingOtherDist is not null %}
@@ -50,27 +50,27 @@
     {% elseif courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::HYBRID') %}
         <div class="row">
             <div class="col">
-                <h6>Présentiel</h6>
+                <h6>{{ 'app.presentation.form.teaching_mode.class' | trans }}</h6>
             </div>
             <div class="col">
-                <h6>A distance</h6>
+                <h6>{{ 'app.presentation.form.teaching_mode.distant' | trans }}</h6>
             </div>
         <div class="row">
             <div class="col">
                 <div class="row">
                     {% if courseInfo.teachingCmHybridClass is not null %}
                         <div class="col-md-6 col-sm-12 col-12">
-                            {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': 'Cours Magistraux', 'teachingTypeHours': courseInfo.teachingCmHybridClass } %}
+                            {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': 'app.presentation.form.teaching_mode.cm', 'teachingTypeHours': courseInfo.teachingCmHybridClass } %}
                         </div>
                     {% endif %}
                     {% if courseInfo.teachingTdHybridClass is not null %}
                         <div class="col-md-6 col-sm-12 col-12">
-                            {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': 'Travaux Dirigés', 'teachingTypeHours': courseInfo.teachingTdHybridClass } %}
+                            {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': 'app.presentation.form.teaching_mode.td', 'teachingTypeHours': courseInfo.teachingTdHybridClass } %}
                         </div>
                     {% endif %}
                     {% if courseInfo.teachingTpHybridClass is not null %}
                         <div class="col-md-6 col-sm-12 col-12">
-                            {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': 'Travaux Pratiques', 'teachingTypeHours': courseInfo.teachingTpHybridClass } %}
+                            {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': 'app.presentation.form.teaching_mode.tp', 'teachingTypeHours': courseInfo.teachingTpHybridClass } %}
                         </div>
                     {% endif %}
                     {% if courseInfo.teachingOtherHybridClass is not null %}
@@ -84,12 +84,12 @@
                 <div class="row">
                     {% if courseInfo.teachingCmHybridDist is not null %}
                         <div class="col-md-6 col-sm-12 col-12">
-                            {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': 'Cours Magistraux', 'teachingTypeHours': courseInfo.teachingCmHybridDist, 'type': 'warning' } %}
+                            {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': 'app.presentation.form.teaching_mode.cm', 'teachingTypeHours': courseInfo.teachingCmHybridDist, 'type': 'warning' } %}
                         </div>
                     {% endif %}
                     {% if courseInfo.teachingTdHybridDist is not null %}
                         <div class="col-md-6 col-sm-12 col-12">
-                            {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': 'Travaux Dirigés', 'teachingTypeHours': courseInfo.teachingTdHybridDist, 'type': 'warning' } %}
+                            {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': 'app.presentation.form.teaching_mode.td', 'teachingTypeHours': courseInfo.teachingTdHybridDist, 'type': 'warning' } %}
                         </div>
                     {% endif %}
                     {% if courseInfo.teachingOtherHybridDist is not null %}
@@ -100,6 +100,5 @@
                 </div>
             </div>
         </div>
-
     {% endif %}
 {% endif %}
