@@ -13,6 +13,7 @@ use AppBundle\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use function League\Csv\is_nullable_int;
 
 /**
  * Class CourseInfoVoter
@@ -47,7 +48,7 @@ class CourseInfoVoter extends Voter
             CoursePrerequisite::class,
             CourseTutoringResource::class
         ];
-        if (!in_array(get_class($subject), $class)) {
+        if (is_null($subject) || !in_array(get_class($subject), $class)) {
             return false;
         }
         if (!in_array($attribute, Permission::PERMISSIONS)) {
