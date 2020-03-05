@@ -27,6 +27,7 @@
 
         <div class="border p-2">
             <div id="image">
+                {{ form_errors(form.image) }}
                 <small class="font-weight-bold">{{ 'app.presentation.form.general.file_type' | trans }}</small>
                 {{ form_widget(form.image, {label_attr: {class: 'file-custom'} }) }}
                 {% if form.vars.data.image is not null %}

@@ -95,6 +95,10 @@ class CourseInfo
      *
      * @ORM\Column(name="image", type="text", length=65535, nullable=true)
      * @JMS\Groups(groups={"course_info"})
+     * @Assert\File(
+     *    maxSize="2M",
+     *     mimeTypes={ "image/jpeg", "image/png" }
+     *     )
      */
     private $image;
 
