@@ -28,6 +28,7 @@
     </div>
     <div class="col-md-7">
         {% include 'course_info/presentation/form/_teaching_mode_class.html.twig' %}
+        {% include 'course_info/presentation/form/_teaching_mode_distant.html.twig' %}
     </div>
 </div>
 
@@ -170,17 +171,28 @@
 
 <script>
     $(document).ready(function () {
-        toggleTeachingMode();
 
-        $(document).on('change', '#teaching_mode_teachingMode', function () {
+        let $teachingMode = $('#teaching_mode_teachingMode');
+
+        /**
+         *
+         */
+        function toggleTeachingMode() {
+            let mode = $teachingMode.find('input[type="radio"]:checked').val();
+            console.log(mode);
+
+            $('.teaching-mode').addClass('d-none');
+            $('.teaching-mode-' + mode).removeClass('d-none');
+        }
+
+        /**
+         *
+         */
+        $teachingMode.change('#teaching_mode_teachingMode', function () {
             toggleTeachingMode();
         });
 
-        function toggleTeachingMode() {
-            let value = $('#teaching_mode_teachingMode').find('input[type="radio"]:checked').val();
+        toggleTeachingMode();
 
-            $('.teaching-mode').addClass('d-none');
-            $('.teaching-mode-' + value).removeClass('d-none');
-        }
     })
 </script>

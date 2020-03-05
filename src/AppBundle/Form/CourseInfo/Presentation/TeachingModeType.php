@@ -22,27 +22,6 @@ class TeachingModeType extends AbstractType
                 'placeholder' => false,
                 'choices' => TeachingMode::CHOICES
             ])
-            ->add('teachingCmClass', TextType::class, [
-                'required' => false,
-                'disabled' => true,
-                'attr' => [
-                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.cm',
-                ]
-            ])
-            ->add('teachingTdClass', TextType::class, [
-                'required' => false,
-                'disabled' => true,
-                'attr' => [
-                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.td',
-                ]
-            ])
-            ->add('teachingTpClass', TextType::class, [
-                'required' => false,
-                'disabled' => true,
-                'attr' => [
-                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.tp',
-                ]
-            ])
             ->add('teachingOtherClass', TextType::class, [
                 'required' => false,
                 'label' => 'Volume',
