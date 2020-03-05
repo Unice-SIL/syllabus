@@ -3,7 +3,7 @@
 {% block subContent %}
 
     <div id="card-achievement" class="card my-2 shadow card-syllabus"
-         data-view-url="{{ path('objectives.achievements', {'id': courseInfo.id }) }}"
+         data-view-url="{{ path('app.course_info.objectives.achievements', {'id': courseInfo.id }) }}"
     >
         <div class="card-header">
             <div class="d-flex justify-content-between">
@@ -11,7 +11,7 @@
                 <button type="button"
                         class="btn btn-primary rounded modal-action"
                         data-action-title="Ajouter une compétence"
-                        data-action-url="{{ path('objective_course_achievement_form', {'id': courseInfo.id }) }}">
+                        data-action-url="{{ path('app.course_info.achievement.create', {'id': courseInfo.id }) }}">
                     Ajouter une capacité
                 </button>
             </div>
@@ -27,7 +27,7 @@
 
 
     <div id="card-critical_achievement" class="card my-2 shadow card-syllabus"
-         data-view-url="{{ path('objectives.critical_achievements', {'id': courseInfo.id }) }}"
+         data-view-url="{{ path('app.course_info.objectives.critical_achievements', {'id': courseInfo.id }) }}"
     >
         <div class="card-header">
             <div class="d-flex justify-content-between">
@@ -35,7 +35,7 @@
                 <button type="button"
                         class="btn btn-primary rounded modal-action"
                         data-action-title="Ajouter un apprentissage critique"
-                        data-action-url="{{ path('objective_course_critical_achievement_form', {'id': courseInfo.id }) }}">
+                        data-action-url="{{ path('app.course_info.critical_achievement.create', {'id': courseInfo.id }) }}">
                     Ajouter un apprentissage critique
                 </button>
             </div>
@@ -45,14 +45,14 @@
     </div>
 
     <div id="card-prerequisite" class="card my-2 shadow card-syllabus"
-         data-view-url="{{ path('objectives.prerequisites', {'id': courseInfo.id }) }}"
+         data-view-url="{{ path('app.course_info.objectives.prerequisites', {'id': courseInfo.id }) }}"
     >
         <div class="card-header">
             <div class="d-flex justify-content-between">
                 <h3>Prérequis</h3>
                 <button type="button" class="btn btn-primary modal-action rounded"
                         data-action-title="Ajouter un prérequis"
-                        data-action-url="{{ path('objective_course_prerequisite_form', {'id': courseInfo.id }) }}">
+                        data-action-url="{{ path('app.course_info.prerequisite.create', {'id': courseInfo.id }) }}">
                     Ajouter un prérequis
                 </button>
             </div>
@@ -62,7 +62,7 @@
     </div>
 
     <div id="card-tutoring-resources" class="card my-2 shadow card-syllabus"
-         data-view-url="{{ path('objectives.tutoring_resources', {'id': courseInfo.id }) }}"
+         data-view-url="{{ path('app.course_info.objectives.tutoring_resources', {'id': courseInfo.id }) }}"
     >
         <div class="card-header">
             <div class="d-flex justify-content-between">
@@ -70,7 +70,7 @@
                 <button type="button" class="btn btn-primary modal-action rounded "
                         data-action-title="Ajouter une remédiation"
                         data-card="card-tutoring-resources"
-                        data-action-url="{{ path('objective_course_tutoring_resources_form', {'id': courseInfo.id }) }}">
+                        data-action-url="{{ path('app.course_info.tutoring_resource.create', {'id': courseInfo.id }) }}">
                     Ajouter une remédiation
                 </button>
             </div>
@@ -99,7 +99,7 @@
                     Syllabus.handleModalAction($modal_app, $modal_app_title, $modal_app_body, title, url, event)
                 }
                 checkedValue = checkedValue === true ? 1 : 0;
-                let url = "{{ path('objective_course_active_tutoring', {'id': courseInfo.id, 'action': 'checkedValue'}) }}";
+                let url = "{{ path('app.course_info.tutoring.active', {'id': courseInfo.id, 'action': 'checkedValue'}) }}";
                 url = url.replace("checkedValue", checkedValue);
                 let card = $('#card-tutoring-resources');
                 let $cardBody = card.find('.card-body');

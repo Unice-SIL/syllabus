@@ -23,7 +23,7 @@
             <th class="text-center" style="width: 20%">Modifier/Supprimer</th>
         </tr>
         </thead>
-        <tbody id="prerequisites-list" class="list-sortable" data-url="{{ path('objective_course_sort_prerequisites', {'id': courseInfo.id}) }}">
+        <tbody id="prerequisites-list" class="list-sortable" data-url="{{ path('app.course_info.objectives.sort_prerequisites', {'id': courseInfo.id}) }}">
         {% for prerequisite in courseInfo.coursePrerequisites %}
             <tr class="item-sortable" data-id="{{ prerequisite.id }}">
                 <td class="text-left">{{ prerequisite.description }}</td>
@@ -31,12 +31,12 @@
                     <button type="button"
                             class="btn btn-link modal-action p-0"
                             data-action-title="Modifier un prérequis"
-                            data-action-url="{{ path('objective_course_edit_prerequisite', {'id': courseInfo.id, 'prerequisiteId': prerequisite.id}) }}">
+                            data-action-url="{{ path('app.course_info.prerequisite.edit', {'id': prerequisite.id}) }}">
                         <i class="fas fa-edit"></i>
                     </button>
                     <button type="button" class="btn btn-link modal-action p-0"
                             data-action-title="Supprimer un prérequis"
-                            data-action-url="{{ path('objective_course_remove_prerequisite', {'id': courseInfo.id, 'prerequisiteId': prerequisite.id}) }}">
+                            data-action-url="{{ path('app.course_info.prerequisite.delete', {'id': prerequisite.id}) }}">
                         <i class="fas fa-trash-alt text-danger"></i>
                     </button>
                 </td>

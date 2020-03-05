@@ -1,5 +1,5 @@
-{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('objective_course_learning_achievement_form',
-    {'id': courseInfo.id, 'criticalAchievementId': form.vars.data.courseCriticalAchievement.id }), 'data-card': 'card-critical_achievement'}}) }}
+{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('app.course_info.learning_achievement.create',
+    {'id': form.vars.data.courseCriticalAchievement.id }), 'data-card': 'card-critical_achievement'}}) }}
 {{ form_errors(form) }}
 <div class="row mt-3">
     <div class="col">

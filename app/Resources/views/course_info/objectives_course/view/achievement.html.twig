@@ -22,7 +22,7 @@
             <th class="text-center" style="width: 20%">Modifier/Supprimer</th>
         </tr>
         </thead>
-        <tbody id="achievements-list" class="list-sortable" data-url="{{ path('objective_course_sort_achievements', {'id': courseInfo.id}) }}">
+        <tbody id="achievements-list" class="list-sortable" data-url="{{ path('app.course_info.objectives.sort_achievements', {'id': courseInfo.id}) }}">
         {% for achievement in courseInfo.courseAchievements %}
             <tr class="item-sortable" data-id="{{ achievement.id }}">
                 <td class="text-left">{{ achievement.description }}</td>
@@ -30,12 +30,12 @@
                     <button type="button"
                             class="btn btn-link modal-action p-0"
                             data-action-title="Modifier une compétence"
-                            data-action-url="{{ path('objective_course_edit_achievement', {'id': courseInfo.id, 'achievementId': achievement.id}) }}">
+                            data-action-url="{{ path('app.course_info.achievement.edit', {'id': achievement.id}) }}">
                         <i class="fas fa-edit"></i>
                     </button>
                     <button type="button" class="btn btn-link modal-action p-0"
                             data-action-title="Supprimer une compétence"
-                            data-action-url="{{ path('objective_course_remove_achievement', {'id': courseInfo.id, 'achievementId': achievement.id}) }}">
+                            data-action-url="{{ path('app.course_info.achievement.delete', {'id': achievement.id}) }}">
                         <i class="fas fa-trash-alt text-danger"></i>
                     </button>
                 </td>

@@ -18,7 +18,7 @@
     {% for criticalAchievement in courseInfo.courseCriticalAchievements %}
 
         <div id="card-achievement" class="card my-2 shadow card-syllabus"
-             data-view-url="{{ path('objectives.achievements', {'id': courseInfo.id }) }}"
+             data-view-url="{{ path('app.course_info.objectives.achievements', {'id': courseInfo.id }) }}"
         >
             <div class="card-header" style="background-color: #c0c0c0">
                 <div class="d-flex justify-content-between">
@@ -27,22 +27,19 @@
                         <button type="button"
                                 class="btn btn-link modal-action p-0"
                                 data-action-title="Modifier un acquis critique"
-                                data-action-url="{{ path('objective_course_critical_achievement_edit', {'id': courseInfo.id,
-                                    'criticalAchievementId': criticalAchievement.id}) }}">
+                                data-action-url="{{ path('app.course_info.critical_achievement.edit', {'id': criticalAchievement.id}) }}">
                             <i class="fas fa-edit"></i>
                         </button>
                         <button type="button" class="btn btn-link modal-action p-0 mr-2"
                                 data-action-title="Supprimer un acquis critique"
-                                data-action-url="{{ path('objective_course_critical_achievement_remove', {'id': courseInfo.id,
-                                    'criticalAchievementId': criticalAchievement.id}) }}">
+                                data-action-url="{{ path('app.course_info.critical_achievement.delete', {'id': criticalAchievement.id}) }}">
                             <i class="fas fa-trash-alt text-danger"
                             ></i>
                         </button>
                         <button type="button"
                                 class="btn btn-primary rounded modal-action"
                                 data-action-title="Ajouter un acquis"
-                                data-action-url="{{ path('objective_course_learning_achievement_form', {'id': courseInfo.id,
-                                    'criticalAchievementId': criticalAchievement.id }) }}">
+                                data-action-url="{{ path('app.course_info.learning_achievement.create', {'id': criticalAchievement.id }) }}">
                             Ajouter un acquis
                         </button>
                     </div>
@@ -113,14 +110,12 @@
                                     <button type="button"
                                             class="btn btn-link modal-action p-0"
                                             data-action-title="Modifier un acquis"
-                                            data-action-url="{{ path('objective_course_learning_achievement_edit', {'id': courseInfo.id,
-                                                'learningAchievementId': learningAchievement.id }) }}">
+                                            data-action-url="{{ path('app.course_info.learning_achievement.edit', {'id': learningAchievement.id }) }}">
                                         <i class="fas fa-edit"></i>
                                     </button>
                                     <button type="button" class="btn btn-link modal-action p-0"
                                             data-action-title="Supprimer un acquis"
-                                            data-action-url="{{ path('objective_course_learning_achievement_remove', {'id': courseInfo.id,
-                                                'learningAchievementId': learningAchievement.id }) }}">
+                                            data-action-url="{{ path('app.course_info.learning_achievement.delete', {'id': learningAchievement.id }) }}">
                                         <i class="fas fa-trash-alt text-danger"></i>
                                     </button>
                                 </td>

@@ -1,5 +1,5 @@
-{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('objective_course_critical_achievement_remove',
-    {'id': courseInfo.id, 'criticalAchievementId': form.vars.data.id}), 'data-card': 'card-critical_achievement' }}) }}
+{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('app.course_info.critical_achievement.delete',
+    {'id': form.vars.data.id}), 'data-card': 'card-critical_achievement' }}) }}
 {{ form_errors(form) }}
 <h5>Êtes-vous sûr(e) de vouloir supprimer l'apprentissage critique ?</h5>
 <div class="d-flex justify-content-center">
