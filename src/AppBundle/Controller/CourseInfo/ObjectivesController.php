@@ -5,16 +5,20 @@ namespace AppBundle\Controller\CourseInfo;
 
 
 use AppBundle\Entity\CourseInfo;
+use AppBundle\Manager\CourseInfoManager;
+use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/course-info/{id}/objectives", name="objectives.")
+ * @Route("/course-info/{id}/objectives", name="app.course_info.objectives.")
+ *
  * @Security("is_granted('WRITE', courseInfo)")
  */
-class ObjectivesCourseController extends AbstractController
+class ObjectivesController extends AbstractController
 {
     /**
      * @Route("/", name="index")
@@ -50,6 +54,28 @@ class ObjectivesCourseController extends AbstractController
         return $this->json([
             'status' => true,
             'content' => $render
+        ]);
+    }
+
+    /**
+     * @Route("/achievements/sort", name="sort_achievements"))
+     *
+     * @param CourseInfo $courseInfo
+     * @param Request $request
+     * @param CourseInfoManager $manager
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @throws \Exception
+     */
+    public function sortAchievementsAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
+    {
+        $achievements = $courseInfo->getCourseAchievements();
+        $dataAchievements = $request->request->get('data');
+
+        $this->sortList($courseInfo, $achievements, $dataAchievements, $manager);
+
+        return $this->json([
+            'status' => true,
+            'content' => null
         ]);
     }
 
@@ -117,7 +143,29 @@ class ObjectivesCourseController extends AbstractController
     }
 
     /**
-     * @Route("tutoring-resources", name="tutoring_resources"))
+     * @Route("/prerequisites/sort", name="sort_prerequisites"))
+     *
+     * @param CourseInfo $courseInfo
+     * @param Request $request
+     * @param CourseInfoManager $manager
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @throws \Exception
+     */
+    public function sortPrerequisitesAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
+    {
+        $prerequisites = $courseInfo->getCoursePrerequisites();
+        $dataPrerequisites = $request->request->get('data');
+
+        $this->sortList($courseInfo, $prerequisites, $dataPrerequisites, $manager);
+
+        return $this->json([
+            'status' => true,
+            'content' => null
+        ]);
+    }
+
+    /**
+     * @Route("/tutoring-resources", name="tutoring_resources"))
      *
      * @param CourseInfo $courseInfo
      * @return Response
@@ -139,4 +187,46 @@ class ObjectivesCourseController extends AbstractController
             'content' => $render
         ]);
     }
+
+    /**
+     * @Route("/tutoring-resources/sort", name="sort_tutoring_resources"))
+     *
+     * @param CourseInfo $courseInfo
+     * @param Request $request
+     * @param CourseInfoManager $manager
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @throws \Exception
+     */
+    public function sortTutoringResourcesAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
+    {
+        $tutoringResources = $courseInfo->getCourseTutoringResources();
+        $dataTutoringResources = $request->request->get('data');
+
+        $this->sortList($courseInfo, $tutoringResources, $dataTutoringResources, $manager);
+
+        return $this->json([
+            'status' => true,
+            'content' => null
+        ]);
+    }
+
+    /**
+     * @param CourseInfo $courseInfo
+     * @param $courseInfoList
+     * @param $data
+     * @param CourseInfoManager $manager
+     * @throws Exception
+     */
+    private function sortList(CourseInfo $courseInfo, $courseInfoList, $data, CourseInfoManager $manager)
+    {
+        if ($data) {
+            foreach ($courseInfoList as $item) {
+                if (in_array($item->getId(), $data)) {
+                    $item->setPosition(array_search($item->getId(), $data));
+                }
+            }
+            $manager->update($courseInfo);
+        }
+    }
+
 }
