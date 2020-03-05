@@ -41,28 +41,28 @@ class TeachingModeType extends AbstractType
             ->add('teachingCmHybridClass', TextType::class, [
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.cm',
+                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.hours',
                     'data-teaching-mode' => 'hybrid'
                 ]
             ])
             ->add('teachingTdHybridClass', TextType::class, [
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.td',
+                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.hours',
                     'data-teaching-mode' => 'hybrid'
                 ]
             ])
             ->add('teachingTpHybridClass', TextType::class, [
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.tp',
+                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.hours',
                     'data-teaching-mode' => 'hybrid'
                 ]
             ])
             ->add('teachingOtherHybridClass', TextType::class, [
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.other',
+                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.hours',
                     'data-teaching-mode' => 'hybrid'
                 ]
             ])
@@ -77,21 +77,21 @@ class TeachingModeType extends AbstractType
             ->add('teachingCmHybridDist', TextType::class, [
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.cm',
+                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.hours',
                     'data-teaching-mode' => 'hybrid'
                 ]
             ])
             ->add('teachingTdHybridDist', TextType::class, [
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.td',
+                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.hours',
                     'data-teaching-mode' => 'hybrid'
                 ]
             ])
             ->add('teachingOtherHybridDist', TextType::class, [
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.other',
+                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.hours',
                     'data-teaching-mode' => 'hybrid'
                 ]
             ])
@@ -106,19 +106,19 @@ class TeachingModeType extends AbstractType
             ->add('teachingCmDist', TextType::class, [
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.cm',
+                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.hours',
                 ]
             ])
             ->add('teachingTdDist', TextType::class, [
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.td',
+                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.hours',
                 ]
             ])
             ->add('teachingOtherDist', TextType::class, [
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.other',
+                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.hours',
                     'data-teaching-mode' => 'class'
                 ]
             ])

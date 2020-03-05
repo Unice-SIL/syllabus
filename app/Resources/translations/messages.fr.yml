@@ -155,17 +155,18 @@ app:
       teaching_mode:
         additionnal: Type d'enseignement supplémentaire (facultatif)
         class: Présentiel
+        cm: Cours magistraux
         distant: A distance
-        volumes: Volumes horaires "Présentiel" importés
         label: Quel est votre mode d'enseignement ?
+        standard: Types d'enseignements standards
+        td: Travaux dirigés
+        tp: Travaux pratiques
+        volumes: Volumes horaires "Présentiel" importés
         placeholder:
           teaching:
-            cm: Heures cours magistraux
-            other: Heures autre (facultatif)
+            hours: Heures
             other_class: Volume (H)
-            td: Heures travaux dirigés
-            tp: Heureux travaux pratiques
-            type: "Ex: Heures personnelles"
+            type: "Type (ex: Heures personnelles) "
   const:
     cron:
       status:

@@ -1,7 +1,7 @@
 <div class="teaching-mode teaching-mode-distant d-none">
-    <label>Types d'enseignements standards</label>
+    <label>{{ 'app.presentation.form.teaching_mode.standard' | trans }}</label>
     <div class="row mb-3">
-        <div class="col-sm" style="max-width: 120px;">
+        <div class="col-sm" style="max-width: 170px;">
             <div class="input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text">
@@ -11,7 +11,7 @@
                 {{ form_widget(form.teachingCmDist) }}
             </div>
         </div>
-        <div class="col-sm" style="max-width: 120px;">
+        <div class="col-sm" style="max-width: 170px;">
             <div class="input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text">
@@ -23,7 +23,7 @@
         </div>
     </div>
 
-    <label>Type d'enseignement supplémentaire (facultatif)</label>
+    <label>{{ 'app.presentation.form.teaching_mode.additionnal' | trans }}</label>
     {{ form_errors(form.teachingOtherTypeDist) }}
     <div class="row">
         <div class="col-sm" style="max-width: 120px;">
