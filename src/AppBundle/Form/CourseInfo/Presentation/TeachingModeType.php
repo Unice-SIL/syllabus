@@ -22,21 +22,6 @@ class TeachingModeType extends AbstractType
                 'placeholder' => false,
                 'choices' => TeachingMode::CHOICES
             ])
-            ->add('teachingCmClass', TextType::class, [
-                'required' => false,
-                'disabled' => true,
-                'label' => 'h Cours Magistraux',
-            ])
-            ->add('teachingTdClass', TextType::class, [
-                'required' => false,
-                'disabled' => true,
-                'label' => 'h Travaux Dirigés',
-            ])
-            ->add('teachingTpClass', TextType::class, [
-                'required' => false,
-                'disabled' => true,
-                'label' => 'h Travaux Pratiques',
-            ])
             ->add('teachingOtherClass', TextType::class, [
                 'required' => false,
                 'label' => 'Volume',

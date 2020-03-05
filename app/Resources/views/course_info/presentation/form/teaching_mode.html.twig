@@ -28,6 +28,7 @@
     </div>
     <div class="col-md-7">
         {% include 'course_info/presentation/form/_teaching_mode_class.html.twig' %}
+        {% include 'course_info/presentation/form/_teaching_mode_distant.html.twig' %}
     </div>
 </div>
 
@@ -36,51 +37,6 @@
 
 <div class="row mt-3">
     <div class="col">
-        <div class="row mb-4">
-            <div class="col">
-
-            </div>
-        </div>
-        <div class="row mb-2">
-            <div class="col-5">
-                {{ form_row(form.teachingMode, {label_attr: {class: 'radio-custom'} }) }}
-            </div>
-            <div class="col-5">
-                <div class="row">
-                    <div class="col">
-                        {{ form_widget(form.teachingCmClass) }}
-                        <label placeholder="Heures CM"></label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        {{ form_widget(form.teachingTdClass) }}
-                        <label placeholder="Heures TD"></label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        {{ form_widget(form.teachingTpClass) }}
-                        <label placeholder="Heures TP"></label>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row teaching-mode teaching-mode-class d-none">
-            <div class="col">
-                {{ form_errors(form.teachingOtherTypeClass) }}
-                <div class="row">
-                    <div class="col pr-1">
-                        {{ form_widget(form.teachingOtherClass) }}
-                        <label placeholder="Heures autre"></label>
-                    </div>
-                    <div class="col pl-1">
-                        {{ form_widget(form.teachingOtherTypeClass) }}
-                        <label placeholder="Type"></label>
-                    </div>
-                </div>
-            </div>
         </div>
         <div class="row teaching-mode teaching-mode-distant d-none">
             <div class="col">
@@ -192,17 +148,28 @@
 
 <script>
     $(document).ready(function () {
-        toggleTeachingMode();
 
-        $(document).on('change', '#teaching_mode_teachingMode', function () {
+        let $teachingMode = $('#teaching_mode_teachingMode');
+
+        /**
+         *
+         */
+        function toggleTeachingMode() {
+            let mode = $teachingMode.find('input[type="radio"]:checked').val();
+            console.log(mode);
+
+            $('.teaching-mode').addClass('d-none');
+            $('.teaching-mode-' + mode).removeClass('d-none');
+        }
+
+        /**
+         *
+         */
+        $teachingMode.change('#teaching_mode_teachingMode', function () {
             toggleTeachingMode();
         });
 
-        function toggleTeachingMode() {
-            let value = $('#teaching_mode_teachingMode').find('input[type="radio"]:checked').val();
+        toggleTeachingMode();
 
-            $('.teaching-mode').addClass('d-none');
-            $('.teaching-mode-' + value).removeClass('d-none');
-        }
     })
 </script>
