@@ -38,7 +38,7 @@
         </li>
 
         {% set referentielLink = ['app.admin.activity.', 'app.admin.activity_type.', 'app.admin.activity_mode.','app.admin.year.',
-            'app.admin.equipment', 'app_admin.structure', 'app.admin.domain.', 'app_admin.period_index', 'app_admin.language_index',
+            'app.admin.equipment', 'app_admin.structure', 'app.admin.domain.', 'app_admin.period_index', 'app.admin.language.',
             'app.admin.campus.', 'app_admin.achievement', 'app_admin.course_info_field_index'] %}
         <li class="nav-item has-treeview {{ printActiveAdminSidebarLink(referentielLink) ? 'menu-open' }}">
             <a href="#" class="nav-link {{ printActiveAdminSidebarLink(referentielLink) }}">
@@ -157,15 +157,17 @@
                     </li>
                 {% endif %}
 
-                <li class="nav-item pl-2">
-                    <a href="{{ path('app_admin.language_index') }}"
-                       class="nav-link {{ printActiveAdminSidebarLink(['app_admin.language']) }}">
-                        <i class="fas fa-language nav-icon"></i>
-                        <p>
-                            Langues
-                        </p>
-                    </a>
-                </li>
+                {% if is_granted('ROLE_ADMIN_LANGUAGE') %}
+                    <li class="nav-item pl-2">
+                        <a href="{{ path('app.admin.language.index') }}"
+                           class="nav-link {{ printActiveAdminSidebarLink(['app_admin.language.']) }}">
+                            <i class="fas fa-language nav-icon"></i>
+                            <p>
+                                Langues
+                            </p>
+                        </a>
+                    </li>
+                {% endif %}
 
                 <li class="nav-item pl-2">
                     <a href="{{ path('app_admin.period_index') }}"

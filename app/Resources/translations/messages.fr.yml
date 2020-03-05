@@ -29,6 +29,10 @@ ROLE_ADMIN_EQUIPMENT: Gestion des équipements
 ROLE_ADMIN_EQUIPMENT_LIST: Consulter la liste des équipement
 ROLE_ADMIN_EQUIPMENT_CREATE: Créer un équipement
 ROLE_ADMIN_EQUIPMENT_UPDATE: Modifier un équipement
+ROLE_ADMIN_LANGUAGE: Gestion des langues
+ROLE_ADMIN_LANGUAGE_LIST: Consulter la liste des langues
+ROLE_ADMIN_LANGUAGE_CREATE: Créer une langue
+ROLE_ADMIN_LANGUAGE_UPDATE: Modifier une langue
 ROLE_API: Utilisateur de l'API
 ROLE_API_GET_COURSE: Récupérer un cours par son id
 ROLE_API_GET_COURSES: Récupérer une liste de cours

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\Admin;
 
 
 use AppBundle\Entity\Language;
@@ -9,10 +9,9 @@ use AppBundle\Form\Filter\LanguageFilterType;
 use AppBundle\Form\LanguageType;
 use AppBundle\Manager\LanguageManager;
 use AppBundle\Repository\Doctrine\LanguageDoctrineRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -24,12 +23,14 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class LanguageController
  * @package AppBundle\Controller
  *
- * @Route("/admin/language", name="app_admin.language_")
+ * @Route("/admin/language", name="app.admin.language.")
+ * @Security("has_role('ROLE_ADMIN_LANGUAGE')")
  */
 class LanguageController extends AbstractController
 {
     /**
      * @Route("/",name="index", methods={"GET"})
+     * @Security("has_role('ROLE_ADMIN_LANGUAGE_LIST')")
      *
      * @param Request $request
      * @param LanguageDoctrineRepository $repository
@@ -37,7 +38,12 @@ class LanguageController extends AbstractController
      * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
      * @return Response
      */
-    public function IndexAction(Request $request, LanguageDoctrineRepository $repository, PaginatorInterface $paginator, FilterBuilderUpdaterInterface $filterBuilderUpdater)
+    public function IndexAction(
+        Request $request,
+        LanguageDoctrineRepository $repository,
+        PaginatorInterface $paginator,
+        FilterBuilderUpdaterInterface $filterBuilderUpdater
+    )
     {
         $qb =  $repository->getIndexQueryBuilder();
 
@@ -65,6 +71,7 @@ class LanguageController extends AbstractController
     /**
      *
      * @Route("/new", name="new", methods={"GET", "POST"})
+     * @Security("has_role('ROLE_ADMIN_LANGUAGE_CREATE')")
      * @param Request $request
      * @param LanguageManager $languageManager
      * @return RedirectResponse|Response
@@ -91,6 +98,7 @@ class LanguageController extends AbstractController
      * Displays a form to edit an existing activity entity.
      *
      * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
+     * @Security("has_role('ROLE_ADMIN_LANGUAGE_UPDATE')")
      * @param Request $request
      * @param Language $language
      * @param LanguageManager $languageManager
