@@ -1,7 +1,7 @@
 <?php
 
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\Admin;
 
 
 use AppBundle\Entity\Domain;
@@ -10,11 +10,11 @@ use AppBundle\Form\DomainType;
 use AppBundle\Form\Filter\DomainFilterType;
 use AppBundle\Manager\DomainManager;
 use AppBundle\Repository\Doctrine\DomainDoctrineRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,15 +22,17 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class DomainController
- * @package AppBundle\Controller
+ * @package AppBundle\Controller\Admin
  *
- * @Route("/admin/domain", name="app_admin.domain_")
+ * @Route("/admin/domain", name="app.admin.domain.")
+ * @Security("has_role('ROLE_ADMIN_DOMAIN')")
  */
 class DomainController extends AbstractController
 {
 
     /**
      * @Route("/",name="index", methods={"GET"})
+     * @Security("has_role('ROLE_ADMIN_DOMAIN_LIST')")
      *
      * @param Request $request
      * @param DomainDoctrineRepository $repository
@@ -38,8 +40,12 @@ class DomainController extends AbstractController
      * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
      * @return Response
      */
-    public function indexAction(Request $request, DomainDoctrineRepository $repository, PaginatorInterface $paginator,
-                                FilterBuilderUpdaterInterface $filterBuilderUpdater)
+    public function indexAction(
+        Request $request,
+        DomainDoctrineRepository $repository,
+        PaginatorInterface $paginator,
+        FilterBuilderUpdaterInterface $filterBuilderUpdater
+    )
     {
         $qb =  $repository->getIndexQueryBuilder();
 
@@ -65,8 +71,9 @@ class DomainController extends AbstractController
     }
 
     /**
-     *
      * @Route("/new", name="new", methods={"GET", "POST"})
+     * @Security("has_role('ROLE_ADMIN_DOMAIN_CREATE')")
+     *
      * @param Request $request
      * @param DomainManager $domainManager
      * @return RedirectResponse|Response
@@ -91,9 +98,9 @@ class DomainController extends AbstractController
     }
 
     /**
-     * Displays a form to edit an existing activity entity.
-     *
      * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
+     * @Security("has_role('ROLE_ADMIN_DOMAIN_UPDATE')")
+     *
      * @param Request $request
      * @param Domain $domain
      * @param DomainManager $domainManager
@@ -120,9 +127,10 @@ class DomainController extends AbstractController
 
     /**
      * @Route("/autocomplete", name="autocomplete", methods={"GET"})
+     *
      * @param DomainDoctrineRepository $domainDoctrineRepository
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return JsonResponse
      */
     public function autocomplete(DomainDoctrineRepository $domainDoctrineRepository, Request $request)
     {

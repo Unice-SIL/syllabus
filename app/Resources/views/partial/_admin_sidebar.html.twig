@@ -38,7 +38,7 @@
         </li>
 
         {% set referentielLink = ['app.admin.activity.', 'app.admin.activity_type.', 'app.admin.activity_mode.','app.admin.year.',
-            'app_admin.equipment', 'app_admin.structure', 'app_admin.domain', 'app_admin.period_index', 'app_admin.language_index',
+            'app_admin.equipment', 'app_admin.structure', 'app.admin.domain.', 'app_admin.period_index', 'app_admin.language_index',
             'app.admin.campus.', 'app_admin.achievement', 'app_admin.course_info_field_index'] %}
         <li class="nav-item has-treeview {{ printActiveAdminSidebarLink(referentielLink) ? 'menu-open' }}">
             <a href="#" class="nav-link {{ printActiveAdminSidebarLink(referentielLink) }}">
@@ -133,8 +133,8 @@
                 {% endif %}
 
                 <li class="nav-item pl-2">
-                    <a href="{{ path('app_admin.domain_index') }}"
-                       class="nav-link {{ printActiveAdminSidebarLink(['app_admin.domain']) }}">
+                    <a href="{{ path('app.admin.domain.index') }}"
+                       class="nav-link {{ printActiveAdminSidebarLink(['app.admin.domain.']) }}">
                         <i class="fas fa-gem nav-icon"></i>
                         <p>
                             Domaines
