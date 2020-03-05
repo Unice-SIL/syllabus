@@ -1,13 +1,14 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\Admin;
 
 use AppBundle\Entity\Year;
 use AppBundle\Form\YearType;
 use AppBundle\Manager\YearManager;
 use AppBundle\Repository\Doctrine\YearDoctrineRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,25 +16,27 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Year controller.
+ * Class YearController
+ * @package AppBundle\Controller\Admin
  *
- * @Route("/admin/year", name="app_admin.year_")
+ * @Route("/admin/year", name="app.admin.year.")
  * @Security("has_role('ROLE_ADMIN_YEAR')")
  */
-class YearController extends Controller
+class YearController extends AbstractController
 {
     /**
      * Lists all year entities.
      *
      * @Route("/", name="index", methods={"GET"})
-     *
      * @Security("has_role('ROLE_ADMIN_YEAR_LIST')")
+     *
      * @param Request $request
+     * @param PaginatorInterface $paginator
      * @return Response
      */
-    public function indexAction(Request $request)
+    public function indexAction(Request $request, PaginatorInterface $paginator)
     {
-        $pagination = $this->get('knp_paginator')->paginate(
+        $pagination = $paginator->paginate(
             $this->getDoctrine()->getManager()->createQuery("SELECT y FROM AppBundle:Year y"),
             $request->query->getInt('page', 1),
             10

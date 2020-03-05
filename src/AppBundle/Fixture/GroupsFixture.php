@@ -2,6 +2,7 @@
 
 namespace AppBundle\Fixture;
 
+use AppBundle\Constant\UserRole;
 use AppBundle\Entity\Groups;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
@@ -17,13 +18,7 @@ class GroupsFixture extends Fixture  implements FixtureGroupInterface
     /**
      *
      */
-    public const GROUP_1 = 'groupe 1';
-    public const GROUP_2 = 'groupe 2';
-    public const GROUP_3 = 'groupe 3';
-    public const GROUP_4 = 'groupe 4';
-    public const GROUP_5 = 'groupe 5';
-    public const GROUP_6 = 'groupe 6';
-    public const GROUP_7 = 'groupe 7';
+    public const SUPER_ADMIN = 'Super Administrateur';
 
     /**
      * @param ObjectManager $manager
@@ -33,39 +28,16 @@ class GroupsFixture extends Fixture  implements FixtureGroupInterface
 
         $groups = [
             [
-                'label' => self::GROUP_1,
-                'ref' => self::GROUP_1,
-            ],
-            [
-                'label' => self::GROUP_2,
-                'ref' => self::GROUP_2,
-            ],
-            [
-                'label' => self::GROUP_3,
-                'ref' => self::GROUP_3,
-            ],
-            [
-                'label' => self::GROUP_4,
-                'ref' => self::GROUP_4,
-            ],
-            [
-                'label' => self::GROUP_5,
-                'ref' => self::GROUP_5,
-            ],
-            [
-                'label' => self::GROUP_6,
-                'ref' => self::GROUP_6,
-            ],
-            [
-                'label' => self::GROUP_7,
-                'ref' => self::GROUP_7,
-            ],
+                'label' => self::SUPER_ADMIN,
+                'roles' => UserRole::ROLES,
+                'ref' => self::SUPER_ADMIN,
+            ]
         ];
 
         foreach ($groups as $g) {
-
             $group = new Groups();
-            $group->setLabel($g['label']);
+            $group->setLabel($g['label'])
+                ->setRoles($g['roles']);
             $this->addReference($g['ref'], $group);
             $manager->persist($group);
         }

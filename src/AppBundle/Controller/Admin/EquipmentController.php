@@ -1,14 +1,18 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\Admin;
 
 use AppBundle\Entity\Equipment;
 use AppBundle\Form\EquipmentType;
 use AppBundle\Form\Filter\EquipmentFilterType;
 use AppBundle\Manager\EquipmentManager;
 use AppBundle\Repository\Doctrine\EquipmentDoctrineRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PropertyAccess\PropertyAccess;
@@ -18,20 +22,24 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class EquipmentController
  * @package AppBundle\Controller
  *
- * @Route("/admin/equipment", name="app_admin.equipment_")
+ * @Route("/admin/equipment", name="app.admin.equipment.")
+ * @Security("has_role('ROLE_ADMIN_EQUIPMENT')")
  */
-class EquipmentController extends Controller
+class EquipmentController extends AbstractController
 {
     /**
      * @Route("/", name="index")
+     * @Security("has_role('ROLE_ADMIN_EQUIPMENT_LIST')")
      *
      * @param Request $request
+     * @param PaginatorInterface $paginator
      * @param EquipmentDoctrineRepository $equipmentDoctrineRepository
      * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
      * @return Response
      */
     public function indexAction(
         Request $request,
+        PaginatorInterface $paginator,
         EquipmentDoctrineRepository $equipmentDoctrineRepository,
         FilterBuilderUpdaterInterface $filterBuilderUpdater
     )
@@ -48,7 +56,7 @@ class EquipmentController extends Controller
 
         }
 
-        $pagination = $this->get('knp_paginator')->paginate(
+        $pagination = $paginator->paginate(
             $qb,
             $request->query->getInt('page', 1),
             10
@@ -64,10 +72,11 @@ class EquipmentController extends Controller
      * Creates a new equipment.
      *
      * @Route("/new", name="new", methods={"GET", "POST"})
+     * @Security("has_role('ROLE_ADMIN_EQUIPMENT_CREATE')")
      *
      * @param Request $request
      * @param EquipmentManager $equipmentManager
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @return RedirectResponse|Response
      */
     public function newAction(Request $request, EquipmentManager $equipmentManager)
     {
@@ -93,10 +102,12 @@ class EquipmentController extends Controller
      * Displays a form to edit an existing equipment entity.
      *
      * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
+     * @Security("has_role('ROLE_ADMIN_EQUIPMENT_UPDATE')")
      *
      * @param Request $request
      * @param Equipment $equipment
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @param EquipmentManager $equipmentManager
+     * @return RedirectResponse|Response
      */
     public function editAction(Request $request, Equipment $equipment, EquipmentManager $equipmentManager)
     {
@@ -123,7 +134,7 @@ class EquipmentController extends Controller
      * @param EquipmentDoctrineRepository $equipmentDoctrineRepository
      * @param Request $request
      * @param $field
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return JsonResponse
      */
     public function autocomplete(EquipmentDoctrineRepository $equipmentDoctrineRepository, Request $request, $field)
     {

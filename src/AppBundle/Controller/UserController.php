@@ -8,8 +8,10 @@ use AppBundle\Helper\MailHelper;
 use AppBundle\Manager\UserManager;
 use AppBundle\Repository\Doctrine\UserDoctrineRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -25,7 +27,7 @@ class UserController extends Controller
      * @Route("/", name="index", methods={"GET"})
      *
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function indexAction(Request $request)
     {
@@ -44,7 +46,7 @@ class UserController extends Controller
      * @Route("/new", name="new")
      * @param Request $request
      * @param UserManager $userManager
-     * @return RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return RedirectResponse|Response
      */
     public function newAction(Request $request, UserManager $userManager)
     {
@@ -71,7 +73,7 @@ class UserController extends Controller
      * @param Request $request
      * @param User $user
      * @param UserManager $userManager
-     * @return RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return RedirectResponse|Response
      */
     public function editAction(Request $request, User $user, UserManager $userManager)
     {
@@ -96,7 +98,7 @@ class UserController extends Controller
      *
      * @param UserDoctrineRepository $userDoctrineRepository
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return JsonResponse
      */
     public function autocompleteS2(UserDoctrineRepository $userDoctrineRepository, Request $request)
     {

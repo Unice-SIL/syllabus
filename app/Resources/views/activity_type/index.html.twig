@@ -24,7 +24,7 @@
                     <div class="col-12">
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Filtrer</button>
-                            <a class="btn btn-danger" href="{{  path('app_admin.type_activity_index')  }}">Réinitialiser les filtres</a>
+                            <a class="btn btn-danger" href="{{  path('app.admin.activity_type.index')  }}">Réinitialiser les filtres</a>
                         </div>
                     </div>
                 </div>
@@ -46,7 +46,7 @@
                         <tr>
                             <td>
                                 {% if is_granted('ROLE_ADMIN_ACTIVITYTYPE_UPDATE') %}
-                                    <a href="{{ path('app_admin.type_activity_edit', { 'id' : activityType.id }) }}">{{ activityType.label }}</a>
+                                    <a href="{{ path('app.admin.activity_type.edit', { 'id' : activityType.id }) }}">{{ activityType.label }}</a>
                                 {% else %}
                                     {{ activityType.label }}
                                 {% endif %}

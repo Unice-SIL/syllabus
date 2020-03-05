@@ -17,6 +17,26 @@ ROLE_ADMIN_ACTIVITYTYPE: Gestion des types d'activités
 ROLE_ADMIN_ACTIVITYTYPE_LIST: Consulter la liste des types d'activités
 ROLE_ADMIN_ACTIVITYTYPE_CREATE: Créer un type d'activité
 ROLE_ADMIN_ACTIVITYTYPE_UPDATE: Modifier un type d'activité
+ROLE_ADMIN_CAMPUS: Gestion des campus
+ROLE_ADMIN_CAMPUS_LIST: Consulter la liste des campus
+ROLE_ADMIN_CAMPUS_CREATE: Créer un campus
+ROLE_ADMIN_CAMPUS_UPDATE: Modifier un campus
+ROLE_ADMIN_DOMAIN: Gestion des domaines
+ROLE_ADMIN_DOMAIN_LIST: Consulter la liste des domaines
+ROLE_ADMIN_DOMAIN_CREATE: Créer un domaine
+ROLE_ADMIN_DOMAIN_UPDATE: Modifier un domaine
+ROLE_ADMIN_EQUIPMENT: Gestion des équipements
+ROLE_ADMIN_EQUIPMENT_LIST: Consulter la liste des équipement
+ROLE_ADMIN_EQUIPMENT_CREATE: Créer un équipement
+ROLE_ADMIN_EQUIPMENT_UPDATE: Modifier un équipement
+ROLE_ADMIN_LANGUAGE: Gestion des langues
+ROLE_ADMIN_LANGUAGE_LIST: Consulter la liste des langues
+ROLE_ADMIN_LANGUAGE_CREATE: Créer une langue
+ROLE_ADMIN_LANGUAGE_UPDATE: Modifier une langue
+ROLE_ADMIN_PERIOD: Gestion des périodes
+ROLE_ADMIN_PERIOD_LIST: Consulter la liste des périodes
+ROLE_ADMIN_PERIOD_CREATE: Créer une période
+ROLE_ADMIN_PERIOD_UPDATE: Modifier une période
 ROLE_API: Utilisateur de l'API
 ROLE_API_GET_COURSE: Récupérer un cours par son id
 ROLE_API_GET_COURSES: Récupérer une liste de cours
@@ -42,6 +62,7 @@ ROLE_API_GET_DOMAIN: Récupérer un domaine par son id
 ROLE_API_GET_DOMAINS: Récupérer une liste de domaines
 ROLE_API_GET_LANGUAGE: Récupérer une langue par son id
 ROLE_API_GET_LANGUAGES: Récupérer une liste de langues
+
 collective: Collectif
 groups: En groupe
 individual: Individuel
@@ -184,6 +205,10 @@ app:
     activity_type:
       label:
         label: Titre
+    period:
+      label:
+        obsolete: Obsolète
+        label: Intitulé
     course_info:
       label:
         title: Titre

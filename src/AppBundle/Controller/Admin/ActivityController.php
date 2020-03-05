@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\Admin;
 
 use AppBundle\Entity\Activity;
 use AppBundle\Form\ActivityType;
@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Activity controller.
  *
  * @Security("has_role('ROLE_ADMIN_ACTIVITY')")
- * @Route("/admin/activity", name="app_admin.activity_")
+ * @Route("/admin/activity", name="app.admin.activity.")
  */
 class ActivityController extends AbstractController
 {

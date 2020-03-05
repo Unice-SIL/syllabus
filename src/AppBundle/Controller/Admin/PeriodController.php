@@ -1,7 +1,7 @@
 <?php
 
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\Admin;
 
 
 use AppBundle\Entity\Period;
@@ -10,10 +10,9 @@ use AppBundle\Form\Filter\PeriodFilterType;
 use AppBundle\Form\PeriodType;
 use AppBundle\Manager\PeriodManager;
 use AppBundle\Repository\Doctrine\PeriodDoctrineRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -24,12 +23,14 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @package AppBundle\Controller
  *
- * @Route("/admin/period", name="app_admin.period_")
+ * @Route("/admin/period", name="app.admin.period.")
+ * @Security("has_role('ROLE_ADMIN_PERIOD')")
  */
 class PeriodController extends AbstractController
 {
     /**
      * @Route("/",name="index", methods={"GET"})
+     * @Security("has_role('ROLE_ADMIN_PERIOD_LIST')")
      *
      * @param Request $request
      * @param PeriodDoctrineRepository $repository
@@ -37,7 +38,12 @@ class PeriodController extends AbstractController
      * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
      * @return Response
      */
-    public function indexAction(Request $request, PeriodDoctrineRepository $repository, PaginatorInterface $paginator, FilterBuilderUpdaterInterface $filterBuilderUpdater)
+    public function indexAction(
+        Request $request,
+        PeriodDoctrineRepository $repository,
+        PaginatorInterface $paginator,
+        FilterBuilderUpdaterInterface $filterBuilderUpdater
+    )
     {
         $qb =  $repository->getIndexQueryBuilder();
 
@@ -65,6 +71,8 @@ class PeriodController extends AbstractController
     /**
      *
      * @Route("/new", name="new", methods={"GET", "POST"})
+     * @Security("has_role('ROLE_ADMIN_PERIOD_CREATE')")
+     *
      * @param Request $request
      * @param PeriodManager $periodManager
      * @return RedirectResponse|Response
@@ -92,6 +100,8 @@ class PeriodController extends AbstractController
      * Displays a form to edit an existing activity entity.
      *
      * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
+     * @Security("has_role('ROLE_ADMIN_PERIOD_UPDATE')")
+     *
      * @param Request $request
      * @param Period $period
      * @param PeriodManager $periodManager
