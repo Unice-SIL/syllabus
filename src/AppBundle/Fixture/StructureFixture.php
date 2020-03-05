@@ -21,6 +21,7 @@ class StructureFixture extends Fixture  implements FixtureGroupInterface
 
     /**
      * @param ObjectManager $manager
+     * @throws \Exception
      */
     public function load(ObjectManager $manager)
     {

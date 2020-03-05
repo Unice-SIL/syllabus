@@ -1,20 +1,20 @@
 {{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('course_presentation_teachers_form', {'id': courseInfo.id }), 'data-card': 'card-teacher'}}) }}
 {{ form_errors(form) }}
-    {{ form_row(form.teacherSource) }}
-    {{ form_row(form.login) }}
-    <div class="form-group row">
-        <label class="col-form-label col-sm-auto">L'adresse mail doit-elle être visible ?</label>
-        {{ form_widget(form.emailVisibility) }}
-    </div>
-    <div class="form-group row">
-        <label class="col-form-label col-sm-auto">Responsable du cours ?</label>
-        {{ form_widget(form.manager) }}
-    </div>
-    <div class="d-flex justify-content-center mt-3">
-        <button type="submit" class="btn btn-primary rounded" id="create_button">
-            Ajouter
-        </button>
-    </div>
+{{ form_row(form.teacherSource) }}
+{{ form_row(form.login) }}
+<div class="form-group row">
+    <label class="col-form-label col-sm-auto">{{ 'app.presentation.form.teacher.mail_visibility' | trans }}</label>
+    {{ form_widget(form.emailVisibility) }}
+</div>
+<div class="form-group row">
+    <label class="col-form-label col-sm-auto">{{ 'app.presentation.form.teacher.responsible' | trans }}</label>
+    {{ form_widget(form.manager) }}
+</div>
+<div class="d-flex justify-content-center mt-3">
+    <button type="submit" class="btn btn-primary rounded" id="create_button">
+        {{ 'app.general.button.add' | trans }}
+    </button>
+</div>
 {{ form_end(form) }}
 
 <script src="{{ asset('bundles/tetranzselect2entity/js/select2entity.js') }}"></script>

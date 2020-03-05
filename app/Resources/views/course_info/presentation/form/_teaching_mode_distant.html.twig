@@ -1,0 +1,36 @@
+<div class="teaching-mode teaching-mode-distant d-none">
+    <label>{{ 'app.presentation.form.teaching_mode.standard' | trans }}</label>
+    <div class="row mb-3">
+        <div class="col-sm" style="max-width: 170px;">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        CM
+                    </span>
+                </div>
+                {{ form_widget(form.teachingCmDist) }}
+            </div>
+        </div>
+        <div class="col-sm" style="max-width: 170px;">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        TD
+                    </span>
+                </div>
+                {{ form_widget(form.teachingTdDist) }}
+            </div>
+        </div>
+    </div>
+
+    <label>{{ 'app.presentation.form.teaching_mode.additionnal' | trans }}</label>
+    {{ form_errors(form.teachingOtherTypeDist) }}
+    <div class="row">
+        <div class="col-sm" style="max-width: 120px;">
+            {{ form_widget(form.teachingOtherDist) }}
+        </div>
+        <div class="col-sm">
+            {{ form_widget(form.teachingOtherTypeDist) }}
+        </div>
+    </div>
+</div>
