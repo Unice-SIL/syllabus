@@ -38,7 +38,7 @@
         </li>
 
         {% set referentielLink = ['app.admin.activity.', 'app.admin.activity_type.', 'app.admin.activity_mode.','app.admin.year.',
-            'app.admin.equipment', 'app_admin.structure', 'app.admin.domain.', 'app_admin.period_index', 'app.admin.language.',
+            'app.admin.equipment', 'app_admin.structure', 'app.admin.domain.', 'app.admin.period.index', 'app.admin.language.',
             'app.admin.campus.', 'app_admin.achievement', 'app_admin.course_info_field_index'] %}
         <li class="nav-item has-treeview {{ printActiveAdminSidebarLink(referentielLink) ? 'menu-open' }}">
             <a href="#" class="nav-link {{ printActiveAdminSidebarLink(referentielLink) }}">
@@ -169,15 +169,17 @@
                     </li>
                 {% endif %}
 
-                <li class="nav-item pl-2">
-                    <a href="{{ path('app_admin.period_index') }}"
-                       class="nav-link {{ printActiveAdminSidebarLink(['app_admin.period']) }}">
-                        <i class="nav-icon fas fa-calendar-week"></i>
-                        <p>
-                            Périodes
-                        </p>
-                    </a>
-                </li>
+                {% if is_granted('ROLE_ADMIN_PERIOD') %}
+                    <li class="nav-item pl-2">
+                        <a href="{{ path('app.admin.period.index') }}"
+                           class="nav-link {{ printActiveAdminSidebarLink(['app.admin.period.']) }}">
+                            <i class="nav-icon fas fa-calendar-week"></i>
+                            <p>
+                                Périodes
+                            </p>
+                        </a>
+                    </li>
+                {% endif %}
 
                 <li class="nav-item pl-2">
                     <a href="{{ path('app_admin.structure_index') }}"
