@@ -29,7 +29,19 @@
 </head>
 
 <body class="sidebar-mini layout-navbar-fixed layout-fixed control-sidebar-slide-open">
+
 {% block modals %}{% endblock %}
+
+{% set adminNotifications = app.session.get('admin_notifications')|filter(n => n['to_show'] == true) %}
+
+<div
+    id="data-notifications"
+    data-admin-notifications="{{ adminNotifications|json_encode }}"
+    data-length="{{ adminNotifications|length }}"
+    data-token-seen="{{ csrf_token('notification-seen') }}"
+>
+</div>
+
 <div class="container-loader">
     <i class="fas fa-circle-notch text-primary fa-2x fa-spin"></i>
 </div>

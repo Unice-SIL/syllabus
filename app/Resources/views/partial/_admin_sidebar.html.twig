@@ -234,7 +234,7 @@
             </ul>
         </li>
 
-        {% set administrationLink = ['app_admin_user', 'app_admin_groups', 'app.admin.cron.'] %}
+        {% set administrationLink = ['app_admin_user', 'app_admin_groups', 'app.admin.cron.', 'app.admin.notification.'] %}
         <li class="nav-item has-treeview {{ printActiveAdminSidebarLink(administrationLink) ? 'menu-open' }}">
             <a href="#" class="nav-link {{ printActiveAdminSidebarLink(administrationLink) }}">
                 <i class="nav-icon fas fa-cogs"></i>
@@ -269,6 +269,15 @@
                         <i class="nav-icon fas fa-user"></i>
                         <p>
                             Utilisateurs
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item pl-2">
+                    <a href="{{ path('app.admin.notification.index') }}"
+                       class="nav-link {{ printActiveAdminSidebarLink(['app.admin.notification.']) }}">
+                        <i class="nav-icon fas fa-bell"></i>
+                        <p>
+                            Notifications
                         </p>
                     </a>
                 </li>

@@ -44,6 +44,9 @@ import 'jquery-sortablejs';
 import bootstrapToggle from 'bootstrap4-toggle';
 global.bootstrapToggle = bootstrapToggle;
 
+import Swal from 'sweetalert2';
+global.Swal = Swal;
+
 import 'admin-lte';
 
 import './_custom';

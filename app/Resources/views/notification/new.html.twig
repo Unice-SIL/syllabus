@@ -1,0 +1,13 @@
+{% extends 'admin_layout.html.twig' %}
+{% set h1 = 'Créer une nouvelle une notification' %}
+
+{% block subContent %}
+    <div class="card card-primary">
+
+        <div class="card-body">
+            {{ include('notification/_form.html.twig') }}
+        </div>
+
+    </div>
+{% endblock %}
+

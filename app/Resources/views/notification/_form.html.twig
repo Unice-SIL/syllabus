@@ -1,0 +1,7 @@
+{{ form_start(form) }}
+
+    {{ form_row(form.message) }}
+
+    <button type="submit" class="btn btn-primary">{{ button_label|default('Enregistrer')}}</button>
+
+{{ form_end(form) }}

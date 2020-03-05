@@ -55,11 +55,56 @@ $( document ).ready( function( ) {
         $('.filter-form').submit();
     });
 
+    //show the admin notification if not empty
+    let adminNotificationsElement = $('#data-notifications');
+    let adminNotificationsLength = adminNotificationsElement.data('length');
+    if (adminNotificationsLength > 0) {
+
+        let adminNotifications = adminNotificationsElement.data('admin-notifications');
+
+        let steps = [];
+        let sweetNotifications = [];
+        let i = 1;
+        for (let key in adminNotifications) {
+            let notification = adminNotifications[key];
+
+            let buttonText = 'Terminé';
+
+            if (i < adminNotificationsLength) {
+                buttonText = 'Suivant &rarr;';
+            }
+
+            steps.push(i++);
+            sweetNotifications.push({
+                text: notification.message,
+                confirmButtonText: buttonText,
+                onClose: () => {
+                    $.post(notification.path , {'_token': notification.token });
+                }
+            });
+            Swal.mixin({
+                showCloseButton: true,
+                allowOutsideClick: false,
+                progressSteps: steps,
+            })
+                .queue(sweetNotifications)
+                .then((result) => {
+                    console.log(result);
+                    if (result.dismiss === Swal.DismissReason.close) {
+                        $.post('/notification/seen' , {'_token': adminNotificationsElement.data('token-seen') });
+                    }
+                })
+            ;
+            }
+
+        }
+
+
     //Autocomplete
     function initAutocomplete() {
         $('.autocomplete-input').each(function () {
             //todo: regenerate when resizing window
-            var width = $(this).outerWidth();
+            //var width = $(this).outerWidth();
 
             $(this).autocomplete({
                 serviceUrl: $(this).data('autocomplete-path'),

@@ -1,7 +1,3 @@
-app_cron:
-    resource: "@AppBundle/Controller/CronController.php"
-    type:     annotation
-
 syllabus:
     resource: '@AppBundle/Controller/'
     type: annotation
