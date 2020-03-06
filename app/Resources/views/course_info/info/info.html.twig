@@ -3,8 +3,8 @@
 {% block subContent %}
 
     <div class="card my-2 shadow card-syllabus"
-         data-view-url="{{ path('course_info_convenient_view', {'id': courseInfo.id }) }}"
-         data-form-url="{{ path('course_info_convenient_form', {'id': courseInfo.id }) }}"
+         data-view-url="{{ path('app.course_info.info.info', {'id': courseInfo.id }) }}"
+         data-form-url="{{ path('app.course_info.info.info.edit', {'id': courseInfo.id }) }}"
     >
         <div class="card-header">
             <div class="d-flex justify-content-between">
