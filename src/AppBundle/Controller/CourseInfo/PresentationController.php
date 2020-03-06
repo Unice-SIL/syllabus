@@ -7,15 +7,12 @@ use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseTeacher;
 use AppBundle\Factory\ImportCourseTeacherFactory;
 use AppBundle\Form\CourseInfo\Presentation\GeneralType;
-use AppBundle\Form\CourseInfo\Presentation\RemoveTeacherType;
 use AppBundle\Form\CourseInfo\Presentation\TeachersType;
 use AppBundle\Form\CourseInfo\Presentation\TeachingModeType;
 use AppBundle\Manager\CourseInfoManager;
 use AppBundle\Manager\CourseTeacherManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -90,7 +87,6 @@ class PresentationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $courseInfo->checkMedia();
-            dump($form->getData());
             $manager->update($courseInfo);
             $render = $this->get('twig')->render('course_info/presentation/view/general.html.twig', [
                 'courseInfo' => $courseInfo
@@ -199,56 +195,6 @@ class PresentationController extends AbstractController
             'status' => $status,
             'content' => $render,
             'message' => $message
-        ]);
-    }
-
-    /**
-     * @Route("/teachers/remove/{teacherId}", name="teacher.remove"))
-     *
-     * @param CourseInfo $courseInfo
-     * @param CourseTeacher $teacher
-     * @param Request $request
-     * @param CourseTeacherManager $courseTeacherManager
-     * @return JsonResponse
-     * @ParamConverter("teacher", options={"mapping": {"teacherId": "id"}})
-     */
-    public function removeTeacherAction(CourseInfo $courseInfo, CourseTeacher $teacher, Request $request, CourseTeacherManager $courseTeacherManager)
-    {
-        if (!$courseInfo instanceof CourseInfo)
-        {
-            return $this->json([
-                'status' => false,
-                'render' => "Une erreur est survenue : Le cours n'existe pas"
-            ]);
-        }
-
-        if (!$teacher instanceof CourseTeacher)
-        {
-            return $this->json([
-                'status' => false,
-                'render' => "Une erreur est survenue : L'enseignant n'existe pas"
-            ]);
-        }
-
-        $form = $this->createForm(RemoveTeacherType::class, $teacher);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid())
-        {
-            $courseTeacherManager->delete($teacher);
-            return $this->json([
-                'status' => true,
-                'content' => null
-            ]);
-        }
-
-        $render = $this->get('twig')->render('course_info/presentation/form/remove_teacher.html.twig', [
-            'courseInfo' => $courseInfo,
-            'form' => $form->createView()
-        ]);
-        return $this->json([
-            'status' => true,
-            'content' => $render
         ]);
     }
 

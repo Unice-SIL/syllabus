@@ -1,7 +1,6 @@
 <?php
 
-namespace AppBundle\Controller;
-
+namespace AppBundle\Controller\CourseInfo;
 
 use AppBundle\Entity\Activity;
 use AppBundle\Entity\ActivityType;
@@ -24,7 +23,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class CourseInfoActivitiesController extends AbstractController
+/**
+ * 
+ */
+class ActivitiesController extends AbstractController
 {
     /**
      * @Route("/course/{id}/activities/{sectionId}", name="course_activities", defaults={"sectionId"=null})

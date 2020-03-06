@@ -8,6 +8,7 @@ use AppBundle\Constant\Permission;
 use AppBundle\Entity\CourseAchievement;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CoursePrerequisite;
+use AppBundle\Entity\CourseTeacher;
 use AppBundle\Entity\CourseTutoringResource;
 use AppBundle\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -45,7 +46,8 @@ class CourseInfoVoter extends Voter
             CourseAchievement::class,
             CourseInfo::class,
             CoursePrerequisite::class,
-            CourseTutoringResource::class
+            CourseTutoringResource::class,
+            CourseTeacher::class
         ];
         if (!in_array(get_class($subject), $class)) {
             return false;
@@ -76,6 +78,7 @@ class CourseInfoVoter extends Voter
                 return $this->getPermission($subject, $user, $attribute);
                 break;
             case CourseAchievement::class:
+            case CourseTeacher::class:
             case CoursePrerequisite::class:
             case CourseTutoringResource::class:
                 $courseInfo = $subject->getCourseInfo();
