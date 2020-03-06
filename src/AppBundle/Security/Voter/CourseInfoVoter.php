@@ -51,7 +51,7 @@ class CourseInfoVoter extends Voter
             CourseInfo::class,
             CoursePrerequisite::class,
             CourseTutoringResource::class,
-            CourseTeacher::class
+            CourseTeacher::class,
             LearningAchievement::class,
             CourseCriticalAchievement::class
         ];
