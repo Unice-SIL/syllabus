@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 /**
  * Notification controller.
  *
- * @Route("admin/notification", name="app.admin.notification.")
+ * @Route("/notification", name="app.admin.notification.")
  */
 class NotificationController extends Controller
 {

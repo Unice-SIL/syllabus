@@ -26,19 +26,24 @@ class LanguageFixture extends Fixture  implements FixtureGroupInterface
     {
         $languages = [
             [
-                'label' => self::LANGUAGE_FR
+                'label' => self::LANGUAGE_FR,
+                'locale' => 'fr'
             ],
             [
-                'label' => self::LANGUAGE_EN
+                'label' => self::LANGUAGE_EN,
+                'locale' => 'en'
             ],
             [
-                'label' => self::LANGUAGE_DE
+                'label' => self::LANGUAGE_DE,
+                'locale' => 'de'
             ],
             [
-                'label' => self::LANGUAGE_IT
+                'label' => self::LANGUAGE_IT,
+                'locale' => 'it'
             ],
             [
-                'label' => self::LANGUAGE_ES
+                'label' => self::LANGUAGE_ES,
+                'locale' => 'es'
             ],
         ];
 
@@ -47,6 +52,7 @@ class LanguageFixture extends Fixture  implements FixtureGroupInterface
             $language = new Language();
 
             $language->setLabel($l['label']);
+            $language->setLocale($l['locale']);
             $manager->persist($language);
         }
         $manager->flush();

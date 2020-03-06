@@ -23,7 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class CampusController
  * @package AppBundle\Controller\Admin
  *
- * @Route("/admin/campus", name="app.admin.campus.")
+ * @Route("/campus", name="app.admin.campus.")
  * @Security("has_role('ROLE_ADMIN_CAMPUS')")
  */
 class CampusController extends AbstractController

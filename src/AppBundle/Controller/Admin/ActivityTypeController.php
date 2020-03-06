@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class ActivityTypeController
  * @package AppBundle\Controller
  *
- * @Route("/admin/activity-type", name="app.admin.activity_type.")
+ * @Route("/activity-type", name="app.admin.activity_type.")
  * @Security("has_role('ROLE_ADMIN_ACTIVITYTYPE')")
  */
 class ActivityTypeController extends AbstractController

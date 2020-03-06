@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Activity controller.
  *
  * @Security("has_role('ROLE_ADMIN_ACTIVITY')")
- * @Route("/admin/activity", name="app.admin.activity.")
+ * @Route("/activity", name="app.admin.activity.")
  */
 class ActivityController extends AbstractController
 {

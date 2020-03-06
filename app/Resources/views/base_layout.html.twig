@@ -2,6 +2,26 @@
 {% block main %}
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
         {% block navbar %}{% endblock %}
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link" data-toggle="dropdown" href="#">
+                    Langues
+                </a>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                    {% for language in get_languages() %}
+                        <a href="{{ path(app.request.get('_route'), app.request.attributes.get('_route_params')|merge({'_locale' : language.locale})) }}" class="dropdown-item">
+                            <!-- Message Start -->
+                            <div class="media">
+                                <div class="media-body">
+                                    <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> {{ language }}</p>
+                                </div>
+                            </div>
+                            <!-- Message End -->
+                        </a>
+                    {% endfor %}
+                </div>
+            </li>
+        </ul>
     </nav>
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <a href="{{ logoHref|default('#') }}" class="brand-link elevation-4 logo-switch">

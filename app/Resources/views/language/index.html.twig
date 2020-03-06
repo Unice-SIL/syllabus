@@ -31,8 +31,9 @@
                 <table class="table table-hover table-responsive-sm">
                     <thead>
                     <tr>
-                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.activity.label.label'|trans, 'a.label') }}</th>
-                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.activity.label.obsolete'|trans, 'a.obsolete') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.language.label.label'|trans, 'l.label') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.language.label.locale'|trans, 'l.locale') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.language.label.obsolete'|trans, 'l.obsolete') }}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -44,6 +45,9 @@
                                 {% else %}
                                     {{ language.label }}
                                 {% endif %}
+                            </td>
+                            <td>
+                                {{ language.locale }}
                             </td>
                             <td>
                                 {{ language.obsolete|humanizeBoolean }}

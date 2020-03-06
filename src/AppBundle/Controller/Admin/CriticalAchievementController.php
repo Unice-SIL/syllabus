@@ -23,7 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Activity controller.
  *
- * @Route("/admin/critical-achievement", name="app.admin.critical_achievement.")
+ * @Route("/critical-achievement", name="app.admin.critical_achievement.")
  * @Security("has_role('ROLE_ADMIN_CRITICAL_ACHIEVEMENT')")
  */
 class CriticalAchievementController extends AbstractController

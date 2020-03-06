@@ -8,14 +8,17 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Language
  * @package AppBundle\Entity
- * @ORM\Table(name="language")
+ * @ORM\Table(name="language", uniqueConstraints={
+ *     @ORM\UniqueConstraint(name="locale_on_language_UNIQUE", columns={"locale"}),
+ * })
  * @ORM\Entity
- *
+ * @UniqueEntity(fields={"locale"})
  */
 class Language
 {
@@ -38,6 +41,15 @@ class Language
      * @JMS\Groups(groups={"default", "language"})
      */
     private $label;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="locale", type="string", length=10, nullable=false)
+     * @Assert\NotBlank()
+     * @JMS\Groups(groups={"default", "language"})
+     */
+    private $locale;
 
     /**
      * @var bool
@@ -161,6 +173,21 @@ class Language
         return $this->courseInfos;
     }
 
+    /**
+     * @return string
+     */
+    public function getLocale()
+    {
+        return $this->locale;
+    }
+
+    /**
+     * @param string $locale
+     */
+    public function setLocale($locale)
+    {
+        $this->locale = $locale;
+    }
 
     /**
      * @return null|string

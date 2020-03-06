@@ -12,21 +12,17 @@
     {% endfor %}
 {% endmacro %}
 <nav class="mt-2">
-    <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column user-panel" data-widget="treeview" role="menu"
-            data-accordion="false">
+
+    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+
             <li class="nav-item has-treeview">
-                <a class="nav-link menu-tab"
+                <a class="nav-link {{ printActiveAdminSidebarLink(['app_admin.dashboard_composer require lexik/translation-bundle']) }}"
                    href="{{ path('app_admin.dashboard_index') }}"
                    id="menu-dashboard">
                     <i class="nav-icon fas fa-th"></i>
                     <p>Tableau de bord</p>
                 </a>
             </li>
-        </ul>
-    </nav>
-    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-
         <li class="nav-item">
             <a href="{{ path('app_admin.course_index') }}"
                class="nav-link {{ printActiveAdminSidebarLink(['app_admin.course_']) }}">
@@ -240,7 +236,7 @@
             </ul>
         </li>
 
-        {% set administrationLink = ['app.admin.user.', 'app_admin_groups', 'app.admin.cron.', 'app.admin.notification.'] %}
+        {% set administrationLink = ['app.admin.user.', 'app_admin_groups', 'app.admin.cron.', 'app.admin.notification.', 'lexik_translation_'] %}
         <li class="nav-item has-treeview {{ printActiveAdminSidebarLink(administrationLink) ? 'menu-open' }}">
             <a href="#" class="nav-link {{ printActiveAdminSidebarLink(administrationLink) }}">
                 <i class="nav-icon fas fa-cogs"></i>
@@ -281,6 +277,16 @@
                         </a>
                     </li>
                 {% endif %}
+
+                <li class="nav-item pl-2">
+                    <a href="{{ path('lexik_translation_grid') }}"
+                       class="nav-link {{ printActiveAdminSidebarLink(['lexik_translation']) }}">
+                        <i class="nav-icon fas fa-globe-africa"></i>
+                        <p>
+                            Traductions
+                        </p>
+                    </a>
+                </li>
 
                 <li class="nav-item pl-2">
                     <a href="{{ path('app.admin.notification.index') }}"

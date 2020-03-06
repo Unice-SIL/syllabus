@@ -1,6 +1,17 @@
+## L'ordre a une importance !!!!!!!!!!
 syllabus:
     resource: '@AppBundle/Controller/'
     type: annotation
+    prefix: /{_locale}
+
+syllabus.admin:
+    resource: '@AppBundle/Controller/Admin/'
+    type: annotation
+    prefix: /admin/{_locale}
+
+lexik_translation_edition:
+    resource: "@LexikTranslationBundle/Resources/config/routing.yml"
+    prefix:   /admin/{_locale}/translation
 
 api_login_check:
     path: /api/login_check

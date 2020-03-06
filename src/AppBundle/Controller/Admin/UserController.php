@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * User controller.
  *
- * @Route("/admin/user", name="app.admin.user.")
+ * @Route("/user", name="app.admin.user.")
  * @Security("has_role('ROLE_ADMIN_USER')")
  */
 class UserController extends AbstractController

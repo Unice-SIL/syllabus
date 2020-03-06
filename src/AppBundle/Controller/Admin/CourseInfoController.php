@@ -1,12 +1,13 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\Admin;
 
 use AppBundle\Entity\Course;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Form\CourseInfo\CourseInfoAdminType;
 use AppBundle\Form\CourseInfo\DuplicateCourseInfoType;
 use AppBundle\Form\CourseInfo\ImportType;
+use AppBundle\Form\CourseInfoType;
 use AppBundle\Form\Filter\CourseInfoFilterType;
 use AppBundle\Helper\Report\Report;
 use AppBundle\Manager\CourseInfoManager;
@@ -22,7 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Class CourseInfoController
  * @package AppBundle\Controller
- * @Route("/admin/syllabus", name="app_admin_course_info_")
+ * @Route("/syllabus", name="app_admin_course_info_")
  */
 class CourseInfoController extends Controller
 {
@@ -140,6 +141,36 @@ class CourseInfoController extends Controller
             return $this->redirectToRoute('app_admin_course_info_index');
         }
         return $this->render('course_info/admin/new.html.twig', ['form' => $form->createView()]);
+    }
+
+    /**
+     * Update an existing CourseInfo
+     *
+     * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
+     * @param CourseInfo $courseInfo
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @return RedirectResponse|Response
+     */
+    public function edit(CourseInfo $courseInfo, Request $request, EntityManagerInterface $em)
+    {
+        $form = $this->createForm(CourseInfoType::class, $courseInfo);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+
+            $em->flush();
+
+            $this->addFlash('success', 'Le syllabus a bien été modifié.');
+
+            return $this->redirectToRoute('app_admin_course_info_edit', [
+                'id' => $courseInfo->getId(),
+            ]);
+        }
+
+        return $this->render('course_info/admin/edit.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 
     /**

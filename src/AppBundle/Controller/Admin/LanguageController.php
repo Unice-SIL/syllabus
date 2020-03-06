@@ -23,7 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class LanguageController
  * @package AppBundle\Controller
  *
- * @Route("/admin/language", name="app.admin.language.")
+ * @Route("/language", name="app.admin.language.")
  * @Security("has_role('ROLE_ADMIN_LANGUAGE')")
  */
 class LanguageController extends AbstractController

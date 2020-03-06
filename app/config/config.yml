@@ -81,9 +81,15 @@ doctrine:
         entity_managers:
             syllabus:
                 connection: syllabus
-                auto_mapping: false
+                auto_mapping: true
                 mappings:
                     AppBundle: ~
+                    translatable:
+                        type: annotation
+                        is_bundle: false
+                        prefix: Gedmo\Translatable\Entity
+                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translatable/Entity"
+                        alias: GedmoTranslatable
             apogee:
                 connection: apogee
                 auto_mapping: false
@@ -194,10 +200,14 @@ nelmio_api_doc:
             - Bearer: []
 
 stof_doctrine_extensions:
+    default_locale: '%locale%'
+    translation_fallback: true
+    persist_default_translation: true
     orm:
         syllabus:
             timestampable: true
             blameable: true
+            translatable: true
 
 jms_serializer:
     object_constructors:
@@ -208,3 +218,10 @@ jms_serializer:
     handlers:
         datetime:
             default_format: "Y-m-d h:i:s" # ISO8601
+
+lexik_translation:
+    fallback_locale: [fr]         # (required) default locale(s) to use
+    managed_locales: [fr, de, en] # (required) locales that the bundle has to manage
+    storage:
+        type: orm                  # orm | mongodb | propel
+        object_manager: syllabus

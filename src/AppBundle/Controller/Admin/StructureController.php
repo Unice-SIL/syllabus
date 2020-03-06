@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class StructureController
  * @package AppBundle\Controller
  *
- * @Route("/admin/structure", name="app.admin.structure.")
+ * @Route("/structure", name="app.admin.structure.")
  * @Security("has_role('ROLE_ADMIN_STRUCTURE')")
  */
 class StructureController extends AbstractController

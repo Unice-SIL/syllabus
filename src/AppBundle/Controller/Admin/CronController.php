@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\Admin;
 
 use AppBundle\Entity\Cron;
 use AppBundle\Form\Filter\CronFilterType;
@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Cron controller.
  *
- * @Route("admin/cron", name="app.admin.cron.")
+ * @Route("/cron", name="app.admin.cron.")
  */
 class CronController extends Controller
 {

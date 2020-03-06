@@ -23,7 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @package AppBundle\Controller
  *
- * @Route("/admin/period", name="app.admin.period.")
+ * @Route("/period", name="app.admin.period.")
  * @Security("has_role('ROLE_ADMIN_PERIOD')")
  */
 class PeriodController extends AbstractController

@@ -24,7 +24,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class DomainController
  * @package AppBundle\Controller\Admin
  *
- * @Route("/admin/domain", name="app.admin.domain.")
+ * @Route("/domain", name="app.admin.domain.")
  * @Security("has_role('ROLE_ADMIN_DOMAIN')")
  */
 class DomainController extends AbstractController

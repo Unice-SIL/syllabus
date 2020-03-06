@@ -256,7 +256,7 @@ app:
     course:
       label:
         type: Type
-        code: Code établissement
+        code: Ich vein der
         parents: Cours parents
         title: Titre
         synchronized: Synchronisé
