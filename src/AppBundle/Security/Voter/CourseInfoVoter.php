@@ -9,6 +9,7 @@ use AppBundle\Entity\CourseAchievement;
 use AppBundle\Entity\CourseCriticalAchievement;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CoursePrerequisite;
+use AppBundle\Entity\CourseTeacher;
 use AppBundle\Entity\CourseTutoringResource;
 use AppBundle\Entity\CriticalAchievement;
 use AppBundle\Entity\LearningAchievement;
@@ -50,6 +51,7 @@ class CourseInfoVoter extends Voter
             CourseInfo::class,
             CoursePrerequisite::class,
             CourseTutoringResource::class,
+            CourseTeacher::class
             LearningAchievement::class,
             CourseCriticalAchievement::class
         ];
@@ -86,6 +88,7 @@ class CourseInfoVoter extends Voter
                 return $this->getPermission($courseInfo, $user, $attribute);
                 break;
             case CourseAchievement::class:
+            case CourseTeacher::class:
             case CoursePrerequisite::class:
             case CourseCriticalAchievement::class:
             case CourseTutoringResource::class:

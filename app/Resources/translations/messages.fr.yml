@@ -133,12 +133,15 @@ app:
       general:
         domain: Domaine
         empty_summary: Vous n'avez pas renseigné de résumé
+        label: Informations générales
         languages: Langue(s)
         level: Niveau du cours
         period: Période
       teachers:
+        add_teacher: Ajouter un enseignant
         empty_teacher: Aucun enseignant n'a encore été ajouté à l'équipe
         title: Qui fait parti de l'équipe enseignante ?
+        label: Équipe enseignante
         lastname: Nom
         firstname: Prénom
         mail: Email
@@ -149,6 +152,7 @@ app:
         responsible: Responsable
       teaching_mode:
         empty_teaching_mode: Aucun mode d'enseignement sélectionné
+        label: Mode d'enseignement
     form:
       general:
         level_label: Quel est le niveau de ce cours ?
