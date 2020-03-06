@@ -86,7 +86,7 @@ class ActivityModeController extends AbstractController
 
             $this->addFlash('success', 'Le mode d\'activité a été ajoutée avec succès.');
 
-            return $this->redirectToRoute('app_admin.mode_activity_index');
+            return $this->redirectToRoute('app.admin.activity_mode.index');
         }
 
         return $this->render('activity_mode/new.html.twig', array(
@@ -114,7 +114,7 @@ class ActivityModeController extends AbstractController
 
             $this->addFlash('success', 'Le mode d\'activité a été modifiée avec succès.');
 
-            return $this->redirectToRoute('app_admin.mode_activity_edit', array('id' => $activityMode->getId()));
+            return $this->redirectToRoute('app.admin.activity_mode.edit', array('id' => $activityMode->getId()));
         }
 
         return $this->render('activity_mode/edit.html.twig', array(

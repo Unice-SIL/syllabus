@@ -87,7 +87,7 @@ class StructureController extends AbstractController
 
             $this->addFlash('success', 'La structure a été enregistrée avec succès');
 
-            return $this->redirectToRoute('app_admin.structure_index');
+            return $this->redirectToRoute('app.admin.structure.index');
         }
         return $this->render('structure/new.html.twig', ['form' => $form->createView()]);
     }
@@ -112,7 +112,7 @@ class StructureController extends AbstractController
             $structureManager->update($structure);
 
             $this->addFlash('success', 'La strucutre a été modifiée avec succès.');
-            return $this->redirectToRoute('app_admin.structure_edit', array('id' => $structure->getId()));
+            return $this->redirectToRoute('app.admin.structure.edit', array('id' => $structure->getId()));
         }
 
         return $this->render('structure/edit.html.twig', array(

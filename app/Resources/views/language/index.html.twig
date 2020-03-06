@@ -53,7 +53,7 @@
                     </tbody>
                 </table>
             {% else %}
-                <div class="alert alert-info">Aucun languagee n'a été trouvé avec ces critères</div>
+                {% include 'partial/_no_element.html.twig' %}
             {% endif %}
         </div>
         <!-- /.card-body -->

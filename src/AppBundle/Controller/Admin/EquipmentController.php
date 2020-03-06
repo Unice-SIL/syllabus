@@ -90,7 +90,7 @@ class EquipmentController extends AbstractController
 
             $this->addFlash('success', 'L\'équipement a été ajouté avec succès.');
 
-            return $this->redirectToRoute('app_admin.equipment_index');
+            return $this->redirectToRoute('app.admin.equipment.index');
         }
 
         return $this->render('equipment/new.html.twig', array(
@@ -120,7 +120,7 @@ class EquipmentController extends AbstractController
 
             $this->addFlash('success', 'L\'équipement a été modifié avec succès.');
 
-            return $this->redirectToRoute('app_admin.equipment_edit', array('id' => $equipment->getId()));
+            return $this->redirectToRoute('app.admin.equipment.edit', array('id' => $equipment->getId()));
         }
 
         return $this->render('equipment/edit.html.twig', array(
