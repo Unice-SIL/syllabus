@@ -1,7 +1,7 @@
 <h5>
     {{ activity.label }}
 </h5>
-{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('course_activities_edit_activity', {'courseSectionActivityId': courseSectionActivity.id, 'activityId': activity.id })}}) }}
+{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('app.course_info.section_activity.edit', {'id': courseSectionActivity.id, 'activityId': activity.id })}}) }}
 {{ form_errors(form) }}
 {{ form_row(form.description) }}
 {{ form_row(form.activityType, {label_attr: {class: 'radio-custom'} }) }}
