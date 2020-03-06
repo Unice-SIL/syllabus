@@ -1,7 +1,7 @@
 <?php
 
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\CourseInfo;
 
 
 use AppBundle\Entity\CourseInfo;
@@ -14,13 +14,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class CourseInfoInfoController
- * @package AppBundle\Controller
+ * Class InfoController
+ * @package AppBundle\Controller\CourseInfo
  *
- * @Route("/course/{id}/info_course", name="course_info_")
+ * @Route("/course-info/{id}/info", name="app.course_info.info.")
  * @Security("is_granted('WRITE', courseInfo)")
  */
-class CourseInfoInfoController extends AbstractController
+class InfoController extends AbstractController
 {
     /**
      * @Route("/", name="index")
@@ -36,7 +36,7 @@ class CourseInfoInfoController extends AbstractController
     }
 
     /**
-     * @Route("/info/view", name="convenient_view")
+     * @Route("/info", name="info")
      *
      * @param CourseInfo $courseInfo
      * @param Request $request
@@ -65,7 +65,7 @@ class CourseInfoInfoController extends AbstractController
     }
 
     /**
-     * @Route("/info/form", name="convenient_form")
+     * @Route("/info/form", name="info.edit")
      *
      * @param CourseInfo $courseInfo
      * @param Request $request
