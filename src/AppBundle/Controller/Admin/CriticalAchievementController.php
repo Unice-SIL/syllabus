@@ -1,7 +1,7 @@
 <?php
 
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\Admin;
 
 
 use AppBundle\Entity\CourseInfo;
@@ -10,9 +10,9 @@ use AppBundle\Form\CriticalAchievementType;
 use AppBundle\Form\Filter\CriticalAchievementFilterType;
 use AppBundle\Manager\CriticalAchievementManager;
 use AppBundle\Repository\Doctrine\CriticalAchievementDoctrineRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -23,20 +23,27 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Activity controller.
  *
- * @Route("/admin/criticalAchievement", name="app_admin.achievement_")
+ * @Route("/admin/critical-achievement", name="app.admin.critical_achievement.")
+ * @Security("has_role('ROLE_ADMIN_CRITICAL_ACHIEVEMENT')")
  */
 class CriticalAchievementController extends AbstractController
 {
     /**
      * @Route("/", name="index" )
+     * @Security("has_role('ROLE_ADMIN_CRITICAL_ACHIEVEMENT_LIST')")
+     *
      * @param Request $request
      * @param CriticalAchievementDoctrineRepository $repository
      * @param PaginatorInterface $paginator
      * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
      * @return Response
      */
-    public function indexAction(Request $request, CriticalAchievementDoctrineRepository $repository, PaginatorInterface $paginator,
-                                FilterBuilderUpdaterInterface $filterBuilderUpdater)
+    public function indexAction(
+        Request $request,
+        CriticalAchievementDoctrineRepository $repository,
+        PaginatorInterface $paginator,
+        FilterBuilderUpdaterInterface $filterBuilderUpdater
+    )
     {
         $qb =  $repository->getIndexQueryBuilder();
 
@@ -62,11 +69,12 @@ class CriticalAchievementController extends AbstractController
     }
 
     /**
-     * @Route("/view", name="new"))
+     * @Route("/new", name="new"))
+     * @Security("has_role('ROLE_ADMIN_CRITICAL_ACHIEVEMENT_CREATE')")
      *
      * @param Request $request
+     * @param CriticalAchievementManager $criticalAchievementManager
      * @return Response
-     * @throws \Exception
      */
     public function newAction(Request $request, CriticalAchievementManager $criticalAchievementManager)
     {
@@ -78,7 +86,7 @@ class CriticalAchievementController extends AbstractController
             $criticalAchievementManager->create($criticalAchievement);
             $this->addFlash('success', 'L\'acquis critique a été ajouté avec succès.');
 
-            return $this->redirectToRoute('app_admin.achievement_index');
+            return $this->redirectToRoute('app.admin.critical_achievement.index');
         }
 
         return $this->render('critical_achievement/new.html.twig', array(
@@ -88,6 +96,7 @@ class CriticalAchievementController extends AbstractController
 
     /**
      * @Route("{id}/edit", name="edit"))
+     * @Security("has_role('ROLE_ADMIN_CRITICAL_ACHIEVEMENT_UPDATE')")
      *
      * @param Request $request
      * @param CriticalAchievement $criticalAchievement
@@ -103,7 +112,7 @@ class CriticalAchievementController extends AbstractController
             $criticalAchievementManager->update($criticalAchievement);
 
             $this->addFlash('success', 'L\'acquis critique a été modifié avec succès.');
-            return $this->redirectToRoute('app_admin.achievement_edit', array('id' => $criticalAchievement->getId()));
+            return $this->redirectToRoute('app.admin.critical_achievement.edit', array('id' => $criticalAchievement->getId()));
         }
 
         return $this->render('critical_achievement/edit.html.twig', array(
