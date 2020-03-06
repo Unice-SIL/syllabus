@@ -10,6 +10,7 @@ use AppBundle\Entity\CourseCriticalAchievement;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CoursePrerequisite;
 use AppBundle\Entity\CourseTeacher;
+use AppBundle\Entity\CourseResourceEquipment;
 use AppBundle\Entity\CourseTutoringResource;
 use AppBundle\Entity\CriticalAchievement;
 use AppBundle\Entity\LearningAchievement;
@@ -53,7 +54,8 @@ class CourseInfoVoter extends Voter
             CourseTutoringResource::class,
             CourseTeacher::class,
             LearningAchievement::class,
-            CourseCriticalAchievement::class
+            CourseCriticalAchievement::class,
+            CourseResourceEquipment::class
         ];
         if (is_null($subject) || !in_array(get_class($subject), $class)) {
             return false;

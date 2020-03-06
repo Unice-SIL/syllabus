@@ -1,12 +1,11 @@
 <?php
 
-namespace AppBundle\Controller;
+
+namespace AppBundle\Controller\CourseInfo;
+
 
 use AppBundle\Entity\CourseInfo;
-use AppBundle\Entity\CourseResourceEquipment;
 use AppBundle\Entity\Equipment;
-use AppBundle\Form\CourseInfo\Equipment\RemoveResourceEquipmentType;
-use AppBundle\Form\CourseInfo\Equipment\ResourceEquipmentEditType;
 use AppBundle\Form\CourseInfo\Equipment\ResourceEquipmentType;
 use AppBundle\Form\CourseInfo\Equipment\Resourcetype;
 use AppBundle\Manager\CourseInfoManager;
@@ -20,14 +19,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class CourseInfoEquipmentController
- * @package AppBundle\Controller
+ * Class ResourceEquipmentController
+ * @package AppBundle\Controller\CourseInfo
  *
- * @Route("/course/{id}/equipment", name="course_equipment_")
+ * @Route("/course-info/{id}/resource-equipment", name="app.course_info.resource_equipment.")
  * @Security("is_granted('WRITE', courseInfo)")
- *
  */
-class CourseInfoEquipmentController extends AbstractController
+class ResourceEquipmentController extends AbstractController
 {
     /**
      * @Route("/", name="index")
@@ -43,7 +41,7 @@ class CourseInfoEquipmentController extends AbstractController
     }
 
     /**
-     * @Route("/equipment/view", name="equipment_view"))
+     * @Route("/equipments", name="equipments"))
      *
      * @param CourseInfo $courseInfo
      * @return Response
@@ -77,7 +75,7 @@ class CourseInfoEquipmentController extends AbstractController
     }
 
     /**
-     * @Route("/add/{idEquipment}", name="equipment_add"))
+     * @Route("/equipment/add/{idEquipment}", name="equipment.add"))
      *
      * @param CourseInfo $courseInfo
      * @param Equipment $equipment
@@ -86,7 +84,8 @@ class CourseInfoEquipmentController extends AbstractController
      * @return JsonResponse
      * @ParamConverter("equipment", options={"mapping": {"idEquipment": "id"}})
      */
-    public function addEquipmentAction(CourseInfo $courseInfo, Equipment $equipment, Request $request, CourseResourceEquipmentManager $courseResourceEquipmentManager)
+    public function addEquipmentAction(CourseInfo $courseInfo, Equipment $equipment, Request $request,
+                                       CourseResourceEquipmentManager $courseResourceEquipmentManager)
     {
         if (!$equipment) {
             return $this->json([
@@ -127,126 +126,7 @@ class CourseInfoEquipmentController extends AbstractController
     }
 
     /**
-     * @Route("/edit/{resourceEquipementId}", name="equipment_edit"))
-     *
-     * @param CourseInfo $courseInfo
-     * @param CourseResourceEquipment $resourceEquipment
-     * @param Request $request
-     * @param CourseResourceEquipmentManager $courseResourceEquipmentManager
-     * @return JsonResponse
-     * @ParamConverter("resourceEquipment", options={"mapping": {"resourceEquipementId": "id"}})
-     */
-    public function editDescriptionResourceEquipmentAction(CourseInfo $courseInfo, CourseResourceEquipment $resourceEquipment, Request $request, CourseResourceEquipmentManager $courseResourceEquipmentManager)
-    {
-        if (!$courseInfo instanceof CourseInfo) {
-            return $this->json([
-                'status' => false,
-                'content' => "Une erreur est survenue : le cours n'existe pas."
-            ]);
-        }
-
-        $form = $this->createForm(ResourceEquipmentEditType::class, $resourceEquipment);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $courseResourceEquipmentManager->update($resourceEquipment);
-            return $this->json([
-                'status' => true,
-                'content' => null
-            ]);
-        }
-
-        $render = $this->get('twig')->render('course_info/equipment/form/resource_equipment_edit.html.twig', [
-            'form' => $form->createView()
-        ]);
-
-        return $this->json([
-            'status' => true,
-            'content' => $render
-        ]);
-    }
-
-    /**
-     * @Route("/remove/{idResourceEquipment}", name="equipment_remove"))
-     *
-     * @param CourseInfo $courseInfo
-     * @param CourseResourceEquipment $resourceEquipment
-     * @param Request $request
-     * @param CourseResourceEquipmentManager $courseResourceEquipmentManager
-     * @return JsonResponse
-     * @ParamConverter("resourceEquipment", options={"mapping": {"idResourceEquipment": "id"}})
-     */
-    public function removeResourceEquipmentAction(CourseInfo $courseInfo, CourseResourceEquipment $resourceEquipment, Request $request, CourseResourceEquipmentManager $courseResourceEquipmentManager)
-    {
-        if (!$resourceEquipment) {
-            return $this->json([
-                'status' => false,
-                'content' => "Une erreur est survenue : le matériel n'existe pas."
-            ]);
-        };
-
-        if (!$courseInfo instanceof CourseInfo) {
-            return $this->json([
-                'status' => false,
-                'content' => "Une erreur est survenue : le cours n'existe pas."
-            ]);
-        }
-
-        $form = $this->createForm(RemoveResourceEquipmentType::class, $resourceEquipment);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid())
-        {
-            $courseResourceEquipmentManager->delete($resourceEquipment);
-            return $this->json([
-                'status' => true,
-                'content' => null
-            ]);
-        }
-
-        $render = $this->get('twig')->render('course_info/equipment/form/remove_resource_equipment.html.twig', [
-            'courseInfo' => $courseInfo,
-            'form' => $form->createView()
-        ]);
-
-        return $this->json([
-            'status' => true,
-            'content' => $render
-        ]);
-    }
-
-    /**
-     * @Route("/equipments/sort", name="sort_equipments"))
-     *
-     * @param CourseInfo $courseInfo
-     * @param Request $request
-     * @param CourseInfoManager $manager
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
-     * @throws \Exception
-     */
-    public function sortCourseResourcesEquipmentsAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
-    {
-        $equipments = $courseInfo->getCourseResourceEquipments();
-        $dataEquipments = $request->request->get('data');
-
-        if ($dataEquipments)
-        {
-            foreach ($equipments as $equipment) {
-                if (in_array($equipment->getId(), $dataEquipments)) {
-                    $equipment->setPosition(array_search($equipment->getId(), $dataEquipments));
-                }
-            }
-            $manager->update($courseInfo);
-        }
-
-        return $this->json([
-            'status' => true,
-            'content' => null
-        ]);
-    }
-
-    /**
-     * @Route("/teaching/view", name="resource_view"))
+     * @Route("/resources", name="resources"))
      *
      * @param CourseInfo $courseInfo
      * @return Response
@@ -271,7 +151,7 @@ class CourseInfoEquipmentController extends AbstractController
     }
 
     /**
-     * @Route("/teaching/form", name="resource_form"))
+     * @Route("/resource/edit", name="resource.edit"))
      *
      * @param CourseInfo $courseInfo
      * @param Request $request
@@ -279,7 +159,7 @@ class CourseInfoEquipmentController extends AbstractController
      * @return Response
      * @throws \Exception
      */
-    public function resourceFormAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
+    public function resourceEditAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
     {
         if (!$courseInfo instanceof CourseInfo) {
             return $this->json([
