@@ -1,0 +1,78 @@
+{% extends 'admin_layout.html.twig' %}
+{% set h1 = course.title %}
+
+{% block subContent %}
+    <div class="card card-default">
+
+        <div class="card-body">
+            <div class="callout callout-danger">
+                <h5>Titre</h5>
+
+                <p>{{ course.title }}</p>
+            </div>
+            <div class="callout callout-info">
+                <h5>Code établissement</h5>
+
+                <p>{{ course.code }}</p>
+            </div>
+            <div class="callout callout-warning">
+                <h5>Type</h5>
+
+                <p>{{ course.type }}</p>
+            </div>
+            <div class="callout callout-success">
+                <h5>Synchronisé</h5>
+
+                <p>{{ course.synchronized|humanizeBoolean }}</p>
+            </div>
+            <a href="{{ path('app_admin.course_edit', {'id': course.id}) }}" class="btn btn-primary float-right">Modifier</a>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Syllabus associés</h3>
+            <a href="{{ path('app_admin.course_new_course_info', {'id': course.id}) }}" class="btn btn-primary float-right">Ajouter un syllabus</a>
+        </div>
+        <div class="card-body p-0">
+            <table class="table table-striped projects">
+                <thead>
+                <tr>
+                    <th>
+                        Année
+                    </th>
+                    <th>
+                        Titre
+                    </th>
+                    <th>
+                        Strucutre
+                    </th>
+                    <th>
+                        Action
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for courseInfo in course.courseInfos %}
+                    <tr>
+                        <td>
+                            {{ courseInfo.year }}
+                        </td>
+                        <td>
+                            {{ courseInfo.title }}
+                        </td>
+                        <td>
+                            {{ courseInfo.structure }}
+                        </td>
+                        <td>
+                            <a href="{{ path('app_admin_course_info_edit', {'id': courseInfo.id }) }}" class="btn btn-primary">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!-- /.card-body -->
+    </div>
+{% endblock %}

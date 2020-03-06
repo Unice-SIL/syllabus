@@ -64,6 +64,9 @@ class NotificationSubscriber implements EventSubscriberInterface
 
     public function setNotifications(GetResponseEvent $event)
     {
+        if (!$event->isMasterRequest()) {
+            return;
+        }
         $newAdminNotifications = [];
         $adminNotifications = $this->em->getRepository(Notification::class)->findBy([], ['updatedAt' => 'DESC']);
 

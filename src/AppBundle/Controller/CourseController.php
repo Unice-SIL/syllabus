@@ -3,16 +3,20 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Course;
+use AppBundle\Entity\CourseInfo;
+use AppBundle\Form\CourseInfoType;
 use AppBundle\Form\CourseType;
 use AppBundle\Form\Filter\CourseFilterType;
 use AppBundle\Manager\CourseManager;
 use AppBundle\Repository\Doctrine\CourseDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -104,6 +108,53 @@ class CourseController extends Controller
         return $this->render('course/edit.html.twig', array(
             'form' => $form->createView(),
         ));
+    }
+
+    /**
+     * List the piece of informations of an existing course including a table of associated CourseInfo
+     * @Route("/{id}/show", name="show", methods={"GET"})
+     * @Entity("course", expr="repository.findCourseWithCourseInfoAndYear(id)")
+     * @param string $id
+     * @param EntityManagerInterface $em
+     * @return Response
+     */
+    public function showAction(Course $course, EntityManagerInterface $em)
+    {
+
+        return $this->render('course/show.html.twig', [
+            'course' => $course,
+        ]);
+    }
+
+    /**
+     * Creates a course-info for the given course
+     * @Route("/{id}/new-course-info", name="new_course_info", methods={"GET", "POST"})
+     * @param Course $course
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @return Response
+     */
+    public function newCourseInfo(Course $course, Request $request, EntityManagerInterface $em)
+    {
+        $courseInfo = new CourseInfo();
+        $courseInfo->setCourse($course);
+        $courseInfoForm = $this->createForm(CourseInfoType::class, $courseInfo, ['validation_groups' => ['new']]);
+
+        $courseInfoForm->handleRequest($request);
+
+        if ($courseInfoForm->isSubmitted() and $courseInfoForm->isValid()) {
+            $course->addCourseInfo($courseInfo);
+            $em->flush();
+
+            $this->addFlash('success', 'Le syllabus a bien été ajouté au cours.');
+
+            return $this->redirectToRoute('app_admin.course_show', ['id' => $course->getId()]);
+        }
+
+        return $this->render('course/new_course_info.html.twig', [
+            'form' => $courseInfoForm->createView(),
+            'course' => $course,
+        ]);
     }
 
     /**

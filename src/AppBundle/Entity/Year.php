@@ -2,6 +2,8 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -11,7 +13,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * Year
  *
  * @ORM\Table(name="year")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\YearDoctrineRepository")
  * @UniqueEntity("id")
  * @UniqueEntity("label")
  */
@@ -64,6 +66,20 @@ class Year
      * @JMS\Groups(groups={"year"})
      */
     private $current = false;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\CourseInfo", mappedBy="year")
+     */
+    private $courseInfos;
+
+    /**
+     * Year constructor.
+     */
+    public function __construct()
+    {
+        $this->courseInfos = new ArrayCollection();
+    }
+
 
     /**
      * @return null|string
@@ -158,6 +174,14 @@ class Year
         $this->current = $current;
 
         return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getCourseInfos(): ?Collection
+    {
+        return $this->courseInfos;
     }
 
     /**
