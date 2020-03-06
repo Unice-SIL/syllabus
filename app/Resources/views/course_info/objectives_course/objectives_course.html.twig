@@ -11,7 +11,7 @@
                 <button type="button"
                         class="btn btn-primary rounded modal-action"
                         data-action-title="Ajouter une compétence"
-                        data-action-url="{{ path('app.course_info.achievement.create', {'id': courseInfo.id }) }}">
+                        data-action-url="{{ path('app.course_info.objectives.achievement.add', {'id': courseInfo.id }) }}">
                     Ajouter une capacité
                 </button>
             </div>
@@ -35,7 +35,7 @@
                 <button type="button"
                         class="btn btn-primary rounded modal-action"
                         data-action-title="Ajouter un apprentissage critique"
-                        data-action-url="{{ path('app.course_info.critical_achievement.create', {'id': courseInfo.id }) }}">
+                        data-action-url="{{ path('app.course_info.objectives.critical_achievement.add', {'id': courseInfo.id }) }}">
                     Ajouter un apprentissage critique
                 </button>
             </div>
@@ -52,7 +52,7 @@
                 <h3>Prérequis</h3>
                 <button type="button" class="btn btn-primary modal-action rounded"
                         data-action-title="Ajouter un prérequis"
-                        data-action-url="{{ path('app.course_info.prerequisite.create', {'id': courseInfo.id }) }}">
+                        data-action-url="{{ path('app.course_info.objectives.prerequisite.add', {'id': courseInfo.id }) }}">
                     Ajouter un prérequis
                 </button>
             </div>
@@ -70,7 +70,7 @@
                 <button type="button" class="btn btn-primary modal-action rounded "
                         data-action-title="Ajouter une remédiation"
                         data-card="card-tutoring-resources"
-                        data-action-url="{{ path('app.course_info.tutoring_resource.create', {'id': courseInfo.id }) }}">
+                        data-action-url="{{ path('app.course_info.objectives.tutoring_resource.add', {'id': courseInfo.id }) }}">
                     Ajouter une remédiation
                 </button>
             </div>

@@ -21,54 +21,12 @@ use Symfony\Component\Routing\Annotation\Route;
  * @package AppBundle\Controller\CourseInfo
  *
  * @Route("/course-info/tutoring-resource/{id}", name="app.course_info.tutoring_resource.")
+ * @Security("is_granted('WRITE', tutoringResources)")
  */
 class TutoringResourceController extends AbstractController
 {
     /**
-     * @Route("/create", name="create"))
-     * @Security("is_granted('WRITE', courseInfo)")
-     *
-     * @param CourseInfo $courseInfo
-     * @param Request $request
-     * @param CourseTutoringResourceManager $courseTutoringResourceManager
-     * @return Response
-     */
-    public function addTutoringResourceAction(CourseInfo $courseInfo, Request $request, CourseTutoringResourceManager $courseTutoringResourceManager)
-    {
-        if (!$courseInfo instanceof CourseInfo) {
-            return $this->json([
-                'status' => false,
-                'content' => "Une erreur est survenue : Le cours n'existe pas."
-            ]);
-        }
-
-        $tutoringResource = $courseTutoringResourceManager->new();
-        $tutoringResource->setCourseInfo($courseInfo);
-        $form = $this->createForm(CourseTutoringResourcesType::class, $tutoringResource);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $courseTutoringResourceManager->create($tutoringResource);
-
-            return $this->json([
-                'status' => true,
-                'content' => null
-            ]);
-        }
-
-        $render = $this->get('twig')->render('course_info/objectives_course/form/tutoring_resources.html.twig', [
-            'courseInfo' => $courseInfo,
-            'form' => $form->createView()
-        ]);
-        return $this->json([
-            'status' => true,
-            'content' => $render
-        ]);
-    }
-
-    /**
      * @Route("/edit", name="edit"))
-     * @Security("is_granted('WRITE', tutoringResources)")
      *
      * @param CourseTutoringResource $tutoringResources
      * @param Request $request
@@ -101,7 +59,6 @@ class TutoringResourceController extends AbstractController
 
     /**
      * @Route("/delete", name="delete"))
-     * @Security("is_granted('WRITE', tutoringResources)")
      *
      * @param CourseTutoringResource $tutoringResource
      * @param Request $request
