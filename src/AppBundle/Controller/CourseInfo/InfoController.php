@@ -65,7 +65,7 @@ class InfoController extends AbstractController
     }
 
     /**
-     * @Route("/info/form", name="info.edit")
+     * @Route("/info/edit", name="info.edit")
      *
      * @param CourseInfo $courseInfo
      * @param Request $request
