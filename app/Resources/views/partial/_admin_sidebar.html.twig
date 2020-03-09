@@ -12,24 +12,22 @@
     {% endfor %}
 {% endmacro %}
 <nav class="mt-2">
-    <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column user-panel" data-widget="treeview" role="menu"
-            data-accordion="false">
-            <li class="nav-item has-treeview">
-                <a class="nav-link menu-tab"
-                   href="{{ path('app_admin.dashboard_index') }}"
-                   id="menu-dashboard">
-                    <i class="nav-icon fas fa-th"></i>
-                    <p>Tableau de bord</p>
-                </a>
-            </li>
-        </ul>
-    </nav>
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
         <li class="nav-item">
-            <a href="{{ path('app_admin.course_index') }}"
-               class="nav-link {{ printActiveAdminSidebarLink(['app_admin.course_']) }}">
+            <a
+                href="{{ path('app_admin.dashboard_index') }}"
+                class="nav-link {{ printActiveAdminSidebarLink(['app_admin.dashboard_']) }}"
+               id="menu-dashboard">
+                <i class="nav-icon fas fa-th"></i>
+                <p>Tableau de bord</p>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a
+                href="{{ path('app_admin.course_index') }}"
+                class="nav-link {{ printActiveAdminSidebarLink(['app_admin.course_']) }}">
                 <i class="nav-icon fas fa-graduation-cap"></i>
                 <p>
                     Cours
