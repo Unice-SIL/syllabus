@@ -1,6 +1,8 @@
 <?php
 
-namespace AppBundle\Controller;
+
+namespace AppBundle\Controller\CourseInfo;
+
 
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Form\CourseInfo\Permission\AddCourseInfoPermissionType;
@@ -14,24 +16,23 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * CoursePermission controller.
+ * Class PermissionController
+ * @package AppBundle\Controller\CourseInfo
  *
+ * @Route("/course-info/{id}/permissions", name="app.course_info.permission.")
+ * @Security("is_granted('WRITE', courseInfo)")
  */
-class CoursePermissionController extends AbstractController
+class PermissionController extends AbstractController
 {
     /**
-     * Lists all CoursePermission entities.
+     * @Route("/", name="index")
      *
-     * @Route("/course/{id}/permissions", name="app_course_permission", methods={"GET"})
-     * @Security("is_granted('WRITE', courseInfo)")
      * @param CourseInfo $courseInfo
      * @param Request $request
-     * @param EntityManagerInterface $em
      * @param CoursePermissionManager $coursePermissionManager
      * @return RedirectResponse|Response
-     * @throws \Exception
      */
-    public function indexAction(CourseInfo $courseInfo, Request $request, EntityManagerInterface $em, CoursePermissionManager $coursePermissionManager)
+    public function indexAction(CourseInfo $courseInfo, Request $request, CoursePermissionManager $coursePermissionManager)
     {
         $coursePermission = $coursePermissionManager->new($courseInfo);
         $form = $this->createForm(AddCourseInfoPermissionType::class, $coursePermission);
