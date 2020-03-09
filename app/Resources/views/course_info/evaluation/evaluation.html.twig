@@ -32,8 +32,8 @@
         </div>
     </section>
     <div class="card my-2 shadow card-syllabus"
-         data-view-url="{{ path('course_evaluation_specifications_view', {'id': courseInfo.id }) }}"
-         data-form-url="{{ path('course_evaluation_specifications_form', {'id': courseInfo.id }) }}"
+         data-view-url="{{ path('app.course_info.evaluation.specifications', {'id': courseInfo.id }) }}"
+         data-form-url="{{ path('app.course_info.evaluation.specifications.edit', {'id': courseInfo.id }) }}"
     >
         <div class="card-header">
             <div class="d-flex justify-content-between">
