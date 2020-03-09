@@ -607,6 +607,7 @@ class CourseInfo
      * @ORM\OneToMany(targetEntity="CourseAchievement", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"position" = "ASC"})
      * @JMS\Type("ArrayCollection<AppBundle\Entity\CourseAchievement>")
+     * @Assert\NotBlank
      * @AssertCustom\AchievementConstraintValidator
      * @JMS\Groups(groups={"course_info"})
      */
