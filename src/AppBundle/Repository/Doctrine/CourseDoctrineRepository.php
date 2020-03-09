@@ -5,6 +5,7 @@ namespace AppBundle\Repository\Doctrine;
 use AppBundle\Entity\Course;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 
 /**
@@ -68,4 +69,28 @@ class CourseDoctrineRepository  extends ServiceEntityRepository
         }
         return $qb;
     }
+
+    public function findCourseWithCourseInfoAndYear(string $id)
+    {
+
+        return $this->getDefaultQueryBuilder()
+            ->andWhere('c.id = :id')
+            ->setParameter('id', $id)
+            ->leftJoin('ci.structure', 's')
+            ->addSelect('s')
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
+
+    public function getDefaultQueryBuilder()
+    {
+        return $this->createQueryBuilder('c')
+            ->leftJoin('c.courseInfos', 'ci')
+            ->leftJoin('ci.year', 'y')
+            ->addSelect('ci', 'y')
+            ->orderBy('y.id', 'ASC')
+            ;
+    }
+
 }
