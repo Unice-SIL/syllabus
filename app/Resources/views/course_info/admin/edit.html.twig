@@ -1,0 +1,11 @@
+{% extends 'admin_layout.html.twig' %}
+{% set h1 = 'Editer un syllabus' %}
+
+{% block subContent %}
+    <div class="card">
+        <div class="card-body">
+            {{ include('course_info/admin/_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %}
+

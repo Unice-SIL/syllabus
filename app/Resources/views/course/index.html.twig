@@ -32,15 +32,22 @@
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.course.label.title'|trans, 'c.title') }}</th>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.course.label.type'|trans, 'c.type') }}</th>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.course.label.synchronized'|trans, 'c.synchronized') }}</th>
+                        <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for course in pagination %}
                         <tr>
-                            <td><a href="{{ path('app_admin.course_edit', { 'id' : course.id }) }}">{{ course.code }}</a></td>
+                            <td><a href="{{ path('app_admin.course_show', { 'id' : course.id }) }}">{{ course.code }}</a></td>
                             <td>{{ course.title }}</td>
                             <td>{{ course.type }}</td>
                             <td>{{ course.synchronized|humanizeBoolean }}</td>
+                            <td>
+                                <a href="{{ path('app_admin.course_edit', { 'id' : course.id }) }}"
+                                   class="btn btn-primary">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                            </td>
                         </tr>
                     {% endfor %}
                     </tbody>
