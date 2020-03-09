@@ -240,7 +240,7 @@
             </ul>
         </li>
 
-        {% set administrationLink = ['app_admin_user', 'app_admin_groups', 'app.admin.cron.', 'app.admin.notification.'] %}
+        {% set administrationLink = ['app.admin.user.', 'app_admin_groups', 'app.admin.cron.', 'app.admin.notification.'] %}
         <li class="nav-item has-treeview {{ printActiveAdminSidebarLink(administrationLink) ? 'menu-open' }}">
             <a href="#" class="nav-link {{ printActiveAdminSidebarLink(administrationLink) }}">
                 <i class="nav-icon fas fa-cogs"></i>
@@ -260,7 +260,7 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item pl-2">
                     <a href="{{ path('app.admin.cron.index') }}"
                        class="nav-link {{ printActiveAdminSidebarLink(['app.admin.cron.']) }}">
                         <i class="nav-icon fas fa-clock"></i>
@@ -269,15 +269,19 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item pl-2">
-                    <a href="{{ path('app_admin_user_index') }}"
-                       class="nav-link {{ printActiveAdminSidebarLink(['app_admin_user']) }}">
-                        <i class="nav-icon fas fa-user"></i>
-                        <p>
-                            Utilisateurs
-                        </p>
-                    </a>
-                </li>
+
+                {% if is_granted('ROLE_ADMIN_USER') %}
+                    <li class="nav-item pl-2">
+                        <a href="{{ path('app.admin.user.index') }}"
+                           class="nav-link {{ printActiveAdminSidebarLink(['app.admin.user.']) }}">
+                            <i class="nav-icon fas fa-user"></i>
+                            <p>
+                                Utilisateurs
+                            </p>
+                        </a>
+                    </li>
+                {% endif %}
+
                 <li class="nav-item pl-2">
                     <a href="{{ path('app.admin.notification.index') }}"
                        class="nav-link {{ printActiveAdminSidebarLink(['app.admin.notification.']) }}">

@@ -3,10 +3,13 @@
 {% block subContent %}
 
     <div class="card">
-        <div class="card-header">
-            <a class="btn btn-primary float-right" href="{{ path('app_admin_user_new') }}">Ajouter un utilisateur</a>
-        </div>
+
         <div class="card-body">
+
+            <div class="d-flex justify-content-end pb-3">
+                {% include 'action/_user_create.html.twig' %}
+            </div>
+
             {% if pagination.totalItemCount > 0 %}
                 <table class="table table-bordered table-responsive-sm">
                     <thead>
@@ -21,7 +24,13 @@
                     <tbody>
                     {% for user in pagination %}
                         <tr>
-                            <td><a href="{{ path('app_admin_user_edit', { 'id' : user.id }) }}">{{ user.username }}</a></td>
+                            <td>
+                                {% if is_granted('ROLE_ADMIN_USER_UPDATE') %}
+                                    <a href="{{ path('app.admin.user.edit', { 'id' : user.id }) }}">{{ user.username }}</a>
+                                {% else %}
+                                    {{ user.username }}
+                                {% endif %}
+                            </td>
                             <td>{{ user.lastname }}</td>
                             <td>{{ user.firstname }}</td>
                             <td>{{ user.email }}</td>
