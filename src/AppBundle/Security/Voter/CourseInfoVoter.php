@@ -10,6 +10,7 @@ use AppBundle\Entity\CourseCriticalAchievement;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CoursePrerequisite;
 use AppBundle\Entity\CourseSection;
+use AppBundle\Entity\CourseSectionActivity;
 use AppBundle\Entity\CourseTeacher;
 use AppBundle\Entity\CourseTutoringResource;
 use AppBundle\Entity\CriticalAchievement;
@@ -56,6 +57,7 @@ class CourseInfoVoter extends Voter
             LearningAchievement::class,
             CourseCriticalAchievement::class,
             CourseSection::class,
+            CourseSectionActivity::class,
         ];
         if (is_null($subject)) {
             return false;
@@ -98,6 +100,7 @@ class CourseInfoVoter extends Voter
             case CourseTeacher::class:
             case CoursePrerequisite::class:
             case CourseSection::class:
+            case CourseSectionActivity::class:
             case CourseCriticalAchievement::class:
             case CourseTutoringResource::class:
                 $courseInfo = $subject->getCourseInfo();

@@ -113,14 +113,14 @@ class CourseSectionController extends AbstractController
      * @ParamConverter("activity", options={"mapping": {"activityId": "id"}})
      * @ParamConverter("activityType", options={"mapping": {"activityTypeId": "id"}})
      */
-    public function addCourseSectionActivityAction(CourseSection $courseSection, Activity $activity, ActivityType $activityType, Request $request,
+    public function addCourseSectionActivityAction(CourseSection $section, Activity $activity, ActivityType $activityType, Request $request,
                                                    CourseSectionActivityManager $courseSectionActivityManager, CourseSectionManager $courseSectionManager)
     {
         $status = true;
         $message = null;
         $courseSectionActivity = $courseSectionActivityManager->new();
 
-        if (!$courseSection instanceof CourseSection)
+        if (!$section instanceof CourseSection)
         {
             return $this->json([
                 'status' => false,
@@ -167,13 +167,13 @@ class CourseSectionController extends AbstractController
             if ($form->isValid())
             {
                 $courseSectionActivity->setId(Uuid::uuid4())
-                    ->setCourseSection($courseSection)
+                    ->setCourseSection($section)
                     ->setActivity($activity);
                 $courseSectionActivityManager->create($courseSectionActivity);
-                foreach ($courseSection->getCourseSectionActivities() as $courseSectionActivity) {
+                foreach ($section->getCourseSectionActivities() as $courseSectionActivity) {
                     $courseSectionActivity->setPosition($courseSectionActivity->getPosition() + 1);
                 }
-                $courseSectionManager->update($courseSection);
+                $courseSectionManager->update($section);
             }
             else
             {
@@ -183,7 +183,7 @@ class CourseSectionController extends AbstractController
         }
 
         $render = $this->get('twig')->render('course_info/activities/form/add_activity.html.twig', [
-            'courseSection' => $courseSection,
+            'courseSection' => $section,
             'activity' => $activity,
             'form' => $form->createView()
         ]);
@@ -197,21 +197,21 @@ class CourseSectionController extends AbstractController
     /**
      * @Route("/activities/sort", name="activities.sort"))
      *
-     * @param CourseSection $courseSection
+     * @param CourseSection $section
      * @param Request $request
      * @param CourseSectionManager $courseSectionManager
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function sortCourseSectionActivitiesAction(CourseSection $courseSection, Request $request, CourseSectionManager $courseSectionManager)
+    public function sortCourseSectionActivitiesAction(CourseSection $section, Request $request, CourseSectionManager $courseSectionManager)
     {
-        if (!$courseSection instanceof CourseSection) {
+        if (!$section instanceof CourseSection) {
             return $this->json([
                 'status' => false,
                 'render' => "Une erreur est survenue : La section n'existe pas"
             ]);
         }
 
-        $activities = $courseSection->getCourseSectionActivities();
+        $activities = $section->getCourseSectionActivities();
         $dataActivities = $request->request->get('data');
 
         if ($dataActivities)
@@ -221,7 +221,7 @@ class CourseSectionController extends AbstractController
                     $activity->setPosition(array_search($activity->getId(), $dataActivities));
                 }
             }
-            $courseSectionManager->update($courseSection);
+            $courseSectionManager->update($section);
         }
 
         return $this->json([

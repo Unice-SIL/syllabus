@@ -105,7 +105,6 @@ class CourseSectionActivityController extends AbstractController
      * @param CourseSectionActivityManager $manager
      * @return \Symfony\Component\HttpFoundation\Response
      * @ParamConverter("courseSection", options={"mapping": {"sectionId": "id"}})
-     * @ParamConverter("courseSectionActivity", options={"mapping": {"courseSectionActivityId": "id"}})
      */
     public function removeCourseSectionActivityAction(CourseSectionActivity $courseSectionActivity, Request $request, CourseSectionActivityManager $manager)
     {
