@@ -20,7 +20,7 @@
                 data-accordion="false">
                 <li class="nav-item has-treeview">
                     <a class="nav-link menu-tab"
-                       href="{{ path('course_dashboard_index', { 'id': courseInfo.id }) }}"
+                       href="{{ path('app.course_info.dashboard.index', { 'id': courseInfo.id }) }}"
                        id="menu-dashboard">
                         <i class="fas fa-th"></i>
                         <p>Tableau de bord</p>
@@ -29,7 +29,7 @@
                 {% if is_granted('ROLE_ADMIN') %}
                     <li class="nav-item has-treeview">
                         <a class="nav-link menu-tab"
-                           href="{{ path('app_course_permission', { 'id': courseInfo.id }) }}"
+                           href="{{ path('app.course_info.permission.index', { 'id': courseInfo.id }) }}"
                            id="menu-dashboard">
                             <i class="fas fa-user-shield"></i>
                             <p>Permissions</p>
