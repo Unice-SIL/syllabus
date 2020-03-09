@@ -27,6 +27,10 @@
                 <!-- presentation du cours -->
                 <div class="card">
                     <div class="card-header">
+                        {{ 'app.view.student.tabs.presentation' | trans }}
+                    </div>
+                    <div class="card-body">
+                        {% include 'course_info/view/student_presentation.html.twig' %}
                     </div>
                 </div>
 

@@ -194,6 +194,10 @@ app:
             hours: Heures
             other_class: Volume (H)
             type: "Type (ex: Heures personnelles) "
+  view:
+    student:
+      tabs:
+        presentation: Présentation
   const:
     cron:
       status:
