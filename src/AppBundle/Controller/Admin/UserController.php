@@ -1,13 +1,15 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\Admin;
 
 use AppBundle\Entity\User;
 use AppBundle\Form\UserType;
 use AppBundle\Helper\MailHelper;
 use AppBundle\Manager\UserManager;
 use AppBundle\Repository\Doctrine\UserDoctrineRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Knp\Component\Pager\PaginatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,21 +19,27 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * User controller.
  *
- * @Route("/admin/user", name="app_admin_user_")
+ * @Route("/admin/user", name="app.admin.user.")
+ * @Security("has_role('ROLE_ADMIN_USER')")
  */
-class UserController extends Controller
+class UserController extends AbstractController
 {
     /**
      * Lists all user entities.
      *
      * @Route("/", name="index", methods={"GET"})
+     * @Security("has_role('ROLE_ADMIN_USER_LIST')")
      *
      * @param Request $request
+     * @param PaginatorInterface $paginator
      * @return Response
      */
-    public function indexAction(Request $request)
+    public function indexAction(
+        Request $request,
+        PaginatorInterface $paginator
+    )
     {
-        $pagination = $this->get('knp_paginator')->paginate(
+        $pagination = $paginator->paginate(
             $this->getDoctrine()->getManager()->createQuery("SELECT u FROM AppBundle:User u"),
             $request->query->getInt('page', 1),
             10
@@ -44,6 +52,8 @@ class UserController extends Controller
 
     /**
      * @Route("/new", name="new")
+     * @Security("has_role('ROLE_ADMIN_USER_CREATE')")
+     *
      * @param Request $request
      * @param UserManager $userManager
      * @return RedirectResponse|Response
@@ -58,9 +68,8 @@ class UserController extends Controller
             $userManager->create($user);
             $this->addFlash('success', 'L\'utilisateur a bien été enregistré');
 
-            return $this->redirectToRoute('app_admin_user_edit', ['id' => $user->getId()]);
+            return $this->redirectToRoute('app.admin.user.edit', ['id' => $user->getId()]);
         }
-
 
         return $this->render('user/new.html.twig', ['form' => $form->createView()]);
     }
@@ -69,6 +78,7 @@ class UserController extends Controller
      * Displays a form to edit an existing user entity.
      *
      * @Route("/{id}/edit", name="edit"), methods={"GET", "POST"}
+     * @Security("has_role('ROLE_ADMIN_USER_UPDATE')")
      *
      * @param Request $request
      * @param User $user
@@ -85,7 +95,7 @@ class UserController extends Controller
 
             $this->addFlash('success', 'L\'utilisateur a bien été modifié.');
 
-            return $this->redirectToRoute('app_admin_user_edit', array('id' => $user->getId()));
+            return $this->redirectToRoute('app.admin.user.edit', array('id' => $user->getId()));
         }
 
         return $this->render('user/edit.html.twig', array(
