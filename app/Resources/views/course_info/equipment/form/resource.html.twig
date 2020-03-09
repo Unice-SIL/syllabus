@@ -13,11 +13,11 @@
 </div>
 <div class="mt-2">
     <button type="submit" class="submit-button btn btn-primary submit rounded"
-            data-url="{{ path('course_equipment_resource_view', {'id': courseInfo.id, 'action': 'submit' }) }}">
+            data-url="{{ path('app.course_info.resource_equipment.resources', {'id': courseInfo.id, 'action': 'submit' }) }}">
         Sauvegarder
     </button>
     <button type="button" class="cancel-button btn btn-secondary rounded"
-            data-url="{{ path('course_equipment_resource_view', {'id': courseInfo.id, 'action': 'cancel' }) }}">
+            data-url="{{ path('app.course_info.resource_equipment.resources', {'id': courseInfo.id, 'action': 'cancel' }) }}">
         Annuler
     </button>
 </div>

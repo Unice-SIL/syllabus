@@ -17,7 +17,7 @@
                             <button type="button"
                                     class="btn btn-link modal-action button p-0"
                                     data-action-title="Ajouter une description"
-                                    data-action-url="{{ path('course_equipment_equipment_add', {'id': courseInfo.id, 'idEquipment': equipment.id}) }}">
+                                    data-action-url="{{ path('app.course_info.resource_equipment.equipment.add', {'id': courseInfo.id, 'idEquipment': equipment.id}) }}">
                                 <i class="fas fa-plus"></i>
                             </button>
                         </td>
@@ -57,7 +57,7 @@
                         <th class="text-center" style="width: 20%">Modifier/Supprimer</th>
                     </tr>
                     </thead>
-                    <tbody  id="equipments-list" class="list-sortable" data-url="{{ path('course_equipment_sort_equipments', {'id': courseInfo.id}) }}">
+                    <tbody  id="equipments-list">
                     {% for resourceEquipment in courseInfo.courseResourceEquipments %}
                         <tr class="item-sortable" data-id="{{ resourceEquipment.id }}">
                             <td class="text-left">
@@ -69,13 +69,13 @@
                                 <button type="button"
                                         class="btn btn-link modal-action p-0"
                                         data-action-title="Modifier une description de matériel"
-                                        data-action-url="{{ path('course_equipment_equipment_edit', {'id': courseInfo.id, 'resourceEquipementId': resourceEquipment.id}) }}">
+                                        data-action-url="{{ path('app.course_info.equipment.edit', {'id': resourceEquipment.id}) }}">
                                     <i class="fas fa-edit"></i>
                                 </button>
                                 <button type="button"
                                         class="btn btn-link modal-action p-0"
                                         data-action-title="Supprimer un matériel"
-                                        data-action-url="{{ path('course_equipment_equipment_remove', {'id': courseInfo.id, 'idResourceEquipment': resourceEquipment.id}) }}">
+                                        data-action-url="{{ path('app.course_info.equipment.delete', {'id': resourceEquipment.id}) }}">
                                     <i class="fas fa-trash-alt text-danger"></i>
                                 </button>
                             </td>

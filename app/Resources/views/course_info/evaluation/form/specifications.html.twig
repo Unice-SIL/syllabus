@@ -9,10 +9,10 @@
 {{ form_errors(form.mccAdvice) }}
 {{ form_widget(form.mccAdvice) }}
 <div class="mt-2">
-    <button type="submit" class="submit-button btn btn-primary submit rounded" data-url="{{ path('course_evaluation_specifications_view', {'id': courseInfo.id}) }}">
+    <button type="submit" class="submit-button btn btn-primary submit rounded" data-url="{{ path('app.course_info.evaluation.specifications', {'id': courseInfo.id}) }}">
         Sauvegarder
     </button>
-    <button type="button" class="cancel-button btn btn-secondary rounded" data-url="{{ path('course_evaluation_specifications_view', {'id': courseInfo.id}) }}">
+    <button type="button" class="cancel-button btn btn-secondary rounded" data-url="{{ path('app.course_info.evaluation.specifications', {'id': courseInfo.id}) }}">
         Annuler
     </button>
 </div>
