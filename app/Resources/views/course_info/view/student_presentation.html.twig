@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-6">
         <dl>
-            <dt>Domaine</dt>
+            <dt>{{ 'app.presentation.view.general.domain' | trans }}</dt>
             <dd class="mandatory-data">
                 {% set domains = "" %}
                 {% for domain in courseInfo.domains %}
@@ -14,66 +14,102 @@
             <dt>{{ 'app.presentation.view.general.level' | trans }}</dt>
             <dd class="mandatory-data">{{ courseInfo.level|humanizeEmptyData(null, 'app.const.level.')}}</dd>
         </dl>
-        <dl>
-            <dt>Campus</dt>
-            <dd>
-                {% set campuses = "" %}
-                {% for campus in courseInfo.campuses %}
-                    {% set campuses = campuses ~ (not loop.first ? ', ') ~ campus.label %}
-                {% endfor %}
-                {{ campuses|humanizeEmptyData() }}
-            </dd>
-        </dl>
+        {% if courseInfo.campuses is not empty %}
+            <dl>
+                <dt>{{ 'app.presentation.view.general.campus' | trans }}</dt>
+                <dd>
+                    {% set campuses = "" %}
+                    {% for campus in courseInfo.campuses %}
+                        {% set campuses = campuses ~ (not loop.first ? ', ') ~ campus.label %}
+                    {% endfor %}
+                    {{ campuses|humanizeEmptyData() }}
+                </dd>
+            </dl>
+        {% endif %}
     </div>
     <div class="col-md-6">
-        <dl>
-            <dt>Période</dt>
-            <dd>
-                {% set periods = "" %}
-                {% for period in courseInfo.periods %}
-                    {% set periods = periods ~ (not loop.first ? ', ') ~ period.label %}
-                {% endfor %}
-                {{ periods|humanizeEmptyData() }}
-            </dd>
-        </dl>
-        <dl>
-            <dt>Langues</dt>
-            <dd>
-                {% set languages = "" %}
-                {% for language in courseInfo.languages %}
-                    {% set languages = languages ~ (not loop.first ? ', ') ~ language.label %}
-                {% endfor %}
-                {{ languages|humanizeEmptyData() }}
-            </dd>
-        </dl>
+        {% if courseInfo.periods is not empty %}
+            <dl>
+                <dt>{{ 'app.presentation.view.general.period' | trans }}</dt>
+                <dd>
+                    {% set periods = "" %}
+                    {% for period in courseInfo.periods %}
+                        {% set periods = periods ~ (not loop.first ? ', ') ~ period.label %}
+                    {% endfor %}
+                    {{ periods|humanizeEmptyData() }}
+                </dd>
+            </dl>
+        {% endif %}
+        {% if courseInfo.languages is not empty %}
+            <dl>
+                <dt>{{ 'app.presentation.view.general.languages' | trans }}</dt>
+                <dd>
+                    {% set languages = "" %}
+                    {% for language in courseInfo.languages %}
+                        {% set languages = languages ~ (not loop.first ? ', ') ~ language.label %}
+                    {% endfor %}
+                    {{ languages|humanizeEmptyData() }}
+                </dd>
+            </dl>
+        {% endif %}
     </div>
 </div>
-<div class="row mt-2">
-    <div class="col-md-6" style="min-height: 150px;">
-        {% if courseInfo.mediaType == 'image' and courseInfo.image is not null %}
-            {% set imgSrc = courseInfo.image | split('/') | last %}
-            <img class="img-thumbnail" src="{{ asset('data/' ~ imgSrc) }}">
-        {% elseif courseInfo.mediaType == 'video' and courseInfo.video is not null %}
-            <div class="embed-responsive embed-responsive-16by9">
-                {{ courseInfo.video|raw }}
-            </div>
-        {% else %}
-            <div class="h-100 border rounded d-flex align-items-center justify-content-center">
-                <i class="fas fa-4x fa-images text-light"></i>
+{% if courseInfo.image is not null or courseInfo.video is not null %}
+    <div class="row mt-2">
+        <div class="col-md-6" style="min-height: 150px;">
+            {% if courseInfo.mediaType == 'image' and courseInfo.image is not null %}
+                {% set imgSrc = courseInfo.image | split('/') | last %}
+                <img class="img-thumbnail" src="{{ asset('data/' ~ imgSrc) }}">
+            {% elseif courseInfo.mediaType == 'video' and courseInfo.video is not null %}
+                <div class="embed-responsive embed-responsive-16by9">
+                    {{ courseInfo.video|raw }}
+                </div>
+            {% else %}
+                <div class="h-100 border rounded d-flex align-items-center justify-content-center">
+                    <i class="fas fa-4x fa-images text-light"></i>
+                </div>
+            {% endif %}
+        </div>
+        {% if courseInfo.summary is not null %}
+            <div id="general-summary" class="col-md-6 mandatory-data" style="min-height: 150px;">
+                {{ courseInfo.summary|humanizeEmptyData()|purify }}
             </div>
         {% endif %}
-
     </div>
-    <div id="general-summary" class="col-md-6 mandatory-data" style="min-height: 150px;">
-        {{ courseInfo.summary|humanizeEmptyData()|purify }}
+{% endif %}
+<div class="row">
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+            <tr class="text-center">
+                <th>{{ 'app.presentation.view.teachers.lastname' | trans }}</th>
+                <th>{{ 'app.presentation.view.teachers.firstname' | trans }}</th>
+                <th>{{ 'app.presentation.view.teachers.mail' | trans }}</th>
+                <th>{{ 'app.presentation.view.teachers.attributes' | trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for teacher in courseInfo.courseTeachers %}
+                <tr class="text-center">
+                    <td>{{ teacher.lastname }}</td>
+                    <td>{{ teacher.firstname }}</td>
+                    <td>
+                        {% if teacher.emailVisibility %}
+                            {{ teacher.email }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if teacher.manager %}
+                            <i class="fas fa-graduation-cap" data-toggle="tooltip" title="{{ 'app.presentation.view.teachers.responsible' | trans }}"></i>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
 </div>
 
-<script>
-    /**
-     * Change the media type value when clicking on media tab
-     */
-    $(document).on('click', '#media_type > li > a', function () {
-        $("#general_mediaType").val($(this).data('media-type'));
-    });
-</script>
+<div class="row">
+    {% include 'course_info/presentation/view/teaching_mode.html.twig' %}
+</div>

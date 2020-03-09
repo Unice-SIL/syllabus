@@ -19,15 +19,16 @@
         </div><!-- /.container-fluid -->
     </div>
 
-
     <section id="content-{{ contentName|default('default') }}" class="content">
         <div class="container-fluid">
             {% block subContent %}
 
                 <!-- presentation du cours -->
-                <div class="card">
+                <div class="card my-2 shadow">
                     <div class="card-header">
-                        {{ 'app.view.student.tabs.presentation' | trans }}
+                        <div class="d-flex justify-content-between">
+                            <h3 style="font-weight: 500;text-shadow: 1px 1px 1px #bbb;">{{ 'app.view.student.tabs.presentation' | trans }}</h3>
+                        </div>
                     </div>
                     <div class="card-body">
                         {% include 'course_info/view/student_presentation.html.twig' %}

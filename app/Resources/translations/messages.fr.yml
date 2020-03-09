@@ -137,6 +137,7 @@ app:
   presentation:
     view:
       general:
+        campus: Campus
         domain: Domaine
         empty_summary: Vous n'avez pas renseigné de résumé
         label: Informations générales
