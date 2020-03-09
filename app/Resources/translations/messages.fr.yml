@@ -5,6 +5,10 @@ ROLE_ADMIN_YEAR: Gestion des années
 ROLE_ADMIN_YEAR_LIST: Consulter la liste des années
 ROLE_ADMIN_YEAR_CREATE: Créer une année
 ROLE_ADMIN_YEAR_UPDATE: Modifier une année
+ROLE_ADMIN_CRITICAL_ACHIEVEMENT: Gestion des apprentissages critiques
+ROLE_ADMIN_CRITICAL_ACHIEVEMENT_LIST: Consulter la liste des apprentissages critiques
+ROLE_ADMIN_CRITICAL_ACHIEVEMENT_CREATE: Créer un apprentissage critique
+ROLE_ADMIN_CRITICAL_ACHIEVEMENT_UPDATE: Modifier un apprentissage critique
 ROLE_ADMIN_ACTIVITY: Gestion des activités
 ROLE_ADMIN_ACTIVITY_LIST: Consulter la liste des activités
 ROLE_ADMIN_ACTIVITY_CREATE: Créer une activité
@@ -41,6 +45,10 @@ ROLE_ADMIN_STRUCTURE: Gestion des structures
 ROLE_ADMIN_STRUCTURE_LIST: Consulter la liste des structures
 ROLE_ADMIN_STRUCTURE_CREATE: Créer une structure
 ROLE_ADMIN_STRUCTURE_UPDATE: Modifier une structure
+ROLE_ADMIN_USER: Gestion des utilisateurs
+ROLE_ADMIN_USER_LIST: Consulter la liste des utilisateurs
+ROLE_ADMIN_USER_CREATE: Créer un utilisateur
+ROLE_ADMIN_USER_UPDATE: Modifier un utilsateur
 ROLE_API: Utilisateur de l'API
 ROLE_API_GET_COURSE: Récupérer un cours par son id
 ROLE_API_GET_COURSES: Récupérer une liste de cours
@@ -95,6 +103,8 @@ app:
         edit_activity: Modifier une activité
         empty_activity: Aucune activité n'a été ajoutée à la section
         empty_section: Aucune section n'a été ajoutée
+        evaluated_peers: Evalué par les pairs
+        evaluated_teachers: Evalué par les enseignants
         evaluation_peers: Évaluation par les pairs
         evaluation_rate: Coefficient
         evaluation_teachers: Évaluation par les enseignants
@@ -115,7 +125,7 @@ app:
       activity:
         activity_mode: Mode d'enseignement
         activity_type: Type d'activité
-        control: Type de contrôle (Continu / Terminal) :
+        control: 'Type de contrôle (Continu / Terminal) :'
         delete: Êtes-vous sûr(e) de vouloir supprimer l'activité "%label%" ?
         description: Description de l'activité (maximum 255 caractères)
         evaluable: Cette activité est-elle évaluable ?
@@ -129,12 +139,15 @@ app:
       general:
         domain: Domaine
         empty_summary: Vous n'avez pas renseigné de résumé
+        label: Informations générales
         languages: Langue(s)
         level: Niveau du cours
         period: Période
       teachers:
+        add_teacher: Ajouter un enseignant
         empty_teacher: Aucun enseignant n'a encore été ajouté à l'équipe
         title: Qui fait parti de l'équipe enseignante ?
+        label: Équipe enseignante
         lastname: Nom
         firstname: Prénom
         mail: Email
@@ -145,6 +158,7 @@ app:
         responsible: Responsable
       teaching_mode:
         empty_teaching_mode: Aucun mode d'enseignement sélectionné
+        label: Mode d'enseignement
     form:
       general:
         level_label: Quel est le niveau de ce cours ?
@@ -184,6 +198,10 @@ app:
             hours: Heures
             other_class: Volume (H)
             type: "Type (ex: Heures personnelles) "
+  view:
+    student:
+      tabs:
+        presentation: Présentation
   const:
     cron:
       status:

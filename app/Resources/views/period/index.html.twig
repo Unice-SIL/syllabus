@@ -65,7 +65,7 @@
                     </tbody>
                 </table>
             {% else %}
-                <div class="alert alert-info">Aucune periode n'a été trouvé avec ces critères</div>
+                {% include 'partial/_no_element.html.twig' %}
             {% endif %}
         </div>
         <!-- /.card-body -->

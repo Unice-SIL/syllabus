@@ -86,7 +86,7 @@ class LanguageController extends AbstractController
             $languageManager->create($language);
             $this->addFlash('success', 'La langue a été ajoutée avec succès.');
 
-            return $this->redirectToRoute('app_admin.language_index');
+            return $this->redirectToRoute('app.admin.language.index');
         }
 
         return $this->render('language/new.html.twig', array(
@@ -115,7 +115,7 @@ class LanguageController extends AbstractController
 
             $this->addFlash('success', 'La language été modifiée avec succès.');
 
-            return $this->redirectToRoute('app_admin.language_edit', array('id' => $language->getId()));
+            return $this->redirectToRoute('app.admin.language.edit', array('id' => $language->getId()));
         }
 
         return $this->render('language/edit.html.twig', array(

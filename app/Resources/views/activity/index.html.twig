@@ -9,21 +9,26 @@
             </div>
 
             <div class="border p-3 mb-3">
-                {{ form_start(form) }}
-                <div class="row">
-                    <div class="col-lg-6 col-md-12">
-                        {{ form_row(form.label) }}
-                    </div>
-                    <div class="col-lg-6 col-md-12">
-                        <div class="form-group">
-                            {{ form_label(form.activityTypes.label, 'app.form.activity.label.activityTypes'|trans) }}
-                            {{ form_widget(form.activityTypes.label) }}
+                <a class="" data-toggle="collapse" href="#collapseFilter" role="button" aria-expanded="false" aria-controls="collapseFilter">
+                    Filtres
+                </a>
+                <div class="collapse" id="collapseFilter">
+                    {{ form_start(form) }}
+                    <div class="row">
+                        <div class="col-lg-6 col-md-12">
+                            {{ form_row(form.label) }}
                         </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Filtrer</button>
-                            <a class="btn btn-danger" href="{{  path('app.admin.activity.index')  }}">Réinitialiser les filtres</a>
+                        <div class="col-lg-6 col-md-12">
+                            <div class="form-group">
+                                {{ form_label(form.activityTypes.label, 'app.form.activity.label.activityTypes'|trans) }}
+                                {{ form_widget(form.activityTypes.label) }}
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Filtrer</button>
+                                <a class="btn btn-danger" href="{{  path('app.admin.activity.index')  }}">Réinitialiser les filtres</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -61,7 +66,7 @@
                     </tbody>
                 </table>
             {% else %}
-                <div class="alert alert-info">Aucune activité n'a été trouvée avec ces critères</div>
+                {% include 'patial/_no_element.html.twig' %}
             {% endif %}
         </div>
         <!-- /.card-body -->

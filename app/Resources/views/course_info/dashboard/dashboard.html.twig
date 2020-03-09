@@ -1,7 +1,7 @@
 {% extends 'course_info/layout.html.twig' %}
 {% block subContent %}
     <div id="card-dashboard" class="card my-2 shadow card-syllabus"
-         data-view-url="{{ path('course_dashboard_view', {'id': courseInfo.id }) }}"
+         data-view-url="{{ path('app.course_info.dashboard.dashboard', {'id': courseInfo.id }) }}"
     >
         <div class="card-header">
             <div class="d-flex justify-content-between">

@@ -7,22 +7,19 @@ use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseTeacher;
 use AppBundle\Factory\ImportCourseTeacherFactory;
 use AppBundle\Form\CourseInfo\Presentation\GeneralType;
-use AppBundle\Form\CourseInfo\Presentation\RemoveTeacherType;
 use AppBundle\Form\CourseInfo\Presentation\TeachersType;
 use AppBundle\Form\CourseInfo\Presentation\TeachingModeType;
 use AppBundle\Manager\CourseInfoManager;
 use AppBundle\Manager\CourseTeacherManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class PresentationController
- * @package AppBundle\Controller
- * @Route("/course/{id}/presentation", name="course_presentation_")
+ * @package AppBundle\Controller\CourseInfo
+ * @Route("/course-info/{id}/presentation", name="app.course_info.presentation.")
  * @Security("is_granted('WRITE', courseInfo)")
  */
 class PresentationController extends AbstractController
@@ -42,7 +39,7 @@ class PresentationController extends AbstractController
     }
 
     /**
-     * @Route("/general/view", name="general_view"))
+     * @Route("/general", name="general"))
      *
      * @param CourseInfo|null $courseInfo
      * @return \Symfony\Component\HttpFoundation\Response
@@ -67,7 +64,7 @@ class PresentationController extends AbstractController
     }
 
     /**
-     * @Route("/general/form", name="general_form"))
+     * @Route("/general/edit", name="general.edit"))
      *
      * @param CourseInfo $courseInfo
      * @param Request $request
@@ -90,7 +87,6 @@ class PresentationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $courseInfo->checkMedia();
-            dump($form->getData());
             $manager->update($courseInfo);
             $render = $this->get('twig')->render('course_info/presentation/view/general.html.twig', [
                 'courseInfo' => $courseInfo
@@ -112,7 +108,7 @@ class PresentationController extends AbstractController
     }
 
     /**
-     * @Route("/teachers/view", name="teachers_view"))
+     * @Route("/teachers", name="teachers"))
      *
      * @param CourseInfo $courseInfo
      * @return \Symfony\Component\HttpFoundation\Response
@@ -145,7 +141,7 @@ class PresentationController extends AbstractController
     }
 
     /**
-     * @Route("/teachers/form", name="teachers_form"))
+     * @Route("/teachers/add", name="teachers.add"))
      *
      * @param CourseInfo $courseInfo
      * @param Request $request
@@ -203,57 +199,7 @@ class PresentationController extends AbstractController
     }
 
     /**
-     * @Route("/teachers/remove/{teacherId}", name="remove_teacher"))
-     *
-     * @param CourseInfo $courseInfo
-     * @param CourseTeacher $teacher
-     * @param Request $request
-     * @param CourseTeacherManager $courseTeacherManager
-     * @return JsonResponse
-     * @ParamConverter("teacher", options={"mapping": {"teacherId": "id"}})
-     */
-    public function removeTeacherAction(CourseInfo $courseInfo, CourseTeacher $teacher, Request $request, CourseTeacherManager $courseTeacherManager)
-    {
-        if (!$courseInfo instanceof CourseInfo)
-        {
-            return $this->json([
-                'status' => false,
-                'render' => "Une erreur est survenue : Le cours n'existe pas"
-            ]);
-        }
-
-        if (!$teacher instanceof CourseTeacher)
-        {
-            return $this->json([
-                'status' => false,
-                'render' => "Une erreur est survenue : L'enseignant n'existe pas"
-            ]);
-        }
-
-        $form = $this->createForm(RemoveTeacherType::class, $teacher);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid())
-        {
-            $courseTeacherManager->delete($teacher);
-            return $this->json([
-                'status' => true,
-                'content' => null
-            ]);
-        }
-
-        $render = $this->get('twig')->render('course_info/presentation/form/remove_teacher.html.twig', [
-            'courseInfo' => $courseInfo,
-            'form' => $form->createView()
-        ]);
-        return $this->json([
-            'status' => true,
-            'content' => $render
-        ]);
-    }
-
-    /**
-     * @Route("/teaching_mode/view", name="teaching_mode_view"))
+     * @Route("/teaching-mode", name="teaching_mode"))
      *
      * @param CourseInfo $courseInfo
      * @return \Symfony\Component\HttpFoundation\Response
@@ -279,7 +225,7 @@ class PresentationController extends AbstractController
     }
 
     /**
-     * @Route("/teaching_mode/form", name="teaching_mode_form"))
+     * @Route("/teaching-mode/edit", name="teaching_mode.edit"))
      *
      * @param CourseInfo $courseInfo
      * @param Request $request

@@ -1,0 +1,3 @@
+{% if is_granted('ROLE_ADMIN_CRITICAL_ACHIEVEMENT_CREATE') %}
+    <a class="btn btn-primary"  href="{{  path('app.admin.critical_achievement.new')  }}">Ajouter un apprentissage critique</a>
+{% endif %}

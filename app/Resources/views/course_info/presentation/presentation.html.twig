@@ -3,14 +3,14 @@
 {% block subContent %}
 
     <div class="card my-2 shadow card-syllabus"
-         data-view-url="{{ path('course_presentation_general_view', {'id': courseInfo.id }) }}"
-         data-form-url="{{ path('course_presentation_general_form', {'id': courseInfo.id }) }}"
+         data-view-url="{{ path('app.course_info.presentation.general', {'id': courseInfo.id }) }}"
+         data-form-url="{{ path('app.course_info.presentation.general.edit', {'id': courseInfo.id }) }}"
     >
         <div class="card-header">
             <div class="d-flex justify-content-between">
-                <h3>Informations générales</h3>
+                <h3>{{ 'app.presentation.view.general.label' | trans }}</h3>
                 <button type="button" class="edit-button btn btn-primary rounded">
-                    Modifier
+                    {{ 'app.general.button.edit' | trans }}
                 </button>
             </div>
         </div>
@@ -19,15 +19,15 @@
     </div>
 
     <div id="card-teacher" class="card my-2 shadow card-syllabus"
-         data-view-url="{{ path('course_presentation_teachers_view', {'id': courseInfo.id }) }}"
+         data-view-url="{{ path('app.course_info.presentation.teachers', {'id': courseInfo.id }) }}"
     >
         <div class="card-header">
             <div class="d-flex justify-content-between">
-                <h3>Équipe enseignante</h3>
+                <h3>{{ 'app.presentation.view.teachers.label' | trans }}</h3>
                 <button type="button" class="btn btn-primary modal-action rounded"
-                        data-action-title="Ajouter un enseignant"
-                        data-action-url="{{ path('course_presentation_teachers_form', {'id': courseInfo.id }) }}">
-                    Ajouter un enseignant
+                        data-action-title="{{ 'app.presentation.view.teachers.add_teacher' | trans }}"
+                        data-action-url="{{ path('app.course_info.presentation.teachers.add', {'id': courseInfo.id }) }}">
+                    {{ 'app.presentation.view.teachers.add_teacher' | trans }}
                 </button>
             </div>
         </div>
@@ -36,14 +36,14 @@
     </div>
 
     <div class="card my-2 shadow card-syllabus"
-         data-view-url="{{ path('course_presentation_teaching_mode_view', {'id': courseInfo.id }) }}"
-         data-form-url="{{ path('course_presentation_teaching_mode_form', {'id': courseInfo.id }) }}"
+         data-view-url="{{ path('app.course_info.presentation.teaching_mode', {'id': courseInfo.id }) }}"
+         data-form-url="{{ path('app.course_info.presentation.teaching_mode.edit', {'id': courseInfo.id }) }}"
     >
         <div class="card-header">
             <div class="d-flex justify-content-between">
-                <h3>Mode d'enseignement</h3>
+                <h3>{{ 'app.presentation.view.teaching_mode.label' | trans }}</h3>
                 <button type="button" class="edit-button btn btn-primary rounded">
-                    Modifier
+                    {{ 'app.general.button.edit' | trans }}
                 </button>
             </div>
         </div>

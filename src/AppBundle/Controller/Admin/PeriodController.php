@@ -88,7 +88,7 @@ class PeriodController extends AbstractController
 
             $this->addFlash('success', 'La période a été ajoutée avec succès.');
 
-            return $this->redirectToRoute('app_admin.period_index');
+            return $this->redirectToRoute('app.admin.period.index');
         }
 
         return $this->render('period/new.html.twig', array(
@@ -117,7 +117,7 @@ class PeriodController extends AbstractController
 
             $this->addFlash('success', 'La période été modifiée avec succès.');
 
-            return $this->redirectToRoute('app_admin.period_edit', array('id' => $period->getId()));
+            return $this->redirectToRoute('app.admin.period.edit', array('id' => $period->getId()));
         }
 
         return $this->render('period/edit.html.twig', array(

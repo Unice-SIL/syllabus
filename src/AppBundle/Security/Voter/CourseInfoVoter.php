@@ -6,9 +6,16 @@ namespace AppBundle\Security\Voter;
 
 use AppBundle\Constant\Permission;
 use AppBundle\Entity\CourseAchievement;
+use AppBundle\Entity\CourseCriticalAchievement;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CoursePrerequisite;
+use AppBundle\Entity\CourseSection;
+use AppBundle\Entity\CourseSectionActivity;
+use AppBundle\Entity\CourseTeacher;
+use AppBundle\Entity\CourseResourceEquipment;
 use AppBundle\Entity\CourseTutoringResource;
+use AppBundle\Entity\CriticalAchievement;
+use AppBundle\Entity\LearningAchievement;
 use AppBundle\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
@@ -42,19 +49,30 @@ class CourseInfoVoter extends Voter
      */
     protected function supports($attribute, $subject)
     {
-        $class = [
+        $classes = [
             CourseAchievement::class,
             CourseInfo::class,
             CoursePrerequisite::class,
-            CourseTutoringResource::class
+            CourseTutoringResource::class,
+            CourseTeacher::class,
+            LearningAchievement::class,
+            CourseCriticalAchievement::class,
+            CourseSection::class,
+            CourseSectionActivity::class,
+            CourseResourceEquipment::class
         ];
-        if (is_null($subject) || !in_array(get_class($subject), $class)) {
+        if (is_null($subject)) {
             return false;
         }
         if (!in_array($attribute, Permission::PERMISSIONS)) {
             return false;
         }
-        return true;
+        foreach ($classes as $class)
+        {
+            if (is_a($subject, $class))
+                return true;
+        }
+        return false;
     }
 
     /**
@@ -76,8 +94,16 @@ class CourseInfoVoter extends Voter
             case CourseInfo::class:
                 return $this->getPermission($subject, $user, $attribute);
                 break;
+            case LearningAchievement::class:
+                $courseInfo = $subject->getCourseCriticalAchievement()->getCourseInfo();
+                return $this->getPermission($courseInfo, $user, $attribute);
+                break;
             case CourseAchievement::class:
+            case CourseTeacher::class:
             case CoursePrerequisite::class:
+            case CourseSection::class:
+            case CourseSectionActivity::class:
+            case CourseCriticalAchievement::class:
             case CourseTutoringResource::class:
                 $courseInfo = $subject->getCourseInfo();
                 return $this->getPermission($courseInfo, $user, $attribute);
@@ -93,7 +119,8 @@ class CourseInfoVoter extends Voter
      * @param $attribute
      * @return bool
      */
-    private function getPermission(CourseInfo $couseInfo, User $user, $attribute){
+    private function getPermission(CourseInfo $couseInfo, User $user, $attribute)
+    {
         foreach ($couseInfo->getCoursePermissions() as $coursePermission) {
             if ($coursePermission->getUser()->getId() === $user->getId() && $coursePermission->getPermission() === $attribute) {
                 return true;

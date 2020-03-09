@@ -2,7 +2,7 @@
     <div class="p-3" style="width: 250px;">
         <h5>{{ 'app.activities.view.sidebar.title' | trans }}</h5>
         <hr class="mb-2">
-        <ul id="sections-list" class="nav nav-pills flex-column list-sortable" data-url="{{ path('course_activities_sort_sections', {'courseInfoId': courseInfo.id}) }}">
+        <ul id="sections-list" class="nav nav-pills flex-column list-sortable" data-url="{{ path('app.course_info.activities.sections.sort', {'id': courseInfo.id}) }}">
             {% if courseInfo.courseSections is empty %}
                 <li class="mb-1 text-warning">
                     {{ 'app.activities.view.sidebar.empty_section' | trans }}
@@ -10,24 +10,24 @@
             {% else %}
                 {% for section in courseInfo.courseSections %}
                     <li class="item-sortable nav-item {% if section is same as (activeSection) %}active{% endif %}" data-id="{{ section.id }}">
-                        <a style="width: 180px" class="d-inline-block bg-transparent text-truncate nav-link menu-tab text-white align-middle overflow-hidden" href="{{ path('course_activities', { 'id': courseInfo.id, 'sectionId': section.id }) }}">
+                        <a style="width: 180px" class="d-inline-block bg-transparent text-truncate nav-link menu-tab text-white align-middle overflow-hidden" href="{{ path('app.course_info.activities.index', { 'id': courseInfo.id, 'sectionId': section.id }) }}">
                             {{ section.title }}
                         </a>
                         <button class="btn dropdown-icon float-right text-white" type="button" data-toggle="dropdown" aria-expanded="false"><i class="fas fa-ellipsis-v"></i> </button>
                         <div class="dropdown-menu">
                             <button type="button" class="dropdown-item text-info modal-action text-center"
                                     data-action-title="{{ 'app.activities.view.sidebar.edit_section' | trans }}"
-                                    data-action-url="{{ path('course_activities_edit_section', {'id': courseInfo.id, 'sectionId': section.id}) }}">
+                                    data-action-url="{{ path('app.course_info.section.edit', {'id': section.id}) }}">
                                 <i class="fas fa-edit"></i> {{ 'app.general.button.edit' | trans }}
                             </button>
                             <button type="button" class="dropdown-item text-info modal-action text-center"
                                     data-action-title="{{ 'app.activities.view.sidebar.duplicate_section' | trans }}"
-                                    data-action-url="{{ path('course_activities_duplicate_section', {'id': courseInfo.id, 'sectionId': section.id}) }}">
+                                    data-action-url="{{ path('app.course_info.activities.section.duplicate', {'id': courseInfo.id, 'sectionId': section.id}) }}">
                                 <i class="fas fa-clone"></i> {{ 'app.general.button.duplicate' | trans }}
                             </button>
                             <button type="button" class="dropdown-item text-danger modal-action text-center"
                                     data-action-title="{{ 'app.activities.view.sidebar.delete_section' | trans }}"
-                                    data-action-url="{{ path('course_activities_remove_section', {'id': courseInfo.id, 'sectionId': section.id}) }}">
+                                    data-action-url="{{ path('app.course_info.section.delete', {'id': section.id}) }}">
                                 <i class="fas fa-trash-alt"></i> {{ 'app.general.button.delete' | trans }}
                             </button>
                         </div>
@@ -39,7 +39,7 @@
         <div class="mb-1">
             <button type="button" class="btn btn-link modal-action p-0 text-primary"
                     data-action-title="{{ 'app.activities.view.sidebar.add_section' | trans }}"
-                    data-action-url="{{ path('course_activities_add_section', {'id': courseInfo.id}) }}">
+                    data-action-url="{{ path('app.course_info.activities.section.add', {'id': courseInfo.id}) }}">
                 <i class="fas fa-plus-circle"></i> {{ 'app.activities.view.sidebar.add_section' | trans }}
             </button>
         </div>

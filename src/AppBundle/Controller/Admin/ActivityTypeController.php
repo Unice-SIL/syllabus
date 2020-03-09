@@ -86,7 +86,7 @@ class ActivityTypeController extends AbstractController
 
             $this->addFlash('success', 'Le type d\'activité a été ajoutée avec succès.');
 
-            return $this->redirectToRoute('app_admin.type_activity_index');
+            return $this->redirectToRoute('app.admin.activity_type.index');
         }
 
         return $this->render('activity_type/new.html.twig', array(
@@ -115,7 +115,7 @@ class ActivityTypeController extends AbstractController
 
             $this->addFlash('success', 'L\'activité a été modifiée avec succès.');
 
-            return $this->redirectToRoute('app_admin.type_activity_edit', array('id' => $activityType->getId()));
+            return $this->redirectToRoute('app.admin.activity_type.edit', array('id' => $activityType->getId()));
         }
 
         return $this->render('activity_type/edit.html.twig', array(

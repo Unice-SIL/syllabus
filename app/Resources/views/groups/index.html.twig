@@ -55,7 +55,7 @@
                     </tbody>
                 </table>
             {% else %}
-                <div class="alert alert-info">Aucun group n'a été enregistré</div>
+                {% include 'partial/_no_element.html.twig' %}
             {% endif %}
         </div>
         <!-- /.card-body -->

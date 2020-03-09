@@ -20,7 +20,7 @@
                 data-accordion="false">
                 <li class="nav-item has-treeview">
                     <a class="nav-link menu-tab"
-                       href="{{ path('course_dashboard_index', { 'id': courseInfo.id }) }}"
+                       href="{{ path('app.course_info.dashboard.index', { 'id': courseInfo.id }) }}"
                        id="menu-dashboard">
                         <i class="fas fa-th"></i>
                         <p>Tableau de bord</p>
@@ -29,7 +29,7 @@
                 {% if is_granted('ROLE_ADMIN') %}
                     <li class="nav-item has-treeview">
                         <a class="nav-link menu-tab"
-                           href="{{ path('app_course_permission', { 'id': courseInfo.id }) }}"
+                           href="{{ path('app.course_info.permission.index', { 'id': courseInfo.id }) }}"
                            id="menu-dashboard">
                             <i class="fas fa-user-shield"></i>
                             <p>Permissions</p>
@@ -42,7 +42,7 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item has-treeview">
                     <a class="nav-link menu-tab"
-                       href="{{ path('course_presentation_index', { 'id': courseInfo.id }) }}"
+                       href="{{ path('app.course_info.presentation.index', { 'id': courseInfo.id }) }}"
                        id="menu-presentation">
                         <i class="fas fa-star"></i>
                         <p>Présentation Générale</p>
@@ -51,7 +51,7 @@
                 <li class="nav-item has-treeview">
                     <a class="nav-link menu-tab"
                        id="menu-activities"
-                       href="{{ path('course_activities', { 'id': courseInfo.id }) }}">
+                       href="{{ path('app.course_info.activities.index', { 'id': courseInfo.id }) }}">
                         <i class="fas fa-list-alt"></i>
                         <p>Contenu et activités</p>
                     </a>
@@ -67,7 +67,7 @@
                 <li class="nav-item has-treeview">
                     <a class="nav-link menu-tab"
                        id="menu-evaluation"
-                       href="{{ path('course_evaluation_specifications_index', { 'id': courseInfo.id }) }}">
+                       href="{{ path('app.course_info.evaluation.index', { 'id': courseInfo.id }) }}">
                         <i class="fas fa-medal"></i>
                         <p>Modalités d'évaluation</p>
                     </a>
@@ -75,13 +75,13 @@
                 <li class="nav-item menu-tab has-treeview">
                     <a class="nav-link"
                        id="menu-resource"
-                       href="{{ path('course_equipment_index', { 'id': courseInfo.id }) }}">
+                       href="{{ path('app.course_info.resource_equipment.index', { 'id': courseInfo.id }) }}">
                         <i class="fas fa-tools"></i>
                         <p>Matériel et ressources</p>
                     </a>
                 </li>
                 <li class="nav-item menu-tab has-treeview">
-                    <a class="nav-link" href="{{ path('course_info_index', { 'id': courseInfo.id }) }}"
+                    <a class="nav-link" href="{{ path('app.course_info.info.index', { 'id': courseInfo.id }) }}"
                        id="menu-info">
                         <i class="fas fa-info-circle"></i>
                         <p>Informations pratiques</p>

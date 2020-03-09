@@ -1,0 +1,79 @@
+<div class="row">
+    <div class="col-md-6">
+        <dl>
+            <dt>Domaine</dt>
+            <dd class="mandatory-data">
+                {% set domains = "" %}
+                {% for domain in courseInfo.domains %}
+                    {% set domains = domains ~ (not loop.first ? ', ') ~ domain.label %}
+                {% endfor %}
+                {{ domains|humanizeEmptyData() }}
+            </dd>
+        </dl>
+        <dl>
+            <dt>{{ 'app.presentation.view.general.level' | trans }}</dt>
+            <dd class="mandatory-data">{{ courseInfo.level|humanizeEmptyData(null, 'app.const.level.')}}</dd>
+        </dl>
+        <dl>
+            <dt>Campus</dt>
+            <dd>
+                {% set campuses = "" %}
+                {% for campus in courseInfo.campuses %}
+                    {% set campuses = campuses ~ (not loop.first ? ', ') ~ campus.label %}
+                {% endfor %}
+                {{ campuses|humanizeEmptyData() }}
+            </dd>
+        </dl>
+    </div>
+    <div class="col-md-6">
+        <dl>
+            <dt>Période</dt>
+            <dd>
+                {% set periods = "" %}
+                {% for period in courseInfo.periods %}
+                    {% set periods = periods ~ (not loop.first ? ', ') ~ period.label %}
+                {% endfor %}
+                {{ periods|humanizeEmptyData() }}
+            </dd>
+        </dl>
+        <dl>
+            <dt>Langues</dt>
+            <dd>
+                {% set languages = "" %}
+                {% for language in courseInfo.languages %}
+                    {% set languages = languages ~ (not loop.first ? ', ') ~ language.label %}
+                {% endfor %}
+                {{ languages|humanizeEmptyData() }}
+            </dd>
+        </dl>
+    </div>
+</div>
+<div class="row mt-2">
+    <div class="col-md-6" style="min-height: 150px;">
+        {% if courseInfo.mediaType == 'image' and courseInfo.image is not null %}
+            {% set imgSrc = courseInfo.image | split('/') | last %}
+            <img class="img-thumbnail" src="{{ asset('data/' ~ imgSrc) }}">
+        {% elseif courseInfo.mediaType == 'video' and courseInfo.video is not null %}
+            <div class="embed-responsive embed-responsive-16by9">
+                {{ courseInfo.video|raw }}
+            </div>
+        {% else %}
+            <div class="h-100 border rounded d-flex align-items-center justify-content-center">
+                <i class="fas fa-4x fa-images text-light"></i>
+            </div>
+        {% endif %}
+
+    </div>
+    <div id="general-summary" class="col-md-6 mandatory-data" style="min-height: 150px;">
+        {{ courseInfo.summary|humanizeEmptyData()|purify }}
+    </div>
+</div>
+
+<script>
+    /**
+     * Change the media type value when clicking on media tab
+     */
+    $(document).on('click', '#media_type > li > a', function () {
+        $("#general_mediaType").val($(this).data('media-type'));
+    });
+</script>

@@ -67,7 +67,7 @@ class YearController extends AbstractController
             $yearManager->create($year);
             $this->addFlash('success', 'L\'année a été ajoutée avec succès.');
 
-            return $this->redirectToRoute('app_admin.year_index');
+            return $this->redirectToRoute('app.admin.year.index');
         }
 
         return $this->render('year/new.html.twig', array(
@@ -97,7 +97,7 @@ class YearController extends AbstractController
 
             $this->addFlash('success', 'L\'année a été modifiée avec succès.');
 
-            return $this->redirectToRoute('app_admin.year_edit', array('id' => $year->getId()));
+            return $this->redirectToRoute('app.admin.year.edit', array('id' => $year->getId()));
         }
 
         return $this->render('year/edit.html.twig', array(

@@ -66,11 +66,11 @@
 </div>
 <div class="mt-2">
     <button type="submit" class="submit-button btn btn-primary submit rounded"
-            data-url="{{ path('course_presentation_general_view', {'id': courseInfo.id}) }}">
+            data-url="{{ path('app.course_info.presentation.general', {'id': courseInfo.id}) }}">
         {{ 'app.general.button.save' | trans }}
     </button>
     <button type="button" class="cancel-button btn btn-secondary rounded"
-            data-url="{{ path('course_presentation_general_view', {'id': courseInfo.id}) }}">
+            data-url="{{ path('app.course_info.presentation.general', {'id': courseInfo.id}) }}">
         {{ 'app.general.button.cancel' | trans }}
     </button>
 </div>

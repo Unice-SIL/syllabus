@@ -49,7 +49,7 @@
                     </tbody>
                 </table>
             {% else %}
-                <div class="alert alert-info">Aucun type de mode d'activité ne correspond à ces critères</div>
+                {% include 'partial/_no_element.html.twig' %}
             {% endif %}
         </div>
         <!-- /.card-body -->
