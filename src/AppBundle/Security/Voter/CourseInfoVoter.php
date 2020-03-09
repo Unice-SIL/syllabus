@@ -9,6 +9,8 @@ use AppBundle\Entity\CourseAchievement;
 use AppBundle\Entity\CourseCriticalAchievement;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CoursePrerequisite;
+use AppBundle\Entity\CourseSection;
+use AppBundle\Entity\CourseSectionActivity;
 use AppBundle\Entity\CourseTeacher;
 use AppBundle\Entity\CourseResourceEquipment;
 use AppBundle\Entity\CourseTutoringResource;
@@ -47,7 +49,7 @@ class CourseInfoVoter extends Voter
      */
     protected function supports($attribute, $subject)
     {
-        $class = [
+        $classes = [
             CourseAchievement::class,
             CourseInfo::class,
             CoursePrerequisite::class,
@@ -55,15 +57,22 @@ class CourseInfoVoter extends Voter
             CourseTeacher::class,
             LearningAchievement::class,
             CourseCriticalAchievement::class,
+            CourseSection::class,
+            CourseSectionActivity::class,
             CourseResourceEquipment::class
         ];
-        if (is_null($subject) || !in_array(get_class($subject), $class)) {
+        if (is_null($subject)) {
             return false;
         }
         if (!in_array($attribute, Permission::PERMISSIONS)) {
             return false;
         }
-        return true;
+        foreach ($classes as $class)
+        {
+            if (is_a($subject, $class))
+                return true;
+        }
+        return false;
     }
 
     /**
@@ -92,6 +101,8 @@ class CourseInfoVoter extends Voter
             case CourseAchievement::class:
             case CourseTeacher::class:
             case CoursePrerequisite::class:
+            case CourseSection::class:
+            case CourseSectionActivity::class:
             case CourseCriticalAchievement::class:
             case CourseTutoringResource::class:
                 $courseInfo = $subject->getCourseInfo();

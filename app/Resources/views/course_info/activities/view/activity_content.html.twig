@@ -1,4 +1,4 @@
-<div id="activities-list" class="p-2 list-sortable" data-url="{{ path('course_activities_sort_activities', {'courseSectionId': activeSection.id}) }}">
+<div id="activities-list" class="p-2 list-sortable" data-url="{{ path('app.course_info.section.activities.sort', {'id': activeSection.id}) }}">
     {% if activeSection.courseSectionActivities is empty %}
         <div class="text-center" style="min-height: 300px">
             <h3 class="text-danger">{{ 'app.activities.view.activity.empty_activity' | trans }}</h3>
@@ -18,8 +18,8 @@
                             </div>
                             {% if sectionActivity.evaluable %}
                                 <div class="mt-1">
-                                    {% if sectionActivity.evaluationPeer %}<span class="badge badge-primary rounded mr-2">Evalué par les pairs</span>{% endif %}
-                                    {% if sectionActivity.evaluationTeacher %}<span class="badge badge-primary rounded">Evalué par les enseignants</span>{% endif %}
+                                    {% if sectionActivity.evaluationPeer %}<span class="badge badge-primary rounded mr-2">{{ 'app.activities.view.activity.evaluated_peers' | trans }}</span>{% endif %}
+                                    {% if sectionActivity.evaluationTeacher %}<span class="badge badge-primary rounded">{{ 'app.activities.view.activity.evaluated_taechers' | trans }}</span>{% endif %}
                                 </div>
                             {% endif %}
                         </div>
@@ -38,12 +38,12 @@
                             <div class="dropdown-menu">
                                 <button type="button" class="dropdown-item text-info modal-action text-center"
                                         data-action-title="{{ 'app.activities.view.activity.edit_activity' | trans }}"
-                                        data-action-url="{{ path('course_activities_edit_activity', {'courseSectionActivityId': sectionActivity.id, 'activityId': sectionActivity.activity.id }) }}">
+                                        data-action-url="{{ path('app.course_info.section_activity.edit', {'id': sectionActivity.id, 'activityId': sectionActivity.activity.id }) }}">
                                     <i class="fas fa-edit"></i> {{ 'app.general.button.edit' | trans }}
                                 </button>
                                 <button type="button" class="dropdown-item text-danger modal-action text-center"
                                         data-action-title="{{ 'app.activities.view.activity.delete_activity' | trans }}"
-                                        data-action-url="{{ path('course_activities_remove_activity', {'sectionId': activeSection.id, 'courseSectionActivityId': sectionActivity.id }) }}">
+                                        data-action-url="{{ path('app.course_info.section_activity.delete', {'id': sectionActivity.id }) }}">
                                     <i class="fas fa-trash-alt"></i> {{ 'app.general.button.delete' | trans }}
                                 </button>
                             </div>

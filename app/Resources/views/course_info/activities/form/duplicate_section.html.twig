@@ -1,4 +1,4 @@
-{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('course_activities_duplicate_section', {'id': courseInfo.id, 'sectionId': courseSection.id})}}) }}
+{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('app.course_info.activities.section.duplicate', {'id': courseInfo.id, 'sectionId': courseSection.id})}}) }}
 {{ form_errors(form) }}
 <h5>{{ 'app.activities.form.section.duplicate' | trans({'%title%': courseSection.title}) }}</h5>
 <div class="d-flex justify-content-center">

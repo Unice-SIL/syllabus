@@ -141,7 +141,7 @@ class PresentationController extends AbstractController
     }
 
     /**
-     * @Route("/teachers/edit", name="teachers.edit"))
+     * @Route("/teachers/add", name="teachers.add"))
      *
      * @param CourseInfo $courseInfo
      * @param Request $request

@@ -1,4 +1,4 @@
-{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('app.course_info.presentation.teachers.edit', {'id': courseInfo.id }), 'data-card': 'card-teacher'}}) }}
+{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('app.course_info.presentation.teachers.add', {'id': courseInfo.id }), 'data-card': 'card-teacher'}}) }}
 {{ form_errors(form) }}
 {{ form_row(form.teacherSource) }}
 {{ form_row(form.login) }}
