@@ -1,10 +1,10 @@
-{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('course_activities_edit_section', {'id': courseInfo.id, 'sectionId': sectionId })}}) }}
+{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('app.course_info.section.edit', {'id': sectionId })}}) }}
 {{ form_errors(form) }}
 {{ form_row(form.title) }}
 {{ form_row(form.description) }}
 <div class="d-flex justify-content-center">
     <button type="submit" class="btn btn-primary rounded">
-        Modifier
+        {{ 'app.general.button.edit' | trans }}
     </button>
 </div>
 {{ form_widget(form._token) }}

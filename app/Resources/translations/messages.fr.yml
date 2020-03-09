@@ -99,6 +99,8 @@ app:
         edit_activity: Modifier une activité
         empty_activity: Aucune activité n'a été ajoutée à la section
         empty_section: Aucune section n'a été ajoutée
+        evaluated_peers: Evalué par les pairs
+        evaluated_teachers: Evalué par les enseignants
         evaluation_peers: Évaluation par les pairs
         evaluation_rate: Coefficient
         evaluation_teachers: Évaluation par les enseignants

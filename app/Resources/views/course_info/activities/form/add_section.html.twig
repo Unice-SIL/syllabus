@@ -1,10 +1,10 @@
-{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('course_activities_add_section', {'id': courseInfo.id })}}) }}
+{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('app.course_info.activities.section.add', {'id': courseInfo.id })}}) }}
 {{ form_errors(form) }}
 {{ form_row(form.title) }}
 {{ form_row(form.description) }}
 <div class="d-flex justify-content-center">
     <button type="submit" class="btn btn-primary rounded" id="create_button">
-        Ajouter
+        {{ 'app.general.button.add' | trans }}
     </button>
 </div>
 {{ form_widget(form._token) }}

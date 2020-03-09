@@ -17,9 +17,8 @@ use Symfony\Component\Routing\Annotation\Route;
  * @Route("/course-info/teacher/{id}", name="app.course_info.teacher.")
  * @Security("is_granted('WRITE', teacher)")
  */
-class TeachersController extends AbstractController
+class TeacherController extends AbstractController
 {
-
     /**
      * @Route("/delete", name="delete"))
      *

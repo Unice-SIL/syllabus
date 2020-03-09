@@ -1,4 +1,4 @@
-{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('course_activities_remove_activity', {'sectionId': courseSection.id, 'courseSectionActivityId': form.vars.data.id })}}) }}
+{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('app.course_info.section_activity.delete', {'id': form.vars.data.id })}}) }}
 {{ form_errors(form) }}
 <h5>{{ 'app.activities.form.activity.delete' | trans({'%label%': form.vars.data.activity.label}) }}</h5>
 <div class="d-flex justify-content-center">
