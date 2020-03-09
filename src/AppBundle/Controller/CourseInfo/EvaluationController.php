@@ -1,6 +1,8 @@
 <?php
 
-namespace AppBundle\Controller;
+
+namespace AppBundle\Controller\CourseInfo;
+
 
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Form\CourseInfo\Evaluation\SpecificationsType;
@@ -12,14 +14,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class CourseInfoEvaluationController
- * @package AppBundle\Controller
+ * Class EvaluationController
+ * @package AppBundle\Controller\CourseInfo
  *
- * @Route("/course/{id}/evaluation", name="course_evaluation_specifications_")
+ * @Route("/course-info/{id}/evaluation", name="app.course_info.evaluation.")
  * @Security("is_granted('WRITE', courseInfo)")
  *
  */
-class CourseInfoEvaluationController extends AbstractController
+class EvaluationController extends AbstractController
 {
     /**
      * @Route("/", name="index")
@@ -35,7 +37,7 @@ class CourseInfoEvaluationController extends AbstractController
     }
 
     /**
-     * @Route("/specifications/view", name="view"))
+     * @Route("/specifications", name="specifications"))
      *
      * @param CourseInfo $courseInfo
      * @return Response
@@ -61,7 +63,7 @@ class CourseInfoEvaluationController extends AbstractController
     }
 
     /**
-     * @Route("/specifications/form", name="form"))
+     * @Route("/specifications/edit", name="specifications.edit"))
      *
      * @param CourseInfo $courseInfo
      * @param Request $request
