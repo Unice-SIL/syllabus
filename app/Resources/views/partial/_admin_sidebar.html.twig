@@ -16,9 +16,9 @@
 
         <li class="nav-item">
             <a
-                href="{{ path('app_admin.dashboard_index') }}"
-                class="nav-link {{ printActiveAdminSidebarLink(['app_admin.dashboard_']) }}"
-               id="menu-dashboard">
+                    href="{{ path('app_admin.dashboard_index') }}"
+                    class="nav-link {{ printActiveAdminSidebarLink(['app_admin.dashboard_']) }}"
+                    id="menu-dashboard">
                 <i class="nav-icon fas fa-th"></i>
                 <p>Tableau de bord</p>
             </a>
@@ -26,8 +26,8 @@
 
         <li class="nav-item">
             <a
-                href="{{ path('app_admin.course_index') }}"
-                class="nav-link {{ printActiveAdminSidebarLink(['app_admin.course_']) }}">
+                    href="{{ path('app_admin.course_index') }}"
+                    class="nav-link {{ printActiveAdminSidebarLink(['app_admin.course_']) }}">
                 <i class="nav-icon fas fa-graduation-cap"></i>
                 <p>
                     Cours
@@ -52,15 +52,17 @@
                 <ul class="nav nav-treeview"
                     style="display: {{ printActiveAdminSidebarLink(referentielLink) ? 'block' : 'none' }};">
 
-                    <li class="nav-item pl-2">
-                        <a href="{{ path('app.admin.critical_achievement.index') }}"
-                           class="nav-link {{ printActiveAdminSidebarLink(['app.admin.critical_achievement']) }}">
-                            <i class="fas fa-map-marker-alt nav-icon"></i>
-                            <p>
-                                Acquis critiques
-                            </p>
-                        </a>
-                    </li>
+                    {% if is_granted('ROLE_ADMIN_CRITICAL_ACHIEVEMENT') %}
+                        <li class="nav-item pl-2">
+                            <a href="{{ path('app.admin.critical_achievement.index') }}"
+                               class="nav-link {{ printActiveAdminSidebarLink(['app.admin.critical_achievement']) }}">
+                                <i class="fas fa-award nav-icon"></i>
+                                <p>
+                                    Acquis critiques
+                                </p>
+                            </a>
+                        </li>
+                    {% endif %}
 
                     {% set activityLink = ['app.admin.activity.', 'app.admin.activity_type.', 'app.admin.activity_mode.'] %}
                     {% if is_granted('ROLE_ADMIN_ACTIVITY') or is_granted('ROLE_ADMIN_ACTIVITYTYPE') or is_granted('ROLE_ADMIN_ACTIVITYMODE') %}
