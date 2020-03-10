@@ -1,19 +1,21 @@
 <div class="row">
     <div class="col-md-6">
         <dl>
-            <dt>{{ 'app.presentation.view.general.domain' | trans }}</dt>
-            <dd class="mandatory-data">
-                {% set domains = "" %}
-                {% for domain in courseInfo.domains %}
-                    {% set domains = domains ~ (not loop.first ? ', ') ~ domain.label %}
-                {% endfor %}
-                {{ domains|humanizeEmptyData() }}
-            </dd>
-        </dl>
-        <dl>
             <dt>{{ 'app.presentation.view.general.level' | trans }}</dt>
             <dd class="mandatory-data">{{ courseInfo.level|humanizeEmptyData(null, 'app.const.level.')}}</dd>
         </dl>
+        {% if courseInfo.periods is not empty %}
+            <dl>
+                <dt>{{ 'app.presentation.view.general.period' | trans }}</dt>
+                <dd>
+                    {% set periods = "" %}
+                    {% for period in courseInfo.periods %}
+                        {% set periods = periods ~ (not loop.first ? ', ') ~ period.label %}
+                    {% endfor %}
+                    {{ periods|humanizeEmptyData() }}
+                </dd>
+            </dl>
+        {% endif %}
         {% if courseInfo.campuses is not empty %}
             <dl>
                 <dt>{{ 'app.presentation.view.general.campus' | trans }}</dt>
@@ -28,18 +30,16 @@
         {% endif %}
     </div>
     <div class="col-md-6">
-        {% if courseInfo.periods is not empty %}
-            <dl>
-                <dt>{{ 'app.presentation.view.general.period' | trans }}</dt>
-                <dd>
-                    {% set periods = "" %}
-                    {% for period in courseInfo.periods %}
-                        {% set periods = periods ~ (not loop.first ? ', ') ~ period.label %}
-                    {% endfor %}
-                    {{ periods|humanizeEmptyData() }}
-                </dd>
-            </dl>
-        {% endif %}
+        <dl>
+            <dt>{{ 'app.presentation.view.general.domain' | trans }}</dt>
+            <dd class="mandatory-data">
+                {% set domains = "" %}
+                {% for domain in courseInfo.domains %}
+                    {% set domains = domains ~ (not loop.first ? ', ') ~ domain.label %}
+                {% endfor %}
+                {{ domains|humanizeEmptyData() }}
+            </dd>
+        </dl>
         {% if courseInfo.languages is not empty %}
             <dl>
                 <dt>{{ 'app.presentation.view.general.languages' | trans }}</dt>
@@ -85,7 +85,7 @@
                 <th>{{ 'app.presentation.view.teachers.lastname' | trans }}</th>
                 <th>{{ 'app.presentation.view.teachers.firstname' | trans }}</th>
                 <th>{{ 'app.presentation.view.teachers.mail' | trans }}</th>
-                <th>{{ 'app.presentation.view.teachers.attributes' | trans }}</th>
+                <th>{{ 'app.presentation.view.teachers.responsible' | trans }}</th>
             </tr>
             </thead>
             <tbody>
@@ -96,12 +96,12 @@
                     <td>
                         {% if teacher.emailVisibility %}
                             {{ teacher.email }}
+                        {% else %}
+                            {{ ''|humanizeEmptyData() }}
                         {% endif %}
                     </td>
                     <td>
-                        {% if teacher.manager %}
-                            <i class="fas fa-graduation-cap" data-toggle="tooltip" title="{{ 'app.presentation.view.teachers.responsible' | trans }}"></i>
-                        {% endif %}
+                        {{ teacher.manager|humanizeBoolean }}
                     </td>
                 </tr>
             {% endfor %}

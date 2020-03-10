@@ -203,6 +203,7 @@ app:
     student:
       tabs:
         presentation: Présentation
+        objectives: Objectifs
   const:
     cron:
       status:
