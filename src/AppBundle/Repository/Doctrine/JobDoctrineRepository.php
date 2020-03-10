@@ -2,20 +2,19 @@
 
 namespace AppBundle\Repository\Doctrine;
 
-use AppBundle\Entity\Cron;
-use AppBundle\Repository\CronRepositoryInterface;
+use AppBundle\Entity\Job;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 
 /**
- * Class CronDoctrineRepository
+ * Class JobDoctrineRepository
  * @package AppBundle\Repository\Doctrine
  */
-class CronDoctrineRepository  extends AbstractDoctrineRepository implements CronRepositoryInterface
+class JobDoctrineRepository  extends AbstractDoctrineRepository
 {
 
     /**
-     * CronDoctrineRepository constructor.
+     * JobDoctrineRepository constructor.
      * @param EntityManagerInterface $entityManager
      */
     public function __construct(
@@ -41,7 +40,7 @@ class CronDoctrineRepository  extends AbstractDoctrineRepository implements Cron
 
     public function getIndexQueryBuilder(): QueryBuilder
     {
-        return $this->entityManager->getRepository(Cron::class)
+        return $this->entityManager->getRepository(Job::class)
             ->createQueryBuilder('c')
             ->addOrderBy('c.label', 'ASC')
             ;
