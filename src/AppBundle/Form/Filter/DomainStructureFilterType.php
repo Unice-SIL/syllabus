@@ -39,8 +39,12 @@ class DomainStructureFilterType extends AbstractType
         $param = [];
         switch ($options['context']) {
             case 'structure':
-                $dataAutocompletePath = 'app.common.autocomplete';
-                $param = ['object' => 'Structure', 'field' => 'label'];
+                $dataAutocompletePath = 'app.common.autocomplete.generic';
+                $param = [
+                    'entityName' => 'Structure',
+                    'findBy' => 'label',
+                    'property' => 'label'
+                ];
                 break;
             case 'course_info':
                 $dataAutocompletePath = 'app_admin_course_info_autocomplete';
