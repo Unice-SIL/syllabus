@@ -9,6 +9,7 @@ use AppBundle\Repository\Doctrine\JobDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -21,6 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Job controller.
  *
  * @Route("admin/job", name="app.admin.job.")
+ * @Security("has_role('ROLE_ADMIN_JOB')")
  *
  */
 class JobController extends AbstractController
@@ -29,6 +31,7 @@ class JobController extends AbstractController
      * Lists all jobs entities.
      *
      * @Route("/", name="index", methods={"GET"})
+     * @Security("has_role('ROLE_ADMIN_JOB_LIST')")
      *
      * @param Request $request
      * @param PaginatorInterface $paginator
@@ -76,6 +79,8 @@ class JobController extends AbstractController
      * Creates a new job entity.
      *
      * @Route("/new", name="new", methods={"GET", "POST"})
+     * @Security("has_role('ROLE_ADMIN_JOB_CREATE')")
+     *
      * @param Request $request
      * @return RedirectResponse|Response
      */
@@ -103,6 +108,8 @@ class JobController extends AbstractController
      * Displays a form to edit an existing job entity.
      *
      * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
+     * @Security("has_role('ROLE_ADMIN_JOB_UPDATE')")
+     *
      * @param Request $request
      * @param Job $job
      * @return RedirectResponse|Response
@@ -130,6 +137,8 @@ class JobController extends AbstractController
      * Displays the report for the given job entity.
      *
      * @Route("/{id}/report", name="report", methods={"GET"})
+     * @Security("has_role('ROLE_ADMIN_JOB_REPORT')")
+     *
      * @param Request $request
      * @param Job $job
      * @return RedirectResponse|Response
@@ -160,6 +169,8 @@ class JobController extends AbstractController
      * Deletes a job entity.
      *
      * @Route("/{id}", name="delete", methods={"DELETE"})
+     * @Security("has_role('ROLE_ADMIN_JOB_DELETE')")
+     *
      * @param Request $request
      * @param Job $job
      * @return RedirectResponse
@@ -197,27 +208,6 @@ class JobController extends AbstractController
         ;
     }
 
-    /**
-     * @Route("/autocomplete/{field}", name="autocomplete", methods={"GET"}, requirements={"field" = "label"})
-     * @param Request $request
-     * @param JobDoctrineRepository $jobDoctrineRepository
-     * @param $field
-     * @return JsonResponse
-     */
-    public function autocomplete(Request $request, JobDoctrineRepository $jobDoctrineRepository, $field)
-    {
-        $query = $request->query->get('query', '');
-
-        $jobs = $jobDoctrineRepository->findLikeQuery($query, $field);
-        $jobs = array_map(function(Job $job){
-            return $job->getLabel();
-        }, $jobs);
-
-        $jobs = array_unique($jobs);
-        $jobs = array_values($jobs);
-
-        return $this->json(['query' =>  $query, 'suggestions' => $jobs, 'data' => $jobs]);
-    }
 
     /**
      * @Route("/run-command/{id}", name="run_command", methods={"POST"})

@@ -33,6 +33,13 @@ ROLE_ADMIN_EQUIPMENT: Gestion des équipements
 ROLE_ADMIN_EQUIPMENT_LIST: Consulter la liste des équipement
 ROLE_ADMIN_EQUIPMENT_CREATE: Créer un équipement
 ROLE_ADMIN_EQUIPMENT_UPDATE: Modifier un équipement
+ROLE_ADMIN_JOB: Gestion des tâches planifiées
+ROLE_ADMIN_JOB_LIST: Consulter la liste des tâches planifiées
+ROLE_ADMIN_JOB_CREATE: Créer une tâche planifiée
+ROLE_ADMIN_JOB_UPDATE: Modifier une tâche planifiée
+ROLE_ADMIN_JOB_DELETE: Supprimer une tâche planifiée
+ROLE_ADMIN_JOB_EXECUTE: Exécuter une tâche planifiée
+ROLE_ADMIN_JOB_REPORT: Consulter le rapport d'une tâche planifiée
 ROLE_ADMIN_LANGUAGE: Gestion des langues
 ROLE_ADMIN_LANGUAGE_LIST: Consulter la liste des langues
 ROLE_ADMIN_LANGUAGE_CREATE: Créer une langue

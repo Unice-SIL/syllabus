@@ -27,7 +27,7 @@ class JobFilterType extends AbstractType
             'label' => 'app.form.job.label.label',
             'attr' => [
                 'class' => 'autocomplete-input',
-                'data-autocomplete-path' => $this->generator->generate('app.admin.job.autocomplete', ['field' => 'label'])
+                'data-autocomplete-path' => $this->generator->generate('app.common.autocomplete.generic', ['entityName' => 'Job'])
             ]
         ]);
     }
