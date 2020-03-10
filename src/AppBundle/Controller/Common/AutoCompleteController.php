@@ -7,43 +7,44 @@ namespace AppBundle\Controller\Common;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class AutoCompleteController
  * @package AppBundle\Controller\Common
  *
- * @Route("common/autocomplete", name="app.common.")
+ * @Route("common/autocomplete", name="app.common.autocomplete.")
  */
 class AutoCompleteController extends AbstractController
 {
     /**
-     * @Route("/autocomplete", name="autocomplete")
+     * @Route("/generic/{entityName}", name="generic")
      *
-     * @param $object
+     * @param string $entityName
      * @param Request $request
      * @return JsonResponse
      */
-    public function autoComplete(Request $request)
+    public function autoComplete(string $entityName, Request $request)
     {
+        $namespace = 'AppBundle\\Entity\\';
+        $entityName = "{$namespace}{$entityName}";
         $query = $request->query->get('query', '');
-        $object = $request->query->get('object', '');
-        $repository = $this->getDoctrine()->getRepository("AppBundle\Entity\\".$object);
+        $findBy = $request->query->get('findBy', 'label');
+        $property = $request->query->get('property', 'label');
 
-        if(!is_null($request->query->get('field')))
-        {
-            $objects = $repository->findLikeQuery($query, $request->query->get('field', ''));
-        }else{
-            $objects = $repository->findLikeQuery($query);
-        }
+        $propertyAccessor = PropertyAccess::createPropertyAccessor();
 
-        $objects = array_map(function($object){
-            return $object->getLabel();
-        }, $objects);
+        $repository = $this->getDoctrine()->getRepository($entityName);
+        $entities = $repository->findLikeQuery($query, $findBy);
 
-        $objects = array_unique($objects);
-        $objects = array_values($objects);
+        $entities = array_map(function($entity) use($propertyAccessor, $property){
+            return $propertyAccessor->getValue($entity, $property);
+        }, $entities);
 
-        return $this->json(['query' =>  $query, 'suggestions' => $objects, 'data' => $objects]);
+        $entities = array_unique($entities);
+        $entities = array_values($entities);
+
+        return $this->json(['query' =>  $query, 'suggestions' => $entities, 'data' => $entities]);
     }
 }
