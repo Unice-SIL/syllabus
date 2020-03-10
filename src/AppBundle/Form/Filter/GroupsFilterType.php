@@ -41,7 +41,7 @@ class GroupsFilterType extends AbstractType
             'label' => 'app.form.groups.label.label',
             'attr' => [
                 'class' => 'autocomplete-input',
-                'data-autocomplete-path' => $this->generator->generate('app_admin_groups_autocomplete', ['field' => 'label'])
+                'data-autocomplete-path' => $this->generator->generate('app.common.autocomplete', ['object'=> 'Groups', 'field' => 'label'])
             ]
         ]);
 

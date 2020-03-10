@@ -33,7 +33,7 @@ class ActivityFilterType extends AbstractType
             'label' => 'app.form.activity.label.label',
             'attr' => [
                 'class' => 'autocomplete-input',
-                'data-autocomplete-path' => $this->generator->generate('app.admin.activity.autocomplete')
+                'data-autocomplete-path' => $this->generator->generate('app.common.autocomplete', ['object' => 'Activity'])
             ]
         ])
         ->add('activityTypes', ActivityTypeFilterType::class, [
@@ -48,7 +48,6 @@ class ActivityFilterType extends AbstractType
             }
         ])
         ;
-
     }
 
     public function getBlockPrefix()

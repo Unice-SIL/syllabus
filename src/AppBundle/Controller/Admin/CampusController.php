@@ -127,27 +127,6 @@ class CampusController extends AbstractController
     }
 
     /**
-     * @Route("/autocomplete", name="autocomplete", methods={"GET"})
-     * @param CampusDoctrineRepository $repository
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function autocomplete(CampusDoctrineRepository $repository, Request $request)
-    {
-        $query = $request->query->get('query');
-
-        $campuses = $repository->findLikeQuery($query);
-        $campuses = array_map(function($campus){
-            return $campus->getLabel();
-        }, $campuses);
-
-        $campuses = array_unique($campuses);
-        $campuses = array_values($campuses);
-
-        return $this->json(['query' =>  $query, 'suggestions' => $campuses, 'data' => $campuses]);
-    }
-
-    /**
      * @Route("autocompleteS2", name="autocompleteS2", methods={"GET"})
      *
      * @param CampusDoctrineRepository $repository

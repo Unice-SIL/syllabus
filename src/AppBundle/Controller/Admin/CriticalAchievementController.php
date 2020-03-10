@@ -121,28 +121,6 @@ class CriticalAchievementController extends AbstractController
     }
 
     /**
-     * @Route("/autocomplete", name="autocomplete", methods={"GET"})
-     *
-     * @param CriticalAchievementDoctrineRepository $criticalAchievementDoctrineRepository
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function autocomplete(CriticalAchievementDoctrineRepository $criticalAchievementDoctrineRepository, Request $request)
-    {
-        $query = $request->query->get('query');
-
-        $criticalAchievements = $criticalAchievementDoctrineRepository->findLikeQuery($query);
-        $criticalAchievements = array_map(function($mode){
-            return $mode->getLabel();
-        }, $criticalAchievements);
-
-        $criticalAchievements = array_unique($criticalAchievements);
-        $criticalAchievements = array_values($criticalAchievements);
-
-        return $this->json(['query' =>  $query, 'suggestions' => $criticalAchievements, 'data' => $criticalAchievements]);
-    }
-
-    /**
      * @Route("/autocompleteByCourse/{courseInfo}", name="autocompleteByCourse", methods={"GET"})
      *
      * @param CriticalAchievementDoctrineRepository $criticalAchievementDoctrineRepository

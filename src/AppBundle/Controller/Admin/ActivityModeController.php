@@ -121,25 +121,4 @@ class ActivityModeController extends AbstractController
             'form' => $form->createView(),
         ));
     }
-
-    /**
-     * @Route("/autocomplete", name="autocomplete", methods={"GET"})
-     * @param ActivityModeDoctrineRepository $repository
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function autocomplete(ActivityModeDoctrineRepository $repository, Request $request)
-    {
-        $query = $request->query->get('query');
-
-        $activitiesModes = $repository->findLikeQuery($query);
-        $activitiesModes = array_map(function($mode){
-            return $mode->getLabel();
-        }, $activitiesModes);
-
-        $activitiesModes = array_unique($activitiesModes);
-        $activitiesModes = array_values($activitiesModes);
-
-        return $this->json(['query' =>  $query, 'suggestions' => $activitiesModes, 'data' => $activitiesModes]);
-    }
 }
