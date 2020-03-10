@@ -59,7 +59,11 @@ class DomainFilterType extends AbstractType
                 'label' => 'app.form.activity.label.label',
                 'attr' => [
                     'class' => 'autocomplete-input',
-                    'data-autocomplete-path' => $this->generator->generate('app.common.autocomplete', ['object' => 'Domain'])
+                    'data-autocomplete-path' => $this->generator->generate('app.common.autocomplete.generic', [
+                        'entityName' => 'Domain',
+                        'findBy' => 'label',
+                        'property' => 'label'
+                    ])
                 ]
             ])
             ->add('structures', DomainStructureFilterType::class, [

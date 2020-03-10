@@ -40,11 +40,9 @@ class CourseFilterType extends AbstractType
         switch ($options['context']) {
             case 'course':
                 $dataAutocompletePath = 'app.common.autocomplete.generic';
-                $fieldLabel = 'code';
                 break;
             case 'course_info':
                 $dataAutocompletePath = 'app_admin_course_info_autocomplete';
-                $fieldLabel = 'c.code';
                 break;
         }
 

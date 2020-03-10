@@ -43,7 +43,11 @@ class PeriodFilterType extends AbstractType
             'label' => 'app.form.equipment.label.label',
             'attr' => [
                 'class' => 'autocomplete-input',
-                'data-autocomplete-path' => $this->generator->generate('app.common.autocomplete', ['object'=> 'Period', 'field' => 'label'])
+                'data-autocomplete-path' => $this->generator->generate('app.common.autocomplete.generic', [
+                    'entityName' => 'Period',
+                    'findBy' => 'label',
+                    'property' => 'label'
+                ])
             ]
         ])
             ->add('structures', DomainStructureFilterType::class, [

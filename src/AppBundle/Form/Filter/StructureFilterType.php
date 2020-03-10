@@ -36,24 +36,16 @@ class StructureFilterType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $param = [];
-        switch ($options['context']) {
-            case 'structure':
-                $dataAutocompletePath = 'app.common.autocomplete';
-                $param = ['object' => 'Structure', 'field' => 'label'];
-                break;
-            case 'course_info':
-                $dataAutocompletePath = 'app_admin_course_info_autocomplete';
-                $param = ['field' => 's.label'];
-                break;
-        }
-
         $builder->add('label', TextFilterType::class, [
             'condition_pattern' => FilterOperands::STRING_CONTAINS,
             'label' => $options['context'] === 'structure' ? 'app.form.structure.label.label' : 'app.form.structure.label.structure',
             'attr' => [
                 'class' => 'autocomplete-input',
-                'data-autocomplete-path' => $this->generator->generate($dataAutocompletePath, $param)
+                'data-autocomplete-path' => $this->generator->generate('app.common.autocomplete.generic', [
+                    'entityName' => 'Structure',
+                    'findBy' => 'label',
+                    'property' => 'label'
+                ])
             ]
         ]);
 
@@ -63,7 +55,11 @@ class StructureFilterType extends AbstractType
                 'label' => 'app.form.structure.label.code',
                 'attr' => [
                     'class' => 'autocomplete-input',
-                    'data-autocomplete-path' => $this->generator->generate($dataAutocompletePath, $param)
+                    'data-autocomplete-path' => $this->generator->generate('app.common.autocomplete.generic', [
+                        'entityName' => 'Structure',
+                        'findBy' => 'code',
+                        'property' => 'code'
+                    ])
                 ]
             ]);
         }

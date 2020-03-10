@@ -41,7 +41,11 @@ class ActivityModeFilterType extends AbstractType
                 'label' => 'app.form.activity.label.label',
                 'attr' => [
                     'class' => 'autocomplete-input',
-                    'data-autocomplete-path' => $this->generator->generate('app.common.autocomplete', ['object' => 'ActivityMode'])
+                    'data-autocomplete-path' => $this->generator->generate('app.common.autocomplete.generic', [
+                        'entityName' => 'ActivityMode',
+                        'findBy' => 'label',
+                        'property' => 'label'
+                    ])
                 ]
             ])
         ;
