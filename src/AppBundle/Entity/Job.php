@@ -6,12 +6,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Cron
+ * Job
  *
- * @ORM\Table(name="cron")
+ * @ORM\Table(name="job")
  * @ORM\Entity
  */
-class Cron
+class Job
 {
     /**
      * @var int
@@ -36,20 +36,20 @@ class Cron
      *
      * @ORM\Column(name="command", type="string", length=255)
      * @Assert\NotBlank()
-     * @Assert\Choice(choices=\AppBundle\Constant\Cron::COMMANDS)
+     * @Assert\Choice(choices=\AppBundle\Constant\Job::COMMANDS)
      */
     private $command;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="frequency_cron_format", type="string", length=255)
+     * @ORM\Column(name="frequency_job_format", type="string", length=255)
      * @Assert\NotBlank()
      * @Assert\Regex(
      *     pattern="/^(\*|((\*\/)?[1-5]?[0-9])) (\*|((\*\/)?1?[0-9]|2?[0-3])) (\*|((\*\/)?([1-2]?[0-9]|3[0-1]))) (\*|((\*\/)?[0-9]|1[0-2])) (\*|((\*\/)?[0-6]))$/"
      * )
      */
-    private $frequencyCronFormat;
+    private $frequencyJobFormat;
 
     /**
      * @var \DateTime|null
@@ -71,9 +71,9 @@ class Cron
      * @var int|null
      *
      * @ORM\Column(name="last_status", type="integer", nullable=true)
-     * @Assert\Choice(choices=\AppBundle\Constant\Cron::STATUSES)
+     * @Assert\Choice(choices=\AppBundle\Constant\Job::STATUSES)
      */
-    private $lastStatus = \AppBundle\Constant\Cron::STATUS_INIT;
+    private $lastStatus = \AppBundle\Constant\Job::STATUS_INIT;
 
     /**
      * @var bool
@@ -114,7 +114,7 @@ class Cron
      *
      * @param string $label
      *
-     * @return Cron
+     * @return Job
      */
     public function setLabel($label)
     {
@@ -138,7 +138,7 @@ class Cron
      *
      * @param string $command
      *
-     * @return Cron
+     * @return Job
      */
     public function setCommand($command)
     {
@@ -160,17 +160,17 @@ class Cron
     /**
      * @return string
      */
-    public function getFrequencyCronFormat()
+    public function getFrequencyJobFormat()
     {
-        return $this->frequencyCronFormat;
+        return $this->frequencyJobFormat;
     }
 
     /**
-     * @param string $frequencyCronFormat
+     * @param string $frequencyJobFormat
      */
-    public function setFrequencyCronFormat($frequencyCronFormat)
+    public function setFrequencyJobFormat($frequencyJobFormat)
     {
-        $this->frequencyCronFormat = $frequencyCronFormat;
+        $this->frequencyJobFormat = $frequencyJobFormat;
     }
 
     /**
@@ -182,11 +182,12 @@ class Cron
     }
 
     /**
-     * @param int|null $lastStatus
+     * @param $lastStatus
+     * @throws \Exception
      */
     public function setLastStatus($lastStatus)
     {
-        if ($lastStatus !== \AppBundle\Constant\Cron::STATUS_IN_PROGRESS) {
+        if ($lastStatus !== \AppBundle\Constant\Job::STATUS_IN_PROGRESS) {
             $this->setLastUseEnd(new \DateTime());
         }
 

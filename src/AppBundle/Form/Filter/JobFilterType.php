@@ -11,7 +11,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 
-class CronFilterType extends AbstractType
+class JobFilterType extends AbstractType
 {
     private  $generator;
 
@@ -24,17 +24,17 @@ class CronFilterType extends AbstractType
     {
         $builder->add('label', TextFilterType::class, [
             'condition_pattern' => FilterOperands::STRING_CONTAINS,
-            'label' => 'app.form.cron.label.label',
+            'label' => 'app.form.job.label.label',
             'attr' => [
                 'class' => 'autocomplete-input',
-                'data-autocomplete-path' => $this->generator->generate('app.admin.cron.autocomplete', ['field' => 'label'])
+                'data-autocomplete-path' => $this->generator->generate('app.admin.job.autocomplete', ['field' => 'label'])
             ]
         ]);
     }
 
     public function getBlockPrefix()
     {
-        return 'cron_filter';
+        return 'job_filter';
     }
 
     public function configureOptions(OptionsResolver $resolver)

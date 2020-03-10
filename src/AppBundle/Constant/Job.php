@@ -4,7 +4,7 @@
 namespace AppBundle\Constant;
 
 
-class Cron
+class Job
 {
     const COMMAND_TEST = 'app:test';
     const COMMAND_TEST_2 = 'app:test-2';

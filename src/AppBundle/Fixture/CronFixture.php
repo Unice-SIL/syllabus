@@ -2,15 +2,15 @@
 
 namespace AppBundle\Fixture;
 
-use AppBundle\Entity\Cron;
+use AppBundle\Entity\Job;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
 /**
- * Class CronFixture
+ * Class JobFixture
  * @package AppBundle\Fixture
  */
-class CronFixture extends Fixture
+class JobFixture extends Fixture
 {
 
     /**
@@ -19,27 +19,27 @@ class CronFixture extends Fixture
     public function load(ObjectManager $manager)
     {
 
-        $crons = [
+        $jobs = [
             [
               'label' => 'Test 2',
-              'command' => \AppBundle\Constant\Cron::COMMAND_TEST_2,
-              'frequencyCronFormat' => '* * * * *',
+              'command' => \AppBundle\Constant\Job::COMMAND_TEST_2,
+              'frequencyJobFormat' => '* * * * *',
             ],
             [
                 'label' => 'Test',
-                'command' => \AppBundle\Constant\Cron::COMMAND_TEST,
-                'frequencyCronFormat' => '* * * * *',
+                'command' => \AppBundle\Constant\Job::COMMAND_TEST,
+                'frequencyJobFormat' => '* * * * *',
             ],
 
         ];
 
-        foreach ($crons as $c) {
+        foreach ($jobs as $c) {
 
-            $cron = new Cron();
-            $cron->setLabel($c['label'])
+            $jobs = new Job();
+            $jobs->setLabel($c['label'])
                 ->setCommand($c['command'])
-                ->setFrequencyCronFormat($c['frequencyCronFormat']);
-            $manager->persist($cron);
+                ->setFrequencyJobFormat($c['frequencyJobFormat']);
+            $manager->persist($jobs);
         }
         $manager->flush();
     }

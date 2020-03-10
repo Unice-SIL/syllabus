@@ -203,7 +203,7 @@ app:
       tabs:
         presentation: Présentation
   const:
-    cron:
+    job:
       status:
         0: Initialisation
         1: En cours
@@ -225,7 +225,7 @@ app:
     notification:
       label:
         message: 'Message'
-    cron:
+    job:
       label:
         label: 'Label'
     security:
