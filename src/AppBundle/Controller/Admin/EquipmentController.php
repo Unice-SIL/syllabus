@@ -127,30 +127,4 @@ class EquipmentController extends AbstractController
             'form' => $form->createView(),
         ));
     }
-
-    /**
-     * @Route("/autocomplete/{field}", name="autocomplete", methods={"GET"}, requirements={"field" = "label"})
-     *
-     * @param EquipmentDoctrineRepository $equipmentDoctrineRepository
-     * @param Request $request
-     * @param $field
-     * @return JsonResponse
-     */
-    public function autocomplete(EquipmentDoctrineRepository $equipmentDoctrineRepository, Request $request, $field)
-    {
-        $query = $request->query->get('query');
-
-        $propertyAccessor = PropertyAccess::createPropertyAccessor();
-
-        $equipments = $equipmentDoctrineRepository->findLikeQuery($query, $field);
-
-        $equipments = array_map(function($equipment) use ($field, $propertyAccessor){
-            return $propertyAccessor->getValue($equipment, $field);
-        }, $equipments);
-
-        $equipments = array_unique($equipments);
-
-        return $this->json(['query' =>  $query, 'suggestions' => $equipments, 'data' => $equipments]);
-    }
-
 }

@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Domain
  *
  * @ORM\Table(name="domain")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\DomainDoctrineRepository")
  */
 class Domain
 {

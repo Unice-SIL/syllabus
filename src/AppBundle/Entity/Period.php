@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Period
  *
  * @ORM\Table(name="period")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\PeriodDoctrineRepository")
  */
 class Period
 {

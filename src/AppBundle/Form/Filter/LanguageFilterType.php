@@ -40,7 +40,7 @@ class LanguageFilterType extends AbstractType
             'label' => 'app.form.equipment.label.label',
             'attr' => [
                 'class' => 'autocomplete-input',
-                'data-autocomplete-path' => $this->generator->generate('app.admin.language.autocomplete', ['field' => 'label'])
+                'data-autocomplete-path' => $this->generator->generate('app.common.autocomplete', ['object'=> 'Language', 'field' => 'label'])
             ]
         ]);
     }

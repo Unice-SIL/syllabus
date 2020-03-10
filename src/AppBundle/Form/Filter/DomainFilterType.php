@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form\Filter;
 
+use AppBundle\Entity\Domain;
 use AppBundle\Manager\DomainManager;
 use AppBundle\Repository\Doctrine\StructureDoctrineRepository;
 use AppBundle\Repository\StructureRepositoryInterface;
@@ -36,11 +37,14 @@ class DomainFilterType extends AbstractType
      */
     private $structureRepository;
 
+    private $domain;
+
     public function __construct(UrlGeneratorInterface $generator, DomainManager $domainManager, StructureDoctrineRepository $structureRepository)
     {
         $this->generator = $generator;
         $this->domainManager = $domainManager;
         $this->structureRepository = $structureRepository;
+        $this->domain = new Domain();
     }
 
     /**
@@ -55,7 +59,7 @@ class DomainFilterType extends AbstractType
                 'label' => 'app.form.activity.label.label',
                 'attr' => [
                     'class' => 'autocomplete-input',
-                    'data-autocomplete-path' => $this->generator->generate('app.admin.domain.autocomplete')
+                    'data-autocomplete-path' => $this->generator->generate('app.common.autocomplete', ['object' => 'Domain'])
                 ]
             ])
             ->add('structures', DomainStructureFilterType::class, [

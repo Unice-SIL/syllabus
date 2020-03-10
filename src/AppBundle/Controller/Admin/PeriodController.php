@@ -126,27 +126,6 @@ class PeriodController extends AbstractController
     }
 
     /**
-     * @Route("/autocomplete", name="autocomplete", methods={"GET"})
-     * @param PeriodDoctrineRepository $periodDoctrineRepository
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function autocomplete(PeriodDoctrineRepository $periodDoctrineRepository, Request $request)
-    {
-        $query = $request->query->get('query');
-
-        $periods = $periodDoctrineRepository->findLikeQuery($query);
-        $periods = array_map(function($period){
-            return $period->getLabel();
-        }, $periods);
-
-        $periods = array_unique($periods);
-        $periods = array_values($periods);
-
-        return $this->json(['query' =>  $query, 'suggestions' => $periods, 'data' => $periods]);
-    }
-
-    /**
      * @Route("/autocompleteS2/{structure}", name="autocompleteS2")
      *
      * @param Structure $structure
