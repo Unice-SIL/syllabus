@@ -28,17 +28,21 @@
     {% endblock %}
 </head>
 
-<body class="sidebar-mini layout-navbar-fixed layout-fixed control-sidebar-slide-open" data-spy="scroll" data-target="#student-sidebar" data-offset="60">
+<body class="sidebar-mini layout-navbar-fixed layout-fixed control-sidebar-slide-open"
+        {% if app.request.get('_route') == "app.course_info.view.student" %}
+            data-spy="scroll" data-target="#student-sidebar" data-offset="60"
+        {% endif %}
+>
 
 {% block modals %}{% endblock %}
 
 {% set adminNotifications = app.session.get('admin_notifications')|filter(n => n['to_show'] == true) %}
 
 <div
-    id="data-notifications"
-    data-admin-notifications="{{ adminNotifications|json_encode }}"
-    data-length="{{ adminNotifications|length }}"
-    data-token-seen="{{ csrf_token('notification-seen') }}"
+        id="data-notifications"
+        data-admin-notifications="{{ adminNotifications|json_encode }}"
+        data-length="{{ adminNotifications|length }}"
+        data-token-seen="{{ csrf_token('notification-seen') }}"
 >
 </div>
 

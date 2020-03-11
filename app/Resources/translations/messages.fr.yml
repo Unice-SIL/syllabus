@@ -201,7 +201,16 @@ app:
             type: "Type (ex: Heures personnelles) "
   view:
     student:
+      activities:
+        title: Nom de l'activité
+
+      objectives:
+        achievements_list: Liste des objectifs
+        critical_achievements_list: Liste des apprentissages
+        prerequisites_list: Liste des prérequis
+        tutoring_resources_list: Liste des rémédiations
       tabs:
+        activities: Activités
         presentation: Présentation
         objectives: Objectifs
   const:
