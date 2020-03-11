@@ -3,30 +3,52 @@
 namespace AppBundle\Controller\Admin;
 
 use AppBundle\Entity\Notification;
+use AppBundle\Form\Filter\CourseInfoFilterType;
+use AppBundle\Form\NotificationType;
+use AppBundle\Manager\NotificationManager;
+use AppBundle\Repository\Doctrine\NotificationDoctrineRepository;
+use Knp\Component\Pager\PaginatorInterface;
+use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\Form\Form;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Notification controller.
  *
  * @Route("admin/notification", name="app.admin.notification.")
+ * @Security("has_role('ROLE_ADMIN_NOTIFICATION')")
  */
-class NotificationController extends Controller
+class NotificationController extends AbstractController
 {
     /**
      * Lists all notification entities.
      *
-     * @Route("/", name="index")
-     * @Method("GET")
+     * @Route("/", name="index", methods={"GET"})
+     * @Security("has_role('ROLE_ADMIN_NOTIFICATION_LIST')")
+     *
+     * @param Request $request
+     * @param NotificationDoctrineRepository $repository
+     * @param PaginatorInterface $paginator
+     * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
+     * @return Response
      */
-    public function indexAction(Request $request)
+    public function indexAction(
+        Request $request,
+        NotificationDoctrineRepository $repository,
+        PaginatorInterface $paginator,
+        FilterBuilderUpdaterInterface $filterBuilderUpdater
+    )
     {
-        $pagination = $this->get('knp_paginator')->paginate(
-            $this->getDoctrine()->getManager()->createQuery("SELECT n FROM AppBundle:Notification n"),
+        $qb =  $repository->getIndexQueryBuilder();
+
+        $pagination = $paginator->paginate(
+            $qb,
             $request->query->getInt('page', 1),
             10
         );
@@ -46,19 +68,21 @@ class NotificationController extends Controller
     /**
      * Creates a new notification entity.
      *
-     * @Route("/new", name="new")
-     * @Method({"GET", "POST"})
+     * @Route("/new", name="new", methods={"GET", "POST"})
+     * @Security("has_role('ROLE_ADMIN_NOTIFICATION_CREATE')")
+     *
+     * @param Request $request
+     * @param NotificationManager $notificationManager
+     * @return RedirectResponse|Response
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request, NotificationManager $notificationManager)
     {
-        $notification = new Notification();
-        $form = $this->createForm('AppBundle\Form\NotificationType', $notification);
+        $notification = $notificationManager->new();
+        $form = $this->createForm(NotificationType::class, $notification);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($notification);
-            $em->flush();
+            $notificationManager->create($notification);
 
             $this->addFlash('success', 'La notification a été ajoutée avec succès');
 
@@ -74,16 +98,21 @@ class NotificationController extends Controller
     /**
      * Displays a form to edit an existing notification entity.
      *
-     * @Route("/{id}/edit", name="edit")
-     * @Method({"GET", "POST"})
+     * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
+     * @Security("has_role('ROLE_ADMIN_NOTIFICATION_UPDATE')")
+     *
+     * @param Request $request
+     * @param Notification $notification
+     * @param NotificationManager $notificationManager
+     * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, Notification $notification)
+    public function editAction(Request $request, Notification $notification, NotificationManager $notificationManager)
     {
-        $editForm = $this->createForm('AppBundle\Form\NotificationType', $notification);
+        $editForm = $this->createForm(NotificationType::class, $notification);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $notificationManager->update($notification);
 
             $this->addFlash('success', 'La notification a été modifiée avec succès');
 
@@ -99,18 +128,21 @@ class NotificationController extends Controller
     /**
      * Deletes a notification entity.
      *
-     * @Route("/{id}", name="delete")
-     * @Method("DELETE")
+     * @Route("/{id}", name="delete", methods={"DELETE"})
+     * @Security("has_role('ROLE_ADMIN_NOTIFICATION_DELETE')")
+     *
+     * @param Request $request
+     * @param Notification $notification
+     * @param NotificationManager $notificationManager
+     * @return RedirectResponse
      */
-    public function deleteAction(Request $request, Notification $notification)
+    public function deleteAction(Request $request, Notification $notification, NotificationManager $notificationManager)
     {
         $form = $this->createDeleteForm($notification);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($notification);
-            $em->flush();
+            $notificationManager->delete($notification);
 
             $this->addFlash('success', 'La notification a été supprimée avec succès');
         }
@@ -123,7 +155,7 @@ class NotificationController extends Controller
      *
      * @param Notification $notification The notification entity
      *
-     * @return Form The form
+     * @return FormInterface The form
      */
     private function createDeleteForm(Notification $notification)
     {

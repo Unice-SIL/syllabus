@@ -35,7 +35,7 @@
             </div>
 
             {% if pagination.totalItemCount > 0 %}
-                <table class="table table-bordered table-responsive-sm">
+                <table class="table table-hover table-responsive-sm">
                     <thead>
                     <tr>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'Label', 'c.label') }}</th>
@@ -115,7 +115,7 @@
                     </tbody>
                 </table>
             {% else %}
-                <div class="alert alert-info">Aucune tâche plani n'a été enregistré</div>
+                {% include 'partial/_no_element.html.twig' %}
             {% endif %}
         </div>
         <!-- /.card-body -->

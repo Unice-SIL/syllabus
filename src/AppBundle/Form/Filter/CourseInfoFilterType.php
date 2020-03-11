@@ -55,7 +55,7 @@ class CourseInfoFilterType extends AbstractType
                 'label' => 'app.form.course_info.label.title',
                 'attr' => [
                     'class' => 'autocomplete-input',
-                    'data-autocomplete-path' => $this->generator->generate('app_admin_course_info_autocomplete', ['field' => 'ci.title'])
+                    'data-autocomplete-path' => $this->generator->generate('app.common.autocomplete.generic', ['entityName' => 'Notification'])
                 ]
             ])
             ->add('year', YearFilterType::class, [
