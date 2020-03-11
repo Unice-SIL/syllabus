@@ -29,11 +29,16 @@ class AddCourseInfoPermissionType extends AbstractType
             ->add('user', Select2EntityType::class, [
                 'label' => 'app.form.course_permission.label.user',
                 'multiple' => false,
-                'remote_route' => 'app_admin_user_autocompleteS2',
+                'remote_route' => 'app.common.autocomplete.generic_s2_user',
                 'class' => User::class,
                 'text_property' => 'getSelect2Name',
                 'page_limit' => 10,
                 'placeholder' => 'Choisissez un utilisateur',
+                'remote_params' => [
+                    'entityName' => 'Language',
+                    'findBy' => 'label',
+                    'property' => 'label'
+                ],
                 'required' => true,
             ])
             ->add('permission', ChoiceType::class, [
