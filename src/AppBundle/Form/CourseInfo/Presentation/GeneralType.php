@@ -40,47 +40,59 @@ class GeneralType extends AbstractType
             ->add('periods', Select2EntityType::class, [
                 'label' => 'Période (facultatif)',
                 'multiple' => true,
-                'remote_route' => 'app.admin.period.autocompleteS2',
+                'remote_route' => 'app.common.autocomplete.generic_s2_structure',
                 'class' => Period::class,
                 'text_property' => 'label',
                 'language' => 'fr',
                 'minimum_input_length' => 0,
                 'remote_params' => [
-                    'structure' => $builder->getData()->getStructure()->getId()
+                    'structure' => $builder->getData()->getStructure()->getId(),
+                    'entityName' => 'Period'
                 ],
                 'required' => false
             ])
             ->add('domains', Select2EntityType::class, [
                 'label' => 'Domaine',
                 'multiple' => true,
-                'remote_route' => 'app.admin.domain.autocompleteS2',
+                'remote_route' => 'app.common.autocomplete.generic_s2_structure',
                 'class' => Domain::class,
                 'text_property' => 'label',
                 'language' => 'fr',
                 'minimum_input_length' => 0,
                 'remote_params' => [
-                    'structure' => $builder->getData()->getStructure()->getId()
+                    'structure' => $builder->getData()->getStructure()->getId(),
+                    'entityName' => 'Domain'
                 ],
                 'required' => false
             ])
             ->add('languages', Select2EntityType::class, [
                 'multiple' => true,
-                'remote_route' => 'app.admin.language.autocompleteS2',
+                'remote_route' => 'app.common.autocomplete.generic_s2',
                 'class' => Language::class,
                 'text_property' => 'label',
                 'label' => 'En quelle(s) langue(s) est dispensé ce cours (facultatif)',
                 'language' => 'fr',
                 'minimum_input_length' => 0,
+                'remote_params' => [
+                    'entityName' => 'Language',
+                    'findBy' => 'label',
+                    'property' => 'label'
+                ],
                 'required' => false
             ])
             ->add('campuses', Select2EntityType::class, [
                 'multiple' => true,
-                'remote_route' => 'app.admin.campus.autocompleteS2',
+                'remote_route' => 'app.common.autocomplete.generic_s2',
                 'class' => Campus::class,
                 'text_property' => 'label',
                 'label' => 'Campus',
                 'language' => 'fr',
                 'minimum_input_length' => 0,
+                'remote_params' => [
+                    'entityName' => 'Campus',
+                    'findBy' => 'label',
+                    'property' => 'label'
+                ],
                 'required' => false
             ])
             ->add('level', ChoiceType::class, [

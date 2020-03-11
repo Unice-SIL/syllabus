@@ -104,33 +104,6 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/autocompleteS2", name="autocompleteS2", methods={"GET"})
-     *
-     * @param UserDoctrineRepository $userDoctrineRepository
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function autocompleteS2(UserDoctrineRepository $userDoctrineRepository, Request $request)
-    {
-        $query = $request->query->get('q');
-
-        $field = $request->query->get('field_name');
-        switch ($field) {
-            default:
-                $searchFields = ['u.firstname', 'u.lastname'];
-                break;
-        }
-
-        $users = $userDoctrineRepository->findLikeQuery($query, $searchFields);
-
-        $data = array_map(function ($u) use ($request) {
-            return ['id' => $u->getId(), 'text' => $u->getSelect2Name()];
-        }, $users);
-
-        return $this->json($data);
-    }
-
-    /**
      * @Route("/{id}/send-password-token", name="send_password_token", methods={"GET"})
      * @param User $user
      * @param UserManager $userManager

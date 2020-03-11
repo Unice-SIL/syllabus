@@ -125,21 +125,4 @@ class PeriodController extends AbstractController
         ));
     }
 
-    /**
-     * @Route("/autocompleteS2/{structure}", name="autocompleteS2")
-     *
-     * @param Structure $structure
-     * @return Response
-     */
-    public function autocompleteS2(Structure $structure)
-    {
-        $data = [];
-        $periods = $structure->getPeriods();
-        if(!empty($periods)){
-            foreach ($periods as $period){
-                $data[] = ['id' => $period->getId(), 'text' => $period->getLabel()];
-            }
-        }
-        return $this->json($data);
-    }
 }

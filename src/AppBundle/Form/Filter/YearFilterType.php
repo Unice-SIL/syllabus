@@ -40,7 +40,11 @@ class YearFilterType extends AbstractType
             'label' => 'app.form.year.label.label',
             'attr' => [
                 'class' => 'autocomplete-input',
-                'data-autocomplete-path' => $this->generator->generate('app_admin_course_info_autocomplete', ['field' => 'y.label'])
+                'data-autocomplete-path' => $this->generator->generate('app.common.autocomplete.generic', [
+                    'entityName' => 'Year',
+                    'findBy' => 'label',
+                    'property' => 'label'
+                ])
             ]
         ]);
     }
