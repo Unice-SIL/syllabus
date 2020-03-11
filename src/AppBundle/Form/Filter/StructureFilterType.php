@@ -19,7 +19,7 @@ class StructureFilterType extends AbstractType
     /**
      * @var
      */
-    private  $generator;
+    private $generator;
 
     /**
      * StructureFilterType constructor.
@@ -47,10 +47,8 @@ class StructureFilterType extends AbstractType
                     'property' => 'label'
                 ])
             ]
-        ]);
-
-        if ($options['context'] === 'structure') {
-            $builder->add('code', TextFilterType::class, [
+        ])
+            ->add('code', TextFilterType::class, [
                 'condition_pattern' => FilterOperands::STRING_CONTAINS,
                 'label' => 'app.form.structure.label.code',
                 'attr' => [
@@ -62,7 +60,6 @@ class StructureFilterType extends AbstractType
                     ])
                 ]
             ]);
-        }
     }
 
     /**
@@ -87,7 +84,7 @@ class StructureFilterType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'csrf_protection'   => false,
+            'csrf_protection' => false,
             'validation_groups' => array('filtering'), // avoid NotBlank() constraint-related message
             'method' => 'get',
             'attr' => [

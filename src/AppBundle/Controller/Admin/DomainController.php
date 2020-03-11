@@ -124,22 +124,4 @@ class DomainController extends AbstractController
             'form' => $form->createView(),
         ));
     }
-
-    /**
-     * @Route("/autocompleteS2/{structure}", name="autocompleteS2")
-     *
-     * @param Structure $structure
-     * @return Response
-     */
-    public function autocompleteS2(Structure $structure)
-    {
-        $data = [];
-        $domains = $structure->getDomains();
-        if(!empty($domains)){
-            foreach ($domains as $domain){
-                $data[] = ['id' => $domain->getId(), 'text' => $domain->getLabel()];
-            }
-        }
-        return $this->json($data);
-    }
 }

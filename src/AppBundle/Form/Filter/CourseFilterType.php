@@ -19,7 +19,7 @@ class CourseFilterType extends AbstractType
     /**
      * @var
      */
-    private  $generator;
+    private $generator;
 
     /**
      * CourseFilterType constructor.
@@ -36,42 +36,29 @@ class CourseFilterType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
-        switch ($options['context']) {
-            case 'course':
-                $dataAutocompletePath = 'app_admin.course_autocomplete';
-                $fieldLabel = 'code';
-                break;
-            case 'course_info':
-                $dataAutocompletePath = 'app_admin_course_info_autocomplete';
-                $fieldLabel = 'c.code';
-                break;
-        }
-
         $builder
             ->add('code', TextFilterType::class, [
                 'condition_pattern' => FilterOperands::STRING_CONTAINS,
                 'label' => 'app.form.course.label.code',
                 'attr' => [
                     'class' => 'autocomplete-input',
-                    'data-autocomplete-path' => $this->generator->generate($dataAutocompletePath, ['field' => $fieldLabel])
+                    'data-autocomplete-path' => $this->generator->generate('app.common.autocomplete.generic', [
+                        'entityName' => 'Course',
+                        'findBy' => 'code',
+                        'property' => 'code'])
                 ]
             ])
-            ;
-
-            if ($options['context'] === 'course') {
-                $builder
-                    ->add('title', TextFilterType::class, [
-                        'condition_pattern' => FilterOperands::STRING_CONTAINS,
-                        'label' => 'app.form.course.label.title',
-                        'attr' => [
-                            'class' => 'autocomplete-input',
-                            'data-autocomplete-path' => $this->generator->generate($dataAutocompletePath, ['field' => 'title'])
-                        ]
-                    ])
-                    ;
-            }
-        ;
+            ->add('title', TextFilterType::class, [
+                'condition_pattern' => FilterOperands::STRING_CONTAINS,
+                'label' => 'app.form.course.label.title',
+                'attr' => [
+                    'class' => 'autocomplete-input',
+                    'data-autocomplete-path' => $this->generator->generate('app.common.autocomplete.generic', [
+                        'entityName' => 'Course',
+                        'findBy' => 'title',
+                        'property' => 'title'])
+                ]
+            ]);
     }
 
     /**
@@ -80,8 +67,7 @@ class CourseFilterType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-           'context' =>  'course_info',
-            'csrf_protection'   => false,
+            'csrf_protection' => false,
             'validation_groups' => array('filtering'), // avoid NotBlank() constraint-related message
             'method' => 'get',
         ]);
