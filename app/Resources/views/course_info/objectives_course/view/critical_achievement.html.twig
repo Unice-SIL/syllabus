@@ -1,54 +1,33 @@
 {% if courseInfo.courseCriticalAchievements is empty %}
-    <div class="row mt-10">
-        <div class="col">
-            <div class="d-flex">
-                <div class="d-flex flex-column">
-                            <span class="font-weight-bold">
-                                <i class="fas fa-exclamation-circle text-danger"></i>
-                                Acquis
-                            </span>
-                    <span class="text-danger">
-                                Non-renseigné
-                            </span>
-                </div>
-            </div>
-        </div>
-    </div>
+    <span class="empty-data">
+        Aucun apprentissage critique renseigné
+    </span>
 {% else %}
     {% for criticalAchievement in courseInfo.courseCriticalAchievements %}
-        <div class="card my-2 shadow card-syllabus"
+
+        <div id="card-achievement-{{ criticalAchievement.id }}" class="border p-2 my-2 shadow card-syllabus"
              data-view-url="{{ path('app.course_info.objectives.achievements', {'id': courseInfo.id }) }}"
         >
-            <div class="card-header" style="background-color: #c0c0c0">
-                <div class="d-flex justify-content-between">
-                    <h5>{{ criticalAchievement.criticalAchievement.label }}</h5>
-                    <div>
-                        <button type="button"
-                                class="btn btn-link modal-action p-0"
-                                data-action-title="Modifier un acquis critique"
-                                data-action-url="{{ path('app.course_info.critical_achievement.edit', {'id': criticalAchievement.id}) }}">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button type="button" class="btn btn-link modal-action p-0 mr-2"
-                                data-action-title="Supprimer un acquis critique"
-                                data-action-url="{{ path('app.course_info.critical_achievement.delete', {'id': criticalAchievement.id}) }}">
-                            <i class="fas fa-trash-alt text-danger"
-                            ></i>
-                        </button>
-                        <button type="button"
-                                class="btn btn-primary rounded modal-action"
-                                data-action-title="Ajouter un acquis"
-                                data-action-url="{{ path('app.course_info.critical_achievement.learning_achievement.add', {'id': criticalAchievement.id }) }}">
-                            Ajouter un acquis
-                        </button>
-                    </div>
+            <div class="d-flex justify-content-between">
+                <h4>{{ criticalAchievement.criticalAchievement.label }}</h4>
+                <div>
+                    <button type="button"
+                            class="btn btn-link modal-action p-0"
+                            data-action-title="Modifier un acquis critique"
+                            data-action-url="{{ path('app.course_info.critical_achievement.edit', {'id': criticalAchievement.id}) }}">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button type="button" class="btn btn-link modal-action p-0 mr-2"
+                            data-action-title="Supprimer un acquis critique"
+                            data-action-url="{{ path('app.course_info.critical_achievement.delete', {'id': criticalAchievement.id}) }}">
+                        <i class="fas fa-trash-alt text-danger"
+                        ></i>
+                    </button>
                 </div>
             </div>
-            <div class="card my-2 shadow card-syllabus">
-                <div class="card-header">
-                    <div class="d-flex justify-content-between">
-                    <span class="text-bold">
-
+            <div class="card-syllabus mt-3">
+                <dl>
+                    <dt>
                         {% if criticalAchievement.rule == 'Score' %}
                             {% if criticalAchievement.id in tabValideScore %}
                                 <i class="fas fa-circle success"></i>
@@ -56,33 +35,29 @@
                                 <i class="fas fa-circle danger"></i>
                             {% endif %}
                         {% endif %}
-                        <span>Règle de validation de l'objectif d'apprentissage :</span>
+                        Règle de validation de l'objectif d'apprentissage
+                    </dt>
+                    <dd>
                         {% if criticalAchievement.rule == 'Score' %}
                             {{ criticalAchievement.score }} points sont nécessaires
                         {% else %}
                             {{ criticalAchievement.rule }}
                         {% endif %}
-                        </span>
-                    </div>
+                    </dd>
+                </dl>
+
+                <div class="d-flex justify-content-end mb-2">
+                    <button type="button"
+                            class="btn btn-primary rounded modal-action"
+                            data-action-title="Ajouter un acquis"
+                            data-action-url="{{ path('app.course_info.critical_achievement.learning_achievement.add', {'id': criticalAchievement.id }) }}">
+                        Ajouter un acquis
+                    </button>
                 </div>
-            </div>
-            <div class="card-body">
                 {% if criticalAchievement.learningAchievements is empty %}
-                    <div class="row mt-10">
-                        <div class="col">
-                            <div class="d-flex">
-                                <div class="d-flex flex-column">
-                            <span class="font-weight-bold">
-                                <i class="fas fa-exclamation-circle text-danger"></i>
-                                Acquis
-                            </span>
-                                    <span class="text-danger">
-                                Non-renseigné
-                            </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <span class="empty-data">
+                        Aucun acquis d'apprentissage renseigné
+                    </span>
                 {% else %}
                     <table class="table table-hover">
                         <thead>
@@ -124,6 +99,7 @@
                     </table>
                 {% endif %}
             </div>
+
         </div>
     {% endfor %}
 {% endif %}
