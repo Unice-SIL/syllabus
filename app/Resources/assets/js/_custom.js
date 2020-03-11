@@ -40,7 +40,9 @@ $( document ).ready( function( ) {
         $('.container-loader').hide();
     });
 
-
+    /**
+     * Actions to execute when a ajax request failed
+     */
     $( document ).ajaxError( function( event, jqXHR, ajaxSettings, thrownError ) {
         console.log( { event, jqXHR, ajaxSettings, thrownError } );
         SILTools.alert( {
@@ -49,6 +51,15 @@ $( document ).ready( function( ) {
         } );
 
     } );
+
+    $(document).on('click', '.help-button', function(){
+        let message = $(this).parent().find('.help-message').html();
+        bootbox.dialog({
+            message: message,
+            backdrop: true,
+            onEscape: true
+        });
+    });
 
     //Trigger submit of a filter form when a select is changed
     $('.filter-form').find('select').change(function () {

@@ -5,7 +5,16 @@
         {{ form_row(form.domains, {label_attr: {class: 'required'}}) }}
         <label class="required font-weight-bold">
             {{ 'app.presentation.form.general.level_label' | trans }}
-            <img id="infos_level" src="{{ asset('images/info_32.png') }}" style="cursor: pointer;">
+            <div class="help d-inline-block">
+                <i class="fas fa-question-circle help-button"></i>
+                <span class="help-message">
+                    <ul>
+                        {{ 'app.presentation.form.general.level.beginner' | trans | raw }}
+                        {{ 'app.presentation.form.general.level.intermediary' | trans | raw }}
+                        {{ 'app.presentation.form.general.level.advanced' | trans | raw }}
+                    </ul>
+                </span>
+            </div>
         </label>
         {{ form_errors(form.level) }}
         {{ form_widget(form.level, {label_attr: {class: 'radio-custom'} }) }}
@@ -80,11 +89,6 @@
 <script>
 
     $(document).ready(function () {
-        toggleMediaType();
-
-        $(document).on('change', '#general_mediaType', function () {
-            toggleMediaType();
-        });
 
         function toggleMediaType() {
             let value = $('#general_mediaType').find('input[type="radio"]:checked').val();
@@ -99,19 +103,28 @@
                 $('#video').hide();
             }
         }
+
+        $(document).on('change', '#general_mediaType', function () {
+            toggleMediaType();
+        });
+
+        $('#infos_level').click(function () {
+            var message = '<ul>' +
+                '{{ 'app.presentation.form.general.level.beginner' | trans }}' +
+                '{{ 'app.presentation.form.general.level.intermediary' | trans }}' +
+                '{{ 'app.presentation.form.general.level.advanced' | trans }}' +
+                '</ul>';
+            bootbox.dialog({
+                message: message,
+                backdrop: true,
+                onEscape: true
+            });
+        });
+
         $('form[name="general"]').find('.select2entity').select2entity();
+
+        toggleMediaType();
     });
 
-    $('#infos_level').click(function () {
-        var message = '<ul>' +
-            '{{ 'app.presentation.form.general.level.beginner' | trans }}' +
-            '{{ 'app.presentation.form.general.level.intermediary' | trans }}' +
-            '{{ 'app.presentation.form.general.level.advanced' | trans }}' +
-            '</ul>';
-        bootbox.dialog({
-            message: message,
-            backdrop: true,
-            onEscape: true
-        });
-    });
+
 </script>
