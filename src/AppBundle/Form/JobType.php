@@ -2,13 +2,13 @@
 
 namespace AppBundle\Form;
 
-use AppBundle\Constant\Cron;
+use AppBundle\Constant\Job;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CronType extends AbstractType
+class JobType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -17,9 +17,9 @@ class CronType extends AbstractType
     {
         $builder
             ->add('label')
-            ->add('frequencyCronFormat')
+            ->add('frequencyJobFormat')
             ->add('command', ChoiceType::class, [
-                'choices' => array_combine(Cron::COMMANDS, Cron::COMMANDS)
+                'choices' => array_combine(Job::COMMANDS, Job::COMMANDS)
             ]);
     }/**
      * {@inheritdoc}
@@ -27,7 +27,7 @@ class CronType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Cron'
+            'data_class' => 'AppBundle\Entity\Job'
         ));
     }
 
@@ -36,7 +36,7 @@ class CronType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_cron';
+        return 'appbundle_job';
     }
 
 

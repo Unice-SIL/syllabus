@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -19,7 +20,7 @@ use AppBundle\Validator\Constraints as AssertCustom;
  * CourseInfo
  *
  * @ORM\Table(name="course_info")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\CourseInfoDoctrineRepository")
  * @UniqueEntity(fields={"year", "course"}, message="Le cours {{ value }} existe déjà pour cette année", errorPath="course")
  *
  */
@@ -443,7 +444,7 @@ class CourseInfo
     private $closingVideo;
 
     /**
-     * @var \DateTime|null
+     * @var DateTime|null
      *
      * @ORM\Column(name="creation_date", type="datetime", nullable=false)
      * @Gedmo\Timestampable(on="create")
@@ -452,7 +453,7 @@ class CourseInfo
     private $creationDate;
 
     /**
-     * @var \DateTime|null
+     * @var DateTime|null
      *
      * @ORM\Column(name="modification_date", type="datetime", nullable=true)
      * @JMS\Groups(groups={"course_info"})
@@ -460,7 +461,7 @@ class CourseInfo
     private $modificationDate;
 
     /**
-     * @var \DateTime|null
+     * @var DateTime|null
      *
      * @ORM\Column(name="publication_date", type="datetime", nullable=true)
      * @JMS\Groups(groups={"course_info"})
@@ -481,7 +482,7 @@ class CourseInfo
     private $course;
 
     /**
-     * @var \AppBundle\Entity\Structure
+     * @var Structure
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Structure", cascade={ "persist" })
      * @ORM\JoinColumns({
@@ -561,13 +562,13 @@ class CourseInfo
     private $publisher;
 
     /**
-     * @var \AppBundle\Entity\Year
+     * @var Year
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Year")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Year", inversedBy="courseInfos")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="year_id", referencedColumnName="id", nullable=false)
      * })
-     * @Assert\NotBlank(groups={"new"})
+     * @Assert\NotBlank(groups={"new", "edit"})
      * @JMS\Type("AppBundle\Entity\Year")
      * @JMS\Groups(groups={"course_info"})
      */
@@ -607,6 +608,7 @@ class CourseInfo
      * @ORM\OneToMany(targetEntity="CourseAchievement", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"position" = "ASC"})
      * @JMS\Type("ArrayCollection<AppBundle\Entity\CourseAchievement>")
+     * @Assert\NotBlank
      * @AssertCustom\AchievementConstraintValidator
      * @JMS\Groups(groups={"course_info"})
      */
@@ -1606,7 +1608,7 @@ class CourseInfo
     }
 
     /**
-     * @return \DateTime|null
+     * @return DateTime|null
      */
     public function getCreationDate()
     {
@@ -1614,7 +1616,7 @@ class CourseInfo
     }
 
     /**
-     * @param \DateTime|null $creationDate
+     * @param DateTime|null $creationDate
      * @return CourseInfo
      */
     public function setCreationDate($creationDate)
@@ -1625,7 +1627,7 @@ class CourseInfo
     }
 
     /**
-     * @return \DateTime|null
+     * @return DateTime|null
      */
     public function getModificationDate()
     {
@@ -1633,7 +1635,7 @@ class CourseInfo
     }
 
     /**
-     * @param \DateTime|null $modificationDate
+     * @param DateTime|null $modificationDate
      * @return CourseInfo
      */
     public function setModificationDate($modificationDate)
@@ -1644,7 +1646,7 @@ class CourseInfo
     }
 
     /**
-     * @return \DateTime|null
+     * @return DateTime|null
      */
     public function getPublicationDate()
     {
@@ -1652,7 +1654,7 @@ class CourseInfo
     }
 
     /**
-     * @param \DateTime|null $publicationDate
+     * @param DateTime|null $publicationDate
      * @return CourseInfo
      */
     public function setPublicationDate($publicationDate)

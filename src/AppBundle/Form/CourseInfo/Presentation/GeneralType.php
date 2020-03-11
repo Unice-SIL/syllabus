@@ -40,7 +40,7 @@ class GeneralType extends AbstractType
             ->add('periods', Select2EntityType::class, [
                 'label' => 'Période (facultatif)',
                 'multiple' => true,
-                'remote_route' => 'app_admin.period_autocompleteS2',
+                'remote_route' => 'app.admin.period.autocompleteS2',
                 'class' => Period::class,
                 'text_property' => 'label',
                 'language' => 'fr',
@@ -53,7 +53,7 @@ class GeneralType extends AbstractType
             ->add('domains', Select2EntityType::class, [
                 'label' => 'Domaine',
                 'multiple' => true,
-                'remote_route' => 'app_admin.domain_autocompleteS2',
+                'remote_route' => 'app.admin.domain.autocompleteS2',
                 'class' => Domain::class,
                 'text_property' => 'label',
                 'language' => 'fr',
@@ -65,7 +65,7 @@ class GeneralType extends AbstractType
             ])
             ->add('languages', Select2EntityType::class, [
                 'multiple' => true,
-                'remote_route' => 'app_admin.language_autocompleteS2',
+                'remote_route' => 'app.admin.language.autocompleteS2',
                 'class' => Language::class,
                 'text_property' => 'label',
                 'label' => 'En quelle(s) langue(s) est dispensé ce cours (facultatif)',
@@ -75,7 +75,7 @@ class GeneralType extends AbstractType
             ])
             ->add('campuses', Select2EntityType::class, [
                 'multiple' => true,
-                'remote_route' => 'app_admin.campus_autocompleteS2',
+                'remote_route' => 'app.admin.campus.autocompleteS2',
                 'class' => Campus::class,
                 'text_property' => 'label',
                 'label' => 'Campus',

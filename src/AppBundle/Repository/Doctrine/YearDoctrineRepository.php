@@ -2,6 +2,7 @@
 
 namespace AppBundle\Repository\Doctrine;
 
+use AppBundle\Entity\Course;
 use AppBundle\Entity\Year;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -58,6 +59,21 @@ class YearDoctrineRepository  extends ServiceEntityRepository
             $qb->andWhere($qb->expr()->eq('y.' . $filter, ':' . $valueName))
                 ->setParameter($valueName, $value);
         }
+
+        return $qb;
+    }
+
+    public function getAvailableYearsByCourseBuilder(Course $course)
+    {
+        $qb = $this->createQueryBuilder('y');
+        $qb
+            ->leftJoin('y.courseInfos', 'ci')
+            ->leftJoin('ci.course', 'c')
+            ->andWhere($qb->expr()->isNull('ci'))
+            ->orWhere(($qb->expr()->in('ci', ':courseInfos') . ' AND ' . $qb->expr()->neq('c', ':course')))
+            ->setParameter('course', $course)
+            ->setParameter('courseInfos', $course->getCourseInfos())
+            ;
 
         return $qb;
     }

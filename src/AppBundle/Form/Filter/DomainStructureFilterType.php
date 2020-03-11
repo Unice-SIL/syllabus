@@ -36,14 +36,19 @@ class DomainStructureFilterType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $param = [];
         switch ($options['context']) {
             case 'structure':
-                $dataAutocompletePath = 'app.admin.structure.autocomplete';
-                $fieldLabel = 'label';
+                $dataAutocompletePath = 'app.common.autocomplete.generic';
+                $param = [
+                    'entityName' => 'Structure',
+                    'findBy' => 'label',
+                    'property' => 'label'
+                ];
                 break;
             case 'course_info':
                 $dataAutocompletePath = 'app_admin_course_info_autocomplete';
-                $fieldLabel = 's.label';
+                $param = ['field' => 's.label'];
                 break;
         }
 
@@ -52,7 +57,7 @@ class DomainStructureFilterType extends AbstractType
             'label' => $options['context'] === 'structure' ? 'app.form.structure.label.label' : 'app.form.structure.label.structure',
             'attr' => [
                 'class' => 'autocomplete-input',
-                'data-autocomplete-path' => $this->generator->generate($dataAutocompletePath, ['field' => $fieldLabel])
+                'data-autocomplete-path' => $this->generator->generate($dataAutocompletePath, $param)
             ]
         ]);
     }

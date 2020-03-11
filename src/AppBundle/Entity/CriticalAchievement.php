@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Class CriticalAchievement
  * @package AppBundle\Entity
  * @ORM\Table(name="critical_achievement")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\CriticalAchievementDoctrineRepository")
  */
 class CriticalAchievement
 {

@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Activity
  *
  * @ORM\Table(name="activity_type")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\ActivityTypeDoctrineRepository")
  */
 class ActivityType
 {

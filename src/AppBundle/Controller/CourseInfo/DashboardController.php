@@ -1,7 +1,7 @@
 <?php
 
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\CourseInfo;
 
 
 use AppBundle\Entity\AskAdvice;
@@ -16,13 +16,13 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
- * Class CourseInfoDashboard
- * @package AppBundle\Controller
+ * Class DashboardController
+ * @package AppBundle\Controller\CourseInfo
  *
- * @Route("/course/{id}/dashboard", name="course_dashboard_")
+ * @Route("/course-info/{id}/dashboard", name="app.course_info.dashboard.")
  * @Security("is_granted('WRITE', courseInfo)")
  */
-class CourseInfoDashboardController extends AbstractController
+class DashboardController extends AbstractController
 {
     /**
      * @Route("/", name="index")
@@ -38,7 +38,7 @@ class CourseInfoDashboardController extends AbstractController
     }
 
     /**
-     * @Route("/view", name="view"))
+     * @Route("/dashboard", name="dashboard"))
      *
      * @param CourseInfo $courseInfo
      * @param ValidatorInterface $validator
