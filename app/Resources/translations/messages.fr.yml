@@ -44,6 +44,11 @@ ROLE_ADMIN_LANGUAGE: Gestion des langues
 ROLE_ADMIN_LANGUAGE_LIST: Consulter la liste des langues
 ROLE_ADMIN_LANGUAGE_CREATE: Créer une langue
 ROLE_ADMIN_LANGUAGE_UPDATE: Modifier une langue
+ROLE_ADMIN_NOTIFICATION: Gestion des notifications
+ROLE_ADMIN_NOTIFICATION_LIST: Consulter la liste des notifications
+ROLE_ADMIN_NOTIFICATION_CREATE: Créer une notification
+ROLE_ADMIN_NOTIFICATION_UPDATE: Modifier une notification
+ROLE_ADMIN_NOTIFICATION_DELETE: Supprimer une notification
 ROLE_ADMIN_PERIOD: Gestion des périodes
 ROLE_ADMIN_PERIOD_LIST: Consulter la liste des périodes
 ROLE_ADMIN_PERIOD_CREATE: Créer une période
