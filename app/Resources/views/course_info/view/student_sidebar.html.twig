@@ -9,7 +9,7 @@
             </li>
             <li class="nav-item has-treeview">
                 <a class="nav-link menu-tab" href="#objectives-section">
-                    <i class="fas fa-list-alt"></i>
+                    <i class="fas fa-bullseye"></i>
                     <p>{{ 'app.view.student.tabs.objectives' | trans }}</p>
                 </a>
             </li>
@@ -19,6 +19,28 @@
                     <p>{{ 'app.view.student.tabs.activities' | trans }}</p>
                 </a>
             </li>
+            {% if courseInfo.mccAdvice is not null %}
+            <li class="nav-item has-treeview">
+                <a class="nav-link menu-tab" href="#evaluation-section">
+                    <i class="fas fa-medal"></i>
+                    <p>{{ 'app.view.student.tabs.evaluation' | trans }}</p>
+                </a>
+            </li>
+            {% endif %}
+            <li class="nav-item has-treeview">
+                <a class="nav-link menu-tab" href="#equipments-section">
+                    <i class="fas fa-tools"></i>
+                    <p>{{ 'app.view.student.tabs.equipments' | trans }}</p>
+                </a>
+            </li>
+            {% if courseInfo.agenda is not empty or courseInfo.organization is not empty %}
+            <li class="nav-item has-treeview">
+                <a class="nav-link menu-tab" href="#info-section">
+                    <i class="fas fa-info-circle"></i>
+                    <p>{{ 'app.view.student.tabs.info' | trans }}</p>
+                </a>
+            </li>
+            {% endif %}
         </ul>
     </nav>
 </div>

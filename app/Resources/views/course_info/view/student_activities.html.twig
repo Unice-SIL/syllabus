@@ -14,17 +14,25 @@
                             <table class="table table-hover">
                                 <thead>
                                 <tr>
-                                    <th class="text-left">Activité</th>
-                                    <th class="text-left">Mode</th>
-                                    <th class="text-left">Type</th>
+                                    <th class="text-left">{{ 'app.view.student.activities.title' | trans }}</th>
+                                    <th class="text-left">{{ 'app.view.student.activities.type' | trans }}</th>
+                                    <th class="text-left">{{ 'app.view.student.activities.mode' | trans }}</th>
+                                    <th class="text-center">{{ 'app.view.student.activities.evaluable' | trans }}</th>
+                                    <th class="text-center">{{ 'app.view.student.activities.evaluation_rate' | trans }}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {% for sectionActivity in section.courseSectionActivities %}
                                     <tr>
                                         <td class="text-left">{{ sectionActivity.activity.label }}</td>
-                                        <td class="text-left">{{ sectionActivity.activityMode }}</td>
                                         <td class="text-left">{{ sectionActivity.activityType }}</td>
+                                        <td class="text-left">{{ sectionActivity.activityMode }}</td>
+                                        <td class="text-center">
+                                            {% if sectionActivity.evaluable %}
+                                                <span class="badge badge-primary rounded">{{ (sectionActivity.evaluationCt ? 'ct' : 'cc') | trans }}</span>
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-center">{{ sectionActivity.evaluationRate }}</td>
                                     </tr>
                                 {% endfor %}
                                 </tbody>

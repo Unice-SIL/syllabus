@@ -1,0 +1,51 @@
+<section id="equipments-section" class="content">
+    <div class="container-fluid">
+        <div class="card my-2 shadow">
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <h3  class="text-shadow" style="font-weight: 500;">{{ 'app.view.student.tabs.equipments' | trans }}</h3>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th class="text-left">{{ 'app.view.student.equipments.list' | trans }}</th>
+                            <th class="text-left">{{ 'app.view.student.equipments.description' | trans }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for resourceEquipment in courseInfo.courseResourceEquipments %}
+                            <tr>
+                                <td class="text-left">{{ resourceEquipment.equipment.label }}</td>
+                                <td class="text-left">{{ resourceEquipment.description|humanizeEmptyData() }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="ml-2">
+                        {% if courseInfo.educationalResources is not empty %}
+                            <dl>
+                                <dt>{{ 'app.view.student.equipments.educational_resources' | trans }}</dt>
+                                <dd>
+                                    {{ courseInfo.educationalResources | humanizeEmptyData() | purify }}
+                                </dd>
+                            </dl>
+                        {% endif %}
+                        {% if courseInfo.bibliographicResources is not empty %}
+                            <dl>
+                                <dt>{{ 'app.view.student.equipments.bibliographic_resources' | trans }}</dt>
+                                <dd>
+                                    {{ courseInfo.bibliographicResources | humanizeEmptyData() | purify }}
+                                </dd>
+                            </dl>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
