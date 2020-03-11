@@ -32,7 +32,7 @@ class ShibbolethUserProvider implements ShibbolethUserProviderInterface
     private $em;
 
     /**
-     * @var UserDoctrineRepository 
+     * @var UserDoctrineRepository
      */
     private $userRepository;
 
