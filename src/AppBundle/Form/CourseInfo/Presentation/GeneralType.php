@@ -124,7 +124,7 @@ class GeneralType extends AbstractType
             ])
             ->add('image', FileType::class, [
                 'required' => false,
-                'label' => "Fichier image",
+                'label' => false,
             ])
             ->addEventListener(FormEvents::PRE_SUBMIT, function(FormEvent $event) {
                 $form = $event->getForm();
@@ -137,7 +137,7 @@ class GeneralType extends AbstractType
             })
             ->add('video', TextareaType::class, [
                 'required' => false,
-                'label' => "Intégration de contenu vidéo / audio",
+                'label' => false,
                 'attr' => ['rows' => 5],
             ]);
     }
