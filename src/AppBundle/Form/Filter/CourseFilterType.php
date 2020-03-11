@@ -39,10 +39,12 @@ class CourseFilterType extends AbstractType
 
         switch ($options['context']) {
             case 'course':
-                $dataAutocompletePath = 'app.common.autocomplete.generic';
+                $dataAutocompletePath = 'app_admin.course_autocomplete';
+                $fieldLabel = 'code';
                 break;
             case 'course_info':
                 $dataAutocompletePath = 'app_admin_course_info_autocomplete';
+                $fieldLabel = 'c.code';
                 break;
         }
 
@@ -52,11 +54,7 @@ class CourseFilterType extends AbstractType
                 'label' => 'app.form.course.label.code',
                 'attr' => [
                     'class' => 'autocomplete-input',
-                    'data-autocomplete-path' => $this->generator->generate($dataAutocompletePath, [
-                        'entityName' => 'Course',
-                        'findBy' => 'code',
-                        'property' => 'code'
-                    ])
+                    'data-autocomplete-path' => $this->generator->generate($dataAutocompletePath, ['field' => $fieldLabel])
                 ]
             ])
             ;
@@ -68,11 +66,7 @@ class CourseFilterType extends AbstractType
                         'label' => 'app.form.course.label.title',
                         'attr' => [
                             'class' => 'autocomplete-input',
-                            'data-autocomplete-path' => $this->generator->generate($dataAutocompletePath, [
-                                'entityName' => 'Course',
-                                'findBy' => 'title',
-                                'property' => 'title'
-                            ])
+                            'data-autocomplete-path' => $this->generator->generate($dataAutocompletePath, ['field' => 'title'])
                         ]
                     ])
                     ;
