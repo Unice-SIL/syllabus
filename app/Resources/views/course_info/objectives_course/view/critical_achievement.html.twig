@@ -16,8 +16,7 @@
     </div>
 {% else %}
     {% for criticalAchievement in courseInfo.courseCriticalAchievements %}
-
-        <div id="card-achievement" class="card my-2 shadow card-syllabus"
+        <div class="card my-2 shadow card-syllabus"
              data-view-url="{{ path('app.course_info.objectives.achievements', {'id': courseInfo.id }) }}"
         >
             <div class="card-header" style="background-color: #c0c0c0">
