@@ -4,6 +4,7 @@ namespace AppBundle\Security\Provider;
 
 
 use AppBundle\Entity\User;
+use AppBundle\Repository\Doctrine\UserDoctrineRepository;
 use AppBundle\Repository\UserRepositoryInterface;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
@@ -31,18 +32,18 @@ class ShibbolethUserProvider implements ShibbolethUserProviderInterface
     private $em;
 
     /**
-     * @var UserRepositoryInterface
+     * @var UserDoctrineRepository 
      */
     private $userRepository;
 
     /**
      * ShibbolethUserProvider constructor.
      * @param RegistryInterface $registry
-     * @param UserRepositoryInterface $userRepository
+     * @param UserDoctrineRepository $userRepository
      */
     public function __construct(
         RegistryInterface $registry,
-        UserRepositoryInterface $userRepository)
+        UserDoctrineRepository $userRepository)
     {
         $this->em = $registry->getEntityManager();
         $this->userRepository = $userRepository;
