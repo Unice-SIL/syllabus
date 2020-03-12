@@ -115,6 +115,7 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="teaching_mode", type="string", length=15, nullable=true, options={"fixed"=true})
+     * @Assert\NotBlank(groups={"presentation"})
      * @JMS\Groups(groups={"course_info"})
      *
      */
@@ -586,6 +587,7 @@ class CourseInfo
      *
      * @ORM\OneToMany(targetEntity="CourseTeacher", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"lastname" = "ASC"})
+     * @Assert\Count(min="1", groups={"presentation"})
      * @JMS\Type("ArrayCollection<AppBundle\Entity\CourseTeacher>")
      * @JMS\Groups(groups={"course_info"})
      */

@@ -124,27 +124,6 @@ class LanguageController extends AbstractController
     }
 
     /**
-     * @Route("/autocomplete", name="autocomplete", methods={"GET"})
-     * @param LanguageDoctrineRepository $languageDoctrineRepository
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function autocomplete(LanguageDoctrineRepository $languageDoctrineRepository, Request $request)
-    {
-        $query = $request->query->get('query');
-
-        $languages = $languageDoctrineRepository->findLikeQuery($query);
-        $languages = array_map(function($language){
-            return $language->getLabel();
-        }, $languages);
-
-        $languages = array_unique($languages);
-        $languages = array_values($languages);
-
-        return $this->json(['query' =>  $query, 'suggestions' => $languages, 'data' => $languages]);
-    }
-
-    /**
      * @Route("/autocompleteS2", name="autocompleteS2")
      *
      * @param LanguageDoctrineRepository $repository

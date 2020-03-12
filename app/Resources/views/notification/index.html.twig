@@ -8,13 +8,15 @@
 
 {% block subContent %}
     <div class="card">
-        <div class="card-header">
-            <a href="{{ path('app.admin.notification.new') }}" class="btn btn-primary float-right">Créer une notification</a>
-        </div>
-        <!-- /.card-header -->
+
         <div class="card-body">
+
+            <div class="d-flex justify-content-end pb-3">
+                {% include 'action/_notification_create.html.twig' %}
+            </div>
+
             {% if pagination.totalItemCount > 0 %}
-                <table class="table table-bordered table-responsive-sm">
+                <table class="table table-hover table-responsive-sm">
                     <thead>
                     <tr>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.notification.label.message'|trans, 'n.message') }}</th>
@@ -24,22 +26,30 @@
                     <tbody>
                     {% for notification in pagination %}
                         <tr>
-                            <td><a href="{{ path('app.admin.notification.edit', { 'id' : notification.id }) }}">{{ notification.message }}</a></td>
                             <td>
-                                {% set deleteFormView = deleteFormsView[notification.id] %}
-                                {{ form_start(deleteFormView) }}
-                                {{ form_row(deleteFormView._token, {'id': deleteFormView._token.vars.id ~ notification.id }) }}
+                                {% if is_granted('ROLE_ADMIN_NOTIFICATION_UPDATE') %}
+                                    <a href="{{ path('app.admin.notification.edit', { 'id' : notification.id }) }}">{{ notification.message }}</a>
+                                {% else %}
+                                    {{ notification.message }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if is_granted('ROLE_ADMIN_NOTIFICATION_DELETE') %}
+                                    {% set deleteFormView = deleteFormsView[notification.id] %}
+                                    {{ form_start(deleteFormView) }}
+                                    {{ form_row(deleteFormView._token, {'id': deleteFormView._token.vars.id ~ notification.id }) }}
                                     <button type="button" class="btn btn-danger float-right warning-delete" data-toggle="modal" data-target="#warningDeleteModal">
                                         <i class="fas fa-trash"></i>
                                     </button>
-                                {{ form_end(deleteFormView) }}
+                                    {{ form_end(deleteFormView) }}
+                                {% endif %}
                             </td>
                         </tr>
                     {% endfor %}
                     </tbody>
                 </table>
             {% else %}
-                <div class="alert alert-info">Aucune notification n'a été enregistrée</div>
+                {% include 'partial/_no_element.html.twig' %}
             {% endif %}
         </div>
         <!-- /.card-body -->

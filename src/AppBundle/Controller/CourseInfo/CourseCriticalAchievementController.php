@@ -29,19 +29,19 @@ class CourseCriticalAchievementController extends AbstractController
     /**
      * @Route("/edit", name="edit"))
      *
-     * @param CourseCriticalAchievement $criticalAchievement
+     * @param CourseCriticalAchievement $courseCriticalAchievement
      * @param Request $request
      * @param CourseCriticalAchievementManager $courseCriticalAchievementManager
      * @return JsonResponse
      */
-    public function editCriticalAchievementAction(CourseCriticalAchievement $criticalAchievement, Request $request,
+    public function editCriticalAchievementAction(CourseCriticalAchievement $courseCriticalAchievement, Request $request,
                                                   CourseCriticalAchievementManager $courseCriticalAchievementManager)
     {
-        $form = $this->createForm(CourseCriticalAchievementType::class, $criticalAchievement);
+        $form = $this->createForm(CourseCriticalAchievementType::class, $courseCriticalAchievement);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $courseCriticalAchievementManager->update($criticalAchievement);
+            $courseCriticalAchievementManager->update($courseCriticalAchievement);
             return $this->json([
                 'status' => true,
                 'content' => null

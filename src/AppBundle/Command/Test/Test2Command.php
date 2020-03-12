@@ -3,13 +3,13 @@
 
 namespace AppBundle\Command\Test;
 
-use AppBundle\Command\Scheduler\AbstractCron;
+use AppBundle\Command\Scheduler\AbstractJob;
 use AppBundle\Helper\Report\ReportingHelper;
 use AppBundle\Helper\Report\ReportMessage;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class Test2Command extends AbstractCron
+class Test2Command extends AbstractJob
 {
     // the name of the command (the part after "bin/console")
     protected static $defaultName = 'app:test-2';

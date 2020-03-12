@@ -16,6 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -42,7 +43,7 @@ class CourseController extends Controller
     )
     {
         $qb = $courseDoctrineRepository->getIndexQueryBuilder();
-        $form = $this->createForm(CourseFilterType::class, null,  ['context'=> 'course']);
+        $form = $this->createForm(CourseFilterType::class, null);
 
         if ($request->query->has($form->getName())) {
             $form->submit($request->query->get($form->getName()));

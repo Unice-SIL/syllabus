@@ -124,44 +124,4 @@ class DomainController extends AbstractController
             'form' => $form->createView(),
         ));
     }
-
-    /**
-     * @Route("/autocomplete", name="autocomplete", methods={"GET"})
-     *
-     * @param DomainDoctrineRepository $domainDoctrineRepository
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function autocomplete(DomainDoctrineRepository $domainDoctrineRepository, Request $request)
-    {
-        $query = $request->query->get('query');
-
-        $domains = $domainDoctrineRepository->findLikeQuery($query);
-        $domains = array_map(function($domain){
-            return $domain->getLabel();
-        }, $domains);
-
-        $domains = array_unique($domains);
-        $domains = array_values($domains);
-
-        return $this->json(['query' =>  $query, 'suggestions' => $domains, 'data' => $domains]);
-    }
-
-    /**
-     * @Route("/autocompleteS2/{structure}", name="autocompleteS2")
-     *
-     * @param Structure $structure
-     * @return Response
-     */
-    public function autocompleteS2(Structure $structure)
-    {
-        $data = [];
-        $domains = $structure->getDomains();
-        if(!empty($domains)){
-            foreach ($domains as $domain){
-                $data[] = ['id' => $domain->getId(), 'text' => $domain->getLabel()];
-            }
-        }
-        return $this->json($data);
-    }
 }

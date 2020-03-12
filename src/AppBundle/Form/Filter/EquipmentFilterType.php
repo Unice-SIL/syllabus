@@ -40,7 +40,11 @@ class EquipmentFilterType extends AbstractType
             'label' => 'app.form.equipment.label.label',
             'attr' => [
                 'class' => 'autocomplete-input',
-                'data-autocomplete-path' => $this->generator->generate('app.admin.equipment.autocomplete', ['field' => 'label'])
+                'data-autocomplete-path' => $this->generator->generate('app.common.autocomplete.generic', [
+                    'entityName' => 'Equipment',
+                    'findBy' => 'label',
+                    'property' => 'label'
+                ])
             ]
         ]);
     }

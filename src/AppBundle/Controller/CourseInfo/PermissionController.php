@@ -45,7 +45,7 @@ class PermissionController extends AbstractController
                 $coursePermissionManager->create($coursePermission);
 
                 $this->addFlash('success', 'La permission a été ajoutée avec succès');
-                return $this->redirectToRoute('app_course_permission', ['id' => $courseInfo->getId()]);
+                return $this->redirectToRoute('app.course_info.permission.index', ['id' => $courseInfo->getId()]);
             }
             $isValid = false;
         }

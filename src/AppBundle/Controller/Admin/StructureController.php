@@ -121,31 +121,6 @@ class StructureController extends AbstractController
     }
 
     /**
-     * @Route("/autocomplete/{field}", name="autocomplete", methods={"GET"}, requirements={"field" = "code|label|campus"})
-     *
-     * @param StructureDoctrineRepository $structureDoctrineRepository
-     * @param Request $request
-     * @param $field
-     * @return JsonResponse
-     */
-    public function autocomplete(StructureDoctrineRepository $structureDoctrineRepository, Request $request, $field)
-    {
-        $query = $request->query->get('query');
-
-        $propertyAccessor = PropertyAccess::createPropertyAccessor();
-
-        $structures = $structureDoctrineRepository->findLikeQuery($query, $field);
-
-        $structures = array_map(function($structure) use ($field, $propertyAccessor){
-            return $propertyAccessor->getValue($structure, $field);
-        }, $structures);
-
-        $structures = array_unique($structures);
-
-        return $this->json(['query' =>  $query, 'suggestions' => $structures, 'data' => $structures]);
-    }
-
-    /**
      * @Route("/autocompleteS2", name="autocompleteS2", methods={"GET"})
      * @param StructureDoctrineRepository $structureDoctrineRepository
      * @param Request $request

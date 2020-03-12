@@ -122,26 +122,4 @@ class ActivityTypeController extends AbstractController
             'form' => $form->createView(),
         ));
     }
-
-    /**
-     * @Route("/autocomplete", name="autocomplete", methods={"GET"})
-     * @param ActivityTypeDoctrineRepository $repository
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function autocomplete(ActivityTypeDoctrineRepository $repository, Request $request)
-    {
-        $query = $request->query->get('query');
-
-        $activitieTypes = $repository->findLikeQuery($query, $request->query->get('field'));
-        $activitieTypes = array_map(function($activityType){
-            return $activityType->getLabel();
-        }, $activitieTypes);
-
-        $activitieTypes = array_unique($activitieTypes);
-        $activitieTypes = array_values($activitieTypes);
-
-        return $this->json(['query' =>  $query, 'suggestions' => $activitieTypes, 'data' => $activitieTypes]);
-    }
-
 }
