@@ -294,15 +294,6 @@
                     </a>
                 </li>
 
-                <li class="nav-item pl-2">
-                    <a href="{{ path('app.admin.notification.index') }}"
-                       class="nav-link {{ printActiveAdminSidebarLink(['app.admin.notification.']) }}">
-                        <i class="nav-icon fas fa-bell"></i>
-                        <p>
-                            Notifications
-                        </p>
-                    </a>
-                </li>
                 {% if is_granted('ROLE_ADMIN_NOTIFICATION') %}
                     <li class="nav-item pl-2">
                         <a href="{{ path('app.admin.notification.index') }}"
