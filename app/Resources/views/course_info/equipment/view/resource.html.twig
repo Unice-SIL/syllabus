@@ -1,32 +1,16 @@
 <div class="d-flex flex-column">
+                <span class="font-weight-bold">
+                    {% if courseInfo.educationalResources is null %}
+                        <i class="fas fa-exclamation-circle text-warning"></i>
+                    {% endif %}
+                    Ressources pédagogiques
+                </span>
+    {{ courseInfo.educationalResources|humanizeEmptyData() | purify }}
     <span class="font-weight-bold">
-        {% if courseInfo.educationalResources is null %}
-            <i class="fas fa-exclamation-circle text-warning"></i>
-        {% endif %}
-        Ressources pédagogiques
-    </span>
-    {% if courseInfo.educationalResources is null %}
-        <span class="text-warning">
-            Non-renseigné
-        </span>
-    {% else %}
-        <span class="text-muted">
-            {{ courseInfo.educationalResources | purify }}
-        </span>
-    {% endif %}
-    <span class="font-weight-bold">
-        {% if courseInfo.bibliographicResources is null %}
-            <i class="fas fa-exclamation-circle text-warning"></i>
-        {% endif %}
-        Eléments bibliographiques
-    </span>
-    {% if courseInfo.bibliographicResources is null %}
-        <span class="text-warning">
-            Non-renseigné
-        </span>
-    {% else %}
-        <span class="text-muted">
-            {{ courseInfo.bibliographicResources | purify }}
-        </span>
-    {% endif %}
+                    {% if courseInfo.bibliographicResources is null %}
+                        <i class="fas fa-exclamation-circle text-warning"></i>
+                    {% endif %}
+                    Eléments bibliographiques
+                </span>
+    {{ courseInfo.bibliographicResources|humanizeEmptyData() | purify }}
 </div>

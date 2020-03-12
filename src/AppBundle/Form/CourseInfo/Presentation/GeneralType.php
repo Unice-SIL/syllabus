@@ -129,6 +129,7 @@ class GeneralType extends AbstractType
                 'multiple' => false,
                 'expanded' => true,
                 'placeholder' => false,
+                'data' => 'image',
                 'choices' => [
                     'app.presentation.form.general.picture' => 'image',
                     'app.presentation.form.general.video' => 'video'
