@@ -23,7 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Class CourseInfoController
  * @package AppBundle\Controller
- * @Route("/admin/syllabus", name="app_admin_course_info_")
+ * @Route("/admin/course-info", name="app_admin_course_info_")
  */
 class CourseInfoController extends Controller
 {
@@ -36,7 +36,7 @@ class CourseInfoController extends Controller
      * @param EntityManagerInterface $em
      * @return RedirectResponse|Response
      * @throws \Exception
-     */
+
     public function indexAction(
         Request $request,
         CourseInfoDoctrineRepository $courseInfoDoctrineRepository,
@@ -58,11 +58,8 @@ class CourseInfoController extends Controller
                 $data = $duplicationForm->getData();
                 $from = $data['from'];
 
-                /** @var  CourseInfo $to */
                 $to = $data['to']->getCodeYear(true);
 
-
-                /** @var Report $report */
                 $report = $courseInfoManager->duplicate($from, $to, CourseInfoManager::DUPLICATION_CONTEXTE_MANUALLY);
 
                 if (!$report->hasMessages() and !$report->hasLines()) {
@@ -117,7 +114,7 @@ class CourseInfoController extends Controller
             'duplicationForm' => $duplicationForm->createView(),
             'isFormValid' => $isFormValid
         ));
-    }
+    } */
 
     /**
      * @Route("/new", name="new")

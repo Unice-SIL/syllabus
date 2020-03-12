@@ -1,16 +1,25 @@
 {{ form_start(form, {'attr': {'class': 'form-focus'}}) }}
 {{ form_errors(form) }}
-<div class="row mt-3">
+<div class="row mt-2">
     <div class="col-6">
         {{ form_row(form.domains, {label_attr: {class: 'required'}}) }}
+        {{ form_row(form.campuses) }}
         <label class="required font-weight-bold">
             {{ 'app.presentation.form.general.level_label' | trans }}
-            <img id="infos_level" src="{{ asset('images/info_32.png') }}" style="cursor: pointer;">
+            <div class="help d-inline-block">
+                <i class="fas fa-question-circle help-button"></i>
+                <span class="help-message">
+                    <ul>
+                        {{ 'app.presentation.form.general.level.beginner' | trans | raw }}
+                        {{ 'app.presentation.form.general.level.intermediary' | trans | raw }}
+                        {{ 'app.presentation.form.general.level.advanced' | trans | raw }}
+                    </ul>
+                </span>
+            </div>
         </label>
-        {{ form_errors(form.level) }}
-        {{ form_widget(form.level, {label_attr: {class: 'radio-custom'} }) }}
-        <div class="mt-3">
-            {{ form_row(form.campuses) }}
+        <div class="form-group">
+            {{ form_errors(form.level) }}
+            {{ form_widget(form.level, {label_attr: {class: 'radio-custom'} }) }}
         </div>
     </div>
     <div class="col-6">
@@ -19,14 +28,13 @@
     </div>
 </div>
 
-<div class="row mt-4">
+<div class="row mt-2">
     <div class="col-6">
-        <div>
-            {{ form_widget(form.mediaType, {label_attr: {class: 'radio-custom'}} ) }}
-        </div>
+        {{ form_row(form.mediaType, {label_attr: {class: 'radio-custom'}} ) }}
 
-        <div class="border p-2">
-            <div id="image">
+        <div class="medias-type border p-2">
+
+            <div id="image" class="media-type">
                 {{ form_errors(form.image) }}
                 <small class="font-weight-bold">{{ 'app.presentation.form.general.file_type' | trans }}</small>
                 {{ form_widget(form.image, {label_attr: {class: 'file-custom'} }) }}
@@ -40,19 +48,21 @@
                 {% endif %}
             </div>
 
-            <div id="video">
-                <button class="btn btn-light" type="button" data-toggle="collapse" data-target="#collapseExample"
-                        aria-expanded="false" aria-controls="collapseExample">
+            <div id="video" class="media-type">
+                <label>
                     {{ 'app.presentation.form.general.add_video' | trans }}
-                </button>
-                <div class="alert alert-light collapse" role="alert" id="collapseExample">
-                    <span>{{ 'app.presentation.form.general.add_video_info.part1' | trans }}<br/>
-                        {{ 'app.presentation.form.general.add_video_info.part2' | trans }}<br/>
-                        {{ 'app.presentation.form.general.add_video_info.part3' | trans }}</span>
-                    <pre class="mb-0">&lt;iframe ... &gt;&lt;/iframe&gt;</pre>
-                    <span>{{ 'app.presentation.form.general.add_video_info.part4' | trans }}</span>
+                </label>
+                <div class="help d-inline-block">
+                    <i class="fas fa-question-circle help-button"></i>
+                    <span class="help-message">
+                        <p>{{ 'app.presentation.form.general.add_video_info.part1' | trans | raw }}</p>
+                        <p>{{ 'app.presentation.form.general.add_video_info.part2' | trans | raw }}</p>
+                        <p>{{ 'app.presentation.form.general.add_video_info.part3' | trans | raw }}</p>
+                        <p><pre class="mb-0">&lt;iframe ... &gt;&lt;/iframe&gt;</pre></p>
+                        <p>{{ 'app.presentation.form.general.add_video_info.part4' | trans }}</p>
+                    </span>
                 </div>
-                {{ form_widget(form.video) }}
+                {{ form_row(form.video) }}
             </div>
         </div>
     </div>
@@ -80,38 +90,28 @@
 <script>
 
     $(document).ready(function () {
-        toggleMediaType();
+
+        function toggleMediaType() {
+            let choice = $('#general_mediaType').find('input[type="radio"]:checked').val();
+
+            $('.media-type').hide();
+
+            if (choice === 'video') {
+                $('#video').show();
+            } else {
+                $('#image').show();
+            }
+        }
 
         $(document).on('change', '#general_mediaType', function () {
             toggleMediaType();
         });
 
-        function toggleMediaType() {
-            let value = $('#general_mediaType').find('input[type="radio"]:checked').val();
-            if (value === 'video')
-            {
-                $('#image').hide();
-                $('#video').show();
-            }
-            else
-            {
-                $('#image').show();
-                $('#video').hide();
-            }
-        }
+        toggleMediaType();
+
         $('form[name="general"]').find('.select2entity').select2entity();
+
     });
 
-    $('#infos_level').click(function () {
-        var message = '<ul>' +
-            '{{ 'app.presentation.form.general.level.beginner' | trans }}' +
-            '{{ 'app.presentation.form.general.level.intermediary' | trans }}' +
-            '{{ 'app.presentation.form.general.level.advanced' | trans }}' +
-            '</ul>';
-        bootbox.dialog({
-            message: message,
-            backdrop: true,
-            onEscape: true
-        });
-    });
+
 </script>

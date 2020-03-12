@@ -32,11 +32,16 @@ class CourseInfoAdminType extends AbstractType
             ->add('year', Select2EntityType::class, [
                 'label' => 'app.form.year.label.label',
                 'multiple' => false,
-                'remote_route' => 'app_admin_year_autocompleteS2',
+                'remote_route' => 'app.common.autocomplete.generic_s2',
                 'class' => Year::class,
                 'text_property' => 'label',
                 'page_limit' => 10,
                 'placeholder' => 'Choisissez une année',
+                'remote_params' => [
+                    'entityName' => 'Year',
+                    'findBy' => 'label',
+                    'property' => 'label'
+                ],
                 'required' => true
             ])
             ->add('course', CourseWithHierarchyType::class, [

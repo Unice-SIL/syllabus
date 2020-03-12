@@ -333,7 +333,7 @@ var Syllabus = ( function ( ) {
         setMediaFrameAttributes: setMediaFrameAttributes,
         submitPanelForm: submitPanelForm,
         tabsInit: tabsInit,
-        sortable: sortable
+        sortable: sortable,
     };
 
 

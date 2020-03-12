@@ -184,7 +184,7 @@ app:
         add_video_info:
           part1: "Afin de pouvoir intégrer une vidéo dans votre cours, veuillez vous assurer que celle-ci soit hébergée sur un serveur externe à Moodle (ex: UNSPOD, Youtube, ...)."
           part2: Si ce n’est pas le cas, vous pouvez demander de l’aide pour la déposer sur une de ces plateformes.
-          part3: Une fois qu’elle y est stockée, vous pouvez cliquer sur “Partager / Intégrer” afin de récupérer le lien d'intégration ressemblant à :
+          part3: "Une fois qu’elle y est stockée, vous pouvez cliquer sur “Partager / Intégrer” afin de récupérer le lien d'intégration ressemblant à :"
           part4: Copiez ce code et insérez-le dans le champ "Vidéo" ci-dessous. La vidéo sera visible par vos étudiants directement sur votre syllabus.
         level:
           beginner: "<li><strong>Débutant</strong> : Ce cours demande peu ou pas de connaissances préaables.</li>"

@@ -43,7 +43,7 @@ class CourseController extends Controller
     )
     {
         $qb = $courseDoctrineRepository->getIndexQueryBuilder();
-        $form = $this->createForm(CourseFilterType::class, null,  ['context'=> 'course']);
+        $form = $this->createForm(CourseFilterType::class, null);
 
         if ($request->query->has($form->getName())) {
             $form->submit($request->query->get($form->getName()));
