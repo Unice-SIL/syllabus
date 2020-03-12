@@ -1,81 +1,83 @@
 {% extends 'course_info/layout.html.twig' %}
 
 {% block subContent %}
+    <div class="pt-3">
 
-    <div id="card-achievement" class="card my-2 shadow card-syllabus"
-         data-view-url="{{ path('app.course_info.objectives.achievements', {'id': courseInfo.id }) }}"
-    >
-        <div class="card-header">
-            <div class="d-flex justify-content-between">
-                <h3>Capacités visées</h3>
-                <button type="button"
-                        class="btn btn-primary rounded modal-action"
-                        data-action-title="Ajouter une compétence"
-                        data-action-url="{{ path('app.course_info.objectives.achievement.add', {'id': courseInfo.id }) }}">
-                    Ajouter une capacité
-                </button>
+        <div id="card-achievement" class="card my-2 shadow card-syllabus"
+             data-view-url="{{ path('app.course_info.objectives.achievements', {'id': courseInfo.id }) }}"
+        >
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <h3>Capacités visées</h3>
+                    <button type="button"
+                            class="btn btn-primary rounded modal-action"
+                            data-action-title="Ajouter une compétence"
+                            data-action-url="{{ path('app.course_info.objectives.achievement.add', {'id': courseInfo.id }) }}">
+                        Ajouter une capacité
+                    </button>
+                </div>
+                <a href="https://lms.univ-cotedazur.fr/course/view.php?id=22948"
+                   class="btn btn-outline-info btn-sm btn-block mt-2"
+                   target="_blank">
+                    Cours dédié à l'« Approche par Compétences » (auto inscription)
+                </a>
             </div>
-            <a href="https://lms.univ-cotedazur.fr/course/view.php?id=22948"
-               class="btn btn-outline-info btn-sm btn-block mt-2"
-               target="_blank">
-                Cours dédié à l'« Approche par Compétences » (auto inscription)
-            </a>
-        </div>
-        <div class="card-body">
-        </div>
-    </div>
-
-
-    <div id="card-critical_achievement" class="card my-2 shadow card-syllabus"
-         data-view-url="{{ path('app.course_info.objectives.critical_achievements', {'id': courseInfo.id }) }}"
-    >
-        <div class="card-header">
-            <div class="d-flex justify-content-between">
-                <h3>Objectif d'apprentissage APC</h3>
-                <button type="button"
-                        class="btn btn-primary rounded modal-action"
-                        data-action-title="Ajouter un apprentissage critique"
-                        data-action-url="{{ path('app.course_info.objectives.critical_achievement.add', {'id': courseInfo.id }) }}">
-                    Ajouter un apprentissage critique
-                </button>
+            <div class="card-body">
             </div>
         </div>
-        <div class="card-body">
-        </div>
-    </div>
 
-    <div id="card-prerequisite" class="card my-2 shadow card-syllabus"
-         data-view-url="{{ path('app.course_info.objectives.prerequisites', {'id': courseInfo.id }) }}"
-    >
-        <div class="card-header">
-            <div class="d-flex justify-content-between">
-                <h3>Prérequis</h3>
-                <button type="button" class="btn btn-primary modal-action rounded"
-                        data-action-title="Ajouter un prérequis"
-                        data-action-url="{{ path('app.course_info.objectives.prerequisite.add', {'id': courseInfo.id }) }}">
-                    Ajouter un prérequis
-                </button>
+
+        <div id="card-critical_achievement" class="card my-2 shadow card-syllabus"
+             data-view-url="{{ path('app.course_info.objectives.critical_achievements', {'id': courseInfo.id }) }}"
+        >
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <h3>Objectif d'apprentissage APC</h3>
+                    <button type="button"
+                            class="btn btn-primary rounded modal-action"
+                            data-action-title="Ajouter un apprentissage critique"
+                            data-action-url="{{ path('app.course_info.objectives.critical_achievement.add', {'id': courseInfo.id }) }}">
+                        Ajouter un apprentissage critique
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
             </div>
         </div>
-        <div class="card-body">
-        </div>
-    </div>
 
-    <div id="card-tutoring-resources" class="card my-2 shadow card-syllabus"
-         data-view-url="{{ path('app.course_info.objectives.tutoring_resources', {'id': courseInfo.id }) }}"
-    >
-        <div class="card-header">
-            <div class="d-flex justify-content-between">
-                <h3>Remédiation / aide à la réussite</h3>
-                <button type="button" class="btn btn-primary modal-action rounded "
-                        data-action-title="Ajouter une remédiation"
-                        data-card="card-tutoring-resources"
-                        data-action-url="{{ path('app.course_info.objectives.tutoring_resource.add', {'id': courseInfo.id }) }}">
-                    Ajouter une remédiation
-                </button>
+        <div id="card-prerequisite" class="card my-2 shadow card-syllabus"
+             data-view-url="{{ path('app.course_info.objectives.prerequisites', {'id': courseInfo.id }) }}"
+        >
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <h3>Prérequis</h3>
+                    <button type="button" class="btn btn-primary modal-action rounded"
+                            data-action-title="Ajouter un prérequis"
+                            data-action-url="{{ path('app.course_info.objectives.prerequisite.add', {'id': courseInfo.id }) }}">
+                        Ajouter un prérequis
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
             </div>
         </div>
-        <div class="card-body">
+
+        <div id="card-tutoring-resources" class="card my-2 shadow card-syllabus"
+             data-view-url="{{ path('app.course_info.objectives.tutoring_resources', {'id': courseInfo.id }) }}"
+        >
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <h3>Remédiation / aide à la réussite</h3>
+                    <button type="button" class="btn btn-primary modal-action rounded "
+                            data-action-title="Ajouter une remédiation"
+                            data-card="card-tutoring-resources"
+                            data-action-url="{{ path('app.course_info.objectives.tutoring_resource.add', {'id': courseInfo.id }) }}">
+                        Ajouter une remédiation
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+            </div>
         </div>
     </div>
 {% endblock %}
@@ -111,10 +113,9 @@
                         let json = data;
                         let obj = JSON.parse(json);
                         $cardBody.html(obj.content);
-                        if(obj.status == true)
-                        {
+                        if (obj.status == true) {
                             $('#assistTutoring').show();
-                        }else{
+                        } else {
                             $('#assistTutoring').hide();
                         }
                     }
