@@ -1,32 +1,32 @@
 <div class="d-flex flex-column">
-                <span class="font-weight-bold">
-                    {% if courseInfo.closingRemarks is null %}
-                        <i class="fas fa-exclamation-circle text-warning"></i>
-                    {% endif %}
-                    Message à vos étudiants
-                </span>
+    <span class="font-weight-bold">
+        {% if courseInfo.closingRemarks is null %}
+            <i class="fas fa-exclamation-circle text-warning"></i>
+        {% endif %}
+        Message à vos étudiants
+    </span>
     {% if courseInfo.closingRemarks is null %}
         <span class="text-warning">
-                                Non-renseigné
-                            </span>
+            Non-renseigné
+        </span>
     {% else %}
         <span class="text-muted">
-                                {{ courseInfo.closingRemarks | purify }}
-                            </span>
+            {{ courseInfo.closingRemarks | purify }}
+        </span>
     {% endif %}
     <span class="font-weight-bold">
-                    {% if courseInfo.closingVideo is null %}
-                        <i class="fas fa-exclamation-circle text-warning"></i>
-                    {% endif %}
-                    Intégrer une ressource vidéo (ou audio)
-                </span>
+        {% if courseInfo.closingVideo is null %}
+            <i class="fas fa-exclamation-circle text-warning"></i>
+        {% endif %}
+        Intégrer une ressource vidéo (ou audio)
+    </span>
     {% if courseInfo.closingVideo is null %}
         <span class="text-warning">
-                                Non-renseigné
-                            </span>
+            Non-renseigné
+        </span>
     {% else %}
-        <span class="text-muted">
-                                {{ courseInfo.closingVideo }}
-                            </span>
+        <div class="embed-responsive embed-responsive-16by9">
+            {{ courseInfo.closingVideo|raw  }}
+        </div>
     {% endif %}
 </div>

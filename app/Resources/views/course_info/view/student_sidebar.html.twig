@@ -27,12 +27,16 @@
                 </a>
             </li>
             {% endif %}
+            {% if courseInfo.educationalResources is not empty or
+                courseInfo.bibliographicResources is not empty or
+                courseInfo.courseResourceEquipments is not empty %}
             <li class="nav-item has-treeview">
                 <a class="nav-link menu-tab" href="#equipments-section">
                     <i class="fas fa-tools"></i>
                     <p>{{ 'app.view.student.tabs.equipments' | trans }}</p>
                 </a>
             </li>
+            {% endif %}
             {% if courseInfo.agenda is not empty or courseInfo.organization is not empty %}
             <li class="nav-item has-treeview">
                 <a class="nav-link menu-tab" href="#info-section">
@@ -40,6 +44,14 @@
                     <p>{{ 'app.view.student.tabs.info' | trans }}</p>
                 </a>
             </li>
+            {% endif %}
+            {% if courseInfo.closingRemarks is not empty or courseInfo.closingVideo is not empty %}
+                <li class="nav-item has-treeview">
+                    <a class="nav-link menu-tab" href="#closing-remarks-section">
+                        <i class="fas fa-flag-checkered"></i>
+                        <p>{{ 'app.view.student.tabs.info' | trans }}</p>
+                    </a>
+                </li>
             {% endif %}
         </ul>
     </nav>

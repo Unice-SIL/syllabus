@@ -234,6 +234,7 @@ app:
         tutoring_resources_list: Liste des rémédiations
       tabs:
         activities: Activités
+        closing_remarks: Le mot de la fin
         equipments: Équipements
         evaluation: Modalités d'évaluation
         info: Informations pratiques
