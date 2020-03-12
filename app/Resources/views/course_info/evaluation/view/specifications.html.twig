@@ -8,15 +8,7 @@
                         {% endif %}
                         Précisions (facultatif)
                     </span>
-                {% if courseInfo.mccAdvice is null %}
-                    <span class="text-warning">
-                        Non-renseigné
-                    </span>
-                {% else %}
-                    <span class="text-muted">
-                        {{ courseInfo.mccAdvice | purify }}
-                    </span>
-                {% endif %}
+                {{ courseInfo.mccAdvice|humanizeEmptyData() | purify }}
             </div>
         </div>
     </div>
