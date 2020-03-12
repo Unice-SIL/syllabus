@@ -8,11 +8,13 @@ use AppBundle\Traits\Importable;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @package AppBundle\Entity
  * @ORM\Table(name="learning_achievement")
  * @ORM\Entity
+ * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\LearningAchievementTranslation")
  *
  */
 class LearningAchievement
@@ -33,6 +35,7 @@ class LearningAchievement
      * @var string
      *
      * @ORM\Column(name="description", type="string", length=255, nullable=false)
+     * @Gedmo\Translatable
      */
     private $description;
 

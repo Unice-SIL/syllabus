@@ -8,12 +8,12 @@
                     Langues
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                    {% for language in get_languages() %}
-                        <a href="{{ path(app.request.get('_route'), app.request.attributes.get('_route_params')|merge({'_locale' : language.locale})) }}" class="dropdown-item">
+                    {% for locale in managed_locales %}
+                        <a href="{{ path(app.request.get('_route'), app.request.attributes.get('_route_params')|merge({'_locale' : locale})) }}" class="dropdown-item">
                             <!-- Message Start -->
                             <div class="media">
                                 <div class="media-body">
-                                    <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> {{ language }}</p>
+                                    <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> {{ ('app.locale.' ~ locale)|trans }}</p>
                                 </div>
                             </div>
                             <!-- Message End -->

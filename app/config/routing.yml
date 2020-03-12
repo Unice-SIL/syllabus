@@ -3,15 +3,21 @@ syllabus:
     resource: '@AppBundle/Controller/'
     type: annotation
     prefix: /{_locale}
+    defaults:
+        _locale: '%locale%'
 
 syllabus.admin:
     resource: '@AppBundle/Controller/Admin/'
     type: annotation
-    prefix: /admin/{_locale}
+    prefix: /{_locale}/admin
+    defaults:
+        _locale: '%locale%'
 
 lexik_translation_edition:
     resource: "@LexikTranslationBundle/Resources/config/routing.yml"
-    prefix:   /admin/{_locale}/translation
+    prefix:   /{_locale}/admin/translation
+    defaults:
+        _locale: '%locale%'
 
 api_login_check:
     path: /api/login_check

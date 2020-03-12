@@ -8,12 +8,14 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * CourseSection
  *
  * @ORM\Table(name="course_section")
  * @ORM\Entity
+ * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CourseSectionTranslation")
  */
 class CourseSection
 {
@@ -33,6 +35,7 @@ class CourseSection
      *
      * @ORM\Column(name="title", type="string", length=200, nullable=true)
      * @JMS\Groups(groups={"default", "course_section"})
+     * @Gedmo\Translatable
      */
     private $title;
 
@@ -41,6 +44,7 @@ class CourseSection
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=true)
      * @JMS\Groups(groups={"default", "course_section"})
+     * @Gedmo\Translatable
      */
     private $description;
 

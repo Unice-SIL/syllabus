@@ -42,6 +42,7 @@ class Course
      * @ORM\Column(name="type", type="string", length=5, nullable=false, options={"fixed"=true})
      * @JMS\Groups(groups={"course", "default"})
      * @Assert\NotBlank()
+     * @Gedmo\Translatable
      */
     private $type;
 

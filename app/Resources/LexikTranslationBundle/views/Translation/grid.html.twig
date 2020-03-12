@@ -4,9 +4,9 @@
 {% trans_default_domain 'LexikTranslationBundle' %}
 
 {% block subContent %}
-    <div class="card">
+    <div class="card p-3">
 
-        {% include '@LexikTranslationBundle/Translation/_ngGrid.html.twig' %}
+        {% include 'LexikTranslationBundle/views/Translation/_ngGrid.html.twig' %}
 
     </div>
 {% endblock %}
@@ -54,4 +54,11 @@
         };
     </script>
     <script src="{{ asset('bundles/lexiktranslation/js/translation.js') }}"></script>
+    <script>
+        public function deleteElement()
+        {
+            Swal.fire('Any fool can use a computer')
+        };
+
+    </script>
 {% endblock %}

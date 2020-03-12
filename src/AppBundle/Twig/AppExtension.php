@@ -51,7 +51,6 @@ class AppExtension extends AbstractExtension
             new TwigFunction('printActiveAdminSidebarLink', [AppRuntime::class, 'printActiveAdminSidebarLink']),
             new TwigFunction('findChoiceIdByLabel', [AppRuntime::class, 'findChoiceIdByLabel']),
             new TwigFunction('report_render', [ReportRuntime::class, 'reportRender']),
-            new TwigFunction('get_languages', [LanguageRuntime::class, 'getLanguages']),
         ];
     }
 

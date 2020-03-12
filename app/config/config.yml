@@ -8,13 +8,12 @@ imports:
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: fr
     fos_ck_editor.base_path: 'build/ckeditor'
     fos_ck_editor.js_path: 'build/ckeditor/ckeditor.js'
 
 framework:
     #esi: ~
-    translator: { fallbacks: ['%locale%'] }
+    translator: { fallbacks: '%fallback_locales%' }
     secret: '%secret%'
     router:
         resource: '%kernel.project_dir%/app/config/routing.yml'
@@ -43,6 +42,7 @@ twig:
     globals:
         regulation_link : '%regulation_link%'
         app_version: prototype
+        managed_locales: '%managed_locales%'
     form_themes:
         - 'bootstrap_4_layout.html.twig'
         - '@TetranzSelect2Entity/Form/fields.html.twig'
@@ -220,8 +220,8 @@ jms_serializer:
             default_format: "Y-m-d h:i:s" # ISO8601
 
 lexik_translation:
-    fallback_locale: [fr]         # (required) default locale(s) to use
-    managed_locales: [fr, de, en] # (required) locales that the bundle has to manage
+    fallback_locale: '%fallback_locales%'         # (required) default locale(s) to use
+    managed_locales: '%managed_locales%' # (required) locales that the bundle has to manage
     storage:
         type: orm                  # orm | mongodb | propel
         object_manager: syllabus

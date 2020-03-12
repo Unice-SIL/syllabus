@@ -104,6 +104,10 @@ list of evaluation: Liste des évaluations
 
 
 app:
+  locale:
+    fr: 'Français'
+    en: 'Anglais'
+    de: 'Allemand'
   activities:
     view:
       activity:
