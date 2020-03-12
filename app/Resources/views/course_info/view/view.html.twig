@@ -6,38 +6,19 @@
         </li>
     </ul>
 {% endblock %}
+
+{% block sidebar %}
+    {% include 'course_info/view/student_sidebar.html.twig' %}
+{% endblock %}
+
 {% block content %}
-
-    <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">{{ courseInfo.title }}</h1>
-                </div><!-- /.col -->
-
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
-    </div>
-
-
-    <section id="content-{{ contentName|default('default') }}" class="content">
-        <div class="container-fluid">
-            {% block subContent %}
-
-                <!-- presentation du cours -->
-                <div class="card">
-                    <div class="card-header">
-                        {{ 'app.view.student.tabs.presentation' | trans }}
-                    </div>
-                    <div class="card-body">
-                        {% include 'course_info/view/student_presentation.html.twig' %}
-                    </div>
-                </div>
-
-
-            {% endblock %}
-        </div>
-    </section>
+    {% include 'course_info/view/student_presentation.html.twig' %}
+    {% include 'course_info/view/student_objectives.html.twig' %}
+    {% include 'course_info/view/student_activities.html.twig' %}
+    {% include 'course_info/view/student_evaluation.html.twig' %}
+    {% include 'course_info/view/student_equipments.html.twig' %}
+    {% include 'course_info/view/student_info.html.twig' %}
+    {% include 'course_info/view/student_closing_remarks.html.twig' %}
 {% endblock %}
 
 {% block javascripts %}

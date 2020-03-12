@@ -149,6 +149,7 @@ app:
   presentation:
     view:
       general:
+        campus: Campus
         domain: Domaine
         empty_summary: Vous n'avez pas renseigné de résumé
         label: Informations générales
@@ -212,7 +213,32 @@ app:
             type: "Type (ex: Heures personnelles) "
   view:
     student:
+      activities:
+        evaluable: Évaluable
+        evaluation_rate: Coefficient (%)
+        mode: Mode
+        title: Nom de l'activité
+        type: Type
+      equipments:
+        description: Description
+        bibliographic_resources: Eléments bibliographiques
+        educational_resources: Ressources pédagogiques
+        list: Liste des équipements
+      info:
+        agenda: Informations dont vous disposez sur le calendrier du cours, des examens…
+        organization: Organisation du cours
+      objectives:
+        achievements_list: Liste des objectifs
+        critical_achievements_list: Liste des apprentissages
+        prerequisites_list: Liste des prérequis
+        tutoring_resources_list: Liste des rémédiations
       tabs:
+        activities: Activités
+        closing_remarks: Le mot de la fin
+        equipments: Équipements
+        evaluation: Modalités d'évaluation
+        info: Informations pratiques
+        objectives: Objectifs
         presentation: Présentation
   const:
     job:
