@@ -23,11 +23,4 @@
 {% block javascripts %}
     {{ parent() }}
     {{ encore_entry_script_tags('course_info_layout') }}
-    <script>
-        $(document).ready(function() {
-            $('[data-spy="scroll"]').on('activate.bs.scrollspy', function () {
-                console.log(1);
-            });
-        });
-    </script>
 {% endblock %}
