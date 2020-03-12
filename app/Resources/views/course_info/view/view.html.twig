@@ -24,4 +24,10 @@
 {% block javascripts %}
     {{ parent() }}
     {{ encore_entry_script_tags('course_info_layout') }}
+    <script>
+        $(document).ready(function () {
+            let $body = document.body;
+            $body.classList.add('sidebar-collapse');
+        })
+    </script>
 {% endblock %}
