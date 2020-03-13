@@ -61,7 +61,7 @@
             <th class="text-center" style="width: 20%">Modifier/Supprimer</th>
         </tr>
         </thead>
-        <tbody id="tutoring-resources-list" class="list-sortable" data-url="{{ path('app.course_info.objectives.sort_tutoring_resources', {'id': courseInfo.id}) }}">
+        <tbody id="tutoring-resources-list" class="list-sortable" data-url="{{ path('app.course_info.prerequisites.sort_tutoring_resources', {'id': courseInfo.id}) }}">
         {% for tutoringResources in courseInfo.courseTutoringResources %}
             <tr class="item-sortable text-center" data-id="{{ tutoringResources.id }}">
                 <td class="text-left">{{ tutoringResources.description }}</td>

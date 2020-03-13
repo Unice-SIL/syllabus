@@ -21,7 +21,7 @@
             <th class="text-center" style="width: 20%">Modifier/Supprimer</th>
         </tr>
         </thead>
-        <tbody id="prerequisites-list" class="list-sortable" data-url="{{ path('app.course_info.objectives.sort_prerequisites', {'id': courseInfo.id}) }}">
+        <tbody id="prerequisites-list" class="list-sortable" data-url="{{ path('app.course_info.prerequisites.sort_prerequisites', {'id': courseInfo.id}) }}">
         {% for prerequisite in courseInfo.coursePrerequisites %}
             <tr class="item-sortable" data-id="{{ prerequisite.id }}">
                 <td class="text-left">{{ prerequisite.description }}</td>
