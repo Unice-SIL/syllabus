@@ -10,6 +10,7 @@
                     <thead>
                     <tr>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.activity.label.label'|trans, 'a.label') }}</th>
+                        <th class="sortable">Année</th>
                         <th class="sortable">Utilisateur</th>
                         <th class="sortable text-center">traité</th>
                     </tr>
@@ -19,6 +20,9 @@
                         <tr>
                             <td>
                                 <a href="{{ path('app_admin.ask_advice_view', { 'id' : askAdvice.id }) }}">{{ askAdvice.courseInfo.title }}</a>
+                            </td>
+                            <td>
+                                {{ askAdvice.courseInfo.year.id }}
                             </td>
                             <td>
                                 {{ askAdvice.user.lastname }} {{ askAdvice.user.firstname }}
