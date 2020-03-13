@@ -125,6 +125,42 @@ class UserRole
 
     const ROLE_API_GET_LANGUAGE = 'ROLE_API_GET_LANGUAGE';
     const ROLE_API_GET_LANGUAGES = 'ROLE_API_GET_LANGUAGES';
+
+    const ROLE_API_ACTIVITY = 'ROLE_API_ACTIVITY';
+    const ROLE_API_ACTIVITY_VIEW = 'ROLE_API_ACTIVITY_VIEW';
+    const ROLE_API_ACTIVITY_LIST = 'ROLE_API_ACTIVITY_LIST';
+
+    const ROLE_API_CRITICAL_ACHIEVEMENT = 'ROLE_API_CRITICAL_ACHIEVEMENT';
+    const ROLE_API_CRITICAL_ACHIEVEMENT_VIEW = 'ROLE_API_CRITICAL_ACHIEVEMENT_VIEW';
+    const ROLE_API_CRITICAL_ACHIEVEMENT_LIST = 'ROLE_API_CRITICAL_ACHIEVEMENT_LIST';
+
+    const ROLE_API_LANGUAGE = 'ROLE_API_LANGUAGE';
+    const ROLE_API_LANGUAGE_VIEW = 'ROLE_API_LANGUAGE_VIEW';
+    const ROLE_API_LANGUAGE_LIST = 'ROLE_API_LANGUAGE_LIST';
+
+    const ROLE_API_EQUIPMENT = 'ROLE_API_EQUIPMENT';
+    const ROLE_API_EQUIPMENT_VIEW = 'ROLE_API_EQUIPMENT_VIEW';
+    const ROLE_API_EQUIPMENT_LIST = 'ROLE_API_EQUIPMENT_LIST';
+
+    const ROLE_API_DOMAIN = 'ROLE_API_DOMAIN';
+    const ROLE_API_DOMAIN_VIEW = 'ROLE_API_DOMAIN_VIEW';
+    const ROLE_API_DOMAIN_LIST = 'ROLE_API_DOMAIN_LIST';
+
+    const ROLE_API_CAMPUS = 'ROLE_API_CAMPUS';
+    const ROLE_API_CAMPUS_VIEW = 'ROLE_API_CAMPUS_VIEW';
+    const ROLE_API_CAMPUS_LIST = 'ROLE_API_CAMPUS_LIST';
+
+    const ROLE_API_ACTIVITY_MODE = 'ROLE_API_ACTIVITY_MODE';
+    const ROLE_API_ACTIVITY_MODE_VIEW = 'ROLE_API_ACTIVITY_MODE_VIEW';
+    const ROLE_API_ACTIVITY_MODE_LIST = 'ROLE_API_ACTIVITY_MODE_LIST';
+
+    const ROLE_API_ACTIVITY_TYPE = 'ROLE_API_ACTIVITY_TYPE';
+    const ROLE_API_ACTIVITY_TYPE_VIEW = 'ROLE_API_ACTIVITY_TYPE_VIEW';
+    const ROLE_API_ACTIVITY_TYPE_LIST = 'ROLE_API_ACTIVITY_TYPE_LIST';
+
+    const ROLE_API_PERIOD = 'ROLE_API_PERIOD';
+    const ROLE_API_PERIOD_VIEW = 'ROLE_API_PERIOD_VIEW';
+    const ROLE_API_PERIOD_LIST = 'ROLE_API_PERIOD_LIST';
     /*====================== End ROLE API ==================*/
 
     const ROLES = [
@@ -185,6 +221,34 @@ class UserRole
         self::ROLE_API_COURSE_LIST,
         self::ROLE_API_COURSE_CREATE,
         self::ROLE_API_COURSE_UPDATE,
+        self::ROLE_API_ACTIVITY,
+        self::ROLE_API_ACTIVITY_VIEW,
+        self::ROLE_API_ACTIVITY_LIST,
+        self::ROLE_API_CRITICAL_ACHIEVEMENT,
+        self::ROLE_API_CRITICAL_ACHIEVEMENT_VIEW,
+        self::ROLE_API_CRITICAL_ACHIEVEMENT_LIST,
+        self::ROLE_API_LANGUAGE,
+        self::ROLE_API_LANGUAGE_VIEW,
+        self::ROLE_API_LANGUAGE_LIST,
+        self::ROLE_API_EQUIPMENT,
+        self::ROLE_API_EQUIPMENT_VIEW,
+        self::ROLE_API_EQUIPMENT_LIST,
+        self::ROLE_API_DOMAIN,
+        self::ROLE_API_DOMAIN_VIEW,
+        self::ROLE_API_DOMAIN_LIST,
+        self::ROLE_API_CAMPUS,
+        self::ROLE_API_CAMPUS_VIEW,
+        self::ROLE_API_CAMPUS_LIST,
+        self::ROLE_API_ACTIVITY_MODE,
+        self::ROLE_API_ACTIVITY_MODE_VIEW,
+        self::ROLE_API_ACTIVITY_MODE_LIST,
+        self::ROLE_API_ACTIVITY_TYPE,
+        self::ROLE_API_ACTIVITY_TYPE_VIEW,
+        self::ROLE_API_ACTIVITY_TYPE_LIST,
+        self::ROLE_API_PERIOD,
+        self::ROLE_API_PERIOD_VIEW,
+        self::ROLE_API_PERIOD_LIST,
+        //Todo: update below
         self::ROLE_API_GET_COURSE_INFO,
         self::ROLE_API_GET_COURSES_INFO,
         self::ROLE_API_POST_COURSE_INFO,
@@ -277,6 +341,42 @@ class UserRole
                 self::ROLE_API_COURSE_LIST,
                 self::ROLE_API_COURSE_CREATE,
                 self::ROLE_API_COURSE_UPDATE,
+            ],
+            self::ROLE_API_ACTIVITY => [
+                self::ROLE_API_ACTIVITY_VIEW,
+                self::ROLE_API_ACTIVITY_LIST,
+            ],
+            self::ROLE_API_CRITICAL_ACHIEVEMENT => [
+                self::ROLE_API_CRITICAL_ACHIEVEMENT_VIEW,
+                self::ROLE_API_CRITICAL_ACHIEVEMENT_LIST,
+            ],
+            self::ROLE_API_LANGUAGE => [
+                self::ROLE_API_LANGUAGE_VIEW,
+                self::ROLE_API_LANGUAGE_LIST,
+            ],
+            self::ROLE_API_EQUIPMENT => [
+                self::ROLE_API_EQUIPMENT_VIEW,
+                self::ROLE_API_EQUIPMENT_LIST,
+            ],
+            self::ROLE_API_DOMAIN => [
+                self::ROLE_API_DOMAIN_VIEW,
+                self::ROLE_API_DOMAIN_LIST,
+            ],
+            self::ROLE_API_CAMPUS => [
+                self::ROLE_API_CAMPUS_VIEW,
+                self::ROLE_API_CAMPUS_LIST,
+            ],
+            self::ROLE_API_ACTIVITY_MODE => [
+                self::ROLE_API_ACTIVITY_MODE_VIEW,
+                self::ROLE_API_ACTIVITY_MODE_LIST,
+            ],
+            self::ROLE_API_ACTIVITY_TYPE => [
+                self::ROLE_API_ACTIVITY_TYPE_VIEW,
+                self::ROLE_API_ACTIVITY_TYPE_LIST,
+            ],
+            self::ROLE_API_PERIOD => [
+                self::ROLE_API_PERIOD_VIEW,
+                self::ROLE_API_PERIOD_LIST,
             ],
         ],
     ];

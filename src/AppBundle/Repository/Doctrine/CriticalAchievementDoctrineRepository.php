@@ -59,4 +59,28 @@ class CriticalAchievementDoctrineRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    /**
+     * @param array $config
+     * @return QueryBuilder
+     */
+    public function findQueryBuilderForApi(array $config): QueryBuilder
+    {
+        $qb = $this->getIndexQueryBuilder()->innerJoin('ca.courses', 'c');
+
+        foreach ($config['filters'] as $filter => $value) {
+            $valueName = 'value'.$filter;
+            switch ($filter) {
+                case 'courseId':
+                    $qb->andWhere($qb->expr()->eq('c.id', ':'.$valueName))
+                        ->setParameter($valueName, $value);
+                    break;
+                default:
+                    $qb->andWhere($qb->expr()->eq('ca.' . $filter, ':' . $valueName))
+                        ->setParameter($valueName, $value);
+                    break;
+            }
+        }
+        return $qb;
+    }
 }

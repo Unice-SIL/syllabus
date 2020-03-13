@@ -109,6 +109,9 @@ class CourseInfoApiController extends Controller
      *     description="The id of the expected course info"
      * )
      * @IsGranted("ROLE_API_GET_COURSE_INFO")
+     * @param CourseInfo $courseInfo
+     * @param SerializerInterface $serializer
+     * @return Response
      */
     public function showAction(CourseInfo $courseInfo, SerializerInterface $serializer)
     {
