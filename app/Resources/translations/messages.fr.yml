@@ -259,6 +259,18 @@ app:
       hybrid: Hybride
       distant: A distance
 
+  sidebar:
+    dashboard: Tableau de bord
+    permissions: Permissions
+    presentation: Présentation Générale
+    activities: Contenu et activités
+    objectives: Objectifs du cours
+    evaluation: Modalités d'évaluation
+    equipment: Matériel et ressources
+    info: Informations pratiques
+    closing_remarks: Le mot de la fin
+    student_view: Vue étudiante
+
   form:
     notification:
       label:

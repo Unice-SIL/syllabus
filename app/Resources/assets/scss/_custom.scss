@@ -252,6 +252,11 @@ li.active{
     background-color: $primary;
 }
 
+li.sidebar-footer {
+    bottom: 10px;
+    position: fixed;
+}
+
 /*
     Activities tab
  */
