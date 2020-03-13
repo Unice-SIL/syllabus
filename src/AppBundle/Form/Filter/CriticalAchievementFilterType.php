@@ -41,7 +41,7 @@ class CriticalAchievementFilterType extends AbstractType
                 'label' => 'app.form.activity.label.label',
                 'attr' => [
                     'class' => 'autocomplete-input',
-                    'data-autocomplete-path' => $this->generator->generate('app.admin.critical_achievement.autocomplete')
+                    'data-autocomplete-path' => $this->generator->generate('app.common.autocomplete.generic', ['entityName' => 'CriticalAchievement'])
                 ]
             ])
         ;

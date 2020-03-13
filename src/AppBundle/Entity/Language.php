@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Class Language
  * @package AppBundle\Entity
  * @ORM\Table(name="language")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\LanguageDoctrineRepository")
  *
  */
 class Language

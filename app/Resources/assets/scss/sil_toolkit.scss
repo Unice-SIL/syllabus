@@ -35,3 +35,11 @@
     z-index: $zindex-fixed;
 }
 
+.help > .help-button{
+    cursor: pointer;
+}
+
+.help > .help-message {
+    display: none;
+}
+

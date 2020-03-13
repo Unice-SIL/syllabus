@@ -65,19 +65,19 @@ class TutoringResourceController extends AbstractController
      * @param CourseTutoringResourceManager $courseTutoringResourceManager
      * @return JsonResponse
      */
-    public function deleteTutoringResourcesAction(CourseTutoringResource $tutoringResource, Request $request,
+    public function deleteTutoringResourcesAction(CourseTutoringResource $tutoringResources, Request $request,
                                                   CourseTutoringResourceManager $courseTutoringResourceManager)
     {
-        if (!$tutoringResource instanceof CourseTutoringResource) {
+        if (!$tutoringResources instanceof CourseTutoringResource) {
             return $this->json([
                 'status' => false,
                 'content' => "Une erreur est survenue : la remédiation n'existe pas"
             ]);
         }
-        $form = $this->createForm(RemoveCourseTutoringResourcesType::class, $tutoringResource);
+        $form = $this->createForm(RemoveCourseTutoringResourcesType::class, $tutoringResources);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $courseTutoringResourceManager->delete($tutoringResource);
+            $courseTutoringResourceManager->delete($tutoringResources);
 
             return $this->json([
                 'status' => true,

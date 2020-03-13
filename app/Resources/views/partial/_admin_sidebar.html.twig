@@ -12,24 +12,22 @@
     {% endfor %}
 {% endmacro %}
 <nav class="mt-2">
-    <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column user-panel" data-widget="treeview" role="menu"
-            data-accordion="false">
-            <li class="nav-item has-treeview">
-                <a class="nav-link menu-tab"
-                   href="{{ path('app_admin.dashboard_index') }}"
-                   id="menu-dashboard">
-                    <i class="nav-icon fas fa-th"></i>
-                    <p>Tableau de bord</p>
-                </a>
-            </li>
-        </ul>
-    </nav>
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
         <li class="nav-item">
-            <a href="{{ path('app_admin.course_index') }}"
-               class="nav-link {{ printActiveAdminSidebarLink(['app_admin.course_']) }}">
+            <a
+                    href="{{ path('app_admin.dashboard_index') }}"
+                    class="nav-link {{ printActiveAdminSidebarLink(['app_admin.dashboard_']) }}"
+                    id="menu-dashboard">
+                <i class="nav-icon fas fa-th"></i>
+                <p>Tableau de bord</p>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a
+                    href="{{ path('app_admin.course_index') }}"
+                    class="nav-link {{ printActiveAdminSidebarLink(['app_admin.course_']) }}">
                 <i class="nav-icon fas fa-graduation-cap"></i>
                 <p>
                     Cours
@@ -54,15 +52,17 @@
                 <ul class="nav nav-treeview"
                     style="display: {{ printActiveAdminSidebarLink(referentielLink) ? 'block' : 'none' }};">
 
-                    <li class="nav-item pl-2">
-                        <a href="{{ path('app.admin.critical_achievement.index') }}"
-                           class="nav-link {{ printActiveAdminSidebarLink(['app.admin.critical_achievement']) }}">
-                            <i class="fas fa-map-marker-alt nav-icon"></i>
-                            <p>
-                                Acquis critiques
-                            </p>
-                        </a>
-                    </li>
+                    {% if is_granted('ROLE_ADMIN_CRITICAL_ACHIEVEMENT') %}
+                        <li class="nav-item pl-2">
+                            <a href="{{ path('app.admin.critical_achievement.index') }}"
+                               class="nav-link {{ printActiveAdminSidebarLink(['app.admin.critical_achievement']) }}">
+                                <i class="fas fa-award nav-icon"></i>
+                                <p>
+                                    Acquis critiques
+                                </p>
+                            </a>
+                        </li>
+                    {% endif %}
 
                     {% set activityLink = ['app.admin.activity.', 'app.admin.activity_type.', 'app.admin.activity_mode.'] %}
                     {% if is_granted('ROLE_ADMIN_ACTIVITY') or is_granted('ROLE_ADMIN_ACTIVITYTYPE') or is_granted('ROLE_ADMIN_ACTIVITYMODE') %}
@@ -240,7 +240,7 @@
             </ul>
         </li>
 
-        {% set administrationLink = ['app.admin.user.', 'app_admin_groups', 'app.admin.cron.', 'app.admin.notification.'] %}
+        {% set administrationLink = ['app.admin.user.', 'app_admin_groups', 'app.admin.job.', 'app.admin.notification.'] %}
         <li class="nav-item has-treeview {{ printActiveAdminSidebarLink(administrationLink) ? 'menu-open' }}">
             <a href="#" class="nav-link {{ printActiveAdminSidebarLink(administrationLink) }}">
                 <i class="nav-icon fas fa-cogs"></i>
@@ -260,15 +260,18 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item pl-2">
-                    <a href="{{ path('app.admin.cron.index') }}"
-                       class="nav-link {{ printActiveAdminSidebarLink(['app.admin.cron.']) }}">
-                        <i class="nav-icon fas fa-clock"></i>
-                        <p>
-                            Cron
-                        </p>
-                    </a>
-                </li>
+
+                {% if is_granted('ROLE_ADMIN_JOB') %}
+                    <li class="nav-item pl-2">
+                        <a href="{{ path('app.admin.job.index') }}"
+                           class="nav-link {{ printActiveAdminSidebarLink(['app.admin.job.']) }}">
+                            <i class="nav-icon fas fa-clock"></i>
+                            <p>
+                                Tâches planifiées
+                            </p>
+                        </a>
+                    </li>
+                {% endif %}
 
                 {% if is_granted('ROLE_ADMIN_USER') %}
                     <li class="nav-item pl-2">
@@ -282,15 +285,17 @@
                     </li>
                 {% endif %}
 
-                <li class="nav-item pl-2">
-                    <a href="{{ path('app.admin.notification.index') }}"
-                       class="nav-link {{ printActiveAdminSidebarLink(['app.admin.notification.']) }}">
-                        <i class="nav-icon fas fa-bell"></i>
-                        <p>
-                            Notifications
-                        </p>
-                    </a>
-                </li>
+                {% if is_granted('ROLE_ADMIN_NOTIFICATION') %}
+                    <li class="nav-item pl-2">
+                        <a href="{{ path('app.admin.notification.index') }}"
+                           class="nav-link {{ printActiveAdminSidebarLink(['app.admin.notification.']) }}">
+                            <i class="nav-icon fas fa-bell"></i>
+                            <p>
+                                Notifications
+                            </p>
+                        </a>
+                    </li>
+                {% endif %}
             </ul>
         </li>
         <li class="nav-item">

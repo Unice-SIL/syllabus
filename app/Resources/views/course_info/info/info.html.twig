@@ -1,23 +1,23 @@
 {% extends 'course_info/layout.html.twig' %}
 
 {% block subContent %}
-
-    <div class="card my-2 shadow card-syllabus"
-         data-view-url="{{ path('app.course_info.info.info', {'id': courseInfo.id }) }}"
-         data-form-url="{{ path('app.course_info.info.info.edit', {'id': courseInfo.id }) }}"
-    >
-        <div class="card-header">
-            <div class="d-flex justify-content-between">
-                <h3>Informations pratiques</h3>
-                <button type="button" class="edit-button btn btn-primary rounded">
-                    Mettre à jour
-                </button>
+    <div class="pt-3">
+        <div class="card my-2 shadow card-syllabus"
+             data-view-url="{{ path('app.course_info.info.info', {'id': courseInfo.id }) }}"
+             data-form-url="{{ path('app.course_info.info.info.edit', {'id': courseInfo.id }) }}"
+        >
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <h3>Informations pratiques</h3>
+                    <button type="button" class="edit-button btn btn-primary rounded">
+                        Mettre à jour
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
             </div>
         </div>
-        <div class="card-body">
-        </div>
     </div>
-
 {% endblock %}
 
 {% block javascripts %}
@@ -55,8 +55,7 @@
                 });
             });
 
-            function formSubmit(element, action)
-            {
+            function formSubmit(element, action) {
                 var card = element.closest('.toggle-focus');
                 var section = card.parent('section');
                 var forms = card.find('form');
@@ -72,7 +71,7 @@
                     enctype: 'multipart/form-data',
                     processData: false, // Preventing default serialization.
                     contentType: false, // No auto “contentType” header.
-                    data: new FormData( forms[0] ),
+                    data: new FormData(forms[0]),
                     method: "POST",
                     dataType: "html",
                     beforeSend: function () {
@@ -85,7 +84,7 @@
                         $(card).removeClass('active');
                         section.html(data);
                     }
-                }).always( function () {
+                }).always(function () {
                     focusSubmit.attr("disabled", false).html(focusSubmitContent);
                     focusCancel.attr("disabled", false).html(focusCancelContent);
                 });

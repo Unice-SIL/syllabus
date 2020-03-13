@@ -16,13 +16,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class PermissionController
+ * Class CoursePermissionController
  * @package AppBundle\Controller\CourseInfo
  *
  * @Route("/course-info/{id}/permissions", name="app.course_info.permission.")
  * @Security("is_granted('WRITE', courseInfo)")
  */
-class PermissionController extends AbstractController
+class CoursePermissionController extends AbstractController
 {
     /**
      * @Route("/", name="index")
@@ -45,7 +45,7 @@ class PermissionController extends AbstractController
                 $coursePermissionManager->create($coursePermission);
 
                 $this->addFlash('success', 'La permission a été ajoutée avec succès');
-                return $this->redirectToRoute('app_course_permission', ['id' => $courseInfo->getId()]);
+                return $this->redirectToRoute('app.course_info.permission.index', ['id' => $courseInfo->getId()]);
             }
             $isValid = false;
         }

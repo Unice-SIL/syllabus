@@ -14,7 +14,7 @@ use JMS\Serializer\Annotation as JMS;
  * Class CriticalAchievement
  * @package AppBundle\Entity
  * @ORM\Table(name="critical_achievement")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\CriticalAchievementDoctrineRepository")
  */
 class CriticalAchievement
 {
