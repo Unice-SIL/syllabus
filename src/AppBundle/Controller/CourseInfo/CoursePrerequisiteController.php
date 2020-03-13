@@ -1,8 +1,6 @@
 <?php
 
-
 namespace AppBundle\Controller\CourseInfo;
-
 
 use AppBundle\Entity\CoursePrerequisite;
 use AppBundle\Form\CourseInfo\CourseAchievement\CoursePrerequisiteType;
@@ -15,13 +13,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class PrerequisiteController
+ * Class CoursePrerequisiteController
  * @package AppBundle\Controller\CourseInfo
- *
  * @Route("/course-info/prerequisite/{id}", name="app.course_info.prerequisite.")
  * @Security("is_granted('WRITE', prerequisite)")
  */
-class PrerequisiteController extends AbstractController
+class CoursePrerequisiteController extends AbstractController
 {
     /**
      * @Route("/edit", name="edit"))
@@ -45,7 +42,7 @@ class PrerequisiteController extends AbstractController
             ]);
         }
 
-        $render = $this->get('twig')->render('course_info/objectives_course/form/edit_prerequisite.html.twig', [
+        $render = $this->get('twig')->render('course_info/prerequisites/form/edit_prerequisite.html.twig', [
             'form' => $form->createView()
         ]);
 
@@ -66,7 +63,7 @@ class PrerequisiteController extends AbstractController
     public function deletePrerequisitesAction(CoursePrerequisite $prerequisite, Request $request,
                                               CoursePrerequisiteManager $coursePrerequisiteManager)
     {
-        if (!$prerequisite instanceof CoursePrerequisite) {
+        if (!$prerequisite instanceof CoursePrerequisiteController) {
             return $this->json([
                 'status' => false,
                 'content' => "Une erreur est survenue : le prérequis n'existe pas"
@@ -82,7 +79,7 @@ class PrerequisiteController extends AbstractController
                 'content' => null
             ]);
         }
-        $render = $this->get('twig')->render('course_info/objectives_course/form/remove_prerequisite.html.twig', [
+        $render = $this->get('twig')->render('course_info/prerequisites/form/remove_prerequisite.html.twig', [
             'form' => $form->createView()
         ]);
         return $this->json([
@@ -90,4 +87,5 @@ class PrerequisiteController extends AbstractController
             'content' => $render
         ]);
     }
+
 }

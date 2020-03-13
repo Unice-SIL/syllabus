@@ -265,6 +265,7 @@ app:
     presentation: Présentation Générale
     activities: Contenu et activités
     objectives: Objectifs du cours
+    prerequisites: Prérequis / Rémédiation
     evaluation: Modalités d'évaluation
     equipment: Matériel et ressources
     info: Informations pratiques
