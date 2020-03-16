@@ -59,7 +59,6 @@ class EquipmentController extends AbstractController
     /**
      * @Route("/delete", name="delete"))
      *
-     * @param CourseInfo $courseInfo
      * @param CourseResourceEquipment $resourceEquipment
      * @param Request $request
      * @param CourseResourceEquipmentManager $courseResourceEquipmentManager
