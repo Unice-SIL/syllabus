@@ -47,7 +47,11 @@ class TutoringResourceController extends AbstractController
             ]);
         }
 
+<<<<<<< HEAD
         $render = $this->get('twig')->render('course_info/prerequisites/form/edit_tutoring_resources.html.twig', [
+=======
+        $render = $this->get('twig')->render('course_info/prerequisite/form/edit_tutoring_resources.html.twig', [
+>>>>>>> permission
             'form' => $form->createView()
         ]);
 
@@ -84,7 +88,11 @@ class TutoringResourceController extends AbstractController
                 'content' => null
             ]);
         }
+<<<<<<< HEAD
         $render = $this->get('twig')->render('course_info/prerequisites/form/remove_tutoring_resources.html.twig', [
+=======
+        $render = $this->get('twig')->render('course_info/prerequisite/form/remove_tutoring_resources.html.twig', [
+>>>>>>> permission
             'form' => $form->createView()
         ]);
         return $this->json([
