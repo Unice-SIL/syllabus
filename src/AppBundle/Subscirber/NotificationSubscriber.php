@@ -5,6 +5,9 @@ namespace AppBundle\Subscirber;
 use AppBundle\Entity\Notification;
 use AppBundle\Helper\AppHelper;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Events;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -15,6 +18,7 @@ use Symfony\Component\Security\Csrf\TokenGenerator\UriSafeTokenGenerator;
 
 class NotificationSubscriber implements EventSubscriberInterface
 {
+    const NOTIFICATIONS_CACHE_KEY = 'app.notifications';
     /**
      * @var SessionInterface
      */
@@ -68,7 +72,18 @@ class NotificationSubscriber implements EventSubscriberInterface
             return;
         }
         $newAdminNotifications = [];
-        $adminNotifications = $this->em->getRepository(Notification::class)->findBy([], ['updatedAt' => 'DESC']);
+        $cache = new FilesystemAdapter();
+
+        $notificationsCacheItem = $cache->getItem(self::NOTIFICATIONS_CACHE_KEY);
+
+        if (!$notificationsCacheItem->isHit()) {
+
+            $notificationsCacheItem->set($this->em->getRepository(Notification::class)->findBy([], ['updatedAt' => 'DESC']));
+            $cache->save($notificationsCacheItem);
+        }
+
+        $adminNotifications = $notificationsCacheItem->get();
+
 
         if (is_array($adminNotifications)) {
 
