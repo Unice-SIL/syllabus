@@ -83,6 +83,9 @@ ROLE_API_DOMAIN_VIEW: Voir un domaine
 ROLE_API_EQUIPMENT: Gestion des équipements
 ROLE_API_EQUIPMENT_LIST: Lister les équipements
 ROLE_API_EQUIPMENT_VIEW: Voir un équipement
+ROLE_API_LANGUAGE: Gestion des langages
+ROLE_API_LANGUAGE_LIST: Lister les langages
+ROLE_API_LANGUAGE_VIEW: Voir un langage
 collective: Collectif
 groups: En groupe
 individual: Individuel

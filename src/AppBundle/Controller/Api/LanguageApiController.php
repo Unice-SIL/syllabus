@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
  * Class LanguageApiController
  * @package AppBundle\Controller\Api
  * @Route("/api/language", name="api.language.")
+ * @IsGranted("ROLE_API_LANGUAGE")
  */
 class LanguageApiController extends Controller
 {

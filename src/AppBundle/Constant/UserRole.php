@@ -397,25 +397,25 @@ class UserRole
                 self::ROLE_API_ACTIVITY_TYPE_VIEW,
                 self::ROLE_API_ACTIVITY_TYPE_LIST,
             ],
+            self::ROLE_API_CAMPUS => [
+                self::ROLE_API_CAMPUS_VIEW,
+                self::ROLE_API_CAMPUS_LIST,
+            ],
             self::ROLE_API_CRITICAL_ACHIEVEMENT => [
                 self::ROLE_API_CRITICAL_ACHIEVEMENT_VIEW,
                 self::ROLE_API_CRITICAL_ACHIEVEMENT_LIST,
-            ],
-            self::ROLE_API_LANGUAGE => [
-                self::ROLE_API_LANGUAGE_VIEW,
-                self::ROLE_API_LANGUAGE_LIST,
-            ],
-            self::ROLE_API_EQUIPMENT => [
-                self::ROLE_API_EQUIPMENT_VIEW,
-                self::ROLE_API_EQUIPMENT_LIST,
             ],
             self::ROLE_API_DOMAIN => [
                 self::ROLE_API_DOMAIN_VIEW,
                 self::ROLE_API_DOMAIN_LIST,
             ],
-            self::ROLE_API_CAMPUS => [
-                self::ROLE_API_CAMPUS_VIEW,
-                self::ROLE_API_CAMPUS_LIST,
+            self::ROLE_API_EQUIPMENT => [
+                self::ROLE_API_EQUIPMENT_VIEW,
+                self::ROLE_API_EQUIPMENT_LIST,
+            ],
+            self::ROLE_API_LANGUAGE => [
+                self::ROLE_API_LANGUAGE_VIEW,
+                self::ROLE_API_LANGUAGE_LIST,
             ],
             self::ROLE_API_PERIOD => [
                 self::ROLE_API_PERIOD_VIEW,
