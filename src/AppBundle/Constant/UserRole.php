@@ -110,7 +110,7 @@ class UserRole
     /*====================== API ROLES ==================*/
     const ROLE_API = 'ROLE_API';
 
-    const ROLE_API_COURSE = 'ROLE_API_COURSE_VIEW';
+    const ROLE_API_COURSE = 'ROLE_API_COURSE';
     const ROLE_API_COURSE_VIEW = 'ROLE_API_COURSE_VIEW';
     const ROLE_API_COURSE_LIST = 'ROLE_API_COURSE_LIST';
     const ROLE_API_COURSE_CREATE = 'ROLE_API_COURSE_CREATE';

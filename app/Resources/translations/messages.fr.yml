@@ -77,6 +77,11 @@ ROLE_API_CRITICAL_ACHIEVEMENT_VIEW: Voir un apprentissage critique
 ROLE_API_CAMPUS: Gestion des campus
 ROLE_API_CAMPUS_LIST: Lister les campus
 ROLE_API_CAMPUS_VIEW: Voir un campus
+ROLE_API_COURSE: Gestion des cours
+ROLE_API_COURSE_LIST: Lister les cours
+ROLE_API_COURSE_VIEW: Voir un cours
+ROLE_API_COURSE_CREATE: Créer un cours
+ROLE_API_COURSE_UPDATE: Modifier un cours
 ROLE_API_DOMAIN: Gestion des domaines
 ROLE_API_DOMAIN_LIST: Lister les domaines
 ROLE_API_DOMAIN_VIEW: Voir un domaine
