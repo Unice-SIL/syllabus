@@ -54,11 +54,17 @@ class ActivityModeDoctrineRepository extends ServiceEntityRepository
     {
         $qb = $this->getIndexQueryBuilder();
 
+
         foreach ($config['filters'] as $filter => $value) {
             $valueName = 'value'.$filter;
-            $qb->andWhere($qb->expr()->eq('am.' . $filter, ':' . $valueName))
-                ->setParameter($valueName, $value)
-            ;
+            switch ($filter){
+                case 'label':
+                    $qb->andWhere($qb->expr()->like('am.' . $filter, ':' . $valueName));
+                    $value = "%{$value}%";
+                    break;
+                default:
+                    $qb->andWhere($qb->expr()->eq('am.' . $filter, ':' . $valueName));
+            }$qb->setParameter($valueName, $value);
         }
 
         return $qb;

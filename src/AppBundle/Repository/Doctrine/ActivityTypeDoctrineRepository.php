@@ -56,9 +56,15 @@ class ActivityTypeDoctrineRepository extends ServiceEntityRepository
 
         foreach ($config['filters'] as $filter => $value) {
             $valueName = 'value'.$filter;
-            $qb->andWhere($qb->expr()->eq('at.' . $filter, ':' . $valueName))
-                ->setParameter($valueName, $value)
-            ;
+            switch ($filter){
+                case 'label':
+                    $qb->andWhere($qb->expr()->like('at.' . $filter, ':' . $valueName));
+                    $value = "%{$value}%";
+                    break;
+                default:
+                    $qb->andWhere($qb->expr()->eq('at.' . $filter, ':' . $valueName));
+            }
+            $qb->setParameter($valueName, $value);
         }
 
         return $qb;

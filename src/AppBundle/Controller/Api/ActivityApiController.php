@@ -19,6 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class ActivityApiController
  * @package AppBundle\Controller\Api
  * @Route("/api/activity", name="app.api.activity.")
+ * @IsGranted("ROLE_API_ACTIVITY")
  */
 class ActivityApiController extends Controller
 {

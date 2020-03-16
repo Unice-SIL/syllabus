@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
  * Class ActivityModeApiController
  * @package AppBundle\Controller\Api
  * @Route("/api/activity-mode", name="api.activity_mode.")
+ * @IsGranted("ROLE_API_ACTIVITY_MODE")
  */
 class ActivityModeApiController extends Controller
 {

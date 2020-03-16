@@ -657,7 +657,6 @@ class CourseInfo
 
     /**
      * @var string|null
-     * @JMS\Groups(groups={"api"})
      */
     private $previousImage = null;
 

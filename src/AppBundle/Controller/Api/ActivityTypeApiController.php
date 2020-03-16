@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
  * Class ActivityTypeApiController
  * @package AppBundle\Controller\Api
  * @Route("/api/activity-type", name="api.activity_type.")
+ * @IsGranted("ROLE_API_ACTIVITY_TYPE")
  */
 class ActivityTypeApiController extends Controller
 {
