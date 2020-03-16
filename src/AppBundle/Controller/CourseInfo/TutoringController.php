@@ -34,12 +34,6 @@ class TutoringController extends AbstractController
      */
     public function addTutoringAction(CourseInfo $courseInfo, CourseInfoManager $manager, Request $request)
     {
-        if (!$courseInfo instanceof CourseInfo) {
-            return $this->json([
-                'status' => false,
-                'content' => "Une erreur est survenue : Le cours n'existe pas."
-            ]);
-        }
         $form = $this->createForm(CourseAssistTutoringType::class, $courseInfo);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -54,7 +48,7 @@ class TutoringController extends AbstractController
             ]);
         }
 
-        $render = $this->get('twig')->render('course_info/objectives_course/form/assist_tutoring.html.twig', [
+        $render = $this->get('twig')->render('course_info/prerequisite/form/assist_tutoring.html.twig', [
             'courseInfo' => $courseInfo,
             'form' => $form->createView()
         ]);
@@ -86,7 +80,7 @@ class TutoringController extends AbstractController
         $courseInfo->setTutoring($action);
         $manager->update($courseInfo);
 
-        $render = $this->get('twig')->render('course_info/objectives_course/view/tutoring_resources.html.twig', [
+        $render = $this->get('twig')->render('course_info/prerequisite/view/tutoring_resources.html.twig', [
             'courseInfo' => $courseInfo
         ]);
 

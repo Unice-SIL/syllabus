@@ -1,10 +1,11 @@
-{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('app.course_info.objectives.prerequisite.add', {'id': courseInfo.id }), 'data-card': 'card-prerequisite'}}) }}
+{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('app.course_info.tutoring_resource.edit',
+    {'id': form.vars.data.id }), 'data-card': 'card-tutoring-resources'}}) }}
 {{ form_errors(form) }}
 <div class="row mt-3">
     <div class="col">
         <div>
             <div>
-                <label>Avant le début du cours, l'étudiant doit…</label>
+                <label>Si l'étudiant rencontre des difficultés, il peut…</label>
                 {% if form.description is defined %}
                     {{ form_widget(form.description) }}
                 {% endif %}

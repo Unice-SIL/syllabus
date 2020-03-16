@@ -66,6 +66,14 @@
                 </li>
                 <li class="nav-item has-treeview">
                     <a class="nav-link menu-tab"
+                       id="menu-prerequisite"
+                       href="{{ path('app.course_info.prerequisite.index', { 'id': courseInfo.id }) }}">
+                        <i class="fas fa-bullseye"></i>
+                        <p>Prérequis</p>
+                    </a>
+                </li>
+                <li class="nav-item has-treeview">
+                    <a class="nav-link menu-tab"
                        id="menu-evaluation"
                        href="{{ path('app.course_info.evaluation.index', { 'id': courseInfo.id }) }}">
                         <i class="fas fa-medal"></i>
