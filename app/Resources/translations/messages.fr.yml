@@ -216,6 +216,7 @@ app:
       activities:
         evaluable: Évaluable
         evaluation_rate: Coefficient (%)
+        label: Séquences et activités
         mode: Mode
         title: Nom de l'activité
         type: Type
@@ -227,6 +228,11 @@ app:
       info:
         agenda: Informations dont vous disposez sur le calendrier du cours, des examens…
         organization: Organisation du cours
+      presentation:
+        ecue: "ECUE appartenant à :"
+        label: Présentation du cours
+        ue_giving: UE donnant
+        ue_include: UE comprenant
       objectives:
         achievements_list: Liste des objectifs
         critical_achievements_list: Liste des apprentissages
