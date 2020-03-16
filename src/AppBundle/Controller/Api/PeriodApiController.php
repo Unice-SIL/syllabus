@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
  * Class PeriodApiController
  * @package AppBundle\Controller\Api
  * @Route("/api/period", name="api.period.")
+ * @IsGranted("ROLE_API_PERIOD")
  */
 class PeriodApiController extends Controller
 {

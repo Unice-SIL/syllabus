@@ -86,6 +86,9 @@ ROLE_API_EQUIPMENT_VIEW: Voir un équipement
 ROLE_API_LANGUAGE: Gestion des langages
 ROLE_API_LANGUAGE_LIST: Lister les langages
 ROLE_API_LANGUAGE_VIEW: Voir un langage
+ROLE_API_PERIOD: Gestion des périodes
+ROLE_API_PERIOD_LIST: Lister les périodes
+ROLE_API_PERIOD_VIEW: Voir une période
 collective: Collectif
 groups: En groupe
 individual: Individuel
