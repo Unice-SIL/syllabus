@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
  * Class EquipmentApiController
  * @package AppBundle\Controller\Api
  * @Route("/api/equipment", name="api.equipment.")
+ * @IsGranted("ROLE_API_EQUIPMENT")
  */
 class EquipmentApiController extends Controller
 {

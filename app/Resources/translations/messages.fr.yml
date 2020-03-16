@@ -80,6 +80,9 @@ ROLE_API_CAMPUS_VIEW: Voir un campus
 ROLE_API_DOMAIN: Gestion des domaines
 ROLE_API_DOMAIN_LIST: Lister les domaines
 ROLE_API_DOMAIN_VIEW: Voir un domaine
+ROLE_API_EQUIPMENT: Gestion des équipements
+ROLE_API_EQUIPMENT_LIST: Lister les équipements
+ROLE_API_EQUIPMENT_VIEW: Voir un équipement
 collective: Collectif
 groups: En groupe
 individual: Individuel

@@ -58,8 +58,15 @@ class EquipmentDoctrineRepository extends ServiceEntityRepository
 
         foreach ($config['filters'] as $filter => $value) {
             $valueName = 'value'.$filter;
-            $qb->andWhere($qb->expr()->eq('e.' . $filter, ':' . $valueName))
-                ->setParameter($valueName, $value);
+            switch ($filter){
+                case 'label':
+                    $qb->andWhere($qb->expr()->like('e.' . $filter, ':' . $valueName));
+                    $value = "%{$value}%";
+                    break;
+                default:
+                    $qb->andWhere($qb->expr()->eq('e.' . $filter, ':' . $valueName));
+            }
+            $qb->setParameter($valueName, $value);
         }
 
         return $qb;
