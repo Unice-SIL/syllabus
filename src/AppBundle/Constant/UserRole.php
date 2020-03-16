@@ -89,6 +89,12 @@ class UserRole
     const ROLE_ADMIN_USER_CREATE = 'ROLE_ADMIN_USER_CREATE';
     const ROLE_ADMIN_USER_UPDATE = 'ROLE_ADMIN_USER_UPDATE';
 
+    // LEVELS
+    const ROLE_ADMIN_LEVEL = 'ROLE_ADMIN_LEVEL';
+    const ROLE_ADMIN_LEVEL_LIST = 'ROLE_ADMIN_LEVEL_LIST';
+    const ROLE_ADMIN_LEVEL_CREATE = 'ROLE_ADMIN_LEVEL_CREATE';
+    const ROLE_ADMIN_LEVEL_UPDATE = 'ROLE_ADMIN_LEVEL_UPDATE';
+
 
     /*====================== API ROLES ==================*/
     const ROLE_API = 'ROLE_API';
@@ -179,6 +185,10 @@ class UserRole
         self::ROLE_ADMIN_USER_LIST,
         self::ROLE_ADMIN_USER_CREATE,
         self::ROLE_ADMIN_USER_UPDATE,
+        self::ROLE_ADMIN_LEVEL,
+        self::ROLE_ADMIN_LEVEL_LIST,
+        self::ROLE_ADMIN_LEVEL_CREATE,
+        self::ROLE_ADMIN_LEVEL_UPDATE,
         self::ROLE_API,
         self::ROLE_API_COURSE,
         self::ROLE_API_COURSE_VIEW,
@@ -253,6 +263,11 @@ class UserRole
                 self::ROLE_ADMIN_LANGUAGE_LIST,
                 self::ROLE_ADMIN_LANGUAGE_CREATE,
                 self::ROLE_ADMIN_LANGUAGE_UPDATE
+            ],
+            self::ROLE_ADMIN_LEVEL => [
+                self::ROLE_ADMIN_LEVEL_LIST,
+                self::ROLE_ADMIN_LEVEL_CREATE,
+                self::ROLE_ADMIN_LEVEL_UPDATE
             ],
             self::ROLE_ADMIN_PERIOD => [
                 self::ROLE_ADMIN_PERIOD_LIST,

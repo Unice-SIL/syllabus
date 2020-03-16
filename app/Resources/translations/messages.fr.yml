@@ -260,6 +260,10 @@ app:
         parents: Cours parents
         title: Titre
         synchronized: Synchronisé
+    level:
+      label:
+        label: Label
+        obsolete: Obsolète
     year:
       label:
         label: Année
