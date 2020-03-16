@@ -72,14 +72,17 @@ class CriticalAchievementDoctrineRepository extends ServiceEntityRepository
             $valueName = 'value'.$filter;
             switch ($filter) {
                 case 'courseId':
-                    $qb->andWhere($qb->expr()->eq('c.id', ':'.$valueName))
-                        ->setParameter($valueName, $value);
+                    $qb->andWhere($qb->expr()->eq('c.id', ':'.$valueName));
+                    break;
+                case 'label':
+                    $value = "%{$value}%";
+                    $qb->andWhere($qb->expr()->like('ca.' . $filter, ':' . $valueName));
                     break;
                 default:
-                    $qb->andWhere($qb->expr()->eq('ca.' . $filter, ':' . $valueName))
-                        ->setParameter($valueName, $value);
+                    $qb->andWhere($qb->expr()->eq('ca.' . $filter, ':' . $valueName));
                     break;
             }
+            $qb->setParameter($valueName, $value);
         }
         return $qb;
     }

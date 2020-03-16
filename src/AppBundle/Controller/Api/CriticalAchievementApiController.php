@@ -19,6 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class CriticalAchievementApiController
  * @package AppBundle\Controller\Api
  * @Route("/api/critical-achievement", name="app.api.critical_achievement.")
+ * @IsGranted("ROLE_API_CRITICAL_ACHIEVEMENT")
  */
 class CriticalAchievementApiController extends Controller
 {
