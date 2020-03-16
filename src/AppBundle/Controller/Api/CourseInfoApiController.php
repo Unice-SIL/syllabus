@@ -23,6 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class CourseInfoApiController
  * @package AppBundle\Controller\Api
  * @Route("/api/course-info", name="app.course_info.")
+ * @IsGranted("ROLE_API_COURSE_INFO")
  */
 class CourseInfoApiController extends Controller
 {
@@ -79,7 +80,7 @@ class CourseInfoApiController extends Controller
      *     type="integer",
      *     description="The limit of results per page"
      * )
-     * @IsGranted("ROLE_API_GET_COURSES_INFO")
+     * @IsGranted("ROLE_API_COURSE_INFO_LIST")
      */
     public function indexAction(Request $request, ApiHelper $apiHelper, CourseInfoDoctrineRepository $courseInfoDoctrineRepository)
     {
@@ -108,7 +109,7 @@ class CourseInfoApiController extends Controller
      *     type="string",
      *     description="The id of the expected course info"
      * )
-     * @IsGranted("ROLE_API_GET_COURSE_INFO")
+     * @IsGranted("ROLE_API_COURSE_INFO_VIEW")
      * @param CourseInfo $courseInfo
      * @param SerializerInterface $serializer
      * @return Response
@@ -137,7 +138,7 @@ class CourseInfoApiController extends Controller
      *     description="Save the course info from the body request",
      *     @Model(type=CourseInfo::class)
      * )
-     * @IsGranted("ROLE_API_POST_COURSE_INFO")
+     * @IsGranted("ROLE_API_COURSE_INFO_CREATE")
      */
     public function postAction(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, ApiHelper $apiHelper)
     {
@@ -181,7 +182,7 @@ class CourseInfoApiController extends Controller
      *     type="string",
      *     description="The id of the expected course info"
      * )
-     * @IsGranted("ROLE_API_PUT_COURSE_INFO")
+     * @IsGranted("ROLE_API_COURSE_INFO_UPDATE")
      */
     public function putAction(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, CourseInfo $courseInfo, ApiHelper $apiHelper)
     {

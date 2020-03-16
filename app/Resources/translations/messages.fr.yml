@@ -82,6 +82,11 @@ ROLE_API_COURSE_LIST: Lister les cours
 ROLE_API_COURSE_VIEW: Voir un cours
 ROLE_API_COURSE_CREATE: Créer un cours
 ROLE_API_COURSE_UPDATE: Modifier un cours
+ROLE_API_COURSE_INFO: Gestion des syllabus
+ROLE_API_COURSE_INFO_LIST: Lister les syllabus
+ROLE_API_COURSE_INFO_VIEW: Voir un syllabus
+ROLE_API_COURSE_INFO_CREATE: Créer un syllabus
+ROLE_API_COURSE_INFO_UPDATE: Modifier un syllabus
 ROLE_API_DOMAIN: Gestion des domaines
 ROLE_API_DOMAIN_LIST: Lister les domaines
 ROLE_API_DOMAIN_VIEW: Voir un domaine
