@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
  * Class DomainApiController
  * @package AppBundle\Controller\Api
  * @Route("/api/domain", name="api.domain.")
+ * @IsGranted("ROLE_API_DOMAIN")
  */
 class DomainApiController extends Controller
 {
