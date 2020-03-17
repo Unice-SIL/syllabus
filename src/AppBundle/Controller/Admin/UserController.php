@@ -116,11 +116,11 @@ class UserController extends AbstractController
 
         if ($mailer->sendResetPasswordMessage($user, $token)) {
             $this->addFlash('success', 'Le mail a bien été envoyé.');
-            return $this->redirectToRoute('app_admin_user_edit', ['id' => $user->getId()]);
+            return $this->redirectToRoute('app.admin.user.edit', ['id' => $user->getId()]);
         }
 
         $this->addFlash('danger', 'Un problème est survenu lors de l\'envoie du mail.');
-        return $this->redirectToRoute('app_admin_user_edit', ['id' => $user->getId()]);
+        return $this->redirectToRoute('app.admin.user.edit', ['id' => $user->getId()]);
 
     }
 }

@@ -3,9 +3,9 @@
 namespace AppBundle\Controller\Api;
 
 
-use AppBundle\Entity\Language;
+use AppBundle\Entity\ActivityMode;
 use AppBundle\Helper\ApiHelper;
-use AppBundle\Repository\Doctrine\LanguageDoctrineRepository;
+use AppBundle\Repository\Doctrine\ActivityModeDoctrineRepository;
 use JMS\Serializer\SerializationContext;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use JMS\Serializer\SerializerInterface;
@@ -17,48 +17,48 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class LanguageApiController
+ * Class ActivityModeApiController
  * @package AppBundle\Controller\Api
- * @Route("/api/language", name="api.language.")
- * @IsGranted("ROLE_API_LANGUAGE")
+ * @Route("/api/activity-mode", name="api.activity_mode.")
+ * @IsGranted("ROLE_API_ACTIVITY_MODE")
  */
-class LanguageApiController extends Controller
+class ActivityModeApiController extends Controller
 {
 
     /**
      * @Route("", name="index", methods={"GET"})
      * @param Request $request
      * @param ApiHelper $apiHelper
-     * @param LanguageDoctrineRepository $languageDoctrineRepository
+     * @param ActivityModeDoctrineRepository $activityModeDoctrineRepository
      * @return JsonResponse
      * @SWG\Response(
      *     response=200,
-     *     description="Returns the list of language records",
+     *     description="Returns the list of activity mode records",
      * )
      * @SWG\Parameter(
      *     name="label",
      *     in="query",
      *     type="string",
-     *     description="A field used to filter languages"
+     *     description="A field used to filter activity mode records"
      * )
      * @SWG\Parameter(
      *     name="obsolete",
      *     in="query",
      *     type="boolean",
-     *     description="A field used to filter languages"
+     *     description="A field used to filter activity mode records"
      * )
-     * @IsGranted("ROLE_API_LANGUAGE_LIST")
+     * @IsGranted("ROLE_API_ACTIVITY_MODE_LIST")
      */
-    public function indexAction(Request $request, ApiHelper $apiHelper, LanguageDoctrineRepository $languageDoctrineRepository)
+    public function indexAction(Request $request, ApiHelper $apiHelper, ActivityModeDoctrineRepository $activityModeDoctrineRepository)
     {
         $config = $apiHelper->createConfigFromRequest($request, [
             'validFilterKeys' => ['label' => 'text', 'obsolete' => 'boolean']
         ]);
 
-        $qb = $languageDoctrineRepository->findQueryBuilderForApi($config);
+        $qb = $activityModeDoctrineRepository->findQueryBuilderForApi($config);
 
         $response = $apiHelper->setDataAndGetResponse($qb, $config, [
-            'groups' => ['default', 'language']
+            'groups' => ['default', 'activity_mode']
         ]);
 
         return $this->json($response);
@@ -68,24 +68,24 @@ class LanguageApiController extends Controller
      * @Route("/{id}", name="show", methods={"GET"})
      * @SWG\Response(
      *     response=200,
-     *     description="Returns a language by id",
+     *     description="Returns a activity mode by id",
      * )
      * @SWG\Parameter(
      *     name="id",
      *     in="path",
      *     type="string",
-     *     description="The id of the expected language"
+     *     description="The id of the expected activity mode"
      * )
-     * @IsGranted("ROLE_API_LANGUAGE_VIEW")
-     * @param Language $language
+     * @IsGranted("ROLE_API_ACTIVITY_MODE_VIEW")
+     * @param ActivityMode $activityMode
      * @param SerializerInterface $serializer
      * @return Response
      */
-    public function showAction(Language $language, SerializerInterface $serializer)
+    public function showAction(ActivityMode $activityMode, SerializerInterface $serializer)
     {
-        $language = $serializer->serialize($language, 'json', SerializationContext::create()->setGroups(['default', 'language']));
+        $activityMode = $serializer->serialize($activityMode, 'json', SerializationContext::create()->setGroups(['default', 'activity_mode']));
 
-        $response = new Response($language, Response::HTTP_OK);
+        $response = new Response($activityMode, Response::HTTP_OK);
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;

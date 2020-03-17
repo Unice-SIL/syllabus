@@ -61,32 +61,49 @@ ROLE_ADMIN_USER: Gestion des utilisateurs
 ROLE_ADMIN_USER_LIST: Consulter la liste des utilisateurs
 ROLE_ADMIN_USER_CREATE: Créer un utilisateur
 ROLE_ADMIN_USER_UPDATE: Modifier un utilsateur
-ROLE_API: Utilisateur de l'API
-ROLE_API_GET_COURSE: Récupérer un cours par son id
-ROLE_API_GET_COURSES: Récupérer une liste de cours
-ROLE_API_POST_COURSE: Créer un cours
-ROLE_API_PUT_COURSE: Mettre à jour un cours
-ROLE_API_GET_COURSE_INFO: Récupérer un syllabus par son id
-ROLE_API_GET_COURSES_INFO: Récupérer une liste de syllabus
-ROLE_API_POST_COURSE_INFO: Créer un syllabus
-ROLE_API_PUT_COURSE_INFO: Mettre à jour un syllabus
-ROLE_API_GET_COURSE_PERMISSION: Récupérer une permission par son id
-ROLE_API_GET_COURSE_PERMISSIONS: Récupérer une liste de permissions
-ROLE_API_POST_COURSE_PERMISSION: Créer une permission
-ROLE_API_DELETE_COURSE_PERMISSION: Supprimer une permission
-ROLE_API_GET_YEAR: Récupérer une année par son id
-ROLE_API_GET_YEARS: Récupérer une liste d'années
-ROLE_API_POST_YEAR: Créer une anée
-ROLE_API_PUT_YEAR: Mettre à jour une année
-ROLE_API_GET_CAMPUS: Récupérer un campus par son id
-ROLE_API_GET_CAMPUSES: Récupérer une liste de campus
-ROLE_API_GET_PERIOD: Récupérer une période par son id
-ROLE_API_GET_PERIODS: Récupérer une liste de périodes
-ROLE_API_GET_DOMAIN: Récupérer un domaine par son id
-ROLE_API_GET_DOMAINS: Récupérer une liste de domaines
-ROLE_API_GET_LANGUAGE: Récupérer une langue par son id
-ROLE_API_GET_LANGUAGES: Récupérer une liste de langues
-
+ROLE_API: Accès à l'API
+ROLE_API_ACTIVITY: Gestion des Activités
+ROLE_API_ACTIVITY_LIST: Lister les activités
+ROLE_API_ACTIVITY_VIEW: Voir une activité
+ROLE_API_ACTIVITY_MODE: Gestion des modes d'activités
+ROLE_API_ACTIVITY_MODE_LIST: Lister les modes d'activités
+ROLE_API_ACTIVITY_MODE_VIEW: Voir un mode d'activité
+ROLE_API_ACTIVITY_TYPE: Gestion des types d'activités
+ROLE_API_ACTIVITY_TYPE_LIST: Lister les types d'activités
+ROLE_API_ACTIVITY_TYPE_VIEW: Voir un type d'activité
+ROLE_API_CRITICAL_ACHIEVEMENT: Gestion des apprentissages critiques
+ROLE_API_CRITICAL_ACHIEVEMENT_LIST: Lister les apprentissages critiques
+ROLE_API_CRITICAL_ACHIEVEMENT_VIEW: Voir un apprentissage critique
+ROLE_API_CAMPUS: Gestion des campus
+ROLE_API_CAMPUS_LIST: Lister les campus
+ROLE_API_CAMPUS_VIEW: Voir un campus
+ROLE_API_COURSE: Gestion des cours
+ROLE_API_COURSE_LIST: Lister les cours
+ROLE_API_COURSE_VIEW: Voir un cours
+ROLE_API_COURSE_CREATE: Créer un cours
+ROLE_API_COURSE_UPDATE: Modifier un cours
+ROLE_API_COURSE_INFO: Gestion des syllabus
+ROLE_API_COURSE_INFO_LIST: Lister les syllabus
+ROLE_API_COURSE_INFO_VIEW: Voir un syllabus
+ROLE_API_COURSE_INFO_CREATE: Créer un syllabus
+ROLE_API_COURSE_INFO_UPDATE: Modifier un syllabus
+ROLE_API_DOMAIN: Gestion des domaines
+ROLE_API_DOMAIN_LIST: Lister les domaines
+ROLE_API_DOMAIN_VIEW: Voir un domaine
+ROLE_API_EQUIPMENT: Gestion des équipements
+ROLE_API_EQUIPMENT_LIST: Lister les équipements
+ROLE_API_EQUIPMENT_VIEW: Voir un équipement
+ROLE_API_LANGUAGE: Gestion des langages
+ROLE_API_LANGUAGE_LIST: Lister les langages
+ROLE_API_LANGUAGE_VIEW: Voir un langage
+ROLE_API_PERIOD: Gestion des périodes
+ROLE_API_PERIOD_LIST: Lister les périodes
+ROLE_API_PERIOD_VIEW: Voir une période
+ROLE_API_YEAR: Gestion des années
+ROLE_API_YEAR_LIST: Lister les années
+ROLE_API_YEAR_VIEW: Voir une année
+ROLE_API_YEAR_CREATE: Créer une année
+ROLE_API_YEAR_UPDATE: Modifier une année
 collective: Collectif
 groups: En groupe
 individual: Individuel
