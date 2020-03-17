@@ -1,6 +1,15 @@
 ROLE_USER: Utilisateur
 ROLE_ADMIN: Administrateur
 ROLE_SUPER_ADMIN: Super Administrateur
+ROLE_ADMIN_COURSE: Gestion des cours
+ROLE_ADMIN_COURSE_LIST: Consulter la liste des cours
+ROLE_ADMIN_COURSE_VIEW: Consulter un cours
+ROLE_ADMIN_COURSE_CREATE: Créer un cours
+ROLE_ADMIN_COURSE_UPDATE: Modifier un cours
+ROLE_ADMIN_COURSE_INFO: Gestion des syllabus
+ROLE_ADMIN_COURSE_INFO_LIST: Consulter la liste des syllabus
+ROLE_ADMIN_COURSE_INFO_CREATE: Créer un syllabus
+ROLE_ADMIN_COURSE_INFO_UPDATE: Modifier un syllabus
 ROLE_ADMIN_YEAR: Gestion des années
 ROLE_ADMIN_YEAR_LIST: Consulter la liste des années
 ROLE_ADMIN_YEAR_CREATE: Créer une année

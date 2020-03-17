@@ -17,6 +17,19 @@ class UserRole
     /*====================== ADMIN ROLES ==================*/
     const ROLE_ADMIN = 'ROLE_ADMIN';
 
+    // COURSE
+    const ROLE_ADMIN_COURSE = 'ROLE_ADMIN_COURSE';
+    const ROLE_ADMIN_COURSE_LIST = 'ROLE_ADMIN_COURSE_LIST';
+    const ROLE_ADMIN_COURSE_VIEW = 'ROLE_ADMIN_COURSE_VIEW';
+    const ROLE_ADMIN_COURSE_CREATE = 'ROLE_ADMIN_COURSE_CREATE';
+    const ROLE_ADMIN_COURSE_UPDATE = 'ROLE_ADMIN_COURSE_UPDATE';
+
+    // COURSE_INFO
+    const ROLE_ADMIN_COURSE_INFO = 'ROLE_ADMIN_COURSE_INFO';
+    const ROLE_ADMIN_COURSE_INFO_LIST = 'ROLE_ADMIN_COURSE_INFO_LIST';
+    const ROLE_ADMIN_COURSE_INFO_CREATE = 'ROLE_ADMIN_COURSE_INFO_CREATE';
+    const ROLE_ADMIN_COURSE_INFO_UPDATE = 'ROLE_ADMIN_COURSE_INFO_UPDATE';
+
     // YEARS
     const ROLE_ADMIN_YEAR = 'ROLE_ADMIN_YEAR';
     const ROLE_ADMIN_YEAR_LIST = 'ROLE_ADMIN_YEAR_LIST';
@@ -190,6 +203,15 @@ class UserRole
         self::ROLE_ADMIN_YEAR_LIST,
         self::ROLE_ADMIN_YEAR_CREATE,
         self::ROLE_ADMIN_YEAR_UPDATE,
+        self::ROLE_ADMIN_COURSE,
+        self::ROLE_ADMIN_COURSE_VIEW,
+        self::ROLE_ADMIN_COURSE_LIST,
+        self::ROLE_ADMIN_COURSE_CREATE,
+        self::ROLE_ADMIN_COURSE_UPDATE,
+        self::ROLE_ADMIN_COURSE_INFO,
+        self::ROLE_ADMIN_COURSE_INFO_LIST,
+        self::ROLE_ADMIN_COURSE_INFO_CREATE,
+        self::ROLE_ADMIN_COURSE_INFO_UPDATE,
         self::ROLE_ADMIN_CRITICAL_ACHIEVEMENT,
         self::ROLE_ADMIN_CRITICAL_ACHIEVEMENT_LIST,
         self::ROLE_ADMIN_CRITICAL_ACHIEVEMENT_CREATE,
@@ -304,11 +326,23 @@ class UserRole
 
     const HIERARCHY = [
         self::ROLE_ADMIN => [
+            self::ROLE_ADMIN_COURSE => [
+                self::ROLE_ADMIN_COURSE_VIEW,
+                self::ROLE_ADMIN_COURSE_LIST,
+                self::ROLE_ADMIN_COURSE_CREATE,
+                self::ROLE_ADMIN_COURSE_UPDATE
+            ],
+            self::ROLE_ADMIN_COURSE_INFO => [
+                self::ROLE_ADMIN_COURSE_INFO_LIST,
+                self::ROLE_ADMIN_COURSE_INFO_CREATE,
+                self::ROLE_ADMIN_COURSE_INFO_UPDATE
+            ],
             self::ROLE_ADMIN_YEAR => [
                 self::ROLE_ADMIN_YEAR_LIST,
                 self::ROLE_ADMIN_YEAR_CREATE,
                 self::ROLE_ADMIN_YEAR_UPDATE
-            ],self::ROLE_ADMIN_CRITICAL_ACHIEVEMENT => [
+            ],
+            self::ROLE_ADMIN_CRITICAL_ACHIEVEMENT => [
                 self::ROLE_ADMIN_CRITICAL_ACHIEVEMENT_LIST,
                 self::ROLE_ADMIN_CRITICAL_ACHIEVEMENT_CREATE,
                 self::ROLE_ADMIN_CRITICAL_ACHIEVEMENT_UPDATE

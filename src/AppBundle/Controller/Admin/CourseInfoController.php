@@ -23,7 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Class CourseInfoController
  * @package AppBundle\Controller
- * @Route("/syllabus", name="app_admin_course_info_")
+ * @Route("/syllabus", name="app.admin.course_info.")
  */
 class CourseInfoController extends Controller
 {
