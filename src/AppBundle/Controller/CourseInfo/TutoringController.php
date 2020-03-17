@@ -48,11 +48,8 @@ class TutoringController extends AbstractController
             ]);
         }
 
-<<<<<<< HEAD
+
         $render = $this->get('twig')->render('course_info/prerequisites/form/assist_tutoring.html.twig', [
-=======
-        $render = $this->get('twig')->render('course_info/prerequisite/form/assist_tutoring.html.twig', [
->>>>>>> permission
             'courseInfo' => $courseInfo,
             'form' => $form->createView()
         ]);
@@ -84,11 +81,7 @@ class TutoringController extends AbstractController
         $courseInfo->setTutoring($action);
         $manager->update($courseInfo);
 
-<<<<<<< HEAD
         $render = $this->get('twig')->render('course_info/prerequisites/view/tutoring_resources.html.twig', [
-=======
-        $render = $this->get('twig')->render('course_info/prerequisite/view/tutoring_resources.html.twig', [
->>>>>>> permission
             'courseInfo' => $courseInfo
         ]);
 
