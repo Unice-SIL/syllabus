@@ -18,21 +18,21 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column user-panel" data-widget="treeview" role="menu"
                 data-accordion="false">
-                <li class="nav-item has-treeview">
+                <li class="nav-item">
                     <a class="nav-link menu-tab"
                        href="{{ path('app.course_info.dashboard.index', { 'id': courseInfo.id }) }}"
                        id="menu-dashboard">
                         <i class="fas fa-th"></i>
-                        <p>Tableau de bord</p>
+                        <p>{{ 'app.sidebar.dashboard' | trans }}</p>
                     </a>
                 </li>
                 {% if is_granted('ROLE_ADMIN') %}
-                    <li class="nav-item has-treeview">
+                    <li class="nav-item">
                         <a class="nav-link menu-tab"
                            href="{{ path('app.course_info.permission.index', { 'id': courseInfo.id }) }}"
                            id="menu-dashboard">
                             <i class="fas fa-user-shield"></i>
-                            <p>Permissions</p>
+                            <p>{{ 'app.sidebar.permissions' | trans }}</p>
                         </a>
                     </li>
                 {% endif %}
@@ -40,28 +40,44 @@
         </nav>
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <li class="nav-item has-treeview">
+                <li class="nav-item">
                     <a class="nav-link menu-tab"
                        href="{{ path('app.course_info.presentation.index', { 'id': courseInfo.id }) }}"
                        id="menu-presentation">
                         <i class="fas fa-star"></i>
-                        <p>Présentation Générale</p>
+                        <p>{{ 'app.sidebar.presentation' | trans }}</p>
                     </a>
                 </li>
-                <li class="nav-item has-treeview">
+                <li class="nav-item">
                     <a class="nav-link menu-tab"
                        id="menu-activities"
                        href="{{ path('app.course_info.activities.index', { 'id': courseInfo.id }) }}">
                         <i class="fas fa-list-alt"></i>
-                        <p>Contenu et activités</p>
+                        <p>{{ 'app.sidebar.activities' | trans }}</p>
                     </a>
                 </li>
-                <li class="nav-item has-treeview">
+                <li class="nav-item">
                     <a class="nav-link menu-tab"
                        id="menu-objectives-course"
                        href="{{ path('app.course_info.objectives.index', { 'id': courseInfo.id }) }}">
                         <i class="fas fa-bullseye"></i>
-                        <p>Objectifs du cours</p>
+                        <p>{{ 'app.sidebar.objectives' | trans }}</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-tab"
+                       id="menu-prerequisites-course"
+                       href="{{ path('app.course_info.prerequisites.index', { 'id': courseInfo.id }) }}">
+                        <i class="fas fa-key"></i>
+                        <p>{{ 'app.sidebar.prerequisites' | trans }}</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-tab"
+                       id="menu-prerequisite"
+                       href="{{ path('app.course_info.prerequisite.index', { 'id': courseInfo.id }) }}">
+                        <i class="fas fa-bullseye"></i>
+                        <p>Prérequis</p>
                     </a>
                 </li>
                 <li class="nav-item has-treeview">
@@ -69,29 +85,36 @@
                        id="menu-evaluation"
                        href="{{ path('app.course_info.evaluation.index', { 'id': courseInfo.id }) }}">
                         <i class="fas fa-medal"></i>
-                        <p>Modalités d'évaluation</p>
+                        <p>{{ 'app.sidebar.evaluation' | trans }}</p>
                     </a>
                 </li>
-                <li class="nav-item menu-tab has-treeview">
+                <li class="nav-item menu-tab">
                     <a class="nav-link"
                        id="menu-resource"
                        href="{{ path('app.course_info.resource_equipment.index', { 'id': courseInfo.id }) }}">
                         <i class="fas fa-tools"></i>
-                        <p>Matériel et ressources</p>
+                        <p>{{ 'app.sidebar.equipment' | trans }}</p>
                     </a>
                 </li>
-                <li class="nav-item menu-tab has-treeview">
+                <li class="nav-item menu-tab">
                     <a class="nav-link" href="{{ path('app.course_info.info.index', { 'id': courseInfo.id }) }}"
                        id="menu-info">
                         <i class="fas fa-info-circle"></i>
-                        <p>Informations pratiques</p>
+                        <p>{{ 'app.sidebar.info' | trans }}</p>
                     </a>
                 </li>
-                <li class="nav-item menu-tab has-treeview">
+                <li class="nav-item menu-tab">
                     <a class="nav-link" href="{{ path('app.course_info.closing_remarks.index', { 'id': courseInfo.id }) }}"
                        id="menu-closing_remarks">
                         <i class="fas fa-flag-checkered"></i>
-                        <p>Le mot de la fin</p>
+                        <p>{{ 'app.sidebar.closing_remarks' | trans }}</p>
+                    </a>
+                </li>
+                <li class="nav-item menu-tab sidebar-footer">
+                    <a class="nav-link" href="{{ path('app.course_info.view.student', { 'id': courseInfo.id }) }}"
+                       id="menu-closing_remarks">
+                        <i class="fas fa-user-graduate"></i>
+                        <p>{{ 'app.sidebar.student_view' | trans }}</p>
                     </a>
                 </li>
             </ul>

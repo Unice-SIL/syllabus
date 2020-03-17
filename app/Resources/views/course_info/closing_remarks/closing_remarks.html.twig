@@ -1,23 +1,23 @@
 {% extends 'course_info/layout.html.twig' %}
 
 {% block subContent %}
-
-    <div class="card my-2 shadow card-syllabus"
-         data-view-url="{{ path('app.course_info.closing_remarks.closing_remarks', {'id': courseInfo.id }) }}"
-         data-form-url="{{ path('app.course_info.closing_remarks.closing_remarks.edit', {'id': courseInfo.id }) }}"
-    >
-        <div class="card-header">
-            <div class="d-flex justify-content-between">
-                <h3>Le mot de la fin</h3>
-                <button type="button" class="edit-button btn btn-primary rounded">
-                    Mettre à jour
-                </button>
+    <div class="pt-3">
+        <div class="card my-2 shadow card-syllabus"
+             data-view-url="{{ path('app.course_info.closing_remarks.closing_remarks', {'id': courseInfo.id }) }}"
+             data-form-url="{{ path('app.course_info.closing_remarks.closing_remarks.edit', {'id': courseInfo.id }) }}"
+        >
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <h3>Le mot de la fin</h3>
+                    <button type="button" class="edit-button btn btn-primary rounded">
+                        Mettre à jour
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
             </div>
         </div>
-        <div class="card-body">
-        </div>
     </div>
-
 {% endblock %}
 
 {% block javascripts %}

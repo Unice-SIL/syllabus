@@ -15,7 +15,7 @@
     <button type="button"
             class="btn btn-link modal-action p-0 position-absolute"
             style="top: 0px; right: 0px"
-            data-action-title="Ajouter une compétence"
+            data-action-title="Modifier la séance de tutorat"
             data-action-url="{{ path('app.course_info.tutoring.create', {'id': courseInfo.id }) }}">
         <i class="fas fa-edit"></i>
     </button>
@@ -48,9 +48,7 @@
                                 <i class="fas fa-exclamation-circle text-danger"></i>
                                 Remédiation
                             </span>
-                    <span class="text-danger">
-                                Non-renseigné
-                            </span>
+                    <span class="empty-data">Aucune remédiation renseignée</span>
                 </div>
             </div>
         </div>
@@ -63,7 +61,8 @@
             <th class="text-center" style="width: 20%">Modifier/Supprimer</th>
         </tr>
         </thead>
-        <tbody id="tutoring-resources-list" class="list-sortable" data-url="{{ path('app.course_info.objectives.sort_tutoring_resources', {'id': courseInfo.id}) }}">
+        <tbody id="tutoring-resources-list" class="list-sortable"
+               data-url="{{ path('app.course_info.prerequisite.sort_tutoring_resources', {'id': courseInfo.id}) }}">
         {% for tutoringResources in courseInfo.courseTutoringResources %}
             <tr class="item-sortable text-center" data-id="{{ tutoringResources.id }}">
                 <td class="text-left">{{ tutoringResources.description }}</td>
@@ -88,7 +87,7 @@
 
 <script>
     $('#btn_tutoring').bootstrapToggle();
-
+    console.log('okokok');
     if ($('#btn_tutoring').prop('checked') == 1) {
         $('#assistTutoring').show();
     } else {

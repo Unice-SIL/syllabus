@@ -7,6 +7,7 @@ namespace AppBundle\Controller\Common;
 use AppBundle\Entity\Structure;
 use AppBundle\Repository\Doctrine\UserDoctrineRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PropertyAccess\PropertyAccess;
@@ -40,14 +41,14 @@ class AutoCompleteController extends AbstractController
         $repository = $this->getDoctrine()->getRepository($entityName);
         $entities = $repository->findLikeQuery($query, $findBy);
 
-        $entities = array_map(function($entity) use($propertyAccessor, $property){
+        $entities = array_map(function ($entity) use ($propertyAccessor, $property) {
             return $propertyAccessor->getValue($entity, $property);
         }, $entities);
 
         $entities = array_unique($entities);
         $entities = array_values($entities);
 
-        return $this->json(['query' =>  $query, 'suggestions' => $entities, 'data' => $entities]);
+        return $this->json(['query' => $query, 'suggestions' => $entities, 'data' => $entities]);
     }
 
     /**
@@ -82,19 +83,23 @@ class AutoCompleteController extends AbstractController
      *
      * @param Structure $structure
      * @param string $entityName
+     * @param Request $request
      * @return JsonResponse
      */
-    public function autocompleteS2Structure(Structure $structure, string $entityName)
+    public function autocompleteS2Structure(Structure $structure, string $entityName, Request $request)
     {
         $data = [];
-
-        if($entityName == "Domain"){
+        $query = $request->query->get('q');
+        $entities = [];
+        if ($entityName == "Domain") {
             $entities = $structure->getDomains();
-        }elseif($entityName == "Period"){
+        } elseif ($entityName == "Period") {
             $entities = $structure->getPeriods();
         }
-        if(!empty($entities)){
-            foreach ($entities as $e){
+        $input = preg_quote($query, '~');
+        $result = preg_grep('~^' . $input . '~', $entities->toArray());
+        if (!empty($result)) {
+            foreach ($result as $e) {
                 $data[] = ['id' => $e->getId(), 'text' => $e->getLabel()];
             }
         }

@@ -1,0 +1,58 @@
+<div class="sidebar">
+    <nav id="student-sidebar" class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <li class="nav-item has-treeview">
+                <a class="nav-link menu-tab" href="#presentation-section">
+                    <i class="fas fa-star"></i>
+                    <p>{{ 'app.view.student.tabs.presentation' | trans }}</p>
+                </a>
+            </li>
+            <li class="nav-item has-treeview">
+                <a class="nav-link menu-tab" href="#objectives-section">
+                    <i class="fas fa-bullseye"></i>
+                    <p>{{ 'app.view.student.tabs.objectives' | trans }}</p>
+                </a>
+            </li>
+            <li class="nav-item has-treeview">
+                <a class="nav-link menu-tab" href="#activities-section">
+                    <i class="fas fa-list-alt"></i>
+                    <p>{{ 'app.view.student.tabs.activities' | trans }}</p>
+                </a>
+            </li>
+            {% if courseInfo.mccAdvice is not null %}
+            <li class="nav-item has-treeview">
+                <a class="nav-link menu-tab" href="#evaluation-section">
+                    <i class="fas fa-medal"></i>
+                    <p>{{ 'app.view.student.tabs.evaluation' | trans }}</p>
+                </a>
+            </li>
+            {% endif %}
+            {% if courseInfo.educationalResources is not empty or
+                courseInfo.bibliographicResources is not empty or
+                courseInfo.courseResourceEquipments is not empty %}
+            <li class="nav-item has-treeview">
+                <a class="nav-link menu-tab" href="#equipments-section">
+                    <i class="fas fa-tools"></i>
+                    <p>{{ 'app.view.student.tabs.equipments' | trans }}</p>
+                </a>
+            </li>
+            {% endif %}
+            {% if courseInfo.agenda is not empty or courseInfo.organization is not empty %}
+            <li class="nav-item has-treeview">
+                <a class="nav-link menu-tab" href="#info-section">
+                    <i class="fas fa-info-circle"></i>
+                    <p>{{ 'app.view.student.tabs.info' | trans }}</p>
+                </a>
+            </li>
+            {% endif %}
+            {% if courseInfo.closingRemarks is not empty or courseInfo.closingVideo is not empty %}
+                <li class="nav-item has-treeview">
+                    <a class="nav-link menu-tab" href="#closing-remarks-section">
+                        <i class="fas fa-flag-checkered"></i>
+                        <p>{{ 'app.view.student.tabs.info' | trans }}</p>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>

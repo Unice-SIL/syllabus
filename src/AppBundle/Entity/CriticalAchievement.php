@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * Class CriticalAchievement
@@ -28,6 +29,7 @@ class CriticalAchievement
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @JMS\Groups(groups={"default", "critical_achievement"})
      */
     private $id;
 
@@ -35,6 +37,7 @@ class CriticalAchievement
      * @var string
      *
      * @ORM\Column(name="label", type="string", length=100, nullable=false)
+     * @JMS\Groups(groups={"default", "critical_achievement"})
      * @Gedmo\Translatable
      */
     private $label;
@@ -43,6 +46,7 @@ class CriticalAchievement
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
+     * @JMS\Groups(groups={"default", "critical_achievement"})
      */
     private $obsolete = false;
 
@@ -54,6 +58,7 @@ class CriticalAchievement
     /**
      * @var Collection
      * @ORM\ManyToMany(targetEntity="Course", mappedBy="criticalAchievements")
+     * @JMS\Groups(groups={"critical_achievement"})
      */
     private $courses;
 

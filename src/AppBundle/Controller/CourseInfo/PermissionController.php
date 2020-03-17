@@ -4,57 +4,49 @@
 namespace AppBundle\Controller\CourseInfo;
 
 
-use AppBundle\Entity\CourseInfo;
-use AppBundle\Form\CourseInfo\Permission\AddCourseInfoPermissionType;
+use AppBundle\Constant\Permission;
+use AppBundle\Entity\CoursePermission;
+use AppBundle\Form\CourseInfo\Permission\RemoveCoursePermissionType;
 use AppBundle\Manager\CoursePermissionManager;
-use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class PermissionController
  * @package AppBundle\Controller\CourseInfo
  *
- * @Route("/course-info/{id}/permissions", name="app.course_info.permission.")
- * @Security("is_granted('WRITE', courseInfo)")
+ * @Route("/course-info/permissions/{id}", name="app.course_info.permission.")
  */
 class PermissionController extends AbstractController
 {
     /**
-     * @Route("/", name="index")
+     * @Route("/delete", name="delete")
      *
-     * @param CourseInfo $courseInfo
+     * @param CoursePermission $permission
      * @param Request $request
      * @param CoursePermissionManager $coursePermissionManager
-     * @return RedirectResponse|Response
+     * @return mixed
      */
-    public function indexAction(CourseInfo $courseInfo, Request $request, CoursePermissionManager $coursePermissionManager)
+    public function deleteAction(CoursePermission $permission, Request $request, CoursePermissionManager $coursePermissionManager)
     {
-        $coursePermission = $coursePermissionManager->new($courseInfo);
-        $form = $this->createForm(AddCourseInfoPermissionType::class, $coursePermission);
+        $form = $this->createForm(RemoveCoursePermissionType::class, $permission);
         $form->handleRequest($request);
 
-        $isValid = true;
-        if ($form->isSubmitted()) {
-
-            if ($form->isValid()) {
-                $coursePermissionManager->create($coursePermission);
-
-                $this->addFlash('success', 'La permission a été ajoutée avec succès');
-                return $this->redirectToRoute('app.course_info.permission.index', ['id' => $courseInfo->getId()]);
-            }
-            $isValid = false;
+        if ($form->isSubmitted() && $form->isValid()) {
+            $coursePermissionManager->delete($permission);
+            return $this->json([
+                'status' => true,
+                'content' => null
+            ]);
         }
-
-        //todo: add addSelect to get coursePermission and user with courseInfo
-        return $this->render('course_info/permission/index.html.twig', array(
-            'courseInfo' => $courseInfo,
-            'form' => $form->createView(),
-            'isValid' => $isValid
-        ));
+        $render = $this->get('twig')->render('course_info/permission/form/remove.html.twig', [
+            'form' => $form->createView()
+        ]);
+        return $this->json([
+            'status' => true,
+            'content' => $render
+        ]);
     }
 }

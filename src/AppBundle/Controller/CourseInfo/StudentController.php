@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\CourseInfo;
 
 use AppBundle\Entity\CourseInfo;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
