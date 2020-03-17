@@ -3,7 +3,7 @@
 namespace AppBundle\Listener;
 
 use AppBundle\Entity\Notification;
-use AppBundle\Subscirber\NotificationSubscriber;
+use AppBundle\Subscriber\NotificationSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 

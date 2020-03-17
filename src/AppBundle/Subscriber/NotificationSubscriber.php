@@ -1,12 +1,11 @@
 <?php
 
-namespace AppBundle\Subscirber;
+namespace AppBundle\Subscriber;
 
 use AppBundle\Entity\Notification;
 use AppBundle\Helper\AppHelper;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Events;
-use Doctrine\Persistence\Event\LifecycleEventArgs;
+use Psr\Cache\InvalidArgumentException;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -16,8 +15,15 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Csrf\TokenGenerator\UriSafeTokenGenerator;
 
+/**
+ * Class NotificationSubscriber
+ * @package AppBundle\Subscriber
+ */
 class NotificationSubscriber implements EventSubscriberInterface
 {
+    /**
+     *
+     */
     const NOTIFICATIONS_CACHE_KEY = 'app.notifications';
     /**
      * @var SessionInterface
@@ -56,6 +62,9 @@ class NotificationSubscriber implements EventSubscriberInterface
         $this->urlGenerator = $urlGenerator;
     }
 
+    /**
+     * @return array
+     */
     public static function getSubscribedEvents()
     {
         // return the subscribed events, their methods and priorities
@@ -66,6 +75,10 @@ class NotificationSubscriber implements EventSubscriberInterface
         ];
     }
 
+    /**
+     * @param GetResponseEvent $event
+     * @throws InvalidArgumentException
+     */
     public function setNotifications(GetResponseEvent $event)
     {
         if (!$event->isMasterRequest()) {
