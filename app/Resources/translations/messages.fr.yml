@@ -99,6 +99,11 @@ ROLE_API_LANGUAGE_VIEW: Voir un langage
 ROLE_API_PERIOD: Gestion des périodes
 ROLE_API_PERIOD_LIST: Lister les périodes
 ROLE_API_PERIOD_VIEW: Voir une période
+ROLE_API_YEAR: Gestion des années
+ROLE_API_YEAR_LIST: Lister les années
+ROLE_API_YEAR_VIEW: Voir une année
+ROLE_API_YEAR_CREATE: Créer une année
+ROLE_API_YEAR_UPDATE: Modifier une année
 collective: Collectif
 groups: En groupe
 individual: Individuel

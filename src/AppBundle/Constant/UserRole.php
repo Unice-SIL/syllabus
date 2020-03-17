@@ -132,18 +132,6 @@ class UserRole
     const ROLE_API_POST_YEAR = 'ROLE_API_POST_YEAR';
     const ROLE_API_PUT_YEAR = 'ROLE_API_PUT_YEAR';
 
-    const ROLE_API_GET_CAMPUS = 'ROLE_API_GET_CAMPUS';
-    const ROLE_API_GET_CAMPUSES = 'ROLE_API_GET_CAMPUSES';
-
-    const ROLE_API_GET_PERIOD = 'ROLE_API_GET_PERIOD';
-    const ROLE_API_GET_PERIODS = 'ROLE_API_GET_PERIODS';
-
-    const ROLE_API_GET_DOMAIN = 'ROLE_API_GET_DOMAIN';
-    const ROLE_API_GET_DOMAINS = 'ROLE_API_GET_DOMAINS';
-
-    const ROLE_API_GET_LANGUAGE = 'ROLE_API_GET_LANGUAGE';
-    const ROLE_API_GET_LANGUAGES = 'ROLE_API_GET_LANGUAGES';
-
     const ROLE_API_ACTIVITY = 'ROLE_API_ACTIVITY';
     const ROLE_API_ACTIVITY_VIEW = 'ROLE_API_ACTIVITY_VIEW';
     const ROLE_API_ACTIVITY_LIST = 'ROLE_API_ACTIVITY_LIST';
@@ -179,6 +167,13 @@ class UserRole
     const ROLE_API_PERIOD = 'ROLE_API_PERIOD';
     const ROLE_API_PERIOD_VIEW = 'ROLE_API_PERIOD_VIEW';
     const ROLE_API_PERIOD_LIST = 'ROLE_API_PERIOD_LIST';
+
+    const ROLE_API_YEAR = 'ROLE_API_YEAR';
+    const ROLE_API_YEAR_LIST = 'ROLE_API_YEAR_LIST';
+    const ROLE_API_YEAR_VIEW = 'ROLE_API_YEAR_VIEW';
+    const ROLE_API_YEAR_CREATE = 'ROLE_API_YEAR_CREATE';
+    const ROLE_API_YEAR_UPDATE = 'ROLE_API_YEAR_UPDATE';
+
     /*====================== End ROLE API ==================*/
 
     const ROLES = [
@@ -283,24 +278,18 @@ class UserRole
         self::ROLE_API_PERIOD,
         self::ROLE_API_PERIOD_VIEW,
         self::ROLE_API_PERIOD_LIST,
+        self::ROLE_API_YEAR,
+        self::ROLE_API_YEAR_VIEW,
+        self::ROLE_API_YEAR_LIST,
+        self::ROLE_API_YEAR_CREATE,
+        self::ROLE_API_YEAR_UPDATE,
+
         //Todo: update below
         self::ROLE_API_GET_COURSE_PERMISSION,
         self::ROLE_API_GET_COURSE_PERMISSIONS,
         self::ROLE_API_POST_COURSE_PERMISSION,
         self::ROLE_API_POST_COURSE_PERMISSION,
         self::ROLE_API_DELETE_COURSE_PERMISSION,
-        self::ROLE_API_GET_YEAR,
-        self::ROLE_API_GET_YEARS,
-        self::ROLE_API_POST_YEAR,
-        self::ROLE_API_PUT_YEAR,
-        self::ROLE_API_GET_CAMPUS,
-        self::ROLE_API_GET_CAMPUSES,
-        self::ROLE_API_GET_PERIOD,
-        self::ROLE_API_GET_PERIODS,
-        self::ROLE_API_GET_DOMAIN,
-        self::ROLE_API_GET_DOMAINS,
-        self::ROLE_API_GET_LANGUAGE,
-        self::ROLE_API_GET_LANGUAGES,
     ];
 
     const HIERARCHY = [
@@ -428,6 +417,12 @@ class UserRole
             self::ROLE_API_PERIOD => [
                 self::ROLE_API_PERIOD_VIEW,
                 self::ROLE_API_PERIOD_LIST,
+            ],
+            self::ROLE_API_YEAR => [
+                self::ROLE_API_YEAR_VIEW,
+                self::ROLE_API_YEAR_LIST,
+                self::ROLE_API_YEAR_CREATE,
+                self::ROLE_API_YEAR_UPDATE,
             ],
         ],
     ];

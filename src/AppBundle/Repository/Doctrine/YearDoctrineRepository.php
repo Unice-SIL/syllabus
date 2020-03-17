@@ -6,6 +6,7 @@ use AppBundle\Entity\Course;
 use AppBundle\Entity\Year;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
 
 /**
@@ -56,11 +57,72 @@ class YearDoctrineRepository  extends ServiceEntityRepository
 
         foreach ($config['filters'] as $filter => $value) {
             $valueName = 'value'.$filter;
-            $qb->andWhere($qb->expr()->eq('y.' . $filter, ':' . $valueName))
-                ->setParameter($valueName, $value);
+            switch ($filter) {
+                case 'label':
+                    $value = "%{$value}%";
+                    $qb->andWhere($qb->expr()->like('y.' . $filter, ':'.$valueName));
+                    break;
+                default:
+                    $qb->andWhere($qb->expr()->eq('y.' . $filter, ':'.$valueName));
+            }
+            $qb->setParameter($valueName, $value);
         }
 
         return $qb;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEntityName(): string
+    {
+        return $this->_entityName;
+    }
+
+    /**
+     * @param string $entityName
+     * @return YearDoctrineRepository
+     */
+    public function setEntityName(string $entityName): YearDoctrineRepository
+    {
+        $this->_entityName = $entityName;
+        return $this;
+    }
+
+    /**
+     * @return EntityManager
+     */
+    public function getEm(): EntityManager
+    {
+        return $this->_em;
+    }
+
+    /**
+     * @param EntityManager $em
+     * @return YearDoctrineRepository
+     */
+    public function setEm(EntityManager $em): YearDoctrineRepository
+    {
+        $this->_em = $em;
+        return $this;
+    }
+
+    /**
+     * @return Mapping\ClassMetadata
+     */
+    public function getClass(): Mapping\ClassMetadata
+    {
+        return $this->_class;
+    }
+
+    /**
+     * @param Mapping\ClassMetadata $class
+     * @return YearDoctrineRepository
+     */
+    public function setClass(Mapping\ClassMetadata $class): YearDoctrineRepository
+    {
+        $this->_class = $class;
+        return $this;
     }
 
     public function getAvailableYearsByCourseBuilder(Course $course)
