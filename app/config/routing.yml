@@ -5,6 +5,10 @@ syllabus:
 api_login_check:
     path: /api/login_check
 
+settings:
+    resource: "@DmishhSettingsBundle/Resources/config/routing.yml"
+    prefix: /admin/settings
+
 app.swagger_ui:
     path: /api/doc
     methods: GET

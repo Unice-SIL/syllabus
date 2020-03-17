@@ -2,8 +2,8 @@
 
 namespace AppBundle\Subscriber;
 
+use Dmishh\SettingsBundle\Manager\SettingsManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -24,12 +24,12 @@ class MaintenanceSubscriber implements EventSubscriberInterface
 
     /**
      * MaintenanceSubscriber constructor.
-     * @param bool $inMaintenance
-     * @param UrlGeneratorInterface $twigEnvironment
+     * @param Environment $twigEnvironment
+     * @param SettingsManager $settingsManager
      */
-    public function __construct(bool $inMaintenance, Environment $twigEnvironment)
+    public function __construct(Environment $twigEnvironment, SettingsManager $settingsManager)
     {
-        $this->inMaintenance = $inMaintenance;
+        $this->inMaintenance = $settingsManager->get('in_maintenance');
         $this->twigEnvironment = $twigEnvironment;
     }
 
@@ -44,9 +44,9 @@ class MaintenanceSubscriber implements EventSubscriberInterface
 
     public function diplayMaintenancePage(GetResponseEvent $event)
     {
-        $maintenanceRoute = 'app.maintenance.index';
+        $exceptionRoutes = ['app.maintenance.index', 'dmishh_settings_manage_global'];
 
-        if ($this->inMaintenance and $event->getRequest()->attributes->get('_route') !== $maintenanceRoute) {
+        if ($this->inMaintenance and  !in_array($event->getRequest()->attributes->get('_route'), $exceptionRoutes)) {
 
             $content = $this->twigEnvironment->render('maintenance/index.html.twig');
             $event->setResponse(new Response($content));

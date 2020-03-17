@@ -1,0 +1,22 @@
+{% extends 'admin_layout.html.twig' %}
+{% set h1 = 'Configurer les paramètres' %}
+{% block subContent %}
+
+    <div class="card">
+        <div class="card-body">
+
+            {{ form_start(settings_form) }}
+
+                <div class="form-group">
+                    <div class="custom-control custom-switch">
+                        {{ form_widget(settings_form.in_maintenance) }}
+                    </div>
+                </div>
+
+                {{ form_widget(settings_form) }}
+
+                <input type="submit" class="btn btn-primary" value="{% trans from 'settings' %}save{% endtrans %}" />
+            {{ form_end(settings_form) }}
+        </div>
+    </div>
+{% endblock %}
