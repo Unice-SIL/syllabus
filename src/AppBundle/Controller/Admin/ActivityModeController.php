@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class ActivityModeController
  * @package AppBundle\Controller
  *
- * @Route("/admin/activity-mode", name="app.admin.activity_mode.")
+ * @Route("/activity-mode", name="app.admin.activity_mode.")
  * @Security("has_role('ROLE_ADMIN_ACTIVITYMODE')")
  */
 class ActivityModeController extends AbstractController
@@ -120,26 +120,5 @@ class ActivityModeController extends AbstractController
         return $this->render('activity_mode/edit.html.twig', array(
             'form' => $form->createView(),
         ));
-    }
-
-    /**
-     * @Route("/autocomplete", name="autocomplete", methods={"GET"})
-     * @param ActivityModeDoctrineRepository $repository
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function autocomplete(ActivityModeDoctrineRepository $repository, Request $request)
-    {
-        $query = $request->query->get('query');
-
-        $activitiesModes = $repository->findLikeQuery($query);
-        $activitiesModes = array_map(function($mode){
-            return $mode->getLabel();
-        }, $activitiesModes);
-
-        $activitiesModes = array_unique($activitiesModes);
-        $activitiesModes = array_values($activitiesModes);
-
-        return $this->json(['query' =>  $query, 'suggestions' => $activitiesModes, 'data' => $activitiesModes]);
     }
 }

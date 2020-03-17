@@ -9,12 +9,14 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Domain
  *
  * @ORM\Table(name="domain")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\DomainDoctrineRepository")
+ * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\DomainTranslation")
  */
 class Domain
 {
@@ -35,6 +37,7 @@ class Domain
      * @ORM\Column(name="label", type="string", length=100, nullable=false)
      * @Assert\NotBlank()
      * @JMS\Groups(groups={"default", "domain"})
+     * @Gedmo\Translatable
      */
     private $label;
 

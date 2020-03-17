@@ -1,0 +1,13 @@
+{% extends 'admin_layout.html.twig' %}
+{% set h1 = 'Ajouter un job' %}
+{% block subContent %}
+
+    <div class="card card-primary">
+
+        <div class="card-body">
+            {{ include('job/_form.html.twig') }}
+        </div>
+
+    </div>
+{% endblock %}
+

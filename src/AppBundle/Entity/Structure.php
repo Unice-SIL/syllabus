@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Structure
@@ -17,7 +18,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *     @ORM\UniqueConstraint(name="code_source_on_structure_UNIQUE", columns={"code", "source"}),
  * })
  * @UniqueEntity(fields={"code", "source"}, message="La structure avec pour code établissement {{ value }} existe déjà pour cette source", errorPath="code")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\StructureDoctrineRepository")
+ * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\StructureTranslation")
  */
 class Structure
 {
@@ -39,6 +41,7 @@ class Structure
      * @ORM\Column(name="label", type="string", length=100, nullable=true)
      * @Assert\NotBlank()
      * @JMS\Groups(groups={"default", "structure"})
+     * @Gedmo\Translatable
      */
     private $label;
 

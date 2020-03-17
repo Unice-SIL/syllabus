@@ -1,57 +1,57 @@
 {% extends 'course_info/layout.html.twig' %}
 
 {% block subContent %}
-
-    <section>
-        <div class="card">
-            <div class="card-header text-center bg-gradient-primary">
-                <h5 class="text-bold">
-                    1ère Session
-                </h5>
+    <div class="pt-3">
+        <section>
+            <div class="card">
+                <div class="card-header text-center bg-gradient-primary">
+                    <h5 class="text-bold">
+                        1ère Session
+                    </h5>
+                </div>
+                <div class="card-body table-responsive p-0">
+                    <table class="table">
+                        <thead>
+                        <tr class="text-center">
+                            <th>Type d'évaluation</th>
+                            <th>Coefficient</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="text-center">
+                            <td><p class="my-0">Contrôle Continu</p> ({{ courseInfo.mccCcNbEvalSession1 }} minimum)</td>
+                            <td>{{ courseInfo.mccCcCoeffSession1 }}%</td>
+                        </tr>
+                        <tr class="text-center">
+                            <td>Contrôle Terminal - {{ courseInfo.mccCtDurationSession1 }}</td>
+                            <td>{{ courseInfo.mccCtCoeffSession1 }}%</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <div class="card-body table-responsive p-0">
-                <table class="table">
-                    <thead>
-                    <tr class="text-center">
-                        <th>Type d'évaluation</th>
-                        <th>Coefficient</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr class="text-center">
-                        <td><p class="my-0">Contrôle Continu</p> ({{courseInfo.mccCcNbEvalSession1}} minimum)</td>
-                        <td>{{courseInfo.mccCcCoeffSession1}}%</td>
-                    </tr>
-                    <tr class="text-center">
-                        <td>Contrôle Terminal - {{courseInfo.mccCtDurationSession1}}</td>
-                        <td>{{courseInfo.mccCtCoeffSession1}}%</td>
-                    </tr>
-                    </tbody>
-                </table>
+        </section>
+        <div class="card my-2 shadow card-syllabus"
+             data-view-url="{{ path('app.course_info.evaluation.specifications', {'id': courseInfo.id }) }}"
+             data-form-url="{{ path('app.course_info.evaluation.specifications.edit', {'id': courseInfo.id }) }}"
+        >
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <h3>Informations des modalités d'évaluation</h3>
+                    <button type="button" class="edit-button btn btn-primary rounded">
+                        Mettre à jour
+                    </button>
+                </div>
             </div>
+            <div class="card-body"></div>
         </div>
-    </section>
-    <div class="card my-2 shadow card-syllabus"
-         data-view-url="{{ path('app.course_info.evaluation.specifications', {'id': courseInfo.id }) }}"
-         data-form-url="{{ path('app.course_info.evaluation.specifications.edit', {'id': courseInfo.id }) }}"
-    >
-        <div class="card-header">
-            <div class="d-flex justify-content-between">
-                <h3>Informations des modalités d'évaluation</h3>
-                <button type="button" class="edit-button btn btn-primary rounded">
-                    Mettre à jour
-                </button>
-            </div>
-        </div>
-        <div class="card-body"></div>
     </div>
-
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#menu-evaluation').addClass('active');
             $('#menu-evaluation').addClass('border-bottom-3 border-white');
         });

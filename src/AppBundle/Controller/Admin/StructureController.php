@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class StructureController
  * @package AppBundle\Controller
  *
- * @Route("/admin/structure", name="app.admin.structure.")
+ * @Route("/structure", name="app.admin.structure.")
  * @Security("has_role('ROLE_ADMIN_STRUCTURE')")
  */
 class StructureController extends AbstractController
@@ -118,31 +118,6 @@ class StructureController extends AbstractController
         return $this->render('structure/edit.html.twig', array(
             'form' => $form->createView(),
         ));
-    }
-
-    /**
-     * @Route("/autocomplete/{field}", name="autocomplete", methods={"GET"}, requirements={"field" = "code|label|campus"})
-     *
-     * @param StructureDoctrineRepository $structureDoctrineRepository
-     * @param Request $request
-     * @param $field
-     * @return JsonResponse
-     */
-    public function autocomplete(StructureDoctrineRepository $structureDoctrineRepository, Request $request, $field)
-    {
-        $query = $request->query->get('query');
-
-        $propertyAccessor = PropertyAccess::createPropertyAccessor();
-
-        $structures = $structureDoctrineRepository->findLikeQuery($query, $field);
-
-        $structures = array_map(function($structure) use ($field, $propertyAccessor){
-            return $propertyAccessor->getValue($structure, $field);
-        }, $structures);
-
-        $structures = array_unique($structures);
-
-        return $this->json(['query' =>  $query, 'suggestions' => $structures, 'data' => $structures]);
     }
 
     /**

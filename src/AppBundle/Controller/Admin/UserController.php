@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * User controller.
  *
- * @Route("/admin/user", name="app.admin.user.")
+ * @Route("/user", name="app.admin.user.")
  * @Security("has_role('ROLE_ADMIN_USER')")
  */
 class UserController extends AbstractController
@@ -104,33 +104,6 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/autocompleteS2", name="autocompleteS2", methods={"GET"})
-     *
-     * @param UserDoctrineRepository $userDoctrineRepository
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function autocompleteS2(UserDoctrineRepository $userDoctrineRepository, Request $request)
-    {
-        $query = $request->query->get('q');
-
-        $field = $request->query->get('field_name');
-        switch ($field) {
-            default:
-                $searchFields = ['u.firstname', 'u.lastname'];
-                break;
-        }
-
-        $users = $userDoctrineRepository->findLikeQuery($query, $searchFields);
-
-        $data = array_map(function ($u) use ($request) {
-            return ['id' => $u->getId(), 'text' => $u->getSelect2Name()];
-        }, $users);
-
-        return $this->json($data);
-    }
-
-    /**
      * @Route("/{id}/send-password-token", name="send_password_token", methods={"GET"})
      * @param User $user
      * @param UserManager $userManager
@@ -143,11 +116,11 @@ class UserController extends AbstractController
 
         if ($mailer->sendResetPasswordMessage($user, $token)) {
             $this->addFlash('success', 'Le mail a bien été envoyé.');
-            return $this->redirectToRoute('app_admin_user_edit', ['id' => $user->getId()]);
+            return $this->redirectToRoute('app.admin.user.edit', ['id' => $user->getId()]);
         }
 
         $this->addFlash('danger', 'Un problème est survenu lors de l\'envoie du mail.');
-        return $this->redirectToRoute('app_admin_user_edit', ['id' => $user->getId()]);
+        return $this->redirectToRoute('app.admin.user.edit', ['id' => $user->getId()]);
 
     }
 }

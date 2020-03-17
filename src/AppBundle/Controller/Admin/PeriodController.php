@@ -23,7 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @package AppBundle\Controller
  *
- * @Route("/admin/period", name="app.admin.period.")
+ * @Route("/period", name="app.admin.period.")
  * @Security("has_role('ROLE_ADMIN_PERIOD')")
  */
 class PeriodController extends AbstractController
@@ -125,42 +125,4 @@ class PeriodController extends AbstractController
         ));
     }
 
-    /**
-     * @Route("/autocomplete", name="autocomplete", methods={"GET"})
-     * @param PeriodDoctrineRepository $periodDoctrineRepository
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function autocomplete(PeriodDoctrineRepository $periodDoctrineRepository, Request $request)
-    {
-        $query = $request->query->get('query');
-
-        $periods = $periodDoctrineRepository->findLikeQuery($query);
-        $periods = array_map(function($period){
-            return $period->getLabel();
-        }, $periods);
-
-        $periods = array_unique($periods);
-        $periods = array_values($periods);
-
-        return $this->json(['query' =>  $query, 'suggestions' => $periods, 'data' => $periods]);
-    }
-
-    /**
-     * @Route("/autocompleteS2/{structure}", name="autocompleteS2")
-     *
-     * @param Structure $structure
-     * @return Response
-     */
-    public function autocompleteS2(Structure $structure)
-    {
-        $data = [];
-        $periods = $structure->getPeriods();
-        if(!empty($periods)){
-            foreach ($periods as $period){
-                $data[] = ['id' => $period->getId(), 'text' => $period->getLabel()];
-            }
-        }
-        return $this->json($data);
-    }
 }

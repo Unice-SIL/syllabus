@@ -23,7 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class LanguageController
  * @package AppBundle\Controller
  *
- * @Route("/admin/language", name="app.admin.language.")
+ * @Route("/language", name="app.admin.language.")
  * @Security("has_role('ROLE_ADMIN_LANGUAGE')")
  */
 class LanguageController extends AbstractController
@@ -121,27 +121,6 @@ class LanguageController extends AbstractController
         return $this->render('language/edit.html.twig', array(
             'form' => $form->createView(),
         ));
-    }
-
-    /**
-     * @Route("/autocomplete", name="autocomplete", methods={"GET"})
-     * @param LanguageDoctrineRepository $languageDoctrineRepository
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function autocomplete(LanguageDoctrineRepository $languageDoctrineRepository, Request $request)
-    {
-        $query = $request->query->get('query');
-
-        $languages = $languageDoctrineRepository->findLikeQuery($query);
-        $languages = array_map(function($language){
-            return $language->getLabel();
-        }, $languages);
-
-        $languages = array_unique($languages);
-        $languages = array_values($languages);
-
-        return $this->json(['query' =>  $query, 'suggestions' => $languages, 'data' => $languages]);
     }
 
     /**

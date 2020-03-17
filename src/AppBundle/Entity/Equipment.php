@@ -5,12 +5,14 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Equipment
  *
  * @ORM\Table(name="equipment")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\EquipmentDoctrineRepository")
+ * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\EquipmentTranslation")
  */
 class Equipment
 {
@@ -31,6 +33,7 @@ class Equipment
      * @ORM\Column(name="label", type="string", length=100, nullable=false)
      * @Assert\NotBlank()
      * @JMS\Groups(groups={"default", "equipment"})
+     * @Gedmo\Translatable
      */
     private $label;
 

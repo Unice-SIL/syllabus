@@ -23,7 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class CampusController
  * @package AppBundle\Controller\Admin
  *
- * @Route("/admin/campus", name="app.admin.campus.")
+ * @Route("/campus", name="app.admin.campus.")
  * @Security("has_role('ROLE_ADMIN_CAMPUS')")
  */
 class CampusController extends AbstractController
@@ -62,7 +62,7 @@ class CampusController extends AbstractController
             10
         );
 
-        return $this->render('Campus/index.html.twig', array(
+        return $this->render('campus/index.html.twig', array(
             'pagination' => $pagination,
             'form' => $form->createView(),
         ));
@@ -91,7 +91,7 @@ class CampusController extends AbstractController
             return $this->redirectToRoute('app.admin.campus.index');
         }
 
-        return $this->render('Campus/new.html.twig', array(
+        return $this->render('campus/new.html.twig', array(
             'form' => $form->createView(),
         ));
     }
@@ -124,27 +124,6 @@ class CampusController extends AbstractController
         return $this->render('campus/edit.html.twig', array(
             'form' => $form->createView(),
         ));
-    }
-
-    /**
-     * @Route("/autocomplete", name="autocomplete", methods={"GET"})
-     * @param CampusDoctrineRepository $repository
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function autocomplete(CampusDoctrineRepository $repository, Request $request)
-    {
-        $query = $request->query->get('query');
-
-        $campuses = $repository->findLikeQuery($query);
-        $campuses = array_map(function($campus){
-            return $campus->getLabel();
-        }, $campuses);
-
-        $campuses = array_unique($campuses);
-        $campuses = array_values($campuses);
-
-        return $this->json(['query' =>  $query, 'suggestions' => $campuses, 'data' => $campuses]);
     }
 
     /**

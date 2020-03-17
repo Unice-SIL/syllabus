@@ -3,6 +3,7 @@
 
 namespace AppBundle\Twig;
 
+use AppBundle\Twig\Runtime\LanguageRuntime;
 use AppBundle\Twig\Runtime\ReportRuntime;
 use Symfony\Component\Translation\TranslatorInterface;
 use Twig\Extension\AbstractExtension;
@@ -71,9 +72,8 @@ class AppExtension extends AbstractExtension
     public function humanizeEmptyData($data, $class = null, $prefix = null)
     {
         $class = empty($class) ? 'empty-data' : $class;
-        return empty($data) ? new Markup('<span class="'. $class .'">Information non renseignée.</span>', 'UTF-8') : $this->translator->trans($prefix . $data);
+        return empty($data) ? new Markup('<span class="'. $class .'">Information non renseignée.</span>',
+            'UTF-8') : $this->translator->trans($prefix . $data);
     }
-
-
 
 }

@@ -23,7 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Activity controller.
  *
- * @Route("/admin/critical-achievement", name="app.admin.critical_achievement.")
+ * @Route("/critical-achievement", name="app.admin.critical_achievement.")
  * @Security("has_role('ROLE_ADMIN_CRITICAL_ACHIEVEMENT')")
  */
 class CriticalAchievementController extends AbstractController
@@ -118,28 +118,6 @@ class CriticalAchievementController extends AbstractController
         return $this->render('critical_achievement/edit.html.twig', array(
             'form' => $form->createView(),
         ));
-    }
-
-    /**
-     * @Route("/autocomplete", name="autocomplete", methods={"GET"})
-     *
-     * @param CriticalAchievementDoctrineRepository $criticalAchievementDoctrineRepository
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function autocomplete(CriticalAchievementDoctrineRepository $criticalAchievementDoctrineRepository, Request $request)
-    {
-        $query = $request->query->get('query');
-
-        $criticalAchievements = $criticalAchievementDoctrineRepository->findLikeQuery($query);
-        $criticalAchievements = array_map(function($mode){
-            return $mode->getLabel();
-        }, $criticalAchievements);
-
-        $criticalAchievements = array_unique($criticalAchievements);
-        $criticalAchievements = array_values($criticalAchievements);
-
-        return $this->json(['query' =>  $query, 'suggestions' => $criticalAchievements, 'data' => $criticalAchievements]);
     }
 
     /**

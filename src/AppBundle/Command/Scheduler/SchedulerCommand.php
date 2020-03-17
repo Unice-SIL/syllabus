@@ -4,7 +4,7 @@
 namespace AppBundle\Command\Scheduler;
 
 
-use AppBundle\Entity\Cron;
+use AppBundle\Entity\Job;
 use Doctrine\ORM\EntityManagerInterface;
 use GO\Scheduler;
 use Symfony\Component\Console\Command\Command;
@@ -40,24 +40,24 @@ class SchedulerCommand extends Command
     {
         $scheduler = new Scheduler();
 
-        $crons = $this->em->getRepository(Cron::class)->findAll();
-        foreach ($crons as $cron) {
+        $jobs = $this->em->getRepository(Job::class)->findAll();
+        foreach ($jobs as $job) {
 
-            if (!in_array($cron->getCommand(), \AppBundle\Constant\Cron::COMMANDS)) {
-                $cron->setObsolete(true);
+            if (!in_array($job->getCommand(), \AppBundle\Constant\Job::COMMANDS)) {
+                $job->setObsolete(true);
                 continue;
             }
 
-            $cron->setObsolete(false);
+            $job->setObsolete(false);
 
-            $command = 'php bin/console ' . $cron->getCommand() . ' --cron-id=' . $cron->getId();
+            $command = 'php bin/console ' . $job->getCommand() . ' --job-id=' . $job->getId();
 
-            if ($cron->getLastStatus() === \AppBundle\Constant\Cron::STATUS_IN_PROGRESS) {
+            if ($job->getLastStatus() === \AppBundle\Constant\Job::STATUS_IN_PROGRESS) {
                 continue;
             }
 
-            if ($cron->isImmediately()) {
-                $cron->setImmediately(false);
+            if ($job->isImmediately()) {
+                $job->setImmediately(false);
                 $scheduler
                     ->raw($command)
                     ->at('* * * * *')
@@ -68,7 +68,7 @@ class SchedulerCommand extends Command
 
             $scheduler
                 ->raw($command)
-                ->at($cron->getFrequencyCronFormat())
+                ->at($job->getFrequencyJobFormat())
             ;
 
         }

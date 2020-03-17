@@ -3,6 +3,7 @@
 @import "course_info_layout";
 @import "admin";
 
+
 @font-face {
     font-family: font_awesome_free_solid;
     font-style: normal;
@@ -212,6 +213,9 @@ label.toggle-off {
     font-weight: bold;
 }
 
+.text-shadow {
+    text-shadow: 1px 1px 1px #bbb;
+}
 
 /*
     Buttons.
@@ -246,6 +250,11 @@ legend.required {
  */
 li.active{
     background-color: $primary;
+}
+
+li.sidebar-footer {
+    bottom: 10px;
+    position: fixed;
 }
 
 /*

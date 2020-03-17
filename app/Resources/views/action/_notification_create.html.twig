@@ -1,0 +1,3 @@
+{% if is_granted('ROLE_ADMIN_NOTIFICATION_CREATE') %}
+    <a class="btn btn-primary"  href="{{  path('app.admin.notification.new')  }}">Ajouter une notification</a>
+{% endif %}

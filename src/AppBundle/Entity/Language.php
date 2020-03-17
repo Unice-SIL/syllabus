@@ -8,14 +8,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Language
  * @package AppBundle\Entity
- * @ORM\Table(name="language")
  * @ORM\Entity
- *
+ * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\LanguageTranslation")
  */
 class Language
 {
@@ -36,6 +36,7 @@ class Language
      * @ORM\Column(name="label", type="string", length=100, nullable=false)
      * @Assert\NotBlank()
      * @JMS\Groups(groups={"default", "language"})
+     * @Gedmo\Translatable
      */
     private $label;
 
@@ -160,7 +161,6 @@ class Language
     {
         return $this->courseInfos;
     }
-
 
     /**
      * @return null|string

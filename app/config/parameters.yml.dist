@@ -76,3 +76,6 @@ parameters:
     app_name: 'Syllabus'
     api_host: ~
     in_maintenance: false
+    locale: ~
+    fallback_locales: ~
+    managed_locales: ~

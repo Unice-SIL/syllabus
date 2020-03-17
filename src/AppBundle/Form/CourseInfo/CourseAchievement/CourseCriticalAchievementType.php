@@ -22,7 +22,7 @@ class CourseCriticalAchievementType extends AbstractType
             ->add('criticalAchievement', Select2EntityType::class, [
                 'label' => 'Aquis critique',
                 'multiple' => false,
-                'remote_route' => 'app_admin.achievement_autocompleteByCourse',
+                'remote_route' => 'app.admin.critical_achievement.autocompleteByCourse',
                 'class' => CriticalAchievement::class,
                 'text_property' => 'label',
                 'language' => 'fr',

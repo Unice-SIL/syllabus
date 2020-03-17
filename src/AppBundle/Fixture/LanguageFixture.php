@@ -26,19 +26,19 @@ class LanguageFixture extends Fixture  implements FixtureGroupInterface
     {
         $languages = [
             [
-                'label' => self::LANGUAGE_FR
+                'label' => self::LANGUAGE_FR,
             ],
             [
-                'label' => self::LANGUAGE_EN
+                'label' => self::LANGUAGE_EN,
             ],
             [
-                'label' => self::LANGUAGE_DE
+                'label' => self::LANGUAGE_DE,
             ],
             [
-                'label' => self::LANGUAGE_IT
+                'label' => self::LANGUAGE_IT,
             ],
             [
-                'label' => self::LANGUAGE_ES
+                'label' => self::LANGUAGE_ES,
             ],
         ];
 

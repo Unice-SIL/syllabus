@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Activity controller.
  *
  * @Security("has_role('ROLE_ADMIN_ACTIVITY')")
- * @Route("/admin/activity", name="app.admin.activity.")
+ * @Route("/activity", name="app.admin.activity.")
  */
 class ActivityController extends AbstractController
 {
@@ -122,26 +122,4 @@ class ActivityController extends AbstractController
             'form' => $form->createView(),
         ));
     }
-
-    /**
-     * @Route("/autocomplete", name="autocomplete", methods={"GET"})
-     * @param Request $request
-     * @param ActivityDoctrineRepository $repository
-     * @return JsonResponse
-     */
-    public function autocomplete(Request $request, ActivityDoctrineRepository $repository)
-    {
-        $query = $request->query->get('query', '');
-
-        $activities = $repository->findLikeQuery($query);
-        $activities = array_map(function(Activity $activity){
-            return $activity->getLabel();
-        }, $activities);
-
-        $activities = array_unique($activities);
-        $activities = array_values($activities);
-
-        return $this->json(['query' =>  $query, 'suggestions' => $activities, 'data' => $activities]);
-    }
-
 }

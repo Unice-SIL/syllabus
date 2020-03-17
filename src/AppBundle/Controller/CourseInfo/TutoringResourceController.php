@@ -4,7 +4,6 @@
 namespace AppBundle\Controller\CourseInfo;
 
 
-use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseTutoringResource;
 use AppBundle\Form\CourseInfo\CourseAchievement\CourseTutoringResourcesType;
 use AppBundle\Form\CourseInfo\CourseAchievement\RemoveCourseTutoringResourcesType;
@@ -13,7 +12,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -47,7 +45,7 @@ class TutoringResourceController extends AbstractController
             ]);
         }
 
-        $render = $this->get('twig')->render('course_info/objectives_course/form/edit_tutoring_resources.html.twig', [
+        $render = $this->get('twig')->render('course_info/prerequisite/form/edit_tutoring_resources.html.twig', [
             'form' => $form->createView()
         ]);
 
@@ -60,31 +58,31 @@ class TutoringResourceController extends AbstractController
     /**
      * @Route("/delete", name="delete"))
      *
-     * @param CourseTutoringResource $tutoringResource
+     * @param CourseTutoringResource $tutoringResources
      * @param Request $request
      * @param CourseTutoringResourceManager $courseTutoringResourceManager
      * @return JsonResponse
      */
-    public function deleteTutoringResourcesAction(CourseTutoringResource $tutoringResource, Request $request,
+    public function deleteTutoringResourcesAction(CourseTutoringResource $tutoringResources, Request $request,
                                                   CourseTutoringResourceManager $courseTutoringResourceManager)
     {
-        if (!$tutoringResource instanceof CourseTutoringResource) {
+        if (!$tutoringResources instanceof CourseTutoringResource) {
             return $this->json([
                 'status' => false,
                 'content' => "Une erreur est survenue : la remédiation n'existe pas"
             ]);
         }
-        $form = $this->createForm(RemoveCourseTutoringResourcesType::class, $tutoringResource);
+        $form = $this->createForm(RemoveCourseTutoringResourcesType::class, $tutoringResources);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $courseTutoringResourceManager->delete($tutoringResource);
+            $courseTutoringResourceManager->delete($tutoringResources);
 
             return $this->json([
                 'status' => true,
                 'content' => null
             ]);
         }
-        $render = $this->get('twig')->render('course_info/objectives_course/form/remove_tutoring_resources.html.twig', [
+        $render = $this->get('twig')->render('course_info/prerequisite/form/remove_tutoring_resources.html.twig', [
             'form' => $form->createView()
         ]);
         return $this->json([

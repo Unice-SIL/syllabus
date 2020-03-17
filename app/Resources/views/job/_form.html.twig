@@ -1,0 +1,6 @@
+{{ form_start(form) }}
+    {{ form_row(form.label) }}
+    {{ form_row(form.command) }}
+    {{ form_row(form.frequencyJobFormat) }}
+    <button type="submit" class="btn btn-primary">{{button_label|default('Enregistrer')}}</button>
+{{ form_end(form) }}

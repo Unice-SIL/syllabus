@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class ActivityTypeController
  * @package AppBundle\Controller
  *
- * @Route("/admin/activity-type", name="app.admin.activity_type.")
+ * @Route("/activity-type", name="app.admin.activity_type.")
  * @Security("has_role('ROLE_ADMIN_ACTIVITYTYPE')")
  */
 class ActivityTypeController extends AbstractController
@@ -122,26 +122,4 @@ class ActivityTypeController extends AbstractController
             'form' => $form->createView(),
         ));
     }
-
-    /**
-     * @Route("/autocomplete", name="autocomplete", methods={"GET"})
-     * @param ActivityTypeDoctrineRepository $repository
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function autocomplete(ActivityTypeDoctrineRepository $repository, Request $request)
-    {
-        $query = $request->query->get('query');
-
-        $activitieTypes = $repository->findLikeQuery($query, $request->query->get('field'));
-        $activitieTypes = array_map(function($activityType){
-            return $activityType->getLabel();
-        }, $activitieTypes);
-
-        $activitieTypes = array_unique($activitieTypes);
-        $activitieTypes = array_values($activitieTypes);
-
-        return $this->json(['query' =>  $query, 'suggestions' => $activitieTypes, 'data' => $activitieTypes]);
-    }
-
 }

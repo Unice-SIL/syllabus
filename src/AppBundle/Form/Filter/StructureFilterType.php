@@ -19,7 +19,7 @@ class StructureFilterType extends AbstractType
     /**
      * @var
      */
-    private  $generator;
+    private $generator;
 
     /**
      * StructureFilterType constructor.
@@ -36,36 +36,30 @@ class StructureFilterType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        switch ($options['context']) {
-            case 'structure':
-                $dataAutocompletePath = 'app.admin.structure.autocomplete';
-                $fieldLabel = 'label';
-                break;
-            case 'course_info':
-                $dataAutocompletePath = 'app_admin_course_info_autocomplete';
-                $fieldLabel = 's.label';
-                break;
-        }
-
         $builder->add('label', TextFilterType::class, [
             'condition_pattern' => FilterOperands::STRING_CONTAINS,
             'label' => $options['context'] === 'structure' ? 'app.form.structure.label.label' : 'app.form.structure.label.structure',
             'attr' => [
                 'class' => 'autocomplete-input',
-                'data-autocomplete-path' => $this->generator->generate($dataAutocompletePath, ['field' => $fieldLabel])
+                'data-autocomplete-path' => $this->generator->generate('app.common.autocomplete.generic', [
+                    'entityName' => 'Structure',
+                    'findBy' => 'label',
+                    'property' => 'label'
+                ])
             ]
-        ]);
-
-        if ($options['context'] === 'structure') {
-            $builder->add('code', TextFilterType::class, [
+        ])
+            ->add('code', TextFilterType::class, [
                 'condition_pattern' => FilterOperands::STRING_CONTAINS,
                 'label' => 'app.form.structure.label.code',
                 'attr' => [
                     'class' => 'autocomplete-input',
-                    'data-autocomplete-path' => $this->generator->generate($dataAutocompletePath, ['field' => 'code'])
+                    'data-autocomplete-path' => $this->generator->generate('app.common.autocomplete.generic', [
+                        'entityName' => 'Structure',
+                        'findBy' => 'code',
+                        'property' => 'code'
+                    ])
                 ]
             ]);
-        }
     }
 
     /**
@@ -90,7 +84,7 @@ class StructureFilterType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'csrf_protection'   => false,
+            'csrf_protection' => false,
             'validation_groups' => array('filtering'), // avoid NotBlank() constraint-related message
             'method' => 'get',
             'attr' => [
