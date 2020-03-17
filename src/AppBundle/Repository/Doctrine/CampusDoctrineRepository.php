@@ -55,9 +55,15 @@ class CampusDoctrineRepository extends ServiceEntityRepository
 
         foreach ($config['filters'] as $filter => $value) {
             $valueName = 'value'.$filter;
-            $qb->andWhere($qb->expr()->eq('c.' . $filter, ':' . $valueName))
-                ->setParameter($valueName, $value)
-            ;
+            switch ($filter){
+                case 'label':
+                    $qb->andWhere($qb->expr()->like('c.' . $filter, ':' . $valueName));
+                    $value = "%{$value}%";
+                    break;
+                default:
+                    $qb->andWhere($qb->expr()->eq('c.' . $filter, ':' . $valueName));
+            }
+            $qb->setParameter($valueName, $value);
         }
 
         return $qb;

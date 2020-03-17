@@ -106,20 +106,27 @@ class UserRole
     const ROLE_ADMIN_USER_CREATE = 'ROLE_ADMIN_USER_CREATE';
     const ROLE_ADMIN_USER_UPDATE = 'ROLE_ADMIN_USER_UPDATE';
 
+    // LEVELS
+    const ROLE_ADMIN_LEVEL = 'ROLE_ADMIN_LEVEL';
+    const ROLE_ADMIN_LEVEL_LIST = 'ROLE_ADMIN_LEVEL_LIST';
+    const ROLE_ADMIN_LEVEL_CREATE = 'ROLE_ADMIN_LEVEL_CREATE';
+    const ROLE_ADMIN_LEVEL_UPDATE = 'ROLE_ADMIN_LEVEL_UPDATE';
+
 
     /*====================== API ROLES ==================*/
     const ROLE_API = 'ROLE_API';
 
-    const ROLE_API_COURSE = 'ROLE_API_COURSE_VIEW';
+    const ROLE_API_COURSE = 'ROLE_API_COURSE';
     const ROLE_API_COURSE_VIEW = 'ROLE_API_COURSE_VIEW';
     const ROLE_API_COURSE_LIST = 'ROLE_API_COURSE_LIST';
     const ROLE_API_COURSE_CREATE = 'ROLE_API_COURSE_CREATE';
     const ROLE_API_COURSE_UPDATE = 'ROLE_API_COURSE_UPDATE';
 
-    const ROLE_API_GET_COURSE_INFO = 'ROLE_API_GET_COURSE_INFO';
-    const ROLE_API_GET_COURSES_INFO = 'ROLE_API_GET_COURSES_INFO';
-    const ROLE_API_POST_COURSE_INFO = 'ROLE_API_POST_COURSE_INFO';
-    const ROLE_API_PUT_COURSE_INFO = 'ROLE_API_PUT_COURSE_INFO';
+    const ROLE_API_COURSE_INFO = 'ROLE_API_COURSE_INFO';
+    const ROLE_API_COURSE_INFO_LIST = 'ROLE_API_COURSE_INFO_LIST';
+    const ROLE_API_COURSE_INFO_VIEW = 'ROLE_API_COURSE_INFO_VIEW';
+    const ROLE_API_COURSE_INFO_CREATE = 'ROLE_API_COURSE_INFO_CREATE';
+    const ROLE_API_COURSE_INFO_UPDATE = 'ROLE_API_COURSE_INFO_UPDATE';
 
     const ROLE_API_GET_COURSE_PERMISSION = 'ROLE_API_GET_COURSE_PERMISSION';
     const ROLE_API_GET_COURSE_PERMISSIONS = 'ROLE_API_GET_COURSE_PERMISSIONS';
@@ -131,17 +138,48 @@ class UserRole
     const ROLE_API_POST_YEAR = 'ROLE_API_POST_YEAR';
     const ROLE_API_PUT_YEAR = 'ROLE_API_PUT_YEAR';
 
-    const ROLE_API_GET_CAMPUS = 'ROLE_API_GET_CAMPUS';
-    const ROLE_API_GET_CAMPUSES = 'ROLE_API_GET_CAMPUSES';
+    const ROLE_API_ACTIVITY = 'ROLE_API_ACTIVITY';
+    const ROLE_API_ACTIVITY_VIEW = 'ROLE_API_ACTIVITY_VIEW';
+    const ROLE_API_ACTIVITY_LIST = 'ROLE_API_ACTIVITY_LIST';
 
-    const ROLE_API_GET_PERIOD = 'ROLE_API_GET_PERIOD';
-    const ROLE_API_GET_PERIODS = 'ROLE_API_GET_PERIODS';
+    const ROLE_API_CRITICAL_ACHIEVEMENT = 'ROLE_API_CRITICAL_ACHIEVEMENT';
+    const ROLE_API_CRITICAL_ACHIEVEMENT_VIEW = 'ROLE_API_CRITICAL_ACHIEVEMENT_VIEW';
+    const ROLE_API_CRITICAL_ACHIEVEMENT_LIST = 'ROLE_API_CRITICAL_ACHIEVEMENT_LIST';
 
-    const ROLE_API_GET_DOMAIN = 'ROLE_API_GET_DOMAIN';
-    const ROLE_API_GET_DOMAINS = 'ROLE_API_GET_DOMAINS';
+    const ROLE_API_LANGUAGE = 'ROLE_API_LANGUAGE';
+    const ROLE_API_LANGUAGE_VIEW = 'ROLE_API_LANGUAGE_VIEW';
+    const ROLE_API_LANGUAGE_LIST = 'ROLE_API_LANGUAGE_LIST';
 
-    const ROLE_API_GET_LANGUAGE = 'ROLE_API_GET_LANGUAGE';
-    const ROLE_API_GET_LANGUAGES = 'ROLE_API_GET_LANGUAGES';
+    const ROLE_API_EQUIPMENT = 'ROLE_API_EQUIPMENT';
+    const ROLE_API_EQUIPMENT_VIEW = 'ROLE_API_EQUIPMENT_VIEW';
+    const ROLE_API_EQUIPMENT_LIST = 'ROLE_API_EQUIPMENT_LIST';
+
+    const ROLE_API_DOMAIN = 'ROLE_API_DOMAIN';
+    const ROLE_API_DOMAIN_VIEW = 'ROLE_API_DOMAIN_VIEW';
+    const ROLE_API_DOMAIN_LIST = 'ROLE_API_DOMAIN_LIST';
+
+    const ROLE_API_CAMPUS = 'ROLE_API_CAMPUS';
+    const ROLE_API_CAMPUS_VIEW = 'ROLE_API_CAMPUS_VIEW';
+    const ROLE_API_CAMPUS_LIST = 'ROLE_API_CAMPUS_LIST';
+
+    const ROLE_API_ACTIVITY_MODE = 'ROLE_API_ACTIVITY_MODE';
+    const ROLE_API_ACTIVITY_MODE_VIEW = 'ROLE_API_ACTIVITY_MODE_VIEW';
+    const ROLE_API_ACTIVITY_MODE_LIST = 'ROLE_API_ACTIVITY_MODE_LIST';
+
+    const ROLE_API_ACTIVITY_TYPE = 'ROLE_API_ACTIVITY_TYPE';
+    const ROLE_API_ACTIVITY_TYPE_VIEW = 'ROLE_API_ACTIVITY_TYPE_VIEW';
+    const ROLE_API_ACTIVITY_TYPE_LIST = 'ROLE_API_ACTIVITY_TYPE_LIST';
+
+    const ROLE_API_PERIOD = 'ROLE_API_PERIOD';
+    const ROLE_API_PERIOD_VIEW = 'ROLE_API_PERIOD_VIEW';
+    const ROLE_API_PERIOD_LIST = 'ROLE_API_PERIOD_LIST';
+
+    const ROLE_API_YEAR = 'ROLE_API_YEAR';
+    const ROLE_API_YEAR_LIST = 'ROLE_API_YEAR_LIST';
+    const ROLE_API_YEAR_VIEW = 'ROLE_API_YEAR_VIEW';
+    const ROLE_API_YEAR_CREATE = 'ROLE_API_YEAR_CREATE';
+    const ROLE_API_YEAR_UPDATE = 'ROLE_API_YEAR_UPDATE';
+
     /*====================== End ROLE API ==================*/
 
     const ROLES = [
@@ -208,33 +246,60 @@ class UserRole
         self::ROLE_ADMIN_USER_LIST,
         self::ROLE_ADMIN_USER_CREATE,
         self::ROLE_ADMIN_USER_UPDATE,
+        self::ROLE_ADMIN_LEVEL,
+        self::ROLE_ADMIN_LEVEL_LIST,
+        self::ROLE_ADMIN_LEVEL_CREATE,
+        self::ROLE_ADMIN_LEVEL_UPDATE,
         self::ROLE_API,
         self::ROLE_API_COURSE,
         self::ROLE_API_COURSE_VIEW,
         self::ROLE_API_COURSE_LIST,
         self::ROLE_API_COURSE_CREATE,
         self::ROLE_API_COURSE_UPDATE,
-        self::ROLE_API_GET_COURSE_INFO,
-        self::ROLE_API_GET_COURSES_INFO,
-        self::ROLE_API_POST_COURSE_INFO,
-        self::ROLE_API_PUT_COURSE_INFO,
+        self::ROLE_API_COURSE_INFO,
+        self::ROLE_API_COURSE_INFO_VIEW,
+        self::ROLE_API_COURSE_INFO_LIST,
+        self::ROLE_API_COURSE_INFO_CREATE,
+        self::ROLE_API_COURSE_INFO_UPDATE,
+        self::ROLE_API_ACTIVITY,
+        self::ROLE_API_ACTIVITY_VIEW,
+        self::ROLE_API_ACTIVITY_LIST,
+        self::ROLE_API_CRITICAL_ACHIEVEMENT,
+        self::ROLE_API_CRITICAL_ACHIEVEMENT_VIEW,
+        self::ROLE_API_CRITICAL_ACHIEVEMENT_LIST,
+        self::ROLE_API_LANGUAGE,
+        self::ROLE_API_LANGUAGE_VIEW,
+        self::ROLE_API_LANGUAGE_LIST,
+        self::ROLE_API_EQUIPMENT,
+        self::ROLE_API_EQUIPMENT_VIEW,
+        self::ROLE_API_EQUIPMENT_LIST,
+        self::ROLE_API_DOMAIN,
+        self::ROLE_API_DOMAIN_VIEW,
+        self::ROLE_API_DOMAIN_LIST,
+        self::ROLE_API_CAMPUS,
+        self::ROLE_API_CAMPUS_VIEW,
+        self::ROLE_API_CAMPUS_LIST,
+        self::ROLE_API_ACTIVITY_MODE,
+        self::ROLE_API_ACTIVITY_MODE_VIEW,
+        self::ROLE_API_ACTIVITY_MODE_LIST,
+        self::ROLE_API_ACTIVITY_TYPE,
+        self::ROLE_API_ACTIVITY_TYPE_VIEW,
+        self::ROLE_API_ACTIVITY_TYPE_LIST,
+        self::ROLE_API_PERIOD,
+        self::ROLE_API_PERIOD_VIEW,
+        self::ROLE_API_PERIOD_LIST,
+        self::ROLE_API_YEAR,
+        self::ROLE_API_YEAR_VIEW,
+        self::ROLE_API_YEAR_LIST,
+        self::ROLE_API_YEAR_CREATE,
+        self::ROLE_API_YEAR_UPDATE,
+
+        //Todo: update below
         self::ROLE_API_GET_COURSE_PERMISSION,
         self::ROLE_API_GET_COURSE_PERMISSIONS,
         self::ROLE_API_POST_COURSE_PERMISSION,
         self::ROLE_API_POST_COURSE_PERMISSION,
         self::ROLE_API_DELETE_COURSE_PERMISSION,
-        self::ROLE_API_GET_YEAR,
-        self::ROLE_API_GET_YEARS,
-        self::ROLE_API_POST_YEAR,
-        self::ROLE_API_PUT_YEAR,
-        self::ROLE_API_GET_CAMPUS,
-        self::ROLE_API_GET_CAMPUSES,
-        self::ROLE_API_GET_PERIOD,
-        self::ROLE_API_GET_PERIODS,
-        self::ROLE_API_GET_DOMAIN,
-        self::ROLE_API_GET_DOMAINS,
-        self::ROLE_API_GET_LANGUAGE,
-        self::ROLE_API_GET_LANGUAGES,
     ];
 
     const HIERARCHY = [
@@ -291,6 +356,11 @@ class UserRole
                 self::ROLE_ADMIN_LANGUAGE_CREATE,
                 self::ROLE_ADMIN_LANGUAGE_UPDATE
             ],
+            self::ROLE_ADMIN_LEVEL => [
+                self::ROLE_ADMIN_LEVEL_LIST,
+                self::ROLE_ADMIN_LEVEL_CREATE,
+                self::ROLE_ADMIN_LEVEL_UPDATE
+            ],
             self::ROLE_ADMIN_NOTIFICATION => [
                 self::ROLE_ADMIN_NOTIFICATION_LIST,
                 self::ROLE_ADMIN_NOTIFICATION_CREATE,
@@ -320,6 +390,54 @@ class UserRole
                 self::ROLE_API_COURSE_LIST,
                 self::ROLE_API_COURSE_CREATE,
                 self::ROLE_API_COURSE_UPDATE,
+            ],
+            self::ROLE_API_COURSE_INFO => [
+                self::ROLE_API_COURSE_INFO_VIEW,
+                self::ROLE_API_COURSE_INFO_LIST,
+                self::ROLE_API_COURSE_INFO_CREATE,
+                self::ROLE_API_COURSE_INFO_UPDATE,
+            ],
+            self::ROLE_API_ACTIVITY => [
+                self::ROLE_API_ACTIVITY_VIEW,
+                self::ROLE_API_ACTIVITY_LIST,
+            ],
+            self::ROLE_API_ACTIVITY_MODE => [
+                self::ROLE_API_ACTIVITY_MODE_VIEW,
+                self::ROLE_API_ACTIVITY_MODE_LIST,
+            ],
+            self::ROLE_API_ACTIVITY_TYPE => [
+                self::ROLE_API_ACTIVITY_TYPE_VIEW,
+                self::ROLE_API_ACTIVITY_TYPE_LIST,
+            ],
+            self::ROLE_API_CAMPUS => [
+                self::ROLE_API_CAMPUS_VIEW,
+                self::ROLE_API_CAMPUS_LIST,
+            ],
+            self::ROLE_API_CRITICAL_ACHIEVEMENT => [
+                self::ROLE_API_CRITICAL_ACHIEVEMENT_VIEW,
+                self::ROLE_API_CRITICAL_ACHIEVEMENT_LIST,
+            ],
+            self::ROLE_API_DOMAIN => [
+                self::ROLE_API_DOMAIN_VIEW,
+                self::ROLE_API_DOMAIN_LIST,
+            ],
+            self::ROLE_API_EQUIPMENT => [
+                self::ROLE_API_EQUIPMENT_VIEW,
+                self::ROLE_API_EQUIPMENT_LIST,
+            ],
+            self::ROLE_API_LANGUAGE => [
+                self::ROLE_API_LANGUAGE_VIEW,
+                self::ROLE_API_LANGUAGE_LIST,
+            ],
+            self::ROLE_API_PERIOD => [
+                self::ROLE_API_PERIOD_VIEW,
+                self::ROLE_API_PERIOD_LIST,
+            ],
+            self::ROLE_API_YEAR => [
+                self::ROLE_API_YEAR_VIEW,
+                self::ROLE_API_YEAR_LIST,
+                self::ROLE_API_YEAR_CREATE,
+                self::ROLE_API_YEAR_UPDATE,
             ],
         ],
     ];

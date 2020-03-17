@@ -4,12 +4,14 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * CourseTutoringResource
  *
  * @ORM\Table(name="course_tutoring_resource")
  * @ORM\Entity
+ * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CourseTutoringResourceTranslation")
  */
 class CourseTutoringResource
 {
@@ -29,6 +31,7 @@ class CourseTutoringResource
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=true)
      * @JMS\Groups(groups={"default", "course_tutoring_resource"})
+     * @Gedmo\Translatable
      */
     private $description = "";
 

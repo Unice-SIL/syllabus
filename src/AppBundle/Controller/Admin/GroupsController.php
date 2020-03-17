@@ -1,7 +1,7 @@
 <?php
 
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\Admin;
 
 
 use AppBundle\Entity\Groups;
@@ -23,7 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Class GroupsController
  * @package AppBundle\Controller
- * @Route("/admin/groups", name="app_admin_groups_")
+ * @Route("/groups", name="app_admin_groups_")
  */
 class GroupsController extends Controller
 {

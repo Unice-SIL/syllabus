@@ -1,7 +1,7 @@
 <?php
 
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\Admin;
 
 
 use AppBundle\Entity\AskAdvice;
@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class DashboardController
  * @package AppBundle\Controller
  *
- * @Route("/admin/dashboard", name="app_admin.dashboard_")
+ * @Route("/dashboard", name="app_admin.dashboard_")
  */
 class DashboardController extends AbstractController
 {

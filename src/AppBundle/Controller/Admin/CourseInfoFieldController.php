@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\Admin;
 
 use AppBundle\Entity\CourseInfoField;
 use AppBundle\Form\CourseInfoFieldType;
@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * CourseInfoField controller.
  *
- * @Route("/admin/syllabus-import-field", name="app_admin_course_info_field_")
+ * @Route("/syllabus-import-field", name="app_admin_course_info_field_")
  */
 class CourseInfoFieldController extends Controller
 {
