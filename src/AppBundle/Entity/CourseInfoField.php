@@ -3,12 +3,14 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * CourseInfoField
  *
  * @ORM\Table(name="course_info_field")
  * @ORM\Entity
+ * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CourseInfoFieldTranslation")
  */
 class CourseInfoField
 {
@@ -31,6 +33,7 @@ class CourseInfoField
      * @var string
      *
      * @ORM\Column(name="label", type="string", length=150, nullable=false, unique=true)
+     * @Gedmo\Translatable
      */
     private $label;
 

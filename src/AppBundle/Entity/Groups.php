@@ -6,12 +6,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Groups
  *
  * @ORM\Table(name="groups")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\GroupsDoctrineRepository")
+ * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\GroupsTranslation")
  */
 class Groups
 {
@@ -30,6 +32,7 @@ class Groups
      *
      * @ORM\Column(name="label", type="string", length=50, unique=true)
      * @Assert\NotBlank()
+     * @Gedmo\Translatable
      */
     private $label;
 

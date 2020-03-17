@@ -8,12 +8,14 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Period
  *
  * @ORM\Table(name="period")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\PeriodDoctrineRepository")
+ * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\PeriodTranslation")
  */
 class Period
 {
@@ -34,6 +36,7 @@ class Period
      * @ORM\Column(name="label", type="string", length=100, nullable=false)
      * @Assert\NotBlank()
      * @JMS\Groups(groups={"default", "period"})
+     * @Gedmo\Translatable
      */
     private $label;
 

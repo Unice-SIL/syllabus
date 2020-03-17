@@ -121,6 +121,10 @@ list of evaluation: Liste des évaluations
 
 
 app:
+  locale:
+    fr: 'Français'
+    en: 'Anglais'
+    de: 'Allemand'
   activities:
     view:
       activity:
@@ -367,6 +371,11 @@ app:
         label: 'Label'
         obsolete: 'Obsolète'
         roles: 'Rôles'
+    language:
+      label:
+        obsolete: 'obsolète'
+        label: 'Intitulé'
+        locale: 'Locale'
 
   general:
     button:

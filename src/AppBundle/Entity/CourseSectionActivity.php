@@ -5,12 +5,14 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * CourseSectionActivity
  *
  * @ORM\Table(name="course_section_activity")
  * @ORM\Entity
+ * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CourseSectionActivityTranslation")
  */
 class CourseSectionActivity
 {
@@ -30,6 +32,7 @@ class CourseSectionActivity
      *
      * @ORM\Column(name="description", type="string", length=255, nullable=true)
      * @JMS\Groups(groups={"default", "course_section_activity"})
+     * @Gedmo\Translatable
      */
     private $description;
 

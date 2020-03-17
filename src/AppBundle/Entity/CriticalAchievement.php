@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
 
 /**
@@ -15,6 +16,7 @@ use JMS\Serializer\Annotation as JMS;
  * @package AppBundle\Entity
  * @ORM\Table(name="critical_achievement")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\CriticalAchievementDoctrineRepository")
+ * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CriticalAchievementTranslation")
  */
 class CriticalAchievement
 {
@@ -36,6 +38,7 @@ class CriticalAchievement
      *
      * @ORM\Column(name="label", type="string", length=100, nullable=false)
      * @JMS\Groups(groups={"default", "critical_achievement"})
+     * @Gedmo\Translatable
      */
     private $label;
 

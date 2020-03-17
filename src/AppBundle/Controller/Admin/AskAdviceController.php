@@ -1,7 +1,7 @@
 <?php
 
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\Admin;
 
 
 use AppBundle\Entity\AskAdvice;
@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class AskAdviceController
  * @package AppBundle\Controller
  *
- * @Route("/admin/askDevice", name="app_admin.ask_advice_")
+ * @Route("/askDevice", name="app_admin.ask_advice_")
  */
 class AskAdviceController extends AbstractController
 {

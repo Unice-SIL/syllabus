@@ -46,6 +46,7 @@ class LanguageTypeSubscriber implements EventSubscriberInterface
                     'class' => 'custom-control-input'
                 ]
             ])
+                ->remove('locale')
             ;
         }
     }

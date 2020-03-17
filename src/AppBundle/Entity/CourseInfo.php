@@ -22,6 +22,7 @@ use AppBundle\Validator\Constraints as AssertCustom;
  * @ORM\Table(name="course_info")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\CourseInfoDoctrineRepository")
  * @UniqueEntity(fields={"year", "course"}, message="Le cours {{ value }} existe déjà pour cette année", errorPath="course")
+ * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CourseInfoTranslation")
  *
  */
 class CourseInfo
@@ -43,6 +44,7 @@ class CourseInfo
      * @ORM\Column(name="title", type="string", length=200, nullable=false)
      * @Assert\NotBlank(groups={"new", "edit"})
      * @JMS\Groups(groups={"default", "course_info"})
+     * @Gedmo\Translatable
      */
     private $title;
 
@@ -61,6 +63,7 @@ class CourseInfo
      * @Assert\NotBlank(groups={"presentation"})
      * @JMS\Groups(groups={"api"})
      * @JMS\Groups(groups={"course_info"})
+     * @Gedmo\Translatable
      *
      */
     private $level;
@@ -80,6 +83,7 @@ class CourseInfo
      * @Assert\NotBlank(groups={"presentation"})
      * @JMS\Groups(groups={"api"})
      * @JMS\Groups(groups={"course_info"})
+     * @Gedmo\Translatable
      */
     private $summary;
 
@@ -88,6 +92,7 @@ class CourseInfo
      *
      * @ORM\Column(name="media_type", type="string", length=10, nullable=true)
      * @JMS\Groups(groups={"course_info"})
+     * @Gedmo\Translatable
      */
     private $mediaType;
 
@@ -117,7 +122,7 @@ class CourseInfo
      * @ORM\Column(name="teaching_mode", type="string", length=15, nullable=true, options={"fixed"=true})
      * @Assert\NotBlank(groups={"presentation"})
      * @JMS\Groups(groups={"course_info"})
-     *
+     * @Gedmo\Translatable
      */
     private $teachingMode;
 
@@ -159,7 +164,7 @@ class CourseInfo
      *
      * @ORM\Column(name="teaching_other_type_class", type="string", length=65, nullable=true)
      * @JMS\Groups(groups={"course_info"})
-     *
+     * @Gedmo\Translatable
      */
     private $teachingOtherTypeClass;
 
@@ -200,6 +205,7 @@ class CourseInfo
      *
      * @ORM\Column(name="teaching_other_type_hybrid_class", type="string", length=65, nullable=true)
      * @JMS\Groups(groups={"course_info"})
+     * @Gedmo\Translatable
      */
     private $teachingOtherTypeHybridClass;
 
@@ -232,6 +238,7 @@ class CourseInfo
      *
      * @ORM\Column(name="teaching_other_type_hybrid_distant", type="string", length=65, nullable=true)
      * @JMS\Groups(groups={"course_info"})
+     * @Gedmo\Translatable
      */
     private $teachingOtherTypeHybridDistant;
 
@@ -264,6 +271,7 @@ class CourseInfo
      *
      * @ORM\Column(name="teaching_other_type_distant", type="string", length=65, nullable=true)
      * @JMS\Groups(groups={"course_info"})
+     * @Gedmo\Translatable
      */
     private $teachingOtherTypeDist;
 
@@ -320,6 +328,7 @@ class CourseInfo
      *
      * @ORM\Column(name="mcc_ct_nat_session_1", type="string", length=100, nullable=true)
      * @JMS\Groups(groups={"course_info"})
+     * @Gedmo\Translatable
      */
     private $mccCtNatSession1;
 
@@ -328,6 +337,7 @@ class CourseInfo
      *
      * @ORM\Column(name="mcc_ct_duration_session_1", type="string", length=100, nullable=true)
      * @JMS\Groups(groups={"course_info"})
+     * @Gedmo\Translatable
      */
     private $mccCtDurationSession1;
 
@@ -344,6 +354,7 @@ class CourseInfo
      *
      * @ORM\Column(name="mcc_ct_nat_session_2", type="string", length=100, nullable=true)
      * @JMS\Groups(groups={"course_info"})
+     * @Gedmo\Translatable
      */
     private $mccCtNatSession2;
 
@@ -352,6 +363,7 @@ class CourseInfo
      *
      * @ORM\Column(name="mcc_ct_duration_session_2", type="string", length=100, nullable=true)
      * @JMS\Groups(groups={"course_info"})
+     * @Gedmo\Translatable
      */
     private $mccCtDurationSession2;
 
@@ -361,6 +373,7 @@ class CourseInfo
      *
      * @ORM\Column(name="mcc_advice", type="text", length=65535, nullable=true)
      * @JMS\Groups(groups={"course_info"})
+     * @Gedmo\Translatable
      */
     private $mccAdvice;
 
@@ -393,6 +406,7 @@ class CourseInfo
      *
      * @ORM\Column(name="tutoring_description", type="text", length=65535, nullable=true)
      * @JMS\Groups(groups={"course_info"})
+     * @Gedmo\Translatable
      */
     private $tutoringDescription;
 
@@ -401,6 +415,7 @@ class CourseInfo
      *
      * @ORM\Column(name="educational_resources", type="text", length=65535, nullable=true)
      * @JMS\Groups(groups={"course_info"})
+     * @Gedmo\Translatable
      */
     private $educationalResources;
 
@@ -409,6 +424,7 @@ class CourseInfo
      *
      * @ORM\Column(name="bibliographic_resources", type="text", length=65535, nullable=true)
      * @JMS\Groups(groups={"course_info"})
+     * @Gedmo\Translatable
      */
     private $bibliographicResources;
 
@@ -417,6 +433,7 @@ class CourseInfo
      *
      * @ORM\Column(name="agenda", type="text", length=65535, nullable=true)
      * @JMS\Groups(groups={"course_info"})
+     * @Gedmo\Translatable
      */
     private $agenda;
 
@@ -425,6 +442,7 @@ class CourseInfo
      *
      * @ORM\Column(name="organization", type="text", length=65535, nullable=true)
      * @JMS\Groups(groups={"course_info"})
+     * @Gedmo\Translatable
      */
     private $organization;
 
@@ -433,6 +451,7 @@ class CourseInfo
      *
      * @ORM\Column(name="closing_remarks", type="text", length=65535, nullable=true)
      * @JMS\Groups(groups={"course_info"})
+     * @Gedmo\Translatable
      */
     private $closingRemarks;
 
@@ -441,6 +460,7 @@ class CourseInfo
      *
      * @ORM\Column(name="closing_video", type="text", length=65535, nullable=true)
      * @JMS\Groups(groups={"course_info"})
+     * @Gedmo\Translatable
      */
     private $closingVideo;
 

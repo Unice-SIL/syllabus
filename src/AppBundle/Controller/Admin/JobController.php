@@ -12,7 +12,6 @@ use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Job controller.
  *
- * @Route("admin/job", name="app.admin.job.")
+ * @Route("/job", name="app.admin.job.")
  * @Security("has_role('ROLE_ADMIN_JOB')")
  *
  */
