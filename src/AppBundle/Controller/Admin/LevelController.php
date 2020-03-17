@@ -23,7 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class LevelController
  * @package AppBundle\Controller
  *
- * @Route("/admin/level", name="app.admin.level.")
+ * @Route("/level", name="app.admin.level.")
  * @Security("has_role('ROLE_ADMIN_LEVEL')")
  */
 class LevelController extends AbstractController
