@@ -11,9 +11,9 @@ use Doctrine\Persistence\ObjectManager;
 
 class LevelFixture extends Fixture  implements FixtureGroupInterface
 {
-    public const LEVEL_BEGINNER = 'beginner';
-    public const LEVEL_INTERMEDIATE = 'intermediate';
-    public const LEVEL_COFIRMED = 'confirmed';
+    public const LEVEL_L1 = 'Licence 1';
+    public const LEVEL_L2 = 'Licence 2';
+    public const LEVEL_L3 = 'Licence 3';
 
     public static function getGroups(): array
     {
@@ -24,13 +24,13 @@ class LevelFixture extends Fixture  implements FixtureGroupInterface
     {
         $levels = [
             [
-                'label' => self::LEVEL_BEGINNER
+                'label' => self::LEVEL_L1
             ],
             [
-                'label' => self::LEVEL_INTERMEDIATE
+                'label' => self::LEVEL_L2
             ],
             [
-                'label' => self::LEVEL_COFIRMED
+                'label' => self::LEVEL_L3
             ],
         ];
 
