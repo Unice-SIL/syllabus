@@ -7,12 +7,14 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Activity
  *
  * @ORM\Table(name="activity")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\ActivityDoctrineRepository")
+ * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\ActivityTranslation")
  */
 class Activity
 {
@@ -33,6 +35,7 @@ class Activity
      * @ORM\Column(name="label", type="string", length=100, nullable=false)
      * @Assert\NotBlank()
      * @JMS\Groups(groups={"default", "activity"})
+     * @Gedmo\Translatable
      */
     private $label;
 
@@ -42,6 +45,7 @@ class Activity
      * @ORM\Column(name="description", type="string", length=400, nullable=true)
      * @Assert\Length(max="200")
      * @JMS\Groups(groups={"default", "activity"})
+     * @Gedmo\Translatable
      */
     private $description;
 

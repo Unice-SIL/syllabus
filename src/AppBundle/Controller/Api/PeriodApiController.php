@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
  * Class PeriodApiController
  * @package AppBundle\Controller\Api
  * @Route("/api/period", name="api.period.")
+ * @IsGranted("ROLE_API_PERIOD")
  */
 class PeriodApiController extends Controller
 {
@@ -46,7 +47,7 @@ class PeriodApiController extends Controller
      *     type="boolean",
      *     description="A field used to filter periods"
      * )
-     * @IsGranted("ROLE_API_GET_PERIODS")
+     * @IsGranted("ROLE_API_PERIOD_LIST")
      */
     public function indexAction(Request $request, ApiHelper $apiHelper, PeriodDoctrineRepository $periodDoctrineRepository)
     {
@@ -75,7 +76,7 @@ class PeriodApiController extends Controller
      *     type="string",
      *     description="The id of the expected period"
      * )
-     * @IsGranted("ROLE_API_GET_PERIOD")
+     * @IsGranted("ROLE_API_PERIOD_VIEW")
      * @param Period $period
      * @param SerializerInterface $serializer
      * @return Response

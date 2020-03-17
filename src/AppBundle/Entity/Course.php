@@ -6,11 +6,10 @@ use AppBundle\Traits\Importable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\ManyToMany;
-use Doctrine\ORM\Mapping\OneToMany;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Course
@@ -20,6 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * })
  * @UniqueEntity(fields={"code", "source"}, message="Le cours avec pour code établissement {{ value }} existe déjà pour cette source", errorPath="code")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\CourseDoctrineRepository")
+ * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CourseTranslation")
  */
 class Course
 {
@@ -42,6 +42,7 @@ class Course
      * @ORM\Column(name="type", type="string", length=5, nullable=false, options={"fixed"=true})
      * @JMS\Groups(groups={"course", "default"})
      * @Assert\NotBlank()
+     * @Gedmo\Translatable
      */
     private $type;
 
@@ -51,6 +52,7 @@ class Course
      * @ORM\Column(name="title", type="string", length=150, nullable=false)
      * @JMS\Groups(groups={"course", "default"})
      * @Assert\NotBlank()
+     * @Gedmo\Translatable
      */
     private $title;
 
@@ -88,6 +90,13 @@ class Course
      * @ORM\ManyToMany(targetEntity="CriticalAchievement", inversedBy="courses")
      */
     private $criticalAchievements;
+
+
+    /**
+     * @var string
+     * @Gedmo\Locale
+     */
+    private $locale;
 
     /**
      * Constructor
@@ -376,6 +385,11 @@ class Course
         $this->title = $title;
 
         return $this;
+    }
+
+    public function setTranslatableLocale($locale)
+    {
+        $this->locale = $locale;
     }
 
 }

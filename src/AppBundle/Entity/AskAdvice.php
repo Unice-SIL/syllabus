@@ -4,12 +4,14 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * AskAdvice
  *
  * @ORM\Table(name="ask_advice")
  * @ORM\Entity
+ * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\AskAdviceTranslation")
  */
 class AskAdvice
 {
@@ -25,6 +27,7 @@ class AskAdvice
 
     /**
      * @ORM\Column(name="description", type="text", options={"fixed"=true})
+     * @Gedmo\Translatable
      */
     private $description;
 

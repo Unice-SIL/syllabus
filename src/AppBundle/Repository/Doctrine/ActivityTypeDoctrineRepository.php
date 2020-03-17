@@ -45,4 +45,28 @@ class ActivityTypeDoctrineRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    /**
+     * @param array $config
+     * @return QueryBuilder
+     */
+    public function findQueryBuilderForApi(array $config): QueryBuilder
+    {
+        $qb = $this->getIndexQueryBuilder();
+
+        foreach ($config['filters'] as $filter => $value) {
+            $valueName = 'value'.$filter;
+            switch ($filter){
+                case 'label':
+                    $qb->andWhere($qb->expr()->like('at.' . $filter, ':' . $valueName));
+                    $value = "%{$value}%";
+                    break;
+                default:
+                    $qb->andWhere($qb->expr()->eq('at.' . $filter, ':' . $valueName));
+            }
+            $qb->setParameter($valueName, $value);
+        }
+
+        return $qb;
+    }
 }

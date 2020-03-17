@@ -3,6 +3,7 @@
 
 namespace AppBundle\Twig;
 
+use AppBundle\Twig\Runtime\LanguageRuntime;
 use AppBundle\Twig\Runtime\ReportRuntime;
 use Symfony\Component\Translation\TranslatorInterface;
 use Twig\Extension\AbstractExtension;

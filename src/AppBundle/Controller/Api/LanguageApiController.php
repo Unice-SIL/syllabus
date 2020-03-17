@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
  * Class LanguageApiController
  * @package AppBundle\Controller\Api
  * @Route("/api/language", name="api.language.")
+ * @IsGranted("ROLE_API_LANGUAGE")
  */
 class LanguageApiController extends Controller
 {
@@ -46,7 +47,7 @@ class LanguageApiController extends Controller
      *     type="boolean",
      *     description="A field used to filter languages"
      * )
-     * @IsGranted("ROLE_API_GET_LANGUAGES")
+     * @IsGranted("ROLE_API_LANGUAGE_LIST")
      */
     public function indexAction(Request $request, ApiHelper $apiHelper, LanguageDoctrineRepository $languageDoctrineRepository)
     {
@@ -75,7 +76,7 @@ class LanguageApiController extends Controller
      *     type="string",
      *     description="The id of the expected language"
      * )
-     * @IsGranted("ROLE_API_GET_LANGUAGE")
+     * @IsGranted("ROLE_API_LANGUAGE_VIEW")
      * @param Language $language
      * @param SerializerInterface $serializer
      * @return Response

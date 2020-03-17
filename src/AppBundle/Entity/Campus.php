@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Class Campus
@@ -19,6 +20,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * })
  * @UniqueEntity(fields={"code", "source"}, message="Le campus avec pour code établissement {{ value }} existe déjà pour cette source", errorPath="code")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\CampusDoctrineRepository")
+ * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CampusTranslation")
  *
  */
 class Campus
@@ -43,6 +45,7 @@ class Campus
      * @ORM\Column(name="label", type="string", length=100, nullable=false)
      * @Assert\NotBlank()
      * @JMS\Groups(groups={"default", "campus"})
+     * @Gedmo\Translatable
      */
     private $label;
 

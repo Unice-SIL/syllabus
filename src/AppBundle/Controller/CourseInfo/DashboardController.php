@@ -7,6 +7,10 @@ namespace AppBundle\Controller\CourseInfo;
 use AppBundle\Entity\AskAdvice;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Form\CourseInfo\dashboard\AskAdviceType;
+use AppBundle\Form\CourseInfo\DuplicateCourseInfoType;
+use AppBundle\Helper\Report\Report;
+use AppBundle\Manager\CourseInfoManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -28,12 +32,61 @@ class DashboardController extends AbstractController
      * @Route("/", name="index")
      *
      * @param CourseInfo $courseInfo
+     * @param Request $request
+     * @param CourseInfoManager $courseInfoManager
+     * @param EntityManagerInterface $em
      * @return Response
+     * @throws \Exception
      */
-    public function indexAction(CourseInfo $courseInfo)
+    public function indexAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $courseInfoManager, EntityManagerInterface $em)
     {
+
+        $duplicationForm = $this->createForm(DuplicateCourseInfoType::class);
+        $duplicationForm->handleRequest($request);
+
+        $isFormValid = true;
+        if ($duplicationForm->isSubmitted()) {
+
+            if ($duplicationForm->isValid()) {
+                $data = $duplicationForm->getData();
+                $from = $data['from'];
+
+                /** @var  CourseInfo $to */
+                $to = $data['to']->getCodeYear(true);
+
+
+                /** @var Report $report */
+                $report = $courseInfoManager->duplicate($from, $to, CourseInfoManager::DUPLICATION_CONTEXTE_MANUALLY);
+
+                if (!$report->hasMessages() and !$report->hasLines()) {
+
+                    $this->addFlash('success', 'La duplication a été réalisée avec succès');
+                    $em->flush();
+
+                    return $this->redirectToRoute('app.course_info.dashboard.index', ['id' => $courseInfo->getId()]);
+                }
+
+                foreach ($report->getMessages() as $message) {
+                    $this->addFlash($message->getType(), $message->getContent());
+                }
+
+                foreach ($report->getLines() as $line) {
+                    foreach ($line->getComments() as $comment) {
+                        $this->addFlash('danger', $comment);
+                    }
+                }
+
+                return $this->redirectToRoute('app.course_info.dashboard.index', ['id' => $courseInfo->getId()]);
+            }
+
+            $isFormValid = false;
+
+        }
+
         return $this->render('course_info/dashboard/dashboard.html.twig', [
-            'courseInfo' => $courseInfo
+            'courseInfo' => $courseInfo,
+            'duplicationForm' => $duplicationForm->createView(),
+            'isFormValid' => $isFormValid
         ]);
     }
 

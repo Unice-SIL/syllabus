@@ -4,7 +4,6 @@
 namespace AppBundle\Controller\CourseInfo;
 
 
-use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseTutoringResource;
 use AppBundle\Form\CourseInfo\CourseAchievement\CourseTutoringResourcesType;
 use AppBundle\Form\CourseInfo\CourseAchievement\RemoveCourseTutoringResourcesType;
@@ -13,7 +12,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -47,7 +45,7 @@ class TutoringResourceController extends AbstractController
             ]);
         }
 
-        $render = $this->get('twig')->render('course_info/prerequisites/form/edit_tutoring_resources.html.twig', [
+        $render = $this->get('twig')->render('course_info/prerequisite/form/edit_tutoring_resources.html.twig', [
             'form' => $form->createView()
         ]);
 
@@ -84,7 +82,7 @@ class TutoringResourceController extends AbstractController
                 'content' => null
             ]);
         }
-        $render = $this->get('twig')->render('course_info/prerequisites/form/remove_tutoring_resources.html.twig', [
+        $render = $this->get('twig')->render('course_info/prerequisite/form/remove_tutoring_resources.html.twig', [
             'form' => $form->createView()
         ]);
         return $this->json([

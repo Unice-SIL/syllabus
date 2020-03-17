@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class YearController
  * @package AppBundle\Controller\Admin
  *
- * @Route("/admin/year", name="app.admin.year.")
+ * @Route("/year", name="app.admin.year.")
  * @Security("has_role('ROLE_ADMIN_YEAR')")
  */
 class YearController extends AbstractController

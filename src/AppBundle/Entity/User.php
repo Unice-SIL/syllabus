@@ -9,6 +9,7 @@ use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * User
@@ -18,6 +19,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity("username")
  * @UniqueEntity("email")
  * @JMS\ExclusionPolicy("none")
+ * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\UserTranslation")
  */
 class User implements UserInterface
 {

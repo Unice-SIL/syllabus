@@ -32,6 +32,7 @@ class AppKernel extends Kernel
             new Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle(),
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
             new \Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
+            new Lexik\Bundle\TranslationBundle\LexikTranslationBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

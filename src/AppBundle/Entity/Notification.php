@@ -4,12 +4,14 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Notification
  *
  * @ORM\Table(name="notification")
  * @ORM\Entity
+ * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\NotificationTranslation")
  *
  */
 class Notification
@@ -30,6 +32,7 @@ class Notification
      * @var string
      *
      * @ORM\Column(name="message", type="text")
+     * @Gedmo\Translatable
      */
     private $message;
 
