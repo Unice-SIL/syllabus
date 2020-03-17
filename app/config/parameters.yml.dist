@@ -75,4 +75,3 @@ parameters:
     jwt_authentication_passphrase: ~
     app_name: 'Syllabus'
     api_host: ~
-    in_maintenance: false
