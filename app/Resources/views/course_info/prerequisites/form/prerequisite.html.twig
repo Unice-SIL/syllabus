@@ -1,4 +1,5 @@
-{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('app.course_info.objectives.prerequisite.add', {'id': courseInfo.id }), 'data-card': 'card-prerequisite'}}) }}
+{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url':
+    path('app.course_info.prerequisite.prerequisite.add', {'id': courseInfo.id }), 'data-card': 'card-prerequisite'}}) }}
 {{ form_errors(form) }}
 <div class="row mt-3">
     <div class="col">
@@ -8,6 +9,7 @@
                 {% if form.description is defined %}
                     {{ form_widget(form.description) }}
                 {% endif %}
+                {{ form_widget(form.courses) }}
             </div>
         </div>
     </div>

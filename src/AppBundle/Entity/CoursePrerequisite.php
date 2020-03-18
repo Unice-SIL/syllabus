@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -54,6 +55,21 @@ class CoursePrerequisite
      * @JMS\Groups(groups={"course_prerequisite"})
      */
     private $courseInfo;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="Course", mappedBy="coursePrerequisite")
+     */
+    private $courses;
+
+    /**
+     * CoursePrerequisite constructor.
+     */
+    public function __construct()
+    {
+        $this->courses = new ArrayCollection();
+    }
 
     /**
      * @return null|string
@@ -128,6 +144,56 @@ class CoursePrerequisite
     {
         $this->courseInfo = $courseInfo;
 
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getCourses()
+    {
+        return $this->courses;
+    }
+
+    /**
+     * @param Course $courses
+     */
+    public function setCourses(Course $courses): void
+    {
+        $this->courses = $courses;
+    }
+
+    /**
+     * @param Course $course
+     * @return CoursePrerequisite
+     */
+    public function addCourse(Course $course): self
+    {
+        if (!$this->courses->contains($course))
+        {
+            $this->courses->add($course);
+            if (!$course->getCoursePrerequisite()->contains($this))
+            {
+                $course->getCoursePrerequisite()->add($this);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @param Course $course
+     * @return CoursePrerequisite
+     */
+    public function removeCourseInfo(Course $course): self
+    {
+        if ($this->courses->contains($course))
+        {
+            $this->courses->removeElement($course);
+            if ($course->getCoursePrerequisite()->contains($this))
+            {
+                $course->getCoursePrerequisite()->removeElement($this);
+            }
+        }
         return $this;
     }
 

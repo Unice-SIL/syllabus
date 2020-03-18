@@ -2,11 +2,13 @@
 
 namespace AppBundle\Form\CourseInfo\CourseAchievement;
 
+use AppBundle\Entity\Course;
 use AppBundle\Entity\CoursePrerequisite;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 
 /**
  * Class CoursePrerequisiteType
@@ -24,6 +26,15 @@ class CoursePrerequisiteType extends AbstractType
             ->add('description', TextType::class, [
                 'label' => false,
                 'required' => false,
+            ])
+            ->add('courses', Select2EntityType::class, [
+                'label' => 'Cours',
+                'multiple' => true,
+                'remote_route' => 'app_admin.course_autocompleteS3',
+                'text_property' => 'title',
+                'minimum_input_length' => 0,
+                'required' => false,
+                'by_reference' => false
             ]);
     }
 
