@@ -1,58 +1,60 @@
-<h3 id="objectives-section" class="text-shadow mt-5">{{ 'app.view.student.tabs.objectives' | trans   }}</h3>
 <hr class="bg-dark horizontal-separator">
+<div class="px-4">
+    <h1 id="objectives-section" class="text-shadow my-3">{{ 'app.view.student.tabs.objectives' | trans   }}</h1>
 
-{% if courseInfo.coursePrerequisites is not empty %}
-    <div class="row">
-        <h5 class="bg-dark border border-danger rounded text-center p-2 w-100">{{ 'app.view.student.objectives.prerequisites_list' | trans | upper }}</h5>
-        <h3 class="text-center w-100">{{ 'app.view.student.objectives.prerequisites_description' | trans }}</h3>
-        {% for prerequisite in courseInfo.coursePrerequisites %}
-            <div class="col-lg-6 flex-fill">
-                <div class="bg-dark rounded-pill text-center p-2 my-2">
-                    {{ prerequisite.description }}
+    {% if courseInfo.coursePrerequisites is not empty %}
+        <div class="row">
+            <h5 class="bg-dark border border-danger rounded text-center p-2 w-100">{{ 'app.view.student.objectives.prerequisites_list' | trans | upper }}</h5>
+            <h3 class="text-center w-100">{{ 'app.view.student.objectives.prerequisites_description' | trans }}</h3>
+            {% for prerequisite in courseInfo.coursePrerequisites %}
+                <div class="col-lg-6 flex-fill">
+                    <div class="bg-dark rounded-pill text-center p-2 my-2">
+                        {{ prerequisite.description }}
+                    </div>
                 </div>
-            </div>
-        {% endfor %}
-    </div>
-{% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
 
-{% if courseInfo.courseAchievements is not empty %}
-    <div class="row mt-3">
-        <h5 class="bg-dark border border-danger rounded text-center p-2 w-100">{{ 'app.view.student.objectives.achievements_list' | trans | upper }}</h5>
-        <h3 class="text-center w-100">{{ 'app.view.student.objectives.achievements_description' | trans }}</h3>
-        {% for achievement in courseInfo.courseAchievements %}
-            <div class="col-lg-6 flex-fill">
-                <div class="bg-dark rounded-pill text-center p-2 my-2">
-                    {{ achievement.description }}
+    {% if courseInfo.courseAchievements is not empty %}
+        <div class="row mt-3">
+            <h5 class="bg-dark border border-danger rounded text-center p-2 w-100">{{ 'app.view.student.objectives.achievements_list' | trans | upper }}</h5>
+            <h3 class="text-center w-100">{{ 'app.view.student.objectives.achievements_description' | trans }}</h3>
+            {% for achievement in courseInfo.courseAchievements %}
+                <div class="col-lg-6 flex-fill">
+                    <div class="bg-dark rounded-pill text-center p-2 my-2">
+                        {{ achievement.description }}
+                    </div>
                 </div>
-            </div>
-        {% endfor %}
-    </div>
-{% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
 
-{% if courseInfo.courseCriticalAchievements is not empty %}
-    <div class="row mt-3">
-        <h5 class="bg-dark border border-danger rounded text-center p-2 w-100">{{ 'app.view.student.objectives.critical_achievements_list' | trans | upper }}</h5>
-        <h3 class="text-center w-100">{{ 'app.view.student.objectives.critical_achievements_description' | trans | upper }}</h3>
-        {% for criticalAchievement in courseInfo.courseCriticalAchievements %}
-            <div class="col-lg-6 flex-fill">
-                <div class="bg-dark rounded-pill text-center p-2 my-2">
-                    {{ criticalAchievement.label }}
+    {% if courseInfo.courseCriticalAchievements is not empty %}
+        <div class="row mt-3">
+            <h5 class="bg-dark border border-danger rounded text-center p-2 w-100">{{ 'app.view.student.objectives.critical_achievements_list' | trans | upper }}</h5>
+            <h3 class="text-center w-100">{{ 'app.view.student.objectives.critical_achievements_description' | trans | upper }}</h3>
+            {% for criticalAchievement in courseInfo.courseCriticalAchievements %}
+                <div class="col-lg-6 flex-fill">
+                    <div class="bg-dark rounded-pill text-center p-2 my-2">
+                        {{ criticalAchievement.label }}
+                    </div>
                 </div>
-            </div>
-        {% endfor %}
-    </div>
-{% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
 
-{% if courseInfo.courseTutoringResources is not empty %}
-    <div class="row mt-3">
-        <h5 class="bg-dark border border-danger rounded text-center p-2 w-100">{{ 'app.view.student.objectives.tutoring_resources_list' | trans | upper }}</h5>
-        <h3 class="text-center w-100">A la fin de ce cours, je devrais être capable de…</h3>
-        {% for tutoringResources in courseInfo.courseTutoringResources %}
-            <div class="col-lg-6 flex-fill">
-                <div class="bg-dark rounded-pill text-center p-2 my-2">
-                    {{ tutoringResources.description }}
+    {% if courseInfo.courseTutoringResources is not empty %}
+        <div class="row mt-3">
+            <h5 class="bg-dark border border-danger rounded text-center p-2 w-100">{{ 'app.view.student.objectives.tutoring_resources_list' | trans | upper }}</h5>
+            <h3 class="text-center w-100">A la fin de ce cours, je devrais être capable de…</h3>
+            {% for tutoringResources in courseInfo.courseTutoringResources %}
+                <div class="col-lg-6 flex-fill">
+                    <div class="bg-dark rounded-pill text-center p-2 my-2">
+                        {{ tutoringResources.description }}
+                    </div>
                 </div>
-            </div>
-        {% endfor %}
-    </div>
-{% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
