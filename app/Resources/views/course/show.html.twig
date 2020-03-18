@@ -1,6 +1,12 @@
 {% extends 'admin_layout.html.twig' %}
 {% set h1 = course.title %}
 
+{% block modals %}
+    {{ parent() }}
+    {{ include('partial/_add_parent_coure_modal.html.twig') }}
+    {{ include('partial/_add_children_coure_modal.html.twig') }}
+    {{ include('partial/warning_delete_modal.html.twig') }}
+{% endblock %}
 {% block subContent %}
     <div class="card card-default">
 
@@ -46,7 +52,7 @@
                     <th>
                         Strucutre
                     </th>
-                    <th>
+                    <th class="text-right">
                         Action
                     </th>
                 </tr>
@@ -64,7 +70,7 @@
                             {{ courseInfo.structure }}
                         </td>
                         <td>
-                            <a href="{{ path('app_admin_course_info_edit', {'id': courseInfo.id }) }}" class="btn btn-primary">
+                            <a href="{{ path('app_admin_course_info_edit', {'id': courseInfo.id }) }}" class="btn btn-primary float-right">
                                 <i class="fas fa-edit"></i>
                             </a>
                         </td>
@@ -75,4 +81,125 @@
         </div>
         <!-- /.card-body -->
     </div>
+
+    <hr>
+
+    <div class="card mt-4">
+        <div class="card-header">
+            <div class="pb-5">
+                <h3 class="card-title">Cours parents</h3>
+                <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#modal-add-parent-course">
+                    Attahcer des cours parents
+                </button>
+            </div>
+
+            {{ _self.courseFilter(filterParentForm, course) }}
+
+        </div>
+
+        {{ _self.courseTable(parentPagination, removeParentCourseForm) }}
+
+        <!-- /.card-body -->
+        {% if knp_pagination_render(parentPagination) %}
+            <div class="card-footer clearfix">
+                {{ knp_pagination_render(parentPagination) }}
+            </div>
+        {% endif %}
+    </div>
+
+    <hr>
+
+    <div class="card mt-4">
+        <div class="card-header">
+            <div class="pb-5">
+                <h3 class="card-title">Cours enfants</h3>
+                <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#modal-add-children-course">
+                    Attahcer des cours enfants
+                </button>
+            </div>
+            {{ _self.courseFilter(filterChildrenForm, course) }}
+        </div>
+
+        {{ _self.courseTable(childrenPagination, removeChildrenCourseForm) }}
+
+        <!-- /.card-body -->
+        {% if knp_pagination_render(childrenPagination) %}
+            <div class="card-footer clearfix">
+                {{ knp_pagination_render(childrenPagination) }}
+            </div>
+        {% endif %}
+    </div>
+
+    {% macro courseFilter(form, course) %}
+        <div class="border p-3 mb-3">
+        <a class="" data-toggle="collapse" href="#collapseFilter-{{ form.vars.name }}" role="button" aria-expanded="false" aria-controls="collapseFilter-{{ form.vars.name }}">
+            Filtres
+        </a>
+        <div class="collapse" id="collapseFilter-{{ form.vars.name }}">
+            {{ form_start(form) }}
+            <div class="row">
+                <div class="col-lg-6 col-md-12">
+                    {{ form_row(form.title) }}
+                </div>
+                <div class="col-lg-6 col-md-12">
+                    {{ form_row(form.code) }}
+                </div>
+                <div class="col-12">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Filtrer</button>
+                        <a class="btn btn-danger" href="{{  path('app_admin.course_show', { 'id' : course.id })  }}">Réinitialiser les filtres</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+    {% endmacro %}
+
+    {% macro courseTable(pagination, removeItemsForm) %}
+        <div class="card-body p-0">
+            <table class="table table-striped projects">
+                <thead>
+                <tr>
+                    <th>
+                        Titre
+                    </th>
+                    <th>
+                        Code
+                    </th>
+                    <th>
+                        Type
+                    </th>
+                    <th class="text-right">
+                        Action
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for course in pagination %}
+                    <tr>
+                        <td>
+                            {{ course.title }}
+                        </td>
+                        <td>
+                            {{ course.code }}
+                        </td>
+                        <td>
+                            {{ course.type }}
+                        </td>
+                        <td>
+                            {% set removeForm = removeItemsForm.createView %}
+                            {{ form_start(removeForm) }}
+                            {{ form_widget(removeForm.id, {'attr' : {'value' : course.id}}) }}
+                            <button type="button" class="btn btn-danger float-right warning-delete" data-toggle="modal" data-target="#warningDeleteModal">
+                                <i class="fas fa-trash"></i> Détacher
+                            </button>
+                            {{ form_end(removeForm) }}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endmacro %}
 {% endblock %}

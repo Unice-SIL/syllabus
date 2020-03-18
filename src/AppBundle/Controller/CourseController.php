@@ -4,6 +4,10 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Course;
 use AppBundle\Entity\CourseInfo;
+use AppBundle\Form\Course\AddChildrenCourseType;
+use AppBundle\Form\Course\AddParentCourseType;
+use AppBundle\Form\Course\RemoveChildrenCourseType;
+use AppBundle\Form\Course\RemoveParentCourseType;
 use AppBundle\Form\CourseInfoType;
 use AppBundle\Form\CourseType;
 use AppBundle\Form\Filter\CourseFilterType;
@@ -14,11 +18,15 @@ use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Routing\Annotation\Route;
+use function Couchbase\defaultDecoder;
 
 /**
  * Class CourseController
@@ -112,17 +120,123 @@ class CourseController extends Controller
 
     /**
      * List the piece of informations of an existing course including a table of associated CourseInfo
-     * @Route("/{id}/show", name="show", methods={"GET"})
+     * @Route("/{id}/show", name="show", methods={"GET", "POST"})
      * @Entity("course", expr="repository.findCourseWithCourseInfoAndYear(id)")
-     * @param string $id
+     * @param Course $course
      * @param EntityManagerInterface $em
+     * @param Request $request
+     * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
+     * @param FormFactoryInterface $formFactory
      * @return Response
      */
-    public function showAction(Course $course, EntityManagerInterface $em)
+    public function showAction(
+        Course $course,
+        EntityManagerInterface $em,
+        Request $request,
+        FilterBuilderUpdaterInterface $filterBuilderUpdater,
+        FormFactoryInterface $formFactory
+    )
     {
+
+
+        /*===================================================================================================*/
+        $removeParentCourseForm = $this->createForm(RemoveParentCourseType::class);
+        $removeParentCourseForm->handleRequest($request);
+
+        if ($removeParentCourseForm->isSubmitted() and $removeParentCourseForm->isValid()) {
+
+            $courseToRemove = $em->getRepository(Course::class)->find($removeParentCourseForm->getData()['id']);
+
+            $course->removeParent($courseToRemove);
+
+            $em->flush();
+
+            return $this->redirectToRoute('app_admin.course_show', [
+                'id' => $course->getId()
+            ]);
+        }
+        /*===================================================================================================*/
+
+        /*===================================================================================================*/
+        $removeChildrenCourseForm = $this->createForm(RemoveChildrenCourseType::class);
+        $removeChildrenCourseForm->handleRequest($request);
+
+        if ($removeChildrenCourseForm->isSubmitted() and $removeChildrenCourseForm->isValid()) {
+
+            $courseToRemove = $em->getRepository(Course::class)->find($removeChildrenCourseForm->getData()['id']);
+
+            $course->removeChild($courseToRemove);
+
+            $em->flush();
+
+            return $this->redirectToRoute('app_admin.course_show', [
+                'id' => $course->getId()
+            ]);
+        }
+        /*===================================================================================================*/
+
+        /*===================================================================================================*/
+        $addParentCourseForm = $this->createForm(AddParentCourseType::class, $course);
+        $addParentCourseForm->handleRequest($request);
+        $addChildrenCourseForm = $this->createForm(AddChildrenCourseType::class, $course);
+        $addChildrenCourseForm->handleRequest($request);
+
+        if (
+            ($addParentCourseForm->isSubmitted() and $addParentCourseForm->isValid())
+            or ($addChildrenCourseForm->isSubmitted() and $addChildrenCourseForm->isValid())
+        ) {
+
+            $em->flush();
+
+            return $this->redirectToRoute('app_admin.course_show', [
+                'id' => $course->getId()
+            ]);
+        }
+        /*===================================================================================================*/
+
+        $modelForm = $this->createForm(CourseFilterType::class);
+        $modelName = $modelForm->getName();
+
+        $filterParentForm = $formFactory->createNamed($modelName . '_parent', CourseFilterType::class);
+        $parentQb = $em->getRepository(Course::class)->getParentCoursesQbByCourse($course);
+
+        if ($request->query->has($filterParentForm->getName())) {
+            $filterParentForm->submit($request->query->get($filterParentForm->getName()));
+            $filterBuilderUpdater->addFilterConditions($filterParentForm, $parentQb);
+        }
+
+        $parentPagination = $this->get('knp_paginator')->paginate(
+            $parentQb,
+            $request->query->getInt('parents_page', 1),
+            10,
+            ['pageParameterName' => 'parents_page']
+        );
+
+        $filterChildrenForm = $formFactory->createNamed($modelName . '_children', CourseFilterType::class);
+        $childrenQb = $em->getRepository(Course::class)->getChildrenCoursesQbByCourse($course);
+
+        if ($request->query->has($filterChildrenForm->getName())) {
+            $filterChildrenForm->submit($request->query->get($filterChildrenForm->getName()));
+            $filterBuilderUpdater->addFilterConditions($filterChildrenForm, $childrenQb);
+        }
+
+        $childrenPagination = $this->get('knp_paginator')->paginate(
+            $childrenQb,
+            $request->query->getInt('children_page', 1),
+            10,
+            ['pageParameterName' => 'children_page']
+        );
 
         return $this->render('course/show.html.twig', [
             'course' => $course,
+            'addParentCourseForm' => $addParentCourseForm->createView(),
+            'addChildrenCourseForm' => $addChildrenCourseForm->createView(),
+            'removeParentCourseForm' => $removeParentCourseForm,
+            'removeChildrenCourseForm' => $removeChildrenCourseForm,
+            'parentPagination' => $parentPagination,
+            'childrenPagination' => $childrenPagination,
+            'filterParentForm' => $filterParentForm->createView(),
+            'filterChildrenForm' => $filterChildrenForm->createView(),
         ]);
     }
 
