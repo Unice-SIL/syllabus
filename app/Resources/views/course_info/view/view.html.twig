@@ -12,13 +12,13 @@
 {% endblock %}
 
 {% block content %}
-    {% include 'course_info/view/student_presentation.html.twig' %}
-    {% include 'course_info/view/student_objectives.html.twig' %}
-    {% include 'course_info/view/student_activities.html.twig' %}
-    {% include 'course_info/view/student_evaluation.html.twig' %}
-    {% include 'course_info/view/student_equipments.html.twig' %}
-    {% include 'course_info/view/student_info.html.twig' %}
-    {% include 'course_info/view/student_closing_remarks.html.twig' %}
+    <div class="container-fluid p-4" style="background-color: black">
+        {% include 'course_info/view/dark_student_presentation.html.twig' %}
+        {% include 'course_info/view/dark_student_objectives.html.twig' %}
+        {% include 'course_info/view/dark_student_activities.html.twig' %}
+        {% include 'course_info/view/dark_student_equipments.html.twig' %}
+        {% include 'course_info/view/dark_student_info.html.twig' %}
+    </div>
 {% endblock %}
 
 {% block javascripts %}

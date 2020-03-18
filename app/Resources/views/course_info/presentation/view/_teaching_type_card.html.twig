@@ -1,7 +1,10 @@
 {% if type is not defined %}
- {% set type = 'primary' %}
+    {% set type = 'primary' %}
+    {% if darkCard is defined %}
+        {% set type = 'danger' %}
+    {% endif %}
 {% endif %}
-<div class="info-box border rounded shadow">
+<div class="info-box border rounded shadow {% if darkCard is defined %}{{ darkCard }}{% endif %}">
     <span class="info-box-icon bg-{{ type }}">
         <i class="fas fa-clock"></i>
     </span>
