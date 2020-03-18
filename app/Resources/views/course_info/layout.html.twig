@@ -67,17 +67,9 @@
                 <li class="nav-item">
                     <a class="nav-link menu-tab"
                        id="menu-prerequisites-course"
-                       href="{{ path('app.course_info.prerequisites.index', { 'id': courseInfo.id }) }}">
+                       href="{{ path('app.course_info.prerequisite.index', { 'id': courseInfo.id }) }}">
                         <i class="fas fa-key"></i>
                         <p>{{ 'app.sidebar.prerequisites' | trans }}</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link menu-tab"
-                       id="menu-prerequisite"
-                       href="{{ path('app.course_info.prerequisite.index', { 'id': courseInfo.id }) }}">
-                        <i class="fas fa-bullseye"></i>
-                        <p>Prérequis</p>
                     </a>
                 </li>
                 <li class="nav-item has-treeview">

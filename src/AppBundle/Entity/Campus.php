@@ -149,9 +149,6 @@ class Campus
     }
 
     /**
-     * @return null|string
-     */
-    /**
      * @param CourseInfo $courseInfo
      * @return Campus
      */

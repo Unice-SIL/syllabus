@@ -99,6 +99,12 @@ class Course
     private $locale;
 
     /**
+     * @ORM\ManyToOne(targetEntity="CoursePrerequisite", inversedBy="courses")
+     * @ORM\JoinColumn(name="course_prerequisite_id", referencedColumnName="id")
+     */
+    private $coursePrerequisite;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -387,9 +393,21 @@ class Course
         return $this;
     }
 
-    public function setTranslatableLocale($locale)
+    /**
+     * @return mixed
+     */
+    public function getCoursePrerequisite()
     {
-        $this->locale = $locale;
+        return $this->coursePrerequisite;
     }
 
+    /**
+     * @param $coursePrerequisite
+     * @return Course
+     */
+    public function setCoursePrerequisite($coursePrerequisite): self
+    {
+        $this->coursePrerequisite = $coursePrerequisite;
+        return $this;
+    }
 }
