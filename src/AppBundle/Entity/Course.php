@@ -393,4 +393,21 @@ class Course
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getCoursePrerequisite()
+    {
+        return $this->coursePrerequisite;
+    }
+
+    /**
+     * @param $coursePrerequisite
+     * @return Course
+     */
+    public function setCoursePrerequisite($coursePrerequisite): self
+    {
+        $this->coursePrerequisite = $coursePrerequisite;
+        return $this;
+    }
 }

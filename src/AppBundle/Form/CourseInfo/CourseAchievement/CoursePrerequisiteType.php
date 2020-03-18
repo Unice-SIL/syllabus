@@ -29,12 +29,17 @@ class CoursePrerequisiteType extends AbstractType
             ])
             ->add('courses', Select2EntityType::class, [
                 'label' => 'Cours',
+                'class' => Course::class,
                 'multiple' => true,
-                'remote_route' => 'app_admin.course_autocompleteS3',
+                'remote_route' => 'app.common.autocomplete.generic_s2',
                 'text_property' => 'title',
                 'minimum_input_length' => 0,
                 'required' => false,
-                'by_reference' => false
+                'remote_params' => [
+                    'entityName' => 'Course',
+                    'findBy' => 'title',
+                    'property' => 'title'
+                ],
             ]);
     }
 

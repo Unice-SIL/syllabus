@@ -229,7 +229,6 @@ class CourseController extends Controller
         {
             $courses[] = ['id' => $course->getId(), 'text' => $course->getCode()];
         }
-
         return $this->json($courses);
     }
 

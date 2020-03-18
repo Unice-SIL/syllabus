@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -156,11 +157,13 @@ class CoursePrerequisite
     }
 
     /**
-     * @param Course $courses
+     * @param array $courses
+     * @return CoursePrerequisite
      */
-    public function setCourses(Course $courses): void
+    public function setCourses(Array $courses): CoursePrerequisite
     {
         $this->courses = $courses;
+        return $this;
     }
 
     /**
