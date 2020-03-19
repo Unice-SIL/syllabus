@@ -7,6 +7,10 @@ install: ## Install symfony project
 	composer install
 	make build
 
+reinstall: ## Reinstall symfony project
+	composer install
+	make rebuild
+
 rebuild: ## Rebuild database
 	php bin/console doctrine:database:drop --force
 	make build

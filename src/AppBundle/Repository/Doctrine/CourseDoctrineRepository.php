@@ -96,4 +96,26 @@ class CourseDoctrineRepository  extends ServiceEntityRepository
             ;
     }
 
+    public function getParentCoursesQbByCourse(Course $course)
+    {
+        $qb = $this->createQueryBuilder('c');
+
+        return $qb
+            ->innerJoin('c.children', 'ch')
+            ->andWhere($qb->expr()->eq('ch', ':course'))
+            ->setParameter('course', $course)
+            ;
+    }
+
+    public function getChildrenCoursesQbByCourse(Course $course)
+    {
+        $qb = $this->createQueryBuilder('c');
+
+        return $qb
+            ->join('c.parents', 'p')
+            ->andWhere($qb->expr()->eq('p', ':course'))
+            ->setParameter('course', $course)
+            ;
+    }
+
 }
