@@ -80,6 +80,7 @@ class CoursePrerequisiteController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $prerequisite = $form->getData();
+            $courses = $prerequisite->getCourses();
             $courseInfo->addCoursePrerequisite($prerequisite);
             foreach ($courseInfo->getCoursePrerequisites() as $prerequisite) {
                 $prerequisite->setPosition($prerequisite->getPosition() + 1);

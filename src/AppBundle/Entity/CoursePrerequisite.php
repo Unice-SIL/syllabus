@@ -60,7 +60,8 @@ class CoursePrerequisite
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Course", mappedBy="coursePrerequisite")
+     * @ORM\ManyToMany(targetEntity="Course", mappedBy="coursePrerequisites")
+     *
      */
     private $courses;
 
@@ -160,7 +161,7 @@ class CoursePrerequisite
      * @param array $courses
      * @return CoursePrerequisite
      */
-    public function setCourses(Array $courses): CoursePrerequisite
+    public function setCourses(?Array $courses): CoursePrerequisite
     {
         $this->courses = $courses;
         return $this;
