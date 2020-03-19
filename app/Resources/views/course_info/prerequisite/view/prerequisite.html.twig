@@ -28,11 +28,13 @@
             <tr class="item-sortable" data-id="{{ prerequisite.id }}">
                 <td class="text-left">
                     <span>{{ prerequisite.description }}</span></br>
-                    <span>
+                    <i>
+                        Cours obligatoire(s) :
                         {% for c in prerequisite.courses %}
-                            Cours obligatoire : {{ c.title }}
+                             {{ c.title }}
+                            {% if not loop.last %} ,{% endif %}
                         {% endfor %}
-                    </span>
+                    </i>
                 </td>
                 <td class="text-center">
                     <button type="button"

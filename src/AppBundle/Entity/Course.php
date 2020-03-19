@@ -99,6 +99,7 @@ class Course
     private $locale;
 
     /**
+     * @var Collection
      * @ORM\ManyToMany(targetEntity="CoursePrerequisite", inversedBy="courses", cascade={ "persist" })
      */
     private $coursePrerequisites;
@@ -394,9 +395,9 @@ class Course
     }
 
     /**
-     * @return mixed
+     * @return ArrayCollection|Collection
      */
-    public function getCoursePrerequisite(): ?CoursePrerequisite
+    public function getCoursePrerequisites(): Collection
     {
         return $this->coursePrerequisites;
     }
@@ -405,7 +406,7 @@ class Course
      * @param CoursePrerequisite|null $coursePrerequisites
      * @return Course
      */
-    public function setCoursePrerequisite(?CoursePrerequisite $coursePrerequisites): self
+    public function setCoursePrerequisites(?CoursePrerequisite $coursePrerequisites): self
     {
         $this->coursePrerequisites = $coursePrerequisites;
         return $this;

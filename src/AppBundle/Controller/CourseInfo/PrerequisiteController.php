@@ -26,7 +26,7 @@ class PrerequisiteController extends AbstractController
     /**
      * @Route("/edit", name="edit"))
      *
-     * @param CoursePrerequisiteController $prerequisite
+     * @param CoursePrerequisite $prerequisite
      * @param Request $request
      * @param CoursePrerequisiteManager $coursePrerequisiteManager
      * @return JsonResponse
