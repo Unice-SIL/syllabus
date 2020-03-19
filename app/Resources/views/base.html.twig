@@ -36,7 +36,7 @@
 
 {% block modals %}{% endblock %}
 
-{% set adminNotifications = app.session.get('admin_notifications')|filter(n => n['to_show'] == true) %}
+{% set adminNotifications = get_setting('in_maintenance') ? [] : app.session.get('admin_notifications')|filter(n => n['to_show'] == true) %}
 
 <div
         id="data-notifications"
