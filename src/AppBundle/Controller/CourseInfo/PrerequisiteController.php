@@ -26,7 +26,7 @@ class PrerequisiteController extends AbstractController
     /**
      * @Route("/edit", name="edit"))
      *
-     * @param CoursePrerequisiteController $prerequisite
+     * @param CoursePrerequisite $prerequisite
      * @param Request $request
      * @param CoursePrerequisiteManager $coursePrerequisiteManager
      * @return JsonResponse
@@ -66,12 +66,6 @@ class PrerequisiteController extends AbstractController
     public function deletePrerequisitesAction(CoursePrerequisite $prerequisite, Request $request,
                                               CoursePrerequisiteManager $coursePrerequisiteManager)
     {
-        if (!$prerequisite instanceof CoursePrerequisiteController) {
-            return $this->json([
-                'status' => false,
-                'content' => "Une erreur est survenue : le prérequis n'existe pas"
-            ]);
-        }
         $form = $this->createForm(RemoveCoursePrerequisiteType::class, $prerequisite);
         $form->handleRequest($request);
 

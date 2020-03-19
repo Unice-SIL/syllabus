@@ -60,7 +60,8 @@ class CoursePrerequisite
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Course", mappedBy="coursePrerequisite")
+     * @ORM\ManyToMany(targetEntity="Course", mappedBy="coursePrerequisites", cascade={ "persist" })
+     *
      */
     private $courses;
 
@@ -157,10 +158,10 @@ class CoursePrerequisite
     }
 
     /**
-     * @param array $courses
+     * @param Collection|null $courses
      * @return CoursePrerequisite
      */
-    public function setCourses(Array $courses): CoursePrerequisite
+    public function setCourses(?Collection $courses): CoursePrerequisite
     {
         $this->courses = $courses;
         return $this;
@@ -175,9 +176,9 @@ class CoursePrerequisite
         if (!$this->courses->contains($course))
         {
             $this->courses->add($course);
-            if (!$course->getCoursePrerequisite()->contains($this))
+            if (!$course->getCoursePrerequisites()->contains($this))
             {
-                $course->getCoursePrerequisite()->add($this);
+                $course->getCoursePrerequisites()->add($this);
             }
         }
         return $this;
@@ -187,14 +188,14 @@ class CoursePrerequisite
      * @param Course $course
      * @return CoursePrerequisite
      */
-    public function removeCourseInfo(Course $course): self
+    public function removeCourse(Course $course): self
     {
         if ($this->courses->contains($course))
         {
             $this->courses->removeElement($course);
-            if ($course->getCoursePrerequisite()->contains($this))
+            if ($course->getCoursePrerequisites()->contains($this))
             {
-                $course->getCoursePrerequisite()->removeElement($this);
+                $course->getCoursePrerequisites()->removeElement($this);
             }
         }
         return $this;

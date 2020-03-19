@@ -90,6 +90,7 @@ doctrine:
                         prefix: Gedmo\Translatable\Entity
                         dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translatable/Entity"
                         alias: GedmoTranslatable
+                    DmishhSettingsBundle: ~
             apogee:
                 connection: apogee
                 auto_mapping: false
@@ -225,3 +226,22 @@ lexik_translation:
     storage:
         type: orm                  # orm | mongodb | propel
         object_manager: syllabus
+
+
+dmishh_settings:
+    template: 'setting/manage.html.twig'
+    cache_service: null
+    cache_lifetime: 3600
+    security:
+        manage_global_settings_role: ROLE_SUPER_ADMIN
+        users_can_manage_own_settings: false
+    serialization: php # database serialization mechanism (php|json)
+    settings:
+        in_maintenance:
+            scope: global # global or user
+            type: AppBundle\Form\Type\CustomCheckboxType # any Symfony form type, or FQCN for Symfony >=3.0
+            options: # options passed to form
+                required: false
+        #            constraints:
+        #                Symfony\Component\Validator\Constraints\Length:
+        #                    min: 5

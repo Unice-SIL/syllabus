@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Controller\Admin;
+namespace AppBundle\Controller;
 
 use AppBundle\Entity\Course;
 use AppBundle\Entity\CourseInfo;
@@ -16,28 +16,28 @@ use AppBundle\Repository\Doctrine\CourseDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Routing\Annotation\Route;
+use function Couchbase\defaultDecoder;
 
 /**
  * Class CourseController
  * @package AppBundle\Controller
  *
- * @Route("course", name="app.admin.course.")
- * @Security("has_role('ROLE_ADMIN_COURSE')")
+ * @Route("/course", name="app_admin.course_")
  */
 class CourseController extends Controller
 {
     /**
-     * @Route("/", name="index", methods={"GET"})
-     * @Security("has_role('ROLE_ADMIN_COURSE_LIST')")
+     * @Route("/", name="index")
      *
      * @param Request $request
      * @param CourseDoctrineRepository $courseDoctrineRepository
@@ -71,12 +71,10 @@ class CourseController extends Controller
     }
 
     /**
-     * @Route("/new", name="new", methods={"GET", "POST"})
-     * @Security("has_role('ROLE_ADMIN_COURSE_CREATE')")
-     *
+     * @Route("/new", name="new")
      * @param Request $request
      * @param CourseManager $courseManager
-     * @return RedirectResponse|Response
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function newAction(Request $request, CourseManager $courseManager)
     {
@@ -89,7 +87,7 @@ class CourseController extends Controller
 
             $this->addFlash('success', 'Le cours a été enregistré avec succès');
 
-            return $this->redirectToRoute('app.admin.course.index');
+            return $this->redirectToRoute('app_admin.course_index');
         }
         return $this->render('course/new.html.twig', ['form' => $form->createView()]);
     }
@@ -97,13 +95,12 @@ class CourseController extends Controller
     /**
      * Displays a form to edit an existing course entity.
      *
-     * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
-     * @Security("has_role('ROLE_ADMIN_COURSE_UPDATE')")
-     *
+     * @Route("/{id}/edit", name="edit")
+     * @Method({"GET", "POST"})
      * @param Request $request
      * @param Course $course
      * @param CourseManager $courseManager
-     * @return RedirectResponse|Response
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function editAction(Request $request, Course $course, CourseManager $courseManager)
     {
@@ -114,7 +111,7 @@ class CourseController extends Controller
             $courseManager->update($course);
 
             $this->addFlash('success', 'Le cours a été modifié avec succès.');
-            return $this->redirectToRoute('app.admin.course.edit', array('id' => $course->getId()));
+            return $this->redirectToRoute('app_admin.course_edit', array('id' => $course->getId()));
         }
         return $this->render('course/edit.html.twig', array(
             'form' => $form->createView(),
@@ -246,8 +243,6 @@ class CourseController extends Controller
     /**
      * Creates a course-info for the given course
      * @Route("/{id}/new-course-info", name="new_course_info", methods={"GET", "POST"})
-     * @Security("has_role('ROLE_ADMIN_COURSE_INFO_CREATE')")
-     *
      * @param Course $course
      * @param Request $request
      * @param EntityManagerInterface $em
@@ -267,7 +262,7 @@ class CourseController extends Controller
 
             $this->addFlash('success', 'Le syllabus a bien été ajouté au cours.');
 
-            return $this->redirectToRoute('app.admin.course.show', ['id' => $course->getId()]);
+            return $this->redirectToRoute('app_admin.course_show', ['id' => $course->getId()]);
         }
 
         return $this->render('course/new_course_info.html.twig', [
@@ -282,7 +277,7 @@ class CourseController extends Controller
      * @param CourseDoctrineRepository $courseDoctrineRepository
      * @param Request $request
      * @param $field
-     * @return JsonResponse
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function autocomplete(CourseDoctrineRepository $courseDoctrineRepository, Request $request, $field)
     {
@@ -306,7 +301,7 @@ class CourseController extends Controller
      *
      * @param CourseDoctrineRepository $courseDoctrineRepository
      * @param Request $request
-     * @return JsonResponse
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function autocompleteS2(CourseDoctrineRepository $courseDoctrineRepository, Request $request)
     {
@@ -328,7 +323,7 @@ class CourseController extends Controller
      * @Route("/autocompleteS3", name="autocompleteS3", methods={"GET"})
      *
      * @param CourseManager $courseManager
-     * @return JsonResponse
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function autocompleteS3(CourseManager $courseManager)
     {
@@ -338,6 +333,7 @@ class CourseController extends Controller
         {
             $courses[] = ['id' => $course->getId(), 'text' => $course->getCode()];
         }
+
         return $this->json($courses);
     }
 

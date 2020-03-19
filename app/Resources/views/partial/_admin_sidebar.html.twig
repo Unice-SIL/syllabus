@@ -251,7 +251,7 @@
             </ul>
         </li>
 
-        {% set administrationLink = ['app.admin.user.', 'app_admin_groups', 'app.admin.cron.', 'app.admin.notification.', 'lexik_translation_'] %}
+        {% set administrationLink = ['app.admin.user.', 'app_admin_groups', 'app.admin.job.', 'app.admin.notification.', 'lexik_translation_', 'dmishh_settings_manage_global'] %}
         <li class="nav-item has-treeview {{ printActiveAdminSidebarLink(administrationLink) ? 'menu-open' }}">
             <a href="#" class="nav-link {{ printActiveAdminSidebarLink(administrationLink) }}">
                 <i class="nav-icon fas fa-cogs"></i>
@@ -262,6 +262,27 @@
             </a>
             <ul class="nav nav-treeview"
                 style="display: {{ printActiveAdminSidebarLink(administrationLink) ? 'block' : 'none' }};">
+                {% if is_granted(constant('AppBundle\\Constant\\UserRole::ROLE_SUPER_ADMIN')) %}
+                    <li class="nav-item pl-2">
+                        <a href="{{ path('dmishh_settings_manage_global') }}"
+                           class="nav-link {{ printActiveAdminSidebarLink(['dmishh_settings_manage_global']) }}">
+                            <i class="nav-icon fas fa-calculator"></i>
+                            <p>
+                                Paramètres
+                            </p>
+                        </a>
+                    </li>
+                {% endif %}
+                <li class="nav-item pl-2">
+                    <a href="{{ path('dmishh_settings_manage_global') }}"
+                       class="nav-link {{ printActiveAdminSidebarLink(['dmishh_settings_manage_global']) }}">
+                        <i class="nav-icon fas fa-calculator"></i>
+                        <p>
+                            Paramètres
+                        </p>
+                    </a>
+                </li>
+
                 <li class="nav-item pl-2">
                     <a href="{{ path('app_admin_groups_index') }}"
                        class="nav-link {{ printActiveAdminSidebarLink(['app_admin_groups']) }}">

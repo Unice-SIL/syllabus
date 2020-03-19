@@ -87,7 +87,7 @@ class Course
 
     /**
      * @var Collection
-     * @ORM\ManyToMany(targetEntity="CriticalAchievement", inversedBy="courses")
+     * @ORM\ManyToMany(targetEntity="CriticalAchievement", inversedBy="courses", cascade={ "persist" })
      */
     private $criticalAchievements;
 
@@ -99,10 +99,10 @@ class Course
     private $locale;
 
     /**
-     * @ORM\ManyToOne(targetEntity="CoursePrerequisite", inversedBy="courses")
-     * @ORM\JoinColumn(name="course_prerequisite_id", referencedColumnName="id")
+     * @var Collection
+     * @ORM\ManyToMany(targetEntity="CoursePrerequisite", inversedBy="courses", cascade={ "persist" })
      */
-    private $coursePrerequisite;
+    private $coursePrerequisites;
 
     /**
      * Constructor
@@ -113,6 +113,7 @@ class Course
         $this->children = new ArrayCollection();
         $this->courseInfos = new ArrayCollection();
         $this->criticalAchievements = new ArrayCollection();
+        $this->coursePrerequisites = new ArrayCollection();
     }
 
     /**
@@ -394,20 +395,54 @@ class Course
     }
 
     /**
-     * @return mixed
+     * @return ArrayCollection|Collection
      */
-    public function getCoursePrerequisite()
+    public function getCoursePrerequisites(): Collection
     {
-        return $this->coursePrerequisite;
+        return $this->coursePrerequisites;
     }
 
     /**
-     * @param $coursePrerequisite
+     * @param CoursePrerequisite|null $coursePrerequisites
      * @return Course
      */
-    public function setCoursePrerequisite($coursePrerequisite): self
+    public function setCoursePrerequisites(?CoursePrerequisite $coursePrerequisites): self
     {
-        $this->coursePrerequisite = $coursePrerequisite;
+        $this->coursePrerequisites = $coursePrerequisites;
+        return $this;
+    }
+
+    /**
+     * @param CoursePrerequisite $coursePrerequisite
+     * @return Course
+     */
+    public function addCoursePrerequisite(CoursePrerequisite $coursePrerequisite): self
+    {
+        if (!$this->coursePrerequisites->contains($coursePrerequisite))
+        {
+            $this->coursePrerequisites->add($coursePrerequisite);
+            if (!$coursePrerequisite->getCourses()->contains($this))
+            {
+                $coursePrerequisite->getCourses()->add($this);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @param CoursePrerequisite $coursePrerequisite
+     * @return Course
+     */
+    public function removeCoursePrerequisite(CoursePrerequisite $coursePrerequisite): self
+    {
+        if ($this->coursePrerequisites->contains($coursePrerequisite))
+        {
+            $this->coursePrerequisites->removeElement($coursePrerequisite);
+            if ($coursePrerequisite->getCourses()->contains($this))
+            {
+                $coursePrerequisite->getCourses()->removeElement($this);
+            }
+        }
         return $this;
     }
 }
