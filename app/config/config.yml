@@ -238,7 +238,7 @@ dmishh_settings:
     serialization: php # database serialization mechanism (php|json)
     settings:
         in_maintenance:
-            scope: all # global or user
+            scope: global # global or user
             type: AppBundle\Form\Type\CustomCheckboxType # any Symfony form type, or FQCN for Symfony >=3.0
             options: # options passed to form
                 required: false
