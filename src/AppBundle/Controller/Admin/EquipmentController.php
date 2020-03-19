@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class EquipmentController
  * @package AppBundle\Controller
  *
- * @Route("/admin/equipment", name="app.admin.equipment.")
+ * @Route("/equipment", name="app.admin.equipment.")
  * @Security("has_role('ROLE_ADMIN_EQUIPMENT')")
  */
 class EquipmentController extends AbstractController

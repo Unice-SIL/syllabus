@@ -4,12 +4,14 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * CourseTeacher
  *
  * @ORM\Table(name="course_teacher")
  * @ORM\Entity
+ * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CourseTeacherTranslation")
  */
 class CourseTeacher
 {

@@ -1,0 +1,34 @@
+{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url':
+    path('app.course_info.prerequisite.prerequisite.add', {'id': courseInfo.id }), 'data-card': 'card-prerequisite'}}) }}
+{{ form_errors(form) }}
+<div class="row mt-3">
+    <div class="col">
+        <div>
+            <div>
+                <p>
+                    <label>Avant le début du cours, l'étudiant doit…</label>
+                    {% if form.description is defined %}
+                        {{ form_widget(form.description) }}
+                    {% endif %}
+                </p>
+                <p>
+                    <label>Choisir le(s) cours associé(s)</label>
+                    {{ form_widget(form.courses) }}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="d-flex justify-content-center mt-3">
+    <button type="submit" class="btn btn-primary rounded" id="create_button">
+        Ajouter
+    </button>
+</div>
+{{ form_widget(form._token) }}
+{{ form_end(form, {'render_rest': false }) }}
+
+<script>
+    $(document).ready(function () {
+        $('form[name="course_prerequisite"]').find('.select2entity').select2entity();
+    });
+</script>

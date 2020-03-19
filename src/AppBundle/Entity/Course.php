@@ -6,11 +6,10 @@ use AppBundle\Traits\Importable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\ManyToMany;
-use Doctrine\ORM\Mapping\OneToMany;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Course
@@ -20,6 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * })
  * @UniqueEntity(fields={"code", "source"}, message="Le cours avec pour code établissement {{ value }} existe déjà pour cette source", errorPath="code")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\CourseDoctrineRepository")
+ * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CourseTranslation")
  */
 class Course
 {
@@ -42,6 +42,7 @@ class Course
      * @ORM\Column(name="type", type="string", length=5, nullable=false, options={"fixed"=true})
      * @JMS\Groups(groups={"course", "default"})
      * @Assert\NotBlank()
+     * @Gedmo\Translatable
      */
     private $type;
 
@@ -51,6 +52,7 @@ class Course
      * @ORM\Column(name="title", type="string", length=150, nullable=false)
      * @JMS\Groups(groups={"course", "default"})
      * @Assert\NotBlank()
+     * @Gedmo\Translatable
      */
     private $title;
 
@@ -85,9 +87,21 @@ class Course
 
     /**
      * @var Collection
-     * @ORM\ManyToMany(targetEntity="CriticalAchievement", inversedBy="courses")
+     * @ORM\ManyToMany(targetEntity="CriticalAchievement", inversedBy="courses", cascade={ "persist" })
      */
     private $criticalAchievements;
+
+
+    /**
+     * @var string
+     * @Gedmo\Locale
+     */
+    private $locale;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="CoursePrerequisite", inversedBy="courses", cascade={ "persist" })
+     */
+    private $coursePrerequisites;
 
     /**
      * Constructor
@@ -98,6 +112,7 @@ class Course
         $this->children = new ArrayCollection();
         $this->courseInfos = new ArrayCollection();
         $this->criticalAchievements = new ArrayCollection();
+        $this->coursePrerequisites = new ArrayCollection();
     }
 
     /**
@@ -378,4 +393,55 @@ class Course
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getCoursePrerequisite(): ?CoursePrerequisite
+    {
+        return $this->coursePrerequisites;
+    }
+
+    /**
+     * @param CoursePrerequisite|null $coursePrerequisites
+     * @return Course
+     */
+    public function setCoursePrerequisite(?CoursePrerequisite $coursePrerequisites): self
+    {
+        $this->coursePrerequisites = $coursePrerequisites;
+        return $this;
+    }
+
+    /**
+     * @param CoursePrerequisite $coursePrerequisite
+     * @return Course
+     */
+    public function addCoursePrerequisite(CoursePrerequisite $coursePrerequisite): self
+    {
+        if (!$this->coursePrerequisites->contains($coursePrerequisite))
+        {
+            $this->coursePrerequisites->add($coursePrerequisite);
+            if (!$coursePrerequisite->getCourses()->contains($this))
+            {
+                $coursePrerequisite->getCourses()->add($this);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @param CoursePrerequisite $coursePrerequisite
+     * @return Course
+     */
+    public function removeCoursePrerequisite(CoursePrerequisite $coursePrerequisite): self
+    {
+        if ($this->coursePrerequisites->contains($coursePrerequisite))
+        {
+            $this->coursePrerequisites->removeElement($coursePrerequisite);
+            if ($coursePrerequisite->getCourses()->contains($this))
+            {
+                $coursePrerequisite->getCourses()->removeElement($this);
+            }
+        }
+        return $this;
+    }
 }

@@ -5,10 +5,8 @@ namespace AppBundle\Repository\Doctrine;
 
 
 use AppBundle\Entity\Language;
-use AppBundle\Repository\LanguageRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 
 /**
@@ -59,8 +57,15 @@ class LanguageDoctrineRepository extends ServiceEntityRepository
 
         foreach ($config['filters'] as $filter => $value) {
             $valueName = 'value'.$filter;
-            $qb->andWhere($qb->expr()->eq('l.' . $filter, ':' . $valueName))
-                ->setParameter($valueName, $value);
+            switch ($filter){
+                case 'label':
+                    $qb->andWhere($qb->expr()->like('l.' . $filter, ':' . $valueName));
+                    $value = "%{$value}%";
+                    break;
+                default:
+                    $qb->andWhere($qb->expr()->eq('l.' . $filter, ':' . $valueName));
+            }
+            $qb->setParameter($valueName, $value);
         }
 
         return $qb;

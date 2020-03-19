@@ -75,3 +75,6 @@ parameters:
     jwt_authentication_passphrase: ~
     app_name: 'Syllabus'
     api_host: ~
+    locale: ~
+    fallback_locales: ~
+    managed_locales: ~

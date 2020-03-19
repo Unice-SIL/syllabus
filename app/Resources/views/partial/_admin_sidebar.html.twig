@@ -12,22 +12,21 @@
     {% endfor %}
 {% endmacro %}
 <nav class="mt-2">
+
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
+            <li class="nav-item has-treeview">
+                <a class="nav-link {{ printActiveAdminSidebarLink(['app_admin.dashboard_composer require lexik/translation-bundle']) }}"
+                   href="{{ path('app_admin.dashboard_index') }}"
+                   id="menu-dashboard">
+                    <i class="nav-icon fas fa-th"></i>
+                    <p>Tableau de bord</p>
+                </a>
+            </li>
         <li class="nav-item">
             <a
-                    href="{{ path('app_admin.dashboard_index') }}"
-                    class="nav-link {{ printActiveAdminSidebarLink(['app_admin.dashboard_']) }}"
-                    id="menu-dashboard">
-                <i class="nav-icon fas fa-th"></i>
-                <p>Tableau de bord</p>
-            </a>
-        </li>
-
-        <li class="nav-item">
-            <a
-                    href="{{ path('app_admin.course_index') }}"
-                    class="nav-link {{ printActiveAdminSidebarLink(['app_admin.course_']) }}">
+                    href="{{ path('app.admin.course.index') }}"
+                    class="nav-link {{ printActiveAdminSidebarLink(['app.admin.course.']) }}">
                 <i class="nav-icon fas fa-graduation-cap"></i>
                 <p>
                     Cours
@@ -37,7 +36,7 @@
 
         {% set referentielLink = ['app.admin.activity.', 'app.admin.activity_type.', 'app.admin.activity_mode.','app.admin.year.',
             'app.admin.equipment', 'app.admin.structure.', 'app.admin.domain.', 'app.admin.period.index', 'app.admin.language.',
-            'app.admin.campus.', 'app.admin.critical_achievement.'] %}
+            'app.admin.campus.', 'app.admin.critical_achievement.', 'app.admin.level.'] %}
         {% if is_granted(['ROLE_ADMIN_ACTIVITY', 'ROLE_ADMIN_ACTIVITYTYPE', 'ROLE_ADMIN_ACTIVITYMODE', 'ROLE_ADMIN_CAMPUS',
             'ROLE_ADMIN_DOMAIN', 'ROLE_ADMIN_EQUIPMENT', 'ROLE_ADMIN_LANGUAGE', 'ROLE_ADMIN_PERIOD', 'ROLE_ADMIN_STRUCTURE'
         ]) %}
@@ -172,6 +171,18 @@
                         </li>
                     {% endif %}
 
+                    {% if is_granted('ROLE_ADMIN_LEVEL') %}
+                        <li class="nav-item pl-2">
+                            <a href="{{ path('app.admin.level.index') }}"
+                               class="nav-link {{ printActiveAdminSidebarLink(['app.admin.level.']) }}">
+                                <i class="fas fa-layer-group nav-icon"></i>
+                                <p>
+                                    Niveaux
+                                </p>
+                            </a>
+                        </li>
+                    {% endif %}
+
                     {% if is_granted('ROLE_ADMIN_PERIOD') %}
                         <li class="nav-item pl-2">
                             <a href="{{ path('app.admin.period.index') }}"
@@ -241,6 +252,7 @@
         </li>
 
         {% set administrationLink = ['app.admin.user.', 'app_admin_groups', 'app.admin.job.', 'app.admin.notification.', 'dmishh_settings_manage_global'] %}
+        {% set administrationLink = ['app.admin.user.', 'app_admin_groups', 'app.admin.cron.', 'app.admin.notification.', 'lexik_translation_'] %}
         <li class="nav-item has-treeview {{ printActiveAdminSidebarLink(administrationLink) ? 'menu-open' }}">
             <a href="#" class="nav-link {{ printActiveAdminSidebarLink(administrationLink) }}">
                 <i class="nav-icon fas fa-cogs"></i>
@@ -295,6 +307,16 @@
                         </a>
                     </li>
                 {% endif %}
+
+                <li class="nav-item pl-2">
+                    <a href="{{ path('lexik_translation_grid') }}"
+                       class="nav-link {{ printActiveAdminSidebarLink(['lexik_translation']) }}">
+                        <i class="nav-icon fas fa-globe-africa"></i>
+                        <p>
+                            Traductions
+                        </p>
+                    </a>
+                </li>
 
                 {% if is_granted('ROLE_ADMIN_NOTIFICATION') %}
                     <li class="nav-item pl-2">

@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
  * Class CampusApiController
  * @package AppBundle\Controller\Api
  * @Route("/api/campus", name="api.campus.")
+ * @IsGranted("ROLE_API_CAMPUS")
  */
 class CampusApiController extends Controller
 {
@@ -46,7 +47,7 @@ class CampusApiController extends Controller
      *     type="boolean",
      *     description="A field used to filter campuses"
      * )
-     * @IsGranted("ROLE_API_GET_CAMPUSES")
+     * @IsGranted("ROLE_API_CAMPUS_LIST")
      */
     public function indexAction(Request $request, ApiHelper $apiHelper, CampusDoctrineRepository $campusDoctrineRepository)
     {
@@ -75,7 +76,7 @@ class CampusApiController extends Controller
      *     type="string",
      *     description="The id of the expected campus"
      * )
-     * @IsGranted("ROLE_API_GET_CAMPUS")
+     * @IsGranted("ROLE_API_CAMPUS_VIEW")
      * @param Campus $campus
      * @param SerializerInterface $serializer
      * @return Response

@@ -3,76 +3,97 @@
 
 {% block subContent %}
     <div class="card card-default">
-
-        <div class="card-body">
-            <div class="callout callout-danger">
-                <h5>Titre</h5>
-
-                <p>{{ course.title }}</p>
-            </div>
-            <div class="callout callout-info">
-                <h5>Code établissement</h5>
-
-                <p>{{ course.code }}</p>
-            </div>
-            <div class="callout callout-warning">
-                <h5>Type</h5>
-
-                <p>{{ course.type }}</p>
-            </div>
-            <div class="callout callout-success">
-                <h5>Synchronisé</h5>
-
-                <p>{{ course.synchronized|humanizeBoolean }}</p>
-            </div>
-            <a href="{{ path('app_admin.course_edit', {'id': course.id}) }}" class="btn btn-primary float-right">Modifier</a>
-        </div>
-    </div>
-    <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Syllabus associés</h3>
-            <a href="{{ path('app_admin.course_new_course_info', {'id': course.id}) }}" class="btn btn-primary float-right">Ajouter un syllabus</a>
+            <h3 class="card-title">Informations</h3>
+            <a href="{{ path('app.admin.course.edit', {'id': course.id}) }}" class="btn btn-primary float-right">Modifier</a>
         </div>
-        <div class="card-body p-0">
-            <table class="table table-striped projects">
-                <thead>
-                <tr>
-                    <th>
-                        Année
-                    </th>
-                    <th>
-                        Titre
-                    </th>
-                    <th>
-                        Strucutre
-                    </th>
-                    <th>
-                        Action
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for courseInfo in course.courseInfos %}
-                    <tr>
-                        <td>
-                            {{ courseInfo.year }}
-                        </td>
-                        <td>
-                            {{ courseInfo.title }}
-                        </td>
-                        <td>
-                            {{ courseInfo.structure }}
-                        </td>
-                        <td>
-                            <a href="{{ path('app_admin_course_info_edit', {'id': courseInfo.id }) }}" class="btn btn-primary">
-                                <i class="fas fa-edit"></i>
-                            </a>
-                        </td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+        <div class="card-body">
+            <dl>
+                <dt>
+                    Type
+                </dt>
+                <dd>
+                    {{ course.type }}
+                </dd>
+                <dt>
+                    Code
+                </dt>
+                <dd>
+                    {{ course.code }}
+                </dd>
+                <dt>
+                    Synchronisé
+                </dt>
+                <dd>
+                    {{ course.synchronized|humanizeBoolean }}
+                </dd>
+            </dl>
         </div>
-        <!-- /.card-body -->
     </div>
+
+    {% if is_granted('ROLE_ADMIN_COURSE_INFO_LIST') %}
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Syllabus associés</h3>
+                {% if is_granted('ROLE_ADMIN_COURSE_INFO_CREATE') %}
+                    <a href="{{ path('app.admin.course.new_course_info', {'id': course.id}) }}" class="btn btn-primary float-right">Ajouter un syllabus</a>
+                {% endif %}
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-hover projects">
+                    <thead>
+                    <tr>
+                        <th>
+                            Année
+                        </th>
+                        <th>
+                            Titre
+                        </th>
+                        <th>
+                            Strucutre
+                        </th>
+                        <th>
+                            Action
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for courseInfo in course.courseInfos %}
+                        <tr>
+                            <td>
+                                {{ courseInfo.year }}
+                            </td>
+                            <td>
+                                {% if is_granted('ROLE_ADMIN_COURSE_INFO_UPDATE') %}
+                                    <a href="{{ path('app.course_info.dashboard.index', {'id': courseInfo.id}) }}">
+                                        {{ courseInfo.title }}
+                                    </a>
+                                {% else %}
+                                    {{ courseInfo.title }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {{ courseInfo.structure }}
+                            </td>
+                            <td>
+                                {% if is_granted('ROLE_ADMIN_COURSE_INFO_UPDATE') %}
+                                    <a href="{{ path('app.course_info.dashboard.index', {'id': courseInfo.id }) }}" class="btn btn-primary">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                {% endif %}
+
+                                {% if is_granted('ROLE_ADMIN_COURSE_INFO_UPDATE') %}
+                                    <a href="{{ path('app.admin.course_info.edit', {'id': courseInfo.id }) }}" class="btn btn-primary">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+    {% endif %}
 {% endblock %}

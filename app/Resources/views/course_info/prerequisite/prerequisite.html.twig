@@ -1,0 +1,83 @@
+{% extends 'course_info/layout.html.twig' %}
+
+{% block subContent %}
+    <div class="pt-3">
+        <div id="card-prerequisite" class="card my-2 shadow card-syllabus"
+             data-view-url="{{ path('app.course_info.prerequisite.prerequisites', {'id': courseInfo.id }) }}"
+        >
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <h3>Prérequis</h3>
+                    <button type="button" class="btn btn-primary modal-action rounded"
+                            data-action-title="Ajouter un prérequis"
+                            data-action-url="{{ path('app.course_info.prerequisite.prerequisite.add', {'id': courseInfo.id }) }}">
+                        Ajouter un prérequis
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+            </div>
+        </div>
+
+        <div id="card-tutoring-resources" class="card my-2 shadow card-syllabus"
+             data-view-url="{{ path('app.course_info.prerequisite.tutoring_resources', {'id': courseInfo.id }) }}"
+        >
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <h3>Remédiation / aide à la réussite</h3>
+                    <button type="button" class="btn btn-primary modal-action rounded "
+                            data-action-title="Ajouter une remédiation"
+                            data-card="card-tutoring-resources"
+                            data-action-url="{{ path('app.course_info.prerequisite.tutoring_resource.add', {'id': courseInfo.id }) }}">
+                        Ajouter une remédiation
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            $('#menu-prerequisite').addClass('active');
+            $('#menu-prerequisite').addClass('border-bottom-3 border-white');
+
+            $(document).on('change', '#btn_tutoring', function () {
+                let checkedValue = $(this).prop('checked');
+                if (checkedValue === true) {
+                    let $modal_app = $('#modal_app');
+                    let $modal_app_title = $('#modal_app_title');
+                    let $modal_app_body = $('#modal_app_body');
+                    let title = $(this).data('action-title');
+                    let url = $(this).data('action-url');
+                    let event = $(this).data('action-event');
+                    Syllabus.handleModalAction($modal_app, $modal_app_title, $modal_app_body, title, url, event)
+                }
+                checkedValue = checkedValue === true ? 1 : 0;
+                let url = "{{ path('app.course_info.tutoring.active', {'id': courseInfo.id, 'action': 'checkedValue'}) }}";
+                url = url.replace("checkedValue", checkedValue);
+                let card = $('#card-tutoring-resources');
+                let $cardBody = card.find('.card-body');
+                $.ajax({
+                    url: url,
+                    method: "POST",
+                    dataType: "html",
+                    success: function (data) {
+                        let json = data;
+                        let obj = JSON.parse(json);
+                        $cardBody.html(obj.content);
+                        if (obj.status == true) {
+                            $('#assistTutoring').show();
+                        } else {
+                            $('#assistTutoring').hide();
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

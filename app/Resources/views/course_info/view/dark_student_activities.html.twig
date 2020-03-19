@@ -1,0 +1,40 @@
+<hr class="bg-dark horizontal-separator">
+<div class="px-4">
+    <h1 id="activities-section" class="text-shadow my-3">{{ 'app.view.student.tabs.activities' | trans   }}</h1>
+    {% for section in courseInfo.courseSections %}
+        {% if section.courseSectionActivities is not empty %}
+            {% if not loop.first %}
+                <hr class="bg-dark horizontal-separator" style="height: 5px;">
+            {% endif %}
+            <div class="row">
+                <h4 class="text-shadow">{{ section.title }}</h4>
+                <table class="table table-dark">
+                    <thead>
+                    <tr>
+                        <th class="text-left">{{ 'app.view.student.activities.title' | trans }}</th>
+                        <th class="text-left">{{ 'app.view.student.activities.type' | trans }}</th>
+                        <th class="text-left">{{ 'app.view.student.activities.mode' | trans }}</th>
+                        <th class="text-center">{{ 'app.view.student.activities.evaluable' | trans }}</th>
+                        <th class="text-center">{{ 'app.view.student.activities.evaluation_rate' | trans }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for sectionActivity in section.courseSectionActivities %}
+                        <tr>
+                            <td class="text-left">{{ sectionActivity.activity.label }}</td>
+                            <td class="text-left">{{ sectionActivity.activityType }}</td>
+                            <td class="text-left">{{ sectionActivity.activityMode }}</td>
+                            <td class="text-center">
+                                {% if sectionActivity.evaluable %}
+                                    <span class="badge badge-danger rounded">{{ (sectionActivity.evaluationCt ? 'ct' : 'cc') | trans }}</span>
+                                {% endif %}
+                            </td>
+                            <td class="text-center">{{ sectionActivity.evaluationRate }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>

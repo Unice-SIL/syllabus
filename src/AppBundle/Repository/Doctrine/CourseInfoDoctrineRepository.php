@@ -133,7 +133,7 @@ class CourseInfoDoctrineRepository  extends ServiceEntityRepository
                     break;
                 case 'published':
                     if (true === $value) {
-                        $qb->andWhere($qb->expr()->isNotNull($qb->getRootAlias() . '.publicationDate'));
+                        $qb->andWhere($qb->expr()->isNotNull('ci.publicationDate'));
                     }
                     break;
             }
