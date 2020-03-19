@@ -4,13 +4,14 @@ namespace AppBundle\Subscriber;
 
 use AppBundle\Constant\UserRole;
 use Dmishh\SettingsBundle\Manager\SettingsManager;
-use Nelmio\ApiDocBundle\Annotation\Security;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Twig\Environment;
 
 class MaintenanceSubscriber implements EventSubscriberInterface
@@ -25,9 +26,14 @@ class MaintenanceSubscriber implements EventSubscriberInterface
      */
     private $twigEnvironment;
     /**
-     * @var Security
+     * @var AuthorizationCheckerInterface
      */
     private $authorizationChecker;
+
+    /**
+     * @var Security
+     */
+    private $security;
 
     /**
      * MaintenanceSubscriber constructor.
@@ -35,11 +41,12 @@ class MaintenanceSubscriber implements EventSubscriberInterface
      * @param SettingsManager $settingsManager
      * @param AuthorizationCheckerInterface $authorizationChecker
      */
-    public function __construct(Environment $twigEnvironment, SettingsManager $settingsManager, AuthorizationCheckerInterface $authorizationChecker)
+    public function __construct(Environment $twigEnvironment, SettingsManager $settingsManager, AuthorizationCheckerInterface $authorizationChecker, Security $security)
     {
         $this->inMaintenance = $settingsManager->get('in_maintenance');
         $this->twigEnvironment = $twigEnvironment;
         $this->authorizationChecker = $authorizationChecker;
+        $this->security = $security;
     }
 
     public static function getSubscribedEvents()
@@ -53,7 +60,9 @@ class MaintenanceSubscriber implements EventSubscriberInterface
 
     public function diplayMaintenancePage(GetResponseEvent $event)
     {
-        if ($this->authorizationChecker->isGranted(UserRole::ROLE_SUPER_ADMIN)) {
+        $user = $this->security->getUser();
+
+        if ($user instanceof UserInterface && $this->authorizationChecker->isGranted(UserRole::ROLE_SUPER_ADMIN) ) {
             return;
         }
         $exceptionRoutes = ['app.maintenance.index', 'dmishh_settings_manage_global'];
