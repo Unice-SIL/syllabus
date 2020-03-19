@@ -1,8 +1,6 @@
 <?php
 
-
 namespace AppBundle\Entity;
-
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -14,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Class Language
  * @package AppBundle\Entity
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\LanguageDoctrineRepository")
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\LanguageTranslation")
  */
 class Language

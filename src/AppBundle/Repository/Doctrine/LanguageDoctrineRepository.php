@@ -5,10 +5,8 @@ namespace AppBundle\Repository\Doctrine;
 
 
 use AppBundle\Entity\Language;
-use AppBundle\Repository\LanguageRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 
 /**
