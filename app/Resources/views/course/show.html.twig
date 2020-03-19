@@ -152,11 +152,13 @@
     </div>
 
     {% macro courseFilter(form, course) %}
-        <div class="border p-3 mb-3">
-            <a class="" data-toggle="collapse" href="#collapseFilter-{{ form.vars.name }}" role="button" aria-expanded="false" aria-controls="collapseFilter-{{ form.vars.name }}">
+        <div class="border p-3">
+            <a class="text-bold text-black-50 {{ not app.request.query.get(form.vars.name) ? 'collapsed' }}" data-toggle="collapse" href="#collapseFilter-{{ form.vars.name }}" role="button" aria-expanded="false" aria-controls="collapseFilter-{{ form.vars.name }}">
                 Filtres
+                <i class="rotate-l90 fas fa-angle-down"></i>
             </a>
-            <div class="collapse" id="collapseFilter-{{ form.vars.name }}">
+
+            <div class="collapse {{ app.request.query.get(form.vars.name) ? 'show' }}" id="collapseFilter-{{ form.vars.name }}">
                 {{ form_start(form) }}
                 <div class="row">
                     <div class="col-lg-6 col-md-12">
@@ -200,7 +202,9 @@
                 {% for course in pagination %}
                     <tr>
                         <td>
-                            {{ course.title }}
+                            <a href="{{ path('app.admin.course.show', { 'id' : course.id }) }}">
+                                {{ course.title }}
+                            </a>
                         </td>
                         <td>
                             {{ course.code }}

@@ -5,10 +5,12 @@ help:
 
 install: ## Install symfony project
 	composer install
+	yarn encore dev
 	make build
 
 reinstall: ## Reinstall symfony project
 	composer install
+	yarn encore dev
 	make rebuild
 
 rebuild: ## Rebuild database

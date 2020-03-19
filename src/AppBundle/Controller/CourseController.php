@@ -306,14 +306,22 @@ class CourseController extends Controller
     public function autocompleteS2(CourseDoctrineRepository $courseDoctrineRepository, Request $request)
     {
         $query = $request->query->get('q');
-        $courses = $courseDoctrineRepository->findLikeQuery($query, 'code');
+
+        $exceptions = [];
+        if ($courseId = $request->query->get('course_id')) {
+            $exceptions = ['id' => [$courseId]];
+        }
+
+        $courses = $courseDoctrineRepository->findLikeQuery($query, 'code', $exceptions);
 
         $data = array_map(function ($c) use ($request) {
 
             if (strtolower($c->getCode()) == strtolower($request->query->get('code'))) {
                 return false;
             }
+
             return ['id' => $c->getId(), 'text' => $c->getCode()];
+
         }, $courses);
 
         return $this->json($data);

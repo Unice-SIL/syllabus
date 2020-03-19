@@ -36,15 +36,22 @@ class CourseDoctrineRepository  extends ServiceEntityRepository
     /**
      * @param string $query
      * @param string $field
+     * @param array $exceptions
      * @return array
      */
-    public function findLikeQuery(string $query, string $field): array
+    public function findLikeQuery(string $query, string $field, array $exceptions = []): array
     {
         $qb = $this->getIndexQueryBuilder();
 
         if (in_array($field, ['code', 'title'])) {
             $qb->andWhere('c.'.$field.' LIKE :query ')
                 ->setParameter('query', '%' . $query . '%');
+        }
+
+        foreach ($exceptions as $field => $exception) {
+            $qb->andWhere($qb->expr()->notIn('c.'.$field, ':'. $field))
+                ->setParameter($field, $exception)
+            ;
         }
         return $qb->getQuery()->getResult();
     }
