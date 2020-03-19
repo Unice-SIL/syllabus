@@ -1,0 +1,9 @@
+{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('app.course_info.prerequisite.delete',
+    {'id': form.vars.data.id}), 'data-card': 'card-prerequisite' }}) }}
+{{ form_errors(form) }}
+<h5>Êtes-vous sûr(e) de vouloir supprimer le prérequis "{{ form.vars.data.description }}" ?</h5>
+<div class="d-flex justify-content-center">
+    <button type="submit" class="btn btn-danger rounded mr-2">Supprimer</button>
+</div>
+{{ form_widget(form._token) }}
+{{ form_end(form) }}

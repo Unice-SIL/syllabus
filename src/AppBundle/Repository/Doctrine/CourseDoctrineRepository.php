@@ -61,11 +61,14 @@ class CourseDoctrineRepository  extends ServiceEntityRepository
             $valueName = 'value'.$filter;
             switch ($filter) {
                 case 'code':
-                case 'type':
-                    $qb->andWhere($qb->expr()->like('c.' . $filter, ':'.$valueName))
-                        ->setParameter($valueName, '%' . $value . '%');
+                case 'title':
+                    $value = "%{$value}%";
+                    $qb->andWhere($qb->expr()->like('c.' . $filter, ':'.$valueName));
                     break;
+                default:
+                    $qb->andWhere($qb->expr()->eq('c.' . $filter, ':'.$valueName));
             }
+            $qb->setParameter($valueName, $value);
         }
         return $qb;
     }

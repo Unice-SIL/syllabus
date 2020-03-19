@@ -25,12 +25,16 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class YearApiController
  * @package AppBundle\Controller\Api
  * @Route("/api/year", name="api.year.")
+ * @IsGranted("ROLE_API_YEAR")
  */
 class YearApiController extends Controller
 {
 
     /**
      * @Route("", name="index", methods={"GET"})
+     * @param Request $request
+     * @param ApiHelper $apiHelper
+     * @param YearDoctrineRepository $yearDoctrineRepository
      * @return JsonResponse
      * @SWG\Response(
      *     response=200,
@@ -72,7 +76,7 @@ class YearApiController extends Controller
      *     type="integer",
      *     description="The limit of results per page"
      * )
-     * @IsGranted("ROLE_API_GET_YEARS")
+     * @IsGranted("ROLE_API_YEAR_LIST")
      */
     public function indexAction(Request $request, ApiHelper $apiHelper, YearDoctrineRepository $yearDoctrineRepository)
     {
@@ -101,7 +105,10 @@ class YearApiController extends Controller
      *     type="string",
      *     description="The id of the expected year"
      * )
-     * @IsGranted("ROLE_API_GET_YEAR")
+     * @IsGranted("ROLE_API_YEAR_VIEW")
+     * @param Year $year
+     * @param SerializerInterface $serializer
+     * @return Response
      */
     public function showAction(Year $year, SerializerInterface $serializer)
     {
@@ -128,7 +135,7 @@ class YearApiController extends Controller
      *     @Model(type=Year::class)
      * )
      *
-     * @IsGranted("ROLE_API_POST_YEAR")
+     * @IsGranted("ROLE_API_YEAR_CREATE")
      */
     public function postAction(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, ApiHelper $apiHelper, YearManager $yearManager)
     {
@@ -171,7 +178,7 @@ class YearApiController extends Controller
      *     description="The id of the expected year"
      * )
      *
-     * @IsGranted("ROLE_API_PUT_YEAR")
+     * @IsGranted("ROLE_API_YEAR_UPDATE")
      */
     public function putAction(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, Year $year, ApiHelper $apiHelper, YearManager $yearManager)
     {

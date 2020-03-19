@@ -50,6 +50,7 @@
                         <th>Nom</th>
                         <th>Prénom</th>
                         <th>Permission</th>
+                        <th>Modifier/supprimer</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -59,6 +60,19 @@
                             <td>{{ coursePermission.user.lastname }}</td>
                             <td>{{ coursePermission.user.firstname }}</td>
                             <td>{{ ('app.const.permission.' ~ coursePermission.permission)|trans }}</td>
+                            <td>
+                                <button type="button"
+                                        class="btn btn-link modal-action p-0"
+                                        data-action-title="Modifier une compétence"
+                                        data-action-url="{{ path('app.course_info.permission.delete', {'id': coursePermission.id}) }}">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button type="button" class="btn btn-link modal-action p-0"
+                                        data-action-title="Supprimer une compétence"
+                                        data-action-url="{{ path('app.course_info.permission.delete', {'id': coursePermission.id}) }}">
+                                    <i class="fas fa-trash-alt text-danger"></i>
+                                </button>
+                            </td>
                         </tr>
                     {% endfor %}
                     </tbody>

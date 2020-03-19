@@ -9,11 +9,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Class CourseCriticalAchievement
  * @ORM\Table(name="course_critical_achievement")
  * @ORM\Entity
+ * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CourseCriticalAchievementTranslation")
  */
 class CourseCriticalAchievement
 {
@@ -33,6 +35,7 @@ class CourseCriticalAchievement
      * @var string|null
      *
      * @ORM\Column(name="rule", type="text", length=50, nullable=false)
+     * @Gedmo\Translatable
      */
     private $rule;
 

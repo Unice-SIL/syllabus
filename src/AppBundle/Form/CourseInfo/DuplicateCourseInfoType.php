@@ -35,7 +35,7 @@ class DuplicateCourseInfoType extends AbstractType
             ->add('to', Select2EntityType::class, [
                 'label' => 'app.form.duplicate_course_info.label.to',
                 'multiple' => false,
-                'remote_route' => 'app_admin_course_info_autocompleteS2',
+                'remote_route' => 'app.admin.course_info.autocompleteS2',
                 'class' => CourseInfo::class,
                 'text_property' => 'id',
                 'page_limit' => 10,

@@ -18,7 +18,6 @@ class ActivityType extends AbstractType
         $this->activityTypeSubscriber = $activityTypeSubscriber;
     }
 
-
     /**
      * {@inheritdoc}
      */
@@ -33,8 +32,7 @@ class ActivityType extends AbstractType
                 'multiple' => true,
                 'by_reference' => false
             ])
-            ->addEventSubscriber($this->activityTypeSubscriber)
-        ;
+            ->addEventSubscriber($this->activityTypeSubscriber);
     }
     /**
      * {@inheritdoc}

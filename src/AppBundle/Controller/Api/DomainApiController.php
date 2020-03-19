@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
  * Class DomainApiController
  * @package AppBundle\Controller\Api
  * @Route("/api/domain", name="api.domain.")
+ * @IsGranted("ROLE_API_DOMAIN")
  */
 class DomainApiController extends Controller
 {
@@ -46,7 +47,7 @@ class DomainApiController extends Controller
      *     type="boolean",
      *     description="A field used to filter domains"
      * )
-     * @IsGranted("ROLE_API_GET_DOMAINS")
+     * @IsGranted("ROLE_API_DOMAIN_LIST")
      */
     public function indexAction(Request $request, ApiHelper $apiHelper, DomainDoctrineRepository $domainDoctrineRepository)
     {
@@ -75,7 +76,7 @@ class DomainApiController extends Controller
      *     type="string",
      *     description="The id of the expected domain"
      * )
-     * @IsGranted("ROLE_API_GET_DOMAIN")
+     * @IsGranted("ROLE_API_DOMAIN_VIEW")
      * @param Domain $domain
      * @param SerializerInterface $serializer
      * @return Response

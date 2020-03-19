@@ -4,12 +4,14 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Job
  *
  * @ORM\Table(name="job")
  * @ORM\Entity
+ * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\JobTranslation")
  */
 class Job
 {
@@ -28,6 +30,7 @@ class Job
      *
      * @ORM\Column(name="label", type="string", length=60)
      * @Assert\NotBlank()
+     * @Gedmo\Translatable
      */
     private $label;
 

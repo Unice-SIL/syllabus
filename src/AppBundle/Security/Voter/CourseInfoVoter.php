@@ -9,18 +9,16 @@ use AppBundle\Entity\CourseAchievement;
 use AppBundle\Entity\CourseCriticalAchievement;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CoursePrerequisite;
+use AppBundle\Entity\CourseResourceEquipment;
 use AppBundle\Entity\CourseSection;
 use AppBundle\Entity\CourseSectionActivity;
 use AppBundle\Entity\CourseTeacher;
-use AppBundle\Entity\CourseResourceEquipment;
 use AppBundle\Entity\CourseTutoringResource;
-use AppBundle\Entity\CriticalAchievement;
 use AppBundle\Entity\LearningAchievement;
 use AppBundle\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
-use function League\Csv\is_nullable_int;
 
 /**
  * Class CourseInfoVoter
@@ -83,7 +81,7 @@ class CourseInfoVoter extends Voter
      */
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
     {
-        if ($this->decisionManager->decide($token, ['ROLE_ADMIN'])) {
+        if ($this->decisionManager->decide($token, ['ROLE_ADMIN_COURSE_INFO_UPDATE'])) {
             return true;
         }
 

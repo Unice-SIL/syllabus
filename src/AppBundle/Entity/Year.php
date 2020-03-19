@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Year
@@ -16,6 +17,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\YearDoctrineRepository")
  * @UniqueEntity("id")
  * @UniqueEntity("label")
+ * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\YearTranslation")
  */
 class Year
 {
@@ -40,6 +42,7 @@ class Year
      * @ORM\Column(name="label", type="string", length=45, nullable=true, options={"fixed"=true})
      * @Assert\NotBlank(message="Ce champ ne doit pas être vide")
      * @JMS\Groups(groups={"default", "year"})
+     * @Gedmo\Translatable
      */
     private $label;
 

@@ -5,12 +5,14 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Ramsey\Uuid\UuidInterface;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * CourseAchievement
  *
  * @ORM\Table(name="course_achievement")
  * @ORM\Entity
+ * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CourseAchievementTranslation")
  */
 class CourseAchievement
 {
@@ -30,6 +32,7 @@ class CourseAchievement
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=true)
      * @JMS\Groups(groups={"default", "course_achievement"})
+     * @Gedmo\Translatable
      */
     private $description = "";
 

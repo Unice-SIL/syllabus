@@ -1,0 +1,318 @@
+ROLE_USER: Utilisateur
+ROLE_ADMIN: Administrateur
+ROLE_SUPER_ADMIN: Super Administrateur
+ROLE_ADMIN_YEAR: Gestion des années
+ROLE_ADMIN_YEAR_LIST: Consulter la liste des années
+ROLE_ADMIN_YEAR_CREATE: Créer une année
+ROLE_ADMIN_YEAR_UPDATE: Modifier une année
+ROLE_ADMIN_CRITICAL_ACHIEVEMENT: Gestion des apprentissages critiques
+ROLE_ADMIN_CRITICAL_ACHIEVEMENT_LIST: Consulter la liste des apprentissages critiques
+ROLE_ADMIN_CRITICAL_ACHIEVEMENT_CREATE: Créer un apprentissage critique
+ROLE_ADMIN_CRITICAL_ACHIEVEMENT_UPDATE: Modifier un apprentissage critique
+ROLE_ADMIN_ACTIVITY: Gestion des activités
+ROLE_ADMIN_ACTIVITY_LIST: Consulter la liste des activités
+ROLE_ADMIN_ACTIVITY_CREATE: Créer une activité
+ROLE_ADMIN_ACTIVITY_UPDATE: Modifier une activité
+ROLE_ADMIN_ACTIVITYMODE: Gestion des modes d'activités
+ROLE_ADMIN_ACTIVITYMODE_LIST: Consulter la liste des modes d'activités
+ROLE_ADMIN_ACTIVITYMODE_CREATE: Créer un mode d'activité
+ROLE_ADMIN_ACTIVITYMODE_UPDATE: Modifier un mode d'activité
+ROLE_ADMIN_ACTIVITYTYPE: Gestion des types d'activités
+ROLE_ADMIN_ACTIVITYTYPE_LIST: Consulter la liste des types d'activités
+ROLE_ADMIN_ACTIVITYTYPE_CREATE: Créer un type d'activité
+ROLE_ADMIN_ACTIVITYTYPE_UPDATE: Modifier un type d'activité
+ROLE_ADMIN_CAMPUS: Gestion des campus
+ROLE_ADMIN_CAMPUS_LIST: Consulter la liste des campus
+ROLE_ADMIN_CAMPUS_CREATE: Créer un campus
+ROLE_ADMIN_CAMPUS_UPDATE: Modifier un campus
+ROLE_ADMIN_DOMAIN: Gestion des domaines
+ROLE_ADMIN_DOMAIN_LIST: Consulter la liste des domaines
+ROLE_ADMIN_DOMAIN_CREATE: Créer un domaine
+ROLE_ADMIN_DOMAIN_UPDATE: Modifier un domaine
+ROLE_ADMIN_EQUIPMENT: Gestion des équipements
+ROLE_ADMIN_EQUIPMENT_LIST: Consulter la liste des équipement
+ROLE_ADMIN_EQUIPMENT_CREATE: Créer un équipement
+ROLE_ADMIN_EQUIPMENT_UPDATE: Modifier un équipement
+ROLE_ADMIN_LANGUAGE: Gestion des langues
+ROLE_ADMIN_LANGUAGE_LIST: Consulter la liste des langues
+ROLE_ADMIN_LANGUAGE_CREATE: Créer une langue
+ROLE_ADMIN_LANGUAGE_UPDATE: Modifier une langue
+ROLE_ADMIN_PERIOD: Gestion des périodes
+ROLE_ADMIN_PERIOD_LIST: Consulter la liste des périodes
+ROLE_ADMIN_PERIOD_CREATE: Créer une période
+ROLE_ADMIN_PERIOD_UPDATE: Modifier une période
+ROLE_ADMIN_STRUCTURE: Gestion des structures
+ROLE_ADMIN_STRUCTURE_LIST: Consulter la liste des structures
+ROLE_ADMIN_STRUCTURE_CREATE: Créer une structure
+ROLE_ADMIN_STRUCTURE_UPDATE: Modifier une structure
+ROLE_ADMIN_USER: Gestion des utilisateurs
+ROLE_ADMIN_USER_LIST: Consulter la liste des utilisateurs
+ROLE_ADMIN_USER_CREATE: Créer un utilisateur
+ROLE_ADMIN_USER_UPDATE: Modifier un utilsateur
+ROLE_API: Utilisateur de l'API
+ROLE_API_GET_COURSE: Récupérer un cours par son id
+ROLE_API_GET_COURSES: Récupérer une liste de cours
+ROLE_API_POST_COURSE: Créer un cours
+ROLE_API_PUT_COURSE: Mettre à jour un cours
+ROLE_API_GET_COURSE_INFO: Récupérer un syllabus par son id
+ROLE_API_GET_COURSES_INFO: Récupérer une liste de syllabus
+ROLE_API_POST_COURSE_INFO: Créer un syllabus
+ROLE_API_PUT_COURSE_INFO: Mettre à jour un syllabus
+ROLE_API_GET_COURSE_PERMISSION: Récupérer une permission par son id
+ROLE_API_GET_COURSE_PERMISSIONS: Récupérer une liste de permissions
+ROLE_API_POST_COURSE_PERMISSION: Créer une permission
+ROLE_API_DELETE_COURSE_PERMISSION: Supprimer une permission
+ROLE_API_GET_YEAR: Récupérer une année par son id
+ROLE_API_GET_YEARS: Récupérer une liste d'années
+ROLE_API_POST_YEAR: Créer une anée
+ROLE_API_PUT_YEAR: Mettre à jour une année
+ROLE_API_GET_CAMPUS: Récupérer un campus par son id
+ROLE_API_GET_CAMPUSES: Récupérer une liste de campus
+ROLE_API_GET_PERIOD: Récupérer une période par son id
+ROLE_API_GET_PERIODS: Récupérer une liste de périodes
+ROLE_API_GET_DOMAIN: Récupérer un domaine par son id
+ROLE_API_GET_DOMAINS: Récupérer une liste de domaines
+ROLE_API_GET_LANGUAGE: Récupérer une langue par son id
+ROLE_API_GET_LANGUAGES: Récupérer une liste de langues
+
+collective: Collectif
+groups: En groupe
+individual: Individuel
+head: Entête
+together: Ensemble
+autonomy: En autonomie
+class: En présentiel
+distant: A distance
+cc: Contrôle continu
+ct: Contrôle terminal
+activity: activité
+evaluation: évaluation
+list of activity: Liste des activités
+list of evaluation: Liste des évaluations
+
+
+app:
+  locale:
+    fr: 'Français'
+    en: 'Anglais'
+    de: 'Allemand'
+  activities:
+    view:
+      activity:
+        activity_mode: Mode d'enseignement
+        activity_type: Type d'activité
+        add_activities: Pour ajouter des activités veuillez sélectionner une activité dans le carousel ci-dessous.
+        add_sections: Pour ajouter des sections veuillez cliquer sur le bouton "Ajouter une section" dans le menu ci-contre.
+        delete_activity: Supprimer une activité
+        edit_activity: Modifier une activité
+        empty_activity: Aucune activité n'a été ajoutée à la section
+        empty_section: Aucune section n'a été ajoutée
+        evaluated_peers: Evalué par les pairs
+        evaluated_teachers: Evalué par les enseignants
+        evaluation_peers: Évaluation par les pairs
+        evaluation_rate: Coefficient
+        evaluation_teachers: Évaluation par les enseignants
+        control: Contrôle
+        evaluable: Evaluable
+        name: Nom de l'activité
+      carousel:
+        add_activity: Ajouter une activité
+        search_activity: Rechercher une activité
+      sidebar:
+        add_section: Ajouter une section
+        delete_section: Supprimer une section
+        duplicate_section: Dupliquer une section
+        edit_section: Modifier une section
+        empty_section: Aucune section n'a été créée
+        title: Sections
+    form:
+      activity:
+        activity_mode: Mode d'enseignement
+        activity_type: Type d'activité
+        control: 'Type de contrôle (Continu / Terminal) :'
+        delete: Êtes-vous sûr(e) de vouloir supprimer l'activité "%label%" ?
+        description: Description de l'activité (maximum 255 caractères)
+        evaluable: Cette activité est-elle évaluable ?
+      section:
+        description: Description
+        delete: Êtes-vous sûr(e) de vouloir supprimer la section "%title%" ?
+        duplicate: Êtes-vous sûr(e) de vouloir dupliquer la section "%title%" ?
+        title: Titre de la section
+  presentation:
+    view:
+      general:
+        domain: Domaine
+        empty_summary: Vous n'avez pas renseigné de résumé
+        label: Informations générales
+        languages: Langue(s)
+        level: Niveau du cours
+        period: Période
+      teachers:
+        add_teacher: Ajouter un enseignant
+        empty_teacher: Aucun enseignant n'a encore été ajouté à l'équipe
+        title: Qui fait parti de l'équipe enseignante ?
+        label: Équipe enseignante
+        lastname: Nom
+        firstname: Prénom
+        mail: Email
+        attributes: Attributs
+        delete_teacher: Supprimer un enseignant
+        mail_visible: Email visible
+        mail_invisible: Mail non visible
+        responsible: Responsable
+      teaching_mode:
+        empty_teaching_mode: Aucun mode d'enseignement sélectionné
+        label: Mode d'enseignement
+    form:
+      general:
+        level_label: Quel est le niveau de ce cours ?
+        media_label: Intégrer une ressource vidéo (ou audio) ou téléverser un fichier image de présentation du cours, en respectant la règlementation sur les droits d'auteur.
+        picture: Image
+        video: Vidéo
+        file_type: Fichier de type jpeg ou png (2Mo maximum)
+        summary: Résumé
+        add_video: Comment ajouter une vidéo
+        add_video_info:
+          part1: "Afin de pouvoir intégrer une vidéo dans votre cours, veuillez vous assurer que celle-ci soit hébergée sur un serveur externe à Moodle (ex: UNSPOD, Youtube, ...)."
+          part2: Si ce n’est pas le cas, vous pouvez demander de l’aide pour la déposer sur une de ces plateformes.
+          part3: Une fois qu’elle y est stockée, vous pouvez cliquer sur “Partager / Intégrer” afin de récupérer le lien d'intégration ressemblant à :
+          part4: Copiez ce code et insérez-le dans le champ "Vidéo" ci-dessous. La vidéo sera visible par vos étudiants directement sur votre syllabus.
+        level:
+          beginner: "<li><strong>Débutant</strong> : Ce cours demande peu ou pas de connaissances préaables.</li>"
+          intermediary: "<li><strong>Intermédiaire</strong> : Ce cours demande quelques connaissances préalables.</li>"
+          advanced: "<li><strong>Avancé</strong> : Ce cours demande d'importantes connaissances préalables.</li>"
+      teacher:
+        delete: Êtes-vous sûr(e) de vouloir supprimer l'enseignant "%lastname% %firstname%" ?
+        mail_visibility: L'adresse mail doit-elle être visible ?
+        responsible: Responsable du cours ?
+        search_user: Rechercher un individu
+        source_data: Source de données
+      teaching_mode:
+        additionnal: Type d'enseignement supplémentaire (facultatif)
+        class: Présentiel
+        cm: Cours magistraux
+        distant: A distance
+        label: Quel est votre mode d'enseignement ?
+        standard: Types d'enseignements standards
+        td: Travaux dirigés
+        tp: Travaux pratiques
+        volumes: Volumes horaires "Présentiel" importés
+        placeholder:
+          teaching:
+            hours: Heures
+            other_class: Volume (H)
+            type: "Type (ex: Heures personnelles) "
+  view:
+    student:
+      tabs:
+        presentation: Présentation
+  const:
+    cron:
+      status:
+        0: Initialisation
+        1: En cours
+        2: Echec
+        3: Succès
+    permission:
+      WRITE: Ecriture
+      READ: Lecture
+    level:
+      beginner: Débutant
+      intermediate: Intermédiaire
+      advanced: Avancé
+    teaching_mode:
+      class: Présentiel
+      hybrid: Hybride
+      distant: A distance
+
+  form:
+    notification:
+      label:
+        message: 'Message'
+    cron:
+      label:
+        label: 'Label'
+    security:
+      label:
+        password: Mot de passe
+        repeat_password: Confirmation du mot de passe
+      errors:
+        password_matching: Les deux mots de passe ne sont pas identiques
+    activity:
+      label:
+        obsolete: Obsolète
+        activityTypes: Types
+        label: Intitulé
+        mode: Mode
+        grp: Groupe
+        synchronized: Synchronisé
+    activity_type:
+      label:
+        label: Titre
+    period:
+      label:
+        obsolete: Obsolète
+        label: Intitulé
+    course_info:
+      label:
+        title: Titre
+        structure: Structure
+    course:
+      label:
+        type: Type
+        code: Code établissement
+        parents: Cours parents
+        title: Titre
+        synchronized: Synchronisé
+    year:
+      label:
+        label: Année
+    structure:
+      label:
+        label: Label
+        code: Code établissement
+        campus: Campus
+        obsolete: Obsolète
+        structure: Structure
+        synchronized: Synchronisé
+    equipment:
+      label:
+        label: Label
+        label_visibility: Afficher le label
+        obsolete: Obsolète
+    course_info_field:
+      label:
+        label: Label
+        mannually_duplication: Duplication manuelle
+        automatic_duplication: Duplication depuis CSV
+        import: 'Import'
+    global:
+      action: Action
+    duplicate_course_info:
+      label:
+        to: Syllabus récepteur
+    course_permission:
+      label:
+        user: Utilisateur
+        permission: Permission
+    import:
+      label:
+        csv: Fichier au format CSV
+    groups:
+      label:
+        label: 'Label'
+        obsolete: 'Obsolète'
+        roles: 'Rôles'
+    language:
+      label:
+        obsolete: 'obsolète'
+        label: 'Intitulé'
+
+  general:
+    button:
+      add: Ajouter
+      cancel: Annuler
+      edit: Modifier
+      delete: Supprimer
+      duplicate: Dupliquer
+      save: Sauvegarder
