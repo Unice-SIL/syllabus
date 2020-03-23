@@ -23,3 +23,4 @@
 /.phpunit.result.cache
 /yarn-error.log
 /web/build/
+composer.lock

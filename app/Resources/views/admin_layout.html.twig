@@ -39,10 +39,19 @@
 
     <div class="content-header">
         <div class="container-fluid">
+            {% if href is defined %}
+                <div class="mb-2">
+                    <a class="btn btn-primary"  href="{{ href }}">
+                        <i class="fas fa-reply"></i>
+                        Revenir à la page précédente
+                    </a>
+                </div>
+            {% endif %}
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1 class="m-0 text-dark">{{ h1|default('Il faut ajouter un h1') }}</h1>
-                </div><!-- /.col -->
+                </div>
+                <!-- /.col -->
 
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->

@@ -1,0 +1,11 @@
+{% if courseInfo.mccAdvice is not null %}
+    <hr class="bg-dark horizontal-separator">
+    <div class="px-4">
+        <h1 id="evaluation-section" class="text-shadow my-3">{{ 'app.view.student.info.evaluation' | trans   }}</h1>
+        <div class="row">
+            <div>
+                {{ courseInfo.mccAdvice | humanizeEmptyData() | purify }}
+            </div>
+        </div>
+    </div>
+{% endif %}
