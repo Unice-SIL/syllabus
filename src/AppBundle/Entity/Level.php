@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Class Level
@@ -36,6 +37,7 @@ class Level
      * @Assert\NotBlank()
      * @Assert\Length(max="100")
      * @JMS\Groups(groups={"default", "level"})
+     * @Gedmo\Translatable
      */
     private $label;
 
@@ -43,7 +45,7 @@ class Level
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="CourseInfo", mappedBy="CourseInfos")
+     * @ORM\ManyToMany(targetEntity="CourseInfo", mappedBy="levels")
      */
     private $courseInfos;
 

@@ -57,17 +57,6 @@ class CourseInfo
     private $ects;
 
     /**
-     * @var ArrayCollection
-     *
-     * @ORM\ManyToMany(targetEntity="Level", inversedBy="courseInfos")
-     * @Assert\NotBlank(groups={"presentation"})
-     * @JMS\Groups(groups={"api"})
-     * @JMS\Groups(groups={"course_info"})
-     * @Gedmo\Translatable
-     */
-    private $levels;
-
-    /**
      * @var int|null
      *
      * @ORM\Column(name="semester", type="integer", nullable=true)
@@ -673,6 +662,16 @@ class CourseInfo
      * @JMS\Groups(groups={"course_info"})
      */
     private $courseResourceEquipments;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="Level", inversedBy="courseInfos")
+     * @Assert\NotBlank(groups={"presentation"})
+     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
+     */
+    private $levels;
 
     /**
      * @var string|null
