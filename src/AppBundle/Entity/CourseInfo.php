@@ -57,18 +57,6 @@ class CourseInfo
     private $ects;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="level", type="string", length=15, nullable=true, options={"fixed"=true})
-     * @Assert\NotBlank(groups={"presentation"})
-     * @JMS\Groups(groups={"api"})
-     * @JMS\Groups(groups={"course_info"})
-     * @Gedmo\Translatable
-     *
-     */
-    private $level;
-
-    /**
      * @var int|null
      *
      * @ORM\Column(name="semester", type="integer", nullable=true)
@@ -676,6 +664,16 @@ class CourseInfo
     private $courseResourceEquipments;
 
     /**
+     * @var ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="Level", inversedBy="courseInfos")
+     * @Assert\NotBlank(groups={"presentation"})
+     * @JMS\Groups(groups={"api"})
+     * @JMS\Groups(groups={"course_info"})
+     */
+    private $levels;
+
+    /**
      * @var string|null
      */
     private $previousImage = null;
@@ -697,6 +695,7 @@ class CourseInfo
         $this->domains = new ArrayCollection();
         $this->periods = new ArrayCollection();
         $this->courseCriticalAchievements = new ArrayCollection();
+        $this->levels = new ArrayCollection();
     }
 
     /**
@@ -757,21 +756,55 @@ class CourseInfo
     }
 
     /**
-     * @return null|string
+     * @return ArrayCollection|string|null
      */
-    public function getLevel()
+    public function getLevels()
     {
-        return $this->level;
+        return $this->levels;
     }
 
     /**
-     * @param null|string $level
+     * @param $levels
+     * @return $this
+     */
+    public function setLevels($levels)
+    {
+        $this->levels = $levels;
+
+        return $this;
+    }
+
+    /**
+     * @param Level $level
      * @return CourseInfo
      */
-    public function setLevel($level)
+    public function addLevel(Level $level): self
     {
-        $this->level = $level;
+        if (!$this->levels->contains($level))
+        {
+            $this->levels->add($level);
+            if (!$level->getCourseInfos()->contains($this))
+            {
+                $level->getCourseInfos()->add($this);
+            }
+        }
+        return $this;
+    }
 
+    /**
+     * @param Level $level
+     * @return CourseInfo
+     */
+    public function removeLevel(Level $level): self
+    {
+        if ($this->levels->contains($level))
+        {
+            $this->levels->removeElement($level);
+            if ($level->getCourseInfos()->contains($this))
+            {
+                $level->getCourseInfos()->removeElement($this);
+            }
+        }
         return $this;
     }
 

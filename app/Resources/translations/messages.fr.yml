@@ -184,7 +184,7 @@ app:
         empty_summary: Vous n'avez pas renseigné de résumé
         label: Informations générales
         languages: Langue(s)
-        level: Niveau du cours
+        level: Année(s)
         period: Période
       teachers:
         add_teacher: Ajouter un enseignant
@@ -235,7 +235,7 @@ app:
         standard: Types d'enseignements standards
         td: Travaux dirigés
         tp: Travaux pratiques
-        volumes: Volumes horaires "Présentiel" importés
+        volumes: Volumes horaires "Présentiel" importés des maquettes
         placeholder:
           teaching:
             hours: Heures

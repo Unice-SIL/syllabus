@@ -3,11 +3,11 @@
 namespace AppBundle\Form\CourseInfo\Presentation;
 
 
-use AppBundle\Constant\Level;
 use AppBundle\Entity\Campus;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\Domain;
 use AppBundle\Entity\Language;
+use AppBundle\Entity\Level;
 use AppBundle\Entity\Period;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
@@ -95,13 +95,20 @@ class GeneralType extends AbstractType
                 ],
                 'required' => false
             ])
-            ->add('level', ChoiceType::class, [
-                'label' => 'Niveau',
+            ->add('levels', Select2EntityType::class, [
+                'label' => 'Année',
+                'class' => Level::class,
+                'remote_route' => 'app.common.autocomplete.generic_s2',
                 'required' => false,
-                'multiple' => false,
-                'expanded' => true,
-                'placeholder' => false,
-                'choices' => Level::CHOICES
+                'multiple' => true,
+                'text_property' => 'label',
+                'language' => 'fr',
+                'minimum_input_length' => 0,
+                'remote_params' => [
+                    'entityName' => 'Level',
+                    'findBy' => 'label',
+                    'property' => 'label'
+                ],
             ])
             ->add('summary', CKEditorType::class, [
                 'label' => 'Description',
