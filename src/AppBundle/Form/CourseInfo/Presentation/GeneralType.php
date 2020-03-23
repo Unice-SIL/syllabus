@@ -95,13 +95,19 @@ class GeneralType extends AbstractType
                 ],
                 'required' => false
             ])
-            ->add('level', ChoiceType::class, [
-                'label' => 'Niveau',
+            ->add('level', Select2EntityType::class, [
+                'label' => 'Année',
+                'remote_route' => 'app.common.autocomplete.generic_s2',
                 'required' => false,
-                'multiple' => false,
-                'expanded' => true,
-                'placeholder' => false,
-                'choices' => Level::CHOICES
+                'multiple' => true,
+                'text_property' => 'label',
+                'language' => 'fr',
+                'minimum_input_length' => 0,
+                'remote_params' => [
+                    'entityName' => 'Level',
+                    'findBy' => 'label',
+                    'property' => 'label'
+                ],
             ])
             ->add('summary', CKEditorType::class, [
                 'label' => 'Description',
