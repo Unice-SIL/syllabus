@@ -37,11 +37,14 @@ class TeachingManager
     }
 
     /**
+     * @param string|null $type
+     * @param float|null $hourlyVolume
+     * @param string|null $mode
      * @return Teaching
      */
-    public function new(): Teaching
+    public function new(string $type  = null, float $hourlyVolume = null, string $mode = null): Teaching
     {
-        return new Teaching();
+        return new Teaching($type, $hourlyVolume, $mode);
     }
 
     /**

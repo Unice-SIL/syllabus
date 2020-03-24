@@ -139,6 +139,7 @@ class CourseInfoDoctrineRepository  extends ServiceEntityRepository
             }
         }
         return $qb;
+
     }
 
 }

@@ -27,7 +27,7 @@ class Teaching
      * @var string
      *
      * @ORM\Column(name="type", type="string", length=65)
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      */
     private $type;
 
@@ -35,7 +35,7 @@ class Teaching
      * @var float
      *
      * @ORM\Column(name="hourlyVolume", type="float")
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      */
     private $hourlyVolume;
 
@@ -43,7 +43,7 @@ class Teaching
      * @var string
      *
      * @ORM\Column(name="mode", type="string", length=15)
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      */
     private $mode;
 
@@ -56,6 +56,19 @@ class Teaching
      * })
      */
     private $courseInfo;
+
+    /**
+     * Teaching constructor.
+     * @param string $type
+     * @param float $hourlyVolume
+     * @param string $mode
+     */
+    public function __construct(string $type  = null, float $hourlyVolume = null, string $mode = null)
+    {
+        $this->type = $type;
+        $this->hourlyVolume = $hourlyVolume;
+        $this->mode = $mode;
+    }
 
 
     /**
