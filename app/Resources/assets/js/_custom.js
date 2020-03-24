@@ -125,4 +125,18 @@ $( document ).ready( function( ) {
     }
     initAutocomplete();
 
+    /**
+     * Form
+     */
+
+    $(document).on('click', '.remove-collection-widget', function(e) {
+        e.preventDefault();
+        var item = $(this).closest('.item-collection');
+
+        item.slideUp(500, function() {
+            $(this).remove();
+        });
+
+    });
+
 });

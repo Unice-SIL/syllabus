@@ -276,6 +276,15 @@ class CourseInfo
     private $teachingOtherTypeDist;
 
     /**
+     * @var Collection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Teaching", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
+     * @Assert\Valid()
+     * @JMS\Groups(groups={"course_info"})
+     */
+    private $teachings;
+
+    /**
      * @var float|null
      *
      * @ORM\Column(name="mcc_weight", type="float", precision=10, scale=0, nullable=true)
@@ -697,6 +706,7 @@ class CourseInfo
         $this->domains = new ArrayCollection();
         $this->periods = new ArrayCollection();
         $this->courseCriticalAchievements = new ArrayCollection();
+        $this->teachings = new ArrayCollection();
     }
 
     /**
@@ -1207,6 +1217,61 @@ class CourseInfo
     public function setTeachingOtherTypeDist(?string $teachingOtherTypeDist): self
     {
         $this->teachingOtherTypeDist = $teachingOtherTypeDist;
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getTeachings(): Collection
+    {
+        return $this->teachings;
+    }
+
+    /**
+     * @param Collection $teachings
+     * @return CourseInfo
+     */
+    public function setTeachings(Collection $teachings): self
+    {
+        $this->teachings = $teachings;
+
+        return $this;
+    }
+
+    /**
+     * @param Teaching $teaching
+     * @return CourseInfo
+     */
+    public function addTeaching(Teaching $teaching): self
+    {
+        if(!$this->teachings->contains($teaching))
+        {
+            $this->teachings->add($teaching);
+            if($teaching->getCourseInfo() !== $this)
+            {
+                $teaching->setCourseInfo($this);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Teaching $teaching
+     * @return CourseInfo
+     */
+    public function removeTeaching(Teaching $teaching): self
+    {
+        if ($this->teachings->contains($teaching))
+        {
+            $this->teachings->removeElement($teaching);
+            if ($teaching->getCourseInfo() === $this)
+            {
+                $teaching->setCourseInfo(null);
+            }
+        }
+
         return $this;
     }
 
@@ -2449,6 +2514,23 @@ class CourseInfo
      */
     public function __clone()
     {
+
+        // todo: loop on field instance or ArrayCollection (use reflection)
+        if ($this->teachings instanceof ArrayCollection) {
+            $this->teachings = clone $this->teachings;
+            /**
+             * @var  $k
+             * @var  Teaching $teaching
+             */
+            foreach ($this->teachings as $k => $teaching){
+                if (!$teaching instanceof Teaching) {
+                    continue;
+                }
+                $teaching = clone $teaching;
+                $teaching->setCourseInfo($this);
+                $this->teachings->offsetSet($k, $teaching);
+            }
+        }
 
         if ($this->coursePermissions instanceof ArrayCollection) {
             $this->coursePermissions = clone $this->coursePermissions;

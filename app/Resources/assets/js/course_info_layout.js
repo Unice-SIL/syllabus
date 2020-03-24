@@ -36,6 +36,23 @@ $(document).ready(function () {
         });
     });
 
+    $(document).on('form-focus-pre-submit', '#form-focus-teaching', function () {
+
+        let mode = $(this).find('input[name="teaching_mode[teachingMode]"]:checked').val();
+
+        if (mode === $('#teaching-mode-container').data('type-hybrid')) {
+            return;
+        }
+        let teachingItemCollection = $(this).find('.teaching-item-collection');
+
+        teachingItemCollection.each(function () {
+
+            if ($(this).find('.teaching-type-mode-input').val() !== mode) {
+                $(this).remove();
+            }
+        });
+    });
+
     //$(document).on('click', '.card-syllabus .submit-button', function () {
     $(document).on('submit', '.form-focus', function(e){
         e.preventDefault();
@@ -46,6 +63,9 @@ $(document).ready(function () {
         let $editButton = $card.find('.edit-button');
         let forms = $card.find('form');
         let url = $card.data('form-url');
+
+        $(this).trigger('form-focus-pre-submit');
+
         $.ajax({
             url: url,
             enctype: 'multipart/form-data',
