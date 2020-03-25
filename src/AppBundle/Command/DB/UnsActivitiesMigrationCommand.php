@@ -3,20 +3,16 @@
 namespace AppBundle\Command\DB;
 
 
-use AppBundle\Constant\ActivityGroup;
 use AppBundle\Entity\Activity;
 use AppBundle\Entity\ActivityMode;
 use AppBundle\Entity\ActivityType;
-use AppBundle\Entity\BakActivity;
 use AppBundle\Entity\BakCourseEvaluationCt;
 use AppBundle\Entity\BakCourseSectionActivity;
-use AppBundle\Entity\Course;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CourseSection;
 use AppBundle\Entity\CourseSectionActivity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Console\Command\Command;

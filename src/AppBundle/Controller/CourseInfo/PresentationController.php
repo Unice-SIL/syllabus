@@ -244,6 +244,7 @@ class PresentationController extends AbstractController
         }
         
         $form = $this->createForm(TeachingModeType::class, $courseInfo);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

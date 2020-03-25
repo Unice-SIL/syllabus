@@ -5,7 +5,7 @@
         </span>
     </div>
 {% else %}
-    <h4  class="text-shadow">{{ ('app.const.teaching_mode.' ~ courseInfo.teachingMode) | trans }}</h4>
+    <h4 class="text-shadow">{{ ('app.const.teaching_mode.' ~ courseInfo.teachingMode) | trans }}</h4>
     {% if courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::IN_CLASS') %}
         <div class="row">
             {% if courseInfo.teachingCmClass is not null %}
@@ -23,11 +23,6 @@
                     {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': 'app.presentation.form.teaching_mode.tp', 'teachingTypeHours': courseInfo.teachingTpClass } %}
                 </div>
             {% endif %}
-            {% if courseInfo.teachingOtherClass is not null %}
-                <div class="col-md-3 col-sm-6 col-12">
-                    {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': courseInfo.teachingOtherTypeClass, 'teachingTypeHours': courseInfo.teachingOtherClass } %}
-                </div>
-            {% endif %}
         </div>
     {% elseif courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::DIST') %}
         <div class="row">
@@ -39,11 +34,6 @@
             {% if courseInfo.teachingTdDist is not null %}
                 <div class="col-md-3 col-sm-6 col-12">
                     {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': 'app.presentation.form.teaching_mode.td', 'teachingTypeHours': courseInfo.teachingTdDist } %}
-                </div>
-            {% endif %}
-            {% if courseInfo.teachingOtherDist is not null %}
-                <div class="col-md-3 col-sm-6 col-12">
-                    {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': courseInfo.teachingOtherTypeDist, 'teachingTypeHours': courseInfo.teachingOtherDist } %}
                 </div>
             {% endif %}
         </div>
@@ -74,11 +64,6 @@
                             {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': 'app.presentation.form.teaching_mode.tp', 'teachingTypeHours': courseInfo.teachingTpHybridClass } %}
                         </div>
                     {% endif %}
-                    {% if courseInfo.teachingOtherHybridClass is not null %}
-                        <div class="col-lg-6 col-md-12 col-12">
-                            {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': courseInfo.teachingOtherTypeHybridClass, 'teachingTypeHours': courseInfo.teachingOtherHybridClass } %}
-                        </div>
-                    {% endif %}
                 </div>
             </div>
             <div class="col border-left">
@@ -93,13 +78,27 @@
                             {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': 'app.presentation.form.teaching_mode.td', 'teachingTypeHours': courseInfo.teachingTdHybridDist, 'type': 'warning' } %}
                         </div>
                     {% endif %}
-                    {% if courseInfo.teachingOtherHybridDist is not null %}
-                        <div class="col-lg-6 col-md-12 col-12">
-                            {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': courseInfo.teachingOtherTypeHybridDistant, 'teachingTypeHours': courseInfo.teachingOtherHybridDist, 'type': 'warning' } %}
-                        </div>
-                    {% endif %}
                 </div>
             </div>
         </div>
     {% endif %}
+    <div class="row">
+        {% for otherTeaching in courseInfo.teachings %}
+
+            <div class="col-md-3 col-sm-6 col-12">
+                {% if darkCard is defined %}
+                    {% set type = 'danger' %}
+                {% endif %}
+                <div class="info-box border rounded shadow {{ darkCard ?? '' }}">
+                    <span class="info-box-icon bg-{{ type|default('primary') }}">
+                        <i class="fas fa-clock"></i>
+                    </span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">{{ otherTeaching.type }}</span>
+                        <span class="info-box-number">{{ otherTeaching.hourlyVolume }}H</span>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endif %}

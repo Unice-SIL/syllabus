@@ -4,13 +4,17 @@ namespace AppBundle\Form\CourseInfo\Presentation;
 
 
 use AppBundle\Constant\TeachingMode;
+use AppBundle\Form\CourseInfo\Presentation\Subcriber\TeachingModeTypeSubscriber;
+use AppBundle\Form\CourseInfo\Teaching\TeachingType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class TeachingModeType extends AbstractType
 {
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -21,22 +25,6 @@ class TeachingModeType extends AbstractType
                 'required' => false,
                 'placeholder' => false,
                 'choices' => TeachingMode::CHOICES
-            ])
-            ->add('teachingOtherClass', TextType::class, [
-                'required' => false,
-                'label' => 'Volume',
-                'attr' => [
-                    'data-teaching-mode' => 'class',
-                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.other_class'
-                ]
-            ])
-            ->add('teachingOtherTypeClass', TextType::class, [
-                'required' => false,
-                'label' => 'Type',
-                'attr' => [
-                    'data-teaching-mode' => 'class',
-                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.type'
-                ]
             ])
             ->add('teachingCmHybridClass', TextType::class, [
                 'required' => false,
@@ -59,21 +47,6 @@ class TeachingModeType extends AbstractType
                     'data-teaching-mode' => 'hybrid'
                 ]
             ])
-            ->add('teachingOtherHybridClass', TextType::class, [
-                'required' => false,
-                'attr' => [
-                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.hours',
-                    'data-teaching-mode' => 'hybrid'
-                ]
-            ])
-            ->add('teachingOtherTypeHybridClass', TextType::class, [
-                'required' => false,
-                'label' => 'Type',
-                'attr' => [
-                    'data-teaching-mode' => 'hybrid',
-                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.type'
-                ]
-            ])
             ->add('teachingCmHybridDist', TextType::class, [
                 'required' => false,
                 'attr' => [
@@ -88,21 +61,6 @@ class TeachingModeType extends AbstractType
                     'data-teaching-mode' => 'hybrid'
                 ]
             ])
-            ->add('teachingOtherHybridDist', TextType::class, [
-                'required' => false,
-                'attr' => [
-                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.hours',
-                    'data-teaching-mode' => 'hybrid'
-                ]
-            ])
-            ->add('teachingOtherTypeHybridDistant', TextType::class, [
-                'required' => false,
-                'label' => 'Type',
-                'attr' => [
-                    'data-teaching-mode' => 'hybrid',
-                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.type'
-                ]
-            ])
             ->add('teachingCmDist', TextType::class, [
                 'required' => false,
                 'attr' => [
@@ -115,20 +73,17 @@ class TeachingModeType extends AbstractType
                     'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.hours',
                 ]
             ])
-            ->add('teachingOtherDist', TextType::class, [
+            ->add('teachings', CollectionType::class, [
+                'entry_type' => TeachingType::class,
                 'required' => false,
-                'attr' => [
-                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.hours',
-                    'data-teaching-mode' => 'class'
-                ]
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'prototype' => true,
+                'label' => 'app.presentation.form.teaching_mode.additionnal'
             ])
-            ->add('teachingOtherTypeDist', TextType::class, [
-                'required' => false,
-                'label' => 'Type',
-                'attr' => [
-                    'data-teaching-mode' => 'class',
-                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.type'
-                ]
-            ]);
+        ;
+
+        $builder->addEventSubscriber(new TeachingModeTypeSubscriber());
     }
 }
