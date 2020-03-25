@@ -277,7 +277,9 @@ app:
         title: ECUE appartenant à %title%
       tabs:
         activities: Séquences et activités
+        closing_remarks: Le mot de la fin
         equipments: Matériel et ressources
+        evaluation: Modalités d'évaluation
         info: Informations pratiques
         objectives: Objectifs du cours
         prerequisites: Prérequis

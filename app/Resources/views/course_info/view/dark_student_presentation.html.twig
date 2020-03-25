@@ -1,9 +1,9 @@
 <div class="p-4">
-    <h1 id="presentation-section mb-3" class="text-shadow">{{ 'app.view.student.tabs.presentation' | trans   }}</h1>
+    <h1 id="presentation-section" class="text-shadow mb-3">{{ 'app.view.student.tabs.presentation' | trans   }}</h1>
     <div class="row">
 
         <div class="col-md-3 d-flex align-items-center">
-            <i class="fas fa-2x fa-map-marker-alt p-2"></i>
+            <i class="fas fa-2x fa-building p-2"></i>
             <div class="p-1">
                 <p class="m-0 text-bold">{{ 'app.view.student.presentation.structure' | trans }}</p>
                 <p class="m-0 font-italic">
@@ -13,7 +13,7 @@
         </div>
 
         <div class="col-md-3 d-flex align-items-center">
-            <i class="fas fa-2x fa-map-marker-alt p-2"></i>
+            <i class="fas fa-2x fa-graduation-cap p-2"></i>
             <div class="p-1">
                 <p class="m-0 text-bold">{{ 'app.presentation.view.general.domain' | trans }}</p>
                 <p class="m-0 font-italic">
@@ -27,7 +27,7 @@
         </div>
 
         <div class="col-md-3 d-flex align-items-center">
-            <i class="fas fa-2x fa-map-marker-alt p-2"></i>
+            <i class="fas fa-2x fa-layer-group p-2"></i>
             <div class="p-1">
                 <p class="m-0 text-bold">{{ 'app.presentation.view.general.level' | trans }}</p>
                 <p class="m-0 font-italic">
@@ -38,7 +38,7 @@
 
         {% if courseInfo.periods is not empty %}
             <div class="col-md-3 d-flex align-items-center">
-                <i class="fas fa-2x fa-map-marker-alt p-2"></i>
+                <i class="fas fa-2x fa-calendar-alt p-2"></i>
                 <div class="p-1">
                     <p class="m-0 text-bold">{{ 'app.presentation.view.general.period' | trans }}</p>
                     <p class="m-0 font-italic">
@@ -68,7 +68,7 @@
                 {% set ects = parentInfo.ects %}
                 {% set ecue = parent.children|length %}
                 <div class="col-md-8 d-flex align-items-center">
-                    <i class="fas fa-2x fa-map-marker-alt p-2"></i>
+                    <i class="fas fa-2x fa-university p-2"></i>
                     <div class="p-1">
                         <p class="m-0">{{ 'app.view.student.presentation.title' | trans({'%title%' : title}) }} {% if ects is not null %}{{ 'app.view.student.presentation.nb_ects' | trans({'%ects%' : ects}) }}{% endif %}</p>
                         {% if ecue is not null %}
@@ -123,7 +123,7 @@
         {% endif %}
         {% if courseInfo.languages is not empty %}
             <div class="col-md-4 d-flex align-items-center">
-                <i class="fas fa-2x fa-pencil-ruler p-2"></i>
+                <i class="fas fa-2x fa-globe-europe p-2"></i>
                 <div class="p-1">
                     <p class="m-0">{{ 'app.presentation.view.general.languages' | trans }}</p>
                     <p class="m-0 font-italic">

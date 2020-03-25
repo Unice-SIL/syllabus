@@ -11,24 +11,28 @@
                 <div>
                     {% for act in activities %}
                         {% if act.evaluable %}
-                            <span class="text-danger">
-                                {{ act.activity.label }} ({{ act.activityMode }})
-                                {% if act.description is not null %}
-                                    : {{ act.description }}
-                                {% endif %}
-                            </span>
-                            {% if act.evaluationPeer %}<span class="badge badge-primary rounded float-right mr-2">{{ 'app.activities.view.activity.evaluated_peers' | trans }}</span>{% endif %}
-                            {% if act.evaluationTeacher %}<span class="badge badge-primary rounded float-right mr-2">{{ 'app.activities.view.activity.evaluated_teachers' | trans }}</span>{% endif %}
-                            <span class="badge badge-danger rounded float-right mr-2">
-                                {{ (act.evaluationCt ? 'ct' : 'cc') | trans }} ({{ act.evaluationRate }}%)
-                            </span>
+                            <div>
+                                <span class="text-danger">
+                                    {{ act.activity.label }} ({{ act.activityMode }})
+                                    {% if act.description is not null %}
+                                        : {{ act.description }}
+                                    {% endif %}
+                                </span>
+                                {% if act.evaluationPeer %}<span class="badge badge-primary rounded float-right mr-2">{{ 'app.activities.view.activity.evaluated_peers' | trans }}</span>{% endif %}
+                                {% if act.evaluationTeacher %}<span class="badge badge-primary rounded float-right mr-2">{{ 'app.activities.view.activity.evaluated_teachers' | trans }}</span>{% endif %}
+                                <span class="badge badge-danger rounded float-right mr-2">
+                                    {{ (act.evaluationCt ? 'ct' : 'cc') | trans }} ({{ act.evaluationRate }}%)
+                                </span>
+                            </div>
                         {% else %}
-                        <span>
-                        {{ act.activity.label }} ({{ act.activityMode }})
-                            {% if act.description is not null %}
-                                : {{ act.description }}
-                            {% endif %}
-                      </span>
+                            <div>
+                                <span>
+                                    {{ act.activity.label }} ({{ act.activityMode }})
+                                    {% if act.description is not null %}
+                                        : {{ act.description }}
+                                    {% endif %}
+                                </span>
+                            </div>
                         {% endif %}
                     {% endfor %}
                 </div>
