@@ -1,63 +1,56 @@
 <div class="p-4">
     <h1 id="presentation-section mb-3" class="text-shadow">{{ 'app.view.student.tabs.presentation' | trans   }}</h1>
     <div class="row">
-        <div class="col-md">
-            <dl>
-                <dt>{{ 'app.presentation.view.general.level' | trans }}</dt>
-                <dd class="mandatory-data">{{ courseInfo.level|humanizeEmptyData(null, 'app.const.level.')}}</dd>
-            </dl>
-            {% if courseInfo.periods is not empty %}
-                <dl>
-                    <dt>{{ 'app.presentation.view.general.period' | trans }}</dt>
-                    <dd>
-                        {% set periods = "" %}
-                        {% for period in courseInfo.periods %}
-                            {% set periods = periods ~ (not loop.first ? ', ') ~ period.label %}
-                        {% endfor %}
-                        {{ periods|humanizeEmptyData() }}
-                    </dd>
-                </dl>
-            {% endif %}
-            {% if courseInfo.campuses is not empty %}
-                <dl>
-                    <dt>
-                        <i class="fas fa-map-marker-alt nav-icon"></i>
-                        {{ 'app.presentation.view.general.campus' | trans }}
-                    </dt>
-                    <dd>
-                        {% set campuses = "" %}
-                        {% for campus in courseInfo.campuses %}
-                            {% set campuses = campuses ~ (not loop.first ? ', ') ~ campus.label %}
-                        {% endfor %}
-                        {{ campuses|humanizeEmptyData() }}
-                    </dd>
-                </dl>
-            {% endif %}
+
+        <div class="col-md-3 d-flex align-items-center">
+            <i class="fas fa-2x fa-map-marker-alt p-2"></i>
+            <div class="p-1">
+                <p class="m-0 text-bold">{{ 'app.view.student.presentation.structure' | trans }}</p>
+                <p class="m-0 font-italic">
+                    {{ courseInfo.structure }}
+                </p>
+            </div>
         </div>
-        <div class="col-md border-left">
-            <dl class="ml-3">
-                <dt>{{ 'app.presentation.view.general.domain' | trans }}</dt>
-                <dd class="mandatory-data">
+
+        <div class="col-md-3 d-flex align-items-center">
+            <i class="fas fa-2x fa-map-marker-alt p-2"></i>
+            <div class="p-1">
+                <p class="m-0 text-bold">{{ 'app.presentation.view.general.domain' | trans }}</p>
+                <p class="m-0 font-italic">
                     {% set domains = "" %}
                     {% for domain in courseInfo.domains %}
                         {% set domains = domains ~ (not loop.first ? ', ') ~ domain.label %}
                     {% endfor %}
                     {{ domains|humanizeEmptyData() }}
-                </dd>
-            </dl>
-            {% if courseInfo.languages is not empty %}
-                <dl class="ml-3">
-                    <dt>{{ 'app.presentation.view.general.languages' | trans }}</dt>
-                    <dd>
-                        {% set languages = "" %}
-                        {% for language in courseInfo.languages %}
-                            {% set languages = languages ~ (not loop.first ? ', ') ~ language.label %}
-                        {% endfor %}
-                        {{ languages|humanizeEmptyData() }}
-                    </dd>
-                </dl>
-            {% endif %}
+                </p>
+            </div>
         </div>
+
+        <div class="col-md-3 d-flex align-items-center">
+            <i class="fas fa-2x fa-map-marker-alt p-2"></i>
+            <div class="p-1">
+                <p class="m-0 text-bold">{{ 'app.presentation.view.general.level' | trans }}</p>
+                <p class="m-0 font-italic">
+                    {{ courseInfo.level|humanizeEmptyData(null, 'app.const.level.')}}
+                </p>
+            </div>
+        </div>
+
+        {% if courseInfo.periods is not empty %}
+            <div class="col-md-3 d-flex align-items-center">
+                <i class="fas fa-2x fa-map-marker-alt p-2"></i>
+                <div class="p-1">
+                    <p class="m-0 text-bold">{{ 'app.presentation.view.general.period' | trans }}</p>
+                    <p class="m-0 font-italic">
+                        {% set periods = "" %}
+                        {% for period in courseInfo.periods %}
+                            {% set periods = periods ~ (not loop.first ? ', ') ~ period.label %}
+                        {% endfor %}
+                        {{ periods|humanizeEmptyData() }}
+                    </p>
+                </div>
+            </div>
+        {% endif %}
 
         {% if courseInfo.course.parents is not empty %}
             {% set parent = courseInfo.course.parents[0] %}
@@ -71,31 +64,30 @@
             {% endif %}
 
             {% if parent is not empty and parentInfo is not empty %}
-                <div class="col-md border-left">
-                    <dl class="ml-3">
-                        <dt>{{ 'app.view.student.presentation.ecue' | trans }}</dt>
-                        <dd>
-                            {{ parentInfo.title }}
-                        </dd>
-                    </dl>
-                    <dl class="ml-3">
-                        {% if parent.children|length > 0 %}
-                            <dd>
-                                {{ 'app.view.student.presentation.ue_include' | trans }} <strong>{{ parent.children|length }}</strong> ECUE
-                            </dd>
+                {% set title = parentInfo.title %}
+                {% set ects = parentInfo.ects %}
+                {% set ecue = parent.children|length %}
+                <div class="col-md-8 d-flex align-items-center">
+                    <i class="fas fa-2x fa-map-marker-alt p-2"></i>
+                    <div class="p-1">
+                        <p class="m-0">{{ 'app.view.student.presentation.title' | trans({'%title%' : title}) }} {% if ects is not null %}{{ 'app.view.student.presentation.nb_ects' | trans({'%ects%' : ects}) }}{% endif %}</p>
+                        {% if ecue is not null %}
+                            <p class="m-0 font-italic">
+                                {{ 'app.view.student.presentation.nb_ecue' | trans({'%ecue%': ecue }) }}
+                            </p>
                         {% endif %}
-                        {% if parentInfo.ects is not empty %}
-                            <dd>
-                                {{ 'app.view.student.presentation.ue_giving' | trans }} <strong>{{ parentInfo.ects }}</strong> ECTS
-                            </dd>
-                        {% endif %}
-                    </dl>
+                    </div>
                 </div>
             {% endif %}
         {% endif %}
     </div>
     {% if courseInfo.image is not null or courseInfo.video is not null %}
         <div class="row mt-2">
+            {% if courseInfo.summary is not null %}
+                <div id="general-summary" class="col-md-6 mandatory-data">
+                    {{ courseInfo.summary|humanizeEmptyData()|purify }}
+                </div>
+            {% endif %}
             <div class="col-md-6">
                 {% if courseInfo.mediaType == 'image' and courseInfo.image is not null %}
                     {% set imgSrc = courseInfo.image | split('/') | last %}
@@ -110,13 +102,42 @@
                     </div>
                 {% endif %}
             </div>
-            {% if courseInfo.summary is not null %}
-                <div id="general-summary" class="col-md-6 mandatory-data">
-                    {{ courseInfo.summary|humanizeEmptyData()|purify }}
-                </div>
-            {% endif %}
         </div>
     {% endif %}
+
+    <div class="row mt-3">
+        {% if courseInfo.campuses is not empty %}
+            <div class="col-md-4 d-flex align-items-center">
+                <i class="fas fa-2x fa-map-marker-alt p-2"></i>
+                <div class="p-1">
+                    <p class="m-0">{{ 'app.presentation.view.general.campus' | trans }}</p>
+                    <p class="m-0 font-italic">
+                        {% set campuses = "" %}
+                        {% for campus in courseInfo.campuses %}
+                            {% set campuses = campuses ~ (not loop.first ? ', ') ~ campus.label %}
+                        {% endfor %}
+                        {{ campuses|humanizeEmptyData() }}
+                    </p>
+                </div>
+            </div>
+        {% endif %}
+        {% if courseInfo.languages is not empty %}
+            <div class="col-md-4 d-flex align-items-center">
+                <i class="fas fa-2x fa-pencil-ruler p-2"></i>
+                <div class="p-1">
+                    <p class="m-0">{{ 'app.presentation.view.general.languages' | trans }}</p>
+                    <p class="m-0 font-italic">
+                        {% set languages = "" %}
+                        {% for language in courseInfo.languages %}
+                            {% set languages = languages ~ (not loop.first ? ', ') ~ language.label %}
+                        {% endfor %}
+                        {{ languages|humanizeEmptyData() }}
+                    </p>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
     <div class="row mt-3">
         <h4 class="text-shadow">{{ 'app.presentation.view.teachers.label' | trans   }}</h4>
         <div class="table-responsive">

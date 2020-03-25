@@ -12,7 +12,17 @@
         </dl>
         <dl>
             <dt>{{ 'app.presentation.view.general.level' | trans }}</dt>
+            <dd class="mandatory-data">
+                {% set levels = "" %}
+                {% for level in courseInfo.levels %}
+                    {% set levels = levels ~ (not loop.first ? ', ') ~ level.label %}
+                {% endfor %}
+                {{ levels|humanizeEmptyData() }}
+            </dd>
+            <!-- {#
+            <dt>{{ 'app.presentation.view.general.level' | trans }}</dt>
             <dd class="mandatory-data">{{ courseInfo.level|humanizeEmptyData(null, 'app.const.level.')}}</dd>
+            #} -->
         </dl>
         <dl>
             <dt>{{ 'app.presentation.view.general.campus' | trans }}</dt>

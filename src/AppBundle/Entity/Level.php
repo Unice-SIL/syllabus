@@ -4,15 +4,17 @@
 namespace AppBundle\Entity;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Class Level
  * @package AppBundle\Entity
  * @ORM\Table(name="level")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\LevelDoctrineRepository")
  *
  */
 class Level
@@ -35,8 +37,17 @@ class Level
      * @Assert\NotBlank()
      * @Assert\Length(max="100")
      * @JMS\Groups(groups={"default", "level"})
+     * @Gedmo\Translatable
      */
     private $label;
+
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="CourseInfo", mappedBy="levels")
+     */
+    private $courseInfos;
 
     /**
      * @var bool
@@ -45,6 +56,15 @@ class Level
      * @JMS\Groups(groups={"default", "level"})
      */
     private $obsolete = false;
+
+    /**
+     * Level constructor.
+     */
+    public function __construct()
+    {
+        $this->courseInfos = new ArrayCollection();
+    }
+
 
     /**
      * @return null|string
@@ -111,4 +131,55 @@ class Level
     {
         return $this->getLabel();
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCourseInfos()
+    {
+        return $this->courseInfos;
+    }
+
+    /**
+     * @param mixed $courseInfos
+     */
+    public function setCourseInfos($courseInfos): void
+    {
+        $this->courseInfos = $courseInfos;
+    }
+
+    /**
+     * @param CourseInfo $courseInfo
+     * @return Level
+     */
+    public function addCourseInfo(CourseInfo $courseInfo): self
+    {
+        if (!$this->courseInfos->contains($courseInfo))
+        {
+            $this->courseInfos->add($courseInfo);
+            if (!$courseInfo->getLevels()->contains($this))
+            {
+                $courseInfo->getLevels()->add($this);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @param CourseInfo $courseInfo
+     * @return Level
+     */
+    public function removeCourseInfo(CourseInfo $courseInfo): self
+    {
+        if ($this->courseInfos->contains($courseInfo))
+        {
+            $this->courseInfos->removeElement($courseInfo);
+            if ($courseInfo->getLevels()->contains($this))
+            {
+                $courseInfo->getLevels()->removeElement($this);
+            }
+        }
+        return $this;
+    }
+
 }

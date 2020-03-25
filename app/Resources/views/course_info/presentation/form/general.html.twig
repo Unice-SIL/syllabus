@@ -4,6 +4,7 @@
     <div class="col-6">
         {{ form_row(form.domains, {label_attr: {class: 'required'}}) }}
         {{ form_row(form.campuses) }}
+        <!-- {#
         <label class="required font-weight-bold">
             {{ 'app.presentation.form.general.level_label' | trans }}
             <div class="help d-inline-block">
@@ -18,9 +19,14 @@
             </div>
         </label>
         <div class="form-group">
-            {{ form_errors(form.level) }}
+             {{ form_errors(form.level) }}
             {{ form_widget(form.level, {label_attr: {class: 'radio-custom'} }) }}
         </div>
+        #} -->
+        <div class="form-group">
+            {{ form_row(form.levels, {label_attr: {class: 'required'}}) }}
+        </div>
+
     </div>
     <div class="col-6">
         {{ form_row(form.periods) }}
