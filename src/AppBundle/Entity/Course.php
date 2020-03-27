@@ -105,6 +105,23 @@ class Course
     private $coursePrerequisites;
 
     /**
+     * @var array
+     */
+    private $hours = [];
+
+    /**
+     * @var float|null
+     *
+     */
+    private $ects;
+
+    /**
+     * @var string|null
+     *
+     */
+    private $structureCode;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -445,4 +462,53 @@ class Course
         }
         return $this;
     }
+
+    /**
+     * @return array
+     */
+    public function getHours(): array
+    {
+        return $this->hours;
+    }
+
+    /**
+     * @param array $hours
+     */
+    public function setHours(array $hours): void
+    {
+        $this->hours = $hours;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getEcts(): ?float
+    {
+        return $this->ects;
+    }
+
+    /**
+     * @param float|null $ects
+     */
+    public function setEcts(?float $ects): void
+    {
+        $this->ects = $ects;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getStructureCode(): ?string
+    {
+        return $this->structureCode;
+    }
+
+    /**
+     * @param string|null $structureCode
+     */
+    public function setStructureCode(?string $structureCode): void
+    {
+        $this->structureCode = $structureCode;
+    }
+
 }
