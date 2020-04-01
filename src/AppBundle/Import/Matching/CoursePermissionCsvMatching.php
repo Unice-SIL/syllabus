@@ -1,16 +1,17 @@
 <?php
 
 
-namespace AppBundle\Parser;
+namespace AppBundle\Import\Matching;
 
 use AppBundle\Constant\Permission;
 use AppBundle\Entity\User;
+use AppBundle\Helper\Report\Report;
 use AppBundle\Helper\Report\ReportLine;
 use AppBundle\Manager\CoursePermissionManager;
 use AppBundle\Repository\Doctrine\CourseInfoDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
-class CoursePermissionCsvParser extends AbstractCsvParser implements ParserInterface
+class CoursePermissionCsvMatching extends AbstractMatching implements MatchingInterface
 {
     /**
      * @var CourseInfoDoctrineRepository
@@ -24,27 +25,24 @@ class CoursePermissionCsvParser extends AbstractCsvParser implements ParserInter
 
     /**
      * CoursePermissionCsvParser constructor.
-     * @param EntityManagerInterface $em
      * @param CourseInfoDoctrineRepository $courseInfoDoctrineRepository
      * @param CoursePermissionManager $coursePermissionManager
      */
     public function __construct(
-        EntityManagerInterface $em,
         CourseInfoDoctrineRepository $courseInfoDoctrineRepository,
         CoursePermissionManager $coursePermissionManager
     )
     {
-        parent::__construct($em);
         $this->courseInfoDoctrineRepository = $courseInfoDoctrineRepository;
         $this->coursePermissionManager = $coursePermissionManager;
     }
 
-    protected function getNewEntity(): object
+    public function getNewEntity(): object
     {
-        return $this->coursePermissionManager->create();
+        return $this->coursePermissionManager->new();
     }
 
-    protected function getBaseMatching(): array
+    public function getBaseMatching(): array
     {
         return [
             'code' => ['required' => true, 'description' => "Code du cours du syllabus"],
@@ -54,12 +52,12 @@ class CoursePermissionCsvParser extends AbstractCsvParser implements ParserInter
         ];
     }
 
-    protected function getLineIds(): array
+    public function getLineIds(): array
     {
         return ['code', 'year', 'username', 'permission'];
     }
 
-    protected function manageSpecialCase($entity, string $property, string $name, string $type, $data, ReportLine $reportLine): bool
+    public function manageSpecialCase($entity, string $property, string $name, string $type, $data, ReportLine $reportLine, Report $report): bool
     {
         switch ($name) {
             case 'code':
