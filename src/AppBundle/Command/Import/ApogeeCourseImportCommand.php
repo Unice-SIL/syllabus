@@ -55,6 +55,7 @@ class ApogeeCourseImportCommand extends Command
      * ImportTestCommand constructor.
      * @param ImportManager $importManager
      * @param CourseApogeeConfiguration $configuration
+     * @param CourseParentApogeeConfiguration $parentConfiguration
      * @param EntityManagerInterface $em
      * @param CourseManager $courseManager
      * @param CourseInfoManager $courseInfoManager
@@ -88,7 +89,7 @@ class ApogeeCourseImportCommand extends Command
         //======================Perf==================
         $start = microtime(true);
         $interval = [];
-        $loopBreak = 200;
+        $loopBreak = 75;
         //======================End Perf==================
 
         $fieldsAllowed = iterator_to_array($this->configuration->getMatching()->getCompleteMatching());
@@ -102,6 +103,7 @@ class ApogeeCourseImportCommand extends Command
         $validationReport = ReportingHelper::createReport('Insertion en base de données');
 
         $loop = 1;
+
         /** @var Course $course */
         foreach ($courses as $lineIdReport => $course) {
 
