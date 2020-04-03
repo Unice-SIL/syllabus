@@ -3,6 +3,7 @@
 namespace AppBundle\Manager;
 
 use AppBundle\Entity\Structure;
+use AppBundle\Helper\ErrorManager;
 use AppBundle\Repository\Doctrine\StructureDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -10,12 +11,8 @@ use Doctrine\ORM\EntityManagerInterface;
  * Class StructureManager
  * @package AppBundle\Manager
  */
-class StructureManager
+class StructureManager extends AbstractManager
 {
-    /**
-     * @var EntityManagerInterface
-     */
-    private $em;
 
     /**
      * @var StructureDoctrineRepository
@@ -25,11 +22,12 @@ class StructureManager
     /**
      * StructureManager constructor.
      * @param EntityManagerInterface $em
+     * @param ErrorManager $errorManager
      * @param StructureDoctrineRepository $repository
      */
-    public function __construct(EntityManagerInterface $em, StructureDoctrineRepository $repository)
+    public function __construct(EntityManagerInterface $em, ErrorManager $errorManager, StructureDoctrineRepository $repository)
     {
-        $this->em = $em;
+        parent::__construct($em, $errorManager);
         $this->repository = $repository;
     }
 
@@ -93,4 +91,11 @@ class StructureManager
         $this->em->remove($structure);
         $this->em->flush();
     }
+
+    protected function getClass(): string
+    {
+        return Structure::class;
+    }
+
+
 }

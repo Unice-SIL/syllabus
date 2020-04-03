@@ -1,22 +1,28 @@
 <?php
 
 
-namespace AppBundle\Parser;
+namespace AppBundle\Import\Matching;
 
 use AppBundle\Constant\TeachingMode;
 use AppBundle\Entity\Course;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\Structure;
 use AppBundle\Entity\Year;
+use AppBundle\Helper\Report\Report;
 use AppBundle\Helper\Report\ReportLine;
 use AppBundle\Manager\CourseInfoManager;
 use Doctrine\ORM\EntityManagerInterface;
 
-class CourseInfoCsvParser extends AbstractCsvParser implements ParserInterface
+class CourseInfoCsvMatching extends AbstractMatching implements MatchingInterface
 {
 
     private $courseInfoManager;
     private $evaluationType;
+    /**
+     * @var EntityManagerInterface
+     */
+    private $em;
+
 
     /**
      * CourseInfoCsvParser constructor.
@@ -28,16 +34,16 @@ class CourseInfoCsvParser extends AbstractCsvParser implements ParserInterface
         CourseInfoManager $courseInfoManager
     )
     {
-        parent::__construct($em);
+        $this->em = $em;
         $this->courseInfoManager = $courseInfoManager;
     }
 
-    protected function getNewEntity(): object
+    public function getNewEntity(): object
     {
-        return $this->courseInfoManager->createOne();
+        return $this->courseInfoManager->new();
     }
 
-    protected function getBaseMatching(): array
+    public function getBaseMatching(): array
     {
         $years = $this->em->getRepository(Year::class)->findAll();
         $years = array_map(function (Year $year){
@@ -96,7 +102,7 @@ class CourseInfoCsvParser extends AbstractCsvParser implements ParserInterface
         ];
     }
 
-    protected function getLineIds(): array
+    public function getLineIds(): array
     {
         return ['code', 'year'];
     }
@@ -108,9 +114,10 @@ class CourseInfoCsvParser extends AbstractCsvParser implements ParserInterface
      * @param string $type
      * @param $data
      * @param ReportLine $reportLine
+     * @param Report $report
      * @return bool
      */
-    protected function manageSpecialCase($entity, string $property, string $name, string $type, $data, ReportLine $reportLine): bool
+    public function manageSpecialCase($entity, string $property, string $name, string $type, $data, ReportLine $reportLine, Report $report): bool
     {
         switch ($name) {
             case 'evaluationType':
