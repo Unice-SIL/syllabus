@@ -7,6 +7,7 @@ namespace AppBundle\Controller\CourseInfo;
 use AppBundle\Entity\AskAdvice;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Form\CourseInfo\dashboard\AskAdviceType;
+use AppBundle\Form\CourseInfo\dashboard\PublishCourseInfoType;
 use AppBundle\Form\CourseInfo\DuplicateCourseInfoType;
 use AppBundle\Helper\Report\Report;
 use AppBundle\Manager\CourseInfoManager;
@@ -86,7 +87,7 @@ class DashboardController extends AbstractController
         return $this->render('course_info/dashboard/dashboard.html.twig', [
             'courseInfo' => $courseInfo,
             'duplicationForm' => $duplicationForm->createView(),
-            'isFormValid' => $isFormValid
+            'isFormValid' => $isFormValid,
         ]);
     }
 
@@ -114,11 +115,12 @@ class DashboardController extends AbstractController
 
         $render = $this->get('twig')->render('course_info/dashboard/view/dashboard.html.twig', [
             'courseInfo' => $courseInfo,
-            'violations' => $violations
+            'violations' => $violations,
+            'publicationForm' => $this->createForm(PublishCourseInfoType::class, $courseInfo)->createView()
         ]);
         return $this->json([
             'status' => true,
-            'content' => $render
+            'content' => $render,
         ]);
     }
 
@@ -154,5 +156,31 @@ class DashboardController extends AbstractController
             'status' => true,
             'content' => $render
         ]);
+    }
+
+    /**
+     * @param CourseInfo $courseInfo
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @return JsonResponse
+     * @throws \Exception
+     * @Route("/publish", name="pusblish", methods={"POST"} )
+     */
+    public function publishCourseInfo(CourseInfo $courseInfo, Request $request, EntityManagerInterface $em) {
+
+        $publishForm = $this->createForm(PublishCourseInfoType::class, $courseInfo);
+        $publishForm->handleRequest($request);
+
+        if ($publishForm->isSubmitted() and $publishForm->isValid()) {
+            $isPublished = $publishForm->all()['publish']->getData();
+
+            $courseInfo->setPublicationDate($isPublished ? new \DateTime() : null);
+
+            $em->flush();
+
+            return $this->json(['error' => false]);
+        }
+
+        return $this->json(['error' => true]);
     }
 }

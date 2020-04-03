@@ -231,6 +231,12 @@ label.toggle-off {
 /*
     Forms
  */
+.publish-checkbox-container {
+    .form-check {
+        padding-left: 0;
+    }
+}
+
 label.required:not(.custom-control-label):before {
     content: "* ";
     color: red;

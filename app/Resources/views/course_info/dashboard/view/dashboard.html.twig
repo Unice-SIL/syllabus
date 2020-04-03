@@ -67,10 +67,15 @@
                     <div>
                         <em>Vous devez remplir les champs obligatoires.</em></br>
                         <div class="pt-2">
-                            <input type="checkbox" id="btn_publish" checked data-toggle="toggle" data-onstyle="primary"
-                                   data-on="Oui"
-                                   data-off="Non">
-                            <button type="button" class="btn btn-primary ml-5">Voir la version étudiante</button>
+                            {{ form_start(publicationForm, {'attr' : {
+                                'class' : 'd-inline-block',
+                                'data-url' : path('app.course_info.dashboard.pusblish', {id : courseInfo.id})
+                            }}) }}
+                                <div class="publish-checkbox-container">
+                                    {{ form_widget(publicationForm.publish, {'id' : 'btn_publish'}) }}
+                                </div>
+                            {{ form_end(publicationForm) }}
+                            <a href="{{ path('app.course_info.view.student', { 'id': courseInfo.id }) }}" type="button" class="btn btn-primary ml-5">Voir la version étudiante</a>
                         </div>
                     </div>
                 </div>
@@ -118,4 +123,33 @@
 <script>
     $('#btn_publish').bootstrapToggle();
     $('#btn_duplicate').bootstrapToggle();
+
+    let stopPropagation = false;
+    $(document).on('change', '#btn_publish', function (e) {
+
+        if (stopPropagation) {
+            stopPropagation = false;
+            return;
+        }
+
+        let checkbox = $(this);
+        let form = checkbox.closest('form');
+        let data = form.serialize();
+
+        checkbox.bootstrapToggle('disable');
+
+        $.post( form.data('url'), data)
+            .done(function(data) {
+
+                checkbox.bootstrapToggle('enable');
+
+                if (data.error) {
+                    stopPropagation = true;
+                    checkbox.bootstrapToggle('toggle');
+
+                    //todo: display an error
+                }
+
+            });
+    });
 </script>
