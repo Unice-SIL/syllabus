@@ -24,7 +24,7 @@
                data-url="{{ path('app.course_info.objectives.sort_achievements', {'id': courseInfo.id}) }}">
         {% for achievement in courseInfo.courseAchievements %}
             <tr class="item-sortable" data-id="{{ achievement.id }}">
-                <td class="text-left">{{ achievement.description }}</td>
+                <td class="text-left">{{ achievement.description|humanizeEmptyData }}</td>
                 <td class="text-center">
                     <button type="button"
                             class="btn btn-link modal-action p-0"

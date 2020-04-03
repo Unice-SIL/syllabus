@@ -19,12 +19,18 @@
                         </thead>
                         <tbody>
                         <tr class="text-center">
-                            <td><p class="my-0">Contrôle Continu</p> ({{ courseInfo.mccCcNbEvalSession1 }} minimum)</td>
-                            <td>{{ courseInfo.mccCcCoeffSession1 }}%</td>
+                            <td><p class="my-0">Contrôle Continu</p>
+                                {% if courseInfo.mccCcNbEvalSession1 %}
+                                    ({{ courseInfo.mccCcNbEvalSession1 }} minimum)
+                                {% else %}
+                                    {{ courseInfo.mccCcNbEvalSession1|humanizeEmptyData }}
+                                {% endif %}
+                            </td>
+                            <td>{{ courseInfo.mccCcCoeffSession1|humanizeEmptyData }} {{ courseInfo.mccCcCoeffSession1 ? '%' }}</td>
                         </tr>
                         <tr class="text-center">
                             <td>Contrôle Terminal - {{ courseInfo.mccCtDurationSession1 }}</td>
-                            <td>{{ courseInfo.mccCtCoeffSession1 }}%</td>
+                            <td>{{ courseInfo.mccCtCoeffSession1|humanizeEmptyData }} {{ courseInfo.mccCtCoeffSession1 ? '%' }}</td>
                         </tr>
                         </tbody>
                     </table>

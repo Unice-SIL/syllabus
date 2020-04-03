@@ -1,5 +1,5 @@
 <div class="p-4">
-    <h1 id="presentation-section mb-3" class="text-shadow">{{ 'app.view.student.tabs.presentation' | trans   }}</h1>
+    <h1 id="presentation-section" class="text-shadow mb-3">{{ 'app.view.student.tabs.presentation' | trans   }}</h1>
     <div class="row">
 
         <div class="col-md-3 d-flex align-items-center">
@@ -31,7 +31,7 @@
             <div class="p-1">
                 <p class="m-0 text-bold">{{ 'app.presentation.view.general.level' | trans }}</p>
                 <p class="m-0 font-italic">
-                    {{ courseInfo.level|humanizeEmptyData(null, 'app.const.level.')}}
+                    {{ courseInfo.levels|join(', ', ' et ')|humanizeEmptyData }}
                 </p>
             </div>
         </div>

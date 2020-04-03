@@ -65,7 +65,7 @@
                data-url="{{ path('app.course_info.prerequisite.sort_tutoring_resources', {'id': courseInfo.id}) }}">
         {% for tutoringResources in courseInfo.courseTutoringResources %}
             <tr class="item-sortable text-center" data-id="{{ tutoringResources.id }}">
-                <td class="text-left">{{ tutoringResources.description }}</td>
+                <td class="text-left">{{ tutoringResources.description|humanizeEmptyData }}</td>
                 <td class="text-center">
                     <button type="button"
                             class="btn btn-link modal-action p-0"

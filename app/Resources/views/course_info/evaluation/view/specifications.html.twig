@@ -3,9 +3,6 @@
         <div class="d-flex">
             <div class="d-flex flex-column">
                     <span class="font-weight-bold">
-                        {% if courseInfo.mccAdvice is null %}
-                            <i class="fas fa-exclamation-circle text-warning"></i>
-                        {% endif %}
                         Précisions (facultatif)
                     </span>
                 {{ courseInfo.mccAdvice|humanizeEmptyData() | purify }}

@@ -30,10 +30,11 @@
                     <span>{{ prerequisite.description }}</span></br>
                     <i>
                         Cours obligatoire(s) :
+                        {% set titles = '' %}
                         {% for c in prerequisite.courses %}
-                             {{ c.title }}
-                            {% if not loop.last %} ,{% endif %}
+                             {% set titles = titles ~ (not loop.first ? ', ') ~ c.title %}
                         {% endfor %}
+                        {{ titles|humanizeEmptyData }}
                     </i>
                 </td>
                 <td class="text-center">
