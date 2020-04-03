@@ -1,15 +1,9 @@
 <div class="d-flex flex-column">
                 <span class="font-weight-bold">
-                    {% if courseInfo.agenda is null %}
-                        <i class="fas fa-exclamation-circle text-warning"></i>
-                    {% endif %}
                     Informations dont vous disposez sur le calendrier du cours, des examens…
                 </span>
     {{ courseInfo.agenda|humanizeEmptyData() | purify }}
     <span class="font-weight-bold">
-                    {% if courseInfo.organization is null %}
-                        <i class="fas fa-exclamation-circle text-warning"></i>
-                    {% endif %}
                     Organisation du cours
                 </span>
     {{ courseInfo.organization|humanizeEmptyData() | purify }}

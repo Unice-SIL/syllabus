@@ -1,15 +1,9 @@
 <div class="d-flex flex-column">
                 <span class="font-weight-bold">
-                    {% if courseInfo.educationalResources is null %}
-                        <i class="fas fa-exclamation-circle text-warning"></i>
-                    {% endif %}
                     Ressources pédagogiques
                 </span>
     {{ courseInfo.educationalResources|humanizeEmptyData() | purify }}
     <span class="font-weight-bold">
-                    {% if courseInfo.bibliographicResources is null %}
-                        <i class="fas fa-exclamation-circle text-warning"></i>
-                    {% endif %}
                     Eléments bibliographiques
                 </span>
     {{ courseInfo.bibliographicResources|humanizeEmptyData() | purify }}

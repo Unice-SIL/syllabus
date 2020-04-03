@@ -14,7 +14,7 @@
                     <div class="row">
                         <div class="col my-auto">
                             <div>
-                                {{ sectionActivity.activity.label }} ({{ sectionActivity.activityMode }}) {% if sectionActivity.description %} : {{ sectionActivity.description }}{% endif %}
+                                {{ sectionActivity.activity.label }} ({{ sectionActivity.activityMode }}) : {{ sectionActivity.description|humanizeEmptyData }}
                             </div>
                             {% if sectionActivity.evaluable %}
                                 <div class="mt-1">
