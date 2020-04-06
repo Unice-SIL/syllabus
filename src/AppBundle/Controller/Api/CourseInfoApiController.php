@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller\Api;
 
+use AppBundle\Constant\Permission;
 use AppBundle\Entity\CourseInfo;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Nelmio\ApiDocBundle\Annotation\Model;
@@ -186,6 +187,8 @@ class CourseInfoApiController extends Controller
      */
     public function putAction(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, CourseInfo $courseInfo, ApiHelper $apiHelper)
     {
+        $this->denyAccessUnlessGranted(Permission::WRITE, $courseInfo);
+
         $form = $this->createForm(CourseInfoType::class, $courseInfo);
 
         $form->submit(json_decode($request->getContent(), true));

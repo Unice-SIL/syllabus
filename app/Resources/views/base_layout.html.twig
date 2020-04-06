@@ -24,10 +24,21 @@
         </ul>
     </nav>
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
-        <a href="{{ logoHref|default('#') }}" class="brand-link elevation-4 logo-switch">
-            <img src="{{ asset('images/uca-logo-dark-small.png') }}" alt="Logo Syllabus" class="brand-image-xs logo-xs">
-            <img src="{{ asset('images/uca-logo-dark.png') }}" alt="Logo Syllabus" class="brand-image-xl logo-xl">
-        </a>
+        {% if not app.request.query.get('iframe') %}
+            <a href="{{ logoHref|default('#') }}" class="brand-link elevation-4 logo-switch">
+                <img src="{{ asset('images/uca-logo-dark-small.png') }}" alt="Logo Syllabus" class="brand-image-xs logo-xs">
+                <img src="{{ asset('images/uca-logo-dark.png') }}" alt="Logo Syllabus" class="brand-image-xl logo-xl">
+            </a>
+        {% else %}
+            <a class="brand-link elevation-4 logo-switch text-center"
+               href="{{
+                    path(app.request.get('_route'),
+                        app.request.query.all|merge( { 'iframe' : 0, 'id' : app.request.attributes.get('id') } )  )
+               }}"
+            >
+                <i class="fas fa-external-link-alt"></i>
+            </a>
+        {% endif %}
         {% block sidebar %}{% endblock %}
     </aside>
     <div class="content-wrapper">
