@@ -47,6 +47,9 @@ global.bootstrapToggle = bootstrapToggle;
 import Swal from 'sweetalert2';
 global.Swal = Swal;
 
+import Slick from 'slick-carousel';
+global.Slick = Slick;
+
 import 'admin-lte';
 
 import './_custom';

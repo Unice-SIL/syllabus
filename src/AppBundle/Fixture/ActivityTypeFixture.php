@@ -37,9 +37,12 @@ class ActivityTypeFixture extends Fixture implements FixtureGroupInterface
         $activityType
             ->setLabel("Autonomy")
             ->addActivity($this->getReference(ActivityFixture::ACTIVITY_1))
+            ->addActivity($this->getReference(ActivityFixture::ACTIVITY_2))
             ->addActivity($this->getReference(ActivityFixture::ACTIVITY_3))
             ->addActivity($this->getReference(ActivityFixture::ACTIVITY_4))
+            ->addActivity($this->getReference(ActivityFixture::ACTIVITY_5))
             ->addActivity($this->getReference(ActivityFixture::ACTIVITY_6))
+            ->addActivity($this->getReference(ActivityFixture::ACTIVITY_7))
             ->addActivityMode($this->getReference(ActivityModeFixture::ACTIVITY_MODE_1))
             ->setObsolete(false);
         $this->addReference(self::ACTIVITY_TYPE_1, $activityType);

@@ -15,6 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -32,7 +33,7 @@ class ActivitiesController extends AbstractController
      * @param CourseSection|null $activeSection
      * @param ActivityManager $activityManager
      * @param ActivityTypeManager $activityTypeManager
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      * @ParamConverter("activeSection", options={"mapping": {"sectionId": "id"}})
      */
     public function indexAction(CourseInfo $courseInfo, ?CourseSection $activeSection, ActivityManager $activityManager, ActivityTypeManager $activityTypeManager)
@@ -62,7 +63,7 @@ class ActivitiesController extends AbstractController
      * @param Request $request
      * @param CourseInfoManager $manager
      * @param CourseSectionManager $courseSectionManager
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      * @throws \Exception
      */
     public function addSectionAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager, CourseSectionManager $courseSectionManager)

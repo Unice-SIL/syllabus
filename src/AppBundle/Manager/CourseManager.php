@@ -9,20 +9,12 @@ use AppBundle\Helper\ErrorManager;
 use AppBundle\Repository\Doctrine\CourseDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
-class CourseManager
+class CourseManager extends AbstractManager
 {
     /**
      * @var CourseDoctrineRepository
      */
     private $repository;
-    /**
-     * @var ErrorManager
-     */
-    private $errorManager;
-    /**
-     * @var EntityManagerInterface
-     */
-    private $em;
 
     /**
      * CourseManager constructor.
@@ -31,9 +23,8 @@ class CourseManager
      */
     public function __construct(CourseDoctrineRepository $repository, ErrorManager $errorManager, EntityManagerInterface $em)
     {
+        parent::__construct($em, $errorManager);
         $this->repository = $repository;
-        $this->errorManager = $errorManager;
-        $this->em = $em;
     }
 
     /**
@@ -131,7 +122,10 @@ class CourseManager
             if (true === $options['flush']) {
                 $this->em->flush();
             }
+    }
 
-
+    protected function getClass(): string
+    {
+        return Course::class;
     }
 }

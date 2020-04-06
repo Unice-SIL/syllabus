@@ -75,7 +75,7 @@
                                     {{ form_widget(publicationForm.publish, {'id' : 'btn_publish'}) }}
                                 </div>
                             {{ form_end(publicationForm) }}
-                            <a href="{{ path('app.course_info.view.student', { 'id': courseInfo.id }) }}" type="button" class="btn btn-primary ml-5">Voir la version étudiante</a>
+                            <a href="{{ path('app.course_info.view.student', { 'id': courseInfo.id }) }}" target="_blank" type="button" class="btn btn-primary ml-5">Voir la version étudiante</a>
                         </div>
                     </div>
                 </div>

@@ -10,12 +10,8 @@ use AppBundle\Repository\Doctrine\CoursePrerequisiteDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Ramsey\Uuid\Uuid;
 
-class CoursePermissionManager
+class CoursePermissionManager extends AbstractManager
 {
-    /**
-     * @var EntityManagerInterface
-     */
-    private $em;
 
     /**
      * @var CoursePrerequisiteDoctrineRepository
@@ -25,11 +21,12 @@ class CoursePermissionManager
     /**
      * CoursePermissionManager constructor.
      * @param EntityManagerInterface $em
+     * @param ErrorManager $errorManager
      * @param CoursePrerequisiteDoctrineRepository $repository
      */
-    public function __construct(EntityManagerInterface $em, CoursePrerequisiteDoctrineRepository $repository)
+    public function __construct(EntityManagerInterface $em, ErrorManager $errorManager, CoursePrerequisiteDoctrineRepository $repository)
     {
-        $this->em = $em;
+        parent::__construct($em, $errorManager);
         $this->repository = $repository;
     }
 
@@ -87,10 +84,10 @@ class CoursePermissionManager
         $this->em->remove($permission);
         $this->em->flush();
     }
-/*
+
     protected function getClass(): string
     {
         return CoursePermission::class;
-    }*/
+    }
 
 }
