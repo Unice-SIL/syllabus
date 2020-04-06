@@ -182,7 +182,7 @@ lexik_jwt_authentication:
 nelmio_api_doc:
     areas:
         path_patterns: # an array of regexps
-            - ^/api(?!/doc$)
+            - ^/{_locale}/api(?!/doc$)
 
     documentation:
         host: '%api_host%'

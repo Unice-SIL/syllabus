@@ -25,7 +25,6 @@ class CourseInfoType extends ApiAbstractType
             ])
             ->add('title')
             ->add('ects')
-            ->add('level')
             ->add('semester')
             ->add('summary')
             ->add('mediaType')
@@ -76,6 +75,10 @@ class CourseInfoType extends ApiAbstractType
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd hh:ii:ss'
             ])
+            ->add('publicationDate', DateTimeType::class, [
+                'widget' => 'single_text',
+                'format' => 'yyyy-MM-dd hh:ii:ss'
+            ])
             ->add('course')
             ->add('structure')
             ->add('publisher')
@@ -96,8 +99,8 @@ class CourseInfoType extends ApiAbstractType
                 'class' => Campus::class,
                 'multiple' => true
             ])
-            ->add('coursePermissions', ApiCollectionType::class, [
-                'entry_type' => CoursePermissionType::class,
+            ->add('levels', ApiCollectionType::class, [
+                'entry_type' => LevelType::class,
             ])
             ->add('courseTeachers', ApiCollectionType::class, [
                 'entry_type' => CourseTeacherType::class,
@@ -116,6 +119,9 @@ class CourseInfoType extends ApiAbstractType
             ])
             ->add('courseResourceEquipments', ApiCollectionType::class, [
                 'entry_type' => CourseResourceEquipmentType::class,
+            ])
+            ->add('teachings', ApiCollectionType::class, [
+                'entry_type' => TeachingType::class,
             ])
         ;
     }

@@ -12,10 +12,11 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ExceptionListener
 {
+
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
         //test if the current uri belongs to api uri's
-        if (strpos($event->getRequest()->server->get('REQUEST_URI'), '/api') === 0) {
+        if (strpos($event->getRequest()->server->get('REQUEST_URI'), '/' . $event->getRequest()->getLocale() . '/api') === 0) {
 
             // You get the exception object from the received event
             $exception = $event->getException();
@@ -42,7 +43,6 @@ class ExceptionListener
                 $bodyResponse['message'] = 'Access Denied';
             }
             else {
-                return;
                 $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
                 $bodyResponse['statusCode'] = Response::HTTP_INTERNAL_SERVER_ERROR;
                 $bodyResponse['message'] =  'Internal Error Server';
