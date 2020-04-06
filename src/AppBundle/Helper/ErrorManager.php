@@ -27,8 +27,8 @@ class ErrorManager
 
     public function throwExceptionIfError($value, $constraints = null, $groups = null)
     {
-        $violations = $this->validator->validate($value, $constraints, $groups);
 
+        $violations = $this->validator->validate($value, $constraints, $groups);
         if (count($violations) > 0) {
 
             $message = 'Cannot validate the data.' . "\n";

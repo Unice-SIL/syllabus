@@ -4,7 +4,6 @@
 namespace AppBundle\Manager;
 
 use AppBundle\Helper\ErrorManager;
-use AppBundle\Helper\Report\ReportingHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
@@ -48,11 +47,12 @@ abstract class AbstractManager
      */
     public function updateIfExistsOrCreate(object $entityData, array $fieldsToUpdate = [], $options = [])
     {
+
         $options = array_merge([
             'flush' => false,
             'validations_groups_new' => ['new'],
             'validations_groups_edit' => ['edit'],
-            'report' => ReportingHelper::createReport('Insertion en base de données'),
+            'report' => null,
             'lineIdReport' => null,
         ], $options);
 
@@ -69,6 +69,7 @@ abstract class AbstractManager
         $entity = $this->em->getRepository($className)->findOneBy($options['find_by_parameters']);
 
         if ($entity instanceof $className) {
+
             $options['validation_groups'] = $options['validations_groups_edit'];
             foreach ($fieldsToUpdate as $field) {
                 $newValue = $this->propertyAccessor->getValue($entityData, $field);
@@ -82,10 +83,10 @@ abstract class AbstractManager
         if ($options['report'] and $options['lineIdReport']) {
             $line = $this->errorManager->hydrateLineReportIfInvalidEntity($entity, $options['report'], $options['lineIdReport'], ['groups' => $options['validation_groups']]);
             if (null !== $line) {
-                return $options['report'];
+                return $entity;
             }
         } else {
-            $this->errorManager->throwExceptionIfError($entity, null, ['groups' => $options['validation_groups']]);
+            $this->errorManager->throwExceptionIfError($entity, null, $options['validation_groups']);
         }
 
         $this->em->persist($entity);
@@ -94,7 +95,7 @@ abstract class AbstractManager
             $this->em->flush();
         }
 
-        return $options['report'];
+        return $entity;
     }
 
     abstract protected function getClass(): string;
