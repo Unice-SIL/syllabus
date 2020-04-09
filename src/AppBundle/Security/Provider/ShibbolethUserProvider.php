@@ -9,6 +9,7 @@ use AppBundle\Repository\UserRepositoryInterface;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Ramsey\Uuid\Uuid;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -54,6 +55,7 @@ class ShibbolethUserProvider implements ShibbolethUserProviderInterface
      * @return User|object|null
      * @throws ORMException
      * @throws OptimisticLockException
+     * @throws \Exception
      */
     public function loadUser(array $credentials)
     {
@@ -64,7 +66,7 @@ class ShibbolethUserProvider implements ShibbolethUserProviderInterface
         $username = $credentials['username'];
 
 
-        $user = $this->em->getRepository(User::class)->findOneBy(['username' => $username]);
+        $user = $this->finUserBysUsername($username);
         if(!$user instanceof User)
         {
             $user = new User();
@@ -100,6 +102,8 @@ class ShibbolethUserProvider implements ShibbolethUserProviderInterface
         if(!empty($user->getId())){
             $this->em->persist($user);
             $this->em->flush();
+        }else{
+            $user->setId(Uuid::uuid4());
         }
 
         return $user;
@@ -122,9 +126,7 @@ class ShibbolethUserProvider implements ShibbolethUserProviderInterface
      */
     public function refresh($username)
     {
-        /** @var User|null $user */
-        $user = $this->em->getRepository(User::class)->findOneBy(['username' => $username]);
-        return $user;
+        return $this->finUserBysUsername($username);
     }
 
     /**
@@ -135,6 +137,17 @@ class ShibbolethUserProvider implements ShibbolethUserProviderInterface
     {
         $refreshedUser = $this->refresh($user->getUsername());
         return ($refreshedUser instanceof User)? $refreshedUser : $user;
+    }
+
+    /**
+     * @param $username
+     * @return User|null
+     */
+    private function finUserBysUsername($username)
+    {
+        /** @var User|null $user */
+        $user = $this->em->getRepository(User::class)->findOneBy(['username' => $username]);
+        return $user;
     }
 
     /**
