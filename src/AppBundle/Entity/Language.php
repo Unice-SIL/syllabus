@@ -12,6 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Class Language
  * @package AppBundle\Entity
+ * @ORM\Table(name="language")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\LanguageDoctrineRepository")
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\LanguageTranslation")
  */
