@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DoctrineMigrations;
 
+use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
@@ -69,6 +70,7 @@ final class Version20200109101223 extends AbstractMigration
 
     /**
      * @param Schema $schema
+     * @throws DBALException
      */
     public function down(Schema $schema) : void
     {
