@@ -1,4 +1,4 @@
-{% extends 'base_homepage.html.twig' %}
+{% extends 'base_layout.html.twig' %}
 {% set h1 = 'Liste des syllabus' %}
 {% block navbar %}
     <ul class="navbar-nav">
@@ -21,42 +21,37 @@
     </div>
 
 
-    <section id="content-{{ contentName|default('default') }}" class="content">
-        <div class="container-fluid">
-            {% block subContent %}
-                {% for key,course in courses %}
-                    <div></div>
-                    <table class="table table-bordered table-responsive-sm">
-                        <thead>
+    <div class="container-fluid">
+        <div class="card">
+            {% for key,course in courses %}
+                <h4 class="p-2">
+                    {{ key }}
+                </h4>
+                <table class="table table-hover table-responsive-sm">
+                    <thead>
+                    <tr>
+                        <th>Intitulé</th>
+                        <th>Type</th>
+                        <th>Code établissement</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for courseInfo in course %}
                         <tr>
-                            <th style="width: 50%">{{ key }}</th>
-                            <th style="width: 25%">Type</th>
-                            <th style="width: 25%">Etablissement</th>
+                            <td>
+                                <a href="{{ path('app.course_info.dashboard.index', { 'id' : courseInfo.id }) }}">{{ courseInfo.title }}</a>
+                            </td>
+                            <td>
+                                {{ courseInfo.course.type }}
+                            </td>
+                            <td>
+                                {{ courseInfo.course.code }}
+                            </td>
                         </tr>
-                        </thead>
-                        <tbody>
-                        {% for courseInfo in course %}
-                            <tr>
-                                <td style="width: 50%">
-                                    <a href="{{ path('app.course_info.dashboard.index', { 'id' : courseInfo.id }) }}">{{ courseInfo.title }}</a>
-                                </td>
-                                <td style="width: 25%">
-                                    {{ courseInfo.course.type }}
-                                </td>
-                                <td style="width: 25%">
-                                    {{ courseInfo.course.code }}
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                {% endfor %}
-            {% endblock %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% endfor %}
         </div>
-    </section>
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    {{ encore_entry_script_tags('course_info_layout') }}
+    </div>
 {% endblock %}
