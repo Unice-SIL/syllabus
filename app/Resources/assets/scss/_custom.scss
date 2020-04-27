@@ -13,6 +13,20 @@
          url('/fonts/fa-solid-900.woff') format('woff');
 }
 
+@font-face {
+    font-family: "Apex New Book";
+    src: url('../fonts/apexnew-book.otf') format('opentype'),
+        url('../fonts/apexnew-book.woff') format('woff'),
+        url('../fonts/apexnew-book.woff2') format('woff2')
+}
+
+@font-face {
+    font-family: "Brother Book";
+    src: url('../fonts/Brother-1816-Book.ttf'),
+    url('../fonts/Brother-1816-Book.eot'),
+    url('../fonts/Brother-1816-Book.woff') format('woff')
+}
+
 .fas {
     font-family: font_awesome_free_solid;
     font-weight: 900;
@@ -62,6 +76,7 @@ body {
     position: relative;
     min-height: 100%;
     background-color: white !important;
+    font-family: "Brother Book", sans-serif;
 }
 
 main > small:first-of-type {
