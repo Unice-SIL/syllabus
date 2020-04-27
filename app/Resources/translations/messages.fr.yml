@@ -186,6 +186,7 @@ app:
         languages: Langue(s)
         level: Année(s)
         period: Période
+        description: Description
       teachers:
         add_teacher: Ajouter un enseignant
         empty_teacher: Aucun enseignant n'a encore été ajouté à l'équipe

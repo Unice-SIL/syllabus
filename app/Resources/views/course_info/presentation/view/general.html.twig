@@ -58,6 +58,31 @@
         </dl>
     </div>
 </div>
+
+<div class="w-100">
+    <dl>
+        <dt>{{ 'app.presentation.view.general.description' | trans }}</dt>
+        <dd>
+            <div class="mr-3 mb-3" style="float: left; width: 50%;">
+                {% if courseInfo.mediaType == 'image' and courseInfo.image is not null %}
+                    {% set imgSrc = courseInfo.image | split('/') | last %}
+                    <img class="img-thumbnail" src="{{ asset('data/' ~ imgSrc) }}">
+                {% elseif courseInfo.mediaType == 'video' and courseInfo.video is not null %}
+                    <div class="embed-responsive embed-responsive-16by9">
+                        {{ courseInfo.video|raw }}
+                    </div>
+                {% else %}
+                    <div class="border rounded d-flex align-items-center justify-content-center" style="min-height: 200px;">
+                        <i class="fas fa-4x fa-images text-light"></i>
+                    </div>
+                {% endif %}
+            </div>
+            {{ courseInfo.summary|humanizeEmptyData()|purify }}
+        </dd>
+    </dl>
+</div>
+
+{#
 <div class="row mt-2">
     <div class="col-md-6" style="min-height: 150px;">
         {% if courseInfo.mediaType == 'image' and courseInfo.image is not null %}
@@ -78,3 +103,4 @@
         {{ courseInfo.summary|humanizeEmptyData()|purify }}
     </div>
 </div>
+#}
