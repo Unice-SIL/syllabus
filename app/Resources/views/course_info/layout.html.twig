@@ -9,8 +9,8 @@
         <li class="nav-item">
             <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
         </li>
-        {{ not app.request.query.get('iframe') ? ('<h3>' ~ courseInfo.title ~ '</h3>')|raw }}
     </ul>
+    {{ not app.request.query.get('iframe') ? ('<div class="syllabus-title"><h3>' ~ courseInfo.title ~ '</h3></div>')|raw }}
 {% endblock %}
 
 {% block sidebar %}

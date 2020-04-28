@@ -62,7 +62,7 @@
 <div class="w-100">
     <dl>
         <dt>{{ 'app.presentation.view.general.description' | trans }}</dt>
-        <dd>
+        <dd class="mandatory-data">
             <div class="mr-3 mb-3" style="float: left; width: 50%;">
                 {% if courseInfo.mediaType == 'image' and courseInfo.image is not null %}
                     {% set imgSrc = courseInfo.image | split('/') | last %}

@@ -112,6 +112,17 @@ main > small:first-of-type {
     max-width: 18px !important;
 }
 
+.syllabus-title {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    word-wrap: break-word;
+
+    & > h3 {
+        display:inline;
+    }
+}
 
 /*
   Loader
