@@ -3,7 +3,7 @@
 {% block subContent %}
 
     <div class="pt-3">
-        <div class="card my-2 shadow card-syllabus"
+        <div class="card my-3 shadow card-syllabus"
              data-view-url="{{ path('app.course_info.presentation.general', {'id': courseInfo.id }) }}"
              data-form-url="{{ path('app.course_info.presentation.general.edit', {'id': courseInfo.id }) }}"
         >
@@ -19,7 +19,7 @@
             </div>
         </div>
 
-        <div id="card-teacher" class="card my-2 shadow card-syllabus"
+        <div id="card-teacher" class="card my-3 shadow card-syllabus"
              data-view-url="{{ path('app.course_info.presentation.teachers', {'id': courseInfo.id }) }}"
         >
             <div class="card-header">
@@ -36,7 +36,7 @@
             </div>
         </div>
 
-        <div class="card my-2 shadow card-syllabus"
+        <div class="card my-3 shadow card-syllabus"
              data-view-url="{{ path('app.course_info.presentation.teaching_mode', {'id': courseInfo.id }) }}"
              data-form-url="{{ path('app.course_info.presentation.teaching_mode.edit', {'id': courseInfo.id }) }}"
         >

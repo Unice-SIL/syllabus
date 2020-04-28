@@ -74,16 +74,17 @@
             {% endfor %}
         </div>
 
-        <div class="row">
+        <div class="row mb-3">
             <div class="col-12">
 
                 <button type="button"
-                        class="add-another-teaching-widget btn btn-primary mr-0"
+                        class="add-another-teaching-widget btn btn-outline-primary mr-0"
                         data-list-selector="#teaching-fields-list-{{ mode }}"
                         data-prototype-recipient="#teaching-fields-list-class"
                         data-mode="{{ mode }}"
                 >
-                    Ajouter un enseignement
+                    <i class="fas fa-plus-circle"></i>
+                    {{ 'app.presentation.form.teaching_mode.add_other'|trans }}
                 </button>
             </div>
         </div>

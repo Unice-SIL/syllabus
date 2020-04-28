@@ -228,6 +228,7 @@ app:
         search_user: Rechercher un individu
         source_data: Source de données
       teaching_mode:
+        add_other: Ajouter un enseignement
         additionnal: Type d'enseignement supplémentaire (facultatif)
         class: Présentiel
         cm: Cours magistraux
