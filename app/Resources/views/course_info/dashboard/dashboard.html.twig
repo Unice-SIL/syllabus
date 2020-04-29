@@ -28,6 +28,7 @@
     </div>
 {% endblock %}
 {% block subContent %}
+    <div class="pt-3">
     <div id="card-dashboard" class="card my-2 shadow card-syllabus"
          data-view-url="{{ path('app.course_info.dashboard.dashboard', {'id': courseInfo.id }) }}"
     >
@@ -38,6 +39,7 @@
         </div>
         <div class="card-body">
         </div>
+    </div>
     </div>
 {% endblock %}
 {% block javascripts %}
