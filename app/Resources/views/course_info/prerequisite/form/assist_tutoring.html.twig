@@ -1,0 +1,21 @@
+{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('app.course_info.tutoring.create',
+    {'id': form.vars.data.id }), 'data-card': 'card-tutoring-resources'}}) }}
+{{ form_errors(form) }}
+<div class="row mt-3">
+    <div class="col">
+        <div>
+            <div>
+               {{ form_widget(form.tutoringTeacher) }}
+               {{ form_widget(form.tutoringStudent) }}
+               {{ form_widget(form.tutoringDescription) }}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="d-flex justify-content-center mt-3">
+    <button type="submit" class="btn btn-primary rounded" id="create_button">
+        Ajouter
+    </button>
+</div>
+{{ form_widget(form._token) }}
+{{ form_end(form, {'render_rest': false }) }}
