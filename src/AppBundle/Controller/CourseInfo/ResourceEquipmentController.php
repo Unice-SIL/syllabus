@@ -49,7 +49,7 @@ class ResourceEquipmentController extends AbstractController
     public function equipmentViewAction(CourseInfo $courseInfo)
     {
         $em = $this->getDoctrine()->getManager();
-        $equipments = $em->getRepository(Equipment::class)->findAll();
+        $equipments = $em->getRepository(Equipment::class)->findBy([], ['label' => 'ASC']);
 
         if (!$courseInfo instanceof CourseInfo) {
             return $this->json([
@@ -58,10 +58,12 @@ class ResourceEquipmentController extends AbstractController
             ]);
         }
 
+        /*
         setlocale(LC_ALL, "fr_FR.utf8");
         usort($equipments, function ($a, $b) {
             return strcoll($a->getLabel(), $b->getLabel());
         });
+        */
 
         $render = $this->get('twig')->render('course_info/equipment/view/equipment.html.twig', [
             'courseInfo' => $courseInfo,

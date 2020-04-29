@@ -667,7 +667,7 @@ class CourseInfo
      * @var Collection
      *
      * @ORM\OneToMany(targetEntity="CourseResourceEquipment", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
-     * @ORM\OrderBy({"position" = "ASC"})
+     * @ORM\OrderBy({"position" = "ASC", "equipment" = "ASC"})
      * @JMS\Groups(groups={"course_info"})
      */
     private $courseResourceEquipments;
