@@ -1,8 +1,8 @@
 <div id="activities-list" class="p-2 list-sortable" data-url="{{ path('app.course_info.section.activities.sort', {'id': activeSection.id}) }}">
     {% if activeSection.courseSectionActivities is empty %}
-        <div class="text-center" style="min-height: 300px">
-            <h3 class="text-danger">{{ 'app.activities.view.activity.empty_activity' | trans }}</h3>
-            <div class="text-bold">
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+            <h3 class="text-danger text-center">{{ 'app.activities.view.activity.empty_activity' | trans }}</h3>
+            <div class="text-bold text-center">
                 {{ 'app.activities.view.activity.add_activities' | trans }}
             </div>
             <i class="fas fa-arrow-down fa-5x"></i>

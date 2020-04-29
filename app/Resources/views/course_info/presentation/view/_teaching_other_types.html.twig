@@ -1,0 +1,10 @@
+{% if class is not defined %}
+    {% set class = 'col-md-3 col-sm-6 col-12' %}
+{% endif %}
+{% for teaching in teachings %}
+    {% if mode == teaching.mode %}
+        <div class="{{ class }}">
+            {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': teaching.type, 'teachingTypeHours': teaching.hourlyVolume, 'type': 'warning' } %}
+        </div>
+    {% endif %}
+{% endfor %}
