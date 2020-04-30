@@ -18,7 +18,7 @@
     "bootstrap4-toggle": "^3.5.0",
     "ckeditor": "^4.11.4",
     "core-js": "2",
-    "jquery": "^3.3.1",
+    "jquery": "^3.5.0",
     "jquery-sortablejs": "^1.0.1",
     "popper.js": "^1.15.0",
     "select2": "^4.0.5",
