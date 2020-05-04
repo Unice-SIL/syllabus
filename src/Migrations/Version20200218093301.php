@@ -65,7 +65,8 @@ final class Version20200218093301 extends AbstractMigration
         $this->addSql('DROP INDEX etb_id_UNIQUE ON course');
         $this->addSql('ALTER TABLE course ADD title VARCHAR(150) NOT NULL, ADD source VARCHAR(50) DEFAULT NULL, ADD synchronized TINYINT(1) NOT NULL, CHANGE code code VARCHAR(50) DEFAULT NULL');
         $this->addSql('CREATE UNIQUE INDEX code_source_on_course_UNIQUE ON course (code, source)');
-        $this->addSql('ALTER TABLE course_info DROP COLUMN languages, DROP COLUMN domain, DROP COLUMN period, DROP tem_presentation_tab_valid, DROP COLUMN tem_activities_tab_valid, DROP COLUMN tem_objectives_tab_valid, DROP COLUMN tem_mcc_tab_valid, DROP COLUMN tem_equipments_tab_valid, DROP COLUMN tem_infos_tab_valid, DROP COLUMN tem_closing_remarks_tab_valid');
+        $this->addSql('ALTER TABLE course_info DROP COLUMN domain, DROP COLUMN period, DROP tem_presentation_tab_valid, DROP COLUMN tem_activities_tab_valid, DROP COLUMN tem_objectives_tab_valid, DROP COLUMN tem_mcc_tab_valid, DROP COLUMN tem_equipments_tab_valid, DROP COLUMN tem_infos_tab_valid, DROP COLUMN tem_closing_remarks_tab_valid');
+        $this->addSql('ALTER TABLE course_info CHANGE COLUMN languages bak_languages VARCHAR(200)');
         $this->addSql('ALTER TABLE course_section_activity ADD evaluable TINYINT(1) NOT NULL, ADD evaluation_ct TINYINT(1) NOT NULL');
         $this->addSql('ALTER TABLE course_tutoring_resource CHANGE ord position INT NOT NULL');
         $this->addSql('ALTER TABLE equipment CHANGE ord position INT NOT NULL');
@@ -119,7 +120,8 @@ final class Version20200218093301 extends AbstractMigration
         $this->addSql('DROP INDEX code_source_on_course_UNIQUE ON course');
         $this->addSql('ALTER TABLE course DROP title, DROP source, DROP synchronized, CHANGE code code CHAR(36) CHARACTER SET utf8 DEFAULT NULL COLLATE `utf8_unicode_ci`');
         $this->addSql('CREATE UNIQUE INDEX etb_id_UNIQUE ON course (code)');
-        $this->addSql('ALTER TABLE course_info ADD languages VARCHAR(200) CHARACTER SET utf8 DEFAULT NULL COLLATE `utf8_unicode_ci`, ADD domain CHAR(100) CHARACTER SET utf8 DEFAULT NULL COLLATE `utf8_unicode_ci`, ADD period VARCHAR(255) CHARACTER SET utf8 DEFAULT NULL COLLATE `utf8_unicode_ci`, ADD tem_presentation_tab_valid TINYINT(1) NOT NULL, ADD tem_activities_tab_valid TINYINT(1) NOT NULL, ADD tem_objectives_tab_valid TINYINT(1) NOT NULL, ADD tem_mcc_tab_valid TINYINT(1) NOT NULL, ADD tem_equipments_tab_valid TINYINT(1) NOT NULL, ADD tem_infos_tab_valid TINYINT(1) NOT NULL, ADD tem_closing_remarks_tab_valid TINYINT(1) NOT NULL');
+        $this->addSql('ALTER TABLE course_info CHANGE COLUMN bak_languages languages VARCHAR(200)');
+        $this->addSql('ALTER TABLE course_info ADD domain CHAR(100) CHARACTER SET utf8 DEFAULT NULL COLLATE `utf8_unicode_ci`, ADD period VARCHAR(255) CHARACTER SET utf8 DEFAULT NULL COLLATE `utf8_unicode_ci`, ADD tem_presentation_tab_valid TINYINT(1) NOT NULL, ADD tem_activities_tab_valid TINYINT(1) NOT NULL, ADD tem_objectives_tab_valid TINYINT(1) NOT NULL, ADD tem_mcc_tab_valid TINYINT(1) NOT NULL, ADD tem_equipments_tab_valid TINYINT(1) NOT NULL, ADD tem_infos_tab_valid TINYINT(1) NOT NULL, ADD tem_closing_remarks_tab_valid TINYINT(1) NOT NULL');
         $this->addSql('ALTER TABLE course_section_activity DROP FOREIGN KEY FK_B95D28E67C1ADF9');
         $this->addSql('ALTER TABLE course_section_activity DROP evaluable, DROP evaluation_ct');
         $this->addSql('ALTER TABLE course_tutoring_resource CHANGE position ord INT NOT NULL');

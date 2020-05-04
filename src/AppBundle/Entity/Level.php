@@ -4,6 +4,7 @@
 namespace AppBundle\Entity;
 
 
+use AppBundle\Traits\Importable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
@@ -19,6 +20,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Level
 {
+
+    use Importable;
+
     /**
      * @var string
      *

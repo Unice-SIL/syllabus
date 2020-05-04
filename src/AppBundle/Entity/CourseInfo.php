@@ -57,12 +57,12 @@ class CourseInfo
     private $ects;
 
     /**
-     * @var int|null
+     * @var string
      *
-     * @ORM\Column(name="semester", type="integer", nullable=true)
-     * @JMS\Groups(groups={"course_info"})
+     * @ORM\Column(name="bak_languages", type="string", length=200, nullable=true)
+     * @JMS\Groups(groups={"bak"})
      */
-    private $semester;
+    private $bakLanguages;
 
     /**
      * @var string|null
@@ -527,6 +527,7 @@ class CourseInfo
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Language", inversedBy="courseInfos")
      * @ORM\JoinTable(name="course_info_language")
+     * @ORM\OrderBy({"label" = "ASC"})
      * @JMS\Type("ArrayCollection<AppBundle\Entity\Language>")
      * @JMS\Groups(groups={"course_info"})
      *
@@ -2541,6 +2542,26 @@ class CourseInfo
         $this->courseCriticalAchievements = $courseCriticalAchievements;
         return $this;
     }
+
+    /**
+     * @return string|null
+     */
+    public function getBakLanguages(): ?string
+    {
+        return $this->bakLanguages;
+    }
+
+    /**
+     * @param string|null $bakLanguages
+     * @return CourseInfo
+     */
+    public function setBakLanguages(?string $bakLanguages): CourseInfo
+    {
+        $this->bakLanguages = $bakLanguages;
+        return $this;
+    }
+
+
 
     /**
      *

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace AppBundle\Command\DB;
+namespace AppBundle\Command\Migration;
 
 
 use AppBundle\Constant\TeachingMode;
