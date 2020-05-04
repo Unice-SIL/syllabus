@@ -43,6 +43,10 @@ class SectionType extends AbstractType
         ])
             ->add('title', TextType::class, [
                 'label' => "app.activities.form.section.title"
+            ])
+            ->add('url', TextType::class, [
+                'label' => "app.activities.form.section.url",
+                'required' => false
             ]);
     }
 

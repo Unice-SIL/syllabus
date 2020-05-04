@@ -49,6 +49,14 @@ class CourseSection
     private $description;
 
     /**
+     * @var string|null
+     *
+     * @ORM\Column(name="url", type="text", length=32767, nullable=true)
+     * @JMS\Groups(groups={"default", "course_section"})
+     */
+    private $url;
+
+    /**
      * @var int
      *
      * @ORM\Column(name="position", type="integer", nullable=false)
@@ -138,6 +146,24 @@ class CourseSection
     {
         $this->description = $description;
 
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getUrl(): ?string
+    {
+        return $this->url;
+    }
+
+    /**
+     * @param null|string $url
+     * @return CourseSection
+     */
+    public function setUrl(?string $url): self
+    {
+        $this->url = $url;
         return $this;
     }
 
