@@ -176,6 +176,7 @@ app:
         delete: Êtes-vous sûr(e) de vouloir supprimer la section "%title%" ?
         duplicate: Êtes-vous sûr(e) de vouloir dupliquer la section "%title%" ?
         title: Titre de la section
+        url: Url
   presentation:
     view:
       general:
