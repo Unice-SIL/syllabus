@@ -64,15 +64,13 @@ doctrine:
                 password: '%syllabus_database_password%'
                 charset: '%syllabus_database_charset%'
             apogee:
-                driver: oci8
-                host: 'apoprod.prive.unice.fr'
-                port: '15010'
-                dbname: 'apoprod'
-                user: 'apogee'
-                password: '6cdur7ok'
-                charset: UTF8
-        types:
-            apogeeDate: UniceSIL\SyllabusApogeeImporterBundle\Doctrine\DBAL\Types\ApogeeDateType
+                driver: '%apogee_database_driver%'
+                host: '%apogee_database_host%'
+                port: '%apogee_database_port%'
+                dbname: '%apogee_database_name%'
+                user: '%apogee_database_user%'
+                password: '%apogee_database_password%'
+                charset: '%apogee_database_charset%'
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
         #naming_strategy: doctrine.orm.naming_strategy.underscore
