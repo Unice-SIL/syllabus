@@ -52,6 +52,14 @@ class YearManager
     }
 
     /**
+     * @return array
+     */
+    public function findAll()
+    {
+        return $this->repository->findAll();
+    }
+
+    /**
      * @return Year|null
      */
     public function findCurrentYear(): ?Year

@@ -12,6 +12,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -29,7 +30,7 @@ class AskAdviceController extends AbstractController
      * @param Request $request
      * @param AskAdviceManager $adviceManager
      * @param PaginatorInterface $paginator
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function indexAction(Request $request, AskAdviceManager $adviceManager, PaginatorInterface $paginator)
     {
@@ -50,7 +51,7 @@ class AskAdviceController extends AbstractController
      * @param Request $request
      * @param AskAdvice $askAdvice
      * @param AskAdviceManager $adviceManager
-     * @return JsonResponse|\Symfony\Component\HttpFoundation\Response
+     * @return JsonResponse|Response
      */
     public function viewAction(Request $request, AskAdvice $askAdvice, AskAdviceManager $adviceManager)
     {

@@ -1,5 +1,5 @@
 {% extends 'admin_layout.html.twig' %}
-{% set h1 = 'Liste des demandes d\'avis' %}
+{% set h1 = 'Liste des syllabus en cours de remplissage' %}
 {% block subContent %}
 
     <div class="card">
@@ -9,36 +9,28 @@
                     <thead>
                     <tr>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.activity.label.label'|trans, 'a.label') }}</th>
-                        <th class="sortable">Année</th>
-                        <th class="sortable">Utilisateur</th>
-                        <th class="sortable text-center">traité</th>
+                        <th class="sortable">Type</th>
+                        <th class="sortable text-center">Code établissement</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {% for askAdvice in pagination %}
+                    {% for courseInfo in pagination %}
                         <tr>
                             <td>
-                                <a href="{{ path('app_admin.ask_advice_view', { 'id' : askAdvice.id }) }}">{{ askAdvice.courseInfo.title }}</a>
+                                <a href="{{ path('app.course_info.dashboard.index', { 'id' : courseInfo.id }) }}">{{ courseInfo.title }}</a>
                             </td>
                             <td>
-                                {{ askAdvice.courseInfo.year.id }}
+                                {{ courseInfo.course.type }}
                             </td>
                             <td>
-                                {{ askAdvice.user.lastname }} {{ askAdvice.user.firstname }}
-                            </td>
-                            <td class="text-center">
-                                {% if askAdvice.process == true %}
-                                    <i class="fas fa-circle success"></i>
-                                {% else %}
-                                    <i class="fas fa-circle danger"></i>
-                                {% endif %}
+                                {{ courseInfo.course.code }}
                             </td>
                         </tr>
                     {% endfor %}
                     </tbody>
                 </table>
             {% else %}
-                <div class="alert alert-info">Aucune activité n'a été trouvée avec ces critères</div>
+                <div class="alert alert-info">Aucun Syllabus n'a été trouvé avec ces critères</div>
             {% endif %}
         </div>
         <!-- /.card-body -->
