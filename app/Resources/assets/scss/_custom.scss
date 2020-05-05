@@ -222,6 +222,10 @@ label.toggle-off {
     cursor: pointer;
 }
 
+.toggle-off.btn {
+    padding-left: 0.5rem !important;
+}
+
 /**
  * Flash messages
  */
@@ -252,10 +256,6 @@ label.toggle-off {
  */
 .course-title {
     font-family: "Apex New Book";
-}
-
-.toggle-off.btn {
-    padding-left: 1.4rem !important;
 }
 
 /*

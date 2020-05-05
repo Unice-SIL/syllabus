@@ -1,125 +1,166 @@
-<div class="d-flex flex-column">
-    <div class="row">
-        <div class="col-6">
-            <div>
-                <div class="border p-2">
-                    <p class="title-bold-light">Parties du syllabus a remplir obligatoirement</p>
-                    <div class="row">
-                        <div class="col-6">
-                            <p>
-                                {% if violations['presentation'] is empty %}
-                                    <i class="fas fa-check text-success"></i>
-                                {% else %}
-                                    <i class="fas fa-times text-danger"></i>
-                                {% endif %}
-                                Présentation</p>
-                            <p>
-                                {% if violations['contentActivities'] is empty %}
-                                <i class="fas fa-check text-success"></i>
-                                {% else %}
-                                <i class="fas fa-times text-danger"></i>
-                                {% endif %}
-                                Contenu et activités</p>
-
-                            <p>
-                                {% if violations['objectives'] is empty %}
-                                <i class="fas fa-check text-success"></i>
-                                {% else %}
-                                <i class="fas fa-times text-danger"></i>
-                                {% endif %}
-                                Objectifs du cours</p>
-                            <p>
-                                {% if violations['evaluation'] is empty %}
-                                <i class="fas fa-check text-success"></i>
-                                {% else %}
-                                <i class="fas fa-times text-danger"></i>
-                                {% endif %}
-                                Modalités d'évaluation</p>
-                        </div>
-                        <div class="col-6">
-                            <p>{% if violations['equipment'] is empty %}
-                                <i class="fas fa-check text-success"></i>
-                                {% else %}
-                                <i class="fas fa-times text-danger"></i>
-                                {% endif %}
-                                Matériel et ressources</p>
-                            <p>
-                                {% if violations['info'] is empty %}
-                                <i class="fas fa-check text-success"></i>
-                                {% else %}
-                                <i class="fas fa-times text-danger"></i>
-                                {% endif %}
-                                Informations pratiques</p>
-                            <p>
-                                {% if violations['closingRemark'] is empty %}
-                                <i class="fas fa-check text-success"></i>
-                                {% else %}
-                                <i class="fas fa-times text-danger"></i>
-                                {% endif %}
-                                Le mot de la fin</p>
-                        </div>
+<div class="row">
+    <div class="col-lg-8 col-12 d-flex flex-column">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="text-muted">
+                    <strong>{{ 'app.dashboard.label.validate_title' | trans }}</strong>
+                </h6>
+                <div class="row mt-3">
+                    <div class="col-lg-6 col-12 py-1">
+                        {% if violations['presentation'] is empty %}
+                            <i class="fas fa-check text-success"></i>
+                        {% else %}
+                            <i class="fas fa-times text-danger"></i>
+                        {% endif %}
+                        {{ 'app.course_info.sidebar.presentation' | trans }}
+                    </div>
+                    <div class="col-lg-6 col-12 py-1">
+                        {% if violations['objectives'] is empty %}
+                            <i class="fas fa-check text-success"></i>
+                        {% else %}
+                            <i class="fas fa-times text-danger"></i>
+                        {% endif %}
+                        {{ 'app.course_info.sidebar.objectives' | trans }}
+                    </div>
+                    <div class="col-lg-6 col-12 py-1">
+                        {% if violations['contentActivities'] is empty %}
+                            <i class="fas fa-check text-success"></i>
+                        {% else %}
+                            <i class="fas fa-times text-danger"></i>
+                        {% endif %}
+                        {{ 'app.course_info.sidebar.activities' | trans }}
+                    </div>
+                    <div class="col-lg-6 col-12 py-1">
+                        {% if violations['evaluation'] is empty %}
+                            <i class="fas fa-check text-success"></i>
+                        {% else %}
+                            <i class="fas fa-times text-danger"></i>
+                        {% endif %}
+                        {{ 'app.course_info.sidebar.evaluations' | trans }}
+                    </div>
+                    <div class="col-lg-6 col-md-12 py-1">
+                        {% if violations['equipment'] is empty %}
+                            <i class="fas fa-check text-success"></i>
+                        {% else %}
+                            <i class="fas fa-times text-danger"></i>
+                        {% endif %}
+                        {{ 'app.course_info.sidebar.equipments' | trans }}
+                    </div>
+                    <div class="col-lg-6 col-md-12 py-1">
+                        {% if violations['info'] is empty %}
+                            <i class="fas fa-check text-success"></i>
+                        {% else %}
+                            <i class="fas fa-times text-danger"></i>
+                        {% endif %}
+                        {{ 'app.course_info.sidebar.information' | trans }}
+                    </div>
+                    <div class="col-lg-6 col-md-12 py-1">
+                        {% if violations['closingRemark'] is empty %}
+                            <i class="fas fa-check text-success"></i>
+                        {% else %}
+                            <i class="fas fa-times text-danger"></i>
+                        {% endif %}
+                        {{ 'app.course_info.sidebar.closing_remarks' | trans }}
                     </div>
                 </div>
             </div>
-            <div class="mt-2">
-                <div class="border p-2">
-                    <p class="title-bold-light">Syllabus publié pour les étudiants</p>
-                    <div>
-                        <em>Vous devez remplir les champs obligatoires.</em></br>
-                        <div class="pt-2">
-                            {{ form_start(publicationForm, {'attr' : {
-                                'class' : 'd-inline-block',
-                                'data-url' : path('app.course_info.dashboard.pusblish', {id : courseInfo.id})
-                            }}) }}
-                                <div class="publish-checkbox-container">
-                                    {{ form_widget(publicationForm.publish, {'id' : 'btn_publish'}) }}
-                                </div>
-                            {{ form_end(publicationForm) }}
-                            <a href="{{ path('app.course_info.view.student', { 'id': courseInfo.id }) }}" target="_blank" type="button" class="btn btn-primary ml-5">Voir la version étudiante</a>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h6 class="text-muted">
+                    <strong>{{ 'app.dashboard.label.publication_title' | trans }}</strong>
+                </h6>
+                <div class="d-flex flex-wrap mt-2">
+                    <div class="py-2 pr-5">
+                        <label>
+                            {{ 'app.dashboard.label.publication_label' | trans }}
+                        </label>
+                        {{ form_start(publicationForm, {'attr' : {
+                            'class' : 'd-inline-block',
+                            'data-url' : path('app.course_info.dashboard.pusblish', {id : courseInfo.id})
+                        }}) }}
+                        <div class="publish-checkbox-container">
+                            {{ form_widget(publicationForm.publish, {'id': 'btn_publish'}) }}
                         </div>
+                        {{ form_end(publicationForm) }}
+                    </div>
+                    <div class="py-2">
+                        <a href="{{ path('app.course_info.view.student', { 'id': courseInfo.id }) }}" target="_blank" type="button" class="btn btn-primary">
+                            <i class="fas fa-user-graduate"></i>
+                            {{ 'app.dashboard.button.student_view' | trans }}
+                        </a>
                     </div>
                 </div>
             </div>
-            <div class="mt-2">
-                <div class="border p-2">
-                    <p class="title-bold-light">Duplication du syllabus pour l'année suivante</p>
-                    <div>
-                        <input type="checkbox" id="btn_duplicate" checked data-toggle="toggle" data-onstyle="primary"
-                               data-on="Oui"
-                               data-off="Non">
-                        <button type="button" class="btn btn-primary ml-5" data-toggle="modal" data-target="#courseInfoDuplicationModal" data-code-year="{{ courseInfo.codeYear(true) }}">
-                            Dupliquer les infos
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h6 class="text-muted ">
+                    <strong>
+                        {{ 'app.dashboard.label.duplication title' | trans }}
+                    </strong>
+                </h6>
+                <div class="d-flex flex-wrap mt-2">
+                    <div class="py-2 pr-5">
+                        <label class="mr-2">
+                            {{ 'app.dashboard.label.duplication label' | trans }}
+                        </label>
+                        <input type="checkbox" id="btn_duplicate" checked data-toggle="toggle"
+                               data-style="ios"
+                               data-size="small"
+                               data-on="{{ 'app.dashboard.label.publication_label_yes' | trans }}"
+                               data-onstyle="primary"
+                               data-off="{{ 'app.dashboard.label.publication_label_no' | trans }}"
+                               data-offstyle="danger">
+                    </div>
+                    <div class="py-2">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#courseInfoDuplicationModal" data-code-year="{{ courseInfo.codeYear(true) }}">
+                            <i class="fas fa-clone"></i>
+                            {{ 'app.dashboard.button.duplicate' | trans }}
                         </button>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-6">
-            <div class="border p-2">
-                <div>
-                    <p class="mb-0 text-bold">Création</p>
-                    <span>{{ courseInfo.creationDate|localizeddate('full', 'none', null) }} {{ courseInfo.creationDate|date('H:i') }}</span>
-                </div>
-                <div>
-                    <p class="mt-2 mb-0 text-bold">Dernière modification</p>
-                    <span>{{ courseInfo.modificationDate|localizeddate('full', 'none', null) }} {{ courseInfo.modificationDate|date('H:i') }}</span>
-                    {% if courseInfo.lastUpdater is not null %}
-                        <span>par {{ courseInfo.lastUpdater.email }}</span>
-                    {% endif %}
-                </div>
+    </div>
+    <div class="col-lg-4 col-12 d-flex flex-column">
+        <div class="card">
+            <div class="card-body">
+                <dl>
+                    <dt>{{ 'app.dashboard.label.creation_date' | trans }}</dt>
+                    <dd>
+                        {% if courseInfo.creationDate is not empty %}
+                            {{ courseInfo.creationDate|localizeddate('full', 'none', null) }} {{ courseInfo.creationDate|date('H:i') }}
+                        {% endif %}
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>{{ 'app.dashboard.label.modification_date' | trans }}</dt>
+                    <dd>
+                        {% if courseInfo.modificationDate is not empty %}
+                            {{ courseInfo.modificationDate|localizeddate('full', 'none', null) }} {{ courseInfo.modificationDate|date('H:i') }}
+                            {% if courseInfo.lastUpdater is not null %}
+                                {{ 'app.dashboard.label.edit_by' | trans }}
+                                {{ courseInfo.lastUpdater.email }}
+                            {% endif %}
+                        {% endif %}
+                    </dd>
+                </dl>
             </div>
         </div>
     </div>
-    <div class="pt-4 text-center">
-        <button type="button"
-                class="btn btn-light modal-action"
-                data-action-title="Demander un avis sur le syllabus"
-                data-action-url="{{ path('app.course_info.dashboard.askAdvice', {'id': courseInfo.id }) }}">
-            <i class="fas fa-comment-dots"></i> Demander un avis a un ingénieur pédagogique
-        </button>
-    </div>
-
 </div>
+
+<div class="py-4 d-flex justify-content-center">
+    <button type="button"
+            class="btn btn-outline-secondary modal-action"
+            data-action-title="Demander un avis sur le syllabus"
+            data-action-url="{{ path('app.course_info.dashboard.askAdvice', {'id': courseInfo.id }) }}">
+        <i class="fas fa-comment-dots"></i>
+        {{ 'app.dashboard.button.advice' | trans }}
+    </button>
+</div>
+
 <script>
     $('#btn_publish').bootstrapToggle();
     $('#btn_duplicate').bootstrapToggle();

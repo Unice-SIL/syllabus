@@ -133,49 +133,32 @@ app:
   locale:
     fr: 'French'
     en: 'English'
-  activities:
-    view:
-      activity:
-        activity_mode: Teaching mode
-        activity_type: Activity type
-        add_activities: To add activities please select an activity from the carousel below.
-        add_sections: To add sections please click on the "Add Section" button in the menu opposite.
-        delete_activity: Remove an activity
-        edit_activity: Edit an activity
-        empty_activity: No activities have been added to the section
-        empty_section: No sections have been added
-        evaluated_peers: Peer-reviewed
-        evaluated_teachers: Evaluated by teachers
-        evaluation_peers: Évaluation par les pairs
-        evaluation_rate: Coefficient
-        evaluation_teachers: Evaluation by teachers
-        control: Control
-        evaluable: Evaluable
-        name: Name of the activity
-      carousel:
-        add_activity: Add an activity
-        search_activity: Search for an activity
-      sidebar:
-        add_section: Add a section
-        delete_section: Delete a section
-        duplicate_section: Duplicate a section
-        edit_section: Edit a section
-        empty_section: No section has been created
-        title: Sections
-    form:
-      activity:
-        activity_mode: Teaching mode
-        activity_type: Type of activity
-        control: 'Type of control (Continuous / Terminal) :'
-        delete: Are you sure you want to remove the activity "%label%" ?
-        description: Description of the activity (maximum 255 characters)
-        evaluable: Is this activity evaluable?
-      section:
-        description: Description
-        delete: Are you sure you want to delete the section "%title%" ?
-        duplicate: Are you sure you want to duplicate the section "%title%" ?
-        title: Section Title
-        url: Link to the course section
+  course_info:
+    sidebar:
+      dashboard: Dashboard
+      permissions: Permissions
+      presentation: General presentation
+      prerequisites: Prerequisites / Remediations
+      objectives: Course objectives
+      activities: Content and activities
+      evaluations: Terms of evaluation
+      equipments: Materials and resources
+      information: Practical information
+      closing_remarks: Closing remarks
+  dashboard:
+    label:
+      validate_title: Parts of the syllabus to be completed
+      publication_title: Publication of the syllabus
+      publication_label: The syllabus is published
+      duplication title: Duplication of the syllabus
+      duplication label: Duplicate information for the following year
+      creation_date: Creation date
+      modification_date: Last modified date
+      edit_by: by
+    button:
+      student_view: See the student version
+      duplicate: Duplicate information to another syllabus
+      advice: Ask an educational engineer for advice
   presentation:
     view:
       general:
@@ -243,6 +226,50 @@ app:
             hours: hours
             other_class: Volume (H)
             type: "Type (e.g. personal work)"
+  activities:
+    view:
+      activity:
+        activity_mode: Teaching mode
+        activity_type: Activity type
+        add_activities: To add activities please select an activity from the carousel below.
+        add_sections: To add sections please click on the "Add Section" button in the menu opposite.
+        delete_activity: Remove an activity
+        edit_activity: Edit an activity
+        empty_activity: No activities have been added to the section
+        empty_section: No sections have been added
+        evaluated_peers: Peer-reviewed
+        evaluated_teachers: Evaluated by teachers
+        evaluation_peers: Évaluation par les pairs
+        evaluation_rate: Coefficient
+        evaluation_teachers: Evaluation by teachers
+        control: Control
+        evaluable: Evaluable
+        name: Name of the activity
+      carousel:
+        add_activity: Add an activity
+        search_activity: Search for an activity
+      sidebar:
+        add_section: Add a section
+        delete_section: Delete a section
+        duplicate_section: Duplicate a section
+        edit_section: Edit a section
+        empty_section: No section has been created
+        title: Sections
+    form:
+      activity:
+        activity_mode: Teaching mode
+        activity_type: Type of activity
+        control: 'Type of control (Continuous / Terminal) :'
+        delete: Are you sure you want to remove the activity "%label%" ?
+        description: Description of the activity (maximum 255 characters)
+        evaluable: Is this activity evaluable?
+      section:
+        description: Description
+        delete: Are you sure you want to delete the section "%title%" ?
+        duplicate: Are you sure you want to duplicate the section "%title%" ?
+        title: Section Title
+        url: Link to the course section
+
   view:
     student:
       tabs:

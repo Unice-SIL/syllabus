@@ -133,49 +133,34 @@ app:
   locale:
     fr: 'Français'
     en: 'Anglais'
-  activities:
-    view:
-      activity:
-        activity_mode: Mode d'enseignement
-        activity_type: Type d'activité
-        add_activities: Pour ajouter des activités veuillez sélectionner une activité dans le carousel ci-dessous.
-        add_sections: Pour ajouter des sections veuillez cliquer sur le bouton "Ajouter une section" dans le menu ci-contre.
-        delete_activity: Supprimer une activité
-        edit_activity: Modifier une activité
-        empty_activity: Aucune activité n'a été ajoutée à la section
-        empty_section: Aucune section n'a été ajoutée
-        evaluated_peers: Evalué par les pairs
-        evaluated_teachers: Evalué par les enseignants
-        evaluation_peers: Évaluation par les pairs
-        evaluation_rate: Coefficient
-        evaluation_teachers: Évaluation par les enseignants
-        control: Contrôle
-        evaluable: Evaluable
-        name: Nom de l'activité
-      carousel:
-        add_activity: Ajouter une activité
-        search_activity: Rechercher une activité
-      sidebar:
-        add_section: Ajouter une section
-        delete_section: Supprimer une section
-        duplicate_section: Dupliquer une section
-        edit_section: Modifier une section
-        empty_section: Aucune section n'a été créée
-        title: Sections
-    form:
-      activity:
-        activity_mode: Mode d'enseignement
-        activity_type: Type d'activité
-        control: 'Type de contrôle (Continu / Terminal) :'
-        delete: Êtes-vous sûr(e) de vouloir supprimer l'activité "%label%" ?
-        description: Description de l'activité (maximum 255 caractères)
-        evaluable: Cette activité est-elle évaluable ?
-      section:
-        description: Description
-        delete: Êtes-vous sûr(e) de vouloir supprimer la section "%title%" ?
-        duplicate: Êtes-vous sûr(e) de vouloir dupliquer la section "%title%" ?
-        title: Titre de la section
-        url: Lien vers la section du cours
+  course_info:
+    sidebar:
+      dashboard: Tableau de bord
+      permissions: Permissions
+      presentation: Présentation générale
+      prerequisites: Prérequis / Rémédiations
+      objectives: Objectif du cours
+      activities: Contenu et activités
+      evaluations: Modalités d'évaluation
+      equipments: Matériel et ressources
+      information: Informations pratiques
+      closing_remarks: Le mot de la fin
+  dashboard:
+    label:
+      validate_title: Parties du syllabus a remplir obligatoirement
+      publication_title: Publication du syllabus
+      publication_label: Le syllabus est publié
+      publication_label_yes: Oui
+      publication_label_no: Non
+      duplication title: Duplication du syllabus
+      duplication label: Dupliquer les informations pour l'année suivante
+      creation_date: Création
+      modification_date: Dernière modification
+      edit_by: par
+    button:
+      student_view: Voir la version étudiante
+      duplicate: Dupliquer les informations vers un autre syllabus
+      advice: Demander un avis à un ingénieur pédagogique
   presentation:
     view:
       general:
@@ -243,6 +228,49 @@ app:
             hours: Heures
             other_class: Volume (H)
             type: "Type (ex: Heures personnelles) "
+  activities:
+    view:
+      activity:
+        activity_mode: Mode d'enseignement
+        activity_type: Type d'activité
+        add_activities: Pour ajouter des activités veuillez sélectionner une activité dans le carousel ci-dessous.
+        add_sections: Pour ajouter des sections veuillez cliquer sur le bouton "Ajouter une section" dans le menu ci-contre.
+        delete_activity: Supprimer une activité
+        edit_activity: Modifier une activité
+        empty_activity: Aucune activité n'a été ajoutée à la section
+        empty_section: Aucune section n'a été ajoutée
+        evaluated_peers: Evalué par les pairs
+        evaluated_teachers: Evalué par les enseignants
+        evaluation_peers: Évaluation par les pairs
+        evaluation_rate: Coefficient
+        evaluation_teachers: Évaluation par les enseignants
+        control: Contrôle
+        evaluable: Evaluable
+        name: Nom de l'activité
+      carousel:
+        add_activity: Ajouter une activité
+        search_activity: Rechercher une activité
+      sidebar:
+        add_section: Ajouter une section
+        delete_section: Supprimer une section
+        duplicate_section: Dupliquer une section
+        edit_section: Modifier une section
+        empty_section: Aucune section n'a été créée
+        title: Sections
+    form:
+      activity:
+        activity_mode: Mode d'enseignement
+        activity_type: Type d'activité
+        control: 'Type de contrôle (Continu / Terminal) :'
+        delete: Êtes-vous sûr(e) de vouloir supprimer l'activité "%label%" ?
+        description: Description de l'activité (maximum 255 caractères)
+        evaluable: Cette activité est-elle évaluable ?
+      section:
+        description: Description
+        delete: Êtes-vous sûr(e) de vouloir supprimer la section "%title%" ?
+        duplicate: Êtes-vous sûr(e) de vouloir dupliquer la section "%title%" ?
+        title: Titre de la section
+        url: Lien vers la section du cours
   view:
     student:
       activities:
@@ -304,20 +332,6 @@ app:
       class: Présentiel
       hybrid: Hybride
       distant: A distance
-
-  sidebar:
-    dashboard: Tableau de bord
-    permissions: Permissions
-    presentation: Présentation Générale
-    activities: Contenu et activités
-    objectives: Objectifs du cours
-    prerequisites: Prérequis / Rémédiation
-    evaluation: Modalités d'évaluation
-    equipment: Matériel et ressources
-    info: Informations pratiques
-    closing_remarks: Le mot de la fin
-    student_view: Vue étudiante
-
   form:
     notification:
       label:
