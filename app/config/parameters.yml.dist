@@ -19,6 +19,14 @@ parameters:
     syllabus_test_database_password: null
     syllabus_test_database_charset: UTF8
 
+    apogee_database_driver: oci8
+    apogee_database_host: apoprod.domain.com
+    apogee_database_port: 1521
+    apogee_database_name: apoprod
+    apogee_database_user: apogee
+    apogee_database_password: ~
+    apogee_database_charset: UTF8
+
     mailer_transport: smtp
     mailer_host: smtp.unice.fr
     mailer_user: ~
