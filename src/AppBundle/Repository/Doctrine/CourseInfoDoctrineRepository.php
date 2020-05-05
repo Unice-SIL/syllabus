@@ -78,8 +78,8 @@ class CourseInfoDoctrineRepository  extends ServiceEntityRepository
         $coursesInfo = [];
         try{
             $qb = $this->getIndexQueryBuilder();
-            $qb->join('ci.year', 'y')
-                ->where($qb->expr()->eq('y.id', ':year'))
+            $qb->join('ci.year', 'ciy')
+                ->where($qb->expr()->eq('ciy.id', ':year'))
                 ->setParameter('year', $year);
             $coursesInfo = $qb->getQuery()->getResult();
         }catch (\Exception $e){
