@@ -133,7 +133,6 @@ app:
   locale:
     fr: 'Français'
     en: 'Anglais'
-    de: 'Allemand'
   activities:
     view:
       activity:
@@ -176,17 +175,17 @@ app:
         delete: Êtes-vous sûr(e) de vouloir supprimer la section "%title%" ?
         duplicate: Êtes-vous sûr(e) de vouloir dupliquer la section "%title%" ?
         title: Titre de la section
-        url: Url
+        url: Lien vers la section du cours
   presentation:
     view:
       general:
         campus: Campus
-        domain: Domaine
+        domain: Domaines
         empty_summary: Vous n'avez pas renseigné de résumé
         label: Informations générales
-        languages: Langue(s)
-        level: Année(s)
-        period: Période
+        languages: Langues
+        level: Années
+        period: Périodes
         description: Description
       teachers:
         add_teacher: Ajouter un enseignant

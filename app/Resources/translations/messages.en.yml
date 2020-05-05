@@ -1,269 +1,270 @@
-ROLE_USER: Utilisateur
-ROLE_ADMIN: Administrateur
-ROLE_SUPER_ADMIN: Super Administrateur
-ROLE_ADMIN_COURSE: Gestion des cours
-ROLE_ADMIN_COURSE_LIST: Consulter la liste des cours
-ROLE_ADMIN_COURSE_VIEW: Consulter un cours
-ROLE_ADMIN_COURSE_CREATE: Créer un cours
-ROLE_ADMIN_COURSE_UPDATE: Modifier un cours
-ROLE_ADMIN_COURSE_INFO: Gestion des syllabus
-ROLE_ADMIN_COURSE_INFO_LIST: Consulter la liste des syllabus
-ROLE_ADMIN_COURSE_INFO_CREATE: Créer un syllabus
-ROLE_ADMIN_COURSE_INFO_UPDATE: Modifier un syllabus
-ROLE_ADMIN_YEAR: Gestion des années
-ROLE_ADMIN_YEAR_LIST: Consulter la liste des années
-ROLE_ADMIN_YEAR_CREATE: Créer une année
-ROLE_ADMIN_YEAR_UPDATE: Modifier une année
-ROLE_ADMIN_CRITICAL_ACHIEVEMENT: Gestion des apprentissages critiques
-ROLE_ADMIN_CRITICAL_ACHIEVEMENT_LIST: Consulter la liste des apprentissages critiques
-ROLE_ADMIN_CRITICAL_ACHIEVEMENT_CREATE: Créer un apprentissage critique
-ROLE_ADMIN_CRITICAL_ACHIEVEMENT_UPDATE: Modifier un apprentissage critique
-ROLE_ADMIN_ACTIVITY: Gestion des activités
-ROLE_ADMIN_ACTIVITY_LIST: Consulter la liste des activités
-ROLE_ADMIN_ACTIVITY_CREATE: Créer une activité
-ROLE_ADMIN_ACTIVITY_UPDATE: Modifier une activité
-ROLE_ADMIN_ACTIVITYMODE: Gestion des modes d'activités
-ROLE_ADMIN_ACTIVITYMODE_LIST: Consulter la liste des modes d'activités
-ROLE_ADMIN_ACTIVITYMODE_CREATE: Créer un mode d'activité
-ROLE_ADMIN_ACTIVITYMODE_UPDATE: Modifier un mode d'activité
-ROLE_ADMIN_ACTIVITYTYPE: Gestion des types d'activités
-ROLE_ADMIN_ACTIVITYTYPE_LIST: Consulter la liste des types d'activités
-ROLE_ADMIN_ACTIVITYTYPE_CREATE: Créer un type d'activité
-ROLE_ADMIN_ACTIVITYTYPE_UPDATE: Modifier un type d'activité
-ROLE_ADMIN_CAMPUS: Gestion des campus
-ROLE_ADMIN_CAMPUS_LIST: Consulter la liste des campus
-ROLE_ADMIN_CAMPUS_CREATE: Créer un campus
-ROLE_ADMIN_CAMPUS_UPDATE: Modifier un campus
-ROLE_ADMIN_DOMAIN: Gestion des domaines
-ROLE_ADMIN_DOMAIN_LIST: Consulter la liste des domaines
-ROLE_ADMIN_DOMAIN_CREATE: Créer un domaine
-ROLE_ADMIN_DOMAIN_UPDATE: Modifier un domaine
-ROLE_ADMIN_EQUIPMENT: Gestion des équipements
-ROLE_ADMIN_EQUIPMENT_LIST: Consulter la liste des équipement
-ROLE_ADMIN_EQUIPMENT_CREATE: Créer un équipement
-ROLE_ADMIN_EQUIPMENT_UPDATE: Modifier un équipement
-ROLE_ADMIN_JOB: Gestion des tâches planifiées
-ROLE_ADMIN_JOB_LIST: Consulter la liste des tâches planifiées
-ROLE_ADMIN_JOB_CREATE: Créer une tâche planifiée
-ROLE_ADMIN_JOB_UPDATE: Modifier une tâche planifiée
-ROLE_ADMIN_JOB_DELETE: Supprimer une tâche planifiée
-ROLE_ADMIN_JOB_EXECUTE: Exécuter une tâche planifiée
-ROLE_ADMIN_JOB_REPORT: Consulter le rapport d'une tâche planifiée
-ROLE_ADMIN_LANGUAGE: Gestion des langues
-ROLE_ADMIN_LANGUAGE_LIST: Consulter la liste des langues
-ROLE_ADMIN_LANGUAGE_CREATE: Créer une langue
-ROLE_ADMIN_LANGUAGE_UPDATE: Modifier une langue
-ROLE_ADMIN_NOTIFICATION: Gestion des notifications
-ROLE_ADMIN_NOTIFICATION_LIST: Consulter la liste des notifications
-ROLE_ADMIN_NOTIFICATION_CREATE: Créer une notification
-ROLE_ADMIN_NOTIFICATION_UPDATE: Modifier une notification
-ROLE_ADMIN_NOTIFICATION_DELETE: Supprimer une notification
-ROLE_ADMIN_PERIOD: Gestion des périodes
-ROLE_ADMIN_PERIOD_LIST: Consulter la liste des périodes
-ROLE_ADMIN_PERIOD_CREATE: Créer une période
-ROLE_ADMIN_PERIOD_UPDATE: Modifier une période
-ROLE_ADMIN_STRUCTURE: Gestion des structures
-ROLE_ADMIN_STRUCTURE_LIST: Consulter la liste des structures
-ROLE_ADMIN_STRUCTURE_CREATE: Créer une structure
-ROLE_ADMIN_STRUCTURE_UPDATE: Modifier une structure
-ROLE_ADMIN_USER: Gestion des utilisateurs
-ROLE_ADMIN_USER_LIST: Consulter la liste des utilisateurs
-ROLE_ADMIN_USER_CREATE: Créer un utilisateur
-ROLE_ADMIN_USER_UPDATE: Modifier un utilsateur
-ROLE_API: Accès à l'API
-ROLE_API_ACTIVITY: Gestion des Activités
-ROLE_API_ACTIVITY_LIST: Lister les activités
-ROLE_API_ACTIVITY_VIEW: Voir une activité
-ROLE_API_ACTIVITY_MODE: Gestion des modes d'activités
-ROLE_API_ACTIVITY_MODE_LIST: Lister les modes d'activités
-ROLE_API_ACTIVITY_MODE_VIEW: Voir un mode d'activité
-ROLE_API_ACTIVITY_TYPE: Gestion des types d'activités
-ROLE_API_ACTIVITY_TYPE_LIST: Lister les types d'activités
-ROLE_API_ACTIVITY_TYPE_VIEW: Voir un type d'activité
-ROLE_API_CRITICAL_ACHIEVEMENT: Gestion des apprentissages critiques
-ROLE_API_CRITICAL_ACHIEVEMENT_LIST: Lister les apprentissages critiques
-ROLE_API_CRITICAL_ACHIEVEMENT_VIEW: Voir un apprentissage critique
-ROLE_API_CAMPUS: Gestion des campus
-ROLE_API_CAMPUS_LIST: Lister les campus
-ROLE_API_CAMPUS_VIEW: Voir un campus
-ROLE_API_COURSE: Gestion des cours
-ROLE_API_COURSE_LIST: Lister les cours
-ROLE_API_COURSE_VIEW: Voir un cours
-ROLE_API_COURSE_CREATE: Créer un cours
-ROLE_API_COURSE_UPDATE: Modifier un cours
-ROLE_API_COURSE_INFO: Gestion des syllabus
-ROLE_API_COURSE_INFO_LIST: Lister les syllabus
-ROLE_API_COURSE_INFO_VIEW: Voir un syllabus
-ROLE_API_COURSE_INFO_CREATE: Créer un syllabus
-ROLE_API_COURSE_INFO_UPDATE: Modifier un syllabus
-ROLE_API_DOMAIN: Gestion des domaines
-ROLE_API_DOMAIN_LIST: Lister les domaines
-ROLE_API_DOMAIN_VIEW: Voir un domaine
-ROLE_API_EQUIPMENT: Gestion des équipements
-ROLE_API_EQUIPMENT_LIST: Lister les équipements
-ROLE_API_EQUIPMENT_VIEW: Voir un équipement
-ROLE_API_LANGUAGE: Gestion des langages
-ROLE_API_LANGUAGE_LIST: Lister les langages
-ROLE_API_LANGUAGE_VIEW: Voir un langage
-ROLE_API_PERIOD: Gestion des périodes
-ROLE_API_PERIOD_LIST: Lister les périodes
-ROLE_API_PERIOD_VIEW: Voir une période
-ROLE_API_YEAR: Gestion des années
-ROLE_API_YEAR_LIST: Lister les années
-ROLE_API_YEAR_VIEW: Voir une année
-ROLE_API_YEAR_CREATE: Créer une année
-ROLE_API_YEAR_UPDATE: Modifier une année
-collective: Collectif
-groups: En groupe
-individual: Individuel
-head: Entête
-together: Ensemble
-autonomy: En autonomie
-class: En présentiel
-distant: A distance
-cc: Contrôle continu
-ct: Contrôle terminal
-activity: activité
-evaluation: évaluation
-list of activity: Liste des activités
-list of evaluation: Liste des évaluations
+ROLE_USER: User
+ROLE_ADMIN: Administrator
+ROLE_SUPER_ADMIN: Super Administrator
+ROLE_ADMIN_COURSE: Courses management
+ROLE_ADMIN_COURSE_LIST: See list of courses
+ROLE_ADMIN_COURSE_VIEW: See a course
+ROLE_ADMIN_COURSE_CREATE: Create a course
+ROLE_ADMIN_COURSE_UPDATE: Edit a course
+ROLE_ADMIN_COURSE_INFO: Syllabus management
+ROLE_ADMIN_COURSE_INFO_LIST: See list of syllabus
+ROLE_ADMIN_COURSE_INFO_CREATE: Create a syllabus
+ROLE_ADMIN_COURSE_INFO_UPDATE: Edit a syllabus
+ROLE_ADMIN_YEAR: Years management
+ROLE_ADMIN_YEAR_LIST: See list of years
+ROLE_ADMIN_YEAR_CREATE: Create a year
+ROLE_ADMIN_YEAR_UPDATE: Edit a year
+ROLE_ADMIN_CRITICAL_ACHIEVEMENT: Criticals achievements management
+ROLE_ADMIN_CRITICAL_ACHIEVEMENT_LIST: See list of criticals achievements
+ROLE_ADMIN_CRITICAL_ACHIEVEMENT_CREATE: Create a critical achievement
+ROLE_ADMIN_CRITICAL_ACHIEVEMENT_UPDATE: Edit a critical achievement
+ROLE_ADMIN_ACTIVITY: Activities management
+ROLE_ADMIN_ACTIVITY_LIST: See list of activities
+ROLE_ADMIN_ACTIVITY_CREATE: Create an activity
+ROLE_ADMIN_ACTIVITY_UPDATE: Edit an activity
+ROLE_ADMIN_ACTIVITYMODE: Activities modes management
+ROLE_ADMIN_ACTIVITYMODE_LIST: See list of activities modes
+ROLE_ADMIN_ACTIVITYMODE_CREATE: Create an activity mode
+ROLE_ADMIN_ACTIVITYMODE_UPDATE: Edit an activity mode
+ROLE_ADMIN_ACTIVITYTYPE: Activities types managament
+ROLE_ADMIN_ACTIVITYTYPE_LIST: See list of activities types
+ROLE_ADMIN_ACTIVITYTYPE_CREATE: Create an activity type
+ROLE_ADMIN_ACTIVITYTYPE_UPDATE: Edit an activity type
+ROLE_ADMIN_CAMPUS: Campuses management
+ROLE_ADMIN_CAMPUS_LIST: See list of campuses
+ROLE_ADMIN_CAMPUS_CREATE: Create a campus
+ROLE_ADMIN_CAMPUS_UPDATE: Edit a campus
+ROLE_ADMIN_DOMAIN: Domains managment
+ROLE_ADMIN_DOMAIN_LIST: See list of domains
+ROLE_ADMIN_DOMAIN_CREATE: Create a domain
+ROLE_ADMIN_DOMAIN_UPDATE: Edit a domain
+ROLE_ADMIN_EQUIPMENT: Equipments management
+ROLE_ADMIN_EQUIPMENT_LIST: See list of equipments
+ROLE_ADMIN_EQUIPMENT_CREATE: Create an equipment
+ROLE_ADMIN_EQUIPMENT_UPDATE: Edit an equipment
+ROLE_ADMIN_JOB: Planned tasks management
+ROLE_ADMIN_JOB_LIST: See list of planned tasks
+ROLE_ADMIN_JOB_CREATE: Create a planned task
+ROLE_ADMIN_JOB_UPDATE: Edit a planned task
+ROLE_ADMIN_JOB_DELETE: Remove a planned task
+ROLE_ADMIN_JOB_EXECUTE: Execute a planned task
+ROLE_ADMIN_JOB_REPORT: See planned task's report
+ROLE_ADMIN_LANGUAGE: Languages management
+ROLE_ADMIN_LANGUAGE_LIST: See list of languages
+ROLE_ADMIN_LANGUAGE_CREATE: Create a language
+ROLE_ADMIN_LANGUAGE_UPDATE: Edit a language
+ROLE_ADMIN_NOTIFICATION: Notifications management
+ROLE_ADMIN_NOTIFICATION_LIST: See list of notifications
+ROLE_ADMIN_NOTIFICATION_CREATE: Create a notification
+ROLE_ADMIN_NOTIFICATION_UPDATE: Edit a notification
+ROLE_ADMIN_NOTIFICATION_DELETE: Remove a notification
+ROLE_ADMIN_PERIOD: Periods management
+ROLE_ADMIN_PERIOD_LIST: See list of periods
+ROLE_ADMIN_PERIOD_CREATE: Create a period
+ROLE_ADMIN_PERIOD_UPDATE: Edit a period
+ROLE_ADMIN_STRUCTURE: Structures management
+ROLE_ADMIN_STRUCTURE_LIST: See list of structures
+ROLE_ADMIN_STRUCTURE_CREATE: Create a structure
+ROLE_ADMIN_STRUCTURE_UPDATE: Edit a structure
+ROLE_ADMIN_USER: Users management
+ROLE_ADMIN_USER_LIST: See list of users
+ROLE_ADMIN_USER_CREATE: Create a user
+ROLE_ADMIN_USER_UPDATE: Edit a user
+ROLE_API: API access
+ROLE_API_ACTIVITY: Activities management
+ROLE_API_ACTIVITY_LIST: See list of activities
+ROLE_API_ACTIVITY_VIEW: See an activity
+ROLE_API_ACTIVITY_MODE: Activities modes management
+ROLE_API_ACTIVITY_MODE_LIST: See list of activities modes
+ROLE_API_ACTIVITY_MODE_VIEW: See an activity mode
+ROLE_API_ACTIVITY_TYPE: Activities types management
+ROLE_API_ACTIVITY_TYPE_LIST: List of activities types
+ROLE_API_ACTIVITY_TYPE_VIEW: Se an activity type
+ROLE_API_CRITICAL_ACHIEVEMENT: Criticals achievements management
+ROLE_API_CRITICAL_ACHIEVEMENT_LIST: List of critials achievements
+ROLE_API_CRITICAL_ACHIEVEMENT_VIEW: See a critical achievement
+ROLE_API_CAMPUS: Campuses management
+ROLE_API_CAMPUS_LIST: List of campuses
+ROLE_API_CAMPUS_VIEW: See a campus
+ROLE_API_COURSE: Course management
+ROLE_API_COURSE_LIST: List of courses
+ROLE_API_COURSE_VIEW: See a course
+ROLE_API_COURSE_CREATE: Create a course
+ROLE_API_COURSE_UPDATE: Edit a course
+ROLE_API_COURSE_INFO: Syllabus management
+ROLE_API_COURSE_INFO_LIST: List of syllabus
+ROLE_API_COURSE_INFO_VIEW: See a syllabus
+ROLE_API_COURSE_INFO_CREATE: Create a syllabus
+ROLE_API_COURSE_INFO_UPDATE: Edit a syllabus
+ROLE_API_DOMAIN: Domains management
+ROLE_API_DOMAIN_LIST: List of domains
+ROLE_API_DOMAIN_VIEW: See a domain
+ROLE_API_EQUIPMENT: Equipements management
+ROLE_API_EQUIPMENT_LIST: List of equipements
+ROLE_API_EQUIPMENT_VIEW: See en equipement
+ROLE_API_LANGUAGE: Languages management
+ROLE_API_LANGUAGE_LIST: List of languages
+ROLE_API_LANGUAGE_VIEW: See a language
+ROLE_API_PERIOD: Periods management
+ROLE_API_PERIOD_LIST: List of periods
+ROLE_API_PERIOD_VIEW: See a period
+ROLE_API_YEAR: Years management
+ROLE_API_YEAR_LIST: List of years
+ROLE_API_YEAR_VIEW: See a year
+ROLE_API_YEAR_CREATE: Create a year
+ROLE_API_YEAR_UPDATE: Edit a year
+collective: Collective
+groups: Group
+individual: Individual
+head: Head
+together: Together
+autonomy: Autonomy
+class: In class
+distant: Distant
+cc: Continuous control
+ct: Terminal control
+activity: activity
+evaluation: evaluation
+list of activity: List of activities
+list of evaluation: List of evaluations
 
 
 app:
   locale:
-    fr: 'Français'
-    en: 'Anglais'
-    de: 'Allemand'
+    fr: 'French'
+    en: 'English'
   activities:
     view:
       activity:
-        activity_mode: Mode d'enseignement
-        activity_type: Type d'activité
-        add_activities: Pour ajouter des activités veuillez sélectionner une activité dans le carousel ci-dessous.
-        add_sections: Pour ajouter des sections veuillez cliquer sur le bouton "Ajouter une section" dans le menu ci-contre.
-        delete_activity: Supprimer une activité
-        edit_activity: Modifier une activité
-        empty_activity: Aucune activité n'a été ajoutée à la section
-        empty_section: Aucune section n'a été ajoutée
-        evaluated_peers: Evalué par les pairs
-        evaluated_teachers: Evalué par les enseignants
+        activity_mode: Teaching mode
+        activity_type: Activity type
+        add_activities: To add activities please select an activity from the carousel below.
+        add_sections: To add sections please click on the "Add Section" button in the menu opposite.
+        delete_activity: Remove an activity
+        edit_activity: Edit an activity
+        empty_activity: No activities have been added to the section
+        empty_section: No sections have been added
+        evaluated_peers: Peer-reviewed
+        evaluated_teachers: Evaluated by teachers
         evaluation_peers: Évaluation par les pairs
         evaluation_rate: Coefficient
-        evaluation_teachers: Évaluation par les enseignants
-        control: Contrôle
+        evaluation_teachers: Evaluation by teachers
+        control: Control
         evaluable: Evaluable
-        name: Nom de l'activité
+        name: Name of the activity
       carousel:
-        add_activity: Ajouter une activité
-        search_activity: Rechercher une activité
+        add_activity: Add an activity
+        search_activity: Search for an activity
       sidebar:
-        add_section: Ajouter une section
-        delete_section: Supprimer une section
-        duplicate_section: Dupliquer une section
-        edit_section: Modifier une section
-        empty_section: Aucune section n'a été créée
+        add_section: Add a section
+        delete_section: Delete a section
+        duplicate_section: Duplicate a section
+        edit_section: Edit a section
+        empty_section: No section has been created
         title: Sections
     form:
       activity:
-        activity_mode: Mode d'enseignement
-        activity_type: Type d'activité
-        control: 'Type de contrôle (Continu / Terminal) :'
-        delete: Êtes-vous sûr(e) de vouloir supprimer l'activité "%label%" ?
-        description: Description de l'activité (maximum 255 caractères)
-        evaluable: Cette activité est-elle évaluable ?
+        activity_mode: Teaching mode
+        activity_type: Type of activity
+        control: 'Type of control (Continuous / Terminal) :'
+        delete: Are you sure you want to remove the activity "%label%" ?
+        description: Description of the activity (maximum 255 characters)
+        evaluable: Is this activity evaluable?
       section:
         description: Description
-        delete: Êtes-vous sûr(e) de vouloir supprimer la section "%title%" ?
-        duplicate: Êtes-vous sûr(e) de vouloir dupliquer la section "%title%" ?
-        title: Titre de la section
+        delete: Are you sure you want to delete the section "%title%" ?
+        duplicate: Are you sure you want to duplicate the section "%title%" ?
+        title: Section Title
+        url: Link to the course section
   presentation:
     view:
       general:
-        domain: Domaine
-        empty_summary: Vous n'avez pas renseigné de résumé
-        label: Informations générales
-        languages: Langue(s)
-        level: Année(s)
-        period: Période
+        campus: Campuses
+        domain: Domains
+        empty_summary: You have not filled in a summary
+        label: General information
+        languages: Languages
+        level: Levels
+        period: Periods
         description: Description
       teachers:
-        add_teacher: Ajouter un enseignant
-        empty_teacher: Aucun enseignant n'a encore été ajouté à l'équipe
-        title: Qui fait parti de l'équipe enseignante ?
-        label: Équipe enseignante
-        lastname: Nom
-        firstname: Prénom
+        add_teacher: Add a teacher
+        empty_teacher: No teachers have yet been added to the team.
+        title: Who's on the teaching staff?
+        label: Teaching staff
+        lastname: Last name
+        firstname: First name
         mail: Email
-        attributes: Attributs
-        delete_teacher: Supprimer un enseignant
+        attributes: Attributes
+        delete_teacher: Delete a teacher
         mail_visible: Email visible
-        mail_invisible: Mail non visible
-        responsible: Responsable
+        mail_invisible: Mail not visible
+        responsible: Manager
       teaching_mode:
-        empty_teaching_mode: Aucun mode d'enseignement sélectionné
-        label: Mode d'enseignement
+        empty_teaching_mode: No teaching mode selected
+        label: Teaching mode
     form:
       general:
-        level_label: Quel est le niveau de ce cours ?
-        media_label: Intégrer une ressource vidéo (ou audio) ou téléverser un fichier image de présentation du cours, en respectant la règlementation sur les droits d'auteur.
-        picture: Image
-        video: Vidéo
-        file_type: Fichier de type jpeg ou png (2Mo maximum)
-        summary: Résumé
-        add_video: Comment ajouter une vidéo
+        level_label: What is the level of this course?
+        media_label: Integrate a video (or audio) resource or upload an image file of the course presentation, respecting copyright regulations.
+        picture: Picture
+        video: Video
+        file_type: File type jpeg or png (2Mo maximum)
+        summary: Summary
+        add_video: How to add a video
         add_video_info:
-          part1: "Afin de pouvoir intégrer une vidéo dans votre cours, veuillez vous assurer que celle-ci soit hébergée sur un serveur externe à Moodle (ex: UNSPOD, Youtube, ...)."
+          part1: "In order to be able to integrate a video into your course, please make sure it is hosted on a server external to Moodle (e.g. UNSPOD, Youtube, ...)."
           part2: Si ce n’est pas le cas, vous pouvez demander de l’aide pour la déposer sur une de ces plateformes.
-          part3: Une fois qu’elle y est stockée, vous pouvez cliquer sur “Partager / Intégrer” afin de récupérer le lien d'intégration ressemblant à :
-          part4: Copiez ce code et insérez-le dans le champ "Vidéo" ci-dessous. La vidéo sera visible par vos étudiants directement sur votre syllabus.
+          part3: Once it is stored there, you can click on "Share / Integrate" to retrieve the integration link looking like :
+          part4: Copy this code and insert it in the "Video" field below. The video will be visible to your students directly on your syllabus.
         level:
-          beginner: "<li><strong>Débutant</strong> : Ce cours demande peu ou pas de connaissances préaables.</li>"
-          intermediary: "<li><strong>Intermédiaire</strong> : Ce cours demande quelques connaissances préalables.</li>"
-          advanced: "<li><strong>Avancé</strong> : Ce cours demande d'importantes connaissances préalables.</li>"
+          beginner: "<li><strong>Beginner</strong> : This course requires little or no prior knowledge.</li>"
+          intermediary: "<li><strong>intermediate</strong> : This course requires some prior knowledge.</li>"
+          advanced: "<li><strong>Advanced</strong> : This course requires significant prior knowledge.</li>"
       teacher:
-        delete: Êtes-vous sûr(e) de vouloir supprimer l'enseignant "%lastname% %firstname%" ?
-        mail_visibility: L'adresse mail doit-elle être visible ?
-        responsible: Responsable du cours ?
-        search_user: Rechercher un individu
-        source_data: Source de données
+        delete: Are you sure you want to delete the teacher "%lastname% %firstname%" ?
+        mail_visibility: Does the email address have to be visible?
+        responsible: In charge of the course?
+        search_user: Search for an individual
+        source_data: Data Source
       teaching_mode:
-        add_other: Add teaching
-        additionnal: Type d'enseignement supplémentaire (facultatif)
-        class: Présentiel
-        cm: Cours magistraux
-        distant: A distance
-        label: Quel est votre mode d'enseignement ?
-        standard: Types d'enseignements standards
-        td: Travaux dirigés
-        tp: Travaux pratiques
-        volumes: Volumes horaires "Présentiel" importés des maquettes
+        add_other: Add a teaching
+        additionnal: Type of d'enseignement supplémentaire (facultatif)
+        class: In class
+        cm: Lectures
+        distant: Distant
+        label: What is your teaching mode ?
+        standard: Standard types of teaching
+        td: Tutorials
+        tp: Practical work
+        volumes: In class hourly volumes imported from models
         placeholder:
           teaching:
-            hours: Heures
+            hours: hours
             other_class: Volume (H)
-            type: "Type (ex: Heures personnelles) "
+            type: "Type (e.g. personal work)"
   view:
     student:
       tabs:
-        presentation: Présentation
+        presentation: Presentation
   const:
     cron:
       status:
-        0: Initialisation
-        1: En cours
-        2: Echec
-        3: Succès
+        0: Initialization
+        1: In progress
+        2: Failure
+        3: Success
     permission:
-      WRITE: Ecriture
-      READ: Lecture
+      WRITE: Write
+      READ: Read
     level:
-      beginner: Débutant
-      intermediate: Intermédiaire
-      advanced: Avancé
+      beginner: Begginer
+      intermediate: Intermediate
+      advanced: Advanced
     teaching_mode:
-      class: Présentiel
-      hybrid: Hybride
-      distant: A distance
+      class: In class
+      hybrid: Hybrid
+      distant: Distant
 
   form:
     notification:
@@ -274,85 +275,85 @@ app:
         label: 'Label'
     security:
       label:
-        password: Mot de passe
-        repeat_password: Confirmation du mot de passe
+        password: Password
+        repeat_password: Password confirmation
       errors:
-        password_matching: Les deux mots de passe ne sont pas identiques
+        password_matching: The two passwords are not identical
     activity:
       label:
-        obsolete: Obsolète
+        obsolete: Obsolete
         activityTypes: Types
-        label: Intitulé
+        label: Title
         mode: Mode
-        grp: Groupe
-        synchronized: Synchronisé
+        grp: Group
+        synchronized: Synchronized
     activity_type:
       label:
-        label: Titre
+        label: Title
     period:
       label:
-        obsolete: Obsolète
-        label: Intitulé
+        obsolete: Obsolete
+        label: Title
     course_info:
       label:
-        title: Titre
+        title: Title
         structure: Structure
     course:
       label:
         type: Type
-        code: Code établissement
-        parents: Cours parents
-        title: Titre
-        synchronized: Synchronisé
+        code: Establishment code
+        parents: Parent courses
+        title: Title
+        synchronized: Synchronized
     year:
       label:
-        label: Année
+        label: Year
     structure:
       label:
         label: Label
-        code: Code établissement
+        code: Establishment code
         campus: Campus
-        obsolete: Obsolète
+        obsolete: Obsolete
         structure: Structure
-        synchronized: Synchronisé
+        synchronized: Synchronized
     equipment:
       label:
         label: Label
-        label_visibility: Afficher le label
-        obsolete: Obsolète
+        label_visibility: Display the label
+        obsolete: Obsolete
     course_info_field:
       label:
         label: Label
-        mannually_duplication: Duplication manuelle
-        automatic_duplication: Duplication depuis CSV
-        import: 'Import'
+        mannually_duplication: Manual Duplication
+        automatic_duplication: Duplication from CSV
+        import: Import
     global:
       action: Action
     duplicate_course_info:
       label:
-        to: Syllabus récepteur
+        to: Receiver Syllabus
     course_permission:
       label:
-        user: Utilisateur
+        user: User
         permission: Permission
     import:
       label:
-        csv: Fichier au format CSV
+        csv: File in CSV format
     groups:
       label:
-        label: 'Label'
-        obsolete: 'Obsolète'
-        roles: 'Rôles'
+        label: Label
+        obsolete: Obsolete
+        roles: Roles
     language:
       label:
-        obsolete: 'obsolète'
-        label: 'Intitulé'
+        obsolete: Obsolete
+        label: Title
 
   general:
     button:
-      add: Ajouter
-      cancel: Annuler
-      edit: Modifier
-      delete: Supprimer
-      duplicate: Dupliquer
-      save: Sauvegarder
+      add: Add
+      cancel: Cancel
+      edit: Edit
+      delete: Delete
+      duplicate: Duplicate
+      save: Save
