@@ -1,6 +1,7 @@
 {{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('app.course_info.activities.section.add', {'id': courseInfo.id })}}) }}
 {{ form_errors(form) }}
 {{ form_row(form.title) }}
+{{ form_row(form.urlCourse) }}
 {{ form_row(form.description) }}
 <div class="d-flex justify-content-center">
     <button type="submit" class="btn btn-primary rounded" id="create_button">

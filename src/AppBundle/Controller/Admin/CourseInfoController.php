@@ -11,8 +11,10 @@ use AppBundle\Form\CourseInfoType;
 use AppBundle\Form\Filter\CourseInfoFilterType;
 use AppBundle\Helper\Report\Report;
 use AppBundle\Manager\CourseInfoManager;
+use AppBundle\Manager\StatisticSyllabusManager;
 use AppBundle\Repository\Doctrine\CourseInfoDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -70,7 +72,7 @@ class CourseInfoController extends Controller
                     $this->addFlash('success', 'La duplication a été réalisée avec succès');
                     $em->flush();
 
-                    return $this->redirectToRoute('app_admin_course_info_index');
+                    return $this->redirectToRoute('app.admin.course_info.index');
                 }
 
                 foreach ($report->getMessages() as $message) {
@@ -83,7 +85,7 @@ class CourseInfoController extends Controller
                     }
                 }
 
-                return $this->redirectToRoute('app_admin_course_info_index');
+                return $this->redirectToRoute('app.admin_course.info.index');
             }
 
             $isFormValid = false;
@@ -126,6 +128,7 @@ class CourseInfoController extends Controller
      * @param CourseInfoManager $courseInfoManager
      * @param EntityManagerInterface $em
      * @return RedirectResponse|Response
+     * @throws \Exception
      */
     public function newAction(Request $request, CourseInfoManager $courseInfoManager, EntityManagerInterface $em)
     {
@@ -138,7 +141,7 @@ class CourseInfoController extends Controller
             $courseInfoManager->update($courseInfo);
 
             $this->addFlash('success', 'Le syllabus a été crée avec succès');
-            return $this->redirectToRoute('app_admin_course_info_index');
+            return $this->redirectToRoute('app.admin.course_info.index');
         }
         return $this->render('course_info/admin/new.html.twig', ['form' => $form->createView()]);
     }
@@ -163,7 +166,7 @@ class CourseInfoController extends Controller
 
             $this->addFlash('success', 'Le syllabus a bien été modifié.');
 
-            return $this->redirectToRoute('app_admin_course_info_edit', [
+            return $this->redirectToRoute('app.admin.course_info.edit', [
                 'id' => $courseInfo->getId(),
             ]);
         }
@@ -171,6 +174,58 @@ class CourseInfoController extends Controller
         return $this->render('course_info/admin/edit.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * Course info published list
+     *
+     * @Route("/published/{year}", name="published", methods={"GET", "POST"})
+     *
+     * @param $year
+     * @param Request $request
+     * @param StatisticSyllabusManager $statisticSyllabusManager
+     * @param PaginatorInterface $paginator
+     * @return Response
+     */
+    public function published($year, Request $request,StatisticSyllabusManager $statisticSyllabusManager,
+                              PaginatorInterface $paginator)
+    {
+        $pagination = $paginator->paginate(
+            $statisticSyllabusManager->findSyllabusPublished($year),
+            $request->query->getInt('page', 1),
+            10
+        );
+
+        return $this->render('course_info/published/published.html.twig', array(
+            'pagination' => $pagination
+        ));
+
+    }
+
+    /**
+     * Course info being filled list
+     *
+     * @Route("/being-filled/{year}", name="being_filled", methods={"GET", "POST"})
+     *
+     * @param $year
+     * @param Request $request
+     * @param StatisticSyllabusManager $statisticSyllabusManager
+     * @param PaginatorInterface $paginator
+     * @return Response
+     */
+    public function beingFilled($year, Request $request,StatisticSyllabusManager $statisticSyllabusManager,
+                              PaginatorInterface $paginator)
+    {
+        $pagination = $paginator->paginate(
+            $statisticSyllabusManager->findSyllabusBeingFilled($year),
+            $request->query->getInt('page', 1),
+            10
+        );
+
+        return $this->render('course_info/being_filled/being_filled.html.twig', array(
+            'pagination' => $pagination
+        ));
+
     }
 
     /**
@@ -193,7 +248,7 @@ class CourseInfoController extends Controller
             $em->flush();
 
             $request->getSession()->set('duplicateSyllabus', $report);
-            return $this->redirectToRoute('app_admin_course_info_duplicate_syllabus_from_file');
+            return $this->redirectToRoute('app.admin_course.info.duplicate_syllabus_from_file');
         }
         return $this->render('course_info/admin/duplicate_syllabus_from_file.html.twig', [
             'form' => $form->createView(),
