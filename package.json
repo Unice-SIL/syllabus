@@ -23,7 +23,7 @@
     "ckeditor": "^4.11.4",
     "ckeditor-wordcount-plugin": "^1.17.2",
     "core-js": "2",
-    "jquery": "^3.3.1",
+    "jquery": "^3.5.0",
     "jquery-sortablejs": "^1.0.1",
     "popper.js": "^1.16.0",
     "select2": "^4.0.5",
