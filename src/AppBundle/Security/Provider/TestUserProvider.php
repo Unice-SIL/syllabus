@@ -38,12 +38,13 @@ class TestUserProvider implements UserProviderInterface
      * @param RegistryInterface $registry
      */
     public function __construct(
-        array $config = array(),
+        array $config,
         RegistryInterface $registry
     )
     {
+        if(!is_array($config)) $config = [];
         $this->config = $config;
-        $this->em = $registry->getEntityManager();
+        $this->em = $registry->getManager();
     }
 
     /**
