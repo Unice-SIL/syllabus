@@ -39,7 +39,7 @@ class DuplicateCourseInfoType extends AbstractType
                 'class' => CourseInfo::class,
                 'text_property' => 'id',
                 'page_limit' => 10,
-                'placeholder' => 'Choisissez un syllabus',
+                'placeholder' => 'app.dashboard.modal.placeholder',
                 'constraints' => [
                     new NotBlank()
                 ],

@@ -127,7 +127,7 @@ activity: activity
 evaluation: evaluation
 list of activity: List of activities
 list of evaluation: List of evaluations
-
+homepage: Accueil
 
 app:
   locale:
@@ -146,10 +146,18 @@ app:
       information: Practical information
       closing_remarks: Closing remarks
   dashboard:
+    title: Dashboard
+    modal:
+      title: Toward which Syllabus would you like to duplicate the contents?
+      close: Close
+      duplicate: Duplicate
+      placeholder: Choose a syllabus
     label:
       validate_title: Parts of the syllabus to be completed
       publication_title: Publication of the syllabus
       publication_label: The syllabus is published
+      publication_label_yes: Yes
+      publication_label_no: No
       duplication title: Duplication of the syllabus
       duplication label: Duplicate information for the following year
       creation_date: Creation date
@@ -159,6 +167,27 @@ app:
       student_view: See the student version
       duplicate: Duplicate information to another syllabus
       advice: Ask an educational engineer for advice
+  homepage:
+    establishment_code: Establishment code
+    syllabus_list: Syllabus' list
+    title: Title
+    type: Type
+  permission:
+    modal:
+      title: Add a permission
+      placeholder: Choose an user
+    view:
+      permissions_list: Permissions list
+      username: Username
+      lastname: Lastname
+      firstname: Firstname
+      permission: Permission
+      update_delete: Update / Delete
+      no_permission: No permission has been registered
+    button:
+      add_permission: Add a permission
+      close: Close
+      add: Add
   presentation:
     view:
       general:
