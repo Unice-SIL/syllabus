@@ -71,6 +71,7 @@
                     <strong>{{ 'app.dashboard.label.publication_title' | trans }}</strong>
                 </h6>
                 <div class="d-flex flex-wrap mt-2">
+                    <span id="publish_error" style="color: red"></span>
                     <div class="py-2 pr-5">
                         <label>
                             {{ 'app.dashboard.label.publication_label' | trans }}
@@ -183,10 +184,13 @@
             .done(function(data) {
 
                 checkbox.bootstrapToggle('enable');
-
+                $('#publish_error').text();
                 if (data.error) {
+                    $('#publish_error').text(data.message);
                     stopPropagation = true;
                     checkbox.bootstrapToggle('toggle');
+
+
 
                     //todo: display an error
                 }

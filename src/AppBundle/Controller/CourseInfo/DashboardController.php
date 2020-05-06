@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
@@ -29,6 +30,19 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class DashboardController extends AbstractController
 {
+
+    private $validator;
+
+    /**
+     * DashboardController constructor.
+     * @param ValidatorInterface $validator
+     */
+    public function __construct(ValidatorInterface $validator)
+    {
+        $this->validator = $validator;
+    }
+
+
     /**
      * @Route("/", name="index")
      *
@@ -95,10 +109,9 @@ class DashboardController extends AbstractController
      * @Route("/dashboard", name="dashboard"))
      *
      * @param CourseInfo $courseInfo
-     * @param ValidatorInterface $validator
      * @return Response
      */
-    public function dashboardViewAction(CourseInfo $courseInfo, ValidatorInterface $validator)
+    public function dashboardViewAction(CourseInfo $courseInfo)
     {
         if (!$courseInfo instanceof CourseInfo) {
             return $this->json([
@@ -107,11 +120,7 @@ class DashboardController extends AbstractController
             ]);
         }
 
-        $validationsGroups = ['presentation', 'contentActivities', 'objectives', 'evaluation', 'equipment', 'info', 'closingRemark'];
-        $violations = [];
-        foreach ($validationsGroups as $validationsGroup) {
-            $violations[$validationsGroup] = $validator->validate($courseInfo, null, $validationsGroup);
-        }
+        $violations = $this->getViolation($courseInfo);
 
         $render = $this->get('twig')->render('course_info/dashboard/view/dashboard.html.twig', [
             'courseInfo' => $courseInfo,
@@ -166,7 +175,8 @@ class DashboardController extends AbstractController
      * @throws \Exception
      * @Route("/publish", name="pusblish", methods={"POST"} )
      */
-    public function publishCourseInfo(CourseInfo $courseInfo, Request $request, EntityManagerInterface $em) {
+    public function publishCourseInfo(CourseInfo $courseInfo, Request $request, EntityManagerInterface $em)
+    {
 
         $publishForm = $this->createForm(PublishCourseInfoType::class, $courseInfo);
         $publishForm->handleRequest($request);
@@ -174,6 +184,16 @@ class DashboardController extends AbstractController
         if ($publishForm->isSubmitted() and $publishForm->isValid()) {
             $isPublished = $publishForm->all()['publish']->getData();
 
+            $violations = $this->getViolation($courseInfo);
+            if (is_null($courseInfo->getPublicationDate())) {
+                foreach ($violations as $key => $violation) {
+                    if ($violation->count() > 0) {
+                        return $this->json(['error' => true, 'message' => "L'onglet \"".$key."\" ne rempli pas les condition de publication"]);
+                    }
+                }
+            } else {
+                $courseInfo->setPublicationDate($isPublished ? new \DateTime() : null);
+            }
             $courseInfo->setPublicationDate($isPublished ? new \DateTime() : null);
 
             $em->flush();
@@ -182,5 +202,19 @@ class DashboardController extends AbstractController
         }
 
         return $this->json(['error' => true]);
+    }
+
+    /**
+     * @param CourseInfo $courseInfo
+     * @return array
+     */
+    private function getViolation(CourseInfo $courseInfo)
+    {
+        $validationsGroups = ['presentation', 'contentActivities', 'objectives', 'evaluation', 'equipment', 'info', 'closingRemark'];
+        $violations = [];
+        foreach ($validationsGroups as $validationsGroup) {
+            $violations[$validationsGroup] = $this->validator->validate($courseInfo, null, $validationsGroup);
+        }
+        return $violations;
     }
 }
