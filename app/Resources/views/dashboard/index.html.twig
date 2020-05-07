@@ -26,6 +26,9 @@
                             <h3>{{ syllabusPublished }}</h3>
                             <p>Syllabus publié(s)</p>
                         </div>
+                        <div class="icon">
+                            <i class="fas fa-check"></i>
+                        </div>
                         <a href="{{ path('app.admin.course_info.published', {'year': form.years.vars.data.id }) }}"
                            class="small-box-footer">
                             Plus d'infos
@@ -41,6 +44,9 @@
                         <div class="inner">
                             <h3>{{ syllabusBeingFilled }}</h3>
                             <p>Syllabus en cours de remplissage</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-pen"></i>
                         </div>
                         <a href="{{ path('app.admin.course_info.being_filled', {'year': form.years.vars.data.id }) }}"
                            class="small-box-footer">
@@ -85,6 +91,9 @@
                         <div class="inner">
                             <h3>0</h3>
                             <p>Demandes de primes a traiter</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-euro-sign"></i>
                         </div>
                         <a class="small-box-footer">
                             Plus d'infos
