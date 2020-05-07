@@ -191,6 +191,19 @@ app:
       add_permission: Ajouter une permission
       close: Fermer
       add: Ajouter
+  objectives:
+    view:
+      add_capacity: Ajouter une capacité
+      aimed_capacities: Capacités visées
+      skills: Compétences
+      empty_capacity: Aucune capacité renseignée
+      description: Description
+      update_delete: Modifier / Supprimer
+      update_skill: Modifier une compétence
+      delete_skill: Supprimer une compétence
+    form:
+      description: À la fin de ce cours, l'étudiant devrait être capable de…
+      add: Ajouter
   presentation:
     view:
       general:

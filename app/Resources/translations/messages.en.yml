@@ -191,6 +191,19 @@ app:
       add_permission: Add a permission
       close: Close
       add: Add
+  objectives:
+    view:
+      add_capacity: Add a capacity
+      aimed_capacities: Aimed capacities
+      skills: Skills
+      empty_capacity: No capacity fills in
+      description: Description
+      update_delete: Update / Delete
+      update_skill: Update a skill
+      delete_skill: Delete a skill
+    form:
+      description: By the end of this course, the student must be able to...
+      add: Add
   presentation:
     view:
       general:

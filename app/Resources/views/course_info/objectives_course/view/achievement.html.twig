@@ -5,9 +5,9 @@
                 <div class="d-flex flex-column">
                             <span class="font-weight-bold">
                                 <i class="fas fa-exclamation-circle text-danger"></i>
-                                Compétence
+                                {{ 'app.objectives.view.skills' | trans }}
                             </span>
-                    <span class="empty-data">Aucune capacité renseignée</span>
+                    <span class="empty-data">{{ 'app.objectives.view.empty_capacity' | trans }}</span>
                 </div>
             </div>
         </div>
@@ -16,8 +16,8 @@
     <table class="table table-hover">
         <thead>
         <tr>
-            <th class="text-left" style="width: 80%">Description</th>
-            <th class="text-center" style="width: 20%">Modifier/Supprimer</th>
+            <th class="text-left" style="width: 80%">{{ 'app.objectives.view.description' | trans }}</th>
+            <th class="text-center" style="width: 20%">{{ 'app.objectives.view.update_delete' | trans }}</th>
         </tr>
         </thead>
         <tbody id="achievements-list" class="list-sortable"
@@ -28,12 +28,12 @@
                 <td class="text-center">
                     <button type="button"
                             class="btn btn-link modal-action p-0"
-                            data-action-title="Modifier une compétence"
+                            data-action-title="{{ 'app.objectives.view.update_skill' | trans }}"
                             data-action-url="{{ path('app.course_info.achievement.edit', {'id': achievement.id}) }}">
                         <i class="fas fa-edit"></i>
                     </button>
                     <button type="button" class="btn btn-link modal-action p-0"
-                            data-action-title="Supprimer une compétence"
+                            data-action-title="{{ 'app.objectives.view.delete_skill' | trans }}"
                             data-action-url="{{ path('app.course_info.achievement.delete', {'id': achievement.id}) }}">
                         <i class="fas fa-trash-alt text-danger"></i>
                     </button>
