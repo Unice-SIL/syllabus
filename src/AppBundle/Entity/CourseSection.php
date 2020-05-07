@@ -40,15 +40,6 @@ class CourseSection
     private $title;
 
     /**
-     * @var null|string
-     *
-     * @ORM\Column(name="url_course", type="string", length=200, nullable=true)
-     * @JMS\Groups(groups={"default", "course_section"})
-     *
-     */
-    private $urlCourse;
-
-    /**
      * @var string|null
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=true)
@@ -74,7 +65,7 @@ class CourseSection
     private $position = 0;
 
     /**
-     * @var \AppBundle\Entity\CourseInfo
+     * @var CourseInfo
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CourseInfo", inversedBy="courseSections")
      * @ORM\JoinColumns({
@@ -85,7 +76,7 @@ class CourseSection
     private $courseInfo;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="CourseSectionActivity", mappedBy="courseSection", cascade={ "persist", "remove", "merge" }, orphanRemoval=true)
      * @ORM\OrderBy({"position" = "ASC"})
@@ -191,25 +182,6 @@ class CourseSection
     public function setPosition(?int $position): self
     {
         $this->position = $position;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getUrlCourse(): ?string
-    {
-        return $this->urlCourse;
-    }
-
-    /**
-     * @param $urlCourse
-     * @return CourseSection
-     */
-    public function setUrlCourse($urlCourse): self
-    {
-        $this->urlCourse = $urlCourse;
 
         return $this;
     }

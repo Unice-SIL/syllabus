@@ -57,10 +57,6 @@ class DashboardController extends AbstractController
             $totalSyllabus = count($statisticSyllabusManager->findSyllabusByYear($form->getData()['years']->getId()));
         }
 
-        if ($syllabusBeingFilled != 0 && $totalSyllabus != 0){
-            $syllabusBeingFilled = round(($syllabusBeingFilled/$totalSyllabus) * 100);
-        }
-
         return $this->render('dashboard/index.html.twig', array(
                 'askAdviceCount' => $totalAskAdvices,
                 'syllabusPublished' => $syllabusPublished,
