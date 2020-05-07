@@ -127,6 +127,7 @@ activity: activité
 evaluation: évaluation
 list of activity: Liste des activités
 list of evaluation: Liste des évaluations
+homepage: Accueil
 
 
 app:
@@ -146,6 +147,12 @@ app:
       information: Informations pratiques
       closing_remarks: Le mot de la fin
   dashboard:
+    title: Tableau de bord
+    modal:
+      title: Vers quel syllabus voulez-vous dupliquer le contenu ?
+      close: Fermer
+      duplicate: Dupliquer
+      placeholder: Choisissez un syllabus
     label:
       validate_title: Parties du syllabus a remplir obligatoirement
       publication_title: Publication du syllabus
@@ -161,6 +168,27 @@ app:
       student_view: Voir la version étudiante
       duplicate: Dupliquer les informations vers un autre syllabus
       advice: Demander un avis à un ingénieur pédagogique
+  homepage:
+    establishment_code: Code d'établissement
+    syllabus_list: Liste des syllabus
+    title: Intitulé
+    type: Type
+  permission:
+    modal:
+      title: Ajouter une permission
+      placeholder: Choisissez un utilisateur
+    view:
+      permissions_list: Liste des permissions
+      username: Nom d'utilisateur
+      lastname: Nom
+      firstname: Prénom
+      permission: Permission
+      update_delete: Modifier / Supprimer
+      no_permission: Aucune permission n'a été enregistrée
+    button:
+      add_permission: Ajouter une permission
+      close: Fermer
+      add: Ajouter
   presentation:
     view:
       general:

@@ -6,7 +6,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Ajouter une permission</h4>
+                    <h4 class="modal-title">{{ 'app.permission.modal.title' | trans }}</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
@@ -23,8 +23,8 @@
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-                    <button type="submit" class="btn btn-primary">Ajouter</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'app.permission.button.close' | trans }}</button>
+                    <button type="submit" class="btn btn-primary">{{ 'app.permission.button.add' | trans }}</button>
                 </div>
                 {{ form_end(form) }}
             </div>
@@ -38,9 +38,9 @@
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-between">
-                    <h3>Liste des permissions</h3>
+                    <h3>{{ 'app.permission.view.permissions_list' | trans }}</h3>
                     <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#modal-add-permission">
-                        Ajouter une permission
+                        {{ 'app.permission.button.add_permission' | trans }}
                     </button>
                 </div>
             </div>
@@ -49,11 +49,11 @@
                     <table class="table table-hover table-responsive-sm">
                         <thead>
                         <tr>
-                            <th>Nom d'utilisateur</th>
-                            <th>Nom</th>
-                            <th>Prénom</th>
-                            <th>Permission</th>
-                            <th class="text-right">Modifier/supprimer</th>
+                            <th>{{ 'app.permission.view.username' | trans }}</th>
+                            <th>{{ 'app.permission.view.lastname' | trans }}</th>
+                            <th>{{ 'app.permission.view.firstname' | trans }}</th>
+                            <th>{{ 'app.permission.view.permission' | trans }}</th>
+                            <th class="text-right">{{ 'app.permission.view.update_delete' | trans }}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -81,7 +81,7 @@
                         </tbody>
                     </table>
                 {% else %}
-                    <div class="alert alert-info">Aucune permission n'a été enregistrée</div>
+                    <div class="alert alert-info">{{ 'app.permission.view.no_permission' | trans }}</div>
                 {% endif %}
             </div>
         </div>

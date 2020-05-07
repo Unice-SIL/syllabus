@@ -1,5 +1,5 @@
 {% extends 'base_layout.html.twig' %}
-{% set h1 = 'Liste des syllabus' %}
+{% set h1 = 'app.homepage.syllabus_list' %}
 {% block navbar %}
     <ul class="navbar-nav">
         <li class="nav-item">
@@ -13,7 +13,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">{{ h1|default('Il faut ajouter un h1') }}</h1>
+                    <h1 class="m-0 text-dark">{{ h1|default('Il faut ajouter un h1') | trans }}</h1>
                 </div><!-- /.col -->
 
             </div><!-- /.row -->
@@ -30,9 +30,9 @@
                 <table class="table table-hover table-responsive-sm">
                     <thead>
                     <tr>
-                        <th>Intitulé</th>
-                        <th>Type</th>
-                        <th>Code établissement</th>
+                        <th>{{ 'app.homepage.title' | trans }}</th>
+                        <th>{{ 'app.homepage.type' | trans }}</th>
+                        <th>{{ 'app.homepage.establishment_code' | trans }}</th>
                     </tr>
                     </thead>
                     <tbody>

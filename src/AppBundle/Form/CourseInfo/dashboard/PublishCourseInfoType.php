@@ -9,9 +9,19 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class PublishCourseInfoType extends AbstractType
 {
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
+
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -29,8 +39,8 @@ class PublishCourseInfoType extends AbstractType
             'attr' => [
                 'data-toggle' => 'toggle',
                 'data-onstyle' => 'primary',
-                'data-on' => 'Oui',
-                'data-off' => 'Non',
+                'data-on' => $this->translator->trans('app.dashboard.label.publication_label_yes'),
+                'data-off' => $this->translator->trans('app.dashboard.label.publication_label_no'),
                 'checked' => $courseInfo->getPublicationDate() === null ? false : true,
             ]
         ]);
