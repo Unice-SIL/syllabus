@@ -51,6 +51,13 @@ class LanguageMigration extends AbstractReferentialMigration
 
         $languages = [];
 
+        // AR
+        $language = new Language();
+        $language->setCode('AR')
+            ->setLabel('Arabe');
+        $repo->translate($language, 'label', 'en', 'Arabic');
+        $languages[] = $language;
+
         // DE
         $language = new Language();
         $language->setCode('DE')
@@ -93,6 +100,13 @@ class LanguageMigration extends AbstractReferentialMigration
         $repo->translate($language, 'label', 'en', 'Italian');
         $languages[] = $language;
 
+        // LA
+        $language = new Language();
+        $language->setCode('LA')
+            ->setLabel('Latin');
+        $repo->translate($language, 'label', 'en', 'Latin');
+        $languages[] = $language;
+
         // PT
         $language = new Language();
         $language->setCode('PT')
@@ -104,7 +118,14 @@ class LanguageMigration extends AbstractReferentialMigration
         $language = new Language();
         $language->setCode('RU')
             ->setLabel('Russe');
-        $repo->translate($language, 'label', 'ru', 'Russian');
+        $repo->translate($language, 'label', 'en', 'Russian');
+        $languages[] = $language;
+
+        // SA
+        $language = new Language();
+        $language->setCode('SA')
+            ->setLabel('Sanskrit');
+        $repo->translate($language, 'label', 'en', 'Sanskrit');
         $languages[] = $language;
 
         // ZH
@@ -167,6 +188,15 @@ class LanguageMigration extends AbstractReferentialMigration
      * @param $string
      * @return bool
      */
+    private function checkAR($string)
+    {
+        return $this->checkLang($string, "/arabe|arabic/i");
+    }
+
+    /**
+     * @param $string
+     * @return bool
+     */
     private function checkDE($string)
     {
         return $this->checkLang($string, "/allemand|deutsch/i");
@@ -221,9 +251,27 @@ class LanguageMigration extends AbstractReferentialMigration
      * @param $string
      * @return bool
      */
+    private function checkLA($string)
+    {
+        return $this->checkLang($string, "/latin/i");
+    }
+
+    /**
+     * @param $string
+     * @return bool
+     */
     private function checkPT($string)
     {
         return $this->checkLang($string, "/portugais|portuguese/i");
+    }
+
+    /**
+     * @param $string
+     * @return bool
+     */
+    private function checkSA($string)
+    {
+        return $this->checkLang($string, "/sanskrit/i");
     }
 
     /**

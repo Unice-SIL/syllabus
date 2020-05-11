@@ -1,17 +1,6 @@
 {% if courseInfo.coursePrerequisites is empty %}
-
-    <div class="row mt-10">
-        <div class="col">
-            <div class="d-flex">
-                <div class="d-flex flex-column">
-                            <span class="font-weight-bold">
-                                <i class="fas fa-exclamation-circle text-danger"></i>
-                                {{ 'app.prerequisites.view.prerequisites' | trans }}
-                            </span>
+    <div class="d-flex justify-content-center align-items-center mandatory-data">
                     <span class="empty-data">{{ 'app.prerequisites.view.empty_prerequisite' | trans }}</span>
-                </div>
-            </div>
-        </div>
     </div>
 {% else %}
     <table class="table table-hover">
@@ -32,7 +21,7 @@
                         {{ 'app.prerequisites.view.mandatory_courses' | trans }}
                         {% set titles = '' %}
                         {% for c in prerequisite.courses %}
-                             {% set titles = titles ~ (not loop.first ? ', ') ~ c.title %}
+                            {% set titles = titles ~ (not loop.first ? ', ') ~ c.title %}
                         {% endfor %}
                         {{ titles|humanizeEmptyData }}
                     </i>

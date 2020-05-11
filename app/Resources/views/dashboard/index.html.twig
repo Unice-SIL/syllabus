@@ -1,77 +1,104 @@
 {% extends 'admin_layout.html.twig' %}
 {% set h1 = 'Tableau de bord des syllabus' %}
 {% block subContent %}
-    <div class="card-body">
-        <div class="col-6" style="padding-left: 0px;">
-            <div class="row">
-                <div class="col-10">
-                    {{ form_start(form) }}
-                    {{ form_row(form.years) }}
-
+    <div class="card">
+        <div class="card-header">
+            <div class="col-7" style="padding-left: 0px;">
+                <div class="row">
+                    <div class="col-10">
+                        {{ form_start(form) }}
+                        {{ form_row(form.years) }}
+                    </div>
+                    <div class=" form-group col-2" style="display: flex; justify-content: flex-end">
+                        <button type="submit" class="btn btn-primary" style="align-self: flex-end">Afficher</button>
+                    </div>
+                    {{ form_end(form) }}
                 </div>
-                <div class=" form-group col-2" style="display: flex; justify-content: flex-end">
-                    <button type="submit" class="btn btn-primary" style="align-self: flex-end">Afficher</button>
-                </div>
-                {{ form_end(form) }}
             </div>
         </div>
-        <div class="row">
-            <!-- small box publish syllabus -->
-            <div class="col-lg-3 col-6">
-                <div class="small-box bg-info">
-                    <div class="inner">
-                        <h3>{{ syllabusPublished }}</h3>
-                        <p>Syllabus publié(s)</p>
+        <div class="card-body">
+            <div class="row">
+                <!-- small box publish syllabus -->
+                <div class="col-lg-3 col-8">
+                    <div class="small-box bg-info">
+                        <div class="inner">
+                            <h3>{{ syllabusPublished }}</h3>
+                            <p>Syllabus publié(s)</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <a href="{{ path('app.admin.course_info.published', {'year': form.years.vars.data.id }) }}"
+                           class="small-box-footer">
+                            Plus d'infos
+                            <i class="fas fa-arrow-circle-right"></i>
+                        </a>
                     </div>
-                    <a href="{{ path('app.admin.course_info.published', {'year': form.years.vars.data.id }) }}" class="small-box-footer">
-                        Plus d'infos
-                        <i class="fas fa-arrow-circle-right"></i>
-                    </a>
                 </div>
-            </div>
-
-            <!-- small box uncompleted syllabus -->
-            <div class="col-lg-3 col-6">
-                <div class="small-box bg-success">
-                    <div class="inner">
-                        <h3>{{ syllabusBeingFilled }} %</h3>
-                        <p>Syllabus en cours de remplissage</p>
-                    </div>
-                    <a href="{{ path('app.admin.course_info.being_filled', {'year': form.years.vars.data.id }) }}" class="small-box-footer">
-                        Plus d'infos
-                        <i class="fas fa-arrow-circle-right"></i>
-                    </a>
+                <div class="col-1">
                 </div>
-            </div>
-
-            <!-- small box count askAdvices -->
-            <div class="col-lg-3 col-6">
-                <div class="small-box bg-warning">
-                    <div class="inner">
-                        <h3>{{ askAdviceCount }}</h3>
-                        <p>Demande(s) d'avis a traiter</p>
+                <!-- small box uncompleted syllabus -->
+                <div class="col-lg-3 col-8">
+                    <div class="small-box bg-success">
+                        <div class="inner">
+                            <h3>{{ syllabusBeingFilled }}</h3>
+                            <p>Syllabus en cours de remplissage</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-pen"></i>
+                        </div>
+                        <a href="{{ path('app.admin.course_info.being_filled', {'year': form.years.vars.data.id }) }}"
+                           class="small-box-footer">
+                            Plus d'infos
+                            <i class="fas fa-arrow-circle-right"></i>
+                        </a>
                     </div>
-                    <div class="icon">
-                        <i class="fas fa-comment-dots"></i>
-                    </div>
-                    <a href="{{ path('app_admin.ask_advice_index') }}" class="small-box-footer">
-                        Plus d'infos
-                        <i class="fas fa-arrow-circle-right"></i>
-                    </a>
                 </div>
-            </div>
 
-            <!-- small box count ask primes -->
-            <div class="col-lg-3 col-6">
-                <div class="small-box bg-danger">
-                    <div class="inner">
-                        <h3>0</h3>
-                        <p>Demandes de primes a traiter</p>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <span><b>Toutes années confondues</b></span>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <!-- small box count askAdvices -->
+                <div class="col-lg-3 col-8">
+                    <div class="small-box bg-warning">
+                        <div class="inner">
+                            <h3>{{ askAdviceCount }}</h3>
+                            <p>Demande(s) d'avis a traiter</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-comment-dots"></i>
+                        </div>
+                        <a href="{{ path('app_admin.ask_advice_index') }}" class="small-box-footer">
+                            Plus d'infos
+                            <i class="fas fa-arrow-circle-right"></i>
+                        </a>
                     </div>
-                    <a class="small-box-footer">
-                        Plus d'infos
-                        <i class="fas fa-arrow-circle-right"></i>
-                    </a>
+                </div>
+                <div class="col-1">
+                </div>
+                <!-- small box count ask primes -->
+                <div class="col-lg-3 col-8">
+                    <div class="small-box bg-danger">
+                        <div class="inner">
+                            <h3>0</h3>
+                            <p>Demandes de primes a traiter</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-euro-sign"></i>
+                        </div>
+                        <a class="small-box-footer">
+                            Plus d'infos
+                            <i class="fas fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

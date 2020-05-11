@@ -130,6 +130,8 @@ abstract class AbstractReferentialMigration extends Command
 
         $this->postExecute($io);
 
+        $this->em->clear();
+
     }
 
 }
