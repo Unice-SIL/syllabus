@@ -4,7 +4,6 @@
 namespace AppBundle\Command\Migration;
 
 
-use AppBundle\Entity\Language;
 use AppBundle\Entity\Level;
 
 /**

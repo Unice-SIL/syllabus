@@ -18,6 +18,8 @@ class StructureFixture extends Fixture  implements FixtureGroupInterface
      *
      */
     const SCIENCES = 'structureSciences';
+    const LAS = 'structureLAS';
+    const LA = 'structureLA';
 
     /**
      * @param ObjectManager $manager
@@ -31,6 +33,21 @@ class StructureFixture extends Fixture  implements FixtureGroupInterface
             ->setCode('SCI');
         $this->addReference(self::SCIENCES, $structure);
         $manager->persist($structure);
+
+        $structure = new Structure();
+        $structure->setId(Uuid::uuid4())
+            ->setLabel('UFR LASH')
+            ->setCode('LAS');
+        $this->addReference(self::LAS, $structure);
+        $manager->persist($structure);
+
+        $structure = new Structure();
+        $structure->setId(Uuid::uuid4())
+            ->setLabel('UFR LASH UCA')
+            ->setCode('LA');
+        $this->addReference(self::LA, $structure);
+        $manager->persist($structure);
+
         $manager->flush();
     }
 

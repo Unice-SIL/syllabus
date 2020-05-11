@@ -145,7 +145,7 @@ class Period
      * @param Collection $structures
      * @return Period
      */
-    public function setStructure(Collection $structures): Period
+    public function setStructures(Collection $structures): Period
     {
         $this->structures = $structures;
         return $this;
