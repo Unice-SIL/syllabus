@@ -48,13 +48,11 @@ class DashboardController extends AbstractController
         $currentYear = $yearManager->findCurrentYear()->getId();
         $syllabusPublished = count($statisticSyllabusManager->findSyllabusPublished($currentYear));
         $syllabusBeingFilled = count($statisticSyllabusManager->findSyllabusBeingFilled($currentYear));
-        $totalSyllabus = count($statisticSyllabusManager->findSyllabusByYear($currentYear));
         $years = $yearManager->findAll();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $syllabusPublished = count($statisticSyllabusManager->findSyllabusPublished($form->getData()['years']->getId()));
             $syllabusBeingFilled = count($statisticSyllabusManager->findSyllabusBeingFilled($form->getData()['years']->getId()));
-            $totalSyllabus = count($statisticSyllabusManager->findSyllabusByYear($form->getData()['years']->getId()));
         }
 
         return $this->render('dashboard/index.html.twig', array(
@@ -66,9 +64,4 @@ class DashboardController extends AbstractController
             )
         );
     }
-
-
-
-
-
 }

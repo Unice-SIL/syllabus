@@ -22,6 +22,14 @@
                         {% endif %}
                         {{ 'app.course_info.sidebar.objectives' | trans }}
                     </div>
+                    <div class="col-lg-6 col-md-12 py-1">
+                        {% if violations['prerequisites'] is empty %}
+                            <i class="fas fa-check text-success"></i>
+                        {% else %}
+                            <i class="fas fa-times text-danger"></i>
+                        {% endif %}
+                        {{ 'app.course_info.sidebar.prerequisites' | trans }}
+                    </div>
                     <div class="col-lg-6 col-12 py-1">
                         {% if violations['contentActivities'] is empty %}
                             <i class="fas fa-check text-success"></i>
