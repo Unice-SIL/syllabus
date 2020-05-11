@@ -1,9 +1,9 @@
 <div class="d-flex my-2">
-    <span class="align-text-bottom mt-1">Assister à des séances de tutorat :</span>
+    <span class="align-text-bottom mt-1">{{ 'app.prerequisites.view.attend_tutoring' | trans }}</span>
     <div class="ml-2">
-        <input type="checkbox" data-toggle="toggle" data-style="ios" id="btn_tutoring" data-on="Oui"
-               data-off="Non"
-               data-action-title="Ajouter une séance de tutorat"
+        <input type="checkbox" data-toggle="toggle" data-style="ios" id="btn_tutoring" data-on="{{ 'yes' | trans }}"
+               data-off="{{ 'no' | trans }}"
+               data-action-title="{{ 'app.prerequisites.view.add_tutoring' | trans }}"
                data-action-url="{{ path('app.course_info.tutoring.create', {'id': courseInfo.id }) }}"
                 {% if courseInfo.tutoring %}
                     checked
@@ -15,7 +15,7 @@
     <button type="button"
             class="btn btn-link modal-action p-0 position-absolute"
             style="top: 0px; right: 0px"
-            data-action-title="Modifier la séance de tutorat"
+            data-action-title="{{ 'app.prerequisites.view.update_tutoring' | trans }}"
             data-action-url="{{ path('app.course_info.tutoring.create', {'id': courseInfo.id }) }}">
         <i class="fas fa-edit"></i>
     </button>
@@ -25,7 +25,7 @@
         {% else %}
             <i class="fas fa-times text-danger"></i>
         {% endif %}
-        <span>Avec tuteur enseignant</span>
+        <span>{{ 'app.prerequisites.view.tutoring_teacher' | trans }}</span>
     </div>
     <div>
         {% if courseInfo.tutoringStudent == 1 %}
@@ -33,7 +33,7 @@
         {% else %}
             <i class="fas fa-times text-danger"></i>
         {% endif %}
-        <span class="ml-1">Avec tuteur étudiant</span>
+        <span class="ml-1">{{ 'app.prerequisites.view.tutoring_student' | trans }}</span>
     </div>
     <div class="mt-2">
         <span>{{ courseInfo.tutoringDescription }}</span>
@@ -46,9 +46,9 @@
                 <div class="d-flex flex-column">
                             <span class="font-weight-bold">
                                 <i class="fas fa-exclamation-circle text-danger"></i>
-                                Remédiation
+                                {{ 'app.prerequisites.view.remediation' | trans }}
                             </span>
-                    <span class="empty-data">Aucune remédiation renseignée</span>
+                    <span class="empty-data">{{ 'app.prerequisites.view.empty_remediation' | trans }}</span>
                 </div>
             </div>
         </div>
@@ -57,8 +57,8 @@
     <table class="table table-hover">
         <thead>
         <tr>
-            <th class="text-left" style="width: 80%">Description</th>
-            <th class="text-center" style="width: 20%">Modifier/Supprimer</th>
+            <th class="text-left" style="width: 80%">{{ 'app.prerequisites.view.description' | trans }}</th>
+            <th class="text-center" style="width: 20%">{{ 'app.prerequisites.view.update_delete' | trans }}</th>
         </tr>
         </thead>
         <tbody id="tutoring-resources-list" class="list-sortable"
@@ -69,12 +69,12 @@
                 <td class="text-center">
                     <button type="button"
                             class="btn btn-link modal-action p-0"
-                            data-action-title="Modifier une remédiation"
+                            data-action-title="{{ 'app.prerequisites.view.update_remediation' | trans }}"
                             data-action-url="{{ path('app.course_info.tutoring_resource.edit', {'id': tutoringResources.id}) }}">
                         <i class="fas fa-edit"></i>
                     </button>
                     <button type="button" class="btn btn-link modal-action p-0"
-                            data-action-title="Supprimer une remédiation"
+                            data-action-title="{{ 'app.prerequisites.view.delete_remediation' | trans }}"
                             data-action-url="{{ path('app.course_info.tutoring_resource.delete', {'id': tutoringResources.id}) }}">
                         <i class="fas fa-trash-alt text-danger"></i>
                     </button>

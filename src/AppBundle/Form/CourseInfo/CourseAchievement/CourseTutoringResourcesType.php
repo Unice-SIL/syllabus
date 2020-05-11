@@ -25,7 +25,7 @@ class CourseTutoringResourcesType extends AbstractType
     {
         $builder
             ->add('description', TextType::class, [
-                'label' => false,
+                'label' => 'app.prerequisites.form.tutoring_resources_description',
                 'required' => false,
             ]);
     }

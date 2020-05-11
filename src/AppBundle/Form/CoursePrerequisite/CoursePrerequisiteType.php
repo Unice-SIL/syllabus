@@ -26,11 +26,11 @@ class CoursePrerequisiteType extends AbstractType
     {
         $builder
             ->add('description', TextType::class, [
-                'label' => false,
+                'label' => 'app.prerequisites.form.prerequisite_description',
                 'required' => false,
             ])
             ->add('courses', Select2EntityType::class, [
-                'label' => 'Cours',
+                'label' => 'app.prerequisites.form.prerequisite_courses',
                 'multiple' => true,
                 'remote_route' => 'app_admin.course_autocompleteS3',
                 'class' => Course::class,

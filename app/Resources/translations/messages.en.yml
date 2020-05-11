@@ -191,6 +191,35 @@ app:
       add_permission: Add a permission
       close: Close
       add: Add
+  prerequisites:
+    view:
+      prerequisites: Prerequisites
+      add_prerequisite: Add a prerequisite
+      empty_prerequisite: No prerequisite fills in
+      mandatory_courses: Mandatory courses:
+      update_prerequisite: Update a prerequisite
+      delete_prerequisite: Delete a prerequisite
+      tutoring_resource: Remediation / Help to succeed
+      add_tutoring_resource: Add a remediation
+      attend_tutoring: Attend guidance sessions:
+      add_tutoring: Add a guidance
+      update_tutoring: Update a guidance
+      tutoring_teacher: With a tutoring teacher
+      tutoring_student: With a tutoring student
+      remediation: Remediation
+      empty_remediation: No remediation fills in
+      update_remediation: Update a remediation
+      delete_remediation: Delete a remediation
+      description: Description
+      update_delete: Modifier / Supprimer
+    form:
+      add: Add
+      delete: Delete
+      prerequisite_delete: Are you sure you want to delete this prerequisite "%description%"?
+      prerequisite_description: Before the start of the course, the student must...
+      prerequisite_courses: Choose the associate(s) course(s)
+      tutoring_resources_delete: Are you sure you want to delete this remediation "%description%"?
+      tutoring_resources_description: If the student has difficulties, he can...
   objectives:
     view:
       add_capacity: Add a capacity

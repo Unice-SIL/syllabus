@@ -191,6 +191,35 @@ app:
       add_permission: Ajouter une permission
       close: Fermer
       add: Ajouter
+  prerequisites:
+    view:
+      prerequisites: Prérequis
+      add_prerequisite: Ajouter un prérequis
+      empty_prerequisite: Aucun prérequis renseigné
+      mandatory_courses: Cours obligatoire(s):
+      update_prerequisite: Modifier un prérequis
+      delete_prerequisite: Supprimer un prérequis
+      tutoring_resource: Rémédiation / Aide à la réussite
+      add_tutoring_resource: Ajouter une rémédiation
+      attend_tutoring: Assister à des séances de tutorat :
+      add_tutoring: Ajouter une séance de tutorat
+      update_tutoring: Modifier une séance de tutorat
+      tutoring_teacher: Avec tuteur enseignant
+      tutoring_student: Avec tuteur étudiant
+      remediation: Rémédiation
+      empty_remediation: Aucune rémédiation renseignée
+      update_remediation: Modifier une rémédiation
+      delete_remediation: Supprimer une rémédiation
+      description: Description
+      update_delete: Modifier / Supprimer
+    form:
+      add: Ajouter
+      delete: Supprimer
+      prerequisite_delete: Êtes-vous sûr(e) de vouloir supprimer le prérequis "%description%" ?
+      prerequisite_description: Avant le début du cours, l'étudiant doit…
+      prerequisite_courses: Choisir le(s) cours associé(s)
+      tutoring_resources_delete: Êtes-vous sûr(e) de vouloir supprimer la rémédiation "%description%" ?
+      tutoring_resources_description: Si l'étudiant rencontre des difficultés, il peut…
   objectives:
     view:
       add_capacity: Ajouter une capacité
