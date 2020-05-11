@@ -1,5 +1,9 @@
 {% if courseInfo.courseAchievements is empty %}
-    <span class="empty-data" style="color:#902b2b; ">Information non renseignée.</span>
+<div class="d-flex justify-content-center align-items-center mandatory-data">
+    <span class="empty-data">
+        Information non renseignée.
+    </span>
+</div>
 {% else %}
     <table class="table table-hover">
         <thead>
@@ -29,7 +33,6 @@
                 </td>
             </tr>
         {% endfor %}
-        {{ levels|humanizeEmptyData() }}
         </tbody>
     </table>
 {% endif %}
