@@ -40,19 +40,7 @@
     </div>
 </div>
 {% if courseInfo.courseTutoringResources is empty %}
-    <div class="row mt-10">
-        <div class="col">
-            <div class="d-flex">
-                <div class="d-flex flex-column">
-                            <span class="font-weight-bold">
-                                <i class="fas fa-exclamation-circle text-danger"></i>
-                                Remédiation
-                            </span>
-                    <span class="empty-data">Aucune remédiation renseignée</span>
-                </div>
-            </div>
-        </div>
-    </div>
+    <span class="empty-data">Information non renseignée.</span>
 {% else %}
     <table class="table table-hover">
         <thead>

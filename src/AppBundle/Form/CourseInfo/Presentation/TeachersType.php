@@ -11,6 +11,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
@@ -23,18 +24,30 @@ class TeachersType extends AbstractType
      * @var array
      */
     private $teacherSources = [];
+
+    /**
+     * @var RequestStack
+     */
     protected $requestStack;
+
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
 
     /**
      * EditPresentationCourseInfoType constructor.
      * @param $courseTeacherFactory
      * @param RequestStack $requestStack
+     * @param TranslatorInterface $translator
      */
     public function __construct(
         $courseTeacherFactory,
-        RequestStack $requestStack
+        RequestStack $requestStack,
+        TranslatorInterface $translator
     )
     {
+        $this->translator = $translator;
         $this->requestStack = $requestStack;
         if(is_array($courseTeacherFactory) && array_key_exists('sources', $courseTeacherFactory)){
             foreach ($courseTeacherFactory['sources'] as $id => $source){
@@ -88,8 +101,8 @@ class TeachersType extends AbstractType
                 'attr' => [
                     'data-toggle' => 'toggle',
                     'data-style' => 'ios',
-                    'data-on' => 'Oui',
-                    'data-off' => 'Non',
+                    'data-on' => $this->translator->trans('yes'),
+                    'data-off' => $this->translator->trans('no'),
                     'data-width' => 60
                 ]
             ])
@@ -99,8 +112,8 @@ class TeachersType extends AbstractType
                 'attr' => [
                     'data-toggle' => 'toggle',
                     'data-style' => 'ios',
-                    'data-on' => 'Oui',
-                    'data-off' => 'Non',
+                    'data-on' => $this->translator->trans('yes'),
+                    'data-off' => $this->translator->trans('no'),
                     'data-width' => 60
                 ]
             ]);

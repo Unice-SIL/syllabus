@@ -210,7 +210,8 @@ class DashboardController extends AbstractController
      */
     private function getViolation(CourseInfo $courseInfo)
     {
-        $validationsGroups = ['presentation', 'contentActivities', 'objectives', 'evaluation', 'equipment', 'info', 'closingRemark'];
+        $validationsGroups = ['presentation', 'prerequisites', 'contentActivities', 'objectives', 'evaluation',
+            'equipment', 'info', 'closingRemark'];
         $violations = [];
         foreach ($validationsGroups as $validationsGroup) {
             $violations[$validationsGroup] = $this->validator->validate($courseInfo, null, $validationsGroup);

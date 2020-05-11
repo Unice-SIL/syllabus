@@ -647,7 +647,7 @@ class CourseInfo
      * @ORM\OneToMany(targetEntity="CoursePrerequisite", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"position" = "ASC"})
      * @Assert\Count(
-     *     groups={"objectives"},
+     *     groups={"prerequisites"},
      *     min = 1
      *     )
      * @JMS\Type("ArrayCollection<AppBundle\Entity\CoursePrerequisite>")

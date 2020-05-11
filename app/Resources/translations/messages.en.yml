@@ -128,6 +128,9 @@ evaluation: evaluation
 list of activity: List of activities
 list of evaluation: List of evaluations
 homepage: Accueil
+empty_data: No information fills in.
+yes: Yes
+no: No
 
 app:
   locale:
@@ -169,7 +172,7 @@ app:
       advice: Ask an educational engineer for advice
   homepage:
     establishment_code: Establishment code
-    syllabus_list: Syllabus' list
+    syllabus_list: Syllabus list
     title: Title
     type: Type
   permission:
@@ -217,6 +220,12 @@ app:
         label: Teaching mode
     form:
       general:
+        periods: Period (optionnal)
+        domains: Domains
+        languages: What is/are the language(s) of this course (optionnal)
+        campuses: Campuses
+        levels: Year
+        description: Description
         level_label: What is the level of this course?
         media_label: Integrate a video (or audio) resource or upload an image file of the course presentation, respecting copyright regulations.
         picture: Picture
@@ -241,7 +250,7 @@ app:
         source_data: Data Source
       teaching_mode:
         add_other: Add a teaching
-        additionnal: Type of d'enseignement supplémentaire (facultatif)
+        additionnal: Additionnal teaching type(optionnal)
         class: In class
         cm: Lectures
         distant: Distant

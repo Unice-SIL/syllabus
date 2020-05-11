@@ -60,7 +60,7 @@ class AppExtension extends AbstractExtension
      */
     public function humanizeBoolean($boolean)
     {
-        return $boolean ? 'Oui' : 'Non' ;
+        return $boolean ? $this->translator->trans('yes') : $this->translator->trans('no');
     }
 
     /**
@@ -72,7 +72,7 @@ class AppExtension extends AbstractExtension
     public function humanizeEmptyData($data, $class = null, $prefix = null)
     {
         $class = empty($class) ? 'empty-data' : $class;
-        return empty($data) ? new Markup('<span class="'. $class .'">Information non renseignée.</span>',
+        return empty($data) ? new Markup('<span class="'. $class .'">'.$this->translator->trans('empty_data').'</span>',
             'UTF-8') : $this->translator->trans($prefix . $data);
     }
 

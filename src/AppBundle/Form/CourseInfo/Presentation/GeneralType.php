@@ -38,7 +38,7 @@ class GeneralType extends AbstractType
                 'disabled' => true,
             ])
             ->add('periods', Select2EntityType::class, [
-                'label' => 'Période (facultatif)',
+                'label' => 'app.presentation.form.general.periods',
                 'multiple' => true,
                 'remote_route' => 'app.common.autocomplete.generic_s2_structure',
                 'class' => Period::class,
@@ -52,7 +52,7 @@ class GeneralType extends AbstractType
                 'required' => false
             ])
             ->add('domains', Select2EntityType::class, [
-                'label' => 'Domaine',
+                'label' => 'app.presentation.form.general.domains',
                 'multiple' => true,
                 'remote_route' => 'app.common.autocomplete.generic_s2_structure',
                 'class' => Domain::class,
@@ -70,7 +70,7 @@ class GeneralType extends AbstractType
                 'remote_route' => 'app.common.autocomplete.generic_s2',
                 'class' => Language::class,
                 'text_property' => 'label',
-                'label' => 'En quelle(s) langue(s) est dispensé ce cours (facultatif)',
+                'label' => 'app.presentation.form.general.languages',
                 'language' => 'fr',
                 'minimum_input_length' => 0,
                 'remote_params' => [
@@ -85,7 +85,7 @@ class GeneralType extends AbstractType
                 'remote_route' => 'app.common.autocomplete.generic_s2',
                 'class' => Campus::class,
                 'text_property' => 'label',
-                'label' => 'Campus',
+                'label' => 'app.presentation.form.general.campuses',
                 'language' => 'fr',
                 'minimum_input_length' => 0,
                 'remote_params' => [
@@ -96,7 +96,7 @@ class GeneralType extends AbstractType
                 'required' => false
             ])
             ->add('levels', Select2EntityType::class, [
-                'label' => 'Année',
+                'label' => 'app.presentation.form.general.levels',
                 'class' => Level::class,
                 'remote_route' => 'app.common.autocomplete.generic_s2',
                 'required' => false,
@@ -111,7 +111,7 @@ class GeneralType extends AbstractType
                 ],
             ])
             ->add('summary', CKEditorType::class, [
-                'label' => 'Description',
+                'label' => 'app.presentation.form.general.description',
                 'required' => false,
                 'config' => array(
                     'extraPlugins' => 'wordcount',

@@ -128,7 +128,9 @@ evaluation: évaluation
 list of activity: Liste des activités
 list of evaluation: Liste des évaluations
 homepage: Accueil
-
+empty_data: Information non renseignée.
+yes: Oui
+no: Non
 
 app:
   locale:
@@ -218,6 +220,12 @@ app:
         label: Mode d'enseignement
     form:
       general:
+        periods: Période (facultatif)
+        domains: Domaine
+        languages: En quelle(s) langue(s) est dispensé ce cours (facultatif)
+        campuses: Campus
+        levels: Année
+        description: Description
         level_label: Quel est le niveau de ce cours ?
         media_label: Intégrer une ressource vidéo (ou audio) ou téléverser un fichier image de présentation du cours, en respectant la règlementation sur les droits d'auteur.
         picture: Image
