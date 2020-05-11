@@ -8,12 +8,12 @@
         >
             <div class="card-header">
                 <div class="d-flex justify-content-between">
-                    <h3>Capacités visées</h3>
+                    <h3>{{ 'app.objectives.view.aimed_capacities' | trans }}</h3>
                     <button type="button"
                             class="btn btn-primary rounded modal-action"
-                            data-action-title="Ajouter une compétence"
+                            data-action-title="{{ 'app.objectives.view.add_capacity' | trans }}"
                             data-action-url="{{ path('app.course_info.objectives.achievement.add', {'id': courseInfo.id }) }}">
-                        Ajouter une capacité
+                        {{ 'app.objectives.view.add_capacity' | trans }}
                     </button>
                 </div>
               <!--  <a href="https://lms.univ-cotedazur.fr/course/view.php?id=22948"

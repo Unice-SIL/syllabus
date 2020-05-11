@@ -7,11 +7,11 @@
         >
             <div class="card-header">
                 <div class="d-flex justify-content-between">
-                    <h3>Prérequis</h3>
+                    <h3>{{ 'app.prerequisites.view.prerequisites' | trans }}</h3>
                     <button type="button" class="btn btn-primary modal-action rounded"
-                            data-action-title="Ajouter un prérequis"
+                            data-action-title="{{ 'app.prerequisites.view.add_prerequisite' | trans }}"
                             data-action-url="{{ path('app.course_info.prerequisite.prerequisite.add', {'id': courseInfo.id }) }}">
-                        Ajouter un prérequis
+                        {{ 'app.prerequisites.view.add_prerequisite' | trans }}
                     </button>
                 </div>
             </div>
@@ -24,12 +24,12 @@
         >
             <div class="card-header">
                 <div class="d-flex justify-content-between">
-                    <h3>Remédiation / aide à la réussite</h3>
+                    <h3>{{ 'app.prerequisites.view.tutoring_resource' | trans }}</h3>
                     <button type="button" class="btn btn-primary modal-action rounded "
-                            data-action-title="Ajouter une remédiation"
+                            data-action-title="{{ 'app.prerequisites.view.add_tutoring_resource' | trans }}"
                             data-card="card-tutoring-resources"
                             data-action-url="{{ path('app.course_info.prerequisite.tutoring_resource.add', {'id': courseInfo.id }) }}">
-                        Ajouter une remédiation
+                        {{ 'app.prerequisites.view.add_tutoring_resource' | trans }}
                     </button>
                 </div>
             </div>

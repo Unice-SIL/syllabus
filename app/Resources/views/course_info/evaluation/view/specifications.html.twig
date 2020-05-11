@@ -3,7 +3,7 @@
         <div class="d-flex">
             <div class="d-flex flex-column">
                     <span class="font-weight-bold">
-                        Précisions (facultatif)
+                        {{ 'app.evaluation.view.specifications' | trans  }}
                     </span>
                 {{ courseInfo.mccAdvice|humanizeEmptyData() | purify }}
             </div>
