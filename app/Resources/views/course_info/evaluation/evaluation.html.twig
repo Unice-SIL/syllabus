@@ -6,22 +6,22 @@
             <div class="card">
                 <div class="card-header text-center bg-gradient-primary">
                     <h5 class="text-bold">
-                        1ère Session
+                        {{ 'app.evaluation.view.first_session' | trans }}
                     </h5>
                 </div>
                 <div class="card-body table-responsive p-0">
                     <table class="table">
                         <thead>
                         <tr class="text-center">
-                            <th>Type d'évaluation</th>
-                            <th>Coefficient</th>
+                            <th>{{ 'app.evaluation.view.evaluation_type' | trans }}</th>
+                            <th>{{ 'app.evaluation.view.evaluation_rate' | trans }}</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr class="text-center">
-                            <td><p class="my-0">Contrôle Continu</p>
+                            <td><p class="my-0">{{ 'app.evaluation.view.continuous_assessment' | trans }}</p>
                                 {% if courseInfo.mccCcNbEvalSession1 %}
-                                    ({{ courseInfo.mccCcNbEvalSession1 }} minimum)
+                                    ({{ courseInfo.mccCcNbEvalSession1 }} {{ 'app.evaluation.view.minimm' | trans }})
                                 {% else %}
                                     {{ courseInfo.mccCcNbEvalSession1|humanizeEmptyData }}
                                 {% endif %}
@@ -29,7 +29,11 @@
                             <td>{{ courseInfo.mccCcCoeffSession1|humanizeEmptyData }} {{ courseInfo.mccCcCoeffSession1 ? '%' }}</td>
                         </tr>
                         <tr class="text-center">
-                            <td>Contrôle Terminal - {{ courseInfo.mccCtDurationSession1 }}</td>
+                            <td>{{ 'app.evaluation.view.exam' | trans }}
+                                {% if courseInfo.mccCtDurationSession1 is not null %}
+                                    - {{ courseInfo.mccCtDurationSession1 }}
+                                {% endif %}
+                            </td>
                             <td>{{ courseInfo.mccCtCoeffSession1|humanizeEmptyData }} {{ courseInfo.mccCtCoeffSession1 ? '%' }}</td>
                         </tr>
                         </tbody>
@@ -43,9 +47,9 @@
         >
             <div class="card-header">
                 <div class="d-flex justify-content-between">
-                    <h3>Informations des modalités d'évaluation</h3>
+                    <h3>{{ 'app.evaluation.view.info_evaluation' | trans }}</h3>
                     <button type="button" class="edit-button btn btn-primary rounded">
-                        Mettre à jour
+                        {{ 'app.evaluation.view.edit' | trans  }}
                     </button>
                 </div>
             </div>

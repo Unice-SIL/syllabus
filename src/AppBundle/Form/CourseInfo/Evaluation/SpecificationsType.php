@@ -21,7 +21,7 @@ class SpecificationsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('mccAdvice', CKEditorType::class, [
-            'label' => 'Description',
+            'label' => 'app.evaluation.form.specifications',
             'required' => false,
         ]);
     }

@@ -233,6 +233,22 @@ app:
     form:
       description: By the end of this course, the student must be able to...
       add: Add
+  evaluation:
+    view:
+      first_session: 1st session
+      evaluation_type: Evaluation type
+      evaluation_rate: Evaluation rate
+      continuous_assessment: Continuous assessment
+      minimum: minimum
+      exam: Final exams
+      info_evaluation: Informations about evaluation mode
+      edit: Edit
+      specifications: Specifications
+    form:
+      save: Save
+      cancel: Cancel
+      example: "Example: informations about exams, plagiarism, forbidden materials, late penalty, non-attendance, spelling, …"
+      specifications: Specifications (optionnal)
   presentation:
     view:
       general:

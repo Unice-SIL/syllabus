@@ -233,6 +233,22 @@ app:
     form:
       description: À la fin de ce cours, l'étudiant devrait être capable de…
       add: Ajouter
+  evaluation:
+    view:
+      first_session: 1ère session
+      evaluation_type: Type d'évaluation
+      evaluation_rate: Coefficient
+      continuous_assessment: Contrôle Continu
+      minimum: minimum
+      exam: Contrôle Terminal
+      info_evaluation: Informations des modalités d'évaluation
+      edit: Mettre à jour
+      specifications: Précisions
+    form:
+      save: Sauvegarder
+      cancel: Annuler
+      example: "Exemple : informations sur les examens, le plagiat, matériels interdits, pénalités de retard, d'absences, d'orthographe, …"
+      specifications: Précisions (facultatif)
   presentation:
     view:
       general:
