@@ -249,6 +249,44 @@ app:
       cancel: Annuler
       example: "Exemple : informations sur les examens, le plagiat, matériels interdits, pénalités de retard, d'absences, d'orthographe, …"
       specifications: Précisions (facultatif)
+  equipment:
+    view:
+      equipment: Matériel
+      resources: Ressources
+      edit: Mettre à jour
+      mandatory_equipments: Matériel nécessaire
+      description: Description
+      delete: Supprimer
+      add: Ajouter
+      add_description: Ajouter une description
+      chosen_equipments: Matériels choisis
+      empty_data: Non-renseigné
+      update_delete: Modifier / Supprimer
+      update_equipment_description: Modifier une description de matériel
+      delete_equipment: Supprimer un matériel
+      educational_resources: Ressources pédagogique
+      bibliographic_resources: Eléments bibliographiques
+    form:
+      add: Ajouter
+      delete: Supprimer
+      delete_equipment: Êtes-vous sûr(e) de vouloir supprimer le matériel "%label%" ?
+      description_equipment: Description (optionnel)
+      bibliographic_resources: Eléments bibliographiques
+      educational_resources: Ressources pédagogiques
+      save: Sauvegarder
+      cancel: Annuler
+  info:
+    view:
+      additionnal_info: Informations pratiques
+      edit: Mettre à jour
+      agenda: Informations dont vous disposez sur le calendrier du cours, des examens…
+      organization: Organisation du cours
+    form:
+      save: Sauvegarder
+      cancel: Annuler
+      agenda: Indiquer toutes les informations dont vous disposez sur le calendrier du cours, des examens…
+      agenda_annotation: Vous pouvez aussi partager un emploi du temps (lien web…).
+      organization: Comment allez-vous organiser votre cours ?
   presentation:
     view:
       general:

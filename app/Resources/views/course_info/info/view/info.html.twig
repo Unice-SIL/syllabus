@@ -1,10 +1,10 @@
 <div class="d-flex flex-column">
-                <span class="font-weight-bold">
-                    Informations dont vous disposez sur le calendrier du cours, des examens…
-                </span>
+    <span class="font-weight-bold">
+        {{ 'app.info.view.agenda' | trans }}
+    </span>
     {{ courseInfo.agenda|humanizeEmptyData() | purify }}
     <span class="font-weight-bold">
-                    Organisation du cours
-                </span>
+        {{ 'app.info.view.organization' | trans }}
+    </span>
     {{ courseInfo.organization|humanizeEmptyData() | purify }}
 </div>

@@ -20,11 +20,11 @@ class Resourcetype extends AbstractType
     {
         $builder
             ->add('educationalResources', CKEditorType::class, [
-                'label' => 'Description',
+                'label' => 'app.equipment.form.educational_resources',
                 'required' => false,
             ])
             ->add('bibliographicResources', CKEditorType::class, [
-                'label' => 'Description',
+                'label' => 'app.equipment.form.bibliographic_resources',
                 'required' => false,
             ]);
     }

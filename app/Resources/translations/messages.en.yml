@@ -249,6 +249,44 @@ app:
       cancel: Cancel
       example: "Example: informations about exams, plagiarism, forbidden materials, late penalty, non-attendance, spelling, …"
       specifications: Specifications (optionnal)
+  equipment:
+    view:
+      equipment: Equipment
+      resources: Resources
+      edit: Edit
+      mandatory_equipments: Mandatory equipments
+      description: Description
+      delete: Delete
+      add: Add
+      add_description: Add a description
+      chosen_equipments: Chosen equipments
+      empty_data: Empty
+      update_delete: Update / Delete
+      update_equipment_description: Update an equipment's description
+      delete_equipment: Delete an equipment
+      educational_resources: Educational resources
+      bibliographic_resources: Bibliographic resources
+    form:
+      add: Add
+      delete: Delete
+      delete_equipment: Are you sure you want to delete the equipment %label%?
+      description_equipment: Description (optional)
+      bibliographic_resources: Bibliographic resources
+      educational_resources: Educational resources
+      save: Save
+      cancel: Cancel
+  info:
+    view:
+      additionnal_info: Additionnal informations
+      edit: Edit
+      agenda: Informations at your disposal about the course's agenda, exams...
+      organization: Course's organization
+    form:
+      save: Save
+      cancel: Cancel
+      agenda: Indicate all the informations at your disposal about the course's agenda, exams...
+      agenda_annotation: You can also share a schedule (weblink)
+      organization: How will you organize your course?
   presentation:
     view:
       general:
