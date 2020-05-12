@@ -287,6 +287,21 @@ app:
       agenda: Indiquer toutes les informations dont vous disposez sur le calendrier du cours, des examens…
       agenda_annotation: Vous pouvez aussi partager un emploi du temps (lien web…).
       organization: Comment allez-vous organiser votre cours ?
+  closing_remarks:
+    view:
+      closing_remarks: Le mot de la fin
+      remarks_message: Message à vos étudiants
+      closing_video: Intégrer une ressource vidéo (ou audio)
+    form:
+      save: Sauvegarder
+      cancel: Annuler
+      closing_remarks: "Espace pour laisser un message à vos étudiants (ex: encouragements, derniers conseils…)"
+      closing_video: Intégrer une ressource vidéo (ou audio) respectant la règlementation sur les droits d'auteur
+      closing_video_info:
+        part1: "Afin de pouvoir intégrer une vidéo dans votre cours, veuillez vous assurer que celle-ci soit hébergée sur un serveur externe à Moodle (ex: UNSPOD, Youtube, ...). Si ce n’est pas le cas, vous pouvez demander de l’aide pour la déposer sur une de ces plateformes."
+        part2: "Une fois qu’elle y est stockée, vous pouvez cliquer sur \"Partager / Intégrer\" afin de récupérer le lien d'intégration ressemblant à :"
+        part3: "&#60 iframe ... &#62 &#60 /iframe &#62"
+        part4: "Copiez ce code et insérez-le dans le champ \"Vidéo\" ci-dessous. La vidéo sera visible par vos étudiants directement sur votre syllabus"
   presentation:
     view:
       general:

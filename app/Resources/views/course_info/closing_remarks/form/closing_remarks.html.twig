@@ -1,15 +1,11 @@
 {{ form_start(form, {'attr': {'class': 'form-focus'}}) }}
-
-        {{ form_errors(form) }}
+{{ form_errors(form) }}
 <div class="mt-3">
     <div>
-        <label placeholder="Période (facultatif)">Espace pour laisser un message à vos étudiants (ex:
-            encouragements, derniers conseils…)</label>
-        {{ form_widget(form.closingRemarks) }}
+        {{ form_row(form.closingRemarks) }}
     </div>
     <div class="mt-3">
-        <label class="mt-6" placeholder="En quelle(s) langue(s) est dispensé ce cours (facultatif)">Intégrer une
-            ressource vidéo (ou audio) respectant la règlementation sur les droits d'auteur</label>
+        {{ form_label(form.closingVideo) }}
         <i class="fas fa-exclamation-circle " data-toggle="tooltip" data-placement="right" data-html="true"
            title="{% include 'tooltip/closing_remarks_video.html.twig' %}"></i>
         {{ form_widget(form.closingVideo) }}
@@ -18,11 +14,11 @@
 <div class="mt-2">
     <button type="submit" class="submit-button btn btn-primary submit rounded"
             data-url="{{ path('app.course_info.closing_remarks.closing_remarks', {'id': courseInfo.id, 'action': 'submit' }) }}">
-        Sauvegarder
+        {{ 'app.closing_remarks.form.save' | trans }}
     </button>
     <button type="button" class="cancel-button btn btn-secondary rounded"
             data-url="{{ path('app.course_info.closing_remarks.closing_remarks', {'id': courseInfo.id, 'action': 'cancel' }) }}">
-        Annuler
+        {{ 'app.closing_remarks.form.cancel' | trans }}
     </button>
 </div>
 {{ form_widget(form._token) }}

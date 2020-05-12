@@ -21,12 +21,12 @@ class Closing_remarksType extends AbstractType
     {
         $builder
             ->add('closingRemarks', CKEditorType::class, [
-                'label' => 'Description',
+                'label' => 'app.closing_remarks.form.closing_remarks',
                 'required' => false,
             ])
             ->add('closingVideo', TextareaType::class, [
                 'required' => false,
-                'label' => "Intégration de contenu vidéo / audio"
+                'label' => "app.closing_remarks.form.closing_video"
             ]);
     }
 
