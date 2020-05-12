@@ -18,11 +18,11 @@ class InfoType extends AbstractType
     {
         $builder
             ->add('agenda', CKEditorType::class, [
-                'label' => 'Description',
+                'label' => 'app.info.form.agenda',
                 'required' => false,
             ])
             ->add('organization', CKEditorType::class, [
-                'label' => 'Description',
+                'label' => 'app.info.form.organization',
                 'required' => false,
             ]);
     }
