@@ -287,6 +287,22 @@ app:
       agenda: Indicate all the informations at your disposal about the course's agenda, exams...
       agenda_annotation: You can also share a schedule (weblink)
       organization: How will you organize your course?
+  closing_remarks:
+    view:
+      closing_remarks: Closing remarks
+      edit: Mettre à jour
+      remarks_message: Message for your students
+      closing_video: Integrate a video (or audio)
+      closing_video_info:
+        part1: "In order to be able to integrate a video into your course, please make sure it is hosted on a server external to Moodle (e.g. UNSPOD, Youtube, ...). If that is not the cas, you can ask for help to upload on one of those plateforms."
+        part2: Once it is stored there, you can click on "Share / Integrate" to retrieve the integration link looking like :
+        part3: "&#60 iframe ... &#62 &#60 /iframe &#62"
+        part4: Copy this code and insert it in the "Video" field below. The video will be visible to your students directly on your syllabus.
+    form:
+      save: Save
+      cancel: Cancel
+      closing_remarks: "You can leave a message for your students (ex: cheers, last advices...)"
+      closing_video: Integrate a video (or audio) respecting copyright law
   presentation:
     view:
       general:
@@ -331,7 +347,7 @@ app:
         add_video: How to add a video
         add_video_info:
           part1: "In order to be able to integrate a video into your course, please make sure it is hosted on a server external to Moodle (e.g. UNSPOD, Youtube, ...)."
-          part2: Si ce n’est pas le cas, vous pouvez demander de l’aide pour la déposer sur une de ces plateformes.
+          part2: If that is not the cas, you can ask for help to upload on one of those plateforms.
           part3: Once it is stored there, you can click on "Share / Integrate" to retrieve the integration link looking like :
           part4: Copy this code and insert it in the "Video" field below. The video will be visible to your students directly on your syllabus.
         level:
