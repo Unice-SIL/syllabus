@@ -41,6 +41,7 @@ final class Version20200323091359 extends AbstractMigration
         $this->addSql('ALTER TABLE language ADD code VARCHAR(50) DEFAULT NULL, ADD source VARCHAR(50) DEFAULT NULL, ADD synchronized TINYINT(1) NOT NULL');
         $this->addSql('ALTER TABLE course_info DROP semester');
         $this->addSql('ALTER TABLE course_section ADD url TEXT DEFAULT NULL');
+        $this->addSql('ALTER TABLE domain ADD code VARCHAR(50) DEFAULT NULL, ADD source VARCHAR(50) DEFAULT NULL, ADD synchronized TINYINT(1) NOT NULL');
     }
 
     public function down(Schema $schema) : void
@@ -48,6 +49,7 @@ final class Version20200323091359 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
+        $this->addSql('ALTER TABLE domain DROP code, DROP source, DROP synchronized');
         $this->addSql('UPDATE course_info_field SET field = \'domain\' WHERE field = \'domains\'');
         $this->addSql('UPDATE course_info_field SET field = \'period\' WHERE field = \'periods\'');
         $this->addSql('INSERT INTO course_info_field (field, label) VALUES (\'courseEvaluationCts\', \'Contenu & Activités / Evaluations CT\')');
