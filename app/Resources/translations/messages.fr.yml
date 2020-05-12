@@ -249,6 +249,34 @@ app:
       cancel: Annuler
       example: "Exemple : informations sur les examens, le plagiat, matériels interdits, pénalités de retard, d'absences, d'orthographe, …"
       specifications: Précisions (facultatif)
+  equipment:
+    view:
+      equipment: Matériel
+      resources: Ressources
+      edit: Mettre à jour
+      mandatory_equipments: Matériel nécessaire
+      description: Description
+      delete: Supprimer
+      add: Ajouter
+      add_description: Ajouter une description
+      chosen_equipments: Matériels choisis
+      empty_data: Non-renseigné
+      update_delete: Modifier / Supprimer
+      update_equipment_description: Modifier une description de matériel
+      delete_equipment: Supprimer un matériel
+      educational_resources: Ressources pédagogique
+      bibliographic_resources: Eléments bibliographiques
+    form:
+      add: Ajouter
+      delete: Supprimer
+      delete_equipment: Êtes-vous sûr(e) de vouloir supprimer le matériel "%label%" ?
+      description_equipment: Description (optionnel)
+      bibliographic_resources: Eléments bibliographiques
+      bibliographic_resources_small: En quelle(s) langue(s) est dispensé ce cours (facultatif)
+      educational_resources: Ressources pédagogiques
+      educational_resources_small: Période (facultatif)
+      save: Sauvegarder
+      cancel: Annuler
   presentation:
     view:
       general:
