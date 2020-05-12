@@ -16,7 +16,7 @@ class ResourceEquipmentEditType extends AbstractType
     {
         $builder
             ->add('description', TextType::class, [
-                'label' => 'Description',
+                'label' => 'app.equipment.form.description_equipment',
                 'required' => false
             ]);
     }
