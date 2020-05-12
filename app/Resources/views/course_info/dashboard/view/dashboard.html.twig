@@ -114,7 +114,11 @@
                         <label class="mr-2">
                             {{ 'app.dashboard.label.duplication label' | trans }}
                         </label>
-                        <input type="checkbox" id="btn_duplicate" checked data-toggle="toggle"
+                        <input type="checkbox" id="btn_duplicate"
+                               {% if courseInfo.duplicateNextYear == 1 %}
+                               checked
+                               {% endif %}
+                               data-toggle="toggle"
                                data-style="ios"
                                data-size="small"
                                data-on="{{ 'app.dashboard.label.publication_label_yes' | trans }}"
@@ -123,7 +127,8 @@
                                data-offstyle="danger">
                     </div>
                     <div class="py-2">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#courseInfoDuplicationModal" data-code-year="{{ courseInfo.codeYear(true) }}">
+                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                data-target="#courseInfoDuplicationModal" data-code-year="{{ courseInfo.codeYear(true) }}">
                             <i class="fas fa-clone"></i>
                             {{ 'app.dashboard.button.duplicate' | trans }}
                         </button>
@@ -174,6 +179,28 @@
     $('#btn_publish').bootstrapToggle();
     $('#btn_duplicate').bootstrapToggle();
 
+    $( document ).ready(function() {
+        $(document).on('change', '#btn_duplicate', function (e) {
+
+            var data = $(this).is(':checked');
+
+            if (data)
+            {
+                $.ajax({
+                    url:'{{ path('app.course_info.dashboard.publishNextYear', {'id': courseInfo.id, 'action': 1 }) }}',
+                    type: "POST",
+                });
+            }else{
+                $.ajax({
+                    url:'{{ path('app.course_info.dashboard.publishNextYear', {'id': courseInfo.id, 'action': 0 }) }}',
+                    type: "POST",
+                });
+            }
+        });
+    });
+
+
+
     let stopPropagation = false;
     $(document).on('change', '#btn_publish', function (e) {
 
@@ -197,9 +224,6 @@
                     $('#publish_error').text(data.message);
                     stopPropagation = true;
                     checkbox.bootstrapToggle('toggle');
-
-
-
                     //todo: display an error
                 }
 
