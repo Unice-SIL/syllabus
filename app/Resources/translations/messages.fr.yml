@@ -272,11 +272,21 @@ app:
       delete_equipment: Êtes-vous sûr(e) de vouloir supprimer le matériel "%label%" ?
       description_equipment: Description (optionnel)
       bibliographic_resources: Eléments bibliographiques
-      bibliographic_resources_small: En quelle(s) langue(s) est dispensé ce cours (facultatif)
       educational_resources: Ressources pédagogiques
-      educational_resources_small: Période (facultatif)
       save: Sauvegarder
       cancel: Annuler
+  info:
+    view:
+      additionnal_info: Informations pratiques
+      edit: Mettre à jour
+      agenda: Informations dont vous disposez sur le calendrier du cours, des examens…
+      organization: Organisation du cours
+    form:
+      save: Sauvegarder
+      cancel: Annuler
+      agenda: Indiquer toutes les informations dont vous disposez sur le calendrier du cours, des examens…
+      agenda_annotation: Vous pouvez aussi partager un emploi du temps (lien web…).
+      organization: Comment allez-vous organiser votre cours ?
   presentation:
     view:
       general:

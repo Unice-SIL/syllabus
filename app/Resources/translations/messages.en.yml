@@ -272,11 +272,21 @@ app:
       delete_equipment: Are you sure you want to delete the equipment %label%?
       description_equipment: Description (optional)
       bibliographic_resources: Bibliographic resources
-      bibliographic_resources_small: Which languages is used for this course (optional)
       educational_resources: Educational resources
-      educational_resources_small: Period (optional)
       save: Save
       cancel: Cancel
+  info:
+    view:
+      additionnal_info: Additionnal informations
+      edit: Edit
+      agenda: Informations at your disposal about the course's agenda, exams...
+      organization: Course's organization
+    form:
+      save: Save
+      cancel: Cancel
+      agenda: Indicate all the informations at your disposal about the course's agenda, exams...
+      agenda_annotation: You can also share a schedule (weblink)
+      organization: How will you organize your course?
   presentation:
     view:
       general:
