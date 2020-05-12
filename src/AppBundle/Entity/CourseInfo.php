@@ -689,6 +689,13 @@ class CourseInfo
     private $previousImage = null;
 
     /**
+     * @var
+     *
+     * @ORM\Column(name="duplicate_next_year", type="boolean", nullable=false)
+     */
+    private $duplicateNextYear = false;
+
+    /**
      * CourseInfo constructor.
      */
     public function __construct()
@@ -708,6 +715,27 @@ class CourseInfo
         $this->teachings = new ArrayCollection();
         $this->levels = new ArrayCollection();
     }
+
+    /**
+     * @return mixed
+     */
+    public function getDuplicateNextYear()
+    {
+        return $this->duplicateNextYear;
+    }
+
+    /**
+     * @param $duplicateNextYear
+     * @return $this
+     */
+    public function setDuplicateNextYear($duplicateNextYear):self
+    {
+        $this->duplicateNextYear = $duplicateNextYear;
+
+        return $this;
+    }
+
+
 
     /**
      * @return string

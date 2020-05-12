@@ -12,6 +12,7 @@ use AppBundle\Form\CourseInfo\DuplicateCourseInfoType;
 use AppBundle\Helper\Report\Report;
 use AppBundle\Manager\CourseInfoManager;
 use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\Types\Boolean;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -188,7 +189,7 @@ class DashboardController extends AbstractController
             if (is_null($courseInfo->getPublicationDate())) {
                 foreach ($violations as $key => $violation) {
                     if ($violation->count() > 0) {
-                        return $this->json(['error' => true, 'message' => "L'onglet \"".$key."\" ne rempli pas les condition de publication"]);
+                        return $this->json(['error' => true, 'message' => "L'onglet \"" . $key . "\" ne rempli pas les condition de publication"]);
                     }
                 }
             } else {
@@ -202,6 +203,20 @@ class DashboardController extends AbstractController
         }
 
         return $this->json(['error' => true]);
+    }
+
+    /**
+     * @param CourseInfo $courseInfo
+     * @param Request $request
+     * @param CourseInfoManager $courseInfoManager
+     * @return JsonResponse
+     * @Route("/publish-next-year", name="publishNextYear", methods={"GET", "POST"} )
+     */
+    public function DuplicateCourseInfoNextYear(CourseInfo $courseInfo, Request $request, CourseInfoManager $courseInfoManager)
+    {
+        $courseInfo->setDuplicateNextYear($request->get('action'));
+        $courseInfoManager->update($courseInfo);
+        return $this->json(['status' => true]);
     }
 
     /**
