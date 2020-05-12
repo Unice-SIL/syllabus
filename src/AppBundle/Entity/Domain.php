@@ -4,6 +4,7 @@
 namespace AppBundle\Entity;
 
 
+use AppBundle\Traits\Importable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -20,6 +21,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Domain
 {
+    use Importable;
+
     /**
      * @var null|string
      *
@@ -142,7 +145,7 @@ class Domain
      * @param Collection $structures
      * @return Domain
      */
-    public function setStructure(Collection $structures): Domain
+    public function setStructures(Collection $structures): Domain
     {
         $this->structures = $structures;
         return $this;
