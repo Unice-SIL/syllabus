@@ -61,6 +61,7 @@ $(document).ready(function () {
         let $card = $button.closest('.card-syllabus');
         let $cardBody = $card.find('.card-body');
         let $editButton = $card.find('.edit-button');
+        let $editButtonTitle = $editButton.data('title');
         let forms = $card.find('form');
         let url = $card.data('form-url');
 
@@ -79,7 +80,7 @@ $(document).ready(function () {
             }
         }).done(function (response) {
             $cardBody.html(response["content"]);
-            $editButton.attr("disabled", false).html('Mettre à jour');
+            $editButton.attr("disabled", false).html($editButtonTitle);
             $editButton.show();
             $card.removeClass('active');
             $('#app').removeClass('hasActiveChild');
@@ -91,6 +92,7 @@ $(document).ready(function () {
         let $card = $button.closest('.card-syllabus');
         let $cardBody = $card.find('.card-body');
         let $editButton = $card.find('.edit-button');
+        let $editButtonTitle = $editButton.data('title');
         let url = $card.data('view-url');
         $.get(url, {
             beforeSend: function () {
@@ -101,7 +103,7 @@ $(document).ready(function () {
                 $cardBody.html(response["content"]);
             }
         }).always(function () {
-            $editButton.attr("disabled", false).html('Mettre à jour');
+            $editButton.attr("disabled", false).html($editButtonTitle);
             $editButton.show();
             $card.removeClass('active');
             $('#app').removeClass('hasActiveChild');
