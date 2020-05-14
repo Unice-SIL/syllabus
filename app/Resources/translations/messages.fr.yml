@@ -135,7 +135,7 @@ no: Non
 app:
   locale:
     fr: 'Français'
-    en: 'Anglais'
+    en: 'English'
   course_info:
     sidebar:
       dashboard: Tableau de bord
