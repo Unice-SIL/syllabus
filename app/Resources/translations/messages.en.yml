@@ -134,7 +134,7 @@ no: No
 
 app:
   locale:
-    fr: 'French'
+    fr: 'Français'
     en: 'English'
   course_info:
     sidebar:
@@ -211,7 +211,7 @@ app:
       update_remediation: Update a remediation
       delete_remediation: Delete a remediation
       description: Description
-      update_delete: Modifier / Supprimer
+      update_delete: Update / Delete
     form:
       add: Add
       delete: Delete
@@ -290,7 +290,7 @@ app:
   closing_remarks:
     view:
       closing_remarks: Closing remarks
-      edit: Mettre à jour
+      edit: Edit
       remarks_message: Message for your students
       closing_video: Integrate a video (or audio)
       closing_video_info:
@@ -389,8 +389,8 @@ app:
         empty_section: No sections have been added
         evaluated_peers: Peer-reviewed
         evaluated_teachers: Evaluated by teachers
-        evaluation_peers: Évaluation par les pairs
-        evaluation_rate: Coefficient
+        evaluation_peers: Evaluation by peers
+        evaluation_rate: Evaluation rate
         evaluation_teachers: Evaluation by teachers
         control: Control
         evaluable: Evaluable
@@ -422,8 +422,47 @@ app:
 
   view:
     student:
+      activities:
+        evaluable: Evaluable
+        evaluation_rate: Evaluation rate (%)
+        mode: Mode
+        title: Activity's name
+        type: Type
+      equipments:
+        bibliographic_resources: Bibliographic resources
+        description: Description
+        educational_resources: Educational resources
+        list: List of equipments
+        required_equipments: Required equipments
+      info:
+        agenda: Information at your disposal about the course's schedule, exams...
+        closing_remarks: Closing remarks
+        evaluation: Evaluation mode
+        organization: Course's organization
+      objectives:
+        achievements_list: List of achievements
+        achievements_description: By the end of this course, I must be able to...
+        critical_achievements_list: List of critical achievements
+        critical_achievements_description: This course validate the following critical achievements
+      prerequisites:
+        prerequisites_list: List of prerequisites
+        prerequisites_description: The necessary prerequisites for this course are...
+        tutoring_resources_list: List of tutoring resources
+        tutoring_resources_description: If I find difficulties, I can...
+      presentation:
+        nb_ects: (%ects% ECTS)
+        nb_ecue: UE include %ecue% ECUE
+        structure: Structure
+        title: ECUE owned by %title%
       tabs:
-        presentation: Presentation
+        activities: Sequences and activities
+        closing_remarks: Closing remarks
+        equipments: Equipments and resources
+        evaluation: Evaluation mode
+        info: Additionnal informations
+        objectives: Course's objectives
+        prerequisites: Prerequisites
+        presentation: Course's presentation
   const:
     cron:
       status:
