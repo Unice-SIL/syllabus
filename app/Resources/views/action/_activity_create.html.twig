@@ -1,3 +1,3 @@
 {% if is_granted('ROLE_ADMIN_ACTIVITY_CREATE') %}
-    <a class="btn btn-primary"  href="{{  path('app.admin.activity.new')  }}">Ajouter une activité</a>
+    <a class="btn btn-primary"  href="{{  path('app.admin.activity.new')  }}">{{ 'admin.button.add_activity' | trans }}</a>
 {% endif %}

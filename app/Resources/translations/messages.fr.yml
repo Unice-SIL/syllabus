@@ -585,6 +585,29 @@ admin:
     prime_request: Demande(s) de prime à traiter
     form:
       years: Choisir l'année
+  course:
+    empty_course: Aucun cours trouvé pour ces critères
+    course_exist: Il existe déja, pour ce cours, un syllabus de chaque année disponible
+    associated_syllabus: Syllabus associés
+    year: Année
+    title: Titre
+    type: Type
+    establishment_code: Code
+    structure: Structure
+    action: Action
+    course_parents: Cours parents
+    course_children: Cours enfants
+
   button:
     display: Afficher
     more_info: Plus d'infos
+    add_activity: Ajouter une activité
+    add_course: Ajouter un oours
+    add_syllabus: Ajouter un syllabus
+    link_course_parents: Attacher des cours parents
+    link_course_children: Attacher des cours enfants
+    unlink: Détacher
+    filter: Filtrer
+    reset_filters: Réinitialiser les filtres
+    save: Enregistrer
+    edit: Modifier

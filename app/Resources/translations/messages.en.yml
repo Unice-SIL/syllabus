@@ -583,6 +583,29 @@ admin:
     prime_request: Prime request(s)
     form:
       years: Choose the year
+  course:
+    empty_course: No course found for those criterias
+    course_exist: It already exist, for this course, a syllabus for every year available
+    associated_syllabus: Associated Syllabus
+    year: Year
+    title: Title
+    type: Type
+    establishment_code: Establishment ode
+    structure: Structure
+    action: Action
+    course_parents: Course's parents
+    course_children: Course's chldren
+
   button:
     display: Display
     more_info: More info
+    add_activity: Add an activity
+    add_course: Add a course
+    add_syllabus: Add a Syllabus
+    link_course_parents: Link courses as parent
+    link_course_children: Link courses as children
+    unlink: Unlink
+    filter: Filter
+    reset_filters: Reset filters
+    save: Save
+    edit: Edit

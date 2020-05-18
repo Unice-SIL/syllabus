@@ -2,7 +2,7 @@
 {% set h1 = 'Ajouter un syllabus au cours ' ~ course.title %}
 {% block subContent %}
     {% if form.year.vars.choices is empty %}
-        <div class="alert alert-info">Il existe déja, pour ce cours, un syllabus de chaque année disponible</div>
+        <div class="alert alert-info">{{ 'admin.course.course_exist' | trans }}</div>
     {% else %}
         <div class="card">
             <div class="card-body">
