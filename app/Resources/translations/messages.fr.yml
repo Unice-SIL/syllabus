@@ -600,12 +600,15 @@ admin:
     action: Action
     course_parents: Cours parents
     course_children: Cours enfants
+  critical_achievement:
+    list_critical_achievements: Liste des acquis critiques
 
   button:
     back: Revenir à la page précédente
     display: Afficher
     more_info: Plus d'infos
     add_activity: Ajouter une activité
+    add_critical_achievement: Ajouter un apprentissage critique
     add_course: Ajouter un oours
     add_syllabus: Ajouter un syllabus
     link_course_parents: Attacher des cours parents

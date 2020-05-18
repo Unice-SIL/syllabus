@@ -576,7 +576,7 @@ app:
 
 admin:
   dashboard:
-    syllabus_dashboard: Syllabus' dashboard
+    syllabus_dashboard: Syllabus dashboard
     published_syllabus: Published Syllabus
     syllabus_being_filled: Syllabus being filled
     years_overall: All years overall
@@ -598,12 +598,15 @@ admin:
     action: Action
     course_parents: Course's parents
     course_children: Course's chldren
+  critical_achievement:
+    list_critical_achievements: List of critical achievements
 
   button:
     back: Back to last page
     display: Display
     more_info: More info
     add_activity: Add an activity
+    add_critical_achievement: Add a critical achievement
     add_course: Add a course
     add_syllabus: Add a Syllabus
     link_course_parents: Link courses as parent
