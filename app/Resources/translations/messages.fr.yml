@@ -575,3 +575,16 @@ app:
       delete: Supprimer
       duplicate: Dupliquer
       save: Sauvegarder
+
+admin:
+  dashboard:
+    published_syllabus: Syllabus publié(s)
+    syllabus_being_filled: Syllabus en cours de remplissage
+    years_overall: Toutes année confondues
+    advice_request: Demande(s) d'avis à traiter
+    prime_request: Demande(s) de prime à traiter
+    form:
+      years: Choisir l'année
+  button:
+    display: Afficher
+    more_info: Plus d'infos

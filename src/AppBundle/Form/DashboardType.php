@@ -28,7 +28,7 @@ class DashboardType extends AbstractType
     {
         $builder
             ->add('years', ChoiceType::class, [
-                'label' => "Choisir l'année",
+                'label' => "admin.dashboard.form.years",
                 'choices' => $this->manager->findAll(),
                 'choice_label' => 'label',
                 'data' => $this->manager->findCurrentYear(),
