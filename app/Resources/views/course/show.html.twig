@@ -11,7 +11,7 @@
 {% block subContent %}
     <div class="card card-default">
         <div class="card-header">
-            <h3 class="card-title">Informations</h3>
+            <h3 class="card-title">{{ 'admin.course.informations' | trans }}</h3>
             <a href="{{ path('app.admin.course.edit', {'id': course.id}) }}" class="btn btn-primary float-right">{{ 'admin.button.edit' | trans }}</a>
         </div>
         <div class="card-body">
@@ -195,7 +195,7 @@
                         {{ 'admin.course.type' | trans }}
                     </th>
                     <th class="text-right">
-                        {{ 'admin.course.' | trans }}
+                        {{ 'admin.course.action' | trans }}
                     </th>
                 </tr>
                 </thead>

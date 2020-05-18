@@ -584,19 +584,21 @@ admin:
     form:
       years: Choose the year
   course:
+    informations: Informations
     empty_course: No course found for those criterias
     course_exist: It already exist, for this course, a syllabus for every year available
     associated_syllabus: Associated Syllabus
     year: Year
     title: Title
     type: Type
-    establishment_code: Establishment ode
+    code: Establishment code
     structure: Structure
     action: Action
     course_parents: Course's parents
     course_children: Course's chldren
 
   button:
+    back: Back to last page
     display: Display
     more_info: More info
     add_activity: Add an activity
