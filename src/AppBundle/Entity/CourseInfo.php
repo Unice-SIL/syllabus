@@ -616,7 +616,8 @@ class CourseInfo
      *
      * @ORM\OneToMany(targetEntity="CourseSection", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"position" = "ASC"})
-     * @Assert\NotBlank(groups={"contentActivities"})
+     * @Assert\Count(min="1", groups={"contentActivities"})
+     * @Assert\Valid
      * @JMS\Type("ArrayCollection<AppBundle\Entity\CourseSection>")
      * @JMS\Groups(groups={"course_info"})
      */

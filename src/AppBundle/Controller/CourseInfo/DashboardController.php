@@ -189,7 +189,7 @@ class DashboardController extends AbstractController
             if (is_null($courseInfo->getPublicationDate())) {
                 foreach ($violations as $key => $violation) {
                     if ($violation->count() > 0) {
-                        return $this->json(['error' => true, 'message' => "L'onglet \"" . $key . "\" ne rempli pas les condition de publication"]);
+                        return $this->json(['error' => true, 'message' => "Un onglet ne rempli pas les conditions de publication"]);
                     }
                 }
             } else {
