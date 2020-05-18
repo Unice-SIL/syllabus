@@ -588,6 +588,7 @@ admin:
       years: Choisir l'année
   course:
     list_courses: Liste des cours
+    edit_course: Modifier un cours
     informations: Informations
     empty_course: Aucun cours trouvé pour ces critères
     course_exist: Il existe déja, pour ce cours, un syllabus de chaque année disponible
@@ -602,6 +603,14 @@ admin:
     course_children: Cours enfants
   critical_achievement:
     list_critical_achievements: Liste des acquis critiques
+    edit_critical_achievement: Modifier un acquis critique
+    form:
+      course: Cours
+  activity:
+    list_activities: Liste des activités
+    form:
+      description: Description
+      activityTypes: Types d'activité
 
   button:
     back: Revenir à la page précédente

@@ -586,6 +586,7 @@ admin:
       years: Choose the year
   course:
     list_courses: List of courses
+    edit_course: Edit a course
     informations: Informations
     empty_course: No course found for those criterias
     course_exist: It already exist, for this course, a syllabus for every year available
@@ -600,6 +601,14 @@ admin:
     course_children: Course's chldren
   critical_achievement:
     list_critical_achievements: List of critical achievements
+    edit_critical_achievement: Edit a critical achievement
+    form:
+      course: Course
+  activity:
+    list_activities: List of activities
+    form:
+      description: Description
+      activityTypes: Activity types
 
   button:
     back: Back to last page
