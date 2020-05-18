@@ -11,25 +11,25 @@
 {% block subContent %}
     <div class="card card-default">
         <div class="card-header">
-            <h3 class="card-title">Informations</h3>
-            <a href="{{ path('app.admin.course.edit', {'id': course.id}) }}" class="btn btn-primary float-right">Modifier</a>
+            <h3 class="card-title">{{ 'admin.course.informations' | trans }}</h3>
+            <a href="{{ path('app.admin.course.edit', {'id': course.id}) }}" class="btn btn-primary float-right">{{ 'admin.button.edit' | trans }}</a>
         </div>
         <div class="card-body">
             <dl>
                 <dt>
-                    Type
+                    {{ 'app.form.course.label.type' | trans }}
                 </dt>
                 <dd>
                     {{ course.type }}
                 </dd>
                 <dt>
-                    Code
+                    {{ 'app.form.course.label.code' | trans }}
                 </dt>
                 <dd>
                     {{ course.code }}
                 </dd>
                 <dt>
-                    Synchronisé
+                    {{ 'app.form.course.label.synchronized' | trans }}
                 </dt>
                 <dd>
                     {{ course.synchronized|humanizeBoolean }}
@@ -41,9 +41,9 @@
     {% if is_granted('ROLE_ADMIN_COURSE_INFO_LIST') %}
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Syllabus associés</h3>
+                <h3 class="card-title">{{ 'admin.course.associated_syllabus' | trans }}</h3>
                 {% if is_granted('ROLE_ADMIN_COURSE_INFO_CREATE') %}
-                    <a href="{{ path('app.admin.course.new_course_info', {'id': course.id}) }}" class="btn btn-primary float-right">Ajouter un syllabus</a>
+                    <a href="{{ path('app.admin.course.new_course_info', {'id': course.id}) }}" class="btn btn-primary float-right">{{ 'admin.button.add_syllabus' | trans }}</a>
                 {% endif %}
             </div>
             <div class="card-body p-0">
@@ -51,16 +51,16 @@
                     <thead>
                     <tr>
                         <th>
-                            Année
+                            {{ 'admin.course.year' | trans }}
                         </th>
                         <th>
-                            Titre
+                            {{ 'admin.course.title' | trans }}
                         </th>
                         <th>
-                            Strucutre
+                            {{ 'admin.course.structure' | trans }}
                         </th>
                         <th>
-                            Action
+                            {{ 'admin.course.action' | trans }}
                         </th>
                     </tr>
                     </thead>
@@ -109,9 +109,9 @@
     <div class="card mt-4">
         <div class="card-header">
             <div class="pb-5">
-                <h3 class="card-title">Cours parents</h3>
+                <h3 class="card-title">{{ 'admin.course.course_parents' | trans }}</h3>
                 <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#modal-add-parent-course">
-                    Attahcer des cours parents
+                    {{ 'admin.button.link_course_parents' | trans }}
                 </button>
             </div>
 
@@ -134,9 +134,9 @@
     <div class="card mt-4">
         <div class="card-header">
             <div class="pb-5">
-                <h3 class="card-title">Cours enfants</h3>
+                <h3 class="card-title">{{ 'admin.course.course_children' | trans }}</h3>
                 <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#modal-add-children-course">
-                    Attahcer des cours enfants
+                    {{ 'admin.course.course_children' | trans }}
                 </button>
             </div>
             {{ _self.courseFilter(filterChildrenForm, course) }}
@@ -155,7 +155,7 @@
     {% macro courseFilter(form, course) %}
         <div class="border p-3">
             <a class="text-bold text-black-50 {{ not app.request.query.get(form.vars.name) ? 'collapsed' }}" data-toggle="collapse" href="#collapseFilter-{{ form.vars.name }}" role="button" aria-expanded="false" aria-controls="collapseFilter-{{ form.vars.name }}">
-                Filtres
+                {{ 'admin.button.filter' | trans }}
                 <i class="rotate-l90 fas fa-angle-down"></i>
             </a>
 
@@ -170,8 +170,8 @@
                     </div>
                     <div class="col-12">
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Filtrer</button>
-                            <a class="btn btn-danger" href="{{  path('app_admin.course_show', { 'id' : course.id })  }}">Réinitialiser les filtres</a>
+                            <button type="submit" class="btn btn-primary">{{ 'admin.button.filter' | trans }}</button>
+                            <a class="btn btn-danger" href="{{  path('app_admin.course_show', { 'id' : course.id })  }}">{{ 'admin.button.reset_filters' | trans }}</a>
                         </div>
                     </div>
                 </div>
@@ -186,16 +186,16 @@
                 <thead>
                 <tr>
                     <th>
-                        Titre
+                        {{ 'admin.course.title' | trans }}
                     </th>
                     <th>
-                        Code
+                        {{ 'admin.course.code' | trans }}
                     </th>
                     <th>
-                        Type
+                        {{ 'admin.course.type' | trans }}
                     </th>
                     <th class="text-right">
-                        Action
+                        {{ 'admin.course.action' | trans }}
                     </th>
                 </tr>
                 </thead>
@@ -218,7 +218,7 @@
                             {{ form_start(removeForm) }}
                             {{ form_widget(removeForm.id, {'attr' : {'value' : course.id}}) }}
                             <button type="button" class="btn btn-danger float-right warning-delete" data-toggle="modal" data-target="#warningDeleteModal">
-                                <i class="fas fa-trash"></i> Détacher
+                                <i class="fas fa-trash"></i> {{ 'admin.button.unlink' | trans }}
                             </button>
                             {{ form_end(removeForm) }}
                         </td>

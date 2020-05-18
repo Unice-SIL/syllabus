@@ -1,5 +1,5 @@
 {% extends 'admin_layout.html.twig' %}
-{% set h1 = 'Tableau de bord des syllabus' %}
+{% set h1 = 'admin.dashboard.syllabus_dashboard' | trans %}
 {% block subContent %}
     <div class="card">
         <div class="card-header">
@@ -10,7 +10,7 @@
                         {{ form_row(form.years) }}
                     </div>
                     <div class=" form-group col-2" style="display: flex; justify-content: flex-end">
-                        <button type="submit" class="btn btn-primary" style="align-self: flex-end">Afficher</button>
+                        <button type="submit" class="btn btn-primary" style="align-self: flex-end">{{ 'admin.button.display' | trans }}</button>
                     </div>
                     {{ form_end(form) }}
                 </div>
@@ -23,14 +23,14 @@
                     <div class="small-box bg-info">
                         <div class="inner">
                             <h3>{{ syllabusPublished }}</h3>
-                            <p>Syllabus publié(s)</p>
+                            <p>{{ 'admin.dashboard.published_syllabus' | trans }}</p>
                         </div>
                         <div class="icon">
                             <i class="fas fa-check"></i>
                         </div>
                         <a href="{{ path('app.admin.course_info.published', {'year': form.years.vars.data.id }) }}"
                            class="small-box-footer">
-                            Plus d'infos
+                            {{ 'admin.button.more_info' | trans }}
                             <i class="fas fa-arrow-circle-right"></i>
                         </a>
                     </div>
@@ -42,27 +42,25 @@
                     <div class="small-box bg-success">
                         <div class="inner">
                             <h3>{{ syllabusBeingFilled }}</h3>
-                            <p>Syllabus en cours de remplissage</p>
+                            <p>{{ 'admin.dashboard.syllabus_being_filled' | trans }}</p>
                         </div>
                         <div class="icon">
                             <i class="fas fa-pen"></i>
                         </div>
                         <a href="{{ path('app.admin.course_info.being_filled', {'year': form.years.vars.data.id }) }}"
                            class="small-box-footer">
-                            Plus d'infos
+                            {{ 'admin.button.more_info' | trans }}
                             <i class="fas fa-arrow-circle-right"></i>
                         </a>
                     </div>
                 </div>
-
-
             </div>
         </div>
     </div>
 
     <div class="card">
         <div class="card-header">
-            <span><b>Toutes années confondues</b></span>
+            <span><b>{{ 'admin.dashboard.years_overall' | trans }}</b></span>
         </div>
         <div class="card-body">
             <div class="row">
@@ -71,13 +69,13 @@
                     <div class="small-box bg-warning">
                         <div class="inner">
                             <h3>{{ askAdviceCount }}</h3>
-                            <p>Demande(s) d'avis a traiter</p>
+                            <p>{{ 'admin.dashboard.advice_request' | trans }}</p>
                         </div>
                         <div class="icon">
                             <i class="fas fa-comment-dots"></i>
                         </div>
                         <a href="{{ path('app_admin.ask_advice_index') }}" class="small-box-footer">
-                            Plus d'infos
+                            {{ 'admin.button.more_info' | trans }}
                             <i class="fas fa-arrow-circle-right"></i>
                         </a>
                     </div>
@@ -89,13 +87,13 @@
                     <div class="small-box bg-danger">
                         <div class="inner">
                             <h3>0</h3>
-                            <p>Demandes de primes a traiter</p>
+                            <p>{{ 'admin.dashboard.prime_request' | trans }}</p>
                         </div>
                         <div class="icon">
                             <i class="fas fa-euro-sign"></i>
                         </div>
                         <a class="small-box-footer">
-                            Plus d'infos
+                            {{ 'admin.button.more_info' | trans }}
                             <i class="fas fa-arrow-circle-right"></i>
                         </a>
                     </div>

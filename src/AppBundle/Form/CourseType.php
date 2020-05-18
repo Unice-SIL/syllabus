@@ -26,7 +26,7 @@ class CourseType extends AbstractType
                 'label' => 'app.form.course.label.code'
             ])
             ->add('synchronized', CustomCheckboxType::class, [
-                'label' => 'Synchronisé'
+                'label' => 'app.form.course.label.synchronized'
             ])
             ;
     }/**

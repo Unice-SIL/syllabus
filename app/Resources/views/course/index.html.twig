@@ -1,5 +1,5 @@
 {% extends 'admin_layout.html.twig' %}
-{% set h1 = 'Liste des cours' %}
+{% set h1 = 'admin.course.list_courses' | trans %}
 {% block subContent %}
 
     <div class="card">
@@ -21,8 +21,8 @@
                     </div>
                     <div class="col-12">
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Filtrer</button>
-                            <a class="btn btn-danger" href="{{  path('app.admin.course.index')  }}">Réinitialiser les filtres</a>
+                            <button type="submit" class="btn btn-primary">{{ 'admin.button.filter' | trans }}</button>
+                            <a class="btn btn-danger" href="{{  path('app.admin.course.index')  }}">{{ 'admin.button.reset_filters' | trans }}</a>
                         </div>
                     </div>
                 </div>
@@ -71,7 +71,7 @@
                     </tbody>
                 </table>
             {% else %}
-                <div class="alert alert-info">Aucun cours trouvé pour ces critères</div>
+                <div class="alert alert-info">{{ 'admin.course.empty_course' | trans }}</div>
             {% endif %}
         </div>
         <!-- /.card-body -->

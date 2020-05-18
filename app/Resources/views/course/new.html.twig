@@ -1,5 +1,5 @@
 {% extends 'admin_layout.html.twig' %}
-{% set h1 = 'Ajouter un cours' %}
+{% set h1 = 'admin.button.add_course' | trans %}
 {% set href = path('app.admin.course.index') %}
 
 {% block subContent %}
@@ -13,7 +13,7 @@
                 {{ form_widget(form.synchronized) }}
                 {{ form_label(form.synchronized) }}
             </div>
-            <button class="btn btn-primary">Enregistrer</button>
+            <button class="btn btn-primary">{{ 'admin.button.save' | trans }}</button>
             {{ form_end(form) }}
         </div>
     </div>
