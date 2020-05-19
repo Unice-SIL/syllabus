@@ -31,7 +31,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class DashboardController extends AbstractController
 {
-
+    /**
+     * @var ValidatorInterface
+     */
     private $validator;
 
     /**
@@ -42,7 +44,6 @@ class DashboardController extends AbstractController
     {
         $this->validator = $validator;
     }
-
 
     /**
      * @Route("/", name="index")
@@ -56,7 +57,6 @@ class DashboardController extends AbstractController
      */
     public function indexAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $courseInfoManager, EntityManagerInterface $em)
     {
-
         $duplicationForm = $this->createForm(DuplicateCourseInfoType::class);
         $duplicationForm->handleRequest($request);
 
@@ -69,7 +69,6 @@ class DashboardController extends AbstractController
 
                 /** @var  CourseInfo $to */
                 $to = $data['to']->getCodeYear(true);
-
 
                 /** @var Report $report */
                 $report = $courseInfoManager->duplicate($from, $to, CourseInfoManager::DUPLICATION_CONTEXTE_MANUALLY);
@@ -94,9 +93,7 @@ class DashboardController extends AbstractController
 
                 return $this->redirectToRoute('app.course_info.dashboard.index', ['id' => $courseInfo->getId()]);
             }
-
             $isFormValid = false;
-
         }
 
         return $this->render('course_info/dashboard/dashboard.html.twig', [
@@ -178,7 +175,6 @@ class DashboardController extends AbstractController
      */
     public function publishCourseInfo(CourseInfo $courseInfo, Request $request, EntityManagerInterface $em)
     {
-
         $publishForm = $this->createForm(PublishCourseInfoType::class, $courseInfo);
         $publishForm->handleRequest($request);
 
@@ -201,7 +197,6 @@ class DashboardController extends AbstractController
 
             return $this->json(['error' => false]);
         }
-
         return $this->json(['error' => true]);
     }
 
