@@ -1,5 +1,5 @@
 {% extends 'admin_layout.html.twig' %}
-{% set h1 = 'Modifier un domaine' %}
+{% set h1 = 'admin.domain.edit_domain' | trans %}
 {% set href = path('app.admin.domain.index') %}
 
 {% block subContent %}
@@ -20,7 +20,7 @@
         <!-- /.card-body -->
 
         <div class="card-footer">
-            <button type="submit" class="btn btn-primary">Enregistrer</button>
+            <button type="submit" class="btn btn-primary">{{ 'admin.button.edit' | trans }}</button>
         </div>
         {{ form_end(form) }}
     </div>

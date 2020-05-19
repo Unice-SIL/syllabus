@@ -630,6 +630,10 @@ admin:
     list_campuses: Liste des campus
     edit_campus: Modifier un campus
     synchronized: Synchronizé
+  domain:
+    list_domains: Liste des domaines
+    edit_domain: Modifier un domaine
+    structure: Structure
 
   form:
     obsolete: Obsolète
@@ -644,6 +648,7 @@ admin:
     add_campus: Ajouter un campus
     add_course: Ajouter un oours
     add_critical_achievement: Ajouter un apprentissage critique
+    add_domain: Ajouter un domain
     add_syllabus: Ajouter un syllabus
     add_year: Ajouter une année
     link_course_parents: Attacher des cours parents
