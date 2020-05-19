@@ -626,9 +626,14 @@ admin:
     editable: Modifiable
     current_year: Année courante
     edit_year: Modifier une année
+  campus:
+    list_campuses: Liste des campus
+    edit_campus: Modifier un campus
+    synchronized: Synchronizé
 
   form:
     obsolete: Obsolète
+    label: Intitulé
   button:
     back: Revenir à la page précédente
     display: Afficher
@@ -636,8 +641,9 @@ admin:
     add_activity: Ajouter une activité
     add_activity_type: Ajouter un type d'activité
     add_activity_mode: Ajouter un mode d'activité
-    add_critical_achievement: Ajouter un apprentissage critique
+    add_campus: Ajouter un campus
     add_course: Ajouter un oours
+    add_critical_achievement: Ajouter un apprentissage critique
     add_syllabus: Ajouter un syllabus
     add_year: Ajouter une année
     link_course_parents: Attacher des cours parents

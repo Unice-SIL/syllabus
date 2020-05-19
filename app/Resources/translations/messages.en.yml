@@ -564,6 +564,7 @@ app:
       label:
         obsolete: Obsolete
         label: Title
+        locale: Locale
 
   general:
     button:
@@ -623,8 +624,14 @@ admin:
     editable: Editable
     current_year: Current year
     edit_year: Edit an year
+  campus:
+    list_campuses: List of campuses
+    edit_campus: Edit a campus
+    synchronized: Synchronized
+
   form:
     obsolete: Obsolete
+    label: Title
   button:
     back: Back to last page
     display: Display
@@ -632,8 +639,9 @@ admin:
     add_activity: Add an activity
     add_activity_type: Add an activity type
     add_activity_mode: Add an activity mode
-    add_critical_achievement: Add a critical achievement
+    add_campus: Add a campus
     add_course: Add a course
+    add_critical_achievement: Add a critical achievement
     add_syllabus: Add a Syllabus
     add_year: Add an year
     link_course_parents: Link courses as parent

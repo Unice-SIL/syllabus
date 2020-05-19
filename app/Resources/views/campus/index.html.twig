@@ -1,11 +1,9 @@
 {% extends 'admin_layout.html.twig' %}
-{% set h1 = 'Liste des campus' %}
+{% set h1 = 'admin.campus.list_campuses' | trans %}
 {% block subContent %}
 
     <div class="card">
-
         <div class="card-body">
-
             <div class="d-flex justify-content-end pb-3">
                 {% include 'action/_campus_create.html.twig' %}
             </div>
@@ -18,8 +16,8 @@
                     </div>
                     <div class="col-12">
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Filtrer</button>
-                            <a class="btn btn-danger" href="{{  path('app.admin.campus.index')  }}">Réinitialiser les filtres</a>
+                            <button type="submit" class="btn btn-primary">{{ 'admin.button.filter' | trans }}</button>
+                            <a class="btn btn-danger" href="{{  path('app.admin.campus.index')  }}">{{ 'admin.button.reset_filters' | trans }}</a>
                         </div>
                     </div>
                 </div>
