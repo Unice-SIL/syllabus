@@ -32,6 +32,7 @@
                     <thead>
                     <tr>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.level.label.label'|trans, 'a.label') }}</th>
+                        <th>Structure</th>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.level.label.obsolete'|trans, 'a.obsolete') }}</th>
                     </tr>
                     </thead>
@@ -44,6 +45,11 @@
                                 {% else %}
                                     {{ level.label }}
                                 {% endif %}
+                            </td>
+                            <td>
+                                {% for structure in level.structures %}
+                                    {{ not loop.first ? ', ' }}{{ structure }}
+                                {% endfor %}
                             </td>
                             <td>
                                 {{ level.obsolete|humanizeBoolean }}

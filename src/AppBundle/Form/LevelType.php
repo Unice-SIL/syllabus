@@ -4,22 +4,24 @@
 namespace AppBundle\Form;
 
 
+use AppBundle\Entity\Structure;
 use AppBundle\Form\Subscriber\LevelTypeSubscriber;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class LevelType extends AbstractType
 {
-    private $languageTypeSubscriber;
+    private $levelTypeSubscriber;
 
     /**
      * PeriodType constructor.
-     * @param LevelTypeSubscriber $languageTypeSubscriber
+     * @param LevelTypeSubscriber $levelTypeSubscriber
      */
-    public function __construct(LevelTypeSubscriber $languageTypeSubscriber)
+    public function __construct(LevelTypeSubscriber $levelTypeSubscriber)
     {
-        $this->languageTypeSubscriber = $languageTypeSubscriber;
+        $this->levelTypeSubscriber = $levelTypeSubscriber;
     }
 
     /**
@@ -29,7 +31,14 @@ class LevelType extends AbstractType
     {
         $builder
             ->add('label')
-            ->addEventSubscriber($this->languageTypeSubscriber)
+            ->add('structures', EntityType::class, [
+                'label' => "Structure",
+                'class' => Structure::class,
+                'multiple' => true,
+                'by_reference' => false,
+                'required' => false
+            ])
+            ->addEventSubscriber($this->levelTypeSubscriber)
         ;
     }
     /**

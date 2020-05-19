@@ -91,11 +91,20 @@ class AutoCompleteController extends AbstractController
         $data = [];
         $query = $request->query->get('q');
         $entities = [];
-        if ($entityName == "Domain") {
-            $entities = $structure->getDomains();
-        } elseif ($entityName == "Period") {
-            $entities = $structure->getPeriods();
+
+        switch ($entityName)
+        {
+            case "Domain" :
+                $entities = $structure->getDomains();
+                break;
+            case "Period" :
+                $entities = $structure->getPeriods();
+                break;
+            case "Level" :
+                $entities = $structure->getLevels();
+                break;
         }
+
         $input = preg_quote($query, '~');
         $result = preg_grep('~^' . $input . '~', $entities->toArray());
         if (!empty($result)) {
