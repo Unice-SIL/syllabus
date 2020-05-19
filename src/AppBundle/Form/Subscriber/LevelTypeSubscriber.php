@@ -36,7 +36,7 @@ class LevelTypeSubscriber implements EventSubscriberInterface
                 ],
                 'attr' => [
                     'class' => 'custom-control-input'
-                ]
+                ],
                 'label' => 'admin.form.obsolete',
             ])
             ;

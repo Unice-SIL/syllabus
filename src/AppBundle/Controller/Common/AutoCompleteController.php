@@ -89,7 +89,6 @@ class AutoCompleteController extends AbstractController
      */
     public function autocompleteS2Structure(Structure $structure, string $entityName, Request $request)
     {
-
         $namespace = 'AppBundle\\Entity\\';
         $entityName = "{$namespace}{$entityName}";
         $query = $request->query->get('q', '');

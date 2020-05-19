@@ -53,6 +53,12 @@ class PeriodDoctrineRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * @param string $query
+     * @param Structure $structure
+     * @param string $field
+     * @return array
+     */
     public function findLikeWithStructureQuery(string $query, Structure $structure, $field = 'label'): array
     {
         $qb = $this->getIndexQueryBuilder();
