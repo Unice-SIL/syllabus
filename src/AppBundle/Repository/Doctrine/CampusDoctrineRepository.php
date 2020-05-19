@@ -34,13 +34,18 @@ class CampusDoctrineRepository extends ServiceEntityRepository
 
     /**
      * @param string $query
+     * @param string $field
      * @return array
      */
-    public function findLikeQuery(string $query): array
+    public function findLikeQuery(string $query, string $field = 'label'): array
     {
-        return $this->getIndexQueryBuilder()
-            ->andWhere('c.label LIKE :query ')
-            ->setParameter('query', '%' . $query . '%')
+        $qb = $this->getIndexQueryBuilder();
+        if (in_array($field, ['label'])) {
+            $qb->andWhere('c.label LIKE :query ')
+                ->setParameter('query', '%' . $query . '%');
+        }
+
+        return $qb
             ->getQuery()
             ->getResult();
     }

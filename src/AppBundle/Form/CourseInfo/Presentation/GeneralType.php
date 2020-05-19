@@ -54,7 +54,7 @@ class GeneralType extends AbstractType
             ->add('domains', Select2EntityType::class, [
                 'label' => 'app.presentation.form.general.domains',
                 'multiple' => true,
-                'remote_route' => 'app.common.autocomplete.generic_s2_structure',
+                'remote_route' => 'app.common.autocomplete.domain_s2_structure',
                 'class' => Domain::class,
                 'text_property' => 'label',
                 'language' => 'fr',

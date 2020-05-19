@@ -5,6 +5,7 @@ namespace AppBundle\Repository\Doctrine;
 
 
 use AppBundle\Entity\Period;
+use AppBundle\Entity\Structure;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
@@ -39,11 +40,28 @@ class PeriodDoctrineRepository extends ServiceEntityRepository
      * @param string $query
      * @return array
      */
-    public function findLikeQuery(string $query): array
+    public function findLikeQuery(string $query, string $field): array
     {
-        return $this->getIndexQueryBuilder()
-            ->andWhere('p.label LIKE :query ')
-            ->setParameter('query', '%' . $query . '%')
+        $qb = $this->getIndexQueryBuilder();
+        if (in_array($field, ['label'])) {
+            $qb->andWhere('p.label LIKE :query ')
+                ->setParameter('query', '%' . $query . '%');
+        }
+
+        return $qb
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findLikeWithStructureQuery(string $query, Structure $structure, $field = 'label'): array
+    {
+        $qb = $this->getIndexQueryBuilder();
+        if (in_array($field, ['label'])) {
+            $qb->andWhere('p.label LIKE :query ')
+                ->setParameter('query', '%' . $query . '%');
+        }
+        return $qb->andWhere(':structure MEMBER OF p.structures')
+            ->setParameter('structure', $structure)
             ->getQuery()
             ->getResult();
     }
