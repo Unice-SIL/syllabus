@@ -27,7 +27,7 @@ class ActivityType extends AbstractType
             ->add('label')
             ->add('description')
             ->add('activityTypes', EntityType::class, [
-                'label' => "Types d'activité",
+                'label' => 'admin.activity.form.activityTypes',
                 'class' => \AppBundle\Entity\ActivityType::class,
                 'multiple' => true,
                 'by_reference' => false

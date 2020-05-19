@@ -37,7 +37,7 @@ class PeriodTypeSubscriber implements EventSubscriberInterface
         //Edit mode
         if ($period and $period->getId()) {
             $form->add('obsolete', CheckboxType::class, [
-                'label' => 'Obsolète',
+                'label' => 'admin.form.obsolete',
                 'required' => false,
                 'label_attr' => [
                     'class' => 'custom-control-label'

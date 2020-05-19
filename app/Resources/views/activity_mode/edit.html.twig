@@ -1,5 +1,5 @@
 {% extends 'admin_layout.html.twig' %}
-{% set h1 = 'Modifier un mode d\'activité' %}
+{% set h1 = 'admin.activity_mode.edit_activity_mode' | trans %}
 {% set href = path('app.admin.activity_mode.index') %}
 
 {% block subContent %}
@@ -18,7 +18,7 @@
         <!-- /.card-body -->
 
         <div class="card-footer">
-            <button type="submit" class="btn btn-primary">Enregistrer</button>
+            <button type="submit" class="btn btn-primary">{{ 'admin.button.edit' | trans }}</button>
         </div>
         {{ form_end(form) }}
     </div>

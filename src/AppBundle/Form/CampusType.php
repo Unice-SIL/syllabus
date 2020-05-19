@@ -32,7 +32,7 @@ class CampusType extends AbstractType
         $builder
             ->add('label')
             ->add('synchronized', CustomCheckboxType::class, [
-                'label' => 'Synchronisé'
+                'label' => 'admin.campus.synchronized'
             ])
             ->addEventSubscriber($this->campusTypeSubscriber)
         ;

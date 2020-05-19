@@ -98,16 +98,15 @@ class GeneralType extends AbstractType
             ->add('levels', Select2EntityType::class, [
                 'label' => 'app.presentation.form.general.levels',
                 'class' => Level::class,
-                'remote_route' => 'app.common.autocomplete.generic_s2',
+                'remote_route' => 'app.common.autocomplete.generic_s2_structure',
                 'required' => false,
                 'multiple' => true,
                 'text_property' => 'label',
                 'language' => 'fr',
                 'minimum_input_length' => 0,
                 'remote_params' => [
-                    'entityName' => 'Level',
-                    'findBy' => 'label',
-                    'property' => 'label'
+                    'structure' => $builder->getData()->getStructure()->getId(),
+                    'entityName' => 'Level'
                 ],
             ])
             ->add('summary', CKEditorType::class, [

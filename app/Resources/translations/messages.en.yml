@@ -290,19 +290,19 @@ app:
   closing_remarks:
     view:
       closing_remarks: Closing remarks
-      edit: Edit
       remarks_message: Message for your students
       closing_video: Integrate a video (or audio)
-      closing_video_info:
-        part1: "In order to be able to integrate a video into your course, please make sure it is hosted on a server external to Moodle (e.g. UNSPOD, Youtube, ...). If that is not the cas, you can ask for help to upload on one of those plateforms."
-        part2: Once it is stored there, you can click on "Share / Integrate" to retrieve the integration link looking like :
-        part3: "&#60 iframe ... &#62 &#60 /iframe &#62"
-        part4: Copy this code and insert it in the "Video" field below. The video will be visible to your students directly on your syllabus.
+      edit: Edit
     form:
       save: Save
       cancel: Cancel
       closing_remarks: "You can leave a message for your students (ex: cheers, last advices...)"
       closing_video: Integrate a video (or audio) respecting copyright law
+      closing_video_info:
+        part1: "In order to be able to integrate a video into your course, please make sure it is hosted on a server external to Moodle (e.g. UNSPOD, Youtube, ...). If that is not the cas, you can ask for help to upload on one of those plateforms."
+        part2: Once it is stored there, you can click on "Share / Integrate" to retrieve the integration link looking like :
+        part3: "&#60 iframe ... &#62 &#60 /iframe &#62"
+        part4: Copy this code and insert it in the "Video" field below. The video will be visible to your students directly on your syllabus.
   presentation:
     view:
       general:
@@ -564,6 +564,7 @@ app:
       label:
         obsolete: Obsolete
         label: Title
+        locale: Locale
 
   general:
     button:
@@ -586,6 +587,7 @@ admin:
       years: Choose the year
   course:
     list_courses: List of courses
+    edit_course: Edit a course
     informations: Informations
     empty_course: No course found for those criterias
     course_exist: It already exist, for this course, a syllabus for every year available
@@ -600,15 +602,53 @@ admin:
     course_children: Course's chldren
   critical_achievement:
     list_critical_achievements: List of critical achievements
+    edit_critical_achievement: Edit a critical achievement
+    form:
+      course: Course
+  activity:
+    list_activities: List of activities
+    form:
+      description: Description
+      activityTypes: Activity types
+  activity_type:
+    list_activities_types: List of activities types
+    modes: Modes
+    edit_activity_type: Edit an activity type
+  activity_mode:
+    list_activities_modes: List of activities modes
+    edit_activity_mode: Edit an activity mode
+  year:
+    list_years: List of years
+    year: Year
+    import: Import
+    editable: Editable
+    current_year: Current year
+    edit_year: Edit an year
+  campus:
+    list_campuses: List of campuses
+    edit_campus: Edit a campus
+    synchronized: Synchronized
+  domain:
+    list_domains: List of domains
+    edit_domain: Edit a domain
+    structure: Structure
 
+  form:
+    obsolete: Obsolete
+    label: Title
   button:
     back: Back to last page
     display: Display
     more_info: More info
     add_activity: Add an activity
-    add_critical_achievement: Add a critical achievement
+    add_activity_type: Add an activity type
+    add_activity_mode: Add an activity mode
+    add_campus: Add a campus
     add_course: Add a course
+    add_critical_achievement: Add a critical achievement
+    add_domain: Add a domain
     add_syllabus: Add a Syllabus
+    add_year: Add an year
     link_course_parents: Link courses as parent
     link_course_children: Link courses as children
     unlink: Unlink

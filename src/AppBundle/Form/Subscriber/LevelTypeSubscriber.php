@@ -30,7 +30,14 @@ class LevelTypeSubscriber implements EventSubscriberInterface
         //Edit mode
         if ($level and $level->getId()) {
             $form->add('obsolete', CustomCheckboxType::class, [
-                'label' => 'Obsolète',
+                'required' => false,
+                'label_attr' => [
+                    'class' => 'custom-control-label'
+                ],
+                'attr' => [
+                    'class' => 'custom-control-input'
+                ]
+                'label' => 'admin.form.obsolete',
             ])
             ;
         }

@@ -292,6 +292,7 @@ app:
       closing_remarks: Le mot de la fin
       remarks_message: Message à vos étudiants
       closing_video: Intégrer une ressource vidéo (ou audio)
+      edit: Mettre à jour
     form:
       save: Sauvegarder
       cancel: Annuler
@@ -588,6 +589,7 @@ admin:
       years: Choisir l'année
   course:
     list_courses: Liste des cours
+    edit_course: Modifier un cours
     informations: Informations
     empty_course: Aucun cours trouvé pour ces critères
     course_exist: Il existe déja, pour ce cours, un syllabus de chaque année disponible
@@ -602,15 +604,53 @@ admin:
     course_children: Cours enfants
   critical_achievement:
     list_critical_achievements: Liste des acquis critiques
+    edit_critical_achievement: Modifier un acquis critique
+    form:
+      course: Cours
+  activity:
+    list_activities: Liste des activités
+    form:
+      description: Description
+      activityTypes: Types d'activité
+  activity_type:
+    list_activities_types: Liste des types d'activités
+    modes: Modes
+    edit_activity_type: Modifier un type d'activité
+  activity_mode:
+    list_activities_modes: Liste des modes d'activités
+    edit_activity_mode: Modifier un mode d'activité
+  year:
+    list_years: Liste des années
+    year: Année
+    import: Import
+    editable: Modifiable
+    current_year: Année courante
+    edit_year: Modifier une année
+  campus:
+    list_campuses: Liste des campus
+    edit_campus: Modifier un campus
+    synchronized: Synchronizé
+  domain:
+    list_domains: Liste des domaines
+    edit_domain: Modifier un domaine
+    structure: Structure
 
+  form:
+    obsolete: Obsolète
+    label: Intitulé
   button:
     back: Revenir à la page précédente
     display: Afficher
     more_info: Plus d'infos
     add_activity: Ajouter une activité
-    add_critical_achievement: Ajouter un apprentissage critique
+    add_activity_type: Ajouter un type d'activité
+    add_activity_mode: Ajouter un mode d'activité
+    add_campus: Ajouter un campus
     add_course: Ajouter un oours
+    add_critical_achievement: Ajouter un apprentissage critique
+    add_domain: Ajouter un domain
     add_syllabus: Ajouter un syllabus
+    add_year: Ajouter une année
     link_course_parents: Attacher des cours parents
     link_course_children: Attacher des cours enfants
     unlink: Détacher

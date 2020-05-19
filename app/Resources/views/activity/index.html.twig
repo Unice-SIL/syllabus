@@ -1,5 +1,5 @@
 {% extends 'admin_layout.html.twig' %}
-{% set h1 = 'Liste des activités' %}
+{% set h1 = 'admin.activity.list_activities' | trans %}
 {% block subContent %}
 
     <div class="card">
@@ -9,26 +9,21 @@
             </div>
 
             <div class="border p-3 mb-3">
-                <a class="" data-toggle="collapse" href="#collapseFilter" role="button" aria-expanded="false" aria-controls="collapseFilter">
-                    Filtres
-                </a>
-                <div class="collapse" id="collapseFilter">
-                    {{ form_start(form) }}
-                    <div class="row">
-                        <div class="col-lg-6 col-md-12">
-                            {{ form_row(form.label) }}
+                {{ form_start(form) }}
+                <div class="row">
+                    <div class="col-lg-6 col-md-12">
+                        {{ form_row(form.label) }}
+                    </div>
+                    <div class="col-lg-6 col-md-12">
+                        <div class="form-group">
+                            {{ form_label(form.activityTypes.label, 'app.form.activity.label.activityTypes'|trans) }}
+                            {{ form_widget(form.activityTypes.label) }}
                         </div>
-                        <div class="col-lg-6 col-md-12">
-                            <div class="form-group">
-                                {{ form_label(form.activityTypes.label, 'app.form.activity.label.activityTypes'|trans) }}
-                                {{ form_widget(form.activityTypes.label) }}
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-primary">Filtrer</button>
-                                <a class="btn btn-danger" href="{{  path('app.admin.activity.index')  }}">Réinitialiser les filtres</a>
-                            </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">{{ 'admin.button.filter' | trans }}</button>
+                            <a class="btn btn-danger" href="{{  path('app.admin.activity.index')  }}">{{ 'admin.button.reset_filters' | trans }}</a>
                         </div>
                     </div>
                 </div>

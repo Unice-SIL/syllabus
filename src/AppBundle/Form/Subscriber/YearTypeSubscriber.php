@@ -26,7 +26,7 @@ class YearTypeSubscriber implements EventSubscriberInterface
 
         if (!$year || null === $year->getId()) {
             $form->add('id', TextType::class, [
-                'label' => 'Année',
+                'label' => 'admin.year.year',
                 'attr' => [
                     'placeholder' => 'AAAA'
                 ]
@@ -37,7 +37,7 @@ class YearTypeSubscriber implements EventSubscriberInterface
 
         $form
             ->add('current', CheckboxType::class, [
-            'label' => 'Année courante',
+            'label' => 'admin.year.current_year',
             'required' => false,
             'label_attr' => [
                 'class' => 'custom-control-label'
@@ -47,7 +47,7 @@ class YearTypeSubscriber implements EventSubscriberInterface
                 ]
             ])
             ->add('import', CheckboxType::class, [
-                'label' => 'Import',
+                'label' => 'admin.year.import',
                 'required' => false,
                 'label_attr' => [
                     'class' => 'custom-control-label'
@@ -57,7 +57,7 @@ class YearTypeSubscriber implements EventSubscriberInterface
                 ]
             ])
             ->add('edit', CheckboxType::class, [
-                'label' => 'Editable',
+                'label' => 'admin.year.editable',
                 'required' => false,
                 'label_attr' => [
                     'class' => 'custom-control-label'

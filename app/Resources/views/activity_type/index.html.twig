@@ -1,7 +1,6 @@
 {% extends 'admin_layout.html.twig' %}
-{% set h1 = 'Liste des types d\'activités' %}
+{% set h1 = 'admin.activity_type.list_activities_types' | trans %}
 {% block subContent %}
-
     <div class="card">
         <div class="card-body">
 
@@ -17,14 +16,14 @@
                     </div>
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">
-                            {{ form_label(form.activityModes.label, 'Modes') }}
+                            {{ form_label(form.activityModes.label, 'admin.activity_type.modes') }}
                             {{ form_widget(form.activityModes.label) }}
                         </div>
                     </div>
                     <div class="col-12">
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Filtrer</button>
-                            <a class="btn btn-danger" href="{{  path('app.admin.activity_type.index')  }}">Réinitialiser les filtres</a>
+                            <button type="submit" class="btn btn-primary">{{ 'admin.button.filter' | trans }}</button>
+                            <a class="btn btn-danger" href="{{  path('app.admin.activity_type.index')  }}">{{ 'admin.button.reset_filters' | trans }}</a>
                         </div>
                     </div>
                 </div>
