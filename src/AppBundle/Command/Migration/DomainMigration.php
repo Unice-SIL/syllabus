@@ -7,7 +7,6 @@ namespace AppBundle\Command\Migration;
 use AppBundle\Entity\Domain;
 use AppBundle\Entity\Structure;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Class DomainMigration
@@ -17,27 +16,6 @@ class DomainMigration extends AbstractReferentialMigration
 {
 
     protected static $defaultName = 'app:domain-migration';
-
-    /**
-     * @var array
-     */
-    private $structures;
-
-    /**
-     * DomainMigration constructor.
-     * @param EntityManagerInterface $em
-     */
-    public function __construct(EntityManagerInterface $em)
-    {
-        parent::__construct($em);
-
-        $this->structures = [];
-        /** @var Structure $structure */
-        foreach($this->em->getRepository(Structure::class)->findAll() as $structure)
-        {
-            $this->structures[$structure->getCode()] = $structure;
-        }
-    }
 
     /**
      * @return string
@@ -68,285 +46,618 @@ class DomainMigration extends AbstractReferentialMigration
      */
     protected function getEntities(): array
     {
+        $structures = $this->em->getRepository(Structure::class)->findAll();
+
+        $structuresEpu = new ArrayCollection(array_filter($structures, function(Structure $structure){
+            return ($structure->getCode() === 'EPU' || $structure->getCode() === 'EP') ? true : false;
+        }));
+        $allStructuresWithoutEpu = new ArrayCollection(array_diff($structures, $structuresEpu->toArray()));
+
+        $groups = [
+            'Droit' => 'Droit privé et sciences criminelles',
+            'Lettres' => 'Lettres et sciences humaines',
+            'Medecine' => 'Médecine',
+            'Odontologie' => 'Odontologie',
+            'Pluridisciplinaire' => 'Pluridisciplinaire',
+            'Polytech' => 'Polytech',
+            'Sciences' => 'Sciences'
+        ];
         $domains = [];
 
-        // Anthropologie
+        // 01
         $domain = new Domain();
-        $domain->setCode('001')
-            ->setLabel('Anthropologie');
-        $this->addStructures($domain, ['LAS', 'LA']);
+        $domain->setCode('01')
+            ->setLabel('Droit privé et sciences criminelles')
+            ->setGrp($groups['Droit'])
+            ->setStructures($allStructuresWithoutEpu);
         $domains[] = $domain;
 
-        // Arts
+        // 02
         $domain = new Domain();
-        $domain->setCode('002')
-            ->setLabel('Arts');
-        $this->addStructures($domain, ['LAS', 'LA', 'ESP', 'UFM']);
+        $domain->setCode('02')
+            ->setLabel('Droit public')
+            ->setGrp($groups['Droit'])
+            ->setStructures($allStructuresWithoutEpu);
         $domains[] = $domain;
 
-        // Arts du spectacle
+        // 03
         $domain = new Domain();
-        $domain->setCode('003')
-            ->setLabel('Arts du spectacle');
-        $this->addStructures($domain, ['LAS', 'LA']);
+        $domain->setCode('03')
+            ->setLabel('Histoire du droit et des institutions')
+            ->setGrp($groups['Droit'])
+            ->setStructures($allStructuresWithoutEpu);
         $domains[] = $domain;
 
-        // Biologie
+        // 04
         $domain = new Domain();
-        $domain->setCode('004')
-            ->setLabel('Biologie');
-        $this->addStructures($domain, ['ESP', 'UFM', 'PAS', 'ST', 'SCI', 'SC']);
+        $domain->setCode('04')
+            ->setLabel('Science politique')
+            ->setGrp($groups['Droit'])
+            ->setStructures($allStructuresWithoutEpu);
         $domains[] = $domain;
 
-        // Chimie
+        // 05
         $domain = new Domain();
-        $domain->setCode('005')
-            ->setLabel('Chimie ');
-        $this->addStructures($domain, ['ESP', 'UFM', 'PAS', 'ST', 'SCI', 'SC']);
+        $domain->setCode('05')
+            ->setLabel('Sciences économiques')
+            ->setGrp($groups['Droit'])
+        ->setStructures($allStructuresWithoutEpu);
         $domains[] = $domain;
 
-        // Commerce
+        // 06
         $domain = new Domain();
-        $domain->setCode('006')
-            ->setLabel('Commerce ');
-        $this->addStructures($domain, ['ESP', 'UFM', 'PAS', 'ST', 'SCI', 'SC']);
+        $domain->setCode('06')
+            ->setLabel('Sciences de gestion et du management')
+            ->setGrp($groups['Droit'])
+            ->setStructures($allStructuresWithoutEpu);
         $domains[] = $domain;
 
-        // Droit
+        // 07
         $domain = new Domain();
-        $domain->setCode('007')
-            ->setLabel('Droit ');
-        $this->addStructures($domain, ['DRT', 'DR', 'IDP', 'IE', 'IEM']);
+        $domain->setCode('06')
+            ->setLabel('Sciences du langage')
+            ->setStructures($allStructuresWithoutEpu);
         $domains[] = $domain;
 
-        // Electronique
+        // 08
         $domain = new Domain();
-        $domain->setCode('008')
-            ->setLabel('Electronique ');
-        $this->addStructures($domain, ['TIC', 'TIM', 'TIS', 'TIU']);
+        $domain->setCode('08')
+            ->setLabel('Langues et littératures anciennes')
+            ->setGrp($groups['Lettres'])
+            ->setStructures($allStructuresWithoutEpu);
         $domains[] = $domain;
 
-        // Environnement
+        // 09
         $domain = new Domain();
-        $domain->setCode('009')
-            ->setLabel('Environnement ');
-        $this->addStructures($domain, ['SC', 'SCI', 'IDP']);
+        $domain->setCode('09')
+            ->setLabel('Langue et littérature française')
+            ->setGrp($groups['Lettres'])
+        ->setStructures($allStructuresWithoutEpu);
         $domains[] = $domain;
 
-        // Ethnologie
+        // 10
         $domain = new Domain();
-        $domain->setCode('010')
-            ->setLabel('Ethnologie ');
-        $this->addStructures($domain, ['LAS', 'LA']);
+        $domain->setCode('10')
+            ->setLabel('Littératures comparées')
+            ->setGrp($groups['Lettres'])
+        ->setStructures($allStructuresWithoutEpu);
         $domains[] = $domain;
 
-        // Ergonomie
+        // 11
         $domain = new Domain();
-        $domain->setCode('011')
-            ->setLabel('Ergonomie ');
-        $this->addStructures($domain, ['LAS', 'LA']);
+        $domain->setCode('11')
+            ->setLabel('Études anglophones')
+            ->setGrp($groups['Lettres'])
+        ->setStructures($allStructuresWithoutEpu);
         $domains[] = $domain;
 
-        // FLES
+        // 12
         $domain = new Domain();
-        $domain->setCode('012')
-            ->setLabel('FLES (Français Langue Etrangère et Secondaire) ');
-        $this->addStructures($domain, ['LAS', 'LA']);
+        $domain->setCode('12')
+            ->setLabel('Études germaniques et scandinaves')
+            ->setGrp($groups['Lettres'])
+            ->setStructures($allStructuresWithoutEpu);
         $domains[] = $domain;
 
-        // Géographie et Aménagement
+        // 13
         $domain = new Domain();
-        $domain->setCode('014')
-            ->setLabel('Géographie et Aménagement');
-        $this->addStructures($domain, ['SCI', 'SC', 'ESP', 'UFM']);
+        $domain->setCode('13')
+            ->setLabel('Études slaves et baltes')
+            ->setGrp($groups['Lettres'])
+        ->setStructures($allStructuresWithoutEpu);
         $domains[] = $domain;
 
-        // Histoire
+        // 14
         $domain = new Domain();
-        $domain->setCode('015')
-            ->setLabel('Histoire');
-        $this->addStructures($domain, ['LA', 'LAS', 'ESP', 'UFM', 'DR', 'DRT']);
+        $domain->setCode('14')
+            ->setLabel('Études romanes')
+            ->setGrp($groups['Lettres'])
+        ->setStructures($allStructuresWithoutEpu);
         $domains[] = $domain;
 
-        // Informatique
+        // 15
         $domain = new Domain();
-        $domain->setCode('016')
-            ->setLabel('Informatique');
-        $this->addStructures($domain, ['SCI', 'SC', 'TIC', 'TIM', 'TIS', 'TIU', 'IEM', 'IE']);
+        $domain->setCode('15')
+            ->setLabel('Langues, littératures et cultures africaines, asiatiques et d\'autres aires linguistiques')
+            ->setGrp($groups['Lettres'])
+        ->setStructures($allStructuresWithoutEpu);
         $domains[] = $domain;
 
-        // LEA
+        // 16
         $domain = new Domain();
-        $domain->setCode('017')
-            ->setLabel('LEA (Langues Etrangères Appliquées)');
-        $this->addStructures($domain, ['LA', 'LAS']);
+        $domain->setCode('16')
+            ->setLabel('Psychologie et ergonomie')
+            ->setGrp($groups['Lettres'])
+        ->setStructures($allStructuresWithoutEpu);
         $domains[] = $domain;
 
-        // Lettres modernes et classiques
+        // 17
         $domain = new Domain();
-        $domain->setCode('018')
-            ->setLabel('Lettres modernes et classiques');
-        $this->addStructures($domain, ['LA', 'LAS']);
+        $domain->setCode('17')
+            ->setLabel('Philosophie')
+            ->setGrp($groups['Lettres'])
+            ->setStructures($allStructuresWithoutEpu);
         $domains[] = $domain;
 
-        // LLCER
+        // 18
         $domain = new Domain();
-        $domain->setCode('019')
-            ->setLabel('LLCER (Langues, littératures et étrangères et régionales)');
-        $this->addStructures($domain, ['LA', 'LAS']);
+        $domain->setCode('18')
+            ->setLabel('Architecture (ses théories et ses pratiques), arts appliqués, arts plastiques, arts du spectacle, épistémologie des enseignements artistiques, esthétique, musicologie, musique, sciences de l\'art')
+            ->setGrp($groups['Lettres'])
+            ->setStructures($allStructuresWithoutEpu);
         $domains[] = $domain;
 
-        // Maïeutique
+        // 19
         $domain = new Domain();
-        $domain->setCode('020')
-            ->setLabel('Maïeutique');
-        $this->addStructures($domain, ['SC', 'SCI', 'ME', 'MED']);
+        $domain->setCode('19')
+            ->setLabel('Sociologie, démographie')
+            ->setGrp($groups['Lettres'])
+        ->setStructures($allStructuresWithoutEpu);
         $domains[] = $domain;
 
-        // Mathématiques
+        // 20
         $domain = new Domain();
-        $domain->setCode('021')
-            ->setLabel('Mathématiques');
-        $this->addStructures($domain, ['ST', 'PAS', 'SC', 'SCI', 'UFM', 'ESP', 'IEM', 'IE']);
+        $domain->setCode('20')
+            ->setLabel('Ethnologie, préhistoire, anthropologie biologique')
+            ->setGrp($groups['Lettres'])
+        ->setStructures($allStructuresWithoutEpu);
         $domains[] = $domain;
 
-        // Médecine
+        // 21
         $domain = new Domain();
-        $domain->setCode('022')
-            ->setLabel('Médecine');
-        $this->addStructures($domain, ['ME', 'MED']);
+        $domain->setCode('21')
+            ->setLabel('Histoire, civilisations, archéologie et art des mondes anciens et médiévaux')
+            ->setGrp($groups['Lettres'])
+            ->setStructures($allStructuresWithoutEpu);
         $domains[] = $domain;
 
-        // MIASHS
+        // 22
         $domain = new Domain();
-        $domain->setCode('023')
-            ->setLabel('MIASHS');
-        $this->addStructures($domain, ['SC', 'SCI']);
+        $domain->setCode('22')
+            ->setLabel('Histoire et civilisations : histoire des mondes modernes, histoire du monde contemporain ; de l\'art ; de la musique')
+            ->setGrp($groups['Lettres'])
+            ->setStructures($allStructuresWithoutEpu);
         $domains[] = $domain;
 
-        // Musicologie
+        // 23
         $domain = new Domain();
-        $domain->setCode('024')
-            ->setLabel('Musicologie');
-        $this->addStructures($domain, ['LA', 'LAS']);
+        $domain->setCode('23')
+            ->setLabel('Géographie physique, humaine, économique et régionale')
+            ->setGrp($groups['Lettres'])
+        ->setStructures($allStructuresWithoutEpu);
         $domains[] = $domain;
 
-        // Odontologie
+        // 24
         $domain = new Domain();
-        $domain->setCode('025')
-            ->setLabel('Odontologie');
-        $this->addStructures($domain, ['ME', 'MED', 'ODO']);
+        $domain->setCode('24')
+            ->setLabel('Aménagement de l\'espace, urbanisme')
+            ->setGrp($groups['Lettres'])
+        ->setStructures($allStructuresWithoutEpu);
         $domains[] = $domain;
 
-        // Pharmacie
+        // 25
         $domain = new Domain();
-        $domain->setCode('026')
-            ->setLabel('Pharmacie');
-        $this->addStructures($domain, ['ME', 'MED']);
+        $domain->setCode('25')
+            ->setLabel('Mathématiques')
+            ->setGrp($groups['Sciences'])
+        ->setStructures($allStructuresWithoutEpu);
         $domains[] = $domain;
 
-        // Philosophie
+        // 26
         $domain = new Domain();
-        $domain->setCode('027')
-            ->setLabel('Philosophie');
-        $this->addStructures($domain, ['LA', 'LAS']);
+        $domain->setCode('26')
+            ->setLabel('Mathématiques appliquées et applications des mathématiques')
+            ->setGrp($groups['Sciences'])
+        ->setStructures($allStructuresWithoutEpu);
         $domains[] = $domain;
 
-        // Physique
+        // 27
         $domain = new Domain();
-        $domain->setCode('028')
-            ->setLabel('Physique');
-        $this->addStructures($domain, ['ST', 'PAS', 'SC', 'SCI', 'ESP', 'UFM']);
+        $domain->setCode('27')
+            ->setLabel('Informatique')
+            ->setGrp($groups['Sciences'])
+        ->setStructures($allStructuresWithoutEpu);
         $domains[] = $domain;
 
-        // Psychologie
+        // 28
         $domain = new Domain();
-        $domain->setCode('029')
-            ->setLabel('Psychologie');
-        $this->addStructures($domain, ['ST', 'PAS', 'LA', 'LAS']);
+        $domain->setCode('28')
+            ->setLabel('Milieux denses et matériaux')
+            ->setGrp($groups['Sciences'])
+        ->setStructures($allStructuresWithoutEpu);
         $domains[] = $domain;
 
-        // Sciences de la Terre
+        // 29
         $domain = new Domain();
-        $domain->setCode('030')
-            ->setLabel('Sciences de la Terre');
-        $this->addStructures($domain, ['SC', 'SCI']);
+        $domain->setCode('29')
+            ->setLabel('Constituants élémentaires')
+            ->setGrp($groups['Sciences'])
+        ->setStructures($allStructuresWithoutEpu);
         $domains[] = $domain;
 
-        // Sciences de la Communication
+        // 30
         $domain = new Domain();
-        $domain->setCode('031')
-            ->setLabel('Sciences de la Communication');
-        $this->addStructures($domain, ['LA', 'LAS']);
+        $domain->setCode('30')
+            ->setLabel('Milieux dilués et optique')
+            ->setGrp($groups['Sciences'])
+            ->setStructures($allStructuresWithoutEpu);
         $domains[] = $domain;
 
-        // Sciences de l'Education
+        // 31
         $domain = new Domain();
-        $domain->setCode('032')
-            ->setLabel('Sciences de l\'Education');
-        $this->addStructures($domain, ['UFM', 'ESP']);
+        $domain->setCode('31')
+            ->setLabel('Chimie théorique, physique, analytique')
+            ->setGrp($groups['Sciences'])
+        ->setStructures($allStructuresWithoutEpu);
         $domains[] = $domain;
 
-        // Sciences de l'Homme
+        // 32
         $domain = new Domain();
-        $domain->setCode('033')
-            ->setLabel('Sciences de l\'Homme');
-        $this->addStructures($domain, ['LA', 'LAS']);
+        $domain->setCode('32')
+            ->setLabel('Chimie organique, minérale, industrielle')
+            ->setGrp($groups['Sciences'])
+        ->setStructures($allStructuresWithoutEpu);
         $domains[] = $domain;
 
-        // Sciences de l'Ingénieur
+        // 33
         $domain = new Domain();
-        $domain->setCode('034')
-            ->setLabel('Sciences de l\'Ingénieur');
-        $this->addStructures($domain, ['EP', 'EPU']);
+        $domain->setCode('33')
+            ->setLabel('Chimie des matériaux')
+            ->setGrp($groups['Sciences'])
+        ->setStructures($allStructuresWithoutEpu);
         $domains[] = $domain;
 
-        // Sciences du Langage
+        // 34
         $domain = new Domain();
-        $domain->setCode('035')
-            ->setLabel('Sciences du Langage');
-        $this->addStructures($domain, ['LA', 'LAS']);
+        $domain->setCode('34')
+            ->setLabel('Astronomie, astrophysique')
+            ->setGrp($groups['Sciences'])
+        ->setStructures($allStructuresWithoutEpu);
         $domains[] = $domain;
 
-        // Sciences du Sport
+        // 35
         $domain = new Domain();
-        $domain->setCode('036')
-            ->setLabel('Sciences du Sport');
-        $this->addStructures($domain, ['ST', 'PAS', 'UFM', 'ESP']);
+        $domain->setCode('35')
+            ->setLabel('Structure et évolution de la terre et des autres planètes')
+            ->setGrp($groups['Sciences'])
+            ->setStructures($allStructuresWithoutEpu);
         $domains[] = $domain;
 
-        // Sciences Politiques
+        // 36
         $domain = new Domain();
-        $domain->setCode('037')
-            ->setLabel('Sciences Politiques');
-        $this->addStructures($domain, ['DRT', 'DR', 'IDP']);
+        $domain->setCode('36')
+            ->setLabel('Terre solide : géodynamique des enveloppes supérieure, paléobiosphère')
+            ->setGrp($groups['Sciences'])
+            ->setStructures($allStructuresWithoutEpu);
         $domains[] = $domain;
 
-        // Sociologie
+        // 37
         $domain = new Domain();
-        $domain->setCode('038')
-            ->setLabel('Sociologie');
-        $this->addStructures($domain, ['ST', 'PAS', 'LA', 'LAS', 'DR', 'DRT']);
+        $domain->setCode('37')
+            ->setLabel('Météorologie, océanographie physique et physique de l\'environnement')
+            ->setGrp($groups['Sciences'])
+            ->setStructures($allStructuresWithoutEpu);
+        $domains[] = $domain;
+
+        // 42
+        $domain = new Domain();
+        $domain->setCode('42')
+            ->setLabel('Morphologie et morphogenèse')
+            ->setGrp($groups['Medecine'])
+            ->setGrp($groups['Medecine'])
+            ->setStructures($allStructuresWithoutEpu);
+        $domains[] = $domain;
+
+        // 43
+        $domain = new Domain();
+        $domain->setCode('43')
+            ->setLabel('Biophysique et imagerie Médecin')
+            ->setGrp($groups['Medecine'])
+            ->setStructures($allStructuresWithoutEpu);
+        $domains[] = $domain;
+
+        // 44
+        $domain = new Domain();
+        $domain->setCode('44')
+            ->setLabel('Biochimie, biologie cellulaire et moléculaire, physiologie et nutrition')
+            ->setGrp($groups['Medecine'])
+            ->setStructures($allStructuresWithoutEpu);
+        $domains[] = $domain;
+
+        // 45
+        $domain = new Domain();
+        $domain->setCode('45')
+            ->setLabel('Microbiologie, maladies transmissibles et hygiène')
+            ->setGrp($groups['Medecine'])
+        ->setStructures($allStructuresWithoutEpu);
+        $domains[] = $domain;
+
+        // 46
+        $domain = new Domain();
+        $domain->setCode('46')
+            ->setLabel('Santé publique, environnement et société')
+            ->setGrp($groups['Medecine'])
+        ->setStructures($allStructuresWithoutEpu);
+        $domains[] = $domain;
+
+        // 47
+        $domain = new Domain();
+        $domain->setCode('47')
+            ->setLabel('Cancérologie, génétique, hématologie, immunologie')
+            ->setGrp($groups['Medecine'])
+            ->setStructures($allStructuresWithoutEpu);
+        $domains[] = $domain;
+
+        // 48
+        $domain = new Domain();
+        $domain->setCode('48')
+            ->setLabel('Anesthésiologie, réanimation, médecine d\'urgence, pharmacologie et thérapeutique')
+            ->setGrp($groups['Medecine'])
+            ->setStructures($allStructuresWithoutEpu);
+        $domains[] = $domain;
+
+        // 49
+        $domain = new Domain();
+        $domain->setCode('49')
+            ->setLabel('Pathologie nerveuse et musculaire, pathologie mentale, handicap et rééducation')
+            ->setGrp($groups['Medecine'])
+            ->setStructures($allStructuresWithoutEpu);
+        $domains[] = $domain;
+
+        // 50
+        $domain = new Domain();
+        $domain->setCode('50')
+            ->setLabel('Pathologie ostéo-articulaire, dermatologie et chirurgie plastique')
+            ->setGrp($groups['Medecine'])
+            ->setStructures($allStructuresWithoutEpu);
+        $domains[] = $domain;
+
+        // 51
+        $domain = new Domain();
+        $domain->setCode('51')
+            ->setLabel('Pathologie cardiorespiratoire et vasculaire')
+            ->setGrp($groups['Medecine'])
+            ->setStructures($allStructuresWithoutEpu);
+        $domains[] = $domain;
+
+        // 52
+        $domain = new Domain();
+        $domain->setCode('52')
+            ->setLabel('Maladies des appareils digestif et urinaire')
+            ->setGrp($groups['Medecine'])
+            ->setStructures($allStructuresWithoutEpu);
+        $domains[] = $domain;
+
+        // 53
+        $domain = new Domain();
+        $domain->setCode('53')
+            ->setLabel('Médecine interne, gériatrie et chirurgie générale')
+            ->setGrp($groups['Medecine'])
+            ->setStructures($allStructuresWithoutEpu);
+        $domains[] = $domain;
+
+        // 54
+        $domain = new Domain();
+        $domain->setCode('54')
+            ->setLabel('Développement et pathologie de l\'enfant, gynécologie-obstétrique, endocrinologie et reproduction')
+            ->setGrp($groups['Medecine'])
+            ->setStructures($allStructuresWithoutEpu);
+        $domains[] = $domain;
+
+        // 55
+        $domain = new Domain();
+        $domain->setCode('55')
+            ->setLabel('Pathologie de la tête et du cou')
+            ->setGrp($groups['Medecine'])
+            ->setStructures($allStructuresWithoutEpu);
+        $domains[] = $domain;
+
+        // 56
+        $domain = new Domain();
+        $domain->setCode('56')
+            ->setLabel('Développement, croissance et prévention')
+            ->setGrp($groups['Odontologie'])
+            ->setStructures($allStructuresWithoutEpu);
+        $domains[] = $domain;
+
+        // 57
+        $domain = new Domain();
+        $domain->setCode('57')
+            ->setLabel('Chirurgie orale ; parondontologie ; biologie orale')
+            ->setGrp($groups['Odontologie'])
+            ->setStructures($allStructuresWithoutEpu);
+        $domains[] = $domain;
+
+        // 58
+        $domain = new Domain();
+        $domain->setCode('58')
+            ->setLabel('Réhabilitation orale')
+            ->setGrp($groups['Odontologie'])
+            ->setStructures($allStructuresWithoutEpu);
+        $domains[] = $domain;
+
+        // 60
+        $domain = new Domain();
+        $domain->setCode('60')
+            ->setLabel('Mécanique, génie mécanique, génie civil')
+            ->setGrp($groups['Sciences'])
+            ->setStructures($allStructuresWithoutEpu);
+        $domains[] = $domain;
+
+        // 61
+        $domain = new Domain();
+        $domain->setCode('61')
+            ->setLabel('Génie informatique, automatique et traitement du signal')
+            ->setGrp($groups['Sciences'])
+            ->setStructures($allStructuresWithoutEpu);
+        $domains[] = $domain;
+
+        // 62
+        $domain = new Domain();
+        $domain->setCode('62')
+            ->setLabel('Energétique, génie des procédés')
+            ->setGrp($groups['Sciences'])
+            ->setStructures($allStructuresWithoutEpu);
+        $domains[] = $domain;
+
+        // 63
+        $domain = new Domain();
+        $domain->setCode('63')
+            ->setLabel('Génie électrique, électronique, photonique et systèmes')
+            ->setGrp($groups['Sciences'])
+            ->setStructures($allStructuresWithoutEpu);
+        $domains[] = $domain;
+
+        // 64
+        $domain = new Domain();
+        $domain->setCode('64')
+            ->setLabel('Biochimie et biologie moléculaire')
+            ->setGrp($groups['Sciences'])
+            ->setStructures($allStructuresWithoutEpu);
+        $domains[] = $domain;
+
+        // 65
+        $domain = new Domain();
+        $domain->setCode('65')
+            ->setLabel('Biologie cellulaire')
+            ->setGrp($groups['Sciences'])
+            ->setStructures($allStructuresWithoutEpu);
+        $domains[] = $domain;
+
+        // 66
+        $domain = new Domain();
+        $domain->setCode('66')
+            ->setLabel('Physiologie')
+            ->setGrp($groups['Sciences'])
+            ->setStructures($allStructuresWithoutEpu);
+        $domains[] = $domain;
+
+        // 67
+        $domain = new Domain();
+        $domain->setCode('67')
+            ->setLabel('Biologie des populations et écologie')
+            ->setGrp($groups['Sciences'])
+            ->setStructures($allStructuresWithoutEpu);
+        $domains[] = $domain;
+
+        // 68
+        $domain = new Domain();
+        $domain->setCode('68')
+            ->setLabel('Biologie des organismes')
+            ->setGrp($groups['Sciences'])
+            ->setStructures($allStructuresWithoutEpu);
+        $domains[] = $domain;
+
+        // 69
+        $domain = new Domain();
+        $domain->setCode('69')
+            ->setLabel('Neurosciences')
+            ->setGrp($groups['Sciences'])
+            ->setStructures($allStructuresWithoutEpu);
+        $domains[] = $domain;
+
+        // 70
+        $domain = new Domain();
+        $domain->setCode('70')
+            ->setLabel('Sciences de l\'éducation et de la formation')
+            ->setGrp($groups['Pluridisciplinaire'])
+            ->setStructures($allStructuresWithoutEpu);
+        $domains[] = $domain;
+
+        // 71
+        $domain = new Domain();
+        $domain->setCode('71')
+            ->setLabel('Sciences de l\'information et de la communication')
+            ->setGrp($groups['Pluridisciplinaire'])
+            ->setStructures($allStructuresWithoutEpu);
+        $domains[] = $domain;
+
+        // 72
+        $domain = new Domain();
+        $domain->setCode('72')
+            ->setLabel('Epistémologie, histoire des sciences et des techniques')
+            ->setGrp($groups['Pluridisciplinaire'])
+            ->setStructures($allStructuresWithoutEpu);
+        $domains[] = $domain;
+
+        // 73
+        $domain = new Domain();
+        $domain->setCode('73')
+            ->setLabel('Cultures et langues régionales')
+            ->setGrp($groups['Pluridisciplinaire'])
+            ->setStructures($allStructuresWithoutEpu);
+        $domains[] = $domain;
+
+        // 74
+        $domain = new Domain();
+        $domain->setCode('74')
+            ->setLabel('Sciences et techniques des activités physiques et sportives')
+            ->setGrp($groups['Pluridisciplinaire'])
+            ->setStructures($allStructuresWithoutEpu);
+        $domains[] = $domain;
+
+
+        // EPU01
+        $domain = new Domain();
+        $domain->setCode('EPU01')
+            ->setLabel('Expression et communication')
+            ->setGrp($groups['Polytech'])
+            ->setStructures($structuresEpu);
+        $domains[] = $domain;
+
+        // EPU02
+        $domain = new Domain();
+        $domain->setCode('EPU02')
+            ->setLabel('Questionner - Créer - Organiser – Manager')
+            ->setGrp($groups['Polytech'])
+            ->setStructures($structuresEpu);
+        $domains[] = $domain;
+
+        // EPU03
+        $domain = new Domain();
+        $domain->setCode('EPU03')
+            ->setLabel('Techniques et méthodes')
+            ->setGrp($groups['Polytech'])
+            ->setStructures($structuresEpu);
+        $domains[] = $domain;
+
+        // EPU04
+        $domain = new Domain();
+        $domain->setCode('EPU04')
+            ->setLabel('Connaissances scientifiques')
+            ->setGrp($groups['Polytech'])
+            ->setStructures($structuresEpu);
+        $domains[] = $domain;
+
+        // EPU05
+        $domain = new Domain();
+        $domain->setCode('EPU05')
+            ->setLabel('Stages, projets, périodes de travail à l’extérieur ')
+            ->setGrp($groups['Polytech'])
+            ->setStructures($structuresEpu);
         $domains[] = $domain;
 
         return $domains;
-    }
-
-    /**
-     * @param Domain $domain
-     * @param array $codes
-     */
-    private function addStructures(Domain $domain, array $codes)
-    {
-        $structures = [];
-        foreach ($codes as $code)
-        {
-            if(array_key_exists($code, $this->structures))
-            {
-                $structures[] = $this->structures[$code];
-            }
-        }
-        $domain->setStructures(new ArrayCollection($structures));
     }
 
 }
