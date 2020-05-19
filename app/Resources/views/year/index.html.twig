@@ -1,5 +1,5 @@
 {% extends 'admin_layout.html.twig' %}
-{% set h1 = 'Liste des années' %}
+{% set h1 = 'admin.year.list_years' | trans %}
 {% block subContent %}
 
     <div class="card">
@@ -12,10 +12,10 @@
                 <table class="table table-hover table-responsive-sm">
                     <thead>
                     <tr>
-                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'Année', 'y.label') }}</th>
-                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'Import', 'y.import') }}</th>
-                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'Editable', 'y.edit') }}</th>
-                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'Année courante', 'y.current') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'admin.year.year' | trans, 'y.label') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'admin.year.import' | trans, 'y.import') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'admin.year.editable' | trans, 'y.edit') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'admin.year.current_year' | trans, 'y.current') }}</th>
                     </tr>
                     </thead>
                     <tbody>

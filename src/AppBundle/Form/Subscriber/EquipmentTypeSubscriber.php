@@ -28,7 +28,7 @@ class EquipmentTypeSubscriber implements EventSubscriberInterface
         if ($equipment and !isset($equipment->isNew)) {
 
             $form->add('obsolete', CheckboxType::class, [
-                'label' => 'app.form.equipment.label.obsolete',
+                'label' => 'admin.form.obsolete',
                 'required' => false,
                 'label_attr' => [
                     'class' => 'custom-control-label'

@@ -24,7 +24,7 @@ class CriticalAchievementType extends AbstractType
         $builder
             ->add('label')
             ->add('courses', Select2EntityType::class, [
-                'label' => 'Cours',
+                'label' => 'admin.critical_achievement.form.course',
                 'multiple' => true,
                 'remote_route' => 'app_admin.course_autocompleteS3',
                 'class' => Course::class,

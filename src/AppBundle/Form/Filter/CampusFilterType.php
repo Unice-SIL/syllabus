@@ -37,7 +37,7 @@ class CampusFilterType extends AbstractType
     {
         $builder->add('label', TextFilterType::class, [
             'condition_pattern' => FilterOperands::STRING_CONTAINS,
-            'label' => 'Intitulé',
+            'label' => 'admin.form.label',
             'attr' => [
                 'class' => 'autocomplete-input',
                 'data-autocomplete-path' => $this->generator->generate('app.common.autocomplete.generic', [
