@@ -1,5 +1,5 @@
 {% extends 'admin_layout.html.twig' %}
-{% set h1 = 'Modifier une année' %}
+{% set h1 = 'admin.year.edit_year' | trans %}
 {% set href = path('app.admin.year.index') %}
 
 {% block subContent %}
@@ -30,7 +30,7 @@
 
 
         <div class="card-footer">
-            <button type="submit" class="btn btn-primary">Enregistrer</button>
+            <button type="submit" class="btn btn-primary">{{ 'admin.button.edit' | trans }}</button>
         </div>
         {{ form_end(form) }}
     </div>

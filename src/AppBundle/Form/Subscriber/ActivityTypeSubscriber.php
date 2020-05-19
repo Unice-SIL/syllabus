@@ -40,7 +40,7 @@ class ActivityTypeSubscriber implements EventSubscriberInterface
         //Edit mode
         if ($activity and $activity->getId()) {
             $form->add('obsolete', CheckboxType::class, [
-                'label' => 'Obsolète',
+                'label' => 'admin.form.obsolete',
                 'required' => false,
                 'label_attr' => [
                     'class' => 'custom-control-label'

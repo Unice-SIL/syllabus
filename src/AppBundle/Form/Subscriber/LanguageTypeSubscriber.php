@@ -37,7 +37,7 @@ class LanguageTypeSubscriber implements EventSubscriberInterface
         //Edit mode
         if ($language and $language->getId()) {
             $form->add('obsolete', CheckboxType::class, [
-                'label' => 'Obsolète',
+                'label' => 'admin.form.obsolete',
                 'required' => false,
                 'label_attr' => [
                     'class' => 'custom-control-label'

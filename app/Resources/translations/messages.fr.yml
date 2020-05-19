@@ -619,7 +619,16 @@ admin:
   activity_mode:
     list_activities_modes: Liste des modes d'activités
     edit_activity_mode: Modifier un mode d'activité
+  year:
+    list_years: Liste des années
+    year: Année
+    import: Import
+    editable: Modifiable
+    current_year: Année courante
+    edit_year: Modifier une année
 
+  form:
+    obsolete: Obsolète
   button:
     back: Revenir à la page précédente
     display: Afficher
@@ -630,6 +639,7 @@ admin:
     add_critical_achievement: Ajouter un apprentissage critique
     add_course: Ajouter un oours
     add_syllabus: Ajouter un syllabus
+    add_year: Ajouter une année
     link_course_parents: Attacher des cours parents
     link_course_children: Attacher des cours enfants
     unlink: Détacher

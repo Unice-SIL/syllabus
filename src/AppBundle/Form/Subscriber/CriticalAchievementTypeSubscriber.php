@@ -31,7 +31,7 @@ class CriticalAchievementTypeSubscriber implements EventSubscriberInterface
         if ($criticalAchievement and $criticalAchievement->getId()) {
 
             $form->add('obsolete', CheckboxType::class, [
-                'label' => 'Obsolète',
+                'label' => 'admin.form.obsolete',
                 'required' => false,
                 'label_attr' => [
                     'class' => 'custom-control-label'

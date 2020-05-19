@@ -37,7 +37,7 @@ class CampusTypeSubscriber implements EventSubscriberInterface
         //Edit mode
         if ($campus and $campus->getId()) {
             $form->add('obsolete', CheckboxType::class, [
-                'label' => 'Obsolète',
+                'label' => 'admin.form.obsolete',
                 'required' => false,
                 'label_attr' => [
                     'class' => 'custom-control-label'

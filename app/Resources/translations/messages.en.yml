@@ -616,7 +616,15 @@ admin:
   activity_mode:
     list_activities_modes: List of activities modes
     edit_activity_mode: Edit an activity mode
-
+  year:
+    list_years: List of years
+    year: Year
+    import: Import
+    editable: Editable
+    current_year: Current year
+    edit_year: Edit an year
+  form:
+    obsolete: Obsolete
   button:
     back: Back to last page
     display: Display
@@ -627,6 +635,7 @@ admin:
     add_critical_achievement: Add a critical achievement
     add_course: Add a course
     add_syllabus: Add a Syllabus
+    add_year: Add an year
     link_course_parents: Link courses as parent
     link_course_children: Link courses as children
     unlink: Unlink
