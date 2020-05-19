@@ -292,6 +292,7 @@ app:
       closing_remarks: Le mot de la fin
       remarks_message: Message à vos étudiants
       closing_video: Intégrer une ressource vidéo (ou audio)
+      edit: Mettre à jour
     form:
       save: Sauvegarder
       cancel: Annuler
@@ -611,12 +612,21 @@ admin:
     form:
       description: Description
       activityTypes: Types d'activité
+  activity_type:
+    list_activities_types: Liste des types d'activités
+    modes: Modes
+    edit_activity_type: Modifier un type d'activité
+  activity_mode:
+    list_activities_modes: Liste des modes d'activités
+    edit_activity_mode: Modifier un mode d'activité
 
   button:
     back: Revenir à la page précédente
     display: Afficher
     more_info: Plus d'infos
     add_activity: Ajouter une activité
+    add_activity_type: Ajouter un type d'activité
+    add_activity_mode: Ajouter un mode d'activité
     add_critical_achievement: Ajouter un apprentissage critique
     add_course: Ajouter un oours
     add_syllabus: Ajouter un syllabus
