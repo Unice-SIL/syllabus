@@ -1,5 +1,5 @@
 {% extends 'admin_layout.html.twig' %}
-{% set h1 = 'Liste des languages' %}
+{% set h1 = 'admin.language.list_languages' | trans %}
 {% block subContent %}
 
     <div class="card">
@@ -18,8 +18,8 @@
                     </div>
                     <div class="col-12">
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Filtrer</button>
-                            <a class="btn btn-danger" href="{{  path('app.admin.language.index')  }}">Réinitialiser les filtres</a>
+                            <button type="submit" class="btn btn-primary">{{ 'admin.button.filter' | trans }}</button>
+                            <a class="btn btn-danger" href="{{  path('app.admin.language.index')  }}">{{ 'admin.button.reset_filters' | trans }}</a>
                         </div>
                     </div>
                 </div>

@@ -1,5 +1,5 @@
 {% extends 'admin_layout.html.twig' %}
-{% set h1 = "Ajouter un niveau"%}
+{% set h1 = 'admin.button.add_level' | trans%}
 {% set href = path('app.admin.level.index') %}
 
 {% block subContent %}
@@ -14,7 +14,7 @@
         <!-- /.card-body -->
 
         <div class="card-footer">
-            <button type="submit" class="btn btn-primary">Enregistrer</button>
+            <button type="submit" class="btn btn-primary">{{ 'admin.button.save' | trans }}</button>
         </div>
         {{ form_end(form) }}
     </div>

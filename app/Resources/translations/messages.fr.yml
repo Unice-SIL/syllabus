@@ -637,6 +637,12 @@ admin:
   equipment:
     list_equipments: Liste des équipements
     edit_equipment: Modifier un équipement
+  language:
+    list_languages: Liste des langages
+    edit_language: Modifier un langage
+  level:
+    list_levels: Liste des niveaux
+    edit_level: Modifier un niveau
 
   form:
     obsolete: Obsolète
@@ -653,6 +659,8 @@ admin:
     add_critical_achievement: Ajouter un apprentissage critique
     add_domain: Ajouter un domain
     add_equipment: Ajouter un équipement
+    add_language: Ajouter une langue
+    add_level: Ajouter un niveau
     add_syllabus: Ajouter un syllabus
     add_year: Ajouter une année
     link_course_parents: Attacher des cours parents
