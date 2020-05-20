@@ -8,6 +8,7 @@ use AppBundle\Form\Subscriber\CampusTypeSubscriber;
 use AppBundle\Form\Type\CustomCheckboxType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -31,6 +32,10 @@ class CampusType extends AbstractType
     {
         $builder
             ->add('label')
+            ->add('grp', TextType::class, [
+                'label'=> "Groupe",
+                'required' => false
+            ])
             ->add('synchronized', CustomCheckboxType::class, [
                 'label' => 'admin.campus.synchronized'
             ])

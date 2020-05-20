@@ -8,6 +8,7 @@ use AppBundle\Entity\Structure;
 use AppBundle\Form\Subscriber\DomainTypeSubscriber;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -31,6 +32,10 @@ class DomainType extends AbstractType
     {
         $builder
             ->add('label')
+            ->add('grp', TextType::class, [
+                'label'=> "Groupe",
+                'required' => false
+            ])
             ->add('structures', EntityType::class, [
                 'label' => "Structure",
                 'class' => Structure::class,
