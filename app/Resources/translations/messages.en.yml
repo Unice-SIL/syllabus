@@ -632,6 +632,9 @@ admin:
     list_domains: List of domains
     edit_domain: Edit a domain
     structure: Structure
+  equipment:
+    list_equipments: List of equipments
+    edit_equipment: Edit an equipment
 
   form:
     obsolete: Obsolete
@@ -647,6 +650,7 @@ admin:
     add_course: Add a course
     add_critical_achievement: Add a critical achievement
     add_domain: Add a domain
+    add_equipment: Add an equipment
     add_syllabus: Add a Syllabus
     add_year: Add an year
     link_course_parents: Link courses as parent

@@ -1,3 +1,3 @@
 {% if is_granted('ROLE_ADMIN_EQUIPMENT_CREATE') %}
-    <a class="btn btn-primary"  href="{{  path('app.admin.equipment.new')  }}">Ajouter un équipement</a>
+    <a class="btn btn-primary"  href="{{  path('app.admin.equipment.new')  }}">{{ 'admin.button.add_equipment' | trans }}</a>
 {% endif %}
