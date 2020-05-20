@@ -39,7 +39,7 @@ class PeriodType extends AbstractType
         $builder
             ->add('label')
             ->add('structures', EntityType::class, [
-                'label' => "Structure",
+                'label' => "admin.period.form.structure",
                 'class' => Structure::class,
                 'multiple' => true,
                 'by_reference' => false,

@@ -643,6 +643,15 @@ admin:
   level:
     list_levels: Liste des niveaux
     edit_level: Modifier un niveau
+  period:
+    list_periods: Liste des périodes
+    edit_period: Modifier une période
+    filter_structures: Structures
+    form:
+      structure: Structure
+  structure:
+    list_structures: Liste des structures
+    edit_structure: Modifier une structure
 
   form:
     obsolete: Obsolète
@@ -661,6 +670,8 @@ admin:
     add_equipment: Ajouter un équipement
     add_language: Ajouter une langue
     add_level: Ajouter un niveau
+    add_period: Ajouter une période
+    add_structure: Ajouter une structure
     add_syllabus: Ajouter un syllabus
     add_year: Ajouter une année
     link_course_parents: Attacher des cours parents
