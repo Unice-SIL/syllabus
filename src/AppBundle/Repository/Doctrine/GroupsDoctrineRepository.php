@@ -38,7 +38,7 @@ class GroupsDoctrineRepository  extends ServiceEntityRepository
      * @param string $field
      * @return array
      */
-    public function findLikeQuery(string $query, string $field): array
+    public function findLikeQuery(string $query, string $field = 'label'): array
     {
         $qb = $this->getIndexQueryBuilder();
 

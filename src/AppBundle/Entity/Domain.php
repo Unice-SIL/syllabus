@@ -45,6 +45,15 @@ class Domain
     private $label;
 
     /**
+     * @var string|null
+     *
+     * @ORM\Column(name="grp", type="string", length=100, nullable=true)
+     * @JMS\Groups(groups={"default", "domain"})
+     * @Gedmo\Translatable
+     */
+    private $grp;
+
+    /**
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
@@ -111,6 +120,24 @@ class Domain
     {
         $this->label = $label;
 
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getGrp(): ?string
+    {
+        return $this->grp;
+    }
+
+    /**
+     * @param string $grp
+     * @return Domain
+     */
+    public function setGrp(string $grp): Domain
+    {
+        $this->grp = $grp;
         return $this;
     }
 

@@ -135,6 +135,12 @@ class LanguageMigration extends AbstractReferentialMigration
         $repo->translate($language, 'label', 'en', 'Chinese');
         $languages[] = $language;
 
+        // NIC
+        $language = new Language();
+        $language->setCode('NIC')
+            ->setLabel('Niçois');
+        $repo->translate($language, 'label', 'en', 'Niçois');
+        $languages[] = $language;
 
         return $languages;
     }

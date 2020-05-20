@@ -30,6 +30,7 @@
                     <thead>
                     <tr>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.activity.label.label'|trans, 'l.label') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.activity.label.grp'|trans, 'l.grp') }}</th>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.activity.label.obsolete'|trans, 'l.obsolete') }}</th>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.activity.label.synchronized'|trans, 'l.synchronized') }}</th>
                     </tr>
@@ -43,6 +44,9 @@
                                 {% else %}
                                     {{ campus.label }}
                                 {% endif %}
+                            </td>
+                            <td>
+                                {{ campus.grp }}
                             </td>
                             <td>
                                 {{ campus.obsolete|humanizeBoolean }}

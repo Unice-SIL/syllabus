@@ -58,20 +58,20 @@ class PeriodMigration extends AbstractReferentialMigration
 
         $periods = [];
 
-        // S1
+        // SP
         $period = new Period();
-        $period->setCode('S1')
-            ->setLabel('Semestre 1')
+        $period->setCode('SI')
+            ->setLabel('Semestre impair')
             ->setStructures($structuresOther);
-        $repo->translate($period, 'label', 'en', 'Semester 1');
+        $repo->translate($period, 'label', 'en', 'Odd Semester');
         $periods[] = $period;
 
         // S2
         $period = new Period();
         $period->setCode('S2')
-            ->setLabel('Semestre 2')
+            ->setLabel('Semestre paire')
             ->setStructures($structuresOther);
-        $repo->translate($period, 'label', 'en', 'Semester 2');
+        $repo->translate($period, 'label', 'en', 'Even semester');
         $periods[] = $period;
 
         // AUTOMNE

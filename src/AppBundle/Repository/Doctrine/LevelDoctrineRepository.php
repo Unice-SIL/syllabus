@@ -5,6 +5,7 @@ namespace AppBundle\Repository\Doctrine;
 
 
 use AppBundle\Entity\Level;
+use AppBundle\Entity\Structure;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
@@ -38,13 +39,37 @@ class LevelDoctrineRepository extends ServiceEntityRepository
      * @param string $query
      * @return array
      */
-    public function findLikeQuery(string $query): array
+    public function findLikeQuery(string $query, string $field = 'label'): array
     {
-        return $this->getIndexQueryBuilder()
-            ->andWhere('l.label LIKE :query ')
-            ->setParameter('query', '%' . $query . '%')
+        $qb = $this->getIndexQueryBuilder();
+        if (in_array($field, ['label'])) {
+            $qb->andWhere('l.label LIKE :query ')
+                ->setParameter('query', '%' . $query . '%');
+        }
+
+        return $qb
             ->getQuery()
             ->getResult();
     }
+
+    /**
+     * @param string $query
+     * @param Structure $structure
+     * @param string $field
+     * @return array
+     */
+    public function findLikeWithStructureQuery(string $query, Structure $structure, string $field = 'label'): array
+    {
+        $qb = $this->getIndexQueryBuilder();
+        if (in_array($field, ['label'])) {
+            $qb->andWhere('l.label LIKE :query ')
+                ->setParameter('query', '%' . $query . '%');
+        }
+        return $qb->andWhere(':structure MEMBER OF l.structures')
+            ->setParameter('structure', $structure)
+            ->getQuery()
+            ->getResult();
+    }
+
 
 }

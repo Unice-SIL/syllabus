@@ -4,6 +4,7 @@
 namespace AppBundle\Controller\Common;
 
 
+use AppBundle\Entity\Domain;
 use AppBundle\Entity\Structure;
 use AppBundle\Repository\Doctrine\UserDoctrineRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -88,22 +89,61 @@ class AutoCompleteController extends AbstractController
      */
     public function autocompleteS2Structure(Structure $structure, string $entityName, Request $request)
     {
-        $data = [];
-        $query = $request->query->get('q');
-        $entities = [];
-        if ($entityName == "Domain") {
-            $entities = $structure->getDomains();
-        } elseif ($entityName == "Period") {
-            $entities = $structure->getPeriods();
-        }
-        $input = preg_quote($query, '~');
-        $result = preg_grep('~^' . $input . '~', $entities->toArray());
-        if (!empty($result)) {
-            foreach ($result as $e) {
-                $data[] = ['id' => $e->getId(), 'text' => $e->getLabel()];
-            }
-        }
+        $namespace = 'AppBundle\\Entity\\';
+        $entityName = "{$namespace}{$entityName}";
+        $query = $request->query->get('q', '');
+        $findBy = $request->query->get('findBy', 'label');
+        $property = $request->query->get('property', 'label');
+        $propertyAccessor = PropertyAccess::createPropertyAccessor();
+
+        $repository = $this->getDoctrine()->getRepository($entityName);
+
+        $entities = $repository->findLikeWithStructureQuery($query, $structure, $findBy);
+
+        $data = array_map(function ($e) use ($propertyAccessor, $property) {
+            return ['id' => $e->getId(), 'text' => $propertyAccessor->getValue($e, $property)];
+        }, $entities);
+
         return $this->json($data);
+    }
+
+    /**
+     * @Route("/domain-s2/{structure}", name="domain_s2_structure")
+     *
+     * @param Structure $structure
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function autocompleteS2Domain(Structure $structure, Request $request)
+    {
+        $query = $request->query->get('q', '');
+        $repository = $this->getDoctrine()->getRepository(Domain::class);
+        $domains = $repository->findLikeWithStructureQuery($query, $structure);
+
+        $groups = array_unique(array_map(function(Domain $domain){
+            return $domain->getGrp();
+        }, $domains));
+
+        $data = [];
+
+        /** @var Domain $domain */
+        foreach ($domains as $domain)
+        {
+            $groupId = $domain->getGrp()?? 0;
+            if(!array_key_exists($groupId, $data))
+            {
+                $data[$groupId] = [
+                    'text' => $domain->getGrp(),
+                    'children' => []
+                ];
+            }
+            $data[$groupId]['children'][] = [
+                'id' => $domain->getId(),
+                'text' => $domain->getLabel()
+            ];
+        }
+
+        return $this->json(array_values($data));
     }
 
     /**

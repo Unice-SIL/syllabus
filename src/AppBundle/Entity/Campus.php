@@ -50,6 +50,15 @@ class Campus
     private $label;
 
     /**
+     * @var string|null
+     *
+     * @ORM\Column(name="grp", type="string", length=100, nullable=true)
+     * @JMS\Groups(groups={"default", "campus"})
+     * @Gedmo\Translatable
+     */
+    private $grp;
+
+    /**
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
@@ -107,6 +116,24 @@ class Campus
     {
         $this->label = $label;
 
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getGrp(): ?string
+    {
+        return $this->grp;
+    }
+
+    /**
+     * @param string|null $grp
+     * @return Campus
+     */
+    public function setGrp(?string $grp): self
+    {
+        $this->grp = $grp;
         return $this;
     }
 

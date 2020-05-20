@@ -6,6 +6,7 @@ namespace AppBundle\Entity;
 
 use AppBundle\Traits\Importable;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -54,6 +55,14 @@ class Level
     private $courseInfos;
 
     /**
+     * @var Collection
+     *
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Structure", inversedBy="levels")
+     * @JMS\Groups(groups={"level"})
+     */
+    private $structures;
+
+    /**
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
@@ -67,6 +76,7 @@ class Level
     public function __construct()
     {
         $this->courseInfos = new ArrayCollection();
+        $this->structures = new ArrayCollection();
     }
 
 
@@ -181,6 +191,58 @@ class Level
             if ($courseInfo->getLevels()->contains($this))
             {
                 $courseInfo->getLevels()->removeElement($this);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getStructures(): ?Collection
+    {
+        return $this->structures;
+    }
+
+    /**
+     * @param Collection $structures
+     * @return Level
+     */
+    public function setStructures(Collection $structures): Level
+    {
+        $this->structures = $structures;
+        return $this;
+    }
+
+    /**
+     * @param Structure $structure
+     * @return Level
+     */
+    public function addStructure(Structure $structure): self
+    {
+        if (!$this->structures->contains($structure))
+        {
+            $this->structures->add($structure);
+            if (!$structure->getLevels()->contains($this))
+            {
+                $structure->getLevels()->add($this);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @param Structure $structure
+     * @return Level
+     */
+    public function removeStructure(Structure $structure): self
+    {
+        if ($this->structures->contains($structure))
+        {
+            $this->structures->removeElement($structure);
+            if ($structure->getLevels()->contains($this))
+            {
+                $structure->getLevels()->removeElement($this);
             }
         }
         return $this;

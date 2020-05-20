@@ -47,71 +47,94 @@ class CampusMigration extends AbstractReferentialMigration
         $campuses = [];
 
         // CANNES
-        $fabron = new Campus();
-        $fabron->setCode('CANNES')
-            ->setLabel("Cannes");
-        $campuses[] = $fabron;
+        $campus = new Campus();
+        $campus->setCode('CANNES')
+            ->setLabel("Campus Cannes - Bastide Rouge");
+        $campuses[] = $campus;
 
-        // CARLONE
-        $carlone = new Campus();
-        $carlone->setCode('CARLONE')
-            ->setLabel('Carlone');
-        $campuses[] = $carlone;
-
-        // FABRON
-        $fabron = new Campus();
-        $fabron->setCode('FABRON')
-            ->setLabel("Fabron");
-        $campuses[] = $fabron;
-
-        // GEORGES V
-        $georgesv = new Campus();
-        $georgesv->setCode('GEORGESV')
-            ->setLabel("Georges V");
-        $campuses[] = $georgesv;
+        // GRASSE
+        $campus = new Campus();
+        $campus->setCode('GRASSE')
+            ->setLabel("Campus Grasse");
+        $campuses[] = $campus;
 
         // MENTON
-        $menton = new Campus();
-        $menton->setCode('MENTON')
-            ->setLabel("Menton");
-        $campuses[] = $menton;
+        $campus = new Campus();
+        $campus->setCode('MENTON')
+            ->setLabel("Campus Menton");
+        $campuses[] = $campus;
+
+        // CARLONE
+        $campus = new Campus();
+        $campus->setCode('CARLONE')
+            ->setLabel('Campus Carlone');
+        $campuses[] = $campus;
+
+        // IMREDD
+        $campus = new Campus();
+        $campus->setCode('IMREDD')
+            ->setLabel('Campus Ecovallée - IMREDD');
+        $campuses[] = $campus;
+
+        // FABRON
+        $campus = new Campus();
+        $campus->setCode('FABRON')
+            ->setLabel("Campus Fabron");
+        $campuses[] = $campus;
+
+        // IFMK
+        $campus = new Campus();
+        $campus->setCode('IFMK')
+            ->setLabel("Campus IFMK");
+        $campuses[] = $campus;
+
+        // LIEGEARD
+        $campus = new Campus();
+        $campus->setCode('LIEGEARD')
+            ->setLabel("Campus Liégeard");
+        $campuses[] = $campus;
 
         // PASTEUR
-        $pasteur = new Campus();
-        $pasteur->setCode('PASTEUR')
-            ->setLabel("Pasteur");
-        $campuses[] = $pasteur;
-
-        // SOPHIA-ANTIPOLIS
-        $sophia = new Campus();
-        $sophia->setCode('SOPHIA')
-            ->setLabel("Sophia-Antipolis");
-        $campuses[] = $sophia;
+        $campus = new Campus();
+        $campus->setCode('PASTEUR')
+            ->setLabel("Campus Pasteur");
+        $campuses[] = $campus;
 
         // ST JEAN D'ANGELY
-        $sja = new Campus();
-        $sja->setCode('SJA')
-            ->setLabel("St Jean d'Angély");
-        $campuses[] = $sja;
+        $campus = new Campus();
+        $campus->setCode('SJA')
+            ->setLabel("Campus Saint Jean d'Angély");
+        $campuses[] = $campus;
 
         // STAPS
-        $staps = new Campus();
-        $staps->setCode('STAPS')
-            ->setLabel("Faculté des Sports");
-        $campuses[] = $staps;
+        $campus = new Campus();
+        $campus->setCode('STAPS')
+            ->setLabel("Campus Sciences du Sport - STAPS");
+        $campuses[] = $campus;
 
         // TROTABAS
-        $trotabas = new Campus();
-        $trotabas->setCode('TROTABAS')
-            ->setLabel('Trotabas');
-        $campuses[] = $trotabas;
+        $campus = new Campus();
+        $campus->setCode('TROTABAS')
+            ->setLabel('Campus Trotabas');
+        $campuses[] = $campus;
+
+        // VILLA ARSON
+        $campus = new Campus();
+        $campus->setCode('ARSON')
+            ->setLabel('Campus Villa Arson');
+        $campuses[] = $campus;
 
         // VALROSE
-        $valrose = new Campus();
-        $valrose->setCode('VALROSE')
-            ->setLabel('Valrose');
-        $campuses[] = $valrose;
+        $campus = new Campus();
+        $campus->setCode('VALROSE')
+            ->setLabel('Campus Valrose');
+        $campuses[] = $campus;
 
+        // SOPHIATECH
+        $campus = new Campus();
+        $campus->setCode('SOPHIATECH')
+            ->setLabel('Campus SophiaTech Les Lucioles');
+        $campuses[] = $campus;
 
         return $campuses;
     }

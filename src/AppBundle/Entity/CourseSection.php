@@ -80,6 +80,7 @@ class CourseSection
      *
      * @ORM\OneToMany(targetEntity="CourseSectionActivity", mappedBy="courseSection", cascade={ "persist", "remove", "merge" }, orphanRemoval=true)
      * @ORM\OrderBy({"position" = "ASC"})
+     * @Assert\Count(min="1", groups={"contentActivities"})
      * @JMS\Groups(groups={"course_info", "course_section"})
      */
     private $courseSectionActivities;

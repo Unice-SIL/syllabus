@@ -70,12 +70,21 @@ class Structure
     private $periods;
 
     /**
+     * @var Collection
+     *
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Level", mappedBy="structures")
+     * @JMS\Groups(groups={"structure"})
+     */
+    private $levels;
+
+    /**
      * Structure constructor.
      */
     public function __construct()
     {
         $this->domains = new ArrayCollection();
         $this->periods = new ArrayCollection();
+        $this->levels = new ArrayCollection();
     }
 
     /**
@@ -236,6 +245,58 @@ class Structure
             if ($period->getStructures()->contains($this))
             {
                 $period->getStructures()->removeElement($this);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getLevels(): Collection
+    {
+        return $this->levels;
+    }
+
+    /**
+     * @param Collection $levels
+     * @return Structure
+     */
+    public function setLevels(Collection $levels): self
+    {
+        $this->levels = $levels;
+        return $this;
+    }
+
+    /**
+     * @param Level $level
+     * @return Structure
+     */
+    public function addLevel(Level $level): self
+    {
+        if (!$this->periods->contains($level))
+        {
+            $this->levels->add($level);
+            if (!$level->getStructures()->contains($this))
+            {
+                $level->getStructures()->add($this);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @param Level $level
+     * @return Structure
+     */
+    public function removeLevel(Level $level): self
+    {
+        if ($this->levels->contains($level))
+        {
+            $this->levels->removeElement($level);
+            if ($level->getStructures()->contains($this))
+            {
+                $level->getStructures()->removeElement($this);
             }
         }
         return $this;
