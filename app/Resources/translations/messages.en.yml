@@ -521,6 +521,10 @@ app:
         parents: Parent courses
         title: Title
         synchronized: Synchronized
+    level:
+      label:
+        label: Label
+        obsolete: Obsolete
     year:
       label:
         label: Year
@@ -632,6 +636,24 @@ admin:
     list_domains: List of domains
     edit_domain: Edit a domain
     structure: Structure
+  equipment:
+    list_equipments: List of equipments
+    edit_equipment: Edit an equipment
+  language:
+    list_languages: List of languages
+    edit_language: Edit a language
+  level:
+    list_levels: List of levels
+    edit_level: Edit a level
+  period:
+    list_periods: List of periods
+    edit_period: Edit a period
+    filter_structures: Structures
+    form:
+      structure: Structure
+  structure:
+    list_structures: List of structures
+    edit_structure: Edit a structure
 
   form:
     obsolete: Obsolete
@@ -647,6 +669,11 @@ admin:
     add_course: Add a course
     add_critical_achievement: Add a critical achievement
     add_domain: Add a domain
+    add_equipment: Add an equipment
+    add_language: Add a language
+    add_level: Add a level
+    add_period: Add a period
+    add_structure: Add a structure
     add_syllabus: Add a Syllabus
     add_year: Add an year
     link_course_parents: Link courses as parent

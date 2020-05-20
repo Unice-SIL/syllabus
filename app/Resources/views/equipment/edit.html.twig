@@ -1,8 +1,28 @@
 {% extends 'admin_layout.html.twig' %}
-{% set h1 = 'Modifier un équipement' %}
+{% set h1 = 'admin.equipment.edit_equipment' | trans %}
 {% set href = path('app.admin.equipment.index') %}
 
 {% block subContent %}
+    <div class="card card-primary">
+        <!-- /.card-header -->
+        <!-- form start -->
+        {{ form_start(form) }}
+        <div class="card-body">
 
-    {{ include('equipment/_form.html.twig') }}
+            {{ form_row(form.label) }}
+            <div class="custom-control custom-switch">
+                {{ form_row(form.labelVisibility) }}
+            </div>
+            <div class="custom-control custom-switch">
+                {{ form_row(form.obsolete) }}
+            </div>
+
+        </div>
+        <!-- /.card-body -->
+
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary">{{ 'admin.button.edit' | trans }}</button>
+        </div>
+        {{ form_end(form) }}
+    </div>
 {% endblock %}

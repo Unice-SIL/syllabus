@@ -1,5 +1,5 @@
 {% extends 'admin_layout.html.twig' %}
-{% set h1 = 'Modifier une langue' %}
+{% set h1 = 'admin.language.edit_language' | trans %}
 {% set href = path('app.admin.language.index') %}
 
 {% block subContent %}
@@ -19,7 +19,7 @@
         <!-- /.card-body -->
 
         <div class="card-footer">
-            <button type="submit" class="btn btn-primary">Enregistrer</button>
+            <button type="submit" class="btn btn-primary">{{ 'admin.button.edit' | trans }}</button>
         </div>
         {{ form_end(form) }}
     </div>

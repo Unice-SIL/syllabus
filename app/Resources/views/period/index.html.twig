@@ -1,5 +1,5 @@
 {% extends 'admin_layout.html.twig' %}
-{% set h1 = 'Liste des périodes' %}
+{% set h1 = 'admin.period.list_periods' | trans %}
 {% block subContent %}
 
     <div class="card">
@@ -18,14 +18,14 @@
                     </div>
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">
-                            {{ form_label(form.structures.label, 'Structures') }}
+                            {{ form_label(form.structures.label, 'admin.period.filter_structures') }}
                             {{ form_widget(form.structures.label) }}
                         </div>
                     </div>
                     <div class="col-12">
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Filtrer</button>
-                            <a class="btn btn-danger" href="{{  path('app.admin.period.index')  }}">Réinitialiser les filtres</a>
+                            <button type="submit" class="btn btn-primary">{{ 'admin.button.filter' | trans }}</button>
+                            <a class="btn btn-danger" href="{{  path('app.admin.period.index')  }}">{{ 'admin.button.reset_filters' | trans }}</a>
                         </div>
                     </div>
                 </div>
@@ -38,7 +38,7 @@
                     <thead>
                     <tr>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.period.label.label'|trans, 'a.label') }}</th>
-                        <th>Structure</th>
+                        <th>{{ 'admin.period.form.structure' | trans }}</th>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.period.label.obsolete'|trans, 'a.obsolete') }}</th>
                     </tr>
                     </thead>

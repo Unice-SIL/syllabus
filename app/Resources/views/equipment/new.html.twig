@@ -1,8 +1,25 @@
 {% extends 'admin_layout.html.twig' %}
-{% set h1 = 'Créer un équipement' %}
+{% set h1 = 'admin.button.add_equipment' | trans %}
 {% set href = path('app.admin.equipment.index') %}
 
 {% block subContent %}
+    <div class="card card-primary">
+        <!-- /.card-header -->
+        <!-- form start -->
+        {{ form_start(form) }}
+        <div class="card-body">
 
-    {{ include('equipment/_form.html.twig') }}
+            {{ form_row(form.label) }}
+            <div class="custom-control custom-switch">
+                {{ form_row(form.labelVisibility) }}
+            </div>
+
+        </div>
+        <!-- /.card-body -->
+
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary">{{ 'admin.button.save' | trans }}</button>
+        </div>
+        {{ form_end(form) }}
+    </div>
 {% endblock %}

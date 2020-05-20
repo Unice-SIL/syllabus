@@ -3,6 +3,7 @@
 
 namespace AppBundle\Form\Subscriber;
 
+use AppBundle\Entity\Equipment;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormEvent;
@@ -21,11 +22,13 @@ class EquipmentTypeSubscriber implements EventSubscriberInterface
     public function preSetData(FormEvent $event)
     {
         $form = $event->getForm();
+
+        /** @var Equipment $equipment */
         $equipment = $event->getData();
 
         //Edit mode
         //$equipment->isNew is a dynamic property set in AppBundle\Manager\EquipmentManager::create() to track the new state of the entity
-        if ($equipment and !isset($equipment->isNew)) {
+        if ($equipment and $equipment->getId()) {
 
             $form->add('obsolete', CheckboxType::class, [
                 'label' => 'admin.form.obsolete',

@@ -19,13 +19,14 @@ class StructureType extends AbstractType
         $disabled = $context == 'edit' ? true : false;
         $builder
             ->add('code', null, [
+                'label' => 'app.form.structure.label.code',
                 'disabled' => $disabled
             ])
             ->add('label', null, [
                 'disabled' => $disabled
             ])
             ->add('synchronized', CustomCheckboxType::class, [
-                'label' => 'Synchronisé'
+                'label' => 'app.form.structure.label.synchronized'
             ])
             ;
             if ($context == 'edit') {
