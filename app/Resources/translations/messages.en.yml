@@ -697,6 +697,10 @@ admin:
       firstname: Firstname
       email: Email
       roles: Groups
+  notification:
+    list_notifications: List of notifications
+    edit_notification: Edit a notification
+    actions: Actions
 
   form:
     obsolete: Obsolete
@@ -718,6 +722,7 @@ admin:
     add_job: Add a task
     add_language: Add a language
     add_level: Add a level
+    add_notification: Add a notification
     add_period: Add a period
     add_structure: Add a structure
     add_syllabus: Add a Syllabus

@@ -1,5 +1,5 @@
 {% extends 'admin_layout.html.twig' %}
-{% set h1 = 'Liste des Notifications' %}
+{% set h1 = 'admin.notification.list_notifications' | trans %}
 
 {% block modals %}
     {{ parent() }}
@@ -20,7 +20,7 @@
                     <thead>
                     <tr>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.notification.label.message'|trans, 'n.message') }}</th>
-                        <th>Actions</th>
+                        <th>{{ 'admin.notification.actions' | trans }}</th>
                     </tr>
                     </thead>
                     <tbody>
