@@ -462,6 +462,9 @@ app:
         objectives: Objectifs du cours
         prerequisites: Prérequis
         presentation: Présentation du cours
+  partial:
+    warning_delete_modal: Êtes vous sûr de vouloir supprimer cet élément ?
+    no_element: Aucun élément n'a été trouvé
   const:
     job:
       status:
@@ -672,6 +675,19 @@ admin:
     mandatory: Obligatoire
     authorized_value: Valeurs autorisées
     description: Description
+  setting:
+    config: Configurer les paramètres
+  group:
+    list_groups: Liste des groupes
+    edit_group: Modifier un groupe
+    actions: Actions
+  job:
+    list_jobs: Liste des tâches planifiées
+    edit_job: Modifier une tâche planifiée
+    job_report: Rapport du job :
+    actions:
+      report: Rapport
+      execute: Executer
 
   form:
     obsolete: Obsolète
@@ -689,6 +705,8 @@ admin:
     add_critical_achievement: Ajouter un apprentissage critique
     add_domain: Ajouter un domain
     add_equipment: Ajouter un équipement
+    add_group: Ajouter un groupe
+    add_job: Ajouter une tâche planifiée
     add_language: Ajouter une langue
     add_level: Ajouter un niveau
     add_period: Ajouter une période
