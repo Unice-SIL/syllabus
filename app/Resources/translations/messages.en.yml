@@ -687,7 +687,16 @@ admin:
     job_report: Task report :
     actions:
       report: Report
-      execute: Execute  
+      execute: Execute
+  user:
+    list_users: List of users
+    edit_user: Edit an user
+    form:
+      username: Username
+      lastname: Lastname
+      firstname: Firstname
+      email: Email
+      roles: Groups
 
   form:
     obsolete: Obsolete
@@ -712,10 +721,12 @@ admin:
     add_period: Add a period
     add_structure: Add a structure
     add_syllabus: Add a Syllabus
+    add_user: Add an user
     add_year: Add an year
     link_course_parents: Link courses as parent
     link_course_children: Link courses as children
     unlink: Unlink
+    reset_password: Send an email to reset password
     filter: Filter
     reset_filters: Reset filters
     save: Save

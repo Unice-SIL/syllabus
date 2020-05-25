@@ -23,9 +23,9 @@
             </div>
         </div>
     </div>
-    <button type="submit" class="btn btn-primary">{{ buttonLabel|default('Modifier') }}</button>
+    <button type="submit" class="btn btn-primary">{{ buttonLabel|default('admin.button.edit') | trans }}</button>
     {% set user = form.vars.data %}
     {% if user.id %}
-        <a type="submit" class="btn btn-primary" href="{{ path('app.admin.user.send_password_token', {'id' : user.id}) }}">Envoyer un mail de réinitialisation de mot de passe</a>
+        <a type="submit" class="btn btn-primary" href="{{ path('app.admin.user.send_password_token', {'id' : user.id}) }}">{{ 'admin.button.reset_password' | trans }}</a>
     {% endif %}
 {{ form_end(form) }}

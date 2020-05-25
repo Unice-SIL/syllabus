@@ -688,6 +688,15 @@ admin:
     actions:
       report: Rapport
       execute: Executer
+  user:
+    list_users: Liste des utilisateurs
+    edit_user: Modifier un utilisateur
+    form:
+      username: Identifiant
+      lastname: Nom
+      firstname: Prénom
+      email: Email
+      roles: Groupes
 
   form:
     obsolete: Obsolète
@@ -712,10 +721,12 @@ admin:
     add_period: Ajouter une période
     add_structure: Ajouter une structure
     add_syllabus: Ajouter un syllabus
+    add_user: Ajouter un utilisateur
     add_year: Ajouter une année
     link_course_parents: Attacher des cours parents
     link_course_children: Attacher des cours enfants
     unlink: Détacher
+    reset_password: Envoyer un mail de réinitialisation de mot de passe
     filter: Filtrer
     reset_filters: Réinitialiser les filtres
     save: Enregistrer
