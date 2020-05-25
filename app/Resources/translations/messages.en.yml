@@ -654,6 +654,20 @@ admin:
   structure:
     list_structures: List of structures
     edit_structure: Edit a structure
+  import:
+    syllabus: Import Syllabus infos
+    csv: File format CSV
+    description_part1: The file's first line match header and must contains the fields' name to be imported.
+    description_part2: Every fields, either the name in the header or for the value must be separated by a semi-colon (;).
+    description_part3: The fields list that can be specified in the imported field is specified below.
+    description_part4: To avoid any encoding problems, the file must be encoded in UTF-8.
+    example_part1: Example:
+    example_part2: code;year;title
+    example_part3: SLEPB111;2018;"Introduction to the Microbiology"
+    name: Name
+    mandatory: Mandatory
+    authorized_value: Authorized value
+    description: Description
 
   form:
     obsolete: Obsolete
@@ -662,6 +676,7 @@ admin:
     back: Back to last page
     display: Display
     more_info: More info
+    import: Import
     add_activity: Add an activity
     add_activity_type: Add an activity type
     add_activity_mode: Add an activity mode

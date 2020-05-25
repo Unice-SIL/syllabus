@@ -652,7 +652,26 @@ admin:
   structure:
     list_structures: Liste des structures
     edit_structure: Modifier une structure
-
+  import:
+    syllabus: Importer infos Syllabus
+    permissions: Importer des permissions
+    users: Importer des utilisateurs
+    csv: Format du fichier CSV
+    description_part1: La 1ère ligne du fichier correspond à l'entête et doit contenir les noms des champs à importer
+    description_part2: Chaque champs que ce soit pour le nom dans l'entête ou pour les valeurs doivent être séparés par un point-virgule (;).
+    description_part3: La liste des champs pouvant être spécifiés dans le fichier d'import est présentée ci-dessous.
+    description_part4: Pour évite tout problème d'encodage, le fichier doit être encodé en UTF-8.
+    example: Exemple:
+    syllabus_example_part1: code;year;title
+    syllabus_example_part2: SLEPB111;2018;"Introduction à la Microbiologie"
+    permission_example_part1: code;year;username;permission
+    permission_example_part2: SLEPB111;2018;jdoe;WRITE
+    user_example_part1: username;firstname;lastname;email
+    user_example_part2: jdoe;John;DOE;jdoe@domain.com
+    name: Nom
+    mandatory: Obligatoire
+    authorized_value: Valeurs autorisées
+    description: Description
   form:
     obsolete: Obsolète
     label: Intitulé
@@ -660,11 +679,12 @@ admin:
     back: Revenir à la page précédente
     display: Afficher
     more_info: Plus d'infos
+    import: Importer
     add_activity: Ajouter une activité
     add_activity_type: Ajouter un type d'activité
     add_activity_mode: Ajouter un mode d'activité
     add_campus: Ajouter un campus
-    add_course: Ajouter un oours
+    add_course: Ajouter un cours
     add_critical_achievement: Ajouter un apprentissage critique
     add_domain: Ajouter un domain
     add_equipment: Ajouter un équipement

@@ -1,5 +1,5 @@
 {% extends 'admin_layout.html.twig' %}
-{% set h1 = 'Importer des permissions' %}
+{% set h1 = 'admin.import.permissions' | trans %}
 
 {% block modals %}
     {{parent()}}
@@ -18,7 +18,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <button class="btn btn-primary">Importer</button>
+                        <button class="btn btn-primary">{{ 'admin.button.import' | trans }}</button>
                     </div>
                 </div>
             </div>
@@ -29,27 +29,28 @@
 
             {{ report_render(validationReport) }}
 
-            <h5>Format du fichier CSV</h5>
+            <h5>{{ 'admin.import.csv' | trans }}</h5>
             <ul>
                 <li>
-                    La 1ère ligne du fichier correspond à l'entête et doit contenir les noms des champs à importer
+                    {{ 'admin.import.description_part1' | trans }}
                 </li>
                 <li>
-                    Chaque champs que ce soit pour le nom dans l'entête ou pour les valeurs doivent être séparés par un point-virgule (;).
+                    {{ 'admin.import.description_part2' | trans }}
                 </li>
                 <li>
-                    La liste des champs pouvant être spécifiés dans le fichier d'import est présentée ci-dessous.
+                    {{ 'admin.import.description_part3' | trans }}
                 </li>
                 <li>
-                    Pour évite tout problème d'encodage, le fichier doit être encodé en UTF-8.
+                    {{ 'admin.import.description_part4' | trans }}
                 </li>
             </ul>
 
             <p>
-                Exemple:<br>
-                code;year;username;permission<br>
-                SLEPB111;2018;jdoe;WRITE<br>
+                {{ 'admin.import.example' | trans }}<br>
+                {{ 'admin.import.permission_example_part1' | trans }}<br>
+                {{ 'admin.import.permission_example_part2' | trans }}<br>
             </p>
+
 
             {% include 'import/_fields_allowed.html.twig' %}
 
