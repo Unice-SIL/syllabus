@@ -701,6 +701,9 @@ admin:
     list_notifications: Liste des notifications
     edit_notification: Modifier une notification
     actions: Actions
+  course_info_field:
+    title: Liste des champs liés à la duplication des syllabus
+    empty_field: Aucun champ n'a été enregistré
 
   form:
     obsolete: Obsolète

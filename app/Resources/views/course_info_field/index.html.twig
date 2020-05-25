@@ -1,6 +1,5 @@
 {% extends 'admin_layout.html.twig' %}
-
-{% set h1 = 'Liste des champs liés à la duplication des syllabus' %}
+{% set h1 = 'admin.course_info_field.title' | trans %}
 
 {% block subContent %}
     <div class="card">
@@ -64,7 +63,7 @@
                     </tbody>
                 </table>
             {% else %}
-                <div class="alert alert-info">Aucune champ n'a été enregistré</div>
+                <div class="alert alert-info">{{ 'admin.course_info_field.empty_field' | trans }}</div>
             {% endif %}
         </div>
     </div>
