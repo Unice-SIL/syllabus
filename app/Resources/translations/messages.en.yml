@@ -661,12 +661,16 @@ admin:
     description_part2: Every fields, either the name in the header or for the value must be separated by a semi-colon (;).
     description_part3: The fields list that can be specified in the imported field is specified below.
     description_part4: To avoid any encoding problems, the file must be encoded in UTF-8.
-    example_part1: Example:
-    example_part2: code;year;title
-    example_part3: SLEPB111;2018;"Introduction to the Microbiology"
-    name: Name
-    mandatory: Mandatory
-    authorized_value: Authorized value
+    example: Example:
+    syllabus_example_part1: code;year;title
+    syllabus_example_part2: SLEPB111;2018;"Introduction à la Microbiologie"
+    permission_example_part1: code;year;username;permission
+    permission_example_part2: SLEPB111;2018;jdoe;WRITE
+    user_example_part1: username;firstname;lastname;email
+    user_example_part2: jdoe;John;DOE;jdoe@domain.com
+    name: Nom
+    mandatory: Obligatoire
+    authorized_value: Valeurs autorisées
     description: Description
 
   form:

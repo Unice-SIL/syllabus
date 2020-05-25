@@ -672,6 +672,7 @@ admin:
     mandatory: Obligatoire
     authorized_value: Valeurs autorisées
     description: Description
+
   form:
     obsolete: Obsolète
     label: Intitulé
