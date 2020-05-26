@@ -1,5 +1,5 @@
 {% extends 'admin_layout.html.twig' %}
-{% set h1 = 'Liste des syllabus en cours de remplissage' %}
+{% set h1 = 'admin.filled_syllabus.list_syllabus' | trans %}
 {% block subContent %}
 
     <div class="card">
@@ -9,8 +9,8 @@
                     <thead>
                     <tr>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.activity.label.label'|trans, 'a.label') }}</th>
-                        <th class="sortable">Type</th>
-                        <th class="sortable text-center">Code établissement</th>
+                        <th class="sortable">{{ 'admin.filled_syllabus.type' | trans }}</th>
+                        <th class="sortable text-center">{{ 'admin.filled_syllabus.establishment_code' | trans }}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -30,7 +30,7 @@
                     </tbody>
                 </table>
             {% else %}
-                <div class="alert alert-info">Aucun Syllabus n'a été trouvé avec ces critères</div>
+                <div class="alert alert-info">{{ 'admin.filled_syllabus.empty_syllabus' | trans }}</div>
             {% endif %}
         </div>
         <!-- /.card-body -->

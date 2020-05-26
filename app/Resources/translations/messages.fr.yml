@@ -618,6 +618,27 @@ admin:
     prime_request: Demande(s) de prime à traiter
     form:
       years: Choisir l'année
+  ask_advice:
+    list_advices: Liste des demandes d'avis
+    year: Année
+    user: Utilisateur
+    process: Traité
+    empty_advice: Aucune demande d'avis n'a été trouvée
+  filled_syllabus:
+    list_syllabus: Liste des syllabus en cours de remplissage
+    type: Type
+    establishment_code: Code d'établissement
+    empty_syllabus: Aucun Syllabus n'a été trouvé avec ces critères
+  published_syllabus:
+    list_syllabus: Liste des syllabus publiés
+    type: Type
+    establishment_code: Code d'établissement
+    empty_syllabus: Aucun Syllabus n'a été trouvé avec ces critères
+  course_info:
+    list_syllabus: Liste des syllabus
+    duplicate_syllabus: Vers quel syllabus voulez-vous dupliquer le contenu ?
+    empty_syllabus: Aucun syllabus n'a été trouvé avec ces critères
+    actions: Actions
   course:
     list_courses: Liste des cours
     edit_course: Modifier un cours
@@ -739,7 +760,11 @@ admin:
     label: Intitulé
   button:
     back: Revenir à la page précédente
+    close: Fermer
     display: Afficher
+    duplicate: Dupliquer
+    duplicate_infos: Dupliquer les infos
+    duplicate_multiples_syllabus: Dupliquer syllabus en masse
     more_info: Plus d'infos
     import: Importer
     add_activity: Ajouter une activité

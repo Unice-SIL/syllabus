@@ -1,5 +1,5 @@
 {% extends 'admin_layout.html.twig' %}
-{% set h1 = 'Liste des demandes d\'avis' %}
+{% set h1 = 'admin.ask_advice.list_advices' | trans %}
 {% block subContent %}
 
     <div class="card">
@@ -9,9 +9,9 @@
                     <thead>
                     <tr>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.activity.label.label'|trans, 'a.label') }}</th>
-                        <th class="sortable">Année</th>
-                        <th class="sortable">Utilisateur</th>
-                        <th class="sortable text-center">traité</th>
+                        <th class="sortable">{{ 'admin.ask_advice.year' | trans }}</th>
+                        <th class="sortable">{{ 'admin.ask_advice.user' | trans }}</th>
+                        <th class="sortable text-center">{{ 'admin.ask_advice.process' | trans }}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -38,7 +38,7 @@
                     </tbody>
                 </table>
             {% else %}
-                <div class="alert alert-info">Aucune demande d'avis n'a été trouvée</div>
+                <div class="alert alert-info">{{ 'admin.ask_advice.empty_advice' | trans }}</div>
             {% endif %}
         </div>
         <!-- /.card-body -->

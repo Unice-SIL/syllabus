@@ -1,5 +1,5 @@
 {% extends 'admin_layout.html.twig' %}
-{% set h1 = 'Liste des syllabus' %}
+{% set h1 = 'admin.course_info.list_syllabus' | trans %}
 
 {% block modals %}
     {{ parent() }}
@@ -7,7 +7,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Vers quel syllabus voulez-vous dupliquer le contenu?</h4>
+                    <h4 class="modal-title">{{ 'admin.course_info.duplicate_syllabus' | trans }}</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
@@ -19,8 +19,8 @@
                     {{ form_widget(duplicationForm.to) }}
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-                    <button type="submit" class="btn btn-primary">Dupliquer</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'admin.button.close' | trans }}</button>
+                    <button type="submit" class="btn btn-primary">{{ 'admin.button.duplicate' | trans }}</button>
                 </div>
                 {{ form_end(duplicationForm) }}
             </div>
@@ -48,15 +48,16 @@
                     {{ form_row(form.structure) }}
                 </div>
                 <div class="col-md-2 col-sm-6">
-                    <a class="btn btn-danger" style="margin-top: 32px" href="{{  path('app_admin_course_info_index')  }}">Réinitialiser les filtres</a>
+                    <a class="btn btn-danger" style="margin-top: 32px" href="{{  path('app_admin_course_info_index')  }}">{{ 'admin.button.reset_filters' | trans }}</a>
                 </div>
                 <div class="col-md-2 col-sm-6">
                     <div class="btn-group">
-                        <button type="button" style="margin-top: 32px" class="btn btn-primary dropdown-toggle dropdown-icon" data-toggle="dropdown">Actions
+                        <button type="button" style="margin-top: 32px" class="btn btn-primary dropdown-toggle dropdown-icon" data-toggle="dropdown">
+                            {{ 'admin.course_info.actions' | trans }}
                         </button>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="{{  path('app_admin_course_info_new')  }}">Ajouter un syllabus</a>
-                            <a class="dropdown-item" href="{{  path('app_admin_course_info_duplicate_syllabus_from_file')  }}">Dupliquer syllabus en masse</a>
+                            <a class="dropdown-item" href="{{  path('app_admin_course_info_new')  }}">{{ 'admin.button.add_syllabus' | trans }}</a>
+                            <a class="dropdown-item" href="{{  path('app_admin_course_info_duplicate_syllabus_from_file')  }}">{{ 'admin.button.duplicate_multiples_syllabus' | trans }}</a>
                         </div>
                     </div>
                 </div>
@@ -88,7 +89,7 @@
                             <td>{{ syllabus.structure.label }}</td>
                             <td>
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#courseInfoDuplicationModal" data-code-year="{{ syllabus.codeYear(true) }}">
-                                    Dupliquer les infos
+                                    {{ 'admin.button.duplicate_infos' | trans }}
                                 </button>
                             </td>
                         </tr>
@@ -96,7 +97,7 @@
                     </tbody>
                 </table>
             {% else %}
-                <div class="alert alert-info">Aucun syllabus n'a été trouvé avec ces critères</div>
+                <div class="alert alert-info">{{ 'admin.course_info.empty_syllabus' | trans }}</div>
             {% endif %}
         </div>
         <!-- /.card-body -->

@@ -618,6 +618,27 @@ admin:
     prime_request: Prime request(s)
     form:
       years: Choose the year
+  ask_advice:
+    list_advices: List of advices requested
+    year: Year
+    user: User
+    process: Process
+    empty_advice: No advice request found
+  filled_syllabus:
+    list_syllabus: List of syllabus being filled
+    type: Type
+    establishment_code: Establishment code
+    empty_syllabus: No Syllabus has been found for those criteries
+  published_syllabus:
+    list_syllabus: List of published syllabus
+    type: Type
+    establishment_code: Establishment code
+    empty_syllabus: No Syllabus has been found for those criteries
+  course_info:
+    list_syllabus: List of syllabus
+    duplicate_syllabus: Toward which syllabus would you like to duplicate the content?
+    empty_syllabus: No syllabus has been found for those criterias
+    actions: Actions
   course:
     list_courses: List of courses
     edit_course: Edit a course
@@ -739,7 +760,11 @@ admin:
     label: Title
   button:
     back: Back to last page
+    close: Close
     display: Display
+    duplicate: Duplicate
+    duplicate_infos: Duplicate infos
+    duplicate_multiples_syllabus: Duplicate multiples syllabus
     more_info: More info
     import: Import
     add_activity: Add an activity
