@@ -1,5 +1,5 @@
 {% extends 'admin_layout.html.twig' %}
-{% set h1 = 'Liste des utilisateurs' %}
+{% set h1 = 'admin.user.list_users' | trans %}
 {% block subContent %}
 
     <div class="card">
@@ -14,11 +14,11 @@
                 <table class="table table-bordered table-responsive-sm">
                     <thead>
                     <tr>
-                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'Identifiant', 'u.username') }}</th>
-                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'Nom', 'u.lastname') }}</th>
-                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'Prénom', 'u.firstname') }}</th>
-                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'Email', 'u.email') }}</th>
-                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'Groupes', 'u.roles') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'admin.user.form.username' | trans, 'u.username') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'admin.user.form.lastname' | trans, 'u.lastname') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'admin.user.form.firstname' | trans, 'u.firstname') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'admin.user.form.email' | trans, 'u.email') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'admin.user.form.roles' | trans, 'u.roles') }}</th>
                     </tr>
                     </thead>
                     <tbody>

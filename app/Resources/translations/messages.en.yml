@@ -419,7 +419,6 @@ app:
         duplicate: Are you sure you want to duplicate the section "%title%" ?
         title: Section Title
         url: Link to the course section
-
   view:
     student:
       activities:
@@ -463,6 +462,9 @@ app:
         objectives: Course's objectives
         prerequisites: Prerequisites
         presentation: Course's presentation
+  partial:
+    warning_delete_modal: Are you sure you want to delete this element?
+    no_element: No element has been found
   const:
     cron:
       status:
@@ -481,7 +483,6 @@ app:
       class: In class
       hybrid: Hybrid
       distant: Distant
-
   form:
     notification:
       label:
@@ -654,6 +655,55 @@ admin:
   structure:
     list_structures: List of structures
     edit_structure: Edit a structure
+  import:
+    syllabus: Import Syllabus infos
+    permissions: Import permissions
+    users: Import users
+    csv: File format CSV
+    description_part1: The file's first line match header and must contains the fields' name to be imported.
+    description_part2: Every fields, either the name in the header or for the value must be separated by a semi-colon (;).
+    description_part3: The fields list that can be specified in the imported field is specified below.
+    description_part4: To avoid any encoding problems, the file must be encoded in UTF-8.
+    example: Example:
+    syllabus_example_part1: code;year;title
+    syllabus_example_part2: SLEPB111;2018;"Introduction à la Microbiologie"
+    permission_example_part1: code;year;username;permission
+    permission_example_part2: SLEPB111;2018;jdoe;WRITE
+    user_example_part1: username;firstname;lastname;email
+    user_example_part2: jdoe;John;DOE;jdoe@domain.com
+    name: Nom
+    mandatory: Obligatoire
+    authorized_value: Valeurs autorisées
+    description: Description
+  setting:
+    config: Settings
+  group:
+    list_groups: List of groups
+    edit_group: Edit a group
+    actions: Actions
+  job:
+    list_jobs: List of tasks
+    edit_job: Edit a task
+    job_report: Task report :
+    actions:
+      report: Report
+      execute: Execute
+  user:
+    list_users: List of users
+    edit_user: Edit an user
+    form:
+      username: Username
+      lastname: Lastname
+      firstname: Firstname
+      email: Email
+      roles: Groups
+  notification:
+    list_notifications: List of notifications
+    edit_notification: Edit a notification
+    actions: Actions
+  course_info_field:
+    title: List of fields linked to the duplication of the Syllabus
+    empty_field: No field has been registered
 
   form:
     obsolete: Obsolete
@@ -662,6 +712,7 @@ admin:
     back: Back to last page
     display: Display
     more_info: More info
+    import: Import
     add_activity: Add an activity
     add_activity_type: Add an activity type
     add_activity_mode: Add an activity mode
@@ -670,15 +721,20 @@ admin:
     add_critical_achievement: Add a critical achievement
     add_domain: Add a domain
     add_equipment: Add an equipment
+    add_group: Add a group
+    add_job: Add a task
     add_language: Add a language
     add_level: Add a level
+    add_notification: Add a notification
     add_period: Add a period
     add_structure: Add a structure
     add_syllabus: Add a Syllabus
+    add_user: Add an user
     add_year: Add an year
     link_course_parents: Link courses as parent
     link_course_children: Link courses as children
     unlink: Unlink
+    reset_password: Send an email to reset password
     filter: Filter
     reset_filters: Reset filters
     save: Save

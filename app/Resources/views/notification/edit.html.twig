@@ -1,22 +1,16 @@
 {% extends 'admin_layout.html.twig' %}
-{% set h1 = 'Modifier une notification' %}
+{% set h1 = 'admin.notification.edit_notification' | trans %}
 {% set href = path('app.admin.notification.index') %}
 
 {% block subContent %}
     <div class="card card-primary">
-
-
         {{ form_start(form) }}
         <div class="card-body">
-
             {{ form_row(form.message) }}
-
         </div>
 
-
-
         <div class="card-footer">
-            <button type="submit" class="btn btn-primary">Enregistrer</button>
+            <button type="submit" class="btn btn-primary">{{ 'admin.button.edit' | trans }}</button>
         </div>
         {{ form_end(form) }}
     </div>

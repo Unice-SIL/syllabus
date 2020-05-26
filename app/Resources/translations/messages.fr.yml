@@ -462,6 +462,9 @@ app:
         objectives: Objectifs du cours
         prerequisites: Prérequis
         presentation: Présentation du cours
+  partial:
+    warning_delete_modal: Êtes vous sûr de vouloir supprimer cet élément ?
+    no_element: Aucun élément n'a été trouvé
   const:
     job:
       status:
@@ -652,6 +655,55 @@ admin:
   structure:
     list_structures: Liste des structures
     edit_structure: Modifier une structure
+  import:
+    syllabus: Importer infos Syllabus
+    permissions: Importer des permissions
+    users: Importer des utilisateurs
+    csv: Format du fichier CSV
+    description_part1: La 1ère ligne du fichier correspond à l'entête et doit contenir les noms des champs à importer
+    description_part2: Chaque champs que ce soit pour le nom dans l'entête ou pour les valeurs doivent être séparés par un point-virgule (;).
+    description_part3: La liste des champs pouvant être spécifiés dans le fichier d'import est présentée ci-dessous.
+    description_part4: Pour évite tout problème d'encodage, le fichier doit être encodé en UTF-8.
+    example: Exemple:
+    syllabus_example_part1: code;year;title
+    syllabus_example_part2: SLEPB111;2018;"Introduction à la Microbiologie"
+    permission_example_part1: code;year;username;permission
+    permission_example_part2: SLEPB111;2018;jdoe;WRITE
+    user_example_part1: username;firstname;lastname;email
+    user_example_part2: jdoe;John;DOE;jdoe@domain.com
+    name: Nom
+    mandatory: Obligatoire
+    authorized_value: Valeurs autorisées
+    description: Description
+  setting:
+    config: Configurer les paramètres
+  group:
+    list_groups: Liste des groupes
+    edit_group: Modifier un groupe
+    actions: Actions
+  job:
+    list_jobs: Liste des tâches planifiées
+    edit_job: Modifier une tâche planifiée
+    job_report: Rapport du job :
+    actions:
+      report: Rapport
+      execute: Executer
+  user:
+    list_users: Liste des utilisateurs
+    edit_user: Modifier un utilisateur
+    form:
+      username: Identifiant
+      lastname: Nom
+      firstname: Prénom
+      email: Email
+      roles: Groupes
+  notification:
+    list_notifications: Liste des notifications
+    edit_notification: Modifier une notification
+    actions: Actions
+  course_info_field:
+    title: Liste des champs liés à la duplication des syllabus
+    empty_field: Aucun champ n'a été enregistré
 
   form:
     obsolete: Obsolète
@@ -660,23 +712,29 @@ admin:
     back: Revenir à la page précédente
     display: Afficher
     more_info: Plus d'infos
+    import: Importer
     add_activity: Ajouter une activité
     add_activity_type: Ajouter un type d'activité
     add_activity_mode: Ajouter un mode d'activité
     add_campus: Ajouter un campus
-    add_course: Ajouter un oours
+    add_course: Ajouter un cours
     add_critical_achievement: Ajouter un apprentissage critique
     add_domain: Ajouter un domain
     add_equipment: Ajouter un équipement
+    add_group: Ajouter un groupe
+    add_job: Ajouter une tâche planifiée
     add_language: Ajouter une langue
     add_level: Ajouter un niveau
+    add_notification: Ajouter une notification
     add_period: Ajouter une période
     add_structure: Ajouter une structure
     add_syllabus: Ajouter un syllabus
+    add_user: Ajouter un utilisateur
     add_year: Ajouter une année
     link_course_parents: Attacher des cours parents
     link_course_children: Attacher des cours enfants
     unlink: Détacher
+    reset_password: Envoyer un mail de réinitialisation de mot de passe
     filter: Filtrer
     reset_filters: Réinitialiser les filtres
     save: Enregistrer

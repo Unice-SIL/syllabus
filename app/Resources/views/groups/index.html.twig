@@ -1,5 +1,5 @@
 {% extends 'admin_layout.html.twig' %}
-{% set h1 = 'Liste des groupes' %}
+{% set h1 = 'admin.group.list_groups' | trans %}
 
 {% block modals %}
     {{ parent() }}
@@ -17,11 +17,11 @@
                     {{ form_row(form.label) }}
                 </div>
                 <div class="col-md-2 col-sm-6">
-                    <a class="btn btn-danger" style="margin-top: 32px" href="{{  path('app_admin_groups_index')  }}">Réinitialiser les filtres</a>
+                    <a class="btn btn-danger" style="margin-top: 32px" href="{{  path('app_admin_groups_index')  }}">{{ 'admin.button.reset_filters' | trans }}</a>
                 </div>
                 <input type="submit" style="position: absolute; left: -9999px"/>
                 <div class="col-md-8 col-sm-8">
-                    <a class="btn btn-primary float-right" style="margin-top: 32px" href="{{  path('app_admin_groups_new')  }}">Ajouter un groupe</a>
+                    <a class="btn btn-primary float-right" style="margin-top: 32px" href="{{  path('app_admin_groups_new')  }}">{{ 'admin.button.add_group' | trans }}</a>
                 </div>
             </div>
             {{ form_end(form) }}
@@ -34,7 +34,7 @@
                     <tr>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.groups.label.label'|trans, 'g.label') }}</th>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.groups.label.obsolete'|trans, 'g.obsolete') }}</th>
-                        <th>Actions</th>
+                        <th>{{ 'admin.group.actions' | trans }}</th>
                     </tr>
                     </thead>
                     <tbody>

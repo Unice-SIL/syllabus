@@ -21,21 +21,22 @@ class UserType extends AbstractType
         $builder
             ->add('username', null, [
                 'disabled' => $disabled,
-                'label' => 'Identifiant'
+                'label' => 'admin.user.form.username'
             ])
             ->add('firstname', null, [
                 'disabled' => $disabled,
-                'label' => 'Prénom'
+                'label' => 'admin.user.form.firstname'
             ])
             ->add('lastname', null, [
                 'disabled' => $disabled,
-                'label' => 'Nom'
+                'label' => 'admin.user.form.lastname'
             ])
             ->add('email', null, [
                 'disabled' => $disabled,
-                'label' => 'Email'
+                'label' => 'admin.user.form.email'
             ])
             ->add('groups', null, [
+                'label' => 'admin.user.form.roles',
                 'multiple' => true,
                 'expanded' => true
             ]);

@@ -1,5 +1,5 @@
 {% extends 'admin_layout.html.twig' %}
-{% set h1 = 'Liste des tâches planifiées' %}
+{% set h1 = 'admin.job.list_jobs' | trans %}
 
 {% block modals %}
     {{ parent() }}
@@ -25,8 +25,8 @@
                     </div>
                     <div class="col-12">
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Filtrer</button>
-                            <a class="btn btn-danger" href="{{  path('app.admin.job.index')  }}">Réinitialiser les filtres</a>
+                            <button type="submit" class="btn btn-primary">{{ 'admin.button.filter' | trans }}</button>
+                            <a class="btn btn-danger" href="{{  path('app.admin.job.index')  }}">{{ 'admin.button.reset_filters' | trans }}</a>
                         </div>
                     </div>
                 </div>
@@ -75,21 +75,21 @@
                             <td>
                                 {% if is_granted('ROLE_ADMIN_JOB_REPORT') %}
                                     {% if(job.lastStatus == constant('AppBundle\\Constant\\Job::STATUS_IN_PROGRESS')) %}
-                                        <a class="btn btn-primary disabled">Rapport</a>
+                                        <a class="btn btn-primary disabled">{{ 'admin.job.actions.report' | trans }}</a>
                                     {% else %}
                                         <a href="{{ path('app.admin.job.report', {'id': job.id}) }}" class="btn btn-primary">
-                                            Rapport
+                                            {{ 'admin.job.actions.report' | trans }}
                                         </a>
                                     {% endif %}
                                 {% endif %}
 
                                 {% if is_granted('ROLE_ADMIN_JOB_EXECUTE') %}
                                     {% if(job.lastStatus == constant('AppBundle\\Constant\\Job::STATUS_IN_PROGRESS')) %}
-                                        <a class="btn btn-primary disabled">Exécuter</a>
+                                        <a class="btn btn-primary disabled">{{ 'admin.job.actions.execute' | trans }}</a>
                                     {% else %}
                                         <form method="POST" action="{{ path('app.admin.job.run_command', {'id' : job.id}) }}" class="d-inline">
                                             <button href="{{ path('app.admin.job.run_command', {'id': job.id}) }}" class="btn btn-primary">
-                                                Exécuter
+                                                {{ 'admin.job.actions.execute' | trans }}
                                             </button>
                                             <input type="hidden" name="_token" value="{{ csrf_token('job' ~ job.id) }}">
                                         </form>

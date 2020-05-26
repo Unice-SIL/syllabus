@@ -1,5 +1,5 @@
 {% extends 'admin_layout.html.twig' %}
-{% set h1 = 'Rapport du job ' ~ job.label %}
+{% set h1 = 'admin.job.job_report' | trans ~ job.label %}
 {% set href = path('app.admin.job.index') %}
 
 {% block subContent %}
