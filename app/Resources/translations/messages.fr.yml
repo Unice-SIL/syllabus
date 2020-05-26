@@ -725,6 +725,7 @@ admin:
       firstname: Prénom
       email: Email
       roles: Groupes
+  translation: Traductions
   notification:
     list_notifications: Liste des notifications
     edit_notification: Modifier une notification
