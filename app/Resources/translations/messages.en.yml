@@ -581,6 +581,34 @@ app:
       save: Save
 
 admin:
+  sidebar:
+    dashboard: Dashboard
+    courses: Courses
+    reference_source: Reference source
+    critical_achievements: Critical achievements
+    activities:
+      activities: Activities
+      types: Types
+      modes: Modes
+    years: Years
+    campuses: Campuses
+    domains: Domains
+    equipments: Equipments
+    languages: Languages
+    levels: Levels
+    periods: Periods
+    structures: Structures
+    imports: Imports
+    syllabus: Syllabus
+    permissions: Permissions
+    users: Users
+    administration: Administration
+    settings: Settings
+    groups: Groups
+    jobs: Planned tasks
+    translations: Translations
+    notifications: Notifications
+    duplication: Duplication config
   dashboard:
     syllabus_dashboard: Syllabus dashboard
     published_syllabus: Published Syllabus
@@ -697,6 +725,7 @@ admin:
       firstname: Firstname
       email: Email
       roles: Groups
+  translation: Translations
   notification:
     list_notifications: List of notifications
     edit_notification: Edit a notification
