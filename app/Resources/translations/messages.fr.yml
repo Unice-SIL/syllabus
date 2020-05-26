@@ -581,6 +581,34 @@ app:
       save: Sauvegarder
 
 admin:
+  sidebar:
+    dashboard: Tableau de bord
+    courses: Cours
+    reference_source: Référentiel
+    critical_achievements: Acquis critiques
+    activities:
+      activities: Activités
+      types: Types
+      modes: Modes
+    years: Années
+    campuses: Campus
+    domains: Domaines
+    equipments: Équipements
+    languages: Langues
+    levels: Niveaux
+    periods: Périodes
+    structures: Structures
+    imports: Imports
+    syllabus: Syllabus
+    permissions: Permissions
+    users: Utilisateurs
+    administration: Administration
+    settings: Paramètres
+    groups: Groupes
+    jobs: Tâches planifiées
+    translations: Traductions
+    notifications: Notifications
+    duplication: Config duplication
   dashboard:
     syllabus_dashboard: Tableau de bord des syllabus
     published_syllabus: Syllabus publié(s)
