@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class DomainController
@@ -76,9 +77,10 @@ class DomainController extends AbstractController
      *
      * @param Request $request
      * @param DomainManager $domainManager
+     * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function newAction(Request $request, DomainManager $domainManager)
+    public function newAction(Request $request, DomainManager $domainManager, TranslatorInterface $translator)
     {
         $domain = $domainManager->new();
         $form = $this->createForm(DomainType::class, $domain);
@@ -87,7 +89,7 @@ class DomainController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $domainManager->create($domain);
 
-            $this->addFlash('success', 'Le domaine a été ajoutée avec succès.');
+            $this->addFlash('success', $translator->trans('admin.domain.flashbag.new'));
 
             return $this->redirectToRoute('app.admin.domain.index');
         }
@@ -104,9 +106,10 @@ class DomainController extends AbstractController
      * @param Request $request
      * @param Domain $domain
      * @param DomainManager $domainManager
+     * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, Domain $domain, DomainManager $domainManager)
+    public function editAction(Request $request, Domain $domain, DomainManager $domainManager, TranslatorInterface $translator)
     {
         $form = $this->createForm(DomainType::class, $domain);
         $form->handleRequest($request);
@@ -115,7 +118,7 @@ class DomainController extends AbstractController
 
             $domainManager->update($domain);
 
-            $this->addFlash('success', 'Le domaine été modifié avec succès.');
+            $this->addFlash('success', $translator->trans('admin.domain.flashbag.edit'));
 
             return $this->redirectToRoute('app.admin.domain.edit', array('id' => $domain->getId()));
         }

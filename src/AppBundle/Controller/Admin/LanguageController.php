@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class LanguageController
@@ -74,9 +75,10 @@ class LanguageController extends AbstractController
      * @Security("has_role('ROLE_ADMIN_LANGUAGE_CREATE')")
      * @param Request $request
      * @param LanguageManager $languageManager
+     * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function newAction(Request $request, LanguageManager $languageManager)
+    public function newAction(Request $request, LanguageManager $languageManager, TranslatorInterface $translator)
     {
         $language = $languageManager->new();
         $form = $this->createForm(LanguageType::class, $language);
@@ -84,7 +86,7 @@ class LanguageController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $languageManager->create($language);
-            $this->addFlash('success', 'La langue a été ajoutée avec succès.');
+            $this->addFlash('success', $translator->trans('admin.language.flashbag.new'));
 
             return $this->redirectToRoute('app.admin.language.index');
         }
@@ -104,7 +106,7 @@ class LanguageController extends AbstractController
      * @param LanguageManager $languageManager
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, Language $language, LanguageManager $languageManager)
+    public function editAction(Request $request, Language $language, LanguageManager $languageManager, TranslatorInterface $translator)
     {
         $form = $this->createForm(LanguageType::class, $language);
         $form->handleRequest($request);
@@ -113,7 +115,7 @@ class LanguageController extends AbstractController
 
             $languageManager->update($language);
 
-            $this->addFlash('success', 'La language été modifiée avec succès.');
+            $this->addFlash('success', $translator->trans('admin.language.flashbag.edit'));
 
             return $this->redirectToRoute('app.admin.language.edit', array('id' => $language->getId()));
         }

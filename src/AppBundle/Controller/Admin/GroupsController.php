@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class GroupsController
@@ -79,9 +80,10 @@ class GroupsController extends Controller
      * @Route("/new", name="new", methods={"GET", "POST"})
      * @param Request $request
      * @param GroupsManager $groupsManager
+     * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function newAction(Request $request, GroupsManager $groupsManager)
+    public function newAction(Request $request, GroupsManager $groupsManager, TranslatorInterface $translator)
     {
         $groups = $groupsManager->new();
 
@@ -91,7 +93,7 @@ class GroupsController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $groupsManager->create($groups);
 
-            $this->addFlash('success', 'Le groupe a été ajouté avec succès.');
+            $this->addFlash('success', $translator->trans('admin.group.flashbag.new'));
 
             return $this->redirectToRoute('app_admin_groups_index');
         }
@@ -108,9 +110,10 @@ class GroupsController extends Controller
      * @param Request $request
      * @param Groups $groups
      * @param GroupsManager $groupsManager
+     * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, Groups $groups, GroupsManager $groupsManager)
+    public function editAction(Request $request, Groups $groups, GroupsManager $groupsManager, TranslatorInterface $translator)
     {
         $form = $this->createForm(GroupsType::class, $groups);
         $form->handleRequest($request);
@@ -120,7 +123,7 @@ class GroupsController extends Controller
             $groupsManager->update($groups);
 
 
-            $this->addFlash('success', 'Le groups a été modifié avec succès.');
+            $this->addFlash('success', $translator->trans('admin.group.flashbag.edit'));
 
             return $this->redirectToRoute('app_admin_groups_edit', array('id' => $groups->getId()));
         }

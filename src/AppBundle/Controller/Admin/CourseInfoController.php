@@ -21,6 +21,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class CourseInfoController
@@ -36,6 +37,7 @@ class CourseInfoController extends Controller
      * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
      * @param CourseInfoManager $courseInfoManager
      * @param EntityManagerInterface $em
+     * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      * @throws \Exception
      */
@@ -44,7 +46,8 @@ class CourseInfoController extends Controller
         CourseInfoDoctrineRepository $courseInfoDoctrineRepository,
         FilterBuilderUpdaterInterface $filterBuilderUpdater,
         CourseInfoManager $courseInfoManager,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        TranslatorInterface $translator
     )
     {
         $qb = $courseInfoDoctrineRepository->getIndexQueryBuilder();
@@ -69,7 +72,7 @@ class CourseInfoController extends Controller
 
                 if (!$report->hasMessages() and !$report->hasLines()) {
 
-                    $this->addFlash('success', 'La duplication a été réalisée avec succès');
+                    $this->addFlash('success', $translator->trans('admin.course_info.flashbag.duplicate'));
                     $em->flush();
 
                     return $this->redirectToRoute('app.admin.course_info.index');
@@ -127,10 +130,11 @@ class CourseInfoController extends Controller
      * @param Request $request
      * @param CourseInfoManager $courseInfoManager
      * @param EntityManagerInterface $em
+     * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      * @throws \Exception
      */
-    public function newAction(Request $request, CourseInfoManager $courseInfoManager, EntityManagerInterface $em)
+    public function newAction(Request $request, CourseInfoManager $courseInfoManager, EntityManagerInterface $em, TranslatorInterface $translator)
     {
         $courseInfo = $courseInfoManager->new();
 
@@ -140,7 +144,7 @@ class CourseInfoController extends Controller
         if ($form->isSubmitted() and $form->isValid()) {
             $courseInfoManager->update($courseInfo);
 
-            $this->addFlash('success', 'Le syllabus a été crée avec succès');
+            $this->addFlash('success', $translator->trans('admin.course_info.flashbag.new'));
             return $this->redirectToRoute('app.admin.course_info.index');
         }
         return $this->render('course_info/admin/new.html.twig', ['form' => $form->createView()]);
@@ -153,9 +157,10 @@ class CourseInfoController extends Controller
      * @param CourseInfo $courseInfo
      * @param Request $request
      * @param EntityManagerInterface $em
+     * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function edit(CourseInfo $courseInfo, Request $request, EntityManagerInterface $em)
+    public function edit(CourseInfo $courseInfo, Request $request, EntityManagerInterface $em, TranslatorInterface $translator)
     {
         $form = $this->createForm(CourseInfoType::class, $courseInfo);
         $form->handleRequest($request);
@@ -164,7 +169,7 @@ class CourseInfoController extends Controller
 
             $em->flush();
 
-            $this->addFlash('success', 'Le syllabus a bien été modifié.');
+            $this->addFlash('success', $translator->trans('admin.course_info.flashbag.edit'));
 
             return $this->redirectToRoute('app.admin.course_info.edit', [
                 'id' => $courseInfo->getId(),

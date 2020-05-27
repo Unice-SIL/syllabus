@@ -618,6 +618,31 @@ admin:
     prime_request: Prime request(s)
     form:
       years: Choose the year
+  ask_advice:
+    list_advices: List of advices requested
+    year: Year
+    user: User
+    process: Process
+    empty_advice: No advice request found
+  filled_syllabus:
+    list_syllabus: List of syllabus being filled
+    type: Type
+    establishment_code: Establishment code
+    empty_syllabus: No Syllabus has been found for those criteries
+  published_syllabus:
+    list_syllabus: List of published syllabus
+    type: Type
+    establishment_code: Establishment code
+    empty_syllabus: No Syllabus has been found for those criteries
+  course_info:
+    list_syllabus: List of syllabus
+    duplicate_syllabus: Toward which syllabus would you like to duplicate the content?
+    empty_syllabus: No syllabus has been found for those criterias
+    actions: Actions
+    flashbag:
+      duplicate: The duplication has been done with success.
+      new: The syllabus has been created with success.
+      edit: The syllabus has been updated.
   course:
     list_courses: List of courses
     edit_course: Edit a course
@@ -633,13 +658,23 @@ admin:
     action: Action
     course_parents: Course's parents
     course_children: Course's chldren
+    flashbag:
+      new: The course has been saved with success.
+      edit: The course has been updated with success.
+      add_syllabus: The syllabus has been added to the course.
   critical_achievement:
     list_critical_achievements: List of critical achievements
     edit_critical_achievement: Edit a critical achievement
+    flashbag:
+      new: The critical achievement has been added with success.
+      edit: The critical achievement has been updated with success.
     form:
       course: Course
   activity:
     list_activities: List of activities
+    flashbag:
+      new: The activity has been added with success.
+      edit: The activity has been updated with success.
     form:
       description: Description
       activityTypes: Activity types
@@ -647,9 +682,15 @@ admin:
     list_activities_types: List of activities types
     modes: Modes
     edit_activity_type: Edit an activity type
+    flashbag:
+      new: The activity type has been added with success.
+      edit: The activity type has been updated with success.
   activity_mode:
     list_activities_modes: List of activities modes
     edit_activity_mode: Edit an activity mode
+    flashbag:
+      new: The activity mode has been added with success.
+      edit: The activity mode has been updated with success.
   year:
     list_years: List of years
     year: Year
@@ -657,32 +698,56 @@ admin:
     editable: Editable
     current_year: Current year
     edit_year: Edit an year
+    flashbag:
+      new: The year has been added with success.
+      edit: The year has been updated with success.
   campus:
     list_campuses: List of campuses
     edit_campus: Edit a campus
     synchronized: Synchronized
+    flashbag:
+      new: The campus has been added with success.
+      edit: The campus has been updated with success.
   domain:
     list_domains: List of domains
     edit_domain: Edit a domain
     structure: Structure
+    flashbag:
+      new: The domain has been added with success.
+      edit: The domain has been updated with success.
   equipment:
     list_equipments: List of equipments
     edit_equipment: Edit an equipment
+    flashbag:
+      new: The equipment has been added with success.
+      edit: The equipment has been updated with success.
   language:
     list_languages: List of languages
     edit_language: Edit a language
+    flashbag:
+      new: The language has been added with success.
+      edit: The language has been updated with success.
   level:
     list_levels: List of levels
     edit_level: Edit a level
+    flashbag:
+      new: The level has been added with success.
+      edit: The level has been updated with success.
   period:
     list_periods: List of periods
     edit_period: Edit a period
     filter_structures: Structures
+    flashbag:
+      new: The period has been added with success.
+      edit: The period has been updated with success.
     form:
       structure: Structure
   structure:
     list_structures: List of structures
     edit_structure: Edit a structure
+    flashbag:
+      new: The structure has been added with success.
+      edit: The structure has been updated with success.
   import:
     syllabus: Import Syllabus infos
     permissions: Import permissions
@@ -703,12 +768,18 @@ admin:
     mandatory: Obligatoire
     authorized_value: Valeurs autorisées
     description: Description
+    reporting_helper:
+      parsing: Parsing the csv file
+      insertion_db: Inserting in database
   setting:
     config: Settings
   group:
     list_groups: List of groups
     edit_group: Edit a group
     actions: Actions
+    flashbag:
+      new: The group has been added with success.
+      edit: The group has been updated with success.
   job:
     list_jobs: List of tasks
     edit_job: Edit a task
@@ -716,9 +787,17 @@ admin:
     actions:
       report: Report
       execute: Execute
+    flashbag:
+      action_in_progress: The command is executing. No action allowed.
+      unauthorized_action: You're unauthorized to do this action.
   user:
     list_users: List of users
     edit_user: Edit an user
+    flashbag:
+      new: The user has been added with success.
+      edit: The user has been updated with success.
+      mail_send: The mail has been send.
+      mail_failed: A problem happened while sending the mail.
     form:
       username: Username
       lastname: Lastname
@@ -730,6 +809,10 @@ admin:
     list_notifications: List of notifications
     edit_notification: Edit a notification
     actions: Actions
+    flashbag:
+      new: The notification has been added with success.
+      edit: The notification has been updated with success.
+      delete: The notification has been deleted with success.
   course_info_field:
     title: List of fields linked to the duplication of the Syllabus
     empty_field: No field has been registered
@@ -739,7 +822,11 @@ admin:
     label: Title
   button:
     back: Back to last page
+    close: Close
     display: Display
+    duplicate: Duplicate
+    duplicate_infos: Duplicate infos
+    duplicate_multiples_syllabus: Duplicate multiples syllabus
     more_info: More info
     import: Import
     add_activity: Add an activity

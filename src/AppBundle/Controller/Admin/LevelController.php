@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class LevelController
@@ -74,9 +75,10 @@ class LevelController extends AbstractController
      * @Security("has_role('ROLE_ADMIN_LEVEL_CREATE')")
      * @param Request $request
      * @param LevelManager $levelManager
+     * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function newAction(Request $request, LevelManager $levelManager)
+    public function newAction(Request $request, LevelManager $levelManager, TranslatorInterface $translator)
     {
         $level = $levelManager->new();
         $form = $this->createForm(LevelType::class, $level);
@@ -84,7 +86,7 @@ class LevelController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $levelManager->create($level);
-            $this->addFlash('success', 'Le niveau a été ajouté avec succès.');
+            $this->addFlash('success', $translator->trans('admin.level.flashbag.new'));
 
             return $this->redirectToRoute('app.admin.level.index');
         }
@@ -101,9 +103,10 @@ class LevelController extends AbstractController
      * @param Request $request
      * @param Level $level
      * @param LevelManager $levelManager
+     * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, Level $level, LevelManager $levelManager)
+    public function editAction(Request $request, Level $level, LevelManager $levelManager, TranslatorInterface $translator)
     {
         $form = $this->createForm(LevelType::class, $level);
         $form->handleRequest($request);
@@ -112,7 +115,7 @@ class LevelController extends AbstractController
 
             $levelManager->update($level);
 
-            $this->addFlash('success', 'Le niveau été modifié avec succès.');
+            $this->addFlash('success', $translator->trans('admin.level.flashbag.edit'));
 
             return $this->redirectToRoute('app.admin.level.edit', array('id' => $level->getId()));
         }

@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * @package AppBundle\Controller
@@ -75,9 +76,10 @@ class PeriodController extends AbstractController
      *
      * @param Request $request
      * @param PeriodManager $periodManager
+     * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function newAction(Request $request, PeriodManager $periodManager)
+    public function newAction(Request $request, PeriodManager $periodManager, TranslatorInterface $translator)
     {
         $period = $periodManager->new();
         $form = $this->createForm(PeriodType::class, $period);
@@ -86,7 +88,7 @@ class PeriodController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $periodManager->create($period);
 
-            $this->addFlash('success', 'La période a été ajoutée avec succès.');
+            $this->addFlash('success', $translator->trans('admin.period.flashbag.new'));
 
             return $this->redirectToRoute('app.admin.period.index');
         }
@@ -105,9 +107,10 @@ class PeriodController extends AbstractController
      * @param Request $request
      * @param Period $period
      * @param PeriodManager $periodManager
+     * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, Period $period, PeriodManager $periodManager)
+    public function editAction(Request $request, Period $period, PeriodManager $periodManager, TranslatorInterface $translator)
     {
         $form = $this->createForm(PeriodType::class, $period);
         $form->handleRequest($request);
@@ -115,7 +118,7 @@ class PeriodController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $periodManager->update($period);
 
-            $this->addFlash('success', 'La période été modifiée avec succès.');
+            $this->addFlash('success', $translator->trans('admin.period.flashbag.edit'));
 
             return $this->redirectToRoute('app.admin.period.edit', array('id' => $period->getId()));
         }

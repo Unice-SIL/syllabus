@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class ActivityTypeController
@@ -73,9 +74,10 @@ class ActivityTypeController extends AbstractController
      * @Security("has_role('ROLE_ADMIN_ACTIVITYTYPE_CREATE')")
      * @param Request $request
      * @param ActivityTypeManager $activityTypeManager
+     * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function newAction(Request $request, ActivityTypeManager $activityTypeManager)
+    public function newAction(Request $request, ActivityTypeManager $activityTypeManager, TranslatorInterface $translator)
     {
         $activityType = $activityTypeManager->new();
         $form = $this->createForm(ActivityTypeType::class, $activityType);
@@ -84,7 +86,7 @@ class ActivityTypeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $activityTypeManager->create($activityType);
 
-            $this->addFlash('success', 'Le type d\'activité a été ajoutée avec succès.');
+            $this->addFlash('success', $translator->trans('admin.activity_type.flashbag.new'));
 
             return $this->redirectToRoute('app.admin.activity_type.index');
         }
@@ -102,9 +104,10 @@ class ActivityTypeController extends AbstractController
      * @param Request $request
      * @param ActivityType $activityType
      * @param ActivityTypeManager $activityTypeManager
+     * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, ActivityType $activityType, ActivityTypeManager $activityTypeManager)
+    public function editAction(Request $request, ActivityType $activityType, ActivityTypeManager $activityTypeManager, TranslatorInterface $translator)
     {
         $form = $this->createForm(ActivityTypeType::class, $activityType);
         $form->handleRequest($request);
@@ -113,7 +116,7 @@ class ActivityTypeController extends AbstractController
 
             $activityTypeManager->update($activityType);
 
-            $this->addFlash('success', 'L\'activité a été modifiée avec succès.');
+            $this->addFlash('success', $translator->trans('admin.activity_type.flashbag.edit'));
 
             return $this->redirectToRoute('app.admin.activity_type.edit', array('id' => $activityType->getId()));
         }

@@ -24,6 +24,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class ImportController
@@ -41,6 +42,7 @@ class ImportController extends AbstractController
      * @param CourseInfoManager $courseInfoManager
      * @param ImportManager $importManager
      * @param CourseInfoCsvConfiguration $courseInfoCsvConfiguration
+     * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      * @throws Exception
      */
@@ -49,7 +51,8 @@ class ImportController extends AbstractController
         EntityManagerInterface $em,
         CourseInfoManager $courseInfoManager,
         ImportManager $importManager,
-        CourseInfoCsvConfiguration $courseInfoCsvConfiguration
+        CourseInfoCsvConfiguration $courseInfoCsvConfiguration,
+        TranslatorInterface $translator
     )
     {
         $form = $this->createForm(ImportType::class);
@@ -60,7 +63,7 @@ class ImportController extends AbstractController
 
 
             $courseInfoCsvConfiguration->setPath($form->getData()['file']->getPathName());
-            $parsingReport = ReportingHelper::createReport('Parsing du Fichier Csv');
+            $parsingReport = ReportingHelper::createReport($translator->trans('admin.import.reporting_helper.parsing'));
             $courseInfos = $importManager->parseFromConfig($courseInfoCsvConfiguration, $parsingReport, [
                 'allow_extra_field' => true,
                 'allow_less_field' => true,
@@ -79,7 +82,7 @@ class ImportController extends AbstractController
                 $fieldsToUpdate[] = 'mccCcCoeffSession1';
             }
 
-            $validationReport = ReportingHelper::createReport('Insertion en base de données');
+            $validationReport = ReportingHelper::createReport($translator->trans('admin.import.reporting_helper.insertion_db'));
 
             foreach ($courseInfos as $lineIdReport => $courseInfo) {
 
@@ -126,6 +129,7 @@ class ImportController extends AbstractController
      * @param CoursePermissionManager $coursePermissionManager
      * @param ImportManager $importManager
      * @param CoursePermissionCsvConfiguration $coursePermissionCsvConfiguration
+     * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      * @throws Exception
      */
@@ -133,7 +137,8 @@ class ImportController extends AbstractController
         Request $request,
         CoursePermissionManager $coursePermissionManager,
         ImportManager $importManager,
-        CoursePermissionCsvConfiguration $coursePermissionCsvConfiguration
+        CoursePermissionCsvConfiguration $coursePermissionCsvConfiguration,
+        TranslatorInterface $translator
     )
     {
 
@@ -145,13 +150,13 @@ class ImportController extends AbstractController
         if ($form->isSubmitted() and $form->isValid()) {
 
             $coursePermissionCsvConfiguration->setPath($form->getData()['file']->getPathName());
-            $parsingReport = ReportingHelper::createReport('Parsing du Fichier Csv');
+            $parsingReport = ReportingHelper::createReport($translator->trans('admin.import.reporting_helper.parsing'));
             $coursePermissions = $importManager->parseFromConfig($coursePermissionCsvConfiguration, $parsingReport, [
                 'allow_extra_field' => false,
                 'allow_less_field' => false,
             ]);
 
-            $validationReport = ReportingHelper::createReport('Insertion en base de données');
+            $validationReport = ReportingHelper::createReport($translator->trans('admin.import.reporting_helper.insertion_db'));
 
             foreach ($coursePermissions as $lineIdReport => $coursePermission) {
 
@@ -189,14 +194,16 @@ class ImportController extends AbstractController
      * @param UserManager $userManager
      * @param ImportManager $importManager
      * @param UserCsvConfiguration $userCsvConfiguration
-     * @return void
+     * @param TranslatorInterface $translator
+     * @return RedirectResponse|Response
      * @throws Exception
      */
     public function user(
         Request $request,
         UserManager $userManager,
         ImportManager $importManager,
-        UserCsvConfiguration $userCsvConfiguration
+        UserCsvConfiguration $userCsvConfiguration,
+        TranslatorInterface $translator
     )
     {
         $form = $this->createForm(ImportType::class);
@@ -208,12 +215,12 @@ class ImportController extends AbstractController
         if ($form->isSubmitted() and $form->isValid()) {
 
             $userCsvConfiguration->setPath($form->getData()['file']->getPathName());
-            $parsingReport = ReportingHelper::createReport('Parsing du Fichier Csv');
+            $parsingReport = ReportingHelper::createReport($translator->trans('admin.import.reporting_helper.parsing'));
             $users = $importManager->parseFromConfig($userCsvConfiguration, $parsingReport,[
                 'allow_extra_field' => false,
                 'allow_less_field' => true,
             ]);
-            $validationReport = ReportingHelper::createReport('Insertion en base de données');
+            $validationReport = ReportingHelper::createReport($translator->trans('admin.import.reporting_helper.insertion_db'));
 
             foreach ($users as $lineIdReport => $user) {
 

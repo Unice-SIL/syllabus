@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class ActivityModeController
@@ -72,9 +73,10 @@ class ActivityModeController extends AbstractController
      *
      * @param Request $request
      * @param ActivityModeManager $activityTypeManager
+     * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function newAction(Request $request, ActivityModeManager $activityTypeManager)
+    public function newAction(Request $request, ActivityModeManager $activityTypeManager, TranslatorInterface $translator)
     {
         $activityMode = $activityTypeManager->new();
         $form = $this->createForm(ActivityModeType::class, $activityMode);
@@ -84,7 +86,7 @@ class ActivityModeController extends AbstractController
 
             $activityTypeManager->create($activityMode);
 
-            $this->addFlash('success', 'Le mode d\'activité a été ajoutée avec succès.');
+            $this->addFlash('success', $translator->trans('admin.activity_mode.flashbag.new'));
 
             return $this->redirectToRoute('app.admin.activity_mode.index');
         }
@@ -101,9 +103,10 @@ class ActivityModeController extends AbstractController
      * @param Request $request
      * @param ActivityMode $activityMode
      * @param ActivityModeManager $activityModeManager
+     * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, ActivityMode $activityMode, ActivityModeManager $activityModeManager)
+    public function editAction(Request $request, ActivityMode $activityMode, ActivityModeManager $activityModeManager, TranslatorInterface $translator)
     {
         $form = $this->createForm(ActivityModeType::class, $activityMode);
         $form->handleRequest($request);
@@ -112,7 +115,7 @@ class ActivityModeController extends AbstractController
 
             $activityModeManager->update($activityMode);
 
-            $this->addFlash('success', 'Le mode d\'activité a été modifiée avec succès.');
+            $this->addFlash('success', $translator->trans('admin.activity_mode.flashbag.edit'));
 
             return $this->redirectToRoute('app.admin.activity_mode.edit', array('id' => $activityMode->getId()));
         }

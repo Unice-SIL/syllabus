@@ -25,6 +25,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class CourseController
@@ -76,9 +77,10 @@ class CourseController extends Controller
      *
      * @param Request $request
      * @param CourseManager $courseManager
+     * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function newAction(Request $request, CourseManager $courseManager)
+    public function newAction(Request $request, CourseManager $courseManager, TranslatorInterface $translator)
     {
         $course = $courseManager->new();
         $form = $this->createForm(CourseType::class, $course);
@@ -87,7 +89,7 @@ class CourseController extends Controller
         if ($form->isSubmitted() and $form->isValid()) {
             $courseManager->create($course);
 
-            $this->addFlash('success', 'Le cours a été enregistré avec succès');
+            $this->addFlash('success', $translator->trans('admin.course.flashbag.new'));
 
             return $this->redirectToRoute('app.admin.course.index');
         }
@@ -103,9 +105,10 @@ class CourseController extends Controller
      * @param Request $request
      * @param Course $course
      * @param CourseManager $courseManager
+     * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, Course $course, CourseManager $courseManager)
+    public function editAction(Request $request, Course $course, CourseManager $courseManager, TranslatorInterface $translator)
     {
         $form = $this->createForm(CourseType::class, $course);
         $form->handleRequest($request);
@@ -113,7 +116,7 @@ class CourseController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $courseManager->update($course);
 
-            $this->addFlash('success', 'Le cours a été modifié avec succès.');
+            $this->addFlash('success', $translator->trans('admin.course.flashbag.edit'));
             return $this->redirectToRoute('app.admin.course.edit', array('id' => $course->getId()));
         }
         return $this->render('course/edit.html.twig', array(
@@ -251,9 +254,10 @@ class CourseController extends Controller
      * @param Course $course
      * @param Request $request
      * @param EntityManagerInterface $em
+     * @param TranslatorInterface $translator
      * @return Response
      */
-    public function newCourseInfo(Course $course, Request $request, EntityManagerInterface $em)
+    public function newCourseInfo(Course $course, Request $request, EntityManagerInterface $em, TranslatorInterface $translator)
     {
         $courseInfo = new CourseInfo();
         $courseInfo->setCourse($course);
@@ -265,7 +269,7 @@ class CourseController extends Controller
             $course->addCourseInfo($courseInfo);
             $em->flush();
 
-            $this->addFlash('success', 'Le syllabus a bien été ajouté au cours.');
+            $this->addFlash('success', $translator->trans('admin.course.flashbag.add_syllabus'));
 
             return $this->redirectToRoute('app.admin.course.show', ['id' => $course->getId()]);
         }

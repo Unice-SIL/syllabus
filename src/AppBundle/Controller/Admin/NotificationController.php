@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Notification controller.
@@ -73,9 +74,10 @@ class NotificationController extends AbstractController
      *
      * @param Request $request
      * @param NotificationManager $notificationManager
+     * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function newAction(Request $request, NotificationManager $notificationManager)
+    public function newAction(Request $request, NotificationManager $notificationManager, TranslatorInterface $translator)
     {
         $notification = $notificationManager->new();
         $form = $this->createForm(NotificationType::class, $notification);
@@ -84,7 +86,7 @@ class NotificationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $notificationManager->create($notification);
 
-            $this->addFlash('success', 'La notification a été ajoutée avec succès');
+            $this->addFlash('success', $translator->trans('admin.notification.flashbag.new'));
 
             return $this->redirectToRoute('app.admin.notification.index');
         }
@@ -106,7 +108,7 @@ class NotificationController extends AbstractController
      * @param NotificationManager $notificationManager
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, Notification $notification, NotificationManager $notificationManager)
+    public function editAction(Request $request, Notification $notification, NotificationManager $notificationManager, TranslatorInterface $translator)
     {
         $editForm = $this->createForm(NotificationType::class, $notification);
         $editForm->handleRequest($request);
@@ -114,7 +116,7 @@ class NotificationController extends AbstractController
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $notificationManager->update($notification);
 
-            $this->addFlash('success', 'La notification a été modifiée avec succès');
+            $this->addFlash('success', $translator->trans('admin.notification.flashbag.edit'));
 
             return $this->redirectToRoute('app.admin.notification.edit', array('id' => $notification->getId()));
         }
@@ -134,9 +136,10 @@ class NotificationController extends AbstractController
      * @param Request $request
      * @param Notification $notification
      * @param NotificationManager $notificationManager
+     * @param TranslatorInterface $translator
      * @return RedirectResponse
      */
-    public function deleteAction(Request $request, Notification $notification, NotificationManager $notificationManager)
+    public function deleteAction(Request $request, Notification $notification, NotificationManager $notificationManager, TranslatorInterface $translator)
     {
         $form = $this->createDeleteForm($notification);
         $form->handleRequest($request);
@@ -144,7 +147,7 @@ class NotificationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $notificationManager->delete($notification);
 
-            $this->addFlash('success', 'La notification a été supprimée avec succès');
+            $this->addFlash('success', $translator->trans('admin.notification.flashbag.delete'));
         }
 
         return $this->redirectToRoute('app.admin.notification.index');

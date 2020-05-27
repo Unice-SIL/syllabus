@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * User controller.
@@ -56,9 +57,10 @@ class UserController extends AbstractController
      *
      * @param Request $request
      * @param UserManager $userManager
+     * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function newAction(Request $request, UserManager $userManager)
+    public function newAction(Request $request, UserManager $userManager, TranslatorInterface $translator)
     {
         $user = $userManager->new();
         $form = $this->createForm(UserType::class, $user, ['context' => 'new']);
@@ -66,7 +68,7 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() and $form->isValid()) {
             $userManager->create($user);
-            $this->addFlash('success', 'L\'utilisateur a bien été enregistré');
+            $this->addFlash('success', $translator->trans('admin.user.flashbag.new'));
 
             return $this->redirectToRoute('app.admin.user.edit', ['id' => $user->getId()]);
         }
@@ -83,9 +85,10 @@ class UserController extends AbstractController
      * @param Request $request
      * @param User $user
      * @param UserManager $userManager
+     * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, User $user, UserManager $userManager)
+    public function editAction(Request $request, User $user, UserManager $userManager, TranslatorInterface $translator)
     {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
@@ -93,7 +96,7 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $userManager->update($user);
 
-            $this->addFlash('success', 'L\'utilisateur a bien été modifié.');
+            $this->addFlash('success', $translator->trans('admin.user.flashbag.edit'));
 
             return $this->redirectToRoute('app.admin.user.edit', array('id' => $user->getId()));
         }
@@ -108,18 +111,19 @@ class UserController extends AbstractController
      * @param User $user
      * @param UserManager $userManager
      * @param MailHelper $mailer
+     * @param TranslatorInterface $translator
      * @return RedirectResponse
      */
-    public function sendPasswordToken(User $user, UserManager $userManager, MailHelper $mailer)
+    public function sendPasswordToken(User $user, UserManager $userManager, MailHelper $mailer, TranslatorInterface $translator)
     {
         $token = $userManager->setResetPasswordToken($user, ['flush' => true]);
 
         if ($mailer->sendResetPasswordMessage($user, $token)) {
-            $this->addFlash('success', 'Le mail a bien été envoyé.');
+            $this->addFlash('success', $translator->trans('admin.user.flashbag.mail_send'));
             return $this->redirectToRoute('app.admin.user.edit', ['id' => $user->getId()]);
         }
 
-        $this->addFlash('danger', 'Un problème est survenu lors de l\'envoie du mail.');
+        $this->addFlash('danger', $translator->trans('admin.user.flashbag.mail_failed'));
         return $this->redirectToRoute('app.admin.user.edit', ['id' => $user->getId()]);
 
     }

@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class StructureController
@@ -74,9 +75,10 @@ class StructureController extends AbstractController
      *
      * @param Request $request
      * @param StructureManager $structureManager
+     * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function newAction(Request $request, StructureManager $structureManager)
+    public function newAction(Request $request, StructureManager $structureManager, TranslatorInterface $translator)
     {
         $structure = $structureManager->new();
         $form = $this->createForm(StructureType::class, $structure, ['context' => 'new']);
@@ -85,7 +87,7 @@ class StructureController extends AbstractController
         if ($form->isSubmitted() and $form->isValid()) {
             $structureManager->create($structure);
 
-            $this->addFlash('success', 'La structure a été enregistrée avec succès');
+            $this->addFlash('success', $translator->trans('admin.structure.flashbag.new'));
 
             return $this->redirectToRoute('app.admin.structure.index');
         }
@@ -101,9 +103,10 @@ class StructureController extends AbstractController
      * @param Request $request
      * @param Structure $structure
      * @param StructureManager $structureManager
+     * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, Structure $structure, StructureManager $structureManager)
+    public function editAction(Request $request, Structure $structure, StructureManager $structureManager, TranslatorInterface $translator)
     {
         $form = $this->createForm(StructureType::class, $structure);
         $form->handleRequest($request);
@@ -111,7 +114,7 @@ class StructureController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $structureManager->update($structure);
 
-            $this->addFlash('success', 'La strucutre a été modifiée avec succès.');
+            $this->addFlash('success', $translator->trans('admin.structure.flashbag.edit'));
             return $this->redirectToRoute('app.admin.structure.edit', array('id' => $structure->getId()));
         }
 

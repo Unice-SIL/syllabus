@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Job controller.
@@ -172,9 +173,10 @@ class JobController extends AbstractController
      *
      * @param Request $request
      * @param Job $job
+     * @param TranslatorInterface $translator
      * @return RedirectResponse
      */
-    public function deleteAction(Request $request, Job $job)
+    public function deleteAction(Request $request, Job $job, TranslatorInterface $translator)
     {
         if ($job->getLastStatus() !== \AppBundle\Constant\Job::STATUS_IN_PROGRESS) {
 
@@ -189,7 +191,7 @@ class JobController extends AbstractController
             return $this->redirectToRoute('app.admin.job.index');
         }
 
-        $this->addFlash( 'danger', 'La commande est actuellement en cours d\'execution. Aucune action n\'est possible.');
+        $this->addFlash( 'danger', $translator->trans('admin.job.flashbag.action_in_progress'));
         return $this->redirectToRoute('app.admin.job.index');
 
     }
@@ -213,12 +215,13 @@ class JobController extends AbstractController
      * @param Request $request
      * @param Job $job
      * @param EntityManagerInterface $em
+     * @param TranslatorInterface $translator
      * @return Response
      */
-    public function runCommandAction(Request $request, Job $job, EntityManagerInterface $em)
+    public function runCommandAction(Request $request, Job $job, EntityManagerInterface $em, TranslatorInterface $translator)
     {
         if (!$this->isCsrfTokenValid('job' . $job->getId(), $request->request->get('_token'))) {
-            $this->addFlash( 'danger', 'Vous n\'êtes pas autorisé à effectuer cette action.');
+            $this->addFlash( 'danger', $translator->trans('admin.job.flashbag.unauthorized_action'));
 
             return $this->redirectToRoute('app.admin.job.index');
         }
@@ -229,7 +232,7 @@ class JobController extends AbstractController
             return $this->redirectToRoute('app.admin.job.index');
         }
 
-        $this->addFlash( 'danger', 'La commande est actuellement en cours d\'execution. Aucune action n\'est possible.');
+        $this->addFlash( 'danger', $translator->trans('admin.job.flashbag.action_in_progress'));
 
         return $this->redirectToRoute('app.admin.job.index');
     }
