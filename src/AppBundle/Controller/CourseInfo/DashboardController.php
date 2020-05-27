@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -55,7 +56,7 @@ class DashboardController extends AbstractController
      * @return Response
      * @throws \Exception
      */
-    public function indexAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $courseInfoManager, EntityManagerInterface $em)
+    public function indexAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $courseInfoManager, EntityManagerInterface $em, TranslatorInterface $translator)
     {
         $duplicationForm = $this->createForm(DuplicateCourseInfoType::class);
         $duplicationForm->handleRequest($request);
@@ -75,7 +76,7 @@ class DashboardController extends AbstractController
 
                 if (!$report->hasMessages() and !$report->hasLines()) {
 
-                    $this->addFlash('success', 'La duplication a été réalisée avec succès');
+                    $this->addFlash('success', $translator->trans('app.controller.dashboard.duplication_success'));
                     $em->flush();
 
                     return $this->redirectToRoute('app.course_info.dashboard.index', ['id' => $courseInfo->getId()]);
@@ -107,14 +108,15 @@ class DashboardController extends AbstractController
      * @Route("/dashboard", name="dashboard"))
      *
      * @param CourseInfo $courseInfo
+     * @param TranslatorInterface $translator
      * @return Response
      */
-    public function dashboardViewAction(CourseInfo $courseInfo)
+    public function dashboardViewAction(CourseInfo $courseInfo, TranslatorInterface $translator)
     {
         if (!$courseInfo instanceof CourseInfo) {
             return $this->json([
                 'status' => false,
-                'content' => "Une erreur est survenue : Le cours n'existe pas."
+                'content' => $translator->trans('app.controller.error.empty_course')
             ]);
         }
 
@@ -169,11 +171,11 @@ class DashboardController extends AbstractController
      * @param CourseInfo $courseInfo
      * @param Request $request
      * @param EntityManagerInterface $em
+     * @param TranslatorInterface $translator
      * @return JsonResponse
-     * @throws \Exception
      * @Route("/publish", name="pusblish", methods={"POST"} )
      */
-    public function publishCourseInfo(CourseInfo $courseInfo, Request $request, EntityManagerInterface $em)
+    public function publishCourseInfo(CourseInfo $courseInfo, Request $request, EntityManagerInterface $em, TranslatorInterface $translator)
     {
         $publishForm = $this->createForm(PublishCourseInfoType::class, $courseInfo);
         $publishForm->handleRequest($request);
@@ -185,7 +187,7 @@ class DashboardController extends AbstractController
             if (is_null($courseInfo->getPublicationDate())) {
                 foreach ($violations as $key => $violation) {
                     if ($violation->count() > 0) {
-                        return $this->json(['error' => true, 'message' => "Un onglet ne rempli pas les conditions de publication"]);
+                        return $this->json(['error' => true, 'message' => $translator->trans('app.controller.error.tab_conditions')]);
                     }
                 }
             } else {

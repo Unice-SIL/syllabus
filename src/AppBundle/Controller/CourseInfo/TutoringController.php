@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class TutoringController
@@ -65,15 +66,15 @@ class TutoringController extends AbstractController
      * @param CourseInfo $courseInfo
      * @param $action
      * @param CourseInfoManager $manager
+     * @param TranslatorInterface $translator
      * @return JsonResponse
-     * @throws Exception
      */
-    public function activeTutoringAction(CourseInfo $courseInfo, $action, CourseInfoManager $manager)
+    public function activeTutoringAction(CourseInfo $courseInfo, $action, CourseInfoManager $manager, TranslatorInterface $translator)
     {
         if (!$courseInfo instanceof CourseInfo) {
             return $this->json([
                 'status' => false,
-                'content' => "Une erreur est survenue : Le cours n'existe pas."
+                'content' => $translator->trans('app.controller.error.empty_course')
             ]);
         }
 

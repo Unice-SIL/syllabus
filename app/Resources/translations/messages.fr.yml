@@ -136,6 +136,27 @@ app:
   locale:
     fr: 'Français'
     en: 'English'
+  controller:
+    error:
+      empty_activity: "Une erreur est survenue : L'activité n'existe pas"
+      empty_activity_type: "Une erreur est survenue : Le type d'activité n'existe pas"
+      empty_skill:  "Une erreur est survenue : la compétence n'existe pas"
+      empty_course: "Une erreur est survenue : Le cours n'existe pas"
+      empty_equipment: "Une erreur est survenue : le matériel n'existe pas."
+      empty_remediation: "Une erreur est survenue : La rémédiation n'existe pas"
+      empty_section: "Une erreur est survenue : La section n'existe pas"
+      empty_teacher: "Une erreur est survenue : L'enseignant n'existe pas"
+      tab_conditions: Un onglet ne rempli pas les conditions de publication
+    course:
+      new: Le cours a été enregistré avec succès.
+      edit: Le cours a été modifié avec succès.
+      add_syllabus: Le syllabus a bien été ajouté au cours.
+    course_permission:
+      add_permission: La permission a été ajoutée avec succès.
+    dashboard:
+      duplication_success: La duplication a été réalisée avec succès
+    security:
+      unknown_token: Token inconnu
   course_info:
     sidebar:
       dashboard: Tableau de bord
