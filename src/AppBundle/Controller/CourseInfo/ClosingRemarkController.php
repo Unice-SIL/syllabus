@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class ClosingRemarkController
@@ -41,14 +42,15 @@ class ClosingRemarkController extends AbstractController
      *
      * @param CourseInfo|null $courseInfo
      * @param Request $request
+     * @param TranslatorInterface $translator
      * @return Response
      */
-    public function closingRemarksViewAction(CourseInfo $courseInfo, Request $request)
+    public function closingRemarksViewAction(CourseInfo $courseInfo, Request $request, TranslatorInterface $translator)
     {
         if(!$courseInfo instanceof CourseInfo){
             return $this->json([
                 'status' => false,
-                'content' => "Une erreur est survenue : Le cours n'existe pas"
+                'content' => $translator->trans('app.controller.error.empty_course')
             ]);
         }
 
@@ -72,15 +74,15 @@ class ClosingRemarkController extends AbstractController
      * @param CourseInfo|null $courseInfo
      * @param Request $request
      * @param CourseInfoManager $manager
+     * @param TranslatorInterface $translator
      * @return Response
-     * @throws Exception
      */
-    public function closingRemarksFormAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
+    public function closingRemarksFormAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager, TranslatorInterface $translator)
     {
         if(!$courseInfo instanceof CourseInfo){
             return $this->json([
                 'status' => false,
-                'content' => "Une erreur est survenue : Le cours n'existe pas"
+                'content' => $translator->trans('app.controller.error.empty_course')
             ]);
         }
 

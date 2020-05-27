@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class ResourceEquipmentController
@@ -44,9 +45,10 @@ class ResourceEquipmentController extends AbstractController
      * @Route("/equipments", name="equipments"))
      *
      * @param CourseInfo $courseInfo
+     * @param TranslatorInterface $translator
      * @return Response
      */
-    public function equipmentViewAction(CourseInfo $courseInfo)
+    public function equipmentViewAction(CourseInfo $courseInfo, TranslatorInterface $translator)
     {
         $em = $this->getDoctrine()->getManager();
         $equipments = $em->getRepository(Equipment::class)->findBy([], ['label' => 'ASC']);
@@ -54,7 +56,7 @@ class ResourceEquipmentController extends AbstractController
         if (!$courseInfo instanceof CourseInfo) {
             return $this->json([
                 'status' => false,
-                'content' => "Une erreur est survenue : Le cours n'existe pas"
+                'content' => $translator->trans('app.controller.error.empty_course')
             ]);
         }
 
@@ -83,23 +85,24 @@ class ResourceEquipmentController extends AbstractController
      * @param Equipment $equipment
      * @param Request $request
      * @param CourseResourceEquipmentManager $courseResourceEquipmentManager
+     * @param TranslatorInterface $translator
      * @return JsonResponse
      * @ParamConverter("equipment", options={"mapping": {"idEquipment": "id"}})
      */
     public function addEquipmentAction(CourseInfo $courseInfo, Equipment $equipment, Request $request,
-                                       CourseResourceEquipmentManager $courseResourceEquipmentManager)
+                                       CourseResourceEquipmentManager $courseResourceEquipmentManager, TranslatorInterface $translator)
     {
         if (!$equipment) {
             return $this->json([
                 'status' => false,
-                'content' => "Une erreur est survenue : le matériel n'existe pas."
+                'content' => $translator->trans('app.controller.error.empty_equipment')
             ]);
         };
 
         if (!$courseInfo instanceof CourseInfo) {
             return $this->json([
                 'status' => false,
-                'content' => "Une erreur est survenue : Le cours n'existe pas."
+                'content' => $translator->trans('app.controller.error.empty_course')
             ]);
         }
 
@@ -131,14 +134,15 @@ class ResourceEquipmentController extends AbstractController
      * @Route("/resources", name="resources"))
      *
      * @param CourseInfo $courseInfo
+     * @param TranslatorInterface $translator
      * @return Response
      */
-    public function resourceViewAction(CourseInfo $courseInfo)
+    public function resourceViewAction(CourseInfo $courseInfo, TranslatorInterface $translator)
     {
         if (!$courseInfo instanceof CourseInfo) {
             return $this->json([
                 'status' => false,
-                'content' => "Une erreur est survenue : Le cours n'existe pas."
+                'content' => $translator->trans('app.controller.error.empty_course')
             ]);
         }
 
@@ -158,15 +162,15 @@ class ResourceEquipmentController extends AbstractController
      * @param CourseInfo $courseInfo
      * @param Request $request
      * @param CourseInfoManager $manager
+     * @param TranslatorInterface $translator
      * @return Response
-     * @throws \Exception
      */
-    public function resourceEditAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
+    public function resourceEditAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager, TranslatorInterface $translator)
     {
         if (!$courseInfo instanceof CourseInfo) {
             return $this->json([
                 'status' => false,
-                'content' => "Une erreur est survenue : Le cours n'existe pas."
+                'content' => $translator->trans('app.controller.error.empty_course')
             ]);
         }
 

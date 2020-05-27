@@ -14,6 +14,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class CourseSectionActivityController
@@ -31,10 +32,12 @@ class CourseSectionActivityController extends AbstractController
      * @param Activity $activity
      * @param Request $request
      * @param CourseSectionActivityManager $manager
+     * @param TranslatorInterface $translator
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      * @ParamConverter("activity", options={"mapping": {"activityId": "id"}})
      */
-    public function editCourseSectionActivityAction(CourseSectionActivity $courseSectionActivity, Activity $activity, Request $request, CourseSectionActivityManager $manager)
+    public function editCourseSectionActivityAction(CourseSectionActivity $courseSectionActivity, Activity $activity,
+                                                    Request $request, CourseSectionActivityManager $manager, TranslatorInterface $translator)
     {
         $status = true;
         $message = null;
@@ -43,7 +46,7 @@ class CourseSectionActivityController extends AbstractController
         {
             return $this->json([
                 'status' => false,
-                'render' => "Une erreur est survenue : La section n'existe pas"
+                'render' => $translator->trans('app.controller.error.empty_section')
             ]);
         }
 
@@ -51,7 +54,7 @@ class CourseSectionActivityController extends AbstractController
         {
             return $this->json([
                 'status' => false,
-                'render' => "Une erreur est survenue : L'activité n'existe pas"
+                'render' => $translator->trans('app.controller.error.empty_activity')
             ]);
         }
 
@@ -103,10 +106,12 @@ class CourseSectionActivityController extends AbstractController
      * @param CourseSectionActivity $courseSectionActivity
      * @param Request $request
      * @param CourseSectionActivityManager $manager
+     * @param TranslatorInterface $translator
      * @return \Symfony\Component\HttpFoundation\Response
      * @ParamConverter("courseSection", options={"mapping": {"sectionId": "id"}})
      */
-    public function removeCourseSectionActivityAction(CourseSectionActivity $courseSectionActivity, Request $request, CourseSectionActivityManager $manager)
+    public function removeCourseSectionActivityAction(CourseSectionActivity $courseSectionActivity,Request $request,
+                                                      CourseSectionActivityManager $manager, TranslatorInterface $translator)
     {
         $status = true;
         $message = null;
@@ -115,7 +120,7 @@ class CourseSectionActivityController extends AbstractController
         {
             return $this->json([
                 'status' => false,
-                'render' => "Une erreur est survenue : L'activité n'existe pas"
+                'render' => $translator->trans('app.controller.error.empty_activity')
             ]);
         }
 

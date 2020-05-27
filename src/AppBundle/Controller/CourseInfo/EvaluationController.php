@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class EvaluationController
@@ -40,16 +41,16 @@ class EvaluationController extends AbstractController
      * @Route("/specifications", name="specifications"))
      *
      * @param CourseInfo $courseInfo
+     * @param TranslatorInterface $translator
      * @return Response
-     * @throws \Exception
      */
-    public function generalViewAction(CourseInfo $courseInfo)
+    public function generalViewAction(CourseInfo $courseInfo, TranslatorInterface $translator)
     {
         if (!$courseInfo instanceof CourseInfo)
         {
             return $this->json([
                 'status' => false,
-                'render' => "Une erreur est survenue : Le cours n'existe pas"
+                'render' => $translator->trans('app.controller.error.empty_course')
             ]);
         }
 
@@ -68,16 +69,16 @@ class EvaluationController extends AbstractController
      * @param CourseInfo $courseInfo
      * @param Request $request
      * @param CourseInfoManager $manager
+     * @param TranslatorInterface $translator
      * @return Response
-     * @throws \Exception
      */
-    public function specificationsFormAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
+    public function specificationsFormAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager, TranslatorInterface $translator)
     {
         if (!$courseInfo instanceof CourseInfo)
         {
             return $this->json([
                 'status' => false,
-                'render' => "Une erreur est survenue : Le cours n'existe pas"
+                'render' => $translator->trans('app.controller.error.empty_course')
             ]);
         }
 

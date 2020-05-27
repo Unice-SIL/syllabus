@@ -17,6 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class ActivitiesController
@@ -63,16 +64,17 @@ class ActivitiesController extends AbstractController
      * @param Request $request
      * @param CourseInfoManager $manager
      * @param CourseSectionManager $courseSectionManager
+     * @param TranslatorInterface $translator
      * @return Response
      * @throws \Exception
      */
-    public function addSectionAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager, CourseSectionManager $courseSectionManager)
+    public function addSectionAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager, CourseSectionManager $courseSectionManager, TranslatorInterface $translator)
     {
         if (!$courseInfo instanceof CourseInfo)
         {
             return $this->json([
                 'status' => false,
-                'render' => "Une erreur est survenue : Le cours n'existe pas"
+                'render' => $translator->trans('app.controller.error.empty_course')
             ]);
         }
 
@@ -120,17 +122,17 @@ class ActivitiesController extends AbstractController
      * @param CourseSection $courseSection
      * @param Request $request
      * @param CourseInfoManager $manager
+     * @param TranslatorInterface $translator
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      * @ParamConverter("courseSection", options={"mapping": {"sectionId": "id"}})
-     * @throws \Exception
      */
-    public function duplicateSectionAction(CourseInfo $courseInfo, CourseSection $courseSection, Request $request, CourseInfoManager $manager)
+    public function duplicateSectionAction(CourseInfo $courseInfo, CourseSection $courseSection, Request $request, CourseInfoManager $manager, TranslatorInterface $translator)
     {
         if (!$courseSection instanceof CourseSection)
         {
             return $this->json([
                 'status' => false,
-                'render' => "Une erreur est survenue : La section n'existe pas"
+                'render' => $translator->trans('app.controller.error.empty_section')
             ]);
         }
 
