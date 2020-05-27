@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class EquipmentController
@@ -60,17 +61,18 @@ class EquipmentController extends AbstractController
      * @Route("/delete", name="delete"))
      *
      * @param CourseResourceEquipment $resourceEquipment
+     * @param TranslatorInterface $translator
      * @param Request $request
      * @param CourseResourceEquipmentManager $courseResourceEquipmentManager
      * @return JsonResponse
      */
-    public function removeResourceEquipmentAction(CourseResourceEquipment $resourceEquipment,
+    public function removeResourceEquipmentAction(CourseResourceEquipment $resourceEquipment, TranslatorInterface $translator,
                                                   Request $request, CourseResourceEquipmentManager $courseResourceEquipmentManager)
     {
         if (!$resourceEquipment) {
             return $this->json([
                 'status' => false,
-                'content' => "Une erreur est survenue : le matériel n'existe pas."
+                'content' => $translator->trans('app.controller.error.empty_equipment')
             ]);
         };
 

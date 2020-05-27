@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class TutoringResourceController
@@ -61,15 +62,16 @@ class TutoringResourceController extends AbstractController
      * @param CourseTutoringResource $tutoringResources
      * @param Request $request
      * @param CourseTutoringResourceManager $courseTutoringResourceManager
+     * @param TranslatorInterface $translator
      * @return JsonResponse
      */
     public function deleteTutoringResourcesAction(CourseTutoringResource $tutoringResources, Request $request,
-                                                  CourseTutoringResourceManager $courseTutoringResourceManager)
+                                                  CourseTutoringResourceManager $courseTutoringResourceManager, TranslatorInterface $translator)
     {
         if (!$tutoringResources instanceof CourseTutoringResource) {
             return $this->json([
                 'status' => false,
-                'content' => "Une erreur est survenue : la remédiation n'existe pas"
+                'content' => $translator->trans('app.controller.error.empty_course')
             ]);
         }
         $form = $this->createForm(RemoveCourseTutoringResourcesType::class, $tutoringResources);

@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class AchievementController
@@ -61,16 +62,17 @@ class AchievementController extends AbstractController
      * @param CourseAchievement $achievement
      * @param Request $request
      * @param CourseAchievementManager $courseAchievementManager
+     * @param TranslatorInterface $translator
      * @return JsonResponse
      * @throws Exception
      */
     public function deleteAchievementAction(CourseAchievement $achievement, Request $request,
-                                            CourseAchievementManager $courseAchievementManager)
+                                            CourseAchievementManager $courseAchievementManager, TranslatorInterface $translator)
     {
         if (!$achievement instanceof CourseAchievement) {
             return $this->json([
                 'status' => false,
-                'content' => "Une erreur est survenue : la compétence n'existe pas"
+                'content' => $translator->trans('app.controller.error.empty_skill')
             ]);
         }
         $form = $this->createForm(RemoveCourseAchievementType::class, $achievement);

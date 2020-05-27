@@ -15,6 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class PresentationController
@@ -42,15 +43,16 @@ class PresentationController extends AbstractController
      * @Route("/general", name="general"))
      *
      * @param CourseInfo|null $courseInfo
+     * @param TranslatorInterface $translator
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function generalViewAction(?CourseInfo $courseInfo)
+    public function generalViewAction(?CourseInfo $courseInfo, TranslatorInterface $translator)
     {
         if (!$courseInfo instanceof CourseInfo)
         {
             return $this->json([
                 'status' => false,
-                'render' => "Une erreur est survenue : Le cours n'existe pas"
+                'render' => $translator->trans('app.controller.error.empty_course')
             ]);
         }
 
@@ -69,16 +71,16 @@ class PresentationController extends AbstractController
      * @param CourseInfo $courseInfo
      * @param Request $request
      * @param CourseInfoManager $manager
+     * @param TranslatorInterface $translator
      * @return \Symfony\Component\HttpFoundation\Response
-     * @throws \Exception
      */
-    public function generalFormAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
+    public function generalFormAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager, TranslatorInterface $translator)
     {
         if (!$courseInfo instanceof CourseInfo)
         {
             return $this->json([
                 'status' => false,
-                'render' => "Une erreur est survenue : Le cours n'existe pas"
+                'render' => $translator->trans('app.controller.error.empty_course')
             ]);
         }
 
@@ -111,16 +113,16 @@ class PresentationController extends AbstractController
      * @Route("/teachers", name="teachers"))
      *
      * @param CourseInfo $courseInfo
+     * @param TranslatorInterface $translator
      * @return \Symfony\Component\HttpFoundation\Response
-     * @throws \Exception
      */
-    public function teachersViewAction(CourseInfo $courseInfo)
+    public function teachersViewAction(CourseInfo $courseInfo, TranslatorInterface $translator)
     {
         if (!$courseInfo instanceof CourseInfo)
         {
             return $this->json([
                 'status' => false,
-                'render' => "Une erreur est survenue : Le cours n'existe pas"
+                'render' => $translator->trans('app.controller.error.empty_course')
             ]);
         }
 
@@ -147,16 +149,18 @@ class PresentationController extends AbstractController
      * @param Request $request
      * @param CourseTeacherManager $courseTeacherManager
      * @param ImportCourseTeacherFactory $factory
+     * @param TranslatorInterface $translator
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function addTeachersAction(CourseInfo $courseInfo, Request $request, CourseTeacherManager $courseTeacherManager, ImportCourseTeacherFactory $factory)
+    public function addTeachersAction(CourseInfo $courseInfo, Request $request, CourseTeacherManager $courseTeacherManager,
+                                      ImportCourseTeacherFactory $factory, TranslatorInterface $translator)
     {
         if (!$courseInfo instanceof CourseInfo)
         {
             return $this->json([
                 'status' => false,
-                'render' => "Une erreur est survenue : Le cours n'existe pas"
+                'render' => $translator->trans('app.controller.error.empty_course')
             ]);
         }
 
@@ -202,16 +206,16 @@ class PresentationController extends AbstractController
      * @Route("/teaching-mode", name="teaching_mode"))
      *
      * @param CourseInfo $courseInfo
+     * @param TranslatorInterface $translator
      * @return \Symfony\Component\HttpFoundation\Response
-     * @throws \Exception
      */
-    public function teachingModeViewAction(CourseInfo $courseInfo)
+    public function teachingModeViewAction(CourseInfo $courseInfo, TranslatorInterface $translator)
     {
         if (!$courseInfo instanceof CourseInfo)
         {
             return $this->json([
                 'status' => false,
-                'render' => "Une erreur est survenue : Le cours n'existe pas"
+                'render' => $translator->trans('app.controller.error.empty_course')
             ]);
         }
 
@@ -230,16 +234,16 @@ class PresentationController extends AbstractController
      * @param CourseInfo $courseInfo
      * @param Request $request
      * @param CourseInfoManager $manager
+     * @param TranslatorInterface $translator
      * @return \Symfony\Component\HttpFoundation\Response
-     * @throws \Exception
      */
-    public function teachingModeFormAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
+    public function teachingModeFormAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager, TranslatorInterface $translator)
     {
         if (!$courseInfo instanceof CourseInfo)
         {
             return $this->json([
                 'status' => false,
-                'render' => "Une erreur est survenue : Le cours n'existe pas"
+                'render' => $translator->trans('app.controller.error.empty_course')
             ]);
         }
         

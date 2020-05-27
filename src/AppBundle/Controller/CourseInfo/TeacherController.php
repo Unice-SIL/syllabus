@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class TeachersController
@@ -25,15 +26,16 @@ class TeacherController extends AbstractController
      * @param CourseTeacher $teacher
      * @param Request $request
      * @param CourseTeacherManager $courseTeacherManager
+     * @param TranslatorInterface $translator
      * @return JsonResponse
      */
-    public function removeTeacherAction(CourseTeacher $teacher, Request $request, CourseTeacherManager $courseTeacherManager)
+    public function removeTeacherAction(CourseTeacher $teacher, Request $request, CourseTeacherManager $courseTeacherManager, TranslatorInterface $translator)
     {
         if (!$teacher instanceof CourseTeacher)
         {
             return $this->json([
                 'status' => false,
-                'render' => "Une erreur est survenue : L'enseignant n'existe pas"
+                'render' => $translator->trans('app.controller.error.empty_teacher')
             ]);
         }
 

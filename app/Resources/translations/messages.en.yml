@@ -136,6 +136,27 @@ app:
   locale:
     fr: 'Français'
     en: 'English'
+  controller:
+    error:
+      empty_activity: "An error occured: The activity doesn't exist"
+      empty_activity_type: "An error occured: The activity type doesn't exist"
+      empty_skill:  "An error occured: The skill doesn't exist"
+      empty_course: "An error occured: The course doesn't exist"
+      empty_equipment: "An error occured: The equipment doesn't exist"
+      empty_remediation: "An error occured: The remediation doesn't exist"
+      empty_section: "An error occured: The section doesn't exist"
+      empty_teacher: "An error occured: The teacher doesn't exist"
+      tab_conditions: A tab does not meet the requirements of publication
+    course:
+      new: The course has been saved with success.
+      edit: The course has been updated with success.
+      add_syllabus: The syllabus has beed added to the course.
+    course_permission:
+      add_permission: The permission has been added with success.
+    dashboard:
+      duplication_success: The duplication has been realised with success.
+    security:
+      unknown_token: Unknown token
   course_info:
     sidebar:
       dashboard: Dashboard

@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class InfoController
@@ -40,14 +41,15 @@ class InfoController extends AbstractController
      *
      * @param CourseInfo $courseInfo
      * @param Request $request
+     * @param TranslatorInterface $translator
      * @return Response
      */
-    public function infoCourseViewAction(CourseInfo $courseInfo, Request $request)
+    public function infoCourseViewAction(CourseInfo $courseInfo, Request $request, TranslatorInterface $translator)
     {
         if (!$courseInfo instanceof CourseInfo) {
             return $this->json([
                 'status' => false,
-                'content' => "Une erreur est survenue : Le cours n'existe pas."
+                'content' => $translator->trans('app.controller.error.empty_course')
             ]);
         }
 

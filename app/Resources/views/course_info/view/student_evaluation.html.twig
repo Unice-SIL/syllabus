@@ -1,20 +1,39 @@
-{% if courseInfo.mccAdvice is not null %}
-    <section id="evaluation-section" class="content">
-        <div class="container-fluid">
-            <div class="card my-2 shadow">
-                <div class="card-header">
-                    <div class="d-flex justify-content-between">
-                        <h3  class="text-shadow" style="font-weight: 500;">{{ 'app.view.student.tabs.evaluation' | trans }}</h3>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <dl>
-                        <dd>
-                            {{ courseInfo.mccAdvice | humanizeEmptyData() | purify }}
-                        </dd>
-                    </dl>
-                </div>
+<section id="presentation-section" class="content">
+    <h3 class="blue_uca mt-5">Modalités d'évaluation</h3>
+    <input type="image" src="/build/images/modalite_photo.jpg">
+
+    <div class="row mt-4">
+
+        <div class="col-4">
+            <div>
+                controle continu
             </div>
+            <div>
+                controle continu
+            </div>
+
         </div>
-    </section>
-{% endif %}
+
+        <div class="col-8">
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam vel lacus leo. Aenean molestie velit
+                vitae leo condimentum consectetur. Cras tempus sem at quam vehicula, at consectetur quam tempus. Aenean
+                porttitor aliquam libero, nec pulvinar mi mattis a. Maecenas ornare metus sapien, at viverra neque
+                iaculis nec. Suspendisse potenti. Duis hendrerit condimentum velit, faucibus tempor magna dignissim nec.
+                Sed eu mollis diam, nec malesuada orci. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
+                in nulla vel dui interdum dapibus. Nulla et cursus felis, eget porttitor mi. Aenean venenatis viverra
+                volutpat.
+            </p>
+        </div>
+        <div class="col-4">
+            Précision
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            </p>
+        </div>
+
+
+    </div>
+
+
+</section>
