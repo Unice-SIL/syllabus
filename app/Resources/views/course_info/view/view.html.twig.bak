@@ -1,0 +1,36 @@
+{% extends 'base_homepage.html.twig' %}
+{% block navbar %}
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'course_info/view/student_sidebar.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid p-0" style="background-color: black">
+        {% include 'course_info/view/dark_student_presentation.html.twig' %}
+        {% include 'course_info/view/dark_student_prerequisites.html.twig' %}
+        {% include 'course_info/view/dark_student_objectives.html.twig' %}
+        {% include 'course_info/view/dark_student_activities.html.twig' %}
+        {% include 'course_info/view/dark_student_evaluation.html.twig' %}
+        {% include 'course_info/view/dark_student_equipments.html.twig' %}
+        {% include 'course_info/view/dark_student_info.html.twig' %}
+        {% include 'course_info/view/dark_student_closing_remarks.html.twig' %}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('course_info_layout') }}
+    <script>
+        $(document).ready(function () {
+            let $body = document.body;
+            $body.classList.add('sidebar-collapse');
+        })
+    </script>
+{% endblock %}
