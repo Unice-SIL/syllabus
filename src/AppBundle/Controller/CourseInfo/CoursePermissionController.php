@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class CoursePermissionController
@@ -30,9 +31,10 @@ class CoursePermissionController extends AbstractController
      * @param CourseInfo $courseInfo
      * @param Request $request
      * @param CoursePermissionManager $coursePermissionManager
+     * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function indexAction(CourseInfo $courseInfo, Request $request, CoursePermissionManager $coursePermissionManager)
+    public function indexAction(CourseInfo $courseInfo, Request $request, CoursePermissionManager $coursePermissionManager, TranslatorInterface $translator)
     {
         $coursePermission = $coursePermissionManager->new($courseInfo);
         $form = $this->createForm(AddCourseInfoPermissionType::class, $coursePermission);
@@ -44,7 +46,7 @@ class CoursePermissionController extends AbstractController
             if ($form->isValid()) {
                 $coursePermissionManager->create($coursePermission);
 
-                $this->addFlash('success', 'La permission a été ajoutée avec succès');
+                $this->addFlash('success', $translator->trans('app.controller.course_permission.add_permission'));
                 return $this->redirectToRoute('app.course_info.permission.index', ['id' => $courseInfo->getId()]);
             }
             $isValid = false;

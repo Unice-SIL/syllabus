@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class CoursePrerequisite
@@ -43,14 +44,15 @@ class CoursePrerequisiteController extends AbstractController
      * @Route("/prerequisites", name="prerequisites"))
      *
      * @param CourseInfo $courseInfo
+     * @param TranslatorInterface $translator
      * @return Response
      */
-    public function prerequisiteViewAction(CourseInfo $courseInfo)
+    public function prerequisiteViewAction(CourseInfo $courseInfo, TranslatorInterface $translator)
     {
         if (!$courseInfo instanceof CourseInfo) {
             return $this->json([
                 'status' => false,
-                'content' => "Une erreur est survenue : Le cours n'existe pas."
+                'content' => $translator->trans('app.controller.error.empty_course')
             ]);
         }
 
@@ -128,14 +130,15 @@ class CoursePrerequisiteController extends AbstractController
      * @Route("/tutoring-resources", name="tutoring_resources"))
      *
      * @param CourseInfo $courseInfo
+     * @param TranslatorInterface $translator
      * @return Response
      */
-    public function tutoringResourcesViewAction(CourseInfo $courseInfo)
+    public function tutoringResourcesViewAction(CourseInfo $courseInfo, TranslatorInterface $translator)
     {
         if (!$courseInfo instanceof CourseInfo) {
             return $this->json([
                 'status' => false,
-                'content' => "Une erreur est survenue : Le cours n'existe pas."
+                'content' => $translator->trans('app.controller.error.empty_course')
             ]);
         }
 

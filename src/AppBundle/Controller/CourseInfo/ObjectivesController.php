@@ -21,6 +21,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class ObjectivesController
@@ -47,14 +48,15 @@ class ObjectivesController extends AbstractController
      * @Route("/achievements", name="achievements"))
      *
      * @param CourseInfo $courseInfo
+     * @param TranslatorInterface $translator
      * @return Response
      */
-    public function achievementViewAction(CourseInfo $courseInfo)
+    public function achievementViewAction(CourseInfo $courseInfo, TranslatorInterface $translator)
     {
         if (!$courseInfo instanceof CourseInfo) {
             return $this->json([
                 'status' => false,
-                'content' => "Une erreur est survenue : Le cours n'existe pas."
+                'content' => $translator->trans('app.controller.error.empty_course')
             ]);
         }
 
@@ -73,14 +75,15 @@ class ObjectivesController extends AbstractController
      * @param CourseInfo $courseInfo
      * @param Request $request
      * @param CourseAchievementManager $courseAchievementManager
+     * @param TranslatorInterface $translator
      * @return Response
      */
-    public function addAchievementAction(CourseInfo $courseInfo, Request $request, CourseAchievementManager $courseAchievementManager)
+    public function addAchievementAction(CourseInfo $courseInfo, Request $request, CourseAchievementManager $courseAchievementManager, TranslatorInterface $translator)
     {
         if (!$courseInfo instanceof CourseInfo) {
             return $this->json([
                 'status' => false,
-                'content' => "Une erreur est survenue : Le cours n'existe pas."
+                'content' => $translator->trans('app.controller.error.empty_course')
             ]);
         }
 
@@ -133,14 +136,15 @@ class ObjectivesController extends AbstractController
      * @Route("/critical-achievements", name="critical_achievements"))
      *
      * @param CourseInfo $courseInfo
+     * @param TranslatorInterface $translator
      * @return Response
      */
-    public function criticalAchievementViewAction(CourseInfo $courseInfo)
+    public function criticalAchievementViewAction(CourseInfo $courseInfo, TranslatorInterface $translator)
     {
         if (!$courseInfo instanceof CourseInfo) {
             return $this->json([
                 'status' => false,
-                'content' => "Une erreur est survenue : Le cours n'existe pas."
+                'content' => $translator->trans('app.controller.error.empty_course')
             ]);
         }
         $criticalAchievements = $courseInfo->getCourseCriticalAchievements();

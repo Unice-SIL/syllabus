@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class SecurityController
@@ -26,6 +27,7 @@ class SecurityController extends Controller
      * @param string $token
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @param EntityManagerInterface $manager
+     * @param TranslatorInterface $translator
      * @return Response
      *
      * @Route("/reset-password/{token}", name="reset_password")
@@ -34,7 +36,8 @@ class SecurityController extends Controller
         Request $request,
         string $token,
         UserPasswordEncoderInterface $passwordEncoder,
-        EntityManagerInterface $manager
+        EntityManagerInterface $manager,
+        TranslatorInterface $translator
     )
     {
         $user = new User();
@@ -48,7 +51,7 @@ class SecurityController extends Controller
 
             /* @var $user User */
             if ($user === null) {
-                $this->addFlash('danger', 'Token Inconnu');
+                $this->addFlash('danger', $translator->trans('app.controller.security.unknown_token'));
                 return $this->redirectToRoute('app.security.reset_password', ['token' => $token]);
             }
 
