@@ -768,6 +768,9 @@ admin:
     mandatory: Obligatoire
     authorized_value: Valeurs autorisées
     description: Description
+    reporting_helper:
+      parsing: Parsing the csv file
+      insertion_db: Inserting in database
   setting:
     config: Settings
   group:
