@@ -1,4 +1,9 @@
 {% extends 'admin_layout.html.twig' %}
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+      ²                      <button type="submit" class="btn btn-primary">{{ 'admin.button.filter' | trans }}</button>
+                            <a class="btn btn-danger" href="{{  path('app.admin.domain.index')  }}">{{ 'admin.button
 {% set h1 = 'admin.domain.list_domains' | trans %}
 {% block subContent %}
 
@@ -18,12 +23,7 @@
                         <div class="form-group">
                             {{ form_label(form.structures.label, 'admin.domain.structure') }}
                             {{ form_widget(form.structures.label) }}
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary">{{ 'admin.button.filter' | trans }}</button>
-                            <a class="btn btn-danger" href="{{  path('app.admin.domain.index')  }}">{{ 'admin.button.reset_filters' | trans }}</a>
+                        </div>.reset_filters' | trans }}</a>
                         </div>
                     </div>
                 </div>
@@ -77,5 +77,4 @@
             </div>
         {% endif %}
     </div>
-
 {% endblock %}
