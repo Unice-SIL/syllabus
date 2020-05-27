@@ -639,6 +639,10 @@ admin:
     duplicate_syllabus: Vers quel syllabus voulez-vous dupliquer le contenu ?
     empty_syllabus: Aucun syllabus n'a été trouvé avec ces critères
     actions: Actions
+    flashbag:
+      duplicate: La duplication a été réalisée avec succès
+      new: Le syllabus a été crée avec succès
+      edit: Le syllabus a bien été modifié.
   course:
     list_courses: Liste des cours
     edit_course: Modifier un cours
@@ -654,13 +658,23 @@ admin:
     action: Action
     course_parents: Cours parents
     course_children: Cours enfants
+    flashbag:
+      new: Le cours a été enregistré avec succès
+      edit: Le cours a été modifié avec succès.
+      add_syllabus: Le syllabus a bien été ajouté au cours.
   critical_achievement:
     list_critical_achievements: Liste des acquis critiques
     edit_critical_achievement: Modifier un acquis critique
+    flashbag:
+      new: L'acquis critique a été ajouté avec succès.
+      edit: L'acquis critique a été modifié avec succès.
     form:
       course: Cours
   activity:
     list_activities: Liste des activités
+    flashbag:
+      new: L'activité a été ajoutée avec succès.
+      edit: L'activité a été modifiée avec succès.
     form:
       description: Description
       activityTypes: Types d'activité
@@ -668,9 +682,15 @@ admin:
     list_activities_types: Liste des types d'activités
     modes: Modes
     edit_activity_type: Modifier un type d'activité
+    flashbag:
+      new: Le type d'activité a été ajoutée avec succès.
+      edit: Le type d'activité a été modifiée avec succès.
   activity_mode:
     list_activities_modes: Liste des modes d'activités
     edit_activity_mode: Modifier un mode d'activité
+    flashbag:
+      new: Le mode d'activité a été ajoutée avec succès.
+      edit: Le mode d'activité a été modifiée avec succès.
   year:
     list_years: Liste des années
     year: Année
@@ -678,32 +698,56 @@ admin:
     editable: Modifiable
     current_year: Année courante
     edit_year: Modifier une année
+    flashbag:
+      new: L'année a été ajoutée avec succès.
+      edit: L'année a été modifiée avec succès.
   campus:
     list_campuses: Liste des campus
     edit_campus: Modifier un campus
     synchronized: Synchronizé
+    flashbag:
+      new: La campus a été ajoutée avec succès.
+      edit: Le campus été modifié avec succès.
   domain:
     list_domains: Liste des domaines
     edit_domain: Modifier un domaine
     structure: Structure
+    flashbag:
+      new: Le domaine a été ajoutée avec succès.
+      edit: Le domaine été modifié avec succès.
   equipment:
     list_equipments: Liste des équipements
     edit_equipment: Modifier un équipement
+    flashbag:
+      new: L'équipement a été ajouté avec succès.
+      edit: L'équipement a été modifié avec succès.
   language:
     list_languages: Liste des langages
     edit_language: Modifier un langage
+    flashbag:
+      new: La langue a été ajoutée avec succès.
+      edit: La language été modifiée avec succès.
   level:
     list_levels: Liste des niveaux
     edit_level: Modifier un niveau
+    flashbag:
+      new: Le niveau a été ajouté avec succès.
+      edit: Le niveau été modifié avec succès.
   period:
     list_periods: Liste des périodes
     edit_period: Modifier une période
     filter_structures: Structures
+    flashbag:
+      new: La période a été ajoutée avec succès.
+      edit: La période été modifiée avec succès.
     form:
       structure: Structure
   structure:
     list_structures: Liste des structures
     edit_structure: Modifier une structure
+    flashbag:
+      new: La structure a été enregistrée avec succès.
+      edit: La strucutre a été modifiée avec succès.
   import:
     syllabus: Importer infos Syllabus
     permissions: Importer des permissions
@@ -730,6 +774,9 @@ admin:
     list_groups: Liste des groupes
     edit_group: Modifier un groupe
     actions: Actions
+    flashbag:
+      new: Le groupe a été ajouté avec succès.
+      edit: Le groups a été modifié avec succès.
   job:
     list_jobs: Liste des tâches planifiées
     edit_job: Modifier une tâche planifiée
@@ -737,9 +784,17 @@ admin:
     actions:
       report: Rapport
       execute: Executer
+    flashbag:
+      action_in_progress: La commande est actuellement en cours d'execution. Aucune action n'est possible.
+      unauthorized_action: Vous n'êtes pas autorisé à effectuer cette action.
   user:
     list_users: Liste des utilisateurs
     edit_user: Modifier un utilisateur
+    flashbag:
+      new: L'utilisateur a bien été enregistré.
+      edit: L'utilisateur a bien été modifié.
+      mail_send: Le mail a bien été envoyé.
+      mail_failed: Un problème est survenu lors de l'envoie du mail.
     form:
       username: Identifiant
       lastname: Nom
@@ -751,6 +806,10 @@ admin:
     list_notifications: Liste des notifications
     edit_notification: Modifier une notification
     actions: Actions
+    flashbag:
+      new: La notification a été ajoutée avec succès.
+      edit: La notification a été modifiée avec succès.
+      delete: La notification a été supprimée avec succès.
   course_info_field:
     title: Liste des champs liés à la duplication des syllabus
     empty_field: Aucun champ n'a été enregistré

@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class YearController
@@ -54,9 +55,10 @@ class YearController extends AbstractController
      * @Security("has_role('ROLE_ADMIN_YEAR_CREATE')")
      * @param Request $request
      * @param YearManager $yearManager
+     * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function newAction(Request $request, YearManager $yearManager)
+    public function newAction(Request $request, YearManager $yearManager, TranslatorInterface $translator)
     {
         $year = $yearManager->new();
 
@@ -65,7 +67,7 @@ class YearController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $yearManager->create($year);
-            $this->addFlash('success', 'L\'année a été ajoutée avec succès.');
+            $this->addFlash('success', $translator->trans('admin.year.flashbag.new'));
 
             return $this->redirectToRoute('app.admin.year.index');
         }
@@ -84,9 +86,10 @@ class YearController extends AbstractController
      * @param Request $request
      * @param Year $year
      * @param YearManager $yearManager
+     * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, Year $year, YearManager $yearManager)
+    public function editAction(Request $request, Year $year, YearManager $yearManager, TranslatorInterface $translator)
     {
         $form = $this->createForm('AppBundle\Form\YearType', $year);
         $form->handleRequest($request);
@@ -95,7 +98,7 @@ class YearController extends AbstractController
 
             $yearManager->update($year);
 
-            $this->addFlash('success', 'L\'année a été modifiée avec succès.');
+            $this->addFlash('success', $translator->trans('admin.year.flashbag.edit'));
 
             return $this->redirectToRoute('app.admin.year.edit', array('id' => $year->getId()));
         }

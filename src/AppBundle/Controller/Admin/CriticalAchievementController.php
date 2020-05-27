@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Activity controller.
@@ -74,9 +75,10 @@ class CriticalAchievementController extends AbstractController
      *
      * @param Request $request
      * @param CriticalAchievementManager $criticalAchievementManager
+     * @param TranslatorInterface $translator
      * @return Response
      */
-    public function newAction(Request $request, CriticalAchievementManager $criticalAchievementManager)
+    public function newAction(Request $request, CriticalAchievementManager $criticalAchievementManager, TranslatorInterface $translator)
     {
         $criticalAchievement = $criticalAchievementManager->new();
         $form = $this->createForm(CriticalAchievementType::class, $criticalAchievement);
@@ -84,7 +86,7 @@ class CriticalAchievementController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $criticalAchievementManager->create($criticalAchievement);
-            $this->addFlash('success', 'L\'acquis critique a été ajouté avec succès.');
+            $this->addFlash('success', $translator->trans('admin.critical_achievement.flashbag.new'));
 
             return $this->redirectToRoute('app.admin.critical_achievement.index');
         }
@@ -101,9 +103,10 @@ class CriticalAchievementController extends AbstractController
      * @param Request $request
      * @param CriticalAchievement $criticalAchievement
      * @param CriticalAchievementManager $criticalAchievementManager
+     * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, CriticalAchievement $criticalAchievement, CriticalAchievementManager $criticalAchievementManager)
+    public function editAction(Request $request, CriticalAchievement $criticalAchievement, CriticalAchievementManager $criticalAchievementManager, TranslatorInterface $translator)
     {
         $form = $this->createForm(CriticalAchievementType::class, $criticalAchievement);
         $form->handleRequest($request);
@@ -111,7 +114,7 @@ class CriticalAchievementController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $criticalAchievementManager->update($criticalAchievement);
 
-            $this->addFlash('success', 'L\'acquis critique a été modifié avec succès.');
+            $this->addFlash('success', $translator->trans('admin.critical_achievement.flashbag.edit'));
             return $this->redirectToRoute('app.admin.critical_achievement.edit', array('id' => $criticalAchievement->getId()));
         }
 

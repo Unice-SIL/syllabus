@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class EquipmentController
@@ -76,9 +77,10 @@ class EquipmentController extends AbstractController
      *
      * @param Request $request
      * @param EquipmentManager $equipmentManager
+     * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function newAction(Request $request, EquipmentManager $equipmentManager)
+    public function newAction(Request $request, EquipmentManager $equipmentManager, TranslatorInterface $translator)
     {
         $equipment = $equipmentManager->new();
         $form = $this->createForm(EquipmentType::class, $equipment);
@@ -88,7 +90,7 @@ class EquipmentController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $equipmentManager->create($equipment);
 
-            $this->addFlash('success', 'L\'équipement a été ajouté avec succès.');
+            $this->addFlash('success', $translator->trans('admin.equipment.flashbag.new'));
 
             return $this->redirectToRoute('app.admin.equipment.index');
         }
@@ -107,9 +109,10 @@ class EquipmentController extends AbstractController
      * @param Request $request
      * @param Equipment $equipment
      * @param EquipmentManager $equipmentManager
+     * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, Equipment $equipment, EquipmentManager $equipmentManager)
+    public function editAction(Request $request, Equipment $equipment, EquipmentManager $equipmentManager, TranslatorInterface $translator)
     {
         $form = $this->createForm(EquipmentType::class, $equipment);
         $form->handleRequest($request);
@@ -118,7 +121,7 @@ class EquipmentController extends AbstractController
 
             $equipmentManager->update($equipment);
 
-            $this->addFlash('success', 'L\'équipement a été modifié avec succès.');
+            $this->addFlash('success', $translator->trans('admin.equipment.flashbag.edit'));
 
             return $this->redirectToRoute('app.admin.equipment.edit', array('id' => $equipment->getId()));
         }

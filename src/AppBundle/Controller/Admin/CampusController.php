@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class CampusController
@@ -75,9 +76,10 @@ class CampusController extends AbstractController
      *
      * @param Request $request
      * @param CampusManager $campusManager
+     * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function newAction(Request $request, CampusManager $campusManager)
+    public function newAction(Request $request, CampusManager $campusManager, TranslatorInterface $translator)
     {
         $campus = $campusManager->new();
         $form = $this->createForm(CampusType::class, $campus);
@@ -86,7 +88,7 @@ class CampusController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $campusManager->create($campus);
 
-            $this->addFlash('success', 'La langue a été ajoutée avec succès.');
+            $this->addFlash('success', $translator->trans('admin.campus.flashbag.new'));
 
             return $this->redirectToRoute('app.admin.campus.index');
         }
@@ -105,9 +107,10 @@ class CampusController extends AbstractController
      * @param Request $request
      * @param Campus $campus
      * @param CampusManager $campusManager
+     * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, Campus $campus, CampusManager $campusManager)
+    public function editAction(Request $request, Campus $campus, CampusManager $campusManager, TranslatorInterface $translator)
     {
         $form = $this->createForm(CampusType::class, $campus);
         $form->handleRequest($request);
@@ -116,7 +119,7 @@ class CampusController extends AbstractController
 
             $campusManager->update($campus);
 
-            $this->addFlash('success', 'La Campus été modifié avec succès.');
+            $this->addFlash('success', $translator->trans('admin.campus.flashbag.edit'));
 
             return $this->redirectToRoute('app.admin.campus.edit', array('id' => $campus->getId()));
         }

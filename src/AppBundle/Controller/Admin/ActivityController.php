@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Activity controller.
@@ -73,9 +74,10 @@ class ActivityController extends AbstractController
      * @Security("has_role('ROLE_ADMIN_ACTIVITY_CREATE')")
      * @param Request $request
      * @param ActivityManager $activityManager
+     * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function newAction(Request $request, ActivityManager $activityManager)
+    public function newAction(Request $request, ActivityManager $activityManager, TranslatorInterface $translator)
     {
         $activity = $activityManager->new();
 
@@ -86,7 +88,7 @@ class ActivityController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $activityManager->create($activity);
 
-            $this->addFlash('success', 'L\'activité a été ajoutée avec succès.');
+            $this->addFlash('success', $translator->trans('admin.activity.flashbag.new'));
 
             return $this->redirectToRoute('app.admin.activity.index');
         }
@@ -102,9 +104,10 @@ class ActivityController extends AbstractController
      * @param Request $request
      * @param Activity $activity
      * @param ActivityManager $activityManager
+     * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, Activity $activity, ActivityManager $activityManager)
+    public function editAction(Request $request, Activity $activity, ActivityManager $activityManager, TranslatorInterface $translator)
     {
         /** @var FormInterface $form */
         $form = $this->createForm(ActivityType::class, $activity);
@@ -114,7 +117,7 @@ class ActivityController extends AbstractController
 
             $activityManager->update($activity);
 
-            $this->addFlash('success', 'L\'activité a été modifiée avec succès.');
+            $this->addFlash('success', $translator->trans('admin.activity.flashbag.edit'));
 
             return $this->redirectToRoute('app.admin.activity.edit', array('id' => $activity->getId()));
         }
