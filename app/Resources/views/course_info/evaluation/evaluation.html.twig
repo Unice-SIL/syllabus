@@ -21,7 +21,7 @@
                         <tr class="text-center">
                             <td><p class="my-0">{{ 'app.evaluation.view.continuous_assessment' | trans }}</p>
                                 {% if courseInfo.mccCcNbEvalSession1 %}
-                                    ({{ courseInfo.mccCcNbEvalSession1 }} {{ 'app.evaluation.view.minimm' | trans }})
+                                    ({{ courseInfo.mccCcNbEvalSession1 }} {{ 'app.evaluation.view.minimum' | trans }})
                                 {% else %}
                                     {{ courseInfo.mccCcNbEvalSession1|humanizeEmptyData }}
                                 {% endif %}

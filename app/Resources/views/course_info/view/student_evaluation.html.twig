@@ -3,32 +3,37 @@
     <input type="image" src="/build/images/modalite_photo.jpg">
 
     <div class="row mt-4">
-
-        <div class="col-4">
+        <div class="col-4 pr-5">
             <div>
-                controle continu
+                {{ 'app.evaluation.view.continuous_assessment' | trans }}
+                {% if courseInfo.mccCcCoeffSession1 is not null %}
+                    ({{ courseInfo.mccCcCoeffSession1 }}%)
+                    <div class="progress" style="height: 5px;">
+                        <div class="progress-bar" role="progressbar" style="width: {{ courseInfo.mccCcCoeffSession1 }}%;" aria-valuenow="{{ courseInfo.mccCcCoeffSession1 }}" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                {% endif %}
             </div>
-            <div>
-                controle continu
+            <div class="mt-3">
+                {{ 'app.evaluation.view.exam' | trans }}
+                {% if courseInfo.mccCtCoeffSession1 is not null %}
+                    ({{ courseInfo.mccCtCoeffSession1 }}%)
+                    <div class="progress" style="height: 5px;">
+                        <div class="progress-bar" role="progressbar" style="width: {{ courseInfo.mccCtCoeffSession1 }}%;" aria-valuenow="{{ courseInfo.mccCtCoeffSession1 }}" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                {% endif %}
             </div>
 
         </div>
 
         <div class="col-8">
             <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam vel lacus leo. Aenean molestie velit
-                vitae leo condimentum consectetur. Cras tempus sem at quam vehicula, at consectetur quam tempus. Aenean
-                porttitor aliquam libero, nec pulvinar mi mattis a. Maecenas ornare metus sapien, at viverra neque
-                iaculis nec. Suspendisse potenti. Duis hendrerit condimentum velit, faucibus tempor magna dignissim nec.
-                Sed eu mollis diam, nec malesuada orci. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-                in nulla vel dui interdum dapibus. Nulla et cursus felis, eget porttitor mi. Aenean venenatis viverra
-                volutpat.
+                {{ 'app.view.student.objectives.evaluation_description' | trans }}
             </p>
         </div>
-        <div class="col-4">
-            Précision
+        <div class="col-4 mt-3">
+            {{ 'app.evaluation.view.specifications' | trans }}
             <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                {{ courseInfo.mccAdvice|humanizeEmptyData() | purify }}
             </p>
         </div>
 
