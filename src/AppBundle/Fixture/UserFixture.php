@@ -20,7 +20,7 @@ class UserFixture extends Fixture  implements FixtureGroupInterface
     const REF_PREFIX = 'user_';
     public const USER_1 = 'user1';
     public const USER_2 = 'user2';
-    public const USER_FREDERIC = 'casazza';
+    public const USER_FREDERIC = 'casazza@unice.fr';
     public const USER_STEPHANE = 'shauser';
     public const USER_KEVIN = 'genes';
     public const USER_SALIM = 'Salim';
