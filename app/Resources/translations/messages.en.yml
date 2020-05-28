@@ -464,6 +464,9 @@ app:
         achievements_description: By the end of this course, I must be able to...
         critical_achievements_list: List of critical achievements
         critical_achievements_description: This course validate the following critical achievements
+        evaluation_description: Thoses modalities are differents for students who got attendance exemption to the continuous assessment
+                                (hard-worker, people with handicap, high level athlete or artist, etc.).
+                                Only the final exam count at 100% in the calculation of the pass mark.
       prerequisites:
         prerequisites_list: List of prerequisites
         prerequisites_description: The necessary prerequisites for this course are...

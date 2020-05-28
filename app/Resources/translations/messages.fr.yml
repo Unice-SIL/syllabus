@@ -464,6 +464,9 @@ app:
         achievements_description: A la fin de ce cours, je devrais être capable de...
         critical_achievements_list: Liste des apprentissages
         critical_achievements_description: Ce cours valide les apprentissages suivants
+        evaluation_description: Ces modalités sont différentes pour les étudiants qui ont obtenu une dispense d'assiduité au Contrôle Continu
+                                (travailleur, personne avec handicap, sportif ou artiste de haut niveau, etc.).
+                                Seul comptera le Contrôle Terminal à 100% dans le calcul de la moyenne.
       prerequisites:
         prerequisites_list: Liste des prérequis
         prerequisites_description: Les prérequis pour choisir ce cours sont...
