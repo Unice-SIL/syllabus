@@ -159,6 +159,7 @@ class Groups
         if(!$this->getUsers()->contains($user)){
 
             $this->getUsers()->add($user);
+            $user->addGroups($this);
         }
 
         return $this;
@@ -173,6 +174,7 @@ class Groups
         if($this->getUsers()->contains($user))
         {
             $this->getUsers()->removeElement($user);
+            $user->removeGroups($this);
         }
 
         return $this;

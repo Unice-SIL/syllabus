@@ -37,7 +37,7 @@ class Domain
     /**
      * @var string
      *
-     * @ORM\Column(name="label", type="string", length=100, nullable=false)
+     * @ORM\Column(name="label", type="string", length=255, nullable=false)
      * @Assert\NotBlank()
      * @JMS\Groups(groups={"default", "domain"})
      * @Gedmo\Translatable
