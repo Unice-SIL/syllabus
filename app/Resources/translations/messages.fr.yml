@@ -449,11 +449,11 @@ app:
         title: Nom de l'activité
         type: Type
       equipments:
-        bibliographic_resources: Eléments bibliographiques
+        bibliographic_resources: Bibligraphie
         description: Description
-        educational_resources: Ressources pédagogiques
+        educational_resources: Ressources
         list: Liste des équipements
-        required_equipments: Matériel nécessaire
+        required_equipments: Matériel
       info:
         agenda: Informations dont vous disposez sur le calendrier du cours, des examens…
         closing_remarks: Le mot de la fin
