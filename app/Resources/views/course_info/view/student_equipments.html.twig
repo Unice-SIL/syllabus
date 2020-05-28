@@ -1,55 +1,38 @@
-{% if courseInfo.educationalResources is not empty or
-    courseInfo.bibliographicResources is not empty or
-    courseInfo.courseResourceEquipments is not empty %}
-    <section id="equipments-section" class="content">
-        <div class="container-fluid">
-            <div class="card my-2 shadow">
-                <div class="card-header">
-                    <div class="d-flex justify-content-between">
-                        <h3  class="text-shadow" style="font-weight: 500;">{{ 'app.view.student.tabs.equipments' | trans }}</h3>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <table class="table table-hover">
-                            <thead>
-                            <tr>
-                                <th class="text-left">{{ 'app.view.student.equipments.list' | trans }}</th>
-                                <th class="text-left">{{ 'app.view.student.equipments.description' | trans }}</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for resourceEquipment in courseInfo.courseResourceEquipments %}
-                                <tr>
-                                    <td class="text-left">{{ resourceEquipment.equipment.label }}</td>
-                                    <td class="text-left">{{ resourceEquipment.description|humanizeEmptyData() }}</td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="row">
-                        <div class="ml-2">
-                            {% if courseInfo.educationalResources is not empty %}
-                                <dl>
-                                    <dt>{{ 'app.view.student.equipments.educational_resources' | trans }}</dt>
-                                    <dd>
-                                        {{ courseInfo.educationalResources | humanizeEmptyData() | purify }}
-                                    </dd>
-                                </dl>
-                            {% endif %}
-                            {% if courseInfo.bibliographicResources is not empty %}
-                                <dl>
-                                    <dt>{{ 'app.view.student.equipments.bibliographic_resources' | trans }}</dt>
-                                    <dd>
-                                        {{ courseInfo.bibliographicResources | humanizeEmptyData() | purify }}
-                                    </dd>
-                                </dl>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
+<section id="presentation-section" class="content">
+    <h3 class="blue_uca mt-5">{{ 'app.view.student.tabs.equipments' | trans }}</h3>
+    <input type="image" src="/build/images/modalite_photo.jpg">
+
+    <div class="row mt-5">
+        <div class="col-4 border-right border-white">
+            <input width="40px" height="40px" type="image" src="/build/images/presentiel_picto.png">
+            <span>{{ 'app.view.student.equipments.bibliographic_resources' | trans }}</span>
+            <div>
+                {{ courseInfo.bibliographicResources | humanizeEmptyData() | purify }}
             </div>
         </div>
-    </section>
-{% endif %}
+        <div class="col-4 pl-4 border-right border-white">
+            <input width="40px" height="40px" type="image" src="/build/images/presentiel_picto.png">
+            <span>{{ 'app.view.student.equipments.educational_resources' | trans }}</span>
+            <div>
+                {{ courseInfo.educationalResources | humanizeEmptyData() | purify }}
+            </div>
+        </div>
+        <div class="col-4 pl-4">
+            <input width="40px" height="40px" type="image" src="/build/images/presentiel_picto.png">
+            <span>{{ 'app.view.student.equipments.required_equipments' | trans }}</span>
+            <ul class="blue_uca fa-ul">
+                {% for resourceEquipment in courseInfo.courseResourceEquipments %}
+                    <li class="mb-2">
+                        <span class="fa-li"><i class="fas fa-check"></i></span>
+                        <p class="m-0 text-white">{{ resourceEquipment.equipment.label }}</p>
+                        {% if resourceEquipment.description %}
+                            <small class="m-0 font-italic text-white">
+                                {{ resourceEquipment.description|humanizeEmptyData() }}
+                            </small>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</section>
