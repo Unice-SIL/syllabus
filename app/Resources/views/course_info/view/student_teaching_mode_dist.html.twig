@@ -1,13 +1,13 @@
 <input type="image" width="30px" height="30px" src="/build/images/distanciel_picto.png">
-<span style="border-bottom: solid white; border-width:0 1px ;">Distanciel</span>
+<span style="border-bottom: solid white; border-width:0 1px ;">{{ 'app.view.student.presentation.distant' | trans }}</span>
 <ul class="blue_uca" style="padding-left:0px;">
     {% if courseInfo.teachingCmDist is not null %}
-        <li class="li-valid"><i class="fas fa-check blue_uca"></i> {{ courseInfo.teachingCmDist }}h de cours magistral</li>
+        <li class="li-valid"><i class="fas fa-check blue_uca"></i> {{ 'app.view.student.presentation.hours_cm' | trans({'%hours%': courseInfo.teachingCmDist}) }}</li>
     {% endif %}
     {% if courseInfo.teachingTdDist is not null %}
-        <li class="li-valid"><li class="li-valid"><i class="fas fa-check blue_uca"></i> {{ courseInfo.teachingTdDist }}h de travaux dirigés</li>
+        <li class="li-valid"><li class="li-valid"><i class="fas fa-check blue_uca"></i> {{ 'app.view.student.presentation.hours_td' | trans({'%hours%': courseInfo.teachingTdDist}) }}</li>
     {% endif %}
     {% for teaching in courseInfo.teachings %}
-        <li class="li-valid"><li class="li-valid"><i class="fas fa-check blue_uca"></i> {{ teaching.hourlyVolume }}h de {{ teaching.type }}</li>
+        <li class="li-valid"><li class="li-valid"><i class="fas fa-check blue_uca"></i> {{ 'app.view.student.presentation.hours_teachings' | trans({'%hours%': teaching.hourlyVolume, '%type%': teaching.type}) }}</li>
     {% endfor %}
 </ul>
