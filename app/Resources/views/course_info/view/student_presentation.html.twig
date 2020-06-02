@@ -17,7 +17,6 @@
                 <ul class="blue_uca">
                     <div class="row" style="width: 50%">
                         {% for domain in courseInfo.domains %}
-                            {{ dump(courseInfo.domains) }}
                             <li class="col-md-6">{{ domain.label }}</li>
                         {% endfor %}
                     </div>
@@ -28,7 +27,9 @@
                 <span>Niveau du cours</span>
                 <ul class="blue_uca">
                     <div class="row" style="width: 50%">
-                        <li>toto</li>
+                        {% for level in courseInfo.levels %}
+                            <li class="col-md-6">{{ level.label }}</li>
+                        {% endfor %}
                     </div>
                 </ul>
             </div>
@@ -36,7 +37,11 @@
                 <input class="student-icon" type="image" src="/build/images/lieu_picto.png">
                 <span>Lieu d'enseignement</span>
                 <ul class="blue_uca">
-                    <li>toto</li>
+                    <div class="row" style="width: 50%">
+                        {% for campus in courseInfo.campuses %}
+                            <li class="col-md-6">{{ campus.label }}</li>
+                        {% endfor %}
+                    </div>
                 </ul>
             </div>
             <div class="col-4">
@@ -44,54 +49,95 @@
                 <span>Langue</span>
                 <ul class="blue_uca">
                     <div class="row" style="width: 50%">
-                        <li>toto</li>
+                        {% for language in courseInfo.languages %}
+                            <li class="col-md-6">{{ language.label }}</li>
+                        {% endfor %}
                     </div>
                 </ul>
             </div>
             <div class="col-4">
-                <input class="student-icon" type="image" src="/build/images/info_picto.png">
-                <span>Appartient a UE Microbiologie</span>
-                <ul class="blue_uca">
-                    <li>toto</li>
-                </ul>
+                {% if courseInfo.course.parents is not empty %}
+                    {% set parent = courseInfo.course.parents[0] %}
+                    {% set parentInfo = '' %}
+                    {% if courseInfo.course.parents|length == 1 %}
+                        {% for info in parent.courseInfos %}
+                            {% if info.year.id == courseInfo.year.id %}
+                                {% set parentInfo = info %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    {% if parent is not empty and parentInfo is not empty %}
+                        {% set title = parentInfo.title %}
+                        {% set ects = parentInfo.ects %}
+                        {% set ecue = parent.children|length %}
+                    {% endif %}
+
+                    <input class="student-icon" type="image" src="/build/images/info_picto.png">
+                    <span>Appartient a {{ title }}</span>
+                    <ul class="blue_uca">
+                        <li>
+                            {% if ects is not null %}
+                                ({{ ects }})
+                            {% endif %}
+                            UE comprenant {{ ecue }} ECUE
+                        </li>
+                    </ul>
+                {% endif %}
             </div>
         </div>
     </div>
     <div class="row mt-5">
         <div class="col-4">
-            <img class="img-fluid" src="/build/images/presentation_photo.jpg">
+            {% if courseInfo.mediaType == 'image' and courseInfo.image is not null %}
+                {% set imgSrc = courseInfo.image | split('/') | last %}
+                <img class="img-thumbnail img-fluid" src="{{ asset('data/' ~ imgSrc) }}">
+            {% elseif courseInfo.mediaType == 'video' and courseInfo.video is not null %}
+                <div class="embed-responsive embed-responsive-16by9">
+                    {{ courseInfo.video|raw }}
+                </div>
+            {% else %}
+                <div class="border rounded d-flex align-items-center justify-content-center" style="min-height: 200px;">
+                    <i class="fas fa-4x fa-images text-light"></i>
+                </div>
+            {% endif %}
         </div>
         <div class="col-8">
             <p class="ml-4">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam vel lacus leo. Aenean molestie velit
-                vitae leo condimentum consectetur. Cras tempus sem at quam vehicula, at consectetur quam tempus. Aenean
-                porttitor aliquam libero, nec pulvinar mi mattis a. Maecenas ornare metus sapien, at viverra neque
-                iaculis nec. Suspendisse potenti. Duis hendrerit condimentum velit, faucibus tempor magna dignissim nec.
-                Sed eu mollis diam, nec malesuada orci. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-                in nulla vel dui interdum dapibus. Nulla et cursus felis, eget porttitor mi. Aenean venenatis viverra
-                volutpat.
+                {{ courseInfo.summary|purify }}
             </p>
             <p class="ml-4">
-            <div>Equipe enseignante</div>
-            <span class="blue_uca">test</span>
+            <div class="text-bold">Equipe enseignante</div>
+            {% for teacher in courseInfo.courseTeachers %}
+                <span class="blue_uca"> {% set teachers =(not loop.first ? ', ') %}</span>
+            {% endfor %}
             </p>
         </div>
+    </div>
+    <div class="row mt-5">
+        {% if courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::HYBRID') %}
+            <div class="col-4" style="border-right: solid white; border-width: 0 1px;">
+                {% include 'course_info/view/student_teaching_mode_in_class.html.twig' %}
+            </div>
+            <div class="col-4" style="margin-left: 20px">
+                {% include 'course_info/view/student_teaching_mode_dist.html.twig' %}
+            </div>
+        {% elseif courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::DIST') %}
+            <div class="col-4">
+                {% include 'course_info/view/student_teaching_mode_dist.html.twig' %}
+            </div>
+        {% elseif courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::IN_CLASS') %}
+            <div class="col-4">
+                {% include 'course_info/view/student_teaching_mode_in_class.html.twig' %}
+            </div>
+        {% endif %}
     </div>
 
     <div class="row mt-5">
         <div class="col-2" style="border-right: solid white; border-width: 0 1px;">
-            <input width="40px" height="40px" type="image" src="/build/images/presentiel_picto.png">
-            <span style="border-bottom: solid white; border-width:0 1px ;">Présentiel</span>
-            <ul class="blue_uca">
-                <li>toto</li>
-            </ul>
+
         </div>
         <div class="col-3" style="margin-left: 20px">
-            <input type="image" width="30px" height="30px" src="/build/images/distanciel_picto.png">
-            <span>Distanciel</span>
-            <ul class="blue_uca">
-                <li>toto</li>
-            </ul>
+
         </div>
     </div>
 </section>

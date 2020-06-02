@@ -1,0 +1,23 @@
+<input width="40px" height="40px" type="image" src="/build/images/presentiel_picto.png">
+<span style="border-bottom: solid white; border-width:0 1px ;">Présentiel</span>
+<div>
+    <ul class="blue_uca" style="padding-left:0px;">
+        {% if courseInfo.teachingCmClass is not null %} }}
+            <li class="li-valid"><li class="li-valid"><i class="fas fa-check blue_uca"></i> {{ courseInfo.teachingCmClass }}h de cours magistral</li>
+        {% endif %}
+        {% if courseInfo.teachingTdClass is not null %} }}
+            <li class="li-valid"><li class="li-valid"><i class="fas fa-check blue_uca"></i> {{ courseInfo.teachingTdClass }}h de travaux dirigés</li>
+        {% endif %}
+        {% if courseInfo.teachingTdClass is not null %} }}
+            <li class="li-valid"><li class="li-valid"><i class="fas fa-check blue_uca"></i> {{ courseInfo.teachingTpClass }}h de travaux pratiques</li>
+        {% endif %}
+        {% for teaching in courseInfo.teachings %}
+            <li class="li-valid"><li class="li-valid"><i class="fas fa-check blue_uca"></i> {{ teaching.hourlyVolume }}h de {{ teaching.type }}</li>
+        {% endfor %}
+    </ul>
+</div>
+
+
+
+
+
