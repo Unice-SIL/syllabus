@@ -455,7 +455,7 @@ app:
         list: List of equipments
         required_equipments: Required equipments
       info:
-        agenda: Information at your disposal about the course's schedule, exams...
+        agenda: Schedule
         closing_remarks: Closing remarks
         evaluation: Evaluation mode
         organization: Course's organization
@@ -473,9 +473,21 @@ app:
         tutoring_resources_list: List of tutoring resources
         tutoring_resources_description: If I find difficulties, I can...
       presentation:
+        structure: Structure
+        domain: Disciplinary domain
+        level: Course's level
+        campus: Campus
+        language: Language
+        belong_to: Belong to %title%
+        teachers: Teaching team
+        distant: Distant
+        hours_cm: %hours%h of lectures
+        hours_td: %hours%h of tutorials
+        hours_tp: %hours%h of practical work
+        hours_teachings: %hours%h of %type%
+        class: In class
         nb_ects: (%ects% ECTS)
         nb_ecue: UE include %ecue% ECUE
-        structure: Structure
         title: ECUE owned by %title%
       tabs:
         activities: Sequences and activities

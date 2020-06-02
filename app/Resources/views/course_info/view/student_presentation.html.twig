@@ -1,11 +1,11 @@
 <section id="presentation-section" class="content">
-    <h3 class="blue_uca">Présentation générale</h3>
+    <h3 class="blue_uca">{{ 'app.view.student.tabs.presentation' | trans }}</h3>
     <div class="dark-light">
         <div class="row p-4">
             <div class="col-4">
                 <span>
                 <input class="student-icon" type="image" src="/build/images/composante_picto.png">
-                    Composante
+                    {{ 'app.view.student.presentation.structure' | trans }}
                 </span>
                 <ul class="blue_uca">
                     <li>{{ courseInfo.structure.label }}</li>
@@ -13,7 +13,7 @@
             </div>
             <div class="col-4">
                 <input class="student-icon" type="image" src="/build/images/domaine_picto.png">
-                <span>Domaine disciplinaire</span>
+                <span>{{ 'app.view.student.presentation.domain' | trans }}</span>
                 <ul class="blue_uca">
                     <div class="row" style="width: 50%">
                         {% for domain in courseInfo.domains %}
@@ -24,7 +24,7 @@
             </div>
             <div class="col-4">
                 <input class="student-icon" type="image" src="/build/images/niveau_picto.png">
-                <span>Niveau du cours</span>
+                <span>{{ 'app.view.student.presentation.level' | trans }}</span>
                 <ul class="blue_uca">
                     <div class="row" style="width: 50%">
                         {% for level in courseInfo.levels %}
@@ -35,7 +35,7 @@
             </div>
             <div class="col-4">
                 <input class="student-icon" type="image" src="/build/images/lieu_picto.png">
-                <span>Lieu d'enseignement</span>
+                <span>{{ 'app.view.student.presentation.campus' | trans }}</span>
                 <ul class="blue_uca">
                     <div class="row" style="width: 50%">
                         {% for campus in courseInfo.campuses %}
@@ -46,7 +46,7 @@
             </div>
             <div class="col-4">
                 <input class="student-icon" type="image" src="/build/images/langue_picto.png">
-                <span>Langue</span>
+                <span>{{ 'app.view.student.presentation.language' | trans }}</span>
                 <ul class="blue_uca">
                     <div class="row" style="width: 50%">
                         {% for language in courseInfo.languages %}
@@ -73,13 +73,13 @@
                     {% endif %}
 
                     <input class="student-icon" type="image" src="/build/images/info_picto.png">
-                    <span>Appartient a {{ title }}</span>
+                    <span>{{ 'app.view.student.presentation.belong_to' | trans({'%title%' : title}) }}</span>
                     <ul class="blue_uca">
                         <li>
                             {% if ects is not null %}
                                 ({{ ects }})
                             {% endif %}
-                            UE comprenant {{ ecue }} ECUE
+                            {{ 'app.view.student.presentation.nb_ecue' | trans({'%ecue%': ecue}) }}
                         </li>
                     </ul>
                 {% endif %}
@@ -106,7 +106,7 @@
                 {{ courseInfo.summary|purify }}
             </p>
             <p class="ml-4">
-            <div class="text-bold">Equipe enseignante</div>
+            <div class="text-bold">{{ 'app.view.student.presentation.teachers' | trans }}</div>
             {% for teacher in courseInfo.courseTeachers %}
                 <span class="blue_uca"> {% set teachers =(not loop.first ? ', ') %}</span>
             {% endfor %}

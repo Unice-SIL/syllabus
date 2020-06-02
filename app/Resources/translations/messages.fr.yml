@@ -455,7 +455,7 @@ app:
         list: Liste des équipements
         required_equipments: Matériel
       info:
-        agenda: Informations dont vous disposez sur le calendrier du cours, des examens…
+        agenda: Calendrier
         closing_remarks: Le mot de la fin
         evaluation: Modalités d'évaluation
         organization: Organisation du cours
@@ -473,9 +473,21 @@ app:
         tutoring_resources_list: Liste des rémédiations
         tutoring_resources_description: Si je rencontre des difficultés, je peux...
       presentation:
+        structure: Composante
+        domain: Domaine disciplinaire
+        level: Niveau du cours
+        campus: Lieu d'enseignement
+        language: Langue
+        belong_to: Appartient a %title%
+        teachers: Équipe enseignante
+        distant: Distanciel
+        hours_cm: %hours%h de cours magistral
+        hours_td: %hours%h de travaux dirigés
+        hours_tp: %hours%h de travaux pratiques
+        hours_teachings: %hours%h de %type%
+        class: Présentiel
         nb_ects: (%ects% ECTS)
         nb_ecue: UE comprenant %ecue% ECUE
-        structure: Composante
         title: ECUE appartenant à %title%
       tabs:
         activities: Séquences et activités
