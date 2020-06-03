@@ -136,9 +136,8 @@
     </div>
     #}
 -->
-
     {#
-    <div class="row mt-5" style="display: flex; flex-wrap: nowrap; justify-content: space-around">
+    <div class="row mt-5" style="display: flex; flex-wrap: wrap; justify-content: space-around">
         {% if courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::HYBRID') %}
             <div>{% include 'course_info/view/student_teaching_mode_in_class.html.twig' %}</div>
             <div style="border-right: solid white; border-width: 0 1px;"></div>
