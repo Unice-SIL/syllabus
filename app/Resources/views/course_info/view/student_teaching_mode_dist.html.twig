@@ -1,6 +1,6 @@
 <input type="image" width="30px" height="30px" src="/build/images/distanciel_picto.png">
+<ul class="text-primary" style="padding-left:0px;">
 <span style="border-bottom: solid white; border-width:0 1px ;">{{ 'app.view.student.presentation.distant' | trans }}</span>
-<ul class="blue_uca" style="padding-left:0px;">
     {% if courseInfo.teachingCmDist is not null %}
         <li class="li-valid"><i class="fas fa-check blue_uca"></i> {{ 'app.view.student.presentation.hours_cm' | trans({'%hours%': courseInfo.teachingCmDist}) }}</li>
     {% endif %}
