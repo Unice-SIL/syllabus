@@ -87,32 +87,35 @@
         </div>
     </div>
     <div class="row mt-5">
-        <div class="col-4">
-            {% if courseInfo.mediaType == 'image' and courseInfo.image is not null %}
-                {% set imgSrc = courseInfo.image | split('/') | last %}
-                <img class="img-thumbnail img-fluid" src="{{ asset('data/' ~ imgSrc) }}">
-            {% elseif courseInfo.mediaType == 'video' and courseInfo.video is not null %}
-                <div class="embed-responsive embed-responsive-16by9">
-                    {{ courseInfo.video|raw }}
-                </div>
-            {% else %}
-                <div class="border rounded d-flex align-items-center justify-content-center" style="min-height: 200px;">
-                    <i class="fas fa-4x fa-images text-light"></i>
-                </div>
-            {% endif %}
-        </div>
-        <div class="col-8">
-            <p class="ml-4">
+        <div class="w-100 col-12">
+            <div class="mr-3 mb-3" style="float: left; width: 50%;">
+                {% if courseInfo.mediaType == 'image' and courseInfo.image is not null %}
+                    {% set imgSrc = courseInfo.image | split('/') | last %}
+                    <img class="img-thumbnail img-fluid" src="{{ asset('data/' ~ imgSrc) }}">
+                {% elseif courseInfo.mediaType == 'video' and courseInfo.video is not null %}
+                    <div class="embed-responsive embed-responsive-16by9">
+                        {{ courseInfo.video|raw }}
+                    </div>
+                {% else %}
+                    <div class="border rounded d-flex align-items-center justify-content-center"
+                         style="min-height: 200px;">
+                        <i class="fas fa-4x fa-images text-light"></i>
+                    </div>
+                {% endif %}
+            </div>
+            <p>
                 {{ courseInfo.summary|purify }}
             </p>
             <p class="ml-4">
-            <div class="text-bold">{{ 'app.view.student.presentation.teachers' | trans }}</div>
+            <div class="text-bold col-12">{{ 'app.view.student.presentation.teachers' | trans }}</div>
             {% for teacher in courseInfo.courseTeachers %}
                 <span class="text-primary"> {% set teachers =(not loop.first ? ', ') %}</span>
             {% endfor %}
             </p>
         </div>
     </div>
+<!--
+{#
     <div class="row mt-5">
         {% if courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::HYBRID') %}
             <div class="col-4" style="border-right: solid white; border-width: 0 1px;">
@@ -131,6 +134,20 @@
             </div>
         {% endif %}
     </div>
+    #}
+-->
+    <div class="row mt-5" style="display: flex; flex-wrap: nowrap; justify-content: space-around">
+        {% if courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::HYBRID') %}
+            <div>{% include 'course_info/view/student_teaching_mode_in_class.html.twig' %}</div>
+            <div style="border-right: solid white; border-width: 0 1px;"></div>
+            <div>{% include 'course_info/view/student_teaching_mode_dist.html.twig' %}</div>
+        {% elseif courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::DIST') %}
+            <div>{% include 'course_info/view/student_teaching_mode_dist.html.twig' %}</div>
+        {% elseif courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::IN_CLASS') %}
+            <div>{% include 'course_info/view/student_teaching_mode_in_class.html.twig' %}</div>
+        {% endif %}
+    </div>
+
 
     <div class="row mt-5">
         <div class="col-2" style="border-right: solid white; border-width: 0 1px;">
