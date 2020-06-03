@@ -1,5 +1,5 @@
 <section id="presentation-section" class="content">
-    <h3 class="text-primary">Présentation générale</h3>
+    <h1 class="text-primary">Présentation générale</h1>
     <div class="presentation_info row p-4">
         <div class="col col-12 col-lg-4 col-md-6 col-sm-12">
             <div class="student_subtitle">
@@ -115,50 +115,22 @@
             {% endif %}
         </div>
         {{ courseInfo.summary|purify }}
-        <div class="text-bold">
+        <div class="d-flex flex-column">
+            <h6 class="text-bold">
             {{ 'app.view.student.presentation.teachers' | trans }}
+            </h6>
+            <span class="text-primary">
             {% for teacher in courseInfo.courseTeachers %}
-                <span class="text-primary"> {% set teachers =(not loop.first ? ', ') %}</span>
+                {% if not loop.first %}
+                    ,
+                {% endif %}
+                {{ teacher.firstname }} {{ teacher.lastname }}
             {% endfor %}
+            </span>
         </div>
     </div>
-    <!--
-{#
-    <div class="row mt-5">
-        {% if courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::HYBRID') %}
-            <div class="col-4" style="border-right: solid white; border-width: 0 1px;">
-                {% include 'course_info/view/student_teaching_mode_in_class.html.twig' %}
-            </div>
-            <div class="col-4" style="margin-left: 20px">
-                {% include 'course_info/view/student_teaching_mode_dist.html.twig' %}
-            </div>
-        {% elseif courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::DIST') %}
-            <div class="col-4">
-                {% include 'course_info/view/student_teaching_mode_dist.html.twig' %}
-            </div>
-        {% elseif courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::IN_CLASS') %}
-            <div class="col-4">
-                {% include 'course_info/view/student_teaching_mode_in_class.html.twig' %}
-            </div>
-        {% endif %}
-    </div>
-    #}
--->
-    {#
-    <div class="row mt-5" style="display: flex; flex-wrap: wrap; justify-content: space-around">
-        {% if courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::HYBRID') %}
-            <div>{% include 'course_info/view/student_teaching_mode_in_class.html.twig' %}</div>
-            <div style="border-right: solid white; border-width: 0 1px;"></div>
-            <div>{% include 'course_info/view/student_teaching_mode_dist.html.twig' %}</div>
-        {% elseif courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::DIST') %}
-            <div>{% include 'course_info/view/student_teaching_mode_dist.html.twig' %}</div>
-        {% elseif courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::IN_CLASS') %}
-            <div>{% include 'course_info/view/student_teaching_mode_in_class.html.twig' %}</div>
-        {% endif %}
-    </div>
-    #}
 
-    <div class="teaching-modes mt-5">
+    <div class="teaching-modes pt-5" style="clear: both;">
         {% if courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::IN_CLASS') or courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::HYBRID') %}
             {% include 'course_info/view/student_teaching_mode_in_class.html.twig' %}
         {% endif %}
