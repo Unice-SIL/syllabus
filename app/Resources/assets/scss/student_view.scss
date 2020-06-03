@@ -28,3 +28,142 @@
   margin-right: 0px;
   list-style-type: none;
 }
+
+
+.icon-40 {
+  width: 40px;
+  height: 40px;
+  margin-right: 1rem;
+}
+
+.icon-20 {
+  width: 20px;
+  height: 20px;
+  margin-right: 0.5rem;
+}
+
+.student_subtitle {
+  display: flex;
+}
+
+.title-underlined {
+  position: relative;
+  display: block;
+}
+
+.title-underlined:after {
+  content: '';
+  position: absolute;
+  width: 70px;
+  height: 1px;
+  background-color: var(--primary);
+  top: 100%;
+  left: 0;
+}
+
+.presentation_info {
+  background-color: $dark-light;
+  text-align: center;
+
+  @media (min-width: 768px) {
+    & {
+      text-align: left;
+    }
+  }
+
+  .student_subtitle {
+    justify-content: center;
+
+    @media (min-width: 768px) {
+      & {
+        justify-content: flex-start;
+      }
+    }
+  }
+
+  .col {
+    padding-bottom: 1.5rem;
+  }
+
+  ul {
+    list-style: none;
+    color: var(--primary);
+    padding-left: 0.5rem;
+
+    li {
+      i {
+        margin-right: 0.5rem;
+      }
+    }
+  }
+}
+
+.teaching-modes {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex-direction: column;
+
+  @media (min-width: 992px) {
+    & {
+      flex-direction: row;
+    }
+  }
+
+  .teaching-mode {
+    max-width: 100%;
+    flex: 0 0 100%;
+    text-align: center;
+
+    &:not(:first-child) {
+      margin-top: 2rem;
+    }
+
+    @media (min-width: 992px) {
+      & {
+        max-width: 33.3333%;
+        flex: 0 0 33.33333%;
+        margin-left: 4rem;
+        text-align: left;
+      }
+
+      &:not(:first-child) {
+        margin-top: 0rem;
+      }
+
+      &:not(:last-child) {
+        border-right: 1px solid;
+      }
+    }
+
+    .teaching-mode_title {
+      display: flex;
+      justify-content: center;
+
+      @media (min-width: 992px) {
+        & {
+          justify-content: flex-start;
+        }
+      }
+
+      img {
+        width: 40px;
+        margin-right: 1rem;
+      }
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+      margin-top: 1rem;
+
+      li {
+
+        i {
+          color: var(--primary);
+          margin-right: 0.8rem;
+        }
+      }
+    }
+  }
+}
