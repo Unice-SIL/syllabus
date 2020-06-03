@@ -30,6 +30,9 @@
 }
 
 
+
+
+
 .icon-40 {
   width: 40px;
   height: 40px;
@@ -97,6 +100,32 @@
     }
   }
 }
+
+.presentation_summary {
+  width: 100%;
+
+  .media {
+    @media (min-width: 768px) {
+      & {
+        float: left;
+        max-width: 50%;
+
+      }
+    }
+
+    & > img, & > div.embed-responsive {
+      max-height: calc(100% - 1rem);
+
+      @media (min-width: 768px) {
+        & {
+          max-width: calc(100% - 1rem);
+        }
+      }
+    }
+
+  }
+}
+
 
 .teaching-modes {
   display: flex;
