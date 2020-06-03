@@ -1,18 +1,18 @@
 <input width="40px" height="40px" type="image" src="/build/images/presentiel_picto.png">
 <span style="border-bottom: solid white; border-width:0 1px;">{{ 'app.view.student.presentation.class' | trans }}</span>
 <div>
-    <ul class="blue_uca" style="padding-left:0px;">
+    <ul class="text-primary" style="padding-left:0px;">
         {% if courseInfo.teachingCmClass is not null %}
-            <li class="li-valid"><li class="li-valid"><i class="fas fa-check blue_uca"></i> {{ 'app.view.student.presentation.hours_cm' | trans({'%hours%': courseInfo.teachingCmClass}) }}</li>
+            <li class="li-valid"><li class="li-valid"><i class="fas fa-check text-primary"></i> {{ 'app.view.student.presentation.hours_cm' | trans({'%hours%': courseInfo.teachingCmClass}) }}</li>
         {% endif %}
         {% if courseInfo.teachingTdClass is not null %}
-            <li class="li-valid"><li class="li-valid"><i class="fas fa-check blue_uca"></i> {{ 'app.view.student.presentation.hours_td' | trans({'%hours%': courseInfo.teachingTdClass}) }}</li>
+            <li class="li-valid"><li class="li-valid"><i class="fas fa-check text-primary"></i> {{ 'app.view.student.presentation.hours_td' | trans({'%hours%': courseInfo.teachingTdClass}) }}</li>
         {% endif %}
         {% if courseInfo.teachingTdClass is not null %}
-            <li class="li-valid"><li class="li-valid"><i class="fas fa-check blue_uca"></i> {{ 'app.view.student.presentation.hours_tp' | trans({'%hours%': courseInfo.teachingTpClass}) }}</li>
+            <li class="li-valid"><li class="li-valid"><i class="fas fa-check text-primary"></i> {{ 'app.view.student.presentation.hours_tp' | trans({'%hours%': courseInfo.teachingTpClass}) }}</li>
         {% endif %}
         {% for teaching in courseInfo.teachings %}
-            <li class="li-valid"><li class="li-valid"><i class="fas fa-check blue_uca"></i> {{ 'app.view.student.presentation.hours_teachings' | trans({'%hours%': teaching.hourlyVolume, '%type%': teaching.type}) }}</li>
+            <li class="li-valid"><li class="li-valid"><i class="fas fa-check text-primary"></i> {{ 'app.view.student.presentation.hours_teachings' | trans({'%hours%': teaching.hourlyVolume, '%type%': teaching.type}) }}</li>
         {% endfor %}
     </ul>
 </div>
