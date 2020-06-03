@@ -8,12 +8,10 @@
 {% endif %}
 
 
-<div class="teaching-mode">
-    <div class="teaching-mode_title">
-        <img src="{{ asset('build/images/presentiel_picto.png') }}">
-        <div>
-            <h5 class="title-underlined">{{ 'app.view.student.presentation.class' | trans }}</h5>
-        </div>
+<div class="grid-element">
+    <div class="student-subtitle">
+        <img src="{{ asset('build/images/presentiel_picto.png') }}" class="icon-40" alt="">
+        <h5 class="title-underlined">{{ 'app.view.student.presentation.class' | trans }}</h5>
     </div>
     <ul>
         {% if teachingCm is not null %}

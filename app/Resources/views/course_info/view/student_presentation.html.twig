@@ -1,8 +1,10 @@
-<section id="presentation-section" class="content">
-    <h1 class="text-primary">Présentation générale</h1>
-    <div class="presentation_info row p-4">
+<section id="presentation-section" class="mb-5">
+    <div class="student-title">
+        <h1>Présentation générale</h1>
+    </div>
+    <div class="presentation-info row p-4">
         <div class="col col-12 col-lg-4 col-md-6 col-sm-12">
-            <div class="student_subtitle">
+            <div class="student-subtitle">
                 <img class="icon-20" src="{{ asset('/build/images/composante_picto.png') }}">
                 <span>{{ 'app.view.student.presentation.structure' | trans }}</span>
             </div>
@@ -14,7 +16,7 @@
             </ul>
         </div>
         <div class="col col-12 col-lg-4 col-md-6 col-sm-12">
-            <div class="student_subtitle">
+            <div class="student-subtitle">
                 <img class="icon-20" src="{{ asset('/build/images/domaine_picto.png') }}">
                 <span>{{ 'app.view.student.presentation.domain' | trans }}</span>
             </div>
@@ -28,7 +30,7 @@
             </ul>
         </div>
         <div class="col col-12 col-lg-4 col-md-6 col-sm-12">
-            <div class="student_subtitle">
+            <div class="student-subtitle">
                 <img class="icon-20" src="{{ asset('/build/images/niveau_picto.png') }}">
                 <span>{{ 'app.view.student.presentation.level' | trans }}</span>
             </div>
@@ -42,7 +44,7 @@
             </ul>
         </div>
         <div class="col col-12 col-lg-4 col-md-6 col-sm-12">
-            <div class="student_subtitle">
+            <div class="student-subtitle">
                 <img class="icon-20" src="{{ asset('/build/images/lieu_picto.png') }}">
                 <span>{{ 'app.view.student.presentation.campus' | trans }}</span>
             </div>
@@ -56,7 +58,7 @@
             </ul>
         </div>
         <div class="col col-12 col-lg-4 col-md-6 col-sm-12">
-            <div class="student_subtitle">
+            <div class="student-subtitle">
                 <img class="icon-20" src="{{ asset('/build/images/langue_picto.png') }}">
                 <span>{{ 'app.view.student.presentation.language' | trans }}</span>
             </div>
@@ -85,7 +87,7 @@
                     {% set ects = parentInfo.ects %}
                     {% set ecue = parent.children|length %}
                 {% endif %}
-                <div class="student_subtitle">
+                <div class="student-subtitle">
                     <img class="icon-20" src="{{ asset('/build/images/info_picto.png') }}">
                     <span>{{ 'app.view.student.presentation.belong_to' | trans({'%title%' : title}) }}</span>
                 </div>
@@ -103,7 +105,7 @@
     </div>
 
 
-    <div class="presentation_summary mt-5">
+    <div class="presentation-summary mt-5">
         <div class="media">
             {% if courseInfo.mediaType == 'image' and courseInfo.image is not null %}
                 {% set imgSrc = courseInfo.image | split('/') | last %}
@@ -117,7 +119,7 @@
         {{ courseInfo.summary|purify }}
         <div class="d-flex flex-column">
             <h6 class="text-bold">
-            {{ 'app.view.student.presentation.teachers' | trans }}
+                {{ 'app.view.student.presentation.teachers' | trans }}
             </h6>
             <span class="text-primary">
             {% for teacher in courseInfo.courseTeachers %}
@@ -130,7 +132,7 @@
         </div>
     </div>
 
-    <div class="teaching-modes pt-5" style="clear: both;">
+    <div class="student-grid pt-5" style="clear: both;">
         {% if courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::IN_CLASS') or courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::HYBRID') %}
             {% include 'course_info/view/student_teaching_mode_in_class.html.twig' %}
         {% endif %}
@@ -139,13 +141,4 @@
         {% endif %}
     </div>
 
-
-    <div class="row mt-5">
-        <div class="col-2" style="border-right: solid white; border-width: 0 1px;">
-
-        </div>
-        <div class="col-3" style="margin-left: 20px">
-
-        </div>
-    </div>
 </section>
