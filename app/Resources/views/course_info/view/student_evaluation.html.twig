@@ -1,4 +1,4 @@
-<section id="evaluation-section" class="mb-5">
+<section id="evaluation-section" class="pb-5">
     <div class="student-title">
         <h1 class="text-primary">{{ 'app.view.student.tabs.evaluation' | trans }}</h1>
         <img src="{{ asset('build/images/modalite_photo.jpg') }}" alt="">
@@ -30,10 +30,10 @@
             </p>
         </div>
     </div>
-    <span>{{ 'app.evaluation.view.specifications' | trans }}</span>
-    <p>
+    <div>
+        <span class="text-bold">{{ 'app.evaluation.view.specifications' | trans }}</span>
         {{ courseInfo.mccAdvice|humanizeEmptyData() | purify }}
-    </p>
+    </div>
 
 
 

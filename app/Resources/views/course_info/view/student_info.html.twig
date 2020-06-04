@@ -1,22 +1,24 @@
-<section id="information-section" class="mb-5">
+<section id="information-section" class="pb-5">
     <div class="student-title">
         <h1 class="text-primary">{{ 'app.view.student.tabs.info' | trans }}</h1>
         <img src="{{ asset('build/images/information_photo.jpg') }}" alt="">
     </div>
     <div class="student-grid">
-        <div class="grid-element">
+        <div class="grid-element grid-2-elements">
             <div class="student-subtitle mb-3">
                 <img src="{{ asset('build/images/calendrier_picto.png') }}" class="icon-40" alt="">
                 <h5 class="title-underlined">{{ 'app.view.student.info.agenda' | trans }}</h5>
             </div>
             {{ courseInfo.agenda|purify }}
         </div>
-        <div class="grid-element">
+        <div class="grid-element grid-2-elements">
             <div class="student-subtitle mb-3">
                 <img src="{{ asset('build/images/organisation_picto.png') }}" class="icon-40" alt="">
                 <h5 class="title-underlined">{{ 'app.view.student.info.organization' | trans }}</h5>
             </div>
-            {{ courseInfo.organization|purify }}
+            <div>
+                {{ courseInfo.organization|purify }}
+            </div>
         </div>
     </div>
 </section>

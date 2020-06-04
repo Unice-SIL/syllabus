@@ -1,38 +1,53 @@
-<section id="equipment-section" class="content">
-    <h3 class="blue_uca mt-5">{{ 'app.view.student.tabs.equipments' | trans }}</h3>
-    <input type="image" src="/build/images/materiel_photo.jpg">
+<section id="equipment-section" class="pb-5">
+    <div class="student-title">
+        <h1 class="text-primary">{{ 'app.view.student.tabs.equipments' | trans }}</h1>
+        <img src="{{ asset('build/images/materiel_photo.jpg') }}" alt="">
+    </div>
 
-    <div class="row mt-5">
-        <div class="col-4 border-right border-white">
-            <input width="40px" height="40px" type="image" src="/build/images/presentiel_picto.png">
-            <span>{{ 'app.view.student.equipments.bibliographic_resources' | trans }}</span>
+    <div class="student-grid">
+        <div class="grid-element">
+            <div class="student-subtitle mb-3">
+                <img src="{{ asset('build/images/biblio_picto.png') }}" class="icon-40" alt="">
+                <h5 class="title-underlined">{{ 'app.view.student.equipments.bibliographic_resources' | trans }}</h5>
+            </div>
             <div>
                 {{ courseInfo.bibliographicResources | humanizeEmptyData() | purify }}
             </div>
         </div>
-        <div class="col-4 pl-4 border-right border-white">
-            <input width="40px" height="40px" type="image" src="/build/images/presentiel_picto.png">
-            <span>{{ 'app.view.student.equipments.educational_resources' | trans }}</span>
+
+        <div class="grid-element">
+            <div class="student-subtitle mb-3">
+                <img src="{{ asset('build/images/biblio_picto.png') }}" class="icon-40" alt="">
+                <h5 class="title-underlined">{{ 'app.view.student.equipments.educational_resources' | trans }}</h5>
+            </div>
             <div>
                 {{ courseInfo.educationalResources | humanizeEmptyData() | purify }}
             </div>
         </div>
-        <div class="col-4 pl-4">
-            <input width="40px" height="40px" type="image" src="/build/images/presentiel_picto.png">
-            <span>{{ 'app.view.student.equipments.required_equipments' | trans }}</span>
-            <ul class="blue_uca fa-ul">
+
+        <div class="grid-element">
+            <div class="student-subtitle mb-3">
+                <img src="{{ asset('build/images/materiel_picto.png') }}" class="icon-40" alt="">
+                <h5 class="title-underlined">{{ 'app.view.student.equipments.required_equipments' | trans }}</h5>
+            </div>
+            <ul class="grid-element-list">
                 {% for resourceEquipment in courseInfo.courseResourceEquipments %}
-                    <li class="mb-2">
-                        <span class="fa-li"><i class="fas fa-check"></i></span>
-                        <p class="m-0 text-white">{{ resourceEquipment.equipment.label }}</p>
-                        {% if resourceEquipment.description %}
-                            <small class="m-0 font-italic text-white">
-                                {{ resourceEquipment.description|humanizeEmptyData() }}
-                            </small>
+                    <li>
+                        <i class="fas fa-check"></i>
+                        {% if resourceEquipment.equipment.labelVisibility == true %}
+                            <div class="d-flex flex-column">
+                                <span>{{ resourceEquipment.equipment.label }}</span>
+                                {% if resourceEquipment.equipment.labelVisibility == true %}
+                                    <span class="small font-italic">{{ resourceEquipment.description }}</span>
+                                {% endif %}
+                            </div>
+                        {% else %}
+                            <span>{{ resourceEquipment.description }}</span>
                         {% endif %}
                     </li>
                 {% endfor %}
             </ul>
+
         </div>
     </div>
 </section>

@@ -1,9 +1,9 @@
-<section id="presentation-section" class="mb-5">
+<section id="presentation-section" class="pb-5">
     <div class="student-title">
         <h1>Présentation générale</h1>
     </div>
     <div class="presentation-info row p-4">
-        <div class="col col-12 col-lg-4 col-md-6 col-sm-12">
+        <div class="presentation-info-element col-12 col-lg-4 col-md-6 col-sm-12">
             <div class="student-subtitle">
                 <img class="icon-20" src="{{ asset('/build/images/composante_picto.png') }}">
                 <span>{{ 'app.view.student.presentation.structure' | trans }}</span>
@@ -15,7 +15,7 @@
                 </li>
             </ul>
         </div>
-        <div class="col col-12 col-lg-4 col-md-6 col-sm-12">
+        <div class="presentation-info-element col-12 col-lg-4 col-md-6 col-sm-12">
             <div class="student-subtitle">
                 <img class="icon-20" src="{{ asset('/build/images/domaine_picto.png') }}">
                 <span>{{ 'app.view.student.presentation.domain' | trans }}</span>
@@ -29,7 +29,7 @@
                 {% endfor %}
             </ul>
         </div>
-        <div class="col col-12 col-lg-4 col-md-6 col-sm-12">
+        <div class="presentation-info-element col-12 col-lg-4 col-md-6 col-sm-12">
             <div class="student-subtitle">
                 <img class="icon-20" src="{{ asset('/build/images/niveau_picto.png') }}">
                 <span>{{ 'app.view.student.presentation.level' | trans }}</span>
@@ -43,7 +43,7 @@
                 {% endfor %}
             </ul>
         </div>
-        <div class="col col-12 col-lg-4 col-md-6 col-sm-12">
+        <div class="presentation-info-element col-12 col-lg-4 col-md-6 col-sm-12">
             <div class="student-subtitle">
                 <img class="icon-20" src="{{ asset('/build/images/lieu_picto.png') }}">
                 <span>{{ 'app.view.student.presentation.campus' | trans }}</span>
@@ -57,7 +57,7 @@
                 {% endfor %}
             </ul>
         </div>
-        <div class="col col-12 col-lg-4 col-md-6 col-sm-12">
+        <div class="presentation-info-element col-12 col-lg-4 col-md-6 col-sm-12">
             <div class="student-subtitle">
                 <img class="icon-20" src="{{ asset('/build/images/langue_picto.png') }}">
                 <span>{{ 'app.view.student.presentation.language' | trans }}</span>
@@ -71,7 +71,7 @@
                 {% endfor %}
             </ul>
         </div>
-        <div class="col col-12 col-lg-4 col-md-6 col-sm-12">
+        <div class="presentation-info-element col-12 col-lg-4 col-md-6 col-sm-12">
             {% if courseInfo.course.parents is not empty %}
                 {% set parent = courseInfo.course.parents[0] %}
                 {% set parentInfo = '' %}

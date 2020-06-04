@@ -1,14 +1,13 @@
-<section id="objectives-section" class="mb-5">
+<section id="objectives-section" class="pb-5">
     <div class="student-title">
         <h1 class="text-primary">{{ 'app.view.student.tabs.objectives' | trans }}</h1>
         <img src="{{ asset('build/images/objectif_photo.jpg') }}" alt="">
     </div>
-    <div class="student-grid">
-        <div class="grid-element">
+        <div class="d-flex flex-column align-items-center">
             <div class="student-subtitle">
                 <span class="text-bold">{{ 'app.view.student.objectives.achievements_description' | trans }}</span>
             </div>
-            <ul class="text-primary">
+            <ul class="text-primary pl-0" style="list-style: none;">
                 {% if courseInfo.courseAchievements is not empty %}
                     {% for achievement in courseInfo.courseAchievements %}
                         <li>
@@ -19,6 +18,4 @@
                 {% endif %}
             </ul>
         </div>
-
-    </div>
 </section>
