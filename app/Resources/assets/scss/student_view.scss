@@ -4,10 +4,6 @@
   color: white;
 }
 
-.blue_uca {
-  color: #46aed8;
-}
-
 .progress {
   background-color: #202020;
   -webkit-box-shadow: none;
@@ -29,7 +25,11 @@
   list-style-type: none;
 }
 
-
+.empty-element{
+  display:initial;
+  background-color: #D8D8D8;
+  color: #7d8293;
+}
 
 #student-sidebar {
   top: 10px;

@@ -1,0 +1,57 @@
+<section id="prerequisite-section" class="content">
+    <h3 class="text-primary">Prérequis</h3>
+    <input type="image" src="/build/images/information_photo.jpg">
+    <div class="student-grid pt-5" style="clear: both;">
+        <div class="grid-element">
+            {% if courseInfo.coursePrerequisites is not empty %}
+            <div class="student-subtitle">
+                <span class="text-bold">Avant le début du cours, je dois ...</span>
+            </div>
+            <ul>
+                {% for prerequisite in courseInfo.coursePrerequisites %}
+                    <li>
+                        <i class="fas fa-check text-primary"></i>
+                        <div>
+                            {{ prerequisite.description }}
+                            <p>
+                                Cours associé(s):
+                                {% for course in prerequisite.courses %}
+                                    {% if not loop.first %}
+                                        ,
+                                    {% endif %}
+                                    {{ course.title }}
+                                {% endfor %}
+                            </p>
+                        </div>
+                    </li>
+                {% endfor %}
+                {% else %}
+                    <div class="text-center">
+                        <div class="p-2 empty-element">Pas de prérequis</div>
+                    </div>
+                {% endif %}
+            </ul>
+        </div>
+        <div class="grid-element">
+            {% if courseInfo.courseTutoringResources is not empty %}
+            <div class="student-subtitle">
+                <span class="text-bold">Pour me remettre à niveau, je peux ...</span>
+            </div>
+            <ul>
+                {% for tutoringResource in courseInfo.courseTutoringResources %}
+                    <li>
+                        <i class="fas fa-check text-primary"></i>
+                        <div>
+                            {{ tutoringResource.description }}
+                        </div>
+                    </li>
+                {% endfor %}
+                {% else %}
+                    <div class="text-center">
+                        <div class="p-2 empty-element">Pas de remise à niveau</div>
+                    </div>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</section>
