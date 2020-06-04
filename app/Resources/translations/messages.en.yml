@@ -469,9 +469,12 @@ app:
                                 Only the final exam count at 100% in the calculation of the pass mark.
       prerequisites:
         prerequisites_list: List of prerequisites
-        prerequisites_description: The necessary prerequisites for this course are...
+        prerequisites_description: Before the start of the course, I must ...
+        associate_courses: Associated course(s):
+        empty_prerequiste: No prerequisite
         tutoring_resources_list: List of tutoring resources
         tutoring_resources_description: If I find difficulties, I can...
+        empty_tutoring_resources: no tutoring resource
       presentation:
         structure: Structure
         domain: Disciplinary domain

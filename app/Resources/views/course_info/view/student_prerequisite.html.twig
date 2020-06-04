@@ -1,11 +1,11 @@
 <section id="prerequisite-section" class="pb-5">
-    <h3 class="text-primary">Prérequis</h3>
+    <h3 class="text-primary">{{ 'app.view.student.tabs.prerequisites' | trans }}</h3>
     <input type="image" src="/build/images/information_photo.jpg">
     <div class="student-grid pt-5" style="clear: both;">
         <div class="grid-element">
             {% if courseInfo.coursePrerequisites is not empty %}
             <div class="student-subtitle">
-                <span class="text-bold">Avant le début du cours, je dois ...</span>
+                <span class="text-bold">{{ 'app.view.student.prerequisites.prerequisites_description' | trans }}</span>
             </div>
             <ul>
                 {% for prerequisite in courseInfo.coursePrerequisites %}
@@ -14,7 +14,7 @@
                         <div>
                             {{ prerequisite.description }}
                             <p>
-                                Cours associé(s):
+                                {{ 'app.view.student.prerequisites.associate_courses' | trans }}
                                 {% for course in prerequisite.courses %}
                                     {% if not loop.first %}
                                         ,
@@ -26,14 +26,14 @@
                     </li>
                 {% endfor %}
                 {% else %}
-                    <div class="p-2 empty-element">Pas de prérequis</div>
+                    <div class="p-2 empty-element">{{ 'app.view.student.prerequisites.empty_prerequiste' | trans }}</div>
                 {% endif %}
             </ul>
         </div>
         <div class="grid-element">
             {% if courseInfo.courseTutoringResources is not empty %}
             <div class="student-subtitle">
-                <span class="text-bold">Pour me remettre à niveau, je peux ...</span>
+                <span class="text-bold">{{ 'app.view.student.prerequisites.tutoring_resources_description' | trans }}</span>
             </div>
             <ul>
                 {% for tutoringResource in courseInfo.courseTutoringResources %}
@@ -45,7 +45,7 @@
                     </li>
                 {% endfor %}
                 {% else %}
-                    <div class="p-2 empty-element">Pas de remise à niveau</div>
+                    <div class="p-2 empty-element">{{ 'app.view.student.prerequisites.empty_tutoring_resources' | trans }}</div>
                 {% endif %}
             </ul>
         </div>

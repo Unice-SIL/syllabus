@@ -469,9 +469,12 @@ app:
                                 Seul comptera le Contrôle Terminal à 100% dans le calcul de la moyenne.
       prerequisites:
         prerequisites_list: Liste des prérequis
-        prerequisites_description: Les prérequis pour choisir ce cours sont...
+        prerequisites_description: Avant le début du cours, je dois ...
+        associate_courses: Cours associé(s):
+        empty_prerequiste: Pas de prérequis
         tutoring_resources_list: Liste des rémédiations
-        tutoring_resources_description: Si je rencontre des difficultés, je peux...
+        tutoring_resources_description: Pour me remettre à niveau, je peux ...
+        empty_tutoring_resources: Pas de remise à niveau
       presentation:
         structure: Composante
         domain: Domaine disciplinaire
