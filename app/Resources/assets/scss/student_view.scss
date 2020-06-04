@@ -29,28 +29,35 @@
   list-style-type: none;
 }
 
+
+
 #student-sidebar {
   top: 10px;
   left: 25px;
   position: fixed;
   z-index: 10;
-}
-
-.vertical-text {
-  -webkit-transform: rotate(-180deg);
-  -moz-transform: rotate(-180deg);
-  -ms-transform: rotate(-180deg);
-  -o-transform: rotate(-180deg);
-  writing-mode: vertical-lr;
-  a:not(active) {
-    color: grey;
-    border-left: 3px solid grey;
+  display: none;
+  @media (min-width: 768px) {
+    display: block;
   }
-}
 
-.vertical-text > .active {
-  color: #46aed8;
-  border-left: 3px solid #46aed8;
+  .vertical-text {
+    -webkit-transform: rotate(-180deg);
+    -moz-transform: rotate(-180deg);
+    -ms-transform: rotate(-180deg);
+    -o-transform: rotate(-180deg);
+    writing-mode: vertical-lr;
+
+    a {
+      color: grey;
+      border-left: 3px solid grey;
+
+      &.active {
+        color: #46aed8;
+        border-left: 3px solid #46aed8;
+      }
+    }
+  }
 }
 
 .icon-20 {
@@ -115,9 +122,7 @@
   flex-direction: column;
 
   @media (min-width: 992px) {
-    & {
-      flex-direction: row;
-    }
+    flex-direction: row;
   }
 
   .grid-element {
@@ -132,14 +137,11 @@
     }
 
     @media (min-width: 992px) {
-      & {
-        max-width: 33.3333%;
-        flex: 0 0 33.33333%;
-        //flex-direction: row;
-        align-items: flex-start;
-        padding-left: 3rem;
-        padding-right: 3rem;
-      }
+      max-width: 33.3333%;
+      flex: 0 0 33.33333%;
+      align-items: flex-start;
+      padding-left: 3rem;
+      padding-right: 3rem;
 
       &.grid-2-elements {
         max-width: 50%;
@@ -164,9 +166,7 @@
       justify-content: center;
 
       @media (min-width: 992px) {
-        & {
-          justify-content: flex-start;
-        }
+        justify-content: flex-start;
       }
     }
 
@@ -179,9 +179,7 @@
         display: flex;
 
         @media (min-width: 992px) {
-          & {
-            justify-content: flex-start;
-          }
+          justify-content: flex-start;
         }
 
         i {
@@ -202,9 +200,7 @@
     justify-content: center;
 
     @media (min-width: 768px) {
-      & {
-        justify-content: flex-start;
-      }
+      justify-content: flex-start;
     }
   }
 
@@ -238,10 +234,8 @@
 
   .media {
     @media (min-width: 768px) {
-      & {
-        float: left;
-        max-width: 50%;
-      }
+      float: left;
+      max-width: 50%;
     }
 
     & > img, & > div.embed-responsive {
@@ -249,9 +243,7 @@
       max-height: calc(100% - 1rem);
 
       @media (min-width: 768px) {
-        & {
-          max-width: calc(100% - 1rem);
-        }
+        max-width: calc(100% - 1rem);
       }
     }
   }
