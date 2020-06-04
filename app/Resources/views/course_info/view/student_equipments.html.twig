@@ -1,5 +1,5 @@
 <section id="equipment-section" class="content">
-    <h3 class="blue_uca mt-5">{{ 'app.view.student.tabs.equipments' | trans }}</h3>
+    <h3 class="text-primary mt-5">{{ 'app.view.student.tabs.equipments' | trans }}</h3>
     <input type="image" src="/build/images/materiel_photo.jpg">
 
     <div class="row mt-5">
@@ -20,7 +20,7 @@
         <div class="col-4 pl-4">
             <input width="40px" height="40px" type="image" src="/build/images/presentiel_picto.png">
             <span>{{ 'app.view.student.equipments.required_equipments' | trans }}</span>
-            <ul class="blue_uca fa-ul">
+            <ul class="text-primary fa-ul">
                 {% for resourceEquipment in courseInfo.courseResourceEquipments %}
                     <li class="mb-2">
                         <span class="fa-li"><i class="fas fa-check"></i></span>

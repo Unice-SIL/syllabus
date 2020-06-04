@@ -1,0 +1,12 @@
+<section id="prerequisite-section" class="content">
+    <h3 class="text-primary">Prérequis</h3>
+    <input type="image" src="/build/images/information_photo.jpg">
+    <div class="teaching-modes mt-5">
+        {% if courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::IN_CLASS') or courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::HYBRID') %}
+            {% include 'course_info/view/student_teaching_mode_in_class.html.twig' %}
+        {% endif %}
+        {% if courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::DIST') or courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::HYBRID') %}
+            {% include 'course_info/view/student_teaching_mode_dist.html.twig' %}
+        {% endif %}
+    </div>
+</section>
