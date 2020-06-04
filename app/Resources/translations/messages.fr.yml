@@ -489,6 +489,14 @@ app:
         nb_ects: (%ects% ECTS)
         nb_ecue: UE comprenant %ecue% ECUE
         title: ECUE appartenant à %title%
+      sidebar:
+        activity: Programme
+        equipment: Matériel
+        evaluation: Modalité
+        info: Informations
+        objectives: Objectifs
+        prerequisites: Prérequis
+        presentation: Présentation
       tabs:
         activities: Séquences et activités
         closing_remarks: Le mot de la fin

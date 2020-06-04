@@ -29,9 +29,29 @@
   list-style-type: none;
 }
 
+#student-sidebar {
+  top: 10px;
+  left: 25px;
+  position: fixed;
+  z-index: 10;
+}
 
+.vertical-text {
+  -webkit-transform: rotate(-180deg);
+  -moz-transform: rotate(-180deg);
+  -ms-transform: rotate(-180deg);
+  -o-transform: rotate(-180deg);
+  writing-mode: vertical-lr;
+  a:not(active) {
+    color: grey;
+    border-left: 3px solid grey;
+  }
+}
 
-
+.vertical-text > .active {
+  color: #46aed8;
+  border-left: 3px solid #46aed8;
+}
 
 .icon-40 {
   width: 40px;
