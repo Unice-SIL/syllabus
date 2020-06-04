@@ -449,7 +449,7 @@ app:
         title: Nom de l'activité
         type: Type
       equipments:
-        bibliographic_resources: Bibligraphie
+        bibliographic_resources: Bibliographie
         description: Description
         educational_resources: Ressources
         list: Liste des équipements
@@ -470,7 +470,7 @@ app:
       prerequisites:
         prerequisites_list: Liste des prérequis
         prerequisites_description: Avant le début du cours, je dois ...
-        associate_courses: Cours associé(s):
+        associate_courses: "Cours associé(s):"
         empty_prerequiste: Pas de prérequis
         tutoring_resources_list: Liste des rémédiations
         tutoring_resources_description: Pour me remettre à niveau, je peux ...
@@ -500,6 +500,7 @@ app:
         objectives: Objectifs
         prerequisites: Prérequis
         presentation: Présentation
+        closing_remarks: Mot de la fin
       tabs:
         activities: Séquences et activités
         closing_remarks: Le mot de la fin
