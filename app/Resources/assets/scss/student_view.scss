@@ -66,45 +66,20 @@
 .title-underlined {
   position: relative;
   display: block;
-}
 
-.title-underlined:after {
-  content: '';
-  position: absolute;
-  width: 70px;
-  height: 1px;
-  background-color: var(--primary);
-  top: 100%;
-  left: 0;
+  &:after {
+    content: '';
+    position: absolute;
+    width: 70px;
+    height: 1px;
+    background-color: var(--primary);
+    top: 100%;
+    left: 0;
+  }
 }
 
 .student-progress {
   height: 5px;
-}
-
-.presentation-summary {
-  width: 100%;
-
-  .media {
-    @media (min-width: 768px) {
-      & {
-        float: left;
-        max-width: 50%;
-
-      }
-    }
-
-    & > img, & > div.embed-responsive {
-      max-height: calc(100% - 1rem);
-
-      @media (min-width: 768px) {
-        & {
-          max-width: calc(100% - 1rem);
-        }
-      }
-    }
-
-  }
 }
 
 .student-grid {
@@ -212,6 +187,42 @@
       i {
         margin-right: 0.5rem;
       }
+    }
+  }
+}
+
+
+.presentation-summary {
+  width: 100%;
+
+  .media {
+    @media (min-width: 768px) {
+      & {
+        float: left;
+        max-width: 50%;
+      }
+    }
+
+    & > img, & > div.embed-responsive {
+      margin: auto;
+      max-height: calc(100% - 1rem);
+
+      @media (min-width: 768px) {
+        & {
+          max-width: calc(100% - 1rem);
+        }
+      }
+    }
+  }
+
+  .media-video {
+    width: 100%;
+  }
+
+  .summary {
+    margin-top: 1rem;
+    @media (min-width: 768px) {
+      margin-top: 0;
     }
   }
 }

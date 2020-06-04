@@ -106,17 +106,21 @@
 
 
     <div class="presentation-summary mt-5">
-        <div class="media">
-            {% if courseInfo.mediaType == 'image' and courseInfo.image is not null %}
-                {% set imgSrc = courseInfo.image | split('/') | last %}
+        {% if courseInfo.mediaType == 'image' and courseInfo.image is not null %}
+            {% set imgSrc = courseInfo.image | split('/') | last %}
+            <div class="media media-image">
                 <img class="img-fluid" src="{{ asset('data/' ~ imgSrc) }}">
-            {% elseif courseInfo.mediaType == 'video' and courseInfo.video is not null %}
+            </div>
+        {% elseif courseInfo.mediaType == 'video' and courseInfo.video is not null %}
+            <div class="media media-video">
                 <div class="embed-responsive embed-responsive-16by9">
                     {{ courseInfo.video|raw }}
                 </div>
-            {% endif %}
+            </div>
+        {% endif %}
+        <div class="summary">
+            {{ courseInfo.summary|purify }}
         </div>
-        {{ courseInfo.summary|purify }}
         <div class="d-flex flex-column">
             <h6 class="text-bold">
                 {{ 'app.view.student.presentation.teachers' | trans }}
