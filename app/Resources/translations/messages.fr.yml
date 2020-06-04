@@ -458,7 +458,7 @@ app:
         agenda: Calendrier
         closing_remarks: Le mot de la fin
         evaluation: Modalités d'évaluation
-        organization: Organisation du cours
+        organization: Organisation
       objectives:
         achievements_list: Liste des objectifs
         achievements_description: A la fin de ce cours, je devrais être capable de...
