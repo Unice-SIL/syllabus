@@ -9,14 +9,14 @@
     font-weight: 900;
     font-display: $fa-font-display;
     src: url('/fonts/fa-solid-900.woff2') format('woff2'),
-         url('/fonts/fa-solid-900.woff') format('woff');
+    url('/fonts/fa-solid-900.woff') format('woff');
 }
 
 @font-face {
     font-family: "Apex New Book";
     src: url('../fonts/apexnew-book.otf') format('opentype'),
-        url('../fonts/apexnew-book.woff') format('woff'),
-        url('../fonts/apexnew-book.woff2') format('woff2')
+    url('../fonts/apexnew-book.woff') format('woff'),
+    url('../fonts/apexnew-book.woff2') format('woff2')
 }
 
 @font-face {
@@ -307,12 +307,12 @@ li.sidebar-footer {
 }
 
 .sidebar-activities > * {
-  transition-duration: 0.5s;
-  -webkit-transition-duration: 0.5s;
-  transition-property: opacity;
-  -webkit-transition-property: opacity;
-  transition-timing-function: ease-in-out;
-  -webkit-transition-timing-function: ease-in-out;
+    transition-duration: 0.5s;
+    -webkit-transition-duration: 0.5s;
+    transition-property: opacity;
+    -webkit-transition-property: opacity;
+    transition-timing-function: ease-in-out;
+    -webkit-transition-timing-function: ease-in-out;
 }
 
 #section-activities-content.sidebar-mini .sidebar-activities > * {
@@ -320,7 +320,7 @@ li.sidebar-footer {
 }
 
 #section-activities-content.sidebar-mini .sidebar-activities:hover > * {
-  opacity: 1;
+    opacity: 1;
 }
 
 .sidebar-activities {

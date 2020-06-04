@@ -1,13 +1,44 @@
-<input type="image" width="30px" height="30px" src="/build/images/distanciel_picto.png">
-<ul class="text-primary" style="padding-left:0px;">
-<span style="border-bottom: solid white; border-width:0 1px ;">{{ 'app.view.student.presentation.distant' | trans }}</span>
-    {% if courseInfo.teachingCmDist is not null %}
-        <li class="li-valid"><i class="fas fa-check text-primary"></i> {{ 'app.view.student.presentation.hours_cm' | trans({'%hours%': courseInfo.teachingCmDist}) }}</li>
-    {% endif %}
-    {% if courseInfo.teachingTdDist is not null %}
-        <li class="li-valid"><li class="li-valid"><i class="fas fa-check text-primary"></i> {{ 'app.view.student.presentation.hours_td' | trans({'%hours%': courseInfo.teachingTdDist}) }}</li>
-    {% endif %}
-    {% for teaching in courseInfo.teachings %}
-        <li class="li-valid"><li class="li-valid"><i class="fas fa-check text-primary"></i> {{ 'app.view.student.presentation.hours_teachings' | trans({'%hours%': teaching.hourlyVolume, '%type%': teaching.type}) }}</li>
-    {% endfor %}
-</ul>
+{% set teachingCm = courseInfo.teachingCmDist %}
+{% set teachingTd = courseInfo.teachingTdDist %}
+{% if courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::HYBRID') %}
+    {% set teachingCm = courseInfo.teachingCmHybridDist %}
+    {% set teachingTd = courseInfo.teachingTdHybridDist %}
+{% endif %}
+
+
+<div class="grid-element">
+    <div class="student-subtitle">
+        <img src="{{ asset('build/images/distanciel_picto.png') }}" class="icon-40" alt="">
+        <h5 class="title-underlined">{{ 'app.view.student.presentation.distant' | trans }}</h5>
+    </div>
+    <ul>
+        {% if teachingCm is not empty %}
+            <li>
+                <i class="fas fa-check text-primary"></i>
+                {{ 'app.view.student.presentation.hours_cm' | trans({'%hours%': teachingCm}) }}
+            </li>
+        {% endif %}
+        {% if teachingTd is not empty %}
+            <li>
+                <i class="fas fa-check text-primary"></i>
+                {{ 'app.view.student.presentation.hours_td' | trans({'%hours%': teachingTd}) }}
+            </li>
+        {% endif %}
+        {% for teaching in courseInfo.teachings %}
+            {% if teaching.mode == constant('AppBundle\\Constant\\TeachingMode::DIST') %}
+                <li>
+                    <i class="fas fa-check text-primary"></i>
+                    {{ 'app.view.student.presentation.hours_teachings' | trans({'%hours%': teaching.hourlyVolume, '%type%': teaching.type}) }}
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</div>
+
+
+
+
+
+
+
+

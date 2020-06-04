@@ -1,21 +1,50 @@
-<input width="40px" height="40px" type="image" src="/build/images/presentiel_picto.png">
-<span style="border-bottom: solid white; border-width:0 1px;">{{ 'app.view.student.presentation.class' | trans }}</span>
-<div>
-    <ul class="text-primary" style="padding-left:0px;">
-        {% if courseInfo.teachingCmClass is not null %}
-            <li class="li-valid"><li class="li-valid"><i class="fas fa-check text-primary"></i> {{ 'app.view.student.presentation.hours_cm' | trans({'%hours%': courseInfo.teachingCmClass}) }}</li>
+{% set teachingCm = courseInfo.teachingCmClass %}
+{% set teachingTd = courseInfo.teachingTdClass %}
+{% set teachingTp = courseInfo.teachingTpClass %}
+{% if courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::HYBRID') %}
+    {% set teachingCm = courseInfo.teachingCmHybridClass %}
+    {% set teachingTd = courseInfo.teachingTdHybridClass %}
+    {% set teachingTp = courseInfo.teachingTpHybridClass %}
+{% endif %}
+
+
+<div class="grid-element">
+    <div class="student-subtitle">
+        <img src="{{ asset('build/images/presentiel_picto.png') }}" class="icon-40" alt="">
+        <h5 class="title-underlined">{{ 'app.view.student.presentation.class' | trans }}</h5>
+    </div>
+    <ul>
+        {% if teachingCm is not null %}
+            <li>
+                <i class="fas fa-check text-primary"></i>
+                {{ 'app.view.student.presentation.hours_cm' | trans({'%hours%': teachingCm}) }}
+            </li>
         {% endif %}
-        {% if courseInfo.teachingTdClass is not null %}
-            <li class="li-valid"><li class="li-valid"><i class="fas fa-check text-primary"></i> {{ 'app.view.student.presentation.hours_td' | trans({'%hours%': courseInfo.teachingTdClass}) }}</li>
+        {% if teachingTd is not null %}
+            <li>
+                <i class="fas fa-check text-primary"></i>
+                {{ 'app.view.student.presentation.hours_td' | trans({'%hours%': teachingTd}) }}
+            </li>
         {% endif %}
-        {% if courseInfo.teachingTdClass is not null %}
-            <li class="li-valid"><li class="li-valid"><i class="fas fa-check text-primary"></i> {{ 'app.view.student.presentation.hours_tp' | trans({'%hours%': courseInfo.teachingTpClass}) }}</li>
+        {% if teachingTp is not null %}
+            <li>
+                <i class="fas fa-check text-primary"></i>
+                {{ 'app.view.student.presentation.hours_tp' | trans({'%hours%': teachingTp}) }}
+            </li>
         {% endif %}
         {% for teaching in courseInfo.teachings %}
-            <li class="li-valid"><li class="li-valid"><i class="fas fa-check text-primary"></i> {{ 'app.view.student.presentation.hours_teachings' | trans({'%hours%': teaching.hourlyVolume, '%type%': teaching.type}) }}</li>
+            {% if teaching.mode == constant('AppBundle\\Constant\\TeachingMode::IN_CLASS') %}
+                <li>
+                    <i class="fas fa-check text-primary"></i>
+                    {{ 'app.view.student.presentation.hours_teachings' | trans({'%hours%': teaching.hourlyVolume, '%type%': teaching.type}) }}
+                </li>
+            {% endif %}
         {% endfor %}
     </ul>
 </div>
+
+
+
 
 
 

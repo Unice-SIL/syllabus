@@ -1,143 +1,144 @@
-<section id="presentation-section" class="content">
-    <h3 class="text-primary">Présentation générale</h3>
-    <div class="dark-light">
-        <div class="row p-4">
-            <div class="col-4">
-                <span>
-                <input class="student-icon" type="image" src="/build/images/composante_picto.png">
-                    {{ 'app.view.student.presentation.structure' | trans }}
-                </span>
-                <ul class="text-primary">
-                    <li>{{ courseInfo.structure.label }}</li>
-                </ul>
+<section id="presentation-section" class="mb-5">
+    <div class="student-title">
+        <h1>Présentation générale</h1>
+    </div>
+    <div class="presentation-info row p-4">
+        <div class="col col-12 col-lg-4 col-md-6 col-sm-12">
+            <div class="student-subtitle">
+                <img class="icon-20" src="{{ asset('/build/images/composante_picto.png') }}">
+                <span>{{ 'app.view.student.presentation.structure' | trans }}</span>
             </div>
-            <div class="col-4">
-                <input class="student-icon" type="image" src="/build/images/domaine_picto.png">
+            <ul>
+                <li>
+                    <i class="fas fa-check"></i>
+                    {{ courseInfo.structure.label }}
+                </li>
+            </ul>
+        </div>
+        <div class="col col-12 col-lg-4 col-md-6 col-sm-12">
+            <div class="student-subtitle">
+                <img class="icon-20" src="{{ asset('/build/images/domaine_picto.png') }}">
                 <span>{{ 'app.view.student.presentation.domain' | trans }}</span>
-                <ul class="text-primary">
-                    <div class="row" style="width: 50%">
-                        {% for domain in courseInfo.domains %}
-                            <li class="col-md-6">{{ domain.label }}</li>
-                        {% endfor %}
-                    </div>
-                </ul>
             </div>
-            <div class="col-4">
-                <input class="student-icon" type="image" src="/build/images/niveau_picto.png">
+            <ul>
+                {% for domain in courseInfo.domains %}
+                    <li>
+                        <i class="fas fa-check"></i>
+                        {{ domain.label }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col col-12 col-lg-4 col-md-6 col-sm-12">
+            <div class="student-subtitle">
+                <img class="icon-20" src="{{ asset('/build/images/niveau_picto.png') }}">
                 <span>{{ 'app.view.student.presentation.level' | trans }}</span>
-                <ul class="text-primary">
-                    <div class="row" style="width: 50%">
-                        {% for level in courseInfo.levels %}
-                            <li class="col-md-6">{{ level.label }}</li>
-                        {% endfor %}
-                    </div>
-                </ul>
             </div>
-            <div class="col-4">
-                <input class="student-icon" type="image" src="/build/images/lieu_picto.png">
+            <ul>
+                {% for level in courseInfo.levels %}
+                    <li>
+                        <i class="fas fa-check"></i>
+                        {{ level.label }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col col-12 col-lg-4 col-md-6 col-sm-12">
+            <div class="student-subtitle">
+                <img class="icon-20" src="{{ asset('/build/images/lieu_picto.png') }}">
                 <span>{{ 'app.view.student.presentation.campus' | trans }}</span>
-                <ul class="text-primary">
-                    <div class="row" style="width: 50%">
-                        {% for campus in courseInfo.campuses %}
-                            <li class="col-md-6">{{ campus.label }}</li>
-                        {% endfor %}
-                    </div>
-                </ul>
             </div>
-            <div class="col-4">
-                <input class="student-icon" type="image" src="/build/images/langue_picto.png">
+            <ul>
+                {% for campus in courseInfo.campuses %}
+                    <li>
+                        <i class="fas fa-check"></i>
+                        {{ campus.label }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col col-12 col-lg-4 col-md-6 col-sm-12">
+            <div class="student-subtitle">
+                <img class="icon-20" src="{{ asset('/build/images/langue_picto.png') }}">
                 <span>{{ 'app.view.student.presentation.language' | trans }}</span>
-                <ul class="text-primary">
-                    <div class="row" style="width: 50%">
-                        {% for language in courseInfo.languages %}
-                            <li class="col-md-6">{{ language.label }}</li>
-                        {% endfor %}
-                    </div>
-                </ul>
             </div>
-            <div class="col-4">
-                {% if courseInfo.course.parents is not empty %}
-                    {% set parent = courseInfo.course.parents[0] %}
-                    {% set parentInfo = '' %}
-                    {% if courseInfo.course.parents|length == 1 %}
-                        {% for info in parent.courseInfos %}
-                            {% if info.year.id == courseInfo.year.id %}
-                                {% set parentInfo = info %}
-                            {% endif %}
-                        {% endfor %}
-                    {% endif %}
-                    {% if parent is not empty and parentInfo is not empty %}
-                        {% set title = parentInfo.title %}
-                        {% set ects = parentInfo.ects %}
-                        {% set ecue = parent.children|length %}
-                    {% endif %}
-
-                    <input class="student-icon" type="image" src="/build/images/info_picto.png">
-                    <span>{{ 'app.view.student.presentation.belong_to' | trans({'%title%' : title}) }}</span>
-                    <ul class="text-primary">
-                        <li>
-                            {% if ects is not null %}
-                                ({{ ects }})
-                            {% endif %}
-                            {{ 'app.view.student.presentation.nb_ecue' | trans({'%ecue%': ecue}) }}
-                        </li>
-                    </ul>
+            <ul>
+                {% for language in courseInfo.languages %}
+                    <li>
+                        <i class="fas fa-check"></i>
+                        {{ language.label }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col col-12 col-lg-4 col-md-6 col-sm-12">
+            {% if courseInfo.course.parents is not empty %}
+                {% set parent = courseInfo.course.parents[0] %}
+                {% set parentInfo = '' %}
+                {% if courseInfo.course.parents|length == 1 %}
+                    {% for info in parent.courseInfos %}
+                        {% if info.year.id == courseInfo.year.id %}
+                            {% set parentInfo = info %}
+                        {% endif %}
+                    {% endfor %}
                 {% endif %}
-            </div>
+                {% if parent is not empty and parentInfo is not empty %}
+                    {% set title = parentInfo.title %}
+                    {% set ects = parentInfo.ects %}
+                    {% set ecue = parent.children|length %}
+                {% endif %}
+                <div class="student-subtitle">
+                    <img class="icon-20" src="{{ asset('/build/images/info_picto.png') }}">
+                    <span>{{ 'app.view.student.presentation.belong_to' | trans({'%title%' : title}) }}</span>
+                </div>
+                <ul>
+                    <li>
+                        <i class="fas fa-check"></i>
+                        {% if ects is not null %}
+                            ({{ ects }} ECTS)
+                        {% endif %}
+                        {{ 'app.view.student.presentation.nb_ecue' | trans({'%ecue%': ecue}) }}
+                    </li>
+                </ul>
+            {% endif %}
         </div>
     </div>
-    <div class="row mt-5">
-        <div class="col-4">
+
+
+    <div class="presentation-summary mt-5">
+        <div class="media">
             {% if courseInfo.mediaType == 'image' and courseInfo.image is not null %}
                 {% set imgSrc = courseInfo.image | split('/') | last %}
-                <img class="img-thumbnail img-fluid" src="{{ asset('data/' ~ imgSrc) }}">
+                <img class="img-fluid" src="{{ asset('data/' ~ imgSrc) }}">
             {% elseif courseInfo.mediaType == 'video' and courseInfo.video is not null %}
                 <div class="embed-responsive embed-responsive-16by9">
                     {{ courseInfo.video|raw }}
                 </div>
-            {% else %}
-                <div class="border rounded d-flex align-items-center justify-content-center" style="min-height: 200px;">
-                    <i class="fas fa-4x fa-images text-light"></i>
-                </div>
             {% endif %}
         </div>
-        <div class="col-8">
-            <p class="ml-4">
-                {{ courseInfo.summary|purify }}
-            </p>
-            <p class="ml-4">
-            <div class="text-bold">{{ 'app.view.student.presentation.teachers' | trans }}</div>
+        {{ courseInfo.summary|purify }}
+        <div class="d-flex flex-column">
+            <h6 class="text-bold">
+                {{ 'app.view.student.presentation.teachers' | trans }}
+            </h6>
+            <span class="text-primary">
             {% for teacher in courseInfo.courseTeachers %}
-                <span class="text-primary"> {% set teachers =(not loop.first ? ', ') %}</span>
+                {% if not loop.first %}
+                    ,
+                {% endif %}
+                {{ teacher.firstname }} {{ teacher.lastname }}
             {% endfor %}
-            </p>
+            </span>
         </div>
     </div>
-    <div class="row mt-5">
-        {% if courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::HYBRID') %}
-            <div class="col-4" style="border-right: solid white; border-width: 0 1px;">
-                {% include 'course_info/view/student_teaching_mode_in_class.html.twig' %}
-            </div>
-            <div class="col-4" style="margin-left: 20px">
-                {% include 'course_info/view/student_teaching_mode_dist.html.twig' %}
-            </div>
-        {% elseif courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::DIST') %}
-            <div class="col-4">
-                {% include 'course_info/view/student_teaching_mode_dist.html.twig' %}
-            </div>
-        {% elseif courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::IN_CLASS') %}
-            <div class="col-4">
-                {% include 'course_info/view/student_teaching_mode_in_class.html.twig' %}
-            </div>
+
+    <div class="student-grid pt-5" style="clear: both;">
+        {% if courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::IN_CLASS') or courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::HYBRID') %}
+            {% include 'course_info/view/student_teaching_mode_in_class.html.twig' %}
+        {% endif %}
+        {% if courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::DIST') or courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::HYBRID') %}
+            {% include 'course_info/view/student_teaching_mode_dist.html.twig' %}
         {% endif %}
     </div>
 
-    <div class="row mt-5">
-        <div class="col-2" style="border-right: solid white; border-width: 0 1px;">
-
-        </div>
-        <div class="col-3" style="margin-left: 20px">
-
-        </div>
-    </div>
 </section>
