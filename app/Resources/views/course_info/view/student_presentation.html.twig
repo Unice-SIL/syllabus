@@ -8,9 +8,8 @@
                 <img class="icon-20" src="{{ asset('/build/images/composante_picto.png') }}">
                 <span>{{ 'app.view.student.presentation.structure' | trans }}</span>
             </div>
-            <ul>
+            <ul class="student-list list-dotted">
                 <li>
-                    <i class="fas fa-check"></i>
                     {{ courseInfo.structure.label }}
                 </li>
             </ul>
@@ -20,10 +19,9 @@
                 <img class="icon-20" src="{{ asset('/build/images/domaine_picto.png') }}">
                 <span>{{ 'app.view.student.presentation.domain' | trans }}</span>
             </div>
-            <ul>
+            <ul class="student-list list-dotted">
                 {% for domain in courseInfo.domains %}
                     <li>
-                        <i class="fas fa-check"></i>
                         {{ domain.label }}
                     </li>
                 {% endfor %}
@@ -34,10 +32,9 @@
                 <img class="icon-20" src="{{ asset('/build/images/niveau_picto.png') }}">
                 <span>{{ 'app.view.student.presentation.level' | trans }}</span>
             </div>
-            <ul>
+            <ul class="student-list list-dotted">
                 {% for level in courseInfo.levels %}
                     <li>
-                        <i class="fas fa-check"></i>
                         {{ level.label }}
                     </li>
                 {% endfor %}
@@ -48,10 +45,9 @@
                 <img class="icon-20" src="{{ asset('/build/images/lieu_picto.png') }}">
                 <span>{{ 'app.view.student.presentation.campus' | trans }}</span>
             </div>
-            <ul>
+            <ul class="student-list list-dotted">
                 {% for campus in courseInfo.campuses %}
                     <li>
-                        <i class="fas fa-check"></i>
                         {{ campus.label }}
                     </li>
                 {% endfor %}
@@ -62,10 +58,9 @@
                 <img class="icon-20" src="{{ asset('/build/images/langue_picto.png') }}">
                 <span>{{ 'app.view.student.presentation.language' | trans }}</span>
             </div>
-            <ul>
+            <ul class="student-list list-dotted">
                 {% for language in courseInfo.languages %}
                     <li>
-                        <i class="fas fa-check"></i>
                         {{ language.label }}
                     </li>
                 {% endfor %}
@@ -91,9 +86,8 @@
                     <img class="icon-20" src="{{ asset('/build/images/info_picto.png') }}">
                     <span>{{ 'app.view.student.presentation.belong_to' | trans({'%title%' : title}) }}</span>
                 </div>
-                <ul>
+                <ul class="student-list list-dotted">
                     <li>
-                        <i class="fas fa-check"></i>
                         {% if ects is not null %}
                             ({{ ects }} ECTS)
                         {% endif %}

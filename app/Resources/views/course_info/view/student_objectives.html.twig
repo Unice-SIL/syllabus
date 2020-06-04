@@ -7,11 +7,10 @@
             <div class="student-subtitle">
                 <span class="text-bold">{{ 'app.view.student.objectives.achievements_description' | trans }}</span>
             </div>
-            <ul class="text-primary pl-0" style="list-style: none;">
+            <ul class="student-list list-dotted text-primary">
                 {% if courseInfo.courseAchievements is not empty %}
                     {% for achievement in courseInfo.courseAchievements %}
                         <li>
-                            <i class="fas fa-check"></i>
                             {{ achievement.description }}
                         </li>
                     {% endfor %}

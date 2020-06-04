@@ -30,7 +30,7 @@
                 <img src="{{ asset('build/images/materiel_picto.png') }}" class="icon-40" alt="">
                 <h5 class="title-underlined">{{ 'app.view.student.equipments.required_equipments' | trans }}</h5>
             </div>
-            <ul class="grid-element-list">
+            <ul class="student-list">
                 {% for resourceEquipment in courseInfo.courseResourceEquipments %}
                     <li>
                         <i class="fas fa-check"></i>
