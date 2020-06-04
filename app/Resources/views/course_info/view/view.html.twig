@@ -1,7 +1,9 @@
 {% extends 'base.html.twig' %}
+
+
 {% block main %}
-    <div class="row">
-        <div class="background_student col-1"></div>
+    <div class="background_student">
+        {% include 'course_info/view/student_vertical_menu.html.twig' %}
         <div class="container-fluid p-0 background_student col-10">
             {% include 'course_info/view/student_presentation.html.twig' %}
             {% include 'course_info/view/student_objectives.html.twig' %}
@@ -9,6 +11,5 @@
             {% include 'course_info/view/student_equipments.html.twig' %}
             {% include 'course_info/view/student_info.html.twig' %}
         </div>
-        <div class="background_student col-1"></div>
     </div>
 {% endblock %}
