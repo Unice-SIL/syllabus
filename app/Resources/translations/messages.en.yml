@@ -443,6 +443,7 @@ app:
   view:
     student:
       activities:
+        section_url: Access to course
         evaluable: Evaluable
         evaluation_rate: Evaluation rate (%)
         mode: Mode
@@ -500,8 +501,9 @@ app:
         objectives: Objectifs
         prerequisites: Prérequis
         presentation: Présentation
+        closing_remarks: Closing remarks
       tabs:
-        activities: Sequences and activities
+        activities: Detailled schedule
         closing_remarks: Closing remarks
         equipments: Equipments and resources
         evaluation: Evaluation mode

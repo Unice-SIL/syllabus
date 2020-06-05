@@ -1,46 +1,45 @@
-<section id="activities-section" class="content">
-    <div class="container-fluid">
-        <div class="card my-2 shadow">
-            <div class="card-header">
-                <div class="d-flex justify-content-between">
-                    <h3  class="text-shadow" style="font-weight: 500;">{{ 'app.view.student.tabs.activities' | trans }}</h3>
-                </div>
-            </div>
-            <div class="card-body">
-                {% for section in courseInfo.courseSections %}
-                    {% if section.courseSectionActivities is not empty %}
-                        <div class="row">
-                            <h4 class="text-shadow">{{ section.title }}</h4>
-                            <table class="table table-hover">
-                                <thead>
-                                <tr>
-                                    <th class="text-left">{{ 'app.view.student.activities.title' | trans }}</th>
-                                    <th class="text-left">{{ 'app.view.student.activities.type' | trans }}</th>
-                                    <th class="text-left">{{ 'app.view.student.activities.mode' | trans }}</th>
-                                    <th class="text-center">{{ 'app.view.student.activities.evaluable' | trans }}</th>
-                                    <th class="text-center">{{ 'app.view.student.activities.evaluation_rate' | trans }}</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {% for sectionActivity in section.courseSectionActivities %}
-                                    <tr>
-                                        <td class="text-left">{{ sectionActivity.activity.label }}</td>
-                                        <td class="text-left">{{ sectionActivity.activityType }}</td>
-                                        <td class="text-left">{{ sectionActivity.activityMode }}</td>
-                                        <td class="text-center">
-                                            {% if sectionActivity.evaluable %}
-                                                <span class="badge badge-primary rounded">{{ (sectionActivity.evaluationCt ? 'ct' : 'cc') | trans }}</span>
-                                            {% endif %}
-                                        </td>
-                                        <td class="text-center">{{ sectionActivity.evaluationRate }}</td>
-                                    </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
+<section id="activities-section" class="pb-5">
+    <div class="student-title">
+        <h1 class="text-primary">{{ 'app.view.student.tabs.activities' | trans }}</h1>
+        <img src="{{ asset('build/images/programmation_photo.jpg') }}" alt="">
+    </div>
+    <div class="d-flex flex-column align-items-center">
+        <ul class="list list-group w-100">
+            {% for section in courseInfo.courseSections %}
+                {% if section.courseSectionActivities is not empty %}
+                    <li class="presentation-info shadow list-group-item mb-3 pr-1">
+                        <div class="text-bold px-1 d-flex row w-100 justify-content-between align-items-center collapsed" style="cursor: pointer;"
+                             data-toggle="collapse" data-target="#activity-{{ section.id }}"
+                             aria-expanded="false" aria-controls="Title">
+                            {{ section.title }}
+                            <img class="rotate-l180 icon-20 text-right" src="{{ asset('build/images/collapsed-arrow.png') }}" alt=""/>
                         </div>
-                    {% endif %}
-                {% endfor %}
-            </div>
-        </div>
+                    </li>
+                    <div class="collapse mb-2" id="activity-{{ section.id }}">
+                        {% if section.url %}
+                            <div class="text-right">
+                                <a href="{{ section.url }}" target="_blank">
+                                    <u>{{ 'app.view.student.activities.section_url' | trans }}</u>
+                                </a>
+                            </div>
+                        {% endif %}
+                        <div class="bg-black">
+                            <ul class="student-list">
+                                {% for courseSectionActivity in section.courseSectionActivities %}
+                                    <li>
+                                        <i class="fas fa-check text-primary"></i>[{{ courseSectionActivity.activityType }}] {{ courseSectionActivity.activity.label }} - {{ courseSectionActivity.activityMode }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </ul>
     </div>
 </section>
+{#
+    <div class="mt-2">
+
+    </div>
+#}
