@@ -443,6 +443,7 @@ app:
   view:
     student:
       activities:
+        section_url: Accéder au cours
         evaluable: Évaluable
         evaluation_rate: Coefficient (%)
         mode: Mode
@@ -502,7 +503,7 @@ app:
         presentation: Présentation
         closing_remarks: Mot de la fin
       tabs:
-        activities: Séquences et activités
+        activities: Programme détaillé
         closing_remarks: Le mot de la fin
         equipments: Matériel et ressources
         evaluation: Modalités d'évaluation
