@@ -32,6 +32,6 @@
     </div>
     <div>
         <span class="text-bold">{{ 'app.evaluation.view.specifications' | trans }}</span>
-        {{ courseInfo.mccAdvice|humanizeEmptyData() | purify }}
+        <div>{{ courseInfo.mccAdvice|humanizeEmptyData() | purify }}</div>
     </div>
 </section>

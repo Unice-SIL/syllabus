@@ -1,10 +1,14 @@
-<div class="d-flex flex-column">
-    <span class="font-weight-bold">
+<dl>
+    <dt>
         {{ 'app.info.view.agenda' | trans }}
-    </span>
-    {{ courseInfo.agenda|humanizeEmptyData() | purify }}
-    <span class="font-weight-bold">
+    </dt>
+    <dd>
+        {{ courseInfo.agenda|humanizeEmptyData() | purify }}
+    </dd>
+    <dt>
         {{ 'app.info.view.organization' | trans }}
-    </span>
+    </dt>
+    <dd>
     {{ courseInfo.organization|humanizeEmptyData() | purify }}
-</div>
+    </dd>
+</dl>
