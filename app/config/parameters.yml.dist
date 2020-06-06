@@ -27,6 +27,9 @@ parameters:
     apogee_database_password: ~
     apogee_database_charset: UTF8
 
+    moodle_api_url: http://moodle.domain.com/webservice/rest/server.php
+    moodle_api_token:
+
     mailer_transport: smtp
     mailer_host: smtp.unice.fr
     mailer_user: ~

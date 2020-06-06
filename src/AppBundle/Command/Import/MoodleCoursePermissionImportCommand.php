@@ -22,6 +22,10 @@ class MoodleCoursePermissionImportCommand extends Command
 {
     protected static $defaultName = 'app:import:moodle:permission';
     /**
+     * @var array
+     */
+    private $options;
+    /**
      * @var ImportManager
      */
     private $importManager;
@@ -49,16 +53,19 @@ class MoodleCoursePermissionImportCommand extends Command
      * @param EntityManagerInterface $em
      * @param CoursePermissionManager $coursePermissionManager
      * @param UserManager $userManager
+     * @param array $moodlePermissionImporterOptions
      */
     public function __construct(
         ImportManager $importManager,
         CoursePermissionMoodleConfiguration $coursePermissionMoodleConfiguration,
         EntityManagerInterface $em,
         CoursePermissionManager $coursePermissionManager,
-        UserManager $userManager
+        UserManager $userManager,
+        array $moodlePermissionImporterOptions
     )
     {
         parent::__construct();
+        $this->options = $moodlePermissionImporterOptions;
         $this->importManager = $importManager;
         $this->coursePermissionMoodleConfiguration = $coursePermissionMoodleConfiguration;
         $this->em = $em;
@@ -83,7 +90,7 @@ class MoodleCoursePermissionImportCommand extends Command
 
         $report = ReportingHelper::createReport('Parsing');
 
-        $coursePermissions = $this->importManager->parseFromConfig($this->coursePermissionMoodleConfiguration, $report);
+        $coursePermissions = $this->importManager->parseFromConfig($this->coursePermissionMoodleConfiguration, $report, $this->options);
 
         $yearsToImport = $this->em->getRepository(Year::class)->findByImport(true);
 
