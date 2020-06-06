@@ -14,6 +14,10 @@
     padding-top: 2rem;
   }
 
+  .bg-dark-light {
+    background-color: $dark-light;
+  }
+
   #student-sidebar {
     font-size: 0.9rem;
     position: fixed;
@@ -232,7 +236,6 @@
       }
     }
 
-
     .presentation-summary {
       width: 100%;
 
@@ -263,12 +266,25 @@
         }
       }
     }
-  }
-}
 
-/*
-    Effect
- */
-.collapsed img.rotate-l180 {
-  transform: rotate(180deg);
+    ul.student-sections {
+      list-style: none;
+      padding-left: 0;
+
+      & > li {
+        margin-bottom: 0.7rem;
+
+        .student-section-header {
+          padding: 0.7rem;
+          background-color: $dark-light;
+          display: flex;
+          justify-content: space-between;
+
+          .student-section-title {
+            font-weight: 900;
+          }
+        }
+      }
+    }
+  }
 }
