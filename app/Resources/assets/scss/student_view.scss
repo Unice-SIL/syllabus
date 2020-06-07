@@ -279,12 +279,77 @@
           background-color: $dark-light;
           display: flex;
           justify-content: space-between;
+          cursor: pointer;
 
           .student-section-title {
             font-weight: 900;
           }
+
+          .collapse-button {
+            width: 20px;
+            height: 20px;
+            transform: rotate(0deg);
+            transition: .3s transform ease-in-out;
+          }
+
+
+          &.collapsed > .collapse-button {
+            transform: rotate(-180deg);
+          }
+        }
+
+        .student-section-content {
+          margin-bottom: 0.5rem;
+          padding-top: 0.5rem;
+
+          .student-section-url {
+            padding-bottom: 0.5rem;
+            text-align: right;
+          }
+
+          ul.student-list > li {
+            display: flex;
+            margin-bottom: 0.3rem;
+
+            i {
+              margin-right: 1rem;
+
+              &.icon-evaluable {
+                border: dotted;
+                height: fit-content;
+                padding: 5px;
+                border-radius: 50%;
+                margin-left: -5px;
+                margin-top: -5px;
+                margin-right: 0.4rem;
+              }
+            }
+
+            .activity {
+              & > * {
+                margin-bottom: 0.2rem;
+              }
+
+              .activity-evaluation-type {
+                font-size: 0.85rem;
+              }
+
+              .student-progress {
+                max-width: 250px;
+              }
+
+              .activity-evaluate-by {
+                font-size: 0.7rem;
+                font-style: italic;
+              }
+            }
+          }
         }
       }
+    }
+
+    .student-ressources {
+      word-break: break-word;
     }
   }
 }

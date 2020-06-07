@@ -449,6 +449,10 @@ app:
         mode: Mode
         title: Activity's name
         type: Type
+        evaluate_by: Evalué
+        evaluate_by_teachers: par les enseignants
+        evaluate_by_peer: par les pairs
+        evaluate_by_and: et
       equipments:
         bibliographic_resources: Bibliographic resources
         description: Description
@@ -466,8 +470,8 @@ app:
         critical_achievements_list: List of critical achievements
         critical_achievements_description: This course validate the following critical achievements
         evaluation_description: Thoses modalities are differents for students who got attendance exemption to the continuous assessment
-                                (hard-worker, people with handicap, high level athlete or artist, etc.).
-                                Only the final exam count at 100% in the calculation of the pass mark.
+          (hard-worker, people with handicap, high level athlete or artist, etc.).
+          Only the final exam count at 100% in the calculation of the pass mark.
       prerequisites:
         prerequisites_list: List of prerequisites
         prerequisites_description: Before the start of the course, I must ...
