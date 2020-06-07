@@ -10,7 +10,7 @@
                 <img src="{{ asset('build/images/biblio_picto.png') }}" class="icon-40" alt="">
                 <h5 class="title-underlined">{{ 'app.view.student.equipments.bibliographic_resources' | trans }}</h5>
             </div>
-            <div>
+            <div class="student-ressources">
                 {{ courseInfo.bibliographicResources | humanizeEmptyData() | purify }}
             </div>
         </div>
@@ -20,7 +20,7 @@
                 <img src="{{ asset('build/images/biblio_picto.png') }}" class="icon-40" alt="">
                 <h5 class="title-underlined">{{ 'app.view.student.equipments.educational_resources' | trans }}</h5>
             </div>
-            <div>
+            <div class="student-ressources">
                 {{ courseInfo.educationalResources | humanizeEmptyData() | purify }}
             </div>
         </div>

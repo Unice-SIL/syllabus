@@ -3,40 +3,71 @@
         <h1 class="text-primary">{{ 'app.view.student.tabs.activities' | trans }}</h1>
         <img src="{{ asset('build/images/programmation_photo.jpg') }}" alt="">
     </div>
-    <div class="d-flex flex-column align-items-center">
-        <ul class="list list-group w-100">
-            {% for section in courseInfo.courseSections %}
-                {% if section.courseSectionActivities is not empty %}
-                    <li class="presentation-info shadow list-group-item mb-3 pr-1">
-                        <div class="text-bold px-1 d-flex row w-100 justify-content-between align-items-center collapsed" style="cursor: pointer;"
-                             data-toggle="collapse" data-target="#activity-{{ section.id }}"
-                             aria-expanded="false" aria-controls="Title">
-                            {{ section.title }}
-                            <img class="rotate-l180 icon-20 text-right" src="{{ asset('build/images/collapsed-arrow.png') }}" alt=""/>
-                        </div>
-                    </li>
-                    <div class="collapse mb-2" id="activity-{{ section.id }}">
+    <ul class="student-sections">
+        {% for section in courseInfo.courseSections %}
+            {% if section.courseSectionActivities is not empty %}
+                <li>
+                    <div class="student-section-header collapsed" data-toggle="collapse" data-target="#activity-{{ section.id }}"
+                         aria-expanded="false" aria-controls="Title">
+                        <span class="student-section-title">{{ section.title }}</span>
+                        <img class="collapse-button" src="{{ asset('build/images/collapsed-arrow.png') }}" alt=""/>
+                    </div>
+                    <div class="student-section-content collapse" id="activity-{{ section.id }}">
                         {% if section.url %}
-                            <div class="text-right">
+                            <div class="student-section-url">
                                 <a href="{{ section.url }}" target="_blank">
                                     <u>{{ 'app.view.student.activities.section_url' | trans }}</u>
                                 </a>
                             </div>
                         {% endif %}
-                        <div class="bg-black">
-                            <ul class="student-list">
-                                {% for courseSectionActivity in section.courseSectionActivities %}
-                                    <li>
-                                        <i class="fas fa-check text-primary"></i>[{{ courseSectionActivity.activityType }}] {{ courseSectionActivity.activity.label }} - {{ courseSectionActivity.activityMode }}
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
+                        <ul class="student-list">
+                            {% for courseSectionActivity in section.courseSectionActivities %}
+                                <li>
+                                    <i class="fas fa-check text-primary {% if courseSectionActivity.evaluable %} icon-evaluable{% endif %}"></i>
+                                    <div class="activity d-flex flex-column w-100 mb-2">
+                                        <span>
+                                        {{ courseSectionActivity.activity.label }} ({{ courseSectionActivity.activityType }})
+                                        {% if courseSectionActivity.description is not empty  %}
+                                            : {{ courseSectionActivity.description }}
+                                        {% endif %}
+                                        </span>
+                                        {% if courseSectionActivity.evaluable == true %}
+                                            <span class="activity-evaluation-type">
+                                                {% if courseSectionActivity.evaluationCt == true %}
+                                                    Contrôle Terminal
+                                                {% else %}
+                                                    Contrôle Continu
+                                                {% endif %}
+                                            </span>
+                                            <div class="progress student-progress">
+                                                <div class="progress-bar" role="progressbar" style="width: {{ courseSectionActivity.evaluationRate }}%;" aria-valuenow="{{ courseSectionActivity.evaluationRate }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                            {% if courseSectionActivity.evaluationTeacher == true or courseSectionActivity.evaluationPeer == true %}
+                                                {% set evaluateBy = '' %}
+                                                {% if courseSectionActivity.evaluationTeacher == true %}
+                                                    {% set evaluateBy = evaluateBy ~ 'app.view.student.activities.evaluate_by_teachers'|trans %}
+                                                {% endif %}
+                                                {% if courseSectionActivity.evaluationPeer == true %}
+                                                    {% if evaluateBy is not empty %}
+                                                        {% set evaluateBy = evaluateBy ~ ' app.view.student.activities.evaluate_by_and '|trans %}
+                                                    {% endif %}
+                                                    {% set evaluateBy = evaluateBy ~ 'app.view.student.activities.evaluate_by_peer'|trans %}
+                                                {% endif %}
+
+                                                <span class="activity-evaluate-by">
+                                                    {{ 'app.view.student.activities.evaluate_by'|trans }} {{ evaluateBy }}
+                                                </span>
+                                            {% endif %}
+                                        {% endif %}
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
                     </div>
-                {% endif %}
-            {% endfor %}
-        </ul>
-    </div>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
 </section>
 {#
     <div class="mt-2">

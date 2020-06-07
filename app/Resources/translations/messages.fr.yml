@@ -449,6 +449,10 @@ app:
         mode: Mode
         title: Nom de l'activité
         type: Type
+        evaluate_by: Evalué
+        evaluate_by_teachers: par les enseignants
+        evaluate_by_peer: par les pairs
+        evaluate_by_and: et
       equipments:
         bibliographic_resources: Bibliographie
         description: Description
