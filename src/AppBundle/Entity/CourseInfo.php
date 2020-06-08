@@ -301,6 +301,7 @@ class CourseInfo
      *
      * @ORM\Column(name="mcc_cc_coeff_session_1", type="float", precision=10, scale=0, nullable=true)
      * @JMS\Groups(groups={"course_info"})
+     * @Assert\Blank(groups={"evaluation_empty"})
      */
     private $mccCcCoeffSession1;
 
@@ -317,6 +318,7 @@ class CourseInfo
      *
      * @ORM\Column(name="mcc_ct_coeff_session_1", type="float", precision=10, scale=0, nullable=true)
      * @JMS\Groups(groups={"course_info"})
+     * @Assert\Blank(groups={"evaluation_empty"})
      */
     private $mccCtCoeffSession1;
 
@@ -370,6 +372,7 @@ class CourseInfo
      *
      * @ORM\Column(name="mcc_advice", type="text", length=65535, nullable=true)
      * @JMS\Groups(groups={"course_info"})
+     * @Assert\Blank(groups={"evaluation_empty"})
      * @Gedmo\Translatable
      */
     private $mccAdvice;
