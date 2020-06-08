@@ -412,6 +412,7 @@ class CourseInfo
      *
      * @ORM\Column(name="educational_resources", type="text", length=65535, nullable=true)
      * @JMS\Groups(groups={"course_info"})
+     * @Assert\Blank(groups={"equipments_empty"})
      * @Gedmo\Translatable
      */
     private $educationalResources;
@@ -421,6 +422,7 @@ class CourseInfo
      *
      * @ORM\Column(name="bibliographic_resources", type="text", length=65535, nullable=true)
      * @JMS\Groups(groups={"course_info"})
+     * @Assert\Blank(groups={"equipments_empty"})
      * @Gedmo\Translatable
      */
     private $bibliographicResources;
@@ -430,6 +432,7 @@ class CourseInfo
      *
      * @ORM\Column(name="agenda", type="text", length=65535, nullable=true)
      * @JMS\Groups(groups={"course_info"})
+     * @Assert\Blank(groups={"info_empty"})
      * @Gedmo\Translatable
      */
     private $agenda;
@@ -439,6 +442,7 @@ class CourseInfo
      *
      * @ORM\Column(name="organization", type="text", length=65535, nullable=true)
      * @JMS\Groups(groups={"course_info"})
+     * @Assert\Blank(groups={"info_empty"})
      * @Gedmo\Translatable
      */
     private $organization;
@@ -448,6 +452,7 @@ class CourseInfo
      *
      * @ORM\Column(name="closing_remarks", type="text", length=65535, nullable=true)
      * @JMS\Groups(groups={"course_info"})
+     * @Assert\Blank(groups={"closing_remarks_empty"})
      * @Gedmo\Translatable
      */
     private $closingRemarks;
@@ -457,6 +462,7 @@ class CourseInfo
      *
      * @ORM\Column(name="closing_video", type="text", length=65535, nullable=true)
      * @JMS\Groups(groups={"course_info"})
+     * @Assert\Blank(groups={"closing_remarks_empty"})
      * @Gedmo\Translatable
      */
     private $closingVideo;
@@ -670,6 +676,7 @@ class CourseInfo
      *
      * @ORM\OneToMany(targetEntity="CourseResourceEquipment", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"position" = "ASC", "equipment" = "ASC"})
+     * @Assert\Count(min="1", groups={"equipments_empty"})
      * @JMS\Groups(groups={"course_info"})
      */
     private $courseResourceEquipments;
