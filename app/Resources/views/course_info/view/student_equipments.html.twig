@@ -32,19 +32,21 @@
             </div>
             <ul class="student-list">
                 {% for resourceEquipment in courseInfo.courseResourceEquipments %}
-                    <li>
-                        <i class="fas fa-check"></i>
-                        {% if resourceEquipment.equipment.labelVisibility == true %}
+                    {% if resourceEquipment.equipment.labelVisibility == true or resourceEquipment.description is not null %}
+                        <li>
+                            <i class="fas fa-check"></i>
                             <div class="d-flex flex-column">
-                                <span>{{ resourceEquipment.equipment.label }}</span>
                                 {% if resourceEquipment.equipment.labelVisibility == true %}
-                                    <span class="small font-italic">{{ resourceEquipment.description }}</span>
+                                    <span>{{ resourceEquipment.equipment.label }}</span>
+                                    {% if resourceEquipment.equipment.labelVisibility == true %}
+                                        <span class="small font-italic">{{ resourceEquipment.description }}</span>
+                                    {% endif %}
+                                {% elseif resourceEquipment.equipment.labelVisibility == false and resourceEquipment.description is not null %}
+                                    <span>{{ resourceEquipment.description }}</span>
                                 {% endif %}
                             </div>
-                        {% else %}
-                            <span>{{ resourceEquipment.description }}</span>
-                        {% endif %}
-                    </li>
+                        </li>
+                    {% endif %}
                 {% endfor %}
             </ul>
 
