@@ -93,9 +93,14 @@ class AppExtension extends AbstractExtension
      * @param $groupe
      * @return bool
      */
-    public function displayValidator($courseInfo, $group)
+    public function displayValidator(CourseInfo $courseInfo, $group)
     {
         $groupTab = ['equipments_empty', 'info_empty', 'closing_remarks_empty', 'evaluation_empty'];
+        if ($group == 'equipments_empty'){
+            dump(count($courseInfo->getCourseResourceEquipments()));
+            dump($this->validator->validate($courseInfo, null, [$group]));
+        }
+
         if (in_array($group, $groupTab)) {
             if ($this->validator->validate($courseInfo, null, [$group])->count() >= 1) {
                 return true;

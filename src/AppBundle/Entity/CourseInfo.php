@@ -679,7 +679,8 @@ class CourseInfo
      *
      * @ORM\OneToMany(targetEntity="CourseResourceEquipment", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"position" = "ASC", "equipment" = "ASC"})
-     * @Assert\Count(min="1", groups={"equipments_empty"})
+     * @Assert\Count(min="0", groups={"equipments_empty"})
+     * @Assert\Valid
      * @JMS\Groups(groups={"course_info"})
      */
     private $courseResourceEquipments;
