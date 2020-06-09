@@ -291,7 +291,7 @@ app:
       add: Ajouter
       delete: Supprimer
       delete_equipment: Êtes-vous sûr(e) de vouloir supprimer le matériel "%label%" ?
-      description_equipment: Description (optionnel)
+      description_equipment: Description
       bibliographic_resources: Eléments bibliographiques
       educational_resources: Ressources pédagogiques
       save: Sauvegarder

@@ -291,7 +291,7 @@ app:
       add: Add
       delete: Delete
       delete_equipment: Are you sure you want to delete the equipment %label%?
-      description_equipment: Description (optional)
+      description_equipment: Description
       bibliographic_resources: Bibliographic resources
       educational_resources: Educational resources
       save: Save
