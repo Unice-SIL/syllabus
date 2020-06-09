@@ -33,6 +33,11 @@ class GeneralType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $media = $options['media'];
+        if (!$media)
+        {
+            $media = 'image';
+        }
         $builder
             ->add('structure', HiddenType::class, [
                 'disabled' => true,
@@ -135,7 +140,7 @@ class GeneralType extends AbstractType
                 'multiple' => false,
                 'expanded' => true,
                 'placeholder' => false,
-                'data' => 'image',
+                'data' => $media,
                 'choices' => [
                     'app.presentation.form.general.picture' => 'image',
                     'app.presentation.form.general.video' => 'video'
@@ -167,7 +172,8 @@ class GeneralType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => CourseInfo::class
+            'data_class' => CourseInfo::class,
+            'media' => null
         ]);
     }
 
