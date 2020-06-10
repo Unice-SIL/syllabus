@@ -173,7 +173,7 @@ class DashboardController extends AbstractController
      * @param EntityManagerInterface $em
      * @param TranslatorInterface $translator
      * @return JsonResponse
-     * @Route("/publish", name="pusblish", methods={"POST"} )
+     * @Route("/publish", name="publish", methods={"POST"} )
      */
     public function publishCourseInfo(CourseInfo $courseInfo, Request $request, EntityManagerInterface $em, TranslatorInterface $translator)
     {

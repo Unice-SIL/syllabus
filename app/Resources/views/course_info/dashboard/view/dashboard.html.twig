@@ -86,7 +86,7 @@
                         </label>
                         {{ form_start(publicationForm, {'attr' : {
                             'class' : 'd-inline-block',
-                            'data-url' : path('app.course_info.dashboard.pusblish', {id : courseInfo.id})
+                            'data-url' : path('app.course_info.dashboard.publish', {id : courseInfo.id})
                         }}) }}
                         <div class="publish-checkbox-container">
                             {{ form_widget(publicationForm.publish, {'id': 'btn_publish'}) }}

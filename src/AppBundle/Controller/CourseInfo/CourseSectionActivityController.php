@@ -39,8 +39,6 @@ class CourseSectionActivityController extends AbstractController
     public function editCourseSectionActivityAction(CourseSectionActivity $courseSectionActivity, Activity $activity,
                                                     Request $request, CourseSectionActivityManager $manager, TranslatorInterface $translator)
     {
-        $status = true;
-        $message = null;
 
         if (!$courseSectionActivity instanceof CourseSectionActivity)
         {
@@ -70,6 +68,8 @@ class CourseSectionActivityController extends AbstractController
             }
         }
 
+        $status = true;
+        $message = null;
         $form = $this->createForm(CourseSectionActivityType::class, $courseSectionActivity, [
             'activity' => $activity
         ]);
@@ -113,8 +113,6 @@ class CourseSectionActivityController extends AbstractController
     public function removeCourseSectionActivityAction(CourseSectionActivity $courseSectionActivity,Request $request,
                                                       CourseSectionActivityManager $manager, TranslatorInterface $translator)
     {
-        $status = true;
-        $message = null;
 
         if (!$courseSectionActivity instanceof CourseSectionActivity)
         {
@@ -124,6 +122,8 @@ class CourseSectionActivityController extends AbstractController
             ]);
         }
 
+        $status = true;
+        $message = null;
         $form = $this->createForm(RemoveCourseSectionActivityType::class, $courseSectionActivity);
         $form->handleRequest($request);
 
@@ -133,7 +133,7 @@ class CourseSectionActivityController extends AbstractController
             {
                 $manager->delete($courseSectionActivity);
                 return $this->json([
-                    'status' => true,
+                    'status' => $status,
                     'content' => null
                 ]);
             }
