@@ -121,9 +121,6 @@ class CourseSectionController extends AbstractController
                                                    CourseSectionActivityManager $courseSectionActivityManager, CourseSectionManager $courseSectionManager,
                                                    TranslatorInterface $translator)
     {
-        $status = true;
-        $message = null;
-        $courseSectionActivity = $courseSectionActivityManager->new();
 
         if (!$section instanceof CourseSection)
         {
@@ -149,6 +146,7 @@ class CourseSectionController extends AbstractController
             ]);
         }
 
+        $courseSectionActivity = $courseSectionActivityManager->new();
         $courseSectionActivity->setActivityType($activityType);
 
         $typeId = $request->query->get('activity_type');
@@ -162,6 +160,9 @@ class CourseSectionController extends AbstractController
                 $courseSectionActivity->setActivityType(current($activityTypes));
             }
         }
+
+        $status = true;
+        $message = null;
         $form = $this->createForm(CourseSectionActivityType::class, $courseSectionActivity, [
             'activity' => $activity
         ]);
