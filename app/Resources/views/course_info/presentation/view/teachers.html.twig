@@ -27,9 +27,7 @@
                     <td>{{ teacher.email }}</td>
                     <td>
                         {% if teacher.emailVisibility %}
-                            <i class="fas fa-eye" data-toggle="tooltip" title="{{ 'app.presentation.view.teachers.mail_visible' | trans }}"></i>
-                        {% else %}
-                            <i class="fas fa-eye-slash" data-toggle="tooltip" title="{{ 'app.presentation.view.teachers.mail_invisible' | trans }}"></i>
+                            <i class="fas fa-at" data-toggle="tooltip" title="{{ 'app.presentation.view.teachers.mail_visible' | trans }}"></i>
                         {% endif %}
                         {% if teacher.manager %}
                             <i class="fas fa-graduation-cap" data-toggle="tooltip" title="{{ 'app.presentation.view.teachers.responsible' | trans }}"></i>

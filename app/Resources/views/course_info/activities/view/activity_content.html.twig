@@ -29,7 +29,10 @@
                             </div>
                             {% if sectionActivity.evaluable %}
                                 <div class="row mt-1">
-                                    <span class="badge badge-primary rounded">{{ (sectionActivity.evaluationCt ? 'ct' : 'cc') | trans }}</span>
+                                    <span class="badge badge-primary rounded">
+                                        {{ (sectionActivity.evaluationCt ? 'ct' : 'cc') | trans }}
+                                        {{ (sectionActivity.evaluationRate ? sectionActivity.evaluationRate : '0') | trans }}%
+                                    </span>
                                 </div>
                             {% endif %}
                         </div>
@@ -48,19 +51,6 @@
                                 </button>
                             </div>
                         </div>
-                        {% if sectionActivity.evaluable %}
-                            <div class="ribbon-wrapper">
-                                {% if sectionActivity.evaluationRate %}
-                                    <div class="ribbon bg-primary">
-                                        {{ sectionActivity.evaluationRate }}%
-                                    </div>
-                                {% else %}
-                                    <div class="ribbon bg-secondary">
-                                        0%
-                                    </div>
-                                {% endif %}
-                            </div>
-                        {% endif %}
                     </div>
                 </div>
             </div>

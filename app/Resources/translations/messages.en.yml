@@ -206,10 +206,11 @@ app:
       lastname: Lastname
       firstname: Firstname
       permission: Permission
-      update_delete: Update / Delete
+      update_delete: Delete
       no_permission: No permission has been registered
     button:
       add_permission: Add a permission
+        delete_permission: Delete a permission
       close: Close
       add: Add
   prerequisites:
@@ -254,6 +255,7 @@ app:
     form:
       description: By the end of this course, the student must be able to...
       add: Add
+      edit: Edit
   evaluation:
     view:
       first_session: 1st session
@@ -289,6 +291,7 @@ app:
       bibliographic_resources: Bibliographic resources
     form:
       add: Add
+      edit: Modifier
       delete: Delete
       delete_equipment: Are you sure you want to delete the equipment %label%?
       description_equipment: Description
@@ -382,7 +385,7 @@ app:
         search_user: Search for an individual
         source_data: Data Source
       teaching_mode:
-        add_other: Add a teaching
+        add_other: Add a hourly volume (optionnal)
         additionnal: Additionnal teaching type(optionnal)
         class: In class
         cm: Lectures
