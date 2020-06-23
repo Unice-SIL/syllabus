@@ -14,6 +14,7 @@ use AppBundle\Repository\Doctrine\CoursePermissionDoctrineRepository;
 use AppBundle\Repository\Doctrine\YearDoctrineRepository;
 use AppBundle\Repository\YearRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -29,7 +30,7 @@ class DefaultController extends AbstractController
      * @param string $year
      * @param CourseInfoDoctrineRepository $repository
      * @param YearManager $yearManager
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return RedirectResponse|Response
      * @throws \Exception
      */
     public function routerAction($code, $year, CourseInfoDoctrineRepository $repository, YearManager $yearManager)
@@ -42,7 +43,7 @@ class DefaultController extends AbstractController
         if (empty($courseInfo)) {
             return $this->render('error/courseNotFound.html.twig');
         }
-        return $this->redirectToRoute('course_dashboard_index', ['id' => $courseInfo->getId()]);
+        return $this->redirectToRoute('app.course_info.dashboard.index', ['id' => $courseInfo->getId()]);
     }
 
     /**
