@@ -6,12 +6,11 @@ namespace AppBundle\Constant;
 
 class Job
 {
-    const COMMAND_TEST = 'app:test';
-    const COMMAND_TEST_2 = 'app:test-2';
+    const APOGEE_STRUCTURE_IMPORT_COMAND = 'app:import:apogee:structure';
+
 
     const COMMANDS = [
-        self::COMMAND_TEST,
-        self::COMMAND_TEST_2,
+        self::APOGEE_STRUCTURE_IMPORT_COMAND
     ];
 
     const STATUS_INIT = 0;
