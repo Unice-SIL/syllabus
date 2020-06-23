@@ -13,13 +13,13 @@
     </div>
 </div>
 <div class="mt-2">
-    <button type="submit" class="focus-submit btn btn-primary submit rounded"
+    <button type="submit" class="focus-submit btn submit button-orange"
             data-url="{{ path('app.course_info.info.info', {'id': courseInfo.id, 'action': 'submit' }) }}">
         {{ 'app.info.form.save' | trans }}
     </button>
-    <button type="button" class="focus-cancel btn btn-secondary rounded"
+    <button type="button" class="focus-cancel btn btn-link text-dark"
             data-url="{{ path('app.course_info.info.info', {'id': courseInfo.id, 'action': 'cancel' }) }}">
-        {{ 'app.info.form.cancel' | trans }}
+        <u>{{ 'app.info.form.cancel' | trans }}</u>
     </button>
 </div>
 {{ form_widget(form._token) }}
