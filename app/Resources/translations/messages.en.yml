@@ -254,6 +254,7 @@ app:
     form:
       description: By the end of this course, the student must be able to...
       add: Add
+      edit: Edit
   evaluation:
     view:
       first_session: 1st session
