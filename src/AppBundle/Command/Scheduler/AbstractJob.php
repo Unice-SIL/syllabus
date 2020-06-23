@@ -23,17 +23,13 @@ abstract class AbstractJob extends Command
      */
     protected $em;
 
-    protected $logger;
-
     /**
      * AbstractJob constructor.
      * @param EntityManagerInterface $em
-     * @param LoggerInterface $logger
      */
-    public function __construct(EntityManagerInterface $em, LoggerInterface $logger) {
+    public function __construct(EntityManagerInterface $em) {
         parent::__construct();
         $this->em = $em;
-        $this->logger = $logger;
     }
 
     /**
@@ -53,7 +49,6 @@ abstract class AbstractJob extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->logger->error('AbstractJob exectue start here');
         $job = null;
 
         if ($input->getOption('job-id')) {
