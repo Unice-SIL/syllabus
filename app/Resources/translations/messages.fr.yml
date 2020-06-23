@@ -290,6 +290,7 @@ app:
       bibliographic_resources: Eléments bibliographiques
     form:
       add: Ajouter
+      edit: Modifier
       delete: Supprimer
       delete_equipment: Êtes-vous sûr(e) de vouloir supprimer le matériel "%label%" ?
       description_equipment: Description

@@ -11,7 +11,7 @@
         {{ 'app.evaluation.form.save' | trans }}
     </button>
     <button type="button" class="cancel-button btn btn-link text-dark" data-url="{{ path('app.course_info.evaluation.specifications', {'id': courseInfo.id}) }}">
-        {{ 'app.evaluation.form.cancel' | trans }}
+        <u>{{ 'app.evaluation.form.cancel' | trans }}</u>
     </button>
 </div>
 {{ form_widget(form._token) }}

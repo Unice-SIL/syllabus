@@ -87,7 +87,7 @@
     </button>
     <button type="button" class="btn-link text-black cancel-button btn rounded"
             data-url="{{ path('app.course_info.presentation.general', {'id': courseInfo.id}) }}">
-        {{ 'app.general.button.cancel' | trans }}
+        <u>{{ 'app.general.button.cancel' | trans }}</u>
     </button>
 </div>
 {{ form_widget(form._token) }}

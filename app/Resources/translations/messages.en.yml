@@ -290,6 +290,7 @@ app:
       bibliographic_resources: Bibliographic resources
     form:
       add: Add
+      edit: Modifier
       delete: Delete
       delete_equipment: Are you sure you want to delete the equipment %label%?
       description_equipment: Description
