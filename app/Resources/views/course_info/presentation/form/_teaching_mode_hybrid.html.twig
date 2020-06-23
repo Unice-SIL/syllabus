@@ -1,67 +1,81 @@
-<div class="teaching-mode teaching-mode-hybrid d-none row">
-        <div class="col-lg-6 col-md-12">
+<div class="teaching-mode teaching-mode-hybrid d-none">
+    <div class="row">
+        <div class="col-6">
             <h4 class="mb-2">{{ 'app.presentation.form.teaching_mode.class' | trans }}</h4>
-            <label>{{ 'app.presentation.form.teaching_mode.standard' | trans }}</label>
-            <div class="row mb-3">
-                <div class="col-sm" style="max-width: 170px;">
+            <div class="d-flex flex-column mb-3">
+                <div class="mb-2" style="max-width: 220px;">
                     <div class="input-group">
                         <div class="input-group-prepend">
-                    <span class="input-group-text">
+                    <span class="input-group-text bg-primary">
                         CM
                     </span>
                         </div>
                         {{ form_widget(form.teachingCmHybridClass) }}
+                        <span class="ml-2 text-secondary align-self-center">
+                            {{ 'app.presentation.form.teaching_mode.placeholder.teaching.hours' | trans }}
+                        </span>
                     </div>
                 </div>
-                <div class="col-sm" style="max-width: 170px;">
+                <div class="mb-2" style="max-width: 220px;">
                     <div class="input-group">
                         <div class="input-group-prepend">
-                    <span class="input-group-text">
+                    <span class="input-group-text bg-primary">
                         TD
                     </span>
                         </div>
                         {{ form_widget(form.teachingTdHybridClass) }}
+                        <span class="ml-2 text-secondary align-self-center">
+                            {{ 'app.presentation.form.teaching_mode.placeholder.teaching.hours' | trans }}
+                        </span>
                     </div>
                 </div>
-                <div class="col-sm" style="max-width: 170px;">
+                <div style="max-width: 220px;">
                     <div class="input-group">
                         <div class="input-group-prepend">
-                    <span class="input-group-text">
+                    <span class="input-group-text bg-primary">
                         TP
                     </span>
                         </div>
                         {{ form_widget(form.teachingTpHybridClass) }}
+                        <span class="ml-2 text-secondary align-self-center">
+                            {{ 'app.presentation.form.teaching_mode.placeholder.teaching.hours' | trans }}
+                        </span>
                     </div>
                 </div>
             </div>
 
         </div>
 
-        <div class="col-lg-6 col-md-12">
+        <div class="col-6">
             <h4 class="mb-2">{{ 'app.presentation.form.teaching_mode.distant' | trans }}</h4>
-            <label>{{ 'app.presentation.form.teaching_mode.standard' | trans }}</label>
-            <div class="row mb-3">
-                <div class="col-sm" style="max-width: 170px;">
+            <div class="d-flex flex-column mb-3">
+                <div class="mb-2" style="max-width: 220px;">
                     <div class="input-group">
                         <div class="input-group-prepend">
-                    <span class="input-group-text">
+                    <span class="input-group-text bg-primary">
                         CM
                     </span>
                         </div>
                         {{ form_widget(form.teachingCmHybridDist) }}
+                        <span class="ml-2 text-secondary align-self-center">
+                            {{ 'app.presentation.form.teaching_mode.placeholder.teaching.hours' | trans }}
+                        </span>
                     </div>
                 </div>
-                <div class="col-sm" style="max-width: 170px;">
+                <div style="max-width: 220px;">
                     <div class="input-group">
                         <div class="input-group-prepend">
-                    <span class="input-group-text">
+                    <span class="input-group-text bg-primary">
                         TD
                     </span>
                         </div>
                         {{ form_widget(form.teachingTdHybridDist) }}
+                        <span class="ml-2 text-secondary align-self-center">
+                            {{ 'app.presentation.form.teaching_mode.placeholder.teaching.hours' | trans }}
+                        </span>
                     </div>
                 </div>
             </div>
-
         </div>
+    </div>
 </div>

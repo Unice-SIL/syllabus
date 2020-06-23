@@ -29,49 +29,38 @@ class TeachingModeType extends AbstractType
             ->add('teachingCmHybridClass', TextType::class, [
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.hours',
                     'data-teaching-mode' => 'hybrid'
                 ]
             ])
             ->add('teachingTdHybridClass', TextType::class, [
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.hours',
                     'data-teaching-mode' => 'hybrid'
                 ]
             ])
             ->add('teachingTpHybridClass', TextType::class, [
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.hours',
                     'data-teaching-mode' => 'hybrid'
                 ]
             ])
             ->add('teachingCmHybridDist', TextType::class, [
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.hours',
                     'data-teaching-mode' => 'hybrid'
                 ]
             ])
             ->add('teachingTdHybridDist', TextType::class, [
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.hours',
                     'data-teaching-mode' => 'hybrid'
                 ]
             ])
             ->add('teachingCmDist', TextType::class, [
-                'required' => false,
-                'attr' => [
-                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.hours',
-                ]
+                'required' => false
             ])
             ->add('teachingTdDist', TextType::class, [
-                'required' => false,
-                'attr' => [
-                    'placeholder' => 'app.presentation.form.teaching_mode.placeholder.teaching.hours',
-                ]
+                'required' => false
             ])
             ->add('teachings', CollectionType::class, [
                 'entry_type' => TeachingType::class,

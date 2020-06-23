@@ -382,7 +382,7 @@ app:
         search_user: Search for an individual
         source_data: Data Source
       teaching_mode:
-        add_other: Add a teaching
+        add_other: Add a hourly volume (optionnal)
         additionnal: Additionnal teaching type(optionnal)
         class: In class
         cm: Lectures

@@ -328,12 +328,12 @@ app:
     view:
       general:
         campus: Campus
-        domain: Domaines
+        domain: Domaine(s) disciplinaire(s)
         empty_summary: Vous n'avez pas renseigné de résumé
         label: Informations générales
         languages: Langues
-        level: Années
-        period: Périodes
+        level: Niveau du cours
+        period: Semestre
         description: Description
       teachers:
         add_teacher: Ajouter un enseignant
@@ -353,11 +353,11 @@ app:
         label: Mode d'enseignement
     form:
       general:
-        periods: Période (facultatif)
-        domains: Domaine
+        periods: Semestre (facultatif)
+        domains: Domaine(s) disciplinaire(s)
         languages: En quelle(s) langue(s) est dispensé ce cours (facultatif)
         campuses: Campus
-        levels: Année
+        levels: Niveau du cours
         description: Description
         level_label: Quel est le niveau de ce cours ?
         media_label: Intégrer une ressource vidéo (ou audio) ou téléverser un fichier image de présentation du cours, en respectant la règlementation sur les droits d'auteur.
@@ -382,7 +382,7 @@ app:
         search_user: Rechercher un individu
         source_data: Source de données
       teaching_mode:
-        add_other: Ajouter un enseignement
+        add_other: Ajouter un volume horaire (facultatif)
         additionnal: Type d'enseignement supplémentaire (facultatif)
         class: Présentiel
         cm: Cours magistraux

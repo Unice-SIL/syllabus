@@ -1,15 +1,11 @@
 {% if type is not defined %}
     {% set type = 'primary' %}
-    {% if darkCard is defined %}
-        {% set type = 'danger' %}
-    {% endif %}
 {% endif %}
-<div class="info-box border rounded shadow {% if darkCard is defined %}{{ darkCard }}{% endif %}">
-    <span class="info-box-icon bg-{{ type }}">
-        <i class="fas fa-clock"></i>
-    </span>
-    <div class="info-box-content">
-        <span class="info-box-text">{{ teachingTypeText | trans }}</span>
-        <span class="info-box-number">{{ teachingTypeHours }}H</span>
+<div class="info-box border d-inline-flex rounded shadow {% if greyTheme is defined %}bg-mediumgrey border-secondary{% endif %}">
+    <div class="info-box-icon text-white {% if greyTheme is defined %}bg-darkgrey{% else %}bg-{{ type }}{% endif %} rounded-circle" style="font-size: 1.5rem;">
+        {{ teachingTypeHours }}H
+    </div>
+    <div class="info-box-content align-self-center text-bold {% if greyTheme is defined %}text-darkgrey{% endif %}">
+        {{ teachingTypeText | trans }}
     </div>
 </div>
