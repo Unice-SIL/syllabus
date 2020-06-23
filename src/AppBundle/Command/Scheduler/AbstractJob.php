@@ -5,6 +5,7 @@ namespace AppBundle\Command\Scheduler;
 
 use AppBundle\Entity\Job;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -22,13 +23,17 @@ abstract class AbstractJob extends Command
      */
     protected $em;
 
+    protected $logger;
+
     /**
      * AbstractJob constructor.
      * @param EntityManagerInterface $em
+     * @param LoggerInterface $logger
      */
-    public function __construct(EntityManagerInterface $em) {
+    public function __construct(EntityManagerInterface $em, LoggerInterface $logger) {
         parent::__construct();
         $this->em = $em;
+        $this->logger = $logger;
     }
 
     /**
@@ -48,6 +53,7 @@ abstract class AbstractJob extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->logger->error('AbstractJob exectue start here');
         $job = null;
 
         if ($input->getOption('job-id')) {
