@@ -206,10 +206,11 @@ app:
       lastname: Lastname
       firstname: Firstname
       permission: Permission
-      update_delete: Update / Delete
+      update_delete: Delete
       no_permission: No permission has been registered
     button:
       add_permission: Add a permission
+        delete_permission: Delete a permission
       close: Close
       add: Add
   prerequisites:
