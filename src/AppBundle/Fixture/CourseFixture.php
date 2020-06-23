@@ -5,7 +5,7 @@ namespace AppBundle\Fixture;
 use AppBundle\Entity\Course;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Ramsey\Uuid\Uuid;
 
 /**
@@ -22,6 +22,7 @@ class CourseFixture extends Fixture  implements FixtureGroupInterface
 
     /**
      * @param ObjectManager $manager
+     * @throws \Exception
      */
     public function load(ObjectManager $manager)
     {

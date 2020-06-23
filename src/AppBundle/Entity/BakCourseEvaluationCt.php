@@ -17,7 +17,8 @@ class BakCourseEvaluationCt
      *
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
      */
     private $id;
 
@@ -146,10 +147,10 @@ class BakCourseEvaluationCt
     }
 
     /**
-     * @param Activity $activity
-     * @return CourseEvaluationCt
+     * @param BakActivity $activity
+     * @return $this
      */
-    public function setActivity(Activity $activity): self
+    public function setActivity(BakActivity $activity): self
     {
         $this->activity = $activity;
 
@@ -166,7 +167,7 @@ class BakCourseEvaluationCt
 
     /**
      * @param CourseInfo $courseInfo
-     * @return CourseEvaluationCt
+     * @return $this
      */
     public function setCourseInfo(CourseInfo $courseInfo): self
     {
