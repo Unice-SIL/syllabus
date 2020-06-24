@@ -9,6 +9,7 @@ use AppBundle\Helper\Report\ReportingHelper;
 use AppBundle\Import\Configuration\StructureApogeeConfiguration;
 use AppBundle\Import\ImportManager;
 use AppBundle\Manager\StructureManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -34,14 +35,16 @@ class ApogeeStructureImportCommand extends AbstractJob
      * @param ImportManager $importManager
      * @param StructureApogeeConfiguration $configuration
      * @param StructureManager $structureManager
+     * @param EntityManagerInterface $em
      */
     public function __construct(
         ImportManager $importManager,
         StructureApogeeConfiguration $configuration,
-        StructureManager $structureManager
+        StructureManager $structureManager,
+        EntityManagerInterface $em
     )
     {
-        parent::__construct();
+        parent::__construct($em);
         $this->importManager = $importManager;
         $this->configuration = $configuration;
         $this->structureManager = $structureManager;

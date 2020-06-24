@@ -5,6 +5,7 @@ namespace AppBundle\Command\Scheduler;
 
 use AppBundle\Entity\Job;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
