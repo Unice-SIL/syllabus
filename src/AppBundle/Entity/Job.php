@@ -79,6 +79,8 @@ class Job
     private $lastStatus = \AppBundle\Constant\Job::STATUS_INIT;
 
     /**
+     *
+     * @var int|null
      * @ORM\Column(name="progress", type="integer", nullable=true)
      */
     private $progress = 0;
@@ -283,18 +285,18 @@ class Job
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getProgress(): int
+    public function getProgress(): ?int
     {
         return $this->progress;
     }
 
     /**
-     * @param int $progress
-     * @return Job
+     * @param int|null $progress
+     * @return $this
      */
-    public function setProgress(int $progress): Job
+    public function setProgress(?int $progress): Job
     {
         $this->progress = $progress;
         return $this;
