@@ -10,7 +10,7 @@
     <button type="submit" class="submit-button btn button-orange submit" data-url="{{ path('app.course_info.evaluation.specifications', {'id': courseInfo.id}) }}">
         {{ 'app.evaluation.form.save' | trans }}
     </button>
-    <button type="button" class="btn-link btn text-black" data-url="{{ path('app.course_info.evaluation.specifications', {'id': courseInfo.id}) }}">
+    <button type="button" class="btn-link btn text-black cancel-button" data-url="{{ path('app.course_info.evaluation.specifications', {'id': courseInfo.id}) }}">
         <u>{{ 'app.evaluation.form.cancel' | trans }}</u>
     </button>
 </div>
