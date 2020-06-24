@@ -7,7 +7,7 @@
         >
             <div class="card-header">
                 <div class="d-flex justify-content-between">
-                    <h3>{{ 'app.prerequisites.view.prerequisites' | trans }}</h3>
+                    <h3 class="text-blue-title">{{ 'app.prerequisites.view.prerequisites' | trans }}</h3>
                     <button type="button" class="btn button-orange modal-action"
                             data-action-title="{{ 'app.prerequisites.view.add_prerequisite' | trans }}"
                             data-action-url="{{ path('app.course_info.prerequisite.prerequisite.add', {'id': courseInfo.id }) }}">
@@ -24,7 +24,7 @@
         >
             <div class="card-header">
                 <div class="d-flex justify-content-between">
-                    <h3>{{ 'app.prerequisites.view.tutoring_resource' | trans }}</h3>
+                    <h3 class="text-blue-title">{{ 'app.prerequisites.view.tutoring_resource' | trans }}</h3>
                     <button type="button" class="btn button-orange modal-action"
                             data-action-title="{{ 'app.prerequisites.view.add_tutoring_resource' | trans }}"
                             data-card="card-tutoring-resources"
