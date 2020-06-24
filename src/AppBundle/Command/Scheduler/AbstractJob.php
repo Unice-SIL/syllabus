@@ -100,7 +100,11 @@ abstract class AbstractJob extends Command
      */
     protected function getJob()
     {
-        return $job = $this->em->find(Job::class, $this->jobId);
+        if($this->jobId)
+        {
+            return $job = $this->em->getRepository(Job::class)->find($this->jobId);
+        }
+        return null;
     }
 
     /**
