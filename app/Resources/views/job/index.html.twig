@@ -81,21 +81,25 @@
                             <td>
                                 {% if is_granted('ROLE_ADMIN_JOB_REPORT') %}
                                     {% if(job.lastStatus == constant('AppBundle\\Constant\\Job::STATUS_IN_PROGRESS')) %}
-                                        <a class="btn btn-primary disabled">{{ 'admin.job.actions.report' | trans }}</a>
+                                        <a class="btn btn-sm btn-warning disabled" href="#" title="{{ 'admin.job.actions.report' | trans }}">
+                                            <i class="fas fa-file-alt"></i>
+                                        </a>
                                     {% else %}
-                                        <a href="{{ path('app.admin.job.report', {'id': job.id}) }}" class="btn btn-primary">
-                                            {{ 'admin.job.actions.report' | trans }}
+                                        <a href="{{ path('app.admin.job.report', {'id': job.id}) }}" class="btn btn-sm btn-warning" title="{{ 'admin.job.actions.report' | trans }}">
+                                            <i class="fas fa-file-alt"></i>
                                         </a>
                                     {% endif %}
                                 {% endif %}
 
                                 {% if is_granted('ROLE_ADMIN_JOB_EXECUTE') %}
                                     {% if(job.lastStatus == constant('AppBundle\\Constant\\Job::STATUS_IN_PROGRESS')) %}
-                                        <a class="btn btn-primary disabled">{{ 'admin.job.actions.execute' | trans }}</a>
+                                        <a class="btn btn-sm btn-success disabled" title="{{ 'admin.job.actions.execute' | trans }}">
+                                            <i class="fas fa-play"></i>
+                                        </a>
                                     {% else %}
                                         <form method="POST" action="{{ path('app.admin.job.run_command', {'id' : job.id}) }}" class="d-inline">
-                                            <button href="{{ path('app.admin.job.run_command', {'id': job.id}) }}" class="btn btn-primary">
-                                                {{ 'admin.job.actions.execute' | trans }}
+                                            <button href="{{ path('app.admin.job.run_command', {'id': job.id}) }}" class="btn btn-sm btn-success" title="{{ 'admin.job.actions.execute' | trans }}">
+                                                <i class="fas fa-play"></i>
                                             </button>
                                             <input type="hidden" name="_token" value="{{ csrf_token('job' ~ job.id) }}">
                                         </form>
@@ -105,11 +109,13 @@
 
                                 {% if is_granted('ROLE_ADMIN_JOB_DELETE') %}
                                     {% if(job.lastStatus == constant('AppBundle\\Constant\\Job::STATUS_IN_PROGRESS')) %}
-                                        <a class="btn btn-primary disabled"><i class="fas fa-trash"></i></a>
+                                        <a class="btn btn-sm btn-primary disabled">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
                                     {% else %}
                                         {% set deleteFormView = deleteFormsView[job.id] %}
                                         {{ form_start(deleteFormView, {'attr' : {'class' : 'd-inline'}}) }}
-                                        <button type="button" class="btn btn-danger warning-delete" data-toggle="modal" data-target="#warningDeleteModal">
+                                        <button type="button" class="btn btn-sm btn-danger warning-delete" data-toggle="modal" data-target="#warningDeleteModal">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                         {{ form_end(deleteFormView) }}
