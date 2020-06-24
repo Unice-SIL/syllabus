@@ -7,10 +7,13 @@ namespace AppBundle\Constant;
 class Job
 {
     const APOGEE_STRUCTURE_IMPORT_COMAND = 'app:import:apogee:structure';
+    const APOGEE_COURSE_IMPORT_COMAND = 'app:import:apogee:course';
+
 
 
     const COMMANDS = [
-        self::APOGEE_STRUCTURE_IMPORT_COMAND
+        self::APOGEE_STRUCTURE_IMPORT_COMAND,
+        self::APOGEE_COURSE_IMPORT_COMAND,
     ];
 
     const STATUS_INIT = 0;
