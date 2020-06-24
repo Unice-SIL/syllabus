@@ -4,6 +4,7 @@
 namespace AppBundle\Command\Import;
 
 
+use AppBundle\Command\Scheduler\AbstractJob;
 use AppBundle\Entity\Course;
 use AppBundle\Entity\Structure;
 use AppBundle\Entity\Year;
@@ -20,7 +21,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 
-class ApogeeCourseImportCommand extends Command
+class ApogeeCourseImportCommand extends AbstractJob
 {
     private static $yearsToImport;
 
@@ -37,7 +38,7 @@ class ApogeeCourseImportCommand extends Command
     /**
      * @var EntityManagerInterface
      */
-    private $em;
+    protected $em;
     /**
      * @var CourseManager
      */
@@ -69,7 +70,7 @@ class ApogeeCourseImportCommand extends Command
         CourseInfoManager $courseInfoManager
     )
     {
-        parent::__construct();
+        parent::__construct($em);
         $this->importManager = $importManager;
         $this->configuration = $configuration;
         $this->parentConfiguration = $parentConfiguration;
@@ -84,7 +85,7 @@ class ApogeeCourseImportCommand extends Command
         $this
             ->setDescription('Apogee Structure import');
     }
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function subExecute(InputInterface $input, OutputInterface $output)
     {
         //======================Perf==================
         $start = microtime(true);
@@ -96,11 +97,11 @@ class ApogeeCourseImportCommand extends Command
         $fieldsToUpdate = array_keys($fieldsAllowed);
         $fieldsToUpdate[] = 'source';
 
-        $parsingReport = ReportingHelper::createReport('Parsing');
+        $report = ReportingHelper::createReport();
 
-        $courses = $this->importManager->parseFromConfig($this->configuration, $parsingReport, ['allow_extra_field' => true]);
+        $courses = $this->importManager->parseFromConfig($this->configuration, $report, ['allow_extra_field' => true]);
 
-        $validationReport = ReportingHelper::createReport('Insertion en base de données');
+        //$validationReport = ReportingHelper::createReport('Insertion en base de données');
 
         $loop = 1;
 
@@ -125,13 +126,13 @@ class ApogeeCourseImportCommand extends Command
                     'code' => $course->getCode(),
                 ],
                 'lineIdReport' => $lineIdReport,
-                'report' => $validationReport,
+                'report' => $report,
                 'validations_groups_new' => ['Default'],
                 'validations_groups_edit' => ['Default']
             ]);
 
-            $parsingParentReport = ReportingHelper::createReport('Parsing');
-            $parents = $this->importManager->parseFromConfig($this->parentConfiguration, $parsingParentReport, [
+            //$parsingParentReport = ReportingHelper::createReport('Parsing');
+            $parents = $this->importManager->parseFromConfig($this->parentConfiguration, $report, [
                 'allow_extra_field' => true,
                 'extractor' => [
                     'filter' => [
@@ -140,7 +141,7 @@ class ApogeeCourseImportCommand extends Command
                 ]
             ]);
 
-            $parentValidationReport = ReportingHelper::createReport('Insertion en base de données');
+            //$parentValidationReport = ReportingHelper::createReport('Insertion en base de données');
             $course->setParents(new ArrayCollection());
             /**
              * @var Course $parent
@@ -154,7 +155,7 @@ class ApogeeCourseImportCommand extends Command
                     ],
 
                     'lineIdReport' => $parentLineIdReport,
-                    'report' => $parentValidationReport,
+                    'report' => $report,
                     'validations_groups_new' => ['Default'],
                     'validations_groups_edit' => ['Default'],
                 ]);
@@ -188,7 +189,7 @@ class ApogeeCourseImportCommand extends Command
         dump( $interval, microtime(true) - $start . ' s');
         //======================End Perf==================
 
-        return;
+        return $report;
 
         /**
          * Import courses
