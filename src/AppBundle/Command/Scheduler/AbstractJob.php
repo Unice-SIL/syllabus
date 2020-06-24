@@ -24,6 +24,11 @@ abstract class AbstractJob extends Command
     protected $em;
 
     /**
+     * @var string
+     */
+    private $jobId;
+
+    /**
      * AbstractJob constructor.
      * @param EntityManagerInterface $em
      */
@@ -49,19 +54,20 @@ abstract class AbstractJob extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $job = null;
 
-        if ($input->getOption('job-id')) {
-            $job = $this->em->find(Job::class, $input->getOption('job-id'));
-            if ($job instanceof Job) {
+        $this->jobId = $input->getOption('job-id');
 
-                $job->setLastUseStart(new \DateTime());
-                $job->setLastUseEnd(null);
 
-                $job->setLastStatus(\AppBundle\Constant\Job::STATUS_IN_PROGRESS);
+        $job = $this->getJob();
 
-                $this->em->flush();
-            }
+        if ($job instanceof Job) {
+
+            $job->setLastUseStart(new \DateTime());
+            $job->setLastUseEnd(null);
+
+            $job->setLastStatus(\AppBundle\Constant\Job::STATUS_IN_PROGRESS);
+
+            $this->em->flush();
         }
 
         try {
@@ -82,9 +88,35 @@ abstract class AbstractJob extends Command
         if ($job instanceof Job) {
 
             $job->setLastStatus(\AppBundle\Constant\Job::STATUS_SUCCESS);
+            $job->setProgress(0);
             $job->setReport(serialize($result));
             $this->em->flush();
 
+        }
+    }
+
+    /**
+     * @return object|null
+     */
+    protected function getJob()
+    {
+        return $job = $this->em->find(Job::class, $this->jobId);
+    }
+
+    /**
+     * @param int $progress
+     * @param bool $flush
+     */
+    protected function progress(int $progress, bool $flush = false)
+    {
+        $job = $this->getJob();
+        if($job instanceof Job)
+        {
+            $job->setProgress($progress);
+            if($flush)
+            {
+                $this->em->flush();
+            }
         }
     }
 

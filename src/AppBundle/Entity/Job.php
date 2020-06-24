@@ -79,6 +79,11 @@ class Job
     private $lastStatus = \AppBundle\Constant\Job::STATUS_INIT;
 
     /**
+     * @ORM\Column(name="progress", type="integer", nullable=true)
+     */
+    private $progress = 0;
+
+    /**
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
@@ -276,5 +281,24 @@ class Job
     {
         $this->immediately = $immediately;
     }
+
+    /**
+     * @return int
+     */
+    public function getProgress(): int
+    {
+        return $this->progress;
+    }
+
+    /**
+     * @param int $progress
+     * @return Job
+     */
+    public function setProgress(int $progress): Job
+    {
+        $this->progress = $progress;
+        return $this;
+    }
+
 
 }
