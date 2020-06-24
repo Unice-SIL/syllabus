@@ -85,6 +85,13 @@ class ApogeeCourseImportCommand extends AbstractJob
         $this
             ->setDescription('Apogee Structure import');
     }
+
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return \AppBundle\Helper\Report\Report|mixed
+     * @throws \Exception
+     */
     protected function subExecute(InputInterface $input, OutputInterface $output)
     {
         //======================Perf==================

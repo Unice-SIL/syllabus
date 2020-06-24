@@ -37,7 +37,7 @@ abstract class AbstractJob extends Command
      */
     protected function configure()
     {
-        $this->addOption('job-id',null, InputOption::VALUE_OPTIONAL);
+        $this->addOption('job-id',null, InputOption::VALUE_OPTIONAL, 'The job id referenced in the database');
     }
 
 

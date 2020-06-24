@@ -4,6 +4,7 @@
 namespace AppBundle\Command\Import;
 
 
+use AppBundle\Command\Scheduler\AbstractJob;
 use AppBundle\Entity\Course;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CoursePermission;
@@ -14,11 +15,10 @@ use AppBundle\Import\ImportManager;
 use AppBundle\Manager\CoursePermissionManager;
 use AppBundle\Manager\UserManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class MoodleCoursePermissionImportCommand extends Command
+class MoodleCoursePermissionImportCommand extends AbstractJob
 {
     protected static $defaultName = 'app:import:moodle:permission';
     /**
@@ -33,10 +33,6 @@ class MoodleCoursePermissionImportCommand extends Command
      * @var CoursePermissionMoodleConfiguration
      */
     private $coursePermissionMoodleConfiguration;
-    /**
-     * @var EntityManagerInterface
-     */
-    private $em;
     /**
      * @var CoursePermissionManager
      */
@@ -64,11 +60,10 @@ class MoodleCoursePermissionImportCommand extends Command
         array $moodlePermissionImporterOptions
     )
     {
-        parent::__construct();
+        parent::__construct($em);
         $this->options = $moodlePermissionImporterOptions;
         $this->importManager = $importManager;
         $this->coursePermissionMoodleConfiguration = $coursePermissionMoodleConfiguration;
-        $this->em = $em;
         $this->coursePermissionManager = $coursePermissionManager;
         $this->userManager = $userManager;
     }
@@ -76,11 +71,18 @@ class MoodleCoursePermissionImportCommand extends Command
 
     protected function configure()
     {
+        parent::configure();
         $this
             ->setDescription('Moodle Permission import');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return mixed|void
+     * @throws \Exception
+     */
+    protected function subExecute(InputInterface $input, OutputInterface $output)
     {
         //======================Perf==================
         $start = microtime(true);
@@ -88,7 +90,7 @@ class MoodleCoursePermissionImportCommand extends Command
         $loopBreak = 4;
         //======================End Perf==================
 
-        $report = ReportingHelper::createReport('Parsing');
+        $report = ReportingHelper::createReport();
 
         $coursePermissions = $this->importManager->parseFromConfig($this->coursePermissionMoodleConfiguration, $report, $this->options);
 
@@ -165,6 +167,8 @@ class MoodleCoursePermissionImportCommand extends Command
         //======================Perf==================
         dump( $interval, microtime(true) - $start . ' s');
         //======================End Perf==================
+
+        return $report;
     }
 
 
