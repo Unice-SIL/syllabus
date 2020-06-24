@@ -2,7 +2,7 @@
     {% set type = 'primary' %}
 {% endif %}
 <div class="info-box border d-inline-flex rounded shadow {% if greyTheme is defined %}bg-mediumgrey border-secondary{% endif %}">
-    <div class="info-box-icon text-white {% if greyTheme is defined %}bg-darkgrey{% else %}bg-{{ type }}{% endif %} rounded-circle" style="font-size: 1.5rem;">
+    <div class="info-box-icon text-white {% if greyTheme is defined %}bg-darkgrey{% else %}bg-{{ type }}{% endif %} rounded-circle circle">
         {{ teachingTypeHours }}H
     </div>
     <div class="info-box-content align-self-center text-bold {% if greyTheme is defined %}text-darkgrey{% endif %}">
