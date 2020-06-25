@@ -75,14 +75,14 @@ class CourseApogeeMatching extends AbstractMatching implements MatchingInterface
      */
     public function manageSpecialCase($course, string $property, string $name, string $type, $data, ReportLine $reportLine, Report $report): bool
     {
-
+/*
         if ('code' === $property) {
             $this->hourApogeeExtractor->setCode($data);
             $hours = $this->importManager->extract($this->hourApogeeExtractor, $report);
 
             $course->setHours($hours);
         }
-
+*/
         return true;
     }
 

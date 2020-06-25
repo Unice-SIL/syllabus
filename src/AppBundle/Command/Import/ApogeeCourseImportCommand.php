@@ -11,6 +11,8 @@ use AppBundle\Entity\Year;
 use AppBundle\Helper\Report\ReportingHelper;
 use AppBundle\Import\Configuration\CourseApogeeConfiguration;
 use AppBundle\Import\Configuration\CourseParentApogeeConfiguration;
+use AppBundle\Import\Configuration\HourApogeeConfiguration;
+use AppBundle\Import\Extractor\HourApogeeExtractor;
 use AppBundle\Import\ImportManager;
 use AppBundle\Manager\CourseInfoManager;
 use AppBundle\Manager\CourseManager;
@@ -32,7 +34,7 @@ class ApogeeCourseImportCommand extends AbstractJob
      */
     private $importManager;
     /**
-     * @var CourseApogeeConfiguration
+     * @var CourseApogeeConfi   guration
      */
     private $configuration;
     /**
@@ -51,12 +53,17 @@ class ApogeeCourseImportCommand extends AbstractJob
      * @var CourseParentApogeeConfiguration
      */
     private $parentConfiguration;
+    /**
+     * @var HourApogeeExtractor
+     */
+    private $hourExtractor;
 
     /**
      * ImportTestCommand constructor.
      * @param ImportManager $importManager
      * @param CourseApogeeConfiguration $configuration
      * @param CourseParentApogeeConfiguration $parentConfiguration
+     * @param HourApogeeExtractor $hourApogeeExtractor
      * @param EntityManagerInterface $em
      * @param CourseManager $courseManager
      * @param CourseInfoManager $courseInfoManager
@@ -65,6 +72,7 @@ class ApogeeCourseImportCommand extends AbstractJob
         ImportManager $importManager,
         CourseApogeeConfiguration $configuration,
         CourseParentApogeeConfiguration $parentConfiguration,
+        HourApogeeExtractor $hourApogeeExtractor,
         EntityManagerInterface $em,
         CourseManager $courseManager,
         CourseInfoManager $courseInfoManager
@@ -74,6 +82,7 @@ class ApogeeCourseImportCommand extends AbstractJob
         $this->importManager = $importManager;
         $this->configuration = $configuration;
         $this->parentConfiguration = $parentConfiguration;
+        $this->hourExtractor = $hourApogeeExtractor;
         $this->em = $em;
         $this->courseManager = $courseManager;
         $this->courseInfoManager = $courseInfoManager;
@@ -149,8 +158,12 @@ class ApogeeCourseImportCommand extends AbstractJob
                 ]
             ]);
 
-            //$parentValidationReport = ReportingHelper::createReport('Insertion en base de données');
-            $course->setParents(new ArrayCollection());
+            $parentValidationReport = ReportingHelper::createReport('Insertion en base de données');
+            // Important remove all parents before add news
+            foreach ($course->getParents() as $parent)
+            {
+                $course->removeParent($parent);
+            }
             /**
              * @var Course $parent
              */
@@ -175,6 +188,7 @@ class ApogeeCourseImportCommand extends AbstractJob
 
             $this->setCourseInfos($course);
 
+            // Important ne pas déplacer
             $this->em->flush();
 
             if ($loop % $loopBreak === 0) {
@@ -299,13 +313,14 @@ class ApogeeCourseImportCommand extends AbstractJob
 
     private function setCourseInfos(Course $course)
     {
-        $hours = $course->getHours();
+        //$hours = $course->getHours();
         $ects = $course->getEcts();
         $structureCode = $course->getStructureCode();
         $structure =$this->em->getRepository(Structure::class)->findOneByCode($structureCode);
 
         if ($structure instanceof Structure) {
 
+            /** @var Year $year */
             foreach (self::$yearsToImport as $year) {
                 $courseInfo = $this->courseInfoManager->new();
                 $courseInfo->setTitle($course->getTitle());
@@ -313,6 +328,9 @@ class ApogeeCourseImportCommand extends AbstractJob
                 $courseInfo->setEcts($ects);
                 $courseInfo->setStructure($structure);
                 $courseInfo->setCourse($course);
+
+                $this->hourExtractor->setCode($course->getCode())->setYear($year->getId());
+                $hours = $hours = $this->importManager->extract($this->hourExtractor);
 
                 foreach ($hours as $hour) {
                     switch ($hour['cod_typ_heu']) {
