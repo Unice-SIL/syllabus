@@ -34,7 +34,7 @@ class ApogeeCourseImportCommand extends AbstractJob
      */
     private $importManager;
     /**
-     * @var CourseApogeeConfi   guration
+     * @var CourseApogeeConfiguration
      */
     private $configuration;
     /**
@@ -158,7 +158,7 @@ class ApogeeCourseImportCommand extends AbstractJob
                 ]
             ]);
 
-            $parentValidationReport = ReportingHelper::createReport('Insertion en base de données');
+            //$parentValidationReport = ReportingHelper::createReport('Insertion en base de données');
             // Important remove all parents before add news
             foreach ($course->getParents() as $parent)
             {
@@ -193,7 +193,8 @@ class ApogeeCourseImportCommand extends AbstractJob
 
             if ($loop % $loopBreak === 0) {
                 $this->progress(round(($loop / count($courses)) * 100));
-
+                $this->em->flush();
+                
                 $this->em->clear();
                 self::$yearsToImport = null;
 
