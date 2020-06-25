@@ -194,7 +194,7 @@ class ApogeeCourseImportCommand extends AbstractJob
             if ($loop % $loopBreak === 0) {
                 $this->progress(round(($loop / count($courses)) * 100));
                 $this->em->flush();
-                
+
                 $this->em->clear();
                 self::$yearsToImport = null;
 
