@@ -58,6 +58,8 @@ class ApogeeCourseImportCommand extends AbstractJob
      */
     private $hourExtractor;
 
+    const SOURCE = 'apogee';
+
     /**
      * ImportTestCommand constructor.
      * @param ImportManager $importManager
@@ -135,7 +137,7 @@ class ApogeeCourseImportCommand extends AbstractJob
                 self::$yearsToImport = $this->em->getRepository(Year::class)->findByImport(true);
             }
 
-            $course->setSource('apogee');
+            $course->setSource(self::SOURCE);
 
             $course = $this->courseManager->updateIfExistsOrCreate($course, $fieldsToUpdate, [
                 'flush' => true,
@@ -168,7 +170,7 @@ class ApogeeCourseImportCommand extends AbstractJob
              * @var Course $parent
              */
             foreach ($parents as $parentLineIdReport => $parent) {
-                $parent->setSource('apogee');
+                $parent->setSource(self::SOURCE);
 
                 $parent = $this->courseManager->updateIfExistsOrCreate($parent, $fieldsToUpdate, [
                     'find_by_parameters' => [

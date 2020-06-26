@@ -6,6 +6,7 @@ namespace AppBundle\Manager;
 use AppBundle\Helper\ErrorManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 abstract class AbstractManager
 {
@@ -18,7 +19,7 @@ abstract class AbstractManager
      */
     protected $errorManager;
     /**
-     * @var \Symfony\Component\PropertyAccess\PropertyAccessor
+     * @var PropertyAccessor
      */
     private $propertyAccessor;
 

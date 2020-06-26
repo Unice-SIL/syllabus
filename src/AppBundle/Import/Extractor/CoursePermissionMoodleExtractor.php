@@ -130,7 +130,7 @@ class CoursePermissionMoodleExtractor implements ExtractorInterface
                     'firstname' => $teacher['firstname'],
                     'lastname' => $teacher['lastname'],
                     'email' => $teacher['email'],
-                    'code' => 'SLEPB111'
+                    'code' => $code
                 ];
             }
         }

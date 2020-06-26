@@ -1990,14 +1990,14 @@ class CourseInfo
 
     /**
      * @param CoursePermission $coursePermission
-     * @return CourseInfo
+     * @return $this
      */
-    public function addPermission(CoursePermission $coursePermission): self
+    public function addCoursePermission(CoursePermission $coursePermission): self
     {
         if(!$this->coursePermissions->contains($coursePermission))
         {
             $this->coursePermissions->add($coursePermission);
-            if($coursePermission->getCourseInfo() !== $this)
+            if($coursePermission->getCourseInfo() != $this)
             {
                 $coursePermission->setCourseInfo($this);
             }
@@ -2008,9 +2008,9 @@ class CourseInfo
 
     /**
      * @param CoursePermission $coursePermission
-     * @return CourseInfo
+     * @return $this
      */
-    public function removePermission(CoursePermission $coursePermission): self
+    public function removeCoursePermission(CoursePermission $coursePermission): self
     {
         if($this->coursePermissions->contains($coursePermission))
         {

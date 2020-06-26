@@ -30,6 +30,8 @@ class ApogeeStructureImportCommand extends AbstractJob
      */
     private $structureManager;
 
+    const SOURCE = 'apogee';
+
     /**
      * ImportTestCommand constructor.
      * @param ImportManager $importManager
@@ -77,7 +79,7 @@ class ApogeeStructureImportCommand extends AbstractJob
          * @var Structure $structure
          */
         foreach ($structures as $lineIdReport => $structure) {
-            $structure->setSource('apogee');
+            $structure->setSource(self::SOURCE);
 
             $this->structureManager->updateIfExistsOrCreate($structure, $fieldsToUpdate, [
                 'find_by_parameters' => [

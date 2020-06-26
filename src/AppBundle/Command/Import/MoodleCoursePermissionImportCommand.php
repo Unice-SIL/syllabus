@@ -8,6 +8,7 @@ use AppBundle\Command\Scheduler\AbstractJob;
 use AppBundle\Entity\Course;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CoursePermission;
+use AppBundle\Entity\User;
 use AppBundle\Entity\Year;
 use AppBundle\Helper\Report\ReportingHelper;
 use AppBundle\Import\Configuration\CoursePermissionMoodleConfiguration;
@@ -41,6 +42,8 @@ class MoodleCoursePermissionImportCommand extends AbstractJob
      * @var UserManager
      */
     private $userManager;
+
+    const SOURCE = 'moodle';
 
     /**
      * MoodleCoursePermissionImportCommand constructor.
@@ -98,6 +101,8 @@ class MoodleCoursePermissionImportCommand extends AbstractJob
 
         $loop = 1;
 
+        $handledCourseInfoIds = [];
+
         /** @var CoursePermission $coursePermission */
         foreach ($coursePermissions as $reportLineId => $coursePermission) {
 
@@ -107,29 +112,58 @@ class MoodleCoursePermissionImportCommand extends AbstractJob
             }
             //======================End Perf==================
 
+            /** @var Course $course */
             $course = $this->em->getRepository(Course::class)->findOneByCode($coursePermission->getCourseInfo()->getCourse()->getCode());
+
+            var_dump(($course instanceof Course)? $course->getCode() : "Course {$coursePermission->getCourseInfo()->getCourse()->getCode()} not found");
 
             if (!$course instanceof Course) {
                 continue;
             }
 
             $user = $coursePermission->getUser();
+
+            /** @var User $user */
             $user = $this->userManager->updateIfExistsOrCreate($user, ['username'], [
                 'find_by_parameters' => ['username' => $user->getUsername()],
                 'flush' => true,
                 'validations_groups_new' => ['Default'],
                 'validations_groups_edit' => ['Default'],
+                'report' => $report,
+                'lineIdReport' => $reportLineId,
             ]);
 
+            var_dump($user->getUsername());
+
             foreach ($yearsToImport as $year) {
+                /** @var CourseInfo $courseInfo */
                 $courseInfo = $this->em->getRepository(CourseInfo::class)->findByCodeAndYear($course->getCode(), $year);
 
-                $newCoursePermission = $this->coursePermissionManager->new();
-                $newCoursePermission->setUser($user);
-                $newCoursePermission->setCourseInfo($courseInfo);
-                $newCoursePermission->setPermission($coursePermission->getPermission());
+                var_dump(($courseInfo instanceof CourseInfo)? "[{$year}] {$courseInfo->getTitle()}" : "Course info not found for year {$year}");
 
-                $this->coursePermissionManager->updateIfExistsOrCreate(
+                if(!$courseInfo instanceof CourseInfo) {
+                    continue;
+                }
+
+                // Removes old moodle permissions from courseinfo
+                if(!in_array($courseInfo->getId(), $handledCourseInfoIds)) {
+                    /** @var CoursePermission $oldCoursePermission */
+                    foreach ($courseInfo->getCoursePermissions() as $oldCoursePermission) {
+                        if ($oldCoursePermission->getSource() === self::SOURCE) {
+                            $courseInfo->removeCoursePermission($oldCoursePermission);
+                        }
+                    }
+                    $handledCourseInfoIds[] = $courseInfo->getId();
+                }
+
+                $newCoursePermission = $this->coursePermissionManager->new();
+                $newCoursePermission->setSource(self::SOURCE)
+                    ->setUser($user)
+                    ->setCourseInfo($courseInfo)
+                    ->setPermission($coursePermission->getPermission());
+
+                /** @var CoursePermission $newCoursePermission */
+                $newCoursePermission = $this->coursePermissionManager->updateIfExistsOrCreate(
                     $newCoursePermission,
                     ['user', 'courseInfo', 'permission'],
                     [
@@ -144,14 +178,18 @@ class MoodleCoursePermissionImportCommand extends AbstractJob
                         'lineIdReport' => $reportLineId,
                     ]
                 );
+
+                var_dump("{$newCoursePermission->getCourseInfo()->getCourse()->getCode()} {$newCoursePermission->getCourseInfo()->getYear()} - {$newCoursePermission->getUser()->getUsername()}");
+
+                $courseInfo->addCoursePermission($newCoursePermission);
             }
 
-            //$this->em->flush(); //if every permission import from moodle hasn't got a unique key username-code
+
+            $this->em->flush(); //if every permission import from moodle hasn't got a unique key username-code
 
             if ($loop % $loopBreak === 0) {
 
-                $this->em->flush(); //if every permission import from moodle has a unique key username-code
-                $this->em->clear();
+               $this->em->clear();
 
                 //======================Perf==================
 
@@ -167,6 +205,8 @@ class MoodleCoursePermissionImportCommand extends AbstractJob
         //======================Perf==================
         dump( $interval, microtime(true) - $start . ' s');
         //======================End Perf==================
+
+        var_dump($report->getMessages());
 
         return $report;
     }
