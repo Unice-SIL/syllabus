@@ -18,7 +18,9 @@ class CourseApogeeExtractor implements ExtractorInterface
      * @var ObjectManager
      */
     private $em;
-
+    /**
+     * @var object
+     */
     private $conn;
 
     /**

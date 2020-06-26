@@ -6,27 +6,15 @@ namespace AppBundle\Import\Configuration;
 
 use AppBundle\Import\Extractor\CsvExtractor;
 use AppBundle\Import\Extractor\ExtractorInterface;
-use AppBundle\Import\Matching\MatchingInterface;
 use AppBundle\Import\Matching\CourseInfoCsvMatching;
 use AppBundle\Import\Transformer\ArrayTransformer;
-use AppBundle\Import\Transformer\TransformerInterface;
 
-class CourseInfoCsvConfiguration implements ConfigurationInterface
+class CourseInfoCsvConfiguration extends AbstractConfiguration implements ConfigurationInterface
 {
     /**
-     * @var ArrayTransformer
+     * @var
      */
-    private $arrayTransformer;
-    /**
-     * @var CourseInfoCsvMatching
-     */
-    private $courseInfoCsvMatching;
-
     private $path;
-    /**
-     * @var CsvExtractor
-     */
-    private $csvExtractor;
 
     /**
      * UserCsvConfiguration constructor.
@@ -36,25 +24,15 @@ class CourseInfoCsvConfiguration implements ConfigurationInterface
      */
     public function __construct(CsvExtractor $csvExtractor, ArrayTransformer $arrayTransformer, CourseInfoCsvMatching $courseInfoCsvMatching)
     {
-        $this->csvExtractor = $csvExtractor;
-        $this->arrayTransformer = $arrayTransformer;
-        $this->courseInfoCsvMatching = $courseInfoCsvMatching;
+        $this->extractor = $csvExtractor;
+        $this->transformer = $arrayTransformer;
+        $this->matching = $courseInfoCsvMatching;
     }
 
     public function getExtractor(): ExtractorInterface
     {
-        $this->csvExtractor->setPath($this->getPath());
-        return $this->csvExtractor;
-    }
-
-    public function getTransformer(): TransformerInterface
-    {
-        return $this->arrayTransformer;
-    }
-
-    public function getMatching(): MatchingInterface
-    {
-        return $this->courseInfoCsvMatching;
+        $this->extractor->setPath($this->getPath());
+        return $this->extractor;
     }
 
     /**
