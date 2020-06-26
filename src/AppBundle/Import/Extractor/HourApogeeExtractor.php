@@ -50,7 +50,7 @@ class HourApogeeExtractor implements ExtractorInterface
             foreach ($stmt->fetchAll(FetchMode::ASSOCIATIVE) as $courseHours) {
                 $coursesHours[] = [
                     'cod_typ_heu' => $courseHours['COD_TYP_HEU'],
-                    'nbr_heu_elp' => $courseHours['NBR_HEU_ELP']
+                    'nbr_heu_elp' => (float) $courseHours['NBR_HEU_ELP']
                 ];
             }
         }
