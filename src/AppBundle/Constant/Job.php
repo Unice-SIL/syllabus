@@ -9,7 +9,7 @@ class Job
     const APOGEE_STRUCTURE_IMPORT_COMAND = 'app:import:apogee:structure';
     const APOGEE_COURSE_IMPORT_COMAND = 'app:import:apogee:course';
     const MOODLE_PERMISSION_IMPORT_COMMAND = 'app:import:moodle:permission';
-    const TEST_IMPORT_COMMAND = 'app:import:moodle:permission';
+    const TEST_IMPORT_COMMAND = 'app:import:test';
 
 
     const COMMANDS = [
