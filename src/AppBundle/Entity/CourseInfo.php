@@ -548,7 +548,7 @@ class CourseInfo
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Domain", inversedBy="courseInfos")
      * @ORM\JoinTable(name="course_info_domain")
-     * @Assert\NotBlank(groups={"presentation"})
+     * @Assert\Count(min="1", groups={"presentation"})
      * @JMS\Type("ArrayCollection<AppBundle\Entity\Domain>")
      * @JMS\Groups(groups={"course_info"})
      */
@@ -689,7 +689,7 @@ class CourseInfo
      * @var ArrayCollection
      *
      * @ORM\ManyToMany(targetEntity="Level", inversedBy="courseInfos")
-     * @Assert\NotBlank(groups={"presentation"})
+     * @Assert\Count(min="1", groups={"presentation"})
      * @JMS\Groups(groups={"api"})
      * @JMS\Groups(groups={"course_info"})
      */

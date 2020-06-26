@@ -7,6 +7,8 @@ namespace AppBundle\Form\CourseInfo\dashboard;
 use AppBundle\Entity\CourseInfo;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -32,6 +34,14 @@ class PublishCourseInfoType extends AbstractType
             throw new \Exception('You have to pass a CourseInfo instance as data');
         }
 
+        $builder->add('publish', HiddenType::class, [
+            'mapped' => false,
+            'attr'=>array('style'=>'display:none')
+        ]);
+
+
+        /*
+
         $builder->add('publish', CheckboxType::class, [
             'mapped' => false,
             'label' => false,
@@ -44,5 +54,6 @@ class PublishCourseInfoType extends AbstractType
                 'checked' => $courseInfo->getPublicationDate() === null ? false : true,
             ]
         ]);
+        */
     }
 }
