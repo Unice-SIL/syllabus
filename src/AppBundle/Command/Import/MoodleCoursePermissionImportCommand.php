@@ -95,7 +95,11 @@ class MoodleCoursePermissionImportCommand extends AbstractJob
 
         $report = ReportingHelper::createReport();
 
+        $this->progress(1);
+
         $coursePermissions = $this->importManager->parseFromConfig($this->coursePermissionMoodleConfiguration, $report, $this->options);
+
+        $this->progress(50);
 
         $yearsToImport = $this->em->getRepository(Year::class)->findByImport(true);
 
@@ -115,7 +119,7 @@ class MoodleCoursePermissionImportCommand extends AbstractJob
             /** @var Course $course */
             $course = $this->em->getRepository(Course::class)->findOneByCode($coursePermission->getCourseInfo()->getCourse()->getCode());
 
-            var_dump(($course instanceof Course)? $course->getCode() : "Course {$coursePermission->getCourseInfo()->getCourse()->getCode()} not found");
+            //var_dump(($course instanceof Course)? $course->getCode() : "Course {$coursePermission->getCourseInfo()->getCourse()->getCode()} not found");
 
             if (!$course instanceof Course) {
                 continue;
@@ -133,7 +137,7 @@ class MoodleCoursePermissionImportCommand extends AbstractJob
                 'lineIdReport' => $reportLineId,
             ]);
 
-            var_dump($user->getUsername());
+            //var_dump($user->getUsername());
 
             foreach ($yearsToImport as $year) {
                 /** @var CourseInfo $courseInfo */
@@ -179,7 +183,7 @@ class MoodleCoursePermissionImportCommand extends AbstractJob
                     ]
                 );
 
-                var_dump("{$newCoursePermission->getCourseInfo()->getCourse()->getCode()} {$newCoursePermission->getCourseInfo()->getYear()} - {$newCoursePermission->getUser()->getUsername()}");
+                //var_dump("{$newCoursePermission->getCourseInfo()->getCourse()->getCode()} {$newCoursePermission->getCourseInfo()->getYear()} - {$newCoursePermission->getUser()->getUsername()}");
 
                 $courseInfo->addCoursePermission($newCoursePermission);
             }
@@ -188,6 +192,8 @@ class MoodleCoursePermissionImportCommand extends AbstractJob
             $this->em->flush(); //if every permission import from moodle hasn't got a unique key username-code
 
             if ($loop % $loopBreak === 0) {
+                dump((round(($loop / count($coursePermissions)) * 50) +50).'%');
+                $this->progress(round(($loop / count($coursePermissions)) * 50) +50);
 
                $this->em->clear();
 
@@ -205,8 +211,6 @@ class MoodleCoursePermissionImportCommand extends AbstractJob
         //======================Perf==================
         dump( $interval, microtime(true) - $start . ' s');
         //======================End Perf==================
-
-        var_dump($report->getMessages());
 
         return $report;
     }
