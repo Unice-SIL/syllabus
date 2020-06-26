@@ -17,16 +17,6 @@ class HourApogeeExtractor implements ExtractorInterface
     private $em;
 
     /**
-     * @var string
-     */
-    private $code;
-
-    /**
-     * @var string
-     */
-    private  $year;
-
-    /**
      * StructureApogeeExtractor constructor.
      * @param RegistryInterface $doctrine
      */
@@ -35,65 +25,30 @@ class HourApogeeExtractor implements ExtractorInterface
         $this->em = $doctrine->getManager('apogee');
     }
 
+    /**
+     * @param Report|null $report
+     * @param array $options
+     * @return array
+     */
     public function extract(Report $report = null, array $options = [])
     {
-        $coursesHours = [];
+        $courseHours = [];
 
-        if (isset($this->code) && isset($this->year)) {
-
+        if (isset($options['extractor']['filter']['code'])  && isset($options['extractor']['filter']['year'])) {
             $conn = $this->em->getConnection();
             $sql = "SELECT * FROM elp_chg_typ_heu WHERE cod_elp = :cod_elp AND cod_anu = :cod_anu";
             $stmt = $conn->prepare($sql);
-            $stmt->bindValue(':cod_elp', $this->code);
-            $stmt->bindValue(':cod_anu', $this->year);
+            $stmt->bindValue(':cod_elp', $options['extractor']['filter']['code']);
+            $stmt->bindValue(':cod_anu', $options['extractor']['filter']['year']);
             $stmt->execute();
-            foreach ($stmt->fetchAll(FetchMode::ASSOCIATIVE) as $courseHours) {
-                $coursesHours[] = [
-                    'cod_typ_heu' => $courseHours['COD_TYP_HEU'],
-                    'nbr_heu_elp' => (float) $courseHours['NBR_HEU_ELP']
+            foreach ($stmt->fetchAll(FetchMode::ASSOCIATIVE) as $courseHour) {
+                $courseHours[] = [
+                    'cod_typ_heu' => $courseHour['COD_TYP_HEU'],
+                    'nbr_heu_elp' => $courseHour['NBR_HEU_ELP'],
                 ];
             }
         }
-
-        return $coursesHours;
+        return $courseHours;
     }
-
-    /**
-     * @return string
-     */
-    public function getCode(): string
-    {
-        return $this->code;
-    }
-
-    /**
-     * @param string $code
-     * @return HourApogeeExtractor
-     */
-    public function setCode(string $code): HourApogeeExtractor
-    {
-        $this->code = $code;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getYear(): string
-    {
-        return $this->year;
-    }
-
-    /**
-     * @param string $year
-     * @return HourApogeeExtractor
-     */
-    public function setYear(string $year): HourApogeeExtractor
-    {
-        $this->year = $year;
-        return $this;
-    }
-
-
 
 }

@@ -72,7 +72,6 @@ class CourseInfoManager extends AbstractManager
 
     /**
      * @return CourseInfo
-     * @throws \Exception
      */
     public function new()
     {

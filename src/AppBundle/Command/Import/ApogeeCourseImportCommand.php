@@ -7,18 +7,17 @@ namespace AppBundle\Command\Import;
 use AppBundle\Command\Scheduler\AbstractJob;
 use AppBundle\Entity\Course;
 use AppBundle\Entity\Structure;
+use AppBundle\Entity\Teaching;
 use AppBundle\Entity\Year;
+use AppBundle\Helper\Report\Report;
 use AppBundle\Helper\Report\ReportingHelper;
 use AppBundle\Import\Configuration\CourseApogeeConfiguration;
 use AppBundle\Import\Configuration\CourseParentApogeeConfiguration;
 use AppBundle\Import\Configuration\HourApogeeConfiguration;
-use AppBundle\Import\Extractor\HourApogeeExtractor;
 use AppBundle\Import\ImportManager;
 use AppBundle\Manager\CourseInfoManager;
 use AppBundle\Manager\CourseManager;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -54,18 +53,20 @@ class ApogeeCourseImportCommand extends AbstractJob
      */
     private $parentConfiguration;
     /**
-     * @var HourApogeeExtractor
+     * @var HourApogeeConfiguration
      */
-    private $hourExtractor;
+    private $hourApogeeConfiguration;
+
+    private $report;
 
     const SOURCE = 'apogee';
 
     /**
-     * ImportTestCommand constructor.
+     * ApogeeCourseImportCommand constructor.
      * @param ImportManager $importManager
      * @param CourseApogeeConfiguration $configuration
      * @param CourseParentApogeeConfiguration $parentConfiguration
-     * @param HourApogeeExtractor $hourApogeeExtractor
+     * @param HourApogeeConfiguration $hourApogeeConfiguration
      * @param EntityManagerInterface $em
      * @param CourseManager $courseManager
      * @param CourseInfoManager $courseInfoManager
@@ -74,7 +75,7 @@ class ApogeeCourseImportCommand extends AbstractJob
         ImportManager $importManager,
         CourseApogeeConfiguration $configuration,
         CourseParentApogeeConfiguration $parentConfiguration,
-        HourApogeeExtractor $hourApogeeExtractor,
+        HourApogeeConfiguration $hourApogeeConfiguration,
         EntityManagerInterface $em,
         CourseManager $courseManager,
         CourseInfoManager $courseInfoManager
@@ -84,10 +85,11 @@ class ApogeeCourseImportCommand extends AbstractJob
         $this->importManager = $importManager;
         $this->configuration = $configuration;
         $this->parentConfiguration = $parentConfiguration;
-        $this->hourExtractor = $hourApogeeExtractor;
+        $this->hourApogeeConfiguration = $hourApogeeConfiguration;
         $this->em = $em;
         $this->courseManager = $courseManager;
         $this->courseInfoManager = $courseInfoManager;
+        $this->report = ReportingHelper::createReport();
     }
 
     protected function configure()
@@ -100,7 +102,7 @@ class ApogeeCourseImportCommand extends AbstractJob
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
-     * @return \AppBundle\Helper\Report\Report|mixed
+     * @return Report|mixed
      * @throws \Exception
      */
     protected function subExecute(InputInterface $input, OutputInterface $output)
@@ -115,9 +117,7 @@ class ApogeeCourseImportCommand extends AbstractJob
         $fieldsToUpdate = array_keys($fieldsAllowed);
         $fieldsToUpdate[] = 'source';
 
-        $report = ReportingHelper::createReport();
-
-        $courses = $this->importManager->parseFromConfig($this->configuration, $report, ['allow_extra_field' => true]);
+        $courses = $this->importManager->parseFromConfig($this->configuration, $this->report, ['allow_extra_field' => true]);
 
         //$validationReport = ReportingHelper::createReport('Insertion en base de données');
 
@@ -145,13 +145,13 @@ class ApogeeCourseImportCommand extends AbstractJob
                     'code' => $course->getCode(),
                 ],
                 'lineIdReport' => $lineIdReport,
-                'report' => $report,
+                'report' => $this->report,
                 'validations_groups_new' => ['Default'],
                 'validations_groups_edit' => ['Default']
             ]);
 
             //$parsingParentReport = ReportingHelper::createReport('Parsing');
-            $parents = $this->importManager->parseFromConfig($this->parentConfiguration, $report, [
+            $parents = $this->importManager->parseFromConfig($this->parentConfiguration, $this->report, [
                 'allow_extra_field' => true,
                 'extractor' => [
                     'filter' => [
@@ -178,7 +178,7 @@ class ApogeeCourseImportCommand extends AbstractJob
                     ],
 
                     'lineIdReport' => $parentLineIdReport,
-                    'report' => $report,
+                    'report' => $this->report,
                     'validations_groups_new' => ['Default'],
                     'validations_groups_edit' => ['Default'],
                 ]);
@@ -215,7 +215,7 @@ class ApogeeCourseImportCommand extends AbstractJob
         dump( $interval, microtime(true) - $start . ' s');
         //======================End Perf==================
 
-        return $report;
+        return $$this->report;
 
         /**
          * Import courses
@@ -332,19 +332,27 @@ class ApogeeCourseImportCommand extends AbstractJob
                 $courseInfo->setStructure($structure);
                 $courseInfo->setCourse($course);
 
-                $this->hourExtractor->setCode($course->getCode())->setYear($year->getId());
-                $hours = $hours = $this->importManager->extract($this->hourExtractor);
+                /** @var Teaching[] $teachings */
+                $teachings = $this->importManager->parseFromConfig($this->hourApogeeConfiguration, $this->report, [
+                    ['allow_extra_field' => true],
+                    'extractor' => [
+                        'filter' => [
+                            'code' => $course->getCode(),
+                            'year' => $year->getId(),
+                        ]
+                    ]
+                ]);
 
-                foreach ($hours as $hour) {
-                    switch ($hour['cod_typ_heu']) {
+                foreach ($teachings as $teaching) {
+                    switch ($teaching->getType()) {
                         case 'CM':
-                            $courseInfo->setTeachingCmClass($hour['nbr_heu_elp']);
+                            $courseInfo->setTeachingCmClass($teaching->getHourlyVolume());
                             break;
                         case 'TD':
-                            $courseInfo->setTeachingTdClass($hour['nbr_heu_elp']);
+                            $courseInfo->setTeachingTdClass($teaching->getHourlyVolume());
                             break;
                         case 'TP':
-                            $courseInfo->setTeachingTpClass($hour['nbr_heu_elp']);
+                            $courseInfo->setTeachingTpClass($teaching->getHourlyVolume());
                             break;
                     }
                 }
