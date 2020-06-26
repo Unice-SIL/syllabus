@@ -215,7 +215,7 @@ class ApogeeCourseImportCommand extends AbstractJob
         dump( $interval, microtime(true) - $start . ' s');
         //======================End Perf==================
 
-        return $$this->report;
+        return $this->report;
 
         /**
          * Import courses
