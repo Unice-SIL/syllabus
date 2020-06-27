@@ -12,6 +12,7 @@ use AppBundle\Entity\Teaching;
 use AppBundle\Entity\Year;
 use AppBundle\Helper\Report\Report;
 use AppBundle\Helper\Report\ReportingHelper;
+use AppBundle\Helper\Report\ReportLine;
 use AppBundle\Import\Configuration\CourseApogeeConfiguration;
 use AppBundle\Import\Configuration\CourseParentApogeeConfiguration;
 use AppBundle\Import\Configuration\HourApogeeConfiguration;
@@ -269,7 +270,7 @@ class ApogeeCourseImportCommand extends AbstractJob
                     }
                 }
 
-                return $this->courseInfoManager->updateIfExistsOrCreate($courseInfo, ['title', 'year', 'ects', 'structure', 'teachingCmClass', 'teachingTdClass', 'teachingTpClass', 'course'], [
+                $this->courseInfoManager->updateIfExistsOrCreate($courseInfo, ['title', 'year', 'ects', 'structure', 'teachingCmClass', 'teachingTdClass', 'teachingTpClass', 'course'], [
                     'find_by_parameters' => [
                         'course' => $course,
                         'year' => $year
@@ -278,6 +279,12 @@ class ApogeeCourseImportCommand extends AbstractJob
 
             }
 
+        }else{
+            $error = "La structure {$course->getStructureCode()} n'existe pas";
+            $line = new ReportLine($course->getCode());
+            $line->addComment($error);
+            $this->report->addLine($line);
+            dump($error);
         }
     }
 }
