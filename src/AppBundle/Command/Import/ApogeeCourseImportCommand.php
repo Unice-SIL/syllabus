@@ -6,6 +6,7 @@ namespace AppBundle\Command\Import;
 
 use AppBundle\Command\Scheduler\AbstractJob;
 use AppBundle\Entity\Course;
+use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\Structure;
 use AppBundle\Entity\Teaching;
 use AppBundle\Entity\Year;
@@ -107,6 +108,9 @@ class ApogeeCourseImportCommand extends AbstractJob
      */
     protected function subExecute(InputInterface $input, OutputInterface $output)
     {
+        $this->em->getConnection()->getConfiguration()->setSQLLogger(null);
+        $debug = false;
+
         //======================Perf==================
         $start = microtime(true);
         $interval = [];
@@ -123,13 +127,13 @@ class ApogeeCourseImportCommand extends AbstractJob
 
         $loop = 1;
 
-
         /** @var Course $course */
         foreach ($courses as $lineIdReport => $course) {
 
             //======================Perf==================
             if ($loop % $loopBreak === 1) {
                 $timeStart = microtime(true);
+                $memStart = memory_get_usage();
             }
             //======================End Perf==================
 
@@ -160,6 +164,7 @@ class ApogeeCourseImportCommand extends AbstractJob
                 ]
             ]);
 
+
             //$parentValidationReport = ReportingHelper::createReport('Insertion en base de données');
             // Important remove all parents before add news
             foreach ($course->getParents() as $parent)
@@ -188,27 +193,29 @@ class ApogeeCourseImportCommand extends AbstractJob
                 $this->setCourseInfos($parent);
             }
 
+            /** @var CourseInfo $courseInfo */
             $this->setCourseInfos($course);
 
             // Important ne pas déplacer
             $this->em->flush();
 
             if ($loop % $loopBreak === 0) {
-                $this->progress(round(($loop / count($courses)) * 100));
-                $this->em->flush();
+                $progress = round(($loop / count($courses)) * 100);
+                $this->progress($progress, true);
 
                 $this->em->clear();
                 self::$yearsToImport = null;
 
             //======================Perf==================
 
-                $interval[$loop] = microtime(true) - $timeStart . ' s';
+                $interval[$loop]['time'] = microtime(true) - $timeStart . ' s';
+                $interval[$loop]['memory'] = round((memory_get_usage() - $memStart)/1048576, 2) . ' MB';
+                $interval[$loop]['progress'] = $progress . '%';
                 dump($interval);
             //======================End Perf==================
             }
 
             $loop++;
-
         }
 
         //======================Perf==================
@@ -216,101 +223,6 @@ class ApogeeCourseImportCommand extends AbstractJob
         //======================End Perf==================
 
         return $this->report;
-
-        /**
-         * Import courses
-         *
-         * SQL
-         * select elp.* from element_pedagogi elp
-         *  where elp.cod_elp not in (select ere.cod_elp_pere from elp_regroupe_elp ere where ere.cod_elp_pere = elp.cod_elp)
-         *  and elp.eta_elp = 'O'
-         *  and elp.tem_sus_elp = 'N'
-         *  and elp.cod_nel in ('UE', 'ECUE')
-         *  and elp.cod_elp='SLEPB111';
-         *
-         * MAPPING
-         * cod_elp => course->code
-         * cod_cmp => course_info->structure->code
-         * cod_nel => course->type
-         * lib_elp => course->title && course_info->title
-         * nbr_crd_elp => course_info->ects
-         */
-
-        $course1 = [
-            'cod_elp' => 'CODELP1',
-            'cod_cmp' => 'SCI',
-            'cod_nel' => 'ECUE',
-            'lib_elp' => 'Course import 1',
-            'nbr_crd_elp' => null
-        ];
-        $courses = [$course1];
-
-
-        /**
-         * Import parents courses
-         *
-         * SQL
-         * select elp.* from element_pedagogi elp
-         *  inner join elp_regroupe_elp ere on (ere.cod_elp_pere = elp.cod_elp)
-         *  where ere.cod_elp_fils = $codElpFils
-         *  and ere.eta_elp_fils = 'O' and ere.eta_elp_pere = 'O'
-         *  and ere.tem_sus_elp_fils = 'N' and ere.tem_sus_elp_pere = 'N'
-         *  and elp.eta_elp = 'O' and elp.tem_sus_elp = 'N'
-         *  and elp.cod_nel in ('UE', 'ECUE');
-         *
-         * MAPPING
-         * cod_elp => course->code
-         * cod_cmp => course_info->structure->code
-         * cod_nel => course->type
-         * lib_elp => course->title && course_info->title
-         * nbr_crd_elp => course_info->ects
-         */
-        $parent1 = [
-            'cod_elp' => 'CODELP1',
-            'cod_cmp' => 'SCI',
-            'cod_nel' => 'ECUE',
-            'lib_elp' => 'Course import 1',
-            'nbr_crd_elp' => null
-        ];
-        /**
-         * Add children code as key to retrieves the parents for test
-         */
-        $parents = [
-             $course1['cod_elp'] => [$parent1]
-        ];
-
-
-        /**
-         * Import teaching hours for syllabus
-         *
-         * SQL
-         * select * from elp_chg_typ_heu ecth
-         *  where ecth.cod_elp = $code
-         *  and cod_anu = $year;
-         *
-         * MAPPING
-         * nbr_heu_elp => course_info->teachingCmClass | course_info->teachingTdClass | course_info->teachingTpClass
-         */
-        $hour1 = [
-            [
-                'cod_typ_heu' => 'CM',
-                'nbr_heu_elp' => 4
-            ],
-            [
-                'cod_typ_heu' => 'TD',
-                'nbr_heu_elp' => 6
-            ],
-            [
-                'cod_typ_heu' => 'TP',
-                'nbr_heu_elp' => 8
-            ]
-        ];
-        /**
-         * Add course code as key to retrieves the teaching hours for test
-         */
-        $hours = [
-            $course1['cod_elp'] => $hour1
-        ];
 
     }
 
@@ -357,12 +269,13 @@ class ApogeeCourseImportCommand extends AbstractJob
                     }
                 }
 
-                $this->courseInfoManager->updateIfExistsOrCreate($courseInfo, ['title', 'year', 'ects', 'structure', 'teachingCmClass', 'teachingTdClass', 'teachingTpClass', 'course'], [
+                return $this->courseInfoManager->updateIfExistsOrCreate($courseInfo, ['title', 'year', 'ects', 'structure', 'teachingCmClass', 'teachingTdClass', 'teachingTpClass', 'course'], [
                     'find_by_parameters' => [
                         'course' => $course,
                         'year' => $year
                     ],
                 ]);
+
             }
 
         }
