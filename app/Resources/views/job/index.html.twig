@@ -44,6 +44,7 @@
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'Date d\'excecution', 'c.lastUseStart') }}</th>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'Fin d\'excecution', 'c.lastUseEnd') }}</th>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'Progression', 'c.progress') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'Mémoire', 'c.memoryUsed') }}</th>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'Fréquence', 'c.frequencyJobFormat') }}</th>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'Immédiat', 'c.immediately') }}</th>
                         <th >Actions</th>
@@ -76,6 +77,7 @@
                                     <div class="progress-bar" role="progressbar" aria-valuenow="{{ job.progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ job.progress }}%;"></div>
                                 </div>
                             </td>
+                            <td>{{ job.memoryUsed|humanizeBytes }}</td>
                             <td>{{ job.frequencyJobFormat }}</td>
                             <td>{{ job.immediately|humanizeBoolean }}</td>
                             <td>

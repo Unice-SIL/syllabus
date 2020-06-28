@@ -74,6 +74,7 @@ abstract class AbstractJob extends Command
             $result = $this->subExecute($input, $output);
         } catch (\Exception $e) {
 
+            $job = $this->getJob();
             if ($job instanceof  Job) {
 
                 $job->setLastStatus(\AppBundle\Constant\Job::STATUS_FAILED);
@@ -85,10 +86,12 @@ abstract class AbstractJob extends Command
             throw $e;
         }
 
+        $job = $this->getJob();
         if ($job instanceof Job) {
 
             $job->setLastStatus(\AppBundle\Constant\Job::STATUS_SUCCESS);
             $job->setProgress(0);
+            $job->setMemoryUsed(0);
             $job->setReport(serialize($result));
             $this->em->flush();
 
@@ -117,6 +120,23 @@ abstract class AbstractJob extends Command
         if($job instanceof Job)
         {
             $job->setProgress($progress);
+            if($flush)
+            {
+                $this->em->flush();
+            }
+        }
+    }
+
+    /**
+     * @param int $memoryUsed
+     * @param bool $flush
+     */
+    protected function memoryUsed(int $memoryUsed, bool $flush = false)
+    {
+        $job = $this->getJob();
+        if($job instanceof Job)
+        {
+            $job->setMemoryUsed($memoryUsed);
             if($flush)
             {
                 $this->em->flush();

@@ -72,5 +72,13 @@ class AppRuntime implements RuntimeExtensionInterface
         }
         return null;
     }
+
+    /**
+     * @return string
+     */
+    public function getMemoryLimit()
+    {
+        return ini_get('memory_limit');
+    }
     
 }

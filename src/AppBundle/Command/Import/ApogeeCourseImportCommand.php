@@ -26,10 +26,19 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ApogeeCourseImportCommand extends AbstractJob
 {
-    private static $yearsToImport;
-
     protected static $defaultName = 'app:import:apogee:course';
-
+    /**
+     * @var Year[]
+     */
+    private static $yearsToImport;
+    /**
+     * @var Structure[]
+     */
+    private $structures = [];
+    /**
+     * @var Course[]
+     */
+    private $handledParents = [];
     /**
      * @var ImportManager
      */
@@ -58,8 +67,11 @@ class ApogeeCourseImportCommand extends AbstractJob
      * @var HourApogeeConfiguration
      */
     private $hourApogeeConfiguration;
-
+    /**
+     * @var Report
+     */
     private $report;
+
 
     const SOURCE = 'apogee';
 
@@ -110,7 +122,6 @@ class ApogeeCourseImportCommand extends AbstractJob
     protected function subExecute(InputInterface $input, OutputInterface $output)
     {
         $this->em->getConnection()->getConfiguration()->setSQLLogger(null);
-        $debug = false;
 
         //======================Perf==================
         $start = microtime(true);
@@ -142,78 +153,92 @@ class ApogeeCourseImportCommand extends AbstractJob
                 self::$yearsToImport = $this->em->getRepository(Year::class)->findByImport(true);
             }
 
-            $course->setSource(self::SOURCE);
+            if($this->getStructure($course->getStructureCode()) instanceof Structure) {
 
-            $course = $this->courseManager->updateIfExistsOrCreate($course, $fieldsToUpdate, [
-                'flush' => true,
-                'find_by_parameters' => [
-                    'code' => $course->getCode(),
-                ],
-                'lineIdReport' => $lineIdReport,
-                'report' => $this->report,
-                'validations_groups_new' => ['Default'],
-                'validations_groups_edit' => ['Default']
-            ]);
+                $course->setSource(self::SOURCE);
 
-            //$parsingParentReport = ReportingHelper::createReport('Parsing');
-            $parents = $this->importManager->parseFromConfig($this->parentConfiguration, $this->report, [
-                'allow_extra_field' => true,
-                'extractor' => [
-                    'filter' => [
-                        'code' => $course->getCode()
-                    ]
-                ]
-            ]);
-
-
-            //$parentValidationReport = ReportingHelper::createReport('Insertion en base de données');
-            // Important remove all parents before add news
-            foreach ($course->getParents() as $parent)
-            {
-                $course->removeParent($parent);
-            }
-            /**
-             * @var Course $parent
-             */
-            foreach ($parents as $parentLineIdReport => $parent) {
-                $parent->setSource(self::SOURCE);
-
-                $parent = $this->courseManager->updateIfExistsOrCreate($parent, $fieldsToUpdate, [
+                $course = $this->courseManager->updateIfExistsOrCreate($course, $fieldsToUpdate, [
+                    'flush' => true,
                     'find_by_parameters' => [
-                        'code' => $parent->getCode(),
+                        'code' => $course->getCode(),
                     ],
-
-                    'lineIdReport' => $parentLineIdReport,
+                    'lineIdReport' => $lineIdReport,
                     'report' => $this->report,
                     'validations_groups_new' => ['Default'],
-                    'validations_groups_edit' => ['Default'],
+                    'validations_groups_edit' => ['Default']
                 ]);
 
-                $course->addParent($parent);
+                //$parsingParentReport = ReportingHelper::createReport('Parsing');
+                $parents = $this->importManager->parseFromConfig($this->parentConfiguration, $this->report, [
+                    'allow_extra_field' => true,
+                    'extractor' => [
+                        'filter' => [
+                            'code' => $course->getCode()
+                        ]
+                    ]
+                ]);
 
-                $this->setCourseInfos($parent);
+
+                //$parentValidationReport = ReportingHelper::createReport('Insertion en base de données');
+                // Important remove all parents before add news
+                foreach ($course->getParents() as $parent) {
+                    $course->removeParent($parent);
+                }
+                /**
+                 * @var Course $parent
+                 */
+                foreach ($parents as $parentLineIdReport => $parent) {
+
+                    if (!$this->getStructure($parent->getStructureCode()) instanceof Structure) {
+                        continue;
+                    }
+
+                    if (!in_array($parent->getCode(), $this->handledParents)) {
+                        $parent->setSource(self::SOURCE);
+
+                        $parent = $this->courseManager->updateIfExistsOrCreate($parent, $fieldsToUpdate, [
+                            'find_by_parameters' => [
+                                'code' => $parent->getCode(),
+                            ],
+
+                            'lineIdReport' => $parentLineIdReport,
+                            'report' => $this->report,
+                            'validations_groups_new' => ['Default'],
+                            'validations_groups_edit' => ['Default'],
+                        ]);
+
+                        $this->setCourseInfos($parent);
+                        $this->handledParents[] = $parent->getCode();
+                    } else {
+                        $parent = $this->em->getRepository(Course::class)->findOneBy(['code' => $parent->getCode()]);
+                    }
+
+                    $course->addParent($parent);
+                }
+
+                /** @var CourseInfo $courseInfo */
+                $this->setCourseInfos($course);
+
+                // Important ne pas déplacer
+                $this->em->flush();
             }
-
-            /** @var CourseInfo $courseInfo */
-            $this->setCourseInfos($course);
-
-            // Important ne pas déplacer
-            $this->em->flush();
 
             if ($loop % $loopBreak === 0) {
                 $progress = round(($loop / count($courses)) * 100);
-                $this->progress($progress, true);
+                $this->progress($progress);
+                $this->memoryUsed(memory_get_usage(), true);
 
                 $this->em->clear();
                 self::$yearsToImport = null;
+                $this->structures = [];
 
-            //======================Perf==================
+                //======================Perf==================
 
                 $interval[$loop]['time'] = microtime(true) - $timeStart . ' s';
                 $interval[$loop]['memory'] = round((memory_get_usage() - $memStart)/1048576, 2) . ' MB';
                 $interval[$loop]['progress'] = $progress . '%';
                 dump($interval);
-            //======================End Perf==================
+                //======================End Perf==================
             }
 
             $loop++;
@@ -223,7 +248,7 @@ class ApogeeCourseImportCommand extends AbstractJob
         dump( $interval, microtime(true) - $start . ' s');
         //======================End Perf==================
 
-        return $this->report;
+        //return $this->report;
 
     }
 
@@ -231,60 +256,75 @@ class ApogeeCourseImportCommand extends AbstractJob
     {
         //$hours = $course->getHours();
         $ects = $course->getEcts();
-        $structureCode = $course->getStructureCode();
-        $structure =$this->em->getRepository(Structure::class)->findOneByCode($structureCode);
 
-        if ($structure instanceof Structure) {
+        $structure = $this->getStructure($course->getStructureCode());
+        if(!$structure instanceof Structure)
+        {
+            return;
+        }
 
-            /** @var Year $year */
-            foreach (self::$yearsToImport as $year) {
-                $courseInfo = $this->courseInfoManager->new();
-                $courseInfo->setTitle($course->getTitle());
-                $courseInfo->setYear($year);
-                $courseInfo->setEcts($ects);
-                $courseInfo->setStructure($structure);
-                $courseInfo->setCourse($course);
+        foreach (self::$yearsToImport as $year) {
+            $courseInfo = $this->courseInfoManager->new();
+            $courseInfo->setTitle($course->getTitle());
+            $courseInfo->setYear($year);
+            $courseInfo->setEcts($ects);
+            $courseInfo->setStructure($structure);
+            $courseInfo->setCourse($course);
 
-                /** @var Teaching[] $teachings */
-                $teachings = $this->importManager->parseFromConfig($this->hourApogeeConfiguration, $this->report, [
-                    ['allow_extra_field' => true],
-                    'extractor' => [
-                        'filter' => [
-                            'code' => $course->getCode(),
-                            'year' => $year->getId(),
-                        ]
+            /** @var Teaching[] $teachings */
+            $teachings = $this->importManager->parseFromConfig($this->hourApogeeConfiguration, $this->report, [
+                ['allow_extra_field' => true],
+                'extractor' => [
+                    'filter' => [
+                        'code' => $course->getCode(),
+                        'year' => $year->getId(),
                     ]
-                ]);
+                ]
+            ]);
 
-                foreach ($teachings as $teaching) {
-                    switch ($teaching->getType()) {
-                        case 'CM':
-                            $courseInfo->setTeachingCmClass($teaching->getHourlyVolume());
-                            break;
-                        case 'TD':
-                            $courseInfo->setTeachingTdClass($teaching->getHourlyVolume());
-                            break;
-                        case 'TP':
-                            $courseInfo->setTeachingTpClass($teaching->getHourlyVolume());
-                            break;
-                    }
+            foreach ($teachings as $teaching) {
+                switch ($teaching->getType()) {
+                    case 'CM':
+                        $courseInfo->setTeachingCmClass($teaching->getHourlyVolume());
+                        break;
+                    case 'TD':
+                        $courseInfo->setTeachingTdClass($teaching->getHourlyVolume());
+                        break;
+                    case 'TP':
+                        $courseInfo->setTeachingTpClass($teaching->getHourlyVolume());
+                        break;
                 }
-
-                $this->courseInfoManager->updateIfExistsOrCreate($courseInfo, ['title', 'year', 'ects', 'structure', 'teachingCmClass', 'teachingTdClass', 'teachingTpClass', 'course'], [
-                    'find_by_parameters' => [
-                        'course' => $course,
-                        'year' => $year
-                    ],
-                ]);
-
             }
 
-        }else{
-            $error = "La structure {$course->getStructureCode()} n'existe pas";
-            $line = new ReportLine($course->getCode());
-            $line->addComment($error);
-            $this->report->addLine($line);
-            dump($error);
+            $this->courseInfoManager->updateIfExistsOrCreate($courseInfo, ['title', 'year', 'ects', 'structure', 'teachingCmClass', 'teachingTdClass', 'teachingTpClass', 'course'], [
+                'find_by_parameters' => [
+                    'course' => $course,
+                    'year' => $year
+                ],
+            ]);
+
         }
+
+    }
+
+    /**
+     * @param $code
+     * @return Structure|null
+     */
+    private function getStructure($code)
+    {
+        $structure = null;
+        if(in_array($code, $this->structures)) {
+            return $this->structures[$code];
+        }
+
+        /** @var Structure $structure */
+        $structure =$this->em->getRepository(Structure::class)->findOneByCode($code);
+        if($structure instanceof Structure)
+        {
+            $this->structures[$structure->getCode()] = $structure;
+            return $structure;
+        }
+        return null;
     }
 }

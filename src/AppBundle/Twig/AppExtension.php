@@ -51,6 +51,7 @@ class AppExtension extends AbstractExtension
             new TwigFilter('humanizeBoolean', [$this, 'humanizeBoolean']),
             new TwigFilter('humanizeEmptyData', [$this, 'humanizeEmptyData']),
             new TwigFilter('displayValidator', [$this, 'displayValidator']),
+            new TwigFilter('humanizeBytes', [$this, 'humanizeBytes']),
         ];
     }
 
@@ -62,6 +63,7 @@ class AppExtension extends AbstractExtension
         return [
             new TwigFunction('printActiveAdminSidebarLink', [AppRuntime::class, 'printActiveAdminSidebarLink']),
             new TwigFunction('findChoiceIdByLabel', [AppRuntime::class, 'findChoiceIdByLabel']),
+            new TwigFunction('getMemoryLimit', [AppRuntime::class, 'getMemoryLimit']),
             new TwigFunction('report_render', [ReportRuntime::class, 'reportRender']),
         ];
     }
@@ -101,4 +103,21 @@ class AppExtension extends AbstractExtension
             $this->validator->validate($courseInfo, null, [$group])->count() >= 1
         );
     }
+
+    /**
+     * @param int $value
+     * @return string
+     */
+    public function humanizeBytes(int $value)
+    {
+        $sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+        $i = 1;
+        while ($value/pow(1024, $i) >= 1)
+        {
+            $i++;
+        }
+        $i--;
+        return round($value/pow(1024, $i), 2).$sizes[$i];
+    }
+
 }
