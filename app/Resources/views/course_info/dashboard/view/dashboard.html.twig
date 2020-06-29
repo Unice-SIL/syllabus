@@ -105,7 +105,7 @@
                         </div>
                     </div>
                     <div class="col-12 col-sm-5 col-lg-4 col-md-5 d-flex justify-content-center align-items-center">
-                        <input type="text" class="knob" value="{{ violationPourcentage }}" data-thickness="0.1"
+                        <input type="text" class="knob" value="{{ violationPourcentage }}%" data-thickness="0.1"
                                data-width="150"
                                data-height="150"
                                data-fgcolor="#00a65a" style="width: 49px; height: 30px; position: absolute;
@@ -234,12 +234,8 @@
         $(document).on('click', '#btn-tuto', function (e) {
             $('#span-tuto').show();
         });
-
         $(document).on('click', '.btn_duplicate', function (e) {
-
             var test = $(this).attr('data-duplicate');
-
-            console.log(test);
 
             if (test === "duplicate") {
                 $.ajax({
