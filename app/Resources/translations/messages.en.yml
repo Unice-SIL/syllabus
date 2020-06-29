@@ -171,6 +171,19 @@ app:
       closing_remarks: Closing remarks
   dashboard:
     title: Dashboard
+    progress: Filling progress
+    card:
+      publish_syllabus: Publish the syllabus
+      publish_success: Congratulations, the syllabus has been published
+      see_student: See student's syllabus
+      not_duplicate_syllabus: Do not duplicate the syllabus for the next year
+      duplicate_syllabus: Duplicate the syllabus for the next year
+      duplicate_syllabus_other_course: Duplicate the syllabus for another course
+    intro_panel:
+      title: Discover your brand new syllabus
+      description: Communicate and clarify your course's content, highlight your goals and prepare your students for what awaits them
+      access_tutorial: Access to the tutorial
+      tutorial_description: The tutorial is coming soon, if you wish to access the old tutorial to familiarise with the functionnalities, <a href="https://unspod.unice.fr/video/7110-comment-remplir-son-syllabus-sur-moodle/" target="_blank">click here</a>
     modal:
       title: Toward which Syllabus would you like to duplicate the contents?
       close: Close
@@ -303,7 +316,7 @@ app:
     view:
       additionnal_info: Additionnal informations
       edit: Edit
-      agenda: Informations at your disposal about the course's agenda, exams...
+      agenda: Course's schedule
       organization: Course's organization
     form:
       save: Save
