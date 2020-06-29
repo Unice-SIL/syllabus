@@ -12,7 +12,6 @@ use AppBundle\Form\CourseInfo\DuplicateCourseInfoType;
 use AppBundle\Helper\Report\Report;
 use AppBundle\Manager\CourseInfoManager;
 use Doctrine\ORM\EntityManagerInterface;
-use phpDocumentor\Reflection\Types\Boolean;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -53,10 +52,12 @@ class DashboardController extends AbstractController
      * @param Request $request
      * @param CourseInfoManager $courseInfoManager
      * @param EntityManagerInterface $em
+     * @param TranslatorInterface $translator
      * @return Response
      * @throws \Exception
      */
-    public function indexAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $courseInfoManager, EntityManagerInterface $em, TranslatorInterface $translator)
+    public function indexAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $courseInfoManager,
+                                EntityManagerInterface $em, TranslatorInterface $translator)
     {
         $duplicationForm = $this->createForm(DuplicateCourseInfoType::class);
         $duplicationForm->handleRequest($request);
@@ -120,11 +121,22 @@ class DashboardController extends AbstractController
             ]);
         }
 
+        /** @var Validation $violations */
         $violations = $this->getViolation($courseInfo);
 
+        // pourcentage violations
+        $countViolation = 0;
+        foreach ($violations as $violation)
+        {
+            if ($violation->count() === 0){
+                $countViolation +=1;
+            }
+        }
+        $violationPourcentage = ($countViolation/count($violations)) * 100;
         $render = $this->get('twig')->render('course_info/dashboard/view/dashboard.html.twig', [
             'courseInfo' => $courseInfo,
             'violations' => $violations,
+            'violationPourcentage' => round($violationPourcentage),
             'publicationForm' => $this->createForm(PublishCourseInfoType::class, $courseInfo)->createView()
         ]);
         return $this->json([
@@ -173,7 +185,8 @@ class DashboardController extends AbstractController
      * @param EntityManagerInterface $em
      * @param TranslatorInterface $translator
      * @return JsonResponse
-     * @Route("/publish", name="pusblish", methods={"POST"} )
+     * @Route("/publish", name="publish", methods={"POST"} )
+     * @throws \Exception
      */
     public function publishCourseInfo(CourseInfo $courseInfo, Request $request, EntityManagerInterface $em, TranslatorInterface $translator)
     {
@@ -181,8 +194,8 @@ class DashboardController extends AbstractController
         $publishForm->handleRequest($request);
 
         if ($publishForm->isSubmitted() and $publishForm->isValid()) {
-            $isPublished = $publishForm->all()['publish']->getData();
-
+            /** @var CourseInfo $courseInfo */
+            $courseInfo = $publishForm->getData();
             $violations = $this->getViolation($courseInfo);
             if (is_null($courseInfo->getPublicationDate())) {
                 foreach ($violations as $key => $violation) {
@@ -190,10 +203,21 @@ class DashboardController extends AbstractController
                         return $this->json(['error' => true, 'message' => $translator->trans('app.controller.error.tab_conditions')]);
                     }
                 }
+                if(empty($courseInfo->getPublicationDate()))
+                {
+                    $courseInfo->setPublicationDate(new \DateTime());
+                }else{
+                    $courseInfo->setPublicationDate(null);
+                }
             } else {
-                $courseInfo->setPublicationDate($isPublished ? new \DateTime() : null);
+                if(empty($courseInfo->getPublicationDate()))
+                {
+                    $courseInfo->setPublicationDate(new \DateTime());
+                }else{
+                    $courseInfo->setPublicationDate(null);
+                }
+                //$courseInfo->setPublicationDate($isPublished ? new \DateTime() : null);
             }
-            $courseInfo->setPublicationDate($isPublished ? new \DateTime() : null);
 
             $em->flush();
 

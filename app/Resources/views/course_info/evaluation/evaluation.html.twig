@@ -21,7 +21,7 @@
                         <tr class="text-center">
                             <td><p class="my-0">{{ 'app.evaluation.view.continuous_assessment' | trans }}</p>
                                 {% if courseInfo.mccCcNbEvalSession1 %}
-                                    ({{ courseInfo.mccCcNbEvalSession1 }} {{ 'app.evaluation.view.minimm' | trans }})
+                                    ({{ courseInfo.mccCcNbEvalSession1 }} {{ 'app.evaluation.view.minimum' | trans }})
                                 {% else %}
                                     {{ courseInfo.mccCcNbEvalSession1|humanizeEmptyData }}
                                 {% endif %}
@@ -47,8 +47,8 @@
         >
             <div class="card-header">
                 <div class="d-flex justify-content-between">
-                    <h3>{{ 'app.evaluation.view.info_evaluation' | trans }}</h3>
-                    <button type="button" class="edit-button btn btn-primary rounded" data-title="{{ 'app.evaluation.view.edit' | trans }}">
+                    <h3 class="text-blue-title">{{ 'app.evaluation.view.info_evaluation' | trans }}</h3>
+                    <button type="button" class="edit-button btn button-orange" data-title="{{ 'app.evaluation.view.edit' | trans }}">
                         {{ 'app.evaluation.view.edit' | trans  }}
                     </button>
                 </div>

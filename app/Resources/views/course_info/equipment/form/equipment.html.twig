@@ -1,18 +1,27 @@
-{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('app.course_info.resource_equipment.equipment.add', {'id': form.vars.data.courseInfo.id, 'idEquipment': form.vars.data.equipment.id}), 'data-card': 'card-equipment'}}) }}
+{{ form_start(form, {'attr': {'class': 'modal-action-form',
+    'data-action-url': path('app.course_info.resource_equipment.equipment.add',
+        {'id': form.vars.data.courseInfo.id, 'idEquipment': form.vars.data.equipment.id}),
+    'data-card': 'card-equipment'}}) }}
 {{ form_errors(form) }}
 <div class="row mt-3">
     <div class="col">
         <div>
             <div>
-                {% if form.description is defined %}
-                    {{ form_row(form.description) }}
+                {% if form.vars.data.equipment.label == "Autre" %}
+                    {% if form.description is defined %}
+                        {{ form_row(form.description, {'attr': {'required':'required'}}) }}
+                    {% endif %}
+                {% else %}
+                    {% if form.description is defined %}
+                        {{ form_row(form.description) }}
+                    {% endif %}
                 {% endif %}
             </div>
         </div>
     </div>
 </div>
 <div class="d-flex justify-content-center mt-3">
-    <button type="submit" class="btn btn-primary rounded" id="create_button">
+    <button type="submit" class="btn button-orange" id="create_button">
         {{ 'app.equipment.form.add' | trans }}
     </button>
 </div>

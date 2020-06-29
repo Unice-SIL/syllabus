@@ -8,6 +8,8 @@
     Importing dependencies
 */
 
+
+
 // SASS / CSS dependencies.
 import '../scss/app.scss';
 
@@ -51,5 +53,6 @@ import Slick from 'slick-carousel';
 global.Slick = Slick;
 
 import 'admin-lte';
+require('admin-lte/plugins/jquery-knob/jquery.knob.min');
 
 import './_custom';

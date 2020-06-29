@@ -34,42 +34,42 @@ class YearFixture extends Fixture  implements FixtureGroupInterface
           [
               'id' => '2013',
               'label' => '2013-2014',
-              'import' => true,
+              'import' => false,
               'current' => false,
               'ref' => self::YEAR_2013
           ],
             [
                 'id' => '2014',
                 'label' => '2014-2015',
-                'import' => true,
+                'import' => false,
                 'current' => false,
                 'ref' => self::YEAR_2014
             ],
             [
                 'id' => '2015',
                 'label' => '2015-2016',
-                'import' => true,
+                'import' => false,
                 'current' => false,
                 'ref' => self::YEAR_2015
             ],
             [
                 'id' => '2016',
                 'label' => '2016-2017',
-                'import' => true,
+                'import' => false,
                 'current' => false,
                 'ref' => self::YEAR_2016
             ],
             [
                 'id' => '2017',
                 'label' => '2017-2018',
-                'import' => true,
+                'import' => false,
                 'current' => false,
                 'ref' => self::YEAR_2017
             ],
             [
                 'id' => '2018',
                 'label' => '2018-2019',
-                'import' => true,
+                'import' => false,
                 'current' => false,
                 'ref' => self::YEAR_2018
             ],

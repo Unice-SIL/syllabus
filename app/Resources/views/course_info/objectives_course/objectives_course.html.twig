@@ -8,9 +8,9 @@
         >
             <div class="card-header">
                 <div class="d-flex justify-content-between">
-                    <h3>{{ 'app.objectives.view.aimed_capacities' | trans }}</h3>
+                    <h3 class="text-blue-title">{{ 'app.objectives.view.aimed_capacities' | trans }}</h3>
                     <button type="button"
-                            class="btn btn-primary rounded modal-action"
+                            class="btn button-orange modal-action"
                             data-action-title="{{ 'app.objectives.view.add_capacity' | trans }}"
                             data-action-url="{{ path('app.course_info.objectives.achievement.add', {'id': courseInfo.id }) }}">
                         {{ 'app.objectives.view.add_capacity' | trans }}

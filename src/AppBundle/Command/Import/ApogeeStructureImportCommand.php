@@ -3,16 +3,17 @@
 
 namespace AppBundle\Command\Import;
 
+use AppBundle\Command\Scheduler\AbstractJob;
 use AppBundle\Entity\Structure;
 use AppBundle\Helper\Report\ReportingHelper;
 use AppBundle\Import\Configuration\StructureApogeeConfiguration;
 use AppBundle\Import\ImportManager;
 use AppBundle\Manager\StructureManager;
-use Symfony\Component\Console\Command\Command;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ApogeeStructureImportCommand extends Command
+class ApogeeStructureImportCommand extends AbstractJob
 {
     // the name of the command (the part after "bin/console")
     protected static $defaultName = 'app:import:apogee:structure';
@@ -29,19 +30,23 @@ class ApogeeStructureImportCommand extends Command
      */
     private $structureManager;
 
+    const SOURCE = 'apogee';
+
     /**
      * ImportTestCommand constructor.
      * @param ImportManager $importManager
      * @param StructureApogeeConfiguration $configuration
      * @param StructureManager $structureManager
+     * @param EntityManagerInterface $em
      */
     public function __construct(
         ImportManager $importManager,
         StructureApogeeConfiguration $configuration,
-        StructureManager $structureManager
+        StructureManager $structureManager,
+        EntityManagerInterface $em
     )
     {
-        parent::__construct();
+        parent::__construct($em);
         $this->importManager = $importManager;
         $this->configuration = $configuration;
         $this->structureManager = $structureManager;
@@ -54,22 +59,27 @@ class ApogeeStructureImportCommand extends Command
             ->setDescription('Apogee Structure import');
     }
 
-
-    protected function execute(InputInterface $input, OutputInterface $output)
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return mixed|void
+     * @throws \Exception
+     */
+    protected function subExecute(InputInterface $input, OutputInterface $output)
     {
-        $parsingReport = ReportingHelper::createReport('Parsing');
+        $report = ReportingHelper::createReport();
         $fieldsAllowed = iterator_to_array($this->configuration->getMatching()->getCompleteMatching());
         $fieldsToUpdate = array_keys($fieldsAllowed);
 
-        $structures = $this->importManager->parseFromConfig($this->configuration, $parsingReport);
+        $structures = $this->importManager->parseFromConfig($this->configuration, $report);
 
-        $validationReport = ReportingHelper::createReport('Insertion en base de données');
+        //$validationReport = ReportingHelper::createReport('Insertion en base de données');
 
         /**
          * @var Structure $structure
          */
         foreach ($structures as $lineIdReport => $structure) {
-            $structure->setSource('apogee');
+            $structure->setSource(self::SOURCE);
 
             $this->structureManager->updateIfExistsOrCreate($structure, $fieldsToUpdate, [
                 'find_by_parameters' => [
@@ -77,12 +87,14 @@ class ApogeeStructureImportCommand extends Command
                 ],
                 'flush' => true,
                 'lineIdReport' => $lineIdReport,
-                'report' => $validationReport,
+                'report' => $report,
                 'validations_groups_new' => ['Default'],
                 'validations_groups_edit' => ['Default'],
             ]);
 
         }
+
+        return $report;
 
     }
 }

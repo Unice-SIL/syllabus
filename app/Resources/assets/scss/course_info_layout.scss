@@ -1,3 +1,33 @@
+/*
+ * Button
+ */
+
+.button-orange {
+  background-color: #FF892A;
+  border-color: #FF892A;
+  color: white;
+  border-radius: 0.75rem;
+}
+.button-orange:hover {
+  color: #fcdfda;
+}
+
+.text-black {
+  color: black;
+}
+
+.text-black:hover {
+  color: grey;
+}
+
+.text-blue-title {
+  color: #017F97;
+}
+
+.circle {
+  font-size: 1.5rem;
+  height: 70px;
+}
 
 /*
  * Loader
@@ -19,6 +49,26 @@
       text-shadow: 1px 1px 1px #bbb;
     }
   }
+}
+
+/*
+ * Teaching Mode form card
+ */
+
+.bg-lightgrey {
+  background-color: #F1F2F3;
+}
+
+.bg-mediumgrey {
+  background-color: #D5D7D9;
+}
+
+.bg-darkgrey {
+  background-color: #707070;
+}
+
+.text-darkgrey {
+  color: #707070;
 }
 
 /*

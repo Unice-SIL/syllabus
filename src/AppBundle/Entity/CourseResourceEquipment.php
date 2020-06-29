@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * CourseResourceEquipment
@@ -61,6 +62,7 @@ class CourseResourceEquipment
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="equipment_id", referencedColumnName="id", nullable=false)
      * })
+     * @Assert\Blank(groups={"equipments_empty"})
      * @JMS\Groups(groups={"course_info", "course_resource_equipment"})
      */
     private $equipment;

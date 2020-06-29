@@ -7,12 +7,9 @@
     "@symfony/webpack-encore": "^0.23.0",
     "autoprefixer": "^9.5.1",
     "bootstrap": "^4.3.1",
-    "jquery.autocomplete": "^1.2.0",
     "node-sass": "^4.11.0",
     "postcss-loader": "^3.0.0",
     "sass-loader": "^7.1.0",
-    "slick-carousel": "^1.8.1",
-    "sweetalert2": "^9.8.2",
     "webpack-notifier": "^1.7.0"
   },
   "dependencies": {
@@ -25,9 +22,12 @@
     "core-js": "2",
     "jquery": "^3.5.0",
     "jquery-sortablejs": "^1.0.1",
+    "jquery.autocomplete": "^1.2.0",
     "popper.js": "^1.16.0",
     "select2": "^4.0.5",
     "select2-bootstrap-theme": "^0.1.0-beta.10",
-    "sortablejs": "1.9.0"
+    "slick-carousel": "^1.8.1",
+    "sortablejs": "1.9.0",
+    "sweetalert2": "^9.8.2"
   }
 }

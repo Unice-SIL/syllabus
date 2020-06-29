@@ -23,8 +23,8 @@
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'app.permission.button.close' | trans }}</button>
-                    <button type="submit" class="btn btn-primary">{{ 'app.permission.button.add' | trans }}</button>
+                    <button type="button" class="btn-link btn text-black cancel-button" data-dismiss="modal"><u>{{ 'app.permission.button.close' | trans }}</u></button>
+                    <button type="submit" class="btn button-orange">{{ 'app.permission.button.add' | trans }}</button>
                 </div>
                 {{ form_end(form) }}
             </div>
@@ -38,8 +38,8 @@
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-between">
-                    <h3>{{ 'app.permission.view.permissions_list' | trans }}</h3>
-                    <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#modal-add-permission">
+                    <h3 class="text-blue-title">{{ 'app.permission.view.permissions_list' | trans }}</h3>
+                    <button type="button" class="btn button-orange float-right" data-toggle="modal" data-target="#modal-add-permission">
                         {{ 'app.permission.button.add_permission' | trans }}
                     </button>
                 </div>
@@ -64,14 +64,8 @@
                                 <td>{{ coursePermission.user.firstname }}</td>
                                 <td>{{ ('app.const.permission.' ~ coursePermission.permission)|trans }}</td>
                                 <td class="text-right">
-                                    <button type="button"
-                                            class="btn btn-link modal-action p-0"
-                                            data-action-title="Modifier une compétence"
-                                            data-action-url="{{ path('app.course_info.permission.delete', {'id': coursePermission.id}) }}">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
                                     <button type="button" class="btn btn-link modal-action p-0"
-                                            data-action-title="Supprimer une compétence"
+                                            data-action-title="{{ 'app.permission.button.delete_permission' | trans }}"
                                             data-action-url="{{ path('app.course_info.permission.delete', {'id': coursePermission.id}) }}">
                                         <i class="fas fa-trash-alt text-danger"></i>
                                     </button>

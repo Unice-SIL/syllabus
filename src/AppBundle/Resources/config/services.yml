@@ -5,6 +5,10 @@ services:
         public: false
         bind:
             $mailerSource: '%mailer_source%'
+            $moodlePermissionImporterOptions:
+                url: '%moodle_api_url%'
+                token: '%moodle_api_token%'
+            $apogeeCourseNatureToImport: %apogee_course_nature_to_import%
 
     AppBundle\:
         resource: '../../*'
@@ -15,8 +19,8 @@ services:
         arguments: ['%test_authenticator%']
 
     # COMMAND
-    AppBundle\Importer\Course\CoursesDuplicateCommand:
-        arguments: ['@syllabus_entity_manager']
+    #AppBundle\Importer\Course\CoursesDuplicateCommand:
+    #    arguments: ['@syllabus_entity_manager']
 
     # ENTITY MANAGER
     syllabus_entity_manager:

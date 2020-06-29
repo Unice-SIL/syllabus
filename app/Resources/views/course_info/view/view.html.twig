@@ -1,13 +1,28 @@
 {% extends 'base.html.twig' %}
+
+
 {% block main %}
-    <div class="row">
-        <div class="background_student col-1"></div>
-        <div class="container-fluid p-0 background_student col-10">
-            {% include 'course_info/view/student_presentation.html.twig' %}
-            {% include 'course_info/view/student_objectives.html.twig' %}
-            {% include 'course_info/view/student_evaluation.html.twig' %}
-            {% include 'course_info/view/student_info.html.twig' %}
+    <div class="student-view">
+        <div class="container">
+            {% include 'course_info/view/student_vertical_menu.html.twig' %}
+            <div class="student-content">
+                {% include 'course_info/view/student_presentation.html.twig' %}
+                {% include 'course_info/view/student_prerequisite.html.twig' %}
+                {% include 'course_info/view/student_objectives.html.twig' %}
+                {% include 'course_info/view/student_activities.html.twig' %}
+                {% if (courseInfo | displayValidator('evaluation_empty')) == true %}
+                    {% include 'course_info/view/student_evaluation.html.twig' %}
+                {% endif %}
+                {% if (courseInfo | displayValidator('equipments_empty')) == true %}
+                    {% include 'course_info/view/student_equipments.html.twig' %}
+                {% endif %}
+                {% if (courseInfo | displayValidator('info_empty')) == true %}
+                    {% include 'course_info/view/student_info.html.twig' %}
+                {% endif %}
+                {% if (courseInfo | displayValidator('closing_remarks_empty')) == true %}
+                    {% include 'course_info/view/student_closing_remarks.html.twig' %}
+                {% endif %}
+            </div>
         </div>
-        <div class="background_student col-1"></div>
     </div>
 {% endblock %}

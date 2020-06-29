@@ -1,22 +1,28 @@
-<section id="presentation-section" class="content">
-    <h3 class="blue_uca mt-5">Informations pratiques</h3>
-    <input type="image" src="/build/images/information_photo.jpg">
-
-    <div class="row mt-4">
-        <div class="col-4">
-            <input class="student-icon" type="image" src="/build/images/calendrier_picto.png">
-            Calendrier
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            </p>
-        </div>
-        <div class="col-4">
-            <input class="student-icon" type="image" src="/build/images/organisation_picto.png">
-            Organisation
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            </p>
-        </div>
-        <div class="col-4"></div>
+<section id="information-section" class="pb-5">
+    <div class="student-title">
+        <h1 class="text-primary">{{ 'app.view.student.tabs.info' | trans }}</h1>
+        <img src="{{ asset('build/images/information_photo.jpg') }}" alt="">
+    </div>
+    <div class="student-grid">
+        {% if courseInfo.agenda is not empty %}
+            <div class="grid-element grid-2-elements">
+                <div class="student-subtitle mb-3">
+                    <img src="{{ asset('build/images/calendrier_picto.png') }}" class="icon-40" alt="">
+                    <h5 class="title-underlined">{{ 'app.view.student.info.agenda' | trans }}</h5>
+                </div>
+                {{ courseInfo.agenda|purify }}
+            </div>
+        {% endif %}
+        {% if courseInfo.organization is not empty %}
+            <div class="grid-element grid-2-elements">
+                <div class="student-subtitle mb-3">
+                    <img src="{{ asset('build/images/organisation_picto.png') }}" class="icon-40" alt="">
+                    <h5 class="title-underlined">{{ 'app.view.student.info.organization' | trans }}</h5>
+                </div>
+                <div>
+                    {{ courseInfo.organization|purify }}
+                </div>
+            </div>
+        {% endif %}
     </div>
 </section>

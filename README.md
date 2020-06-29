@@ -1,7 +1,5 @@
 # Syllabus
 
-## v1.0
-Version initiale de l'application Syllabus.
 
 ### Installation de l'application
 
@@ -41,3 +39,5 @@ Dans cet exemple, lancez les commandes suivantes:
 La commande `make build` fait appel à un nouveau block de commande qui sont les commandes 2, 3 et 4 indiquées juste au dessus.
 
 ####3. Programmer le cron Scheduler (seulement en production)
+Ajouter dans le cron du serveur la commande suivante:
+`* * * * * php path_to_syllabus\bin\console app:scheduler`

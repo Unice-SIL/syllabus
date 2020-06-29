@@ -199,10 +199,7 @@ class Course
         if(!$this->parents->contains($course))
         {
             $this->parents->add($course);
-            if(!$course->getChildren()->contains($this))
-            {
-                $course->addChild($this);
-            }
+            $course->addChild($this);
         }
 
         return $this;
@@ -217,10 +214,7 @@ class Course
         if($this->parents->contains($course))
         {
             $this->parents->removeElement($course);
-            if($course->getChildren()->contains($this))
-            {
-                $course->removeChild($this);
-            }
+            $course->removeChild($this);
         }
 
         return $this;
@@ -255,10 +249,7 @@ class Course
         if(!$this->children->contains($course))
         {
             $this->children->add($course);
-            if(!$course->getParents()->contains($this))
-            {
-                $course->addParent($this);
-            }
+            $course->addParent($this);
         }
 
         return $this;
@@ -273,10 +264,7 @@ class Course
         if($this->children->contains($course))
         {
             $this->children->removeElement($course);
-            if($course->getParents()->contains($this))
-            {
-                $course->removeParent($this);
-            }
+            $course->removeParent($this);
         }
 
         return $this;

@@ -45,6 +45,7 @@ class UnsActivitiesMigrationCommand extends Command
     const OLD_MODE_IN_CLASS = 'class';
     const OLD_MODE_IN_AUTONOMY = 'autonomy';
     const OLD_MODE_CC = 'cc';
+    const OLD_MODE_CT = 'ct';
 
     const OLD_GROUP_TOGETHER = 'together';
     const OLD_GROUP_COLLECTIVE = 'collective';
@@ -81,6 +82,7 @@ class UnsActivitiesMigrationCommand extends Command
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
+     * @throws \Doctrine\DBAL\DBALException
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -663,7 +665,10 @@ class UnsActivitiesMigrationCommand extends Command
 
             // Anciennes activités de type évaluation
             if ($oldSectionActivity->getActivity()->getType() === self::OLD_TYPE_EVALUATION) {
-                $sectionActivity->setEvaluationRate($oldSectionActivity->getEvaluationRate())
+                $sectionActivity
+                    ->setEvaluable(true)
+                    ->setEvaluationCt(false)
+                    ->setEvaluationRate($oldSectionActivity->getEvaluationRate())
                     ->setEvaluationTeacher($oldSectionActivity->isEvaluationTeacher())
                     ->setEvaluationPeer($oldSectionActivity->isEvaluationPeer())
                     ->setActivityMode($modes[self::MODE_INDIVIDUAL_ID]);
@@ -762,6 +767,8 @@ class UnsActivitiesMigrationCommand extends Command
 
                 $sectionActivity->setId($oldSectionEvaluation->getId())
                     ->setDescription($oldSectionEvaluation->getDescription())
+                    ->setEvaluable(true)
+                    ->setEvaluationCt(true)
                     ->setEvaluationRate($oldSectionEvaluation->getEvaluationRate())
                     ->setActivityType($types[self::TYPE_CLASS_ID])
                     ->setActivityMode($modes[self::MODE_INDIVIDUAL_ID])

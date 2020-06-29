@@ -1,0 +1,55 @@
+<section id="prerequisites-section" class="pb-5">
+    <div class="student-title">
+        <h1 class="text-primary">{{ 'app.view.student.tabs.prerequisites' | trans }}</h1>
+        <img type="image" src="{{ asset('/build/images/information_photo.jpg') }}" alt="">
+    </div>
+    <div class="student-grid">
+        <div class="grid-element grid-2-elements">
+            {% if courseInfo.coursePrerequisites is not empty %}
+                <div class="student-subtitle">
+                    <span class="text-bold">{{ 'app.view.student.prerequisites.prerequisites_description' | trans }}</span>
+                </div>
+                <ul class="student-list list-dotted">
+                    {% for prerequisite in courseInfo.coursePrerequisites %}
+                        <li>
+                            <div class="d-flex flex-column">
+                                <span>{{ prerequisite.description }}</span>
+                                {% if prerequisite.courses is not empty %}
+                                    <span class="small font-italic">
+                                        {{ 'app.view.student.prerequisites.associate_courses' | trans }}
+                                        {% for course in prerequisite.courses %}
+                                            {% if not loop.first %}
+                                                ,
+                                            {% endif %}
+                                            {{ course.title }}
+                                        {% endfor %}
+                                    </span>
+                                {% endif %}
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <div class="p-2 empty-element">{{ 'app.view.student.prerequisites.empty_prerequiste' | trans }}</div>
+            {% endif %}
+        </div>
+        <div class="grid-element  grid-2-elements">
+            {% if courseInfo.courseTutoringResources is not empty %}
+                <div class="student-subtitle">
+                    <span class="text-bold">{{ 'app.view.student.prerequisites.tutoring_resources_description' | trans }}</span>
+                </div>
+                <ul class="student-list list-dotted">
+                    {% for tutoringResource in courseInfo.courseTutoringResources %}
+                        <li>
+                            <div>
+                                {{ tutoringResource.description }}
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <div class="p-2 empty-element">{{ 'app.view.student.prerequisites.empty_tutoring_resources' | trans }}</div>
+            {% endif %}
+        </div>
+    </div>
+</section>

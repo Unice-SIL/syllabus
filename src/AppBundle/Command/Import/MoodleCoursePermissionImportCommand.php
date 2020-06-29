@@ -4,9 +4,11 @@
 namespace AppBundle\Command\Import;
 
 
+use AppBundle\Command\Scheduler\AbstractJob;
 use AppBundle\Entity\Course;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\CoursePermission;
+use AppBundle\Entity\User;
 use AppBundle\Entity\Year;
 use AppBundle\Helper\Report\ReportingHelper;
 use AppBundle\Import\Configuration\CoursePermissionMoodleConfiguration;
@@ -14,13 +16,16 @@ use AppBundle\Import\ImportManager;
 use AppBundle\Manager\CoursePermissionManager;
 use AppBundle\Manager\UserManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class MoodleCoursePermissionImportCommand extends Command
+class MoodleCoursePermissionImportCommand extends AbstractJob
 {
     protected static $defaultName = 'app:import:moodle:permission';
+    /**
+     * @var array
+     */
+    private $options;
     /**
      * @var ImportManager
      */
@@ -30,10 +35,6 @@ class MoodleCoursePermissionImportCommand extends Command
      */
     private $coursePermissionMoodleConfiguration;
     /**
-     * @var EntityManagerInterface
-     */
-    private $em;
-    /**
      * @var CoursePermissionManager
      */
     private $coursePermissionManager;
@@ -42,6 +43,8 @@ class MoodleCoursePermissionImportCommand extends Command
      */
     private $userManager;
 
+    const SOURCE = 'moodle';
+
     /**
      * MoodleCoursePermissionImportCommand constructor.
      * @param ImportManager $importManager
@@ -49,19 +52,21 @@ class MoodleCoursePermissionImportCommand extends Command
      * @param EntityManagerInterface $em
      * @param CoursePermissionManager $coursePermissionManager
      * @param UserManager $userManager
+     * @param array $moodlePermissionImporterOptions
      */
     public function __construct(
         ImportManager $importManager,
         CoursePermissionMoodleConfiguration $coursePermissionMoodleConfiguration,
         EntityManagerInterface $em,
         CoursePermissionManager $coursePermissionManager,
-        UserManager $userManager
+        UserManager $userManager,
+        array $moodlePermissionImporterOptions
     )
     {
-        parent::__construct();
+        parent::__construct($em);
+        $this->options = $moodlePermissionImporterOptions;
         $this->importManager = $importManager;
         $this->coursePermissionMoodleConfiguration = $coursePermissionMoodleConfiguration;
-        $this->em = $em;
         $this->coursePermissionManager = $coursePermissionManager;
         $this->userManager = $userManager;
     }
@@ -69,11 +74,18 @@ class MoodleCoursePermissionImportCommand extends Command
 
     protected function configure()
     {
+        parent::configure();
         $this
             ->setDescription('Moodle Permission import');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return mixed|void
+     * @throws \Exception
+     */
+    protected function subExecute(InputInterface $input, OutputInterface $output)
     {
         //======================Perf==================
         $start = microtime(true);
@@ -81,13 +93,19 @@ class MoodleCoursePermissionImportCommand extends Command
         $loopBreak = 4;
         //======================End Perf==================
 
-        $report = ReportingHelper::createReport('Parsing');
+        $report = ReportingHelper::createReport();
 
-        $coursePermissions = $this->importManager->parseFromConfig($this->coursePermissionMoodleConfiguration, $report);
+        $this->progress(1);
+
+        $coursePermissions = $this->importManager->parseFromConfig($this->coursePermissionMoodleConfiguration, $report, $this->options);
+
+        $this->progress(50);
 
         $yearsToImport = $this->em->getRepository(Year::class)->findByImport(true);
 
         $loop = 1;
+
+        $handledCourseInfoIds = [];
 
         /** @var CoursePermission $coursePermission */
         foreach ($coursePermissions as $reportLineId => $coursePermission) {
@@ -98,29 +116,58 @@ class MoodleCoursePermissionImportCommand extends Command
             }
             //======================End Perf==================
 
+            /** @var Course $course */
             $course = $this->em->getRepository(Course::class)->findOneByCode($coursePermission->getCourseInfo()->getCourse()->getCode());
+
+            //var_dump(($course instanceof Course)? $course->getCode() : "Course {$coursePermission->getCourseInfo()->getCourse()->getCode()} not found");
 
             if (!$course instanceof Course) {
                 continue;
             }
 
             $user = $coursePermission->getUser();
+
+            /** @var User $user */
             $user = $this->userManager->updateIfExistsOrCreate($user, ['username'], [
                 'find_by_parameters' => ['username' => $user->getUsername()],
                 'flush' => true,
                 'validations_groups_new' => ['Default'],
                 'validations_groups_edit' => ['Default'],
+                'report' => $report,
+                'lineIdReport' => $reportLineId,
             ]);
 
+            //var_dump($user->getUsername());
+
             foreach ($yearsToImport as $year) {
+                /** @var CourseInfo $courseInfo */
                 $courseInfo = $this->em->getRepository(CourseInfo::class)->findByCodeAndYear($course->getCode(), $year);
 
-                $newCoursePermission = $this->coursePermissionManager->new();
-                $newCoursePermission->setUser($user);
-                $newCoursePermission->setCourseInfo($courseInfo);
-                $newCoursePermission->setPermission($coursePermission->getPermission());
+                var_dump(($courseInfo instanceof CourseInfo)? "[{$year}] {$courseInfo->getTitle()}" : "Course info not found for year {$year}");
 
-                $this->coursePermissionManager->updateIfExistsOrCreate(
+                if(!$courseInfo instanceof CourseInfo) {
+                    continue;
+                }
+
+                // Removes old moodle permissions from courseinfo
+                if(!in_array($courseInfo->getId(), $handledCourseInfoIds)) {
+                    /** @var CoursePermission $oldCoursePermission */
+                    foreach ($courseInfo->getCoursePermissions() as $oldCoursePermission) {
+                        if ($oldCoursePermission->getSource() === self::SOURCE) {
+                            $courseInfo->removeCoursePermission($oldCoursePermission);
+                        }
+                    }
+                    $handledCourseInfoIds[] = $courseInfo->getId();
+                }
+
+                $newCoursePermission = $this->coursePermissionManager->new();
+                $newCoursePermission->setSource(self::SOURCE)
+                    ->setUser($user)
+                    ->setCourseInfo($courseInfo)
+                    ->setPermission($coursePermission->getPermission());
+
+                /** @var CoursePermission $newCoursePermission */
+                $newCoursePermission = $this->coursePermissionManager->updateIfExistsOrCreate(
                     $newCoursePermission,
                     ['user', 'courseInfo', 'permission'],
                     [
@@ -135,14 +182,20 @@ class MoodleCoursePermissionImportCommand extends Command
                         'lineIdReport' => $reportLineId,
                     ]
                 );
+
+                //var_dump("{$newCoursePermission->getCourseInfo()->getCourse()->getCode()} {$newCoursePermission->getCourseInfo()->getYear()} - {$newCoursePermission->getUser()->getUsername()}");
+
+                $courseInfo->addCoursePermission($newCoursePermission);
             }
 
-            //$this->em->flush(); //if every permission import from moodle hasn't got a unique key username-code
+
+            $this->em->flush(); //if every permission import from moodle hasn't got a unique key username-code
 
             if ($loop % $loopBreak === 0) {
+                dump((round(($loop / count($coursePermissions)) * 50) +50).'%');
+                $this->progress(round(($loop / count($coursePermissions)) * 50) +50);
 
-                $this->em->flush(); //if every permission import from moodle has a unique key username-code
-                $this->em->clear();
+               $this->em->clear();
 
                 //======================Perf==================
 
@@ -158,6 +211,8 @@ class MoodleCoursePermissionImportCommand extends Command
         //======================Perf==================
         dump( $interval, microtime(true) - $start . ' s');
         //======================End Perf==================
+
+        return $report;
     }
 
 

@@ -6,6 +6,7 @@ namespace AppBundle\Import\Transformer;
 
 use AppBundle\Helper\Report\Report;
 use AppBundle\Helper\Report\ReportLine;
+use AppBundle\Import\Matching\HourApogeeMatching;
 use AppBundle\Import\Matching\MatchingInterface;
 
 class ArrayTransformer extends AbstractTransformer implements TransformerInterface
@@ -32,7 +33,9 @@ class ArrayTransformer extends AbstractTransformer implements TransformerInterfa
                 continue;
             }
 
+
             $entity = $parser->getNewEntity();
+
 
             foreach ($parser->getCompleteMatching() as $property => $match) {
 
@@ -75,19 +78,23 @@ class ArrayTransformer extends AbstractTransformer implements TransformerInterfa
                     }
 
                     if($type === 'int') {
+                        /*
                         if(!is_numeric($data)) {
                             $reportLine->addComment("La valeur du champ {$name} devrait être un nombre. La valeur saisie est {$data}");
                             continue;
                         }
+                        */
                         $data = (int) $data;
                     }
 
                     if($type === 'float') {
+                        /*
                         if(!is_numeric($data)) {
                             $reportLine->addComment("La valeur du champ {$name} devrait être un nombre. La valeur saisie est {$data}");
                             continue;
                         }
-                        $data = (float) $data;
+                        */
+                        $data = (float) preg_replace(['/,/', '/\s/'], ['.', ''], $data);
                     }
 
                     if($type === 'object') {

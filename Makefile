@@ -10,7 +10,7 @@ install: ## Install symfony project
 
 reinstall: ## Reinstall symfony project
 	composer install
-	build_assets
+	make build_assets
 	make rebuild
 
 rebuild: ## Rebuild database

@@ -79,6 +79,20 @@ class Job
     private $lastStatus = \AppBundle\Constant\Job::STATUS_INIT;
 
     /**
+     *
+     * @var int|null
+     * @ORM\Column(name="progress", type="integer", nullable=true)
+     */
+    private $progress = 0;
+
+    /**
+     *
+     * @var int|null
+     * @ORM\Column(name="memory_used", type="integer", nullable=true)
+     */
+    private $memoryUsed = 0;
+
+    /**
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
@@ -276,5 +290,42 @@ class Job
     {
         $this->immediately = $immediately;
     }
+
+    /**
+     * @return int|null
+     */
+    public function getProgress(): ?int
+    {
+        return $this->progress;
+    }
+
+    /**
+     * @param int|null $progress
+     * @return $this
+     */
+    public function setProgress(?int $progress): Job
+    {
+        $this->progress = $progress;
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getMemoryUsed(): ?int
+    {
+        return $this->memoryUsed;
+    }
+
+    /**
+     * @param int|null $memoryUsed
+     * @return Job
+     */
+    public function setMemoryUsed(?int $memoryUsed): Job
+    {
+        $this->memoryUsed = $memoryUsed;
+        return $this;
+    }
+
 
 }

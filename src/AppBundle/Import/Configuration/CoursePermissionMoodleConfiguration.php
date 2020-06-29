@@ -5,26 +5,11 @@ namespace AppBundle\Import\Configuration;
 
 
 use AppBundle\Import\Extractor\CoursePermissionMoodleExtractor;
-use AppBundle\Import\Extractor\ExtractorInterface;
 use AppBundle\Import\Matching\CoursePermissionMoodleMatching;
-use AppBundle\Import\Matching\MatchingInterface;
 use AppBundle\Import\Transformer\ArrayTransformer;
-use AppBundle\Import\Transformer\TransformerInterface;
 
-class CoursePermissionMoodleConfiguration implements ConfigurationInterface
+class CoursePermissionMoodleConfiguration extends AbstractConfiguration implements ConfigurationInterface
 {
-    /**
-     * @var CoursePermissionMoodleExtractor
-     */
-    private $coursePermissionMoodleExtractor;
-    /**
-     * @var ArrayTransformer
-     */
-    private $arrayTransformer;
-    /**
-     * @var CoursePermissionMoodleMatching
-     */
-    private $coursePermissionMoodleMatching;
 
     /**
      * CoursePermissionMoodleConfiguration constructor.
@@ -38,23 +23,9 @@ class CoursePermissionMoodleConfiguration implements ConfigurationInterface
         CoursePermissionMoodleMatching $coursePermissionMoodleMatching
     )
     {
-        $this->coursePermissionMoodleExtractor = $coursePermissionMoodleExtractor;
-        $this->arrayTransformer = $arrayTransformer;
-        $this->coursePermissionMoodleMatching = $coursePermissionMoodleMatching;
+        $this->extractor = $coursePermissionMoodleExtractor;
+        $this->transformer = $arrayTransformer;
+        $this->matching = $coursePermissionMoodleMatching;
     }
 
-    public function getExtractor(): ExtractorInterface
-    {
-        return $this->coursePermissionMoodleExtractor;
-    }
-
-    public function getTransformer(): TransformerInterface
-    {
-        return $this->arrayTransformer;
-    }
-
-    public function getMatching(): MatchingInterface
-    {
-        return $this->coursePermissionMoodleMatching;
-    }
 }

@@ -1,97 +1,142 @@
-<section id="presentation-section" class="content">
-    <h3 class="blue_uca">Présentation générale</h3>
-    <div class="dark-light">
-        <div class="row p-4">
-            <div class="col-4">
-                <span>
-                <input class="student-icon" type="image" src="/build/images/composante_picto.png">
-                    Composante
-                </span>
-                <ul class="blue_uca">
-                    <li>{{ courseInfo.structure.label }}</li>
-                </ul>
-            </div>
-            <div class="col-4">
-                <input class="student-icon" type="image" src="/build/images/domaine_picto.png">
-                <span>Domaine disciplinaire</span>
-                <ul class="blue_uca">
-                    <div class="row" style="width: 50%">
-                        {% for domain in courseInfo.domains %}
-                            {{ dump(courseInfo.domains) }}
-                            <li class="col-md-6">{{ domain.label }}</li>
-                        {% endfor %}
-                    </div>
-                </ul>
-            </div>
-            <div class="col-4">
-                <input class="student-icon" type="image" src="/build/images/niveau_picto.png">
-                <span>Niveau du cours</span>
-                <ul class="blue_uca">
-                    <div class="row" style="width: 50%">
-                        <li>toto</li>
-                    </div>
-                </ul>
-            </div>
-            <div class="col-4">
-                <input class="student-icon" type="image" src="/build/images/lieu_picto.png">
-                <span>Lieu d'enseignement</span>
-                <ul class="blue_uca">
-                    <li>toto</li>
-                </ul>
-            </div>
-            <div class="col-4">
-                <input class="student-icon" type="image" src="/build/images/langue_picto.png">
-                <span>Langue</span>
-                <ul class="blue_uca">
-                    <div class="row" style="width: 50%">
-                        <li>toto</li>
-                    </div>
-                </ul>
-            </div>
-            <div class="col-4">
-                <input class="student-icon" type="image" src="/build/images/info_picto.png">
-                <span>Appartient a UE Microbiologie</span>
-                <ul class="blue_uca">
-                    <li>toto</li>
-                </ul>
-            </div>
-        </div>
+<section id="presentation-section" class="pb-5">
+    <div class="student-title">
+        <h1>Présentation générale</h1>
     </div>
-    <div class="row mt-5">
-        <div class="col-4">
-            <img class="img-fluid" src="/build/images/presentation_photo.jpg">
+    <div class="presentation-info row p-4">
+        <div class="presentation-info-element col-12 col-lg-4 col-md-6 col-sm-12">
+            <div class="student-subtitle">
+                <img class="icon-20" src="{{ asset('/build/images/composante_picto.png') }}">
+                <span>{{ 'app.view.student.presentation.structure' | trans }}</span>
+            </div>
+            <ul class="student-list list-dotted">
+                <li>
+                    {{ courseInfo.structure.label }}
+                </li>
+            </ul>
         </div>
-        <div class="col-8">
-            <p class="ml-4">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam vel lacus leo. Aenean molestie velit
-                vitae leo condimentum consectetur. Cras tempus sem at quam vehicula, at consectetur quam tempus. Aenean
-                porttitor aliquam libero, nec pulvinar mi mattis a. Maecenas ornare metus sapien, at viverra neque
-                iaculis nec. Suspendisse potenti. Duis hendrerit condimentum velit, faucibus tempor magna dignissim nec.
-                Sed eu mollis diam, nec malesuada orci. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-                in nulla vel dui interdum dapibus. Nulla et cursus felis, eget porttitor mi. Aenean venenatis viverra
-                volutpat.
-            </p>
-            <p class="ml-4">
-            <div>Equipe enseignante</div>
-            <span class="blue_uca">test</span>
-            </p>
+        <div class="presentation-info-element col-12 col-lg-4 col-md-6 col-sm-12">
+            <div class="student-subtitle">
+                <img class="icon-20" src="{{ asset('/build/images/domaine_picto.png') }}">
+                <span>{{ 'app.view.student.presentation.domain' | trans }}</span>
+            </div>
+            <ul class="student-list list-dotted">
+                {% for domain in courseInfo.domains %}
+                    <li>
+                        {{ domain.label }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="presentation-info-element col-12 col-lg-4 col-md-6 col-sm-12">
+            <div class="student-subtitle">
+                <img class="icon-20" src="{{ asset('/build/images/niveau_picto.png') }}">
+                <span>{{ 'app.view.student.presentation.level' | trans }}</span>
+            </div>
+            <ul class="student-list list-dotted">
+                {% for level in courseInfo.levels %}
+                    <li>
+                        {{ level.label }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="presentation-info-element col-12 col-lg-4 col-md-6 col-sm-12">
+            <div class="student-subtitle">
+                <img class="icon-20" src="{{ asset('/build/images/lieu_picto.png') }}">
+                <span>{{ 'app.view.student.presentation.campus' | trans }}</span>
+            </div>
+            <ul class="student-list list-dotted">
+                {% for campus in courseInfo.campuses %}
+                    <li>
+                        {{ campus.label }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="presentation-info-element col-12 col-lg-4 col-md-6 col-sm-12">
+            <div class="student-subtitle">
+                <img class="icon-20" src="{{ asset('/build/images/langue_picto.png') }}">
+                <span>{{ 'app.view.student.presentation.language' | trans }}</span>
+            </div>
+            <ul class="student-list list-dotted">
+                {% for language in courseInfo.languages %}
+                    <li>
+                        {{ language.label }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="presentation-info-element col-12 col-lg-4 col-md-6 col-sm-12">
+            {% if courseInfo.course.parents is not empty %}
+                {% set parent = courseInfo.course.parents[0] %}
+                {% set parentInfo = '' %}
+                {% if courseInfo.course.parents|length == 1 %}
+                    {% for info in parent.courseInfos %}
+                        {% if info.year.id == courseInfo.year.id %}
+                            {% set parentInfo = info %}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+                {% if parent is not empty and parentInfo is not empty %}
+                    {% set title = parentInfo.title %}
+                    {% set ects = parentInfo.ects %}
+                    {% set ecue = parent.children|length %}
+                {% endif %}
+                <div class="student-subtitle">
+                    <img class="icon-20" src="{{ asset('/build/images/info_picto.png') }}">
+                    <span>{{ 'app.view.student.presentation.belong_to' | trans({'%title%' : title}) }}</span>
+                </div>
+                    <ul class="student-list list-dotted">
+                    <li>
+                        {% if ects is not null %}
+                            ({{ ects }} ECTS)
+                        {% endif %}
+                        {{ 'app.view.student.presentation.nb_ecue' | trans({'%ecue%': ecue}) }}
+                    </li>
+                </ul>
+            {% endif %}
         </div>
     </div>
 
-    <div class="row mt-5">
-        <div class="col-2" style="border-right: solid white; border-width: 0 1px;">
-            <input width="40px" height="40px" type="image" src="/build/images/presentiel_picto.png">
-            <span style="border-bottom: solid white; border-width:0 1px ;">Présentiel</span>
-            <ul class="blue_uca">
-                <li>toto</li>
-            </ul>
+
+    <div class="presentation-summary mt-5">
+        {% if courseInfo.mediaType == 'image' and courseInfo.image is not null %}
+            {% set imgSrc = courseInfo.image | split('/') | last %}
+            <div class="media media-image">
+                <img class="img-fluid" src="{{ asset('data/' ~ imgSrc) }}">
+            </div>
+        {% elseif courseInfo.mediaType == 'video' and courseInfo.video is not null %}
+            <div class="media media-video">
+                <div class="embed-responsive embed-responsive-16by9">
+                    {{ courseInfo.video|raw }}
+                </div>
+            </div>
+        {% endif %}
+        <div class="summary">
+            {{ courseInfo.summary|purify }}
         </div>
-        <div class="col-3" style="margin-left: 20px">
-            <input type="image" width="30px" height="30px" src="/build/images/distanciel_picto.png">
-            <span>Distanciel</span>
-            <ul class="blue_uca">
-                <li>toto</li>
-            </ul>
+        <div class="d-flex flex-column">
+            <h6 class="text-bold">
+                {{ 'app.view.student.presentation.teachers' | trans }}
+            </h6>
+            <span class="text-primary">
+            {% for teacher in courseInfo.courseTeachers %}
+                {% if not loop.first %}
+                    ,
+                {% endif %}
+                {{ teacher.firstname }} {{ teacher.lastname }}
+            {% endfor %}
+            </span>
         </div>
     </div>
+
+    <div class="student-grid pt-5" style="clear: both;">
+        {% if courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::IN_CLASS') or courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::HYBRID') %}
+            {% include 'course_info/view/student_teaching_mode_in_class.html.twig' %}
+        {% endif %}
+        {% if courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::DIST') or courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::HYBRID') %}
+            {% include 'course_info/view/student_teaching_mode_dist.html.twig' %}
+        {% endif %}
+    </div>
+
 </section>

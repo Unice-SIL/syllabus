@@ -6,27 +6,15 @@ namespace AppBundle\Import\Configuration;
 
 use AppBundle\Import\Extractor\CsvExtractor;
 use AppBundle\Import\Extractor\ExtractorInterface;
-use AppBundle\Import\Matching\MatchingInterface;
 use AppBundle\Import\Matching\CoursePermissionCsvMatching;
 use AppBundle\Import\Transformer\ArrayTransformer;
-use AppBundle\Import\Transformer\TransformerInterface;
 
-class CoursePermissionCsvConfiguration implements ConfigurationInterface
+class CoursePermissionCsvConfiguration extends AbstractConfiguration implements ConfigurationInterface
 {
     /**
-     * @var ArrayTransformer
+     * @var
      */
-    private $arrayTransformer;
-    /**
-     * @var CoursePermissionCsvMatching
-     */
-    private $CoursePermissionCsvMatching;
-
     private $path;
-    /**
-     * @var CsvExtractor
-     */
-    private $csvExtractor;
 
     /**
      * CoursePermissionCsvConfiguration constructor.
@@ -36,26 +24,19 @@ class CoursePermissionCsvConfiguration implements ConfigurationInterface
      */
     public function __construct(CsvExtractor $csvExtractor, ArrayTransformer $arrayTransformer, CoursePermissionCsvMatching $CoursePermissionCsvMatching)
     {
-        $this->csvExtractor = $csvExtractor;
-        $this->arrayTransformer = $arrayTransformer;
-        $this->CoursePermissionCsvMatching = $CoursePermissionCsvMatching;
+        $this->extractor = $csvExtractor;
+        $this->transformer = $arrayTransformer;
+        $this->matching = $CoursePermissionCsvMatching;
     }
 
+    /**
+     * @return ExtractorInterface
+     */
     public function getExtractor(): ExtractorInterface
     {
 
-        $this->csvExtractor->setPath($this->getPath());
-        return $this->csvExtractor;
-    }
-
-    public function getTransformer(): TransformerInterface
-    {
-        return $this->arrayTransformer;
-    }
-
-    public function getMatching(): MatchingInterface
-    {
-        return $this->CoursePermissionCsvMatching;
+        $this->extractor->setPath($this->getPath());
+        return $this->extractor;
     }
 
     /**

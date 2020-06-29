@@ -6,6 +6,7 @@ namespace AppBundle\Manager;
 use AppBundle\Helper\ErrorManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 abstract class AbstractManager
 {
@@ -18,7 +19,7 @@ abstract class AbstractManager
      */
     protected $errorManager;
     /**
-     * @var \Symfony\Component\PropertyAccess\PropertyAccessor
+     * @var PropertyAccessor
      */
     private $propertyAccessor;
 
@@ -37,6 +38,7 @@ abstract class AbstractManager
     /**
      * @param object $entityData
      * $options values:
+     *      force_create (bool)
      *      flush (bool)
      *      validation_groups (string)
      *      find_by_parameters (array)
@@ -49,6 +51,7 @@ abstract class AbstractManager
     {
 
         $options = array_merge([
+            'force_create' => false,
             'flush' => false,
             'validations_groups_new' => ['new'],
             'validations_groups_edit' => ['edit'],
@@ -66,7 +69,11 @@ abstract class AbstractManager
         }
 
         $className = $this->getClass();
-        $entity = $this->em->getRepository($className)->findOneBy($options['find_by_parameters']);
+        $entity = null;
+        if(!$options['force_create'])
+        {
+            $entity = $this->em->getRepository($className)->findOneBy($options['find_by_parameters']);
+        }
 
         if ($entity instanceof $className) {
 

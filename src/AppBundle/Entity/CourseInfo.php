@@ -301,6 +301,7 @@ class CourseInfo
      *
      * @ORM\Column(name="mcc_cc_coeff_session_1", type="float", precision=10, scale=0, nullable=true)
      * @JMS\Groups(groups={"course_info"})
+     * @Assert\Blank(groups={"evaluation_empty"})
      */
     private $mccCcCoeffSession1;
 
@@ -317,6 +318,7 @@ class CourseInfo
      *
      * @ORM\Column(name="mcc_ct_coeff_session_1", type="float", precision=10, scale=0, nullable=true)
      * @JMS\Groups(groups={"course_info"})
+     * @Assert\Blank(groups={"evaluation_empty"})
      */
     private $mccCtCoeffSession1;
 
@@ -370,6 +372,7 @@ class CourseInfo
      *
      * @ORM\Column(name="mcc_advice", type="text", length=65535, nullable=true)
      * @JMS\Groups(groups={"course_info"})
+     * @Assert\Blank(groups={"evaluation_empty"})
      * @Gedmo\Translatable
      */
     private $mccAdvice;
@@ -412,6 +415,7 @@ class CourseInfo
      *
      * @ORM\Column(name="educational_resources", type="text", length=65535, nullable=true)
      * @JMS\Groups(groups={"course_info"})
+     * @Assert\Blank(groups={"equipments_empty"})
      * @Gedmo\Translatable
      */
     private $educationalResources;
@@ -421,6 +425,7 @@ class CourseInfo
      *
      * @ORM\Column(name="bibliographic_resources", type="text", length=65535, nullable=true)
      * @JMS\Groups(groups={"course_info"})
+     * @Assert\Blank(groups={"equipments_empty"})
      * @Gedmo\Translatable
      */
     private $bibliographicResources;
@@ -430,6 +435,7 @@ class CourseInfo
      *
      * @ORM\Column(name="agenda", type="text", length=65535, nullable=true)
      * @JMS\Groups(groups={"course_info"})
+     * @Assert\Blank(groups={"info_empty"})
      * @Gedmo\Translatable
      */
     private $agenda;
@@ -439,6 +445,7 @@ class CourseInfo
      *
      * @ORM\Column(name="organization", type="text", length=65535, nullable=true)
      * @JMS\Groups(groups={"course_info"})
+     * @Assert\Blank(groups={"info_empty"})
      * @Gedmo\Translatable
      */
     private $organization;
@@ -448,6 +455,7 @@ class CourseInfo
      *
      * @ORM\Column(name="closing_remarks", type="text", length=65535, nullable=true)
      * @JMS\Groups(groups={"course_info"})
+     * @Assert\Blank(groups={"closing_remarks_empty"})
      * @Gedmo\Translatable
      */
     private $closingRemarks;
@@ -457,6 +465,7 @@ class CourseInfo
      *
      * @ORM\Column(name="closing_video", type="text", length=65535, nullable=true)
      * @JMS\Groups(groups={"course_info"})
+     * @Assert\Blank(groups={"closing_remarks_empty"})
      * @Gedmo\Translatable
      */
     private $closingVideo;
@@ -539,7 +548,7 @@ class CourseInfo
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Domain", inversedBy="courseInfos")
      * @ORM\JoinTable(name="course_info_domain")
-     * @Assert\NotBlank(groups={"presentation"})
+     * @Assert\Count(min="1", groups={"presentation"})
      * @JMS\Type("ArrayCollection<AppBundle\Entity\Domain>")
      * @JMS\Groups(groups={"course_info"})
      */
@@ -670,6 +679,8 @@ class CourseInfo
      *
      * @ORM\OneToMany(targetEntity="CourseResourceEquipment", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"position" = "ASC", "equipment" = "ASC"})
+     * @Assert\Count(max="0", groups={"equipments_empty"})
+     * @Assert\Valid
      * @JMS\Groups(groups={"course_info"})
      */
     private $courseResourceEquipments;
@@ -678,7 +689,7 @@ class CourseInfo
      * @var ArrayCollection
      *
      * @ORM\ManyToMany(targetEntity="Level", inversedBy="courseInfos")
-     * @Assert\NotBlank(groups={"presentation"})
+     * @Assert\Count(min="1", groups={"presentation"})
      * @JMS\Groups(groups={"api"})
      * @JMS\Groups(groups={"course_info"})
      */
@@ -1979,14 +1990,14 @@ class CourseInfo
 
     /**
      * @param CoursePermission $coursePermission
-     * @return CourseInfo
+     * @return $this
      */
-    public function addPermission(CoursePermission $coursePermission): self
+    public function addCoursePermission(CoursePermission $coursePermission): self
     {
         if(!$this->coursePermissions->contains($coursePermission))
         {
             $this->coursePermissions->add($coursePermission);
-            if($coursePermission->getCourseInfo() !== $this)
+            if($coursePermission->getCourseInfo() != $this)
             {
                 $coursePermission->setCourseInfo($this);
             }
@@ -1997,9 +2008,9 @@ class CourseInfo
 
     /**
      * @param CoursePermission $coursePermission
-     * @return CourseInfo
+     * @return $this
      */
-    public function removePermission(CoursePermission $coursePermission): self
+    public function removeCoursePermission(CoursePermission $coursePermission): self
     {
         if($this->coursePermissions->contains($coursePermission))
         {

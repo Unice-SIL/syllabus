@@ -1,12 +1,16 @@
-<div class="d-flex flex-column">
-    <span class="font-weight-bold">
+<dl>
+    <dt>
         {{ 'app.closing_remarks.view.remarks_message' | trans }}
-    </span>
-    {{ courseInfo.closingRemarks|humanizeEmptyData() | purify }}
-    <span class="font-weight-bold">
+    </dt>
+    <dd>
+        {{ courseInfo.closingRemarks|humanizeEmptyData() | purify }}
+    </dd>
+    <dt>
         {{ 'app.closing_remarks.view.closing_video' | trans }}
-    </span>
-    <div class="embed-responsive embed-responsive-16by9">
-        {{ courseInfo.closingVideo|raw  }}
-    </div>
-</div>
+    </dt>
+    <dd>
+        <div class="embed-responsive embed-responsive-16by9">
+            {{ courseInfo.closingVideo|raw  }}
+        </div>
+    </dd>
+</dl>

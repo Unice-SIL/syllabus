@@ -164,7 +164,7 @@ app:
       presentation: Présentation générale
       prerequisites: Prérequis / Rémédiations
       objectives: Objectif du cours
-      activities: Contenu et activités
+      activities: Programme détaillé
       evaluations: Modalités d'évaluation
       equipments: Matériel et ressources
       information: Informations pratiques
@@ -206,10 +206,11 @@ app:
       lastname: Nom
       firstname: Prénom
       permission: Permission
-      update_delete: Modifier / Supprimer
+      update_delete: Supprimer
       no_permission: Aucune permission n'a été enregistrée
     button:
       add_permission: Ajouter une permission
+      delete_permission: Supprimer une permission
       close: Fermer
       add: Ajouter
   prerequisites:
@@ -254,6 +255,7 @@ app:
     form:
       description: À la fin de ce cours, l'étudiant devrait être capable de…
       add: Ajouter
+      edit: Modifier
   evaluation:
     view:
       first_session: 1ère session
@@ -289,9 +291,10 @@ app:
       bibliographic_resources: Eléments bibliographiques
     form:
       add: Ajouter
+      edit: Modifier
       delete: Supprimer
       delete_equipment: Êtes-vous sûr(e) de vouloir supprimer le matériel "%label%" ?
-      description_equipment: Description (optionnel)
+      description_equipment: Description
       bibliographic_resources: Eléments bibliographiques
       educational_resources: Ressources pédagogiques
       save: Sauvegarder
@@ -328,12 +331,12 @@ app:
     view:
       general:
         campus: Campus
-        domain: Domaines
+        domain: Domaine(s) disciplinaire(s)
         empty_summary: Vous n'avez pas renseigné de résumé
         label: Informations générales
         languages: Langues
-        level: Années
-        period: Périodes
+        level: Niveau du cours
+        period: Semestre
         description: Description
       teachers:
         add_teacher: Ajouter un enseignant
@@ -353,11 +356,11 @@ app:
         label: Mode d'enseignement
     form:
       general:
-        periods: Période (facultatif)
-        domains: Domaine
+        periods: Semestre (facultatif)
+        domains: Domaine(s) disciplinaire(s)
         languages: En quelle(s) langue(s) est dispensé ce cours (facultatif)
         campuses: Campus
-        levels: Année
+        levels: Niveau du cours
         description: Description
         level_label: Quel est le niveau de ce cours ?
         media_label: Intégrer une ressource vidéo (ou audio) ou téléverser un fichier image de présentation du cours, en respectant la règlementation sur les droits d'auteur.
@@ -382,7 +385,7 @@ app:
         search_user: Rechercher un individu
         source_data: Source de données
       teaching_mode:
-        add_other: Ajouter un enseignement
+        add_other: Ajouter un volume horaire (facultatif)
         additionnal: Type d'enseignement supplémentaire (facultatif)
         class: Présentiel
         cm: Cours magistraux
@@ -443,39 +446,71 @@ app:
   view:
     student:
       activities:
+        section_url: Accéder au cours
         evaluable: Évaluable
         evaluation_rate: Coefficient (%)
         mode: Mode
         title: Nom de l'activité
         type: Type
+        evaluate_by: Evalué
+        evaluate_by_teachers: par les enseignants
+        evaluate_by_peer: par les pairs
+        evaluate_by_and: et
       equipments:
-        bibliographic_resources: Eléments bibliographiques
+        bibliographic_resources: Bibliographie
         description: Description
-        educational_resources: Ressources pédagogiques
+        educational_resources: Ressources
         list: Liste des équipements
-        required_equipments: Matériel nécessaire
+        required_equipments: Matériel
       info:
-        agenda: Informations dont vous disposez sur le calendrier du cours, des examens…
+        agenda: Calendrier
         closing_remarks: Le mot de la fin
         evaluation: Modalités d'évaluation
-        organization: Organisation du cours
+        organization: Organisation
       objectives:
         achievements_list: Liste des objectifs
         achievements_description: A la fin de ce cours, je devrais être capable de...
         critical_achievements_list: Liste des apprentissages
         critical_achievements_description: Ce cours valide les apprentissages suivants
+        evaluation_description: Ces modalités sont différentes pour les étudiants qui ont obtenu une dispense d'assiduité au Contrôle Continu
+                                (travailleur, personne avec handicap, sportif ou artiste de haut niveau, etc.).
+                                Seul comptera le Contrôle Terminal à 100% dans le calcul de la moyenne.
       prerequisites:
         prerequisites_list: Liste des prérequis
-        prerequisites_description: Les prérequis pour choisir ce cours sont...
+        prerequisites_description: Avant le début du cours, je dois ...
+        associate_courses: "Cours associé(s):"
+        empty_prerequiste: Pas de prérequis
         tutoring_resources_list: Liste des rémédiations
-        tutoring_resources_description: Si je rencontre des difficultés, je peux...
+        tutoring_resources_description: Pour me remettre à niveau, je peux ...
+        empty_tutoring_resources: Pas de remise à niveau
       presentation:
+        structure: Composante
+        domain: Domaine disciplinaire
+        level: Niveau du cours
+        campus: Lieu d'enseignement
+        language: Langue
+        belong_to: Appartient a %title%
+        teachers: Équipe enseignante
+        distant: Distanciel
+        hours_cm: %hours%h de cours magistral
+        hours_td: %hours%h de travaux dirigés
+        hours_tp: %hours%h de travaux pratiques
+        hours_teachings: %hours%h de %type%
+        class: Présentiel
         nb_ects: (%ects% ECTS)
         nb_ecue: UE comprenant %ecue% ECUE
-        structure: Composante
         title: ECUE appartenant à %title%
+      sidebar:
+        activity: Programme
+        equipment: Matériel
+        evaluation: Modalité
+        info: Informations
+        objectives: Objectifs
+        prerequisites: Prérequis
+        presentation: Présentation
+        closing_remarks: Mot de la fin
       tabs:
-        activities: Séquences et activités
+        activities: Programme détaillé
         closing_remarks: Le mot de la fin
         equipments: Matériel et ressources
         evaluation: Modalités d'évaluation

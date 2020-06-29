@@ -7,6 +7,7 @@ namespace AppBundle\Import\Matching;
 use AppBundle\Constant\Permission;
 use AppBundle\Entity\Course;
 use AppBundle\Entity\CoursePermission;
+use AppBundle\Entity\User;
 use AppBundle\Helper\Report\Report;
 use AppBundle\Helper\Report\ReportLine;
 use AppBundle\Manager\CourseInfoManager;
@@ -102,10 +103,35 @@ class CoursePermissionMoodleMatching extends AbstractMatching implements Matchin
             case 'user':
 
                 $user = $this->userManager->new();
-                $user->setUsername($data);
+                $user->setUsername($data)
+                    ->setFirstname('')
+                    ->setLastname('')
+                    ->setEmail('');
                 $entity->setUser($user);
 
                 return false;
+
+            case 'lastname':
+                if($entity->getUser() instanceof User)
+                {
+                    $entity->getUser()->setLastname($data);
+                }
+                return false;
+
+            case 'firstname':
+                if($entity->getUser() instanceof User)
+                {
+                    $entity->getUser()->setFirstname($data);
+                }
+                return false;
+
+            case 'email':
+                if($entity->getUser() instanceof User)
+                {
+                    $entity->getUser()->setEmail($data);
+                }
+                return false;
+
         }
 
         return true;
@@ -117,6 +143,9 @@ class CoursePermissionMoodleMatching extends AbstractMatching implements Matchin
         return [
             'courseInfo' => ['name' => 'code', 'required' => true, 'type'=> 'string', 'description' => "Code du cours concerné par la permission"],
             'user' => ['name' => 'username', 'required' => true, 'type'=> 'string', 'description' => "Nom d'utilisateur concerné par la permission"],
+            'lastname' => ['name' => 'lastname', 'required' => false, 'type' => 'string', 'description' => "Nom de famille de l'utilisateur concerné"],
+            'firstname' => ['name' => 'firstname', 'required' => false, 'type' => 'string', 'description' => "Prénom de l'utilisateur concerné"],
+            'email' => ['name' => 'email', 'required' => false, 'type' => 'string', 'description' => "Email de l'utilisateur concerné"]
         ];
     }
 }

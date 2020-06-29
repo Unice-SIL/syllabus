@@ -1,46 +1,76 @@
-<section id="activities-section" class="content">
-    <div class="container-fluid">
-        <div class="card my-2 shadow">
-            <div class="card-header">
-                <div class="d-flex justify-content-between">
-                    <h3  class="text-shadow" style="font-weight: 500;">{{ 'app.view.student.tabs.activities' | trans }}</h3>
-                </div>
-            </div>
-            <div class="card-body">
-                {% for section in courseInfo.courseSections %}
-                    {% if section.courseSectionActivities is not empty %}
-                        <div class="row">
-                            <h4 class="text-shadow">{{ section.title }}</h4>
-                            <table class="table table-hover">
-                                <thead>
-                                <tr>
-                                    <th class="text-left">{{ 'app.view.student.activities.title' | trans }}</th>
-                                    <th class="text-left">{{ 'app.view.student.activities.type' | trans }}</th>
-                                    <th class="text-left">{{ 'app.view.student.activities.mode' | trans }}</th>
-                                    <th class="text-center">{{ 'app.view.student.activities.evaluable' | trans }}</th>
-                                    <th class="text-center">{{ 'app.view.student.activities.evaluation_rate' | trans }}</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {% for sectionActivity in section.courseSectionActivities %}
-                                    <tr>
-                                        <td class="text-left">{{ sectionActivity.activity.label }}</td>
-                                        <td class="text-left">{{ sectionActivity.activityType }}</td>
-                                        <td class="text-left">{{ sectionActivity.activityMode }}</td>
-                                        <td class="text-center">
-                                            {% if sectionActivity.evaluable %}
-                                                <span class="badge badge-primary rounded">{{ (sectionActivity.evaluationCt ? 'ct' : 'cc') | trans }}</span>
-                                            {% endif %}
-                                        </td>
-                                        <td class="text-center">{{ sectionActivity.evaluationRate }}</td>
-                                    </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    {% endif %}
-                {% endfor %}
-            </div>
-        </div>
+<section id="activities-section" class="pb-5">
+    <div class="student-title">
+        <h1 class="text-primary">{{ 'app.view.student.tabs.activities' | trans }}</h1>
+        <img src="{{ asset('build/images/programmation_photo.jpg') }}" alt="">
     </div>
+    <ul class="student-sections">
+        {% for section in courseInfo.courseSections %}
+            {% if section.courseSectionActivities is not empty %}
+                <li>
+                    <div class="student-section-header collapsed" data-toggle="collapse" data-target="#activity-{{ section.id }}"
+                         aria-expanded="false" aria-controls="Title">
+                        <span class="student-section-title">{{ section.title }}</span>
+                        <img class="collapse-button" src="{{ asset('build/images/collapsed-arrow.png') }}" alt=""/>
+                    </div>
+                    <div class="student-section-content collapse" id="activity-{{ section.id }}">
+                        {% if section.url %}
+                            <div class="student-section-url">
+                                <a href="{{ section.url }}" target="_blank">
+                                    <u>{{ 'app.view.student.activities.section_url' | trans }}</u>
+                                </a>
+                            </div>
+                        {% endif %}
+                        <ul class="student-list">
+                            {% for courseSectionActivity in section.courseSectionActivities %}
+                                <li>
+                                    <i class="fas fa-check text-primary {% if courseSectionActivity.evaluable %} icon-evaluable{% endif %}"></i>
+                                    <div class="activity d-flex flex-column w-100 mb-2">
+                                        <span>
+                                        {{ courseSectionActivity.activity.label }} ({{ courseSectionActivity.activityType }})
+                                        {% if courseSectionActivity.description is not empty  %}
+                                            : {{ courseSectionActivity.description }}
+                                        {% endif %}
+                                        </span>
+                                        {% if courseSectionActivity.evaluable == true %}
+                                            <span class="activity-evaluation-type">
+                                                {% if courseSectionActivity.evaluationCt == true %}
+                                                    Contrôle Terminal
+                                                {% else %}
+                                                    Contrôle Continu
+                                                {% endif %}
+                                            </span>
+                                            <div class="progress student-progress">
+                                                <div class="progress-bar" role="progressbar" style="width: {{ courseSectionActivity.evaluationRate }}%;" aria-valuenow="{{ courseSectionActivity.evaluationRate }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                            {% if courseSectionActivity.evaluationTeacher == true or courseSectionActivity.evaluationPeer == true %}
+                                                {% set evaluateBy = '' %}
+                                                {% if courseSectionActivity.evaluationTeacher == true %}
+                                                    {% set evaluateBy = evaluateBy ~ 'app.view.student.activities.evaluate_by_teachers'|trans %}
+                                                {% endif %}
+                                                {% if courseSectionActivity.evaluationPeer == true %}
+                                                    {% if evaluateBy is not empty %}
+                                                        {% set evaluateBy = evaluateBy ~ ' app.view.student.activities.evaluate_by_and '|trans %}
+                                                    {% endif %}
+                                                    {% set evaluateBy = evaluateBy ~ 'app.view.student.activities.evaluate_by_peer'|trans %}
+                                                {% endif %}
+
+                                                <span class="activity-evaluate-by">
+                                                    {{ 'app.view.student.activities.evaluate_by'|trans }} {{ evaluateBy }}
+                                                </span>
+                                            {% endif %}
+                                        {% endif %}
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
 </section>
+{#
+    <div class="mt-2">
+
+    </div>
+#}

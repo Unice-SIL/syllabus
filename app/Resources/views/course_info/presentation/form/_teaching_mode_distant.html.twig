@@ -1,24 +1,29 @@
 <div class="teaching-mode teaching-mode-distant d-none">
-    <label>{{ 'app.presentation.form.teaching_mode.standard' | trans }}</label>
-    <div class="row mb-3">
-        <div class="col-sm" style="max-width: 170px;">
+    <div class="d-flex flex-column mb-3">
+        <div class="mb-2" style="max-width: 170px;">
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text">
+                    <span class="input-group-text bg-primary">
                         CM
                     </span>
                 </div>
                 {{ form_widget(form.teachingCmDist) }}
+                <span class="ml-2 text-secondary align-self-center">
+                    {{ 'app.presentation.form.teaching_mode.placeholder.teaching.hours' | trans }}
+                </span>
             </div>
         </div>
-        <div class="col-sm" style="max-width: 170px;">
+        <div style="max-width: 170px;">
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text">
+                    <span class="input-group-text bg-primary">
                         TD
                     </span>
                 </div>
                 {{ form_widget(form.teachingTdDist) }}
+                <span class="ml-2 text-secondary align-self-center">
+                    {{ 'app.presentation.form.teaching_mode.placeholder.teaching.hours' | trans }}
+                </span>
             </div>
         </div>
     </div>

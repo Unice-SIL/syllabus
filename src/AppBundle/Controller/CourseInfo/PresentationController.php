@@ -84,7 +84,7 @@ class PresentationController extends AbstractController
             ]);
         }
 
-        $form = $this->createForm(GeneralType::class, $courseInfo);
+        $form = $this->createForm(GeneralType::class, $courseInfo, ['media' => $courseInfo->getMediaType()] );
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

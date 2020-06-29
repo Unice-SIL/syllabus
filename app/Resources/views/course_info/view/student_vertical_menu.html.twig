@@ -1,0 +1,37 @@
+<nav id="student-sidebar">
+    <ul class="nav navbar-nav">
+        <li class="nav-item vertical-text">
+            <a class="nav-link" href="#presentation-section">{{ 'app.view.student.sidebar.presentation' | trans }}</a>
+        </li>
+        <li class="nav-item vertical-text mt-2">
+            <a class="nav-link" href="#prerequisites-section">{{ 'app.view.student.sidebar.prerequisites' | trans }}</a>
+        </li>
+        <li class="nav-item vertical-text mt-2">
+            <a class="nav-link" href="#objectives-section">{{ 'app.view.student.sidebar.objectives' | trans }}</a>
+        </li>
+        <li class="nav-item vertical-text mt-2">
+            <a class="nav-link" href="#activities-section">{{ 'app.view.student.sidebar.activity' | trans }}</a>
+        </li>
+        {% if (courseInfo | displayValidator('evaluation_empty')) == true %}
+            <li class="nav-item vertical-text mt-2">
+                <a class="nav-link" href="#evaluation-section">{{ 'app.view.student.sidebar.evaluation' | trans }}</a>
+            </li>
+        {% endif %}
+        {% if (courseInfo | displayValidator('equipments_empty')) == true %}
+            <li class="nav-item vertical-text mt-2">
+                <a class="nav-link" href="#equipment-section">{{ 'app.view.student.sidebar.equipment' | trans }}</a>
+            </li>
+        {% endif %}
+        {% if (courseInfo | displayValidator('info_empty')) == true %}
+            <li class="nav-item vertical-text mt-2">
+                <a class="nav-link" href="#information-section">{{ 'app.view.student.sidebar.info' | trans }}</a>
+            </li>
+        {% endif %}
+        {% if (courseInfo | displayValidator('closing_remarks_empty')) == true %}
+            <li class="nav-item vertical-text mt-2">
+                <a class="nav-link"
+                   href="#closing-remarks-section">{{ 'app.view.student.sidebar.closing_remarks' | trans }}</a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>

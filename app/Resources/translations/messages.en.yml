@@ -206,10 +206,11 @@ app:
       lastname: Lastname
       firstname: Firstname
       permission: Permission
-      update_delete: Update / Delete
+      update_delete: Delete
       no_permission: No permission has been registered
     button:
       add_permission: Add a permission
+      delete_permission: Delete a permission
       close: Close
       add: Add
   prerequisites:
@@ -254,6 +255,7 @@ app:
     form:
       description: By the end of this course, the student must be able to...
       add: Add
+      edit: Edit
   evaluation:
     view:
       first_session: 1st session
@@ -289,9 +291,10 @@ app:
       bibliographic_resources: Bibliographic resources
     form:
       add: Add
+      edit: Modifier
       delete: Delete
       delete_equipment: Are you sure you want to delete the equipment %label%?
-      description_equipment: Description (optional)
+      description_equipment: Description
       bibliographic_resources: Bibliographic resources
       educational_resources: Educational resources
       save: Save
@@ -382,7 +385,7 @@ app:
         search_user: Search for an individual
         source_data: Data Source
       teaching_mode:
-        add_other: Add a teaching
+        add_other: Add a hourly volume (optionnal)
         additionnal: Additionnal teaching type(optionnal)
         class: In class
         cm: Lectures
@@ -443,11 +446,16 @@ app:
   view:
     student:
       activities:
+        section_url: Access to course
         evaluable: Evaluable
         evaluation_rate: Evaluation rate (%)
         mode: Mode
         title: Activity's name
         type: Type
+        evaluate_by: Evalué
+        evaluate_by_teachers: par les enseignants
+        evaluate_by_peer: par les pairs
+        evaluate_by_and: et
       equipments:
         bibliographic_resources: Bibliographic resources
         description: Description
@@ -455,7 +463,7 @@ app:
         list: List of equipments
         required_equipments: Required equipments
       info:
-        agenda: Information at your disposal about the course's schedule, exams...
+        agenda: Schedule
         closing_remarks: Closing remarks
         evaluation: Evaluation mode
         organization: Course's organization
@@ -464,18 +472,45 @@ app:
         achievements_description: By the end of this course, I must be able to...
         critical_achievements_list: List of critical achievements
         critical_achievements_description: This course validate the following critical achievements
+        evaluation_description: Thoses modalities are differents for students who got attendance exemption to the continuous assessment
+          (hard-worker, people with handicap, high level athlete or artist, etc.).
+          Only the final exam count at 100% in the calculation of the pass mark.
       prerequisites:
         prerequisites_list: List of prerequisites
-        prerequisites_description: The necessary prerequisites for this course are...
+        prerequisites_description: Before the start of the course, I must ...
+        associate_courses: Associated course(s):
+        empty_prerequiste: No prerequisite
         tutoring_resources_list: List of tutoring resources
         tutoring_resources_description: If I find difficulties, I can...
+        empty_tutoring_resources: no tutoring resource
       presentation:
+        structure: Structure
+        domain: Disciplinary domain
+        level: Course's level
+        campus: Campus
+        language: Language
+        belong_to: Belong to %title%
+        teachers: Teaching team
+        distant: Distant
+        hours_cm: %hours%h of lectures
+        hours_td: %hours%h of tutorials
+        hours_tp: %hours%h of practical work
+        hours_teachings: %hours%h of %type%
+        class: In class
         nb_ects: (%ects% ECTS)
         nb_ecue: UE include %ecue% ECUE
-        structure: Structure
         title: ECUE owned by %title%
+      sidebar:
+        activity: Schedule
+        equipment: Equipment
+        evaluation: Modality
+        info: Informations
+        objectives: Objectifs
+        prerequisites: Prérequis
+        presentation: Présentation
+        closing_remarks: Closing remarks
       tabs:
-        activities: Sequences and activities
+        activities: Detailled schedule
         closing_remarks: Closing remarks
         equipments: Equipments and resources
         evaluation: Evaluation mode
