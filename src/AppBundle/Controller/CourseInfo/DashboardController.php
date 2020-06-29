@@ -124,8 +124,6 @@ class DashboardController extends AbstractController
         /** @var Validation $violations */
         $violations = $this->getViolation($courseInfo);
 
-        dump($violations);
-
         // pourcentage violations
         $countViolation = 0;
         foreach ($violations as $violation)
@@ -198,7 +196,6 @@ class DashboardController extends AbstractController
         if ($publishForm->isSubmitted() and $publishForm->isValid()) {
             /** @var CourseInfo $courseInfo */
             $courseInfo = $publishForm->getData();
-            dump($courseInfo);
             $violations = $this->getViolation($courseInfo);
             if (is_null($courseInfo->getPublicationDate())) {
                 foreach ($violations as $key => $violation) {
