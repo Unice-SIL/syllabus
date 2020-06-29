@@ -105,12 +105,10 @@
                         </div>
                     </div>
                     <div class="col-12 col-sm-5 col-lg-4 col-md-5 d-flex justify-content-center align-items-center">
-                        <input type="text" class="knob" value="{{ violationPourcentage }}" data-thickness="0.1"
+                        <input type="text" class="knob dashboard-progress-percent" value="{{ violationPourcentage }}" data-thickness="0.1"
                                data-width="150"
                                data-height="150"
-                               data-fgcolor="#00a65a" style="width: 49px; height: 30px; position: absolute;
-                                   vertical-align: middle; margin-top: 30px; margin-left: -69px; border: 0px; background: none;
-                                   font: bold 18px Arial; text-align: center; color: rgb(0, 166, 90); padding: 0px; -webkit-appearance: none;">
+                               data-fgcolor="#00a65a">
                     </div>
                 </div>
             </div>
@@ -223,8 +221,11 @@
 
 
 <script>
-    $(".knob").knob({
-        readOnly: true
+    $(".dashboard-progress-percent").knob({
+        readOnly: true,
+        format: function (value) {
+            return value + '%';
+        }
     });
 
     $('#span-tuto').hide();
@@ -238,8 +239,6 @@
         $(document).on('click', '.btn_duplicate', function (e) {
 
             var test = $(this).attr('data-duplicate');
-
-            console.log(test);
 
             if (test === "duplicate") {
                 $.ajax({
