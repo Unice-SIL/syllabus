@@ -513,6 +513,7 @@ app:
         nb_ects: (%ects% ECTS)
         nb_ecue: UE comprenant %ecue% ECUE
         title: ECUE appartenant à %title%
+        autonomy: Autonomie
       sidebar:
         activity: Programme
         equipment: Matériel
