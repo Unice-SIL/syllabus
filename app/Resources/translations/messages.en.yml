@@ -516,6 +516,7 @@ app:
         nb_ects: (%ects% ECTS)
         nb_ecue: UE include %ecue% ECUE
         title: ECUE owned by %title%
+        autonomy: Autonomy
       sidebar:
         activity: Schedule
         equipment: Equipment
