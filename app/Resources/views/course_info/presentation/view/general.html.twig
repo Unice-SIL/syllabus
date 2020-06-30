@@ -1,17 +1,19 @@
 <div class="row">
     <div class="col-md-6">
         <dl>
-            <dt>{{ 'app.presentation.view.general.domain' | trans }}</dt>
-            <dd class="mandatory-data">
-                {% set domains = "" %}
-                {% for domain in courseInfo.domains %}
-                    {% set domains = domains ~ (not loop.first ? ', ') ~ domain.label %}
-                {% endfor %}
-                {{ domains|humanizeEmptyData() }}
+            <dt>
+                <img class="icon-20" src="{{ asset('/build/images/black_composante_picto.png') }}"/>
+                {{ 'app.presentation.view.general.structure' | trans }}
+            </dt>
+            <dd>
+                {{ courseInfo.structure.label }}
             </dd>
         </dl>
         <dl>
-            <dt>{{ 'app.presentation.view.general.level' | trans }}</dt>
+            <dt>
+                <img class="icon-20" src="{{ asset('/build/images/black_niveau_picto.png') }}"/>
+                {{ 'app.presentation.view.general.level' | trans }}
+            </dt>
             <dd class="mandatory-data">
                 {% set levels = "" %}
                 {% for level in courseInfo.levels %}
@@ -19,13 +21,12 @@
                 {% endfor %}
                 {{ levels|humanizeEmptyData() }}
             </dd>
-            <!-- {#
-            <dt>{{ 'app.presentation.view.general.level' | trans }}</dt>
-            <dd class="mandatory-data">{{ courseInfo.level|humanizeEmptyData(null, 'app.const.level.')}}</dd>
-            #} -->
         </dl>
         <dl>
-            <dt>{{ 'app.presentation.view.general.campus' | trans }}</dt>
+            <dt>
+                <img class="icon-20" src="{{ asset('/build/images/black_lieu_picto.png') }}"/>
+                {{ 'app.presentation.view.general.campus' | trans }}
+            </dt>
             <dd>
                 {% set campuses = "" %}
                 {% for campus in courseInfo.campuses %}
@@ -37,7 +38,23 @@
     </div>
     <div class="col-md-6">
         <dl>
-            <dt>{{ 'app.presentation.view.general.period' | trans }}</dt>
+            <dt>
+                <img class="icon-20" src="{{ asset('/build/images/black_domaine_picto.png') }}"/>
+                {{ 'app.presentation.view.general.domain' | trans }}
+            </dt>
+            <dd class="mandatory-data">
+                {% set domains = "" %}
+                {% for domain in courseInfo.domains %}
+                    {% set domains = domains ~ (not loop.first ? ', ') ~ domain.label %}
+                {% endfor %}
+                {{ domains|humanizeEmptyData() }}
+            </dd>
+        </dl>
+        <dl>
+            <dt>
+                <img class="icon-20" src="{{ asset('/build/images/black_calendrier_picto.png') }}"/>
+                {{ 'app.presentation.view.general.period' | trans }}
+            </dt>
             <dd>
                 {% set periods = "" %}
                 {% for period in courseInfo.periods %}
@@ -47,7 +64,10 @@
             </dd>
         </dl>
         <dl>
-            <dt>{{ 'app.presentation.view.general.languages' | trans }}</dt>
+            <dt>
+                <img class="icon-20" src="{{ asset('/build/images/black_langue_picto.png') }}"/>
+                {{ 'app.presentation.view.general.languages' | trans }}
+            </dt>
             <dd>
                 {% set languages = "" %}
                 {% for language in courseInfo.languages %}
@@ -61,7 +81,16 @@
 
 <div class="w-100">
     <dl>
-        <dt>{{ 'app.presentation.view.general.description' | trans }}</dt>
+        <dt>
+            <img class="icon-20" src="{{ asset('/build/images/black_info_picto.png') }}"/>
+            {{ 'app.presentation.view.general.description' | trans }}
+            <div>
+                <small>
+                    {{ 'app.presentation.view.general.description_message' | trans }}
+                    <a class="btn-link" href="https://pixabay.com/fr/" target="_blank"><u>https://pixabay.com/fr/</u></a>
+                </small>
+            </div>
+        </dt>
         <dd class="mandatory-data">
             <div class="mr-3 mb-3" style="float: left; width: 50%;">
                 {% if courseInfo.mediaType == 'image' and courseInfo.image is not null %}

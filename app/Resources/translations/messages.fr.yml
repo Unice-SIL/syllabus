@@ -351,6 +351,8 @@ app:
         level: Niveau du cours
         period: Semestre
         description: Description
+        description_message: Pour trouver des images libres de droit :
+        structure: Composante
       teachers:
         add_teacher: Ajouter un enseignant
         empty_teacher: Aucun enseignant n'a encore été ajouté à l'équipe
@@ -501,6 +503,7 @@ app:
         domain: Domaine disciplinaire
         level: Niveau du cours
         campus: Lieu d'enseignement
+        semester: Semestre
         language: Langue
         belong_to: Appartient a %title%
         teachers: Équipe enseignante
@@ -530,7 +533,7 @@ app:
         info: Informations pratiques
         objectives: Objectifs du cours
         prerequisites: Prérequis
-        presentation: Présentation du cours
+        presentation: Présentation générale
   partial:
     warning_delete_modal: Êtes vous sûr de vouloir supprimer cet élément ?
     no_element: Aucun élément n'a été trouvé
