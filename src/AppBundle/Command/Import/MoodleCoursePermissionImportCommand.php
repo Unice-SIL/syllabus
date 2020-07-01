@@ -104,8 +104,9 @@ class MoodleCoursePermissionImportCommand extends AbstractJob
         $yearsToImport = $this->em->getRepository(Year::class)->findByImport(true);
 
         $loop = 1;
-
+        $memStart = 0;
         $handledCourseInfoIds = [];
+        $handledUserUsernames = [];
 
         /** @var CoursePermission $coursePermission */
         foreach ($coursePermissions as $reportLineId => $coursePermission) {
@@ -113,95 +114,96 @@ class MoodleCoursePermissionImportCommand extends AbstractJob
             //======================Perf==================
             if ($loop % $loopBreak === 1) {
                 $timeStart = microtime(true);
+                $memStart = memory_get_usage();
             }
             //======================End Perf==================
 
             /** @var Course $course */
             $course = $this->em->getRepository(Course::class)->findOneByCode($coursePermission->getCourseInfo()->getCourse()->getCode());
 
-            //var_dump(($course instanceof Course)? $course->getCode() : "Course {$coursePermission->getCourseInfo()->getCourse()->getCode()} not found");
+            if ($course instanceof Course) {
 
-            if (!$course instanceof Course) {
-                continue;
-            }
+                $user = $coursePermission->getUser();
 
-            $user = $coursePermission->getUser();
+                if (!in_array($user->getUsername(), $handledUserUsernames)) {
 
-            /** @var User $user */
-            $user = $this->userManager->updateIfExistsOrCreate($user, ['username'], [
-                'find_by_parameters' => ['username' => $user->getUsername()],
-                'flush' => true,
-                'validations_groups_new' => ['Default'],
-                'validations_groups_edit' => ['Default'],
-                'report' => $report,
-                'lineIdReport' => $reportLineId,
-            ]);
-
-            //var_dump($user->getUsername());
-
-            foreach ($yearsToImport as $year) {
-                /** @var CourseInfo $courseInfo */
-                $courseInfo = $this->em->getRepository(CourseInfo::class)->findByCodeAndYear($course->getCode(), $year);
-
-                var_dump(($courseInfo instanceof CourseInfo)? "[{$year}] {$courseInfo->getTitle()}" : "Course info not found for year {$year}");
-
-                if(!$courseInfo instanceof CourseInfo) {
-                    continue;
-                }
-
-                // Removes old moodle permissions from courseinfo
-                if(!in_array($courseInfo->getId(), $handledCourseInfoIds)) {
-                    /** @var CoursePermission $oldCoursePermission */
-                    foreach ($courseInfo->getCoursePermissions() as $oldCoursePermission) {
-                        if ($oldCoursePermission->getSource() === self::SOURCE) {
-                            $courseInfo->removeCoursePermission($oldCoursePermission);
-                        }
-                    }
-                    $handledCourseInfoIds[] = $courseInfo->getId();
-                }
-
-                $newCoursePermission = $this->coursePermissionManager->new();
-                $newCoursePermission->setSource(self::SOURCE)
-                    ->setUser($user)
-                    ->setCourseInfo($courseInfo)
-                    ->setPermission($coursePermission->getPermission());
-
-                /** @var CoursePermission $newCoursePermission */
-                $newCoursePermission = $this->coursePermissionManager->updateIfExistsOrCreate(
-                    $newCoursePermission,
-                    ['user', 'courseInfo', 'permission'],
-                    [
-                        'find_by_parameters' => [
-                            'user' => $newCoursePermission->getUser(),
-                            'courseInfo' => $newCoursePermission->getCourseInfo(),
-                            'permission' => $newCoursePermission->getPermission(),
-                        ],
+                    /** @var User $user */
+                    $user = $this->userManager->updateIfExistsOrCreate($user, ['username'], [
+                        'find_by_parameters' => ['username' => $user->getUsername()],
+                        'flush' => true,
                         'validations_groups_new' => ['Default'],
                         'validations_groups_edit' => ['Default'],
                         'report' => $report,
                         'lineIdReport' => $reportLineId,
-                    ]
-                );
+                    ]);
+                    $handledUserUsernames[] = $user->getUsername();
 
-                //var_dump("{$newCoursePermission->getCourseInfo()->getCourse()->getCode()} {$newCoursePermission->getCourseInfo()->getYear()} - {$newCoursePermission->getUser()->getUsername()}");
+                } else {
+                    $user = $this->em->getRepository(User::class)->findOneBy(['username' => $user->getUsername()]);
+                }
 
-                $courseInfo->addCoursePermission($newCoursePermission);
-            }
+                foreach ($yearsToImport as $year) {
+                    /** @var CourseInfo $courseInfo */
+                    $courseInfo = $this->em->getRepository(CourseInfo::class)->findByCodeAndYear($course->getCode(), $year);
+
+                    if ($courseInfo instanceof CourseInfo) {
+
+                        // Removes old moodle permissions from courseinfo
+                        if (!in_array($courseInfo->getId(), $handledCourseInfoIds)) {
+                            /** @var CoursePermission $oldCoursePermission */
+                            foreach ($courseInfo->getCoursePermissions() as $oldCoursePermission) {
+                                if ($oldCoursePermission->getSource() === self::SOURCE) {
+                                    $courseInfo->removeCoursePermission($oldCoursePermission);
+                                }
+                            }
+                            $handledCourseInfoIds[] = $courseInfo->getId();
+                        }
+
+                        $newCoursePermission = $this->coursePermissionManager->new();
+                        $newCoursePermission->setSource(self::SOURCE)
+                            ->setUser($user)
+                            ->setCourseInfo($courseInfo)
+                            ->setPermission($coursePermission->getPermission());
+
+                        /** @var CoursePermission $newCoursePermission */
+                        $newCoursePermission = $this->coursePermissionManager->updateIfExistsOrCreate(
+                            $newCoursePermission,
+                            ['user', 'courseInfo', 'permission'],
+                            [
+                                'find_by_parameters' => [
+                                    'user' => $newCoursePermission->getUser(),
+                                    'courseInfo' => $newCoursePermission->getCourseInfo(),
+                                    'permission' => $newCoursePermission->getPermission(),
+                                ],
+                                'validations_groups_new' => ['Default'],
+                                'validations_groups_edit' => ['Default'],
+                                'report' => $report,
+                                'lineIdReport' => $reportLineId,
+                            ]
+                        );
+
+                        $courseInfo->addCoursePermission($newCoursePermission);
+                    }
+                }
 
 
-            $this->em->flush(); //if every permission import from moodle hasn't got a unique key username-code
+                $this->em->flush(); //if every permission import from moodle hasn't got a unique key username-code
 
-            if ($loop % $loopBreak === 0) {
-                dump((round(($loop / count($coursePermissions)) * 50) +50).'%');
-                $this->progress(round(($loop / count($coursePermissions)) * 50) +50);
+                if ($loop % $loopBreak === 0) {
+                    $progress = round((($loop / count($coursePermissions)) * 50) + 50);
+                    $this->progress($progress);
+                    $this->memoryUsed(memory_get_usage(), true);
 
-               $this->em->clear();
+                    $this->em->clear();
 
-                //======================Perf==================
+                    //======================Perf==================
 
-                $interval[$loop] = microtime(true) - $timeStart . ' s';
-                dump($interval);
-                //======================End Perf==================
+                    $interval[$loop]['time'] = microtime(true) - $timeStart . ' s';
+                    $interval[$loop]['memory'] = round((memory_get_usage() - $memStart) / 1048576, 2) . ' MB';
+                    $interval[$loop]['progress'] = $progress . '%';
+                    dump($interval[$loop]);
+                    //======================End Perf==================
+                }
             }
 
             $loop++;
