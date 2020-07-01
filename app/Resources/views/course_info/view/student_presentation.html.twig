@@ -53,19 +53,21 @@
                 {% endfor %}
             </ul>
         </div>
-        <div class="presentation-info-element col-12 col-lg-4 col-md-6 col-sm-12">
-            <div class="student-subtitle">
-                <img class="icon-20" src="{{ asset('/build/images/calendrier_picto.png') }}">
-                <span>{{ 'app.view.student.presentation.semester' | trans }}</span>
+        {% if courseInfo.periods is not empty %}
+            <div class="presentation-info-element col-12 col-lg-4 col-md-6 col-sm-12">
+                <div class="student-subtitle">
+                    <img class="icon-20" src="{{ asset('/build/images/calendrier_picto.png') }}">
+                    <span>{{ 'app.view.student.presentation.semester' | trans }}</span>
+                </div>
+                <ul class="student-list list-dotted">
+                    {% for period in courseInfo.periods %}
+                        <li>
+                            {{ period.label }}
+                        </li>
+                    {% endfor %}
+                </ul>
             </div>
-            <ul class="student-list list-dotted">
-                {% for period in courseInfo.periods %}
-                    <li>
-                        {{ period.label }}
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
+        {% endif %}
         <div class="presentation-info-element col-12 col-lg-4 col-md-6 col-sm-12">
             <div class="student-subtitle">
                 <img class="icon-20" src="{{ asset('/build/images/langue_picto.png') }}">
