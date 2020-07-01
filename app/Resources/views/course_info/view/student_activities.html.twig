@@ -63,9 +63,9 @@
                                         {% if courseSectionActivity.evaluable == true %}
                                             <span class="activity-evaluation-type">
                                                 {% if courseSectionActivity.evaluationCt == true %}
-                                                    Contrôle Terminal
+                                                    {{ 'app.view.student.activities.ct' | trans }}
                                                 {% else %}
-                                                    Contrôle Continu
+                                                    {{ 'app.view.student.activities.cc' | trans }}
                                                 {% endif %}
                                             </span>
                                             <div class="progress student-progress">
@@ -81,7 +81,7 @@
                                                 {% endif %}
                                                 {% if courseSectionActivity.evaluationPeer == true %}
                                                     {% if evaluateBy is not empty %}
-                                                        {% set evaluateBy = evaluateBy ~ ' app.view.student.activities.evaluate_by_and '|trans %}
+                                                        {% set evaluateBy = evaluateBy ~ ' ' ~ 'app.view.student.activities.evaluate_by_and'|trans ~ ' ' %}
                                                     {% endif %}
                                                     {% set evaluateBy = evaluateBy ~ 'app.view.student.activities.evaluate_by_peer'|trans %}
                                                 {% endif %}

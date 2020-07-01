@@ -471,6 +471,8 @@ app:
         evaluate_by_teachers: par les enseignants
         evaluate_by_peer: par les pairs
         evaluate_by_and: et
+        cc: Contrôle continu
+        ct: Contrôle terminal
       equipments:
         bibliographic_resources: Bibliographie
         description: Description

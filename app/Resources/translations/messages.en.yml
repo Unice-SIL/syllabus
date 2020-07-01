@@ -468,9 +468,11 @@ app:
         title: Activity's name
         type: Type
         evaluate_by: Evalué
-        evaluate_by_teachers: par les enseignants
-        evaluate_by_peer: par les pairs
-        evaluate_by_and: et
+        evaluate_by_teachers: by the teachers
+        evaluate_by_peer: by the peers
+        evaluate_by_and: and
+        cc: Continuous assessment
+        ct: Exam
       equipments:
         bibliographic_resources: Bibliographic resources
         description: Description
