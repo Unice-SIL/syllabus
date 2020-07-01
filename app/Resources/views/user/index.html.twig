@@ -10,6 +10,28 @@
                 {% include 'action/_user_create.html.twig' %}
             </div>
 
+            <div class="border p-3 mb-3">
+                {{ form_start(form) }}
+                <div class="row">
+                    <div class="col-lg-4 col-md-12">
+                        {{ form_row(form.username) }}
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                        {{ form_row(form.lastname) }}
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                        {{ form_row(form.email) }}
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">{{ 'admin.button.filter' | trans }}</button>
+                            <a class="btn btn-danger" href="{{  path('app.admin.user.index')  }}">{{ 'admin.button.reset_filters' | trans }}</a>
+                        </div>
+                    </div>
+                </div>
+                {{ form_end(form) }}
+            </div>
+
             {% if pagination.totalItemCount > 0 %}
                 <table class="table table-bordered table-responsive-sm">
                     <thead>

@@ -34,22 +34,22 @@
                                 <input id="search-activity-input" class="form-control" type="text" placeholder="{{ 'app.activities.view.carousel.search_activity' | trans }}" aria-label="Search">
                             </div>
                         </div>
-                        <div class="card-body p-5">
+                        <div class="card-body p-4">
                             <div class="tab-content">
                                 {% for activityType in activityTypes %}
                                     <div id="tab_{{ activityType.id }}" class="tab-pane {% if loop.first %}active{% endif %}">
                                         <div class="activity-carousel">
                                             {% for activity in activities %}
                                                 {% if activity.activityTypes is not empty and activityType in activity.activityTypes %}
-"                                                    <div class="modal-action activity-carousel-item"
-                                                       data-action-title="{{ 'app.activities.view.carousel.add_activity' | trans }}"
-                                                       data-action-url="{{ path("app.course_info.section.activity.add", {'id': activeSection.id, 'activityId': activity.id, 'activityTypeId': activityType.id}) }}">
-                                                            <div class="activity-item-content text-center rounded border mb-5">
-                                                                <div class="text p-3">
-                                                                    {{ activity.label }}
-                                                                </div>
+                                                    <div class="modal-action activity-carousel-item"
+                                                         data-action-title="{{ 'app.activities.view.carousel.add_activity' | trans }}"
+                                                         data-action-url="{{ path("app.course_info.section.activity.add", {'id': activeSection.id, 'activityId': activity.id, 'activityTypeId': activityType.id}) }}">
+                                                        <div class="activity-item-content text-center rounded border">
+                                                            <div>
+                                                                {{ activity.label }}
                                                             </div>
-                                                    </div>"
+                                                        </div>
+                                                    </div>
                                                 {% endif %}
                                             {% endfor %}
                                         </div>

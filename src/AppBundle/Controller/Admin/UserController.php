@@ -3,14 +3,17 @@
 namespace AppBundle\Controller\Admin;
 
 use AppBundle\Entity\User;
+use AppBundle\Form\Filter\UserFilterType;
 use AppBundle\Form\UserType;
 use AppBundle\Helper\MailHelper;
 use AppBundle\Manager\UserManager;
 use AppBundle\Repository\Doctrine\UserDoctrineRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,6 +28,19 @@ use Symfony\Component\Translation\TranslatorInterface;
  */
 class UserController extends AbstractController
 {
+
+    private $em;
+
+    /**
+     * UserController constructor.
+     * @param EntityManagerInterface $entityManager
+     */
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->em = $entityManager;
+    }
+
+
     /**
      * Lists all user entities.
      *
@@ -33,21 +49,37 @@ class UserController extends AbstractController
      *
      * @param Request $request
      * @param PaginatorInterface $paginator
+     * @param UserDoctrineRepository $userDoctrineRepository
+     * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
      * @return Response
      */
     public function indexAction(
         Request $request,
-        PaginatorInterface $paginator
+        PaginatorInterface $paginator,
+        UserDoctrineRepository $userDoctrineRepository,
+        FilterBuilderUpdaterInterface $filterBuilderUpdater
     )
     {
+        $qb = $userDoctrineRepository->getIndexQueryBuilder();
+        $form = $this->createForm(UserFilterType::class);
+
+        if ($request->query->has($form->getName())) {
+
+            // manually bind values from the request
+            $form->submit($request->query->get($form->getName()));
+            $filterBuilderUpdater->addFilterConditions($form, $qb);
+        }
+
+
         $pagination = $paginator->paginate(
-            $this->getDoctrine()->getManager()->createQuery("SELECT u FROM AppBundle:User u"),
+            $qb,
             $request->query->getInt('page', 1),
             10
         );
 
         return $this->render('user/index.html.twig', array(
             'pagination' => $pagination,
+            'form' => $form->createView(),
         ));
     }
 
