@@ -172,6 +172,7 @@ app:
   dashboard:
     title: Dashboard
     progress: Filling progress
+    ask_advice_syllabus: Ask an advice on syllabus
     card:
       publish_syllabus: Publish the syllabus
       publish_success: Congratulations, the syllabus has been published

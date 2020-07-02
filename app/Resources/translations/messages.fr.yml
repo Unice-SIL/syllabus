@@ -172,6 +172,7 @@ app:
   dashboard:
     title: Tableau de bord
     progress: Progression du remplissage
+    ask_advice_syllabus: Demander un avis sur le syllabus
     card:
       publish_syllabus: Publier le syllabus
       publish_success: Bravo le syllabus a été publié
