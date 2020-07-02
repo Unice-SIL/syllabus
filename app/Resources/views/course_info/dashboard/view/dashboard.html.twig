@@ -224,19 +224,24 @@
             $('#span-tuto').show();
         });
         $(document).on('click', '.btn_duplicate', function (e) {
+
             var test = $(this).attr('data-duplicate');
 
             if (test === "duplicate") {
                 $.ajax({
                     url: '{{ path('app.course_info.dashboard.publishNextYear', {'id': courseInfo.id, 'action': 1 }) }}',
                     type: "POST",
-                    dataType: "JSON"
+                    dataType: "json"
+                }).done(function () {
+                    document.location.reload(true);
                 });
             } else {
                 $.ajax({
                     url: '{{ path('app.course_info.dashboard.publishNextYear', {'id': courseInfo.id, 'action': 0 }) }}',
                     type: "POST",
-                    dataType: "JSON"
+                    dataType: "json"
+                }).done(function () {
+                    document.location.reload(true);
                 });
             }
             document.location.reload(true);
