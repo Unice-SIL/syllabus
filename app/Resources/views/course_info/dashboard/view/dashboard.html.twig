@@ -149,8 +149,8 @@
                     {{ form_start(publicationForm, {'attr' : {
                         'data-url' : path('app.course_info.dashboard.publish', {id : courseInfo.id})
                     }}) }}
-                    <button type="button" style="border: none;"
-                            class="btn-dashboard-publish btn_publish d-flex flex-column align-items-center justify-content-between w-100 h-100">
+                    <button type="button"
+                            class="btn-dashboard-publish btn_publish d-flex flex-column align-items-center justify-content-between w-100 h-100 border-0">
                         <span class="py-3 label-dashboard">{{ 'app.dashboard.card.publish_success' | trans }}</span>
                         <img src="{{ asset('/build/images/Drapeau.png') }}" style="width: 40%;">
                     </button>
@@ -171,14 +171,12 @@
 
             <div class="px-2 m-3 btn-dashboard">
                 {% if courseInfo.duplicateNextYear == true %}
-                    <button class="btn_duplicate btn-dashboard d-flex flex-column align-items-center justify-content-between w-100 h-100"
-                            style="border: none">
+                    <button class="btn_duplicate btn-dashboard d-flex flex-column align-items-center justify-content-between w-100 h-100 border-0">
                         <span class="py-3 label-dashboard">{{ 'app.dashboard.card.not_duplicate_syllabus' | trans }}</span>
-                        <img class="w-25 ml-3"src="{{ asset('/build/images/Pas_de_duplication.png') }}">
+                        <img class="w-25 ml-3" src="{{ asset('/build/images/Pas_de_duplication.png') }}">
                     </button>
                 {% else %}
-                    <button class="btn_duplicate btn-dashboard d-flex flex-column align-items-center justify-content-between w-100 h-100"
-                            style="border: none" data-duplicate="duplicate">
+                    <button class="btn_duplicate btn-dashboard d-flex flex-column align-items-center justify-content-between w-100 h-100 border-0" data-duplicate="duplicate">
                         <span class="py-3 label-dashboard">{{ 'app.dashboard.card.duplicate_syllabus' | trans }}</span>
                         <img class="w-25 ml-3" src="{{ asset('/build/images/Accord.png') }}">
                     </button>
@@ -199,9 +197,8 @@
 
         <div class="mt-2 d-flex flex-row justify-content-center w-100">
             <button type="button"
-                    style="border: none;"
-                    class="btn btn-outline-secondary modal-action btn-dashboard-ingeneer"
-                    data-action-title="Demander un avis sur le syllabus"
+                    class="btn btn-outline-secondary modal-action btn-dashboard-ingeneer border-0"
+                    data-action-title="{{ 'app.dashboard.ask_advice_syllabus' | trans }}"
                     data-action-url="{{ path('app.course_info.dashboard.askAdvice', {'id': courseInfo.id }) }}">
                 <img class="mr-3" src="{{ asset('/build/images/Avis.png') }}" style="width: 10%;">
                 <span class="label-dashboard">{{ 'app.dashboard.button.advice' | trans }}</span>
@@ -233,15 +230,16 @@
                 $.ajax({
                     url: '{{ path('app.course_info.dashboard.publishNextYear', {'id': courseInfo.id, 'action': 1 }) }}',
                     type: "POST",
+                    dataType: "JSON"
                 });
-                document.location.reload(true);
             } else {
                 $.ajax({
                     url: '{{ path('app.course_info.dashboard.publishNextYear', {'id': courseInfo.id, 'action': 0 }) }}',
                     type: "POST",
+                    dataType: "JSON"
                 });
-                document.location.reload(true);
             }
+            document.location.reload(true);
         });
     });
 
