@@ -860,25 +860,6 @@ class CourseInfo
     }
 
     /**
-     * @return int|null
-     */
-    public function getSemester()
-    {
-        return $this->semester;
-    }
-
-    /**
-     * @param int|null $semester
-     * @return CourseInfo
-     */
-    public function setSemester($semester)
-    {
-        $this->semester = $semester;
-
-        return $this;
-    }
-
-    /**
      * @return null|string
      */
     public function getSummary()
@@ -2380,10 +2361,7 @@ class CourseInfo
         if (!$this->languages->contains($language))
         {
             $this->languages->add($language);
-            if (!$language->getCourseInfos()->contains($this))
-            {
-                $language->getCourseInfos()->add($this);
-            }
+            $language->getCourseInfos()->add($this);
         }
         return $this;
     }
