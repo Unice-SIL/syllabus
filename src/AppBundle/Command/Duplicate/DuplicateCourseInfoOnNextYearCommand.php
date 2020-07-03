@@ -74,7 +74,7 @@ class DuplicateCourseInfoOnNextYearCommand extends AbstractJob
         $question = new Question('Enter the year to duplicate'.(!is_null($currentYearId)? " ({$currentYearId})": '').': ', $currentYearId);
         $yearId = $helper->ask($input, $output, $question);
 
-        $year = $this->em->getRepository(Year::class)->find($yearId);
+        $year = $this->getYear($yearId);
 
         if(!$year instanceof Year)
         {
@@ -83,7 +83,7 @@ class DuplicateCourseInfoOnNextYearCommand extends AbstractJob
         }
 
         $nextYearId = ((int)$yearId)+1;
-        $nextYear = $this->em->getRepository(Year::class)->find($nextYearId);
+        $nextYear = $this->getYear($nextYearId);
 
         if(!$nextYear instanceof Year)
         {
@@ -163,6 +163,8 @@ class DuplicateCourseInfoOnNextYearCommand extends AbstractJob
                 $this->memoryUsed(memory_get_usage(), true);
 
                 $this->em->clear();
+
+                $nextYear = $this->getYear($nextYearId);
             }
 
             $loop++;
