@@ -120,38 +120,41 @@ class DuplicateCourseInfoOnNextYearCommand extends AbstractJob
                 'year' => $nextYear
             ]);
 
-            if($nextCourseInfo instanceof CourseInfo)
+            if(!$nextCourseInfo instanceof CourseInfo)
+            {
+
+                $nextCourseInfo = new CourseInfo();
+                $nextCourseInfo->setCourse($courseInfo->getCourse())
+                    ->setYear($nextYear)
+                    ->setStructure($courseInfo->getStructure())
+                    ->setTitle($courseInfo->getTitle());
+
+                $this->em->persist($nextCourseInfo);
+                $this->em->flush();
+
+                $code = $courseInfo->getCourse()->getCode();
+
+                try {
+                    $this->courseInfoManager->duplicate(
+                        "{$code}__UNION__{$yearId}",
+                        "{$code}__UNION__{$nextYearId}",
+                        CourseInfoManager::DUPLICATION_CONTEXTE_MANUALLY,
+                        $report
+                    );
+
+                } catch (\Exception $e) {
+
+                    $this->em->remove($nextCourseInfo);
+                    $line = new ReportLine($code . '_' . $nextYearId);
+                    $line->addComment($e);
+                    $report->addLine($line);
+
+                }
+
+            }
+            else
             {
                 $output->writeln("<error>Syllabus already exist for course {$nextYearId} and code {$courseInfo->getCourse()->getCode()}</error>");
-                continue;
-            }
-
-            $nextCourseInfo = new CourseInfo();
-            $nextCourseInfo->setCourse($courseInfo->getCourse())
-                ->setYear($nextYear)
-                ->setStructure($courseInfo->getStructure())
-                ->setTitle($courseInfo->getTitle());
-
-            $this->em->persist($nextCourseInfo);
-            $this->em->flush();
-
-            $code = $courseInfo->getCourse()->getCode();
-
-            try
-            {
-                $this->courseInfoManager->duplicate(
-                    "{$code}__UNION__{$yearId}",
-                    "{$code}__UNION__{$nextYearId}",
-                    CourseInfoManager::DUPLICATION_CONTEXTE_MANUALLY,
-                    $report
-                );
-            }
-            catch (\Exception $e)
-            {
-                $this->em->remove($nextCourseInfo);
-                $line = new ReportLine($code.'_'.$nextYearId);
-                $line->addComment($e);
-                $report->addLine($line);
             }
 
             if ($loop % $loopBreak === 0) {
@@ -161,6 +164,8 @@ class DuplicateCourseInfoOnNextYearCommand extends AbstractJob
 
                 $this->em->clear();
             }
+
+            $loop++;
         }
 
         $this->em->flush();
