@@ -82,6 +82,17 @@ class Teaching
     }
 
     /**
+     * @param string|null $id
+     * @return $this
+     */
+    public function setId(?string $id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
      * Set type.
      *
      * @param string $type

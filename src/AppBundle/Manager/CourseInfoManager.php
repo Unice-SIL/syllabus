@@ -18,6 +18,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use League\Csv\Reader;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
@@ -29,6 +30,8 @@ class CourseInfoManager extends AbstractManager
     const DUPLICATION_CONTEXTE_MANUALLY = 'manually';
     const DUPLICATION_CONTEXTE_AUTOMATIC = 'automatic';
     const DUPLICATION_CONTEXTE_IMPORT = 'import';
+
+    const DUPLICATION_MANY_TO_MANY_FIELDS = ['levels', 'domains', 'languages', 'periods', 'campuses'];
 
     private static $fieldsToDuplicate = [];
     private static $yearsConcernedByImport;
@@ -43,7 +46,7 @@ class CourseInfoManager extends AbstractManager
      */
     private $user;
     /**
-     * @var \Symfony\Component\PropertyAccess\PropertyAccessor
+     * @var PropertyAccessor
      */
     private $propertyAccessor;
 
@@ -226,7 +229,7 @@ class CourseInfoManager extends AbstractManager
             $CourseInfoSenderData = $this->propertyAccessor->getValue($courseInfoSender, $property);
 
             // if the data to duplicate is a instance of collection we do a specific treatment (erase every old elements before duplicate the new ones)
-            if ($CourseInfoSenderData instanceof Collection) {
+            if ($CourseInfoSenderData instanceof Collection && !in_array($property, self::DUPLICATION_MANY_TO_MANY_FIELDS)) {
 
                 $this->duplicateCollectionProperty($CourseInfoSenderData, $courseInfoRecipient, $property, 'courseInfo');
 

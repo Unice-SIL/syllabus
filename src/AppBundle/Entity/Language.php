@@ -132,10 +132,7 @@ class Language
         if (!$this->courseInfos->contains($courseInfo))
         {
             $this->courseInfos->add($courseInfo);
-            if (!$courseInfo->getLanguages()->contains($this))
-            {
-                $courseInfo->getLanguages()->add($this);
-            }
+            $courseInfo->getLanguages()->add($this);
         }
         return $this;
     }

@@ -209,4 +209,16 @@ class CoursePrerequisite
         return $this->getDescription();
     }
 
+    /**
+     *
+     */
+    public function __clone()
+    {
+        /** @var Course $course */
+        foreach ($this->courses as $course)
+        {
+            $course->addCoursePrerequisite($this);
+        }
+    }
+
 }

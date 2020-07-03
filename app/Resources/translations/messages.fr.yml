@@ -171,6 +171,20 @@ app:
       closing_remarks: Le mot de la fin
   dashboard:
     title: Tableau de bord
+    progress: Progression du remplissage
+    ask_advice_syllabus: Demander un avis sur le syllabus
+    card:
+      publish_syllabus: Publier le syllabus
+      publish_success: Bravo le syllabus a été publié
+      see_student: Voir le syllabus étudiant
+      not_duplicate_syllabus: Ne pas dupliquer le syllabus pour l'année suivante
+      duplicate_syllabus: Dupliquer le syllabus pour l'année suivante
+      duplicate_syllabus_other_course: Dupliquer le syllabus sur un autre cours
+    intro_panel:
+      title: Découvrez votre tout nouveau syllabus
+      description: Communiquez et clarifiez le contenu de votre cours, mettez en valeur vos objectifs et préparer vos étudiants a ce qui les attend.
+      access_tutorial: Accéder au tutoriel
+      tutorial_description: Le tutoriel arrive bientôt, si vous souhaitez accéder à l'ancien tutoriel pour vous familiariser avec les fonctionnalités, <a href="https://unspod.unice.fr/video/7110-comment-remplir-son-syllabus-sur-moodle/" target="_blank">cliquez ici</a>
     modal:
       title: Vers quel syllabus voulez-vous dupliquer le contenu ?
       close: Fermer
@@ -303,7 +317,7 @@ app:
     view:
       additionnal_info: Informations pratiques
       edit: Mettre à jour
-      agenda: Informations dont vous disposez sur le calendrier du cours, des examens…
+      agenda: Calendrier du cours
       organization: Organisation du cours
     form:
       save: Sauvegarder
@@ -338,6 +352,8 @@ app:
         level: Niveau du cours
         period: Semestre
         description: Description
+        description_message: Pour trouver des images libres de droit :
+        structure: Composante
       teachers:
         add_teacher: Ajouter un enseignant
         empty_teacher: Aucun enseignant n'a encore été ajouté à l'équipe
@@ -456,6 +472,8 @@ app:
         evaluate_by_teachers: par les enseignants
         evaluate_by_peer: par les pairs
         evaluate_by_and: et
+        cc: Contrôle continu
+        ct: Contrôle terminal
       equipments:
         bibliographic_resources: Bibliographie
         description: Description
@@ -488,6 +506,7 @@ app:
         domain: Domaine disciplinaire
         level: Niveau du cours
         campus: Lieu d'enseignement
+        semester: Semestre
         language: Langue
         belong_to: Appartient a %title%
         teachers: Équipe enseignante
@@ -500,6 +519,7 @@ app:
         nb_ects: (%ects% ECTS)
         nb_ecue: UE comprenant %ecue% ECUE
         title: ECUE appartenant à %title%
+        autonomy: Autonomie
       sidebar:
         activity: Programme
         equipment: Matériel
@@ -517,7 +537,7 @@ app:
         info: Informations pratiques
         objectives: Objectifs du cours
         prerequisites: Prérequis
-        presentation: Présentation du cours
+        presentation: Présentation générale
   partial:
     warning_delete_modal: Êtes vous sûr de vouloir supprimer cet élément ?
     no_element: Aucun élément n'a été trouvé

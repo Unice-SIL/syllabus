@@ -171,6 +171,20 @@ app:
       closing_remarks: Closing remarks
   dashboard:
     title: Dashboard
+    progress: Filling progress
+    ask_advice_syllabus: Ask an advice on syllabus
+    card:
+      publish_syllabus: Publish the syllabus
+      publish_success: Congratulations, the syllabus has been published
+      see_student: See student's syllabus
+      not_duplicate_syllabus: Do not duplicate the syllabus for the next year
+      duplicate_syllabus: Duplicate the syllabus for the next year
+      duplicate_syllabus_other_course: Duplicate the syllabus for another course
+    intro_panel:
+      title: Discover your brand new syllabus
+      description: Communicate and clarify your course's content, highlight your goals and prepare your students for what awaits them
+      access_tutorial: Access to the tutorial
+      tutorial_description: The tutorial is coming soon, if you wish to access the old tutorial to familiarise with the functionnalities, <a href="https://unspod.unice.fr/video/7110-comment-remplir-son-syllabus-sur-moodle/" target="_blank">click here</a>
     modal:
       title: Toward which Syllabus would you like to duplicate the contents?
       close: Close
@@ -303,7 +317,7 @@ app:
     view:
       additionnal_info: Additionnal informations
       edit: Edit
-      agenda: Informations at your disposal about the course's agenda, exams...
+      agenda: Course's schedule
       organization: Course's organization
     form:
       save: Save
@@ -338,6 +352,8 @@ app:
         level: Levels
         period: Periods
         description: Description
+        description_message: To find copyright free images:
+        structure: Structure
       teachers:
         add_teacher: Add a teacher
         empty_teacher: No teachers have yet been added to the team.
@@ -453,9 +469,11 @@ app:
         title: Activity's name
         type: Type
         evaluate_by: Evalué
-        evaluate_by_teachers: par les enseignants
-        evaluate_by_peer: par les pairs
-        evaluate_by_and: et
+        evaluate_by_teachers: by the teachers
+        evaluate_by_peer: by the peers
+        evaluate_by_and: and
+        cc: Continuous assessment
+        ct: Exam
       equipments:
         bibliographic_resources: Bibliographic resources
         description: Description
@@ -488,6 +506,7 @@ app:
         domain: Disciplinary domain
         level: Course's level
         campus: Campus
+        semester: Semester
         language: Language
         belong_to: Belong to %title%
         teachers: Teaching team
@@ -500,6 +519,7 @@ app:
         nb_ects: (%ects% ECTS)
         nb_ecue: UE include %ecue% ECUE
         title: ECUE owned by %title%
+        autonomy: Autonomy
       sidebar:
         activity: Schedule
         equipment: Equipment

@@ -206,7 +206,11 @@ class CourseTeacher
      */
     public function setCourseInfo(?CourseInfo $courseInfo): self
     {
-        $this->courseInfo = $courseInfo;
+        if($courseInfo !== $this->courseInfo)
+        {
+            $this->courseInfo = $courseInfo;
+            $courseInfo->addCourseTeacher($this);
+        }
 
         return $this;
     }

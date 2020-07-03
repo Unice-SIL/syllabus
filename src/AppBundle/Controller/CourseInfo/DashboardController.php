@@ -231,7 +231,7 @@ class DashboardController extends AbstractController
      * @param Request $request
      * @param CourseInfoManager $courseInfoManager
      * @return JsonResponse
-     * @Route("/publish-next-year", name="publishNextYear", methods={"GET", "POST"} )
+     * @Route("/publish-next-year", name="publishNextYear", methods={"POST"} )
      */
     public function DuplicateCourseInfoNextYear(CourseInfo $courseInfo, Request $request, CourseInfoManager $courseInfoManager)
     {

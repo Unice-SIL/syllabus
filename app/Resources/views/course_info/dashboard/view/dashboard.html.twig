@@ -5,24 +5,17 @@
                 <div class="row">
                     <div class="col-lg-10 col-md-8 col-sm-6">
                         <h4 style="color: #FF892A;">
-                            <strong>Découvrez votre tout nouveau syllabus</strong>
+                            <strong>{{ 'app.dashboard.intro_panel.title' | trans }}</strong>
                         </h4>
                         <p>
-                            Communiquez et clarifiez le contenu de votre cours, mettez en valeur vos objectifs et
-                            préparer
-                            vos étudiants a ce qui les attend.
+                            {{ 'app.dashboard.intro_panel.description' | trans }}
                         </p>
                         <button type="button" id="btn-tuto" class="btn btn-info">
-                            Accéder au tutoriel >
+                            {{ 'app.dashboard.intro_panel.access_tutorial' | trans }}
                         </button>
                         <br>
                         <span id="span-tuto" class="font-italic">
-                            Le tutoriel arrive bientôt, si vous souhaitez accéder à l'ancien tutoriel pour vous
-                            familiariser avec les
-                            fonctionnalités,
-                            <a href="https://unspod.unice.fr/video/7110-comment-remplir-son-syllabus-sur-moodle/"
-                               target="_blank">cliquez ici
-                            </a>
+                            {{ 'app.dashboard.intro_panel.tutorial_description' | trans | raw }}
                         </span>
                     </div>
                     <div class="col-lg-2 col-md-4 col-sm-6">
@@ -32,7 +25,7 @@
             </div>
         </div>
 
-        <h4 class="text-bold mb-3" style="color: #017F97;">Progression du remplissage (* champ obligatoire)</h4>
+        <h4 class="text-blue-title text-bold mb-3">{{ 'app.dashboard.progress' | trans }}</h4>
         <div class="card mb-5">
             <div class="card-body">
                 <div class="row border-bottom pb-4">
@@ -146,8 +139,8 @@
                     }}) }}
                     <button type="button" style="border: none;"
                             class="btn-dashboard-no-publish btn_publish d-flex flex-column align-items-center justify-content-between w-100 h-100">
-                        <span class="py-3 label-dashboard">Publier le syllabus</span>
-                        <img src="{{ asset('/build/images/fusee_publier.png') }}" style="width: 50%;">
+                        <span class="py-3 label-dashboard">{{ 'app.dashboard.card.publish_syllabus' | trans }}</span>
+                        <img class="w-50" src="{{ asset('/build/images/fusee_publier.png') }}">
                     </button>
                     {{ form_end(publicationForm) }}
                 </div>
@@ -156,9 +149,9 @@
                     {{ form_start(publicationForm, {'attr' : {
                         'data-url' : path('app.course_info.dashboard.publish', {id : courseInfo.id})
                     }}) }}
-                    <button type="button" style="border: none;"
-                            class="btn-dashboard-publish btn_publish d-flex flex-column align-items-center justify-content-between w-100 h-100">
-                        <span class="py-3 label-dashboard">Bravo le syllabus a été publié</span>
+                    <button type="button"
+                            class="btn-dashboard-publish btn_publish d-flex flex-column align-items-center justify-content-between w-100 h-100 border-0">
+                        <span class="py-3 label-dashboard">{{ 'app.dashboard.card.publish_success' | trans }}</span>
                         <img src="{{ asset('/build/images/Drapeau.png') }}" style="width: 40%;">
                     </button>
                     {{ form_end(publicationForm) }}
@@ -168,8 +161,8 @@
             <div class="px-2 m-3 btn-dashboard">
                 <a href="{{ path('app.course_info.view.student', { 'id': courseInfo.id }) }}" target="_blank"
                    class="d-flex flex-column align-items-center justify-content-between w-100 h-100">
-                    <span class="py-3 label-dashboard">Voir le syllabus étudiant</span>
-                    <img src="{{ asset('/build/images/Etudiant.png') }}" style="width: 50%;">
+                    <span class="py-3 label-dashboard">{{ 'app.dashboard.card.see_student' | trans }}</span>
+                    <img class="w-50" src="{{ asset('/build/images/Etudiant.png') }}">
                 </a>
             </div>
         </div>
@@ -178,18 +171,14 @@
 
             <div class="px-2 m-3 btn-dashboard">
                 {% if courseInfo.duplicateNextYear == true %}
-                    <button class="btn_duplicate btn-dashboard d-flex flex-column align-items-center justify-content-between w-100 h-100"
-                            style="border: none">
-                        <span class="py-3 label-dashboard">Ne pas dupliquer le syllabus pour l'année suivante</span>
-                        <img class="ml-3" style="width:25%;"
-                             src="{{ asset('/build/images/Accord.png') }}">
+                    <button class="btn_duplicate btn-dashboard d-flex flex-column align-items-center justify-content-between w-100 h-100 border-0">
+                        <span class="py-3 label-dashboard">{{ 'app.dashboard.card.not_duplicate_syllabus' | trans }}</span>
+                        <img class="w-25 ml-3" src="{{ asset('/build/images/Pas_de_duplication.png') }}">
                     </button>
                 {% else %}
-                    <button class="btn_duplicate btn-dashboard d-flex flex-column align-items-center justify-content-between w-100 h-100"
-                            style="border: none" data-duplicate="duplicate">
-                        <span class="py-3 label-dashboard">Dupliquer le syllabus pour l'année suivante</span>
-                        <img class="ml-3" style="width:25%;"
-                             src="{{ asset('/build/images/Pas_de_duplication.png') }}">
+                    <button class="btn_duplicate btn-dashboard d-flex flex-column align-items-center justify-content-between w-100 h-100 border-0" data-duplicate="duplicate">
+                        <span class="py-3 label-dashboard">{{ 'app.dashboard.card.duplicate_syllabus' | trans }}</span>
+                        <img class="w-25 ml-3" src="{{ asset('/build/images/Accord.png') }}">
                     </button>
                 {% endif %}
             </div>
@@ -199,8 +188,8 @@
                    data-toggle="modal"
                    data-target="#courseInfoDuplicationModal"
                    data-code-year="{{ courseInfo.codeYear(true) }}">
-                    <span class="py-3 label-dashboard">Dupliquer le syllabus sur un autre cours</span>
-                    <img class="mb-3" style="width:50%;" src="{{ asset('/build/images/Duplication.png') }}">
+                    <span class="py-3 label-dashboard">{{ 'app.dashboard.card.duplicate_syllabus_other_course' | trans }}</span>
+                    <img class="w-50 mb-3" src="{{ asset('/build/images/Duplication.png') }}">
                 </a>
             </div>
 
@@ -208,9 +197,8 @@
 
         <div class="mt-2 d-flex flex-row justify-content-center w-100">
             <button type="button"
-                    style="border: none;"
-                    class="btn btn-outline-secondary modal-action btn-dashboard-ingeneer"
-                    data-action-title="Demander un avis sur le syllabus"
+                    class="btn btn-outline-secondary modal-action btn-dashboard-ingeneer border-0"
+                    data-action-title="{{ 'app.dashboard.ask_advice_syllabus' | trans }}"
                     data-action-url="{{ path('app.course_info.dashboard.askAdvice', {'id': courseInfo.id }) }}">
                 <img class="mr-3" src="{{ asset('/build/images/Avis.png') }}" style="width: 10%;">
                 <span class="label-dashboard">{{ 'app.dashboard.button.advice' | trans }}</span>
@@ -235,7 +223,6 @@
         $(document).on('click', '#btn-tuto', function (e) {
             $('#span-tuto').show();
         });
-
         $(document).on('click', '.btn_duplicate', function (e) {
 
             var test = $(this).attr('data-duplicate');
@@ -244,14 +231,18 @@
                 $.ajax({
                     url: '{{ path('app.course_info.dashboard.publishNextYear', {'id': courseInfo.id, 'action': 1 }) }}',
                     type: "POST",
+                    dataType: "json"
+                }).done(function () {
+                    document.location.reload(true);
                 });
-                document.location.reload(true);
             } else {
                 $.ajax({
                     url: '{{ path('app.course_info.dashboard.publishNextYear', {'id': courseInfo.id, 'action': 0 }) }}',
                     type: "POST",
+                    dataType: "json"
+                }).done(function () {
+                    document.location.reload(true);
                 });
-                document.location.reload(true);
             }
         });
     });

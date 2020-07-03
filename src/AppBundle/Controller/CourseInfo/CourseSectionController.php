@@ -209,7 +209,10 @@ class CourseSectionController extends AbstractController
      * @param TranslatorInterface $translator
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function sortCourseSectionActivitiesAction(CourseSection $section, Request $request, CourseSectionManager $courseSectionManager, TranslatorInterface $translator)
+    public function sortCourseSectionActivitiesAction(CourseSection $section,
+                                                      Request $request,
+                                                      CourseSectionManager $courseSectionManager,
+                                                      TranslatorInterface $translator)
     {
         if (!$section instanceof CourseSection) {
             return $this->json([

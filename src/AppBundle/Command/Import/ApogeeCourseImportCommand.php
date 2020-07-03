@@ -138,6 +138,7 @@ class ApogeeCourseImportCommand extends AbstractJob
         //$validationReport = ReportingHelper::createReport('Insertion en base de données');
 
         $loop = 1;
+        $memStart = 0;
 
         /** @var Course $course */
         foreach ($courses as $lineIdReport => $course) {
@@ -237,7 +238,7 @@ class ApogeeCourseImportCommand extends AbstractJob
                 $interval[$loop]['time'] = microtime(true) - $timeStart . ' s';
                 $interval[$loop]['memory'] = round((memory_get_usage() - $memStart)/1048576, 2) . ' MB';
                 $interval[$loop]['progress'] = $progress . '%';
-                dump($interval);
+                dump($interval[$loop]);
                 //======================End Perf==================
             }
 

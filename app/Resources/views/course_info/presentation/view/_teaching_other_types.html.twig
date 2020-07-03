@@ -4,7 +4,7 @@
 {% for teaching in teachings %}
     {% if mode == teaching.mode %}
         <div class="{{ class }}">
-            {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': teaching.type, 'teachingTypeHours': teaching.hourlyVolume, 'type': 'warning' } %}
+            {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': teaching.type, 'teachingTypeHours': teaching.hourlyVolume } %}
         </div>
     {% endif %}
 {% endfor %}
