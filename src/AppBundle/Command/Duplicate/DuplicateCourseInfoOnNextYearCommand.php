@@ -115,6 +115,8 @@ class DuplicateCourseInfoOnNextYearCommand extends AbstractJob
             }
             //======================End Perf==================
 
+            $courseInfo = $this->em->getRepository(CourseInfo::class)->find($courseInfo->getId());
+
             $nextCourseInfo = $this->em->getRepository(CourseInfo::class)->findOneBy([
                 'course' => $courseInfo->getCourse(),
                 'year' => $nextYear
@@ -165,6 +167,14 @@ class DuplicateCourseInfoOnNextYearCommand extends AbstractJob
                 $this->em->clear();
 
                 $nextYear = $this->getYear($nextYearId);
+
+                //======================Perf==================
+
+                $interval[$loop]['time'] = microtime(true) - $timeStart . ' s';
+                $interval[$loop]['memory'] = round((memory_get_usage() - $memStart)/1048576, 2) . ' MB';
+                $interval[$loop]['progress'] = $progress . '%';
+                dump($interval[$loop]);
+                //======================End Perf==================
             }
 
             $loop++;
