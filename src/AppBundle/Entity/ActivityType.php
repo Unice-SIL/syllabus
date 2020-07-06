@@ -6,9 +6,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinTable;
-use JMS\Serializer\Annotation as JMS;
-use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Activity
@@ -26,7 +25,6 @@ class ActivityType
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"default", "activity_type"})
      */
     private $id;
 
@@ -35,7 +33,6 @@ class ActivityType
      *
      * @ORM\Column(name="label", type="string", length=100, nullable=false)
      * @Assert\NotBlank()
-     * @JMS\Groups(groups={"default", "activity_type"})
      * @Gedmo\Translatable
      */
     private $label;
@@ -44,7 +41,6 @@ class ActivityType
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"default", "activity_type"})
      */
     private $obsolete = false;
 
@@ -53,7 +49,6 @@ class ActivityType
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Activity", inversedBy="activityTypes")
      * @JoinTable(name="activity_type_activity")
-     * @JMS\Groups(groups={"activity_type"})
      */
     private $activities;
 
@@ -62,7 +57,6 @@ class ActivityType
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\ActivityMode", inversedBy="activityTypes")
      * @JoinTable(name="activity_type_activity_mode")
-     * @JMS\Groups(groups={"activity_type"})
      */
     private $activityModes;
 

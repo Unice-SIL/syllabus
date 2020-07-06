@@ -5,10 +5,9 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Year
@@ -32,7 +31,6 @@ class Year
      *     pattern="/^\d{4}$/",
      *     message="Cette valeure doit respecter le format AAAA"
      * )
-     * @JMS\Groups(groups={"default", "year"})
      */
     private $id;
 
@@ -41,7 +39,6 @@ class Year
      *
      * @ORM\Column(name="label", type="string", length=45, nullable=true, options={"fixed"=true})
      * @Assert\NotBlank(message="Ce champ ne doit pas être vide")
-     * @JMS\Groups(groups={"default", "year"})
      * @Gedmo\Translatable
      */
     private $label;
@@ -50,7 +47,6 @@ class Year
      * @var bool
      *
      * @ORM\Column(name="import", type="boolean", nullable=true)
-     * @JMS\Groups(groups={"year"})
      */
     private $import = false;
 
@@ -58,7 +54,6 @@ class Year
      * @var bool
      *
      * @ORM\Column(name="edit", type="boolean", nullable=true)
-     * @JMS\Groups(groups={"year"})
      */
     private $edit = false;
 
@@ -66,7 +61,6 @@ class Year
      * @var bool
      *
      * @ORM\Column(name="current", type="boolean", nullable=true)
-     * @JMS\Groups(groups={"year"})
      */
     private $current = false;
 

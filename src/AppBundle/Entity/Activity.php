@@ -5,9 +5,8 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
-use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Activity
@@ -25,7 +24,6 @@ class Activity
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"default", "activity"})
      */
     private $id;
 
@@ -34,7 +32,6 @@ class Activity
      *
      * @ORM\Column(name="label", type="string", length=100, nullable=false)
      * @Assert\NotBlank()
-     * @JMS\Groups(groups={"default", "activity"})
      * @Gedmo\Translatable
      */
     private $label;
@@ -44,7 +41,6 @@ class Activity
      *
      * @ORM\Column(name="description", type="string", length=400, nullable=true)
      * @Assert\Length(max="200")
-     * @JMS\Groups(groups={"default", "activity"})
      * @Gedmo\Translatable
      */
     private $description;
@@ -53,7 +49,6 @@ class Activity
      * @var bool
      *
      * @ORM\Column(name="label_visibility", type="boolean", nullable=false, options={"comment"="Témoin affichage de l'intitulé de l'activité"})
-     * @JMS\Groups(groups={"default", "activity"})
      */
     private $labelVisibility = true;
 
@@ -61,7 +56,6 @@ class Activity
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"default", "activity"})
      */
     private $obsolete = false;
 
@@ -69,7 +63,6 @@ class Activity
      * @var int
      *
      * @ORM\Column(name="position", type="integer", nullable=false)
-     * @JMS\Groups(groups={"default", "activity"})
      */
     private $position = 0;
 
@@ -77,7 +70,6 @@ class Activity
      * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\ActivityType", mappedBy="activities")
-     * @JMS\Groups(groups={"activity"})
      */
     private $activityTypes;
 

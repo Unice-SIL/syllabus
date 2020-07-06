@@ -5,7 +5,6 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
@@ -25,7 +24,6 @@ class CoursePrerequisite
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"default", "course_prerequisite"})
      */
     private $id;
 
@@ -33,7 +31,6 @@ class CoursePrerequisite
      * @var null|string
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=true)
-     * @JMS\Groups(groups={"default", "course_prerequisite"})
      * @Gedmo\Translatable
      */
     private $description = "";
@@ -42,7 +39,6 @@ class CoursePrerequisite
      * @var int
      *
      * @ORM\Column(name="position", type="integer", nullable=false)
-     * @JMS\Groups(groups={"default", "course_prerequisite"})
      */
     private $position = 0;
 
@@ -53,7 +49,6 @@ class CoursePrerequisite
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
      * })
-     * @JMS\Groups(groups={"course_prerequisite"})
      */
     private $courseInfo;
 

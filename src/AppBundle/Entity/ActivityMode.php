@@ -2,12 +2,13 @@
 
 namespace AppBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
-use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
+
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * ActivityMode
@@ -15,6 +16,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="activity_mode")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\ActivityModeDoctrineRepository")
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\ActivityModeTranslation")
+ * @ApiResource()
  */
 class ActivityMode
 {
@@ -25,7 +27,6 @@ class ActivityMode
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"default", "activity_mode"})
      */
     private $id;
 
@@ -34,7 +35,6 @@ class ActivityMode
      *
      * @ORM\Column(name="label", type="string", length=100, nullable=false)
      * @Assert\NotBlank()
-     * @JMS\Groups(groups={"default", "activity_mode"})
      * @Gedmo\Translatable
      */
     private $label;
@@ -43,7 +43,6 @@ class ActivityMode
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"default", "activity_mode"})
      */
     private $obsolete = false;
 
@@ -51,7 +50,6 @@ class ActivityMode
      * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\ActivityType", mappedBy="activityModes")
-     * @JMS\Groups(groups={"activity_mode"})
      */
     private $activityTypes;
 

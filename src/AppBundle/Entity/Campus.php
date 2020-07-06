@@ -3,14 +3,13 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Traits\Importable;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Campus
@@ -35,7 +34,6 @@ class Campus
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"default", "campus"})
      */
     private $id;
 
@@ -44,8 +42,6 @@ class Campus
      *
      * @ORM\Column(name="label", type="string", length=100, nullable=false)
      * @Assert\NotBlank()
-     * @JMS\Groups(groups={"default", "campus"})
-     * @Gedmo\Translatable
      */
     private $label;
 
@@ -53,7 +49,6 @@ class Campus
      * @var string|null
      *
      * @ORM\Column(name="grp", type="string", length=100, nullable=true)
-     * @JMS\Groups(groups={"default", "campus"})
      * @Gedmo\Translatable
      */
     private $grp;
@@ -62,7 +57,6 @@ class Campus
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"default", "campus"})
      */
     private $obsolete = false;
 

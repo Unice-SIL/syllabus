@@ -3,9 +3,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
-use Ramsey\Uuid\UuidInterface;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * CourseAchievement
@@ -23,7 +22,6 @@ class CourseAchievement
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"default", "course_achievement"})
      */
     private $id;
 
@@ -31,7 +29,6 @@ class CourseAchievement
      * @var null|string
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=true)
-     * @JMS\Groups(groups={"default", "course_achievement"})
      * @Gedmo\Translatable
      */
     private $description = "";
@@ -40,7 +37,6 @@ class CourseAchievement
      * @var int
      *
      * @ORM\Column(name="position", type="integer", nullable=false)
-     * @JMS\Groups(groups={"default", "course_achievement"})
      */
     private $position = 0;
 
@@ -51,7 +47,6 @@ class CourseAchievement
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
      * })
-     * @JMS\Groups(groups={"course_achievement"})
      */
     private $courseInfo;
 

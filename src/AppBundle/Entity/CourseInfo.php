@@ -2,19 +2,18 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Validator\Constraints as AssertCustom;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\OneToMany;
-use JMS\Serializer\Annotation as JMS;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Ramsey\Uuid\Uuid;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Validator\Constraints as AssertCustom;
 
 /**
  * CourseInfo
@@ -34,7 +33,6 @@ class CourseInfo
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"default", "course_info"})
      */
     private $id;
 
@@ -43,7 +41,6 @@ class CourseInfo
      *
      * @ORM\Column(name="title", type="string", length=200, nullable=false)
      * @Assert\NotBlank(groups={"new", "edit"})
-     * @JMS\Groups(groups={"default", "course_info"})
      * @Gedmo\Translatable
      */
     private $title;
@@ -52,7 +49,6 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="ects", type="float", nullable=true)
-     * @JMS\Groups(groups={"course_info"})
      */
     private $ects;
 
@@ -60,7 +56,6 @@ class CourseInfo
      * @var string
      *
      * @ORM\Column(name="bak_languages", type="string", length=200, nullable=true)
-     * @JMS\Groups(groups={"bak"})
      */
     private $bakLanguages;
 
@@ -69,8 +64,6 @@ class CourseInfo
      *
      * @ORM\Column(name="summary", type="text", length=65535, nullable=true)
      * @Assert\NotBlank(groups={"presentation"})
-     * @JMS\Groups(groups={"api"})
-     * @JMS\Groups(groups={"course_info"})
      * @Gedmo\Translatable
      */
     private $summary;
@@ -79,7 +72,6 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="media_type", type="string", length=10, nullable=true)
-     * @JMS\Groups(groups={"course_info"})
      * @Gedmo\Translatable
      */
     private $mediaType;
@@ -88,7 +80,6 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="image", type="text", length=65535, nullable=true)
-     * @JMS\Groups(groups={"course_info"})
      * @Assert\File(
      *    maxSize="2M",
      *     mimeTypes={ "image/jpeg", "image/png" }
@@ -100,7 +91,6 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="video", type="text", length=65535, nullable=true)
-     * @JMS\Groups(groups={"course_info"})
      */
     private $video;
 
@@ -109,7 +99,6 @@ class CourseInfo
      *
      * @ORM\Column(name="teaching_mode", type="string", length=15, nullable=true, options={"fixed"=true})
      * @Assert\NotBlank(groups={"presentation"})
-     * @JMS\Groups(groups={"course_info"})
      * @Gedmo\Translatable
      */
     private $teachingMode;
@@ -118,7 +107,6 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_cm_class", type="float", precision=10, scale=0, nullable=true)
-     * @JMS\Groups(groups={"course_info"})
      */
     private $teachingCmClass;
 
@@ -126,7 +114,6 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_td_class", type="float", precision=10, scale=0, nullable=true)
-     * @JMS\Groups(groups={"course_info"})
      */
     private $teachingTdClass;
 
@@ -134,7 +121,6 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_tp_class", type="float", precision=10, scale=0, nullable=true)
-     * @JMS\Groups(groups={"course_info"})
      */
     private $teachingTpClass;
 
@@ -142,7 +128,6 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_other_class", type="float", precision=10, scale=0, nullable=true)
-     * @JMS\Groups(groups={"course_info"})
      *
      */
     private $teachingOtherClass;
@@ -151,7 +136,6 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="teaching_other_type_class", type="string", length=65, nullable=true)
-     * @JMS\Groups(groups={"course_info"})
      * @Gedmo\Translatable
      */
     private $teachingOtherTypeClass;
@@ -160,7 +144,6 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_cm_hybrid_class", type="float", precision=10, scale=0, nullable=true)
-     * @JMS\Groups(groups={"course_info"})
      */
     private $teachingCmHybridClass;
 
@@ -168,7 +151,6 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_td_hybrid_class", type="float", precision=10, scale=0, nullable=true)
-     * @JMS\Groups(groups={"course_info"})
      */
     private $teachingTdHybridClass;
 
@@ -176,7 +158,6 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_tp_hybrid_class", type="float", precision=10, scale=0, nullable=true)
-     * @JMS\Groups(groups={"course_info"})
      */
     private $teachingTpHybridClass;
 
@@ -184,7 +165,6 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_other_hybrid_class", type="float", precision=10, scale=0, nullable=true)
-     * @JMS\Groups(groups={"course_info"})
      */
     private $teachingOtherHybridClass;
 
@@ -192,7 +172,6 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="teaching_other_type_hybrid_class", type="string", length=65, nullable=true)
-     * @JMS\Groups(groups={"course_info"})
      * @Gedmo\Translatable
      */
     private $teachingOtherTypeHybridClass;
@@ -201,7 +180,6 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_cm_hybrid_dist", type="float", precision=10, scale=0, nullable=true)
-     * @JMS\Groups(groups={"course_info"})
      */
     private $teachingCmHybridDist;
 
@@ -209,7 +187,6 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_td_hybrid_dist", type="float", precision=10, scale=0, nullable=true)
-     * @JMS\Groups(groups={"course_info"})
      */
     private $teachingTdHybridDist;
 
@@ -217,7 +194,6 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_other_hybrid_dist", type="float", precision=10, scale=0, nullable=true)
-     * @JMS\Groups(groups={"course_info"})
      */
     private $teachingOtherHybridDist;
 
@@ -225,7 +201,6 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="teaching_other_type_hybrid_distant", type="string", length=65, nullable=true)
-     * @JMS\Groups(groups={"course_info"})
      * @Gedmo\Translatable
      */
     private $teachingOtherTypeHybridDistant;
@@ -234,7 +209,6 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_cm_dist", type="float", precision=10, scale=0, nullable=true)
-     * @JMS\Groups(groups={"course_info"})
      */
     private $teachingCmDist;
 
@@ -242,7 +216,6 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_td_dist", type="float", precision=10, scale=0, nullable=true)
-     * @JMS\Groups(groups={"course_info"})
      */
     private $teachingTdDist;
 
@@ -250,7 +223,6 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="teaching_other_dist", type="float", precision=10, scale=0, nullable=true)
-     * @JMS\Groups(groups={"course_info"})
      */
     private $teachingOtherDist;
 
@@ -258,7 +230,6 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="teaching_other_type_distant", type="string", length=65, nullable=true)
-     * @JMS\Groups(groups={"course_info"})
      * @Gedmo\Translatable
      */
     private $teachingOtherTypeDist;
@@ -268,7 +239,6 @@ class CourseInfo
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Teaching", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @Assert\Valid()
-     * @JMS\Groups(groups={"course_info"})
      */
     private $teachings;
 
@@ -276,7 +246,6 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="mcc_weight", type="float", precision=10, scale=0, nullable=true)
-     * @JMS\Groups(groups={"course_info"})
      */
     private $mccWeight;
 
@@ -284,7 +253,6 @@ class CourseInfo
      * @var bool
      *
      * @ORM\Column(name="mcc_compensable", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"course_info"})
      */
     private $mccCompensable = false;
 
@@ -292,7 +260,6 @@ class CourseInfo
      * @var bool
      *
      * @ORM\Column(name="mcc_capitalizable", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"course_info"})
      */
     private $mccCapitalizable = false;
 
@@ -300,7 +267,6 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="mcc_cc_coeff_session_1", type="float", precision=10, scale=0, nullable=true)
-     * @JMS\Groups(groups={"course_info"})
      * @Assert\Blank(groups={"evaluation_empty"})
      */
     private $mccCcCoeffSession1;
@@ -309,7 +275,6 @@ class CourseInfo
      * @var int|null
      *
      * @ORM\Column(name="mcc_cc_nb_eval_session_1", type="integer", nullable=true)
-     * @JMS\Groups(groups={"course_info"})
      */
     private $mccCcNbEvalSession1;
 
@@ -317,7 +282,6 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="mcc_ct_coeff_session_1", type="float", precision=10, scale=0, nullable=true)
-     * @JMS\Groups(groups={"course_info"})
      * @Assert\Blank(groups={"evaluation_empty"})
      */
     private $mccCtCoeffSession1;
@@ -326,7 +290,6 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="mcc_ct_nat_session_1", type="string", length=100, nullable=true)
-     * @JMS\Groups(groups={"course_info"})
      * @Gedmo\Translatable
      */
     private $mccCtNatSession1;
@@ -335,7 +298,6 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="mcc_ct_duration_session_1", type="string", length=100, nullable=true)
-     * @JMS\Groups(groups={"course_info"})
      * @Gedmo\Translatable
      */
     private $mccCtDurationSession1;
@@ -344,7 +306,6 @@ class CourseInfo
      * @var float|null
      *
      * @ORM\Column(name="mcc_ct_coeff_session_2", type="float", precision=10, scale=0, nullable=true)
-     * @JMS\Groups(groups={"course_info"})
      */
     private $mccCtCoeffSession2;
 
@@ -352,7 +313,6 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="mcc_ct_nat_session_2", type="string", length=100, nullable=true)
-     * @JMS\Groups(groups={"course_info"})
      * @Gedmo\Translatable
      */
     private $mccCtNatSession2;
@@ -361,7 +321,6 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="mcc_ct_duration_session_2", type="string", length=100, nullable=true)
-     * @JMS\Groups(groups={"course_info"})
      * @Gedmo\Translatable
      */
     private $mccCtDurationSession2;
@@ -371,7 +330,6 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="mcc_advice", type="text", length=65535, nullable=true)
-     * @JMS\Groups(groups={"course_info"})
      * @Assert\Blank(groups={"evaluation_empty"})
      * @Gedmo\Translatable
      */
@@ -381,7 +339,6 @@ class CourseInfo
      * @var bool
      *
      * @ORM\Column(name="tutoring", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"course_info"})
      */
     private $tutoring = false;
 
@@ -389,7 +346,6 @@ class CourseInfo
      * @var bool
      *
      * @ORM\Column(name="tutoring_teacher", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"course_info"})
      */
     private $tutoringTeacher = false;
 
@@ -397,7 +353,6 @@ class CourseInfo
      * @var bool
      *
      * @ORM\Column(name="tutoring_student", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"course_info"})
      */
     private $tutoringStudent = false;
 
@@ -405,7 +360,6 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="tutoring_description", type="text", length=65535, nullable=true)
-     * @JMS\Groups(groups={"course_info"})
      * @Gedmo\Translatable
      */
     private $tutoringDescription;
@@ -414,7 +368,6 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="educational_resources", type="text", length=65535, nullable=true)
-     * @JMS\Groups(groups={"course_info"})
      * @Assert\Blank(groups={"equipments_empty"})
      * @Gedmo\Translatable
      */
@@ -424,7 +377,6 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="bibliographic_resources", type="text", length=65535, nullable=true)
-     * @JMS\Groups(groups={"course_info"})
      * @Assert\Blank(groups={"equipments_empty"})
      * @Gedmo\Translatable
      */
@@ -434,7 +386,6 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="agenda", type="text", length=65535, nullable=true)
-     * @JMS\Groups(groups={"course_info"})
      * @Assert\Blank(groups={"info_empty"})
      * @Gedmo\Translatable
      */
@@ -444,7 +395,6 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="organization", type="text", length=65535, nullable=true)
-     * @JMS\Groups(groups={"course_info"})
      * @Assert\Blank(groups={"info_empty"})
      * @Gedmo\Translatable
      */
@@ -454,7 +404,6 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="closing_remarks", type="text", length=65535, nullable=true)
-     * @JMS\Groups(groups={"course_info"})
      * @Assert\Blank(groups={"closing_remarks_empty"})
      * @Gedmo\Translatable
      */
@@ -464,7 +413,6 @@ class CourseInfo
      * @var string|null
      *
      * @ORM\Column(name="closing_video", type="text", length=65535, nullable=true)
-     * @JMS\Groups(groups={"course_info"})
      * @Assert\Blank(groups={"closing_remarks_empty"})
      * @Gedmo\Translatable
      */
@@ -475,7 +423,6 @@ class CourseInfo
      *
      * @ORM\Column(name="creation_date", type="datetime", nullable=false)
      * @Gedmo\Timestampable(on="create")
-     * @JMS\Groups(groups={"course_info"})
      */
     private $creationDate;
 
@@ -483,7 +430,6 @@ class CourseInfo
      * @var DateTime|null
      *
      * @ORM\Column(name="modification_date", type="datetime", nullable=true)
-     * @JMS\Groups(groups={"course_info"})
      */
     private $modificationDate;
 
@@ -491,7 +437,6 @@ class CourseInfo
      * @var DateTime|null
      *
      * @ORM\Column(name="publication_date", type="datetime", nullable=true)
-     * @JMS\Groups(groups={"course_info"})
      */
     private $publicationDate;
 
@@ -503,8 +448,6 @@ class CourseInfo
      *   @ORM\JoinColumn(name="course_id", referencedColumnName="id", nullable=false)
      * })
      * @Assert\NotBlank()
-     * @JMS\Type("AppBundle\Entity\Course")
-     * @JMS\Groups(groups={"course_info"})
      */
     private $course;
 
@@ -516,8 +459,6 @@ class CourseInfo
      *   @ORM\JoinColumn(name="structure_id", referencedColumnName="id", nullable=false)
      * })
      * @Assert\NotBlank(groups={"new", "edit"})
-     * @JMS\Type("AppBundle\Entity\Structure")
-     * @JMS\Groups(groups={"course_info"})
      */
     private $structure;
 
@@ -526,8 +467,6 @@ class CourseInfo
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Campus", inversedBy="courseInfos")
      * @ORM\JoinTable(name="course_info_campus")
-     * @JMS\Type("ArrayCollection<AppBundle\Entity\Campus>")
-     * @JMS\Groups(groups={"course_info"})
      */
     private $campuses;
 
@@ -537,8 +476,6 @@ class CourseInfo
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Language", inversedBy="courseInfos")
      * @ORM\JoinTable(name="course_info_language")
      * @ORM\OrderBy({"label" = "ASC"})
-     * @JMS\Type("ArrayCollection<AppBundle\Entity\Language>")
-     * @JMS\Groups(groups={"course_info"})
      *
      */
     private $languages;
@@ -549,8 +486,6 @@ class CourseInfo
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Domain", inversedBy="courseInfos")
      * @ORM\JoinTable(name="course_info_domain")
      * @Assert\Count(min="1", groups={"presentation"})
-     * @JMS\Type("ArrayCollection<AppBundle\Entity\Domain>")
-     * @JMS\Groups(groups={"course_info"})
      */
     private $domains;
 
@@ -559,8 +494,6 @@ class CourseInfo
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Period", inversedBy="courseInfos")
      * @ORM\JoinTable(name="course_info_period")
-     * @JMS\Type("ArrayCollection<AppBundle\Entity\Period>")
-     * @JMS\Groups(groups={"course_info"})
      */
     private $periods;
 
@@ -573,7 +506,6 @@ class CourseInfo
      *   @ORM\JoinColumn(name="last_updater", referencedColumnName="id")
      * })
      * @Gedmo\Blameable(on="update")
-     * @JMS\Groups(groups={"course_info"})
      */
     private $lastUpdater;
 
@@ -585,7 +517,6 @@ class CourseInfo
      *   @ORM\JoinColumn(name="publisher", referencedColumnName="id", nullable=true)
      * })
      * @Gedmo\Blameable(on="create")
-     * @JMS\Groups(groups={"course_info"})
      */
     private $publisher;
 
@@ -597,8 +528,6 @@ class CourseInfo
      *   @ORM\JoinColumn(name="year_id", referencedColumnName="id", nullable=false)
      * })
      * @Assert\NotBlank(groups={"new", "edit"})
-     * @JMS\Type("AppBundle\Entity\Year")
-     * @JMS\Groups(groups={"course_info"})
      */
     private $year;
 
@@ -615,8 +544,6 @@ class CourseInfo
      * @ORM\OneToMany(targetEntity="CourseTeacher", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"lastname" = "ASC"})
      * @Assert\Count(min="1", groups={"presentation"})
-     * @JMS\Type("ArrayCollection<AppBundle\Entity\CourseTeacher>")
-     * @JMS\Groups(groups={"course_info"})
      */
     private $courseTeachers;
 
@@ -627,8 +554,6 @@ class CourseInfo
      * @ORM\OrderBy({"position" = "ASC"})
      * @Assert\Count(min="1", groups={"contentActivities"})
      * @Assert\Valid
-     * @JMS\Type("ArrayCollection<AppBundle\Entity\CourseSection>")
-     * @JMS\Groups(groups={"course_info"})
      */
     private $courseSections;
 
@@ -637,10 +562,8 @@ class CourseInfo
      *
      * @ORM\OneToMany(targetEntity="CourseAchievement", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"position" = "ASC"})
-     * @JMS\Type("ArrayCollection<AppBundle\Entity\CourseAchievement>")
      * @Assert\NotBlank
      * @AssertCustom\AchievementConstraintValidator
-     * @JMS\Groups(groups={"course_info"})
      */
     private $courseAchievements;
 
@@ -660,8 +583,6 @@ class CourseInfo
      *     groups={"prerequisites"},
      *     min = 1
      *     )
-     * @JMS\Type("ArrayCollection<AppBundle\Entity\CoursePrerequisite>")
-     * @JMS\Groups(groups={"course_info"})
      */
     private $coursePrerequisites;
 
@@ -670,7 +591,6 @@ class CourseInfo
      *
      * @ORM\OneToMany(targetEntity="CourseTutoringResource", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"position" = "ASC"})
-     * @JMS\Groups(groups={"course_info"})
      */
     private $courseTutoringResources;
 
@@ -681,7 +601,6 @@ class CourseInfo
      * @ORM\OrderBy({"position" = "ASC", "equipment" = "ASC"})
      * @Assert\Count(max="0", groups={"equipments_empty"})
      * @Assert\Valid
-     * @JMS\Groups(groups={"course_info"})
      */
     private $courseResourceEquipments;
 
@@ -690,8 +609,6 @@ class CourseInfo
      *
      * @ORM\ManyToMany(targetEntity="Level", inversedBy="courseInfos")
      * @Assert\Count(min="1", groups={"presentation"})
-     * @JMS\Groups(groups={"api"})
-     * @JMS\Groups(groups={"course_info"})
      */
     private $levels;
 
@@ -1833,9 +1750,7 @@ class CourseInfo
     }
 
     /**
-     * @JMS\VirtualProperty()
-     * @JMS\Groups(groups={"default", "course_info"})
-     * @JMS\SerializedName("course")
+     *
      */
     public function getCourseApi()
     {
@@ -1863,9 +1778,7 @@ class CourseInfo
     }
 
     /**
-     * @JMS\VirtualProperty()
-     * @JMS\Groups(groups={"default", "course_info"})
-     * @JMS\SerializedName("structure")
+     *
      */
     public function getStructureApi()
     {
@@ -1930,9 +1843,7 @@ class CourseInfo
     }
 
     /**
-     * @JMS\VirtualProperty()
-     * @JMS\Groups(groups={"default", "course_info"})
-     * @JMS\SerializedName("year")
+     *
      */
     public function getYearApi()
     {

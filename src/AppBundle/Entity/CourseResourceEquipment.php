@@ -3,7 +3,6 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -23,7 +22,6 @@ class CourseResourceEquipment
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"default", "course_resource_equipment"})
      */
     private $id;
 
@@ -31,7 +29,6 @@ class CourseResourceEquipment
      * @var string|null
      *
      * @ORM\Column(name="description", type="string", length=255, nullable=true)
-     * @JMS\Groups(groups={"default", "course_resource_equipment"})
      * @Gedmo\Translatable
      */
     private $description;
@@ -40,7 +37,6 @@ class CourseResourceEquipment
      * @var int
      *
      * @ORM\Column(name="position", type="integer", nullable=false)
-     * @JMS\Groups(groups={"default", "course_resource_equipment"})
      */
     private $position = 0;
 
@@ -51,7 +47,6 @@ class CourseResourceEquipment
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
      * })
-     * @JMS\Groups(groups={"course_resource_equipment"})
      */
     private $courseInfo;
 
@@ -63,7 +58,6 @@ class CourseResourceEquipment
      *   @ORM\JoinColumn(name="equipment_id", referencedColumnName="id", nullable=false)
      * })
      * @Assert\Blank(groups={"equipments_empty"})
-     * @JMS\Groups(groups={"course_info", "course_resource_equipment"})
      */
     private $equipment;
 
@@ -153,10 +147,6 @@ class CourseResourceEquipment
     }
 
     /**
-     * @JMS\VirtualProperty()
-     * @JMS\Groups(groups={"api"})
-     * @JMS\SerializedName("equipment")
-     *
      * @return Equipment|null
      */
     public function getEquipmentApi()

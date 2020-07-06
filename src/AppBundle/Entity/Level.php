@@ -8,9 +8,8 @@ use AppBundle\Traits\Importable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
-use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Level
@@ -31,7 +30,6 @@ class Level
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"default", "level"})
      */
     private $id;
 
@@ -41,7 +39,6 @@ class Level
      * @ORM\Column(name="label", type="string", length=100, nullable=false)
      * @Assert\NotBlank()
      * @Assert\Length(max="100")
-     * @JMS\Groups(groups={"default", "level"})
      * @Gedmo\Translatable
      */
     private $label;
@@ -58,7 +55,6 @@ class Level
      * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Structure", inversedBy="levels")
-     * @JMS\Groups(groups={"level"})
      */
     private $structures;
 
@@ -66,7 +62,6 @@ class Level
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"default", "level"})
      */
     private $obsolete = false;
 

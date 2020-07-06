@@ -3,9 +3,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
-use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * CourseSectionActivity
@@ -23,7 +22,6 @@ class CourseSectionActivity
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"default", "course_section_activity"})
      */
     private $id;
 
@@ -31,7 +29,6 @@ class CourseSectionActivity
      * @var string|null
      *
      * @ORM\Column(name="description", type="string", length=255, nullable=true)
-     * @JMS\Groups(groups={"default", "course_section_activity"})
      * @Gedmo\Translatable
      */
     private $description;
@@ -40,7 +37,6 @@ class CourseSectionActivity
      * @var float|null
      *
      * @ORM\Column(name="evaluation_rate", type="float", nullable=true)
-     * @JMS\Groups(groups={"default", "course_section_activity"})
      */
     private $evaluationRate;
 
@@ -48,7 +44,6 @@ class CourseSectionActivity
      * @var bool
      *
      * @ORM\Column(name="evaluable", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"default", "course_section_activity"})
      */
     private $evaluable = false;
 
@@ -56,7 +51,6 @@ class CourseSectionActivity
      * @var bool
      *
      * @ORM\Column(name="evaluation_ct", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"default", "course_section_activity"})
      */
     private $evaluationCt = false;
 
@@ -64,7 +58,6 @@ class CourseSectionActivity
      * @var bool
      *
      * @ORM\Column(name="evaluation_teacher", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"default", "course_section_activity"})
      */
     private $evaluationTeacher = false;
 
@@ -72,7 +65,6 @@ class CourseSectionActivity
      * @var bool
      *
      * @ORM\Column(name="evaluation_peer", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"default", "course_section_activity"})
      */
     private $evaluationPeer = false;
 
@@ -80,7 +72,6 @@ class CourseSectionActivity
      * @var int
      *
      * @ORM\Column(name="position", type="integer", nullable=false)
-     * @JMS\Groups(groups={"default", "course_section_activity"})
      */
     private $position = 0;
 
@@ -92,8 +83,6 @@ class CourseSectionActivity
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="activity_id", referencedColumnName="id", nullable=false)
      * })
-     * @JMS\Type("AppBundle\Entity\Activity")
-     * @JMS\Groups(groups={"course_info", "course_section", "course_section_activity"})
      */
     private $activity;
 
@@ -105,7 +94,6 @@ class CourseSectionActivity
      *   @ORM\JoinColumn(name="activity_type_id", referencedColumnName="id", nullable=false)
      * })
      * @Assert\NotBlank()
-     * @JMS\Groups(groups={"course_info", "course_section", "course_section_activity"})
      */
     private $activityType;
 
@@ -117,7 +105,6 @@ class CourseSectionActivity
      *   @ORM\JoinColumn(name="activity_mode_id", referencedColumnName="id", nullable=false)
      * })
      * @Assert\NotBlank()
-     * @JMS\Groups(groups={"course_info", "course_section", "course_section_activity"})
      */
     private $activityMode;
 
@@ -128,7 +115,6 @@ class CourseSectionActivity
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="course_section_id", referencedColumnName="id", nullable=false)
      * })
-     * @JMS\Groups(groups={"course_section_activity"})
      */
     private $courseSection;
 
@@ -358,9 +344,6 @@ class CourseSectionActivity
     }
 
     /**
-     * @JMS\VirtualProperty()
-     * @JMS\Groups(groups={"course_info", "course_section", "course_section_activity"})
-     * @JMS\SerializedName("activity")
      *
      * @return null|string
      */
@@ -370,9 +353,6 @@ class CourseSectionActivity
     }
 
     /**
-     * @JMS\VirtualProperty()
-     * @JMS\Groups(groups={"api"})
-     * @JMS\SerializedName("activity")
      *
      * @return null|string
      */
@@ -383,9 +363,6 @@ class CourseSectionActivity
 
 
     /**
-     * @JMS\VirtualProperty()
-     * @JMS\Groups(groups={"api"})
-     * @JMS\SerializedName("activity")
      *
      * @return null|string
      */

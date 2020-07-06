@@ -3,7 +3,6 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
@@ -22,7 +21,6 @@ class CourseTutoringResource
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"default", "course_tutoring_resource"})
      */
     private $id;
 
@@ -30,7 +28,6 @@ class CourseTutoringResource
      * @var null|string
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=true)
-     * @JMS\Groups(groups={"default", "course_tutoring_resource"})
      * @Gedmo\Translatable
      */
     private $description = "";
@@ -39,7 +36,6 @@ class CourseTutoringResource
      * @var int
      *
      * @ORM\Column(name="position", type="integer", nullable=false)
-     * @JMS\Groups(groups={"default", "course_tutoring_resource"})
      */
     private $position = 0;
 
@@ -50,7 +46,6 @@ class CourseTutoringResource
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
      * })
-     * @JMS\Groups(groups={"course_tutoring_resource"})
      */
     private $courseInfo;
 

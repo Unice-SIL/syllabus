@@ -8,9 +8,8 @@ use AppBundle\Traits\Importable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
-use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Domain
@@ -30,7 +29,6 @@ class Domain
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"default", "domain"})
      */
     private $id;
 
@@ -39,7 +37,6 @@ class Domain
      *
      * @ORM\Column(name="label", type="string", length=255, nullable=false)
      * @Assert\NotBlank()
-     * @JMS\Groups(groups={"default", "domain"})
      * @Gedmo\Translatable
      */
     private $label;
@@ -48,7 +45,6 @@ class Domain
      * @var string|null
      *
      * @ORM\Column(name="grp", type="string", length=100, nullable=true)
-     * @JMS\Groups(groups={"default", "domain"})
      * @Gedmo\Translatable
      */
     private $grp;
@@ -57,7 +53,6 @@ class Domain
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"default", "domain"})
      */
     private $obsolete = false;
 
@@ -65,7 +60,6 @@ class Domain
      * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Structure", inversedBy="domains")
-     * @JMS\Groups(groups={"domain"})
      */
     private $structures;
 

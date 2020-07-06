@@ -30,7 +30,7 @@ security:
                 provider:                 user_db
 
         api:
-            pattern:   ^/api(?!/doc$)
+            pattern:   ^/api
             stateless: true
             guard:
                 provider: user_db

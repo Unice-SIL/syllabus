@@ -5,10 +5,9 @@ namespace AppBundle\Entity;
 use AppBundle\Constant\Permission;
 use AppBundle\Traits\Importable;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * CoursePermission
@@ -34,7 +33,6 @@ class CoursePermission
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"default", "course_permission"})
      */
     private $id;
 
@@ -43,7 +41,6 @@ class CoursePermission
      *
      * @ORM\Column(name="permission", type="string", length=45, nullable=false, options={"fixed"=true})
      * @Assert\NotBlank()
-     * @JMS\Groups(groups={"default", "course_permission"})
      */
     private $permission = Permission::READ;
 
@@ -55,7 +52,6 @@ class CoursePermission
      *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
      * })
      * @Assert\NotBlank()
-     * @JMS\Groups(groups={"course_permission"})
      */
     private $courseInfo;
 
@@ -67,7 +63,6 @@ class CoursePermission
      *   @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      * })
      * @Assert\NotBlank()
-     * @JMS\Groups(groups={"course_permission"})
      */
     private $user;
 
@@ -137,10 +132,6 @@ class CoursePermission
     }
 
     /**
-     * @JMS\VirtualProperty()
-     * @JMS\Groups(groups={"api"})
-     * @JMS\SerializedName("user")
-     *
      * @return null|string
      */
     public function getUserApi(): ?string

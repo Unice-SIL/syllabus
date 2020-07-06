@@ -6,10 +6,9 @@ use AppBundle\Traits\Importable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Course
@@ -32,7 +31,6 @@ class Course
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"course", "default"})
      */
     private $id;
 
@@ -40,7 +38,6 @@ class Course
      * @var string
      *
      * @ORM\Column(name="type", type="string", length=5, nullable=false, options={"fixed"=true})
-     * @JMS\Groups(groups={"course", "default"})
      * @Assert\NotBlank()
      * @Gedmo\Translatable
      */
@@ -50,7 +47,6 @@ class Course
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=150, nullable=false)
-     * @JMS\Groups(groups={"course", "default"})
      * @Assert\NotBlank()
      * @Gedmo\Translatable
      */
@@ -81,7 +77,6 @@ class Course
      * @var Collection
      *
      * @ORM\OneToMany(targetEntity="CourseInfo", mappedBy="course", cascade={ "persist" })
-     * @JMS\Groups(groups={"course"})
      */
     private $courseInfos;
 

@@ -28,12 +28,11 @@ class AppKernel extends Kernel
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new Lexik\Bundle\FormFilterBundle\LexikFormFilterBundle(),
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
-            new JMS\SerializerBundle\JMSSerializerBundle(),
             new Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle(),
-            new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
             new \Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new Dmishh\SettingsBundle\DmishhSettingsBundle(),
             new Lexik\Bundle\TranslationBundle\LexikTranslationBundle(),
+            new \ApiPlatform\Core\Bridge\Symfony\Bundle\ApiPlatformBundle()
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
