@@ -25,10 +25,10 @@
                                             <u>{{ 'app.view.student.activities.section_url' | trans }}</u>
                                         </a>
                                     </div>
-                                    {% else %}
-                                        <div class="col-12">
-                                            {{ section.description|raw }}
-                                        </div>
+                                {% else %}
+                                    <div class="col-12">
+                                        {{ section.description|raw }}
+                                    </div>
                                 {% endif %}
                             </div>
                             {% set oldActivityType = '' %}
@@ -36,19 +36,11 @@
                                 {% set activityType = courseSectionActivity.activityType %}
                                 {% if oldActivityType != activityType %}
                                     <div class="mt-3 student-subtitle">
-                                        {% if activityType == 'Distant' %}
-                                            <img src="{{ asset('build/images/distanciel_picto.png') }}" class="icon-40"
-                                                 alt="">
-                                            <h5 class="title-underlined">{{ 'app.view.student.presentation.distant' | trans }}</h5>
-                                        {% elseif activityType == "Autonomy" %}
-                                            <img src="{{ asset('build/images/autonomie_picto.png') }}" class="icon-40"
-                                                 alt="">
-                                            <h5 class="title-underlined">{{ 'app.view.student.presentation.autonomy' | trans }}</h5>
-                                        {% elseif activityType == "Class" %}
-                                            <img src="{{ asset('build/images/presentiel_picto.png') }}" class="icon-40"
-                                                 alt="">
-                                            <h5 class="title-underlined">{{ 'app.view.student.presentation.class' | trans }}</h5>
+                                        {% if courseSectionActivity.activityType.icon is not null %}
+                                            {% set imgSrc = courseSectionActivity.activityType.icon | split('/') | last %}
+                                            <img src="{{ asset('data/' ~ imgSrc) }}" class="icon-40">
                                         {% endif %}
+                                        <h5 class="title-underlined">{{ courseSectionActivity.activityType.label }}</h5>
                                     </div>
                                 {% endif %}
                                 <li>

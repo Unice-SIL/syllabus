@@ -758,6 +758,7 @@ admin:
     list_activities_types: List of activities types
     modes: Modes
     edit_activity_type: Edit an activity type
+    activity_no_icon: No icon selected
     flashbag:
       new: The activity type has been added with success.
       edit: The activity type has been updated with success.

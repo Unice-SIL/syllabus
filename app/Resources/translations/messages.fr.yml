@@ -449,6 +449,7 @@ app:
       activity:
         activity_mode: Mode d'enseignement
         activity_type: Type d'activité
+        activity_no_icon: Pas d'icône sélectionnée
         control: 'Type de contrôle (Continu / Terminal) :'
         delete: Êtes-vous sûr(e) de vouloir supprimer l'activité "%label%" ?
         description: Description de l'activité (maximum 255 caractères)
