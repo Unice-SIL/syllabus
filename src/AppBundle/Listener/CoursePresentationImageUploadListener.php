@@ -2,6 +2,7 @@
 
 namespace AppBundle\Listener;
 
+use AppBundle\Entity\ActivityType;
 use AppBundle\Entity\CourseInfo;
 use AppBundle\Helper\FileUploaderHelper;
 use AppBundle\Helper\FileRemoverHelper;
@@ -29,6 +30,7 @@ class CoursePresentationImageUploadListener
     /**
      * CoursePresentationImageUploadListener constructor.
      * @param FileUploaderHelper $fileUploaderHelper
+     * @param FileRemoverHelper $fileRemoverHelper
      */
     public function __construct(
         FileUploaderHelper $fileUploaderHelper,
@@ -58,7 +60,7 @@ class CoursePresentationImageUploadListener
     }
 
     /**
-     * @param PostUpdateEventArgs $args
+     * @param LifecycleEventArgs $args
      */
     public function postUpdate(LifecycleEventArgs $args)
     {
@@ -67,38 +69,60 @@ class CoursePresentationImageUploadListener
         if ($entity instanceof CourseInfo) {
 
             if ($entity->getPreviousImage() &&
-                    ($entity->getPreviousImage() !== $entity->getImage())) {
+                ($entity->getPreviousImage() !== $entity->getImage())) {
                 $this->fileRemoverHelper
                     ->remove($entity->getPreviousImage());
             }
-            $this->getFile($entity);
+        } elseif ($entity instanceof ActivityType) {
+            if ($entity->getPreviousIcon() &&
+                ($entity->getPreviousIcon() !== $entity->getIcon())) {
+                $this->fileRemoverHelper
+                    ->remove($entity->getPreviousIcon());
+            }
         }
-
+        $this->getFile($entity);
     }
 
     /**
      * @param LifecycleEventArgs $args
      */
-    public function postLoad(LifecycleEventArgs $args){
-        $courseInfo = $args->getEntity();
-        if(!$courseInfo instanceof CourseInfo){
+    public function postLoad(LifecycleEventArgs $args)
+    {
+        $entity = $args->getEntity();
+        if ($entity instanceof CourseInfo || $entity instanceof ActivityType){
+            $this->getFile($entity);
+        }else{
             return;
         }
-        $this->getFile($courseInfo);
+
     }
 
     /**
      * @param CourseInfo $courseInfo
      */
-    public function getFile(CourseInfo $courseInfo)
+    public function getFile($entity)
     {
-        if($filename = $courseInfo->getImage()){
-            $courseInfo->setPreviousImage();
-            $path = $this->fileUploaderHelper->getDirectory().'/'.$filename;
-            if(file_exists($path)) {
-                $courseInfo->setImage(new File($path));
-            }else{
-                $courseInfo->setImage(null);
+        if ($entity instanceof CourseInfo) {
+            $courseInfo = $entity;
+            if ($filename = $courseInfo->getImage()) {
+                $courseInfo->setPreviousImage();
+                $path = $this->fileUploaderHelper->getDirectory() . '/' . $filename;
+                if (file_exists($path)) {
+                    $courseInfo->setImage(new File($path));
+                } else {
+                    $courseInfo->setImage(null);
+                }
+            }
+        } elseif ($entity instanceof ActivityType) {
+            $activityType = $entity;
+            if ($filename = $activityType->getIcon()) {
+                $activityType->setPreviousIcon();
+                $path = $this->fileUploaderHelper->getDirectory() . '/' . $filename;
+                if (file_exists($path)) {
+                    $activityType->setIcon(new File($path));
+                } else {
+                    $activityType->setIcon(null);
+                }
             }
         }
     }
@@ -108,18 +132,29 @@ class CoursePresentationImageUploadListener
      */
     private function uploadFile($entity)
     {
-        if (!$entity instanceof CourseInfo) {
-            return;
-        }
 
-        //$file = $entity->getImage();
-        if($file = $entity->getImage()) {
 
-            if ($file instanceof UploadedFile) {
-                $entity->setImage($this->fileUploaderHelper->upload($file));
-            } elseif ($file instanceof File) {
-                $entity->setImage($file->getFilename());
+        if ($entity instanceof CourseInfo) {
+            //$file = $entity->getImage();
+            if ($file = $entity->getImage()) {
+
+                if ($file instanceof UploadedFile) {
+                    $entity->setImage($this->fileUploaderHelper->upload($file));
+                } elseif ($file instanceof File) {
+                    $entity->setImage($file->getFilename());
+                }
             }
+        }elseif ($entity instanceof ActivityType){
+            if ($file = $entity->getIcon()) {
+
+                if ($file instanceof UploadedFile) {
+                    $entity->setIcon($this->fileUploaderHelper->upload($file));
+                } elseif ($file instanceof File) {
+                    $entity->setIcon($file->getFilename());
+                }
+            }
+        }else{
+            return;
         }
     }
 

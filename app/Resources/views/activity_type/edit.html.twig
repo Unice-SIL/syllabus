@@ -9,13 +9,18 @@
         <!-- form start -->
         {{ form_start(form) }}
         <div class="card-body">
-
             {{ form_row(form.label) }}
             {{ form_row(form.activityModes) }}
-            <div class="custom-control custom-switch">
+            {{ form_row(form.icon) }}
+            {% if form.vars.data.icon is not null %}
+            {% set imgSrc = form.vars.data.icon | split('/') | last %}
+            <img src="{{ asset('data/' ~ imgSrc) }}" class="icon-100">
+            {% else %}
+                {{ 'admin.activity_type.activity_no_icon'|trans }}
+            {% endif %}
+            <div class="custom-control custom-switch mt-3">
                 {{ form_row(form.obsolete) }}
             </div>
-
         </div>
         <!-- /.card-body -->
 
