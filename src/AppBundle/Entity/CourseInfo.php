@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use AppBundle\Validator\Constraints as AssertCustom;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -17,12 +18,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * CourseInfo
- *
+ * @package AppBundle\Entity
  * @ORM\Table(name="course_info")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\CourseInfoDoctrineRepository")
  * @UniqueEntity(fields={"year", "course"}, message="Le cours {{ value }} existe déjà pour cette année", errorPath="course")
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CourseInfoTranslation")
- *
+ * @ApiResource()
  */
 class CourseInfo
 {
@@ -643,6 +644,46 @@ class CourseInfo
         $this->courseCriticalAchievements = new ArrayCollection();
         $this->teachings = new ArrayCollection();
         $this->levels = new ArrayCollection();
+    }
+
+    /**
+     * @param Collection $campuses
+     * @return CourseInfo
+     */
+    public function setCampuses(Collection $campuses): CourseInfo
+    {
+        $this->campuses = $campuses;
+        return $this;
+    }
+
+    /**
+     * @param Collection $languages
+     * @return CourseInfo
+     */
+    public function setLanguages(Collection $languages): CourseInfo
+    {
+        $this->languages = $languages;
+        return $this;
+    }
+
+    /**
+     * @param Collection $domains
+     * @return CourseInfo
+     */
+    public function setDomains(Collection $domains): CourseInfo
+    {
+        $this->domains = $domains;
+        return $this;
+    }
+
+    /**
+     * @param ArrayCollection $periods
+     * @return CourseInfo
+     */
+    public function setPeriods(ArrayCollection $periods): CourseInfo
+    {
+        $this->periods = $periods;
+        return $this;
     }
 
     /**

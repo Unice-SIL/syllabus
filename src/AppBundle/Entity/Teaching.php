@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -10,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="teaching")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\TeachingDoctrineRepository")
+ * @ApiResource()
  */
 class Teaching
 {

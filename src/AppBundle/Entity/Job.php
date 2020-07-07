@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -12,6 +13,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="job")
  * @ORM\Entity
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\JobTranslation")
+ * @ApiResource()
  */
 class Job
 {

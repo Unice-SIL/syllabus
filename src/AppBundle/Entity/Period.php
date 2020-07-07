@@ -3,6 +3,7 @@
 
 namespace AppBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use AppBundle\Traits\Importable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -16,6 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="period")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\PeriodDoctrineRepository")
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\PeriodTranslation")
+ * @ApiResource()
  */
 class Period
 {

@@ -4,6 +4,7 @@
 namespace AppBundle\Entity;
 
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use AppBundle\Traits\Importable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -16,7 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @package AppBundle\Entity
  * @ORM\Table(name="level")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\LevelDoctrineRepository")
- *
+ * @ApiResource()
  */
 class Level
 {

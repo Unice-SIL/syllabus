@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -12,6 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="equipment")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\EquipmentDoctrineRepository")
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\EquipmentTranslation")
+ * @ApiResource()
  */
 class Equipment
 {

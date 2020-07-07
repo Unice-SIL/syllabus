@@ -2,12 +2,14 @@
 
 namespace AppBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use AppBundle\Traits\Importable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups as Groups;
 
 /**
  * Class Language
@@ -15,6 +17,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="language")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\LanguageDoctrineRepository")
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\LanguageTranslation")
+ * @ApiResource(attributes={
+ *          "normalization_context"={"groups"={"language"}}
+ *     }
+ * )
  */
 class Language
 {
@@ -28,6 +34,7 @@ class Language
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @Groups({"language"})
      */
     private $id;
 
@@ -37,6 +44,7 @@ class Language
      * @ORM\Column(name="label", type="string", length=100, nullable=false)
      * @Assert\NotBlank()
      * @Gedmo\Translatable
+     * @Groups({"language"})
      */
     private $label;
 
@@ -44,6 +52,7 @@ class Language
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
+     * @Groups({"language"})
      */
     private $obsolete = false;
 

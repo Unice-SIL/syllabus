@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use AppBundle\Traits\Importable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -19,6 +20,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity(fields={"code", "source"}, message="La structure avec pour code établissement {{ value }} existe déjà pour cette source", errorPath="code")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\StructureDoctrineRepository")
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\StructureTranslation")
+ * @ApiResource()
  */
 class Structure
 {

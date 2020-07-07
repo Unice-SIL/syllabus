@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -12,7 +13,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="notification")
  * @ORM\Entity
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\NotificationTranslation")
- *
+ * @ApiResource()
  */
 class Notification
 {

@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Ramsey\Uuid\UuidInterface;
@@ -12,6 +13,7 @@ use Ramsey\Uuid\UuidInterface;
  * @ORM\Table(name="course_achievement")
  * @ORM\Entity
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CourseAchievementTranslation")
+ * @ApiResource()
  */
 class CourseAchievement
 {

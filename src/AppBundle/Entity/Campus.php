@@ -1,8 +1,8 @@
 <?php
 
-
 namespace AppBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use AppBundle\Traits\Importable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups as Groups;
 
 /**
  * Class Campus
@@ -20,7 +21,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity(fields={"code", "source"}, message="Le campus avec pour code établissement {{ value }} existe déjà pour cette source", errorPath="code")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\CampusDoctrineRepository")
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CampusTranslation")
- *
+ * @ApiResource(attributes={
+ *          "normalization_context"={"groups"={"campuses"}}
+ *     }
+ * )
  */
 class Campus
 {
@@ -34,6 +38,7 @@ class Campus
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @Groups({"campuses"})
      */
     private $id;
 
@@ -42,6 +47,7 @@ class Campus
      *
      * @ORM\Column(name="label", type="string", length=100, nullable=false)
      * @Assert\NotBlank()
+     * @Groups({"campuses"})
      */
     private $label;
 
@@ -50,6 +56,7 @@ class Campus
      *
      * @ORM\Column(name="grp", type="string", length=100, nullable=true)
      * @Gedmo\Translatable
+     * @Groups({"campuses"})
      */
     private $grp;
 
@@ -57,6 +64,7 @@ class Campus
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
+     * @Groups({"campuses"})
      */
     private $obsolete = false;
 

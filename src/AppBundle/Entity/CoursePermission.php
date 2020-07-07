@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use AppBundle\Constant\Permission;
 use AppBundle\Traits\Importable;
 use Doctrine\ORM\Mapping as ORM;
@@ -20,6 +21,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     message="Cet utilisateur possède déjà une permission identique."
  * )
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CoursePermissionTranslation")
+ * @ApiResource()
  */
 class CoursePermission
 {

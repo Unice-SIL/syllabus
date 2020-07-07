@@ -3,6 +3,7 @@
 
 namespace AppBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use AppBundle\Traits\Importable;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -16,6 +17,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="course_critical_achievement")
  * @ORM\Entity
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CourseCriticalAchievementTranslation")
+ * @ApiResource()
  */
 class CourseCriticalAchievement
 {
