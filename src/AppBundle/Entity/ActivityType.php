@@ -152,11 +152,12 @@ class ActivityType
     }
 
     /**
+     * @param $previousIcon
      * @return ActivityType
      */
-    public function setPreviousIcon(): ActivityType
+    public function setPreviousIcon($previousIcon): ActivityType
     {
-        $this->previousIcon = $this->getIcon();
+        $this->previousIcon = $previousIcon;
         return $this;
     }
 

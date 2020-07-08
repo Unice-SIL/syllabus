@@ -2343,11 +2343,12 @@ class CourseInfo
     }
 
     /**
-     * @return CourseInfo
+     * @param $previousImage
+     * @return $this
      */
-    public function setPreviousImage()
+    public function setPreviousImage($previousImage)
     {
-        $this->previousImage = $this->getImage();
+        $this->previousImage = $previousImage;
 
         return $this;
     }

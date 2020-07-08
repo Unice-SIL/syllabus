@@ -77,13 +77,13 @@ class CoursePresentationImageUploadListener
     {
         $entity = $args->getEntity();
 
-        if($property = $this->getProperty($entity) === null) return;
+        $property = $this->getProperty($entity);
+        if ($property === null) return;
 
-        if($previousProperty = $this->getPreviousProperty($entity) !== null)
-        {
+        $previousProperty = $this->getPreviousProperty($entity);
+        if ($previousProperty !== null) {
             $previous = $this->propertyAccessor->getValue($entity, $previousProperty);
-            if($previous && $previous !== $this->propertyAccessor->getValue($entity, $property))
-            {
+            if ($previous && $previous !== $this->propertyAccessor->getValue($entity, $property)) {
                 $this->fileRemoverHelper->remove($previous);
             }
         }
@@ -97,7 +97,7 @@ class CoursePresentationImageUploadListener
     public function postLoad(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
-        if ($entity instanceof CourseInfo || $entity instanceof ActivityType){
+        if ($entity instanceof CourseInfo || $entity instanceof ActivityType) {
             $this->getFile($entity);
         }
     }
@@ -107,12 +107,13 @@ class CoursePresentationImageUploadListener
      */
     public function getFile($entity)
     {
-        if($property = $this->getProperty($entity) === null) return;
+        $property = $this->getProperty($entity);
+        if ($property === null) return;
 
         if ($filename = $this->propertyAccessor->getValue($entity, $property)) {
-            $this->propertyAccessor->setValue($entity, $this->getPreviousProperty($entity), null);
+            $this->propertyAccessor->setValue($entity, $this->getPreviousProperty($entity), $filename);
             $path = $this->fileUploaderHelper->getDirectory() . '/' . $filename;
-            $value = (file_exists($path))?  new File($path) : null;
+            $value = (file_exists($path)) ? new File($path) : null;
             $this->propertyAccessor->setValue($entity, $property, $value);
         }
     }
@@ -122,7 +123,8 @@ class CoursePresentationImageUploadListener
      */
     private function uploadFile($entity)
     {
-        if($property = $this->getProperty($entity) === null) return;
+        $property = $this->getProperty($entity);
+        if ($property === null) return;
 
         if ($file = $this->propertyAccessor->getValue($entity, $property)) {
             if ($file instanceof UploadedFile) {
@@ -141,8 +143,8 @@ class CoursePresentationImageUploadListener
     private function getProperty($entity)
     {
         $property = null;
-        if($entity instanceof  CourseInfo) $property = self::COURSE_INFO_PROP_IMAGE;
-        if($entity instanceof  ActivityType) $property = self::ACTIVITY_TYPE_PROP_ICON;
+        if ($entity instanceof CourseInfo) $property = self::COURSE_INFO_PROP_IMAGE;
+        if ($entity instanceof ActivityType) $property = self::ACTIVITY_TYPE_PROP_ICON;
         return $property;
     }
 
@@ -153,8 +155,8 @@ class CoursePresentationImageUploadListener
     private function getPreviousProperty($entity)
     {
         $property = null;
-        if($entity instanceof  CourseInfo) $property = self::COURSE_INFO_PROP_PREVIOUS_IMAGE;
-        if($entity instanceof  ActivityType) $property = self::ACTIVITY_TYPE_PROP_PREVIOUS_ICON;
+        if ($entity instanceof CourseInfo) $property = self::COURSE_INFO_PROP_PREVIOUS_IMAGE;
+        if ($entity instanceof ActivityType) $property = self::ACTIVITY_TYPE_PROP_PREVIOUS_ICON;
         return $property;
     }
 }
