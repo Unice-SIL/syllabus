@@ -12,7 +12,6 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class StudentController
  * @package AppBundle\Controller
  * @Route("/course-info/{id}/view", name="app.course_info.view.")
- * @Security("is_granted('WRITE', courseInfo)")
  */
 class StudentController extends AbstractController
 {

@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 
 
 use AppBundle\Entity\CourseInfo;
+use AppBundle\Entity\CoursePermission;
 use AppBundle\Entity\User;
 use AppBundle\Manager\YearManager;
 use AppBundle\Repository\Doctrine\CourseInfoDoctrineRepository;
@@ -39,7 +40,14 @@ class DefaultController extends AbstractController
         if (empty($courseInfo)) {
             return $this->render('error/courseNotFound.html.twig');
         }
-        return $this->redirectToRoute('app.course_info.dashboard.index', ['id' => $courseInfo->getId()]);
+        $permissions = $this->getDoctrine()->getRepository(CoursePermission::class)->findBy([
+            'user' => $this->getUser(),
+            'courseInfo' => $courseInfo
+        ]);
+        if(count($permissions)>0 || $this->container->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            return $this->redirectToRoute('app.course_info.dashboard.index', ['id' => $courseInfo->getId()]);
+        }
+        return $this->redirectToRoute('app.course_info.view.student', ['id' => $courseInfo->getId()]);
     }
 
     /**
