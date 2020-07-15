@@ -53,6 +53,10 @@ ROLE_ADMIN_LANGUAGE: Languages management
 ROLE_ADMIN_LANGUAGE_LIST: See list of languages
 ROLE_ADMIN_LANGUAGE_CREATE: Create a language
 ROLE_ADMIN_LANGUAGE_UPDATE: Edit a language
+ROLE_ADMIN_LEVEL: Levels management
+ROLE_ADMIN_LEVEL_LIST: See list of levels
+ROLE_ADMIN_LEVEL_CREATE: Create a level
+ROLE_ADMIN_LEVEL_UPDATE: Edit a level
 ROLE_ADMIN_NOTIFICATION: Notifications management
 ROLE_ADMIN_NOTIFICATION_LIST: See list of notifications
 ROLE_ADMIN_NOTIFICATION_CREATE: Create a notification
@@ -72,47 +76,160 @@ ROLE_ADMIN_USER_CREATE: Create a user
 ROLE_ADMIN_USER_UPDATE: Edit a user
 ROLE_API: API access
 ROLE_API_ACTIVITY: Activities management
-ROLE_API_ACTIVITY_LIST: See list of activities
-ROLE_API_ACTIVITY_VIEW: See an activity
-ROLE_API_ACTIVITY_MODE: Activities modes management
-ROLE_API_ACTIVITY_MODE_LIST: See list of activities modes
-ROLE_API_ACTIVITY_MODE_VIEW: See an activity mode
-ROLE_API_ACTIVITY_TYPE: Activities types management
-ROLE_API_ACTIVITY_TYPE_LIST: List of activities types
-ROLE_API_ACTIVITY_TYPE_VIEW: Se an activity type
-ROLE_API_CRITICAL_ACHIEVEMENT: Criticals achievements management
-ROLE_API_CRITICAL_ACHIEVEMENT_LIST: List of critials achievements
-ROLE_API_CRITICAL_ACHIEVEMENT_VIEW: See a critical achievement
+ROLE_API_ACTIVITY_GET: List of activities
+ROLE_API_ACTIVITY_POST: Create an activity
+ROLE_API_ACTIVITY_PUT: Update an activity
+ROLE_API_ACTIVITY_DELETE: Delete an activity
+ROLE_API_ACTIVITY_MODE: Activities mode management
+ROLE_API_ACTIVITY_MODE_GET: List of activities mode
+ROLE_API_ACTIVITY_MODE_POST: Create an activity mode
+ROLE_API_ACTIVITY_MODE_PUT: Update an activity mode
+ROLE_API_ACTIVITY_MODE_DELETE: Delete an activity mode
+ROLE_API_ACTIVITY_TYPE: Activities type management
+ROLE_API_ACTIVITY_TYPE_GET: List of activities type
+ROLE_API_ACTIVITY_TYPE_POST: Create an activity type
+ROLE_API_ACTIVITY_TYPE_PUT: Update an activity type
+ROLE_API_ACTIVITY_TYPE_DELETE: Delete an activity type
+ROLE_API_ASK_ADVICE: Advice management
+ROLE_API_ASK_ADVICE_GET: List of advices
+ROLE_API_ASK_ADVICE_POST: Create an advice
+ROLE_API_ASK_ADVICE_PUT: Update an advice
+ROLE_API_ASK_ADVICE_DELETE: Delete an advice
 ROLE_API_CAMPUS: Campuses management
-ROLE_API_CAMPUS_LIST: List of campuses
-ROLE_API_CAMPUS_VIEW: See a campus
-ROLE_API_COURSE: Course management
-ROLE_API_COURSE_LIST: List of courses
-ROLE_API_COURSE_VIEW: See a course
-ROLE_API_COURSE_CREATE: Create a course
-ROLE_API_COURSE_UPDATE: Edit a course
-ROLE_API_COURSE_INFO: Syllabus management
-ROLE_API_COURSE_INFO_LIST: List of syllabus
-ROLE_API_COURSE_INFO_VIEW: See a syllabus
-ROLE_API_COURSE_INFO_CREATE: Create a syllabus
-ROLE_API_COURSE_INFO_UPDATE: Edit a syllabus
+ROLE_API_CAMPUS_GET: List of campuses
+ROLE_API_CAMPUS_POST: Create a campus
+ROLE_API_CAMPUS_PUT: Update a campus
+ROLE_API_CAMPUS_DELETE: Delete a campus
+ROLE_API_COURSE: Courses management
+ROLE_API_COURSE_GET: List of courses
+ROLE_API_COURSE_POST: Create a course
+ROLE_API_COURSE_PUT: Update a course
+ROLE_API_COURSE_DELETE: Delete a course
+ROLE_API_COURSE_ACHIEVEMENT: Course achievements management
+ROLE_API_COURSE_ACHIEVEMENT_GET: List of course achievements
+ROLE_API_COURSE_ACHIEVEMENT_POST: Create a course achievement
+ROLE_API_COURSE_ACHIEVEMENT_PUT: Update a course achievement
+ROLE_API_COURSE_ACHIEVEMENT_DELETE: Delete a course achievement
+ROLE_API_COURSE_CRITICAL_ACHIEVEMENT: Course critical achievements management
+ROLE_API_COURSE_CRITICAL_ACHIEVEMENT_GET: List of course critical achievements
+ROLE_API_COURSE_CRITICAL_ACHIEVEMENT_POST: Create a course critical achievement
+ROLE_API_COURSE_CRITICAL_ACHIEVEMENT_PUT: Update a course critical achievement
+ROLE_API_COURSE_CRITICAL_ACHIEVEMENT_DELETE: Delete a course critical achievement
+ROLE_API_COURSE_INFO: Course info management
+ROLE_API_COURSE_INFO_GET: List of course info
+ROLE_API_COURSE_INFO_POST: Create a course info
+ROLE_API_COURSE_INFO_PUT: Update a course info
+ROLE_API_COURSE_INFO_DELETE: Delete a course info
+ROLE_API_COURSE_INFO_FIELD: Course info fields management
+ROLE_API_COURSE_INFO_FIELD_GET: List of course info fields
+ROLE_API_COURSE_INFO_FIELD_POST: Create a course info field
+ROLE_API_COURSE_INFO_FIELD_PUT: Update a course info field
+ROLE_API_COURSE_INFO_FIELD_DELETE: Delete a course info field
+ROLE_API_COURSE_PERMISSION: Course permissions management
+ROLE_API_COURSE_PERMISSION_GET: List of course permissions
+ROLE_API_COURSE_PERMISSION_POST: Create a course permission
+ROLE_API_COURSE_PERMISSION_PUT: Update a course permission
+ROLE_API_COURSE_PERMISSION_DELETE: Delete a course permission
+ROLE_API_COURSE_PREREQUISITE: Course prerequisites management
+ROLE_API_COURSE_PREREQUISITE_GET: List of course prerequisites
+ROLE_API_COURSE_PREREQUISITE_POST: Create a course prerequisite
+ROLE_API_COURSE_PREREQUISITE_PUT: Update a course prerequisite
+ROLE_API_COURSE_PREREQUISITE_DELETE: Delete a course prerequisite
+ROLE_API_COURSE_RESOURCE_EQUIPMENT: Course resource equipments management
+ROLE_API_COURSE_RESOURCE_EQUIPMENT_GET: List of course resource equipments
+ROLE_API_COURSE_RESOURCE_EQUIPMENT_POST: Create a course resource equipment
+ROLE_API_COURSE_RESOURCE_EQUIPMENT_PUT: Update a course resource equipment
+ROLE_API_COURSE_RESOURCE_EQUIPMENT_DELETE: Delete a course resource equipment
+ROLE_API_COURSE_SECTION: Course sections management
+ROLE_API_COURSE_SECTION_GET: List of course sections
+ROLE_API_COURSE_SECTION_POST: Create a course section
+ROLE_API_COURSE_SECTION_PUT: Update a course section
+ROLE_API_COURSE_SECTION_DELETE: Delete a course section
+ROLE_API_COURSE_SECTION_ACTIVITY: Course section activities management
+ROLE_API_COURSE_SECTION_ACTIVITY_GET: List of course section activities
+ROLE_API_COURSE_SECTION_ACTIVITY_POST: Create a course section activity
+ROLE_API_COURSE_SECTION_ACTIVITY_PUT: Update a course section activity
+ROLE_API_COURSE_SECTION_ACTIVITY_DELETE: Delete a course section activity
+ROLE_API_COURSE_TEACHER: Course teachers management
+ROLE_API_COURSE_TEACHER_GET: List of courses teachers
+ROLE_API_COURSE_TEACHER_POST: Create a course teacher
+ROLE_API_COURSE_TEACHER_PUT: Update a course teacher
+ROLE_API_COURSE_TEACHER_DELETE: Delete a course teacher
+ROLE_API_COURSE_TUTORING_RESOURCE: Course tutoring resources management
+ROLE_API_COURSE_TUTORING_RESOURCE_GET: List of course tutoring resources
+ROLE_API_COURSE_TUTORING_RESOURCE_POST: Create a course tutoring resource
+ROLE_API_COURSE_TUTORING_RESOURCE_PUT: Update a course tutoring resource
+ROLE_API_COURSE_TUTORING_RESOURCE_DELETE: Delete a course tutoring resource
+ROLE_API_CRITICAL_ACHIEVEMENT: Critical achievements management
+ROLE_API_CRITICAL_ACHIEVEMENT_GET: List of critical achievements
+ROLE_API_CRITICAL_ACHIEVEMENT_POST: Create a critical achievement
+ROLE_API_CRITICAL_ACHIEVEMENT_PUT: Update a critical achievement
+ROLE_API_CRITICAL_ACHIEVEMENT_DELETE: Delete a critical achievement
 ROLE_API_DOMAIN: Domains management
-ROLE_API_DOMAIN_LIST: List of domains
-ROLE_API_DOMAIN_VIEW: See a domain
-ROLE_API_EQUIPMENT: Equipements management
-ROLE_API_EQUIPMENT_LIST: List of equipements
-ROLE_API_EQUIPMENT_VIEW: See en equipement
+ROLE_API_DOMAIN_GET: List of domains
+ROLE_API_DOMAIN_POST: Create a domain
+ROLE_API_DOMAIN_PUT: Update a domain
+ROLE_API_DOMAIN_DELETE: Delete a domain
+ROLE_API_EQUIPMENT: Equipments management
+ROLE_API_EQUIPMENT_GET: List of equipments
+ROLE_API_EQUIPMENT_POST: Create a equipment
+ROLE_API_EQUIPMENT_PUT: Update a equipment
+ROLE_API_EQUIPMENT_DELETE: Delete a equipment
+ROLE_API_GROUPS: Groups management
+ROLE_API_GROUPS_GET: List of groups
+ROLE_API_GROUPS_POST: Create a group
+ROLE_API_GROUPS_PUT: Update a group
+ROLE_API_GROUPS_DELETE: Delete a group
+ROLE_API_JOB: Jobs management
+ROLE_API_JOB_GET: List of jobs
+ROLE_API_JOB_POST: Create a job
+ROLE_API_JOB_PUT: Update a job
+ROLE_API_JOB_DELETE: Delete a job
 ROLE_API_LANGUAGE: Languages management
-ROLE_API_LANGUAGE_LIST: List of languages
-ROLE_API_LANGUAGE_VIEW: See a language
+ROLE_API_LANGUAGE_GET: List of languages
+ROLE_API_LANGUAGE_POST: Create a language
+ROLE_API_LANGUAGE_PUT: Update a language
+ROLE_API_LANGUAGE_DELETE: Delete a language
+ROLE_API_LEARNING_ACHIEVEMENT: Learning achievements management
+ROLE_API_LEARNING_ACHIEVEMENT_GET: List of learning achievements
+ROLE_API_LEARNING_ACHIEVEMENT_POST: Create a learning achievement
+ROLE_API_LEARNING_ACHIEVEMENT_PUT: Update a learning achievement
+ROLE_API_LEARNING_ACHIEVEMENT_DELETE: Delete a learning achievement
+ROLE_API_LEVEL: Levels management
+ROLE_API_LEVEL_GET: List of levels
+ROLE_API_LEVEL_POST: Create a level
+ROLE_API_LEVEL_PUT: Update a level
+ROLE_API_LEVEL_DELETE: Delete a level
+ROLE_API_NOTIFICATION: Notifications management
+ROLE_API_NOTIFICATION_GET: List of notifications
+ROLE_API_NOTIFICATION_POST: Create a notification
+ROLE_API_NOTIFICATION_PUT: Update a notification
+ROLE_API_NOTIFICATION_DELETE: Delete a notification
 ROLE_API_PERIOD: Periods management
-ROLE_API_PERIOD_LIST: List of periods
-ROLE_API_PERIOD_VIEW: See a period
+ROLE_API_PERIOD_GET: List of periods
+ROLE_API_PERIOD_POST: Create a period
+ROLE_API_PERIOD_PUT: Update a period
+ROLE_API_PERIOD_DELETE: Delete a period
+ROLE_API_STRUCTURE: Structures management
+ROLE_API_STRUCTURE_GET: List of structures
+ROLE_API_STRUCTURE_POST: Create a structure
+ROLE_API_STRUCTURE_PUT: Update a structure
+ROLE_API_STRUCTURE_DELETE: Delete a structure
+ROLE_API_TEACHING: Teaching management
+ROLE_API_TEACHING_GET: List of teaching
+ROLE_API_TEACHING_POST: Create a teaching
+ROLE_API_TEACHING_PUT: Update a teaching
+ROLE_API_TEACHING_DELETE: Delete a teaching
+ROLE_API_USER: Users management
+ROLE_API_USER_GET: List of users
+ROLE_API_USER_POST: Create an user
+ROLE_API_USER_PUT: Update an user
+ROLE_API_USER_DELETE: Delete an user
 ROLE_API_YEAR: Years management
-ROLE_API_YEAR_LIST: List of years
-ROLE_API_YEAR_VIEW: See a year
-ROLE_API_YEAR_CREATE: Create a year
-ROLE_API_YEAR_UPDATE: Edit a year
+ROLE_API_YEAR_GET: List of years
+ROLE_API_YEAR_POST: Create an year
+ROLE_API_YEAR_PUT: Update an year
+ROLE_API_YEAR_DELETE: Delete an year
 collective: Collective
 groups: Group
 individual: Individual

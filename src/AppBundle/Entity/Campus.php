@@ -24,12 +24,13 @@ use Symfony\Component\Serializer\Annotation\Groups as Groups;
  * @ApiResource(attributes={
  *          "normalization_context"={"groups"={"campuses"}},
  *          "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"},
- *          collectionOperations={
-                  "get"={"method"="GET", "access_control"="is_granted('ROLE_API_LIST')"}
- *          },
- *          itemOperations={
- *              "get"={"method"="GET", "access_control"="is_granted('ROLE_USER') and object.owner == user"}
- *          }
+ *          "access_control"="is_granted('ROLE_API_CAMPUS')",
+ *     },
+ *     collectionOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_CAMPUS_LIST')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_CAMPUS_VIEW')"}
  *     }
  * )
  */

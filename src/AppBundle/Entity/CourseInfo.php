@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use AppBundle\Validator\Constraints as AssertCustom;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -547,6 +548,7 @@ class CourseInfo
      * @ORM\OneToMany(targetEntity="CourseTeacher", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"lastname" = "ASC"})
      * @Assert\Count(min="1", groups={"presentation"})
+     * @ApiSubresource()
      */
     private $courseTeachers;
 
