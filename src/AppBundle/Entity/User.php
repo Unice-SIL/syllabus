@@ -19,7 +19,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity("username")
  * @UniqueEntity("email")
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\UserTranslation")
- * @ApiResource()
+ * @ApiResource(attributes={
+ *     "filters"={"id.search_filter", "user.search_filter", "username.search_filter"}
+ *     })
  */
 class User implements UserInterface
 {

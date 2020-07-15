@@ -11,7 +11,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="teaching")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\TeachingDoctrineRepository")
- * @ApiResource()
+ * @ApiResource(attributes={
+ *     "filters"={"id.search_filter"}
+ *     })
  */
 class Teaching
 {

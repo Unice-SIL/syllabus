@@ -38,6 +38,7 @@
         "lexik/translation-bundle": "^4.0",
         "manuelodelain/linkify-twig-extension": "^1.0",
         "peppeocchi/php-cron-scheduler": "^3.0",
+        "phpdocumentor/reflection-docblock": "v4.3.4",
         "ramsey/uuid": "^3.8",
         "sensio/distribution-bundle": "^5.0.19",
         "sensio/framework-extra-bundle": "^5.0.0",

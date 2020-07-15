@@ -16,7 +16,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="activity_mode")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\ActivityModeDoctrineRepository")
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\ActivityModeTranslation")
- * @ApiResource()
+ * @ApiResource(attributes={
+ *     "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"}
+ *     })
  */
 class ActivityMode
 {

@@ -20,7 +20,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity(fields={"code", "source"}, message="La structure avec pour code établissement {{ value }} existe déjà pour cette source", errorPath="code")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\StructureDoctrineRepository")
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\StructureTranslation")
- * @ApiResource()
+ * @ApiResource(attributes={
+ *     "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"}
+ *     })
  */
 class Structure
 {

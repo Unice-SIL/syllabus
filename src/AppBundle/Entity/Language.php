@@ -18,7 +18,8 @@ use Symfony\Component\Serializer\Annotation\Groups as Groups;
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\LanguageDoctrineRepository")
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\LanguageTranslation")
  * @ApiResource(attributes={
- *          "normalization_context"={"groups"={"language"}}
+ *          "normalization_context"={"groups"={"language"}},
+ *          "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"}
  *     }
  * )
  */

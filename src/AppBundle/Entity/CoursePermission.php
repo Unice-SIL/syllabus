@@ -21,7 +21,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     message="Cet utilisateur possède déjà une permission identique."
  * )
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CoursePermissionTranslation")
- * @ApiResource()
+ * @ApiResource(attributes={
+ *     "filters"={"id.search_filter"}
+ *     })
  */
 class CoursePermission
 {

@@ -16,7 +16,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="course_section")
  * @ORM\Entity
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CourseSectionTranslation")
- * @ApiResource()
+ * @ApiResource(attributes={
+ *     "filters"={"id.search_filter", "title.search_filter"}
+ *     })
  */
 class CourseSection
 {

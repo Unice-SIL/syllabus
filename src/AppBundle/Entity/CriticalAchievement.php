@@ -18,7 +18,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="critical_achievement")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\CriticalAchievementDoctrineRepository")
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CriticalAchievementTranslation")
- * @ApiResource()
+ * @ApiResource(attributes={
+ *     "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"}
+ *     })
  */
 class CriticalAchievement
 {

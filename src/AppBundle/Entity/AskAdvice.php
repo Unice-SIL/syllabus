@@ -13,7 +13,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="ask_advice")
  * @ORM\Entity
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\AskAdviceTranslation")
- * @ApiResource()
+ * @ApiResource(attributes={
+ *     "filters"={"id.search_filter"}
+ *     })
  */
 class AskAdvice
 {

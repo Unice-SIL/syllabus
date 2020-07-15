@@ -12,7 +12,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="course_tutoring_resource")
  * @ORM\Entity
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CourseTutoringResourceTranslation")
- * @ApiResource()
+ * @ApiResource(attributes={
+ *     "filters"={"id.search_filter"}
+ *     })
  */
 class CourseTutoringResource
 {

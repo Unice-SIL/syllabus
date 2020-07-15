@@ -13,7 +13,9 @@ use Ramsey\Uuid\UuidInterface;
  * @ORM\Table(name="course_achievement")
  * @ORM\Entity
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CourseAchievementTranslation")
- * @ApiResource()
+ * @ApiResource(attributes={
+ *     "filters"={"id.search_filter"}
+ *     })
  */
 class CourseAchievement
 {

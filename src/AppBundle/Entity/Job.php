@@ -13,7 +13,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="job")
  * @ORM\Entity
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\JobTranslation")
- * @ApiResource()
+ * @ApiResource(attributes={
+ *     "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"}
+ *     })
  */
 class Job
 {

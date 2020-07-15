@@ -18,7 +18,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="domain")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\DomainDoctrineRepository")
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\DomainTranslation")
- * @ApiResource()
+ * @ApiResource(attributes={
+ *     "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"}
+ *     })
  */
 class Domain
 {

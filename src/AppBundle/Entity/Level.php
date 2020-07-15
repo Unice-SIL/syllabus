@@ -17,7 +17,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @package AppBundle\Entity
  * @ORM\Table(name="level")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\LevelDoctrineRepository")
- * @ApiResource()
+ * @ApiResource(attributes={
+ *     "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"}
+ *     })
  */
 class Level
 {

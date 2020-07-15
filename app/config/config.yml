@@ -2,6 +2,7 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
+    - { resource: api_filters.yml }
     - { resource: "@AppBundle/Resources/config/services.yml" }
     - { resource: "@LdapBundle/Resources/config/services.yml" }
 
@@ -215,3 +216,9 @@ dmishh_settings:
         #            constraints:
         #                Symfony\Component\Validator\Constraints\Length:
         #                    min: 5
+
+api_platform:
+    collection:
+        pagination:
+            client_items_per_page: true # Disabled by default
+            items_per_page_parameter_name: itemsPerPage # Default value

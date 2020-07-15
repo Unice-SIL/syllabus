@@ -18,7 +18,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity("id")
  * @UniqueEntity("label")
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\YearTranslation")
- * @ApiResource()
+ * @ApiResource(attributes={
+ *     "filters"={"id.search_filter", "label.search_filter"}
+ *     })
  */
 class Year
 {
@@ -31,7 +33,7 @@ class Year
      * @Assert\NotBlank(message="Ce champ ne doit pas être vide")
      * @Assert\Regex(
      *     pattern="/^\d{4}$/",
-     *     message="Cette valeure doit respecter le format AAAA"
+     *     message="Cette valeur doit respecter le format AAAA"
      * )
      */
     private $id;

@@ -15,7 +15,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="groups")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\GroupsDoctrineRepository")
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\GroupsTranslation")
- * @ApiResource()
+ * @ApiResource(attributes={
+ *     "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"}
+ *     })
  */
 class Groups
 {

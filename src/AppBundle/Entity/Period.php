@@ -17,7 +17,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="period")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\PeriodDoctrineRepository")
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\PeriodTranslation")
- * @ApiResource()
+ * @ApiResource(attributes={
+ *     "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"}
+ *     })
  */
 class Period
 {
