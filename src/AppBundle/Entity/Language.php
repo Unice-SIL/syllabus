@@ -18,8 +18,18 @@ use Symfony\Component\Serializer\Annotation\Groups as Groups;
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\LanguageDoctrineRepository")
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\LanguageTranslation")
  * @ApiResource(attributes={
- *          "normalization_context"={"groups"={"language"}},
- *          "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"}
+ *     "normalization_context"={"groups"={"language"}},
+ *     "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"},
+ *     "access_control"="is_granted('ROLE_API_LANGUAGE')",
+ *     },
+ *     collectionOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_LANGUAGE_GET')"},
+ *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_LANGUAGE_POST')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_LANGUAGE_GET')"},
+ *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_LANGUAGE_PUT')"},
+ *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_LANGUAGE_DELETE')"},
  *     }
  * )
  */

@@ -14,8 +14,19 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\EquipmentDoctrineRepository")
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\EquipmentTranslation")
  * @ApiResource(attributes={
- *     "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"}
- *     })
+ *     "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"},
+ *     "access_control"="is_granted('ROLE_API_EQUIPMENT')",
+ *     },
+ *     collectionOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_EQUIPMENT_GET')"},
+ *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_EQUIPMENT_POST')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_EQUIPMENT_GET')"},
+ *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_EQUIPMENT_PUT')"},
+ *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_EQUIPMENT_DELETE')"},
+ *     }
+ * )
  */
 class Equipment
 {

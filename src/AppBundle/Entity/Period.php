@@ -18,8 +18,19 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\PeriodDoctrineRepository")
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\PeriodTranslation")
  * @ApiResource(attributes={
- *     "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"}
- *     })
+ *     "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"},
+ *     "access_control"="is_granted('ROLE_API_PERIOD')",
+ *     },
+ *     collectionOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_PERIOD_GET')"},
+ *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_PERIOD_POST')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_PERIOD_GET')"},
+ *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_PERIOD_PUT')"},
+ *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_PERIOD_DELETE')"},
+ *     }
+ * )
  */
 class Period
 {

@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,8 +18,19 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\ActivityTypeDoctrineRepository")
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\ActivityTypeTranslation")
  * @ApiResource(attributes={
- *     "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"}
- *     })
+ *     "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"},
+ *     "access_control"="is_granted('ROLE_API_ACTIVITY_TYPE')",
+ *     },
+ *     collectionOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_ACTIVITY_TYPE_GET')"},
+ *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_ACTIVITY_TYPE_POST')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_ACTIVITY_TYPE_GET')"},
+ *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_ACTIVITY_TYPE_PUT')"},
+ *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_ACTIVITY_TYPE_DELETE')"},
+ *     }
+ * )
  */
 class ActivityType
 {
@@ -61,6 +73,7 @@ class ActivityType
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\ActivityMode", inversedBy="activityTypes")
      * @JoinTable(name="activity_type_activity_mode")
+     * @ApiSubresource()
      */
     private $activityModes;
 

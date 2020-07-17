@@ -27,10 +27,13 @@ use Symfony\Component\Serializer\Annotation\Groups as Groups;
  *          "access_control"="is_granted('ROLE_API_CAMPUS')",
  *     },
  *     collectionOperations={
- *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_CAMPUS_LIST')"}
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_CAMPUS_GET')"},
+ *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_CAMPUS_POST')"}
  *     },
  *     itemOperations={
- *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_CAMPUS_VIEW')"}
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_CAMPUS_GET')"},
+ *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_CAMPUS_PUT')"},
+ *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_CAMPUS_DELETE')"},
  *     }
  * )
  */
@@ -80,6 +83,7 @@ class Campus
      * @var ArrayCollection
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\CourseInfo", mappedBy="campuses")
+     * @Groups({"campuses"})
      */
     private $courseInfos;
 

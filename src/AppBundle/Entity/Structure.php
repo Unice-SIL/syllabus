@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use AppBundle\Traits\Importable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -21,8 +22,19 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\StructureDoctrineRepository")
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\StructureTranslation")
  * @ApiResource(attributes={
- *     "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"}
- *     })
+ *     "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"},
+ *     "access_control"="is_granted('ROLE_API_STRUCTURE')",
+ *     },
+ *     collectionOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_STRUCTURE_GET')"},
+ *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_STRUCTURE_POST')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_STRUCTURE_GET')"},
+ *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_STRUCTURE_PUT')"},
+ *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_STRUCTURE_DELETE')"},
+ *     }
+ * )
  */
 class Structure
 {
@@ -57,6 +69,7 @@ class Structure
      * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Domain", mappedBy="structures")
+     * @ApiSubresource()
      */
     private $domains;
 
@@ -64,6 +77,7 @@ class Structure
      * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Period", mappedBy="structures")
+     * @ApiSubresource()
      */
     private $periods;
 
@@ -71,6 +85,7 @@ class Structure
      * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Level", mappedBy="structures")
+     * @ApiSubresource()
      */
     private $levels;
 

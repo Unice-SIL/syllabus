@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use AppBundle\Traits\Importable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -22,15 +23,16 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CourseTranslation")
  * @ApiResource(attributes={
  *     "filters"={"id.search_filter", "title.search_filter"},
- *          "access_control"="is_granted('ROLE_API_COURSE')",
+ *     "access_control"="is_granted('ROLE_API_COURSE')",
  *     },
  *     collectionOperations={
- *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_COURSE_LIST')"},
- *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_COURSE_CREATE')"}
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_COURSE_GET')"},
+ *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_COURSE_POST')"}
  *     },
  *     itemOperations={
- *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_COURSE_VIEW')"},
- *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_COURSE_UPDATE')"}
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_COURSE_GET')"},
+ *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_COURSE_PUT')"},
+ *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_COURSE_DELETE')"},
  *     }
  * )
  */
@@ -78,12 +80,14 @@ class Course
      *     @ORM\JoinColumn(name="course_parent_id", referencedColumnName="id")
      *   }
      * )
+     * @ApiSubresource()
      */
     private $parents;
 
     /**
      * @var Collection
      * @ORM\ManyToMany(targetEntity="Course", mappedBy="parents")
+     * @ApiSubresource()
      */
     private $children;
 
@@ -91,12 +95,14 @@ class Course
      * @var Collection
      *
      * @ORM\OneToMany(targetEntity="CourseInfo", mappedBy="course", cascade={ "persist" })
+     * @ApiSubresource()
      */
     private $courseInfos;
 
     /**
      * @var Collection
      * @ORM\ManyToMany(targetEntity="CriticalAchievement", inversedBy="courses", cascade={ "persist" })
+     * @ApiSubresource()
      */
     private $criticalAchievements;
 
@@ -110,6 +116,7 @@ class Course
     /**
      * @var Collection
      * @ORM\ManyToMany(targetEntity="CoursePrerequisite", inversedBy="courses", cascade={ "persist" })
+     * @ApiSubresource()
      */
     private $coursePrerequisites;
 

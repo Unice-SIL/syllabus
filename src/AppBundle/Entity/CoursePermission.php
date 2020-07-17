@@ -23,14 +23,16 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CoursePermissionTranslation")
  * @ApiResource(attributes={
  *     "filters"={"id.search_filter"},
- *          "access_control"="is_granted('ROLE_API_CAMPUS')",
+ *     "access_control"="is_granted('ROLE_API_COURSE_PERMISSION')",
  *     },
  *     collectionOperations={
- *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_CAMPUS_LIST')"},
- *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_COURSE_PERMISSION')"}
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_COURSE_PERMISSION_GET')"},
+ *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_COURSE_PERMISSION_POST')"}
  *     },
  *     itemOperations={
- *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_CAMPUS_VIEW')"}
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_COURSE_PERMISSION_GET')"},
+ *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_COURSE_PERMISSION_PUT')"},
+ *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_COURSE_PERMISSION_DELETE')"},
  *     }
  * )
  */

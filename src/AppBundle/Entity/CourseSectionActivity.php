@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -14,8 +15,19 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CourseSectionActivityTranslation")
  * @ApiResource(attributes={
- *     "filters"={"id.search_filter"}
- *     })
+ *     "filters"={"id.search_filter"},
+ *     "access_control"="is_granted('ROLE_API_COURSE_SECTION_ACTIVITY')",
+ *     },
+ *     collectionOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_COURSE_SECTION_ACTIVITY_GET')"},
+ *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_COURSE_SECTION_ACTIVITY_POST')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_COURSE_SECTION_ACTIVITY_GET')"},
+ *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_COURSE_SECTION_ACTIVITY_PUT')"},
+ *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_COURSE_SECTION_ACTIVITY_DELETE')"},
+ *     }
+ * )
  */
 class CourseSectionActivity
 {
@@ -87,6 +99,7 @@ class CourseSectionActivity
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="activity_id", referencedColumnName="id", nullable=false)
      * })
+     * @ApiSubresource()
      */
     private $activity;
 
@@ -98,6 +111,7 @@ class CourseSectionActivity
      *   @ORM\JoinColumn(name="activity_type_id", referencedColumnName="id", nullable=false)
      * })
      * @Assert\NotBlank()
+     * @ApiSubresource()
      */
     private $activityType;
 
@@ -109,6 +123,7 @@ class CourseSectionActivity
      *   @ORM\JoinColumn(name="activity_mode_id", referencedColumnName="id", nullable=false)
      * })
      * @Assert\NotBlank()
+     * @ApiSubresource()
      */
     private $activityMode;
 
@@ -119,6 +134,7 @@ class CourseSectionActivity
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="course_section_id", referencedColumnName="id", nullable=false)
      * })
+     * @ApiSubresource()
      */
     private $courseSection;
 

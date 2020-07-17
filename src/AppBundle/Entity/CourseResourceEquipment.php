@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -14,8 +15,19 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CourseResourceEquipmentTranslation")
  * @ApiResource(attributes={
- *     "filters"={"id.search_filter"}
- *     })
+ *     "filters"={"id.search_filter"},
+ *     "access_control"="is_granted('ROLE_API_COURSE_RESOURCE_EQUIPMENT')",
+ *     },
+ *     collectionOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_COURSE_RESOURCE_EQUIPMENT_GET')"},
+ *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_COURSE_RESOURCE_EQUIPMENT_POST')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_COURSE_RESOURCE_EQUIPMENT_GET')"},
+ *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_COURSE_RESOURCE_EQUIPMENT_PUT')"},
+ *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_COURSE_RESOURCE_EQUIPMENT_DELETE')"},
+ *     }
+ * )
  */
 class CourseResourceEquipment
 {
@@ -62,6 +74,7 @@ class CourseResourceEquipment
      *   @ORM\JoinColumn(name="equipment_id", referencedColumnName="id", nullable=false)
      * })
      * @Assert\Blank(groups={"equipments_empty"})
+     * @ApiSubresource()
      */
     private $equipment;
 

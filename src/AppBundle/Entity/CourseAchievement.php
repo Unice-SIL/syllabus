@@ -14,8 +14,19 @@ use Ramsey\Uuid\UuidInterface;
  * @ORM\Entity
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CourseAchievementTranslation")
  * @ApiResource(attributes={
- *     "filters"={"id.search_filter"}
- *     })
+ *     "filters"={"id.search_filter"},
+ *     "access_control"="is_granted('ROLE_API_COURSE_ACHIEVEMENT')",
+ *     },
+ *     collectionOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_COURSE_ACHIEVEMENT_GET')"},
+ *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_COURSE_ACHIEVEMENT_POST')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_COURSE_ACHIEVEMENT_GET')"},
+ *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_COURSE_ACHIEVEMENT_PUT')"},
+ *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_COURSE_ACHIEVEMENT_DELETE')"},
+ *     }
+ * )
  */
 class CourseAchievement
 {

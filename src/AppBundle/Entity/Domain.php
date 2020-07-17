@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use AppBundle\Traits\Importable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -19,8 +20,19 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\DomainDoctrineRepository")
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\DomainTranslation")
  * @ApiResource(attributes={
- *     "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"}
- *     })
+ *     "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"},
+ *     "access_control"="is_granted('ROLE_API_DOMAIN')",
+ *     },
+ *     collectionOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_DOMAIN_GET')"},
+ *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_DOMAIN_POST')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_DOMAIN_GET')"},
+ *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_DOMAIN_PUT')"},
+ *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_DOMAIN_DELETE')"},
+ *     }
+ * )
  */
 class Domain
 {
@@ -64,6 +76,7 @@ class Domain
      * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Structure", inversedBy="domains")
+     * @ApiSubresource()
      */
     private $structures;
 

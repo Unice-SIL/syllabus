@@ -19,8 +19,19 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity("label")
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\YearTranslation")
  * @ApiResource(attributes={
- *     "filters"={"id.search_filter", "label.search_filter"}
- *     })
+ *     "filters"={"id.search_filter", "label.search_filter"},
+ *     "access_control"="is_granted('ROLE_API_YEAR')",
+ *     },
+ *     collectionOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_YEAR_GET')"},
+ *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_YEAR_POST')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_YEAR_GET')"},
+ *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_YEAR_PUT')"},
+ *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_YEAR_DELETE')"},
+ *     }
+ * )
  */
 class Year
 {

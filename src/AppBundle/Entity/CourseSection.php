@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,8 +18,19 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CourseSectionTranslation")
  * @ApiResource(attributes={
- *     "filters"={"id.search_filter", "title.search_filter"}
- *     })
+ *     "filters"={"id.search_filter", "title.search_filter"},
+ *     "access_control"="is_granted('ROLE_API_COURSE_SECTION')",
+ *     },
+ *     collectionOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_COURSE_SECTION_GET')"},
+ *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_COURSE_SECTION_POST')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_COURSE_SECTION_GET')"},
+ *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_COURSE_SECTION_PUT')"},
+ *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_COURSE_SECTION_DELETE')"},
+ *     }
+ * )
  */
 class CourseSection
 {
@@ -78,6 +90,7 @@ class CourseSection
      * @ORM\OneToMany(targetEntity="CourseSectionActivity", mappedBy="courseSection", cascade={ "persist", "remove", "merge" }, orphanRemoval=true)
      * @ORM\OrderBy({"position" = "ASC"})
      * @Assert\Count(min="1", groups={"contentActivities"})
+     * @ApiSubresource()
      */
     private $courseSectionActivities;
 

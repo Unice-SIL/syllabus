@@ -20,8 +20,19 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity("email")
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\UserTranslation")
  * @ApiResource(attributes={
- *     "filters"={"id.search_filter", "user.search_filter", "username.search_filter"}
- *     })
+ *     "filters"={"id.search_filter", "user.search_filter", "username.search_filter"},
+ *     "access_control"="is_granted('ROLE_API_USER')",
+ *     },
+ *     collectionOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_USER_GET')"},
+ *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_USER_POST')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_USER_GET')"},
+ *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_USER_PUT')"},
+ *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_USER_DELETE')"},
+ *     }
+ * )
  */
 class User implements UserInterface
 {

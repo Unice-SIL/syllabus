@@ -13,8 +13,19 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Entity
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CourseInfoFieldTranslation")
  * @ApiResource(attributes={
- *     "filters"={"id.search_filter", "label.search_filter"}
- *     })
+ *     "filters"={"id.search_filter", "label.search_filter"},
+ *     "access_control"="is_granted('ROLE_API_COURSE_INFO_FIELD')",
+ *     },
+ *     collectionOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_COURSE_INFO_FIELD_GET')"},
+ *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_COURSE_INFO_FIELD_POST')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_COURSE_INFO_FIELD_GET')"},
+ *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_COURSE_INFO_FIELD_PUT')"},
+ *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_COURSE_INFO_FIELD_DELETE')"},
+ *     }
+ * )
  */
 class CourseInfoField
 {

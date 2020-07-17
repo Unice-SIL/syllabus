@@ -18,8 +18,19 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="level")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\LevelDoctrineRepository")
  * @ApiResource(attributes={
- *     "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"}
- *     })
+ *     "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"},
+ *     "access_control"="is_granted('ROLE_API_LEVEL')",
+ *     },
+ *     collectionOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_LEVEL_GET')"},
+ *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_LEVEL_POST')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_LEVEL_GET')"},
+ *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_LEVEL_PUT')"},
+ *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_LEVEL_DELETE')"},
+ *     }
+ * )
  */
 class Level
 {

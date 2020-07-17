@@ -25,8 +25,19 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity(fields={"year", "course"}, message="Le cours {{ value }} existe déjà pour cette année", errorPath="course")
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CourseInfoTranslation")
  * @ApiResource(attributes={
- *     "filters"={"id.search_filter", "title.search_filter"}
- *     })
+ *     "filters"={"id.search_filter", "title.search_filter"},
+ *     "access_control"="is_granted('ROLE_API_COURSE_INFO')",
+ *     },
+ *     collectionOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_COURSE_INFO_GET')"},
+ *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_COURSE_INFO_POST')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_COURSE_INFO_GET')"},
+ *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_COURSE_INFO_PUT')"},
+ *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_COURSE_INFO_DELETE')"},
+ *     }
+ * )
  */
 class CourseInfo
 {
@@ -243,6 +254,7 @@ class CourseInfo
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Teaching", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @Assert\Valid()
+     * @ApiSubresource()
      */
     private $teachings;
 
@@ -452,6 +464,7 @@ class CourseInfo
      *   @ORM\JoinColumn(name="course_id", referencedColumnName="id", nullable=false)
      * })
      * @Assert\NotBlank()
+     * @ApiSubresource()
      */
     private $course;
 
@@ -463,6 +476,7 @@ class CourseInfo
      *   @ORM\JoinColumn(name="structure_id", referencedColumnName="id", nullable=false)
      * })
      * @Assert\NotBlank(groups={"new", "edit"})
+     * @ApiSubresource()
      */
     private $structure;
 
@@ -471,6 +485,7 @@ class CourseInfo
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Campus", inversedBy="courseInfos")
      * @ORM\JoinTable(name="course_info_campus")
+     * @ApiSubresource()
      */
     private $campuses;
 
@@ -480,7 +495,7 @@ class CourseInfo
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Language", inversedBy="courseInfos")
      * @ORM\JoinTable(name="course_info_language")
      * @ORM\OrderBy({"label" = "ASC"})
-     *
+     * @ApiSubresource()
      */
     private $languages;
 
@@ -490,6 +505,7 @@ class CourseInfo
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Domain", inversedBy="courseInfos")
      * @ORM\JoinTable(name="course_info_domain")
      * @Assert\Count(min="1", groups={"presentation"})
+     * @ApiSubresource()
      */
     private $domains;
 
@@ -498,6 +514,7 @@ class CourseInfo
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Period", inversedBy="courseInfos")
      * @ORM\JoinTable(name="course_info_period")
+     * @ApiSubresource()
      */
     private $periods;
 
@@ -510,6 +527,7 @@ class CourseInfo
      *   @ORM\JoinColumn(name="last_updater", referencedColumnName="id")
      * })
      * @Gedmo\Blameable(on="update")
+     * @ApiSubresource()
      */
     private $lastUpdater;
 
@@ -521,6 +539,7 @@ class CourseInfo
      *   @ORM\JoinColumn(name="publisher", referencedColumnName="id", nullable=true)
      * })
      * @Gedmo\Blameable(on="create")
+     * @ApiSubresource()
      */
     private $publisher;
 
@@ -532,6 +551,7 @@ class CourseInfo
      *   @ORM\JoinColumn(name="year_id", referencedColumnName="id", nullable=false)
      * })
      * @Assert\NotBlank(groups={"new", "edit"})
+     * @ApiSubresource()
      */
     private $year;
 
@@ -539,6 +559,7 @@ class CourseInfo
      * @var Collection
      *
      * @ORM\OneToMany(targetEntity="CoursePermission", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
+     * @ApiSubresource()
      */
     private $coursePermissions;
 
@@ -559,6 +580,7 @@ class CourseInfo
      * @ORM\OrderBy({"position" = "ASC"})
      * @Assert\Count(min="1", groups={"contentActivities"})
      * @Assert\Valid
+     * @ApiSubresource()
      */
     private $courseSections;
 
@@ -569,6 +591,7 @@ class CourseInfo
      * @ORM\OrderBy({"position" = "ASC"})
      * @Assert\NotBlank
      * @AssertCustom\AchievementConstraintValidator
+     * @ApiSubresource()
      */
     private $courseAchievements;
 
@@ -576,6 +599,7 @@ class CourseInfo
      * @OneToMany(targetEntity="CourseCriticalAchievement", mappedBy="courseInfo")
      * @Assert\NotBlank(groups={"objectives"})
      * @AssertCustom\AchievementConstraintValidator
+     * @ApiSubresource()
      */
     private $courseCriticalAchievements;
 
@@ -588,6 +612,7 @@ class CourseInfo
      *     groups={"prerequisites"},
      *     min = 1
      *     )
+     * @ApiSubresource()
      */
     private $coursePrerequisites;
 
@@ -596,6 +621,7 @@ class CourseInfo
      *
      * @ORM\OneToMany(targetEntity="CourseTutoringResource", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"position" = "ASC"})
+     * @ApiSubresource()
      */
     private $courseTutoringResources;
 
@@ -606,6 +632,7 @@ class CourseInfo
      * @ORM\OrderBy({"position" = "ASC", "equipment" = "ASC"})
      * @Assert\Count(max="0", groups={"equipments_empty"})
      * @Assert\Valid
+     * @ApiSubresource()
      */
     private $courseResourceEquipments;
 
@@ -614,6 +641,7 @@ class CourseInfo
      *
      * @ORM\ManyToMany(targetEntity="Level", inversedBy="courseInfos")
      * @Assert\Count(min="1", groups={"presentation"})
+     * @ApiSubresource()
      */
     private $levels;
 
