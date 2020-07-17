@@ -88,24 +88,35 @@ class CourseInfoVoter extends Voter
         /** @var User $user */
         $user = $token->getUser();
 
-        switch (get_class($subject)) {
-            case CourseInfo::class:
-                return $this->getPermission($subject, $user, $attribute);
-                break;
-            case LearningAchievement::class:
-                $courseInfo = $subject->getCourseCriticalAchievement()->getCourseInfo();
-                return $this->getPermission($courseInfo, $user, $attribute);
-                break;
-            case CourseAchievement::class:
-            case CourseTeacher::class:
-            case CoursePrerequisite::class:
-            case CourseSection::class:
-            case CourseSectionActivity::class:
-            case CourseCriticalAchievement::class:
-            case CourseTutoringResource::class:
-                $courseInfo = $subject->getCourseInfo();
-                return $this->getPermission($courseInfo, $user, $attribute);
-                break;
+        if($subject instanceof CourseInfo)
+        {
+            return $this->getPermission($subject, $user, $attribute);
+        }
+
+        if($subject instanceof LearningAchievement)
+        {
+            $courseInfo = $subject->getCourseCriticalAchievement()->getCourseInfo();
+            return $this->getPermission($courseInfo, $user, $attribute);
+        }
+
+        if(
+            $subject instanceof CourseAchievement or
+            $subject instanceof CourseTeacher or
+            $subject instanceof CoursePrerequisite or
+            $subject instanceof CourseSection or
+            $subject instanceof CourseCriticalAchievement or
+            $subject instanceof CourseTutoringResource or
+            $subject instanceof CourseResourceEquipment
+        )
+        {
+            $courseInfo = $subject->getCourseInfo();
+            return $this->getPermission($courseInfo, $user, $attribute);
+        }
+
+        if($subject instanceof CourseSectionActivity)
+        {
+            $courseInfo = $subject->getCourseSection()->getCourseInfo();
+            return $this->getPermission($courseInfo, $user, $attribute);
         }
 
         return false;
@@ -117,9 +128,9 @@ class CourseInfoVoter extends Voter
      * @param $attribute
      * @return bool
      */
-    private function getPermission(CourseInfo $couseInfo, User $user, $attribute)
+    private function getPermission(CourseInfo $courseInfo, User $user, $attribute)
     {
-        foreach ($couseInfo->getCoursePermissions() as $coursePermission) {
+        foreach ($courseInfo->getCoursePermissions() as $coursePermission) {
             if ($coursePermission->getUser()->getId() === $user->getId() && $coursePermission->getPermission() === $attribute) {
                 return true;
             }
