@@ -41,6 +41,22 @@ class ActivityType
     private $label;
 
     /**
+     * @var string|null
+     *
+     * @ORM\Column(name="icon", type="text", length=65535, nullable=true)
+     * @Assert\File(
+     *    maxSize="2M",
+     *     mimeTypes={ "image/jpeg", "image/png" }
+     *     )
+     */
+    private $icon;
+
+    /**
+     * @var string|null
+     */
+    private $previousIcon = null;
+
+    /**
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
@@ -108,6 +124,40 @@ class ActivityType
     public function setLabel(string $label): self
     {
         $this->label = $label;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIcon()
+    {
+        return $this->icon;
+    }
+
+    /**
+     * @param mixed $icon
+     */
+    public function setIcon($icon): void
+    {
+        $this->icon = $icon;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPreviousIcon(): ?string
+    {
+        return $this->previousIcon;
+    }
+
+    /**
+     * @param $previousIcon
+     * @return ActivityType
+     */
+    public function setPreviousIcon($previousIcon): ActivityType
+    {
+        $this->previousIcon = $previousIcon;
         return $this;
     }
 

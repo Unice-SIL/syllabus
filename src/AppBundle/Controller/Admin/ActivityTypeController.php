@@ -109,13 +109,12 @@ class ActivityTypeController extends AbstractController
      */
     public function editAction(Request $request, ActivityType $activityType, ActivityTypeManager $activityTypeManager, TranslatorInterface $translator)
     {
-        $form = $this->createForm(ActivityTypeType::class, $activityType);
+        $icon = $activityType->getIcon();
+        $form = $this->createForm(ActivityTypeType::class, $activityType, ['icon' =>$icon]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $activityTypeManager->update($activityType);
-
             $this->addFlash('success', $translator->trans('admin.activity_type.flashbag.edit'));
 
             return $this->redirectToRoute('app.admin.activity_type.edit', array('id' => $activityType->getId()));

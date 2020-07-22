@@ -148,7 +148,7 @@ class GeneralType extends AbstractType
             ])
             ->add('image', FileType::class, [
                 'required' => false,
-                'label' => false,
+                'label' => false
             ])
             ->addEventListener(FormEvents::PRE_SUBMIT, function(FormEvent $event) {
                 $form = $event->getForm();

@@ -8,12 +8,14 @@ use AppBundle\Entity\ActivityMode;
 use AppBundle\Form\Subscriber\ActivityTypeTypeSubscriber;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ActivityTypeType extends AbstractType
 {
     private $activityTypeTypeSubscriber;
+
 
     public function __construct(ActivityTypeTypeSubscriber $activityTypeTypeSubscriber)
     {
@@ -25,6 +27,8 @@ class ActivityTypeType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $icon = $options['icon'];
+
         $builder
             ->add('label')
             ->add('activityModes', EntityType::class, [
@@ -32,6 +36,12 @@ class ActivityTypeType extends AbstractType
                 'multiple' => true,
                 'by_reference' => false,
                 'required' => false
+            ])
+            ->add('icon', FileType::class, [
+                'label' => 'Icone',
+                'required' => false,
+                'data' => $icon,
+                'data_class' => null
             ])
             ->addEventSubscriber($this->activityTypeTypeSubscriber)
         ;
@@ -43,7 +53,8 @@ class ActivityTypeType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\ActivityType'
+            'data_class' => 'AppBundle\Entity\ActivityType',
+            'icon' => null
         ));
     }
 

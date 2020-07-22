@@ -639,6 +639,7 @@ class CourseInfo
      * @ORM\OrderBy({"position" = "ASC"})
      * @JMS\Type("ArrayCollection<AppBundle\Entity\CourseAchievement>")
      * @Assert\NotBlank
+     * @Assert\Count(min="1", groups={"objectives"})
      * @AssertCustom\AchievementConstraintValidator
      * @JMS\Groups(groups={"course_info"})
      */
@@ -656,10 +657,6 @@ class CourseInfo
      *
      * @ORM\OneToMany(targetEntity="CoursePrerequisite", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"position" = "ASC"})
-     * @Assert\Count(
-     *     groups={"prerequisites"},
-     *     min = 1
-     *     )
      * @JMS\Type("ArrayCollection<AppBundle\Entity\CoursePrerequisite>")
      * @JMS\Groups(groups={"course_info"})
      */
@@ -2343,11 +2340,12 @@ class CourseInfo
     }
 
     /**
-     * @return CourseInfo
+     * @param $previousImage
+     * @return $this
      */
-    public function setPreviousImage()
+    public function setPreviousImage($previousImage)
     {
-        $this->previousImage = $this->getImage();
+        $this->previousImage = $previousImage;
 
         return $this;
     }
