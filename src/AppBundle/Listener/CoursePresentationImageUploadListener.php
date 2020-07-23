@@ -131,7 +131,6 @@ class CoursePresentationImageUploadListener
                 $this->propertyAccessor->setValue($entity, $property, $this->fileUploaderHelper->upload($file));
             } elseif ($file instanceof File) {
                 $this->propertyAccessor->setValue($entity, $property, $file->getFilename());
-                $entity->setImage($file->getFilename());
             }
         }
     }
