@@ -65,6 +65,7 @@ class Domain
      * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Structure", inversedBy="domains")
+     * @ORM\OrderBy({"label" = "ASC"})
      * @JMS\Groups(groups={"domain"})
      */
     private $structures;

@@ -58,6 +58,7 @@ class Level
      * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Structure", inversedBy="levels")
+     * @ORM\OrderBy({"label" = "ASC"})
      * @JMS\Groups(groups={"level"})
      */
     private $structures;
