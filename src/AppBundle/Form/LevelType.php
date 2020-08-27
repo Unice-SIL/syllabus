@@ -6,6 +6,7 @@ namespace AppBundle\Form;
 
 use AppBundle\Entity\Structure;
 use AppBundle\Form\Subscriber\LevelTypeSubscriber;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -34,6 +35,10 @@ class LevelType extends AbstractType
             ->add('structures', EntityType::class, [
                 'label' => "Structure",
                 'class' => Structure::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('s')
+                        ->orderBy('s.label', 'ASC');
+                },
                 'multiple' => true,
                 'by_reference' => false,
                 'required' => false
