@@ -483,6 +483,7 @@ class CourseInfo
      * @var DateTime|null
      *
      * @ORM\Column(name="modification_date", type="datetime", nullable=true)
+     * @Gedmo\Timestampable(on="update")
      * @JMS\Groups(groups={"course_info"})
      */
     private $modificationDate;
