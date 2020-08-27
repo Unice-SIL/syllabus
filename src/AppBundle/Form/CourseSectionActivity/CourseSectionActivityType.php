@@ -4,6 +4,7 @@ namespace AppBundle\Form\CourseSectionActivity;
 
 use AppBundle\Command\CourseSectionActivity\CourseSectionActivityCommand;
 use AppBundle\Entity\Activity;
+use AppBundle\Entity\CourseSectionActivity;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -71,7 +72,7 @@ class CourseSectionActivityType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => CourseSectionActivityCommand::class,
+            'data_class' => CourseSectionActivity::class,
         ]);
     }
 

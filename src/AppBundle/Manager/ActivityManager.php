@@ -60,6 +60,14 @@ class ActivityManager
     }
 
     /**
+     * @return array
+     */
+    public function findAllNotObsolete()
+    {
+        return $this->repository->getIndexQueryBuilder()->andWhere('a.obsolete = 0')->getQuery()->getResult();
+    }
+
+    /**
      * @param Activity $activity
      */
     public function create(Activity $activity)
