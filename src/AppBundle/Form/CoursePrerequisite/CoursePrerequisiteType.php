@@ -36,7 +36,7 @@ class CoursePrerequisiteType extends AbstractType
                 'class' => Course::class,
                 'text_property' => 'code',
                 'language' => 'fr',
-                'minimum_input_length' => 0,
+                'minimum_input_length' => 3,
                 'required' => false
             ])
             ->add('position', HiddenType::class);
