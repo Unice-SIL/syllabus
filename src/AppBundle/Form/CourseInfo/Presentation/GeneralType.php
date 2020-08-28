@@ -63,7 +63,7 @@ class GeneralType extends AbstractType
                 'class' => Domain::class,
                 'text_property' => 'label',
                 'language' => 'fr',
-                'minimum_input_length' => 0,
+                'minimum_input_length' => 2,
                 'remote_params' => [
                     'entityName' => 'Domain',
                     'groupProperty' => 'grp',
@@ -81,8 +81,6 @@ class GeneralType extends AbstractType
                 'minimum_input_length' => 0,
                 'remote_params' => [
                     'entityName' => 'Language',
-                    'findBy' => 'label',
-                    'property' => 'label',
                     'findByOther' => ['obsolete' => false]
                 ],
                 'required' => false
@@ -97,8 +95,6 @@ class GeneralType extends AbstractType
                 'minimum_input_length' => 0,
                 'remote_params' => [
                     'entityName' => 'Campus',
-                    'findBy' => 'label',
-                    'property' => 'label',
                     'findByOther' => ['obsolete' => false],
                     'groupProperty' => 'grp'
                 ],

@@ -33,7 +33,8 @@ class CoursePrerequisiteType extends AbstractType
                 'multiple' => true,
                 'remote_route' => 'app.common.autocomplete.generic_s2',
                 'text_property' => 'title',
-                'minimum_input_length' => 0,
+                'minimum_input_length' => 4,
+                'language' => 'fr',
                 'required' => false,
                 'remote_params' => [
                     'entityName' => 'Course',

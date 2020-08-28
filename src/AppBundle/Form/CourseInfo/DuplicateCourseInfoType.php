@@ -39,6 +39,7 @@ class DuplicateCourseInfoType extends AbstractType
                 'class' => CourseInfo::class,
                 'text_property' => 'id',
                 'page_limit' => 10,
+                'language' => 'fr',
                 'minimum_input_length' => 4,
                 'placeholder' => 'app.dashboard.modal.placeholder',
                 'constraints' => [

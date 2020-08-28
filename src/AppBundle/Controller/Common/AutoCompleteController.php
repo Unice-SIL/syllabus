@@ -131,7 +131,7 @@ class AutoCompleteController extends AbstractController
 
 
     /**
-     * @Route("/generic-s2-user/{entityName}", name="generic_s2_user")
+     * @Route("/generic-s2-user", name="generic_s2_user")
      *
      * @param UserDoctrineRepository $userDoctrineRepository
      * @param Request $request

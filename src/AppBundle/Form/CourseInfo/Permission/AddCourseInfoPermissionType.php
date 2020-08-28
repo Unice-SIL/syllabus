@@ -34,11 +34,8 @@ class AddCourseInfoPermissionType extends AbstractType
                 'text_property' => 'getSelect2Name',
                 'page_limit' => 10,
                 'placeholder' => 'app.permission.modal.placeholder',
-                'remote_params' => [
-                    'entityName' => 'Language',
-                    'findBy' => 'label',
-                    'property' => 'label'
-                ],
+                'language' => 'fr',
+                'minimum_input_length' => 4,
                 'required' => true,
             ])
             ->add('permission', ChoiceType::class, [

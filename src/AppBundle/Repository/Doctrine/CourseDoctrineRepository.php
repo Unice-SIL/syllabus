@@ -57,6 +57,15 @@ class CourseDoctrineRepository  extends ServiceEntityRepository
     }
 
     /**
+     * @param array $filters
+     * @return array
+     */
+    public function findByFilters($filters=[]): array
+    {
+        return $this->findQueryBuilderForApi(['filters' => $filters])->getQuery()->getResult();
+    }
+
+    /**
      * @param array $config
      * @return QueryBuilder
      */

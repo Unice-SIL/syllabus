@@ -26,7 +26,7 @@ class CourseCriticalAchievementType extends AbstractType
                 'class' => CriticalAchievement::class,
                 'text_property' => 'label',
                 'language' => 'fr',
-                'minimum_input_length' => 0,
+                'minimum_input_length' => 2,
                 'required' => true,
                 'remote_params' => [
                     'courseInfo' => $builder->getData()->getCourseInfo()->getId()

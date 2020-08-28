@@ -30,7 +30,7 @@ class CriticalAchievementType extends AbstractType
                 'class' => Course::class,
                 'text_property' => 'code',
                 'language' => 'fr',
-                'minimum_input_length' => 0,
+                'minimum_input_length' => 4,
                 'required' => false
             ])
             ->addEventSubscriber($this->criticalAchievementTypeSubscriber);

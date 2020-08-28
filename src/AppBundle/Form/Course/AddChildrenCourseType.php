@@ -24,6 +24,8 @@ class AddChildrenCourseType extends AbstractType
             'class' => Course::class,
             'primary_key' => 'id',
             'text_property' => 'code',
+            'language' => 'fr',
+            'minimum_input_length' => 4,
         ]);
     }
 }
