@@ -71,5 +71,41 @@ class LevelDoctrineRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * @param array $filters
+     * @return array
+     */
+    public function findByFilters($filters=[]): array
+    {
+        return $this->findQueryBuilderForApi(['filters' => $filters])->getQuery()->getResult();
+    }
+
+    /**
+     * @param array $config
+     * @return QueryBuilder
+     */
+    public function findQueryBuilderForApi(array $config): QueryBuilder
+    {
+        $qb = $this->getIndexQueryBuilder();
+
+        foreach ($config['filters'] as $filter => $value) {
+            $valueName = 'value'.$filter;
+            switch ($filter){
+                case 'label':
+                    $qb->andWhere($qb->expr()->like('l.' . $filter, ':' . $valueName));
+                    $value = "%{$value}%";
+                    break;
+                case 'structure':
+                    $qb->andWhere($qb->expr()->isMemberOf(':' . $valueName, 'l.structures'));
+                    break;
+                default:
+                    $qb->andWhere($qb->expr()->eq('l.' . $filter, ':' . $valueName));
+            }
+            $qb->setParameter($valueName, $value);
+        }
+
+        return $qb;
+    }
+
 
 }

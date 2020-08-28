@@ -73,6 +73,15 @@ class PeriodDoctrineRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param array $filters
+     * @return array
+     */
+    public function findByFilters($filters=[]): array
+    {
+        return $this->findQueryBuilderForApi(['filters' => $filters])->getQuery()->getResult();
+    }
+
+    /**
      * @param array $config
      * @return QueryBuilder
      */
@@ -86,6 +95,9 @@ class PeriodDoctrineRepository extends ServiceEntityRepository
                 case 'label':
                     $qb->andWhere($qb->expr()->like('p.' . $filter, ':' . $valueName));
                     $value = "%{$value}%";
+                    break;
+                case 'structure':
+                    $qb->andWhere($qb->expr()->isMemberOf(':' . $valueName, 'p.structures'));
                     break;
                 default:
                     $qb->andWhere($qb->expr()->eq('p.' . $filter, ':' . $valueName));

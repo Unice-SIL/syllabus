@@ -45,28 +45,29 @@ class GeneralType extends AbstractType
             ->add('periods', Select2EntityType::class, [
                 'label' => 'app.presentation.form.general.periods',
                 'multiple' => true,
-                'remote_route' => 'app.common.autocomplete.generic_s2_structure',
+                'remote_route' => 'app.common.autocomplete.generic_s2',
                 'class' => Period::class,
                 'text_property' => 'label',
                 'language' => 'fr',
                 'minimum_input_length' => 0,
                 'remote_params' => [
-                    'structure' => $builder->getData()->getStructure()->getId(),
-                    'entityName' => 'Period'
+                    'entityName' => 'Period',
+                    'findByOther' => ['obsolete' => false, 'structure' => $builder->getData()->getStructure()->getId()]
                 ],
                 'required' => false
             ])
             ->add('domains', Select2EntityType::class, [
                 'label' => 'app.presentation.form.general.domains',
                 'multiple' => true,
-                'remote_route' => 'app.common.autocomplete.domain_s2_structure',
+                'remote_route' => 'app.common.autocomplete.generic_s2',
                 'class' => Domain::class,
                 'text_property' => 'label',
                 'language' => 'fr',
                 'minimum_input_length' => 0,
                 'remote_params' => [
-                    'structure' => $builder->getData()->getStructure()->getId(),
-                    'entityName' => 'Domain'
+                    'entityName' => 'Domain',
+                    'groupProperty' => 'grp',
+                    'findByOther' => ['obsolete' => false, 'structure' => $builder->getData()->getStructure()->getId()]
                 ],
                 'required' => false
             ])
@@ -81,7 +82,8 @@ class GeneralType extends AbstractType
                 'remote_params' => [
                     'entityName' => 'Language',
                     'findBy' => 'label',
-                    'property' => 'label'
+                    'property' => 'label',
+                    'findByOther' => ['obsolete' => false]
                 ],
                 'required' => false
             ])
@@ -96,22 +98,24 @@ class GeneralType extends AbstractType
                 'remote_params' => [
                     'entityName' => 'Campus',
                     'findBy' => 'label',
-                    'property' => 'label'
+                    'property' => 'label',
+                    'findByOther' => ['obsolete' => false],
+                    'groupProperty' => 'grp'
                 ],
                 'required' => false
             ])
             ->add('levels', Select2EntityType::class, [
                 'label' => 'app.presentation.form.general.levels',
                 'class' => Level::class,
-                'remote_route' => 'app.common.autocomplete.generic_s2_structure',
+                'remote_route' => 'app.common.autocomplete.generic_s2',
                 'required' => false,
                 'multiple' => true,
                 'text_property' => 'label',
                 'language' => 'fr',
                 'minimum_input_length' => 0,
                 'remote_params' => [
-                    'structure' => $builder->getData()->getStructure()->getId(),
-                    'entityName' => 'Level'
+                    'entityName' => 'Level',
+                    'findByOther' => ['obsolete' => false, 'structure' => $builder->getData()->getStructure()->getId()]
                 ],
             ])
             ->add('summary', CKEditorType::class, [

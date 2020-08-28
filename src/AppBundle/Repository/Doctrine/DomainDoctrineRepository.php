@@ -76,6 +76,15 @@ class DomainDoctrineRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param array $filters
+     * @return array
+     */
+    public function findByFilters($filters=[]): array
+    {
+        return $this->findQueryBuilderForApi(['filters' => $filters])->getQuery()->getResult();
+    }
+
+    /**
      * @param array $config
      * @return QueryBuilder
      */
@@ -89,6 +98,9 @@ class DomainDoctrineRepository extends ServiceEntityRepository
                 case 'label':
                     $qb->andWhere($qb->expr()->like('d.' . $filter, ':' . $valueName));
                     $value = "%{$value}%";
+                    break;
+                case 'structure':
+                    $qb->andWhere($qb->expr()->isMemberOf(':' . $valueName, 'd.structures'));
                     break;
                 default:
                     $qb->andWhere($qb->expr()->eq('d.' . $filter, ':' . $valueName));

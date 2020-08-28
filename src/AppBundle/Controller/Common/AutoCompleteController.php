@@ -65,18 +65,36 @@ class AutoCompleteController extends AbstractController
         $entityName = "{$namespace}{$entityName}";
         $query = $request->query->get('q', '');
         $findBy = $request->query->get('findBy', 'label');
+        $findByOther = $request->query->get('findByOther', []);
         $property = $request->query->get('property', 'label');
+        $groupProperty = $request->query->get('groupProperty', null);
+
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
 
         $repository = $this->getDoctrine()->getRepository($entityName);
+        $entities = $repository->findByFilters(array_merge($findByOther, [$findBy=>$query]));
 
-        $entities = $repository->findLikeQuery($query, $findBy);
+        $data = [];
+        foreach ($entities as $entity)
+        {
+            $d = ['id' => $entity->getId(), 'text' => $propertyAccessor->getValue($entity, $property)];
+            if(!empty($groupProperty))
+            {
+                $group = $propertyAccessor->getValue($entity, $groupProperty)?? 0;
+                if(!array_key_exists($group, $data))
+                {
+                    $data[$group] = ['text' => $propertyAccessor->getValue($entity, $groupProperty), 'children' => []];
+                }
+                $data[$group]['children'][] = $d;
+            }
+            else
+            {
+                $data[] = $d;
+            }
+        }
+        ksort($data);
 
-        $data = array_map(function ($e) use ($propertyAccessor, $property) {
-            return ['id' => $e->getId(), 'text' => $propertyAccessor->getValue($e, $property)];
-        }, $entities);
-
-        return $this->json($data);
+        return $this->json(array_values($data));
     }
 
     /**
@@ -87,6 +105,9 @@ class AutoCompleteController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
+    /*
+     * TO REMOVE
+     *
     public function autocompleteS2Structure(Structure $structure, string $entityName, Request $request)
     {
         $namespace = 'AppBundle\\Entity\\';
@@ -106,45 +127,8 @@ class AutoCompleteController extends AbstractController
 
         return $this->json($data);
     }
+    */
 
-    /**
-     * @Route("/domain-s2/{structure}", name="domain_s2_structure")
-     *
-     * @param Structure $structure
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function autocompleteS2Domain(Structure $structure, Request $request)
-    {
-        $query = $request->query->get('q', '');
-        $repository = $this->getDoctrine()->getRepository(Domain::class);
-        $domains = $repository->findLikeWithStructureQuery($query, $structure);
-
-        $groups = array_unique(array_map(function(Domain $domain){
-            return $domain->getGrp();
-        }, $domains));
-
-        $data = [];
-
-        /** @var Domain $domain */
-        foreach ($domains as $domain)
-        {
-            $groupId = $domain->getGrp()?? 0;
-            if(!array_key_exists($groupId, $data))
-            {
-                $data[$groupId] = [
-                    'text' => $domain->getGrp(),
-                    'children' => []
-                ];
-            }
-            $data[$groupId]['children'][] = [
-                'id' => $domain->getId(),
-                'text' => $domain->getLabel()
-            ];
-        }
-
-        return $this->json(array_values($data));
-    }
 
     /**
      * @Route("/generic-s2-user/{entityName}", name="generic_s2_user")
