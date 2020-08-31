@@ -2,13 +2,13 @@
 
 namespace AppBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Year
@@ -18,6 +18,20 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @UniqueEntity("id")
  * @UniqueEntity("label")
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\YearTranslation")
+ * @ApiResource(attributes={
+ *     "filters"={"id.search_filter", "label.search_filter"},
+ *     "access_control"="is_granted('ROLE_API_YEAR')",
+ *     },
+ *     collectionOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_YEAR_GET')"},
+ *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_YEAR_POST')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_YEAR_GET')"},
+ *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_YEAR_PUT')"},
+ *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_YEAR_DELETE')"},
+ *     }
+ * )
  */
 class Year
 {
@@ -30,9 +44,8 @@ class Year
      * @Assert\NotBlank(message="Ce champ ne doit pas être vide")
      * @Assert\Regex(
      *     pattern="/^\d{4}$/",
-     *     message="Cette valeure doit respecter le format AAAA"
+     *     message="Cette valeur doit respecter le format AAAA"
      * )
-     * @JMS\Groups(groups={"default", "year"})
      */
     private $id;
 
@@ -41,7 +54,6 @@ class Year
      *
      * @ORM\Column(name="label", type="string", length=45, nullable=true, options={"fixed"=true})
      * @Assert\NotBlank(message="Ce champ ne doit pas être vide")
-     * @JMS\Groups(groups={"default", "year"})
      * @Gedmo\Translatable
      */
     private $label;
@@ -50,7 +62,6 @@ class Year
      * @var bool
      *
      * @ORM\Column(name="import", type="boolean", nullable=true)
-     * @JMS\Groups(groups={"year"})
      */
     private $import = false;
 
@@ -58,7 +69,6 @@ class Year
      * @var bool
      *
      * @ORM\Column(name="edit", type="boolean", nullable=true)
-     * @JMS\Groups(groups={"year"})
      */
     private $edit = false;
 
@@ -66,7 +76,6 @@ class Year
      * @var bool
      *
      * @ORM\Column(name="current", type="boolean", nullable=true)
-     * @JMS\Groups(groups={"year"})
      */
     private $current = false;
 

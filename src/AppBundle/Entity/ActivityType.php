@@ -2,13 +2,14 @@
 
 namespace AppBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinTable;
-use JMS\Serializer\Annotation as JMS;
-use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Activity
@@ -16,6 +17,20 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="activity_type")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\ActivityTypeDoctrineRepository")
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\ActivityTypeTranslation")
+ * @ApiResource(attributes={
+ *     "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"},
+ *     "access_control"="is_granted('ROLE_API_ACTIVITY_TYPE')",
+ *     },
+ *     collectionOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_ACTIVITY_TYPE_GET')"},
+ *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_ACTIVITY_TYPE_POST')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_ACTIVITY_TYPE_GET')"},
+ *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_ACTIVITY_TYPE_PUT')"},
+ *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_ACTIVITY_TYPE_DELETE')"},
+ *     }
+ * )
  */
 class ActivityType
 {
@@ -26,7 +41,6 @@ class ActivityType
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"default", "activity_type"})
      */
     private $id;
 
@@ -35,7 +49,6 @@ class ActivityType
      *
      * @ORM\Column(name="label", type="string", length=100, nullable=false)
      * @Assert\NotBlank()
-     * @JMS\Groups(groups={"default", "activity_type"})
      * @Gedmo\Translatable
      */
     private $label;
@@ -60,7 +73,6 @@ class ActivityType
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"default", "activity_type"})
      */
     private $obsolete = false;
 
@@ -69,7 +81,6 @@ class ActivityType
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Activity", inversedBy="activityTypes")
      * @JoinTable(name="activity_type_activity")
-     * @JMS\Groups(groups={"activity_type"})
      */
     private $activities;
 
@@ -78,7 +89,7 @@ class ActivityType
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\ActivityMode", inversedBy="activityTypes")
      * @JoinTable(name="activity_type_activity_mode")
-     * @JMS\Groups(groups={"activity_type"})
+     * @ApiSubresource()
      */
     private $activityModes;
 

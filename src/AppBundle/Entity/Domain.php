@@ -4,13 +4,14 @@
 namespace AppBundle\Entity;
 
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use AppBundle\Traits\Importable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
-use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Domain
@@ -18,6 +19,20 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="domain")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\DomainDoctrineRepository")
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\DomainTranslation")
+ * @ApiResource(attributes={
+ *     "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"},
+ *     "access_control"="is_granted('ROLE_API_DOMAIN')",
+ *     },
+ *     collectionOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_DOMAIN_GET')"},
+ *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_DOMAIN_POST')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_DOMAIN_GET')"},
+ *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_DOMAIN_PUT')"},
+ *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_DOMAIN_DELETE')"},
+ *     }
+ * )
  */
 class Domain
 {
@@ -30,7 +45,6 @@ class Domain
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"default", "domain"})
      */
     private $id;
 
@@ -39,7 +53,6 @@ class Domain
      *
      * @ORM\Column(name="label", type="string", length=255, nullable=false)
      * @Assert\NotBlank()
-     * @JMS\Groups(groups={"default", "domain"})
      * @Gedmo\Translatable
      */
     private $label;
@@ -48,7 +61,6 @@ class Domain
      * @var string|null
      *
      * @ORM\Column(name="grp", type="string", length=100, nullable=true)
-     * @JMS\Groups(groups={"default", "domain"})
      * @Gedmo\Translatable
      */
     private $grp;
@@ -57,7 +69,6 @@ class Domain
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"default", "domain"})
      */
     private $obsolete = false;
 
@@ -66,7 +77,7 @@ class Domain
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Structure", inversedBy="domains")
      * @ORM\OrderBy({"label" = "ASC"})
-     * @JMS\Groups(groups={"domain"})
+     * @ApiSubresource()
      */
     private $structures;
 

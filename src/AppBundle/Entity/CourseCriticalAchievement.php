@@ -3,6 +3,8 @@
 
 namespace AppBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use AppBundle\Traits\Importable;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -16,6 +18,20 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="course_critical_achievement")
  * @ORM\Entity
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CourseCriticalAchievementTranslation")
+ * @ApiResource(attributes={
+ *     "filters"={"id.search_filter"},
+ *     "access_control"="is_granted('ROLE_API_COURSE_CRITICAL_ACHIEVEMENT')",
+ *     },
+ *     collectionOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_COURSE_CRITICAL_ACHIEVEMENT_GET')"},
+ *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_COURSE_CRITICAL_ACHIEVEMENT_POST')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_COURSE_CRITICAL_ACHIEVEMENT_GET')"},
+ *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_COURSE_CRITICAL_ACHIEVEMENT_PUT')"},
+ *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_COURSE_CRITICAL_ACHIEVEMENT_DELETE')"},
+ *     }
+ * )
  */
 class CourseCriticalAchievement
 {
@@ -48,12 +64,14 @@ class CourseCriticalAchievement
 
     /**
      * @OneToMany(targetEntity="LearningAchievement", mappedBy="courseCriticalAchievement", cascade={"persist"}, orphanRemoval=true)
+     * @ApiSubresource()
      */
     private $learningAchievements;
 
     /**
      * @ManyToOne(targetEntity="CriticalAchievement", inversedBy="courseCriticalAchievements", cascade={"persist"})
      * @JoinColumn(name="critical_achievement_course_critical_achievement", referencedColumnName="id")
+     * @ApiSubresource()
      */
     private $criticalAchievement;
 

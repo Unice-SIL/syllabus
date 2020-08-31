@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -12,6 +13,20 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="job")
  * @ORM\Entity
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\JobTranslation")
+ * @ApiResource(attributes={
+ *     "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"},
+ *     "access_control"="is_granted('ROLE_API_JOB')",
+ *     },
+ *     collectionOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_JOB_GET')"},
+ *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_JOB_POST')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_JOB_GET')"},
+ *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_JOB_PUT')"},
+ *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_JOB_DELETE')"},
+ *     }
+ * )
  */
 class Job
 {

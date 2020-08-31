@@ -53,6 +53,10 @@ ROLE_ADMIN_LANGUAGE: Gestion des langues
 ROLE_ADMIN_LANGUAGE_LIST: Consulter la liste des langues
 ROLE_ADMIN_LANGUAGE_CREATE: Créer une langue
 ROLE_ADMIN_LANGUAGE_UPDATE: Modifier une langue
+ROLE_ADMIN_LEVEL: Gestion des niveaux
+ROLE_ADMIN_LEVEL_LIST: Consulter la liste des niveaux
+ROLE_ADMIN_LEVEL_CREATE: Créer une niveau
+ROLE_ADMIN_LEVEL_UPDATE: Modifier une niveau
 ROLE_ADMIN_NOTIFICATION: Gestion des notifications
 ROLE_ADMIN_NOTIFICATION_LIST: Consulter la liste des notifications
 ROLE_ADMIN_NOTIFICATION_CREATE: Créer une notification
@@ -71,48 +75,161 @@ ROLE_ADMIN_USER_LIST: Consulter la liste des utilisateurs
 ROLE_ADMIN_USER_CREATE: Créer un utilisateur
 ROLE_ADMIN_USER_UPDATE: Modifier un utilsateur
 ROLE_API: Accès à l'API
-ROLE_API_ACTIVITY: Gestion des Activités
-ROLE_API_ACTIVITY_LIST: Lister les activités
-ROLE_API_ACTIVITY_VIEW: Voir une activité
+ROLE_API_ACTIVITY: Gestion des activités
+ROLE_API_ACTIVITY_GET: Liste des activités
+ROLE_API_ACTIVITY_POST: Créer une activité
+ROLE_API_ACTIVITY_PUT: Modifier une activité
+ROLE_API_ACTIVITY_DELETE: Supprimer une activité
 ROLE_API_ACTIVITY_MODE: Gestion des modes d'activités
-ROLE_API_ACTIVITY_MODE_LIST: Lister les modes d'activités
-ROLE_API_ACTIVITY_MODE_VIEW: Voir un mode d'activité
+ROLE_API_ACTIVITY_MODE_GET: Liste des modes d'activités
+ROLE_API_ACTIVITY_MODE_POST: Créer un mode d'activité
+ROLE_API_ACTIVITY_MODE_PUT: Modifier un mode d'activité
+ROLE_API_ACTIVITY_MODE_DELETE: Supprimer un mode d'activité
 ROLE_API_ACTIVITY_TYPE: Gestion des types d'activités
-ROLE_API_ACTIVITY_TYPE_LIST: Lister les types d'activités
-ROLE_API_ACTIVITY_TYPE_VIEW: Voir un type d'activité
-ROLE_API_CRITICAL_ACHIEVEMENT: Gestion des apprentissages critiques
-ROLE_API_CRITICAL_ACHIEVEMENT_LIST: Lister les apprentissages critiques
-ROLE_API_CRITICAL_ACHIEVEMENT_VIEW: Voir un apprentissage critique
+ROLE_API_ACTIVITY_TYPE_GET: Liste des types d'activités
+ROLE_API_ACTIVITY_TYPE_POST: Créer un type d'activitéun
+ROLE_API_ACTIVITY_TYPE_PUT: Modifier un type d'activitéun
+ROLE_API_ACTIVITY_TYPE_DELETE: Supprimer un type d'activitéun
+ROLE_API_ASK_ADVICE: Gestion des avis
+ROLE_API_ASK_ADVICE_GET: Liste des avis
+ROLE_API_ASK_ADVICE_POST: Créer un avis
+ROLE_API_ASK_ADVICE_PUT: Modifier un avis
+ROLE_API_ASK_ADVICE_DELETE: Supprimer un avis
 ROLE_API_CAMPUS: Gestion des campus
-ROLE_API_CAMPUS_LIST: Lister les campus
-ROLE_API_CAMPUS_VIEW: Voir un campus
+ROLE_API_CAMPUS_GET: Liste des campus
+ROLE_API_CAMPUS_POST: Créer un campus
+ROLE_API_CAMPUS_PUT: Modifier un campus
+ROLE_API_CAMPUS_DELETE: Supprimer un campus
 ROLE_API_COURSE: Gestion des cours
-ROLE_API_COURSE_LIST: Lister les cours
-ROLE_API_COURSE_VIEW: Voir un cours
-ROLE_API_COURSE_CREATE: Créer un cours
-ROLE_API_COURSE_UPDATE: Modifier un cours
+ROLE_API_COURSE_GET: Liste des cours
+ROLE_API_COURSE_POST: Créer un cours
+ROLE_API_COURSE_PUT: Modifier un cours
+ROLE_API_COURSE_DELETE: Supprimer un cours
+ROLE_API_COURSE_ACHIEVEMENT: Gestion des objectifs d'un cours
+ROLE_API_COURSE_ACHIEVEMENT_GET: Liste des objectifs d'un cours
+ROLE_API_COURSE_ACHIEVEMENT_POST: Créer un objectif pour un cours
+ROLE_API_COURSE_ACHIEVEMENT_PUT: Modifier un objectif pour un cours
+ROLE_API_COURSE_ACHIEVEMENT_DELETE: Supprimer un objectif pour un cours
+ROLE_API_COURSE_CRITICAL_ACHIEVEMENT: Gestion des apprentissages critiques d'un cours
+ROLE_API_COURSE_CRITICAL_ACHIEVEMENT_GET: Liste des apprentissages critiques d'un cours
+ROLE_API_COURSE_CRITICAL_ACHIEVEMENT_POST: Créer un apprentissage critique pour un cours
+ROLE_API_COURSE_CRITICAL_ACHIEVEMENT_PUT: Modifier un apprentissage critique pour un cours
+ROLE_API_COURSE_CRITICAL_ACHIEVEMENT_DELETE: Supprimer un apprentissage critique pour un cours
 ROLE_API_COURSE_INFO: Gestion des syllabus
-ROLE_API_COURSE_INFO_LIST: Lister les syllabus
-ROLE_API_COURSE_INFO_VIEW: Voir un syllabus
-ROLE_API_COURSE_INFO_CREATE: Créer un syllabus
-ROLE_API_COURSE_INFO_UPDATE: Modifier un syllabus
+ROLE_API_COURSE_INFO_GET: Liste des syllabus
+ROLE_API_COURSE_INFO_POST: Créer un syllabus
+ROLE_API_COURSE_INFO_PUT: Modifier un syllabus
+ROLE_API_COURSE_INFO_DELETE: Supprimer un syllabus
+ROLE_API_COURSE_INFO_FIELD: Gestion des champs syllabus
+ROLE_API_COURSE_INFO_FIELD_GET: Liste des champs syllabus
+ROLE_API_COURSE_INFO_FIELD_POST: Créer un champ syllabus
+ROLE_API_COURSE_INFO_FIELD_PUT: Modifier un champ syllabus
+ROLE_API_COURSE_INFO_FIELD_DELETE: Supprimer un champ syllabus
+ROLE_API_COURSE_PERMISSION: Gestion des permissions d'un cours
+ROLE_API_COURSE_PERMISSION_GET: Liste des permissions d'un cours
+ROLE_API_COURSE_PERMISSION_POST: Créer une permission pour un cours
+ROLE_API_COURSE_PERMISSION_PUT: Modifier une permission pour un cours
+ROLE_API_COURSE_PERMISSION_DELETE: Supprimer une permission pour un cours
+ROLE_API_COURSE_PREREQUISITE: Gestion des prérequis d'un cours
+ROLE_API_COURSE_PREREQUISITE_GET: Liste des prérequis d'un cours
+ROLE_API_COURSE_PREREQUISITE_POST: Créer un prérequis pour un cours
+ROLE_API_COURSE_PREREQUISITE_PUT: Modifier un prérequis pour un cours
+ROLE_API_COURSE_PREREQUISITE_DELETE: Supprimer un prérequis pour un cours
+ROLE_API_COURSE_RESOURCE_EQUIPMENT: Gestion du matériel d'un cours
+ROLE_API_COURSE_RESOURCE_EQUIPMENT_GET: Liste du matériel d'un cours
+ROLE_API_COURSE_RESOURCE_EQUIPMENT_POST: Créer du matériel pour des cours
+ROLE_API_COURSE_RESOURCE_EQUIPMENT_PUT: Modifier du matériel pour des cours
+ROLE_API_COURSE_RESOURCE_EQUIPMENT_DELETE: Supprimer du matériel pour des cours
+ROLE_API_COURSE_SECTION: Gestion des séquences d'un cours
+ROLE_API_COURSE_SECTION_GET: Liste des séquences d'un cours
+ROLE_API_COURSE_SECTION_POST: Créer une séquence pour un cours
+ROLE_API_COURSE_SECTION_PUT: Modifier une séquence pour un cours
+ROLE_API_COURSE_SECTION_DELETE: Supprimer une séquence pour un cours
+ROLE_API_COURSE_SECTION_ACTIVITY: Gestion des activités pour une séquence
+ROLE_API_COURSE_SECTION_ACTIVITY_GET: Liste des activités pour une séquence
+ROLE_API_COURSE_SECTION_ACTIVITY_POST: Créer une activité pour une séquence
+ROLE_API_COURSE_SECTION_ACTIVITY_PUT: Modifier une activité pour une séquence
+ROLE_API_COURSE_SECTION_ACTIVITY_DELETE: Supprimer une activité pour une séquence
+ROLE_API_COURSE_TEACHER: Gestion des enseignants d'un cours
+ROLE_API_COURSE_TEACHER_GET: Liste des enseignants d'un cours
+ROLE_API_COURSE_TEACHER_POST: Créer un enseignant pour un cours
+ROLE_API_COURSE_TEACHER_PUT: Modifier un enseignant pour un cours
+ROLE_API_COURSE_TEACHER_DELETE: Supprimer un enseignant pour un cours
+ROLE_API_COURSE_TUTORING_RESOURCE: Gestion des cours particuliers d'un cours
+ROLE_API_COURSE_TUTORING_RESOURCE_GET: Liste des cours particuliers d'un cours
+ROLE_API_COURSE_TUTORING_RESOURCE_POST: Créer un cours particulier pour un cours
+ROLE_API_COURSE_TUTORING_RESOURCE_PUT: Modifier un cours particulier pour un cours
+ROLE_API_COURSE_TUTORING_RESOURCE_DELETE: Supprimer un cours particulier pour un cours
+ROLE_API_CRITICAL_ACHIEVEMENT: Gestion des apprentissages critiques
+ROLE_API_CRITICAL_ACHIEVEMENT_GET: Liste des apprentissages critiques
+ROLE_API_CRITICAL_ACHIEVEMENT_POST: Créer un apprentissage critiques
+ROLE_API_CRITICAL_ACHIEVEMENT_PUT: Modifier un apprentissage critiques
+ROLE_API_CRITICAL_ACHIEVEMENT_DELETE: Supprimer un apprentissage critiques
 ROLE_API_DOMAIN: Gestion des domaines
-ROLE_API_DOMAIN_LIST: Lister les domaines
-ROLE_API_DOMAIN_VIEW: Voir un domaine
+ROLE_API_DOMAIN_GET: Liste des domaines
+ROLE_API_DOMAIN_POST: Créer un domaine
+ROLE_API_DOMAIN_PUT: Modifier un domaine
+ROLE_API_DOMAIN_DELETE: Supprimer un domaine
 ROLE_API_EQUIPMENT: Gestion des équipements
-ROLE_API_EQUIPMENT_LIST: Lister les équipements
-ROLE_API_EQUIPMENT_VIEW: Voir un équipement
+ROLE_API_EQUIPMENT_GET: Liste des équipements
+ROLE_API_EQUIPMENT_POST: Créer un équipement
+ROLE_API_EQUIPMENT_PUT: Modifier un équipement
+ROLE_API_EQUIPMENT_DELETE: Supprimer un équipement
+ROLE_API_GROUPS: Gestion des groupes
+ROLE_API_GROUPS_GET: Liste des groupes
+ROLE_API_GROUPS_POST: Créer un groupe
+ROLE_API_GROUPS_PUT: Modifier un groupe
+ROLE_API_GROUPS_DELETE: Supprimer un groupe
+ROLE_API_JOB: Gestion des tâches planifiées
+ROLE_API_JOB_GET: Liste des tâches planifiées
+ROLE_API_JOB_POST: Créer une tâche planifiée
+ROLE_API_JOB_PUT: Modifier une tâche planifiée
+ROLE_API_JOB_DELETE: Supprimer une tâche planifiée
 ROLE_API_LANGUAGE: Gestion des langages
-ROLE_API_LANGUAGE_LIST: Lister les langages
-ROLE_API_LANGUAGE_VIEW: Voir un langage
+ROLE_API_LANGUAGE_GET: Liste des langages
+ROLE_API_LANGUAGE_POST: Créer un langage
+ROLE_API_LANGUAGE_PUT: Modifier un langage
+ROLE_API_LANGUAGE_DELETE: Supprimer un langage
+ROLE_API_LEARNING_ACHIEVEMENT: Gestion des objectifs d'apprentissage
+ROLE_API_LEARNING_ACHIEVEMENT_GET: Liste des objectifs d'apprentissage
+ROLE_API_LEARNING_ACHIEVEMENT_POST: Créer un objectif d'apprentissage
+ROLE_API_LEARNING_ACHIEVEMENT_PUT: Modifier un objectif d'apprentissage
+ROLE_API_LEARNING_ACHIEVEMENT_DELETE: Supprimer un objectif d'apprentissage
+ROLE_API_LEVEL: Gestion des niveaux
+ROLE_API_LEVEL_GET: Liste des niveaux
+ROLE_API_LEVEL_POST: Créer un niveau
+ROLE_API_LEVEL_PUT: Modifier un niveau
+ROLE_API_LEVEL_DELETE: Supprimer un niveau
+ROLE_API_NOTIFICATION: Gestion des notifications
+ROLE_API_NOTIFICATION_GET: Liste des notifications
+ROLE_API_NOTIFICATION_POST: Créer une notification
+ROLE_API_NOTIFICATION_PUT: Modifier une notification
+ROLE_API_NOTIFICATION_DELETE: Supprimer une notification
 ROLE_API_PERIOD: Gestion des périodes
-ROLE_API_PERIOD_LIST: Lister les périodes
-ROLE_API_PERIOD_VIEW: Voir une période
+ROLE_API_PERIOD_GET: Liste des périodes
+ROLE_API_PERIOD_POST: Créer une période
+ROLE_API_PERIOD_PUT: Modifier une période
+ROLE_API_PERIOD_DELETE: Supprimer une période
+ROLE_API_STRUCTURE: Gestion des structures
+ROLE_API_STRUCTURE_GET: Liste des structures
+ROLE_API_STRUCTURE_POST: Créer une structure
+ROLE_API_STRUCTURE_PUT: Modifier une structure
+ROLE_API_STRUCTURE_DELETE: Supprimer une structure
+ROLE_API_TEACHING: Gestion des méthodes d'enseignement
+ROLE_API_TEACHING_GET: Liste des méthodes d'enseignement
+ROLE_API_TEACHING_POST: Créer une méthode d'enseignement
+ROLE_API_TEACHING_PUT: Modifier une méthode d'enseignement
+ROLE_API_TEACHING_DELETE: Supprimer une méthode d'enseignement
+ROLE_API_USER: Gestion des utilisateurs
+ROLE_API_USER_GET: Liste des utilisateurs
+ROLE_API_USER_POST: Créer un utilisateur
+ROLE_API_USER_PUT: Modifier un utilisateur
+ROLE_API_USER_DELETE: Supprimer un utilisateur
 ROLE_API_YEAR: Gestion des années
-ROLE_API_YEAR_LIST: Lister les années
-ROLE_API_YEAR_VIEW: Voir une année
-ROLE_API_YEAR_CREATE: Créer une année
-ROLE_API_YEAR_UPDATE: Modifier une année
+ROLE_API_YEAR_GET: Liste des années
+ROLE_API_YEAR_POST: Créer une année
+ROLE_API_YEAR_PUT: Modifier une année
+ROLE_API_YEAR_DELETE: Supprimer une année
 collective: Collectif
 groups: En groupe
 individual: Individuel

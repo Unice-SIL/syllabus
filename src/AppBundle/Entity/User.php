@@ -2,14 +2,14 @@
 
 namespace AppBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * User
@@ -18,8 +18,21 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Entity
  * @UniqueEntity("username")
  * @UniqueEntity("email")
- * @JMS\ExclusionPolicy("none")
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\UserTranslation")
+ * @ApiResource(attributes={
+ *     "filters"={"id.search_filter", "user.search_filter", "username.search_filter"},
+ *     "access_control"="is_granted('ROLE_API_USER')",
+ *     },
+ *     collectionOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_USER_GET')"},
+ *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_USER_POST')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_USER_GET')"},
+ *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_USER_PUT')"},
+ *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_USER_DELETE')"},
+ *     }
+ * )
  */
 class User implements UserInterface
 {
@@ -31,7 +44,6 @@ class User implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"default", "user"})
      */
     private $id;
 
@@ -40,7 +52,6 @@ class User implements UserInterface
      *
      * @ORM\Column(name="username", type="string", length=255, nullable=true)
      * @Assert\NotBlank()
-     * @JMS\Groups(groups={"default", "user"})
      */
     private $username;
 
@@ -49,7 +60,6 @@ class User implements UserInterface
      *
      * @ORM\Column(name="firstname", type="string", length=100, nullable=true, options={"fixed"=true})
      * @Assert\NotBlank()
-     * @JMS\Groups(groups={"default", "user"})
      */
     private $firstname;
 
@@ -58,7 +68,6 @@ class User implements UserInterface
      *
      * @ORM\Column(name="lastname", type="string", length=100, nullable=true, options={"fixed"=true})
      * @Assert\NotBlank()
-     * @JMS\Groups(groups={"default", "user"})
      */
     private $lastname;
 
@@ -68,7 +77,6 @@ class User implements UserInterface
      * @ORM\Column(name="email", type="string", length=255, nullable=true)
      * @Assert\NotBlank()
      * @Assert\Email()
-     * @JMS\Groups(groups={"default", "user"})
      */
     private $email;
 
@@ -86,7 +94,6 @@ class User implements UserInterface
      *     message="Votre mot de passe doit contenir au moins une minuscule, une majuscule et un chiffre"
      * )
      * @Assert\NotBlank(groups={"reset_password"})
-     * @JMS\Exclude()
      */
     private $password;
 
@@ -94,7 +101,6 @@ class User implements UserInterface
      * @var string|null
      *
      * @ORM\Column(name="salt", type="string", length=255, nullable=true)
-     * @JMS\Exclude()
      */
     private $salt;
 
@@ -106,14 +112,12 @@ class User implements UserInterface
      *      min = 1,
      *      minMessage = "Vous devez selectionner au moins un rôle",
      * )
-     * @JMS\Groups(groups={"user"})
      */
     private $roles;
 
     /**
      * @var string|null
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @JMS\Exclude()
      */
     protected $resetPasswordToken;
 

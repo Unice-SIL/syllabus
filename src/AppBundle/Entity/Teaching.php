@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -10,6 +11,20 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="teaching")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\TeachingDoctrineRepository")
+ * @ApiResource(attributes={
+ *     "filters"={"id.search_filter"},
+ *     "access_control"="is_granted('ROLE_API_TEACHING')",
+ *     },
+ *     collectionOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_TEACHING_GET')"},
+ *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_TEACHING_POST')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_TEACHING_GET')"},
+ *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_TEACHING_PUT')"},
+ *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_TEACHING_DELETE')"},
+ *     }
+ * )
  */
 class Teaching
 {

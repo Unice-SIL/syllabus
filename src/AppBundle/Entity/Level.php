@@ -4,20 +4,33 @@
 namespace AppBundle\Entity;
 
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use AppBundle\Traits\Importable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
-use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Level
  * @package AppBundle\Entity
  * @ORM\Table(name="level")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\LevelDoctrineRepository")
- *
+ * @ApiResource(attributes={
+ *     "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"},
+ *     "access_control"="is_granted('ROLE_API_LEVEL')",
+ *     },
+ *     collectionOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_LEVEL_GET')"},
+ *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_LEVEL_POST')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_LEVEL_GET')"},
+ *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_LEVEL_PUT')"},
+ *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_LEVEL_DELETE')"},
+ *     }
+ * )
  */
 class Level
 {
@@ -31,7 +44,6 @@ class Level
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"default", "level"})
      */
     private $id;
 
@@ -41,7 +53,6 @@ class Level
      * @ORM\Column(name="label", type="string", length=100, nullable=false)
      * @Assert\NotBlank()
      * @Assert\Length(max="100")
-     * @JMS\Groups(groups={"default", "level"})
      * @Gedmo\Translatable
      */
     private $label;
@@ -59,7 +70,6 @@ class Level
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Structure", inversedBy="levels")
      * @ORM\OrderBy({"label" = "ASC"})
-     * @JMS\Groups(groups={"level"})
      */
     private $structures;
 
@@ -67,7 +77,6 @@ class Level
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"default", "level"})
      */
     private $obsolete = false;
 

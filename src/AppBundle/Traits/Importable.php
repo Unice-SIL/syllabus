@@ -4,7 +4,7 @@
 namespace AppBundle\Traits;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
+
 
 /**
  * Trait Importable
@@ -15,14 +15,12 @@ trait Importable
     /**
      * @var string|null
      * @ORM\Column(type="string", length=50, nullable=true)
-     * @JMS\Groups(groups={"default"})
      */
     private $code;
 
     /**
      * @var string|null
      * @ORM\Column(type="string", length=50, nullable=true)
-     * @JMS\Groups(groups={"default"})
      */
     private $source;
 

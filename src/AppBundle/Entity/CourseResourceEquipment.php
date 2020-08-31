@@ -2,8 +2,9 @@
 
 namespace AppBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -13,6 +14,20 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="course_resource_equipment")
  * @ORM\Entity
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CourseResourceEquipmentTranslation")
+ * @ApiResource(attributes={
+ *     "filters"={"id.search_filter"},
+ *     "access_control"="is_granted('ROLE_API_COURSE_RESOURCE_EQUIPMENT')",
+ *     },
+ *     collectionOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_COURSE_RESOURCE_EQUIPMENT_GET')"},
+ *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_COURSE_RESOURCE_EQUIPMENT_POST')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_COURSE_RESOURCE_EQUIPMENT_GET')"},
+ *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_COURSE_RESOURCE_EQUIPMENT_PUT')"},
+ *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_COURSE_RESOURCE_EQUIPMENT_DELETE')"},
+ *     }
+ * )
  */
 class CourseResourceEquipment
 {
@@ -23,7 +38,6 @@ class CourseResourceEquipment
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"default", "course_resource_equipment"})
      */
     private $id;
 
@@ -31,7 +45,6 @@ class CourseResourceEquipment
      * @var string|null
      *
      * @ORM\Column(name="description", type="string", length=255, nullable=true)
-     * @JMS\Groups(groups={"default", "course_resource_equipment"})
      * @Gedmo\Translatable
      */
     private $description;
@@ -40,7 +53,6 @@ class CourseResourceEquipment
      * @var int
      *
      * @ORM\Column(name="position", type="integer", nullable=false)
-     * @JMS\Groups(groups={"default", "course_resource_equipment"})
      */
     private $position = 0;
 
@@ -51,7 +63,6 @@ class CourseResourceEquipment
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
      * })
-     * @JMS\Groups(groups={"course_resource_equipment"})
      */
     private $courseInfo;
 
@@ -63,7 +74,7 @@ class CourseResourceEquipment
      *   @ORM\JoinColumn(name="equipment_id", referencedColumnName="id", nullable=false)
      * })
      * @Assert\Blank(groups={"equipments_empty"})
-     * @JMS\Groups(groups={"course_info", "course_resource_equipment"})
+     * @ApiSubresource()
      */
     private $equipment;
 
@@ -153,10 +164,6 @@ class CourseResourceEquipment
     }
 
     /**
-     * @JMS\VirtualProperty()
-     * @JMS\Groups(groups={"api"})
-     * @JMS\SerializedName("equipment")
-     *
      * @return Equipment|null
      */
     public function getEquipmentApi()

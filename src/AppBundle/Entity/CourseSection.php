@@ -2,13 +2,14 @@
 
 namespace AppBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * CourseSection
@@ -16,6 +17,20 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="course_section")
  * @ORM\Entity
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CourseSectionTranslation")
+ * @ApiResource(attributes={
+ *     "filters"={"id.search_filter", "title.search_filter"},
+ *     "access_control"="is_granted('ROLE_API_COURSE_SECTION')",
+ *     },
+ *     collectionOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_COURSE_SECTION_GET')"},
+ *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_COURSE_SECTION_POST')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_COURSE_SECTION_GET')"},
+ *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_COURSE_SECTION_PUT')"},
+ *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_COURSE_SECTION_DELETE')"},
+ *     }
+ * )
  */
 class CourseSection
 {
@@ -26,7 +41,6 @@ class CourseSection
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"default", "course_section"})
      */
     private $id;
 
@@ -34,7 +48,6 @@ class CourseSection
      * @var null|string
      *
      * @ORM\Column(name="title", type="string", length=200, nullable=true)
-     * @JMS\Groups(groups={"default", "course_section"})
      * @Gedmo\Translatable
      */
     private $title;
@@ -43,7 +56,6 @@ class CourseSection
      * @var string|null
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=true)
-     * @JMS\Groups(groups={"default", "course_section"})
      * @Gedmo\Translatable
      */
     private $description;
@@ -52,7 +64,6 @@ class CourseSection
      * @var string|null
      *
      * @ORM\Column(name="url", type="text", length=32767, nullable=true)
-     * @JMS\Groups(groups={"default", "course_section"})
      */
     private $url;
 
@@ -60,7 +71,6 @@ class CourseSection
      * @var int
      *
      * @ORM\Column(name="position", type="integer", nullable=false)
-     * @JMS\Groups(groups={"default", "course_section"})
      */
     private $position = 0;
 
@@ -71,7 +81,6 @@ class CourseSection
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
      * })
-     * @JMS\Groups(groups={"course_section"})
      */
     private $courseInfo;
 
@@ -81,7 +90,7 @@ class CourseSection
      * @ORM\OneToMany(targetEntity="CourseSectionActivity", mappedBy="courseSection", cascade={ "persist", "remove", "merge" }, orphanRemoval=true)
      * @ORM\OrderBy({"position" = "ASC"})
      * @Assert\Count(min="1", groups={"contentActivities"})
-     * @JMS\Groups(groups={"course_info", "course_section"})
+     * @ApiSubresource()
      */
     private $courseSectionActivities;
 

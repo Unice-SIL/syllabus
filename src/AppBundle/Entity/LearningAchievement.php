@@ -4,6 +4,7 @@
 namespace AppBundle\Entity;
 
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use AppBundle\Traits\Importable;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinColumn;
@@ -15,7 +16,20 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="learning_achievement")
  * @ORM\Entity
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\LearningAchievementTranslation")
- *
+ * @ApiResource(attributes={
+ *     "filters"={"id.search_filter"},
+ *     "access_control"="is_granted('ROLE_API_LEARNING_ACHIEVEMENT')",
+ *     },
+ *     collectionOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_LEARNING_ACHIEVEMENT_GET')"},
+ *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_LEARNING_ACHIEVEMENT_POST')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_LEARNING_ACHIEVEMENT_GET')"},
+ *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_LEARNING_ACHIEVEMENT_PUT')"},
+ *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_LEARNING_ACHIEVEMENT_DELETE')"},
+ *     }
+ * )
  */
 class LearningAchievement
 {

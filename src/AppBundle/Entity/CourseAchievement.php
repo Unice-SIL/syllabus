@@ -2,10 +2,10 @@
 
 namespace AppBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
-use Ramsey\Uuid\UuidInterface;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * CourseAchievement
@@ -13,6 +13,20 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="course_achievement")
  * @ORM\Entity
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CourseAchievementTranslation")
+ * @ApiResource(attributes={
+ *     "filters"={"id.search_filter"},
+ *     "access_control"="is_granted('ROLE_API_COURSE_ACHIEVEMENT')",
+ *     },
+ *     collectionOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_COURSE_ACHIEVEMENT_GET')"},
+ *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_COURSE_ACHIEVEMENT_POST')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_COURSE_ACHIEVEMENT_GET')"},
+ *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_COURSE_ACHIEVEMENT_PUT')"},
+ *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_COURSE_ACHIEVEMENT_DELETE')"},
+ *     }
+ * )
  */
 class CourseAchievement
 {
@@ -23,7 +37,6 @@ class CourseAchievement
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"default", "course_achievement"})
      */
     private $id;
 
@@ -31,7 +44,6 @@ class CourseAchievement
      * @var null|string
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=true)
-     * @JMS\Groups(groups={"default", "course_achievement"})
      * @Gedmo\Translatable
      */
     private $description = "";
@@ -40,7 +52,6 @@ class CourseAchievement
      * @var int
      *
      * @ORM\Column(name="position", type="integer", nullable=false)
-     * @JMS\Groups(groups={"default", "course_achievement"})
      */
     private $position = 0;
 
@@ -51,7 +62,6 @@ class CourseAchievement
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
      * })
-     * @JMS\Groups(groups={"course_achievement"})
      */
     private $courseInfo;
 

@@ -2,8 +2,8 @@
 
 namespace AppBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
@@ -12,6 +12,20 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="course_tutoring_resource")
  * @ORM\Entity
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CourseTutoringResourceTranslation")
+ * @ApiResource(attributes={
+ *     "filters"={"id.search_filter"},
+ *     "access_control"="is_granted('ROLE_API_COURSE_TUTORING_RESOURCE')",
+ *     },
+ *     collectionOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_COURSE_TUTORING_RESOURCE_GET')"},
+ *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_COURSE_TUTORING_RESOURCE_POST')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_COURSE_TUTORING_RESOURCE_GET')"},
+ *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_COURSE_TUTORING_RESOURCE_PUT')"},
+ *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_COURSE_TUTORING_RESOURCE_DELETE')"},
+ *     }
+ * )
  */
 class CourseTutoringResource
 {
@@ -22,7 +36,6 @@ class CourseTutoringResource
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"default", "course_tutoring_resource"})
      */
     private $id;
 
@@ -30,7 +43,6 @@ class CourseTutoringResource
      * @var null|string
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=true)
-     * @JMS\Groups(groups={"default", "course_tutoring_resource"})
      * @Gedmo\Translatable
      */
     private $description = "";
@@ -39,7 +51,6 @@ class CourseTutoringResource
      * @var int
      *
      * @ORM\Column(name="position", type="integer", nullable=false)
-     * @JMS\Groups(groups={"default", "course_tutoring_resource"})
      */
     private $position = 0;
 
@@ -50,7 +61,6 @@ class CourseTutoringResource
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
      * })
-     * @JMS\Groups(groups={"course_tutoring_resource"})
      */
     private $courseInfo;
 
