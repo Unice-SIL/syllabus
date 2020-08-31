@@ -17,6 +17,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -267,7 +268,7 @@ class CourseInfoController extends Controller
      * @param CourseInfoDoctrineRepository $courseInfoDoctrineRepository
      * @param Request $request
      * @param $field
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return JsonResponse
      */
     public function autocomplete(CourseInfoDoctrineRepository $courseInfoDoctrineRepository, Request $request, $field)
     {
@@ -300,7 +301,7 @@ class CourseInfoController extends Controller
      * @Route("/autocompleteS2", name="autocompleteS2", methods={"GET"})
      * @param CourseInfoDoctrineRepository $courseInfoDoctrineRepository
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return JsonResponse
      */
     public function autocompleteS2(CourseInfoDoctrineRepository $courseInfoDoctrineRepository, Request $request)
     {
@@ -328,7 +329,7 @@ class CourseInfoController extends Controller
     /**
      * @Route("/autocompleteS3", name="autocompleteS3", methods={"GET"})
      *
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return JsonResponse
      */
     public function autocompleteS3()
     {

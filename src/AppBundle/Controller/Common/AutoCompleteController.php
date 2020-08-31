@@ -4,15 +4,19 @@
 namespace AppBundle\Controller\Common;
 
 
-use AppBundle\Entity\Domain;
+use AppBundle\Constant\Permission;
+use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\Structure;
 use AppBundle\Repository\Doctrine\UserDoctrineRepository;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\expr;
 
 /**
  * Class AutoCompleteController
@@ -95,6 +99,51 @@ class AutoCompleteController extends AbstractController
         ksort($data);
 
         return $this->json(array_values($data));
+    }
+
+    /**
+     * @Route("/s2-courseinfo-with-write-permission", name="s2_courseinfo_with_write_permission")
+     *
+     * @param Request $request
+     * @param AccessDecisionManagerInterface $decisionManager
+     * @param TokenInterface $token
+     * @return JsonResponse
+     */
+    public function autoCompleteS2CourseInfoWithWritePermission(Request $request, AccessDecisionManagerInterface $decisionManager, ?TokenInterface $token)
+    {
+        $search = $request->query->get('q', '');
+        $currentCourseInfo = $request->query->get('currentCourseInfo', null);
+
+        /** @var QueryBuilder $qb */
+        $qb = $this->getDoctrine()->getRepository(CourseInfo::class)->createQueryBuilder('ci')
+            ->innerJoin('ci.course', 'c')
+            ->innerJoin('ci.coursePermissions', 'cp')
+            ->addSelect('c', 'cp');
+        $qb->where('ci.title LIKE :search OR c.code LIKE :search')
+            ->setParameter('search', "%{$search}%");
+
+        if (empty($token) || !$decisionManager->decide($token, ['ROLE_ADMIN_COURSE_INFO_UPDATE']))
+        {
+            $qb->andWhere($qb->expr()->eq('cp.user', ':user'))
+                ->andWhere($qb->expr()->eq('cp.permission', ':permission'))
+                ->setParameter('user', $this->getUser())
+                ->setParameter('permission', Permission::WRITE);
+        }
+
+        if(!empty($currentCourseInfo))
+        {
+            $qb->andWhere($qb->expr()->neq('ci.id', ':currentCourseInfo'))
+                ->setParameter('currentCourseInfo', $currentCourseInfo);
+        }
+
+        $coursesInfo = $qb->getQuery()->getResult();
+
+        $data = array_map(function (CourseInfo $courseInfo) {
+            return ['id' => $courseInfo->getId(), 'text' => "{$courseInfo->getCourse()->getCode()} - {$courseInfo->getYear()}"];
+        }, $coursesInfo);
+
+
+        return $this->json($data);
     }
 
     /**

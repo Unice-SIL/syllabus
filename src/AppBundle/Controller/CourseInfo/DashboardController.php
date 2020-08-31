@@ -59,7 +59,7 @@ class DashboardController extends AbstractController
     public function indexAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $courseInfoManager,
                                 EntityManagerInterface $em, TranslatorInterface $translator)
     {
-        $duplicationForm = $this->createForm(DuplicateCourseInfoType::class);
+        $duplicationForm = $this->createForm(DuplicateCourseInfoType::class, ['currentCourseInfo' => $courseInfo->getId()]);
         $duplicationForm->handleRequest($request);
 
         $isFormValid = true;
