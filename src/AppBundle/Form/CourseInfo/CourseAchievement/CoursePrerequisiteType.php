@@ -7,6 +7,7 @@ use AppBundle\Entity\CoursePrerequisite;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 
@@ -16,6 +17,20 @@ use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
  */
 class CoursePrerequisiteType extends AbstractType
 {
+    /**
+     * @var null|\Symfony\Component\HttpFoundation\Request
+     */
+    private $request;
+
+    /**
+     * CoursePrerequisiteType constructor.
+     * @param RequestStack $requestStack
+     */
+    public function __construct(RequestStack $requestStack)
+    {
+        $this->request = $requestStack->getCurrentRequest();
+    }
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -34,7 +49,7 @@ class CoursePrerequisiteType extends AbstractType
                 'remote_route' => 'app.common.autocomplete.generic_s2',
                 'text_property' => 'title',
                 'minimum_input_length' => 4,
-                'language' => 'fr',
+                'language' => $this->request->getLocale(),
                 'required' => false,
                 'remote_params' => [
                     'entityName' => 'Course',

@@ -7,21 +7,41 @@ use AppBundle\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 
+/**
+ * Class AddCourseInfoPermissionType
+ * @package AppBundle\Form\CourseInfo\Permission
+ */
 class AddCourseInfoPermissionType extends AbstractType
 {
+    /**
+     * @var null|\Symfony\Component\HttpFoundation\Request
+     */
+    private $request;
 
+    /**
+     * @var UrlGeneratorInterface
+     */
     private  $generator;
 
-    public function __construct(UrlGeneratorInterface $generator)
+    /**
+     * AddCourseInfoPermissionType constructor.
+     * @param UrlGeneratorInterface $generator
+     * @param RequestStack $requestStack
+     */
+    public function __construct(UrlGeneratorInterface $generator, RequestStack $requestStack)
     {
         $this->generator = $generator;
+        $this->request = $requestStack->getCurrentRequest();
     }
+
     /**
-     * {@inheritdoc}
+     * @param FormBuilderInterface $builder
+     * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -34,7 +54,7 @@ class AddCourseInfoPermissionType extends AbstractType
                 'text_property' => 'getSelect2Name',
                 'page_limit' => 10,
                 'placeholder' => 'app.permission.modal.placeholder',
-                'language' => 'fr',
+                'language' => $this->request->getLocale(),
                 'minimum_input_length' => 4,
                 'required' => true,
             ])

@@ -709,6 +709,9 @@ app:
       label:
         title: Titre
         structure: Structure
+      placeholder:
+        structure: Choisissez une structure
+        year: Choisissez une année
     course:
       label:
         type: Type

@@ -566,6 +566,7 @@ app:
       activity:
         activity_mode: Teaching mode
         activity_type: Type of activity
+        activity_no_icon: No icon selected
         control: 'Type of control (Continuous / Terminal) :'
         delete: Are you sure you want to remove the activity "%label%" ?
         description: Description of the activity (maximum 255 characters)
@@ -708,6 +709,9 @@ app:
       label:
         title: Title
         structure: Structure
+      placeholder:
+        structure: Choisissez une structure
+        year: Choisissez une année
     course:
       label:
         type: Type
