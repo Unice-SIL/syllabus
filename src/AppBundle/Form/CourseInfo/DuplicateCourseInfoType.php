@@ -23,7 +23,7 @@ class DuplicateCourseInfoType extends AbstractType
      */
     private  $generator;
     /**
-     * @var
+     * @var null|\Symfony\Component\HttpFoundation\Request
      */
     private $request;
 
@@ -60,7 +60,6 @@ class DuplicateCourseInfoType extends AbstractType
                 'text_property' => 'id',
                 'language' => $this->request->getLocale(),
                 'page_limit' => 10,
-                'language' => 'fr',
                 'minimum_input_length' => 4,
                 'placeholder' => 'app.dashboard.modal.placeholder',
                 'remote_params' => [

@@ -18,6 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 
@@ -27,6 +28,20 @@ use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
  */
 class GeneralType extends AbstractType
 {
+    /**
+     * @var null|\Symfony\Component\HttpFoundation\Request
+     */
+    private $request;
+
+    /**
+     * GeneralType constructor.
+     * @param RequestStack $requestStack
+     */
+    public function __construct(RequestStack $requestStack)
+    {
+        $this->request = $requestStack->getCurrentRequest();
+    }
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -48,7 +63,7 @@ class GeneralType extends AbstractType
                 'remote_route' => 'app.common.autocomplete.generic_s2',
                 'class' => Period::class,
                 'text_property' => 'label',
-                'language' => 'fr',
+                'language' => $this->request->getLocale(),
                 'minimum_input_length' => 0,
                 'remote_params' => [
                     'entityName' => 'Period',
@@ -62,7 +77,7 @@ class GeneralType extends AbstractType
                 'remote_route' => 'app.common.autocomplete.generic_s2',
                 'class' => Domain::class,
                 'text_property' => 'label',
-                'language' => 'fr',
+                'language' => $this->request->getLocale(),
                 'minimum_input_length' => 2,
                 'remote_params' => [
                     'entityName' => 'Domain',
@@ -77,7 +92,7 @@ class GeneralType extends AbstractType
                 'class' => Language::class,
                 'text_property' => 'label',
                 'label' => 'app.presentation.form.general.languages',
-                'language' => 'fr',
+                'language' => $this->request->getLocale(),
                 'minimum_input_length' => 0,
                 'remote_params' => [
                     'entityName' => 'Language',
@@ -91,7 +106,7 @@ class GeneralType extends AbstractType
                 'class' => Campus::class,
                 'text_property' => 'label',
                 'label' => 'app.presentation.form.general.campuses',
-                'language' => 'fr',
+                'language' => $this->request->getLocale(),
                 'minimum_input_length' => 0,
                 'remote_params' => [
                     'entityName' => 'Campus',
@@ -107,7 +122,7 @@ class GeneralType extends AbstractType
                 'required' => false,
                 'multiple' => true,
                 'text_property' => 'label',
-                'language' => 'fr',
+                'language' => $this->request->getLocale(),
                 'minimum_input_length' => 0,
                 'remote_params' => [
                     'entityName' => 'Level',

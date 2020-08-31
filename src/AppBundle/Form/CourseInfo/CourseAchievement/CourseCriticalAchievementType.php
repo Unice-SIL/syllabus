@@ -11,21 +11,44 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 
+/**
+ * Class CourseCriticalAchievementType
+ * @package AppBundle\Form\CourseInfo\CourseAchievement
+ */
 class CourseCriticalAchievementType extends AbstractType
 {
+    /**
+     * @var null|\Symfony\Component\HttpFoundation\Request
+     */
+    private $request;
+
+    /**
+     * CourseCriticalAchievementType constructor.
+     * @param RequestStack $requestStack
+     */
+    public function __construct(RequestStack $requestStack)
+    {
+        $this->request = $requestStack->getCurrentRequest();
+    }
+
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('criticalAchievement', Select2EntityType::class, [
-                'label' => 'Aquis critique',
+                'label' => 'admin.sidebar.critical_achievements',
                 'multiple' => false,
                 'remote_route' => 'app.admin.critical_achievement.autocompleteByCourse',
                 'class' => CriticalAchievement::class,
                 'text_property' => 'label',
-                'language' => 'fr',
+                'language' => $this->request->getLocale(),
                 'minimum_input_length' => 2,
                 'required' => true,
                 'remote_params' => [

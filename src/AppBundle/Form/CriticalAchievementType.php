@@ -8,17 +8,35 @@ use AppBundle\Entity\Course;
 use AppBundle\Form\Subscriber\CriticalAchievementTypeSubscriber;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 
+/**
+ * Class CriticalAchievementType
+ * @package AppBundle\Form
+ */
 class CriticalAchievementType extends AbstractType
 {
+    /**
+     * @var CriticalAchievementTypeSubscriber
+     */
     private $criticalAchievementTypeSubscriber;
 
-    public function __construct(CriticalAchievementTypeSubscriber $criticalAchievementTypeSubscriber)
+    /**
+     * @var null|\Symfony\Component\HttpFoundation\Request
+     */
+    private $request;
+
+    public function __construct(CriticalAchievementTypeSubscriber $criticalAchievementTypeSubscriber, RequestStack $requestStack)
     {
         $this->criticalAchievementTypeSubscriber = $criticalAchievementTypeSubscriber;
+        $this->request = $requestStack->getCurrentRequest();
     }
 
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -29,7 +47,7 @@ class CriticalAchievementType extends AbstractType
                 'remote_route' => 'app_admin.course_autocompleteS3',
                 'class' => Course::class,
                 'text_property' => 'code',
-                'language' => 'fr',
+                'language' => $this->request->getLocale(),
                 'minimum_input_length' => 4,
                 'required' => false
             ])
