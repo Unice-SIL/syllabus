@@ -486,6 +486,7 @@ class CourseInfo
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Campus", inversedBy="courseInfos")
      * @ORM\JoinTable(name="course_info_campus")
+     * @Assert\Count(min="1", groups={"presentation"})
      * @ApiSubresource()
      */
     private $campuses;
@@ -495,6 +496,7 @@ class CourseInfo
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Language", inversedBy="courseInfos")
      * @ORM\JoinTable(name="course_info_language")
+     * @Assert\Count(min="1", groups={"presentation"})
      * @ORM\OrderBy({"label" = "ASC"})
      * @ApiSubresource()
      */
@@ -515,6 +517,7 @@ class CourseInfo
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Period", inversedBy="courseInfos")
      * @ORM\JoinTable(name="course_info_period")
+     * @Assert\Count(min="1", groups={"presentation"})
      * @ApiSubresource()
      */
     private $periods;
