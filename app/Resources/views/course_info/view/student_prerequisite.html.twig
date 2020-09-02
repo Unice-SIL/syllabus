@@ -13,7 +13,7 @@
                     {% for prerequisite in courseInfo.coursePrerequisites %}
                         <li>
                             <div class="d-flex flex-column">
-                                <span>{{ prerequisite.description }}</span>
+                                <span>{{ prerequisite.description | linkify({"attr": {"target": "_blank"}}) | raw }}</span>
                                 {% if prerequisite.courses is not empty %}
                                     <span class="small font-italic">
                                         {{ 'app.view.student.prerequisites.associate_courses' | trans }}
@@ -42,7 +42,7 @@
                     {% for tutoringResource in courseInfo.courseTutoringResources %}
                         <li>
                             <div>
-                                {{ tutoringResource.description }}
+                                {{ tutoringResource.description | linkify({"attr": {"target": "_blank"}}) | raw }}
                             </div>
                         </li>
                     {% endfor %}

@@ -32,7 +32,8 @@ class AppKernel extends Kernel
             new \Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new Dmishh\SettingsBundle\DmishhSettingsBundle(),
             new Lexik\Bundle\TranslationBundle\LexikTranslationBundle(),
-            new \ApiPlatform\Core\Bridge\Symfony\Bundle\ApiPlatformBundle()
+            new \ApiPlatform\Core\Bridge\Symfony\Bundle\ApiPlatformBundle(),
+            new Misd\LinkifyBundle\MisdLinkifyBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

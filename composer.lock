@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1e19fc82c6f4fff5b80ef7705a93b9ba",
+    "content-hash": "b46e266883ba4caf90e40d1b2d1a2d1e",
     "packages": [
         {
             "name": "api-platform/api-pack",
@@ -2681,39 +2681,6 @@
             "time": "2019-08-01T06:13:53+00:00"
         },
         {
-            "name": "manuelodelain/linkify-twig-extension",
-            "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/manuelodelain/linkify-twig-extension.git",
-                "reference": "31bb84a7f3e2b693fac043ffe2b2ed3760d4e784"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/manuelodelain/linkify-twig-extension/zipball/31bb84a7f3e2b693fac043ffe2b2ed3760d4e784",
-                "reference": "31bb84a7f3e2b693fac043ffe2b2ed3760d4e784",
-                "shasum": ""
-            },
-            "require": {
-                "misd/linkify": "^1.1"
-            },
-            "require-dev": {
-                "twig/twig": "~1.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "manuelodelain\\Twig\\Extension\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Twig extension for Linkify - converts URLs and email addresses into HTML links",
-            "time": "2019-01-18T12:54:52+00:00"
-        },
-        {
             "name": "misd/linkify",
             "version": "v1.1.4",
             "source": {
@@ -2757,6 +2724,62 @@
                 "url"
             ],
             "time": "2017-08-17T08:33:35+00:00"
+        },
+        {
+            "name": "misd/linkify-bundle",
+            "version": "v1.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/misd-service-development/linkify-bundle.git",
+                "reference": "38513f45707a5a0e67c573701be2f77a39a0191e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/misd-service-development/linkify-bundle/zipball/38513f45707a5a0e67c573701be2f77a39a0191e",
+                "reference": "38513f45707a5a0e67c573701be2f77a39a0191e",
+                "shasum": ""
+            },
+            "require": {
+                "misd/linkify": "^1.0",
+                "php": "^5.3.3 || ^7.0",
+                "symfony/framework-bundle": "^2.1 || ^3.0"
+            },
+            "conflict": {
+                "phpunit/phpunit-mock-objects": "<2.2",
+                "twig/twig": "<1.23"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.0 || ^5.0",
+                "symfony/twig-bundle": "^2.1 || ^3.0"
+            },
+            "suggest": {
+                "symfony/twig-bundle": "to use the Twig linkify filter"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Misd\\LinkifyBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Converts URLs and email addresses in text into HTML links",
+            "homepage": "https://github.com/misd-service-development/linkify-bundle",
+            "keywords": [
+                "bundle",
+                "convert",
+                "email address",
+                "link",
+                "url"
+            ],
+            "time": "2016-08-22T07:30:22+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -3788,6 +3811,7 @@
                 "configuration",
                 "distribution"
             ],
+            "abandoned": true,
             "time": "2019-06-18T15:43:58+00:00"
         },
         {

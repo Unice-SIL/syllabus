@@ -36,7 +36,7 @@
         "lexik/form-filter-bundle": "v5.0.10",
         "lexik/jwt-authentication-bundle": "^2.6",
         "lexik/translation-bundle": "^4.0",
-        "manuelodelain/linkify-twig-extension": "^1.0",
+        "misd/linkify-bundle": "^1.0",
         "peppeocchi/php-cron-scheduler": "^3.0",
         "phpdocumentor/reflection-docblock": "v4.3.4",
         "ramsey/uuid": "^3.8",

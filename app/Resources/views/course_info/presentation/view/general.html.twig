@@ -5,7 +5,7 @@
                 <img class="icon-20" src="{{ asset('/build/images/black_composante_picto.png') }}"/>
                 {{ 'app.presentation.view.general.structure' | trans }}
             </dt>
-            <dd>
+            <dd class="mandatory-data">
                 {{ courseInfo.structure.label }}
             </dd>
         </dl>
@@ -27,7 +27,7 @@
                 <img class="icon-20" src="{{ asset('/build/images/black_lieu_picto.png') }}"/>
                 {{ 'app.presentation.view.general.campus' | trans }}
             </dt>
-            <dd>
+            <dd class="mandatory-data">
                 {% set campuses = "" %}
                 {% for campus in courseInfo.campuses %}
                     {% set campuses = campuses ~ (not loop.first ? ', ') ~ campus.label %}
@@ -55,7 +55,7 @@
                 <img class="icon-20" src="{{ asset('/build/images/black_calendrier_picto.png') }}"/>
                 {{ 'app.presentation.view.general.period' | trans }}
             </dt>
-            <dd>
+            <dd class="mandatory-data">
                 {% set periods = "" %}
                 {% for period in courseInfo.periods %}
                     {% set periods = periods ~ (not loop.first ? ', ') ~ period.label %}
@@ -68,7 +68,7 @@
                 <img class="icon-20" src="{{ asset('/build/images/black_langue_picto.png') }}"/>
                 {{ 'app.presentation.view.general.languages' | trans }}
             </dt>
-            <dd>
+            <dd class="mandatory-data">
                 {% set languages = "" %}
                 {% for language in courseInfo.languages %}
                     {% set languages = languages ~ (not loop.first ? ', ') ~ language.label %}
