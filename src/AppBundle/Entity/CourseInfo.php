@@ -114,6 +114,15 @@ class CourseInfo
      *
      * @ORM\Column(name="teaching_mode", type="string", length=15, nullable=true, options={"fixed"=true})
      * @Assert\NotBlank(groups={"presentation"})
+     * @Assert\Expression(
+     *     "value not in ['distant'] or (this.getTeachingCmDist() != null or this.getTeachingTdDist() != null or this.getTeachingsByMode('distant').count() > 0)",
+     *     message="teaching_mode.distant_hourly_empty")
+     * @Assert\Expression(
+     *     "value not in ['hybrid'] or (this.getTeachingCmHybridClass() != null or this.getTeachingTdHybridClass() != null or this.getTeachingTpHybridClass() != null or this.getTeachingsByMode('class').count() > 0)",
+     *     message="teaching_mode.hybrid_distant_hourly_empty")
+     * @Assert\Expression(
+     *     "value not in ['hybrid'] or (this.getTeachingCmHybridDist() != null or this.getTeachingTdHybridDist() != null or this.getTeachingsByMode('distant').count() > 0)",
+     *     message="teaching_mode.hybrid_distant_hourly_empty")
      * @Gedmo\Translatable
      */
     private $teachingMode;
@@ -1276,6 +1285,17 @@ class CourseInfo
     }
 
     /**
+     * @param string $mode
+     * @return Collection
+     */
+    public function getTeachingsByMode(string $mode): Collection
+    {
+        return $this->getTeachings()->filter(function(Teaching $teaching) use($mode){
+            return $teaching->getMode() === $mode;
+        });
+    }
+
+    /**
      * @param Collection $teachings
      * @return CourseInfo
      */
@@ -1285,6 +1305,8 @@ class CourseInfo
 
         return $this;
     }
+
+
 
     /**
      * @param Teaching $teaching
