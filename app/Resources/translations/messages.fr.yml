@@ -879,6 +879,7 @@ admin:
     list_activities_types: Liste des types d'activités
     modes: Modes
     edit_activity_type: Modifier un type d'activité
+    activity_no_icon: Aucune icône selectionnée
     flashbag:
       new: Le type d'activité a été ajoutée avec succès.
       edit: Le type d'activité a été modifiée avec succès.
