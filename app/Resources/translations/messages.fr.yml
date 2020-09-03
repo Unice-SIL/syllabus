@@ -489,9 +489,9 @@ app:
         label: Mode d'enseignement
     form:
       general:
-        periods: Semestre (facultatif)
+        periods: Semestre
         domains: Domaine(s) disciplinaire(s)
-        languages: En quelle(s) langue(s) est dispensé ce cours (facultatif)
+        languages: En quelle(s) langue(s) est dispensé ce cours
         campuses: Campus
         levels: Niveau du cours
         description: Description

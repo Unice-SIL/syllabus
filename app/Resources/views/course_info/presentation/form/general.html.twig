@@ -2,8 +2,6 @@
 {{ form_errors(form) }}
 <div class="row mt-2">
     <div class="col-6">
-        {{ form_row(form.domains, {label_attr: {class: 'required'}}) }}
-        {{ form_row(form.campuses) }}
         <!-- {#
         <label class="required font-weight-bold">
             {{ 'app.presentation.form.general.level_label' | trans }}
@@ -26,11 +24,12 @@
         <div class="form-group">
             {{ form_row(form.levels, {label_attr: {class: 'required'}}) }}
         </div>
-
+        {{ form_row(form.campuses, {label_attr: {class: 'required'}}) }}
+        {{ form_row(form.domains, {label_attr: {class: 'required'}}) }}
     </div>
     <div class="col-6">
-        {{ form_row(form.periods) }}
-        {{ form_row(form.languages) }}
+        {{ form_row(form.periods, {label_attr: {class: 'required'}}) }}
+        {{ form_row(form.languages, {label_attr: {class: 'required'}}) }}
     </div>
 </div>
 
