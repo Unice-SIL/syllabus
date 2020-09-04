@@ -216,7 +216,7 @@ class CourseTeacher
         if($courseInfo !== $this->courseInfo)
         {
             $this->courseInfo = $courseInfo;
-            $courseInfo->addCourseTeacher($this);
+            if($courseInfo instanceof CourseInfo) $courseInfo->addCourseTeacher($this);
         }
 
         return $this;
