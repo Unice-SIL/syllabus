@@ -119,7 +119,7 @@ class CourseInfo
      *     message="teaching_mode.distant_hourly_empty")
      * @Assert\Expression(
      *     "value not in ['hybrid'] or (this.getTeachingCmHybridClass() != null or this.getTeachingTdHybridClass() != null or this.getTeachingTpHybridClass() != null or this.getTeachingsByMode('class').count() > 0)",
-     *     message="teaching_mode.hybrid_distant_hourly_empty")
+     *     message="teaching_mode.hybrid_class_hourly_empty")
      * @Assert\Expression(
      *     "value not in ['hybrid'] or (this.getTeachingCmHybridDist() != null or this.getTeachingTdHybridDist() != null or this.getTeachingsByMode('distant').count() > 0)",
      *     message="teaching_mode.hybrid_distant_hourly_empty")

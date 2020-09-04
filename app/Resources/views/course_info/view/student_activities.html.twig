@@ -49,7 +49,7 @@
                                         <span>
                                         {{ courseSectionActivity.activity.label }}
                                             {% if courseSectionActivity.description is not empty %}
-                                                : {{ courseSectionActivity.description }}
+                                                : {{ courseSectionActivity.description | linkify({"attr": {"target": "_blank"}}) | raw }}
                                             {% endif %}
                                         </span>
                                         {% if courseSectionActivity.evaluable == true %}

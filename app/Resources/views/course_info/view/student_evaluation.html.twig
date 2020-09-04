@@ -3,8 +3,8 @@
         <h1 class="text-primary">{{ 'app.view.student.tabs.evaluation' | trans }}</h1>
         <img src="{{ asset('build/images/modalite_photo.jpg') }}" alt="">
     </div>
-    <div class="row">
-        {% if courseInfo.mccCcCoeffSession1 is not null and courseInfo.mccCtCoeffSession1 is not null %}
+    {% if courseInfo.mccCcCoeffSession1 is not null and courseInfo.mccCtCoeffSession1 is not null %}
+        <div class="row">
             <div class="col col-12 col-lg-5 pr-5 mb-4">
                 {% if courseInfo.mccCcCoeffSession1 is not null %}
                     <div class="mb-4">
@@ -31,13 +31,13 @@
                     </div>
                 {% endif %}
             </div>
-        {% endif %}
-        <div class="col col-12 col-lg-7 mb-4">
-            <p>
-                {{ 'app.view.student.objectives.evaluation_description' | trans }}
-            </p>
+            <div class="col col-12 col-lg-7 mb-4">
+                <p>
+                    {{ 'app.view.student.objectives.evaluation_description' | trans }}
+                </p>
+            </div>
         </div>
-    </div>
+    {% endif %}
     {% if courseInfo.mccAdvice is not null %}
         <div>
             <span class="text-bold">{{ 'app.evaluation.view.specifications' | trans }}</span>
