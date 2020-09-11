@@ -322,6 +322,12 @@ app:
       student_view: See the student version
       duplicate: Duplicate information to another syllabus
       advice: Ask an educational engineer for advice
+    message:
+      publication:
+        success: Syllabus has been successfully published
+        failed: Syllabus has not been published, please try again
+        already_published: Syllabus has already been published
+        cannot_published: A tab does not meet the requirements of publication
   homepage:
     establishment_code: Establishment code
     syllabus_list: Syllabus list
@@ -829,6 +835,8 @@ admin:
   published_syllabus:
     list_syllabus: List of published syllabus
     type: Type
+    publisher: Published by
+    publication_date: Publication date
     establishment_code: Establishment code
     empty_syllabus: No Syllabus has been found for those criteries
   course_info:

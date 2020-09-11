@@ -5,6 +5,7 @@ services:
         public: false
         bind:
             $mailerSource: '%mailer_source%'
+            $mailerTarget: '%mailer_target%'
             $moodlePermissionImporterOptions:
                 url: '%moodle_api_url%'
                 token: '%moodle_api_token%'

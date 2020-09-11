@@ -322,6 +322,12 @@ app:
       student_view: Voir la version étudiante
       duplicate: Dupliquer les informations vers un autre syllabus
       advice: Demander un avis à un ingénieur pédagogique
+    message:
+      publication:
+        success: Le syllabus a été publié avec succés
+        failed: Le syllabus n'a pas été publié veuillez réessayer
+        already_published: Le syllabus a déjà été publié
+        cannot_published: Un onglet ne rempli pas les conditions de publication
   homepage:
     establishment_code: Code d'établissement
     syllabus_list: Liste des syllabus
@@ -829,6 +835,8 @@ admin:
   published_syllabus:
     list_syllabus: Liste des syllabus publiés
     type: Type
+    publisher: Publié par
+    publication_date: Date de publication
     establishment_code: Code d'établissement
     empty_syllabus: Aucun Syllabus n'a été trouvé avec ces critères
   course_info:
