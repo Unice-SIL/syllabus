@@ -37,7 +37,8 @@ class ActivityFilterType extends AbstractType
                     'entityName' => 'Activity',
                     'findBy' => 'label',
                     'property' => 'label'
-                ])
+                ]),
+                'data-autocomplete-min-chars' => 3
             ]
         ])
         ->add('activityTypes', ActivityTypeFilterType::class, [

@@ -2,10 +2,10 @@
 
 namespace AppBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
@@ -14,7 +14,20 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="course_prerequisite")
  * @ORM\Entity
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CoursePrerequisiteTranslation")
- *
+ * @ApiResource(attributes={
+ *     "filters"={"id.search_filter"},
+ *     "access_control"="is_granted('ROLE_API_COURSE_PREREQUISITE')",
+ *     },
+ *     collectionOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_COURSE_PREREQUISITE_GET')"},
+ *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_COURSE_PREREQUISITE_POST')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_COURSE_PREREQUISITE_GET')"},
+ *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_COURSE_PREREQUISITE_PUT')"},
+ *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_COURSE_PREREQUISITE_DELETE')"},
+ *     }
+ * )
  */
 class CoursePrerequisite
 {
@@ -25,7 +38,6 @@ class CoursePrerequisite
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"default", "course_prerequisite"})
      */
     private $id;
 
@@ -33,7 +45,6 @@ class CoursePrerequisite
      * @var null|string
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=true)
-     * @JMS\Groups(groups={"default", "course_prerequisite"})
      * @Gedmo\Translatable
      */
     private $description = "";
@@ -42,7 +53,6 @@ class CoursePrerequisite
      * @var int
      *
      * @ORM\Column(name="position", type="integer", nullable=false)
-     * @JMS\Groups(groups={"default", "course_prerequisite"})
      */
     private $position = 0;
 
@@ -53,7 +63,6 @@ class CoursePrerequisite
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
      * })
-     * @JMS\Groups(groups={"course_prerequisite"})
      */
     private $courseInfo;
 

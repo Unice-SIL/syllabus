@@ -62,6 +62,7 @@ $(document).ready(function () {
 
             $(this).autocomplete({
                 serviceUrl: $(this).data('autocomplete-path'),
+                minChars: $(this).data('autocomplete-min-chars')?? 1,
                 //width: width,
             }).enable();
         });

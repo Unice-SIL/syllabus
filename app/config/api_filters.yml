@@ -1,0 +1,25 @@
+services:
+  id.search_filter:
+    parent: 'api_platform.doctrine.orm.search_filter'
+    arguments: [{ id: 'exact' }]
+    tags: ['api_platform.filter']
+  label.search_filter:
+    parent: 'api_platform.doctrine.orm.search_filter'
+    arguments: [{ label: 'partial' }]
+    tags: ['api_platform.filter']
+  title.search_filter:
+    parent: 'api_platform.doctrine.orm.search_filter'
+    arguments: [{ title: 'partial' }]
+    tags: ['api_platform.filter']
+  user.search_filter:
+    parent: 'api_platform.doctrine.orm.search_filter'
+    arguments: [{ lastname: 'partial', firstname: "partial", email: "partial" }]
+    tags: ['api_platform.filter']
+  username.search_filter:
+    parent: 'api_platform.doctrine.orm.search_filter'
+    arguments: [{ username: 'partial' }]
+    tags: ['api_platform.filter']
+  obsolete.boolean_filter:
+    parent: 'api_platform.doctrine.orm.boolean_filter'
+    arguments: [{ obsolete: ~ }]
+    tags: ['api_platform.filter']

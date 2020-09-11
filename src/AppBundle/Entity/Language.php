@@ -2,13 +2,14 @@
 
 namespace AppBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use AppBundle\Traits\Importable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups as Groups;
 
 /**
  * Class Language
@@ -16,6 +17,21 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="language")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\LanguageDoctrineRepository")
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\LanguageTranslation")
+ * @ApiResource(attributes={
+ *     "normalization_context"={"groups"={"language"}},
+ *     "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"},
+ *     "access_control"="is_granted('ROLE_API_LANGUAGE')",
+ *     },
+ *     collectionOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_LANGUAGE_GET')"},
+ *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_LANGUAGE_POST')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_LANGUAGE_GET')"},
+ *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_LANGUAGE_PUT')"},
+ *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_LANGUAGE_DELETE')"},
+ *     }
+ * )
  */
 class Language
 {
@@ -29,7 +45,7 @@ class Language
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"default", "language"})
+     * @Groups({"language"})
      */
     private $id;
 
@@ -38,8 +54,8 @@ class Language
      *
      * @ORM\Column(name="label", type="string", length=100, nullable=false)
      * @Assert\NotBlank()
-     * @JMS\Groups(groups={"default", "language"})
      * @Gedmo\Translatable
+     * @Groups({"language"})
      */
     private $label;
 
@@ -47,7 +63,7 @@ class Language
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"default", "language"})
+     * @Groups({"language"})
      */
     private $obsolete = false;
 

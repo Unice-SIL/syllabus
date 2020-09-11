@@ -3,13 +3,13 @@
 
 namespace AppBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use AppBundle\Traits\Importable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
-use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Period
@@ -17,6 +17,20 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="period")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\PeriodDoctrineRepository")
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\PeriodTranslation")
+ * @ApiResource(attributes={
+ *     "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"},
+ *     "access_control"="is_granted('ROLE_API_PERIOD')",
+ *     },
+ *     collectionOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_PERIOD_GET')"},
+ *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_PERIOD_POST')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_PERIOD_GET')"},
+ *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_PERIOD_PUT')"},
+ *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_PERIOD_DELETE')"},
+ *     }
+ * )
  */
 class Period
 {
@@ -30,7 +44,6 @@ class Period
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"default", "period"})
      */
     private $id;
 
@@ -39,7 +52,6 @@ class Period
      *
      * @ORM\Column(name="label", type="string", length=100, nullable=false)
      * @Assert\NotBlank()
-     * @JMS\Groups(groups={"default", "period"})
      * @Gedmo\Translatable
      */
     private $label;
@@ -48,7 +60,6 @@ class Period
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"default", "period"})
      */
     private $obsolete = false;
 
@@ -56,7 +67,6 @@ class Period
      * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Structure", inversedBy="periods")
-     * @JMS\Groups(groups={"period"})
      */
     private $structures;
 

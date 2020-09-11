@@ -2,14 +2,15 @@
 
 namespace AppBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use AppBundle\Traits\Importable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Course
@@ -20,6 +21,20 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @UniqueEntity(fields={"code", "source"}, message="Le cours avec pour code établissement {{ value }} existe déjà pour cette source", errorPath="code")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\CourseDoctrineRepository")
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CourseTranslation")
+ * @ApiResource(attributes={
+ *     "filters"={"id.search_filter", "title.search_filter"},
+ *     "access_control"="is_granted('ROLE_API_COURSE')",
+ *     },
+ *     collectionOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_COURSE_GET')"},
+ *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_COURSE_POST')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_COURSE_GET')"},
+ *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_COURSE_PUT')"},
+ *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_COURSE_DELETE')"},
+ *     }
+ * )
  */
 class Course
 {
@@ -32,7 +47,6 @@ class Course
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"course", "default"})
      */
     private $id;
 
@@ -40,7 +54,6 @@ class Course
      * @var string
      *
      * @ORM\Column(name="type", type="string", length=5, nullable=false, options={"fixed"=true})
-     * @JMS\Groups(groups={"course", "default"})
      * @Assert\NotBlank()
      * @Gedmo\Translatable
      */
@@ -50,7 +63,6 @@ class Course
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=150, nullable=false)
-     * @JMS\Groups(groups={"course", "default"})
      * @Assert\NotBlank()
      * @Gedmo\Translatable
      */
@@ -68,12 +80,14 @@ class Course
      *     @ORM\JoinColumn(name="course_parent_id", referencedColumnName="id")
      *   }
      * )
+     * @ApiSubresource()
      */
     private $parents;
 
     /**
      * @var Collection
      * @ORM\ManyToMany(targetEntity="Course", mappedBy="parents")
+     * @ApiSubresource()
      */
     private $children;
 
@@ -81,13 +95,14 @@ class Course
      * @var Collection
      *
      * @ORM\OneToMany(targetEntity="CourseInfo", mappedBy="course", cascade={ "persist" })
-     * @JMS\Groups(groups={"course"})
+     * @ApiSubresource()
      */
     private $courseInfos;
 
     /**
      * @var Collection
      * @ORM\ManyToMany(targetEntity="CriticalAchievement", inversedBy="courses", cascade={ "persist" })
+     * @ApiSubresource()
      */
     private $criticalAchievements;
 
@@ -101,6 +116,7 @@ class Course
     /**
      * @var Collection
      * @ORM\ManyToMany(targetEntity="CoursePrerequisite", inversedBy="courses", cascade={ "persist" })
+     * @ApiSubresource()
      */
     private $coursePrerequisites;
 

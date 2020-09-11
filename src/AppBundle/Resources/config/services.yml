@@ -5,6 +5,7 @@ services:
         public: false
         bind:
             $mailerSource: '%mailer_source%'
+            $mailerTarget: '%mailer_target%'
             $moodlePermissionImporterOptions:
                 url: '%moodle_api_url%'
                 token: '%moodle_api_token%'
@@ -38,12 +39,6 @@ services:
 
     AppBundle\Form\CourseInfo\Presentation\TeachersType:
         arguments: [ '%course_teacher_factory%' ]
-
-    AppBundle\Form\CourseSectionActivity\CourseSectionActivityType:
-        arguments: [ '@syllabus_entity_manager' ]
-
-    AppBundle\Form\CourseResourceEquipment\CourseResourceEquipmentType:
-        arguments: [ '@syllabus_entity_manager' ]
 
     # FIXTURE
     AppBundle\Fixture\CourseFixture:

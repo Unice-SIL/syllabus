@@ -45,7 +45,9 @@ class CourseFilterType extends AbstractType
                     'data-autocomplete-path' => $this->generator->generate('app.common.autocomplete.generic', [
                         'entityName' => 'Course',
                         'findBy' => 'code',
-                        'property' => 'code'])
+                        'property' => 'code'
+                    ]),
+                    'data-autocomplete-min-chars' => 4
                 ]
             ])
             ->add('title', TextFilterType::class, [
@@ -56,7 +58,9 @@ class CourseFilterType extends AbstractType
                     'data-autocomplete-path' => $this->generator->generate('app.common.autocomplete.generic', [
                         'entityName' => 'Course',
                         'findBy' => 'title',
-                        'property' => 'title'])
+                        'property' => 'title'
+                    ]),
+                    'data-autocomplete-min-chars' => 4
                 ]
             ]);
     }

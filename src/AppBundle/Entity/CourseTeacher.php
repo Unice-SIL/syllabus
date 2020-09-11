@@ -2,8 +2,8 @@
 
 namespace AppBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
@@ -12,6 +12,20 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="course_teacher")
  * @ORM\Entity
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CourseTeacherTranslation")
+ * @ApiResource(attributes={
+ *     "filters"={"id.search_filter", "user.search_filter"},
+ *     "access_control"="is_granted('ROLE_API_COURSE_TEACHER')",
+ *     },
+ *     collectionOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_COURSE_TEACHER_GET')"},
+ *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_COURSE_TEACHER_POST')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_COURSE_TEACHER_GET')"},
+ *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_COURSE_TEACHER_PUT')"},
+ *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_COURSE_TEACHER_DELETE')"},
+ *     }
+ * )
  */
 class CourseTeacher
 {
@@ -22,7 +36,6 @@ class CourseTeacher
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"default", "course_teacher"})
      */
     private $id;
 
@@ -30,7 +43,6 @@ class CourseTeacher
      * @var string|null
      *
      * @ORM\Column(name="firstname", type="string", length=100, nullable=true)
-     * @JMS\Groups(groups={"default", "course_teacher"})
      */
     private $firstname;
 
@@ -38,7 +50,6 @@ class CourseTeacher
      * @var string|null
      *
      * @ORM\Column(name="lastname", type="string", length=100, nullable=true)
-     * @JMS\Groups(groups={"default", "course_teacher"})
      */
     private $lastname;
 
@@ -46,7 +57,6 @@ class CourseTeacher
      * @var string|null
      *
      * @ORM\Column(name="email", type="string", length=255, nullable=true)
-     * @JMS\Groups(groups={"default", "course_teacher"})
      */
     private $email;
 
@@ -54,7 +64,6 @@ class CourseTeacher
      * @var bool
      *
      * @ORM\Column(name="manager", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"default", "course_teacher"})
      */
     private $manager = false;
 
@@ -62,7 +71,6 @@ class CourseTeacher
      * @var bool
      *
      * @ORM\Column(name="email_visibility", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"default", "course_teacher"})
      */
     private $emailVisibility = false;
 
@@ -73,7 +81,6 @@ class CourseTeacher
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
      * })
-     * @JMS\Groups(groups={"course_teacher"})
      */
     private $courseInfo;
 
@@ -209,7 +216,7 @@ class CourseTeacher
         if($courseInfo !== $this->courseInfo)
         {
             $this->courseInfo = $courseInfo;
-            $courseInfo->addCourseTeacher($this);
+            if($courseInfo instanceof CourseInfo) $courseInfo->addCourseTeacher($this);
         }
 
         return $this;

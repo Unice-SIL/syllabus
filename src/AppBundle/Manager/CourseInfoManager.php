@@ -254,7 +254,6 @@ class CourseInfoManager extends AbstractManager
      */
     private function duplicateCollectionProperty(Collection $CourseInfoSenderData, CourseInfo $courseInfoRecipient, string $property, string $inversedBy)
     {
-
         //erases every current items
         foreach ($this->propertyAccessor->getValue($courseInfoRecipient, $property) as $item) {
             $this->em->remove($item);

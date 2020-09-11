@@ -1,10 +1,9 @@
-<div>
-    <p>
-        Bonjour,<br><br><br>
-        le syllabus du cours « {{ courseTitle }} » vient d'être publié par {{ user.username }}.
-    </p>
-    <p>
-        La vue étudiante de ce syllabus est disponible à :<br>
-        <a href="{{ app.request.getSchemeAndHttpHost() ~ path('view_student', { 'id': courseInfoId }) }}">{{ app.request.getSchemeAndHttpHost() ~ path('view_student', { 'id': courseInfoId }) }}</a>.
-    </p>
-<div>
+<p>
+    Bonjour,
+</p>
+<p>
+    Le syllabus <a href="{{ url('app_router', {'code': courseInfo.course.code, 'year': courseInfo.year.id}) }}">{{ courseInfo.title }}</a>  pour l'année universitaire {{ courseInfo.year.label}} vient d'être publié par {{ app.user.firstname }} {{ app.user.lastname }}.
+</p>
+<p>
+    Bien cordialement
+</p>

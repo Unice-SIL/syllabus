@@ -81,34 +81,34 @@
                 {% endfor %}
             </ul>
         </div>
-        <div class="presentation-info-element col-12">
-            {% if courseInfo.course.parents is not empty %}
-                {% set parent = courseInfo.course.parents[0] %}
-                {% set parentInfo = '' %}
-                {% if courseInfo.course.parents|length == 1 %}
-                    {% for info in parent.courseInfos %}
-                        {% if info.year.id == courseInfo.year.id %}
-                            {% set parentInfo = info %}
-                        {% endif %}
-                    {% endfor %}
-                {% endif %}
-                {% if parent is not empty and parentInfo is not empty %}
-                    {% set title = parentInfo.title %}
-                    {% set ects = parentInfo.ects %}
-                    {% set ecue = parent.children|length %}
-                {% endif %}
-                <div class="student-subtitle">
-                    <img class="icon-20" src="{{ asset('/build/images/info_picto.png') }}">
-                    <span>{{ 'app.view.student.presentation.belong_to' | trans({'%title%' : title}) }} </span>
-                    <span class="text-primary ml-1">
+        {% if courseInfo.course.parents | length == 1 %}
+            {% set parent = courseInfo.course.parents[0] %}
+            {% set parentInfo = '' %}
+            {% if courseInfo.course.parents|length == 1 %}
+                {% for info in parent.courseInfos %}
+                    {% if info.year.id == courseInfo.year.id %}
+                        {% set parentInfo = info %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            {% if parentInfo is not empty %}
+                {% set title = parentInfo.title %}
+                {% set ects = parentInfo.ects %}
+                {% set ecue = parent.children|length %}
+                <div class="presentation-info-element col-12">
+                    <div class="student-subtitle">
+                        <img class="icon-20" src="{{ asset('/build/images/info_picto.png') }}">
+                        <span>{{ 'app.view.student.presentation.belong_to' | trans({'%title%' : title}) }} </span>
+                        <span class="text-primary ml-1">
                         {% if ects is not null %}
                             ({{ ects }} ECTS)
                         {% endif %}
-                        {{ 'app.view.student.presentation.nb_ecue' | trans({'%ecue%': ecue}) }}
-                    </span>
+                            {{ 'app.view.student.presentation.nb_ecue' | trans({'%ecue%': ecue}) }}
+                        </span>
+                    </div>
                 </div>
             {% endif %}
-        </div>
+        {% endif %}
     </div>
 
     <div class="presentation-summary mt-5">

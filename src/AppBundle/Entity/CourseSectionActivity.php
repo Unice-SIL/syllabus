@@ -2,10 +2,11 @@
 
 namespace AppBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
-use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * CourseSectionActivity
@@ -13,6 +14,20 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="course_section_activity")
  * @ORM\Entity
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CourseSectionActivityTranslation")
+ * @ApiResource(attributes={
+ *     "filters"={"id.search_filter"},
+ *     "access_control"="is_granted('ROLE_API_COURSE_SECTION_ACTIVITY')",
+ *     },
+ *     collectionOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_COURSE_SECTION_ACTIVITY_GET')"},
+ *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_COURSE_SECTION_ACTIVITY_POST')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_COURSE_SECTION_ACTIVITY_GET')"},
+ *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_COURSE_SECTION_ACTIVITY_PUT')"},
+ *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_COURSE_SECTION_ACTIVITY_DELETE')"},
+ *     }
+ * )
  */
 class CourseSectionActivity
 {
@@ -23,7 +38,6 @@ class CourseSectionActivity
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"default", "course_section_activity"})
      */
     private $id;
 
@@ -31,7 +45,6 @@ class CourseSectionActivity
      * @var string|null
      *
      * @ORM\Column(name="description", type="string", length=255, nullable=true)
-     * @JMS\Groups(groups={"default", "course_section_activity"})
      * @Gedmo\Translatable
      */
     private $description;
@@ -40,7 +53,6 @@ class CourseSectionActivity
      * @var float|null
      *
      * @ORM\Column(name="evaluation_rate", type="float", nullable=true)
-     * @JMS\Groups(groups={"default", "course_section_activity"})
      */
     private $evaluationRate;
 
@@ -48,7 +60,6 @@ class CourseSectionActivity
      * @var bool
      *
      * @ORM\Column(name="evaluable", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"default", "course_section_activity"})
      */
     private $evaluable = false;
 
@@ -56,7 +67,6 @@ class CourseSectionActivity
      * @var bool
      *
      * @ORM\Column(name="evaluation_ct", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"default", "course_section_activity"})
      */
     private $evaluationCt = false;
 
@@ -64,7 +74,6 @@ class CourseSectionActivity
      * @var bool
      *
      * @ORM\Column(name="evaluation_teacher", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"default", "course_section_activity"})
      */
     private $evaluationTeacher = false;
 
@@ -72,7 +81,6 @@ class CourseSectionActivity
      * @var bool
      *
      * @ORM\Column(name="evaluation_peer", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"default", "course_section_activity"})
      */
     private $evaluationPeer = false;
 
@@ -80,7 +88,6 @@ class CourseSectionActivity
      * @var int
      *
      * @ORM\Column(name="position", type="integer", nullable=false)
-     * @JMS\Groups(groups={"default", "course_section_activity"})
      */
     private $position = 0;
 
@@ -92,8 +99,7 @@ class CourseSectionActivity
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="activity_id", referencedColumnName="id", nullable=false)
      * })
-     * @JMS\Type("AppBundle\Entity\Activity")
-     * @JMS\Groups(groups={"course_info", "course_section", "course_section_activity"})
+     * @ApiSubresource()
      */
     private $activity;
 
@@ -105,7 +111,7 @@ class CourseSectionActivity
      *   @ORM\JoinColumn(name="activity_type_id", referencedColumnName="id", nullable=false)
      * })
      * @Assert\NotBlank()
-     * @JMS\Groups(groups={"course_info", "course_section", "course_section_activity"})
+     * @ApiSubresource()
      */
     private $activityType;
 
@@ -117,7 +123,7 @@ class CourseSectionActivity
      *   @ORM\JoinColumn(name="activity_mode_id", referencedColumnName="id", nullable=false)
      * })
      * @Assert\NotBlank()
-     * @JMS\Groups(groups={"course_info", "course_section", "course_section_activity"})
+     * @ApiSubresource()
      */
     private $activityMode;
 
@@ -128,7 +134,7 @@ class CourseSectionActivity
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="course_section_id", referencedColumnName="id", nullable=false)
      * })
-     * @JMS\Groups(groups={"course_section_activity"})
+     * @ApiSubresource()
      */
     private $courseSection;
 
@@ -358,9 +364,6 @@ class CourseSectionActivity
     }
 
     /**
-     * @JMS\VirtualProperty()
-     * @JMS\Groups(groups={"course_info", "course_section", "course_section_activity"})
-     * @JMS\SerializedName("activity")
      *
      * @return null|string
      */
@@ -370,9 +373,6 @@ class CourseSectionActivity
     }
 
     /**
-     * @JMS\VirtualProperty()
-     * @JMS\Groups(groups={"api"})
-     * @JMS\SerializedName("activity")
      *
      * @return null|string
      */
@@ -383,9 +383,6 @@ class CourseSectionActivity
 
 
     /**
-     * @JMS\VirtualProperty()
-     * @JMS\Groups(groups={"api"})
-     * @JMS\SerializedName("activity")
      *
      * @return null|string
      */

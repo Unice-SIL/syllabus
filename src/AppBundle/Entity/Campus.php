@@ -1,16 +1,16 @@
 <?php
 
-
 namespace AppBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use ApiPlatform\Core\Annotation\ApiResource;
 use AppBundle\Traits\Importable;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups as Groups;
 
 /**
  * Class Campus
@@ -21,7 +21,21 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @UniqueEntity(fields={"code", "source"}, message="Le campus avec pour code établissement {{ value }} existe déjà pour cette source", errorPath="code")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\CampusDoctrineRepository")
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CampusTranslation")
- *
+ * @ApiResource(attributes={
+ *          "normalization_context"={"groups"={"campuses"}},
+ *          "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"},
+ *          "access_control"="is_granted('ROLE_API_CAMPUS')",
+ *     },
+ *     collectionOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_CAMPUS_GET')"},
+ *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_CAMPUS_POST')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_CAMPUS_GET')"},
+ *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_CAMPUS_PUT')"},
+ *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_CAMPUS_DELETE')"},
+ *     }
+ * )
  */
 class Campus
 {
@@ -35,7 +49,7 @@ class Campus
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-     * @JMS\Groups(groups={"default", "campus"})
+     * @Groups({"campuses"})
      */
     private $id;
 
@@ -44,8 +58,7 @@ class Campus
      *
      * @ORM\Column(name="label", type="string", length=100, nullable=false)
      * @Assert\NotBlank()
-     * @JMS\Groups(groups={"default", "campus"})
-     * @Gedmo\Translatable
+     * @Groups({"campuses"})
      */
     private $label;
 
@@ -53,8 +66,8 @@ class Campus
      * @var string|null
      *
      * @ORM\Column(name="grp", type="string", length=100, nullable=true)
-     * @JMS\Groups(groups={"default", "campus"})
      * @Gedmo\Translatable
+     * @Groups({"campuses"})
      */
     private $grp;
 
@@ -62,7 +75,7 @@ class Campus
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
-     * @JMS\Groups(groups={"default", "campus"})
+     * @Groups({"campuses"})
      */
     private $obsolete = false;
 
@@ -70,6 +83,7 @@ class Campus
      * @var ArrayCollection
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\CourseInfo", mappedBy="campuses")
+     * @Groups({"campuses"})
      */
     private $courseInfos;
 

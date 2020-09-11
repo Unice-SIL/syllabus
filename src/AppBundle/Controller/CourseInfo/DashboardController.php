@@ -9,6 +9,7 @@ use AppBundle\Entity\CourseInfo;
 use AppBundle\Form\CourseInfo\dashboard\AskAdviceType;
 use AppBundle\Form\CourseInfo\dashboard\PublishCourseInfoType;
 use AppBundle\Form\CourseInfo\DuplicateCourseInfoType;
+use AppBundle\Helper\MailHelper;
 use AppBundle\Helper\Report\Report;
 use AppBundle\Manager\CourseInfoManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,6 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -59,7 +61,7 @@ class DashboardController extends AbstractController
     public function indexAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $courseInfoManager,
                                 EntityManagerInterface $em, TranslatorInterface $translator)
     {
-        $duplicationForm = $this->createForm(DuplicateCourseInfoType::class);
+        $duplicationForm = $this->createForm(DuplicateCourseInfoType::class, ['currentCourseInfo' => $courseInfo->getId()]);
         $duplicationForm->handleRequest($request);
 
         $isFormValid = true;
@@ -182,48 +184,45 @@ class DashboardController extends AbstractController
     /**
      * @param CourseInfo $courseInfo
      * @param Request $request
-     * @param EntityManagerInterface $em
+     * @param CourseInfoManager $courseInfoManager
      * @param TranslatorInterface $translator
      * @return JsonResponse
      * @Route("/publish", name="publish", methods={"POST"} )
-     * @throws \Exception
      */
-    public function publishCourseInfo(CourseInfo $courseInfo, Request $request, EntityManagerInterface $em, TranslatorInterface $translator)
+    public function publishCourseInfo(CourseInfo $courseInfo, Request $request, CourseInfoManager $courseInfoManager, TranslatorInterface $translator, MailHelper $mailHelper)
     {
         $publishForm = $this->createForm(PublishCourseInfoType::class, $courseInfo);
         $publishForm->handleRequest($request);
 
-        if ($publishForm->isSubmitted() and $publishForm->isValid()) {
-            /** @var CourseInfo $courseInfo */
-            $courseInfo = $publishForm->getData();
-            $violations = $this->getViolation($courseInfo);
-            if (is_null($courseInfo->getPublicationDate())) {
-                foreach ($violations as $key => $violation) {
-                    if ($violation->count() > 0) {
-                        return $this->json(['error' => true, 'message' => $translator->trans('app.controller.error.tab_conditions')]);
-                    }
-                }
-                if(empty($courseInfo->getPublicationDate()))
-                {
-                    $courseInfo->setPublicationDate(new \DateTime());
-                }else{
-                    $courseInfo->setPublicationDate(null);
-                }
-            } else {
-                if(empty($courseInfo->getPublicationDate()))
-                {
-                    $courseInfo->setPublicationDate(new \DateTime());
-                }else{
-                    $courseInfo->setPublicationDate(null);
-                }
-                //$courseInfo->setPublicationDate($isPublished ? new \DateTime() : null);
-            }
+        if (!$publishForm->isSubmitted() or !$publishForm->isValid())
+        {
+            return $this->json(['status'=>false, 'message'=>$translator->trans('app.dashboard.message.publication.failed')]);
+        };
 
-            $em->flush();
+        /** @var CourseInfo $courseInfo */
+        $courseInfo = $publishForm->getData();
 
-            return $this->json(['error' => false]);
+        if(!empty($courseInfo->getPublicationDate()))
+        {
+            return $this->json(['status'=>false, 'message'=>$translator->trans('app.dashboard.message.publication.already_publish')]);
         }
-        return $this->json(['error' => true]);
+
+        $violationsGroups = $this->getViolation($courseInfo);
+        /** @var ConstraintViolationList $violationsGroup */
+        foreach ($violationsGroups as $violationsGroup)
+        {
+            if($violationsGroup->count() > 0) return $this->json(['status'=>false, 'message'=>$translator->trans('app.dashboard.message.publication.cannot_published')]);
+        }
+
+        $courseInfo->setPublisher($this->getUser())
+            ->setPublicationDate(new \DateTime());
+
+        $courseInfoManager->update($courseInfo);
+
+        $mailHelper->sendNewSyllabusPublishedMessage($courseInfo, $this->getUser());
+
+        return $this->json(['status'=>true, 'message'=>$translator->trans('app.dashboard.message.publication.success')]);
+
     }
 
     /**

@@ -4,15 +4,19 @@
 namespace AppBundle\Controller\Common;
 
 
-use AppBundle\Entity\Domain;
+use AppBundle\Constant\Permission;
+use AppBundle\Entity\CourseInfo;
 use AppBundle\Entity\Structure;
 use AppBundle\Repository\Doctrine\UserDoctrineRepository;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\expr;
 
 /**
  * Class AutoCompleteController
@@ -65,16 +69,79 @@ class AutoCompleteController extends AbstractController
         $entityName = "{$namespace}{$entityName}";
         $query = $request->query->get('q', '');
         $findBy = $request->query->get('findBy', 'label');
+        $findByOther = $request->query->get('findByOther', []);
         $property = $request->query->get('property', 'label');
+        $groupProperty = $request->query->get('groupProperty', null);
+
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
 
         $repository = $this->getDoctrine()->getRepository($entityName);
+        $entities = $repository->findByFilters(array_merge($findByOther, [$findBy=>$query]));
 
-        $entities = $repository->findLikeQuery($query, $findBy);
+        $data = [];
+        foreach ($entities as $entity)
+        {
+            $d = ['id' => $entity->getId(), 'text' => $propertyAccessor->getValue($entity, $property)];
+            if(!empty($groupProperty))
+            {
+                $group = $propertyAccessor->getValue($entity, $groupProperty)?? 0;
+                if(!array_key_exists($group, $data))
+                {
+                    $data[$group] = ['text' => $propertyAccessor->getValue($entity, $groupProperty), 'children' => []];
+                }
+                $data[$group]['children'][] = $d;
+            }
+            else
+            {
+                $data[] = $d;
+            }
+        }
+        ksort($data);
 
-        $data = array_map(function ($e) use ($propertyAccessor, $property) {
-            return ['id' => $e->getId(), 'text' => $propertyAccessor->getValue($e, $property)];
-        }, $entities);
+        return $this->json(array_values($data));
+    }
+
+    /**
+     * @Route("/s2-courseinfo-with-write-permission", name="s2_courseinfo_with_write_permission")
+     *
+     * @param Request $request
+     * @param AccessDecisionManagerInterface $decisionManager
+     * @param TokenInterface $token
+     * @return JsonResponse
+     */
+    public function autoCompleteS2CourseInfoWithWritePermission(Request $request, AccessDecisionManagerInterface $decisionManager, ?TokenInterface $token)
+    {
+        $search = $request->query->get('q', '');
+        $currentCourseInfo = $request->query->get('currentCourseInfo', null);
+
+        /** @var QueryBuilder $qb */
+        $qb = $this->getDoctrine()->getRepository(CourseInfo::class)->createQueryBuilder('ci')
+            ->innerJoin('ci.course', 'c')
+            ->innerJoin('ci.coursePermissions', 'cp')
+            ->addSelect('c', 'cp');
+        $qb->where('ci.title LIKE :search OR c.code LIKE :search')
+            ->setParameter('search', "%{$search}%");
+
+        if (empty($token) || !$decisionManager->decide($token, ['ROLE_ADMIN_COURSE_INFO_UPDATE']))
+        {
+            $qb->andWhere($qb->expr()->eq('cp.user', ':user'))
+                ->andWhere($qb->expr()->eq('cp.permission', ':permission'))
+                ->setParameter('user', $this->getUser())
+                ->setParameter('permission', Permission::WRITE);
+        }
+
+        if(!empty($currentCourseInfo))
+        {
+            $qb->andWhere($qb->expr()->neq('ci.id', ':currentCourseInfo'))
+                ->setParameter('currentCourseInfo', $currentCourseInfo);
+        }
+
+        $coursesInfo = $qb->getQuery()->getResult();
+
+        $data = array_map(function (CourseInfo $courseInfo) {
+            return ['id' => $courseInfo->getId(), 'text' => "{$courseInfo->getCourse()->getCode()} - {$courseInfo->getYear()}"];
+        }, $coursesInfo);
+
 
         return $this->json($data);
     }
@@ -87,6 +154,9 @@ class AutoCompleteController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
+    /*
+     * TO REMOVE
+     *
     public function autocompleteS2Structure(Structure $structure, string $entityName, Request $request)
     {
         $namespace = 'AppBundle\\Entity\\';
@@ -106,48 +176,11 @@ class AutoCompleteController extends AbstractController
 
         return $this->json($data);
     }
+    */
+
 
     /**
-     * @Route("/domain-s2/{structure}", name="domain_s2_structure")
-     *
-     * @param Structure $structure
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function autocompleteS2Domain(Structure $structure, Request $request)
-    {
-        $query = $request->query->get('q', '');
-        $repository = $this->getDoctrine()->getRepository(Domain::class);
-        $domains = $repository->findLikeWithStructureQuery($query, $structure);
-
-        $groups = array_unique(array_map(function(Domain $domain){
-            return $domain->getGrp();
-        }, $domains));
-
-        $data = [];
-
-        /** @var Domain $domain */
-        foreach ($domains as $domain)
-        {
-            $groupId = $domain->getGrp()?? 0;
-            if(!array_key_exists($groupId, $data))
-            {
-                $data[$groupId] = [
-                    'text' => $domain->getGrp(),
-                    'children' => []
-                ];
-            }
-            $data[$groupId]['children'][] = [
-                'id' => $domain->getId(),
-                'text' => $domain->getLabel()
-            ];
-        }
-
-        return $this->json(array_values($data));
-    }
-
-    /**
-     * @Route("/generic-s2-user/{entityName}", name="generic_s2_user")
+     * @Route("/generic-s2-user", name="generic_s2_user")
      *
      * @param UserDoctrineRepository $userDoctrineRepository
      * @param Request $request

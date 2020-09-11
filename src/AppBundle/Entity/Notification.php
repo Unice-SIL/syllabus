@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -12,7 +13,20 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="notification")
  * @ORM\Entity
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\NotificationTranslation")
- *
+ * @ApiResource(attributes={
+ *     "filters"={"id.search_filter"},
+ *     "access_control"="is_granted('ROLE_API_NOTIFICATION')",
+ *     },
+ *     collectionOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_NOTIFICATION_GET')"},
+ *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_NOTIFICATION_POST')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_NOTIFICATION_GET')"},
+ *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_NOTIFICATION_PUT')"},
+ *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_NOTIFICATION_DELETE')"},
+ *     }
+ * )
  */
 class Notification
 {

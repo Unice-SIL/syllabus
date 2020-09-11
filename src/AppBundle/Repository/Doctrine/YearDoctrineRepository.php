@@ -48,6 +48,15 @@ class YearDoctrineRepository  extends ServiceEntityRepository
     }
 
     /**
+     * @param array $filters
+     * @return array
+     */
+    public function findByFilters($filters=[]): array
+    {
+        return $this->findQueryBuilderForApi(['filters' => $filters])->getQuery()->getResult();
+    }
+
+    /**
      * @param array $config
      * @return QueryBuilder
      */
@@ -59,8 +68,8 @@ class YearDoctrineRepository  extends ServiceEntityRepository
             $valueName = 'value'.$filter;
             switch ($filter) {
                 case 'label':
-                    $value = "%{$value}%";
                     $qb->andWhere($qb->expr()->like('y.' . $filter, ':'.$valueName));
+                    $value = "%{$value}%";
                     break;
                 default:
                     $qb->andWhere($qb->expr()->eq('y.' . $filter, ':'.$valueName));

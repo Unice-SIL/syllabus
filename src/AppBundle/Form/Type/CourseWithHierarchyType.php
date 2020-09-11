@@ -4,17 +4,12 @@
 namespace AppBundle\Form\Type;
 
 
-use AppBundle\Entity\Course;
 use AppBundle\Form\DataTransformer\CourseWithHierarchyTransformer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 
 class CourseWithHierarchyType extends AbstractType
 {

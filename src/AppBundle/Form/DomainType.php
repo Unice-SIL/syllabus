@@ -6,6 +6,7 @@ namespace AppBundle\Form;
 
 use AppBundle\Entity\Structure;
 use AppBundle\Form\Subscriber\DomainTypeSubscriber;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -39,6 +40,10 @@ class DomainType extends AbstractType
             ->add('structures', EntityType::class, [
                 'label' => "Structure",
                 'class' => Structure::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('s')
+                        ->orderBy('s.label', 'ASC');
+                },
                 'multiple' => true,
                 'by_reference' => false,
                 'required' => false
