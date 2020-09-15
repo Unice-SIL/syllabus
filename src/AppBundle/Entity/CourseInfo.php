@@ -622,10 +622,6 @@ class CourseInfo
      *
      * @ORM\OneToMany(targetEntity="CoursePrerequisite", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"position" = "ASC"})
-     * @Assert\Count(
-     *     groups={"prerequisites"},
-     *     min = 1
-     *     )
      * @ApiSubresource()
      */
     private $coursePrerequisites;
