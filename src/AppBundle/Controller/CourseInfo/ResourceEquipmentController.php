@@ -51,7 +51,7 @@ class ResourceEquipmentController extends AbstractController
     public function equipmentViewAction(CourseInfo $courseInfo, TranslatorInterface $translator)
     {
         $em = $this->getDoctrine()->getManager();
-        $equipments = $em->getRepository(Equipment::class)->findBy([], ['label' => 'ASC']);
+        $equipments = $em->getRepository(Equipment::class)->findBy(['obsolete' => false], ['label' => 'ASC']);
 
         if (!$courseInfo instanceof CourseInfo) {
             return $this->json([
