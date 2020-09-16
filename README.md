@@ -41,3 +41,12 @@ La commande `make build` fait appel à un nouveau block de commande qui sont les
 ####3. Programmer le cron Scheduler (seulement en production)
 Ajouter dans le cron du serveur la commande suivante:
 `* * * * * php path_to_syllabus\bin\console app:scheduler`
+
+### v2.0
+
+#### v2.1.4
+##### Release
+- Switched apogee code <--> title
+- Prerequisite not mandatory
+- Fixed obsolete => false
+- Added title on student view

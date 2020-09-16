@@ -10,7 +10,7 @@
             <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
         </li>
     </ul>
-    {{ not app.request.query.get('iframe') ? ('<div class="syllabus-title"><h3>' ~ courseInfo.course.code ~ '-' ~ courseInfo.title ~ '</h3></div>')|raw }}
+    {{ not app.request.query.get('iframe') ? ('<div class="syllabus-title"><h3>' ~ courseInfo.title ~ '-' ~ courseInfo.course.code ~ '</h3></div>')|raw }}
 {% endblock %}
 
 {% block sidebar %}
