@@ -22,7 +22,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\CourseDoctrineRepository")
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CourseTranslation")
  * @ApiResource(attributes={
- *     "filters"={"id.search_filter", "title.search_filter", "code.search_filter", "type.search_filter"},
+ *     "filters"={"id.search_filter", "title.search_filter", "code.search_filter"},
  *     "access_control"="is_granted('ROLE_API_COURSE')",
  *     },
  *     collectionOperations={

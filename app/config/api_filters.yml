@@ -27,7 +27,7 @@ services:
     parent: 'api_platform.doctrine.orm.search_filter'
     arguments: [{code: 'exact'}]
     tags: ['api_platform.filter']
-  type.search_filter:
+  yearApi.search_filter:
     parent: 'api_platform.doctrine.orm.search_filter'
-    arguments: [{type: 'exact'}]
+    arguments: [{yearApi: 'exact'}]
     tags: ['api_platform.filter']
