@@ -23,3 +23,11 @@ services:
     parent: 'api_platform.doctrine.orm.boolean_filter'
     arguments: [{ obsolete: ~ }]
     tags: ['api_platform.filter']
+  code.search_filter:
+    parent: 'api_platform.doctrine.orm.search_filter'
+    arguments: [{code: 'exact'}]
+    tags: ['api_platform.filter']
+  year.search_filter:
+    parent: 'api_platform.doctrine.orm.search_filter'
+    arguments: [{year: 'exact'}]
+    tags: ['api_platform.filter']
