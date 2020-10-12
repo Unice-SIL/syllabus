@@ -25,7 +25,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity(fields={"year", "course"}, message="Le cours {{ value }} existe déjà pour cette année", errorPath="course")
  * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CourseInfoTranslation")
  * @ApiResource(attributes={
- *     "filters"={"id.search_filter", "title.search_filter", "yearApi.search_filter"},
+ *     "filters"={"id.search_filter", "title.search_filter", "year.search_filter"},
  *     "access_control"="is_granted('ROLE_API_COURSE_INFO')",
  *     },
  *     collectionOperations={
