@@ -50,3 +50,7 @@ Ajouter dans le cron du serveur la commande suivante:
 - Prerequisite not mandatory
 - Fixed obsolete => false
 - Added title on student view
+
+#### v2.1.5
+##### Release
+- Added API filters for Course and CourseInfo
