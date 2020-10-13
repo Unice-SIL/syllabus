@@ -1,3 +1,5 @@
 teaching_mode.distant_hourly_empty: Please enter at least one "Distant" hourly volume below
 teaching_mode.hybrid_class_hourly_empty: Please enter at least one "In class" hourly volume below
 teaching_mode.hybrid_distant_hourly_empty: Please enter at least one "Distant" hourly volume below
+media_type.image.empty: Please enter an image
+media_type.video.empty: Please enter an video
