@@ -1,3 +1,5 @@
 teaching_mode.distant_hourly_empty: Veuillez renseigner au moins un volume horaire "A distance" ci-dessous
 teaching_mode.hybrid_class_hourly_empty: Veuillez renseigner au moins un volume horaire "Présentiel" ci-dessous
 teaching_mode.hybrid_distant_hourly_empty: Veuillez renseigner au moins un volume horaire "A distance" ci-dessous
+media_type.image.empty: Veuillez renseigner une image
+media_type.video.empty: Veuillez renseigner une vidéo
