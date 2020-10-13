@@ -88,12 +88,10 @@ class CourseInfo
      *
      * @ORM\Column(name="media_type", type="string", length=10, nullable=true)
      * @Gedmo\Translatable
-     * @Assert\Expression("this.getImage() != null and value == 'image'",
-     *     message="media_type.image.empty",
+     * @Assert\Expression("this.getImage() != null or value not in ['image', null]",
      *     groups={"presentation"}
      * )
-     * @Assert\Expression("this.getVideo() != null and value == 'video'",
-     *     message="media_type.video.empty",
+     * @Assert\Expression("this.getVideo() != null or value not in ['video', null]",
      *     groups={"presentation"}
      * )
      */
