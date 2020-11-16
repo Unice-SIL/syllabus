@@ -1,0 +1,22 @@
+{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('app.course_info.teacher.edit', {'id': form.vars.data.id}), 'data-card': 'card-teacher' }}) }}
+{{ form_errors(form) }}
+<div class="form-group row">
+    <label class="col-form-label col-sm-auto">{{ 'app.presentation.form.teacher.mail_visibility' | trans }}</label>
+    {{ form_widget(form.emailVisibility) }}
+</div>
+<div class="form-group row">
+    <label class="col-form-label col-sm-auto">{{ 'app.presentation.form.teacher.responsible' | trans }}</label>
+    {{ form_widget(form.manager) }}
+</div>
+<div class="d-flex justify-content-center mt-3">
+    <button type="submit" class="btn button-orange" id="create_button">
+        {{ 'app.general.button.edit' | trans }}
+    </button>
+</div>
+{{ form_end(form) }}
+
+<script>
+    $(document).ready(function(){
+        $('input[data-toggle="toggle"]').bootstrapToggle();
+    });
+</script>

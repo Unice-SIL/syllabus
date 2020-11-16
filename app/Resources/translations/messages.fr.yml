@@ -283,7 +283,7 @@ app:
       objectives: Objectif du cours
       activities: Programme détaillé
       evaluations: Modalités d'évaluation
-      equipments: Matériel et ressources
+      equipments: Biblio et ressources
       information: Informations pratiques
       closing_remarks: Le mot de la fin
   dashboard:
@@ -355,12 +355,12 @@ app:
       prerequisites: Prérequis
       add_prerequisite: Ajouter un prérequis
       empty_prerequisite: Aucun prérequis renseigné
-      mandatory_courses: Cours obligatoire(s):
+      mandatory_courses: "Cours obligatoire(s):"
       update_prerequisite: Modifier un prérequis
       delete_prerequisite: Supprimer un prérequis
       tutoring_resource: Rémédiation / Aide à la réussite
       add_tutoring_resource: Ajouter une rémédiation
-      attend_tutoring: Assister à des séances de tutorat :
+      attend_tutoring: "Assister à des séances de tutorat :"
       add_tutoring: Ajouter une séance de tutorat
       update_tutoring: Modifier une séance de tutorat
       tutoring_teacher: Avec tuteur enseignant
@@ -395,6 +395,7 @@ app:
       edit: Modifier
   evaluation:
     view:
+      mcc_informations: Les informations affichées sont issues du document des MCC (Modalité de Contrôles des Connaissances). Vous ne pouvez pas les modifier car elles ont fait l’objet d’un vote en CAC.
       first_session: 1ère session
       evaluation_type: Type d'évaluation
       evaluation_rate: Coefficient
@@ -487,6 +488,7 @@ app:
         mail: Email
         attributes: Attributs
         delete_teacher: Supprimer un enseignant
+        edit_teacher: Modifier un enseignant
         mail_visible: Email visible
         mail_invisible: Mail non visible
         responsible: Responsable
@@ -656,7 +658,7 @@ app:
       tabs:
         activities: Programme détaillé
         closing_remarks: Le mot de la fin
-        equipments: Matériel et ressources
+        equipments: Biblio et ressources
         evaluation: Modalités d'évaluation
         info: Informations pratiques
         objectives: Objectifs du cours

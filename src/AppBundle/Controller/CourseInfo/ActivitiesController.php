@@ -89,12 +89,10 @@ class ActivitiesController extends AbstractController
             if ($form->isValid())
             {
                 $section->setId(Uuid::uuid4())
+                    ->setPosition(count($courseInfo->getCourseSections()))
                     ->setCourseInfo($courseInfo);
 
                 $courseInfo->addCourseSection($section);
-                foreach ($courseInfo->getCourseSections() as $section) {
-                    $section->setPosition($section->getPosition() + 1);
-                }
                 $manager->update($courseInfo);
             }
             else

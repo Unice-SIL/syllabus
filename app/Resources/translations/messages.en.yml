@@ -395,6 +395,7 @@ app:
       edit: Edit
   evaluation:
     view:
+      mcc_informations: The informations displayed below are taken from a document. You cannot edit them because they were voted that way.
       first_session: 1st session
       evaluation_type: Evaluation type
       evaluation_rate: Evaluation rate
@@ -487,6 +488,7 @@ app:
         mail: Email
         attributes: Attributes
         delete_teacher: Delete a teacher
+        edit_teacher: Edit a teacher
         mail_visible: Email visible
         mail_invisible: Mail not visible
         responsible: Manager

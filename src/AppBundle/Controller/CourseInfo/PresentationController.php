@@ -14,6 +14,7 @@ use AppBundle\Manager\CourseTeacherManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Translation\TranslatorInterface;
 
@@ -29,7 +30,7 @@ class PresentationController extends AbstractController
      * @Route("/", name="index")
      *
      * @param CourseInfo $courseInfo
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      * @throws \Exception
      */
     public function indexAction(CourseInfo $courseInfo)
@@ -44,7 +45,7 @@ class PresentationController extends AbstractController
      *
      * @param CourseInfo|null $courseInfo
      * @param TranslatorInterface $translator
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function generalViewAction(?CourseInfo $courseInfo, TranslatorInterface $translator)
     {
@@ -72,7 +73,7 @@ class PresentationController extends AbstractController
      * @param Request $request
      * @param CourseInfoManager $manager
      * @param TranslatorInterface $translator
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function generalFormAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager, TranslatorInterface $translator)
     {
@@ -114,7 +115,7 @@ class PresentationController extends AbstractController
      *
      * @param CourseInfo $courseInfo
      * @param TranslatorInterface $translator
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function teachersViewAction(CourseInfo $courseInfo, TranslatorInterface $translator)
     {
@@ -150,7 +151,7 @@ class PresentationController extends AbstractController
      * @param CourseTeacherManager $courseTeacherManager
      * @param ImportCourseTeacherFactory $factory
      * @param TranslatorInterface $translator
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      * @throws \Exception
      */
     public function addTeachersAction(CourseInfo $courseInfo, Request $request, CourseTeacherManager $courseTeacherManager,
@@ -207,7 +208,7 @@ class PresentationController extends AbstractController
      *
      * @param CourseInfo $courseInfo
      * @param TranslatorInterface $translator
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function teachingModeViewAction(CourseInfo $courseInfo, TranslatorInterface $translator)
     {
@@ -235,7 +236,7 @@ class PresentationController extends AbstractController
      * @param Request $request
      * @param CourseInfoManager $manager
      * @param TranslatorInterface $translator
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function teachingModeFormAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager, TranslatorInterface $translator)
     {
