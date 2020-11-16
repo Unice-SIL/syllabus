@@ -46,14 +46,13 @@ class CoursePrerequisiteType extends AbstractType
                 'label' => 'app.prerequisites.form.prerequisite_courses',
                 'class' => Course::class,
                 'multiple' => true,
-                'remote_route' => 'app.common.autocomplete.generic_s2',
+                'remote_route' => 'app.common.autocomplete.generic_s2_courses',
                 'text_property' => 'title',
                 'minimum_input_length' => 4,
                 'language' => $this->request->getLocale(),
                 'required' => false,
                 'remote_params' => [
                     'entityName' => 'Course',
-                    'findBy' => 'title',
                     'property' => 'title'
                 ],
             ]);

@@ -89,6 +89,22 @@ class CourseDoctrineRepository  extends ServiceEntityRepository
         return $qb;
     }
 
+    /**
+     * @param $value
+     * @return QueryBuilder
+     */
+    public function findByTitleOrCode($value)
+    {
+        $qb = $this->_em->getRepository(Course::class)
+        ->createQueryBuilder('c')
+        ->orWhere('c.title LIKE :title')
+        ->orWhere('c.code LIKE :code')
+        ->setParameter('title', '%'.$value.'%')
+        ->setParameter('code', '%'.$value.'%');
+
+        return $qb->getQuery()->getResult();
+    }
+
     public function findCourseWithCourseInfoAndYear(string $id)
     {
 
