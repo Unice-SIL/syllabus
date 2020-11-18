@@ -476,7 +476,7 @@ app:
         level: Niveau du cours
         period: Semestre
         description: Description
-        description_message: Pour trouver des images libres de droit :
+        description_message: "Pour trouver des images libres de droit :"
         structure: Composante
       teachers:
         add_teacher: Ajouter un enseignant
@@ -626,8 +626,13 @@ app:
         empty_prerequiste: Pas de prérequis
         tutoring_resources_list: Liste des rémédiations
         tutoring_resources_description: Pour me remettre à niveau, je peux ...
+        tutoring: M'inscrire et assister aux séances de tutorat
+        tutoring_by_teacher: avec un tuteur enseignant
+        tutoring_by_student: avec un tuteur étudiant
+        tutoring_by_both: avec un tuteur enseignant et/ou étudiant
         empty_tutoring_resources: Pas de remise à niveau
       presentation:
+        not_published: Ce syllabus n'a pas encore été publié
         structure: Composante
         domain: Domaine disciplinaire
         level: Niveau du cours

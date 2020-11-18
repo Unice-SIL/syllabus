@@ -59,13 +59,20 @@
                                                 {% else %}
                                                     {{ 'app.view.student.activities.cc' | trans }}
                                                 {% endif %}
+                                                {% if courseSectionActivity.evaluationRate > 0 and courseSectionActivity.evaluationRate is not null %}
+                                                    - {{ courseSectionActivity.evaluationRate }}%
+                                                {% endif %}
                                             </span>
-                                            <div class="progress student-progress">
-                                                <div class="progress-bar" role="progressbar"
-                                                     style="width: {{ courseSectionActivity.evaluationRate }}%;"
-                                                     aria-valuenow="{{ courseSectionActivity.evaluationRate }}"
-                                                     aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
+                                            {% if courseSectionActivity.evaluationRate > 0 and courseSectionActivity.evaluationRate is not null %}
+                                                <div class="progress student-progress">
+                                                    <div class="progress-bar" role="progressbar"
+                                                         style="width: {{ courseSectionActivity.evaluationRate }}%;"
+                                                         aria-valuenow="{{ courseSectionActivity.evaluationRate }}"
+                                                         aria-valuemin="0" aria-valuemax="100">
+
+                                                    </div>
+                                                </div>
+                                            {% endif %}
                                             {% if courseSectionActivity.evaluationTeacher == true or courseSectionActivity.evaluationPeer == true %}
                                                 {% set evaluateBy = '' %}
                                                 {% if courseSectionActivity.evaluationTeacher == true %}
@@ -94,7 +101,7 @@
     </ul>
 </section>
 {#
-    <div class="mt-2">
+<div class="mt-2">
 
-    </div>
+</div>
 #}

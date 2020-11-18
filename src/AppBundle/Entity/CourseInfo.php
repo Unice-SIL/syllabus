@@ -646,7 +646,7 @@ class CourseInfo
      *
      * @ORM\OneToMany(targetEntity="CourseResourceEquipment", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"position" = "ASC", "equipment" = "ASC"})
-     * @Assert\Count(max="0", groups={"equipments_empty"})
+     * @Assert\Count(max="0", groups={"info_empty"})
      * @Assert\Valid
      * @ApiSubresource()
      */

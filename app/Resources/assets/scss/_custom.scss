@@ -385,8 +385,8 @@ li.sidebar-footer {
 }
 
 #activities-list {
-  min-height: 300px;
-  max-height: calc(100vh - 310px);
+  min-height: 400px;
+  max-height: calc(100vh - 210px);
   overflow: auto;
 }
 
@@ -412,7 +412,7 @@ li.sidebar-footer {
 .activity-card {
   .card-body {
     background-color: $gray-200;
-    min-height: 300px;
+    min-height: 200px;
 
     .activity-carousel {
       .activity-carousel-item {

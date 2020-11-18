@@ -476,7 +476,7 @@ app:
         level: Levels
         period: Periods
         description: Description
-        description_message: To find copyright free images:
+        description_message: "To find copyright free images:"
         structure: Structure
       teachers:
         add_teacher: Add a teacher
@@ -622,12 +622,13 @@ app:
       prerequisites:
         prerequisites_list: List of prerequisites
         prerequisites_description: Before the start of the course, I must ...
-        associate_courses: Associated course(s):
+        associate_courses: "Associated course(s):"
         empty_prerequiste: No prerequisite
         tutoring_resources_list: List of tutoring resources
         tutoring_resources_description: If I find difficulties, I can...
         empty_tutoring_resources: no tutoring resource
       presentation:
+        not_published: This syllabus has not been published yet.
         structure: Structure
         domain: Disciplinary domain
         level: Course's level

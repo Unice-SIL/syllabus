@@ -5,7 +5,7 @@
     </div>
     <div class="student-grid">
         {% if courseInfo.agenda is not empty %}
-            <div class="grid-element grid-2-elements">
+            <div class="grid-element">
                 <div class="student-subtitle mb-3">
                     <img src="{{ asset('build/images/calendrier_picto.png') }}" class="icon-40" alt="">
                     <h5 class="title-underlined">{{ 'app.view.student.info.agenda' | trans }}</h5>
@@ -14,7 +14,7 @@
             </div>
         {% endif %}
         {% if courseInfo.organization is not empty %}
-            <div class="grid-element grid-2-elements">
+            <div class="grid-element">
                 <div class="student-subtitle mb-3">
                     <img src="{{ asset('build/images/organisation_picto.png') }}" class="icon-40" alt="">
                     <h5 class="title-underlined">{{ 'app.view.student.info.organization' | trans }}</h5>
@@ -22,6 +22,33 @@
                 <div>
                     {{ courseInfo.organization|purify }}
                 </div>
+            </div>
+        {% endif %}
+        {% if courseInfo.courseResourceEquipments is not empty %}
+            <div class="grid-element">
+                <div class="student-subtitle mb-3">
+                    <img src="{{ asset('build/images/materiel_picto.png') }}" class="icon-40" alt="">
+                    <h5 class="title-underlined">{{ 'app.view.student.equipments.required_equipments' | trans }}</h5>
+                </div>
+                <ul class="student-list">
+                    {% for resourceEquipment in courseInfo.courseResourceEquipments %}
+                        {% if resourceEquipment.equipment.labelVisibility == true or resourceEquipment.description is not null %}
+                            <li>
+                                <i class="fas fa-check"></i>
+                                <div class="d-flex flex-column">
+                                    {% if resourceEquipment.equipment.labelVisibility == true %}
+                                        <span>{{ resourceEquipment.equipment.label }}</span>
+                                        {% if resourceEquipment.equipment.labelVisibility == true %}
+                                            <span class="small font-italic">{{ resourceEquipment.description }}</span>
+                                        {% endif %}
+                                    {% elseif resourceEquipment.equipment.labelVisibility == false and resourceEquipment.description is not null %}
+                                        <span>{{ resourceEquipment.description }}</span>
+                                    {% endif %}
+                                </div>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
             </div>
         {% endif %}
     </div>

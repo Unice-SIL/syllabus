@@ -39,6 +39,24 @@
                     <span class="text-bold">{{ 'app.view.student.prerequisites.tutoring_resources_description' | trans }}</span>
                 </div>
                 <ul class="student-list list-dotted">
+                    {% if courseInfo.tutoring %}
+                        <li>
+                            <div>
+                                {{ 'app.view.student.prerequisites.tutoring' | trans }}
+                                {% if courseInfo.tutoringTeacher == true and courseInfo.tutoringStudent == true %}
+                                    {{ 'app.view.student.prerequisites.tutoring_by_both' | trans }}
+                                {% elseif courseInfo.tutoringTeacher == true and courseInfo.tutoringStudent == false %}
+                                    {{ 'app.view.student.prerequisites.tutoring_by_teacher' | trans }}
+                                {% elseif courseInfo.tutoringTeacher == false and courseInfo.tutoringStudent == true %}
+                                    {{ 'app.view.student.prerequisites.tutoring_by_student' | trans }}
+                                {% endif %}
+                                {% if courseInfo.tutoringDescription %}
+                                    ({{ courseInfo.tutoringDescription }})
+                                {% endif %}
+                            </div>
+                        </li>
+                    {% endif %}
+
                     {% for tutoringResource in courseInfo.courseTutoringResources %}
                         <li>
                             <div>

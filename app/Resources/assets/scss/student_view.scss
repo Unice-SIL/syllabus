@@ -114,7 +114,6 @@
 
     .student-grid {
       display: flex;
-      justify-content: center;
       flex-wrap: wrap;
       flex-direction: column;
 
@@ -262,6 +261,13 @@
         margin-top: 1rem;
         @media (min-width: 768px) {
           margin-top: 0;
+        }
+        & > ol, & > ul {
+          display: flex !important;
+          flex-direction: column !important;
+          & >li {
+            margin-bottom: 0.25rem;
+          }
         }
       }
     }
