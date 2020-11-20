@@ -1,7 +1,11 @@
 <section id="evaluation-section" class="pb-5">
     <div class="student-title">
-        <h1 class="text-primary">{{ 'app.view.student.tabs.evaluation' | trans }}</h1>
-        <img src="{{ asset('build/images/modalite_photo.jpg') }}" alt="">
+        <div class="student-img-banner"
+             style="background-image: url('{{ asset('build/images/modalite_photo.jpg') }}') !important; ">
+        </div>
+        <div class="student-text-banner">
+            {{ 'app.view.student.tabs.evaluation' | trans }}
+        </div>
     </div>
     {% if courseInfo.mccCcCoeffSession1 is not null and courseInfo.mccCtCoeffSession1 is not null %}
         <div class="row">

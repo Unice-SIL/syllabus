@@ -1,8 +1,13 @@
 <section id="activities-section" class="pb-5">
     <div class="student-title">
-        <h1 class="text-primary">{{ 'app.view.student.tabs.activities' | trans }}</h1>
-        <img src="{{ asset('build/images/programmation_photo.jpg') }}" alt="">
+        <div class="student-img-banner"
+             style="background-image: url('{{ asset('build/images/programmation_photo.jpg') }}') !important; ">
+        </div>
+        <div class="student-text-banner">
+            {{ 'app.view.student.tabs.activities' | trans }}
+        </div>
     </div>
+
     <ul class="student-sections">
         {% for section in courseInfo.courseSections %}
             {% if section.courseSectionActivities is not empty %}
@@ -43,11 +48,11 @@
                                         <h5 class="title-underlined">{{ courseSectionActivity.activityType.label }}</h5>
                                     </div>
                                 {% endif %}
-                                <li>
+                                <li {% if courseSectionActivity.evaluable == true %}style="background-color: rgba(70,174,216, 0.4);" {% endif %}>
                                     <i class="fas fa-check text-primary {% if courseSectionActivity.evaluable %} icon-evaluable{% endif %}"></i>
-                                    <div class="activity d-flex flex-column w-100 mb-2">
+                                    <div class="activity">
                                         <span>
-                                        {{ courseSectionActivity.activity.label }}
+                                            {{ courseSectionActivity.activity.label }}
                                             {% if courseSectionActivity.description is not empty %}
                                                 : {{ courseSectionActivity.description | linkify({"attr": {"target": "_blank"}}) | raw }}
                                             {% endif %}

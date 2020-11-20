@@ -1,29 +1,33 @@
 <section id="equipment-section" class="pb-5">
     <div class="student-title">
-        <h1 class="text-primary">{{ 'app.view.student.tabs.equipments' | trans }}</h1>
-        <img src="{{ asset('build/images/materiel_photo.jpg') }}" alt="">
+        <div class="student-img-banner"
+             style="background-image: url('{{ asset('build/images/materiel_photo.jpg') }}') !important; ">
+        </div>
+        <div class="student-text-banner">
+            {{ 'app.view.student.tabs.equipments' | trans }}
+        </div>
     </div>
 
-        {% if courseInfo.bibliographicResources is not empty %}
-            <div class="mb-4">
-                <div class="student-subtitle mb-3">
-                    <img src="{{ asset('build/images/biblio_picto.png') }}" class="icon-40" alt="">
-                    <h5 class="title-underlined">{{ 'app.view.student.equipments.bibliographic_resources' | trans }}</h5>
-                </div>
-                <div class="student-ressources">
-                    {{ courseInfo.bibliographicResources | humanizeEmptyData() | purify }}
-                </div>
+    {% if courseInfo.bibliographicResources is not empty %}
+        <div class="mb-4">
+            <div class="student-subtitle mb-3">
+                <img src="{{ asset('build/images/biblio_picto.png') }}" class="icon-40" alt="">
+                <h5 class="title-underlined">{{ 'app.view.student.equipments.bibliographic_resources' | trans }}</h5>
             </div>
-        {% endif %}
-        {% if courseInfo.educationalResources is not empty %}
-            <div class="mb-4">
-                <div class="student-subtitle mb-3">
-                    <img src="{{ asset('build/images/biblio_picto.png') }}" class="icon-40" alt="">
-                    <h5 class="title-underlined">{{ 'app.view.student.equipments.educational_resources' | trans }}</h5>
-                </div>
-                <div class="student-ressources">
-                    {{ courseInfo.educationalResources | humanizeEmptyData() | purify }}
-                </div>
+            <div class="student-ressources">
+                {{ courseInfo.bibliographicResources | humanizeEmptyData() | purify }}
             </div>
-        {% endif %}
+        </div>
+    {% endif %}
+    {% if courseInfo.educationalResources is not empty %}
+        <div class="mb-4">
+            <div class="student-subtitle mb-3">
+                <img src="{{ asset('build/images/biblio_picto.png') }}" class="icon-40" alt="">
+                <h5 class="title-underlined">{{ 'app.view.student.equipments.educational_resources' | trans }}</h5>
+            </div>
+            <div class="student-ressources">
+                {{ courseInfo.educationalResources | humanizeEmptyData() | purify }}
+            </div>
+        </div>
+    {% endif %}
 </section>

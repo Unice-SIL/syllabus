@@ -1,8 +1,13 @@
 <section id="prerequisites-section" class="pb-5">
     <div class="student-title">
-        <h1 class="text-primary">{{ 'app.view.student.tabs.prerequisites' | trans }}</h1>
-        <img type="image" src="{{ asset('/build/images/information_photo.jpg') }}" alt="">
+        <div class="student-img-banner"
+             style="background-image: url('{{ asset('/build/images/information_photo.jpg') }}') !important; ">
+        </div>
+        <div class="student-text-banner">
+            {{ 'app.view.student.tabs.prerequisites' | trans }}
+        </div>
     </div>
+
     <div class="student-grid">
         <div class="grid-element grid-2-elements">
             {% if courseInfo.coursePrerequisites is not empty %}

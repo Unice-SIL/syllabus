@@ -22,6 +22,21 @@
                 {% if (courseInfo | displayValidator('closing_remarks_empty')) == true %}
                     {% include 'course_info/view/student_closing_remarks.html.twig' %}
                 {% endif %}
+
+                <div class="pb-5">
+                    <div class="alert alert-default-secondary" >
+                        <h3>{{ 'app.view.student.alert.important' | trans }}</h3>
+                        <p>
+                            {{ 'app.view.student.alert.text.part_1' | trans }}
+                        </p>
+                        <p>
+                            {{ 'app.view.student.alert.text.part_2' | trans }}
+                        </p>
+                        <p>
+                            {{ 'app.view.student.alert.text.part_3' | trans }}
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

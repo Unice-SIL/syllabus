@@ -632,6 +632,7 @@ app:
         tutoring_by_both: avec un tuteur enseignant et/ou étudiant
         empty_tutoring_resources: Pas de remise à niveau
       presentation:
+        last_update: Dernière mis à jour
         not_published: Ce syllabus n'a pas encore été publié
         structure: Composante
         domain: Domaine disciplinaire
@@ -669,6 +670,12 @@ app:
         objectives: Objectifs du cours
         prerequisites: Prérequis
         presentation: Présentation générale
+      alert:
+        important: Important
+        text:
+          part_1: Ce syllabus n’a aucune valeur contractuelle.
+          part_2: "Son contenu est susceptible d’évoluer en cours d’année : soyez attentifs aux dernières modifications."
+          part_3: La date de dernière mise à jour est affichée en haut de la page droite.
   partial:
     warning_delete_modal: Êtes vous sûr de vouloir supprimer cet élément ?
     no_element: Aucun élément n'a été trouvé

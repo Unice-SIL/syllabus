@@ -626,8 +626,13 @@ app:
         empty_prerequiste: No prerequisite
         tutoring_resources_list: List of tutoring resources
         tutoring_resources_description: If I find difficulties, I can...
+        tutoring: Register and attempt the tutoring courses
+        tutoring_by_teacher: with a teacher
+        tutoring_by_student: with a student
+        tutoring_by_both: with a teacher and/or student
         empty_tutoring_resources: no tutoring resource
       presentation:
+        last_update: Last update
         not_published: This syllabus has not been published yet.
         structure: Structure
         domain: Disciplinary domain

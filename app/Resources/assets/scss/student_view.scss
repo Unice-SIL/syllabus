@@ -73,6 +73,8 @@
 
     .student-title {
       width: 100%;
+      position: relative;
+      margin-bottom: 2rem;
 
       h1 {
         color: var(--primary);
@@ -314,22 +316,29 @@
           ul.student-list > li {
             display: flex;
             margin-bottom: 0.3rem;
+            align-items: center !important;
 
             i {
               margin-right: 1rem;
+              margin-left: 1rem;
+              margin-top: 0;
 
               &.icon-evaluable {
                 border: dotted;
                 height: fit-content;
-                padding: 5px;
+                padding: 0.5rem;
                 border-radius: 50%;
-                margin-left: -5px;
-                margin-top: -5px;
-                margin-right: 0.4rem;
+                margin-left: calc(0.5rem - 2px);
+                margin-right: calc(0.5rem - 2px);
               }
             }
 
             .activity {
+              justify-content: center;
+              display: flex;
+              flex-direction: column;
+              width: 100%;
+
               & > * {
                 margin-bottom: 0.2rem;
               }
@@ -350,6 +359,23 @@
           }
         }
       }
+    }
+
+    .student-img-banner {
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      height: 100px;
+      width: 100%;
+    }
+
+    .student-text-banner {
+      position: absolute;
+      top: 50%;
+      transform: translate(0%, -50%);
+      background-color: rgba(0,0,0, 0.6);
+      padding: 1rem 1rem 1rem 3rem;
+      font-size: 1.2rem;
     }
 
     .student-ressources {
