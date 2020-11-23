@@ -692,6 +692,9 @@ app:
       hybrid: Hybrid
       distant: Distant
   form:
+    switch_user:
+      username: Username
+      imitate: Imitate
     notification:
       label:
         message: 'Message'

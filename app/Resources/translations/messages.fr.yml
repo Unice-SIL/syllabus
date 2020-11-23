@@ -698,6 +698,10 @@ app:
       hybrid: Hybride
       distant: A distance
   form:
+    switch_user:
+      imitate: Imiter
+      title: Imiter un utilisateur
+      username: Nom d'utilisateur
     notification:
       label:
         message: 'Message'

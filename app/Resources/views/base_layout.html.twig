@@ -8,16 +8,27 @@
                 {{ app.user.username }}
             </a>
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right text-sm">
-                {% if is_granted('ROLE_ADMIN') %}
+                {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ALLOWED_TO_SWITCH') or is_granted('ROLE_PREVIOUS_ADMIN') %}
+                    {% if is_granted('ROLE_ADMIN') %}
                     <a href="{{ path('app.admin.course.index') }}" class="dropdown-item text-muted">
-                        <i class="fas fa-cogs"></i>
+                        <i class="fas fa-cogs mr-1"></i>
                         Administration
                     </a>
+                    {% endif %}
+                    {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
+                        <a class="dropdown-item text-muted" href="{{ path('app_index', {'_switch_user': '_exit'}) }}">
+                            <i class="fas fa-ban mr-1" aria-hidden="true"></i> Arrêter l'imitation
+                        </a>
+                    {% elseif is_granted('ROLE_ALLOWED_TO_SWITCH') %}
+                        <a class="dropdown-item text-muted" href="{{ path('app.admin.switch_user.form') }}">
+                            <i class="fas fa-user-secret mr-1" aria-hidden="true"></i> Imiter un utilisateur
+                        </a>
+                    {% endif %}
                     <div class="dropdown-divider"></div>
                 {% endif %}
                 {% for locale in managed_locales %}
                     <a href="{{ path(app.request.get('_route'), app.request.attributes.get('_route_params')|merge({'_locale' : locale})) }}" class="dropdown-item text-muted">
-                        <img src="{{ asset('build/images/' ~ locale ~ '.png') }}">
+                        <img class="mr-1" src="{{ asset('build/images/' ~ locale ~ '.png') }}">
                         {{ ('app.locale.' ~ locale)|trans }}
                     </a>
                 {% endfor %}
