@@ -52,7 +52,7 @@
                                     <i class="fas fa-check text-primary {% if courseSectionActivity.evaluable %} icon-evaluable{% endif %}"></i>
                                     <div class="activity">
                                         <span>
-                                            {{ courseSectionActivity.activity.label }}
+                                            {{ courseSectionActivity.activity.label }} ({{ courseSectionActivity.activityMode.label }})
                                             {% if courseSectionActivity.description is not empty %}
                                                 : {{ courseSectionActivity.description | linkify({"attr": {"target": "_blank"}}) | raw }}
                                             {% endif %}
