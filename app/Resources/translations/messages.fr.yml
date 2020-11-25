@@ -673,9 +673,8 @@ app:
       alert:
         important: Important
         text:
-          part_1: Ce syllabus n’a aucune valeur contractuelle.
-          part_2: "Son contenu est susceptible d’évoluer en cours d’année : soyez attentifs aux dernières modifications."
-          part_3: La date de dernière mise à jour est affichée en haut de la page droite.
+          part_1: "Ce syllabus n’a aucune valeur contractuelle. Son contenu est susceptible d’évoluer en cours d’année : soyez attentifs aux dernières modifications."
+          part_2: La date de dernière mise à jour est affichée en haut de la page droite.
   partial:
     warning_delete_modal: Êtes vous sûr de vouloir supprimer cet élément ?
     no_element: Aucun élément n'a été trouvé

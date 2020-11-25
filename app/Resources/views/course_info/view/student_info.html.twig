@@ -8,9 +8,8 @@
         </div>
     </div>
 
-    <div class="student-grid">
         {% if courseInfo.agenda is not empty %}
-            <div class="grid-element">
+            <div class="mb-4">
                 <div class="student-subtitle mb-3">
                     <img src="{{ asset('build/images/calendrier_picto.png') }}" class="icon-40" alt="">
                     <h5 class="title-underlined">{{ 'app.view.student.info.agenda' | trans }}</h5>
@@ -19,18 +18,16 @@
             </div>
         {% endif %}
         {% if courseInfo.organization is not empty %}
-            <div class="grid-element">
+            <div class="mb-4">
                 <div class="student-subtitle mb-3">
                     <img src="{{ asset('build/images/organisation_picto.png') }}" class="icon-40" alt="">
                     <h5 class="title-underlined">{{ 'app.view.student.info.organization' | trans }}</h5>
                 </div>
-                <div>
-                    {{ courseInfo.organization|purify }}
-                </div>
+                {{ courseInfo.organization|purify }}
             </div>
         {% endif %}
         {% if courseInfo.courseResourceEquipments is not empty %}
-            <div class="grid-element">
+            <div class="mb-4">
                 <div class="student-subtitle mb-3">
                     <img src="{{ asset('build/images/materiel_picto.png') }}" class="icon-40" alt="">
                     <h5 class="title-underlined">{{ 'app.view.student.equipments.required_equipments' | trans }}</h5>
@@ -56,5 +53,4 @@
                 </ul>
             </div>
         {% endif %}
-    </div>
 </section>

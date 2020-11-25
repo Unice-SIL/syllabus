@@ -19,11 +19,10 @@
                         <img class="collapse-button" src="{{ asset('build/images/collapsed-arrow.png') }}" alt=""/>
                     </div>
                     <div class="student-section-content collapse" id="activity-{{ section.id }}">
-                        <ul class="student-list">
                             <div class="row ml-2">
                                 {% if section.url %}
-                                    <div class="col-10">
-                                        {{ section.description|raw }}
+                                    <div class="summary col-10">
+                                        {{ section.description|purify }}
                                     </div>
                                     <div class="student-section-url col-2">
                                         <a href="{{ section.url }}" target="_blank">
@@ -31,11 +30,12 @@
                                         </a>
                                     </div>
                                 {% else %}
-                                    <div class="col-12">
-                                        {{ section.description|raw }}
+                                    <div class="summary">
+                                        {{ section.description|purify }}
                                     </div>
                                 {% endif %}
                             </div>
+                        <ul class="student-list">
                             {% set oldActivityType = '' %}
                             {% for courseSectionActivity in section.courseSectionActivities %}
                                 {% set activityType = courseSectionActivity.activityType %}

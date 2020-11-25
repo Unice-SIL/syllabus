@@ -670,6 +670,11 @@ app:
         objectives: Course's objectives
         prerequisites: Prerequisites
         presentation: Course's presentation
+      alert:
+        important: Important
+        text:
+          part_1: "This syllabus has no contractual value. Its content is subject to change throughout this year: be aware to the last updates"
+          part_2: The last modification date is displayed on the top-right of the page.
   partial:
     warning_delete_modal: Are you sure you want to delete this element?
     no_element: No element has been found

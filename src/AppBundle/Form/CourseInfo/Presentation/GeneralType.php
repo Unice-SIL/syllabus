@@ -78,7 +78,7 @@ class GeneralType extends AbstractType
                 'class' => Domain::class,
                 'text_property' => 'label',
                 'language' => $this->request->getLocale(),
-                'minimum_input_length' => 2,
+                'minimum_input_length' => 0,
                 'remote_params' => [
                     'entityName' => 'Domain',
                     'groupProperty' => 'grp',
