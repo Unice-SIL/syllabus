@@ -32,7 +32,7 @@ class SwitchUserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid())
         {
             $data = $form->getData();
-            return $this->redirect($this->generateUrl('app_index').'?_switch_user='.$data['username']);
+            return $this->redirect($this->generateUrl('app_index').'?_switch_user='.$data['username']->getUsername());
         }
 
         return $this->render('switch_user/switch_user.html.twig', [
