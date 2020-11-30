@@ -15,14 +15,14 @@
 
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
-            <li class="nav-item has-treeview">
-                <a class="nav-link {{ printActiveAdminSidebarLink(['app_admin.dashboard_composer require lexik/translation-bundle']) }}"
-                   href="{{ path('app_admin.dashboard_index') }}"
-                   id="menu-dashboard">
-                    <i class="nav-icon fas fa-th"></i>
-                    <p>{{ 'admin.sidebar.dashboard' | trans }}</p>
-                </a>
-            </li>
+        <li class="nav-item has-treeview">
+            <a class="nav-link {{ printActiveAdminSidebarLink(['app_admin.dashboard_composer require lexik/translation-bundle']) }}"
+               href="{{ path('app_admin.dashboard_index') }}"
+               id="menu-dashboard">
+                <i class="nav-icon fas fa-th"></i>
+                <p>{{ 'admin.sidebar.dashboard' | trans }}</p>
+            </a>
+        </li>
         <li class="nav-item">
             <a
                     href="{{ path('app.admin.course.index') }}"
@@ -30,6 +30,16 @@
                 <i class="nav-icon fas fa-graduation-cap"></i>
                 <p>
                     {{ 'admin.sidebar.courses' | trans }}
+                </p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a
+                    href="{{ path('app.admin.syllabus.index') }}"
+                    class="nav-link {{ printActiveAdminSidebarLink(['app.admin.syllabus.']) }}">
+                <i class="nav-icon fas fa-graduation-cap"></i>
+                <p>
+                    {{ 'admin.sidebar.syllabus' | trans }}
                 </p>
             </a>
         </li>

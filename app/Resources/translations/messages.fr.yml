@@ -829,6 +829,17 @@ admin:
     translations: Traductions
     notifications: Notifications
     duplication: Config duplication
+  syllabus:
+    list_syllabus: Liste des syllabus
+    title: Intitulé
+    published_by: Publié par
+    level: Niveau
+    date: Date
+    year: Année
+    structure: Composante
+    code: Code
+    comment: Commentaire
+    process: Traité
   dashboard:
     syllabus_dashboard: Tableau de bord des syllabus
     published_syllabus: Syllabus publié(s)
@@ -980,7 +991,7 @@ admin:
     description_part2: Chaque champs que ce soit pour le nom dans l'entête ou pour les valeurs doivent être séparés par un point-virgule (;).
     description_part3: La liste des champs pouvant être spécifiés dans le fichier d'import est présentée ci-dessous.
     description_part4: Pour évite tout problème d'encodage, le fichier doit être encodé en UTF-8.
-    example: Exemple:
+    example: "Exemple:"
     syllabus_example_part1: code;year;title
     syllabus_example_part2: SLEPB111;2018;"Introduction à la Microbiologie"
     permission_example_part1: code;year;username;permission
@@ -1006,7 +1017,7 @@ admin:
   job:
     list_jobs: Liste des tâches planifiées
     edit_job: Modifier une tâche planifiée
-    job_report: Rapport du job :
+    job_report: "Rapport du job :"
     actions:
       report: Rapport
       execute: Executer

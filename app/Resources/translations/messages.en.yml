@@ -699,6 +699,7 @@ app:
   form:
     switch_user:
       username: Username
+      title: Imitate an user
       imitate: Imitate
     notification:
       label:
@@ -828,6 +829,17 @@ admin:
     translations: Translations
     notifications: Notifications
     duplication: Duplication config
+  syllabus:
+    list_syllabus: List of syllabus
+    title: Title
+    published_by: Published by
+    level: Level
+    date: Date
+    year: Year
+    structure: Structure
+    code: Code
+    comment: Comment
+    process: Process
   dashboard:
     syllabus_dashboard: Syllabus dashboard
     published_syllabus: Published Syllabus
