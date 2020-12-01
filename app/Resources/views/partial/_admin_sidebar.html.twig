@@ -37,9 +37,19 @@
             <a
                     href="{{ path('app.admin.syllabus.index') }}"
                     class="nav-link {{ printActiveAdminSidebarLink(['app.admin.syllabus.']) }}">
-                <i class="nav-icon fas fa-graduation-cap"></i>
+                <i class="nav-icon fas fa-list"></i>
                 <p>
                     {{ 'admin.sidebar.syllabus' | trans }}
+                </p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a
+                    href="{{ path('app_admin.ask_advice_index') }}"
+                    class="nav-link {{ printActiveAdminSidebarLink(['app_admin.ask_advice_']) }}">
+                <i class="nav-icon fas fa-life-ring"></i>
+                <p>
+                    {{ 'admin.sidebar.ask_advice' | trans }}
                 </p>
             </a>
         </li>

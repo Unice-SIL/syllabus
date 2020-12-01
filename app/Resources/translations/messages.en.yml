@@ -820,6 +820,7 @@ admin:
     structures: Structures
     imports: Imports
     syllabus: Syllabus
+    ask_advice: Ask advice
     permissions: Permissions
     users: Users
     administration: Administration
@@ -838,8 +839,6 @@ admin:
     year: Year
     structure: Structure
     code: Code
-    comment: Comment
-    process: Process
   dashboard:
     syllabus_dashboard: Syllabus dashboard
     published_syllabus: Published Syllabus
