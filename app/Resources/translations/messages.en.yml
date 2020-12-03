@@ -839,6 +839,7 @@ admin:
     year: Year
     structure: Structure
     code: Code
+    export: Export
   dashboard:
     syllabus_dashboard: Syllabus dashboard
     published_syllabus: Published Syllabus
@@ -990,7 +991,7 @@ admin:
     description_part2: Every fields, either the name in the header or for the value must be separated by a semi-colon (;).
     description_part3: The fields list that can be specified in the imported field is specified below.
     description_part4: To avoid any encoding problems, the file must be encoded in UTF-8.
-    example: Example:
+    example: "Example:"
     syllabus_example_part1: code;year;title
     syllabus_example_part2: SLEPB111;2018;"Introduction à la Microbiologie"
     permission_example_part1: code;year;username;permission
@@ -1004,6 +1005,13 @@ admin:
     reporting_helper:
       parsing: Parsing the csv file
       insertion_db: Inserting in database
+  export:
+    course_name: Course's name
+    code: Apogée code
+    publisher: Publisher's name
+    publication_date: Publication date
+    structure: Structure
+    level: Level
   setting:
     config: Settings
   group:

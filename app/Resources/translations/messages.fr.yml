@@ -839,6 +839,7 @@ admin:
     year: Année
     structure: Composante
     code: Code
+    export: Exporter
   dashboard:
     syllabus_dashboard: Tableau de bord des syllabus
     published_syllabus: Syllabus publié(s)
@@ -1004,6 +1005,13 @@ admin:
     reporting_helper:
       parsing: Parsing du Fichier Csv
       insertion_db: Insertion en base de données
+  export:
+    course_name: Nom du cours
+    code: Code Apogée
+    publisher: Nom de l'enseignant qui l'a publié
+    publication_date: Date de publication
+    structure: Composante
+    level: Niveau
   setting:
     config: Configurer les paramètres
   group:

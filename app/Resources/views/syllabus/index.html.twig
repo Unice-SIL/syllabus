@@ -3,9 +3,7 @@
 {% block subContent %}
 
     <div class="card">
-
         <div class="card-body">
-
             <div class="border p-3 mb-3">
                 {{ form_start(form) }}
                 <div class="row">
@@ -14,13 +12,13 @@
                         {{ form_row(form.structure) }}
                     </div>
                     <div class="col-lg-6 col-md-12">
-                        {{ form_row(form.level) }}
                         {{ form_row(form.year) }}
                     </div>
                     <div class="col-12">
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">{{ 'admin.button.filter' | trans }}</button>
                             <a class="btn btn-danger" href="{{  path('app.admin.syllabus.index')  }}">{{ 'admin.button.reset_filters' | trans }}</a>
+                            <a class="btn btn-success float-right" href="{{  path('app.admin.syllabus.index', app.request.query.all|merge({'isExport': true}))  }}">{{ 'admin.syllabus.export' | trans }}</a>
                         </div>
                     </div>
                 </div>
@@ -28,17 +26,20 @@
                 {{ form_end(form) }}
             </div>
 
+            <div>
+            </div>
+
             {% if pagination.totalItemCount > 0 %}
                 <table class="table table-bordered table-hover table-responsive-sm">
                     <thead>
                     <tr>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'admin.syllabus.title'|trans, 'ci.title') }}</th>
-                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'admin.syllabus.published_by'|trans, 'p.username') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'admin.syllabus.published_by'|trans, 'p.lastname') }}</th>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'admin.syllabus.date'|trans, 'ci.publicationDate') }}</th>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'admin.syllabus.year'|trans, 'y.label') }}</th>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'admin.syllabus.structure'|trans, 's.label') }}</th>
                         <th class="sortable">{{ knp_pagination_sortable(pagination, 'admin.syllabus.code'|trans, 'c.code') }}</th>
-                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'admin.syllabus.level'|trans, 'ci.level.label') }}</th>
+                        <th>{{ 'admin.syllabus.level'|trans }}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -53,7 +54,7 @@
                             </td>
                             <td>
                                 {% if courseInfo.publisher %}
-                                    {{ courseInfo.publisher.firstname }} {{ courseInfo.publisher.lastname }}
+                                    {{ courseInfo.publisher.lastname }} {{ courseInfo.publisher.firstname }}
                                 {% endif %}
                             </td>
                             <td>{{ courseInfo.publicationDate | date('d/m/Y') }}</td>

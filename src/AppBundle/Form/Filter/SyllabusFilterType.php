@@ -53,18 +53,6 @@ class SyllabusFilterType extends AbstractType
                     ])
                 ]
             ])
-            ->add('level', TextFilterType::class, [
-                'condition_pattern' => FilterOperands::STRING_CONTAINS,
-                'label' => 'admin.syllabus.level',
-                'attr' => [
-                    'class' => 'autocomplete-input',
-                    'data-autocomplete-path' => $this->generator->generate('app.common.autocomplete.generic', [
-                        'entityName' => 'Level',
-                        'findBy' => 'label',
-                        'property' => 'label'
-                    ])
-                ]
-            ])
             ->add('structure', TextFilterType::class, [
                 'condition_pattern' => FilterOperands::STRING_CONTAINS,
                 'label' => 'admin.syllabus.structure',
