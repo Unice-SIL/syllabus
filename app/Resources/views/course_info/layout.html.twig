@@ -107,8 +107,11 @@
                 </li>
                 <li class="nav-item menu-tab">
                     <a class="nav-link mt-3" href="{{ path('app.course_info.view.student', { 'id': courseInfo.id }) }}" target="_blank">
+                        <div class="btn btn-outline-light">
+
                         <i class="nav-icon fas fa-eye"></i>
-                        <p>{{ 'app.dashboard.card.see_student' | trans }}</p>
+                        <p>{{ 'app.course_info.sidebar.student_view' | trans }}</p>
+                        </div>
                     </a>
                 </li>
             </ul>

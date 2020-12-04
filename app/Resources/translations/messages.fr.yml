@@ -286,6 +286,7 @@ app:
       equipments: Biblio et ressources
       information: Informations pratiques
       closing_remarks: Le mot de la fin
+      student_view: Syllabus étudiant
   dashboard:
     title: Tableau de bord
     progress: Progression du remplissage
@@ -328,6 +329,9 @@ app:
         failed: Le syllabus n'a pas été publié veuillez réessayer
         already_published: Le syllabus a déjà été publié
         cannot_published: Un onglet ne rempli pas les conditions de publication
+    syllabus_instructions:
+      syllabus_problem: Vous avez un problème avec votre Syllabus ?
+      instructions_link: Rendez-vous sur l'espace "Syllabus mode d'emploi" et posez votre question dans le forum d'assistance.
   homepage:
     establishment_code: Code d'établissement
     syllabus_list: Liste des syllabus

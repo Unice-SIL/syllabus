@@ -286,6 +286,7 @@ app:
       equipments: Materials and resources
       information: Practical information
       closing_remarks: Closing remarks
+        student_view: Student syllabus
   dashboard:
     title: Dashboard
     progress: Filling progress
@@ -328,6 +329,9 @@ app:
         failed: Syllabus has not been published, please try again
         already_published: Syllabus has already been published
         cannot_published: A tab does not meet the requirements of publication
+    syllabus_instructions:
+      syllabus_problem: Do you have a problem with your Syllabus?
+      instructions_link: Go to the "Syllabus' instructions" and ask your question in the assistance forum.
   homepage:
     establishment_code: Establishment code
     syllabus_list: Syllabus list

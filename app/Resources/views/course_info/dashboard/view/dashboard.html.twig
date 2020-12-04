@@ -154,6 +154,16 @@
                     <img class="w-50" src="{{ asset('/build/images/Etudiant.png') }}">
                 </a>
             </div>
+
+            <div class="px-2 m-3 btn-dashboard">
+                <a href=# class="d-flex flex-column align-items-center justify-content-between w-100 h-100"
+                   data-toggle="modal"
+                   data-target="#courseInfoDuplicationModal"
+                   data-code-year="{{ courseInfo.codeYear(true) }}">
+                    <span class="py-3 label-dashboard">{{ 'app.dashboard.card.duplicate_syllabus_other_course' | trans }}</span>
+                    <img class="w-50 mb-3" src="{{ asset('/build/images/Duplication.png') }}">
+                </a>
+            </div>
         </div>
 
         <div class="d-flex justify-content-center flex-wrap">
@@ -172,14 +182,25 @@
                 {% endif %}
             </div>
 
-            <div class="px-2 m-3 btn-dashboard">
-                <a href=# class="d-flex flex-column align-items-center justify-content-between w-100 h-100"
-                   data-toggle="modal"
-                   data-target="#courseInfoDuplicationModal"
-                   data-code-year="{{ courseInfo.codeYear(true) }}">
-                    <span class="py-3 label-dashboard">{{ 'app.dashboard.card.duplicate_syllabus_other_course' | trans }}</span>
-                    <img class="w-50 mb-3" src="{{ asset('/build/images/Duplication.png') }}">
-                </a>
+
+            <div class="col-12 d-flex flex-column">
+                <div class="card mb-5">
+                    <div class="card-body">
+                        <a class="text-dark" href="https://lms.univ-cotedazur.fr/course/view.php?id=22745" target="_blank">
+                            <div class="row">
+                                <div class="col-lg-2 col-md-4 col-sm-6">
+                                    <img style="width: 120px;" src={{ asset('/build/images/Prof_syllabus.png') }}>
+                                </div>
+                                <div class="col-lg-10 col-md-8 col-sm-6">
+                                    <h4 class="mb-4">{{ 'app.dashboard.syllabus_instructions.syllabus_problem' | trans }}</h4>
+                                    <p>
+                                        {{ 'app.dashboard.syllabus_instructions.instructions_link' | trans }}
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -246,12 +267,12 @@
             let icon = data.status ? 'success' : 'error'
             let onAfterClose =
 
-            Swal.fire({
-                'text': data.message,
-                'icon': icon,
-            }).then((result) => {
-                if(data.status) document.location.reload(true);
-            });
+                Swal.fire({
+                    'text': data.message,
+                    'icon': icon,
+                }).then((result) => {
+                    if(data.status) document.location.reload(true);
+                });
         });
     });
 </script>
