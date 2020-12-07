@@ -295,8 +295,8 @@ app:
       publish_syllabus: Publier le syllabus
       publish_success: Bravo le syllabus a été publié
       see_student: Voir le syllabus étudiant
-      not_duplicate_syllabus: Ne pas dupliquer le syllabus pour l'année suivante
-      duplicate_syllabus: Dupliquer le syllabus pour l'année suivante
+      duplicate_syllabus: Je souhaite que ce syllabus soit copié à la fin de l'année universitaire sur le cours de l'année prochaine
+      duplicate_syllabus_additionnal: (attention, si le code Apogée du cours change, utilisez le bouton dupliquer sur un autre cours)
       duplicate_syllabus_other_course: Dupliquer le syllabus sur un autre cours
     intro_panel:
       title: Découvrez votre tout nouveau syllabus

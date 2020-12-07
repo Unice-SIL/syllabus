@@ -635,72 +635,39 @@ $break: 400px;
 /*
     dashboard
  */
-$maxWidth : 400px;
 
 .btn-dashboard {
   border-radius: 10px;
   background-color: #D3EAF0;
-  max-width: $maxWidth;
+  height: 100%;
+  width: 100%;
+  max-width: 400px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
 
   .label-dashboard {
     color: #017F97;
     font-weight: bold;
+    text-align: center;
+    padding-bottom: 1rem;
+  }
+
+  & img {
+    width: 60%;
   }
 }
 
-.btn-dashboard:focus {
-  outline: none;
+.btn-dashboard-disabled {
+  cursor: not-allowed;
 }
 
-.btn-dashboard-no-publish {
-  border-radius: 10px;
-  background-color: #FF892A;
-  max-width: $maxWidth;
-
-  .label-dashboard {
-      color: white;
-      font-weight: bold;
-  }
-}
-
-.btn-dashboard-no-publish:focus {
-  outline: none;
-}
-
-.btn-dashboard-publish {
-  border-radius: 10px;
-  background-color: white;
-  max-width: $maxWidth;
-
-
-  .label-dashboard {
-      color: #017F97;
-      font-weight: bold;
-  }
-}
-
-.btn-dashboard-ingeneer {
-  border-radius: 10px;
-  background-color: #D3EAF0;
-  max-width: $maxWidth * 2;
-
-
-  .label-dashboard {
-    color: #017F97;
-    font-weight: bold;
-  }
-}
-
-.btn-dashboard-ingeneer:hover {
-  background-color: #D3EAF0;
-}
-
-.btn-dashboard-ingeneer:active  {
-  background-color: #D3EAF0 !important;
-}
-
-.btn-dashboard-publish:focus {
-  outline: none;
+.btn-duplicate {
+  cursor: pointer;
+  margin: 1rem 4rem 2rem 4rem;
 }
 
 .icon-100 {

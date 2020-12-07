@@ -295,8 +295,8 @@ app:
       publish_syllabus: Publish the syllabus
       publish_success: Congratulations, the syllabus has been published
       see_student: See student's syllabus
-      not_duplicate_syllabus: Do not duplicate the syllabus for the next year
-      duplicate_syllabus: Duplicate the syllabus for the next year
+      duplicate_syllabus: I want this syllabus to be copied at the end of the year for the next year
+      duplicate_syllabus_additionnal: (be careful, if the course's Apogee code, use the button duplicate for another course)
       duplicate_syllabus_other_course: Duplicate the syllabus for another course
     intro_panel:
       title: Discover your brand new syllabus
