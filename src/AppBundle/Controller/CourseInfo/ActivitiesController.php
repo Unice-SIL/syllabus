@@ -49,6 +49,7 @@ class ActivitiesController extends AbstractController
         $activities = $activityManager->findAllNotObsolete();
         $activityTypes = $activityTypeManager->findAllNotObsolete();
 
+
         return $this->render('course_info/activities/activities.html.twig', [
             'courseInfo' => $courseInfo,
             'activeSection' => $activeSection,
