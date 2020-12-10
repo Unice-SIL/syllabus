@@ -22,6 +22,20 @@
                 {% if (courseInfo | displayValidator('closing_remarks_empty')) == true %}
                     {% include 'course_info/view/student_closing_remarks.html.twig' %}
                 {% endif %}
+
+                <div class="text-muted text-center pb-5">
+                    <h5>{{ 'app.view.student.alert.important' | trans }}</h5>
+                    <p>
+                        {{ 'app.view.student.alert.text.part_1' | trans }}
+                    </p>
+                    <p>
+                        {{ 'app.view.student.alert.text.part_2' | trans }}
+                    </p>
+                    <a href="{{ 'app.view.student.syllabus_form.link' | trans }}" class="btn btn-outline-primary text-center" target="_blank">
+                        {{ 'app.view.student.syllabus_form.text' | trans }}
+                    </a>
+                </div>
+
             </div>
         </div>
     </div>

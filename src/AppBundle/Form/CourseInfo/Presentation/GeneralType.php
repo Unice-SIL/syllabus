@@ -18,6 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
@@ -29,7 +30,7 @@ use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 class GeneralType extends AbstractType
 {
     /**
-     * @var null|\Symfony\Component\HttpFoundation\Request
+     * @var null|Request
      */
     private $request;
 
@@ -78,7 +79,7 @@ class GeneralType extends AbstractType
                 'class' => Domain::class,
                 'text_property' => 'label',
                 'language' => $this->request->getLocale(),
-                'minimum_input_length' => 2,
+                'minimum_input_length' => 0,
                 'remote_params' => [
                     'entityName' => 'Domain',
                     'groupProperty' => 'grp',

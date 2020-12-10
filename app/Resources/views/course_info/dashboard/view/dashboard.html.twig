@@ -10,13 +10,9 @@
                         <p>
                             {{ 'app.dashboard.intro_panel.description' | trans }}
                         </p>
-                        <button type="button" id="btn-tuto" class="btn btn-info">
+                        <a href="https://unspod.unice.fr/video/7110-comment-remplir-son-syllabus-sur-moodle/" target="_blank" class="btn btn-info">
                             {{ 'app.dashboard.intro_panel.access_tutorial' | trans }}
-                        </button>
-                        <br>
-                        <span id="span-tuto" class="font-italic">
-                            {{ 'app.dashboard.intro_panel.tutorial_description' | trans | raw }}
-                        </span>
+                        </a>
                     </div>
                     <div class="col-lg-2 col-md-4 col-sm-6">
                         <img style="width: 120px;" src={{ asset('/build/images/Prof_syllabus.png') }}>
@@ -131,64 +127,83 @@
         <div class="d-flex flex-row justify-content-center w-100">
             <span id="publish_error" class="font-weight-bold" style="color: red"></span>
         </div>
-        <div class="d-flex justify-content-center flex-wrap">
-            {% if courseInfo.publicationDate is null %}
-                <div class="px-2 m-3 btn-dashboard-no-publish">
-                    {{ form_start(publicationForm, {'attr' : {
-                        'data-url' : path('app.course_info.dashboard.publish', {id : courseInfo.id})
-                    }}) }}
-                    <button type="button" style="border: none;"
-                            class="btn-dashboard-no-publish btn_publish d-flex flex-column align-items-center justify-content-between w-100 h-100">
-                        <span class="py-3 label-dashboard">{{ 'app.dashboard.card.publish_syllabus' | trans }}</span>
-                        <img class="w-50" src="{{ asset('/build/images/fusee_publier.png') }}">
-                    </button>
-                    {{ form_end(publicationForm) }}
-                </div>
-            {% else %}
-                <div class="px-2 m-3 btn-dashboard-publish d-flex flex-column align-items-center justify-content-between">
-                    <span class="py-3 label-dashboard">{{ 'app.dashboard.card.publish_success' | trans }}</span>
-                    <img src="{{ asset('/build/images/Drapeau.png') }}" style="width: 40%;">
-                </div>
-            {% endif %}
-
-            <div class="px-2 m-3 btn-dashboard">
-                <a href="{{ path('app.course_info.view.student', { 'id': courseInfo.id }) }}" target="_blank"
-                   class="d-flex flex-column align-items-center justify-content-between w-100 h-100">
-                    <span class="py-3 label-dashboard">{{ 'app.dashboard.card.see_student' | trans }}</span>
-                    <img class="w-50" src="{{ asset('/build/images/Etudiant.png') }}">
-                </a>
-            </div>
-        </div>
-
-        <div class="d-flex justify-content-center flex-wrap">
-
-            <div class="px-2 m-3 btn-dashboard">
-                {% if courseInfo.duplicateNextYear == true %}
-                    <button class="btn_duplicate btn-dashboard d-flex flex-column align-items-center justify-content-between w-100 h-100 border-0">
-                        <span class="py-3 label-dashboard">{{ 'app.dashboard.card.not_duplicate_syllabus' | trans }}</span>
-                        <img class="w-25 ml-3" src="{{ asset('/build/images/Pas_de_duplication.png') }}">
-                    </button>
+        <div class="row">
+            <div class="col-12 col-lg-4 mb-3 justify-content-center d-flex">
+                {% if courseInfo.publicationDate is null %}
+                    <div id="btn_publish" class="btn-dashboard bg-orange">
+                        <span class="label-dashboard text-white">{{ 'app.dashboard.card.publish_syllabus' | trans }}</span>
+                        <img src="{{ asset('/build/images/fusee_publier.png') }}">
+                        {{ form_start(publicationForm, {'attr' : {
+                            'data-url' : path('app.course_info.dashboard.publish', {id : courseInfo.id})
+                        }}) }}
+                        {{ form_end(publicationForm) }}
+                    </div>
                 {% else %}
-                    <button class="btn_duplicate btn-dashboard d-flex flex-column align-items-center justify-content-between w-100 h-100 border-0" data-duplicate="duplicate">
-                        <span class="py-3 label-dashboard">{{ 'app.dashboard.card.duplicate_syllabus' | trans }}</span>
-                        <img class="w-25 ml-3" src="{{ asset('/build/images/Accord.png') }}">
-                    </button>
+                    <div class="btn-dashboard btn-dashboard-disabled bg-white">
+                        <span class="label-dashboard">{{ 'app.dashboard.card.publish_success' | trans }}</span>
+                        <img src="{{ asset('/build/images/Drapeau.png') }}" style="width: 40%;">
+                    </div>
                 {% endif %}
             </div>
 
-            <div class="px-2 m-3 btn-dashboard">
-                <a href=# class="d-flex flex-column align-items-center justify-content-between w-100 h-100"
-                   data-toggle="modal"
-                   data-target="#courseInfoDuplicationModal"
-                   data-code-year="{{ courseInfo.codeYear(true) }}">
-                    <span class="py-3 label-dashboard">{{ 'app.dashboard.card.duplicate_syllabus_other_course' | trans }}</span>
-                    <img class="w-50 mb-3" src="{{ asset('/build/images/Duplication.png') }}">
+            <div class="col-12 col-lg-4 mb-3 justify-content-center d-flex">
+                <a href="{{ path('app.course_info.view.student', { 'id': courseInfo.id }) }}" target="_blank">
+                    <div class="btn-dashboard">
+                        <span class="label-dashboard">{{ 'app.dashboard.card.see_student' | trans }}</span>
+                        <img src="{{ asset('/build/images/Etudiant.png') }}">
+                    </div>
                 </a>
             </div>
 
+            <div class="col-12 col-lg-4 mb-3 justify-content-center d-flex">
+                <a href="#"
+                   data-toggle="modal"
+                   data-target="#courseInfoDuplicationModal"
+                   data-code-year="{{ courseInfo.codeYear(true) }}">
+                    <div class="btn-dashboard">
+                        <span class="label-dashboard">{{ 'app.dashboard.card.duplicate_syllabus_other_course' | trans }}</span>
+                        <img src="{{ asset('/build/images/Duplication.png') }}">
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-center flex-wrap">
+
+        <div id="btn_duplicate" class="btn-duplicate" {% if courseInfo.duplicateNextYear == false %} data-duplicate="duplicate" {% endif %}>
+            {% if courseInfo.duplicateNextYear == true %}
+                <i class="far fa-check-square"></i>
+            {% else %}
+                <i class="far fa-square"></i>
+            {% endif %}
+            {{ 'app.dashboard.card.duplicate_syllabus' | trans }}
+            <span class="font-italic">{{ 'app.dashboard.card.duplicate_syllabus_additionnal' | trans }}</span>
         </div>
 
-        {#        <div class="mt-2 d-flex flex-row justify-content-center w-100">
+        <div class="col-12 d-flex flex-column">
+            <div class="card mb-5">
+                <div class="card-body">
+                    <a class="text-dark" href="https://lms.univ-cotedazur.fr/course/view.php?id=22745" target="_blank">
+                        <div class="row">
+                            <div class="col-lg-2 col-md-4 col-sm-6">
+                                <img style="width: 120px;" src={{ asset('/build/images/dashboard-information.jpg') }}>
+                            </div>
+                            <div class="col-lg-10 col-md-8 col-sm-6">
+                                <h4 class="mb-4">{{ 'app.dashboard.syllabus_instructions.syllabus_problem' | trans }}</h4>
+                                <p>
+                                    {{ 'app.dashboard.syllabus_instructions.instructions_link' | trans }}
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    {#        <div class="mt-2 d-flex flex-row justify-content-center w-100">
             <button type="button"
                     class="btn btn-outline-secondary modal-action btn-dashboard-ingeneer border-0"
                     data-action-title="{{ 'app.dashboard.ask_advice_syllabus' | trans }}"
@@ -197,7 +212,7 @@
                 <span class="label-dashboard">{{ 'app.dashboard.button.advice' | trans }}</span>
             </button>
         </div>#}
-    </div>
+</div>
 </div>
 
 
@@ -216,11 +231,9 @@
         $(document).on('click', '#btn-tuto', function (e) {
             $('#span-tuto').show();
         });
-        $(document).on('click', '.btn_duplicate', function (e) {
+        $(document).on('click', '#btn_duplicate', function (e) {
 
-            var test = $(this).attr('data-duplicate');
-
-            if (test === "duplicate") {
+            if ($(this).attr('data-duplicate') === "duplicate") {
                 $.ajax({
                     url: '{{ path('app.course_info.dashboard.publishNextYear', {'id': courseInfo.id, 'action': 1 }) }}',
                     type: "POST",
@@ -241,15 +254,12 @@
     });
 
 
-    let stopPropagation = false;
-    $(document).on('click', '.btn_publish', function (e) {
-        let form = $(this).closest('form');
+    $(document).on('click', '#btn_publish', function (e) {
+        let form = $(this).find('form');
         let data = form.serialize();
 
         $.post(form.data('url'), data).done(function (data) {
             let icon = data.status ? 'success' : 'error'
-            let onAfterClose =
-
             Swal.fire({
                 'text': data.message,
                 'icon': icon,

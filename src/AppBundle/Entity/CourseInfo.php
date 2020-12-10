@@ -122,13 +122,16 @@ class CourseInfo
      * @Assert\NotBlank(groups={"presentation"})
      * @Assert\Expression(
      *     "value not in ['distant'] or (this.getTeachingCmDist() != null or this.getTeachingTdDist() != null or this.getTeachingsByMode('distant').count() > 0)",
-     *     message="teaching_mode.distant_hourly_empty")
+     *     message="teaching_mode.distant_hourly_empty",
+     *     groups={"presentation"})
      * @Assert\Expression(
      *     "value not in ['hybrid'] or (this.getTeachingCmHybridClass() != null or this.getTeachingTdHybridClass() != null or this.getTeachingTpHybridClass() != null or this.getTeachingsByMode('class').count() > 0)",
-     *     message="teaching_mode.hybrid_class_hourly_empty")
+     *     message="teaching_mode.hybrid_class_hourly_empty",
+     *     groups={"presentation"})
      * @Assert\Expression(
      *     "value not in ['hybrid'] or (this.getTeachingCmHybridDist() != null or this.getTeachingTdHybridDist() != null or this.getTeachingsByMode('distant').count() > 0)",
-     *     message="teaching_mode.hybrid_distant_hourly_empty")
+     *     message="teaching_mode.hybrid_distant_hourly_empty",
+     *     groups={"presentation"})
      * @Gedmo\Translatable
      */
     private $teachingMode;
@@ -646,7 +649,7 @@ class CourseInfo
      *
      * @ORM\OneToMany(targetEntity="CourseResourceEquipment", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"position" = "ASC", "equipment" = "ASC"})
-     * @Assert\Count(max="0", groups={"equipments_empty"})
+     * @Assert\Count(max="0", groups={"info_empty"})
      * @Assert\Valid
      * @ApiSubresource()
      */

@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class AskAdviceController
  * @package AppBundle\Controller
  *
- * @Route("/askDevice", name="app_admin.ask_advice_")
+ * @Route("/askAdvice", name="app_admin.ask_advice_")
  */
 class AskAdviceController extends AbstractController
 {

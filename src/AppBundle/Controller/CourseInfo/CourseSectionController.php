@@ -174,11 +174,9 @@ class CourseSectionController extends AbstractController
             {
                 $courseSectionActivity->setId(Uuid::uuid4())
                     ->setCourseSection($section)
+                    ->setPosition(count($section->getCourseSectionActivities()))
                     ->setActivity($activity);
                 $courseSectionActivityManager->create($courseSectionActivity);
-                foreach ($section->getCourseSectionActivities() as $courseSectionActivity) {
-                    $courseSectionActivity->setPosition($courseSectionActivity->getPosition() + 1);
-                }
                 $courseSectionManager->update($section);
             }
             else

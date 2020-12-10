@@ -1,8 +1,13 @@
 <section id="prerequisites-section" class="pb-5">
     <div class="student-title">
-        <h1 class="text-primary">{{ 'app.view.student.tabs.prerequisites' | trans }}</h1>
-        <img type="image" src="{{ asset('/build/images/information_photo.jpg') }}" alt="">
+        <div class="student-img-banner"
+             style="background-image: url('{{ asset('/build/images/information_photo.jpg') }}') !important; ">
+        </div>
+        <div class="student-text-banner">
+            {{ 'app.view.student.tabs.prerequisites' | trans }}
+        </div>
     </div>
+
     <div class="student-grid">
         <div class="grid-element grid-2-elements">
             {% if courseInfo.coursePrerequisites is not empty %}
@@ -39,6 +44,24 @@
                     <span class="text-bold">{{ 'app.view.student.prerequisites.tutoring_resources_description' | trans }}</span>
                 </div>
                 <ul class="student-list list-dotted">
+                    {% if courseInfo.tutoring %}
+                        <li>
+                            <div>
+                                {{ 'app.view.student.prerequisites.tutoring' | trans }}
+                                {% if courseInfo.tutoringTeacher == true and courseInfo.tutoringStudent == true %}
+                                    {{ 'app.view.student.prerequisites.tutoring_by_both' | trans }}
+                                {% elseif courseInfo.tutoringTeacher == true and courseInfo.tutoringStudent == false %}
+                                    {{ 'app.view.student.prerequisites.tutoring_by_teacher' | trans }}
+                                {% elseif courseInfo.tutoringTeacher == false and courseInfo.tutoringStudent == true %}
+                                    {{ 'app.view.student.prerequisites.tutoring_by_student' | trans }}
+                                {% endif %}
+                                {% if courseInfo.tutoringDescription %}
+                                    ({{ courseInfo.tutoringDescription }})
+                                {% endif %}
+                            </div>
+                        </li>
+                    {% endif %}
+
                     {% for tutoringResource in courseInfo.courseTutoringResources %}
                         <li>
                             <div>

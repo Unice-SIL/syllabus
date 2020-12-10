@@ -38,6 +38,7 @@ security:
                     - lexik_jwt_authentication.jwt_token_authenticator
         main:
             pattern: ^/
+            switch_user: true
             guard:
                 authenticator: '%authenticator%'
                 provider: main
@@ -45,12 +46,14 @@ security:
             anonymous: ~
 
     role_hierarchy:
-        ROLE_ADMIN: ROLE_USER
+        ROLE_ADMIN:
+            - ROLE_USER
+            - ROLE_ALLOWED_TO_SWITCH
         ROLE_API:
-          - ROLE_API_GET_YEARS
-          - ROLE_API_GET_YEAR
-          - ROLE_API_POST_YEAR
-          - ROLE_API_PUT_YEAR
+            - ROLE_API_GET_YEARS
+            - ROLE_API_GET_YEAR
+            - ROLE_API_POST_YEAR
+            - ROLE_API_PUT_YEAR
 
     access_control:
         - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }

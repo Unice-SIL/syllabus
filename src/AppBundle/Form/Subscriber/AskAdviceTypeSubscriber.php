@@ -7,6 +7,7 @@ namespace AppBundle\Form\Subscriber;
 use AppBundle\Entity\AskAdvice;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
@@ -36,6 +37,10 @@ class AskAdviceTypeSubscriber implements EventSubscriberInterface
                 'attr' => [
                     'class' => 'custom-control-input'
                 ]
+            ])
+            ->add('comment', TextareaType::class, [
+                'label' => "Commentaire",
+                'required' => false
             ])
             ;
         }

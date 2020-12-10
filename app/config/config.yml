@@ -154,7 +154,7 @@ fos_ck_editor:
             course_summary: [ '@basicstyles', '-', '@paragraphs', '-', '@link' ]
         items:
             link: [ 'Link' ]
-            basicstyles: [ 'RemoveFormat', '-', 'Bold', 'Italic', 'Underline' ]
+            basicstyles: [ 'RemoveFormat', '-', 'Bold', 'Italic', 'Underline', 'Superscript' ]
             paragraphs: [ 'Outdent', 'Indent', '-', 'NumberedList', 'BulletedList' ]
 
 unice_sil_syllabus_apogee_importer:

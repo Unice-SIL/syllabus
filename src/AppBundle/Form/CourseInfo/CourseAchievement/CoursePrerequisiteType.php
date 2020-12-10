@@ -5,7 +5,7 @@ namespace AppBundle\Form\CourseInfo\CourseAchievement;
 use AppBundle\Entity\Course;
 use AppBundle\Entity\CoursePrerequisite;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -38,7 +38,7 @@ class CoursePrerequisiteType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('description', TextType::class, [
+            ->add('description', TextareaType::class, [
                 'label' => 'app.prerequisites.form.prerequisite_description',
                 'required' => false,
             ])
@@ -46,14 +46,13 @@ class CoursePrerequisiteType extends AbstractType
                 'label' => 'app.prerequisites.form.prerequisite_courses',
                 'class' => Course::class,
                 'multiple' => true,
-                'remote_route' => 'app.common.autocomplete.generic_s2',
+                'remote_route' => 'app.common.autocomplete.generic_s2_courses',
                 'text_property' => 'title',
                 'minimum_input_length' => 4,
                 'language' => $this->request->getLocale(),
                 'required' => false,
                 'remote_params' => [
                     'entityName' => 'Course',
-                    'findBy' => 'title',
                     'property' => 'title'
                 ],
             ]);

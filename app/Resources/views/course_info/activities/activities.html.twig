@@ -23,9 +23,12 @@
                             <h3 class="card-title p-3 text-black-50">{{ 'list of activity' | trans }}</h3>
                             <ul id="tab-links" class="nav nav-pills ml-auto p-2">
                                 {% if activityTypes is not empty %}
+                                    <li class="nav-item">
+                                        <a class="nav-link active" href="#tab_all" data-toggle="tab">Toutes</a>
+                                    </li>
                                     {% for activityType in activityTypes %}
                                         <li class="nav-item">
-                                            <a class="nav-link {% if loop.first %}active{% endif %}" href="#tab_{{ activityType.id }}" data-toggle="tab">{{ activityType.label }}</a>
+                                            <a class="nav-link" href="#tab_{{ activityType.id }}" data-toggle="tab">{{ activityType.label }}</a>
                                         </li>
                                     {% endfor %}
                                 {% endif %}
@@ -36,8 +39,26 @@
                         </div>
                         <div class="card-body p-4">
                             <div class="tab-content">
+                                <div id="tab_all" class="tab-pane active">
+                                    <div class="activity-carousel">
+                                        {% for activity in activities %}
+                                            {% if activity.activityTypes is not empty %}
+                                                {% set firstActivityType = activity.activityTypes | first %}
+                                                <div class="modal-action activity-carousel-item"
+                                                     data-action-title="{{ 'app.activities.view.carousel.add_activity' | trans }}"
+                                                     data-action-url="{{ path("app.course_info.section.activity.add", {'id': activeSection.id, 'activityId': activity.id, 'activityTypeId': firstActivityType.id}) }}">
+                                                    <div class="activity-item-content text-center rounded border">
+                                                        <div>
+                                                            {{ activity.label }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
                                 {% for activityType in activityTypes %}
-                                    <div id="tab_{{ activityType.id }}" class="tab-pane {% if loop.first %}active{% endif %}">
+                                    <div id="tab_{{ activityType.id }}" class="tab-pane">
                                         <div class="activity-carousel">
                                             {% for activity in activities %}
                                                 {% if activity.activityTypes is not empty and activityType in activity.activityTypes %}

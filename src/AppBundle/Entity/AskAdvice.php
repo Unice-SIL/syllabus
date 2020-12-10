@@ -47,6 +47,12 @@ class AskAdvice
     private $description;
 
     /**
+     * @ORM\Column(name="comment", type="text", options={"fixed"=true})
+     * @Gedmo\Translatable
+     */
+    private $comment;
+
+    /**
      * @var User
      *
      * @ORM\Column(name="user", type="object", options={"fixed"=true})
@@ -100,6 +106,24 @@ class AskAdvice
     public function setDescription($description): self
     {
         $this->description = $description;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getComment()
+    {
+        return $this->comment;
+    }
+
+    /**
+     * @param mixed $comment
+     * @return AskAdvice
+     */
+    public function setComment($comment)
+    {
+        $this->comment = $comment;
         return $this;
     }
 

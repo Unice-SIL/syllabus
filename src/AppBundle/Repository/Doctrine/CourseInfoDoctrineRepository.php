@@ -33,7 +33,8 @@ class CourseInfoDoctrineRepository  extends ServiceEntityRepository
             ->innerJoin('ci.course', 'c')
             ->innerJoin('ci.year', 'y')
             ->innerJoin('ci.structure', 's')
-            ->addSelect('y', 'c', 's')
+            ->leftJoin('ci.publisher', 'p')
+            ->addSelect('y', 'c', 's', 'p')
             ->addOrderBy('c.code', 'ASC')
             ->addOrderBy('y.id', 'ASC')
             ->addOrderBy('ci.title', 'ASC');

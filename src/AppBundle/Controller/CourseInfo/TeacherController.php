@@ -3,6 +3,7 @@
 namespace AppBundle\Controller\CourseInfo;
 
 use AppBundle\Entity\CourseTeacher;
+use AppBundle\Form\CourseInfo\Presentation\EditTeacherType;
 use AppBundle\Form\CourseInfo\Presentation\RemoveTeacherType;
 use AppBundle\Manager\CourseTeacherManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -52,6 +53,46 @@ class TeacherController extends AbstractController
         }
 
         $render = $this->get('twig')->render('course_info/presentation/form/remove_teacher.html.twig', [
+            'form' => $form->createView()
+        ]);
+        return $this->json([
+            'status' => true,
+            'content' => $render
+        ]);
+    }
+
+    /**
+     * @Route("/edit", name="edit"))
+
+     * @param CourseTeacher $teacher
+     * @param Request $request
+     * @param CourseTeacherManager $courseTeacherManager
+     * @param TranslatorInterface $translator
+     * @return JsonResponse
+     */
+    public function editTeacherAction(CourseTeacher $teacher, Request $request, CourseTeacherManager $courseTeacherManager, TranslatorInterface $translator)
+    {
+        if (!$teacher instanceof CourseTeacher)
+        {
+            return $this->json([
+                'status' => false,
+                'render' => $translator->trans('app.controller.error.empty_teacher')
+            ]);
+        }
+
+        $form = $this->createForm(EditTeacherType::class, $teacher);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $courseTeacherManager->update($teacher);
+            return $this->json([
+                'status' => true,
+                'content' => null
+            ]);
+        }
+
+        $render = $this->get('twig')->render('course_info/presentation/form/edit_teacher.html.twig', [
             'form' => $form->createView()
         ]);
         return $this->json([

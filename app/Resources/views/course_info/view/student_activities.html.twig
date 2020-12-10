@@ -1,8 +1,13 @@
 <section id="activities-section" class="pb-5">
     <div class="student-title">
-        <h1 class="text-primary">{{ 'app.view.student.tabs.activities' | trans }}</h1>
-        <img src="{{ asset('build/images/programmation_photo.jpg') }}" alt="">
+        <div class="student-img-banner"
+             style="background-image: url('{{ asset('build/images/programmation_photo.jpg') }}') !important; ">
+        </div>
+        <div class="student-text-banner">
+            {{ 'app.view.student.tabs.activities' | trans }}
+        </div>
     </div>
+
     <ul class="student-sections">
         {% for section in courseInfo.courseSections %}
             {% if section.courseSectionActivities is not empty %}
@@ -14,11 +19,10 @@
                         <img class="collapse-button" src="{{ asset('build/images/collapsed-arrow.png') }}" alt=""/>
                     </div>
                     <div class="student-section-content collapse" id="activity-{{ section.id }}">
-                        <ul class="student-list">
                             <div class="row ml-2">
                                 {% if section.url %}
-                                    <div class="col-10">
-                                        {{ section.description|raw }}
+                                    <div class="summary col-10">
+                                        {{ section.description|purify }}
                                     </div>
                                     <div class="student-section-url col-2">
                                         <a href="{{ section.url }}" target="_blank">
@@ -26,11 +30,12 @@
                                         </a>
                                     </div>
                                 {% else %}
-                                    <div class="col-12">
-                                        {{ section.description|raw }}
+                                    <div class="summary">
+                                        {{ section.description|purify }}
                                     </div>
                                 {% endif %}
                             </div>
+                        <ul class="student-list">
                             {% set oldActivityType = '' %}
                             {% for courseSectionActivity in section.courseSectionActivities %}
                                 {% set activityType = courseSectionActivity.activityType %}
@@ -43,11 +48,11 @@
                                         <h5 class="title-underlined">{{ courseSectionActivity.activityType.label }}</h5>
                                     </div>
                                 {% endif %}
-                                <li>
+                                <li {% if courseSectionActivity.evaluable == true %}style="background-color: rgba(70,174,216, 0.4);" {% endif %}>
                                     <i class="fas fa-check text-primary {% if courseSectionActivity.evaluable %} icon-evaluable{% endif %}"></i>
-                                    <div class="activity d-flex flex-column w-100 mb-2">
+                                    <div class="activity">
                                         <span>
-                                        {{ courseSectionActivity.activity.label }}
+                                            {{ courseSectionActivity.activity.label }} ({{ courseSectionActivity.activityMode.label }})
                                             {% if courseSectionActivity.description is not empty %}
                                                 : {{ courseSectionActivity.description | linkify({"attr": {"target": "_blank"}}) | raw }}
                                             {% endif %}
@@ -59,13 +64,20 @@
                                                 {% else %}
                                                     {{ 'app.view.student.activities.cc' | trans }}
                                                 {% endif %}
+                                                {% if courseSectionActivity.evaluationRate > 0 and courseSectionActivity.evaluationRate is not null %}
+                                                    - {{ courseSectionActivity.evaluationRate }}%
+                                                {% endif %}
                                             </span>
-                                            <div class="progress student-progress">
-                                                <div class="progress-bar" role="progressbar"
-                                                     style="width: {{ courseSectionActivity.evaluationRate }}%;"
-                                                     aria-valuenow="{{ courseSectionActivity.evaluationRate }}"
-                                                     aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
+                                            {% if courseSectionActivity.evaluationRate > 0 and courseSectionActivity.evaluationRate is not null %}
+                                                <div class="progress student-progress">
+                                                    <div class="progress-bar" role="progressbar"
+                                                         style="width: {{ courseSectionActivity.evaluationRate }}%;"
+                                                         aria-valuenow="{{ courseSectionActivity.evaluationRate }}"
+                                                         aria-valuemin="0" aria-valuemax="100">
+
+                                                    </div>
+                                                </div>
+                                            {% endif %}
                                             {% if courseSectionActivity.evaluationTeacher == true or courseSectionActivity.evaluationPeer == true %}
                                                 {% set evaluateBy = '' %}
                                                 {% if courseSectionActivity.evaluationTeacher == true %}
@@ -94,7 +106,7 @@
     </ul>
 </section>
 {#
-    <div class="mt-2">
+<div class="mt-2">
 
-    </div>
+</div>
 #}

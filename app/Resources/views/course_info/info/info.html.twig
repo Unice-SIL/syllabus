@@ -17,6 +17,18 @@
             <div class="card-body">
             </div>
         </div>
+
+        <div id="card-equipment" class="card my-2 shadow card-syllabus"
+             data-view-url="{{ path('app.course_info.resource_equipment.equipments', {'id': courseInfo.id }) }}"
+        >
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <h3 class="text-blue-title">{{ 'app.equipment.view.equipment' | trans }}</h3>
+                </div>
+            </div>
+            <div class="card-body">
+            </div>
+        </div>
     </div>
 {% endblock %}
 

@@ -102,6 +102,49 @@ class AutoCompleteController extends AbstractController
     }
 
     /**
+     * @Route("/generic-s2-courses/{entityName}", name="generic_s2_courses")
+     *
+     * @param string $entityName
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function autoCompleteS2Courses(string $entityName, Request $request)
+    {
+        $namespace = 'AppBundle\\Entity\\';
+        $entityName = "{$namespace}{$entityName}";
+        $query = $request->query->get('q', '');
+        $property = $request->query->get('property', 'label');
+        $groupProperty = $request->query->get('groupProperty', null);
+
+        $propertyAccessor = PropertyAccess::createPropertyAccessor();
+
+        $repository = $this->getDoctrine()->getRepository($entityName);
+        $entities = $repository->findByTitleOrCode($query);
+
+        $data = [];
+        foreach ($entities as $entity)
+        {
+            $d = ['id' => $entity->getId(), 'text' => $propertyAccessor->getValue($entity, $property)];
+            if(!empty($groupProperty))
+            {
+                $group = $propertyAccessor->getValue($entity, $groupProperty)?? 0;
+                if(!array_key_exists($group, $data))
+                {
+                    $data[$group] = ['text' => $propertyAccessor->getValue($entity, $groupProperty), 'children' => []];
+                }
+                $data[$group]['children'][] = $d;
+            }
+            else
+            {
+                $data[] = $d;
+            }
+        }
+        ksort($data);
+
+        return $this->json(array_values($data));
+    }
+
+    /**
      * @Route("/s2-courseinfo-with-write-permission", name="s2_courseinfo_with_write_permission")
      *
      * @param Request $request

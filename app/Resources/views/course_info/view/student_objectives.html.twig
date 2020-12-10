@@ -1,20 +1,25 @@
 <section id="objectives-section" class="pb-5">
     <div class="student-title">
-        <h1 class="text-primary">{{ 'app.view.student.tabs.objectives' | trans }}</h1>
-        <img src="{{ asset('build/images/objectif_photo.jpg') }}" alt="">
-    </div>
-        <div class="d-flex flex-column align-items-center">
-            <div class="student-subtitle">
-                <span class="text-bold">{{ 'app.view.student.objectives.achievements_description' | trans }}</span>
-            </div>
-            <ul class="student-list list-dotted">
-                {% if courseInfo.courseAchievements is not empty %}
-                    {% for achievement in courseInfo.courseAchievements %}
-                        <li>
-                            {{ achievement.description }}
-                        </li>
-                    {% endfor %}
-                {% endif %}
-            </ul>
+        <div class="student-img-banner"
+             style="background-image: url('{{ asset('build/images/objectif_photo.jpg') }}') !important; ">
         </div>
+        <div class="student-text-banner">
+            {{ 'app.view.student.tabs.objectives' | trans }}
+        </div>
+    </div>
+
+    <div class="d-flex flex-column align-items-center">
+        <div class="student-subtitle">
+            <span class="text-bold">{{ 'app.view.student.objectives.achievements_description' | trans }}</span>
+        </div>
+        <ul class="student-list list-dotted">
+            {% if courseInfo.courseAchievements is not empty %}
+                {% for achievement in courseInfo.courseAchievements %}
+                    <li>
+                        {{ achievement.description }}
+                    </li>
+                {% endfor %}
+            {% endif %}
+        </ul>
+    </div>
 </section>

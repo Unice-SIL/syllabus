@@ -4,6 +4,7 @@ namespace AppBundle\Form\CourseInfo\Presentation;
 
 
 use AppBundle\Constant\TeachingMode;
+use AppBundle\Entity\CourseInfo;
 use AppBundle\Form\CourseInfo\Presentation\Subcriber\TeachingModeTypeSubscriber;
 use AppBundle\Form\CourseInfo\Teaching\TeachingType;
 use Symfony\Component\Form\AbstractType;
@@ -11,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TeachingModeType extends AbstractType
 {
@@ -74,5 +76,15 @@ class TeachingModeType extends AbstractType
         ;
 
         $builder->addEventSubscriber(new TeachingModeTypeSubscriber());
+    }
+
+    /**
+     * @param OptionsResolver $resolver
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class' => CourseInfo::class,
+        ]);
     }
 }

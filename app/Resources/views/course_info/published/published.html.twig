@@ -28,7 +28,7 @@
                                 {{ courseInfo.course.code }}
                             </td>
                             <td>
-                                {{ courseInfo.publisher }}
+                                {{ courseInfo.publisher.firstname }} {{ courseInfo.publisher.lastname }}
                             </td>
                             <td>
                                 {{ courseInfo.publicationDate|localizeddate('full', 'none', null) }} {{ courseInfo.publicationDate|date('H:i') }}

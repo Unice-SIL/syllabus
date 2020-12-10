@@ -35,6 +35,11 @@
                     </td>
                     <td>
                         <button type="button" class="btn btn-link modal-action p-0"
+                                data-action-title="{{ 'app.presentation.view.teachers.edit_teacher' | trans }}"
+                                data-action-url="{{ path('app.course_info.teacher.edit', {'id': teacher.id}) }}">
+                            <i class="fas fa-edit text-primary"></i>
+                        </button>
+                        <button type="button" class="btn btn-link modal-action p-0"
                                 data-action-title="{{ 'app.presentation.view.teachers.delete_teacher' | trans }}"
                                 data-action-url="{{ path('app.course_info.teacher.delete', {'id': teacher.id}) }}">
                             <i class="fas fa-trash-alt text-danger"></i>
