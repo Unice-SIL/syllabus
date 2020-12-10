@@ -286,7 +286,7 @@ app:
       equipments: Materials and resources
       information: Practical information
       closing_remarks: Closing remarks
-        student_view: Student syllabus
+      student_view: Student syllabus
   dashboard:
     title: Dashboard
     progress: Filling progress
@@ -679,6 +679,9 @@ app:
         text:
           part_1: "This syllabus has no contractual value. Its content is subject to change throughout this year: be aware to the last updates"
           part_2: The last modification date is displayed on the top-right of the page.
+      syllabus_form:
+        link: "http://google.com"
+        text: Give your opinion on the Syllabus
   partial:
     warning_delete_modal: Are you sure you want to delete this element?
     no_element: No element has been found
