@@ -680,7 +680,7 @@ app:
           part_1: "This syllabus has no contractual value. Its content is subject to change throughout this year: be aware to the last updates"
           part_2: The last modification date is displayed on the top-right of the page.
       syllabus_form:
-        link: "http://google.com"
+        link: "https://forms.office.com/Pages/ResponsePage.aspx?id=fUQgvFKJzUqD5F1otezkb78RiPD675VPioqx3pigUrJUNFRFTUlOUFhEWVVEUktRQlkyTjIxUFJJTS4u"
         text: Give your opinion on the Syllabus
   partial:
     warning_delete_modal: Are you sure you want to delete this element?
