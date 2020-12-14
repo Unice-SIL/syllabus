@@ -378,10 +378,10 @@ app:
     form:
       add: Ajouter
       delete: Supprimer
-      prerequisite_delete: Êtes-vous sûr(e) de vouloir supprimer le prérequis "%description%" ?
+      prerequisite_delete: "Êtes-vous sûr(e) de vouloir supprimer le prérequis \"%description%\" ?"
       prerequisite_description: Avant le début du cours, l'étudiant doit…
       prerequisite_courses: Choisir le(s) cours associé(s)
-      tutoring_resources_delete: Êtes-vous sûr(e) de vouloir supprimer la rémédiation "%description%" ?
+      tutoring_resources_delete: "Êtes-vous sûr(e) de vouloir supprimer la rémédiation \"%description%\" ?"
       tutoring_resources_description: Si l'étudiant rencontre des difficultés, il peut…
   objectives:
     view:
@@ -435,7 +435,7 @@ app:
       add: Ajouter
       edit: Modifier
       delete: Supprimer
-      delete_equipment: Êtes-vous sûr(e) de vouloir supprimer le matériel "%label%" ?
+      delete_equipment: "Êtes-vous sûr(e) de vouloir supprimer le matériel \"%label%\" ?"
       description_equipment: Description
       bibliographic_resources: Eléments bibliographiques
       educational_resources: Ressources pédagogiques
@@ -524,7 +524,7 @@ app:
           intermediary: "<li><strong>Intermédiaire</strong> : Ce cours demande quelques connaissances préalables.</li>"
           advanced: "<li><strong>Avancé</strong> : Ce cours demande d'importantes connaissances préalables.</li>"
       teacher:
-        delete: Êtes-vous sûr(e) de vouloir supprimer l'enseignant "%lastname% %firstname%" ?
+        delete: "Êtes-vous sûr(e) de vouloir supprimer l'enseignant \"%lastname% %firstname%\" ?"
         mail_visibility: L'adresse mail doit-elle être visible ?
         responsible: Responsable du cours ?
         search_user: Rechercher un individu
@@ -580,13 +580,13 @@ app:
         activity_type: Type d'activité
         activity_no_icon: Pas d'icône sélectionnée
         control: 'Type de contrôle (Continu / Terminal) :'
-        delete: Êtes-vous sûr(e) de vouloir supprimer l'activité "%label%" ?
+        delete: "Êtes-vous sûr(e) de vouloir supprimer l'activité \"%label%\" ?"
         description: Description de l'activité (maximum 255 caractères)
         evaluable: Cette activité est-elle évaluable ?
       section:
         description: Description
-        delete: Êtes-vous sûr(e) de vouloir supprimer la section "%title%" ?
-        duplicate: Êtes-vous sûr(e) de vouloir dupliquer la section "%title%" ?
+        delete: "Êtes-vous sûr(e) de vouloir supprimer la section \"%title%\" ?"
+        duplicate: "Êtes-vous sûr(e) de vouloir dupliquer la section \"%title%\" ?"
         title: Titre de la section
         url: Lien vers la section du cours
   view:
@@ -644,17 +644,17 @@ app:
         campus: Lieu d'enseignement
         semester: Semestre
         language: Langue
-        belong_to: Appartient a %title%
+        belong_to: "Appartient a %title%"
         teachers: Équipe enseignante
         distant: Distanciel
-        hours_cm: %hours%h de cours magistral
-        hours_td: %hours%h de travaux dirigés
-        hours_tp: %hours%h de travaux pratiques
-        hours_teachings: %hours%h de %type%
+        hours_cm: "%hours%h de cours magistral"
+        hours_td: "%hours%h de travaux dirigés"
+        hours_tp: "%hours%h de travaux pratiques"
+        hours_teachings: "%hours%h de %type%"
         class: Présentiel
-        nb_ects: (%ects% ECTS)
-        nb_ecue: UE comprenant %ecue% ECUE
-        title: ECUE appartenant à %title%
+        nb_ects: "(%ects% ECTS)"
+        nb_ecue: "UE comprenant %ecue% ECUE"
+        title: "ECUE appartenant à %title%"
         autonomy: Autonomie
       sidebar:
         activity: Programme

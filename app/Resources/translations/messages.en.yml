@@ -378,10 +378,10 @@ app:
     form:
       add: Add
       delete: Delete
-      prerequisite_delete: Are you sure you want to delete this prerequisite "%description%"?
+      prerequisite_delete: "Are you sure you want to delete this prerequisite \"%description%\"?"
       prerequisite_description: Before the start of the course, the student must...
       prerequisite_courses: Choose the associate(s) course(s)
-      tutoring_resources_delete: Are you sure you want to delete this remediation "%description%"?
+      tutoring_resources_delete: "Are you sure you want to delete this remediation \"%description%\"?"
       tutoring_resources_description: If the student has difficulties, he can...
   objectives:
     view:
@@ -435,7 +435,7 @@ app:
       add: Add
       edit: Modifier
       delete: Delete
-      delete_equipment: Are you sure you want to delete the equipment %label%?
+      delete_equipment: "Are you sure you want to delete the equipment %label%?"
       description_equipment: Description
       bibliographic_resources: Bibliographic resources
       educational_resources: Educational resources
@@ -466,7 +466,7 @@ app:
       closing_video: Integrate a video (or audio) respecting copyright law
       closing_video_info:
         part1: "In order to be able to integrate a video into your course, please make sure it is hosted on a server external to Moodle (e.g. UNSPOD, Youtube, ...). If that is not the cas, you can ask for help to upload on one of those plateforms."
-        part2: Once it is stored there, you can click on "Share / Integrate" to retrieve the integration link looking like :
+        part2: "Once it is stored there, you can click on \"Share / Integrate\" to retrieve the integration link looking like :"
         part3: "&#60 iframe ... &#62 &#60 /iframe &#62"
         part4: Copy this code and insert it in the "Video" field below. The video will be visible to your students directly on your syllabus.
   presentation:
@@ -517,14 +517,14 @@ app:
         add_video_info:
           part1: "In order to be able to integrate a video into your course, please make sure it is hosted on a server external to Moodle (e.g. UNSPOD, Youtube, ...)."
           part2: If that is not the cas, you can ask for help to upload on one of those plateforms.
-          part3: Once it is stored there, you can click on "Share / Integrate" to retrieve the integration link looking like :
+          part3: "Once it is stored there, you can click on \"Share / Integrate\" to retrieve the integration link looking like :"
           part4: Copy this code and insert it in the "Video" field below. The video will be visible to your students directly on your syllabus.
         level:
           beginner: "<li><strong>Beginner</strong> : This course requires little or no prior knowledge.</li>"
           intermediary: "<li><strong>intermediate</strong> : This course requires some prior knowledge.</li>"
           advanced: "<li><strong>Advanced</strong> : This course requires significant prior knowledge.</li>"
       teacher:
-        delete: Are you sure you want to delete the teacher "%lastname% %firstname%" ?
+        delete: "Are you sure you want to delete the teacher \"%lastname% %firstname%\" ?"
         mail_visibility: Does the email address have to be visible?
         responsible: In charge of the course?
         search_user: Search for an individual
@@ -580,13 +580,13 @@ app:
         activity_type: Type of activity
         activity_no_icon: No icon selected
         control: 'Type of control (Continuous / Terminal) :'
-        delete: Are you sure you want to remove the activity "%label%" ?
+        delete: "Are you sure you want to remove the activity \"%label%\" ?"
         description: Description of the activity (maximum 255 characters)
         evaluable: Is this activity evaluable?
       section:
         description: Description
-        delete: Are you sure you want to delete the section "%title%" ?
-        duplicate: Are you sure you want to duplicate the section "%title%" ?
+        delete: "Are you sure you want to delete the section \"%title%\" ?"
+        duplicate: "Are you sure you want to duplicate the section \"%title%\" ?"
         title: Section Title
         url: Link to the course section
   view:
@@ -644,17 +644,17 @@ app:
         campus: Campus
         semester: Semester
         language: Language
-        belong_to: Belong to %title%
+        belong_to: "Belong to %title%"
         teachers: Teaching team
         distant: Distant
-        hours_cm: %hours%h of lectures
-        hours_td: %hours%h of tutorials
-        hours_tp: %hours%h of practical work
-        hours_teachings: %hours%h of %type%
+        hours_cm: "%hours%h of lectures"
+        hours_td: "%hours%h of tutorials"
+        hours_tp: "%hours%h of practical work"
+        hours_teachings: "%hours%h of %type%"
         class: In class
-        nb_ects: (%ects% ECTS)
-        nb_ecue: UE include %ecue% ECUE
-        title: ECUE owned by %title%
+        nb_ects: "(%ects% ECTS)"
+        nb_ecue: "UE include %ecue% ECUE"
+        title: "ECUE owned by %title%"
         autonomy: Autonomy
       sidebar:
         activity: Schedule

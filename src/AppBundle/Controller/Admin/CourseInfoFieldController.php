@@ -6,9 +6,9 @@ use AppBundle\Entity\CourseInfoField;
 use AppBundle\Form\CourseInfoFieldType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -23,7 +23,7 @@ class CourseInfoFieldController extends Controller
      * @Route("/", name="index")
      *
      * @param EntityManagerInterface $em
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function indexAction(EntityManagerInterface $em)
     {
@@ -40,8 +40,7 @@ class CourseInfoFieldController extends Controller
     /**
      * Edit a CourseInfoField entity
      *
-     * @Route("/{id}/edit", name="edit")
-     * @Method("POST")
+     * @Route("/{id}/edit", name="edit", methods={"POST"})
      * @param EntityManagerInterface $entityManager
      * @param CourseInfoField $courseInfoField
      * @param Request $request

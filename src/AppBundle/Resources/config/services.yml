@@ -9,7 +9,7 @@ services:
             $moodlePermissionImporterOptions:
                 url: '%moodle_api_url%'
                 token: '%moodle_api_token%'
-            $apogeeCourseNatureToImport: %apogee_course_nature_to_import%
+            $apogeeCourseNatureToImport: '%apogee_course_nature_to_import%'
 
     AppBundle\:
         resource: '../../*'

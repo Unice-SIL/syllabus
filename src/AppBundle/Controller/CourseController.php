@@ -16,17 +16,14 @@ use AppBundle\Repository\Doctrine\CourseDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Routing\Annotation\Route;
-use function Couchbase\defaultDecoder;
 use Symfony\Component\Translation\TranslatorInterface;
 
 /**
@@ -76,7 +73,7 @@ class CourseController extends Controller
      * @param Request $request
      * @param CourseManager $courseManager
      * @param TranslatorInterface $translator
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @return RedirectResponse|Response
      */
     public function newAction(Request $request, CourseManager $courseManager, TranslatorInterface $translator)
     {
@@ -97,13 +94,12 @@ class CourseController extends Controller
     /**
      * Displays a form to edit an existing course entity.
      *
-     * @Route("/{id}/edit", name="edit")
-     * @Method({"GET", "POST"})
+     * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
      * @param Request $request
      * @param Course $course
      * @param CourseManager $courseManager
      * @param TranslatorInterface $translator
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @return RedirectResponse|Response
      */
     public function editAction(Request $request, Course $course, CourseManager $courseManager, TranslatorInterface $translator)
     {
@@ -281,7 +277,7 @@ class CourseController extends Controller
      * @param CourseDoctrineRepository $courseDoctrineRepository
      * @param Request $request
      * @param $field
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return JsonResponse
      */
     public function autocomplete(CourseDoctrineRepository $courseDoctrineRepository, Request $request, $field)
     {
@@ -305,7 +301,7 @@ class CourseController extends Controller
      *
      * @param CourseDoctrineRepository $courseDoctrineRepository
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return JsonResponse
      */
     public function autocompleteS2(CourseDoctrineRepository $courseDoctrineRepository, Request $request)
     {
@@ -335,7 +331,7 @@ class CourseController extends Controller
      * @Route("/autocompleteS3", name="autocompleteS3", methods={"GET"})
      *
      * @param CourseManager $courseManager
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return JsonResponse
      */
     public function autocompleteS3(CourseManager $courseManager)
     {

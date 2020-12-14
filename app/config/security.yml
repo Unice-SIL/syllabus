@@ -38,6 +38,7 @@ security:
                     - lexik_jwt_authentication.jwt_token_authenticator
         main:
             pattern: ^/
+            provider: main
             switch_user: true
             guard:
                 authenticator: '%authenticator%'
