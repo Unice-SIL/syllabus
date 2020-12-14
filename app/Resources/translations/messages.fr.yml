@@ -680,7 +680,7 @@ app:
           part_1: "Ce syllabus n’a aucune valeur contractuelle. Son contenu est susceptible d’évoluer en cours d’année : soyez attentifs aux dernières modifications."
           part_2: La date de dernière mise à jour est affichée en haut de la page droite.
       syllabus_form:
-        link: "http://google.com"
+        link: "https://forms.office.com/Pages/ResponsePage.aspx?id=fUQgvFKJzUqD5F1otezkb78RiPD675VPioqx3pigUrJUNFRFTUlOUFhEWVVEUktRQlkyTjIxUFJJTS4u"
         text: Donner votre avis sur le Syllabus
   partial:
     warning_delete_modal: Êtes vous sûr de vouloir supprimer cet élément ?

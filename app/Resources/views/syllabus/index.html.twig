@@ -47,7 +47,7 @@
                         <tr>
                             <td>
                                 {% if is_granted('ROLE_ADMIN_COURSE_VIEW') %}
-                                    <a href="{{ path('app.admin.course.show', { 'id' : courseInfo.id }) }}">{{ courseInfo.title }}</a>
+                                    <a href="{{ path('app.course_info.dashboard.index', { 'id' : courseInfo.id }) }}">{{ courseInfo.title }}</a>
                                 {% else %}
                                     {{ courseInfo.title }}
                                 {% endif %}
