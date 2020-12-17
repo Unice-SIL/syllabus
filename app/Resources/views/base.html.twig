@@ -7,7 +7,11 @@
 
 -->
 
-<html lang="{{ app.request.locale|lower }}">
+<html lang="{{ app.request.locale|lower }}"
+        {% if app.request.get('_route') == "app.course_info.view.student" %}
+            class="bg-black"
+        {% endif %}
+>
 
 <head>
     <meta charset="utf-8">
