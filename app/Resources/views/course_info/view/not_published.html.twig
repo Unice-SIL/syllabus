@@ -1,5 +1,8 @@
 {% extends 'base.html.twig' %}
 
+{% block body_class %}
+{% endblock %}
+
 {% block main %}
     <div class="student-view">
         <div class="container">
@@ -14,7 +17,7 @@
 
                     </div>
                     <div class="presentation-info row p-4">
-                        <div class="presentation-info-element col-12 col-lg-4 col-md-6 col-sm-12">
+                        <div class="presentation-info-element pb-0 col-12 col-lg-4 col-md-6 col-sm-12">
                             <div class="student-subtitle">
                                 <img class="icon-20" src="{{ asset('/build/images/composante_picto.png') }}">
                                 <span>{{ 'app.view.student.presentation.structure' | trans }}</span>
@@ -25,73 +28,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="presentation-info-element col-12 col-lg-4 col-md-6 col-sm-12">
-                            <div class="student-subtitle">
-                                <img class="icon-20" src="{{ asset('/build/images/domaine_picto.png') }}">
-                                <span>{{ 'app.view.student.presentation.domain' | trans }}</span>
-                            </div>
-                            <ul class="student-list list-dotted">
-                                {% for domain in courseInfo.domains %}
-                                    <li>
-                                        {{ domain.label }}
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                        <div class="presentation-info-element col-12 col-lg-4 col-md-6 col-sm-12">
-                            <div class="student-subtitle">
-                                <img class="icon-20" src="{{ asset('/build/images/lieu_picto.png') }}">
-                                <span>{{ 'app.view.student.presentation.campus' | trans }}</span>
-                            </div>
-                            <ul class="student-list list-dotted">
-                                {% for campus in courseInfo.campuses %}
-                                    <li>
-                                        {{ campus.label }}
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                        <div class="presentation-info-element col-12 col-lg-4 col-md-6 col-sm-12">
-                            <div class="student-subtitle">
-                                <img class="icon-20" src="{{ asset('/build/images/niveau_picto.png') }}">
-                                <span>{{ 'app.view.student.presentation.level' | trans }}</span>
-                            </div>
-                            <ul class="student-list list-dotted">
-                                {% for level in courseInfo.levels %}
-                                    <li>
-                                        {{ level.label }}
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                        {% if courseInfo.periods is not empty %}
-                            <div class="presentation-info-element col-12 col-lg-4 col-md-6 col-sm-12">
-                                <div class="student-subtitle">
-                                    <img class="icon-20" src="{{ asset('/build/images/calendrier_picto.png') }}">
-                                    <span>{{ 'app.view.student.presentation.semester' | trans }}</span>
-                                </div>
-                                <ul class="student-list list-dotted">
-                                    {% for period in courseInfo.periods %}
-                                        <li>
-                                            {{ period.label }}
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        {% endif %}
-                        <div class="presentation-info-element col-12 col-lg-4 col-md-6 col-sm-12">
-                            <div class="student-subtitle">
-                                <img class="icon-20" src="{{ asset('/build/images/langue_picto.png') }}">
-                                <span>{{ 'app.view.student.presentation.language' | trans }}</span>
-                            </div>
-                            <ul class="student-list list-dotted">
-                                {% for language in courseInfo.languages %}
-                                    <li>
-                                        {{ language.label }}
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
+
                         {% if courseInfo.course.parents | length == 1 %}
                             {% set parent = courseInfo.course.parents[0] %}
                             {% set parentInfo = '' %}
@@ -106,16 +43,18 @@
                                 {% set title = parentInfo.title %}
                                 {% set ects = parentInfo.ects %}
                                 {% set ecue = parent.children|length %}
-                                <div class="presentation-info-element col-12">
+                                <div class="presentation-info-element pb-0 col-8">
                                     <div class="student-subtitle">
                                         <img class="icon-20" src="{{ asset('/build/images/info_picto.png') }}">
-                                        <span>{{ 'app.view.student.presentation.belong_to' | trans({'%title%' : title}) }} </span>
+                                        <span>
+                                            {{ 'app.view.student.presentation.belong_to' | trans({'%title%' : title}) }}
+                                        </span>
                                         <span class="text-primary ml-1">
-                        {% if ects is not null %}
-                            ({{ ects }} ECTS)
-                        {% endif %}
+                                            {% if ects is not null %}
+                                                ({{ ects }} ECTS)
+                                            {% endif %}
                                             {{ 'app.view.student.presentation.nb_ecue' | trans({'%ecue%': ecue}) }}
-                        </span>
+                                        </span>
                                     </div>
                                 </div>
                             {% endif %}
