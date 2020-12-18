@@ -67,13 +67,12 @@
     General.
 */
 
-html {
-  height: 100%;
+html, body, .wrapper {
+  height: 100% !important;
 }
 
 body {
   position: relative;
-  min-height: 100%;
   background-color: white !important;
   font-family: "Brother Book", sans-serif;
 }

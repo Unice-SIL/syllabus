@@ -57,7 +57,11 @@
                                     {{ courseInfo.publisher.lastname }} {{ courseInfo.publisher.firstname }}
                                 {% endif %}
                             </td>
-                            <td>{{ courseInfo.publicationDate | date('d/m/Y') }}</td>
+                            <td>
+                                {% if courseInfo.publicationDate %}
+                                    {{ courseInfo.publicationDate | date('d/m/Y') }}
+                                {% endif %}
+                            </td>
                             <td>
                                 {% if courseInfo.year %}
                                     {{ courseInfo.year.label }}

@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% block body_class %}
+{% endblock %}
 
 {% block main %}
     <div class="student-view">
@@ -23,6 +25,7 @@
                     {% include 'course_info/view/student_closing_remarks.html.twig' %}
                 {% endif %}
 
+
                 <div class="text-muted text-center pb-5">
                     <h5>{{ 'app.view.student.alert.important' | trans }}</h5>
                     <p>
@@ -35,7 +38,6 @@
                         {{ 'app.view.student.syllabus_form.text' | trans }}
                     </a>
                 </div>
-
             </div>
         </div>
     </div>

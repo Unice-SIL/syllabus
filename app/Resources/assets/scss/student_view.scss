@@ -4,6 +4,7 @@
 }
 
 .student-view {
+  height: 100% !important;
   background-color: black;
   color: white;
   padding-top: 1rem;
@@ -261,6 +262,7 @@
 
       .summary {
         margin-top: 1rem;
+        margin-bottom: 2rem;
         @media (min-width: 768px) {
           margin-top: 0;
         }

@@ -4,6 +4,7 @@
 namespace AppBundle\Controller\Admin;
 
 
+use AppBundle\Entity\CourseInfo;
 use AppBundle\Export\SyllabusExport;
 use AppBundle\Form\Filter\SyllabusFilterType;
 use AppBundle\Repository\Doctrine\CourseInfoDoctrineRepository;
@@ -45,7 +46,7 @@ class SyllabusController extends Controller
         bool $isExport = false
     )
     {
-        $qb = $courseInfoDoctrineRepository->getIndexQueryBuilder();
+        $qb = $this->getDoctrine()->getManager()->getRepository(CourseInfo::class)->createQueryBuilder('ci');
         $form = $this->createForm(SyllabusFilterType::class, null);
 
         if ($request->query->has($form->getName())) {
