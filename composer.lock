@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "75a8c6f03fc35940d495f5b2408bbd50",
+    "content-hash": "15567618c19ca399159eaf0158d23ae3",
     "packages": [
         {
             "name": "api-platform/api-pack",
@@ -5124,23 +5124,22 @@
         },
         {
             "name": "unicesil/shibboleth-bundle",
-            "version": "v1.0.2",
+            "version": "v1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Unice-SIL/ShibbolethBundle.git",
-                "reference": "f403d9527d03bc7792599a03343b77a47e2ed0c3"
+                "reference": "3d44b19da5da2c71868bb306c7fe70038ae121c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Unice-SIL/ShibbolethBundle/zipball/f403d9527d03bc7792599a03343b77a47e2ed0c3",
-                "reference": "f403d9527d03bc7792599a03343b77a47e2ed0c3",
+                "url": "https://api.github.com/repos/Unice-SIL/ShibbolethBundle/zipball/3d44b19da5da2c71868bb306c7fe70038ae121c6",
+                "reference": "3d44b19da5da2c71868bb306c7fe70038ae121c6",
                 "shasum": ""
             },
             "require": {
                 "php": "^5.5.9|>=7.0.8",
                 "symfony/framework-bundle": "~2.7|~3.0|~4.0",
-                "symfony/security": "^3.0|^4.0",
-                "symfony/security-core": "^3.0|^4.0"
+                "symfony/security-guard": "~3.0|~4.0"
             },
             "type": "symfony-bundle",
             "autoload": {
@@ -5158,17 +5157,18 @@
                     "email": "frederic.casazza@unice.fr"
                 }
             ],
-            "description": "Shibboleth bundle authentication for Symfony 3+",
+            "description": "Shibboleth bundle authentication for Symfony 3+ or 4+",
             "keywords": [
                 "Authentication",
                 "Guard Authenticator",
                 "Symfony 3",
+                "Symfony 4",
                 "UNS",
                 "Unice",
                 "Unice-SIL",
                 "shibboleth"
             ],
-            "time": "2019-11-28T13:34:37+00:00"
+            "time": "2020-09-14T08:25:15+00:00"
         },
         {
             "name": "unicesil/syllabus-apogee-importer-bundle",
@@ -5232,43 +5232,6 @@
             "notification-url": "https://packagist.org/downloads/",
             "description": "Toolkit to develop syllabus importer to import data in Syllabus from external repository",
             "time": "2019-05-14T13:54:08+00:00"
-        },
-        {
-            "name": "unicesil/syllabus-moodle-importer-bundle",
-            "version": "1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Unice-SIL/syllabus-moodle-importer.git",
-                "reference": "d54791618ab279ea270df4caeffcb7d9f282051f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Unice-SIL/syllabus-moodle-importer/zipball/d54791618ab279ea270df4caeffcb7d9f282051f",
-                "reference": "d54791618ab279ea270df4caeffcb7d9f282051f",
-                "shasum": ""
-            },
-            "require": {
-                "guzzlehttp/guzzle": "^6.3",
-                "php": ">=7.1",
-                "unicesil/syllabus-importer-toolkit": ">=1.0"
-            },
-            "type": "symfony-bundle",
-            "autoload": {
-                "psr-4": {
-                    "UniceSIL\\SyllabusMoodleImporterBundle\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "description": "Importer to import data in Syllabus from Moodle",
-            "keywords": [
-                "Syllabus",
-                "UNS",
-                "Unice",
-                "Unice-SIL",
-                "importer",
-                "moodle"
-            ],
-            "time": "2019-05-16T15:33:38+00:00"
         },
         {
             "name": "webmozart/assert",

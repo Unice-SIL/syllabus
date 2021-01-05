@@ -22,7 +22,6 @@ class AppKernel extends Kernel
             new AppBundle\AppBundle(),
             new LdapBundle\LdapBundle(),
             new UniceSIL\SyllabusApogeeImporterBundle\UniceSILSyllabusApogeeImporterBundle(),
-            new UniceSIL\SyllabusMoodleImporterBundle\UniceSILSyllabusMoodleImporterBundle(),
             new UniceSIL\ShibbolethBundle\UniceSILShibbolethBundle(),
             new Exercise\HTMLPurifierBundle\ExerciseHTMLPurifierBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
@@ -40,10 +39,8 @@ class AppKernel extends Kernel
             $bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();
             $bundles[] = new Symfony\Bundle\DebugBundle\DebugBundle();
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
-            $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
 
             if ('dev' === $this->getEnvironment()) {
-                $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
                 $bundles[] = new Symfony\Bundle\WebServerBundle\WebServerBundle();
             }
         }
