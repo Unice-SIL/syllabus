@@ -1,0 +1,17 @@
+dmishh_settings:
+  template: 'setting/manage.html.twig'
+  cache_service: null
+  cache_lifetime: 3600
+  security:
+    manage_global_settings_role: ROLE_SUPER_ADMIN
+    users_can_manage_own_settings: false
+  serialization: php # database serialization mechanism (php|json)
+  settings:
+    in_maintenance:
+      scope: global # global or user
+      type: AppBundle\Form\Type\CustomCheckboxType # any Symfony form type, or FQCN for Symfony >=3.0
+      options: # options passed to form
+        required: false
+    #            constraints:
+    #                Symfony\Component\Validator\Constraints\Length:
+    #                    min: 5

@@ -1,0 +1,17 @@
+fos_ck_editor:
+  base_path: '%fos_ck_editor.base_path%'
+  js_path: '%fos_ck_editor.js_path%'
+  default_config: syllabus
+  configs:
+    syllabus:
+      toolbar: course_summary
+      removeButtons:
+      removePlugins: 'elementspath'
+      resize_enabled: false
+  toolbars:
+    configs:
+      course_summary: [ '@basicstyles', '-', '@paragraphs', '-', '@link' ]
+    items:
+      link: [ 'Link' ]
+      basicstyles: [ 'RemoveFormat', '-', 'Bold', 'Italic', 'Underline', 'Superscript' ]
+      paragraphs: [ 'Outdent', 'Indent', '-', 'NumberedList', 'BulletedList' ]

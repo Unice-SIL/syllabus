@@ -1,0 +1,45 @@
+doctrine:
+  dbal:
+    default_connection: syllabus
+    connections:
+      syllabus:
+        driver: '%syllabus_database_driver%'
+        host: '%syllabus_database_host%'
+        port: '%syllabus_database_port%'
+        dbname: '%syllabus_database_name%'
+        user: '%syllabus_database_user%'
+        password: '%syllabus_database_password%'
+        charset: '%syllabus_database_charset%'
+      apogee:
+        driver: '%apogee_database_driver%'
+        host: '%apogee_database_host%'
+        port: '%apogee_database_port%'
+        dbname: '%apogee_database_name%'
+        user: '%apogee_database_user%'
+        password: '%apogee_database_password%'
+        charset: '%apogee_database_charset%'
+        logging: false
+        profiling: false
+  orm:
+    auto_generate_proxy_classes: '%kernel.debug%'
+    #naming_strategy: doctrine.orm.naming_strategy.underscore
+    #auto_mapping: true
+    default_entity_manager: syllabus
+    entity_managers:
+      syllabus:
+        connection: syllabus
+        auto_mapping: true
+        mappings:
+          AppBundle: ~
+          translatable:
+            type: annotation
+            is_bundle: false
+            prefix: Gedmo\Translatable\Entity
+            dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translatable/Entity"
+            alias: GedmoTranslatable
+          DmishhSettingsBundle: ~
+      apogee:
+        connection: apogee
+        auto_mapping: false
+        mappings:
+          UniceSILSyllabusApogeeImporterBundle: ~
