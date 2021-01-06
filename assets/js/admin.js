@@ -1,4 +1,4 @@
-import '../../../../web/bundles/tetranzselect2entity/js/select2entity';
+import '../../web/bundles/tetranzselect2entity/js/select2entity';
 
 $(document).ready(function () {
 
