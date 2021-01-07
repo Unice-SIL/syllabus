@@ -1,11 +1,44 @@
+
+/web/bundles/
+/config/packages/parameters.yaml
+/config/packages/dev/parameters.yaml
+/config/packages/test/parameters.yaml
+/config/packages/prod/parameters.yaml
+/.idea/
+
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/src/.preload.php
+/var/*
+/vendor/
+###< symfony/framework-bundle ###
+
+###> symfony/phpunit-bridge ###
+.phpunit
+.phpunit.result.cache
+/phpunit.xml
+###< symfony/phpunit-bridge ###
+
+###> symfony/webpack-encore-bundle ###
+/node_modules/
+/public/build/
+npm-debug.log
+yarn-error.log
+###< symfony/webpack-encore-bundle ###
+
+### Fixtures
+/src/DataFixtures/AppFixtures.php
+
 /.web-server-pid
 /app/config/jwt/*
 /app/config/parameters.yml
 /app/config/jwt
 /app/Resources/views/jquery.collection.html.twig
 /build/
-/phpunit.xml
-/var/*
 !/var/cache
 /var/cache/*
 !var/cache/.gitkeep
@@ -16,10 +49,7 @@
 /var/sessions/*
 !var/sessions/.gitkeep
 !var/SymfonyRequirements.php
-/vendor/
-/web/bundles/
 /web/data/
-/node_modules/
 /.phpunit.result.cache
 /yarn-error.log
 /web/build/
