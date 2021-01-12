@@ -3,21 +3,21 @@ doctrine:
     default_connection: syllabus
     connections:
       syllabus:
-        driver: '%syllabus_database_driver%'
-        host: '%syllabus_database_host%'
-        port: '%syllabus_database_port%'
-        dbname: '%syllabus_database_name%'
-        user: '%syllabus_database_user%'
-        password: '%syllabus_database_password%'
-        charset: '%syllabus_database_charset%'
+        driver: '%env(SYLLABUS_DATABASE_DRIVER)%'
+        host: '%env(SYLLABUS_DATABASE_HOST)%'
+        port: '%env(SYLLABUS_DATABASE_PORT)%'
+        dbname: '%env(SYLLABUS_DATABASE_NAME)%'
+        user: '%env(SYLLABUS_DATABASE_USER)%'
+        password: '%env(SYLLABUS_DATABASE_PASSWORD)%'
+        charset: '%env(SYLLABUS_DATABASE_CHARSET)%'
       apogee:
-        driver: '%apogee_database_driver%'
-        host: '%apogee_database_host%'
-        port: '%apogee_database_port%'
-        dbname: '%apogee_database_name%'
-        user: '%apogee_database_user%'
-        password: '%apogee_database_password%'
-        charset: '%apogee_database_charset%'
+        driver: '%env(APOGEE_DATABASE_DRIVER)%'
+        host: '%env(APOGEE_DATABASE_HOST)%'
+        port: '%env(APOGEE_DATABASE_PORT)%'
+        dbname: '%env(APOGEE_DATABASE_NAME)%'
+        user: '%env(APOGEE_DATABASE_USER)%'
+        password: '%env(APOGEE_DATABASE_PASSWORD)%'
+        charset: '%env(APOGEE_DATABASE_CHARSET)%'
         logging: false
         profiling: false
   orm:

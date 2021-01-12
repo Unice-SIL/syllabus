@@ -1,0 +1,64 @@
+{% extends 'admin_layout.html.twig' %}
+{% set h1 = 'admin.translation' | trans %}
+
+{% trans_default_domain 'LexikTranslationBundle' %}
+
+{% block subContent %}
+    <div class="card p-3">
+
+        {% include 'LexikTranslationBundle/views/Translation/_ngGrid.html.twig' %}
+
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.9/angular.min.js"></script>
+    <script src="{{ asset('bundles/lexiktranslation/ng-table/ng-table.min.js') }}"></script>
+    <script>
+        var translationCfg = {
+            locales: {{ locales | json_encode | raw }},
+            inputType: '{{ inputType }}',
+            autoCacheClean: {{ autoCacheClean ? 'true' : 'false' }},
+            profilerTokens: {{ tokens is not null ? (tokens | json_encode | raw) : 'null' }},
+            toggleSimilar: '{{ toggleSimilar }}',
+            csrfToken: '{{ csrf_token('lexik-translation') }}',
+            url: {
+                list: '{{ path('lexik_translation_list') }}',
+                listByToken: '{{ path('lexik_translation_profiler', {'token': '-token-'}) }}',
+                update: '{{ path('lexik_translation_update', {'id': '-id-'}) }}',
+                delete: '{{ path('lexik_translation_delete', {'id': '-id-'}) }}',
+                deleteLocale: '{{ path('lexik_translation_delete_locale', {'id': '-id-', 'locale': '-locale-'}) }}',
+                invalidateCache: '{{ path('lexik_translation_invalidate_cache') }}'
+            },
+            label: {
+                hideCol: '{{ 'translations.show_hide_columns'|trans }}',
+                toggleAllCol: '{{ 'translations.toggle_all_columns'|trans }}',
+                invalidateCache: '{{ 'translations.invalidate_cache'|trans }}',
+                allTranslations: '{{ 'translations.all_translations'|trans }}',
+                profiler: '{{ 'translations.profiler'|trans }}',
+                dataSource: '{{ 'translations.data_source'|trans }}',
+                latestProfiles: '{{ 'translations.latest_profiles'|trans }}',
+                profile: '{{ 'translations.profile'|trans }}',
+                saveRow: '{{ 'translations.save_row'|trans }}',
+                domain: '{{ 'translations.domain'|trans }}',
+                key: '{{ 'translations.key'|trans }}',
+                save: '{{ 'translations.save'|trans }}',
+                updateSuccess: '{{ 'translations.successfully_updated'|trans }}',
+                updateFail: '{{ 'translations.update_failed'|trans }}',
+                deleteSuccess: '{{ 'translations.successfully_deleted'|trans }}',
+                deleteFail: '{{ 'translations.delete_failed'|trans }}',
+                noTranslations: '{{ 'translations.no_translations'|trans }}'
+            }
+        };
+    </script>
+    <script src="{{ asset('bundles/lexiktranslation/js/translation.js') }}"></script>
+    <script>
+        public function deleteElement()
+        {
+            Swal.fire('Any fool can use a computer')
+        };
+
+    </script>
+{% endblock %}

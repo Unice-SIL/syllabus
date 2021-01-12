@@ -1,20 +1,89 @@
 # Learn more about services, parameters and containers at
 # https://symfony.com/doc/current/service_container.html
 parameters:
-    #parameter_name: value
+    locale: '%env(LOCALE)%'
 
 services:
     _defaults:
         autowire: true
         autoconfigure: true
         public: false
+        bind:
+            $mailerUrl: '%env(MAILER_URL)%'
+            $mailerSource: '%env(MAILER_SOURCE)%'
+            $mailerUser: '%env(MAILER_USER)%'
+            $mailerPassword: '%env(MAILER_PASSWORD)%'
+            $mailerTarget: '%env(MAILER_TARGET)%'
+            $shibbolethLoginPath: '%env(SHIBBOLETH_LOGIN_PATH)%'
+            $shibbolethLogoutPath: '%env(SHIBBOLETH_LOGOUT_PATH)%'
+            $shibbolethUsernameAttribute: '%env(SHIBBOLETH_USERNAME_ATTRIBUTE)%'
+            $shibbolethAttributes: '%env(SHIBBOLETH_ATTRIBUTES)%'
+            $shibbolethLoginTarget: '%env(SHIBBOLETH_LOGIN_TARGET)%'
+            $shibbolethLogoutTarget: '%env(SHIBBOLETH_LOGOUT_TARGET)%'
+            $dataDirectory: '%env(DATA_DIRECTORY)%'
+            $syllabusDatabaseDriver: '%env(SYLLABUS_DATABASE_DRIVER)%'
+            $syllabusDatabaseHost: '%env(SYLLABUS_DATABASE_HOST)%'
+            $syllabusDatabasePort: '%env(SYLLABUS_DATABASE_PORT)%'
+            $syllabusDatabaseName: '%env(SYLLABUS_DATABASE_NAME)%'
+            $syllabusDatabaseUser: '%env(SYLLABUS_DATABASE_USER)%'
+            $syllabusDatabasePassword: '%env(SYLLABUS_DATABASE_PASSWORD)%'
+            $syllabusDatabaseCharset: '%env(SYLLABUS_DATABASE_CHARSET)%'
+            $syllabusTestDriver: '%env(SYLLABUS_TEST_DRIVER)%'
+            $syllabusTestHost: '%env(SYLLABUS_TEST_HOST)%'
+            $syllabusTestPort: '%env(SYLLABUS_TEST_PORT)%'
+            $syllabusTestName: '%env(SYLLABUS_TEST_NAME)%'
+            $syllabusTestUser: '%env(SYLLABUS_TEST_USER)%'
+            $syllabusTestPassword: '%env(SYLLABUS_TEST_PASSWORD)%'
+            $syllabusTestCharset: '%env(SYLLABUS_TEST_CHARSET)%'
+            $mailerTransport: '%env(MAILER_TRANSPORT)%'
+            $mailerHost: '%env(MAILER_HOST)%'
+            $regulationLink: '%env(REGULATION_LINK)%'
+            $testAuthenticatorCurrent: '%env(TEST_AUTHENTICATOR_CURRENT)%'
+            $testAuthenticatorUsersUser1Firstname: '%env(TEST_AUTHENTICATOR_USERS_USER1_FIRSTNAME)%'
+            $testAuthenticatorUsersUser1Lastname: '%env(TEST_AUTHENTICATOR_USERS_USER1_LASTNAME)%'
+            $testAuthenticatorUsersUser1Email: '%env(TEST_AUTHENTICATOR_USERS_USER1_EMAIL)%'
+            $testAuthenticatorUsersUser1Roles: '%env(TEST_AUTHENTICATOR_USERS_USER1_ROLES)%'
+            $courseTeacherFactorySourcesLdapUnsName: '%env(COURSE_TEACHER_FACTORY_SOURCES_LDAP_UNS_NAME)%'
+            $courseTeacherFactorySourcesLdapUnsSearchService: '%env(COURSE_TEACHER_FACTORY_SOURCES_LDAP_UNS_SEARCHSERVICE)%'
+            $courseTeacherFactorySourcesLdapUnsFindByIdService: '%env(COURSE_TEACHER_FACTORY_SOURCES_LDAP_UNS_FINDBYIDSERVICE)%'
+            $ldapUnsHost: '%env(LDAP_UNS_HOST)%'
+            $ldapUnsPort: '%env(int:LDAP_UNS_PORT)%'
+            $ldapUnsEncryption: '%env(LDAP_UNS_ENCRYPTION)%'
+            $ldapUnsOptionsProtocolVersion: '%env(int:LDAP_UNS_OPTIONS_PROTOCOL_VERSION)%'
+            $ldapUnsOptionsReferrals: '%env(bool:LDAP_UNS_OPTIONS_REFERRALS)%'
+            $ldapUnsBindDn: '%env(LDAP_UNS_BIND_DN)%'
+            $ldapUnsBindPassword: '%env(LDAP_UNS_BIND_PASSWORD)%'
+            $ldapUnsTeacherRepositoryService: '%env(LDAP_UNS_TEACHER_REPOSITORY_SERVICE)%'
+            $ldapUnsRepositoriesTeacherBaseDn: '%env(LDAP_UNS_REPOSITORIES_TEACHER_BASE_DN)%'
+            $ldapUnsRepositoriesTeacherQueriesSearch: '%env(LDAP_UNS_REPOSITORIES_TEACHER_QUERIES_SEARCH)%'
+            $ldapUnsRepositoriesTeacherQueriesFind: '%env(LDAP_UNS_REPOSITORIES_TEACHER_QUERIES_FIND)%'
+            $ldapUnsRepositoriesTeacherMappingId: '%env(LDAP_UNS_REPOSITORIES_TEACHER_MAPPING_ID)%'
+            $ldapUnsRepositoriesTeacherMappingEmail: '%env(LDAP_UNS_REPOSITORIES_TEACHER_MAPPING_EMAIL)%'
+            $ldapUnsRepositoriesTeacherMappingFirstname: '%env(LDAP_UNS_REPOSITORIES_TEACHER_MAPPING_FIRSTNAME)%'
+            $ldapUnsRepositoriesTeacherMappingLastname: '%env(LDAP_UNS_REPOSITORIES_TEACHER_MAPPING_LASTNAME)%'
+            $jwtAuthenticationPassphrase: '%env(JWT_AUTHENTICATION_PASSPHRASE)%'
+            $appName: '%env(APP_NAME)%'
+            $apiHost: '%env(API_HOST)%'
+            $locale: '%locale%'
+            $fallbackLocales: '%env(FALLBACK_LOCALES)%'
+            $managedLocales: '%env(MANAGED_LOCALES)%'
+            $apogeeDatabaseDriver: '%env(APOGEE_DATABASE_DRIVER)%'
+            $apogeeDatabaseHost: '%env(APOGEE_DATABASE_HOST)%'
+            $apogeeDatabasePort: '%env(APOGEE_DATABASE_PORT)%'
+            $apogeeDatabaseName: '%env(APOGEE_DATABASE_NAME)%'
+            $apogeeDatabaseUser: '%env(APOGEE_DATABASE_USER)%'
+            $apogeeDatabasePassword: '%env(APOGEE_DATABASE_PASSWORD)%'
+            $apogeeDatabaseCharset: '%env(APOGEE_DATABASE_CHARSET)%'
+            $moodleApiUrl: '%env(MOODLE_API_URL)%'
+            $moodleApiToken: '%env(MOODLE_API_TOKEN)%'
+            $apogeeCourseNatureToImport: '%env(APOGEE_COURSE_NATURE_TO_IMPORT)%'
 
     AppBundle\:
-        resource: '../../src/AppBundle/*'
-        exclude: '../../src/AppBundle/{Entity,Tests, Client}'
+        resource: '../src/AppBundle/*'
+        exclude: '../src/AppBundle/{Entity,Tests, Client}'
 
     AppBundle\Controller\:
-        resource: '../../src/AppBundle/Controller'
+        resource: '../src/AppBundle/Controller'
         public: true
         tags: ['controller.service_arguments']
 

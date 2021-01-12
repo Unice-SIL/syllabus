@@ -1,0 +1,3 @@
+parameters:
+  auth_type: Test # Test, Cas, Shibboleth
+  mailer_delivery_addresses: []

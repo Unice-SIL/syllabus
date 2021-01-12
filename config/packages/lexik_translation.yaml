@@ -1,6 +1,6 @@
 lexik_translation:
-  fallback_locale: '%fallback_locales%'         # (required) default locale(s) to use
-  managed_locales: '%managed_locales%' # (required) locales that the bundle has to manage
+  fallback_locale: '%env(FALLBACK_LOCALES)%'         # (required) default locale(s) to use
+  managed_locales: '%env(MANAGED_LOCALES)%' # (required) locales that the bundle has to manage
   storage:
     type: orm                  # orm | mongodb | propel
     object_manager: syllabus
