@@ -92,3 +92,75 @@ services:
         class: Twig_Extensions_Extension_Intl
         tags:
             - { name: twig.extension }
+
+    # AUTHENTICATOR
+    AppBundle\Security\Authenticator\TestAuthenticator:
+        arguments: ['%test_authenticator%']
+
+    # COMMAND
+    #AppBundle\Importer\Course\CoursesDuplicateCommand:
+    #    arguments: ['@syllabus_entity_manager']
+
+    # ENTITY MANAGER
+    syllabus_entity_manager:
+        class: Doctrine\ORM\EntityManager
+        factory: ['@doctrine', getManager]
+        arguments: ['syllabus']
+
+    # FACTORY
+    AppBundle\Factory\ImportCourseTeacherFactory:
+        arguments: [ '%course_teacher_factory%' ]
+
+    # FORM
+    AppBundle\Form\Course\EditPresentationCourseInfoType:
+        arguments: [ '%course_teacher_factory%' ]
+
+    AppBundle\Form\CourseInfo\Presentation\TeachersType:
+        arguments: [ '%course_teacher_factory%' ]
+
+    # FIXTURE
+    AppBundle\Fixture\CourseFixture:
+        tags: ['doctrine.fixture.orm']
+
+    # HELPER
+    AppBundle\Helper\FileUploaderHelper:
+        arguments: [ '%data_directory%' ]
+    AppBundle\Helper\FileRemoverHelper:
+        arguments: ['@filesystem', '%data_directory%']
+
+    # LISTENER
+    AppBundle\Listener\CoursePresentationImageUploadListener:
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: preUpdate }
+            - { name: doctrine.event_listener, event: postUpdate }
+            - { name: doctrine.event_listener, event: postLoad }
+
+    AppBundle\Listener\NotificationListener:
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+            - { name: doctrine.event_listener, event: postUpdate }
+            - { name: doctrine.event_listener, event: postRemove }
+
+    AppBundle\Listener\ExceptionListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
+
+    # QUERY
+    AppBundle\Query\CourseTeacher\Adapter\Ldap\SearchCourseTeacherLdapQuery:
+        public: true
+        autowire: true
+    AppBundle\Query\CourseTeacher\Adapter\Ldap\FindCourseTeacherByIdLdapQuery:
+        public: true
+        autowire: true
+
+    # PROVIDERS
+    AppBundle\Security\Provider\TestUserProvider:
+        arguments: ['%test_authenticator%']
+
+    #JMS
+    jms_serializer.object_constructor:
+        alias: jms_serializer.doctrine_object_constructor
+
+    Dmishh\SettingsBundle\Manager\SettingsManager:
+        alias: settings_manager
