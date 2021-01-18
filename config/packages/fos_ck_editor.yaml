@@ -1,6 +1,6 @@
 fos_ck_editor:
-  base_path: '%fos_ck_editor.base_path%'
-  js_path: '%fos_ck_editor.js_path%'
+  base_path: '%env(FOS_CK_EDITOR_BASE_PATH)%'
+  js_path: '%env(FOS_CK_EDITOR_JS_PATH)%'
   default_config: syllabus
   configs:
     syllabus:

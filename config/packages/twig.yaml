@@ -2,9 +2,9 @@ twig:
   debug: '%kernel.debug%'
   strict_variables: '%kernel.debug%'
   globals:
-    regulation_link : '%regulation_link%'
+    regulation_link : '%env(REGULATION_LINK)%'
     app_version: prototype
-    managed_locales: '%managed_locales%'
+    managed_locales: '%env(json:MANAGED_LOCALES)%'
   form_themes:
     - 'bootstrap_4_layout.html.twig'
     - '@TetranzSelect2Entity/Form/fields.html.twig'

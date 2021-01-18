@@ -1,0 +1,32 @@
+<?php
+
+namespace App\Syllabus\Form\CourseInfo\Presentation;
+
+use App\Syllabus\Entity\CourseTeacher;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+/**
+ * Class RemoveTeacherType
+ * @package AppBundle\Form\CourseInfo\Presentation
+ */
+class RemoveTeacherType extends AbstractType
+{
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {}
+
+    /**
+     * @param OptionsResolver $resolver
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class' => CourseTeacher::class
+        ]);
+    }
+}
