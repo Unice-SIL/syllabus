@@ -6,17 +6,21 @@
 
 */
 
-
-
 var path = require('path');
 var Encore = require('@symfony/webpack-encore');
 
+// Manually configure the runtime environment if not already configured yet by the "encore" command.
+// It's useful when you use tools that rely on webpack.config.js file.
+if (!Encore.isRuntimeEnvironmentConfigured()) {
+    Encore.configureRuntimeEnvironment(process.env.NODE_ENV || 'dev');
+}
+
 Encore
-    .setOutputPath('web/build/')
+    .setOutputPath('public/build/')
     .setPublicPath('/build')
-    .addEntry('app', './app/Resources/assets/js/app.js')
-    .addEntry('nelmio', './app/Resources/assets/js/nelmio.js')
-    .addEntry('course_info_layout', './app/Resources/assets/js/course_info_layout.js')
+    .addEntry('app', './assets/js/app.js')
+    .addEntry('nelmio', './assets/js/nelmio.js')
+    .addEntry('course_info_layout', './assets/js/course_info_layout.js')
     //.splitEntryChunks()
     .autoProvidejQuery()
     //.enableSingleRuntimeChunk()
@@ -30,7 +34,7 @@ Encore
         (options) => {
             options.config = {
                 // the directory where the postcss.config.js file is stored
-                path: 'app/Resources/assets'
+                path: './assets'
             };
         }
     )
@@ -41,7 +45,7 @@ Encore
         bootbox: 'bootbox',
     })
     .copyFiles([
-        {from: './app/Resources/assets/images', to: 'images/[path][name].[ext]'},
+        {from: './assets/images', to: 'images/[path][name].[ext]'},
         {from: './node_modules/ckeditor/', to: 'ckeditor/[path][name].[ext]', pattern: /\.(js|css)$/, includeSubdirectories: false},
         {from: './node_modules/ckeditor/adapters', to: 'ckeditor/adapters/[path][name].[ext]'},
         {from: './node_modules/ckeditor/lang', to: 'ckeditor/lang/[path][name].[ext]'},
