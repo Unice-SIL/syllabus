@@ -1,11 +1,11 @@
 <?php
 
 
-namespace AppBundle\Form\CourseInfo\dashboard;
+namespace App\Syllabus\Form\CourseInfo\dashboard;
 
 
-use AppBundle\Entity\AskAdvice;
-use AppBundle\Form\Subscriber\AskAdviceTypeSubscriber;
+use App\Syllabus\Entity\AskAdvice;
+use App\Syllabus\Form\Subscriber\AskAdviceTypeSubscriber;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;

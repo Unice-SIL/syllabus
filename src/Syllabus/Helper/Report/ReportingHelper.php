@@ -1,7 +1,7 @@
 <?php
 
 
-namespace AppBundle\Helper\Report;
+namespace App\Syllabus\Helper\Report;
 
 
 class ReportingHelper

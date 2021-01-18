@@ -1,10 +1,10 @@
 <?php
 
 
-namespace AppBundle\Form\CourseInfo\dashboard;
+namespace App\Syllabus\Form\CourseInfo\dashboard;
 
 
-use AppBundle\Entity\CourseInfo;
+use App\Syllabus\Entity\CourseInfo;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
