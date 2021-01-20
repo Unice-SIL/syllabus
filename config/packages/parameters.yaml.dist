@@ -1,3 +1,8 @@
 parameters:
   auth_type: Test # Test, Cas, Shibboleth
   mailer_delivery_addresses: []
+  managed_locales:
+    - fr
+    - en
+  fallback_locales:
+    - fr

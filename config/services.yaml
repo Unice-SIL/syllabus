@@ -2,6 +2,26 @@
 # https://symfony.com/doc/current/service_container.html
 parameters:
     locale: '%env(LOCALE)%'
+    moodle_permission_importer_options:
+        url: '%env(MOODLE_API_URL)%'
+        token: '%env(MOODLE_API_TOKEN)%'
+    course_teacher_factory:
+        sources:
+            ldap_uns:
+                name: '%env(COURSE_TEACHER_FACTORY_SOURCES_LDAP_UNS_NAME)%'
+                searchService: '%env(COURSE_TEACHER_FACTORY_SOURCES_LDAP_UNS_SEARCHSERVICE)%'
+                findByIdService: '%env(COURSE_TEACHER_FACTORY_SOURCES_LDAP_UNS_FINDBYIDSERVICE)%'
+    ldap_uns_repositories:
+        teacher:
+            base_dn: '%env(LDAP_UNS_REPOSITORIES_TEACHER_BASE_DN)%'
+            queries:
+                search: '%env(LDAP_UNS_REPOSITORIES_TEACHER_QUERIES_SEARCH)%'
+                find: '%env(LDAP_UNS_REPOSITORIES_TEACHER_QUERIES_FIND)%'
+            mapping:
+                id: '%env(LDAP_UNS_REPOSITORIES_TEACHER_MAPPING_ID)%'
+                email: '%env(LDAP_UNS_REPOSITORIES_TEACHER_MAPPING_EMAIL)%'
+                firstname: '%env(LDAP_UNS_REPOSITORIES_TEACHER_MAPPING_FIRSTNAME)%'
+                lastname: '%env(LDAP_UNS_REPOSITORIES_TEACHER_MAPPING_LASTNAME)%'
 
 services:
     _defaults:
@@ -14,6 +34,7 @@ services:
             $moodleApiUrl: '%env(MOODLE_API_URL)%'
             $moodleApiToken: '%env(MOODLE_API_TOKEN)%'
             $apogeeCourseNatureToImport: '%env(APOGEE_COURSE_NATURE_TO_IMPORT)%'
+            $moodlePermissionImporterOptions: '%moodle_permission_importer_options%'
 
     App\Syllabus\:
         resource: '../src/Syllabus/*'
@@ -61,9 +82,9 @@ services:
 
     # HELPER
     App\Syllabus\Helper\FileUploaderHelper:
-        arguments: [ '%data_directory%' ]
+        arguments: [ '%env(DATA_DIRECTORY)%' ]
     App\Syllabus\Helper\FileRemoverHelper:
-        arguments: ['@filesystem', '%data_directory%']
+        arguments: ['@filesystem', '%env(DATA_DIRECTORY)%']
 
     # LISTENER
     App\Syllabus\Listener\CoursePresentationImageUploadListener:
@@ -99,5 +120,40 @@ services:
     jms_serializer.object_constructor:
         alias: jms_serializer.doctrine_object_constructor
 
-    Dmishh\SettingsBundle\Manager\SettingsManager:
-        alias: settings_manager
+#LDAP
+    App\Ldap\:
+        resource: '../src/Ldap/*'
+        exclude: '../src/Ldap/{Entity,Repository,Tests}'
+
+    # ALIAS
+    App\Ldap\Repository\TeacherRepositoryInterface:
+        #class: App\Ldap\Repository\TeacherRepositoryInterface
+        factory: 'App\Ldap\Factory\TeacherRepositoryFactory:getService'
+
+    # FACTORY
+    App\Ldap\Factory\TeacherRepositoryFactory:
+        autowire: true
+        arguments: [ '%env(LDAP_UNS_TEACHER_REPOSITORY_SERVICE)%' ]
+
+    # LDAP
+    ldap_uns_adapter:
+        class: Symfony\Component\Ldap\Adapter\ExtLdap\Adapter
+        arguments:
+            -   host: '%env(LDAP_UNS_HOST)%'
+                port: '%env(LDAP_UNS_PORT)%'
+                encryption: '%env(LDAP_UNS_ENCRYPTION)%'
+                options: '%env(LDAP_UNS_OPTIONS)%'
+
+    ldap_uns:
+        class: Symfony\Component\Ldap\Ldap
+        arguments: ['@ldap_uns_adapter']
+
+    # REPOSITORY
+    teacher_inmemory_repository:
+        class: 'App\Ldap\Repository\InMemory\TeacherInMemoryRepository'
+        public: true
+
+    teacher_ldap_repository:
+        class: 'App\Ldap\Repository\Ldap\TeacherLdapRepository'
+        arguments: [ '@ldap_uns', '%ldap_uns_repositories%', '%env(LDAP_UNS_BIND_DN)%', '%env(LDAP_UNS_BIND_PASSWORD)%' ]
+        public: true

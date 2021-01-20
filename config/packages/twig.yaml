@@ -4,7 +4,7 @@ twig:
   globals:
     regulation_link : '%env(REGULATION_LINK)%'
     app_version: prototype
-    managed_locales: '%env(json:MANAGED_LOCALES)%'
+    managed_locales: '%managed_locales%'
   form_themes:
     - 'bootstrap_4_layout.html.twig'
     - '@TetranzSelect2Entity/Form/fields.html.twig'
