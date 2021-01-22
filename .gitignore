@@ -37,6 +37,9 @@ yarn-error.log
 /app/config/jwt/*
 /app/config/parameters.yml
 /app/config/jwt
+/app_save/config/jwt/*
+/app_save/config/parameters.yml
+/app_save/config/jwt
 /config/jwt/*
 /config/jwt
 /app/Resources/views/jquery.collection.html.twig
