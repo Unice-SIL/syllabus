@@ -11,7 +11,7 @@ use App\Syllabus\Manager\TeachingManager;
 
 /**
  * Class HourApogeeMatching
- * @package AppBundle\Import\Matching
+ * @package App\Syllabus\Import\Matching
  */
 class HourApogeeMatching extends AbstractMatching implements MatchingInterface
 {

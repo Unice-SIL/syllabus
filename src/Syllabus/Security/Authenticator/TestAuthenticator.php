@@ -16,7 +16,7 @@ use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 
 /**
  * Class TestAuthAuthenticator
- * @package AppBundle\Security
+ * @package App\Syllabus\Security
  */
 class TestAuthenticator extends AbstractGuardAuthenticator
 {
@@ -32,12 +32,12 @@ class TestAuthenticator extends AbstractGuardAuthenticator
 
     /**
      * TestAuthAuthenticator constructor.
-     * @param array $config
      * @param TokenStorageInterface $tokenStorage
+     * @param array $config
      */
     public function __construct(
-        array $config = array(),
-        TokenStorageInterface $tokenStorage)
+        TokenStorageInterface $tokenStorage,
+        array $config = array())
     {
         $this->config = $config;
         $this->tokenStorage = $tokenStorage;

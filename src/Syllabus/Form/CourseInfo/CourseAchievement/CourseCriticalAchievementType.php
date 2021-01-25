@@ -17,7 +17,7 @@ use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 
 /**
  * Class CourseCriticalAchievementType
- * @package AppBundle\Form\CourseInfo\CourseAchievement
+ * @package App\Syllabus\Form\CourseInfo\CourseAchievement
  */
 class CourseCriticalAchievementType extends AbstractType
 {

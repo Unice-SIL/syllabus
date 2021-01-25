@@ -6,7 +6,7 @@ use App\Syllabus\Entity\CourseTeacher;
 
 /**
  * Interface FindCourseTeacherByIdQueryInterface
- * @package AppBundle\Query\CourseTeacher\Adapter
+ * @package App\Syllabus\Query\CourseTeacher\Adapter
  */
 interface FindCourseTeacherByIdQueryInterface
 {

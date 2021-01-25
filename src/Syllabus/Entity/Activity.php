@@ -14,8 +14,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Activity
  *
  * @ORM\Table(name="activity")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\ActivityDoctrineRepository")
- * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\ActivityTranslation")
+ * @ORM\Entity(repositoryClass="App\Syllabus\Repository\Doctrine\ActivityDoctrineRepository")
+ * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\ActivityTranslation")
  * @ApiResource(attributes={
  *     "filters"={"id.search_filter", "label.search_filter","obsolete.boolean_filter"},
  *     "access_control"="is_granted('ROLE_API_ACTIVITY')",
@@ -39,7 +39,7 @@ class Activity
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @ORM\CustomIdGenerator(class="App\Syllabus\Doctrine\IdGenerator")
      */
     private $id;
 
@@ -85,7 +85,7 @@ class Activity
     /**
      * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\ActivityType", mappedBy="activities")
+     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\ActivityType", mappedBy="activities")
      * @ApiSubresource()
      */
     private $activityTypes;

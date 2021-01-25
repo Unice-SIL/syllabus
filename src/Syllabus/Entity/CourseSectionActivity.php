@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="course_section_activity")
  * @ORM\Entity
- * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CourseSectionActivityTranslation")
+ * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\CourseSectionActivityTranslation")
  * @ApiResource(attributes={
  *     "filters"={"id.search_filter"},
  *     "access_control"="is_granted('ROLE_API_COURSE_SECTION_ACTIVITY')",
@@ -37,7 +37,7 @@ class CourseSectionActivity
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @ORM\CustomIdGenerator(class="App\Syllabus\Doctrine\IdGenerator")
      */
     private $id;
 
@@ -92,9 +92,9 @@ class CourseSectionActivity
     private $position = 0;
 
     /**
-     * @var \AppBundle\Entity\Activity
+     * @var \App\Syllabus\Entity\Activity
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Activity")
+     * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\Activity")
      * @Assert\NotBlank(groups={"new"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="activity_id", referencedColumnName="id", nullable=false)
@@ -106,7 +106,7 @@ class CourseSectionActivity
     /**
      * @var ActivityType|null
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ActivityType")
+     * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\ActivityType")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="activity_type_id", referencedColumnName="id", nullable=false)
      * })
@@ -116,9 +116,9 @@ class CourseSectionActivity
     private $activityType;
 
     /**
-     * @var \AppBundle\Entity\ActivityMode|null
+     * @var \App\Syllabus\Entity\ActivityMode|null
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ActivityMode")
+     * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\ActivityMode")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="activity_mode_id", referencedColumnName="id", nullable=false)
      * })
@@ -128,9 +128,9 @@ class CourseSectionActivity
     private $activityMode;
 
     /**
-     * @var \AppBundle\Entity\CourseSection|null
+     * @var \App\Syllabus\Entity\CourseSection|null
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CourseSection", inversedBy="courseSectionActivities",)
+     * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\CourseSection", inversedBy="courseSectionActivities",)
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="course_section_id", referencedColumnName="id", nullable=false)
      * })

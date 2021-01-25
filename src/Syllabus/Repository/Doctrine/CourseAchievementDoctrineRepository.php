@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityManager;
 
 /**
  * Class CourseAchievementDoctrineRepository
- * @package AppBundle\Repository\Doctrine
+ * @package App\Syllabus\Repository\Doctrine
  */
 class CourseAchievementDoctrineRepository extends ServiceEntityRepository
 {

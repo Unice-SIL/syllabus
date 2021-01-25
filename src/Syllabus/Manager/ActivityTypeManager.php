@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Class ActivityTypeManager
- * @package AppBundle\Manager
+ * @package App\Syllabus\Manager
  */
 class ActivityTypeManager
 {

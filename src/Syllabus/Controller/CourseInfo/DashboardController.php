@@ -26,7 +26,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * Class DashboardController
- * @package AppBundle\Controller\CourseInfo
+ * @package App\Syllabus\Controller\CourseInfo
  *
  * @Route("/course-info/{id}/dashboard", name="app.course_info.dashboard.")
  * @Security("is_granted('WRITE', courseInfo)")

@@ -13,7 +13,7 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 
 /**
  * Class AbstractReferentialMigration
- * @package AppBundle\Command\Migration
+ * @package App\Syllabus\Command\Migration
  */
 abstract class AbstractReferentialMigration extends Command
 {

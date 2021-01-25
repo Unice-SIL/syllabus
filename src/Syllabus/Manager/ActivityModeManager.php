@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Class ActivityModeManager
- * @package AppBundle\Manager
+ * @package App\Syllabus\Manager
  */
 class ActivityModeManager
 {

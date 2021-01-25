@@ -14,13 +14,13 @@ use Symfony\Component\Serializer\Annotation\Groups as Groups;
 
 /**
  * Class Campus
- * @package AppBundle\Entity
+ * @package App\Syllabus\Entity
  * @ORM\Table(name="campus", uniqueConstraints={
  *     @ORM\UniqueConstraint(name="code_source_on_campus_UNIQUE", columns={"code", "source"}),
  * })
  * @UniqueEntity(fields={"code", "source"}, message="Le campus avec pour code établissement {{ value }} existe déjà pour cette source", errorPath="code")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\CampusDoctrineRepository")
- * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CampusTranslation")
+ * @ORM\Entity(repositoryClass="App\Syllabus\Repository\Doctrine\CampusDoctrineRepository")
+ * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\CampusTranslation")
  * @ApiResource(attributes={
  *          "normalization_context"={"groups"={"campuses"}},
  *          "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"},
@@ -48,7 +48,7 @@ class Campus
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @ORM\CustomIdGenerator(class="App\Syllabus\Doctrine\IdGenerator")
      * @Groups({"campuses"})
      */
     private $id;
@@ -82,7 +82,7 @@ class Campus
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\CourseInfo", mappedBy="campuses")
+     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\CourseInfo", mappedBy="campuses")
      * @Groups({"campuses"})
      */
     private $courseInfos;

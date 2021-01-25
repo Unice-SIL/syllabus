@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Class UserFixture
- * @package AppBundle\Fixture
+ * @package App\Syllabus\Fixture
  */
 class UserFixture extends Fixture  implements FixtureGroupInterface
 {

@@ -6,7 +6,7 @@ namespace App\Syllabus\Constant;
 
 /**
  * Class Language
- * @package AppBundle\Constant
+ * @package App\Syllabus\Constant
  */
 final class Language
 {

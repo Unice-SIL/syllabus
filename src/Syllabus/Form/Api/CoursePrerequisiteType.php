@@ -24,7 +24,7 @@ class CoursePrerequisiteType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\CoursePrerequisite'
+            'data_class' => 'App\Syllabus\Entity\CoursePrerequisite'
         ));
     }
 

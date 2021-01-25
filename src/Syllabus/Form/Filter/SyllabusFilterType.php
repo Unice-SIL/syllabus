@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Class SyllabusFilterType
- * @package AppBundle\Form\Filter
+ * @package App\Syllabus\Form\Filter
  */
 class SyllabusFilterType extends AbstractType
 {

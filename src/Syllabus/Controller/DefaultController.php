@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class DefaultController
- * @package AppBundle\Controller
+ * @package App\Syllabus\Controller
  */
 class DefaultController extends AbstractController
 {
@@ -59,6 +59,7 @@ class DefaultController extends AbstractController
     {
         /** @var User $user */
         $user = $this->getUser();
+        dump($user);
         $courseInfos = $coursePermissionRepository->getCourseByPermission($user);
         $courseInfosByYear = [];
         foreach ($courseInfos as $courseInfo )

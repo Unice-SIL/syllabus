@@ -8,7 +8,7 @@ use App\Ldap\Repository\TeacherRepositoryInterface;
 
 /**
  * Class SearchCourseTeacherLdapQuery
- * @package AppBundle\Query\CourseTeacher\Adapter\Ldap
+ * @package App\Syllabus\Query\CourseTeacher\Adapter\Ldap
  */
 class SearchCourseTeacherLdapQuery implements SearchCourseTeacherQueryInterface
 {

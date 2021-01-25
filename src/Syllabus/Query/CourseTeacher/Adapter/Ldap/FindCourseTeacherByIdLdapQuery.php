@@ -9,7 +9,7 @@ use Ramsey\Uuid\Uuid;
 
 /**
  * Class FindCourseTeacherByIdLdapQuery
- * @package AppBundle\Query\CourseTeacher\Adapter\Ldap
+ * @package App\Syllabus\Query\CourseTeacher\Adapter\Ldap
  */
 class FindCourseTeacherByIdLdapQuery implements FindCourseTeacherByIdQueryInterface
 {

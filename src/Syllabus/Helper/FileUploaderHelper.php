@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Class FileUploaderHelper
- * @package AppBundle\Helper
+ * @package App\Syllabus\Helper
  */
 class FileUploaderHelper
 {

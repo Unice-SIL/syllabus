@@ -12,7 +12,7 @@ use Ramsey\Uuid\Uuid;
 
 /**
  * Class CourseAchievementFixture
- * @package AppBundle\Fixture
+ * @package App\Syllabus\Fixture
  */
 class CourseTutoringResourceFixture extends Fixture implements DependentFixtureInterface,  FixtureGroupInterface
 {

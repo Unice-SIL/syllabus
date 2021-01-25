@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  * @UniqueEntity("username")
  * @UniqueEntity("email")
- * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\UserTranslation")
+ * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\UserTranslation")
  * @ApiResource(attributes={
  *     "filters"={"id.search_filter", "user.search_filter", "username.search_filter"},
  *     "access_control"="is_granted('ROLE_API_USER')",
@@ -43,7 +43,7 @@ class User implements UserInterface
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @ORM\CustomIdGenerator(class="App\Syllabus\Doctrine\IdGenerator")
      */
     private $id;
 
@@ -122,7 +122,7 @@ class User implements UserInterface
     protected $resetPasswordToken;
 
     /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Groups", inversedBy="users")
+     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Groups", inversedBy="users")
      */
     private $groups;
 

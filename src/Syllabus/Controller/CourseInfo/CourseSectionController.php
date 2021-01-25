@@ -20,7 +20,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class CourseSectionController
- * @package AppBundle\Controller\CourseInfo
+ * @package App\Syllabus\Controller\CourseInfo
  * @Route("/course-info/section/{id}", name="app.course_info.section.")
  * @Security("is_granted('WRITE', section)")
  */

@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Class ActivityModeFilterType
- * @package AppBundle\Form\Filter
+ * @package App\Syllabus\Form\Filter
  */
 class ActivityModeFilterType extends AbstractType
 {

@@ -19,8 +19,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     @ORM\UniqueConstraint(name="code_source_on_course_UNIQUE", columns={"code", "source"}),
  * })
  * @UniqueEntity(fields={"code", "source"}, message="Le cours avec pour code établissement {{ value }} existe déjà pour cette source", errorPath="code")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\CourseDoctrineRepository")
- * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CourseTranslation")
+ * @ORM\Entity(repositoryClass="App\Syllabus\Repository\Doctrine\CourseDoctrineRepository")
+ * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\CourseTranslation")
  * @ApiResource(attributes={
  *     "filters"={"id.search_filter", "title.search_filter", "code.search_filter"},
  *     "access_control"="is_granted('ROLE_API_COURSE')",
@@ -46,7 +46,7 @@ class Course
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @ORM\CustomIdGenerator(class="App\Syllabus\Doctrine\IdGenerator")
      */
     private $id;
 

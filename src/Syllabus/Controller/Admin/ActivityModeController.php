@@ -21,7 +21,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class ActivityModeController
- * @package AppBundle\Controller
+ * @package App\Syllabus\Controller
  *
  * @Route("/activity-mode", name="app.admin.activity_mode.")
  * @Security("has_role('ROLE_ADMIN_ACTIVITYMODE')")

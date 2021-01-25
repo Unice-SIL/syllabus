@@ -29,7 +29,7 @@ class CoursePermissionType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\CoursePermission',
+            'data_class' => 'App\Syllabus\Entity\CoursePermission',
             'csrf_protection' => false
         ));
     }

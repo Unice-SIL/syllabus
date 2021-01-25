@@ -13,7 +13,7 @@ use Doctrine\Persistence\ObjectRepository;
 
 /**
  * Class LanguageManager
- * @package AppBundle\Manager
+ * @package App\Syllabus\Manager
  */
 class LanguageManager
 {

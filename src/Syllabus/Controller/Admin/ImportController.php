@@ -28,7 +28,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class ImportController
- * @package AppBundle\Controller
+ * @package App\Syllabus\Controller
  * @Route("/import/csv", name="app_admin_import_csv_")
  */
 class ImportController extends AbstractController

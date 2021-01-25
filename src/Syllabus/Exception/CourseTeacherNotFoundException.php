@@ -4,7 +4,7 @@ namespace App\Syllabus\Exception;
 
 /**
  * Class CourseTeacherNotFoundException
- * @package AppBundle\Exception
+ * @package App\Syllabus\Exception
  */
 class CourseTeacherNotFoundException extends \Exception
 {

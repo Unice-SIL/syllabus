@@ -5,7 +5,7 @@ namespace App\Syllabus\Constant;
 
 /**
  * Class UserRole
- * @package AppBundle\Constant
+ * @package App\Syllabus\Constant
  */
 class UserRole
 {

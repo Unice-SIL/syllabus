@@ -7,7 +7,7 @@ use App\Ldap\Entity\Teacher;
 
 /**
  * Interface TeacherRepositoryInterface
- * @package LdapBundle\Repository
+ * @package App\Ldap\Repository
  */
 interface TeacherRepositoryInterface
 {

@@ -20,7 +20,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class CoursePrerequisite
- * @package AppBundle\Controller\CourseInfo
+ * @package App\Syllabus\Controller\CourseInfo
  *
  * @Route("/course-info/{id}/prerequisite", name="app.course_info.prerequisite.")
  * @Security("is_granted('WRITE', courseInfo)")
@@ -76,7 +76,7 @@ class CoursePrerequisiteController extends AbstractController
      */
     public function addPrerequisiteAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
     {
-        $prerequisite = new \AppBundle\Entity\CoursePrerequisite();
+        $prerequisite = new \App\Syllabus\Entity\CoursePrerequisite();
         $form = $this->createForm(CoursePrerequisiteType::class, $prerequisite);
         $form->handleRequest($request);
 

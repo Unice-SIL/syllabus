@@ -19,8 +19,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     @ORM\UniqueConstraint(name="code_source_on_structure_UNIQUE", columns={"code", "source"}),
  * })
  * @UniqueEntity(fields={"code", "source"}, message="La structure avec pour code établissement {{ value }} existe déjà pour cette source", errorPath="code")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\StructureDoctrineRepository")
- * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\StructureTranslation")
+ * @ORM\Entity(repositoryClass="App\Syllabus\Repository\Doctrine\StructureDoctrineRepository")
+ * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\StructureTranslation")
  * @ApiResource(attributes={
  *     "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"},
  *     "access_control"="is_granted('ROLE_API_STRUCTURE')",
@@ -45,7 +45,7 @@ class Structure
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @ORM\CustomIdGenerator(class="App\Syllabus\Doctrine\IdGenerator")
      */
     private $id;
 
@@ -68,7 +68,7 @@ class Structure
     /**
      * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Domain", mappedBy="structures")
+     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Domain", mappedBy="structures")
      * @ApiSubresource()
      */
     private $domains;
@@ -76,7 +76,7 @@ class Structure
     /**
      * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Period", mappedBy="structures")
+     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Period", mappedBy="structures")
      * @ApiSubresource()
      */
     private $periods;
@@ -84,7 +84,7 @@ class Structure
     /**
      * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Level", mappedBy="structures")
+     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Level", mappedBy="structures")
      * @ApiSubresource()
      */
     private $levels;

@@ -15,8 +15,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Period
  *
  * @ORM\Table(name="period")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\PeriodDoctrineRepository")
- * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\PeriodTranslation")
+ * @ORM\Entity(repositoryClass="App\Syllabus\Repository\Doctrine\PeriodDoctrineRepository")
+ * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\PeriodTranslation")
  * @ApiResource(attributes={
  *     "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"},
  *     "access_control"="is_granted('ROLE_API_PERIOD')",
@@ -43,7 +43,7 @@ class Period
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @ORM\CustomIdGenerator(class="App\Syllabus\Doctrine\IdGenerator")
      */
     private $id;
 
@@ -66,14 +66,14 @@ class Period
     /**
      * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Structure", inversedBy="periods")
+     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Structure", inversedBy="periods")
      */
     private $structures;
 
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\CourseInfo", mappedBy="periods")
+     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\CourseInfo", mappedBy="periods")
      */
     private $courseInfos;
 

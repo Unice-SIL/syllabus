@@ -14,10 +14,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Year
  *
  * @ORM\Table(name="year")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\YearDoctrineRepository")
+ * @ORM\Entity(repositoryClass="App\Syllabus\Repository\Doctrine\YearDoctrineRepository")
  * @UniqueEntity("id")
  * @UniqueEntity("label")
- * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\YearTranslation")
+ * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\YearTranslation")
  * @ApiResource(attributes={
  *     "filters"={"id.search_filter", "label.search_filter"},
  *     "access_control"="is_granted('ROLE_API_YEAR')",
@@ -80,7 +80,7 @@ class Year
     private $current = false;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\CourseInfo", mappedBy="year")
+     * @ORM\OneToMany(targetEntity="App\Syllabus\Entity\CourseInfo", mappedBy="year")
      */
     private $courseInfos;
 

@@ -12,7 +12,7 @@ use Ramsey\Uuid\Uuid;
 
 /**
  * Class CoursePermissionFixture
- * @package AppBundle\Fixture
+ * @package App\Syllabus\Fixture
  */
 class CoursePermissionFixture extends Fixture implements DependentFixtureInterface,  FixtureGroupInterface
 {

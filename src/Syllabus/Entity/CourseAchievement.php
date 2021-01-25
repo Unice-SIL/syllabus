@@ -12,7 +12,7 @@ use Ramsey\Uuid\UuidInterface;
  *
  * @ORM\Table(name="course_achievement")
  * @ORM\Entity
- * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CourseAchievementTranslation")
+ * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\CourseAchievementTranslation")
  * @ApiResource(attributes={
  *     "filters"={"id.search_filter"},
  *     "access_control"="is_granted('ROLE_API_COURSE_ACHIEVEMENT')",
@@ -36,7 +36,7 @@ class CourseAchievement
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @ORM\CustomIdGenerator(class="App\Syllabus\Doctrine\IdGenerator")
      */
     private $id;
 
@@ -56,9 +56,9 @@ class CourseAchievement
     private $position = 0;
 
     /**
-     * @var \AppBundle\Entity\CourseInfo
+     * @var \App\Syllabus\Entity\CourseInfo
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CourseInfo", inversedBy="courseAchievements")
+     * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\CourseInfo", inversedBy="courseAchievements")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
      * })

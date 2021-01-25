@@ -8,7 +8,7 @@ use App\Ldap\Repository\TeacherRepositoryInterface;
 
 /**
  * Class TeacherInMemoryRepository
- * @package LdapBundle\Repository\InMemory
+ * @package App\Ldap\Repository\InMemory
  */
 class TeacherInMemoryRepository implements TeacherRepositoryInterface
 {

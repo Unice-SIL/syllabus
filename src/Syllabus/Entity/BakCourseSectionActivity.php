@@ -17,7 +17,7 @@ class BakCourseSectionActivity
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @ORM\CustomIdGenerator(class="App\Syllabus\Doctrine\IdGenerator")
      */
     private $id;
 
@@ -57,9 +57,9 @@ class BakCourseSectionActivity
     private $position = 0;
 
     /**
-     * @var \AppBundle\Entity\BakActivity
+     * @var \App\Syllabus\Entity\BakActivity
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\BakActivity")
+     * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\BakActivity")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="activity_id", referencedColumnName="id", nullable=false)
      * })
@@ -67,9 +67,9 @@ class BakCourseSectionActivity
     private $activity;
 
     /**
-     * @var \AppBundle\Entity\CourseSection
+     * @var \App\Syllabus\Entity\CourseSection
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CourseSection", inversedBy="courseSectionActivities",)
+     * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\CourseSection", inversedBy="courseSectionActivities",)
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="course_section_id", referencedColumnName="id", nullable=false)
      * })

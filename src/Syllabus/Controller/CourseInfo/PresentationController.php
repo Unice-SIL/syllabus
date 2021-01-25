@@ -20,7 +20,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class PresentationController
- * @package AppBundle\Controller\CourseInfo
+ * @package App\Syllabus\Controller\CourseInfo
  * @Route("/course-info/{id}/presentation", name="app.course_info.presentation.")
  * @Security("is_granted('WRITE', courseInfo)")
  */

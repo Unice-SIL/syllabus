@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class PrerequisiteController
- * @package AppBundle\Controller\CourseInfo
+ * @package App\Syllabus\Controller\CourseInfo
  *
  * @Route("/course-info/prerequisite/{id}", name="app.course_info.prerequisite.")
  * @Security("is_granted('WRITE', prerequisite)")

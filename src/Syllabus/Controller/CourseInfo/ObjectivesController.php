@@ -25,7 +25,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class ObjectivesController
- * @package AppBundle\Controller\CourseInfo
+ * @package App\Syllabus\Controller\CourseInfo
  * @Route("/course-info/{id}/objectives", name="app.course_info.objectives.")
  * @Security("is_granted('WRITE', courseInfo)")
  */

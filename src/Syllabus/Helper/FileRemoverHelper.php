@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * Class FileRemoverHelper
- * @package AppBundle\Helper
+ * @package App\Syllabus\Helper
  */
 class FileRemoverHelper
 {

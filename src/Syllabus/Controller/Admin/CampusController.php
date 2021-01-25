@@ -22,7 +22,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class CampusController
- * @package AppBundle\Controller\Admin
+ * @package App\Syllabus\Controller\Admin
  *
  * @Route("/campus", name="app.admin.campus.")
  * @Security("has_role('ROLE_ADMIN_CAMPUS')")

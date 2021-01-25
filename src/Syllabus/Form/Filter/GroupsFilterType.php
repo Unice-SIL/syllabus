@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Class GroupsFilterType
- * @package AppBundle\Form\Filter
+ * @package App\Syllabus\Form\Filter
  */
 class GroupsFilterType extends AbstractType
 {

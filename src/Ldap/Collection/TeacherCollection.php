@@ -6,7 +6,7 @@ use App\Ldap\Entity\Teacher;
 
 /**
  * Class TeacherCollection
- * @package LdapBundle\Collection
+ * @package App\Ldap\Collection
  */
 class TeacherCollection extends GenericCollection
 {

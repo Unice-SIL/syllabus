@@ -12,7 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class CourseTutoringResourcesType
- * @package AppBundle\Form\CourseInfo\CourseAchievement
+ * @package App\Syllabus\Form\CourseInfo\CourseAchievement
  */
 class CourseTutoringResourcesType extends AbstractType
 {

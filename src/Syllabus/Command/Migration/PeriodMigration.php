@@ -11,7 +11,7 @@ use Gedmo\Translatable\Entity\Translation;
 
 /**
  * Class PeriodMigration
- * @package AppBundle\Command\Migration
+ * @package App\Syllabus\Command\Migration
  */
 class PeriodMigration extends AbstractReferentialMigration
 {

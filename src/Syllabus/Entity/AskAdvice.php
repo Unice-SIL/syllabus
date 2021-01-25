@@ -12,7 +12,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @ORM\Table(name="ask_advice")
  * @ORM\Entity
- * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\AskAdviceTranslation")
+ * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\AskAdviceTranslation")
  * @ApiResource(attributes={
  *     "filters"={"id.search_filter"},
  *     "access_control"="is_granted('ROLE_API_ASK_ADVICE')",
@@ -36,7 +36,7 @@ class AskAdvice
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @ORM\CustomIdGenerator(class="App\Syllabus\Doctrine\IdGenerator")
      */
     private $id;
 

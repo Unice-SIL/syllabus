@@ -18,7 +18,7 @@ class BakCourseEvaluationCt
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @ORM\CustomIdGenerator(class="App\Syllabus\Doctrine\IdGenerator")
      */
     private $id;
 
@@ -44,9 +44,9 @@ class BakCourseEvaluationCt
     private $position = 0;
 
     /**
-     * @var \AppBundle\Entity\BakActivity
+     * @var \App\Syllabus\Entity\BakActivity
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\BakActivity")
+     * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\BakActivity")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="activity_id", referencedColumnName="id", nullable=false)
      * })
@@ -54,9 +54,9 @@ class BakCourseEvaluationCt
     private $activity;
 
     /**
-     * @var \AppBundle\Entity\CourseInfo
+     * @var \App\Syllabus\Entity\CourseInfo
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CourseInfo")
+     * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\CourseInfo")
      * @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
      *
      */

@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Class CourseTeacherManager
- * @package AppBundle\Manager
+ * @package App\Syllabus\Manager
  */
 class CourseTeacherManager
 {

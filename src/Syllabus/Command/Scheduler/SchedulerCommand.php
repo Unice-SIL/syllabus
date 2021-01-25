@@ -43,7 +43,7 @@ class SchedulerCommand extends Command
         $jobs = $this->em->getRepository(Job::class)->findAll();
         foreach ($jobs as $job) {
 
-            if (!in_array($job->getCommand(), \AppBundle\Constant\Job::COMMANDS)) {
+            if (!in_array($job->getCommand(), \App\Syllabus\Constant\Job::COMMANDS)) {
                 $job->setObsolete(true);
                 continue;
             }
@@ -52,7 +52,7 @@ class SchedulerCommand extends Command
 
             $command = 'php bin/console ' . $job->getCommand() . ' --job-id=' . $job->getId();
 
-            if ($job->getLastStatus() === \AppBundle\Constant\Job::STATUS_IN_PROGRESS) {
+            if ($job->getLastStatus() === \App\Syllabus\Constant\Job::STATUS_IN_PROGRESS) {
                 continue;
             }
 

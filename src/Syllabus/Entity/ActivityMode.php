@@ -15,8 +15,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * ActivityMode
  *
  * @ORM\Table(name="activity_mode")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\ActivityModeDoctrineRepository")
- * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\ActivityModeTranslation")
+ * @ORM\Entity(repositoryClass="App\Syllabus\Repository\Doctrine\ActivityModeDoctrineRepository")
+ * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\ActivityModeTranslation")
  * @ApiResource(attributes={
  *     "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"},
  *     "access_control"="is_granted('ROLE_API_ACTIVITY_MODE')",
@@ -40,7 +40,7 @@ class ActivityMode
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @ORM\CustomIdGenerator(class="App\Syllabus\Doctrine\IdGenerator")
      */
     private $id;
 
@@ -63,7 +63,7 @@ class ActivityMode
     /**
      * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\ActivityType", mappedBy="activityModes")
+     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\ActivityType", mappedBy="activityModes")
      * @ApiSubresource()
      */
     private $activityTypes;

@@ -4,7 +4,7 @@ namespace App\Syllabus\Constant;
 
 /**
  * Class Permission
- * @package AppBundle\Constant
+ * @package App\Syllabus\Constant
  */
 final class Permission
 {

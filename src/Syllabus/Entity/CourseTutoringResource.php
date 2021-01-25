@@ -11,7 +11,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @ORM\Table(name="course_tutoring_resource")
  * @ORM\Entity
- * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CourseTutoringResourceTranslation")
+ * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\CourseTutoringResourceTranslation")
  * @ApiResource(attributes={
  *     "filters"={"id.search_filter"},
  *     "access_control"="is_granted('ROLE_API_COURSE_TUTORING_RESOURCE')",
@@ -35,7 +35,7 @@ class CourseTutoringResource
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @ORM\CustomIdGenerator(class="App\Syllabus\Doctrine\IdGenerator")
      */
     private $id;
 
@@ -55,9 +55,9 @@ class CourseTutoringResource
     private $position = 0;
 
     /**
-     * @var \AppBundle\Entity\CourseInfo
+     * @var \App\Syllabus\Entity\CourseInfo
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CourseInfo", inversedBy="courseTutoringResources")
+     * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\CourseInfo", inversedBy="courseTutoringResources")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
      * })

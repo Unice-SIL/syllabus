@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class AskAdviceController
- * @package AppBundle\Controller
+ * @package App\Syllabus\Controller
  *
  * @Route("/askAdvice", name="app_admin.ask_advice_")
  */

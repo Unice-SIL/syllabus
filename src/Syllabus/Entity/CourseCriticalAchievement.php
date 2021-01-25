@@ -17,7 +17,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * Class CourseCriticalAchievement
  * @ORM\Table(name="course_critical_achievement")
  * @ORM\Entity
- * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CourseCriticalAchievementTranslation")
+ * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\CourseCriticalAchievementTranslation")
  * @ApiResource(attributes={
  *     "filters"={"id.search_filter"},
  *     "access_control"="is_granted('ROLE_API_COURSE_CRITICAL_ACHIEVEMENT')",
@@ -43,7 +43,7 @@ class CourseCriticalAchievement
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @ORM\CustomIdGenerator(class="App\Syllabus\Doctrine\IdGenerator")
      */
     private $id;
 

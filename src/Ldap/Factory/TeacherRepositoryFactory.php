@@ -8,7 +8,7 @@ use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 
 /**
  * Class TeacherRepositoryFactory
- * @package LdapBundle\Factory
+ * @package App\Ldap\Factory
  */
 class TeacherRepositoryFactory
 {

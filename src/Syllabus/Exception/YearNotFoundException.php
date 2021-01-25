@@ -4,7 +4,7 @@ namespace App\Syllabus\Exception;
 
 /**
  * Class YearNotFoundException
- * @package AppBundle\Exception
+ * @package App\Syllabus\Exception
  */
 class YearNotFoundException extends \Exception
 {

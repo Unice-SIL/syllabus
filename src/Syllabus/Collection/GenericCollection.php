@@ -4,7 +4,7 @@ namespace App\Syllabus\Collection;
 
 /**
  * Class GenericCollection
- * @package AppBundle\Collection
+ * @package App\Syllabus\Collection
  */
 abstract class GenericCollection implements \ArrayAccess, \IteratorAggregate, \Countable
 {

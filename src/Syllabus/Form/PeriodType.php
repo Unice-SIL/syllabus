@@ -13,7 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class PeriodType
- * @package AppBundle\Form
+ * @package App\Syllabus\Form
  */
 class PeriodType extends AbstractType
 {
@@ -54,7 +54,7 @@ class PeriodType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Period'
+            'data_class' => 'App\Syllabus\Entity\Period'
         ));
     }
 

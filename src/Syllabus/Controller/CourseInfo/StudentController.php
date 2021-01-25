@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class StudentController
- * @package AppBundle\Controller
+ * @package App\Syllabus\Controller
  * @Route("/course-info/{id}/view", name="app.course_info.view.")
  */
 class StudentController extends AbstractController

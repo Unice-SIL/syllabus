@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class StructureController
- * @package AppBundle\Controller
+ * @package App\Syllabus\Controller
  *
  * @Route("/switch-user", name="app.admin.switch_user.")
  * @Security("has_role('ROLE_ALLOWED_TO_SWITCH')")

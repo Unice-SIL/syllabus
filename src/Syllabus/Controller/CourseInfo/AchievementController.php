@@ -18,7 +18,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class AchievementController
- * @package AppBundle\Controller\CourseInfo
+ * @package App\Syllabus\Controller\CourseInfo
  *
  * @Route("/course-info/achievement/{id}", name="app.course_info.achievement.")
  * @Security("is_granted('WRITE', achievement)")

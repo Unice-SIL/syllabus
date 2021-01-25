@@ -6,7 +6,7 @@ use App\Syllabus\Entity\CourseTeacher;
 
 /**
  * Class CourseTeacherCollection
- * @package AppBundle\Collection
+ * @package App\Syllabus\Collection
  */
 class CourseTeacherCollection extends GenericCollection
 {

@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Translation\TranslatorInterface;
 
 /**
- * @package AppBundle\Controller
+ * @package App\Syllabus\Controller
  *
  * @Route("/period", name="app.admin.period.")
  * @Security("has_role('ROLE_ADMIN_PERIOD')")

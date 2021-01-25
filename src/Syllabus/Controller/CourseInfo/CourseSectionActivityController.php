@@ -18,7 +18,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class CourseSectionActivityController
- * @package AppBundle\Controller\CourseInfo
+ * @package App\Syllabus\Controller\CourseInfo
  * @Route("/course-info/section-activity/{id}", name="app.course_info.section_activity.")
  * @Security("is_granted('WRITE', courseSectionActivity)")
 

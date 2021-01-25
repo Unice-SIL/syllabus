@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Class DomainFilterType
- * @package AppBundle\Form\Filter
+ * @package App\Syllabus\Form\Filter
  */
 class DomainFilterType extends AbstractType
 {

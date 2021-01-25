@@ -18,7 +18,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class EquipmentController
- * @package AppBundle\Controller\CourseInfo
+ * @package App\Syllabus\Controller\CourseInfo
  *
  * @Route("/course-info/equipment/{id}", name="app.course_info.equipment.")
  * @Security("is_granted('WRITE', resourceEquipment)")

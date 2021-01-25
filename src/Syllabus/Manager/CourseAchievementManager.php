@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Class CourseAchievementManager
- * @package AppBundle\Manager
+ * @package App\Syllabus\Manager
  */
 class CourseAchievementManager
 {

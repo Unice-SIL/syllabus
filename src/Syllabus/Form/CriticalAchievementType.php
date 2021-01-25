@@ -13,7 +13,7 @@ use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 
 /**
  * Class CriticalAchievementType
- * @package AppBundle\Form
+ * @package App\Syllabus\Form
  */
 class CriticalAchievementType extends AbstractType
 {

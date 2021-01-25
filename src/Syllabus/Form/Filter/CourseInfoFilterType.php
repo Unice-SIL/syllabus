@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Class CourseInfoFilterType
- * @package AppBundle\Form\Filter
+ * @package App\Syllabus\Form\Filter
  */
 class CourseInfoFilterType extends AbstractType
 {

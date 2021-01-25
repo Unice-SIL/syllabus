@@ -7,7 +7,7 @@ use App\Syllabus\Query\CourseTeacher\Adapter\Ldap\SearchCourseTeacherLdapQuery;
 
 /**
  * Interface SearchCourseTeacherQueryInterface
- * @package AppBundle\Query\CourseTeacher\Adapter
+ * @package App\Syllabus\Query\CourseTeacher\Adapter
  */
 interface SearchCourseTeacherQueryInterface
 {

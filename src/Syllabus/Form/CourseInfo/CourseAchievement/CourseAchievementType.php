@@ -10,7 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class CourseAchievementType
- * @package AppBundle\Form\CourseInfo\CourseAchievement
+ * @package App\Syllabus\Form\CourseInfo\CourseAchievement
  */
 class CourseAchievementType extends AbstractType
 {

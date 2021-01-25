@@ -28,7 +28,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class CourseController
- * @package AppBundle\Controller
+ * @package App\Syllabus\Controller
  *
  * @Route("/course", name="app_admin.course_")
  */

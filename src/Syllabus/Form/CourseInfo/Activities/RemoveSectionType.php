@@ -9,7 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class RemoveSectionType
- * @package AppBundle\Form\CourseInfo\Activities
+ * @package App\Syllabus\Form\CourseInfo\Activities
  */
 class RemoveSectionType extends AbstractType
 {

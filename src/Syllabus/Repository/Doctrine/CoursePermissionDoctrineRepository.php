@@ -11,7 +11,7 @@ use Doctrine\ORM\QueryBuilder;
 
 /**
  * Class StructureDoctrineRepository
- * @package AppBundle\Repository\Doctrine
+ * @package App\Syllabus\Repository\Doctrine
  */
 class CoursePermissionDoctrineRepository extends ServiceEntityRepository
 {

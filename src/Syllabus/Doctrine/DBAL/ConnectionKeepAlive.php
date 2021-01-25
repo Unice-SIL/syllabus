@@ -8,7 +8,7 @@ declare(ticks = 300000);
 
 /**
  * Class ConnectionKeepAlive
- * @package AppBundle\Doctrine\DBAL
+ * @package App\Syllabus\Doctrine\DBAL
  */
 class ConnectionKeepAlive
 {

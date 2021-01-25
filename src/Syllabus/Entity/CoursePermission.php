@@ -20,7 +20,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     errorPath="user",
  *     message="Cet utilisateur possède déjà une permission identique."
  * )
- * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CoursePermissionTranslation")
+ * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\CoursePermissionTranslation")
  * @ApiResource(attributes={
  *     "filters"={"id.search_filter"},
  *     "access_control"="is_granted('ROLE_API_COURSE_PERMISSION')",
@@ -47,7 +47,7 @@ class CoursePermission
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @ORM\CustomIdGenerator(class="App\Syllabus\Doctrine\IdGenerator")
      */
     private $id;
 
@@ -60,9 +60,9 @@ class CoursePermission
     private $permission = Permission::READ;
 
     /**
-     * @var \AppBundle\Entity\CourseInfo
+     * @var \App\Syllabus\Entity\CourseInfo
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CourseInfo", inversedBy="coursePermissions")
+     * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\CourseInfo", inversedBy="coursePermissions")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
      * })
@@ -71,9 +71,9 @@ class CoursePermission
     private $courseInfo;
 
     /**
-     * @var \AppBundle\Entity\User
+     * @var \App\Syllabus\Entity\User
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", cascade={ "persist" })
+     * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\User", cascade={ "persist" })
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      * })

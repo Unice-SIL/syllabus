@@ -5,7 +5,7 @@ namespace App\Syllabus\Repository;
 
 /**
  * Interface RepositoryInterface
- * @package AppBundle\Repository
+ * @package App\Syllabus\Repository
  */
 interface RepositoryInterface
 {

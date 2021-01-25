@@ -24,7 +24,7 @@ class CourseTutoringResourceType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\CourseTutoringResource'
+            'data_class' => 'App\Syllabus\Entity\CourseTutoringResource'
         ));
     }
 

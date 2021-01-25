@@ -4,7 +4,7 @@ namespace App\Syllabus\Exception;
 
 /**
  * Class CourseInfoAlreadyExistException
- * @package AppBundle\Exception
+ * @package App\Syllabus\Exception
  */
 class CourseInfoAlreadyExistException extends \Exception
 {

@@ -9,7 +9,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
  * Class CourseApogeeExtractor
- * @package AppBundle\Import\Extractor
+ * @package App\Syllabus\Import\Extractor
  */
 class CourseApogeeExtractor implements ExtractorInterface
 {

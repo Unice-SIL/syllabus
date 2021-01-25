@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Class CampusManager
- * @package AppBundle\Manager
+ * @package App\Syllabus\Manager
  */
 class CampusManager
 {

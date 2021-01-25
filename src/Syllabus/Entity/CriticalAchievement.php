@@ -14,10 +14,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Class CriticalAchievement
- * @package AppBundle\Entity
+ * @package App\Syllabus\Entity
  * @ORM\Table(name="critical_achievement")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\CriticalAchievementDoctrineRepository")
- * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CriticalAchievementTranslation")
+ * @ORM\Entity(repositoryClass="App\Syllabus\Repository\Doctrine\CriticalAchievementDoctrineRepository")
+ * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\CriticalAchievementTranslation")
  * @ApiResource(attributes={
  *     "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"},
  *     "access_control"="is_granted('ROLE_API_CRITICAL_ACHIEVEMENT')",
@@ -43,7 +43,7 @@ class CriticalAchievement
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @ORM\CustomIdGenerator(class="App\Syllabus\Doctrine\IdGenerator")
      */
     private $id;
 

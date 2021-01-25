@@ -17,7 +17,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class ClosingRemarkController
- * @package AppBundle\Controller\CourseInfo
+ * @package App\Syllabus\Controller\CourseInfo
  *
  * @Route("/course-info/{id}/closing-remarks", name="app.course_info.closing_remarks.")
  * @Security("is_granted('WRITE', courseInfo)")

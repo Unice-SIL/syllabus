@@ -23,7 +23,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class GroupsController
- * @package AppBundle\Controller
+ * @package App\Syllabus\Controller
  * @Route("/groups", name="app_admin_groups_")
  */
 class GroupsController extends Controller

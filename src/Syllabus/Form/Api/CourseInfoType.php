@@ -132,7 +132,7 @@ class CourseInfoType extends ApiAbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\CourseInfo',
+            'data_class' => 'App\Syllabus\Entity\CourseInfo',
             'csrf_protection' => false
         ));
     }

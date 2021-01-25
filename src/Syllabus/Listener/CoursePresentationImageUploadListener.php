@@ -15,7 +15,7 @@ use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 /**
  * Class CoursePresentationImageUploadListener
- * @package AppBundle\Listener
+ * @package App\Syllabus\Listener
  */
 class CoursePresentationImageUploadListener
 {

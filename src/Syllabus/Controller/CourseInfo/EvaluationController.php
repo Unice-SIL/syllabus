@@ -16,7 +16,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class EvaluationController
- * @package AppBundle\Controller\CourseInfo
+ * @package App\Syllabus\Controller\CourseInfo
  *
  * @Route("/course-info/{id}/evaluation", name="app.course_info.evaluation.")
  * @Security("is_granted('WRITE', courseInfo)")

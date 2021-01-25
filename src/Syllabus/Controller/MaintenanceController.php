@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * Class MaintenanceController
- * @package AppBundle\Controller
+ * @package App\Syllabus\Controller
  * @Route("/mainteance", name ="app.maintenance.")
  */
 class MaintenanceController extends AbstractController

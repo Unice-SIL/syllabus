@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="course_resource_equipment")
  * @ORM\Entity
- * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CourseResourceEquipmentTranslation")
+ * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\CourseResourceEquipmentTranslation")
  * @ApiResource(attributes={
  *     "filters"={"id.search_filter"},
  *     "access_control"="is_granted('ROLE_API_COURSE_RESOURCE_EQUIPMENT')",
@@ -37,7 +37,7 @@ class CourseResourceEquipment
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @ORM\CustomIdGenerator(class="App\Syllabus\Doctrine\IdGenerator")
      */
     private $id;
 
@@ -57,9 +57,9 @@ class CourseResourceEquipment
     private $position = 0;
 
     /**
-     * @var \AppBundle\Entity\CourseInfo
+     * @var \App\Syllabus\Entity\CourseInfo
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CourseInfo", inversedBy="courseResourceEquipments")
+     * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\CourseInfo", inversedBy="courseResourceEquipments")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
      * })
@@ -67,9 +67,9 @@ class CourseResourceEquipment
     private $courseInfo;
 
     /**
-     * @var \AppBundle\Entity\Equipment
+     * @var \App\Syllabus\Entity\Equipment
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Equipment")
+     * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\Equipment")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="equipment_id", referencedColumnName="id", nullable=false)
      * })

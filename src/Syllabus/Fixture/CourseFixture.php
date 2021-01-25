@@ -10,7 +10,7 @@ use Ramsey\Uuid\Uuid;
 
 /**
  * Class CourseFixture
- * @package AppBundle\Fixture
+ * @package App\Syllabus\Fixture
  */
 class CourseFixture extends Fixture  implements FixtureGroupInterface
 {

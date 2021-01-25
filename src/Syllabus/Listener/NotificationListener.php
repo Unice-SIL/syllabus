@@ -9,7 +9,7 @@ use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 
 /**
  * Class CoursePresentationImageUploadListener
- * @package AppBundle\Listener
+ * @package App\Syllabus\Listener
  */
 class NotificationListener
 {

@@ -9,7 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class RemoveTeacherType
- * @package AppBundle\Form\CourseInfo\Presentation
+ * @package App\Syllabus\Form\CourseInfo\Presentation
  */
 class RemoveTeacherType extends AbstractType
 {

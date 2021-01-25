@@ -1,16 +1,16 @@
 services:
 
-    LdapBundle\:
+    App\Ldap\:
         resource: '../../*'
         exclude: '../../{Entity,Repository,Tests}'
 
     # ALIAS
-    LdapBundle\Repository\TeacherRepositoryInterface:
-        #class: LdapBundle\Repository\TeacherRepositoryInterface
-        factory: 'LdapBundle\Factory\TeacherRepositoryFactory:getService'
+    App\Ldap\Repository\TeacherRepositoryInterface:
+        #class: App\Ldap\Repository\TeacherRepositoryInterface
+        factory: 'App\Ldap\Factory\TeacherRepositoryFactory:getService'
 
     # FACTORY
-    LdapBundle\Factory\TeacherRepositoryFactory:
+    App\Ldap\Factory\TeacherRepositoryFactory:
         autowire: true
         arguments: [ '%ldap_uns_teacher_repository_service%' ]
 
@@ -29,10 +29,10 @@ services:
 
     # REPOSITORY
     teacher_inmemory_repository:
-        class: 'LdapBundle\Repository\InMemory\TeacherInMemoryRepository'
+        class: 'App\Ldap\Repository\InMemory\TeacherInMemoryRepository'
         public: true
 
     teacher_ldap_repository:
-        class: 'LdapBundle\Repository\Ldap\TeacherLdapRepository'
+        class: 'App\Ldap\Repository\Ldap\TeacherLdapRepository'
         arguments: [ '@ldap_uns', '%ldap_uns_repositories%', '%ldap_uns_bind_dn%', '%ldap_uns_bind_password%' ]
         public: true

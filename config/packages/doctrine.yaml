@@ -3,13 +3,7 @@ doctrine:
     default_connection: syllabus
     connections:
       syllabus:
-        driver: '%env(SYLLABUS_DATABASE_DRIVER)%'
-        host: '%env(SYLLABUS_DATABASE_HOST)%'
-        port: '%env(SYLLABUS_DATABASE_PORT)%'
-        dbname: '%env(SYLLABUS_DATABASE_NAME)%'
-        user: '%env(SYLLABUS_DATABASE_USER)%'
-        password: '%env(SYLLABUS_DATABASE_PASSWORD)%'
-        charset: '%env(SYLLABUS_DATABASE_CHARSET)%'
+        url: '%env(resolve:DATABASE_APP_URL)%'
       apogee:
         driver: '%env(APOGEE_DATABASE_DRIVER)%'
         host: '%env(APOGEE_DATABASE_HOST)%'

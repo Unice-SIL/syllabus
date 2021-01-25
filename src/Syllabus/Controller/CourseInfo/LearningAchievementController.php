@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class LearningAchievement
- * @package AppBundle\Controller\CourseInfo
+ * @package App\Syllabus\Controller\CourseInfo
  *
  * @Route("/course-info/learning-achievement/{id}", name="app.course_info.learning_achievement.")
  * @Security("is_granted('WRITE', learningAchievement)")

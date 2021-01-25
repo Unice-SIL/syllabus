@@ -13,7 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Class AbstractJob
- * @package AppBundle\Command\Scheduler
+ * @package App\Syllabus\Command\Scheduler
  */
 abstract class AbstractJob extends Command
 {
@@ -65,7 +65,7 @@ abstract class AbstractJob extends Command
             $job->setLastUseStart(new \DateTime());
             $job->setLastUseEnd(null);
 
-            $job->setLastStatus(\AppBundle\Constant\Job::STATUS_IN_PROGRESS);
+            $job->setLastStatus(\App\Syllabus\Constant\Job::STATUS_IN_PROGRESS);
 
             $this->em->flush();
         }
@@ -77,7 +77,7 @@ abstract class AbstractJob extends Command
             $job = $this->getJob();
             if ($job instanceof  Job) {
 
-                $job->setLastStatus(\AppBundle\Constant\Job::STATUS_FAILED);
+                $job->setLastStatus(\App\Syllabus\Constant\Job::STATUS_FAILED);
                 $job->setReport(serialize($e->getMessage()));
                 $this->em->flush();
 
@@ -89,7 +89,7 @@ abstract class AbstractJob extends Command
         $job = $this->getJob();
         if ($job instanceof Job) {
 
-            $job->setLastStatus(\AppBundle\Constant\Job::STATUS_SUCCESS);
+            $job->setLastStatus(\App\Syllabus\Constant\Job::STATUS_SUCCESS);
             $job->setProgress(0);
             $job->setMemoryUsed(0);
             $job->setReport(serialize($result));

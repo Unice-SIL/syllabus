@@ -15,8 +15,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Activity
  *
  * @ORM\Table(name="activity_type")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\ActivityTypeDoctrineRepository")
- * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\ActivityTypeTranslation")
+ * @ORM\Entity(repositoryClass="App\Syllabus\Repository\Doctrine\ActivityTypeDoctrineRepository")
+ * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\ActivityTypeTranslation")
  * @ApiResource(attributes={
  *     "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"},
  *     "access_control"="is_granted('ROLE_API_ACTIVITY_TYPE')",
@@ -40,7 +40,7 @@ class ActivityType
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @ORM\CustomIdGenerator(class="App\Syllabus\Doctrine\IdGenerator")
      */
     private $id;
 
@@ -79,7 +79,7 @@ class ActivityType
     /**
      * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Activity", inversedBy="activityTypes")
+     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Activity", inversedBy="activityTypes")
      * @JoinTable(name="activity_type_activity")
      */
     private $activities;
@@ -87,7 +87,7 @@ class ActivityType
     /**
      * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\ActivityMode", inversedBy="activityTypes")
+     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\ActivityMode", inversedBy="activityTypes")
      * @JoinTable(name="activity_type_activity_mode")
      * @ApiSubresource()
      */

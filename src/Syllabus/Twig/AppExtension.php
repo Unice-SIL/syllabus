@@ -16,7 +16,7 @@ use Twig\TwigFunction;
 
 /**
  * Class AppExtension
- * @package AppBundle\Twig
+ * @package App\Syllabus\Twig
  */
 class AppExtension extends AbstractExtension
 {

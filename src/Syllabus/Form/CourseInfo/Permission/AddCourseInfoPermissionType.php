@@ -14,7 +14,7 @@ use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 
 /**
  * Class AddCourseInfoPermissionType
- * @package AppBundle\Form\CourseInfo\Permission
+ * @package App\Syllabus\Form\CourseInfo\Permission
  */
 class AddCourseInfoPermissionType extends AbstractType
 {

@@ -4,7 +4,7 @@ namespace App\Ldap\Collection;
 
 /**
  * Class GenericCollection
- * @package LdapBundle\Collection
+ * @package App\Ldap\Collection
  */
 abstract class GenericCollection implements \ArrayAccess, \IteratorAggregate, \Countable
 {

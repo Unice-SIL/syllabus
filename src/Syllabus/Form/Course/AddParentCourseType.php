@@ -12,7 +12,7 @@ use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 
 /**
  * Class AddParentCourseType
- * @package AppBundle\Form\Course
+ * @package App\Syllabus\Form\Course
  */
 class AddParentCourseType extends AbstractType
 {

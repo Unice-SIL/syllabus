@@ -11,7 +11,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * Class LanguageMigration
- * @package AppBundle\Command\Migration
+ * @package App\Syllabus\Command\Migration
  */
 class LanguageMigration extends AbstractReferentialMigration
 {
@@ -152,7 +152,7 @@ class LanguageMigration extends AbstractReferentialMigration
 
         $qb = $this->em->createQueryBuilder();
         $courseInfos = $qb->select('ci')
-            ->from('AppBundle:CourseInfo', 'ci')
+            ->from('App:Syllabus:CourseInfo', 'ci')
             ->where($qb->expr()->isNotNull('ci.bakLanguages'))
             ->getQuery()->getResult();
 

@@ -8,7 +8,7 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
  * Class CourseTeacherDoctrineRepository
- * @package AppBundle\Repository\Doctrine
+ * @package App\Syllabus\Repository\Doctrine
  */
 class CourseTeacherDoctrineRepository extends ServiceEntityRepository
 {

@@ -11,7 +11,7 @@ use Ramsey\Uuid\Uuid;
 
 /**
  * Class CourseSectionFixture
- * @package AppBundle\Fixture
+ * @package App\Syllabus\Fixture
  */
 class CourseSectionFixture extends Fixture implements DependentFixtureInterface,  FixtureGroupInterface
 {

@@ -48,7 +48,7 @@ class CampusType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Campus'
+            'data_class' => 'App\Syllabus\Entity\Campus'
         ));
     }
 

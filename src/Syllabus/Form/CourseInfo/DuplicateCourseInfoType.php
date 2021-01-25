@@ -14,7 +14,7 @@ use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 
 /**
  * Class DuplicateCourseInfoType
- * @package AppBundle\Form\CourseInfo
+ * @package App\Syllabus\Form\CourseInfo
  */
 class DuplicateCourseInfoType extends AbstractType
 {

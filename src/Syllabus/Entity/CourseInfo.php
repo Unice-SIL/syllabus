@@ -19,11 +19,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * CourseInfo
- * @package AppBundle\Entity
+ * @package App\Syllabus\Entity
  * @ORM\Table(name="course_info")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\CourseInfoDoctrineRepository")
+ * @ORM\Entity(repositoryClass="App\Syllabus\Repository\Doctrine\CourseInfoDoctrineRepository")
  * @UniqueEntity(fields={"year", "course"}, message="Le cours {{ value }} existe déjà pour cette année", errorPath="course")
- * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CourseInfoTranslation")
+ * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\CourseInfoTranslation")
  * @ApiResource(attributes={
  *     "filters"={"id.search_filter", "title.search_filter", "year.search_filter"},
  *     "access_control"="is_granted('ROLE_API_COURSE_INFO')",
@@ -47,7 +47,7 @@ class CourseInfo
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @ORM\CustomIdGenerator(class="App\Syllabus\Doctrine\IdGenerator")
      */
     private $id;
 
@@ -270,7 +270,7 @@ class CourseInfo
     /**
      * @var Collection
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Teaching", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Syllabus\Entity\Teaching", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @Assert\Valid()
      * @ApiSubresource()
      */
@@ -490,7 +490,7 @@ class CourseInfo
     /**
      * @var Structure
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Structure", cascade={ "persist" })
+     * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\Structure", cascade={ "persist" })
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="structure_id", referencedColumnName="id", nullable=false)
      * })
@@ -502,7 +502,7 @@ class CourseInfo
     /**
      * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Campus", inversedBy="courseInfos")
+     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Campus", inversedBy="courseInfos")
      * @ORM\JoinTable(name="course_info_campus")
      * @Assert\Count(min="1", groups={"presentation"})
      * @ApiSubresource()
@@ -512,7 +512,7 @@ class CourseInfo
     /**
      * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Language", inversedBy="courseInfos")
+     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Language", inversedBy="courseInfos")
      * @ORM\JoinTable(name="course_info_language")
      * @Assert\Count(min="1", groups={"presentation"})
      * @ORM\OrderBy({"label" = "ASC"})
@@ -523,7 +523,7 @@ class CourseInfo
     /**
      * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Domain", inversedBy="courseInfos")
+     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Domain", inversedBy="courseInfos")
      * @ORM\JoinTable(name="course_info_domain")
      * @Assert\Count(min="1", groups={"presentation"})
      * @ApiSubresource()
@@ -533,7 +533,7 @@ class CourseInfo
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Period", inversedBy="courseInfos")
+     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Period", inversedBy="courseInfos")
      * @ORM\JoinTable(name="course_info_period")
      * @Assert\Count(min="1", groups={"presentation"})
      * @ApiSubresource()
@@ -544,7 +544,7 @@ class CourseInfo
     /**
      * @var User|null
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\User")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="last_updater", referencedColumnName="id")
      * })
@@ -556,7 +556,7 @@ class CourseInfo
     /**
      * @var User|null
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\User")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="publisher", referencedColumnName="id", nullable=true)
      * })
@@ -568,7 +568,7 @@ class CourseInfo
     /**
      * @var Year
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Year", inversedBy="courseInfos")
+     * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\Year", inversedBy="courseInfos")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="year_id", referencedColumnName="id", nullable=false)
      * })

@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class SyllabusController
- * @package AppBundle\Controller\Admin
+ * @package App\Syllabus\Controller\Admin
  *
  * @Route("syllabus", name="app.admin.syllabus.")
  * @Security("has_role('ROLE_ADMIN_COURSE')")

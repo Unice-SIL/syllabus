@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraint;
 
 /**
  * Class ContainsAchievements
- * @package AppBundle\Validator\Constraints
+ * @package App\Syllabus\Validator\Constraints
  * @Annotation
  */
 class ContainsAchievements extends Constraint

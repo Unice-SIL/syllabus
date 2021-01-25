@@ -22,7 +22,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class LanguageController
- * @package AppBundle\Controller
+ * @package App\Syllabus\Controller
  *
  * @Route("/language", name="app.admin.language.")
  * @Security("has_role('ROLE_ADMIN_LANGUAGE')")

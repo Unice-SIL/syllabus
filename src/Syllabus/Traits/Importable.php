@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Trait Importable
- * @package AppBundle\Traits
+ * @package App\Syllabus\Traits
  */
 trait Importable
 {

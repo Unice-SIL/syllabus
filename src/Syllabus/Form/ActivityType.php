@@ -28,7 +28,7 @@ class ActivityType extends AbstractType
             ->add('description')
             ->add('activityTypes', EntityType::class, [
                 'label' => 'admin.activity.form.activityTypes',
-                'class' => \AppBundle\Entity\ActivityType::class,
+                'class' => \App\Syllabus\Entity\ActivityType::class,
                 'multiple' => true,
                 'by_reference' => false
             ])
@@ -40,7 +40,7 @@ class ActivityType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Activity'
+            'data_class' => 'App\Syllabus\Entity\Activity'
         ));
     }
 

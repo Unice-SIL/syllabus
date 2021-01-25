@@ -23,7 +23,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class DomainController
- * @package AppBundle\Controller\Admin
+ * @package App\Syllabus\Controller\Admin
  *
  * @Route("/domain", name="app.admin.domain.")
  * @Security("has_role('ROLE_ADMIN_DOMAIN')")

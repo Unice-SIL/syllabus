@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Class TeachersType
- * @package AppBundle\Form\CourseInfo\Presentation
+ * @package App\Syllabus\Form\CourseInfo\Presentation
  */
 class TeachersType extends AbstractType
 {

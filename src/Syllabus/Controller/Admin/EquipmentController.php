@@ -21,7 +21,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class EquipmentController
- * @package AppBundle\Controller
+ * @package App\Syllabus\Controller
  *
  * @Route("/equipment", name="app.admin.equipment.")
  * @Security("has_role('ROLE_ADMIN_EQUIPMENT')")

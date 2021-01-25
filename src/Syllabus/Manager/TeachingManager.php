@@ -11,7 +11,7 @@ use Doctrine\Persistence\ObjectRepository;
 
 /**
  * Class TeachingManager
- * @package AppBundle\Manager
+ * @package App\Syllabus\Manager
  */
 class TeachingManager
 {

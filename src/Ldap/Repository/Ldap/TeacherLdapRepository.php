@@ -12,7 +12,7 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 
 /**
  * Class teacherLdapRepository
- * @package LdapBundle\Repository\Ldap
+ * @package App\Ldap\Repository\Ldap
  */
 class TeacherLdapRepository implements TeacherRepositoryInterface
 {

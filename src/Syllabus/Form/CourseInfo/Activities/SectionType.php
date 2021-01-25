@@ -11,7 +11,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class AddSectionType
- * @package AppBundle\Form\CourseInfo\Activities
+ * @package App\Syllabus\Form\CourseInfo\Activities
  */
 class SectionType extends AbstractType
 {

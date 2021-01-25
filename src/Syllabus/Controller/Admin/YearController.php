@@ -18,7 +18,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class YearController
- * @package AppBundle\Controller\Admin
+ * @package App\Syllabus\Controller\Admin
  *
  * @Route("/year", name="app.admin.year.")
  * @Security("has_role('ROLE_ADMIN_YEAR')")
@@ -38,7 +38,7 @@ class YearController extends AbstractController
     public function indexAction(Request $request, PaginatorInterface $paginator)
     {
         $pagination = $paginator->paginate(
-            $this->getDoctrine()->getManager()->createQuery("SELECT y FROM AppBundle:Year y"),
+            $this->getDoctrine()->getManager()->createQuery("SELECT y FROM App:Syllabus:Year y"),
             $request->query->getInt('page', 1),
             10
         );
@@ -91,7 +91,7 @@ class YearController extends AbstractController
      */
     public function editAction(Request $request, Year $year, YearManager $yearManager, TranslatorInterface $translator)
     {
-        $form = $this->createForm('AppBundle\Form\YearType', $year);
+        $form = $this->createForm('App\Syllabus\Form\YearType', $year);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

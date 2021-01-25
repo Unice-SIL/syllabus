@@ -4,7 +4,7 @@
 namespace App\Syllabus\Command\DB;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Proxies\__CG__\AppBundle\Entity\CourseInfoField;
+use Proxies\__CG__\App\Syllabus\Entity\CourseInfoField;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

@@ -41,7 +41,7 @@ class LanguageType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Language'
+            'data_class' => 'App\Syllabus\Entity\Language'
         ));
     }
 

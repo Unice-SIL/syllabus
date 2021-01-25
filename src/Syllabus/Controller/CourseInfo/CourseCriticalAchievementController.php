@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class CourseCriticalAchievementController
- * @package AppBundle\Controller\CourseInfo
+ * @package App\Syllabus\Controller\CourseInfo
  *
  * @Route("/course-info/critical-achievement/{id}", name="app.course_info.critical_achievement.")
  * @Security("is_granted('WRITE', courseCriticalAchievement)")

@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Class StructureManager
- * @package AppBundle\Manager
+ * @package App\Syllabus\Manager
  */
 class StructureManager extends AbstractManager
 {

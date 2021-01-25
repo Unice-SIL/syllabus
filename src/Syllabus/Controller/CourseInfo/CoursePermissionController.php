@@ -18,7 +18,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class CoursePermissionController
- * @package AppBundle\Controller\CourseInfo
+ * @package App\Syllabus\Controller\CourseInfo
  *
  * @Route("/course-info/{id}/permissions", name="app.course_info.permission.")
  * @Security("is_granted('WRITE', courseInfo)")

@@ -4,7 +4,7 @@ namespace App\Ldap\Entity;
 
 /**
  * Class Teacher
- * @package LdapBundle\Entity
+ * @package App\Ldap\Entity
  */
 class Teacher
 {

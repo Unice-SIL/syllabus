@@ -1,0 +1,3 @@
+parameters:
+  authenticator: App\Syllabus\Security\Authenticator\TestAuthenticator
+  provider: App\Syllabus\Security\Provider\TestUserProvider

@@ -10,7 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Class LevelManager
- * @package AppBundle\Manager
+ * @package App\Syllabus\Manager
  */
 class LevelManager
 {

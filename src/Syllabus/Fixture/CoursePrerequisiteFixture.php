@@ -13,7 +13,7 @@ use Ramsey\Uuid\Uuid;
 
 /**
  * Class CoursePrerequisiteFixture
- * @package AppBundle\Fixture
+ * @package App\Syllabus\Fixture
  */
 class CoursePrerequisiteFixture extends Fixture implements DependentFixtureInterface,  FixtureGroupInterface
 {

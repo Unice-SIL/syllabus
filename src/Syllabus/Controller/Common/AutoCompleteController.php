@@ -20,7 +20,7 @@ use function Symfony\Component\DependencyInjection\Loader\Configurator\expr;
 
 /**
  * Class AutoCompleteController
- * @package AppBundle\Controller\Common
+ * @package App\Syllabus\Controller\Common
  *
  * @Route("common/autocomplete", name="app.common.autocomplete.")
  */
@@ -35,7 +35,7 @@ class AutoCompleteController extends AbstractController
      */
     public function autoComplete(string $entityName, Request $request)
     {
-        $namespace = 'AppBundle\\Entity\\';
+        $namespace = 'App\Syllabus\\Entity\\';
         $entityName = "{$namespace}{$entityName}";
         $query = $request->query->get('query', '');
         $findBy = $request->query->get('findBy', 'label');
@@ -65,7 +65,7 @@ class AutoCompleteController extends AbstractController
      */
     public function autoCompleteS2(string $entityName, Request $request)
     {
-        $namespace = 'AppBundle\\Entity\\';
+        $namespace = 'App\Syllabus\\Entity\\';
         $entityName = "{$namespace}{$entityName}";
         $query = $request->query->get('q', '');
         $findBy = $request->query->get('findBy', 'label');
@@ -110,7 +110,7 @@ class AutoCompleteController extends AbstractController
      */
     public function autoCompleteS2Courses(string $entityName, Request $request)
     {
-        $namespace = 'AppBundle\\Entity\\';
+        $namespace = 'App\Syllabus\\Entity\\';
         $entityName = "{$namespace}{$entityName}";
         $query = $request->query->get('q', '');
         $property = $request->query->get('property', 'label');
@@ -202,7 +202,7 @@ class AutoCompleteController extends AbstractController
      *
     public function autocompleteS2Structure(Structure $structure, string $entityName, Request $request)
     {
-        $namespace = 'AppBundle\\Entity\\';
+        $namespace = 'App\Syllabus\\Entity\\';
         $entityName = "{$namespace}{$entityName}";
         $query = $request->query->get('q', '');
         $findBy = $request->query->get('findBy', 'label');

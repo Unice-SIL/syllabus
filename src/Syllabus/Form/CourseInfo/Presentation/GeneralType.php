@@ -25,7 +25,7 @@ use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 
 /**
  * Class GeneralType
- * @package AppBundle\Form\CourseInfo\Presentation
+ * @package App\Syllabus\Form\CourseInfo\Presentation
  */
 class GeneralType extends AbstractType
 {

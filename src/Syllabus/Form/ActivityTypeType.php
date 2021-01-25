@@ -53,7 +53,7 @@ class ActivityTypeType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\ActivityType',
+            'data_class' => 'App\Syllabus\Entity\ActivityType',
             'icon' => null
         ));
     }

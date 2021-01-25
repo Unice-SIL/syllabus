@@ -13,10 +13,10 @@ use Symfony\Component\Serializer\Annotation\Groups as Groups;
 
 /**
  * Class Language
- * @package AppBundle\Entity
+ * @package App\Syllabus\Entity
  * @ORM\Table(name="language")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\LanguageDoctrineRepository")
- * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\LanguageTranslation")
+ * @ORM\Entity(repositoryClass="App\Syllabus\Repository\Doctrine\LanguageDoctrineRepository")
+ * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\LanguageTranslation")
  * @ApiResource(attributes={
  *     "normalization_context"={"groups"={"language"}},
  *     "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"},
@@ -44,7 +44,7 @@ class Language
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @ORM\CustomIdGenerator(class="App\Syllabus\Doctrine\IdGenerator")
      * @Groups({"language"})
      */
     private $id;
@@ -70,7 +70,7 @@ class Language
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\CourseInfo", mappedBy="languages")
+     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\CourseInfo", mappedBy="languages")
      */
     private $courseInfos;
 

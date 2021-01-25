@@ -12,10 +12,10 @@ use Doctrine\ORM\Mapping\ManyToOne;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @package AppBundle\Entity
+ * @package App\Syllabus\Entity
  * @ORM\Table(name="learning_achievement")
  * @ORM\Entity
- * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\LearningAchievementTranslation")
+ * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\LearningAchievementTranslation")
  * @ApiResource(attributes={
  *     "filters"={"id.search_filter"},
  *     "access_control"="is_granted('ROLE_API_LEARNING_ACHIEVEMENT')",
@@ -41,7 +41,7 @@ class LearningAchievement
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @ORM\CustomIdGenerator(class="App\Syllabus\Doctrine\IdGenerator")
      */
     private $id;
 

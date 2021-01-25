@@ -62,7 +62,12 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.1",
+        "symfony/debug-bundle": "^4.4",
         "symfony/phpunit-bridge": "^3",
+        "symfony/stopwatch": "^4.4",
+        "symfony/twig-bundle": "^4.4",
+        "symfony/var-dumper": "^4.4",
+        "symfony/web-profiler-bundle": "^4.4",
         "symfony/webpack-encore-bundle": "^1.1"
     },
     "scripts": {

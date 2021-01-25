@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 /**
  * Class TestUserProvider
- * @package AppBundle\Security\Provider
+ * @package App\Syllabus\Security\Provider
  */
 class TestUserProvider implements UserProviderInterface
 {

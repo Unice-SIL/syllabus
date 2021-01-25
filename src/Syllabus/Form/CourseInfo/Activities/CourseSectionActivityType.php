@@ -22,7 +22,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Class ActivityType
- * @package AppBundle\Form\CourseInfo\Activities
+ * @package App\Syllabus\Form\CourseInfo\Activities
  */
 class CourseSectionActivityType extends AbstractType
 {

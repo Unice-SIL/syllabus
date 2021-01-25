@@ -17,7 +17,7 @@ use Symfony\Component\Security\Csrf\TokenGenerator\UriSafeTokenGenerator;
 
 /**
  * Class NotificationSubscriber
- * @package AppBundle\Subscriber
+ * @package App\Syllabus\Subscriber
  */
 class NotificationSubscriber implements EventSubscriberInterface
 {

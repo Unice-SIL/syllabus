@@ -9,7 +9,7 @@ use Symfony\Component\Validator\ConstraintValidator;
 
 /**
  * Class AchievementConstraintValidator
- * @package AppBundle\Validator\Constraints
+ * @package App\Syllabus\Validator\Constraints
  * @Annotation
  */
 class AchievementConstraintValidator extends ConstraintValidator

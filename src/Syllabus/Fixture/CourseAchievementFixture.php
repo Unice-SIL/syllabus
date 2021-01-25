@@ -11,7 +11,7 @@ use Ramsey\Uuid\Uuid;
 
 /**
  * Class CourseAchievementFixture
- * @package AppBundle\Fixture
+ * @package App\Syllabus\Fixture
  */
 class CourseAchievementFixture extends Fixture implements DependentFixtureInterface ,  FixtureGroupInterface
 {

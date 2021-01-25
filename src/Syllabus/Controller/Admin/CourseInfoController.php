@@ -26,7 +26,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class CourseInfoController
- * @package AppBundle\Controller
+ * @package App\Syllabus\Controller
  * @Route("/syllabus", name="app.admin.course_info.")
  */
 class CourseInfoController extends Controller

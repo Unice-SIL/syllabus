@@ -4,7 +4,7 @@ namespace App\Syllabus\Exception;
 
 /**
  * Class CoursePermissionDeniedException
- * @package AppBundle\Exception
+ * @package App\Syllabus\Exception
  */
 class CoursePermissionDeniedException extends \Exception
 {

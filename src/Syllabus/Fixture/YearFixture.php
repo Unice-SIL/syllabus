@@ -9,7 +9,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 /**
  * Class YearFixture
- * @package AppBundle\Fixture
+ * @package App\Syllabus\Fixture
  */
 class YearFixture extends Fixture  implements FixtureGroupInterface
 {

@@ -20,7 +20,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class ActivityTypeController
- * @package AppBundle\Controller
+ * @package App\Syllabus\Controller
  *
  * @Route("/activity-type", name="app.admin.activity_type.")
  * @Security("has_role('ROLE_ADMIN_ACTIVITYTYPE')")

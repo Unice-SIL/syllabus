@@ -10,7 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class DuplicateCourseSection
- * @package AppBundle\Form\CourseInfo\Activities
+ * @package App\Syllabus\Form\CourseInfo\Activities
  */
 class DuplicateCourseSectionType extends AbstractType
 {

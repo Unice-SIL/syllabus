@@ -11,7 +11,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 /**
  * Class YearFixture
- * @package AppBundle\Fixture
+ * @package App\Syllabus\Fixture
  */
 class GroupsFixture extends Fixture  implements FixtureGroupInterface
 {

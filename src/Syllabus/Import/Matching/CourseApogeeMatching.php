@@ -11,7 +11,7 @@ use App\Syllabus\Manager\ CourseManager;
 
 /**
  * Class CourseApogeeMatching
- * @package AppBundle\Import\Matching
+ * @package App\Syllabus\Import\Matching
  */
 class CourseApogeeMatching extends AbstractMatching implements MatchingInterface
 {

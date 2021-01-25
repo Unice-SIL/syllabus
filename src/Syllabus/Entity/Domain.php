@@ -17,8 +17,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Domain
  *
  * @ORM\Table(name="domain")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\DomainDoctrineRepository")
- * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\DomainTranslation")
+ * @ORM\Entity(repositoryClass="App\Syllabus\Repository\Doctrine\DomainDoctrineRepository")
+ * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\DomainTranslation")
  * @ApiResource(attributes={
  *     "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"},
  *     "access_control"="is_granted('ROLE_API_DOMAIN')",
@@ -44,7 +44,7 @@ class Domain
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @ORM\CustomIdGenerator(class="App\Syllabus\Doctrine\IdGenerator")
      */
     private $id;
 
@@ -75,7 +75,7 @@ class Domain
     /**
      * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Structure", inversedBy="domains")
+     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Structure", inversedBy="domains")
      * @ORM\OrderBy({"label" = "ASC"})
      * @ApiSubresource()
      */
@@ -84,7 +84,7 @@ class Domain
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\CourseInfo", mappedBy="domains")
+     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\CourseInfo", mappedBy="domains")
      */
     private $courseInfos;
 

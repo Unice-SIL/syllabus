@@ -4,7 +4,7 @@ namespace App\Syllabus\Command;
 
 /**
  * Class CommandInterface
- * @package AppBundle\Port\Command
+ * @package App\Syllabus\Port\Command
  */
 interface CommandInterface
 {

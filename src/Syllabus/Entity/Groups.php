@@ -14,8 +14,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * Groups
  *
  * @ORM\Table(name="groups")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\Doctrine\GroupsDoctrineRepository")
- * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\GroupsTranslation")
+ * @ORM\Entity(repositoryClass="App\Syllabus\Repository\Doctrine\GroupsDoctrineRepository")
+ * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\GroupsTranslation")
  * @ApiResource(attributes={
  *     "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"},
  *     "access_control"="is_granted('ROLE_API_GROUPS')",
@@ -39,7 +39,7 @@ class Groups
      * @ORM\Column(name="id", type="string")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @ORM\CustomIdGenerator(class="App\Syllabus\Doctrine\IdGenerator")
      */
     private $id;
 
@@ -60,7 +60,7 @@ class Groups
     private $obsolete = false;
 
     /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", mappedBy="groups")
+     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\User", mappedBy="groups")
      * @ApiSubresource()
      */
     private $users;

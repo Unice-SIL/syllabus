@@ -25,7 +25,7 @@ class CourseResourceEquipmentType extends ApiAbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\CourseResourceEquipment'
+            'data_class' => 'App\Syllabus\Entity\CourseResourceEquipment'
         ));
     }
 

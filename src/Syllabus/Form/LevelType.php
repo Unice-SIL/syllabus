@@ -52,7 +52,7 @@ class LevelType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Level'
+            'data_class' => 'App\Syllabus\Entity\Level'
         ));
     }
 

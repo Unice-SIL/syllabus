@@ -12,7 +12,7 @@ use Doctrine\Persistence\ObjectRepository;
 
 /**
  * Class PeriodManager
- * @package AppBundle\Manager
+ * @package App\Syllabus\Manager
  */
 class PeriodManager
 {

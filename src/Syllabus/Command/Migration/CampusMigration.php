@@ -8,7 +8,7 @@ use App\Syllabus\Entity\Campus;
 
 /**
  * Class CampusMigration
- * @package AppBundle\Command\Migration
+ * @package App\Syllabus\Command\Migration
  */
 class CampusMigration extends AbstractReferentialMigration
 {

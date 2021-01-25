@@ -12,7 +12,7 @@ use Doctrine\ORM\QueryBuilder;
 
 /**
  * Class LevelDoctrineRepository
- * @package AppBundle\Repository\Doctrine
+ * @package App\Syllabus\Repository\Doctrine
  */
 class LevelDoctrineRepository extends ServiceEntityRepository
 {

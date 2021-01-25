@@ -10,7 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Class CourseResourceEquipmentManager
- * @package AppBundle\Manager
+ * @package App\Syllabus\Manager
  */
 class CourseResourceEquipmentManager
 {

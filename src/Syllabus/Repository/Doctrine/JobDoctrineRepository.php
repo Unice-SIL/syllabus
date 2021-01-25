@@ -8,7 +8,7 @@ use Doctrine\ORM\QueryBuilder;
 
 /**
  * Class JobDoctrineRepository
- * @package AppBundle\Repository\Doctrine
+ * @package App\Syllabus\Repository\Doctrine
  */
 class JobDoctrineRepository  extends AbstractDoctrineRepository
 {

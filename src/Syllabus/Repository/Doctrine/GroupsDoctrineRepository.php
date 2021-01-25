@@ -9,7 +9,7 @@ use Doctrine\ORM\QueryBuilder;
 
 /**
  * Class GroupsDoctrineRepository
- * @package AppBundle\Repository\Doctrine
+ * @package App\Syllabus\Repository\Doctrine
  */
 class GroupsDoctrineRepository  extends ServiceEntityRepository
 {

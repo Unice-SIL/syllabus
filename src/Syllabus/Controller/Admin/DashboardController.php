@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class DashboardController
- * @package AppBundle\Controller
+ * @package App\Syllabus\Controller
  *
  * @Route("/dashboard", name="app_admin.dashboard_")
  */

@@ -10,7 +10,7 @@ use Doctrine\Persistence\ObjectRepository;
 
 /**
  * Class ActivityManager
- * @package AppBundle\Manager
+ * @package App\Syllabus\Manager
  */
 class ActivityManager
 {

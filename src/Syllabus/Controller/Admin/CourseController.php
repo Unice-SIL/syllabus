@@ -29,7 +29,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class CourseController
- * @package AppBundle\Controller
+ * @package App\Syllabus\Controller
  *
  * @Route("course", name="app.admin.course.")
  * @Security("has_role('ROLE_ADMIN_COURSE')")

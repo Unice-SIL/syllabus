@@ -23,7 +23,7 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 
 /**
  * Class UnsActivitiesMigrationCommand
- * @package AppBundle\Command\DB
+ * @package App\Syllabus\Command\DB
  */
 class UnsActivitiesMigrationCommand extends Command
 {
@@ -608,7 +608,7 @@ class UnsActivitiesMigrationCommand extends Command
         $qb->select('cia')
             ->from(BakCourseSectionActivity::class, 'cia')
             ->innerJoin('cia.activity', 'a', Join::WITH, $qb->expr()->eq('a.type', ':type'))
-            ->setParameter('type', \AppBundle\Constant\ActivityType::ACTIVITY);
+            ->setParameter('type', \App\Syllabus\Constant\ActivityType::ACTIVITY);
 
         $oldSectionActivities = $qb->getQuery()->execute();
         */

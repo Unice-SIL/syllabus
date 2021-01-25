@@ -8,7 +8,7 @@ use App\Syllabus\Entity\Level;
 
 /**
  * Class LevelMigration
- * @package AppBundle\Command\Migration
+ * @package App\Syllabus\Command\Migration
  */
 class LevelMigration extends AbstractReferentialMigration
 {

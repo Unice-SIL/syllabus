@@ -10,7 +10,7 @@ use App\Syllabus\Entity\User;
 
 /**
  * Class GroupMigration
- * @package AppBundle\Command\Migration
+ * @package App\Syllabus\Command\Migration
  */
 class GroupMigration extends AbstractReferentialMigration
 {

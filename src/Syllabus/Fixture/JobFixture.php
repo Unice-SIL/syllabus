@@ -7,7 +7,7 @@ use Doctrine\Persistence\ObjectManager;
 
 /**
  * Class JobFixture
- * @package AppBundle\Fixture
+ * @package App\Syllabus\Fixture
  */
 class JobFixture extends Fixture
 {

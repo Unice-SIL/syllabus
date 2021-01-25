@@ -17,7 +17,7 @@ use UniceSIL\ShibbolethBundle\Security\User\ShibbolethUserProviderInterface;
 
 /**
  * Class ShibbolethUserProvider
- * @package AppBundle\Security\Provider
+ * @package App\Syllabus\Security\Provider
  */
 class ShibbolethUserProvider implements ShibbolethUserProviderInterface
 {

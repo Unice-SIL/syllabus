@@ -11,7 +11,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @ORM\Table(name="course_info_field")
  * @ORM\Entity
- * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\CourseInfoFieldTranslation")
+ * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\CourseInfoFieldTranslation")
  * @ApiResource(attributes={
  *     "filters"={"id.search_filter", "label.search_filter"},
  *     "access_control"="is_granted('ROLE_API_COURSE_INFO_FIELD')",

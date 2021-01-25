@@ -10,7 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class EvaluationType
- * @package AppBundle\Form\CourseInfo\Evaluation
+ * @package App\Syllabus\Form\CourseInfo\Evaluation
  */
 class SpecificationsType extends AbstractType
 {

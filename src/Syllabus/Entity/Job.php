@@ -12,7 +12,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @ORM\Table(name="job")
  * @ORM\Entity
- * @Gedmo\TranslationEntity(class="AppBundle\Entity\Translation\JobTranslation")
+ * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\JobTranslation")
  * @ApiResource(attributes={
  *     "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"},
  *     "access_control"="is_granted('ROLE_API_JOB')",
@@ -36,7 +36,7 @@ class Job
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     * @ORM\CustomIdGenerator(class="App\Syllabus\Doctrine\IdGenerator")
      */
     private $id;
 
@@ -54,7 +54,7 @@ class Job
      *
      * @ORM\Column(name="command", type="string", length=255)
      * @Assert\NotBlank()
-     * @Assert\Choice(choices=\AppBundle\Constant\Job::COMMANDS)
+     * @Assert\Choice(choices=\App\Syllabus\Constant\Job::COMMANDS)
      */
     private $command;
 
@@ -89,9 +89,9 @@ class Job
      * @var int|null
      *
      * @ORM\Column(name="last_status", type="integer", nullable=true)
-     * @Assert\Choice(choices=\AppBundle\Constant\Job::STATUSES)
+     * @Assert\Choice(choices=\App\Syllabus\Constant\Job::STATUSES)
      */
-    private $lastStatus = \AppBundle\Constant\Job::STATUS_INIT;
+    private $lastStatus = \App\Syllabus\Constant\Job::STATUS_INIT;
 
     /**
      *
@@ -219,7 +219,7 @@ class Job
      */
     public function setLastStatus($lastStatus)
     {
-        if ($lastStatus !== \AppBundle\Constant\Job::STATUS_IN_PROGRESS) {
+        if ($lastStatus !== \App\Syllabus\Constant\Job::STATUS_IN_PROGRESS) {
             $this->setLastUseEnd(new \DateTime());
         }
 

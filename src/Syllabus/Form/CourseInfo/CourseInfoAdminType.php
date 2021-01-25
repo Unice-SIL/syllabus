@@ -15,7 +15,7 @@ use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 
 /**
  * Class CourseInfoAdminType
- * @package AppBundle\Form\CourseInfo
+ * @package App\Syllabus\Form\CourseInfo
  */
 class CourseInfoAdminType extends AbstractType
 {

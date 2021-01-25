@@ -27,7 +27,7 @@ class EquipmentTypeSubscriber implements EventSubscriberInterface
         $equipment = $event->getData();
 
         //Edit mode
-        //$equipment->isNew is a dynamic property set in AppBundle\Manager\EquipmentManager::create() to track the new state of the entity
+        //$equipment->isNew is a dynamic property set in App\Syllabus\Manager\EquipmentManager::create() to track the new state of the entity
         if ($equipment and $equipment->getId()) {
 
             $form->add('obsolete', CheckboxType::class, [

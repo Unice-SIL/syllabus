@@ -10,7 +10,7 @@ use App\Syllabus\Import\Transformer\ArrayTransformer;
 
 /**
  * Class HourApogeeConfiguration
- * @package AppBundle\Import\Configuration
+ * @package App\Syllabus\Import\Configuration
  */
 class HourApogeeConfiguration extends AbstractConfiguration implements ConfigurationInterface
 {

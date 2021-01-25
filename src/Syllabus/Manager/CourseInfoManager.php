@@ -23,7 +23,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 /**
  * Class CourseInfoManager
- * @package AppBundle\Manager
+ * @package App\Syllabus\Manager
  */
 class CourseInfoManager extends AbstractManager
 {

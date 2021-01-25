@@ -4,7 +4,7 @@ namespace App\Syllabus\Exception;
 
 /**
  * Class StructureNotFoundException
- * @package AppBundle\Exception
+ * @package App\Syllabus\Exception
  */
 class StructureNotFoundException extends \Exception
 {

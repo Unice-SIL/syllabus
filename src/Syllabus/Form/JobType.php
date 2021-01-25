@@ -27,7 +27,7 @@ class JobType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Job'
+            'data_class' => 'App\Syllabus\Entity\Job'
         ));
     }
 

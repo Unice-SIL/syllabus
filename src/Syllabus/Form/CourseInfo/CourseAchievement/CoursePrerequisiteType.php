@@ -13,7 +13,7 @@ use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 
 /**
  * Class CoursePrerequisiteType
- * @package AppBundle\Form\CourseInfo\CourseAchievement
+ * @package App\Syllabus\Form\CourseInfo\CourseAchievement
  */
 class CoursePrerequisiteType extends AbstractType
 {

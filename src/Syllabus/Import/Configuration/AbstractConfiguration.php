@@ -10,7 +10,7 @@ use App\Syllabus\Import\Transformer\TransformerInterface;
 
 /**
  * Class AbstractConfiguration
- * @package AppBundle\Import\Configuration
+ * @package App\Syllabus\Import\Configuration
  */
 abstract class AbstractConfiguration
 {

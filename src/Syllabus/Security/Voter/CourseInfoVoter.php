@@ -22,7 +22,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 /**
  * Class CourseInfoVoter
- * @package AppBundle\Security\Voter
+ * @package App\Syllabus\Security\Voter
  */
 class CourseInfoVoter extends Voter
 {

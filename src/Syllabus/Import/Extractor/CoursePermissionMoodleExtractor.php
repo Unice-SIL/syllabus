@@ -12,7 +12,7 @@ use GuzzleHttp\Exception\GuzzleException;
 
 /**
  * Class CoursePermissionMoodleExtractor
- * @package AppBundle\Import\Extractor
+ * @package App\Syllabus\Import\Extractor
  */
 class CoursePermissionMoodleExtractor implements ExtractorInterface
 {

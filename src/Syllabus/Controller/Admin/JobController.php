@@ -87,7 +87,7 @@ class JobController extends AbstractController
     public function newAction(Request $request)
     {
         $job = new Job();
-        $form = $this->createForm('AppBundle\Form\JobType', $job);
+        $form = $this->createForm('App\Syllabus\Form\JobType', $job);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -117,7 +117,7 @@ class JobController extends AbstractController
     public function editAction(Request $request, Job $job)
     {
         $deleteForm = $this->createDeleteForm($job);
-        $editForm = $this->createForm('AppBundle\Form\JobType', $job);
+        $editForm = $this->createForm('App\Syllabus\Form\JobType', $job);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -145,7 +145,7 @@ class JobController extends AbstractController
      */
     public function reportAction(Request $request, Job $job)
     {
-        if ($job->getLastStatus() === \AppBundle\Constant\Job::STATUS_IN_PROGRESS) {
+        if ($job->getLastStatus() === \App\Syllabus\Constant\Job::STATUS_IN_PROGRESS) {
             return $this->redirectToRoute('app.admin.job.index');
         }
 
@@ -178,7 +178,7 @@ class JobController extends AbstractController
      */
     public function deleteAction(Request $request, Job $job, TranslatorInterface $translator)
     {
-        if ($job->getLastStatus() !== \AppBundle\Constant\Job::STATUS_IN_PROGRESS) {
+        if ($job->getLastStatus() !== \App\Syllabus\Constant\Job::STATUS_IN_PROGRESS) {
 
             $form = $this->createDeleteForm($job);
             $form->handleRequest($request);
@@ -226,7 +226,7 @@ class JobController extends AbstractController
             return $this->redirectToRoute('app.admin.job.index');
         }
 
-        if ($job->getLastStatus() !== \AppBundle\Constant\Job::STATUS_IN_PROGRESS) {
+        if ($job->getLastStatus() !== \App\Syllabus\Constant\Job::STATUS_IN_PROGRESS) {
             $job->setImmediately(true);
             $em->flush();
             return $this->redirectToRoute('app.admin.job.index');

@@ -21,7 +21,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class StructureController
- * @package AppBundle\Controller
+ * @package App\Syllabus\Controller
  *
  * @Route("/structure", name="app.admin.structure.")
  * @Security("has_role('ROLE_ADMIN_STRUCTURE')")

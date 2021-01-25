@@ -10,7 +10,7 @@ use App\Syllabus\Import\Transformer\ArrayTransformer;
 
 /**
  * Class CourseApogeeConfiguration
- * @package AppBundle\Import\Configuration
+ * @package App\Syllabus\Import\Configuration
  */
 class CourseApogeeConfiguration extends AbstractConfiguration implements ConfigurationInterface
 {

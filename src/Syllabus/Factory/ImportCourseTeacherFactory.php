@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 
 /**
  * Class ImportCourseTeacherFactory
- * @package AppBundle\Factory
+ * @package App\Syllabus\Factory
  */
 class ImportCourseTeacherFactory
 {

@@ -16,7 +16,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class SecurityController
- * @package AppBundle\Controller
+ * @package App\Syllabus\Controller
  *
  * @Route(name="app.security.")
  */

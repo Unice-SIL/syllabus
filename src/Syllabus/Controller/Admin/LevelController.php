@@ -22,7 +22,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class LevelController
- * @package AppBundle\Controller
+ * @package App\Syllabus\Controller
  *
  * @Route("/level", name="app.admin.level.")
  * @Security("has_role('ROLE_ADMIN_LEVEL')")
