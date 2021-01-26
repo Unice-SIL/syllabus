@@ -154,12 +154,12 @@
                 </span>
             </div>
             <div class="col-12 col-lg-6 d-flex justify-content-between flex-wrap">
-                {% if courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::IN_CLASS') or
-                    courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::HYBRID') %}
+                {% if courseInfo.teachingMode == constant('App\\Syllabus\\Constant\\TeachingMode::IN_CLASS') or
+                    courseInfo.teachingMode == constant('App\\Syllabus\\Constant\\TeachingMode::HYBRID') %}
                     {% include 'course_info/view/student_teaching_mode_in_class.html.twig' %}
                 {% endif %}
-                {% if courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::DIST') or
-                    courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::HYBRID') %}
+                {% if courseInfo.teachingMode == constant('App\\Syllabus\\Constant\\TeachingMode::DIST') or
+                    courseInfo.teachingMode == constant('App\\Syllabus\\Constant\\TeachingMode::HYBRID') %}
                     {% include 'course_info/view/student_teaching_mode_dist.html.twig' %}
                 {% endif %}
             </div>

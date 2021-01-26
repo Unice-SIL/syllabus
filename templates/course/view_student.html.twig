@@ -18,7 +18,7 @@
         <div class="alert alert-danger text-center" role="alert">
             <p>Le syllabus demandé n'a pas été retrouvé.</p>
         </div>
-    {% elseif course.publicationDate == null and coursePermissionHelper.hasPermission(course, app.user, constant('AppBundle\\Constant\\Permission::WRITE')) != true %}
+    {% elseif course.publicationDate == null and coursePermissionHelper.hasPermission(course, app.user, constant('App\\Syllabus\\Constant\\Permission::WRITE')) != true %}
         <div class="alert alert-warning text-center" role="alert">
             <p>Le syllabus demandé n'est pas encore publié.</p>
             <p>Si vous êtes un enseignant nouvellement inscrit sur ce cours vous aurez la possibilité de modifier le Syllabus d'ici 24h.</p>

@@ -1,6 +1,6 @@
 {% set teachingCm = courseInfo.teachingCmDist %}
 {% set teachingTd = courseInfo.teachingTdDist %}
-{% if courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::HYBRID') %}
+{% if courseInfo.teachingMode == constant('App\\Syllabus\\Constant\\TeachingMode::HYBRID') %}
     {% set teachingCm = courseInfo.teachingCmHybridDist %}
     {% set teachingTd = courseInfo.teachingTdHybridDist %}
 {% endif %}
@@ -25,7 +25,7 @@
             </li>
         {% endif %}
         {% for teaching in courseInfo.teachings %}
-            {% if teaching.mode == constant('AppBundle\\Constant\\TeachingMode::DIST') %}
+            {% if teaching.mode == constant('App\\Syllabus\\Constant\\TeachingMode::DIST') %}
                 <li>
                     <i class="fas fa-check text-primary"></i>
                     {{ 'app.view.student.presentation.hours_teachings' | trans({'%hours%': teaching.hourlyVolume, '%type%': teaching.type}) }}

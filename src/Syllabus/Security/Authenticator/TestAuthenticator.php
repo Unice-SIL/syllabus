@@ -32,12 +32,12 @@ class TestAuthenticator extends AbstractGuardAuthenticator
 
     /**
      * TestAuthAuthenticator constructor.
-     * @param TokenStorageInterface $tokenStorage
      * @param array $config
+     * @param TokenStorageInterface $tokenStorage
      */
     public function __construct(
-        TokenStorageInterface $tokenStorage,
-        array $config = array())
+        array $config = array(),
+        TokenStorageInterface $tokenStorage)
     {
         $this->config = $config;
         $this->tokenStorage = $tokenStorage;

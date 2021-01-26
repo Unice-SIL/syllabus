@@ -282,7 +282,7 @@
             </a>
             <ul class="nav nav-treeview"
                 style="display: {{ printActiveAdminSidebarLink(administrationLink) ? 'block' : 'none' }};">
-                {% if is_granted(constant('AppBundle\\Constant\\UserRole::ROLE_SUPER_ADMIN')) %}
+                {% if is_granted(constant('App\\Syllabus\\Constant\\UserRole::ROLE_SUPER_ADMIN')) %}
                     <li class="nav-item pl-2">
                         <a href="{{ path('dmishh_settings_manage_global') }}"
                            class="nav-link {{ printActiveAdminSidebarLink(['dmishh_settings_manage_global']) }}">

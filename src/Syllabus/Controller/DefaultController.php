@@ -59,7 +59,6 @@ class DefaultController extends AbstractController
     {
         /** @var User $user */
         $user = $this->getUser();
-        dump($user);
         $courseInfos = $coursePermissionRepository->getCourseByPermission($user);
         $courseInfosByYear = [];
         foreach ($courseInfos as $courseInfo )

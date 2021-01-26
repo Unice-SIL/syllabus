@@ -82,7 +82,7 @@
                             <td>{{ job.immediately|humanizeBoolean }}</td>
                             <td>
                                 {% if is_granted('ROLE_ADMIN_JOB_REPORT') %}
-                                    {% if(job.lastStatus == constant('AppBundle\\Constant\\Job::STATUS_IN_PROGRESS')) %}
+                                    {% if(job.lastStatus == constant('App\\Syllabus\\Constant\\Job::STATUS_IN_PROGRESS')) %}
                                         <a class="btn btn-sm btn-warning disabled" href="#" title="{{ 'admin.job.actions.report' | trans }}">
                                             <i class="fas fa-file-alt"></i>
                                         </a>
@@ -94,7 +94,7 @@
                                 {% endif %}
 
                                 {% if is_granted('ROLE_ADMIN_JOB_EXECUTE') %}
-                                    {% if(job.lastStatus == constant('AppBundle\\Constant\\Job::STATUS_IN_PROGRESS')) %}
+                                    {% if(job.lastStatus == constant('App\\Syllabus\\Constant\\Job::STATUS_IN_PROGRESS')) %}
                                         <a class="btn btn-sm btn-success disabled" title="{{ 'admin.job.actions.execute' | trans }}">
                                             <i class="fas fa-play"></i>
                                         </a>
@@ -110,7 +110,7 @@
                                 {% endif %}
 
                                 {% if is_granted('ROLE_ADMIN_JOB_DELETE') %}
-                                    {% if(job.lastStatus == constant('AppBundle\\Constant\\Job::STATUS_IN_PROGRESS')) %}
+                                    {% if(job.lastStatus == constant('App\\Syllabus\\Constant\\Job::STATUS_IN_PROGRESS')) %}
                                         <a class="btn btn-sm btn-danger disabled">
                                             <i class="fas fa-trash"></i>
                                         </a>

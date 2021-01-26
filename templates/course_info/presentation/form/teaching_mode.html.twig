@@ -4,7 +4,7 @@
 {{ form_errors(form) }}
 
 <div class="d-flex flex-wrap">
-    <div id="teaching-mode-container" class="mr-auto" data-type-hybrid="{{ constant('AppBundle\\Constant\\TeachingMode::HYBRID') }}">
+    <div id="teaching-mode-container" class="mr-auto" data-type-hybrid="{{ constant('App\\Syllabus\\Constant\\TeachingMode::HYBRID') }}">
         <label class="required font-weight-bold">{{ 'app.presentation.form.teaching_mode.label' | trans }}</label>
         {{ form_row(form.teachingMode, {label_attr: {class: 'radio-custom'} }) }}
     </div>
@@ -42,18 +42,18 @@
     {% set teachingPrototype = form.teachings.vars.prototype %}
 
     {% for teachingForm in form.teachings %}
-        {% if teachingForm.vars.data.mode is same as (constant('AppBundle\\Constant\\TeachingMode::IN_CLASS')) %}
+        {% if teachingForm.vars.data.mode is same as (constant('App\\Syllabus\\Constant\\TeachingMode::IN_CLASS')) %}
             {% set teachingClassForm = teachingClassForm|merge([teachingForm]) %}
-        {% elseif teachingForm.vars.data.mode is same as (constant('AppBundle\\Constant\\TeachingMode::DIST')) %}
+        {% elseif teachingForm.vars.data.mode is same as (constant('App\\Syllabus\\Constant\\TeachingMode::DIST')) %}
             {% set teachingDistantForm = teachingDistantForm|merge([teachingForm]) %}
         {% endif %}
     {% endfor %}
     <div class="row">
-        <div class="col-6 teaching-fields-list-container" id="teaching-fields-list-container-{{ constant('AppBundle\\Constant\\TeachingMode::IN_CLASS') }}">
-            {{ _self.printTeachingModeContainer(teachingClassForm, constant('AppBundle\\Constant\\TeachingMode::IN_CLASS'), teachingPrototype ) }}
+        <div class="col-6 teaching-fields-list-container" id="teaching-fields-list-container-{{ constant('App\\Syllabus\\Constant\\TeachingMode::IN_CLASS') }}">
+            {{ _self.printTeachingModeContainer(teachingClassForm, constant('App\\Syllabus\\Constant\\TeachingMode::IN_CLASS'), teachingPrototype ) }}
         </div>
-        <div class="col-6 teaching-fields-list-container" id="teaching-fields-list-container-{{ constant('AppBundle\\Constant\\TeachingMode::DIST') }}">
-            {{ _self.printTeachingModeContainer(teachingDistantForm, constant('AppBundle\\Constant\\TeachingMode::DIST'), teachingPrototype ) }}
+        <div class="col-6 teaching-fields-list-container" id="teaching-fields-list-container-{{ constant('App\\Syllabus\\Constant\\TeachingMode::DIST') }}">
+            {{ _self.printTeachingModeContainer(teachingDistantForm, constant('App\\Syllabus\\Constant\\TeachingMode::DIST'), teachingPrototype ) }}
         </div>
     </div>
 

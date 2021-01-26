@@ -57,6 +57,6 @@
 {% block _groups_roles_row %}
     <label>{{ form.vars.label|trans }}</label>
     <div class="form-group border p-2" id="groups_roles">
-        {{ _self.print_roles_hierarchy(form, constant('AppBundle\\Constant\\UserRole::HIERARCHY')) }}
+        {{ _self.print_roles_hierarchy(form, constant('App\\Syllabus\\Constant\\UserRole::HIERARCHY')) }}
     </div>
 {% endblock %}
