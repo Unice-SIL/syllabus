@@ -3,15 +3,6 @@
 @import "admin";
 
 @font-face {
-  font-family: font_awesome_free_solid;
-  font-style: normal;
-  font-weight: 900;
-  font-display: $fa-font-display;
-  src: url('/fonts/fa-solid-900.woff2') format('woff2'),
-  url('/fonts/fa-solid-900.woff') format('woff');
-}
-
-@font-face {
   font-family: "Apex New Book";
   src: url('../fonts/apexnew-book.otf') format('opentype'),
   url('../fonts/apexnew-book.woff') format('woff'),
@@ -23,12 +14,6 @@
   src: url('../fonts/Brother-1816-Book.ttf'),
   url('../fonts/Brother-1816-Book.eot'),
   url('../fonts/Brother-1816-Book.woff') format('woff')
-}
-
-
-.fas {
-  font-family: font_awesome_free_solid;
-  font-weight: 900;
 }
 
 /*

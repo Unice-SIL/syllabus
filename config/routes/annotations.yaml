@@ -15,6 +15,15 @@ syllabus.admin:
   defaults:
     _locale: '%locale%'
 
+syllabus.home:
+  controller: App\Syllabus\Controller\DefaultController::indexAction
+  path: /
+  prefix: /{_locale}
+  defaults:
+    _locale: '%locale%'
+  requirements:
+    _locale: "fr|en"
+
 lexik_translation_edition:
   resource: "@LexikTranslationBundle/Resources/config/routing.yml"
   prefix:   /{_locale}/admin/translation

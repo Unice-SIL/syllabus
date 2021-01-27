@@ -15,7 +15,6 @@
     top: calc(50% - 10rem);
     left: calc(50% - 5rem);
     color: $gray-400;
-    font-family: font_awesome_free_solid;
     font-size: 10rem;
     &:before { content: fa-content($fa-var-circle-notch); }
     animation: fa-spin 2s infinite linear;

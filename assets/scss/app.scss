@@ -6,10 +6,11 @@
 
 @import "custom_variables";
 
-@import "../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/css/all.css";
 @import "../../node_modules/@fortawesome/fontawesome-free/scss/regular";
 
 @import "../../node_modules/bootstrap4-toggle/css/bootstrap4-toggle.min.css";
+
 
 @import "../../node_modules/select2";
 
