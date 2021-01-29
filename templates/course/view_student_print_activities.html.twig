@@ -12,12 +12,12 @@
     {% if activityType=='activity' and activityMode=='class' %}
         <div class="p-2 d-flex align-self-center font-weight-bold">En présentiel</div>
         <div class="p-2 d-flex align-self-center">
-            <img src="{{ asset('images/activity_in_class_white_64.png') }}">
+            <img src="{{ asset('build/images/activity_in_class_white_64.png') }}">
         </div>
     {% elseif activityType=='activity' and activityMode=='autonomy' %}
         <div class="p-2 d-flex align-self-center font-weight-bold">En autonomie</div>
         <div class="p-2 d-flex align-self-center">
-            <img src="{{ asset('images/activity_in_autonomy_white_64.png') }}">
+            <img src="{{ asset('build/images/activity_in_autonomy_white_64.png') }}">
         </div>
     {% elseif activityType=='evaluation' %}
         <div class="p-2 d-flex flex-column align-self-center font-weight-bold">
@@ -31,7 +31,7 @@
             {% endfor %}
         </div>
         <div class="p-2 d-flex align-self-center">
-            <img src="{{ asset('images/evaluation_cc_white_64.png') }}">
+            <img src="{{ asset('build/images/evaluation_cc_white_64.png') }}">
         </div>
     {% endif %}
 </div>

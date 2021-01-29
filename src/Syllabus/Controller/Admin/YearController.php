@@ -38,7 +38,7 @@ class YearController extends AbstractController
     public function indexAction(Request $request, PaginatorInterface $paginator)
     {
         $pagination = $paginator->paginate(
-            $this->getDoctrine()->getManager()->createQuery("SELECT y FROM App:Syllabus:Year y"),
+            $this->getDoctrine()->getManager()->createQuery("SELECT y FROM Syllabus:Year y"),
             $request->query->getInt('page', 1),
             10
         );

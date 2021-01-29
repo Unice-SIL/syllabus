@@ -179,7 +179,7 @@
                 </div>
                 <div class="col-lg d-flex align-items-center">
                     {% if course.teachingMode == "class" %}
-                        <img src="{{ asset('images/in_class_white_128.png') }}">
+                        <img src="{{ asset('build/images/in_class_white_128.png') }}">
                         <div class = "d-flex flex-column">
                             <span class="font-weight-bold">Présentiel</span>
                             {% if course.teachingCmClass is not null %}
@@ -196,7 +196,7 @@
                             {% endif %}
                         </div>
                     {% elseif course.teachingMode == "hybrid" %}
-                        <img src="{{ asset('images/hybrid_white_128.png') }}">
+                        <img src="{{ asset('build/images/hybrid_white_128.png') }}">
                         <div class = "d-flex flex-column w-100">
                             <span class="font-weight-bold">Hybride</span>
                             <div class="row">
@@ -374,7 +374,7 @@
                                     {% endfor %}
                                 </div>
                                 <div class="p-2 d-flex align-self-center">
-                                    <img src="{{ asset('images/evaluation_cc_white_64.png') }}">
+                                    <img src="{{ asset('build/images/evaluation_cc_white_64.png') }}">
                                 </div>
                             </div>
                         </div>
@@ -405,7 +405,7 @@
                                             <tr class="border-bottom font-weight-bold">
                                                 <td colspan="2" class="text-center">
                                                     1ère session
-                                                    <img id="infos_mcc_session1" src="{{ asset('images/info_white_32.png') }}" style="cursor: pointer;">
+                                                    <img id="infos_mcc_session1" src="{{ asset('build/images/info_white_32.png') }}" style="cursor: pointer;">
                                                 </td>
                                             </tr>
                                             <tr>
@@ -528,7 +528,7 @@
                                 <h4 class="my-2 font-weight-bold">{{course.mccWeight}}%</h4>
                             </div>
                             <strong class="px-2">Poids dans l'UE</strong>
-                            <img id="infos_mcc_weight" src="{{ asset('images/info_white_32.png') }}" style="cursor: pointer;">
+                            <img id="infos_mcc_weight" src="{{ asset('build/images/info_white_32.png') }}" style="cursor: pointer;">
                         </div>
                         <div class="col-md d-flex align-items-center">
                             {% if not course.mccCompensable %}
@@ -538,7 +538,7 @@
                                 <i class="fas fa-4x fa-check-circle text-info"></i>
                                 <strong class="px-2">{{course.course.type}} compensable</strong>
                             {% endif %}
-                            <img id="infos_mcc_compensable" src="{{ asset('images/info_white_32.png') }}" style="cursor: pointer;">
+                            <img id="infos_mcc_compensable" src="{{ asset('build/images/info_white_32.png') }}" style="cursor: pointer;">
                         </div>
                         <div class="col-md d-flex align-items-center">
                             {% if not course.mccCapitalizable %}
@@ -548,7 +548,7 @@
                                 <i class="fas fa-4x fa-check-circle text-info"></i>
                                 <strong class="px-2">{{course.course.type}} capitalisable</strong>
                             {% endif %}
-                            <img id="infos_mcc_capitalizable" src="{{ asset('images/info_white_32.png') }}" style="cursor: pointer;">
+                            <img id="infos_mcc_capitalizable" src="{{ asset('build/images/info_white_32.png') }}" style="cursor: pointer;">
                         </div>
                     </div>
                 {% endif %}

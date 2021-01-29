@@ -15,7 +15,7 @@
                         </a>
                     </div>
                     <div class="col-lg-2 col-md-4 col-sm-6">
-                        <img style="width: 120px;" src={{ asset('/build/images/Prof_syllabus.png') }}>
+                        <img style="width: 120px;" src={{ asset('build/images/Prof_syllabus.png') }}>
                     </div>
                 </div>
             </div>
@@ -132,7 +132,7 @@
                 {% if courseInfo.publicationDate is null %}
                     <div id="btn_publish" class="btn-dashboard bg-orange">
                         <span class="label-dashboard text-white">{{ 'app.dashboard.card.publish_syllabus' | trans }}</span>
-                        <img src="{{ asset('/build/images/fusee_publier.png') }}">
+                        <img src="{{ asset('build/images/fusee_publier.png') }}">
                         {{ form_start(publicationForm, {'attr' : {
                             'data-url' : path('app.course_info.dashboard.publish', {id : courseInfo.id})
                         }}) }}
@@ -141,7 +141,7 @@
                 {% else %}
                     <div class="btn-dashboard btn-dashboard-disabled bg-white">
                         <span class="label-dashboard">{{ 'app.dashboard.card.publish_success' | trans }}</span>
-                        <img src="{{ asset('/build/images/Drapeau.png') }}" style="width: 40%;">
+                        <img src="{{ asset('build/images/Drapeau.png') }}" style="width: 40%;">
                     </div>
                 {% endif %}
             </div>
@@ -150,7 +150,7 @@
                 <a href="{{ path('app.course_info.view.student', { 'id': courseInfo.id }) }}" target="_blank">
                     <div class="btn-dashboard">
                         <span class="label-dashboard">{{ 'app.dashboard.card.see_student' | trans }}</span>
-                        <img src="{{ asset('/build/images/Etudiant.png') }}">
+                        <img src="{{ asset('build/images/Etudiant.png') }}">
                     </div>
                 </a>
             </div>
@@ -162,7 +162,7 @@
                    data-code-year="{{ courseInfo.codeYear(true) }}">
                     <div class="btn-dashboard">
                         <span class="label-dashboard">{{ 'app.dashboard.card.duplicate_syllabus_other_course' | trans }}</span>
-                        <img src="{{ asset('/build/images/Duplication.png') }}">
+                        <img src="{{ asset('build/images/Duplication.png') }}">
                     </div>
                 </a>
             </div>
@@ -187,7 +187,7 @@
                     <a class="text-dark" href="https://lms.univ-cotedazur.fr/course/view.php?id=22745" target="_blank">
                         <div class="row">
                             <div class="col-lg-2 col-md-4 col-sm-6">
-                                <img style="width: 120px;" src={{ asset('/build/images/dashboard-information.jpg') }}>
+                                <img style="width: 120px;" src={{ asset('build/images/dashboard-information.jpg') }}>
                             </div>
                             <div class="col-lg-10 col-md-8 col-sm-6">
                                 <h4 class="mb-4">{{ 'app.dashboard.syllabus_instructions.syllabus_problem' | trans }}</h4>

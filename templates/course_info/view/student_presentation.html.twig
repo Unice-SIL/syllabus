@@ -10,7 +10,7 @@
     <div class="presentation-info row p-4">
         <div class="presentation-info-element col-12 col-lg-4 col-md-6 col-sm-12">
             <div class="student-subtitle">
-                <img class="icon-20" src="{{ asset('/build/images/composante_picto.png') }}">
+                <img class="icon-20" src="{{ asset('build/images/composante_picto.png') }}">
                 <span>{{ 'app.view.student.presentation.structure' | trans }}</span>
             </div>
             <ul class="student-list list-dotted">
@@ -21,7 +21,7 @@
         </div>
         <div class="presentation-info-element col-12 col-lg-4 col-md-6 col-sm-12">
             <div class="student-subtitle">
-                <img class="icon-20" src="{{ asset('/build/images/domaine_picto.png') }}">
+                <img class="icon-20" src="{{ asset('build/images/domaine_picto.png') }}">
                 <span>{{ 'app.view.student.presentation.domain' | trans }}</span>
             </div>
             <ul class="student-list list-dotted">
@@ -34,7 +34,7 @@
         </div>
         <div class="presentation-info-element col-12 col-lg-4 col-md-6 col-sm-12">
             <div class="student-subtitle">
-                <img class="icon-20" src="{{ asset('/build/images/lieu_picto.png') }}">
+                <img class="icon-20" src="{{ asset('build/images/lieu_picto.png') }}">
                 <span>{{ 'app.view.student.presentation.campus' | trans }}</span>
             </div>
             <ul class="student-list list-dotted">
@@ -47,7 +47,7 @@
         </div>
         <div class="presentation-info-element col-12 col-lg-4 col-md-6 col-sm-12">
             <div class="student-subtitle">
-                <img class="icon-20" src="{{ asset('/build/images/niveau_picto.png') }}">
+                <img class="icon-20" src="{{ asset('build/images/niveau_picto.png') }}">
                 <span>{{ 'app.view.student.presentation.level' | trans }}</span>
             </div>
             <ul class="student-list list-dotted">
@@ -61,7 +61,7 @@
         {% if courseInfo.periods is not empty %}
             <div class="presentation-info-element col-12 col-lg-4 col-md-6 col-sm-12">
                 <div class="student-subtitle">
-                    <img class="icon-20" src="{{ asset('/build/images/calendrier_picto.png') }}">
+                    <img class="icon-20" src="{{ asset('build/images/calendrier_picto.png') }}">
                     <span>{{ 'app.view.student.presentation.semester' | trans }}</span>
                 </div>
                 <ul class="student-list list-dotted">
@@ -75,7 +75,7 @@
         {% endif %}
         <div class="presentation-info-element col-12 col-lg-4 col-md-6 col-sm-12">
             <div class="student-subtitle">
-                <img class="icon-20" src="{{ asset('/build/images/langue_picto.png') }}">
+                <img class="icon-20" src="{{ asset('build/images/langue_picto.png') }}">
                 <span>{{ 'app.view.student.presentation.language' | trans }}</span>
             </div>
             <ul class="student-list list-dotted">
@@ -102,7 +102,7 @@
                 {% set ecue = parent.children|length %}
                 <div class="presentation-info-element col-12">
                     <div class="student-subtitle">
-                        <img class="icon-20" src="{{ asset('/build/images/info_picto.png') }}">
+                        <img class="icon-20" src="{{ asset('build/images/info_picto.png') }}">
                         <span>{{ 'app.view.student.presentation.belong_to' | trans({'%title%' : title}) }} </span>
                         <span class="text-primary ml-1">
                         {% if ects is not null %}
