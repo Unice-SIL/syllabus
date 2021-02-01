@@ -20,12 +20,12 @@ doctrine:
         metadata_cache_driver:
           type: pool
           pool: doctrine.system_cache_pool
-          query_cache_driver:
-            type: pool
-            pool: doctrine.system_cache_pool
-          result_cache_driver:
-            type: pool
-            pool: doctrine.result_cache_pool
+        query_cache_driver:
+          type: pool
+          pool: doctrine.system_cache_pool
+        result_cache_driver:
+          type: pool
+          pool: doctrine.result_cache_pool
         mappings:
           Syllabus:
             type: annotation
@@ -46,12 +46,12 @@ doctrine:
         metadata_cache_driver:
           type: pool
           pool: doctrine.system_cache_pool
-          query_cache_driver:
-            type: pool
-            pool: doctrine.system_cache_pool
-          result_cache_driver:
-            type: pool
-            pool: doctrine.result_cache_pool
+        query_cache_driver:
+          type: pool
+          pool: doctrine.system_cache_pool
+        result_cache_driver:
+          type: pool
+          pool: doctrine.result_cache_pool
         mappings:
           UniceSILSyllabusApogeeImporterBundle: ~
 
