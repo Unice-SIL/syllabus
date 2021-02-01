@@ -3,15 +3,9 @@ doctrine:
     default_connection: syllabus
     connections:
       syllabus:
-        url: '%env(resolve:DATABASE_APP_URL)%'
+        url: '%env(resolve:DATABASE_SYLLABUS_URL)%'
       apogee:
-        driver: '%env(APOGEE_DATABASE_DRIVER)%'
-        host: '%env(APOGEE_DATABASE_HOST)%'
-        port: '%env(APOGEE_DATABASE_PORT)%'
-        dbname: '%env(APOGEE_DATABASE_NAME)%'
-        user: '%env(APOGEE_DATABASE_USER)%'
-        password: '%env(APOGEE_DATABASE_PASSWORD)%'
-        charset: '%env(APOGEE_DATABASE_CHARSET)%'
+        url: '%env(resolve:DATABASE_APOGEE_URL)%'
         logging: false
         profiling: false
   orm:
