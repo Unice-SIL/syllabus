@@ -59,6 +59,17 @@ services:
         tags:
             - { name: twig.extension }
 
+    Dmishh\SettingsBundle\Controller\SettingsController:
+        public: true
+        autowire: true
+        tags: ['container.service_subscriber']
+        arguments:
+            - '@translator'
+            - '@Dmishh\SettingsBundle\Manager\SettingsManagerInterface'
+            - 'setting/manage.html.twig'
+            - false
+            - ROLE_SUPER_ADMIN
+
     # AUTHENTICATOR
     App\Syllabus\Security\Authenticator\TestAuthenticator:
         arguments: ['%test_authenticator%']

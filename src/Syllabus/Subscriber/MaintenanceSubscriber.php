@@ -40,6 +40,7 @@ class MaintenanceSubscriber implements EventSubscriberInterface
      * @param Environment $twigEnvironment
      * @param SettingsManager $settingsManager
      * @param AuthorizationCheckerInterface $authorizationChecker
+     * @param Security $security
      */
     public function __construct(Environment $twigEnvironment, SettingsManager $settingsManager, AuthorizationCheckerInterface $authorizationChecker, Security $security)
     {
