@@ -72,7 +72,7 @@ class MailHelper
     {
         $message = (new \Swift_Message('Nouveau syllabus publié'))
             ->setFrom($this->mailerSource)
-            ->setTo($this->mailerTarget)
+            ->setTo($user->getEmail())
             ->setBody(
                 $this->twig->render('email/publication.html.twig', [
                     'courseInfo' => $courseInfo
