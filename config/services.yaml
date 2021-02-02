@@ -31,6 +31,9 @@ parameters:
                 email: '%env(TEST_AUTHENTICATOR_USERS_USER1_EMAIL)%'
                 roles:
                     - ROLE_USER
+    ldap_uns_options:
+        protocol_version: '%env(LDAP_UNS_OPTIONS_PROTOCOL_VERSION)%'
+        referrals: '%env(LDAP_UNS_OPTIONS_REFERRALS)%'
 services:
     _defaults:
         autowire: true
@@ -161,7 +164,7 @@ services:
             -   host: '%env(LDAP_UNS_HOST)%'
                 port: '%env(LDAP_UNS_PORT)%'
                 encryption: '%env(LDAP_UNS_ENCRYPTION)%'
-                options: '%env(LDAP_UNS_OPTIONS)%'
+                options: '%ldap_uns_options%'
 
     ldap_uns:
         class: Symfony\Component\Ldap\Ldap
