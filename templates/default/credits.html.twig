@@ -1,0 +1,68 @@
+{% extends 'base_layout.html.twig' %}
+{% set h1 = 'credits.title' %}
+
+{% block content %}
+
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-primary">{{ h1|default('Il faut ajouter un h1') | trans }}</h1>
+                </div><!-- /.col -->
+
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-10">
+                <div class="mb-3">
+                    {{ 'credits.description' | trans }}
+                </div>
+                <h4 class="text-primary mb-3">
+                    {{ 'credits.editor' | trans }}
+                </h4>
+                <div>
+                    <p class="mb-0">{{ 'credits.university.name' | trans }}</p>
+                    <p class="mb-0">{{ 'credits.university.address' | trans }}</p>
+                    <p>{{ 'credits.university.postal_code' | trans }}</p>
+                </div>
+                <h4 class="text-primary mb-3">
+                    {{ 'credits.website_gestion' | trans }}
+                </h4>
+                <div>
+                    <p>{{ 'credits.website_developpers' | trans }}</p>
+                </div>
+                <h4 class="text-primary mb-3">
+                    {{ 'credits.conception' | trans }}
+                </h4>
+                <div>
+                    <p>{{ 'credits.conception_description' | trans }}</p>
+                </div>
+                <h4 class="text-primary mb-3">
+                    {{ 'credits.link' | trans }}
+                </h4>
+                <div>
+                    <p>{{ 'credits.credits_description' | trans }}</p>
+                </div>
+                <h4 class="text-primary mb-3">
+                    {{ 'credits.host' | trans }}
+                </h4>
+                <div>
+                    <p>{{ 'credits.host_description' | trans }}</p>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="border border-primary p-2">
+                Déclaration de conformité
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer %}{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

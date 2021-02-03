@@ -69,4 +69,12 @@ class DefaultController extends AbstractController
         return $this->render('default/homepage.html.twig', array(
             'courses' => $courseInfosByYear));
     }
+
+    /**
+     * @Route("/credits", name="credits")
+     */
+    public function creditsAction()
+    {
+        return $this->render('default/credits.html.twig');
+    }
 }

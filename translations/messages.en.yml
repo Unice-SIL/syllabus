@@ -359,12 +359,12 @@ app:
       prerequisites: Prerequisites
       add_prerequisite: Add a prerequisite
       empty_prerequisite: No prerequisite fills in
-      mandatory_courses: Mandatory courses:
+      mandatory_courses: "Mandatory courses:"
       update_prerequisite: Update a prerequisite
       delete_prerequisite: Delete a prerequisite
       tutoring_resource: Remediation / Help to succeed
       add_tutoring_resource: Add a remediation
-      attend_tutoring: Attend guidance sessions:
+      attend_tutoring: "Attend guidance sessions:"
       add_tutoring: Add a guidance
       update_tutoring: Update a guidance
       tutoring_teacher: With a tutoring teacher
@@ -1031,7 +1031,7 @@ admin:
   job:
     list_jobs: List of tasks
     edit_job: Edit a task
-    job_report: Task report :
+    job_report: "Task report :"
     actions:
       report: Report
       execute: Execute
@@ -1103,3 +1103,6 @@ admin:
     reset_filters: Reset filters
     save: Save
     edit: Edit
+
+credits:
+  link: Credits
