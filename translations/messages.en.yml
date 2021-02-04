@@ -1106,3 +1106,23 @@ admin:
 
 credits:
   link: Credits
+  title: Credits and legal mentions
+  description: According to the article 6 III-1 of law n°2004-575 from June 21 2004 about the trust in digital economy, this website is the property of the University Côte d'Azur
+  editor: Editor
+  university:
+    name: University Côte d'Azur
+    address: 28 Avenue Valrose,
+    postal_code: 06100 Nice
+  website_gestion: Website gestion
+  website_developpers: Direction of the informations system
+  conception: Conception
+  conception_description: Project L@UCA, DSI of the University Côte d'Azur
+  credits_description: Freepik Flaticon, Pixabay
+  host: Host
+  host_description: The website is host by the direction of the informations system of the university Côte d'Azur
+  rgaa:
+    title: Compliance declaration RGAA
+    description: Dedicated tab to the compliance declaration RGAA 3.0 for the website web www.u-bordeaux.fr
+  dpd:
+    title: Representative of the data protection
+    description: The representative of the data protection must be associated to all the relative questions about the data protection about personnal nature.

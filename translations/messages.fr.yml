@@ -1120,3 +1120,9 @@ credits:
   credits_description: Freepik Flaticon, Pixabay
   host: Hébergement
   host_description: Le site est hébergé par la Direction des systèmes d'informations de l'université Côte d'Azur
+  rgaa:
+    title: Déclaration de conformité RGAA
+    description: Page dédiée à la déclaration de conformité au RGAA 3.0 pour le site web www.u-bordeaux.fr
+  dpd:
+    title: Délégué à la protection des données (DPD)
+    description: Le délégué à la protection des données (DPD) doit être associé à toutes les questions relatives à la protection des données à caractère personnel.

@@ -7,54 +7,67 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-primary">{{ h1|default('Il faut ajouter un h1') | trans }}</h1>
+                    <h1 class="pl-4 text-primary">{{ h1|default('Il faut ajouter un h1') | trans }}</h1>
                 </div><!-- /.col -->
 
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
     </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-10">
+    <div class="container-fluid">
+        <div class="d-flex">
+            <div class="px-5">
                 <div class="mb-3">
                     {{ 'credits.description' | trans }}
                 </div>
-                <h4 class="text-primary mb-3">
-                    {{ 'credits.editor' | trans }}
+                <h4 class="mb-3">
+                    <span class="border-bottom border-primary">{{ 'credits.editor' | trans }}</span>
                 </h4>
                 <div>
                     <p class="mb-0">{{ 'credits.university.name' | trans }}</p>
                     <p class="mb-0">{{ 'credits.university.address' | trans }}</p>
                     <p>{{ 'credits.university.postal_code' | trans }}</p>
                 </div>
-                <h4 class="text-primary mb-3">
-                    {{ 'credits.website_gestion' | trans }}
+                <h4 class="mb-3">
+                    <span class="border-bottom border-primary">{{ 'credits.website_gestion' | trans }}</span>
                 </h4>
                 <div>
                     <p>{{ 'credits.website_developpers' | trans }}</p>
                 </div>
-                <h4 class="text-primary mb-3">
-                    {{ 'credits.conception' | trans }}
+                <h4 class="mb-3">
+                    <span class="border-bottom border-primary">{{ 'credits.conception' | trans }}</span>
                 </h4>
                 <div>
                     <p>{{ 'credits.conception_description' | trans }}</p>
                 </div>
-                <h4 class="text-primary mb-3">
-                    {{ 'credits.link' | trans }}
+                <h4 class="mb-3">
+                    <span class="border-bottom border-primary">{{ 'credits.link' | trans }}</span>
                 </h4>
                 <div>
                     <p>{{ 'credits.credits_description' | trans }}</p>
                 </div>
-                <h4 class="text-primary mb-3">
-                    {{ 'credits.host' | trans }}
+                <h4 class="mb-3">
+                    <span class="border-bottom border-primary">{{ 'credits.host' | trans }}</span>
                 </h4>
                 <div>
                     <p>{{ 'credits.host_description' | trans }}</p>
                 </div>
             </div>
-            <div class="col-2">
+            <div class="ml-auto w-25">
+                <div class="border border-primary p-2 mb-4">
+                    <p class="text-bold border-bottom border-primary">
+                        {{ 'credits.rgaa.title' | trans }}
+                    </p>
+                    <p>
+                        {{ 'credits.rgaa.description' | trans }}
+                    </p>
+                </div>
                 <div class="border border-primary p-2">
-                Déclaration de conformité
+                    <p class="text-bold border-bottom border-primary">
+                        {{ 'credits.dpd.title' | trans }}
+                    </p>
+                    <p>
+                        {{ 'credits.dpd.description' | trans }}
+                    </p>
                 </div>
             </div>
         </div>
