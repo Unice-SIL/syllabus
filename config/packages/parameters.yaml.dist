@@ -6,3 +6,5 @@ parameters:
     - en
   fallback_locales:
     - fr
+  authenticator: ~
+  provider: ~
