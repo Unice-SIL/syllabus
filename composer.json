@@ -60,6 +60,7 @@
         "twig/extensions": "^1.5",
         "unicesil/shibboleth-bundle": "^1.0",
         "unicesil/syllabus-apogee-importer-bundle": "^1.0"
+        "symfony/webpack-encore-bundle": "^1.1"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.1",
@@ -69,7 +70,6 @@
         "symfony/twig-bundle": "^4.4",
         "symfony/var-dumper": "^4.4",
         "symfony/web-profiler-bundle": "^4.4",
-        "symfony/webpack-encore-bundle": "^1.1"
     },
     "scripts": {
         "symfony-scripts": [
