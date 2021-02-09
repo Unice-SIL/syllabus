@@ -40,6 +40,10 @@ class DefaultController extends AbstractController
         if (empty($courseInfo)) {
             return $this->render('error/courseNotFound.html.twig');
         }
+        if (!$this->getUser())
+        {
+            return $this->redirectToRoute('app.course_info.view.light_version', ['id' => $courseInfo->getId()]);
+        }
         $permissions = $this->getDoctrine()->getRepository(CoursePermission::class)->findBy([
             'user' => $this->getUser(),
             'courseInfo' => $courseInfo

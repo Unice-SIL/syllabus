@@ -55,6 +55,7 @@ security:
             - ROLE_API_PUT_YEAR
 
     access_control:
+        - { path: ^/light, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/, roles: ROLE_API }
