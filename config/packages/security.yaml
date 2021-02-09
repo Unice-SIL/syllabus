@@ -1,6 +1,6 @@
 security:
     encoders:
-        AppBundle\Entity\User:
+        App\Syllabus\Entity\User:
             algorithm: bcrypt
             cost: 12
 
