@@ -1,0 +1,43 @@
+## L'ordre a une importance !!!!!!!!!!
+syllabus:
+  resource: ../../src/Syllabus/Controller
+  type: annotation
+  prefix: /{_locale}
+  defaults:
+    _locale: '%locale%'
+  requirements:
+    _locale: "fr|en"
+
+syllabus.admin:
+  resource: ../../src/Syllabus/Controller/Admin
+  type: annotation
+  prefix: /{_locale}/admin
+  defaults:
+    _locale: '%locale%'
+
+syllabus.home:
+  controller: App\Syllabus\Controller\DefaultController::indexAction
+  path: /
+  prefix: /{_locale}
+  defaults:
+    _locale: '%locale%'
+  requirements:
+    _locale: "fr|en"
+
+lexik_translation_edition:
+  resource: "@LexikTranslationBundle/Resources/config/routing.yml"
+  prefix:   /{_locale}/admin/translation
+  defaults:
+    _locale: '%locale%'
+
+api_login_check:
+  path: /api/login_check
+
+settings:
+  resource: "@DmishhSettingsBundle/Resources/config/routing.yml"
+  prefix: /admin/settings
+
+api_platform:
+  resource: .
+  type: api_platform
+  prefix: /api

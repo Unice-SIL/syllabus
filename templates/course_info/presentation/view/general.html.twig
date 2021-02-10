@@ -1,0 +1,135 @@
+<div class="row">
+    <div class="col-md-6">
+        <dl>
+            <dt>
+                <img class="icon-20" src="{{ asset('build/images/black_composante_picto.png') }}"/>
+                {{ 'app.presentation.view.general.structure' | trans }}
+            </dt>
+            <dd class="mandatory-data">
+                {{ courseInfo.structure.label }}
+            </dd>
+        </dl>
+        <dl>
+            <dt>
+                <img class="icon-20" src="{{ asset('build/images/black_niveau_picto.png') }}"/>
+                {{ 'app.presentation.view.general.level' | trans }}
+            </dt>
+            <dd class="mandatory-data">
+                {% set levels = "" %}
+                {% for level in courseInfo.levels %}
+                    {% set levels = levels ~ (not loop.first ? ', ') ~ level.label %}
+                {% endfor %}
+                {{ levels|humanizeEmptyData() }}
+            </dd>
+        </dl>
+        <dl>
+            <dt>
+                <img class="icon-20" src="{{ asset('build/images/black_lieu_picto.png') }}"/>
+                {{ 'app.presentation.view.general.campus' | trans }}
+            </dt>
+            <dd class="mandatory-data">
+                {% set campuses = "" %}
+                {% for campus in courseInfo.campuses %}
+                    {% set campuses = campuses ~ (not loop.first ? ', ') ~ campus.label %}
+                {% endfor %}
+                {{ campuses|humanizeEmptyData() }}
+            </dd>
+        </dl>
+    </div>
+    <div class="col-md-6">
+        <dl>
+            <dt>
+                <img class="icon-20" src="{{ asset('build/images/black_domaine_picto.png') }}"/>
+                {{ 'app.presentation.view.general.domain' | trans }}
+            </dt>
+            <dd class="mandatory-data">
+                {% set domains = "" %}
+                {% for domain in courseInfo.domains %}
+                    {% set domains = domains ~ (not loop.first ? ', ') ~ domain.label %}
+                {% endfor %}
+                {{ domains|humanizeEmptyData() }}
+            </dd>
+        </dl>
+        <dl>
+            <dt>
+                <img class="icon-20" src="{{ asset('build/images/black_calendrier_picto.png') }}"/>
+                {{ 'app.presentation.view.general.period' | trans }}
+            </dt>
+            <dd class="mandatory-data">
+                {% set periods = "" %}
+                {% for period in courseInfo.periods %}
+                    {% set periods = periods ~ (not loop.first ? ', ') ~ period.label %}
+                {% endfor %}
+                {{ periods|humanizeEmptyData() }}
+            </dd>
+        </dl>
+        <dl>
+            <dt>
+                <img class="icon-20" src="{{ asset('build/images/black_langue_picto.png') }}"/>
+                {{ 'app.presentation.view.general.languages' | trans }}
+            </dt>
+            <dd class="mandatory-data">
+                {% set languages = "" %}
+                {% for language in courseInfo.languages %}
+                    {% set languages = languages ~ (not loop.first ? ', ') ~ language.label %}
+                {% endfor %}
+                {{ languages|humanizeEmptyData() }}
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<div class="w-100">
+    <dl>
+        <dt>
+            <img class="icon-20" src="{{ asset('build/images/black_info_picto.png') }}"/>
+            {{ 'app.presentation.view.general.description' | trans }}
+            <div class="mb-2">
+                <small>
+                    {{ 'app.presentation.view.general.description_message' | trans }}
+                    <a class="btn-link" href="https://pixabay.com/fr/" target="_blank"><u>https://pixabay.com/fr/</u></a>
+                </small>
+            </div>
+        </dt>
+        <dd class="mandatory-data">
+            <div class="mr-3 mb-3" style="float: left; width: 50%;">
+                {% if courseInfo.mediaType == 'image' and courseInfo.image is not null %}
+                    {% set imgSrc = courseInfo.image | split('/') | last %}
+                    <img class="img-thumbnail" src="{{ asset('data/' ~ imgSrc) }}">
+                {% elseif courseInfo.mediaType == 'video' and courseInfo.video is not null %}
+                    <div class="embed-responsive embed-responsive-16by9">
+                        {{ courseInfo.video|raw }}
+                    </div>
+                {% else %}
+                    <div class="border rounded d-flex align-items-center justify-content-center" style="min-height: 200px;">
+                        <i class="fas fa-4x fa-images text-light"></i>
+                    </div>
+                {% endif %}
+            </div>
+            {{ courseInfo.summary|humanizeEmptyData()|purify }}
+        </dd>
+    </dl>
+</div>
+
+{#
+<div class="row mt-2">
+    <div class="col-md-6" style="min-height: 150px;">
+        {% if courseInfo.mediaType == 'image' and courseInfo.image is not null %}
+            {% set imgSrc = courseInfo.image | split('/') | last %}
+            <img class="img-thumbnail" src="{{ asset('data/' ~ imgSrc) }}">
+        {% elseif courseInfo.mediaType == 'video' and courseInfo.video is not null %}
+            <div class="embed-responsive embed-responsive-16by9">
+                {{ courseInfo.video|raw }}
+            </div>
+        {% else %}
+            <div class="h-100 border rounded d-flex align-items-center justify-content-center">
+                <i class="fas fa-4x fa-images text-light"></i>
+            </div>
+        {% endif %}
+
+    </div>
+    <div id="general-summary" class="col-md-6 mandatory-data" style="min-height: 150px;">
+        {{ courseInfo.summary|humanizeEmptyData()|purify }}
+    </div>
+</div>
+#}

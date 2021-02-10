@@ -1,0 +1,5 @@
+api_platform:
+  collection:
+    pagination:
+      client_items_per_page: true # Disabled by default
+      items_per_page_parameter_name: itemsPerPage # Default value

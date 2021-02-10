@@ -1,0 +1,64 @@
+doctrine:
+  dbal:
+    default_connection: syllabus
+    connections:
+      syllabus:
+        url: '%env(resolve:DATABASE_SYLLABUS_URL)%'
+      apogee:
+        url: '%env(resolve:DATABASE_APOGEE_URL)%'
+        logging: false
+        profiling: false
+  orm:
+    auto_generate_proxy_classes: '%kernel.debug%'
+    #naming_strategy: doctrine.orm.naming_strategy.underscore
+    #auto_mapping: true
+    default_entity_manager: syllabus
+    entity_managers:
+      syllabus:
+        connection: syllabus
+        auto_mapping: true
+        metadata_cache_driver:
+          type: pool
+          pool: doctrine.system_cache_pool
+        query_cache_driver:
+          type: pool
+          pool: doctrine.system_cache_pool
+        result_cache_driver:
+          type: pool
+          pool: doctrine.result_cache_pool
+        mappings:
+          Syllabus:
+            type: annotation
+            is_bundle: false
+            prefix: 'App\Syllabus\Entity'
+            dir: "%kernel.project_dir%/src/Syllabus/Entity"
+            alias: Syllabus
+          translatable:
+            type: annotation
+            is_bundle: false
+            prefix: Gedmo\Translatable\Entity
+            dir: "%kernel.project_dir%/vendor/gedmo/doctrine-extensions/src/Translatable/Entity"
+            alias: GedmoTranslatable
+          DmishhSettingsBundle: ~
+      apogee:
+        connection: apogee
+        auto_mapping: false
+        metadata_cache_driver:
+          type: pool
+          pool: doctrine.system_cache_pool
+        query_cache_driver:
+          type: pool
+          pool: doctrine.system_cache_pool
+        result_cache_driver:
+          type: pool
+          pool: doctrine.result_cache_pool
+        mappings:
+          UniceSILSyllabusApogeeImporterBundle: ~
+
+framework:
+  cache:
+    pools:
+      doctrine.result_cache_pool:
+        adapter: cache.app
+      doctrine.system_cache_pool:
+        adapter: cache.system

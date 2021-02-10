@@ -1,0 +1,1128 @@
+ROLE_USER: User
+ROLE_ADMIN: Administrator
+ROLE_SUPER_ADMIN: Super Administrator
+ROLE_ADMIN_COURSE: Courses management
+ROLE_ADMIN_COURSE_LIST: See list of courses
+ROLE_ADMIN_COURSE_VIEW: See a course
+ROLE_ADMIN_COURSE_CREATE: Create a course
+ROLE_ADMIN_COURSE_UPDATE: Edit a course
+ROLE_ADMIN_COURSE_INFO: Syllabus management
+ROLE_ADMIN_COURSE_INFO_LIST: See list of syllabus
+ROLE_ADMIN_COURSE_INFO_CREATE: Create a syllabus
+ROLE_ADMIN_COURSE_INFO_UPDATE: Edit a syllabus
+ROLE_ADMIN_YEAR: Years management
+ROLE_ADMIN_YEAR_LIST: See list of years
+ROLE_ADMIN_YEAR_CREATE: Create a year
+ROLE_ADMIN_YEAR_UPDATE: Edit a year
+ROLE_ADMIN_CRITICAL_ACHIEVEMENT: Criticals achievements management
+ROLE_ADMIN_CRITICAL_ACHIEVEMENT_LIST: See list of criticals achievements
+ROLE_ADMIN_CRITICAL_ACHIEVEMENT_CREATE: Create a critical achievement
+ROLE_ADMIN_CRITICAL_ACHIEVEMENT_UPDATE: Edit a critical achievement
+ROLE_ADMIN_ACTIVITY: Activities management
+ROLE_ADMIN_ACTIVITY_LIST: See list of activities
+ROLE_ADMIN_ACTIVITY_CREATE: Create an activity
+ROLE_ADMIN_ACTIVITY_UPDATE: Edit an activity
+ROLE_ADMIN_ACTIVITYMODE: Activities modes management
+ROLE_ADMIN_ACTIVITYMODE_LIST: See list of activities modes
+ROLE_ADMIN_ACTIVITYMODE_CREATE: Create an activity mode
+ROLE_ADMIN_ACTIVITYMODE_UPDATE: Edit an activity mode
+ROLE_ADMIN_ACTIVITYTYPE: Activities types managament
+ROLE_ADMIN_ACTIVITYTYPE_LIST: See list of activities types
+ROLE_ADMIN_ACTIVITYTYPE_CREATE: Create an activity type
+ROLE_ADMIN_ACTIVITYTYPE_UPDATE: Edit an activity type
+ROLE_ADMIN_CAMPUS: Campuses management
+ROLE_ADMIN_CAMPUS_LIST: See list of campuses
+ROLE_ADMIN_CAMPUS_CREATE: Create a campus
+ROLE_ADMIN_CAMPUS_UPDATE: Edit a campus
+ROLE_ADMIN_DOMAIN: Domains managment
+ROLE_ADMIN_DOMAIN_LIST: See list of domains
+ROLE_ADMIN_DOMAIN_CREATE: Create a domain
+ROLE_ADMIN_DOMAIN_UPDATE: Edit a domain
+ROLE_ADMIN_EQUIPMENT: Equipments management
+ROLE_ADMIN_EQUIPMENT_LIST: See list of equipments
+ROLE_ADMIN_EQUIPMENT_CREATE: Create an equipment
+ROLE_ADMIN_EQUIPMENT_UPDATE: Edit an equipment
+ROLE_ADMIN_JOB: Planned tasks management
+ROLE_ADMIN_JOB_LIST: See list of planned tasks
+ROLE_ADMIN_JOB_CREATE: Create a planned task
+ROLE_ADMIN_JOB_UPDATE: Edit a planned task
+ROLE_ADMIN_JOB_DELETE: Remove a planned task
+ROLE_ADMIN_JOB_EXECUTE: Execute a planned task
+ROLE_ADMIN_JOB_REPORT: See planned task's report
+ROLE_ADMIN_LANGUAGE: Languages management
+ROLE_ADMIN_LANGUAGE_LIST: See list of languages
+ROLE_ADMIN_LANGUAGE_CREATE: Create a language
+ROLE_ADMIN_LANGUAGE_UPDATE: Edit a language
+ROLE_ADMIN_LEVEL: Levels management
+ROLE_ADMIN_LEVEL_LIST: See list of levels
+ROLE_ADMIN_LEVEL_CREATE: Create a level
+ROLE_ADMIN_LEVEL_UPDATE: Edit a level
+ROLE_ADMIN_NOTIFICATION: Notifications management
+ROLE_ADMIN_NOTIFICATION_LIST: See list of notifications
+ROLE_ADMIN_NOTIFICATION_CREATE: Create a notification
+ROLE_ADMIN_NOTIFICATION_UPDATE: Edit a notification
+ROLE_ADMIN_NOTIFICATION_DELETE: Remove a notification
+ROLE_ADMIN_PERIOD: Periods management
+ROLE_ADMIN_PERIOD_LIST: See list of periods
+ROLE_ADMIN_PERIOD_CREATE: Create a period
+ROLE_ADMIN_PERIOD_UPDATE: Edit a period
+ROLE_ADMIN_STRUCTURE: Structures management
+ROLE_ADMIN_STRUCTURE_LIST: See list of structures
+ROLE_ADMIN_STRUCTURE_CREATE: Create a structure
+ROLE_ADMIN_STRUCTURE_UPDATE: Edit a structure
+ROLE_ADMIN_USER: Users management
+ROLE_ADMIN_USER_LIST: See list of users
+ROLE_ADMIN_USER_CREATE: Create a user
+ROLE_ADMIN_USER_UPDATE: Edit a user
+ROLE_API: API access
+ROLE_API_ACTIVITY: Activities management
+ROLE_API_ACTIVITY_GET: List of activities
+ROLE_API_ACTIVITY_POST: Create an activity
+ROLE_API_ACTIVITY_PUT: Update an activity
+ROLE_API_ACTIVITY_DELETE: Delete an activity
+ROLE_API_ACTIVITY_MODE: Activities mode management
+ROLE_API_ACTIVITY_MODE_GET: List of activities mode
+ROLE_API_ACTIVITY_MODE_POST: Create an activity mode
+ROLE_API_ACTIVITY_MODE_PUT: Update an activity mode
+ROLE_API_ACTIVITY_MODE_DELETE: Delete an activity mode
+ROLE_API_ACTIVITY_TYPE: Activities type management
+ROLE_API_ACTIVITY_TYPE_GET: List of activities type
+ROLE_API_ACTIVITY_TYPE_POST: Create an activity type
+ROLE_API_ACTIVITY_TYPE_PUT: Update an activity type
+ROLE_API_ACTIVITY_TYPE_DELETE: Delete an activity type
+ROLE_API_ASK_ADVICE: Advice management
+ROLE_API_ASK_ADVICE_GET: List of advices
+ROLE_API_ASK_ADVICE_POST: Create an advice
+ROLE_API_ASK_ADVICE_PUT: Update an advice
+ROLE_API_ASK_ADVICE_DELETE: Delete an advice
+ROLE_API_CAMPUS: Campuses management
+ROLE_API_CAMPUS_GET: List of campuses
+ROLE_API_CAMPUS_POST: Create a campus
+ROLE_API_CAMPUS_PUT: Update a campus
+ROLE_API_CAMPUS_DELETE: Delete a campus
+ROLE_API_COURSE: Courses management
+ROLE_API_COURSE_GET: List of courses
+ROLE_API_COURSE_POST: Create a course
+ROLE_API_COURSE_PUT: Update a course
+ROLE_API_COURSE_DELETE: Delete a course
+ROLE_API_COURSE_ACHIEVEMENT: Course achievements management
+ROLE_API_COURSE_ACHIEVEMENT_GET: List of course achievements
+ROLE_API_COURSE_ACHIEVEMENT_POST: Create a course achievement
+ROLE_API_COURSE_ACHIEVEMENT_PUT: Update a course achievement
+ROLE_API_COURSE_ACHIEVEMENT_DELETE: Delete a course achievement
+ROLE_API_COURSE_CRITICAL_ACHIEVEMENT: Course critical achievements management
+ROLE_API_COURSE_CRITICAL_ACHIEVEMENT_GET: List of course critical achievements
+ROLE_API_COURSE_CRITICAL_ACHIEVEMENT_POST: Create a course critical achievement
+ROLE_API_COURSE_CRITICAL_ACHIEVEMENT_PUT: Update a course critical achievement
+ROLE_API_COURSE_CRITICAL_ACHIEVEMENT_DELETE: Delete a course critical achievement
+ROLE_API_COURSE_INFO: Course info management
+ROLE_API_COURSE_INFO_GET: List of course info
+ROLE_API_COURSE_INFO_POST: Create a course info
+ROLE_API_COURSE_INFO_PUT: Update a course info
+ROLE_API_COURSE_INFO_DELETE: Delete a course info
+ROLE_API_COURSE_INFO_FIELD: Course info fields management
+ROLE_API_COURSE_INFO_FIELD_GET: List of course info fields
+ROLE_API_COURSE_INFO_FIELD_POST: Create a course info field
+ROLE_API_COURSE_INFO_FIELD_PUT: Update a course info field
+ROLE_API_COURSE_INFO_FIELD_DELETE: Delete a course info field
+ROLE_API_COURSE_PERMISSION: Course permissions management
+ROLE_API_COURSE_PERMISSION_GET: List of course permissions
+ROLE_API_COURSE_PERMISSION_POST: Create a course permission
+ROLE_API_COURSE_PERMISSION_PUT: Update a course permission
+ROLE_API_COURSE_PERMISSION_DELETE: Delete a course permission
+ROLE_API_COURSE_PREREQUISITE: Course prerequisites management
+ROLE_API_COURSE_PREREQUISITE_GET: List of course prerequisites
+ROLE_API_COURSE_PREREQUISITE_POST: Create a course prerequisite
+ROLE_API_COURSE_PREREQUISITE_PUT: Update a course prerequisite
+ROLE_API_COURSE_PREREQUISITE_DELETE: Delete a course prerequisite
+ROLE_API_COURSE_RESOURCE_EQUIPMENT: Course resource equipments management
+ROLE_API_COURSE_RESOURCE_EQUIPMENT_GET: List of course resource equipments
+ROLE_API_COURSE_RESOURCE_EQUIPMENT_POST: Create a course resource equipment
+ROLE_API_COURSE_RESOURCE_EQUIPMENT_PUT: Update a course resource equipment
+ROLE_API_COURSE_RESOURCE_EQUIPMENT_DELETE: Delete a course resource equipment
+ROLE_API_COURSE_SECTION: Course sections management
+ROLE_API_COURSE_SECTION_GET: List of course sections
+ROLE_API_COURSE_SECTION_POST: Create a course section
+ROLE_API_COURSE_SECTION_PUT: Update a course section
+ROLE_API_COURSE_SECTION_DELETE: Delete a course section
+ROLE_API_COURSE_SECTION_ACTIVITY: Course section activities management
+ROLE_API_COURSE_SECTION_ACTIVITY_GET: List of course section activities
+ROLE_API_COURSE_SECTION_ACTIVITY_POST: Create a course section activity
+ROLE_API_COURSE_SECTION_ACTIVITY_PUT: Update a course section activity
+ROLE_API_COURSE_SECTION_ACTIVITY_DELETE: Delete a course section activity
+ROLE_API_COURSE_TEACHER: Course teachers management
+ROLE_API_COURSE_TEACHER_GET: List of courses teachers
+ROLE_API_COURSE_TEACHER_POST: Create a course teacher
+ROLE_API_COURSE_TEACHER_PUT: Update a course teacher
+ROLE_API_COURSE_TEACHER_DELETE: Delete a course teacher
+ROLE_API_COURSE_TUTORING_RESOURCE: Course tutoring resources management
+ROLE_API_COURSE_TUTORING_RESOURCE_GET: List of course tutoring resources
+ROLE_API_COURSE_TUTORING_RESOURCE_POST: Create a course tutoring resource
+ROLE_API_COURSE_TUTORING_RESOURCE_PUT: Update a course tutoring resource
+ROLE_API_COURSE_TUTORING_RESOURCE_DELETE: Delete a course tutoring resource
+ROLE_API_CRITICAL_ACHIEVEMENT: Critical achievements management
+ROLE_API_CRITICAL_ACHIEVEMENT_GET: List of critical achievements
+ROLE_API_CRITICAL_ACHIEVEMENT_POST: Create a critical achievement
+ROLE_API_CRITICAL_ACHIEVEMENT_PUT: Update a critical achievement
+ROLE_API_CRITICAL_ACHIEVEMENT_DELETE: Delete a critical achievement
+ROLE_API_DOMAIN: Domains management
+ROLE_API_DOMAIN_GET: List of domains
+ROLE_API_DOMAIN_POST: Create a domain
+ROLE_API_DOMAIN_PUT: Update a domain
+ROLE_API_DOMAIN_DELETE: Delete a domain
+ROLE_API_EQUIPMENT: Equipments management
+ROLE_API_EQUIPMENT_GET: List of equipments
+ROLE_API_EQUIPMENT_POST: Create a equipment
+ROLE_API_EQUIPMENT_PUT: Update a equipment
+ROLE_API_EQUIPMENT_DELETE: Delete a equipment
+ROLE_API_GROUPS: Groups management
+ROLE_API_GROUPS_GET: List of groups
+ROLE_API_GROUPS_POST: Create a group
+ROLE_API_GROUPS_PUT: Update a group
+ROLE_API_GROUPS_DELETE: Delete a group
+ROLE_API_JOB: Jobs management
+ROLE_API_JOB_GET: List of jobs
+ROLE_API_JOB_POST: Create a job
+ROLE_API_JOB_PUT: Update a job
+ROLE_API_JOB_DELETE: Delete a job
+ROLE_API_LANGUAGE: Languages management
+ROLE_API_LANGUAGE_GET: List of languages
+ROLE_API_LANGUAGE_POST: Create a language
+ROLE_API_LANGUAGE_PUT: Update a language
+ROLE_API_LANGUAGE_DELETE: Delete a language
+ROLE_API_LEARNING_ACHIEVEMENT: Learning achievements management
+ROLE_API_LEARNING_ACHIEVEMENT_GET: List of learning achievements
+ROLE_API_LEARNING_ACHIEVEMENT_POST: Create a learning achievement
+ROLE_API_LEARNING_ACHIEVEMENT_PUT: Update a learning achievement
+ROLE_API_LEARNING_ACHIEVEMENT_DELETE: Delete a learning achievement
+ROLE_API_LEVEL: Levels management
+ROLE_API_LEVEL_GET: List of levels
+ROLE_API_LEVEL_POST: Create a level
+ROLE_API_LEVEL_PUT: Update a level
+ROLE_API_LEVEL_DELETE: Delete a level
+ROLE_API_NOTIFICATION: Notifications management
+ROLE_API_NOTIFICATION_GET: List of notifications
+ROLE_API_NOTIFICATION_POST: Create a notification
+ROLE_API_NOTIFICATION_PUT: Update a notification
+ROLE_API_NOTIFICATION_DELETE: Delete a notification
+ROLE_API_PERIOD: Periods management
+ROLE_API_PERIOD_GET: List of periods
+ROLE_API_PERIOD_POST: Create a period
+ROLE_API_PERIOD_PUT: Update a period
+ROLE_API_PERIOD_DELETE: Delete a period
+ROLE_API_STRUCTURE: Structures management
+ROLE_API_STRUCTURE_GET: List of structures
+ROLE_API_STRUCTURE_POST: Create a structure
+ROLE_API_STRUCTURE_PUT: Update a structure
+ROLE_API_STRUCTURE_DELETE: Delete a structure
+ROLE_API_TEACHING: Teaching management
+ROLE_API_TEACHING_GET: List of teaching
+ROLE_API_TEACHING_POST: Create a teaching
+ROLE_API_TEACHING_PUT: Update a teaching
+ROLE_API_TEACHING_DELETE: Delete a teaching
+ROLE_API_USER: Users management
+ROLE_API_USER_GET: List of users
+ROLE_API_USER_POST: Create an user
+ROLE_API_USER_PUT: Update an user
+ROLE_API_USER_DELETE: Delete an user
+ROLE_API_YEAR: Years management
+ROLE_API_YEAR_GET: List of years
+ROLE_API_YEAR_POST: Create an year
+ROLE_API_YEAR_PUT: Update an year
+ROLE_API_YEAR_DELETE: Delete an year
+collective: Collective
+groups: Group
+individual: Individual
+head: Head
+together: Together
+autonomy: Autonomy
+class: In class
+distant: Distant
+cc: Continuous control
+ct: Terminal control
+activity: activity
+evaluation: evaluation
+list of activity: List of activities
+list of evaluation: List of evaluations
+homepage: Accueil
+empty_data: No information fills in.
+yes: Yes
+no: No
+
+app:
+  locale:
+    fr: 'Français'
+    en: 'English'
+  controller:
+    error:
+      empty_activity: "An error occured: The activity doesn't exist"
+      empty_activity_type: "An error occured: The activity type doesn't exist"
+      empty_skill:  "An error occured: The skill doesn't exist"
+      empty_course: "An error occured: The course doesn't exist"
+      empty_equipment: "An error occured: The equipment doesn't exist"
+      empty_remediation: "An error occured: The remediation doesn't exist"
+      empty_section: "An error occured: The section doesn't exist"
+      empty_teacher: "An error occured: The teacher doesn't exist"
+      tab_conditions: A tab does not meet the requirements of publication
+    course:
+      new: The course has been saved with success.
+      edit: The course has been updated with success.
+      add_syllabus: The syllabus has beed added to the course.
+    course_permission:
+      add_permission: The permission has been added with success.
+    dashboard:
+      duplication_success: The duplication has been realised with success.
+    security:
+      unknown_token: Unknown token
+  course_info:
+    sidebar:
+      dashboard: Dashboard
+      permissions: Permissions
+      presentation: General presentation
+      prerequisites: Prerequisites / Remediations
+      objectives: Course objectives
+      activities: Content and activities
+      evaluations: Terms of evaluation
+      equipments: Materials and resources
+      information: Practical information
+      closing_remarks: Closing remarks
+      student_view: Student syllabus
+  dashboard:
+    title: Dashboard
+    progress: Filling progress
+    ask_advice_syllabus: Ask an advice on syllabus
+    card:
+      publish_syllabus: Publish the syllabus
+      publish_success: Congratulations, the syllabus has been published
+      see_student: See student's syllabus
+      duplicate_syllabus: I want this syllabus to be copied at the end of the year for the next year
+      duplicate_syllabus_additionnal: (be careful, if the course's Apogee code, use the button duplicate for another course)
+      duplicate_syllabus_other_course: Duplicate the syllabus for another course
+    intro_panel:
+      title: Discover your brand new syllabus
+      description: Communicate and clarify your course's content, highlight your goals and prepare your students for what awaits them
+      access_tutorial: Access to the tutorial
+      tutorial_description: The tutorial is coming soon, if you wish to access the old tutorial to familiarise with the functionnalities, <a href="https://unspod.unice.fr/video/7110-comment-remplir-son-syllabus-sur-moodle/" target="_blank">click here</a>
+    modal:
+      title: Toward which Syllabus would you like to duplicate the contents?
+      close: Close
+      duplicate: Duplicate
+      placeholder: Choose a syllabus
+    label:
+      validate_title: Parts of the syllabus to be completed
+      publication_title: Publication of the syllabus
+      publication_label: The syllabus is published
+      publication_label_yes: Yes
+      publication_label_no: No
+      duplication title: Duplication of the syllabus
+      duplication label: Duplicate information for the following year
+      creation_date: Creation date
+      modification_date: Last modified date
+      edit_by: by
+    button:
+      student_view: See the student version
+      duplicate: Duplicate information to another syllabus
+      advice: Ask an educational engineer for advice
+    message:
+      publication:
+        success: Syllabus has been successfully published
+        failed: Syllabus has not been published, please try again
+        already_published: Syllabus has already been published
+        cannot_published: A tab does not meet the requirements of publication
+    syllabus_instructions:
+      syllabus_problem: Do you have a problem with your Syllabus?
+      instructions_link: Go to the "Syllabus' instructions" and ask your question in the assistance forum.
+  homepage:
+    establishment_code: Establishment code
+    syllabus_list: Syllabus list
+    title: Title
+    type: Type
+  permission:
+    modal:
+      title: Add a permission
+      placeholder: Choose an user
+    view:
+      permissions_list: Permissions list
+      username: Username
+      lastname: Lastname
+      firstname: Firstname
+      permission: Permission
+      update_delete: Delete
+      no_permission: No permission has been registered
+    button:
+      add_permission: Add a permission
+      delete_permission: Delete a permission
+      close: Close
+      add: Add
+  prerequisites:
+    view:
+      prerequisites: Prerequisites
+      add_prerequisite: Add a prerequisite
+      empty_prerequisite: No prerequisite fills in
+      mandatory_courses: "Mandatory courses:"
+      update_prerequisite: Update a prerequisite
+      delete_prerequisite: Delete a prerequisite
+      tutoring_resource: Remediation / Help to succeed
+      add_tutoring_resource: Add a remediation
+      attend_tutoring: "Attend guidance sessions:"
+      add_tutoring: Add a guidance
+      update_tutoring: Update a guidance
+      tutoring_teacher: With a tutoring teacher
+      tutoring_student: With a tutoring student
+      remediation: Remediation
+      empty_remediation: No remediation fills in
+      update_remediation: Update a remediation
+      delete_remediation: Delete a remediation
+      description: Description
+      update_delete: Update / Delete
+    form:
+      add: Add
+      delete: Delete
+      prerequisite_delete: "Are you sure you want to delete this prerequisite \"%description%\"?"
+      prerequisite_description: Before the start of the course, the student must...
+      prerequisite_courses: Choose the associate(s) course(s)
+      tutoring_resources_delete: "Are you sure you want to delete this remediation \"%description%\"?"
+      tutoring_resources_description: If the student has difficulties, he can...
+  objectives:
+    view:
+      add_capacity: Add a capacity
+      aimed_capacities: Aimed capacities
+      skills: Skills
+      empty_capacity: No capacity fills in
+      description: Description
+      update_delete: Update / Delete
+      update_skill: Update a skill
+      delete_skill: Delete a skill
+    form:
+      description: By the end of this course, the student must be able to...
+      add: Add
+      edit: Edit
+  evaluation:
+    view:
+      mcc_informations: The informations displayed below are taken from a document. You cannot edit them because they were voted that way.
+      first_session: 1st session
+      evaluation_type: Evaluation type
+      evaluation_rate: Evaluation rate
+      continuous_assessment: Continuous assessment
+      minimum: minimum
+      exam: Final exams
+      info_evaluation: Informations about evaluation mode
+      edit: Edit
+      specifications: Specifications
+    form:
+      save: Save
+      cancel: Cancel
+      example: "Example: informations about exams, plagiarism, forbidden materials, late penalty, non-attendance, spelling, …"
+      specifications: Specifications (optionnal)
+  equipment:
+    view:
+      equipment: Equipment
+      resources: Resources
+      edit: Edit
+      mandatory_equipments: Mandatory equipments
+      description: Description
+      delete: Delete
+      add: Add
+      add_description: Add a description
+      chosen_equipments: Chosen equipments
+      empty_data: Empty
+      update_delete: Update / Delete
+      update_equipment_description: Update an equipment's description
+      delete_equipment: Delete an equipment
+      educational_resources: Educational resources
+      bibliographic_resources: Bibliographic resources
+    form:
+      add: Add
+      edit: Modifier
+      delete: Delete
+      delete_equipment: "Are you sure you want to delete the equipment %label%?"
+      description_equipment: Description
+      bibliographic_resources: Bibliographic resources
+      educational_resources: Educational resources
+      save: Save
+      cancel: Cancel
+  info:
+    view:
+      additionnal_info: Additionnal informations
+      edit: Edit
+      agenda: Course's schedule
+      organization: Course's organization
+    form:
+      save: Save
+      cancel: Cancel
+      agenda: Indicate all the informations at your disposal about the course's agenda, exams...
+      agenda_annotation: You can also share a schedule (weblink)
+      organization: How will you organize your course?
+  closing_remarks:
+    view:
+      closing_remarks: Closing remarks
+      remarks_message: Message for your students
+      closing_video: Integrate a video (or audio)
+      edit: Edit
+    form:
+      save: Save
+      cancel: Cancel
+      closing_remarks: "You can leave a message for your students (ex: cheers, last advices...)"
+      closing_video: Integrate a video (or audio) respecting copyright law
+      closing_video_info:
+        part1: "In order to be able to integrate a video into your course, please make sure it is hosted on a server external to Moodle (e.g. UNSPOD, Youtube, ...). If that is not the cas, you can ask for help to upload on one of those plateforms."
+        part2: "Once it is stored there, you can click on \"Share / Integrate\" to retrieve the integration link looking like :"
+        part3: "&#60 iframe ... &#62 &#60 /iframe &#62"
+        part4: Copy this code and insert it in the "Video" field below. The video will be visible to your students directly on your syllabus.
+  presentation:
+    view:
+      general:
+        campus: Campuses
+        domain: Domains
+        empty_summary: You have not filled in a summary
+        label: General information
+        languages: Languages
+        level: Levels
+        period: Periods
+        description: Description
+        description_message: "To find copyright free images:"
+        structure: Structure
+      teachers:
+        add_teacher: Add a teacher
+        empty_teacher: No teachers have yet been added to the team.
+        title: Who's on the teaching staff?
+        label: Teaching staff
+        lastname: Last name
+        firstname: First name
+        mail: Email
+        attributes: Attributes
+        delete_teacher: Delete a teacher
+        edit_teacher: Edit a teacher
+        mail_visible: Email visible
+        mail_invisible: Mail not visible
+        responsible: Manager
+      teaching_mode:
+        empty_teaching_mode: No teaching mode selected
+        label: Teaching mode
+    form:
+      general:
+        periods: Period (optionnal)
+        domains: Domains
+        languages: What is/are the language(s) of this course (optionnal)
+        campuses: Campuses
+        levels: Year
+        description: Description
+        level_label: What is the level of this course?
+        media_label: Integrate a video (or audio) resource or upload an image file of the course presentation, respecting copyright regulations.
+        picture: Picture
+        video: Video
+        file_type: File type jpeg or png (2Mo maximum)
+        summary: Summary
+        add_video: How to add a video
+        add_video_info:
+          part1: "In order to be able to integrate a video into your course, please make sure it is hosted on a server external to Moodle (e.g. UNSPOD, Youtube, ...)."
+          part2: If that is not the cas, you can ask for help to upload on one of those plateforms.
+          part3: "Once it is stored there, you can click on \"Share / Integrate\" to retrieve the integration link looking like :"
+          part4: Copy this code and insert it in the "Video" field below. The video will be visible to your students directly on your syllabus.
+        level:
+          beginner: "<li><strong>Beginner</strong> : This course requires little or no prior knowledge.</li>"
+          intermediary: "<li><strong>intermediate</strong> : This course requires some prior knowledge.</li>"
+          advanced: "<li><strong>Advanced</strong> : This course requires significant prior knowledge.</li>"
+      teacher:
+        delete: "Are you sure you want to delete the teacher \"%lastname% %firstname%\" ?"
+        mail_visibility: Does the email address have to be visible?
+        responsible: In charge of the course?
+        search_user: Search for an individual
+        source_data: Data Source
+      teaching_mode:
+        add_other: Add a hourly volume (optionnal)
+        additionnal: Additionnal teaching type(optionnal)
+        class: In class
+        cm: Lectures
+        distant: Distant
+        label: What is your teaching mode ?
+        standard: Standard types of teaching
+        td: Tutorials
+        tp: Practical work
+        volumes: In class hourly volumes imported from models
+        placeholder:
+          teaching:
+            hours: hours
+            other_class: Volume (H)
+            type: "Type (e.g. personal work)"
+  activities:
+    view:
+      activity:
+        activity_mode: Teaching mode
+        activity_type: Activity type
+        add_activities: To add activities please select an activity from the carousel below.
+        add_sections: To add sections please click on the "Add Section" button in the menu opposite.
+        delete_activity: Remove an activity
+        edit_activity: Edit an activity
+        empty_activity: No activities have been added to the section
+        empty_section: No sections have been added
+        evaluated_peers: Peer-reviewed
+        evaluated_teachers: Evaluated by teachers
+        evaluation_peers: Evaluation by peers
+        evaluation_rate: Evaluation rate
+        evaluation_teachers: Evaluation by teachers
+        control: Control
+        evaluable: Evaluable
+        name: Name of the activity
+      carousel:
+        add_activity: Add an activity
+        search_activity: Search for an activity
+      sidebar:
+        add_section: Add a section
+        delete_section: Delete a section
+        duplicate_section: Duplicate a section
+        edit_section: Edit a section
+        empty_section: No section has been created
+        title: Sections
+    form:
+      activity:
+        activity_mode: Teaching mode
+        activity_type: Type of activity
+        activity_no_icon: No icon selected
+        control: 'Type of control (Continuous / Terminal) :'
+        delete: "Are you sure you want to remove the activity \"%label%\" ?"
+        description: Description of the activity (maximum 255 characters)
+        evaluable: Is this activity evaluable?
+      section:
+        description: Description
+        delete: "Are you sure you want to delete the section \"%title%\" ?"
+        duplicate: "Are you sure you want to duplicate the section \"%title%\" ?"
+        title: Section Title
+        url: Link to the course section
+  view:
+    student:
+      activities:
+        section_url: Access to course
+        evaluable: Evaluable
+        evaluation_rate: Evaluation rate (%)
+        mode: Mode
+        title: Activity's name
+        type: Type
+        evaluate_by: Evalué
+        evaluate_by_teachers: by the teachers
+        evaluate_by_peer: by the peers
+        evaluate_by_and: and
+        cc: Continuous assessment
+        ct: Exam
+      equipments:
+        bibliographic_resources: Bibliographic resources
+        description: Description
+        educational_resources: Educational resources
+        list: List of equipments
+        required_equipments: Required equipments
+      info:
+        agenda: Schedule
+        closing_remarks: Closing remarks
+        evaluation: Evaluation mode
+        organization: Course's organization
+      objectives:
+        achievements_list: List of achievements
+        achievements_description: By the end of this course, I must be able to...
+        critical_achievements_list: List of critical achievements
+        critical_achievements_description: This course validate the following critical achievements
+        evaluation_description: Thoses modalities are differents for students who got attendance exemption to the continuous assessment
+          (hard-worker, people with handicap, high level athlete or artist, etc.).
+          Only the final exam count at 100% in the calculation of the pass mark.
+      prerequisites:
+        prerequisites_list: List of prerequisites
+        prerequisites_description: Before the start of the course, I must ...
+        associate_courses: "Associated course(s):"
+        empty_prerequiste: No prerequisite
+        tutoring_resources_list: List of tutoring resources
+        tutoring_resources_description: If I find difficulties, I can...
+        tutoring: Register and attempt the tutoring courses
+        tutoring_by_teacher: with a teacher
+        tutoring_by_student: with a student
+        tutoring_by_both: with a teacher and/or student
+        empty_tutoring_resources: no tutoring resource
+      presentation:
+        last_update: Last update
+        not_published: This syllabus has not been published yet.
+        structure: Structure
+        domain: Disciplinary domain
+        level: Course's level
+        campus: Campus
+        semester: Semester
+        language: Language
+        belong_to: "Belong to %title%"
+        teachers: Teaching team
+        distant: Distant
+        hours_cm: "%hours%h of lectures"
+        hours_td: "%hours%h of tutorials"
+        hours_tp: "%hours%h of practical work"
+        hours_teachings: "%hours%h of %type%"
+        class: In class
+        nb_ects: "(%ects% ECTS)"
+        nb_ecue: "UE include %ecue% ECUE"
+        title: "ECUE owned by %title%"
+        autonomy: Autonomy
+      sidebar:
+        activity: Schedule
+        equipment: Equipment
+        evaluation: Modality
+        info: Informations
+        objectives: Objectifs
+        prerequisites: Prérequis
+        presentation: Présentation
+        closing_remarks: Closing remarks
+      tabs:
+        activities: Detailled schedule
+        closing_remarks: Closing remarks
+        equipments: Equipments and resources
+        evaluation: Evaluation mode
+        info: Additionnal informations
+        objectives: Course's objectives
+        prerequisites: Prerequisites
+        presentation: Course's presentation
+      alert:
+        important: Important
+        text:
+          part_1: "This syllabus has no contractual value. Its content is subject to change throughout this year: be aware to the last updates"
+          part_2: The last modification date is displayed on the top-right of the page.
+      syllabus_form:
+        link: "https://forms.office.com/Pages/ResponsePage.aspx?id=fUQgvFKJzUqD5F1otezkb78RiPD675VPioqx3pigUrJUNFRFTUlOUFhEWVVEUktRQlkyTjIxUFJJTS4u"
+        text: Give your opinion on the Syllabus
+  partial:
+    warning_delete_modal: Are you sure you want to delete this element?
+    no_element: No element has been found
+  const:
+    cron:
+      status:
+        0: Initialization
+        1: In progress
+        2: Failure
+        3: Success
+    permission:
+      WRITE: Write
+      READ: Read
+    level:
+      beginner: Begginer
+      intermediate: Intermediate
+      advanced: Advanced
+    teaching_mode:
+      class: In class
+      hybrid: Hybrid
+      distant: Distant
+  form:
+    switch_user:
+      username: Username
+      title: Imitate an user
+      imitate: Imitate
+    notification:
+      label:
+        message: 'Message'
+    cron:
+      label:
+        label: 'Label'
+    security:
+      label:
+        password: Password
+        repeat_password: Password confirmation
+      errors:
+        password_matching: The two passwords are not identical
+    activity:
+      label:
+        obsolete: Obsolete
+        activityTypes: Types
+        label: Title
+        mode: Mode
+        grp: Group
+        synchronized: Synchronized
+    activity_type:
+      label:
+        label: Title
+    period:
+      label:
+        obsolete: Obsolete
+        label: Title
+    course_info:
+      label:
+        title: Title
+        structure: Structure
+      placeholder:
+        structure: Choisissez une structure
+        year: Choisissez une année
+    course:
+      label:
+        type: Type
+        code: Establishment code
+        parents: Parent courses
+        title: Title
+        synchronized: Synchronized
+    level:
+      label:
+        label: Label
+        obsolete: Obsolete
+    year:
+      label:
+        label: Year
+    structure:
+      label:
+        label: Label
+        code: Establishment code
+        campus: Campus
+        obsolete: Obsolete
+        structure: Structure
+        synchronized: Synchronized
+    equipment:
+      label:
+        label: Label
+        label_visibility: Display the label
+        obsolete: Obsolete
+    course_info_field:
+      label:
+        label: Label
+        mannually_duplication: Manual Duplication
+        automatic_duplication: Duplication from CSV
+        import: Import
+    global:
+      action: Action
+    duplicate_course_info:
+      label:
+        to: Receiver Syllabus
+    course_permission:
+      label:
+        user: User
+        permission: Permission
+    import:
+      label:
+        csv: File in CSV format
+    groups:
+      label:
+        label: Label
+        obsolete: Obsolete
+        roles: Roles
+    language:
+      label:
+        obsolete: Obsolete
+        label: Title
+        locale: Locale
+
+  general:
+    button:
+      add: Add
+      cancel: Cancel
+      edit: Edit
+      delete: Delete
+      duplicate: Duplicate
+      save: Save
+
+admin:
+  sidebar:
+    dashboard: Dashboard
+    courses: Courses
+    reference_source: Reference source
+    critical_achievements: Critical achievements
+    activities:
+      activities: Activities
+      types: Types
+      modes: Modes
+    years: Years
+    campuses: Campuses
+    domains: Domains
+    equipments: Equipments
+    languages: Languages
+    levels: Levels
+    periods: Periods
+    structures: Structures
+    imports: Imports
+    syllabus: Syllabus
+    ask_advice: Ask advice
+    permissions: Permissions
+    users: Users
+    administration: Administration
+    settings: Settings
+    groups: Groups
+    jobs: Planned tasks
+    translations: Translations
+    notifications: Notifications
+    duplication: Duplication config
+  syllabus:
+    list_syllabus: List of syllabus
+    title: Title
+    published_by: Published by
+    level: Level
+    date: Date
+    year: Year
+    structure: Structure
+    code: Code
+    export: Export
+  dashboard:
+    syllabus_dashboard: Syllabus dashboard
+    published_syllabus: Published Syllabus
+    syllabus_being_filled: Syllabus being filled
+    years_overall: All years overall
+    advice_request: Advice request(s)
+    prime_request: Prime request(s)
+    form:
+      years: Choose the year
+  ask_advice:
+    list_advices: List of advices requested
+    year: Year
+    user: User
+    process: Process
+    empty_advice: No advice request found
+  filled_syllabus:
+    list_syllabus: List of syllabus being filled
+    type: Type
+    establishment_code: Establishment code
+    empty_syllabus: No Syllabus has been found for those criteries
+  published_syllabus:
+    list_syllabus: List of published syllabus
+    type: Type
+    publisher: Published by
+    publication_date: Publication date
+    establishment_code: Establishment code
+    empty_syllabus: No Syllabus has been found for those criteries
+  course_info:
+    list_syllabus: List of syllabus
+    duplicate_syllabus: Toward which syllabus would you like to duplicate the content?
+    empty_syllabus: No syllabus has been found for those criterias
+    actions: Actions
+    flashbag:
+      duplicate: The duplication has been done with success.
+      new: The syllabus has been created with success.
+      edit: The syllabus has been updated.
+  course:
+    list_courses: List of courses
+    edit_course: Edit a course
+    informations: Informations
+    empty_course: No course found for those criterias
+    course_exist: It already exist, for this course, a syllabus for every year available
+    associated_syllabus: Associated Syllabus
+    year: Year
+    title: Title
+    type: Type
+    code: Establishment code
+    structure: Structure
+    action: Action
+    course_parents: Course's parents
+    course_children: Course's chldren
+    flashbag:
+      new: The course has been saved with success.
+      edit: The course has been updated with success.
+      add_syllabus: The syllabus has been added to the course.
+  critical_achievement:
+    list_critical_achievements: List of critical achievements
+    edit_critical_achievement: Edit a critical achievement
+    flashbag:
+      new: The critical achievement has been added with success.
+      edit: The critical achievement has been updated with success.
+    form:
+      course: Course
+  activity:
+    list_activities: List of activities
+    flashbag:
+      new: The activity has been added with success.
+      edit: The activity has been updated with success.
+    form:
+      description: Description
+      activityTypes: Activity types
+  activity_type:
+    list_activities_types: List of activities types
+    modes: Modes
+    edit_activity_type: Edit an activity type
+    activity_no_icon: No icon selected
+    flashbag:
+      new: The activity type has been added with success.
+      edit: The activity type has been updated with success.
+  activity_mode:
+    list_activities_modes: List of activities modes
+    edit_activity_mode: Edit an activity mode
+    flashbag:
+      new: The activity mode has been added with success.
+      edit: The activity mode has been updated with success.
+  year:
+    list_years: List of years
+    year: Year
+    import: Import
+    editable: Editable
+    current_year: Current year
+    edit_year: Edit an year
+    flashbag:
+      new: The year has been added with success.
+      edit: The year has been updated with success.
+  campus:
+    list_campuses: List of campuses
+    edit_campus: Edit a campus
+    synchronized: Synchronized
+    flashbag:
+      new: The campus has been added with success.
+      edit: The campus has been updated with success.
+  domain:
+    list_domains: List of domains
+    edit_domain: Edit a domain
+    structure: Structure
+    flashbag:
+      new: The domain has been added with success.
+      edit: The domain has been updated with success.
+  equipment:
+    list_equipments: List of equipments
+    edit_equipment: Edit an equipment
+    flashbag:
+      new: The equipment has been added with success.
+      edit: The equipment has been updated with success.
+  language:
+    list_languages: List of languages
+    edit_language: Edit a language
+    flashbag:
+      new: The language has been added with success.
+      edit: The language has been updated with success.
+  level:
+    list_levels: List of levels
+    edit_level: Edit a level
+    flashbag:
+      new: The level has been added with success.
+      edit: The level has been updated with success.
+  period:
+    list_periods: List of periods
+    edit_period: Edit a period
+    filter_structures: Structures
+    flashbag:
+      new: The period has been added with success.
+      edit: The period has been updated with success.
+    form:
+      structure: Structure
+  structure:
+    list_structures: List of structures
+    edit_structure: Edit a structure
+    flashbag:
+      new: The structure has been added with success.
+      edit: The structure has been updated with success.
+  import:
+    syllabus: Import Syllabus infos
+    permissions: Import permissions
+    users: Import users
+    csv: File format CSV
+    description_part1: The file's first line match header and must contains the fields' name to be imported.
+    description_part2: Every fields, either the name in the header or for the value must be separated by a semi-colon (;).
+    description_part3: The fields list that can be specified in the imported field is specified below.
+    description_part4: To avoid any encoding problems, the file must be encoded in UTF-8.
+    example: "Example:"
+    syllabus_example_part1: code;year;title
+    syllabus_example_part2: SLEPB111;2018;"Introduction à la Microbiologie"
+    permission_example_part1: code;year;username;permission
+    permission_example_part2: SLEPB111;2018;jdoe;WRITE
+    user_example_part1: username;firstname;lastname;email
+    user_example_part2: jdoe;John;DOE;jdoe@domain.com
+    name: Nom
+    mandatory: Obligatoire
+    authorized_value: Valeurs autorisées
+    description: Description
+    reporting_helper:
+      parsing: Parsing the csv file
+      insertion_db: Inserting in database
+  export:
+    course_name: Course's name
+    code: Apogée code
+    publisher: Publisher's name
+    publication_date: Publication date
+    structure: Structure
+    level: Level
+  setting:
+    config: Settings
+  group:
+    list_groups: List of groups
+    edit_group: Edit a group
+    actions: Actions
+    flashbag:
+      new: The group has been added with success.
+      edit: The group has been updated with success.
+  job:
+    list_jobs: List of tasks
+    edit_job: Edit a task
+    job_report: "Task report :"
+    actions:
+      report: Report
+      execute: Execute
+    flashbag:
+      action_in_progress: The command is executing. No action allowed.
+      unauthorized_action: You're unauthorized to do this action.
+  user:
+    list_users: List of users
+    edit_user: Edit an user
+    flashbag:
+      new: The user has been added with success.
+      edit: The user has been updated with success.
+      mail_send: The mail has been send.
+      mail_failed: A problem happened while sending the mail.
+    form:
+      username: Username
+      lastname: Lastname
+      firstname: Firstname
+      email: Email
+      roles: Groups
+  translation: Translations
+  notification:
+    list_notifications: List of notifications
+    edit_notification: Edit a notification
+    actions: Actions
+    flashbag:
+      new: The notification has been added with success.
+      edit: The notification has been updated with success.
+      delete: The notification has been deleted with success.
+  course_info_field:
+    title: List of fields linked to the duplication of the Syllabus
+    empty_field: No field has been registered
+
+  form:
+    obsolete: Obsolete
+    label: Title
+  button:
+    back: Back to last page
+    close: Close
+    display: Display
+    duplicate: Duplicate
+    duplicate_infos: Duplicate infos
+    duplicate_multiples_syllabus: Duplicate multiples syllabus
+    more_info: More info
+    import: Import
+    add_activity: Add an activity
+    add_activity_type: Add an activity type
+    add_activity_mode: Add an activity mode
+    add_campus: Add a campus
+    add_course: Add a course
+    add_critical_achievement: Add a critical achievement
+    add_domain: Add a domain
+    add_equipment: Add an equipment
+    add_group: Add a group
+    add_job: Add a task
+    add_language: Add a language
+    add_level: Add a level
+    add_notification: Add a notification
+    add_period: Add a period
+    add_structure: Add a structure
+    add_syllabus: Add a Syllabus
+    add_user: Add an user
+    add_year: Add an year
+    link_course_parents: Link courses as parent
+    link_course_children: Link courses as children
+    unlink: Unlink
+    reset_password: Send an email to reset password
+    filter: Filter
+    reset_filters: Reset filters
+    save: Save
+    edit: Edit
+
+credits:
+  link: Credits
+  title: Credits and legal mentions
+  description: According to the article 6 III-1 of law n°2004-575 from June 21 2004 about the trust in digital economy, this website is the property of the University Côte d'Azur
+  editor: Editor
+  university:
+    name: University Côte d'Azur
+    address: 28 Avenue Valrose,
+    postal_code: 06100 Nice
+  website_gestion: Website gestion
+  website_developpers: Direction of the informations system
+  conception: Conception
+  conception_description: Project L@UCA, DSI of the University Côte d'Azur
+  credits_description: Freepik Flaticon, Pixabay
+  host: Host
+  host_description: The website is host by the direction of the informations system of the university Côte d'Azur
+  rgaa:
+    title: Compliance declaration RGAA
+    description: Dedicated tab to the compliance declaration RGAA 3.0 for the website web www.u-bordeaux.fr
+  dpd:
+    title: Representative of the data protection
+    description: The representative of the data protection must be associated to all the relative questions about the data protection about personnal nature.

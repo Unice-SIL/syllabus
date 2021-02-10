@@ -1,0 +1,3 @@
+settings:
+  resource: "@DmishhSettingsBundle/Resources/config/routing.yml"
+  prefix: /settings

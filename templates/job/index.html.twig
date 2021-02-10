@@ -1,0 +1,143 @@
+{% extends 'admin_layout.html.twig' %}
+{% set h1 = 'admin.job.list_jobs' | trans %}
+
+{% block modals %}
+    {{ parent() }}
+    {{ include('partial/warning_delete_modal.html.twig') }}
+{% endblock %}
+
+
+{% block subContent %}
+
+    <div class="card">
+
+        <div class="card-body">
+
+            <div class="d-flex justify-content-end pb-3">
+                {% include 'action/_job_create.html.twig' %}
+            </div>
+
+            <div class="border p-3 mb-3">
+                {{ form_start(form) }}
+                <div class="row">
+                    <div class="col-lg-6 col-md-12">
+                        {{ form_row(form.label) }}
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">{{ 'admin.button.filter' | trans }}</button>
+                            <a class="btn btn-danger" href="{{  path('app.admin.job.index')  }}">{{ 'admin.button.reset_filters' | trans }}</a>
+                        </div>
+                    </div>
+                </div>
+
+                {{ form_end(form) }}
+            </div>
+
+            {% if pagination.totalItemCount > 0 %}
+                <table class="table table-hover table-responsive-sm">
+                    <thead>
+                    <tr>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'Label', 'c.label') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'Import', 'c.command') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'Statut', 'c.lastStatus') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'Date d\'excecution', 'c.lastUseStart') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'Fin d\'excecution', 'c.lastUseEnd') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'Progression', 'c.progress') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'Mémoire', 'c.memoryUsed') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'Fréquence', 'c.frequencyJobFormat') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'Immédiat', 'c.immediately') }}</th>
+                        <th >Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for job in pagination %}
+                        <tr class="{{ job.obsolete ? 'bg-warning' }}">
+                            <td>
+                                {% if is_granted('ROLE_ADMIN_JOB_UPDATE') %}
+                                    <a href="{{ path('app.admin.job.edit', { 'id' : job.id }) }}">{{ job.label }}</a>
+                                {% else %}
+                                    {{ job.label }}
+                                {% endif %}
+                            </td>
+                            <td>{{ job.command }} {{ job.obsolete ? '(Cette commande n\'existe plus)' }}</td>
+                            <td>{{ ('app.const.job.status.'~ job.lastStatus)|trans }}</td>
+                            <td>
+                                {%  if job.lastUseStart %}
+                                    le {{ job.lastUseStart|date('d-m-Y à h-i-s') }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {%  if job.lastUseEnd %}
+                                    le {{  job.lastUseEnd|date('d-m-Y à h-i-s') }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="{{ job.progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ job.progress }}%;"></div>
+                                </div>
+                            </td>
+                            <td>{{ job.memoryUsed|humanizeBytes }}</td>
+                            <td>{{ job.frequencyJobFormat }}</td>
+                            <td>{{ job.immediately|humanizeBoolean }}</td>
+                            <td>
+                                {% if is_granted('ROLE_ADMIN_JOB_REPORT') %}
+                                    {% if(job.lastStatus == constant('App\\Syllabus\\Constant\\Job::STATUS_IN_PROGRESS')) %}
+                                        <a class="btn btn-sm btn-warning disabled" href="#" title="{{ 'admin.job.actions.report' | trans }}">
+                                            <i class="fas fa-file-alt"></i>
+                                        </a>
+                                    {% else %}
+                                        <a href="{{ path('app.admin.job.report', {'id': job.id}) }}" class="btn btn-sm btn-warning" title="{{ 'admin.job.actions.report' | trans }}">
+                                            <i class="fas fa-file-alt"></i>
+                                        </a>
+                                    {% endif %}
+                                {% endif %}
+
+                                {% if is_granted('ROLE_ADMIN_JOB_EXECUTE') %}
+                                    {% if(job.lastStatus == constant('App\\Syllabus\\Constant\\Job::STATUS_IN_PROGRESS')) %}
+                                        <a class="btn btn-sm btn-success disabled" title="{{ 'admin.job.actions.execute' | trans }}">
+                                            <i class="fas fa-play"></i>
+                                        </a>
+                                    {% else %}
+                                        <form method="POST" action="{{ path('app.admin.job.run_command', {'id' : job.id}) }}" class="d-inline">
+                                            <button href="{{ path('app.admin.job.run_command', {'id': job.id}) }}" class="btn btn-sm btn-success" title="{{ 'admin.job.actions.execute' | trans }}">
+                                                <i class="fas fa-play"></i>
+                                            </button>
+                                            <input type="hidden" name="_token" value="{{ csrf_token('job' ~ job.id) }}">
+                                        </form>
+                                    {% endif %}
+
+                                {% endif %}
+
+                                {% if is_granted('ROLE_ADMIN_JOB_DELETE') %}
+                                    {% if(job.lastStatus == constant('App\\Syllabus\\Constant\\Job::STATUS_IN_PROGRESS')) %}
+                                        <a class="btn btn-sm btn-danger disabled">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    {% else %}
+                                        {% set deleteFormView = deleteFormsView[job.id] %}
+                                        {{ form_start(deleteFormView, {'attr' : {'class' : 'd-inline'}}) }}
+                                        <button type="button" class="btn btn-sm btn-danger warning-delete" data-toggle="modal" data-target="#warningDeleteModal">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                        {{ form_end(deleteFormView) }}
+                                    {% endif %}
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                {% include 'partial/_no_element.html.twig' %}
+            {% endif %}
+        </div>
+        <!-- /.card-body -->
+        {% if knp_pagination_render(pagination) %}
+            <div class="card-footer clearfix">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        {% endif %}
+    </div>
+
+{% endblock %}

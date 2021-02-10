@@ -1,0 +1,10 @@
+parameters:
+  mailer_delivery_addresses: []
+  managed_locales:
+    - fr
+    - en
+  fallback_locales:
+    - fr
+  authenticator: ~
+  provider: ~
+  shibboleth_attributes: ["eppn","mail","givenName","sn","uid","unscoped-affiliation"]

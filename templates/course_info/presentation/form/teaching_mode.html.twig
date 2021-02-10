@@ -1,0 +1,180 @@
+
+
+{{ form_start(form, {'attr': {'class': 'form-focus', 'id' : 'form-focus-teaching' }}) }}
+{{ form_errors(form) }}
+
+<div class="d-flex flex-wrap">
+    <div id="teaching-mode-container" class="mr-auto" data-type-hybrid="{{ constant('App\\Syllabus\\Constant\\TeachingMode::HYBRID') }}">
+        <label class="required font-weight-bold">{{ 'app.presentation.form.teaching_mode.label' | trans }}</label>
+        {{ form_row(form.teachingMode, {label_attr: {class: 'radio-custom'} }) }}
+    </div>
+    <div class="p-2 bg-lightgrey text-center">
+        <label class="font-weight-bold text-gray">{{ 'app.presentation.form.teaching_mode.volumes' | trans }}</label>
+        <div class="d-flex flex-wrap mb-3">
+            {% if courseInfo.teachingCmClass is not null %}
+                <div class="mr-2">
+                    {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': 'app.presentation.form.teaching_mode.cm', 'teachingTypeHours': courseInfo.teachingCmClass, 'greyTheme': true } %}
+                </div>
+            {% endif %}
+            {% if courseInfo.teachingTdClass is not null %}
+                <div class="mr-2">
+                    {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': 'app.presentation.form.teaching_mode.td', 'teachingTypeHours': courseInfo.teachingTdClass, 'greyTheme': true } %}
+                </div>
+            {% endif %}
+            {% if courseInfo.teachingTpClass is not null %}
+                <div>
+                    {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': 'app.presentation.form.teaching_mode.tp', 'teachingTypeHours': courseInfo.teachingTpClass, 'greyTheme': true } %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="mt-2">
+    {% include 'course_info/presentation/form/_teaching_mode_distant.html.twig' %}
+    {% include 'course_info/presentation/form/_teaching_mode_hybrid.html.twig' %}
+
+    {#    ======================================================Teaching======================================================#}
+    {% import 'macro/_course_info.html.twig' as macros %}
+
+    {% set teachingClassForm = [] %}
+    {% set teachingDistantForm = [] %}
+    {% set teachingPrototype = form.teachings.vars.prototype %}
+
+    {% for teachingForm in form.teachings %}
+        {% if teachingForm.vars.data.mode is same as (constant('App\\Syllabus\\Constant\\TeachingMode::IN_CLASS')) %}
+            {% set teachingClassForm = teachingClassForm|merge([teachingForm]) %}
+        {% elseif teachingForm.vars.data.mode is same as (constant('App\\Syllabus\\Constant\\TeachingMode::DIST')) %}
+            {% set teachingDistantForm = teachingDistantForm|merge([teachingForm]) %}
+        {% endif %}
+    {% endfor %}
+    <div class="row">
+        <div class="col-6 teaching-fields-list-container" id="teaching-fields-list-container-{{ constant('App\\Syllabus\\Constant\\TeachingMode::IN_CLASS') }}">
+            {{ _self.printTeachingModeContainer(teachingClassForm, constant('App\\Syllabus\\Constant\\TeachingMode::IN_CLASS'), teachingPrototype ) }}
+        </div>
+        <div class="col-6 teaching-fields-list-container" id="teaching-fields-list-container-{{ constant('App\\Syllabus\\Constant\\TeachingMode::DIST') }}">
+            {{ _self.printTeachingModeContainer(teachingDistantForm, constant('App\\Syllabus\\Constant\\TeachingMode::DIST'), teachingPrototype ) }}
+        </div>
+    </div>
+
+    {% macro printTeachingModeContainer(forms, mode, teachingPrototype) %}
+
+        <div id="teaching-fields-list-{{ mode }}"
+             class="teaching-fields-list"
+             data-prototype="{{ macros.printTeachingRow(teachingPrototype, mode)|e('html_attr') }}"
+             data-widget-tags="{{ '<div></div>'|e }}"
+        >
+            {% for teachingForm in forms %}
+                <div>
+                    {{ macros.printTeachingRow(teachingForm, mode) }}
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="d-flex mb-3">
+            <button type="button"
+                    class="add-another-teaching-widget btn btn-outline-primary mr-0"
+                    data-list-selector="#teaching-fields-list-{{ mode }}"
+                    data-prototype-recipient="#teaching-fields-list-class"
+                    data-mode="{{ mode }}"
+            >
+                <i class="fas fa-plus-circle"></i>
+                {{ 'app.presentation.form.teaching_mode.add_other'|trans }}
+            </button>
+        </div>
+
+
+    {% endmacro %}
+
+
+    {# prevents weird label from showing up in new #}
+    {{ form_widget(form.teachings) }}
+
+    {#    =================================================End Teaching======================================================#}
+
+</div>
+
+<div class="mt-2">
+    <button type="submit" class="submit-button btn button-orange submit" data-url="{{ path('app.course_info.presentation.teaching_mode', {'id': courseInfo.id}) }}">
+        {{ 'app.general.button.save' | trans }}
+    </button>
+    <button type="button" class="btn-link btn text-black cancel-button" data-url="{{ path('app.course_info.presentation.teaching_mode', {'id': courseInfo.id}) }}">
+        <u>{{ 'app.general.button.cancel' | trans }}</u>
+    </button>
+</div>
+{{ form_widget(form._token) }}
+{{ form_end(form) }}
+
+<script>
+    $(document).ready(function () {
+        let $teachingMode = $('#teaching_mode_teachingMode');
+        /**
+         *
+         */
+        function toggleTeachingMode() {
+
+            let mode = $teachingMode.find('input[type="radio"]:checked').val();
+            console.log(mode);
+            let hybrid = $('#teaching-mode-container').data('type-hybrid');
+
+
+            $('.teaching-mode').addClass('d-none');
+            $('.teaching-mode-' + mode).removeClass('d-none');
+
+            if (mode === hybrid) {
+                $('.teaching-fields-list-container').removeClass('d-none');
+            } else {
+                $('.teaching-fields-list-container').addClass('d-none');
+                $('#teaching-fields-list-container-' + mode).removeClass('d-none');
+            }
+        }
+
+        /**
+         *
+         */
+        $teachingMode.change('#teaching_mode_teachingMode', function () {
+            toggleTeachingMode();
+        });
+
+        toggleTeachingMode();
+
+    });
+
+    //Add a listener on add activity button
+    $(document).off('click', '.add-another-teaching-widget').on('click', '.add-another-teaching-widget', function (e) {
+
+        var mode = $(this).data('mode');
+        var list = $($(this).attr('data-list-selector'));
+        var prototypeRecipient = $($(this).attr('data-prototype-recipient'));
+
+        // Try to find the counter of the list or use the length of the list
+        var counter = $('.teaching-item-collection').length;
+
+        // grab the prototype template
+        var newWidget = prototypeRecipient.attr('data-prototype');
+        // replace the "__name__" used in the id and name of the prototype
+        // with a number that's unique to your emails
+        // end name attribute looks like name="contact[emails][2]"
+        newWidget = newWidget.replace(/__name__/g, counter);
+
+        // Increase the counter
+        counter++;
+        // And store it, the length cannot be used if deleting widgets is allowed
+        $('.teaching-fields-list').data('widget-counter', counter);
+
+        // create a new list element and add it to the list
+        var newElem = $(list.attr('data-widget-tags')).html(newWidget);
+        newElem.find('.teaching-type-mode-input').val(mode);
+        newElem.hide().appendTo(list).slideDown(500, function () {
+
+        });
+
+        $([document.documentElement, document.body]).animate({
+            scrollTop: newElem.offset().top
+        }, 500);
+
+
+    });
+
+
+</script>
