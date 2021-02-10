@@ -2,6 +2,9 @@
     "composer/package-versions-deprecated": {
         "version": "1.11.99.1"
     },
+    "egulias/email-validator": {
+        "version": "2.1.25"
+    },
     "fig/link-util": {
         "version": "1.1.1"
     },
@@ -159,7 +162,13 @@
     "symfony/orm-pack": {
         "version": "v2.1.0"
     },
+    "symfony/polyfill-iconv": {
+        "version": "v1.22.0"
+    },
     "symfony/polyfill-intl-normalizer": {
+        "version": "v1.22.0"
+    },
+    "symfony/polyfill-php80": {
         "version": "v1.22.0"
     },
     "symfony/profiler-pack": {
@@ -304,5 +313,8 @@
     },
     "twig/extra-bundle": {
         "version": "v3.1.1"
+    },
+    "unicesil/shibboleth-bundle": {
+        "version": "v1.0.3"
     }
 }
