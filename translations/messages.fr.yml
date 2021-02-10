@@ -797,6 +797,12 @@ app:
         obsolete: 'obsolète'
         label: 'Intitulé'
         locale: 'Locale'
+  light_version:
+    presentation:
+      code_ecue: "Code de l'ECUE : "
+    title_section:
+      presentation: PRESENTATION
+      prerequisites: PREREQUIS
 
   general:
     button:

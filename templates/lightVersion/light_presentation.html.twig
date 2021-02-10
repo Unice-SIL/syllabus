@@ -1,29 +1,29 @@
 <section id="presentation-section" class="pb-3">
     <div class="student-title">
-        <h1 class="mb-0">{{ courseInfo.title }}</h1>
-        <h5 class="mb-3">
-             {{ courseInfo.course.code }}
-        </h5>
-
+        <h2 class="my-1 text-bold text-gray">{{ courseInfo.title }}</h2>
+        <div class="mb-3 text-gray">
+            {{ 'app.light_version.presentation.code_ecue' | trans }} {{ courseInfo.course.code }}
+        </div>
     </div>
-    <div class="presentation-info row p-4">
+
+    <div class="presentation-info row px-4 pt-4">
         <div class="presentation-info-element col-12 col-lg-4 col-md-6 col-sm-12">
-            <div class="student-subtitle">
+            <div class="light-subtitle">
                 <img class="icon-20" src="{{ asset('build/images/composante_picto.png') }}">
-                <span>{{ 'app.view.student.presentation.structure' | trans }}</span>
+                <span class="text-bold">{{ 'app.view.student.presentation.structure' | trans }}</span>
             </div>
-            <ul class="student-list list-dotted">
+            <ul>
                 <li>
                     {{ courseInfo.structure.label }}
                 </li>
             </ul>
         </div>
         <div class="presentation-info-element col-12 col-lg-4 col-md-6 col-sm-12">
-            <div class="student-subtitle">
+            <div class="light-subtitle">
                 <img class="icon-20" src="{{ asset('build/images/domaine_picto.png') }}">
-                <span>{{ 'app.view.student.presentation.domain' | trans }}</span>
+                <span class="text-bold">{{ 'app.view.student.presentation.domain' | trans }}</span>
             </div>
-            <ul class="student-list list-dotted">
+            <ul>
                 {% for domain in courseInfo.domains %}
                     <li>
                         {{ domain.label }}
@@ -32,11 +32,11 @@
             </ul>
         </div>
         <div class="presentation-info-element col-12 col-lg-4 col-md-6 col-sm-12">
-            <div class="student-subtitle">
+            <div class="light-subtitle">
                 <img class="icon-20" src="{{ asset('build/images/lieu_picto.png') }}">
-                <span>{{ 'app.view.student.presentation.campus' | trans }}</span>
+                <span class="text-bold">{{ 'app.view.student.presentation.campus' | trans }}</span>
             </div>
-            <ul class="student-list list-dotted">
+            <ul>
                 {% for campus in courseInfo.campuses %}
                     <li>
                         {{ campus.label }}
@@ -45,11 +45,11 @@
             </ul>
         </div>
         <div class="presentation-info-element col-12 col-lg-4 col-md-6 col-sm-12">
-            <div class="student-subtitle">
+            <div class="light-subtitle">
                 <img class="icon-20" src="{{ asset('build/images/niveau_picto.png') }}">
-                <span>{{ 'app.view.student.presentation.level' | trans }}</span>
+                <span class="text-bold">{{ 'app.view.student.presentation.level' | trans }}</span>
             </div>
-            <ul class="student-list list-dotted">
+            <ul>
                 {% for level in courseInfo.levels %}
                     <li>
                         {{ level.label }}
@@ -59,11 +59,11 @@
         </div>
         {% if courseInfo.periods is not empty %}
             <div class="presentation-info-element col-12 col-lg-4 col-md-6 col-sm-12">
-                <div class="student-subtitle">
+                <div class="light-subtitle">
                     <img class="icon-20" src="{{ asset('build/images/calendrier_picto.png') }}">
-                    <span>{{ 'app.view.student.presentation.semester' | trans }}</span>
+                    <span class="text-bold">{{ 'app.view.student.presentation.semester' | trans }}</span>
                 </div>
-                <ul class="student-list list-dotted">
+                <ul>
                     {% for period in courseInfo.periods %}
                         <li>
                             {{ period.label }}
@@ -73,11 +73,11 @@
             </div>
         {% endif %}
         <div class="presentation-info-element col-12 col-lg-4 col-md-6 col-sm-12">
-            <div class="student-subtitle">
+            <div class="light-subtitle">
                 <img class="icon-20" src="{{ asset('build/images/langue_picto.png') }}">
-                <span>{{ 'app.view.student.presentation.language' | trans }}</span>
+                <span class="text-bold">{{ 'app.view.student.presentation.language' | trans }}</span>
             </div>
-            <ul class="student-list list-dotted">
+            <ul>
                 {% for language in courseInfo.languages %}
                     <li>
                         {{ language.label }}
@@ -85,6 +85,10 @@
                 {% endfor %}
             </ul>
         </div>
+    </div>
+
+    <div class="title-underlined mt-3">
+        {{ 'app.light_version.title_section.presentation' | trans }}
     </div>
 
     <div class="presentation-summary mt-5">
@@ -106,10 +110,10 @@
 
         <div class="row w-100">
             <div class="d-flex flex-column col-12 col-lg-6 mb-4">
-                <h6 class="text-bold">
+                <h6 class="text-bold text-primary">
                     {{ 'app.view.student.presentation.teachers' | trans }}
                 </h6>
-                <span class="text-primary">
+                <span>
                     {% for teacher in courseInfo.courseTeachers %}
                         {% if not loop.first %}
                             ,
@@ -121,11 +125,11 @@
             <div class="col-12 col-lg-6 d-flex justify-content-between flex-wrap">
                 {% if courseInfo.teachingMode == constant('App\\Syllabus\\Constant\\TeachingMode::IN_CLASS') or
                     courseInfo.teachingMode == constant('App\\Syllabus\\Constant\\TeachingMode::HYBRID') %}
-                    {% include 'course_info/view/student_teaching_mode_in_class.html.twig' %}
+                    {% include 'lightVersion/light_teaching_mode_in_class.html.twig' %}
                 {% endif %}
                 {% if courseInfo.teachingMode == constant('App\\Syllabus\\Constant\\TeachingMode::DIST') or
                     courseInfo.teachingMode == constant('App\\Syllabus\\Constant\\TeachingMode::HYBRID') %}
-                    {% include 'course_info/view/student_teaching_mode_dist.html.twig' %}
+                    {% include 'lightVersion/light_teaching_mode_dist.html.twig' %}
                 {% endif %}
             </div>
         </div>
