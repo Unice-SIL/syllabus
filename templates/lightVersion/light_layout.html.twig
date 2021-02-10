@@ -1,11 +1,29 @@
 {% extends 'base.html.twig' %}
 
+
 {% block main %}
     <div class="student-view">
         <div class="container">
-            {% include 'course_info/view/student_vertical_menu.html.twig' %}
+            {% include 'lightVersion/light_menu.html.twig' %}
             <div class="student-content">
-                Light version
+                {% include 'lightVersion/light_presentation.html.twig' %}
+                {% include 'lightVersion/light_prerequisite.html.twig' %}
+                {% include 'lightVersion/light_objectives.html.twig' %}
+                {% include 'lightVersion/light_activities.html.twig' %}
+
+                <div class="text-muted text-center pb-5">
+                    <h5>{{ 'app.view.student.alert.important' | trans }}</h5>
+                    <p>
+                        {{ 'app.view.student.alert.text.part_1' | trans }}
+                    </p>
+                    <p>
+                        {{ 'app.view.student.alert.text.part_2' | trans }}
+                    </p>
+                    <a href="{{ 'app.view.student.syllabus_form.link' | trans }}" class="btn btn-outline-primary text-center" target="_blank">
+                        {{ 'app.view.student.syllabus_form.text' | trans }}
+                    </a>
+                </div>
+
             </div>
         </div>
     </div>
