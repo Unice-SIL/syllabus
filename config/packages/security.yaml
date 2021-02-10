@@ -28,7 +28,7 @@ security:
                 provider:                 user_db
 
         api:
-            pattern: ^/api/
+            pattern: ^/api/(?!docs.+/?)
             stateless: true
             guard:
                 provider: user_db
@@ -57,7 +57,7 @@ security:
     access_control:
         - { path: ^/light, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api(/docs)?$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/, roles: ROLE_API }
         - { path: "^/[^/]{1,5}/admin/settings", role: ROLE_SUPER_ADMIN }
         - { path: "^/[^/]{1,5}/admin", role: ROLE_ADMIN }
