@@ -35,9 +35,9 @@ yarn-error.log
 /src/DataFixtures/AppFixtures.php
 
 /.web-server-pid
-/app/config/jwt/*
+/config/jwt/*
 /app/config/parameters.yml
-/app/config/jwt
+/config/jwt
 /app_save/config/jwt/*
 /app_save/config/parameters.yml
 /app_save/config/jwt
