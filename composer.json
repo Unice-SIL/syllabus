@@ -59,7 +59,7 @@
         "tanigami/specification": "^1.3",
         "tetranz/select2entity-bundle": "^2.9",
         "twig/extensions": "^1.5",
-        "unicesil/shibboleth-bundle": "^1.0",
+        "unicesil/shibboleth-bundle": "^1.1",
         "unicesil/syllabus-apogee-importer-bundle": "^1.0"
     },
     "require-dev": {

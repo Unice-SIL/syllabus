@@ -59,3 +59,7 @@ yarn-error.log
 /.phpunit.result.cache
 /yarn-error.log
 /web/build/
+
+###> lexik/jwt-authentication-bundle ###
+/config/jwt/*.pem
+###< lexik/jwt-authentication-bundle ###
