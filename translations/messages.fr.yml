@@ -803,6 +803,8 @@ app:
     title_section:
       presentation: PRESENTATION
       prerequisites: PREREQUIS
+      objectives: OBJECTIFS
+      activities: CONTENU
 
   general:
     button:

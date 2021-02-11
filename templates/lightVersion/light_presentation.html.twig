@@ -115,10 +115,12 @@
                 </h6>
                 <span>
                     {% for teacher in courseInfo.courseTeachers %}
-                        {% if not loop.first %}
-                            ,
+                        {% if teacher.manager %}
+                            {% if not loop.first %}
+                                ,
+                            {% endif %}
+                            {{ teacher.firstname }} {{ teacher.lastname }} {% if teacher.emailVisibility and teacher.email is not null %}({{ teacher.email }}){% endif %}
                         {% endif %}
-                        {{ teacher.firstname }} {{ teacher.lastname }} {% if teacher.emailVisibility and teacher.email is not null %}({{ teacher.email }}){% endif %}
                     {% endfor %}
                 </span>
             </div>

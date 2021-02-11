@@ -1,75 +1,26 @@
-<section id="prerequisites-section" class="pb-5">
+<section id="prerequisites-section" class="pb-3">
     <div>
         <span class="title-underlined">
             {{ 'app.light_version.title_section.prerequisites' | trans }}
         </span>
     </div>
 
-    <div class="student-grid">
-        <div class="grid-element grid-2-elements">
-            {% if courseInfo.coursePrerequisites is not empty %}
-                <div class="student-subtitle">
-                    <span class="text-bold">{{ 'app.view.student.prerequisites.prerequisites_description' | trans }}</span>
-                </div>
-                <ul class="student-list list-dotted">
-                    {% for prerequisite in courseInfo.coursePrerequisites %}
-                        <li>
-                            <div class="d-flex flex-column">
-                                <span>{{ prerequisite.description | linkify({"attr": {"target": "_blank"}}) | raw }}</span>
-                                {% if prerequisite.courses is not empty %}
-                                    <span class="small font-italic">
-                                        {{ 'app.view.student.prerequisites.associate_courses' | trans }}
-                                        {% for course in prerequisite.courses %}
-                                            {% if not loop.first %}
-                                                ,
-                                            {% endif %}
-                                            {{ course.title }}
-                                        {% endfor %}
-                                    </span>
-                                {% endif %}
-                            </div>
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <div class="p-2 empty-element">{{ 'app.view.student.prerequisites.empty_prerequiste' | trans }}</div>
-            {% endif %}
-        </div>
-        <div class="grid-element  grid-2-elements">
-            {% if courseInfo.courseTutoringResources is not empty %}
-                <div class="student-subtitle">
-                    <span class="text-bold">{{ 'app.view.student.prerequisites.tutoring_resources_description' | trans }}</span>
-                </div>
-                <ul class="student-list list-dotted">
-                    {% if courseInfo.tutoring %}
-                        <li>
-                            <div>
-                                {{ 'app.view.student.prerequisites.tutoring' | trans }}
-                                {% if courseInfo.tutoringTeacher == true and courseInfo.tutoringStudent == true %}
-                                    {{ 'app.view.student.prerequisites.tutoring_by_both' | trans }}
-                                {% elseif courseInfo.tutoringTeacher == true and courseInfo.tutoringStudent == false %}
-                                    {{ 'app.view.student.prerequisites.tutoring_by_teacher' | trans }}
-                                {% elseif courseInfo.tutoringTeacher == false and courseInfo.tutoringStudent == true %}
-                                    {{ 'app.view.student.prerequisites.tutoring_by_student' | trans }}
-                                {% endif %}
-                                {% if courseInfo.tutoringDescription %}
-                                    ({{ courseInfo.tutoringDescription }})
-                                {% endif %}
-                            </div>
-                        </li>
-                    {% endif %}
-
-                    {% for tutoringResource in courseInfo.courseTutoringResources %}
-                        <li>
-                            <div>
-                                {{ tutoringResource.description | linkify({"attr": {"target": "_blank"}}) | raw }}
-                            </div>
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <div class="p-2 empty-element">{{ 'app.view.student.prerequisites.empty_tutoring_resources' | trans }}</div>
-            {% endif %}
-        </div>
+    <div>
+        {% if courseInfo.coursePrerequisites is not empty %}
+            <div class="light-subtitle">
+                <span class="text-bold">{{ 'app.view.student.prerequisites.prerequisites_description' | trans }}</span>
+            </div>
+            <ul class="light-list list-dotted">
+                {% for prerequisite in courseInfo.coursePrerequisites %}
+                    <li class="ml-2 text-primary">
+                        <div class="d-flex flex-column">
+                            <span>{{ prerequisite.description | linkify({"attr": {"target": "_blank"}}) | raw }}</span>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="p-2 empty-element">{{ 'app.view.student.prerequisites.empty_prerequiste' | trans }}</div>
+        {% endif %}
     </div>
 </section>
