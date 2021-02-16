@@ -800,6 +800,8 @@ app:
   light_version:
     presentation:
       code_ecue: "Code de l'ECUE : "
+      distant: Volume horaire à distance
+      class: Volume horaire en présentiel
     title_section:
       presentation: PRESENTATION
       prerequisites: PREREQUIS

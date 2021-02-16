@@ -8,10 +8,12 @@
 {% endif %}
 
 
-<div class="mr-3 mb-4">
-    <div class="light-subtitle">
-        <img src="{{ asset('build/images/presentiel_picto.png') }}" class="icon-40" alt="">
-        <h5 class="text-primary">{{ 'app.view.student.presentation.class' | trans }}</h5>
+<div class="mb-4">
+    <div class="d-flex mb-2">
+        <div class="info-rounded-icon">
+            <img src="{{ asset('build/images/presentiel_picto.png') }}">
+        </div>
+        <h4>{{ 'app.view.student.presentation.class' | trans }}</h4>
     </div>
     <ul class="light-list">
         {% if teachingCm is not null %}

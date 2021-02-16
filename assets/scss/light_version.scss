@@ -1,12 +1,46 @@
-.empty-element{
-  margin: auto;
-  color: #7d8293;
-}
-
 .light-view {
   height: 100% !important;
   padding-top: 1rem;
   font-family: "Apex New Book";
+
+  h1 {
+    font-weight: bold;
+    color: gray;
+    margin: 1rem 0;
+  }
+
+  h2 {
+    font-size: medium;
+    color: gray;
+    margin: 1rem 0;
+  }
+
+  h3 {
+    position: relative;
+    display: block;
+    font-weight: bold;
+    margin: 1rem 0;
+    color: gray;
+    font-size: larger;
+
+    &:after {
+      content: '';
+      position: absolute;
+      width: 50px;
+      height: 3px;
+      background-color: var(--primary);
+      top: 130%;
+      left: 0;
+    }
+  }
+
+  h4 {
+    color: var(--primary);
+    padding: 0.9rem 0;
+    font-weight: bold;
+    font-size: larger;
+    margin-bottom: 0;
+  }
 
   @media (min-width: 768px) {
     padding-top: 2rem;
@@ -18,19 +52,11 @@
     .icon-20 {
       width: 20px;
       height: 20px;
-      margin-right: 0.5rem;
     }
 
     .icon-30 {
       width: 30px;
       height: 30px;
-      margin-right: 1rem;
-    }
-
-    .icon-40 {
-      width: 40px;
-      height: 40px;
-      margin-right: 1rem;
     }
 
     .light-subtitle {
@@ -38,56 +64,34 @@
       margin-bottom: 1rem;
     }
 
-    .title-underlined {
-      position: relative;
-      display: block;
-      font-weight: bold;
-      margin-bottom: 1rem;
-      color: gray;
-
-      &:after {
-        content: '';
-        position: absolute;
-        width: 50px;
-        height: 3px;
-        background-color: var(--primary);
-        top: 130%;
-        left: 0;
+    .presentation-info {
+      background-color: #f4f7f6;
+      padding: 0 1.5rem;
+      margin-top: 2rem;
+      .presentation-info-element {
+        display: flex;
+        align-items: start;
+        margin: 1rem 0;
+        .presentation-info-element-text {
+          label {
+            font-weight: bold;
+            margin-bottom: 0.15rem;
+          }
+        }
       }
     }
 
-    .presentation-info {
-      background-color: lightgray;
-      margin-left: 0;
-      margin-right: 0;
-
-      .light-subtitle {
-        margin-bottom: 0;
-        justify-content: center;
-
-        @media (min-width: 768px) {
-          justify-content: flex-start;
-        }
-      }
-
-      .presentation-info-element {
-        padding-bottom: 1rem;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-
-        @media (min-width: 768px) {
-          align-items: flex-start;
-        }
-
-        ul {
-          list-style: none;
-          padding-left: 2rem;
-
-          li {
-            margin-bottom: 0;
-          }
-        }
+    .info-rounded-icon {
+      border-radius: 50%;
+      background-color: var(--info);
+      padding: 0.85rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: 1.5rem;
+      img {
+        height: 25px;
+        width: 25px;
       }
     }
 

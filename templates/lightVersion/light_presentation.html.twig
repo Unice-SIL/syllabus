@@ -1,95 +1,122 @@
 <section id="presentation-section" class="pb-3">
     <div class="student-title">
-        <h2 class="my-1 text-bold text-gray">{{ courseInfo.title }}</h2>
-        <div class="mb-3 text-gray">
+        <h1>{{ courseInfo.title }}</h1>
+        <h2>
             {{ 'app.light_version.presentation.code_ecue' | trans }} {{ courseInfo.course.code }}
-        </div>
+        </h2>
     </div>
 
-    <div class="presentation-info row px-4 pt-4">
-        <div class="presentation-info-element col-12 col-lg-4 col-md-6 col-sm-12">
-            <div class="light-subtitle">
-                <img class="icon-20" src="{{ asset('build/images/composante_picto.png') }}">
-                <span class="text-bold">{{ 'app.view.student.presentation.structure' | trans }}</span>
+    <div class="presentation-info row">
+        <div class="col-12 col-lg-4 col-md-6 col-sm-12">
+            <div class="presentation-info-element">
+                <div class="info-rounded-icon">
+                    <img class="" src="{{ asset('build/images/composante_picto.png') }}">
+                </div>
+                <div class="presentation-info-element-text">
+                    <label>{{ 'app.view.student.presentation.structure' | trans }}</label>
+                    <div>
+                        {{ courseInfo.structure.label }}
+                    </div>
+                </div>
             </div>
-            <ul>
-                <li>
-                    {{ courseInfo.structure.label }}
-                </li>
-            </ul>
         </div>
-        <div class="presentation-info-element col-12 col-lg-4 col-md-6 col-sm-12">
-            <div class="light-subtitle">
-                <img class="icon-20" src="{{ asset('build/images/domaine_picto.png') }}">
-                <span class="text-bold">{{ 'app.view.student.presentation.domain' | trans }}</span>
+        <div class="col-12 col-lg-4 col-md-6 col-sm-12">
+            <div class="presentation-info-element">
+                <div class="info-rounded-icon">
+                    <img class="" src="{{ asset('build/images/domaine_picto.png') }}">
+                </div>
+                <div class="presentation-info-element-text">
+                    <label>{{ 'app.view.student.presentation.domain' | trans }}</label>
+                    <div>
+                        {% for domain in courseInfo.domains %}
+                            {% if not loop.first %}
+                                ,
+                            {% endif %}
+                            {{ domain.label }}
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
-            <ul>
-                {% for domain in courseInfo.domains %}
-                    <li>
-                        {{ domain.label }}
-                    </li>
-                {% endfor %}
-            </ul>
         </div>
-        <div class="presentation-info-element col-12 col-lg-4 col-md-6 col-sm-12">
-            <div class="light-subtitle">
-                <img class="icon-20" src="{{ asset('build/images/lieu_picto.png') }}">
-                <span class="text-bold">{{ 'app.view.student.presentation.campus' | trans }}</span>
+        <div class="col-12 col-lg-4 col-md-6 col-sm-12">
+            <div class="presentation-info-element">
+                <div class="info-rounded-icon">
+                    <img class="" src="{{ asset('build/images/lieu_picto.png') }}">
+                </div>
+                <div class="presentation-info-element-text">
+                    <label>{{ 'app.view.student.presentation.campus' | trans }}</label>
+                    <div>
+                        {% for campus in courseInfo.campuses %}
+                            {% if not loop.first %}
+                                ,
+                            {% endif %}
+                            {{ campus.label }}
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
-            <ul>
-                {% for campus in courseInfo.campuses %}
-                    <li>
-                        {{ campus.label }}
-                    </li>
-                {% endfor %}
-            </ul>
         </div>
-        <div class="presentation-info-element col-12 col-lg-4 col-md-6 col-sm-12">
-            <div class="light-subtitle">
-                <img class="icon-20" src="{{ asset('build/images/niveau_picto.png') }}">
-                <span class="text-bold">{{ 'app.view.student.presentation.level' | trans }}</span>
+        <div class="col-12 col-lg-4 col-md-6 col-sm-12">
+            <div class="presentation-info-element">
+                <div class="info-rounded-icon">
+                    <img class="" src="{{ asset('build/images/niveau_picto.png') }}">
+                </div>
+                <div class="presentation-info-element-text">
+                    <label>{{ 'app.view.student.presentation.level' | trans }}</label>
+                    <div>
+                        {% for level in courseInfo.levels %}
+                            {% if not loop.first %}
+                                ,
+                            {% endif %}
+                            {{ level.label }}
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
-            <ul>
-                {% for level in courseInfo.levels %}
-                    <li>
-                        {{ level.label }}
-                    </li>
-                {% endfor %}
-            </ul>
         </div>
         {% if courseInfo.periods is not empty %}
-            <div class="presentation-info-element col-12 col-lg-4 col-md-6 col-sm-12">
-                <div class="light-subtitle">
-                    <img class="icon-20" src="{{ asset('build/images/calendrier_picto.png') }}">
-                    <span class="text-bold">{{ 'app.view.student.presentation.semester' | trans }}</span>
+            <div class="col-12 col-lg-4 col-md-6 col-sm-12">
+                <div class="presentation-info-element">
+                    <div class="info-rounded-icon">
+                        <img class="" src="{{ asset('build/images/calendrier_picto.png') }}">
+                    </div>
+                    <div class="presentation-info-element-text">
+                        <label>{{ 'app.view.student.presentation.semester' | trans }}</label>
+                        <div>
+                            {% for period in courseInfo.periods %}
+                                {% if not loop.first %}
+                                    ,
+                                {% endif %}
+                                {{ period.label }}
+                            {% endfor %}
+                        </div>
+                    </div>
                 </div>
-                <ul>
-                    {% for period in courseInfo.periods %}
-                        <li>
-                            {{ period.label }}
-                        </li>
-                    {% endfor %}
-                </ul>
             </div>
         {% endif %}
-        <div class="presentation-info-element col-12 col-lg-4 col-md-6 col-sm-12">
-            <div class="light-subtitle">
-                <img class="icon-20" src="{{ asset('build/images/langue_picto.png') }}">
-                <span class="text-bold">{{ 'app.view.student.presentation.language' | trans }}</span>
+        <div class="col-12 col-lg-4 col-md-6 col-sm-12">
+            <div class="presentation-info-element">
+                <div class="info-rounded-icon">
+                    <img class="" src="{{ asset('build/images/langue_picto.png') }}">
+                </div>
+                <div class="presentation-info-element-text">
+                    <label>{{ 'app.view.student.presentation.language' | trans }}</label>
+                    <div>
+                        {% for language in courseInfo.languages %}
+                            {% if not loop.first %}
+                                ,
+                            {% endif %}
+                            {{ language.label }}
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
-            <ul>
-                {% for language in courseInfo.languages %}
-                    <li>
-                        {{ language.label }}
-                    </li>
-                {% endfor %}
-            </ul>
         </div>
     </div>
 
-    <div class="title-underlined mt-3">
+    <h3 class="mt-3">
         {{ 'app.light_version.title_section.presentation' | trans }}
-    </div>
+    </h3>
 
     <div class="presentation-summary mt-5">
         {% if courseInfo.mediaType == 'image' and courseInfo.image is not null %}
@@ -110,9 +137,9 @@
 
         <div class="row w-100">
             <div class="d-flex flex-column col-12 col-lg-6 mb-4">
-                <h6 class="text-bold text-primary">
+                <h4>
                     {{ 'app.view.student.presentation.teachers' | trans }}
-                </h6>
+                </h4>
                 <span>
                     {% for teacher in courseInfo.courseTeachers %}
                         {% if teacher.manager %}
