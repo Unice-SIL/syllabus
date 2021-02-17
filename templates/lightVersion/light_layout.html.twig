@@ -3,7 +3,7 @@
 
 {% block main %}
     <div class="bg-dark p-2">
-        <i class="fas fa-chevron-left"></i> Université Côte d'azur
+        <i class="fas fa-chevron-left"></i> <a href="https://univ-cotedazur.fr/">{{ 'app.light_version.menu.top_link' | trans }}</a>
     </div>
 
     <div>
@@ -19,17 +19,16 @@
                 {% include 'lightVersion/light_objectives.html.twig' %}
                 {% include 'lightVersion/light_activities.html.twig' %}
 
-                <div class="text-muted text-center pb-5">
-                    <h5>{{ 'app.view.student.alert.important' | trans }}</h5>
-                    <p>
-                        {{ 'app.view.student.alert.text.part_1' | trans }}
-                    </p>
-                    <p>
-                        {{ 'app.view.student.alert.text.part_2' | trans }}
-                    </p>
-                    <a href="{{ 'app.view.student.syllabus_form.link' | trans }}" class="btn btn-outline-primary text-center" target="_blank">
-                        {{ 'app.view.student.syllabus_form.text' | trans }}
+                <div class="text-center">
+                    <a href="{{ path('app.course_info.dashboard.index', { 'id' : courseInfo.id }) }}" class="btn btn-primary text-center">
+                        {{ 'app.light_version.layout.link_to_authenticate' | trans }}
                     </a>
+                    <div class="warning">
+                        <div class="text-bold">{{ 'app.view.student.alert.important' | trans }}</div>
+                        <div class="font-italic">
+                            {{ 'app.view.student.alert.text.part_1' | trans }}
+                        </div>
+                    </div>
                 </div>
 
             </div>

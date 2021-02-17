@@ -798,10 +798,15 @@ app:
         label: 'Intitulé'
         locale: 'Locale'
   light_version:
+    menu:
+      top_link: Université Côte d'azur
+    layout:
+      link_to_authenticate: Accéder au Syllabus complet (Authentification requise)
     presentation:
       code_ecue: "Code de l'ECUE : "
       distant: Volume horaire à distance
       class: Volume horaire en présentiel
+      teachers: Responsable(s) du cours
     title_section:
       presentation: PRESENTATION
       prerequisites: PREREQUIS

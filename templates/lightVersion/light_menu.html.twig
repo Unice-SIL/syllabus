@@ -1,6 +1,8 @@
-<div class="d-flex">
+<div class="breadcrumb-menu">
     <div>
-        Icon / Formation / Syllabus {{ courseInfo.course.code }}
+        <img class="icon-20" src="{{ asset('build/images/logo_fil_ariane.png') }}"> /
+        <a class="mx-1" href="https://univ-cotedazur.fr/choisir-sa-formation-1">Formation</a> /
+        <span class="ml-1">Syllabus {{ courseInfo.course.code }}</span>
     </div>
     <div class="dropdown ml-auto">
         <button class="btn" type="button" id="dropdown-languages" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
