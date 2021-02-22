@@ -797,6 +797,21 @@ app:
         obsolete: Obsolete
         label: Title
         locale: Locale
+  light_version:
+    menu:
+      top_link: University Côte d'azur
+    layout:
+      link_to_authenticate: Access to complete Syllabus (Authentification required)
+    presentation:
+      code_ecue: "ECUE's code : "
+      distant: Distant schedule
+      class: Class schedule
+      teachers: Course's manager(s)
+    title_section:
+      presentation: PRESENTATION
+      prerequisites: PREREQUISITES
+      objectives: OBJECTIVES
+      activities: CONTENT
 
   general:
     button:

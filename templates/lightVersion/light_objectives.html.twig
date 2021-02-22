@@ -1,18 +1,16 @@
-<section id="objectives-section" class="pb-5">
-    <div>
-        <span class="border-primary border-bottom">
-            {{ 'app.view.student.tabs.objectives' | trans }}
-        </span>
-    </div>
+<section id="objectives-section" class="pb-3">
+    <h3>
+        {{ 'app.light_version.title_section.objectives' | trans }}
+    </h3>
 
-    <div class="d-flex flex-column align-items-center">
-        <div class="student-subtitle">
+    <div>
+        <div class="light-subtitle">
             <span class="text-bold">{{ 'app.view.student.objectives.achievements_description' | trans }}</span>
         </div>
-        <ul class="student-list list-dotted">
+        <ul class="light-list list-dotted">
             {% if courseInfo.courseAchievements is not empty %}
                 {% for achievement in courseInfo.courseAchievements %}
-                    <li>
+                    <li class="text-primary ml-2">
                         {{ achievement.description }}
                     </li>
                 {% endfor %}

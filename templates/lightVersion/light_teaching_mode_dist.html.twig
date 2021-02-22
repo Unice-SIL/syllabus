@@ -7,11 +7,13 @@
 
 
 <div class="mb-4">
-    <div class="student-subtitle">
-        <img src="{{ asset('build/images/distanciel_picto.png') }}" class="icon-40" alt="">
-        <h5 class="title-underlined">{{ 'app.view.student.presentation.distant' | trans }}</h5>
+    <div class="d-flex mb-2">
+        <div class="info-rounded-icon">
+            <img src="{{ asset('build/images/distanciel_picto.png') }}">
+        </div>
+        <h4>{{ 'app.view.student.presentation.distant' | trans }}</h4>
     </div>
-    <ul class="student-list">
+    <ul class="light-list">
         {% if teachingCm is not empty %}
             <li>
                 <i class="fas fa-check text-primary"></i>

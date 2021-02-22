@@ -56,3 +56,5 @@ import 'admin-lte';
 require('admin-lte/plugins/jquery-knob/jquery.knob.min');
 
 import './_custom';
+
+import './light_version';
