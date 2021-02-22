@@ -51,7 +51,7 @@ class DefaultController extends AbstractController
     }
 
     /**
-     * @Route("/course/router_anon/{code}/{year}", name="app_router_anon", defaults={"year"=null})
+     * @Route("/course/router-light/{code}/{year}", name="app_router_anon", defaults={"year"=null})
      * @param $code
      * @param $year
      * @param CourseInfoDoctrineRepository $repository
