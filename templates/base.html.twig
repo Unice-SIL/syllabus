@@ -30,7 +30,10 @@
 </head>
 
 <body class="{% block body_class %}sidebar-mini layout-navbar-fixed layout-fixed control-sidebar-slide-open{% endblock %}"
-        {% if app.request.get('_route') == "app.course_info.view.student" %}
+        {%
+            if app.request.get('_route') == "app.course_info.view.student"
+            or app.request.get('_route') == "app.course_info.view.light_version"
+        %}
             data-spy="scroll" data-target="#student-sidebar" data-offset="100"
         {% endif %}
 >
