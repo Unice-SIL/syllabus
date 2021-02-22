@@ -1,11 +1,11 @@
 $( document ).ready( function( ) {
-    window.onscroll = function () {stickyMenu()};
-
+    let sticky = "";
     let navbar = document.getElementById("student-sidebar");
 
     if (navbar)
     {
-        let sticky = navbar.offsetTop;
+        sticky = navbar.offsetTop;
+        window.onscroll = function () {stickyMenu()};
     }
 
     function stickyMenu() {
