@@ -1,15 +1,20 @@
-window.onscroll = function () {stickyMenu()};
+$( document ).ready( function( ) {
+    window.onscroll = function () {stickyMenu()};
 
-let navbar = document.getElementById("student-sidebar");
+    let navbar = document.getElementById("student-sidebar");
 
-let sticky = navbar.offsetTop;
-
-function stickyMenu() {
-    if (window.pageYOffset >= sticky) {
-        navbar.classList.add("sticky");
-    }
-    else {
-        navbar.classList.remove("sticky");
+    if (navbar)
+    {
+        let sticky = navbar.offsetTop;
     }
 
-}
+    function stickyMenu() {
+        if (sticky) {
+            if (window.pageYOffset >= sticky) {
+                navbar.classList.add("sticky");
+            } else {
+                navbar.classList.remove("sticky");
+            }
+        }
+    }
+});
