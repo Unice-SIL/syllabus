@@ -25,13 +25,13 @@ use Symfony\Component\Translation\TranslatorInterface;
  * @package App\Syllabus\Controller
  *
  * @Route("/period", name="app.admin.period.")
- * @Security("has_role('ROLE_ADMIN_PERIOD')")
+ * @Security("is_granted('ROLE_ADMIN_PERIOD')")
  */
 class PeriodController extends AbstractController
 {
     /**
      * @Route("/",name="index", methods={"GET"})
-     * @Security("has_role('ROLE_ADMIN_PERIOD_LIST')")
+     * @Security("is_granted('ROLE_ADMIN_PERIOD_LIST')")
      *
      * @param Request $request
      * @param PeriodDoctrineRepository $repository
@@ -72,7 +72,7 @@ class PeriodController extends AbstractController
     /**
      *
      * @Route("/new", name="new", methods={"GET", "POST"})
-     * @Security("has_role('ROLE_ADMIN_PERIOD_CREATE')")
+     * @Security("is_granted('ROLE_ADMIN_PERIOD_CREATE')")
      *
      * @param Request $request
      * @param PeriodManager $periodManager
@@ -102,7 +102,7 @@ class PeriodController extends AbstractController
      * Displays a form to edit an existing activity entity.
      *
      * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
-     * @Security("has_role('ROLE_ADMIN_PERIOD_UPDATE')")
+     * @Security("is_granted('ROLE_ADMIN_PERIOD_UPDATE')")
      *
      * @param Request $request
      * @param Period $period

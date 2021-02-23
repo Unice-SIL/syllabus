@@ -25,13 +25,13 @@ use Symfony\Component\Translation\TranslatorInterface;
  * @package App\Syllabus\Controller\Admin
  *
  * @Route("/campus", name="app.admin.campus.")
- * @Security("has_role('ROLE_ADMIN_CAMPUS')")
+ * @Security("is_granted('ROLE_ADMIN_CAMPUS')")
  */
 class CampusController extends AbstractController
 {
     /**
      * @Route("/",name="index", methods={"GET"})
-     * @Security("has_role('ROLE_ADMIN_CAMPUS_LIST')")
+     * @Security("is_granted('ROLE_ADMIN_CAMPUS_LIST')")
      *
      * @param Request $request
      * @param CampusDoctrineRepository $repository
@@ -72,7 +72,7 @@ class CampusController extends AbstractController
     /**
      *
      * @Route("/new", name="new", methods={"GET", "POST"})
-     * @Security("has_role('ROLE_ADMIN_CAMPUS_CREATE')")
+     * @Security("is_granted('ROLE_ADMIN_CAMPUS_CREATE')")
      *
      * @param Request $request
      * @param CampusManager $campusManager
@@ -102,7 +102,7 @@ class CampusController extends AbstractController
      * Displays a form to edit an existing activity entity.
      *
      * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
-     * @Security("has_role('ROLE_ADMIN_CAMPUS_UPDATE')")
+     * @Security("is_granted('ROLE_ADMIN_CAMPUS_UPDATE')")
      *
      * @param Request $request
      * @param Campus $campus

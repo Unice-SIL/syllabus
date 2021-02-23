@@ -23,7 +23,7 @@ use Symfony\Component\Translation\TranslatorInterface;
  * Notification controller.
  *
  * @Route("admin/notification", name="app.admin.notification.")
- * @Security("has_role('ROLE_ADMIN_NOTIFICATION')")
+ * @Security("is_granted('ROLE_ADMIN_NOTIFICATION')")
  */
 class NotificationController extends AbstractController
 {
@@ -31,7 +31,7 @@ class NotificationController extends AbstractController
      * Lists all notification entities.
      *
      * @Route("/", name="index", methods={"GET"})
-     * @Security("has_role('ROLE_ADMIN_NOTIFICATION_LIST')")
+     * @Security("is_granted('ROLE_ADMIN_NOTIFICATION_LIST')")
      *
      * @param Request $request
      * @param NotificationDoctrineRepository $repository
@@ -70,7 +70,7 @@ class NotificationController extends AbstractController
      * Creates a new notification entity.
      *
      * @Route("/new", name="new", methods={"GET", "POST"})
-     * @Security("has_role('ROLE_ADMIN_NOTIFICATION_CREATE')")
+     * @Security("is_granted('ROLE_ADMIN_NOTIFICATION_CREATE')")
      *
      * @param Request $request
      * @param NotificationManager $notificationManager
@@ -101,7 +101,7 @@ class NotificationController extends AbstractController
      * Displays a form to edit an existing notification entity.
      *
      * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
-     * @Security("has_role('ROLE_ADMIN_NOTIFICATION_UPDATE')")
+     * @Security("is_granted('ROLE_ADMIN_NOTIFICATION_UPDATE')")
      *
      * @param Request $request
      * @param Notification $notification
@@ -131,7 +131,7 @@ class NotificationController extends AbstractController
      * Deletes a notification entity.
      *
      * @Route("/{id}", name="delete", methods={"DELETE"})
-     * @Security("has_role('ROLE_ADMIN_NOTIFICATION_DELETE')")
+     * @Security("is_granted('ROLE_ADMIN_NOTIFICATION_DELETE')")
      *
      * @param Request $request
      * @param Notification $notification

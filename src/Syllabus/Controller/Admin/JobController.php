@@ -22,7 +22,7 @@ use Symfony\Component\Translation\TranslatorInterface;
  * Job controller.
  *
  * @Route("/job", name="app.admin.job.")
- * @Security("has_role('ROLE_ADMIN_JOB')")
+ * @Security("is_granted('ROLE_ADMIN_JOB')")
  *
  */
 class JobController extends AbstractController
@@ -31,7 +31,7 @@ class JobController extends AbstractController
      * Lists all jobs entities.
      *
      * @Route("/", name="index", methods={"GET"})
-     * @Security("has_role('ROLE_ADMIN_JOB_LIST')")
+     * @Security("is_granted('ROLE_ADMIN_JOB_LIST')")
      *
      * @param Request $request
      * @param PaginatorInterface $paginator
@@ -79,7 +79,7 @@ class JobController extends AbstractController
      * Creates a new job entity.
      *
      * @Route("/new", name="new", methods={"GET", "POST"})
-     * @Security("has_role('ROLE_ADMIN_JOB_CREATE')")
+     * @Security("is_granted('ROLE_ADMIN_JOB_CREATE')")
      *
      * @param Request $request
      * @return RedirectResponse|Response
@@ -108,7 +108,7 @@ class JobController extends AbstractController
      * Displays a form to edit an existing job entity.
      *
      * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
-     * @Security("has_role('ROLE_ADMIN_JOB_UPDATE')")
+     * @Security("is_granted('ROLE_ADMIN_JOB_UPDATE')")
      *
      * @param Request $request
      * @param Job $job
@@ -137,7 +137,7 @@ class JobController extends AbstractController
      * Displays the report for the given job entity.
      *
      * @Route("/{id}/report", name="report", methods={"GET"})
-     * @Security("has_role('ROLE_ADMIN_JOB_REPORT')")
+     * @Security("is_granted('ROLE_ADMIN_JOB_REPORT')")
      *
      * @param Request $request
      * @param Job $job
@@ -169,7 +169,7 @@ class JobController extends AbstractController
      * Deletes a job entity.
      *
      * @Route("/{id}", name="delete", methods={"DELETE"})
-     * @Security("has_role('ROLE_ADMIN_JOB_DELETE')")
+     * @Security("is_granted('ROLE_ADMIN_JOB_DELETE')")
      *
      * @param Request $request
      * @param Job $job

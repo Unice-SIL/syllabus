@@ -24,13 +24,13 @@ use Symfony\Component\Translation\TranslatorInterface;
  * @package App\Syllabus\Controller
  *
  * @Route("/activity-mode", name="app.admin.activity_mode.")
- * @Security("has_role('ROLE_ADMIN_ACTIVITYMODE')")
+ * @Security("is_granted('ROLE_ADMIN_ACTIVITYMODE')")
  */
 class ActivityModeController extends AbstractController
 {
     /**
      * @Route("/", name="index", methods={"GET"})
-     * @Security("has_role('ROLE_ADMIN_ACTIVITYMODE_LIST')")
+     * @Security("is_granted('ROLE_ADMIN_ACTIVITYMODE_LIST')")
      * @param Request $request
      * @param ActivityModeDoctrineRepository $repository
      * @param PaginatorInterface $paginator
@@ -69,7 +69,7 @@ class ActivityModeController extends AbstractController
 
     /**
      * @Route("/new", name="new", methods={"GET", "POST"})
-     * @Security("has_role('ROLE_ADMIN_ACTIVITYMODE_CREATE')")
+     * @Security("is_granted('ROLE_ADMIN_ACTIVITYMODE_CREATE')")
      *
      * @param Request $request
      * @param ActivityModeManager $activityTypeManager
@@ -98,7 +98,7 @@ class ActivityModeController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
-     * @Security("has_role('ROLE_ADMIN_ACTIVITYMODE_UPDATE')")
+     * @Security("is_granted('ROLE_ADMIN_ACTIVITYMODE_UPDATE')")
      *
      * @param Request $request
      * @param ActivityMode $activityMode

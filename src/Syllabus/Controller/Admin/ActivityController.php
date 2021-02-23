@@ -22,7 +22,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 /**
  * Activity controller.
  *
- * @Security("has_role('ROLE_ADMIN_ACTIVITY')")
+ * @Security("is_granted('ROLE_ADMIN_ACTIVITY')")
  * @Route("/activity", name="app.admin.activity.")
  */
 class ActivityController extends AbstractController
@@ -31,7 +31,7 @@ class ActivityController extends AbstractController
      * Lists all activity entities.
      *
      * @Route("/", name="index", methods={"GET"})
-     * @Security("has_role('ROLE_ADMIN_ACTIVITY_LIST')")
+     * @Security("is_granted('ROLE_ADMIN_ACTIVITY_LIST')")
      * @param Request $request
      * @param ActivityDoctrineRepository $repository
      * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
@@ -71,7 +71,7 @@ class ActivityController extends AbstractController
 
     /**
      * @Route("/new", name="new", methods={"GET", "POST"})
-     * @Security("has_role('ROLE_ADMIN_ACTIVITY_CREATE')")
+     * @Security("is_granted('ROLE_ADMIN_ACTIVITY_CREATE')")
      * @param Request $request
      * @param ActivityManager $activityManager
      * @param TranslatorInterface $translator
@@ -100,7 +100,7 @@ class ActivityController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
-     * @Security("has_role('ROLE_ADMIN_ACTIVITY_UPDATE')")
+     * @Security("is_granted('ROLE_ADMIN_ACTIVITY_UPDATE')")
      * @param Request $request
      * @param Activity $activity
      * @param ActivityManager $activityManager

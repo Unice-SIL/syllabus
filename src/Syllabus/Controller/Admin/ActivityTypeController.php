@@ -23,14 +23,14 @@ use Symfony\Component\Translation\TranslatorInterface;
  * @package App\Syllabus\Controller
  *
  * @Route("/activity-type", name="app.admin.activity_type.")
- * @Security("has_role('ROLE_ADMIN_ACTIVITYTYPE')")
+ * @Security("is_granted('ROLE_ADMIN_ACTIVITYTYPE')")
  */
 class ActivityTypeController extends AbstractController
 {
 
     /**
      * @Route("/", name="index", methods={"GET"})
-     * @Security("has_role('ROLE_ADMIN_ACTIVITYTYPE_LIST')")
+     * @Security("is_granted('ROLE_ADMIN_ACTIVITYTYPE_LIST')")
      * @param Request $request
      * @param ActivityTypeDoctrineRepository $repository
      * @param PaginatorInterface $paginator
@@ -71,7 +71,7 @@ class ActivityTypeController extends AbstractController
      * Creates a new activity.
      *
      * @Route("/new", name="new", methods={"GET", "POST"})
-     * @Security("has_role('ROLE_ADMIN_ACTIVITYTYPE_CREATE')")
+     * @Security("is_granted('ROLE_ADMIN_ACTIVITYTYPE_CREATE')")
      * @param Request $request
      * @param ActivityTypeManager $activityTypeManager
      * @param TranslatorInterface $translator
@@ -100,7 +100,7 @@ class ActivityTypeController extends AbstractController
      * Displays a form to edit an existing activity entity.
      *
      * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
-     * @Security("has_role('ROLE_ADMIN_ACTIVITYTYPE_UPDATE')")
+     * @Security("is_granted('ROLE_ADMIN_ACTIVITYTYPE_UPDATE')")
      * @param Request $request
      * @param ActivityType $activityType
      * @param ActivityTypeManager $activityTypeManager

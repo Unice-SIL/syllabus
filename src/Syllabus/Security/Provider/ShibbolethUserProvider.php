@@ -9,6 +9,7 @@ use App\Syllabus\Repository\UserRepositoryInterface;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Doctrine\Persistence\ManagerRegistry;
 use Ramsey\Uuid\Uuid;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
@@ -39,14 +40,14 @@ class ShibbolethUserProvider implements ShibbolethUserProviderInterface
 
     /**
      * ShibbolethUserProvider constructor.
-     * @param RegistryInterface $registry
+     * @param ManagerRegistry $registry
      * @param UserDoctrineRepository $userRepository
      */
     public function __construct(
-        RegistryInterface $registry,
+        ManagerRegistry $registry,
         UserDoctrineRepository $userRepository)
     {
-        $this->em = $registry->getEntityManager();
+        $this->em = $registry->getManager();
         $this->userRepository = $userRepository;
     }
 
@@ -65,9 +66,7 @@ class ShibbolethUserProvider implements ShibbolethUserProviderInterface
 
         $username = $credentials['username'];
 
-        dump($username, $credentials);
         $user = $this->findUserByUsername($username);
-        dump($user);
         if(!$user instanceof User)
         {
             $user = new User();
@@ -95,10 +94,7 @@ class ShibbolethUserProvider implements ShibbolethUserProviderInterface
 
         // On ne créé pas l'utilisateur en Bdd
         if(!empty($user->getId())){
-            $this->em->persist($user);
             $this->em->flush();
-        }else{
-            $user->setId(Uuid::uuid4());
         }
 
         return $user;

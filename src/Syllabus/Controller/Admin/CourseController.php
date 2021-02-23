@@ -32,13 +32,13 @@ use Symfony\Component\Translation\TranslatorInterface;
  * @package App\Syllabus\Controller
  *
  * @Route("course", name="app.admin.course.")
- * @Security("has_role('ROLE_ADMIN_COURSE')")
+ * @Security("is_granted('ROLE_ADMIN_COURSE')")
  */
 class CourseController extends Controller
 {
     /**
      * @Route("/", name="index", methods={"GET"})
-     * @Security("has_role('ROLE_ADMIN_COURSE_LIST')")
+     * @Security("is_granted('ROLE_ADMIN_COURSE_LIST')")
      *
      * @param Request $request
      * @param CourseDoctrineRepository $courseDoctrineRepository
@@ -73,7 +73,7 @@ class CourseController extends Controller
 
     /**
      * @Route("/new", name="new", methods={"GET", "POST"})
-     * @Security("has_role('ROLE_ADMIN_COURSE_CREATE')")
+     * @Security("is_granted('ROLE_ADMIN_COURSE_CREATE')")
      *
      * @param Request $request
      * @param CourseManager $courseManager
@@ -100,7 +100,7 @@ class CourseController extends Controller
      * Displays a form to edit an existing course entity.
      *
      * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
-     * @Security("has_role('ROLE_ADMIN_COURSE_UPDATE')")
+     * @Security("is_granted('ROLE_ADMIN_COURSE_UPDATE')")
      *
      * @param Request $request
      * @param Course $course
@@ -249,7 +249,7 @@ class CourseController extends Controller
     /**
      * Creates a course-info for the given course
      * @Route("/{id}/new-course-info", name="new_course_info", methods={"GET", "POST"})
-     * @Security("has_role('ROLE_ADMIN_COURSE_INFO_CREATE')")
+     * @Security("is_granted('ROLE_ADMIN_COURSE_INFO_CREATE')")
      *
      * @param Course $course
      * @param Request $request

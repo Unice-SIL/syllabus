@@ -25,13 +25,13 @@ use Symfony\Component\Translation\TranslatorInterface;
  * @package App\Syllabus\Controller
  *
  * @Route("/level", name="app.admin.level.")
- * @Security("has_role('ROLE_ADMIN_LEVEL')")
+ * @Security("is_granted('ROLE_ADMIN_LEVEL')")
  */
 class LevelController extends AbstractController
 {
     /**
      * @Route("/",name="index", methods={"GET"})
-     * @Security("has_role('ROLE_ADMIN_LEVEL_LIST')")
+     * @Security("is_granted('ROLE_ADMIN_LEVEL_LIST')")
      *
      * @param Request $request
      * @param LevelDoctrineRepository $repository
@@ -72,7 +72,7 @@ class LevelController extends AbstractController
     /**
      *
      * @Route("/new", name="new", methods={"GET", "POST"})
-     * @Security("has_role('ROLE_ADMIN_LEVEL_CREATE')")
+     * @Security("is_granted('ROLE_ADMIN_LEVEL_CREATE')")
      * @param Request $request
      * @param LevelManager $levelManager
      * @param TranslatorInterface $translator
@@ -99,7 +99,7 @@ class LevelController extends AbstractController
     /**
      *
      * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
-     * @Security("has_role('ROLE_ADMIN_LEVEL_UPDATE')")
+     * @Security("is_granted('ROLE_ADMIN_LEVEL_UPDATE')")
      * @param Request $request
      * @param Level $level
      * @param LevelManager $levelManager

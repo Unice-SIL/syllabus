@@ -22,14 +22,14 @@ use Symfony\Component\Routing\Annotation\Route;
  * @package AppBundle\Controller\Admin
  *
  * @Route("syllabus", name="app.admin.syllabus.")
- * @Security("has_role('ROLE_ADMIN_COURSE')")
+ * @Security("is_granted('ROLE_ADMIN_COURSE')")
  */
 class SyllabusController extends Controller
 {
 
     /**
      * @Route("/list/{isExport}", name="index", methods={"GET"})
-     * @Security("has_role('ROLE_ADMIN_COURSE_LIST')")
+     * @Security("is_granted('ROLE_ADMIN_COURSE_LIST')")
      *
      * @param Request $request
      * @param CourseInfoDoctrineRepository $courseInfoDoctrineRepository

@@ -25,13 +25,13 @@ use Symfony\Component\Translation\TranslatorInterface;
  * @package App\Syllabus\Controller
  *
  * @Route("/language", name="app.admin.language.")
- * @Security("has_role('ROLE_ADMIN_LANGUAGE')")
+ * @Security("is_granted('ROLE_ADMIN_LANGUAGE')")
  */
 class LanguageController extends AbstractController
 {
     /**
      * @Route("/",name="index", methods={"GET"})
-     * @Security("has_role('ROLE_ADMIN_LANGUAGE_LIST')")
+     * @Security("is_granted('ROLE_ADMIN_LANGUAGE_LIST')")
      *
      * @param Request $request
      * @param LanguageDoctrineRepository $repository
@@ -72,7 +72,7 @@ class LanguageController extends AbstractController
     /**
      *
      * @Route("/new", name="new", methods={"GET", "POST"})
-     * @Security("has_role('ROLE_ADMIN_LANGUAGE_CREATE')")
+     * @Security("is_granted('ROLE_ADMIN_LANGUAGE_CREATE')")
      * @param Request $request
      * @param LanguageManager $languageManager
      * @param TranslatorInterface $translator
@@ -100,7 +100,7 @@ class LanguageController extends AbstractController
      * Displays a form to edit an existing activity entity.
      *
      * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
-     * @Security("has_role('ROLE_ADMIN_LANGUAGE_UPDATE')")
+     * @Security("is_granted('ROLE_ADMIN_LANGUAGE_UPDATE')")
      * @param Request $request
      * @param Language $language
      * @param LanguageManager $languageManager

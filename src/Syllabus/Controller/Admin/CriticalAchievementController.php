@@ -25,13 +25,13 @@ use Symfony\Component\Translation\TranslatorInterface;
  * Activity controller.
  *
  * @Route("/critical-achievement", name="app.admin.critical_achievement.")
- * @Security("has_role('ROLE_ADMIN_CRITICAL_ACHIEVEMENT')")
+ * @Security("is_granted('ROLE_ADMIN_CRITICAL_ACHIEVEMENT')")
  */
 class CriticalAchievementController extends AbstractController
 {
     /**
      * @Route("/", name="index" )
-     * @Security("has_role('ROLE_ADMIN_CRITICAL_ACHIEVEMENT_LIST')")
+     * @Security("is_granted('ROLE_ADMIN_CRITICAL_ACHIEVEMENT_LIST')")
      *
      * @param Request $request
      * @param CriticalAchievementDoctrineRepository $repository
@@ -71,7 +71,7 @@ class CriticalAchievementController extends AbstractController
 
     /**
      * @Route("/new", name="new"))
-     * @Security("has_role('ROLE_ADMIN_CRITICAL_ACHIEVEMENT_CREATE')")
+     * @Security("is_granted('ROLE_ADMIN_CRITICAL_ACHIEVEMENT_CREATE')")
      *
      * @param Request $request
      * @param CriticalAchievementManager $criticalAchievementManager
@@ -98,7 +98,7 @@ class CriticalAchievementController extends AbstractController
 
     /**
      * @Route("{id}/edit", name="edit"))
-     * @Security("has_role('ROLE_ADMIN_CRITICAL_ACHIEVEMENT_UPDATE')")
+     * @Security("is_granted('ROLE_ADMIN_CRITICAL_ACHIEVEMENT_UPDATE')")
      *
      * @param Request $request
      * @param CriticalAchievement $criticalAchievement

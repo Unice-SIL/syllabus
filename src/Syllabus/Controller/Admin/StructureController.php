@@ -24,13 +24,13 @@ use Symfony\Component\Translation\TranslatorInterface;
  * @package App\Syllabus\Controller
  *
  * @Route("/structure", name="app.admin.structure.")
- * @Security("has_role('ROLE_ADMIN_STRUCTURE')")
+ * @Security("is_granted('ROLE_ADMIN_STRUCTURE')")
  */
 class StructureController extends AbstractController
 {
     /**
      * @Route("/", name="index")
-     * @Security("has_role('ROLE_ADMIN_STRUCTURE_LIST')")
+     * @Security("is_granted('ROLE_ADMIN_STRUCTURE_LIST')")
      *
      * @param Request $request
      * @param PaginatorInterface $paginator
@@ -71,7 +71,7 @@ class StructureController extends AbstractController
 
     /**
      * @Route("/new", name="new")
-     * @Security("has_role('ROLE_ADMIN_STRUCTURE_CREATE')")
+     * @Security("is_granted('ROLE_ADMIN_STRUCTURE_CREATE')")
      *
      * @param Request $request
      * @param StructureManager $structureManager
@@ -98,7 +98,7 @@ class StructureController extends AbstractController
      * Displays a form to edit an existing structure entity.
      *
      * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
-     * @Security("has_role('ROLE_ADMIN_STRUCTURE_UPDATE')")
+     * @Security("is_granted('ROLE_ADMIN_STRUCTURE_UPDATE')")
      *
      * @param Request $request
      * @param Structure $structure

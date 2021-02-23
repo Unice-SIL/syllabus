@@ -21,7 +21,7 @@ use Symfony\Component\Translation\TranslatorInterface;
  * @package App\Syllabus\Controller\Admin
  *
  * @Route("/year", name="app.admin.year.")
- * @Security("has_role('ROLE_ADMIN_YEAR')")
+ * @Security("is_granted('ROLE_ADMIN_YEAR')")
  */
 class YearController extends AbstractController
 {
@@ -29,7 +29,7 @@ class YearController extends AbstractController
      * Lists all year entities.
      *
      * @Route("/", name="index", methods={"GET"})
-     * @Security("has_role('ROLE_ADMIN_YEAR_LIST')")
+     * @Security("is_granted('ROLE_ADMIN_YEAR_LIST')")
      *
      * @param Request $request
      * @param PaginatorInterface $paginator
@@ -52,7 +52,7 @@ class YearController extends AbstractController
      * Creates a new year entity.
      *
      * @Route("/new", name="new", methods={"GET", "POST"})
-     * @Security("has_role('ROLE_ADMIN_YEAR_CREATE')")
+     * @Security("is_granted('ROLE_ADMIN_YEAR_CREATE')")
      * @param Request $request
      * @param YearManager $yearManager
      * @param TranslatorInterface $translator
@@ -82,7 +82,7 @@ class YearController extends AbstractController
      * Displays a form to edit an existing year entity.
      *
      * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
-     * @Security("has_role('ROLE_ADMIN_YEAR_UPDATE')")
+     * @Security("is_granted('ROLE_ADMIN_YEAR_UPDATE')")
      * @param Request $request
      * @param Year $year
      * @param YearManager $yearManager

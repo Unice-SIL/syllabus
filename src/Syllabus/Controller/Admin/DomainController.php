@@ -26,14 +26,14 @@ use Symfony\Component\Translation\TranslatorInterface;
  * @package App\Syllabus\Controller\Admin
  *
  * @Route("/domain", name="app.admin.domain.")
- * @Security("has_role('ROLE_ADMIN_DOMAIN')")
+ * @Security("is_granted('ROLE_ADMIN_DOMAIN')")
  */
 class DomainController extends AbstractController
 {
 
     /**
      * @Route("/",name="index", methods={"GET"})
-     * @Security("has_role('ROLE_ADMIN_DOMAIN_LIST')")
+     * @Security("is_granted('ROLE_ADMIN_DOMAIN_LIST')")
      *
      * @param Request $request
      * @param DomainDoctrineRepository $repository
@@ -73,7 +73,7 @@ class DomainController extends AbstractController
 
     /**
      * @Route("/new", name="new", methods={"GET", "POST"})
-     * @Security("has_role('ROLE_ADMIN_DOMAIN_CREATE')")
+     * @Security("is_granted('ROLE_ADMIN_DOMAIN_CREATE')")
      *
      * @param Request $request
      * @param DomainManager $domainManager
@@ -101,7 +101,7 @@ class DomainController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
-     * @Security("has_role('ROLE_ADMIN_DOMAIN_UPDATE')")
+     * @Security("is_granted('ROLE_ADMIN_DOMAIN_UPDATE')")
      *
      * @param Request $request
      * @param Domain $domain

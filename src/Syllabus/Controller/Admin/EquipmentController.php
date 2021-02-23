@@ -24,13 +24,13 @@ use Symfony\Component\Translation\TranslatorInterface;
  * @package App\Syllabus\Controller
  *
  * @Route("/equipment", name="app.admin.equipment.")
- * @Security("has_role('ROLE_ADMIN_EQUIPMENT')")
+ * @Security("is_granted('ROLE_ADMIN_EQUIPMENT')")
  */
 class EquipmentController extends AbstractController
 {
     /**
      * @Route("/", name="index")
-     * @Security("has_role('ROLE_ADMIN_EQUIPMENT_LIST')")
+     * @Security("is_granted('ROLE_ADMIN_EQUIPMENT_LIST')")
      *
      * @param Request $request
      * @param PaginatorInterface $paginator
@@ -73,7 +73,7 @@ class EquipmentController extends AbstractController
      * Creates a new equipment.
      *
      * @Route("/new", name="new", methods={"GET", "POST"})
-     * @Security("has_role('ROLE_ADMIN_EQUIPMENT_CREATE')")
+     * @Security("is_granted('ROLE_ADMIN_EQUIPMENT_CREATE')")
      *
      * @param Request $request
      * @param EquipmentManager $equipmentManager
@@ -104,7 +104,7 @@ class EquipmentController extends AbstractController
      * Displays a form to edit an existing equipment entity.
      *
      * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
-     * @Security("has_role('ROLE_ADMIN_EQUIPMENT_UPDATE')")
+     * @Security("is_granted('ROLE_ADMIN_EQUIPMENT_UPDATE')")
      *
      * @param Request $request
      * @param Equipment $equipment

@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * @package App\Syllabus\Controller
  *
  * @Route("/switch-user", name="app.admin.switch_user.")
- * @Security("has_role('ROLE_ALLOWED_TO_SWITCH')")
+ * @Security("is_granted('ROLE_ALLOWED_TO_SWITCH')")
  */
 class SwitchUserController extends AbstractController
 {

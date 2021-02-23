@@ -24,7 +24,7 @@ use Symfony\Component\Translation\TranslatorInterface;
  * User controller.
  *
  * @Route("/user", name="app.admin.user.")
- * @Security("has_role('ROLE_ADMIN_USER')")
+ * @Security("is_granted('ROLE_ADMIN_USER')")
  */
 class UserController extends AbstractController
 {
@@ -45,7 +45,7 @@ class UserController extends AbstractController
      * Lists all user entities.
      *
      * @Route("/", name="index", methods={"GET"})
-     * @Security("has_role('ROLE_ADMIN_USER_LIST')")
+     * @Security("is_granted('ROLE_ADMIN_USER_LIST')")
      *
      * @param Request $request
      * @param PaginatorInterface $paginator
@@ -85,7 +85,7 @@ class UserController extends AbstractController
 
     /**
      * @Route("/new", name="new")
-     * @Security("has_role('ROLE_ADMIN_USER_CREATE')")
+     * @Security("is_granted('ROLE_ADMIN_USER_CREATE')")
      *
      * @param Request $request
      * @param UserManager $userManager
@@ -112,7 +112,7 @@ class UserController extends AbstractController
      * Displays a form to edit an existing user entity.
      *
      * @Route("/{id}/edit", name="edit"), methods={"GET", "POST"}
-     * @Security("has_role('ROLE_ADMIN_USER_UPDATE')")
+     * @Security("is_granted('ROLE_ADMIN_USER_UPDATE')")
      *
      * @param Request $request
      * @param User $user
