@@ -67,6 +67,7 @@ class ShibbolethUserProvider implements ShibbolethUserProviderInterface
 
         dump($username, $credentials);
         $user = $this->findUserByUsername($username);
+        dump($user);
         if(!$user instanceof User)
         {
             $user = new User();
