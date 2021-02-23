@@ -9,7 +9,7 @@ security:
         main:
             id: '%provider%'
         user_db:
-            entity: { class: AppBundle\Entity\User, property: username }
+            entity: { class: App\Syllabus\Entity\User, property: username }
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs

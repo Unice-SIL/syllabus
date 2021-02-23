@@ -66,7 +66,7 @@ class ShibbolethUserProvider implements ShibbolethUserProviderInterface
         $username = $credentials['username'];
 
 
-        $user = $this->finUserBysUsername($username);
+        $user = $this->findUserByUsername($username);
         if(!$user instanceof User)
         {
             $user = new User();
@@ -75,20 +75,14 @@ class ShibbolethUserProvider implements ShibbolethUserProviderInterface
 
         if(array_key_exists('givenName', $credentials)) {
             $user->setFirstname($credentials['givenName']);
-        }else{
-            $user->setFirstname("");
         }
 
         if(array_key_exists('sn', $credentials)) {
             $user->setLastname($credentials['sn']);
-        }else{
-            $user->setLastname("");
         }
 
         if(array_key_exists('mail', $credentials)) {
             $user->setEmail($credentials['mail']);
-        }else{
-            $user->setEmail("");
         }
 
         $roles = $user->getRoles();
@@ -126,7 +120,7 @@ class ShibbolethUserProvider implements ShibbolethUserProviderInterface
      */
     public function refresh($username)
     {
-        return $this->finUserBysUsername($username);
+        return $this->findUserByUsername($username);
     }
 
     /**
@@ -143,7 +137,7 @@ class ShibbolethUserProvider implements ShibbolethUserProviderInterface
      * @param $username
      * @return User|null
      */
-    private function finUserBysUsername($username)
+    private function findUserByUsername($username)
     {
         /** @var User|null $user */
         $user = $this->em->getRepository(User::class)->findOneBy(['username' => $username]);
