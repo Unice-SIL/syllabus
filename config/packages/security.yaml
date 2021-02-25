@@ -37,7 +37,7 @@ security:
         main:
             pattern: ^/
             provider: main
-            switch_user: true
+            switch_user: false
             guard:
                 authenticator: '%authenticator%'
                 provider: main

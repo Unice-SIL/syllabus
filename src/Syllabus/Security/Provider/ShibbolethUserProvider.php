@@ -5,13 +5,10 @@ namespace App\Syllabus\Security\Provider;
 
 use App\Syllabus\Entity\User;
 use App\Syllabus\Repository\Doctrine\UserDoctrineRepository;
-use App\Syllabus\Repository\UserRepositoryInterface;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
-use Ramsey\Uuid\Uuid;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use UniceSIL\ShibbolethBundle\Security\User\ShibbolethUserProviderInterface;
