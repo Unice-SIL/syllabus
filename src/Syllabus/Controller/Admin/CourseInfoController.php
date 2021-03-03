@@ -16,20 +16,20 @@ use App\Syllabus\Repository\Doctrine\CourseInfoDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class CourseInfoController
  * @package App\Syllabus\Controller
  * @Route("/syllabus", name="app.admin.course_info.")
  */
-class CourseInfoController extends Controller
+class CourseInfoController extends AbstractController
 {
     /**
      * @Route("/", name="index")
@@ -39,6 +39,7 @@ class CourseInfoController extends Controller
      * @param CourseInfoManager $courseInfoManager
      * @param EntityManagerInterface $em
      * @param TranslatorInterface $translator
+     * @param PaginatorInterface $paginator
      * @return RedirectResponse|Response
      * @throws \Exception
      */
@@ -48,7 +49,8 @@ class CourseInfoController extends Controller
         FilterBuilderUpdaterInterface $filterBuilderUpdater,
         CourseInfoManager $courseInfoManager,
         EntityManagerInterface $em,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
+        PaginatorInterface $paginator
     )
     {
         $qb = $courseInfoDoctrineRepository->getIndexQueryBuilder();
@@ -111,7 +113,7 @@ class CourseInfoController extends Controller
 
         }
 
-        $pagination = $this->get('knp_paginator')->paginate(
+        $pagination = $paginator->paginate(
             $qb,
             $request->query->getInt('page', 1),
             10

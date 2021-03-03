@@ -45,8 +45,8 @@
         </li>
         <li class="nav-item">
             <a
-                    href="{{ path('app_admin.ask_advice_index') }}"
-                    class="nav-link {{ printActiveAdminSidebarLink(['app_admin.ask_advice_']) }}">
+                    href="{{ path('app.admin.ask_advice.index') }}"
+                    class="nav-link {{ printActiveAdminSidebarLink(['app.admin.ask_advice.']) }}">
                 <i class="nav-icon fas fa-life-ring"></i>
                 <p>
                     {{ 'admin.sidebar.ask_advice' | trans }}
@@ -352,8 +352,8 @@
             </ul>
         </li>
         <li class="nav-item">
-            <a href="{{ path('app_admin_course_info_field_index') }}"
-               class="nav-link {{ printActiveAdminSidebarLink(['app_admin_course_info_field_index']) }}">
+            <a href="{{ path('app.admin.course_info_field.index') }}"
+               class="nav-link {{ printActiveAdminSidebarLink(['app.admin.course_info_field.index']) }}">
                 <i class="nav-icon fas fa-copy"></i>
                 <p>
                     {{ 'admin.sidebar.duplication' | trans }}

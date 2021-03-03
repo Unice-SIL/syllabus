@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * CourseInfoField controller.
  *
- * @Route("/syllabus-import-field", name="app_admin_course_info_field_")
+ * @Route("/syllabus-import-field", name="app.admin.course_info_field.")
  */
 class CourseInfoFieldController extends Controller
 {

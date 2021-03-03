@@ -48,7 +48,7 @@
                     {{ form_row(form.structure) }}
                 </div>
                 <div class="col-md-2 col-sm-6">
-                    <a class="btn btn-danger" style="margin-top: 32px" href="{{  path('app_admin_course_info_index')  }}">{{ 'admin.button.reset_filters' | trans }}</a>
+                    <a class="btn btn-danger" style="margin-top: 32px" href="{{  path('app.admin.course_info.index')  }}">{{ 'admin.button.reset_filters' | trans }}</a>
                 </div>
                 <div class="col-md-2 col-sm-6">
                     <div class="btn-group">
@@ -56,8 +56,8 @@
                             {{ 'admin.course_info.actions' | trans }}
                         </button>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="{{  path('app_admin_course_info_new')  }}">{{ 'admin.button.add_syllabus' | trans }}</a>
-                            <a class="dropdown-item" href="{{  path('app_admin_course_info_duplicate_syllabus_from_file')  }}">{{ 'admin.button.duplicate_multiples_syllabus' | trans }}</a>
+                            <a class="dropdown-item" href="{{  path('app.admin.course_info.new')  }}">{{ 'admin.button.add_syllabus' | trans }}</a>
+                            <a class="dropdown-item" href="{{  path('app.admin.course_info.duplicate_syllabus_from_file')  }}">{{ 'admin.button.duplicate_multiples_syllabus' | trans }}</a>
                         </div>
                     </div>
                 </div>

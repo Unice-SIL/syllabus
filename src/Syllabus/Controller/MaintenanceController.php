@@ -4,13 +4,13 @@
 namespace App\Syllabus\Controller;
 
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * Class MaintenanceController
  * @package App\Syllabus\Controller
- * @Route("/mainteance", name ="app.maintenance.")
+ * @Route("/maintenance", name ="app.maintenance.")
  */
 class MaintenanceController extends AbstractController
 {

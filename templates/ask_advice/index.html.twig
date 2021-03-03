@@ -18,7 +18,7 @@
                     {% for askAdvice in pagination %}
                         <tr>
                             <td>
-                                <a href="{{ path('app_admin.ask_advice_view', { 'id' : askAdvice.id }) }}">{{ askAdvice.courseInfo.title }}</a>
+                                <a href="{{ path('app.admin.ask_advice.view', { 'id' : askAdvice.id }) }}">{{ askAdvice.courseInfo.title }}</a>
                             </td>
                             <td>
                                 {{ askAdvice.courseInfo.year.id }}

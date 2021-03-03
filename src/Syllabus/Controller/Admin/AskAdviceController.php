@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class AskAdviceController
  * @package App\Syllabus\Controller
  *
- * @Route("/askAdvice", name="app_admin.ask_advice_")
+ * @Route("/askAdvice", name="app.admin.ask_advice.")
  */
 class AskAdviceController extends AbstractController
 {
@@ -61,7 +61,7 @@ class AskAdviceController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $adviceManager->update($askAdvice);
-            return $this->redirectToRoute('app_admin.ask_advice_index');
+            return $this->redirectToRoute('app.admin.ask_advice.index');
         }
 
         return $this->render('ask_advice/view.html.twig', array(

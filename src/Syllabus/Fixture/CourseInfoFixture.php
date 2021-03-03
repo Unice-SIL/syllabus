@@ -20,6 +20,7 @@ class CourseInfoFixture extends Fixture implements DependentFixtureInterface,  F
      */
     public const COURSE_INFO_1 = 'courseInfo1';
     public const COURSE_INFO_2 = 'courseInfo2';
+    public const COURSE_INFO_3 = 'courseInfo3';
 
     /**
      * @param ObjectManager $manager
@@ -28,7 +29,6 @@ class CourseInfoFixture extends Fixture implements DependentFixtureInterface,  F
     {
         // Course info 1
         $courseInfo = new CourseInfo();
-        #$courseInfo->setId(Uuid::uuid4())
         $courseInfo->setId('00000000-aaaa-bbbb-cccc-dddddddddddd')
             ->setCourse($this->getReference(CourseFixture::COURSE_1))
             ->setYear($this->getReference(YearFixture::YEAR_2018))
@@ -49,9 +49,9 @@ class CourseInfoFixture extends Fixture implements DependentFixtureInterface,  F
             ->setCreationDate(new \DateTime());
         $this->addReference(self::COURSE_INFO_1, $courseInfo);
         $manager->persist($courseInfo);
+
         // Course info 2
         $courseInfo = new CourseInfo();
-        #$courseInfo->setId(Uuid::uuid4())
         $courseInfo->setId('00000001-aaaa-bbbb-cccc-dddddddddddd')
             ->setCourse($this->getReference(CourseFixture::COURSE_2))
             ->setYear($this->getReference(YearFixture::YEAR_2018))
@@ -63,6 +63,21 @@ class CourseInfoFixture extends Fixture implements DependentFixtureInterface,  F
             ->setCreationDate(new \DateTime());
         $this->addReference(self::COURSE_INFO_2, $courseInfo);
         $manager->persist($courseInfo);
+
+        // Course info 3
+        $courseInfo = new CourseInfo();
+        $courseInfo->setId('00000001-aaaa-bbbb-cccc-dddddddddddd')
+            ->setCourse($this->getReference(CourseFixture::COURSE_3))
+            ->setYear($this->getReference(YearFixture::YEAR_2018))
+            ->setStructure($this->getReference(StructureFixture::SCIENCES))
+            ->setTitle('Cours sans permission')
+            ->setMccCompensable(true)
+            ->setMccCapitalizable(false)
+            ->setEcts(9)
+            ->setCreationDate(new \DateTime());
+        $this->addReference(self::COURSE_INFO_3, $courseInfo);
+        $manager->persist($courseInfo);
+
         // flush
         $manager->flush();
     }
