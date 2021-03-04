@@ -8,7 +8,6 @@ use App\Syllabus\Export\SyllabusExport;
 use App\Syllabus\Form\Filter\SyllabusFilterType;
 use App\Syllabus\Repository\Doctrine\CourseInfoDoctrineRepository;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
-use phpDocumentor\Reflection\Types\Boolean;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;

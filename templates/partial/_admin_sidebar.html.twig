@@ -16,8 +16,8 @@
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
         <li class="nav-item has-treeview">
-            <a class="nav-link {{ printActiveAdminSidebarLink(['app_admin.dashboard_composer require lexik/translation-bundle']) }}"
-               href="{{ path('app_admin.dashboard_index') }}"
+            <a class="nav-link {{ printActiveAdminSidebarLink(['app.admin.dashboard.composer require lexik/translation-bundle']) }}"
+               href="{{ path('app.admin.dashboard.index') }}"
                id="menu-dashboard">
                 <i class="nav-icon fas fa-th"></i>
                 <p>{{ 'admin.sidebar.dashboard' | trans }}</p>
@@ -230,7 +230,7 @@
             </li>
         {% endif %}
 
-        {% set importLink = ['app_admin_import_csv_course_info', 'app_admin_import_csv_permission', 'app_admin_import_csv_user'] %}
+        {% set importLink = ['app.admin.import_csv.course_info', 'app.admin.import_csv.permission', 'app.admin.import_csv.user'] %}
         <li class="nav-item has-treeview {{ printActiveAdminSidebarLink(importLink) ? 'menu-open' }}">
             <a href="#" class="nav-link {{ printActiveAdminSidebarLink(importLink) }}">
                 <i class="nav-icon fas fa-download"></i>
@@ -242,8 +242,8 @@
             <ul class="nav nav-treeview"
                 style="display: {{ printActiveAdminSidebarLink(importLink) ? 'block' : 'none' }};">
                 <li class="nav-item pl-2">
-                    <a href="{{ path('app_admin_import_csv_course_info') }}"
-                       class="nav-link {{ printActiveAdminSidebarLink(['app_admin_import_csv_course_info']) }}">
+                    <a href="{{ path('app.admin.import_csv.course_info') }}"
+                       class="nav-link {{ printActiveAdminSidebarLink(['app.admin.import_csv.course_info']) }}">
                         <i class="nav-icon fas fa-graduation-cap"></i>
                         <p>
                             {{ 'admin.sidebar.syllabus' | trans }}
@@ -251,8 +251,8 @@
                     </a>
                 </li>
                 <li class="nav-item pl-2">
-                    <a href="{{ path('app_admin_import_csv_permission') }}"
-                       class="nav-link {{ printActiveAdminSidebarLink(['app_admin_import_csv_permission']) }}">
+                    <a href="{{ path('app.admin.import_csv.permission') }}"
+                       class="nav-link {{ printActiveAdminSidebarLink(['app.admin.import_csv.permission']) }}">
                         <i class="nav-icon fas fa-user-lock"></i>
                         <p>
                             {{ 'admin.sidebar.permissions' | trans }}
@@ -260,8 +260,8 @@
                     </a>
                 </li>
                 <li class="nav-item pl-2">
-                    <a href="{{ path('app_admin_import_csv_user') }}"
-                       class="nav-link {{ printActiveAdminSidebarLink(['app_admin_import_csv_user']) }}">
+                    <a href="{{ path('app.admin.import_csv.user') }}"
+                       class="nav-link {{ printActiveAdminSidebarLink(['app.admin.import_csv.user']) }}">
                         <i class="nav-icon fas fa-user"></i>
                         <p>
                             {{ 'admin.sidebar.users' | trans }}
@@ -295,7 +295,7 @@
                 {% endif %}
 
                 <li class="nav-item pl-2">
-                    <a href="{{ path('app_admin_groups_index') }}"
+                    <a href="{{ path('app.admin.groups.index') }}"
                        class="nav-link {{ printActiveAdminSidebarLink(['app_admin_groups']) }}">
                         <i class="nav-icon fas fa-users"></i>
                         <p>

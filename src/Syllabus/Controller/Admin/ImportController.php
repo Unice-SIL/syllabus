@@ -14,9 +14,6 @@ use App\Syllabus\Import\ImportManager;
 use App\Syllabus\Manager\CourseInfoManager;
 use App\Syllabus\Manager\CoursePermissionManager;
 use App\Syllabus\Manager\UserManager;
-use App\Syllabus\Import\Matching\CourseInfoCsvMatching;
-use App\Syllabus\Import\Matching\CoursePermissionCsvMatching;
-use App\Syllabus\Import\Matching\UserCsvMatching;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,12 +21,12 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class ImportController
  * @package App\Syllabus\Controller
- * @Route("/import/csv", name="app_admin_import_csv_")
+ * @Route("/import/csv", name="app.admin.import_csv.")
  */
 class ImportController extends AbstractController
 {
@@ -102,7 +99,7 @@ class ImportController extends AbstractController
             $validationReport->finishReport(count($courseInfos));
             $request->getSession()->set('parsingCsvReport', $parsingReport);
             $request->getSession()->set('validationReport', $validationReport);
-            return $this->redirectToRoute('app_admin_import_csv_course_info');
+            return $this->redirectToRoute('app.admin.import_csv.course_info');
 
         }
 
@@ -175,7 +172,7 @@ class ImportController extends AbstractController
             $validationReport->finishReport(count($coursePermissions));
             $request->getSession()->set('parsingCsvReport', $parsingReport);
             $request->getSession()->set('validationReport', $validationReport);
-            return $this->redirectToRoute('app_admin_import_csv_permission');
+            return $this->redirectToRoute('app..admin..import_csv.permission');
 
         }
 
@@ -237,7 +234,7 @@ class ImportController extends AbstractController
             $validationReport->finishReport(count($users));
             $request->getSession()->set('parsingCsvReport', $parsingReport);
             $request->getSession()->set('validationReport', $validationReport);
-            return $this->redirectToRoute('app_admin_import_csv_user');
+            return $this->redirectToRoute('app.admin.import_csv.user');
         }
 
         return $this->render('import/user.html.twig', [

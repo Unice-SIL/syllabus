@@ -5,7 +5,7 @@ namespace App\Syllabus\Export;
 
 
 use App\Syllabus\Service\AbstractExportService;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SyllabusExport extends AbstractExportService
 {
