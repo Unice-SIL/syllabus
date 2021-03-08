@@ -3,25 +3,22 @@
 
 namespace Tests\Syllabus\Controller\Admin;
 
-use Tests\WebTestCase;
-
 /**
  * Class YearControllerTest
  * @package Tests\Syllabus\Controller\Admin
  */
-class YearControllerTest extends WebTestCase
+class YearControllerTest extends AbstractAdminControllerTest
 {
     public function testYearListUserNotAuthenticated()
     {
-        $this->client()->request('GET', $this->generateUrl(self::ROUTE_ADMIN_YEAR_LIST));
+        $this->tryUserNotAuthenticate(self::ROUTE_ADMIN_YEAR_LIST);
         $this->assertResponseRedirects();
         $this->assertStringContainsString('/Shibboleth.sso', $this->client()->getResponse()->getContent());
     }
 
-    public function testYearListRedirectWithAdminPermission()
+    public function testYearListWithAdminPermission()
     {
-        $this->login();
-        $this->client()->request('GET', $this->generateUrl(self::ROUTE_ADMIN_YEAR_LIST));
+        $this->tryWithAdminPermission(self::ROUTE_ADMIN_YEAR_LIST);
         $this->assertResponseIsSuccessful();
     }
 

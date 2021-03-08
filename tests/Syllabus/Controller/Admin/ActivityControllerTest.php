@@ -5,25 +5,23 @@ namespace Tests\Syllabus\Controller\Admin;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Response;
-use Tests\WebTestCase;
 
 /**
  * Class ActivityControllerTest
  * @package Tests\Syllabus\Controller\Admin
  */
-class ActivityControllerTest extends WebTestCase
+class ActivityControllerTest extends AbstractAdminControllerTest
 {
     public function testActivityListUserNotAuthenticated()
     {
-        $this->client()->request('GET', $this->generateUrl(self::ROUTE_ADMIN_ACTIVITY_LIST));
+        $this->tryUserNotAuthenticate(self::ROUTE_ADMIN_ACTIVITY_LIST);
         $this->assertResponseRedirects();
         $this->assertStringContainsString('/Shibboleth.sso', $this->client()->getResponse()->getContent());
     }
 
-    public function testActivityListRedirectWithAdminPermission()
+    public function testActivityListWithAdminPermission()
     {
-        $this->login();
-        $this->client()->request('GET', $this->generateUrl(self::ROUTE_ADMIN_ACTIVITY_LIST));
+        $this->tryWithAdminPermission(self::ROUTE_ADMIN_ACTIVITY_LIST);
         $this->assertResponseIsSuccessful();
     }
 
@@ -56,7 +54,7 @@ class ActivityControllerTest extends WebTestCase
             [['ROLE_USER']],
             [['ROLE_USER', 'ROLE_ADMIN_ACTIVITY_LIST']],
         ];
-    }
+    }*/
 
     public function testActivityListWithMissingRoleList()
     {
@@ -65,8 +63,7 @@ class ActivityControllerTest extends WebTestCase
             ->setGroups(new ArrayCollection());
         $this->getEntityManager()->flush();
         $this->login($user);
-        var_dump($user->getRoles());
         $this->client()->request('GET', $this->generateUrl(self::ROUTE_ADMIN_ACTIVITY_LIST));
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
-    }*/
+    }
 }

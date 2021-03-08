@@ -3,25 +3,22 @@
 
 namespace Tests\Syllabus\Controller\Admin;
 
-use Tests\WebTestCase;
-
 /**
  * Class DomainControllerTest
  * @package Tests\Syllabus\Controller\Admin
  */
-class DomainControllerTest extends WebTestCase
+class DomainControllerTest extends AbstractAdminControllerTest
 {
     public function testDomainListUserNotAuthenticated()
     {
-        $this->client()->request('GET', $this->generateUrl(self::ROUTE_ADMIN_DOMAIN_LIST));
+        $this->tryUserNotAuthenticate(self::ROUTE_ADMIN_DOMAIN_LIST);
         $this->assertResponseRedirects();
         $this->assertStringContainsString('/Shibboleth.sso', $this->client()->getResponse()->getContent());
     }
 
-    public function testDomainListRedirectWithAdminPermission()
+    public function testDomainListWithAdminPermission()
     {
-        $this->login();
-        $this->client()->request('GET', $this->generateUrl(self::ROUTE_ADMIN_DOMAIN_LIST));
+        $this->tryWithAdminPermission(self::ROUTE_ADMIN_DOMAIN_LIST);
         $this->assertResponseIsSuccessful();
     }
 }

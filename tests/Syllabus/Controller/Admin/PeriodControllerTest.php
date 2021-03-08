@@ -3,25 +3,22 @@
 
 namespace Tests\Syllabus\Controller\Admin;
 
-use Tests\WebTestCase;
-
 /**
  * Class PeriodControllerTest
  * @package Tests\Syllabus\Controller\Admin
  */
-class PeriodControllerTest extends WebTestCase
+class PeriodControllerTest extends AbstractAdminControllerTest
 {
     public function testPeriodListUserNotAuthenticated()
     {
-        $this->client()->request('GET', $this->generateUrl(self::ROUTE_ADMIN_PERIOD_LIST));
+        $this->tryUserNotAuthenticate(self::ROUTE_ADMIN_PERIOD_LIST);
         $this->assertResponseRedirects();
         $this->assertStringContainsString('/Shibboleth.sso', $this->client()->getResponse()->getContent());
     }
 
-    public function testPeriodListRedirectWithAdminPermission()
+    public function testPeriodListWithAdminPermission()
     {
-        $this->login();
-        $this->client()->request('GET', $this->generateUrl(self::ROUTE_ADMIN_PERIOD_LIST));
+        $this->tryWithAdminPermission(self::ROUTE_ADMIN_PERIOD_LIST);
         $this->assertResponseIsSuccessful();
     }
 

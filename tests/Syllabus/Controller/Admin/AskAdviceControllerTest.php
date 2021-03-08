@@ -5,25 +5,23 @@ namespace Tests\Syllabus\Controller\Admin;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Response;
-use Tests\WebTestCase;
 
 /**
  * Class AskAdviceControllerTest
  * @package Tests\Syllabus\Controller\Admin
  */
-class AskAdviceControllerTest extends WebTestCase
+class AskAdviceControllerTest extends AbstractAdminControllerTest
 {
     public function testAskAdviceUserNotAuthenticated()
     {
-        $this->client()->request('GET', $this->generateUrl(self::ROUTE_ADMIN_ASK_ADVICE_LIST));
+        $this->tryUserNotAuthenticate(self::ROUTE_ADMIN_ASK_ADVICE_LIST);
         $this->assertResponseRedirects();
         $this->assertStringContainsString('/Shibboleth.sso', $this->client()->getResponse()->getContent());
     }
 
-    public function testAskAdviceRedirectWithAdminPermission()
+    public function testAskAdviceWithAdminPermission()
     {
-        $this->login();
-        $this->client()->request('GET', $this->generateUrl(self::ROUTE_ADMIN_ASK_ADVICE_LIST));
+        $this->tryWithAdminPermission(self::ROUTE_ADMIN_ASK_ADVICE_LIST);
         $this->assertResponseIsSuccessful();
     }
 

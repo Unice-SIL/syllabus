@@ -3,25 +3,22 @@
 
 namespace Tests\Syllabus\Controller\Admin;
 
-use Tests\WebTestCase;
-
 /**
  * Class DashboardControllerTest
  * @package Tests\Syllabus\Controller\Admin
  */
-class DashboardControllerTest extends WebTestCase
+class DashboardControllerTest extends AbstractAdminControllerTest
 {
     public function testDashboardUserNotAuthenticated()
     {
-        $this->client()->request('GET', $this->generateUrl(self::ROUTE_ADMIN_DASHBOARD));
+        $this->tryUserNotAuthenticate(self::ROUTE_ADMIN_DASHBOARD);
         $this->assertResponseRedirects();
         $this->assertStringContainsString('/Shibboleth.sso', $this->client()->getResponse()->getContent());
     }
 
-    public function testDashboardRedirectWithAdminPermission()
+    public function testDashboardWithAdminPermission()
     {
-        $this->login();
-        $this->client()->request('GET', $this->generateUrl(self::ROUTE_ADMIN_DASHBOARD));
+        $this->tryWithAdminPermission(self::ROUTE_ADMIN_DASHBOARD);
         $this->assertResponseIsSuccessful();
     }
 }

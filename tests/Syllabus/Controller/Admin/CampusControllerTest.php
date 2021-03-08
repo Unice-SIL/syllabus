@@ -3,25 +3,22 @@
 
 namespace Tests\Syllabus\Controller\Admin;
 
-use Tests\WebTestCase;
-
 /**
  * Class CampusControllerTest
  * @package Tests\Syllabus\Controller\Admin
  */
-class CampusControllerTest extends WebTestCase
+class CampusControllerTest extends AbstractAdminControllerTest
 {
     public function testCampusListUserNotAuthenticated()
     {
-        $this->client()->request('GET', $this->generateUrl(self::ROUTE_ADMIN_CAMPUS_LIST));
+        $this->tryUserNotAuthenticate(self::ROUTE_ADMIN_CAMPUS_LIST);
         $this->assertResponseRedirects();
         $this->assertStringContainsString('/Shibboleth.sso', $this->client()->getResponse()->getContent());
     }
 
-    public function testCampusListRedirectWithAdminPermission()
+    public function testCampusListWithAdminPermission()
     {
-        $this->login();
-        $this->client()->request('GET', $this->generateUrl(self::ROUTE_ADMIN_CAMPUS_LIST));
+        $this->tryWithAdminPermission(self::ROUTE_ADMIN_CAMPUS_LIST);
         $this->assertResponseIsSuccessful();
     }
 }

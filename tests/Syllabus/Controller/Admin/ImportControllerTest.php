@@ -3,53 +3,48 @@
 
 namespace Tests\Syllabus\Controller\Admin;
 
-use Tests\WebTestCase;
-
 /**
  * Class ImportControllerTest
  * @package Tests\Syllabus\Controller\Admin
  */
-class ImportControllerTest extends WebTestCase
+class ImportControllerTest extends AbstractAdminControllerTest
 {
     public function testImportCourseInfoUserNotAuthenticated()
     {
-        $this->client()->request('GET', $this->generateUrl(self::ROUTE_ADMIN_IMPORT_COURSE_INFO));
+        $this->tryUserNotAuthenticate(self::ROUTE_ADMIN_IMPORT_COURSE_INFO);
         $this->assertResponseRedirects();
         $this->assertStringContainsString('/Shibboleth.sso', $this->client()->getResponse()->getContent());
     }
 
-    public function testImportCourseInfoRedirectWithAdminPermission()
+    public function testImportCourseInfoWithAdminPermission()
     {
-        $this->login();
-        $this->client()->request('GET', $this->generateUrl(self::ROUTE_ADMIN_IMPORT_COURSE_INFO));
+        $this->tryWithAdminPermission(self::ROUTE_ADMIN_IMPORT_COURSE_INFO);
         $this->assertResponseIsSuccessful();
     }
 
     public function testImportPermissionUserNotAuthenticated()
     {
-        $this->client()->request('GET', $this->generateUrl(self::ROUTE_ADMIN_IMPORT_PERMISSION));
+        $this->tryUserNotAuthenticate(self::ROUTE_ADMIN_IMPORT_PERMISSION);
         $this->assertResponseRedirects();
         $this->assertStringContainsString('/Shibboleth.sso', $this->client()->getResponse()->getContent());
     }
 
-    public function testImportPermissionRedirectWithAdminPermission()
+    public function testImportPermissionWithAdminPermission()
     {
-        $this->login();
-        $this->client()->request('GET', $this->generateUrl(self::ROUTE_ADMIN_IMPORT_PERMISSION));
+        $this->tryWithAdminPermission(self::ROUTE_ADMIN_IMPORT_PERMISSION);
         $this->assertResponseIsSuccessful();
     }
 
     public function testImportUserUserNotAuthenticated()
     {
-        $this->client()->request('GET', $this->generateUrl(self::ROUTE_ADMIN_IMPORT_USER));
+        $this->tryUserNotAuthenticate(self::ROUTE_ADMIN_IMPORT_USER);
         $this->assertResponseRedirects();
         $this->assertStringContainsString('/Shibboleth.sso', $this->client()->getResponse()->getContent());
     }
 
-    public function testImportUserRedirectWithAdminPermission()
+    public function testImportUserWithAdminPermission()
     {
-        $this->login();
-        $this->client()->request('GET', $this->generateUrl(self::ROUTE_ADMIN_IMPORT_USER));
+        $this->tryWithAdminPermission(self::ROUTE_ADMIN_IMPORT_USER);
         $this->assertResponseIsSuccessful();
     }
 

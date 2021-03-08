@@ -3,25 +3,22 @@
 
 namespace Tests\Syllabus\Controller\Admin;
 
-use Tests\WebTestCase;
-
 /**
  * Class ActivityTypeControllerTest
  * @package Tests\Syllabus\Controller\Admin
  */
-class ActivityTypeControllerTest extends WebTestCase
+class ActivityTypeControllerTest extends AbstractAdminControllerTest
 {
     public function testActivityTypeListUserNotAuthenticated()
     {
-        $this->client()->request('GET', $this->generateUrl(self::ROUTE_ADMIN_ACTIVITY_TYPE_LIST));
+        $this->tryUserNotAuthenticate(self::ROUTE_ADMIN_ACTIVITY_TYPE_LIST);
         $this->assertResponseRedirects();
         $this->assertStringContainsString('/Shibboleth.sso', $this->client()->getResponse()->getContent());
     }
 
-    public function testActivityTypeListRedirectWithAdminPermission()
+    public function testActivityTypeListWithAdminPermission()
     {
-        $this->login();
-        $this->client()->request('GET', $this->generateUrl(self::ROUTE_ADMIN_ACTIVITY_TYPE_LIST));
+        $this->tryWithAdminPermission(self::ROUTE_ADMIN_ACTIVITY_TYPE_LIST);
         $this->assertResponseIsSuccessful();
     }
 }
