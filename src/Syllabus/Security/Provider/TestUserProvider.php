@@ -97,8 +97,11 @@ class TestUserProvider implements UserProviderInterface
      */
     public function refreshUser(UserInterface $user)
     {
+        return $user;
+        /*
         $refreshedUser = $this->refresh($user->getUsername());
         return ($refreshedUser instanceof User)? $refreshedUser : $user;
+        */
     }
 
     /**

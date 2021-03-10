@@ -29,21 +29,19 @@ class ActivityControllerTest extends AbstractAdminControllerTest
      * @dataProvider activityListWithMissingRoleProvider
      * @param array $data
      */
-/*    public function testActivityListWithMissingRole(array $data)
+    public function testActivityListWithMissingRole(array $data)
     {
-        $user = $this->getUser();
-        $user->setRoles($data)
-            ->setGroups(new ArrayCollection());
+        $this->getUser()->setRoles($data)->setGroups(new ArrayCollection());
         $this->getEntityManager()->flush();
-        $this->login($user);
+        $this->login();
         $this->client()->request('GET', $this->generateUrl(self::ROUTE_ADMIN_ACTIVITY_LIST));
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
-    }*/
+    }
 
     /**
      * @return array[]
      */
-/*    public function activityListWithMissingRoleProvider(): array
+    public function activityListWithMissingRoleProvider(): array
     {
         return [
             [['ROLE_USER', 'ROLE_ADMIN', 'ROLE_ADMIN_ACTIVITY']],
@@ -54,16 +52,5 @@ class ActivityControllerTest extends AbstractAdminControllerTest
             [['ROLE_USER']],
             [['ROLE_USER', 'ROLE_ADMIN_ACTIVITY_LIST']],
         ];
-    }*/
-
-    public function testActivityListWithMissingRoleList()
-    {
-        $user = $this->getUser();
-        $user->setRoles(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_ADMIN_ACTIVITY', 'ROLE_ADMIN_ACTIVITY_LIST'])
-            ->setGroups(new ArrayCollection());
-        $this->getEntityManager()->flush();
-        $this->login($user);
-        $this->client()->request('GET', $this->generateUrl(self::ROUTE_ADMIN_ACTIVITY_LIST));
-        $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
     }
 }

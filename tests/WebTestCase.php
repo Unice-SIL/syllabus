@@ -21,7 +21,7 @@ use Symfony\Component\Security\Guard\Token\PostAuthenticationGuardToken;
  */
 class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
 {
-    public const AUTH_FIREWALL_NAME                                 = 'basic';
+    public const AUTH_FIREWALL_NAME                                 = 'main';
     public const AUTH_FIREWALL_CONTEXT                              = 'main';
 
     public const ROUTE_APP_LOGIN                                    = '/login';
