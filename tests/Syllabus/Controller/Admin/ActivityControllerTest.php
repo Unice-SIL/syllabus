@@ -3,8 +3,12 @@
 
 namespace Tests\Syllabus\Controller\Admin;
 
+use App\Syllabus\Entity\Activity;
+use App\Syllabus\Entity\ActivityType;
+use App\Syllabus\Fixture\ActivityTypeFixture;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class ActivityControllerTest
@@ -23,6 +27,50 @@ class ActivityControllerTest extends AbstractAdminControllerTest
     {
         $this->tryWithAdminPermission(self::ROUTE_ADMIN_ACTIVITY_LIST);
         $this->assertResponseIsSuccessful();
+    }
+
+    /**
+     * @dataProvider newActivitySuccessfulProvider
+     * @param array $data
+     */
+    public function testNewActivitySuccessful(array $data)
+    {
+        $translator = $this->getTranslator();
+        $em = $this->getEntityManager();
+        $this->login();
+        $crawler = $this->client()->request('GET', $this->generateUrl(self::ROUTE_ADMIN_ACTIVITY_NEW));
+        $form = $crawler->filter('button[type="submit"]')->form();
+        foreach ($data as $field => $value)
+        {
+            $form['appbundle_activity[' . $field . ']']->setValue($value);
+        }
+        $activityType =  $em->getRepository(ActivityType::class)
+            ->findOneBy(['label' => ActivityTypeFixture::ACTIVITY_TYPE_DISTANT]);
+        $form['appbundle_activity[activityTypes]']->setValue($activityType->getId());
+        $this->client()->submit($form);
+
+        $this->assertCount(
+            1,
+            $this->getFlashMessagesInSession('success')
+        );
+
+        $this->assertResponseRedirects($this->generateUrl(self::ROUTE_ADMIN_ACTIVITY_LIST));
+
+        $activity = $em->getRepository(Activity::class)->findOneBy(['label' => $data['label'] ?? '']);
+
+        $this->assertInstanceOf(Activity::class, $activity);
+    }
+
+    /**
+     * @return array
+     */
+    public function newActivitySuccessfulProvider(): array
+    {
+        return [
+          [
+              ['label' => 'ActivityTest42', 'description' => 'Description Test']
+          ]
+        ];
     }
 
     /**

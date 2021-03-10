@@ -34,6 +34,7 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     public const ROUTE_APP_ROUTER_LIGHT                             = 'app_router_anon';
 
     public const ROUTE_ADMIN_ACTIVITY_LIST                          = 'app.admin.activity.index';
+    public const ROUTE_ADMIN_ACTIVITY_NEW                           = 'app.admin.activity.new';
     public const ROUTE_ADMIN_ACTIVITY_MODE_LIST                     = 'app.admin.activity_mode.index';
     public const ROUTE_ADMIN_ACTIVITY_TYPE_LIST                     = 'app.admin.activity_type.index';
     public const ROUTE_ADMIN_ASK_ADVICE_LIST                        = 'app.admin.ask_advice.index';
