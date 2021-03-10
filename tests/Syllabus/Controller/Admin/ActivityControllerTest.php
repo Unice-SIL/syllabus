@@ -35,7 +35,6 @@ class ActivityControllerTest extends AbstractAdminControllerTest
      */
     public function testNewActivitySuccessful(array $data)
     {
-        $translator = $this->getTranslator();
         $em = $this->getEntityManager();
         $this->login();
         $crawler = $this->client()->request('GET', $this->generateUrl(self::ROUTE_ADMIN_ACTIVITY_NEW));
