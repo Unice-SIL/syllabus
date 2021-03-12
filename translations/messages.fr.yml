@@ -927,6 +927,7 @@ admin:
       course: Cours
   activity:
     list_activities: Liste des activités
+    edit_activity: Modifier une activité
     flashbag:
       new: L'activité a été ajoutée avec succès.
       edit: L'activité a été modifiée avec succès.

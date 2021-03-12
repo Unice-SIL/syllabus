@@ -34,34 +34,66 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     public const ROUTE_APP_ROUTER                                   = 'app_router';
     public const ROUTE_APP_ROUTER_LIGHT                             = 'app_router_anon';
 
+    /*
+     *  Admin
+     */
+
     public const ROUTE_ADMIN_ACTIVITY_LIST                          = 'app.admin.activity.index';
     public const ROUTE_ADMIN_ACTIVITY_NEW                           = 'app.admin.activity.new';
     public const ROUTE_ADMIN_ACTIVITY_EDIT                          = 'app.admin.activity.edit';
+
     public const ROUTE_ADMIN_ACTIVITY_MODE_LIST                     = 'app.admin.activity_mode.index';
+    public const ROUTE_ADMIN_ACTIVITY_MODE_NEW                      = 'app.admin.activity_mode.new';
+    public const ROUTE_ADMIN_ACTIVITY_MODE_EDIT                     = 'app.admin.activity_mode.edit';
+
     public const ROUTE_ADMIN_ACTIVITY_TYPE_LIST                     = 'app.admin.activity_type.index';
+
     public const ROUTE_ADMIN_ASK_ADVICE_LIST                        = 'app.admin.ask_advice.index';
+
     public const ROUTE_ADMIN_CAMPUS_LIST                            = 'app.admin.campus.index';
+
     public const ROUTE_ADMIN_COURSE_LIST                            = 'app.admin.course.index';
+
     public const ROUTE_ADMIN_COURSE_INFO_LIST                       = 'app.admin.course_info.index';
+
     public const ROUTE_ADMIN_COURSE_INFO_FIELD_LIST                 = 'app.admin.course_info_field.index';
+
     public const ROUTE_ADMIN_CRITICAL_ACHIEVEMENT_LIST              = 'app.admin.critical_achievement.index';
+
     public const ROUTE_ADMIN_DASHBOARD                              = 'app.admin.dashboard.index';
+
     public const ROUTE_ADMIN_DOMAIN_LIST                            = 'app.admin.domain.index';
+
     public const ROUTE_ADMIN_EQUIPMENT_LIST                         = 'app.admin.equipment.index';
+
     public const ROUTE_ADMIN_GROUPS_LIST                            = 'app.admin.groups.index';
+
     public const ROUTE_ADMIN_IMPORT_COURSE_INFO                     = 'app.admin.import_csv.course_info';
     public const ROUTE_ADMIN_IMPORT_PERMISSION                      = 'app.admin.import_csv.permission';
+
     public const ROUTE_ADMIN_IMPORT_USER                            = 'app.admin.import_csv.user';
+
     public const ROUTE_ADMIN_JOB_LIST                               = 'app.admin.job.index';
+
     public const ROUTE_ADMIN_LANGUAGE_LIST                          = 'app.admin.language.index';
+
     public const ROUTE_ADMIN_LEVEL_LIST                             = 'app.admin.level.index';
+
     public const ROUTE_ADMIN_NOTIFICATION_LIST                      = 'app.admin.notification.index';
+
     public const ROUTE_ADMIN_PERIOD_LIST                            = 'app.admin.period.index';
+
     public const ROUTE_ADMIN_STRUCTURE_LIST                         = 'app.admin.structure.index';
+
     public const ROUTE_ADMIN_SYLLABUS_LIST                          = 'app.admin.syllabus.index';
+
     public const ROUTE_ADMIN_USER_LIST                              = 'app.admin.user.index';
+
     public const ROUTE_ADMIN_YEAR_LIST                              = 'app.admin.year.index';
 
+    /*
+     *  Course Info
+     */
     public const ROUTE_APP_COURSE_INFO_DASHBOARD                    = 'app.course_info.dashboard.index';
     public const ROUTE_APP_COURSE_STUDENT_VIEW                      = 'app.course_info.view.student';
     public const ROUTE_APP_COURSE_LIGHT_VIEW                        = 'app.course_info.view.light_version';

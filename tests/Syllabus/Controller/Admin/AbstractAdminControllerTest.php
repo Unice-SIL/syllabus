@@ -5,6 +5,8 @@ namespace Tests\Syllabus\Controller\Admin;
 
 
 use App\Syllabus\Entity\Activity;
+use App\Syllabus\Entity\ActivityMode;
+use App\Syllabus\Exception\ActivityModeNotFoundException;
 use App\Syllabus\Exception\ActivityNotFoundException;
 use Tests\WebTestCase;
 
@@ -53,4 +55,23 @@ abstract class AbstractAdminControllerTest extends WebTestCase
         return $activity;
     }
 
+    /**
+     * @return ActivityMode
+     * @throws ActivityModeNotFoundException
+     */
+    public function getActivityMode()
+    {
+        $activityMode = null;
+        if (!$activityMode instanceof ActivityMode)
+        {
+            $activityMode = current($this->getEntityManager()->getRepository(ActivityMode::class)->findAll());
+        }
+
+        if (!$activityMode instanceof ActivityMode)
+        {
+            throw new ActivityModeNotFoundException();
+        }
+
+        return $activityMode;
+    }
 }
