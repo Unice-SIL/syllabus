@@ -11,6 +11,7 @@ use App\Syllabus\Fixture\YearFixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\BrowserKit\Cookie;
+use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Guard\Token\PostAuthenticationGuardToken;
@@ -35,6 +36,7 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
 
     public const ROUTE_ADMIN_ACTIVITY_LIST                          = 'app.admin.activity.index';
     public const ROUTE_ADMIN_ACTIVITY_NEW                           = 'app.admin.activity.new';
+    public const ROUTE_ADMIN_ACTIVITY_EDIT                          = 'app.admin.activity.edit';
     public const ROUTE_ADMIN_ACTIVITY_MODE_LIST                     = 'app.admin.activity_mode.index';
     public const ROUTE_ADMIN_ACTIVITY_TYPE_LIST                     = 'app.admin.activity_type.index';
     public const ROUTE_ADMIN_ASK_ADVICE_LIST                        = 'app.admin.ask_advice.index';
@@ -201,6 +203,32 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
         /** @var SessionInterface $session */
         $session = $this->client->getContainer()->get('session');
         return $type ? $session->getFlashBag()->get($type) : $session->getFlashBag()->all();
+    }
+
+    /**
+     * @param Crawler $node
+     * @param string|null $formName
+     * @param array $data
+     * @return Crawler|null
+     */
+    public function submitForm(Crawler $node, string $formName = null, array $data = []): ?Crawler
+    {
+        $form = $node->form();
+        foreach ($data as $field => $value) {
+            $fieldName = $formName ? $formName . '[' . $field . ']' : $field;
+            $form[$fieldName]->setValue($value);
+        }
+        return $this->client()->submit($form);
+    }
+
+    /**
+     * @param Crawler $crawler
+     * @param string $field
+     * @param string $tagName
+     */
+    public function assertInvalidFormField(Crawler $crawler, string $field, $tagName = "input")
+    {
+        $this->assertEquals(1, $crawler->filter($tagName . '[name="' . $field . '"].is-invalid')->count());
     }
 
 }

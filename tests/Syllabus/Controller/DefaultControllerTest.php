@@ -15,7 +15,7 @@ class DefaultControllerTest extends WebTestCase
 {
     public function testHomepageUserNotAuthenticated()
     {
-        $this->client()->request('GET', $this->generateUrl(self::ROUTE_APP_HOMEPAGE, []));
+        $this->client()->request('GET', $this->generateUrl(self::ROUTE_APP_HOMEPAGE));
         $this->assertResponseRedirects();
         $this->assertStringContainsString('/Shibboleth.sso', $this->client()->getResponse()->getContent());
     }
@@ -23,7 +23,7 @@ class DefaultControllerTest extends WebTestCase
     public function testHomepage()
     {
         $this->login();
-        $this->client()->request('GET', $this->generateUrl(self::ROUTE_APP_HOMEPAGE, []));
+        $this->client()->request('GET', $this->generateUrl(self::ROUTE_APP_HOMEPAGE));
         $this->assertResponseIsSuccessful();
     }
 
