@@ -13,6 +13,9 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Component\PropertyAccess\PropertyAccessor;
+use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Guard\Token\PostAuthenticationGuardToken;
 
@@ -47,10 +50,14 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     public const ROUTE_ADMIN_ACTIVITY_MODE_EDIT                     = 'app.admin.activity_mode.edit';
 
     public const ROUTE_ADMIN_ACTIVITY_TYPE_LIST                     = 'app.admin.activity_type.index';
+    public const ROUTE_ADMIN_ACTIVITY_TYPE_NEW                      = 'app.admin.activity_type.new';
+    public const ROUTE_ADMIN_ACTIVITY_TYPE_EDIT                     = 'app.admin.activity_type.edit';
 
     public const ROUTE_ADMIN_ASK_ADVICE_LIST                        = 'app.admin.ask_advice.index';
 
     public const ROUTE_ADMIN_CAMPUS_LIST                            = 'app.admin.campus.index';
+    public const ROUTE_ADMIN_CAMPUS_NEW                             = 'app.admin.campus.new';
+    public const ROUTE_ADMIN_CAMPUS_EDIT                            = 'app.admin.campus.edit';
 
     public const ROUTE_ADMIN_COURSE_LIST                            = 'app.admin.course.index';
 
@@ -63,8 +70,12 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     public const ROUTE_ADMIN_DASHBOARD                              = 'app.admin.dashboard.index';
 
     public const ROUTE_ADMIN_DOMAIN_LIST                            = 'app.admin.domain.index';
+    public const ROUTE_ADMIN_DOMAIN_NEW                             = 'app.admin.domain.new';
+    public const ROUTE_ADMIN_DOMAIN_EDIT                            = 'app.admin.domain.edit';
 
     public const ROUTE_ADMIN_EQUIPMENT_LIST                         = 'app.admin.equipment.index';
+    public const ROUTE_ADMIN_EQUIPMENT_NEW                          = 'app.admin.equipment.new';
+    public const ROUTE_ADMIN_EQUIPMENT_EDIT                         = 'app.admin.equipment.edit';
 
     public const ROUTE_ADMIN_GROUPS_LIST                            = 'app.admin.groups.index';
 
@@ -76,20 +87,30 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     public const ROUTE_ADMIN_JOB_LIST                               = 'app.admin.job.index';
 
     public const ROUTE_ADMIN_LANGUAGE_LIST                          = 'app.admin.language.index';
+    public const ROUTE_ADMIN_LANGUAGE_NEW                           = 'app.admin.language.new';
+    public const ROUTE_ADMIN_LANGUAGE_EDIT                          = 'app.admin.language.edit';
 
     public const ROUTE_ADMIN_LEVEL_LIST                             = 'app.admin.level.index';
+    public const ROUTE_ADMIN_LEVEL_NEW                              = 'app.admin.level.new';
+    public const ROUTE_ADMIN_LEVEL_EDIT                             = 'app.admin.level.edit';
 
     public const ROUTE_ADMIN_NOTIFICATION_LIST                      = 'app.admin.notification.index';
 
     public const ROUTE_ADMIN_PERIOD_LIST                            = 'app.admin.period.index';
+    public const ROUTE_ADMIN_PERIOD_NEW                             = 'app.admin.period.new';
+    public const ROUTE_ADMIN_PERIOD_EDIT                            = 'app.admin.period.edit';
 
     public const ROUTE_ADMIN_STRUCTURE_LIST                         = 'app.admin.structure.index';
+    public const ROUTE_ADMIN_STRUCTURE_NEW                          = 'app.admin.structure.new';
+    public const ROUTE_ADMIN_STRUCTURE_EDIT                         = 'app.admin.structure.edit';
 
     public const ROUTE_ADMIN_SYLLABUS_LIST                          = 'app.admin.syllabus.index';
 
     public const ROUTE_ADMIN_USER_LIST                              = 'app.admin.user.index';
 
     public const ROUTE_ADMIN_YEAR_LIST                              = 'app.admin.year.index';
+    public const ROUTE_ADMIN_YEAR_NEW                               = 'app.admin.year.new';
+    public const ROUTE_ADMIN_YEAR_EDIT                              = 'app.admin.year.edit';
 
     /*
      *  Course Info
@@ -251,6 +272,22 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
             $form[$fieldName]->setValue($value);
         }
         return $this->client()->submit($form);
+    }
+
+    public function assertCheckEntityProps($entity, array $data, array $callables = [])
+    {
+        $propertyAccessor = PropertyAccess::createPropertyAccessor();
+        foreach ($data as $field => $value)
+        {
+            if (array_key_exists($field, $callables))
+            {
+                $callables[$field]($entity, $value);
+            }
+            else
+            {
+                $this->assertEquals($value, $propertyAccessor->getValue($entity, $field));
+            }
+        }
     }
 
     /**

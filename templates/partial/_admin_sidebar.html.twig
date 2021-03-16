@@ -106,17 +106,6 @@
                                         </a>
                                     </li>
                                 {% endif %}
-                                {% if is_granted('ROLE_ADMIN_ACTIVITYTYPE') %}
-                                    <li class="pl-3">
-                                        <a href="{{ path('app.admin.activity_type.index') }}"
-                                           class="nav-link {{ printActiveAdminSidebarLink(['app.admin.activity_type.']) }}">
-                                            <i class="fas fa-dot-circle nav-icon"></i>
-                                            <p>
-                                                {{ 'admin.sidebar.activities.types' | trans }}
-                                            </p>
-                                        </a>
-                                    </li>
-                                {% endif %}
                                 {% if is_granted('ROLE_ADMIN_ACTIVITYMODE') %}
                                     <li class="pl-3">
                                         <a href="{{ path('app.admin.activity_mode.index') }}"
@@ -124,6 +113,17 @@
                                             <i class="fas fa-dot-circle nav-icon"></i>
                                             <p>
                                                 {{ 'admin.sidebar.activities.modes' | trans }}
+                                            </p>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                {% if is_granted('ROLE_ADMIN_ACTIVITYTYPE') %}
+                                    <li class="pl-3">
+                                        <a href="{{ path('app.admin.activity_type.index') }}"
+                                           class="nav-link {{ printActiveAdminSidebarLink(['app.admin.activity_type.']) }}">
+                                            <i class="fas fa-dot-circle nav-icon"></i>
+                                            <p>
+                                                {{ 'admin.sidebar.activities.types' | trans }}
                                             </p>
                                         </a>
                                     </li>

@@ -52,7 +52,7 @@ class Year
     /**
      * @var string|null
      *
-     * @ORM\Column(name="label", type="string", length=45, nullable=true, options={"fixed"=true})
+     * @ORM\Column(name="label", type="string", length=45, nullable=false, options={"fixed"=true})
      * @Assert\NotBlank(message="Ce champ ne doit pas être vide")
      * @Gedmo\Translatable
      */

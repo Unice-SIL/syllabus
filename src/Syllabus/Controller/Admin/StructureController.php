@@ -119,6 +119,7 @@ class StructureController extends AbstractController
 
         return $this->render('structure/edit.html.twig', array(
             'form' => $form->createView(),
+            'structure' => $structure
         ));
     }
 

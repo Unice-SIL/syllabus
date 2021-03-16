@@ -7,7 +7,6 @@ use App\Syllabus\Entity\ActivityMode;
 use App\Syllabus\Exception\ActivityModeNotFoundException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PropertyAccess\PropertyAccess;
 
 /**
  * Class ActivityModeControllerTest
@@ -19,24 +18,24 @@ class ActivityModeControllerTest extends AbstractAdminControllerTest
      *  Activity Mode List
      */
 
-    public function testActivityModeListUserNotAuthenticated()
+    public function testActivityModeUserNotAuthenticated()
     {
         $this->tryUserNotAuthenticate(self::ROUTE_ADMIN_ACTIVITY_MODE_LIST);
         $this->assertResponseRedirects();
         $this->assertStringContainsString('/Shibboleth.sso', $this->client()->getResponse()->getContent());
     }
 
-    public function testActivityModeListWithAdminPermission()
+    public function testActivityModeWithAdminPermission()
     {
         $this->tryWithAdminPermission(self::ROUTE_ADMIN_ACTIVITY_MODE_LIST);
         $this->assertResponseIsSuccessful();
     }
 
     /**
-     * @dataProvider activityModeListWithMissingRoleProvider
+     * @dataProvider activityModeWithMissingRoleProvider
      * @param array $data
      */
-    public function testActivityModeListWithMissingRole(array $data)
+    public function testActivityModeWithMissingRole(array $data)
     {
         $this->getUser()->setRoles($data)->setGroups(new ArrayCollection());
         $this->getEntityManager()->flush();
@@ -48,14 +47,14 @@ class ActivityModeControllerTest extends AbstractAdminControllerTest
     /**
      * @return array[]
      */
-    public function activityModeListWithMissingRoleProvider(): array
+    public function activityModeWithMissingRoleProvider(): array
     {
         return [
-            [['ROLE_USER', 'ROLE_ADMIN', 'ROLE_ADMIN_ACTIVITY']],
+            [['ROLE_USER', 'ROLE_ADMIN', 'ROLE_ADMIN_ACTIVITYMODE']],
             [['ROLE_USER', 'ROLE_ADMIN', 'ROLE_ADMIN_ACTIVITYMODE_LIST']],
-            [['ROLE_USER', 'ROLE_ADMIN_ACTIVITY', 'ROLE_ADMIN_ACTIVITYMODE_LIST']],
+            [['ROLE_USER', 'ROLE_ADMIN_ACTIVITYMODE', 'ROLE_ADMIN_ACTIVITYMODE_LIST']],
             [['ROLE_USER', 'ROLE_ADMIN']],
-            [['ROLE_USER', 'ROLE_ADMIN_ACTIVITY']],
+            [['ROLE_USER', 'ROLE_ADMIN_ACTIVITYMODE']],
             [['ROLE_USER']],
             [['ROLE_USER', 'ROLE_ADMIN_ACTIVITYMODE_LIST']],
         ];
@@ -97,11 +96,11 @@ class ActivityModeControllerTest extends AbstractAdminControllerTest
     public function activityModeNewWithMissingRoleProvider(): array
     {
         return [
-            [['ROLE_USER', 'ROLE_ADMIN', 'ROLE_ADMIN_ACTIVITY']],
+            [['ROLE_USER', 'ROLE_ADMIN', 'ROLE_ADMIN_ACTIVITYMODE']],
             [['ROLE_USER', 'ROLE_ADMIN', 'ROLE_ADMIN_ACTIVITYMODE_CREATE']],
-            [['ROLE_USER', 'ROLE_ADMIN_ACTIVITY', 'ROLE_ADMIN_ACTIVITYMODE_CREATE']],
+            [['ROLE_USER', 'ROLE_ADMIN_ACTIVITYMODE', 'ROLE_ADMIN_ACTIVITYMODE_CREATE']],
             [['ROLE_USER', 'ROLE_ADMIN']],
-            [['ROLE_USER', 'ROLE_ADMIN_ACTIVITY']],
+            [['ROLE_USER', 'ROLE_ADMIN_ACTIVITYMODE']],
             [['ROLE_USER']],
             [['ROLE_USER', 'ROLE_ADMIN_ACTIVITYMODE_CREATE']],
         ];
@@ -116,12 +115,8 @@ class ActivityModeControllerTest extends AbstractAdminControllerTest
         $em = $this->getEntityManager();
         $this->login();
         $crawler = $this->client()->request('GET', $this->generateUrl(self::ROUTE_ADMIN_ACTIVITY_MODE_NEW));
-        $form = $crawler->filter('button[type="submit"]')->form();
-        foreach ($data as $field => $value)
-        {
-            $form['activity_mode[' . $field . ']']->setValue($value);
-        }
-        $this->client()->submit($form);
+
+        $this->submitForm($crawler->filter('button[type="submit"]'), 'activity_mode', $data);
 
         $this->assertCount(
             1,
@@ -130,9 +125,11 @@ class ActivityModeControllerTest extends AbstractAdminControllerTest
 
         $this->assertResponseRedirects($this->generateUrl(self::ROUTE_ADMIN_ACTIVITY_MODE_LIST));
 
-        $activity = $em->getRepository(ActivityMode::class)->findOneBy(['label' => $data['label'] ?? '']);
+        $activityMode = $em->getRepository(ActivityMode::class)->findOneBy(['label' => $data['label'] ?? '']);
 
-        $this->assertInstanceOf(ActivityMode::class, $activity);
+        $this->assertInstanceOf(ActivityMode::class, $activityMode);
+
+        $this->assertCheckEntityProps($activityMode, $data);
     }
 
     /**
@@ -142,7 +139,7 @@ class ActivityModeControllerTest extends AbstractAdminControllerTest
     {
         return [
             [
-                ['label' => 'ActivityTest42']
+                ['label' => 'ActivityModeTest42']
             ]
         ];
     }
@@ -225,11 +222,11 @@ class ActivityModeControllerTest extends AbstractAdminControllerTest
     public function editActivityModeWithMissingRoleProvider(): array
     {
         return [
-            [['ROLE_USER', 'ROLE_ADMIN', 'ROLE_ADMIN_ACTIVITY']],
+            [['ROLE_USER', 'ROLE_ADMIN', 'ROLE_ADMIN_ACTIVITYMODE']],
             [['ROLE_USER', 'ROLE_ADMIN', 'ROLE_ADMIN_ACTIVITYMODE_UPDATE']],
-            [['ROLE_USER', 'ROLE_ADMIN_ACTIVITY', 'ROLE_ADMIN_ACTIVITYMODE_UPDATE']],
+            [['ROLE_USER', 'ROLE_ADMIN_ACTIVITYMODE', 'ROLE_ADMIN_ACTIVITYMODE_UPDATE']],
             [['ROLE_USER', 'ROLE_ADMIN']],
-            [['ROLE_USER', 'ROLE_ADMIN_ACTIVITY']],
+            [['ROLE_USER', 'ROLE_ADMIN_ACTIVITYMODE']],
             [['ROLE_USER']],
             [['ROLE_USER', 'ROLE_ADMIN_ACTIVITYMODE_UPDATE']],
         ];
@@ -260,12 +257,12 @@ class ActivityModeControllerTest extends AbstractAdminControllerTest
             'GET',
             $this->generateUrl(self::ROUTE_ADMIN_ACTIVITY_MODE_EDIT, ['id' => $activityMode->getId()])
         );
-        $form = $crawler->filter('button[type="submit"]')->form();
-        foreach ($data as $field => $value)
-        {
-            $form['activity_mode[' . $field . ']']->setValue($value);
-        }
-        $this->client()->submit($form);
+
+        $this->submitForm(
+            $crawler->filter('button[type="submit"]'),
+            'activity_mode',
+            $data
+        );
 
         $this->assertCount(
             1,
@@ -275,12 +272,7 @@ class ActivityModeControllerTest extends AbstractAdminControllerTest
         /** @var ActivityMode $updatedActivityMode */
         $updatedActivityMode = $em->getRepository(ActivityMode::class)->find($activityMode->getId());
 
-        $propertyAccessor = PropertyAccess::createPropertyAccessor();
-        foreach ($data as $field => $value)
-        {
-            $this->assertEquals($value, $propertyAccessor->getValue($updatedActivityMode, $field));
-        }
-
+        $this->assertCheckEntityProps($updatedActivityMode, $data);
     }
 
     /**
@@ -290,7 +282,7 @@ class ActivityModeControllerTest extends AbstractAdminControllerTest
     {
         return [
             [
-                ['label' => 'ActivityTest42']
+                ['label' => 'ActivityModeTest42']
             ]
         ];
     }

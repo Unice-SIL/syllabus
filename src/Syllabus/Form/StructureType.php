@@ -16,14 +16,11 @@ class StructureType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $context = $options['context'];
-        $disabled = $context == 'edit' ? true : false;
         $builder
             ->add('code', null, [
                 'label' => 'app.form.structure.label.code',
-                'disabled' => $disabled
             ])
             ->add('label', null, [
-                'disabled' => $disabled
             ])
             ->add('synchronized', CustomCheckboxType::class, [
                 'label' => 'app.form.structure.label.synchronized'
@@ -40,7 +37,9 @@ class StructureType extends AbstractType
                     'attr' => [
                         'class' => 'custom-control-input'
                     ]
-                ]);
+                ])
+               ->remove('label')
+               ->remove('code');
             }
     }/**
      * {@inheritdoc}

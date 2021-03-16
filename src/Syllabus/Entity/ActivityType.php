@@ -111,7 +111,7 @@ class ActivityType
     }
 
     /**
-     * @param string $id
+     * @param string|null $id
      * @return ActivityType
      */
     public function setId(?string $id): self
@@ -129,10 +129,10 @@ class ActivityType
     }
 
     /**
-     * @param string $label
+     * @param string|null $label
      * @return ActivityType
      */
-    public function setLabel(string $label): self
+    public function setLabel(?string $label): self
     {
         $this->label = $label;
         return $this;

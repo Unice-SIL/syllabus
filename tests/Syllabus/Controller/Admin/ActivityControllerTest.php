@@ -10,6 +10,7 @@ use App\Syllabus\Fixture\ActivityTypeFixture;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 /**
  * Class ActivityControllerTest
@@ -118,12 +119,12 @@ class ActivityControllerTest extends AbstractAdminControllerTest
         $em = $this->getEntityManager();
         $this->login();
         $crawler = $this->client()->request('GET', $this->generateUrl(self::ROUTE_ADMIN_ACTIVITY_NEW));
-        $form = $crawler->filter('button[type="submit"]')->form();
-        foreach ($data as $field => $value)
-        {
-            $form['appbundle_activity[' . $field . ']']->setValue($value);
-        }
-        $this->client()->submit($form);
+
+        $this->submitForm(
+            $crawler->filter('button[type="submit"]'),
+            'appbundle_activity',
+            $data
+        );
 
         $this->assertCount(
             1,
@@ -135,6 +136,17 @@ class ActivityControllerTest extends AbstractAdminControllerTest
         $activity = $em->getRepository(Activity::class)->findOneBy(['label' => $data['label'] ?? '']);
 
         $this->assertInstanceOf(Activity::class, $activity);
+
+        $this->assertCheckEntityProps($activity, $data, [
+            'activityTypes' => function ($entity, $value) {
+                $this->assertCount(1,
+                    array_filter($entity->getActivityTypes()->toArray(), function (ActivityType $activityType) use ($value) {
+                        return $activityType->getId() === $value;
+                    })
+                );
+                $this->assertCount(1, $entity->getActivityTypes());
+            }
+        ]);
     }
 
     /**
@@ -147,7 +159,8 @@ class ActivityControllerTest extends AbstractAdminControllerTest
             ->findOneBy(['label' => ActivityTypeFixture::ACTIVITY_TYPE_DISTANT])->getId();
         return [
             [
-                ['label' => 'ActivityTest42', 'description' => 'Description Test', 'activityTypes' => $activityType]
+                ['label' => 'ActivityTest42', 'description' => 'Description Test', 'activityTypes' => $activityType],
+                ['label' => 'ActivityTest42', 'activityTypes' => $activityType]
             ]
         ];
     }
@@ -275,17 +288,15 @@ class ActivityControllerTest extends AbstractAdminControllerTest
             'GET',
             $this->generateUrl(self::ROUTE_ADMIN_ACTIVITY_EDIT, ['id' => $activity->getId()])
         );
-        $form = $crawler->filter('button[type="submit"]')->form();
-        foreach ($data as $field => $value)
-        {
-            switch ($field)
-            {
-                case 'activityTypes':
-                    $value = $value->getId();
-            }
-            $form['appbundle_activity[' . $field . ']']->setValue($value);
-        }
-        $this->client()->submit($form);
+
+        $formData = $data;
+        $formData['activityTypes'] = $formData['activityTypes']->getId();
+
+        $this->submitForm(
+            $crawler->filter('button[type="submit"]'),
+            'appbundle_activity',
+            $formData
+        );
 
         $this->assertCount(
             1,
@@ -295,24 +306,16 @@ class ActivityControllerTest extends AbstractAdminControllerTest
         /** @var Activity $updatedActivity */
         $updatedActivity = $em->getRepository(Activity::class)->find($activity->getId());
 
-        $propertyAccessor = PropertyAccess::createPropertyAccessor();
-        foreach ($data as $field => $value)
-        {
-            switch ($field)
-            {
-                case 'activityTypes':
-                    $this->assertCount(1,
-                        array_filter($updatedActivity->getActivityTypes()->toArray(), function (ActivityType $activityType) use($value) {
-                            return $activityType->getId() === $value->getId();
-                        })
-                    );
-                    $this->assertCount(1, $updatedActivity->getActivityTypes());
-                    break;
-                default:
-                    $this->assertEquals($value, $propertyAccessor->getValue($updatedActivity, $field));
+        $this->assertCheckEntityProps($updatedActivity, $data, [
+            'activityTypes' => function ($entity, $value) {
+                $this->assertCount(1,
+                    array_filter($entity->getActivityTypes()->toArray(), function (ActivityType $activityType) use ($value) {
+                        return $activityType->getId() === $value->getId();
+                    })
+                );
+                $this->assertCount(1, $entity->getActivityTypes());
             }
-        }
-
+        ]);
     }
 
     /**
