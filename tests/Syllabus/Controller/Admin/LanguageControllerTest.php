@@ -138,9 +138,7 @@ class LanguageControllerTest extends AbstractAdminControllerTest
     public function newLanguageSuccessfulProvider(): array
     {
         return [
-            [
-                ['label' => 'LanguageTest'],
-            ]
+            [['label' => 'LanguageTest']]
         ];
     }
 
@@ -281,9 +279,7 @@ class LanguageControllerTest extends AbstractAdminControllerTest
     public function editLanguageSuccessfulProvider(): array
     {
         return [
-            [
-                ['label' => 'LanguageTest']
-            ]
+            [['label' => 'LanguageTest']]
         ];
     }
 

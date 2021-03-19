@@ -158,10 +158,8 @@ class ActivityControllerTest extends AbstractAdminControllerTest
         $activityType =  $em->getRepository(ActivityType::class)
             ->findOneBy(['label' => ActivityTypeFixture::ACTIVITY_TYPE_DISTANT])->getId();
         return [
-            [
-                ['label' => 'ActivityTest42', 'description' => 'Description Test', 'activityTypes' => $activityType],
-                ['label' => 'ActivityTest42', 'activityTypes' => $activityType]
-            ]
+            [['label' => 'ActivityTest42', 'description' => 'Description Test', 'activityTypes' => $activityType]],
+            [['label' => 'ActivityTest42', 'activityTypes' => $activityType]]
         ];
     }
 
@@ -327,9 +325,7 @@ class ActivityControllerTest extends AbstractAdminControllerTest
         $activityType =  $em->getRepository(ActivityType::class)
             ->findOneBy(['label' => ActivityTypeFixture::ACTIVITY_TYPE_AUTONOMY]);
         return [
-            [
-                ['label' => 'ActivityTest42', 'description' => 'Description Test', 'activityTypes' => $activityType]
-            ]
+            [['label' => 'ActivityTest42', 'description' => 'Description Test', 'activityTypes' => $activityType]]
         ];
     }
 

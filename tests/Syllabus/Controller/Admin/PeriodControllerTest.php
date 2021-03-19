@@ -4,6 +4,7 @@
 namespace Tests\Syllabus\Controller\Admin;
 
 use App\Syllabus\Entity\Period;
+use App\Syllabus\Entity\Structure;
 use App\Syllabus\Exception\PeriodNotFoundException;
 use App\Syllabus\Exception\StructureNotFoundException;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -130,7 +131,15 @@ class PeriodControllerTest extends AbstractAdminControllerTest
 
         $this->assertInstanceOf(Period::class, $campus);
 
-        $this->assertCheckEntityProps($campus, $data);
+        $this->assertCheckEntityProps($campus, $data, [
+            'structures' => function ($entity, $value) {
+                $this->assertCount(1,
+                    array_filter($entity->getStructures()->toArray(), function (Structure $structure) use ($value) {
+                        return $structure->getId() === $value;
+                    })
+                );
+            }
+        ]);
     }
 
     /**
@@ -141,10 +150,8 @@ class PeriodControllerTest extends AbstractAdminControllerTest
     {
         $structure = $this->getStructure();
         return [
-            [
-                ['label' => 'PeriodTest'],
-                ['label' => 'PeriodTest', 'structures' => $structure->getId()]
-            ]
+            [['label' => 'PeriodTest']],
+            [['label' => 'PeriodTest', 'structures' => $structure->getId()]]
         ];
     }
 
@@ -285,9 +292,7 @@ class PeriodControllerTest extends AbstractAdminControllerTest
     public function editPeriodSuccessfulProvider(): array
     {
         return [
-            [
-                ['label' => 'PeriodTest']
-            ]
+            [['label' => 'PeriodTest']]
         ];
     }
 

@@ -138,9 +138,7 @@ class EquipmentControllerTest extends AbstractAdminControllerTest
     public function newEquipmentSuccessfulProvider(): array
     {
         return [
-            [
-                ['label' => 'EquipmentTest'],
-            ]
+            [['label' => 'EquipmentTest']]
         ];
     }
 
@@ -281,9 +279,7 @@ class EquipmentControllerTest extends AbstractAdminControllerTest
     public function editEquipmentSuccessfulProvider(): array
     {
         return [
-            [
-                ['label' => 'EquipmentTest']
-            ]
+            [['label' => 'EquipmentTest']]
         ];
     }
 

@@ -138,10 +138,8 @@ class CampusControllerTest extends AbstractAdminControllerTest
     public function newCampusSuccessfulProvider(): array
     {
         return [
-            [
-                ['label' => 'CampusTest'],
-                ['label' => 'CampusTest', 'grp' => 'groupTest']
-            ]
+            [['label' => 'CampusTest']],
+            [['label' => 'CampusTest', 'grp' => 'groupTest']]
         ];
     }
 
@@ -282,9 +280,7 @@ class CampusControllerTest extends AbstractAdminControllerTest
     public function editCampusSuccessfulProvider(): array
     {
         return [
-            [
-                ['label' => 'CampusTest']
-            ]
+            [['label' => 'CampusTest']]
         ];
     }
 

@@ -137,10 +137,8 @@ class StructureControllerTest extends AbstractAdminControllerTest
     public function newStructureSuccessfulProvider(): array
     {
         return [
-            [
-                ['label' => 'StructureTest'],
-                ['label' => 'StructureTest', 'code' => 'fakeCode']
-            ]
+            [['label' => 'StructureTest']],
+            [['label' => 'StructureTest', 'code' => 'fakeCode']]
         ];
     }
 
@@ -281,9 +279,7 @@ class StructureControllerTest extends AbstractAdminControllerTest
     public function editStructureSuccessfulProvider(): array
     {
         return [
-            [
-                ['obsolete' => true]
-            ]
+            [['obsolete' => true]]
         ];
     }
 }

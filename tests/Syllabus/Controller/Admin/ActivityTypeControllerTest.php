@@ -144,10 +144,8 @@ class ActivityTypeControllerTest extends AbstractAdminControllerTest
         $activityMode = $this->getActivityMode();
 
         return [
-            [
-                ['label' => 'ActivityTypeTest42'],
-                ['label' => 'ActivityTypeTest42', 'activityModes' => $activityMode->getId(), 'icon' => $icon],
-            ]
+            [['label' => 'ActivityTypeTest42']],
+            [['label' => 'ActivityTypeTest42', 'activityModes' => $activityMode->getId(), 'icon' => $icon]]
         ];
     }
 
@@ -288,9 +286,7 @@ class ActivityTypeControllerTest extends AbstractAdminControllerTest
     public function editActivityTypeSuccessfulProvider(): array
     {
         return [
-            [
-                ['label' => 'ActivityTypeTest42']
-            ]
+            [['label' => 'ActivityTypeTest42']]
         ];
     }
 

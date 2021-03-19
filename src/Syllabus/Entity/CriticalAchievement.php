@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\OneToMany;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
@@ -51,6 +52,7 @@ class CriticalAchievement
      * @var string
      *
      * @ORM\Column(name="label", type="string", length=100, nullable=false)
+     * @Assert\NotBlank()
      * @Gedmo\Translatable
      */
     private $label;
@@ -109,10 +111,10 @@ class CriticalAchievement
     }
 
     /**
-     * @param string $label
-     * @return CriticalAchievement
+     * @param string|null $label
+     * @return $this
      */
-    public function setLabel(string $label): self
+    public function setLabel(?string $label): self
     {
         $this->label = $label;
         return $this;

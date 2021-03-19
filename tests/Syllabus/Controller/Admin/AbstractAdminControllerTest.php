@@ -8,6 +8,7 @@ use App\Syllabus\Entity\Activity;
 use App\Syllabus\Entity\ActivityMode;
 use App\Syllabus\Entity\ActivityType;
 use App\Syllabus\Entity\Campus;
+use App\Syllabus\Entity\CriticalAchievement;
 use App\Syllabus\Entity\Domain;
 use App\Syllabus\Entity\Equipment;
 use App\Syllabus\Entity\Language;
@@ -19,6 +20,7 @@ use App\Syllabus\Exception\ActivityModeNotFoundException;
 use App\Syllabus\Exception\ActivityNotFoundException;
 use App\Syllabus\Exception\ActivityTypeNotFoundException;
 use App\Syllabus\Exception\CampusNotFoundException;
+use App\Syllabus\Exception\CriticalAchievementNotFoundException;
 use App\Syllabus\Exception\DomainNotFoundException;
 use App\Syllabus\Exception\EquipmentNotFoundException;
 use App\Syllabus\Exception\LanguageNotFoundException;
@@ -148,6 +150,26 @@ abstract class AbstractAdminControllerTest extends WebTestCase
         if (!$campus instanceof Campus)
         {
             throw new CampusNotFoundException();
+        }
+
+        return $campus;
+    }
+
+    /**
+     * @return CriticalAchievement
+     * @throws CriticalAchievementNotFoundException
+     */
+    public function getCriticalAchievement()
+    {
+        $campus = null;
+        if (!$campus instanceof CriticalAchievement)
+        {
+            $campus = current($this->getEntityManager()->getRepository(CriticalAchievement::class)->findAll());
+        }
+
+        if (!$campus instanceof CriticalAchievement)
+        {
+            throw new CriticalAchievementNotFoundException();
         }
 
         return $campus;

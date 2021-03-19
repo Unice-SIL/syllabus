@@ -103,8 +103,8 @@ class ActivityMode
     }
 
     /**
-     * @param string $label
-     * @return ActivityMode
+     * @param string|null $label
+     * @return $this
      */
     public function setLabel(?string $label): self
     {

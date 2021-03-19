@@ -139,9 +139,7 @@ class YearControllerTest extends AbstractAdminControllerTest
     public function newYearSuccessfulProvider(): array
     {
         return [
-            [
-                ['id' => '2021', 'label' => '2021-2022']
-            ]
+            [['id' => '2021', 'label' => '2021-2022']]
         ];
     }
 
@@ -287,9 +285,7 @@ class YearControllerTest extends AbstractAdminControllerTest
     public function editYearSuccessfulProvider(): array
     {
         return [
-            [
-                ['label' => '2021-2022']
-            ]
+            [['label' => '2021-2022']]
         ];
     }
 

@@ -4,6 +4,7 @@
 namespace Tests\Syllabus\Controller\Admin;
 
 use App\Syllabus\Entity\Domain;
+use App\Syllabus\Entity\Structure;
 use App\Syllabus\Exception\DomainNotFoundException;
 use App\Syllabus\Exception\StructureNotFoundException;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -130,7 +131,15 @@ class DomainControllerTest extends AbstractAdminControllerTest
 
         $this->assertInstanceOf(Domain::class, $campus);
 
-        $this->assertCheckEntityProps($campus, $data);
+        $this->assertCheckEntityProps($campus, $data, [
+            'structures' => function ($entity, $value) {
+                $this->assertCount(1,
+                    array_filter($entity->getStructures()->toArray(), function (Structure $structure) use ($value) {
+                        return $structure->getId() === $value;
+                    })
+                );
+            }
+        ]);
     }
 
     /**
@@ -141,10 +150,8 @@ class DomainControllerTest extends AbstractAdminControllerTest
     {
         $structure = $this->getStructure();
         return [
-            [
-                ['label' => 'DomainTest'],
-                ['label' => 'DomainTest', 'grp' => 'groupTest', 'structures' => $structure->getId()]
-            ]
+            [['label' => 'DomainTest']],
+            [['label' => 'DomainTest', 'grp' => 'groupTest', 'structures' => $structure->getId()]]
         ];
     }
 
@@ -285,9 +292,7 @@ class DomainControllerTest extends AbstractAdminControllerTest
     public function editDomainSuccessfulProvider(): array
     {
         return [
-            [
-                ['label' => 'DomainTest']
-            ]
+            [['label' => 'DomainTest']]
         ];
     }
 

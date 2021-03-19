@@ -4,6 +4,7 @@
 namespace Tests\Syllabus\Controller\Admin;
 
 use App\Syllabus\Entity\Level;
+use App\Syllabus\Entity\Structure;
 use App\Syllabus\Exception\LevelNotFoundException;
 use App\Syllabus\Exception\StructureNotFoundException;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -130,7 +131,15 @@ class LevelControllerTest extends AbstractAdminControllerTest
 
         $this->assertInstanceOf(Level::class, $campus);
 
-        $this->assertCheckEntityProps($campus, $data);
+        $this->assertCheckEntityProps($campus, $data, [
+            'structures' => function ($entity, $value) {
+                $this->assertCount(1,
+                    array_filter($entity->getStructures()->toArray(), function (Structure $structure) use ($value) {
+                        return $structure->getId() === $value;
+                    })
+                );
+            }
+        ]);
     }
 
     /**
@@ -141,10 +150,8 @@ class LevelControllerTest extends AbstractAdminControllerTest
     {
         $structure = $this->getStructure();
         return [
-            [
-                ['label' => 'LevelTest'],
-                ['label' => 'LevelTest', 'structures' => $structure->getId()]
-            ]
+            [['label' => 'LevelTest']],
+            [['label' => 'LevelTest', 'structures' => $structure->getId()]]
         ];
     }
 
@@ -285,9 +292,7 @@ class LevelControllerTest extends AbstractAdminControllerTest
     public function editLevelSuccessfulProvider(): array
     {
         return [
-            [
-                ['label' => 'LevelTest']
-            ]
+            [['label' => 'LevelTest']]
         ];
     }
 

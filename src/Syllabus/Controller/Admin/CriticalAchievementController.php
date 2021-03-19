@@ -90,7 +90,6 @@ class CriticalAchievementController extends AbstractController
 
             return $this->redirectToRoute('app.admin.critical_achievement.index');
         }
-
         return $this->render('critical_achievement/new.html.twig', array(
             'form' => $form->createView(),
         ));

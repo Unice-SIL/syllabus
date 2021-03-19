@@ -12,6 +12,7 @@ use Doctrine\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\DomCrawler\Field\ChoiceFormField;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
@@ -66,6 +67,8 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     public const ROUTE_ADMIN_COURSE_INFO_FIELD_LIST                 = 'app.admin.course_info_field.index';
 
     public const ROUTE_ADMIN_CRITICAL_ACHIEVEMENT_LIST              = 'app.admin.critical_achievement.index';
+    public const ROUTE_ADMIN_CRITICAL_ACHIEVEMENT_NEW               = 'app.admin.critical_achievement.new';
+    public const ROUTE_ADMIN_CRITICAL_ACHIEVEMENT_EDIT              = 'app.admin.critical_achievement.edit';
 
     public const ROUTE_ADMIN_DASHBOARD                              = 'app.admin.dashboard.index';
 
@@ -269,6 +272,10 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
         $form = $node->form();
         foreach ($data as $field => $value) {
             $fieldName = $formName ? $formName . '[' . $field . ']' : $field;
+            if ($form[$fieldName] instanceof ChoiceFormField)
+            {
+                $form[$fieldName]->disableValidation();
+            }
             $form[$fieldName]->setValue($value);
         }
         return $this->client()->submit($form);

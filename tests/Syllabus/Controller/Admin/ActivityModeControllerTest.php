@@ -138,9 +138,7 @@ class ActivityModeControllerTest extends AbstractAdminControllerTest
     public function newActivityModeSuccessfulProvider(): array
     {
         return [
-            [
-                ['label' => 'ActivityModeTest42']
-            ]
+            [['label' => 'ActivityModeTest42']]
         ];
     }
 
@@ -281,9 +279,7 @@ class ActivityModeControllerTest extends AbstractAdminControllerTest
     public function editActivityModeSuccessfulProvider(): array
     {
         return [
-            [
-                ['label' => 'ActivityModeTest42']
-            ]
+            [['label' => 'ActivityModeTest42']]
         ];
     }
 
