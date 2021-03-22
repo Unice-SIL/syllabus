@@ -118,19 +118,45 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     /*
      *  Course Info
      */
+    public const ROUTE_APP_COURSE_ACHIEVEMENT_EDIT                  = 'app.course_info.achievement.edit';
+    public const ROUTE_APP_COURSE_ACHIEVEMENT_DELETE                = 'app.course_info.achievement.delete';
+
     public const ROUTE_APP_COURSE_INFO_DASHBOARD                    = 'app.course_info.dashboard.index';
+
     public const ROUTE_APP_COURSE_STUDENT_VIEW                      = 'app.course_info.view.student';
+
     public const ROUTE_APP_COURSE_LIGHT_VIEW                        = 'app.course_info.view.light_version';
+
     public const ROUTE_APP_ACTIVITIES_INDEX                         = 'app.course_info.activities.index';
+
     public const ROUTE_APP_CLOSING_REMARKS_INDEX                    = 'app.course_info.closing_remarks.index';
+
     public const ROUTE_APP_COURSE_PERMISSION_INDEX                  = 'app.course_info.permission.index';
+
     public const ROUTE_APP_COURSE_PREREQUISITE_INDEX                = 'app.course_info.prerequisite.index';
+    public const ROUTE_APP_COURSE_PREREQUISITE_EDIT                 = 'app.course_info.prerequisite.edit';
+    public const ROUTE_APP_COURSE_PREREQUISITE_DELETE               = 'app.course_info.prerequisite.delete';
+
     public const ROUTE_APP_DASHBOARD_INDEX                          = 'app.course_info.dashboard.index';
+
+    public const ROUTE_APP_EQUIPMENT_EDIT                           = 'app.course_info.equipment.edit';
+    public const ROUTE_APP_EQUIPMENT_DELETE                         = 'app.course_info.equipment.delete';
+
     public const ROUTE_APP_EVALUATION_INDEX                         = 'app.course_info.evaluation.index';
+
     public const ROUTE_APP_INFO_INDEX                               = 'app.course_info.info.index';
+
+    public const ROUTE_APP_LEARNING_ACHIEVEMENT_EDIT                = 'app.course_info.equipment.edit';
+    public const ROUTE_APP_LEARNING_ACHIEVEMENT_DELETE              = 'app.course_info.equipment.delete';
+
     public const ROUTE_APP_OBJECTIVES_INDEX                         = 'app.course_info.objectives.index';
+
     public const ROUTE_APP_PRESENTATION_INDEX                       = 'app.course_info.presentation.index';
+
     public const ROUTE_APP_RESOURCE_EQUIPMENT_INDEX                 = 'app.course_info.resource_equipment.index';
+
+    public const ROUTE_APP_COURSE_TUTORING_RESOURCE_EDIT            = 'app.course_info.tutoring_resource.edit';
+    public const ROUTE_APP_COURSE_TUTORING_RESOURCE_DELETE          = 'app.course_info.tutoring_resource.delete';
 
     public const ROUTE_APP_MAINTENANCE                              = 'app.maintenance.index';
 
@@ -206,7 +232,7 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
      * @return CourseInfo
      * @throws CourseNotFoundException
      */
-    public function getCourse($code, $year)
+    public function getCourse($code = self::COURSE_ALLOWED_CODE, $year = self::COURSE_ALLOWED_YEAR)
     {
         $course = null;
         if (!$course instanceof CourseInfo)
@@ -284,15 +310,27 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     public function assertCheckEntityProps($entity, array $data, array $callables = [])
     {
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
-        foreach ($data as $field => $value)
-        {
-            if (array_key_exists($field, $callables))
-            {
-                $callables[$field]($entity, $value);
+        foreach ($data as $field => $value) {
+            if ($field !== '_token') {
+                if (array_key_exists($field, $callables)) {
+                    $callables[$field]($entity, $value);
+                } else {
+                    $this->assertSame($value, $propertyAccessor->getValue($entity, $field));
+                }
             }
-            else
-            {
-                $this->assertEquals($value, $propertyAccessor->getValue($entity, $field));
+        }
+    }
+
+    public function assertCheckNotSameEntityProps($entity, array $data, array $callables = [])
+    {
+        $propertyAccessor = PropertyAccess::createPropertyAccessor();
+        foreach ($data as $field => $value) {
+            if ($field !== '_token') {
+                if (array_key_exists($field, $callables)) {
+                    $callables[$field]($entity, $value);
+                } else {
+                    $this->assertNotSame($value, $propertyAccessor->getValue($entity, $field));
+                }
             }
         }
     }
@@ -307,4 +345,26 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
         $this->assertEquals(1, $crawler->filter($tagName . '[name="' . $field . '"].is-invalid')->count());
     }
 
+    /**
+     * @param $id
+     * @param $token
+     * @return string
+     */
+    protected function setCsrfToken($id, $token)
+    {
+        $session = $this->client()->getContainer()->get('session');
+        $session->set('_csrf/' . $id, $token);
+        $session->save();
+
+        return $token;
+    }
+
+    /**
+     * @param string $tokenName
+     * @return mixed
+     */
+    public function getCsrfToken(string $tokenName)
+    {
+        return $this->client()->getContainer()->get('security.csrf.token_manager')->getToken($tokenName)->getValue();
+    }
 }

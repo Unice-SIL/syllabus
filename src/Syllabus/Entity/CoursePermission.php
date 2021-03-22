@@ -60,7 +60,7 @@ class CoursePermission
     private $permission = Permission::READ;
 
     /**
-     * @var \App\Syllabus\Entity\CourseInfo
+     * @var CourseInfo
      *
      * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\CourseInfo", inversedBy="coursePermissions")
      * @ORM\JoinColumns({
@@ -71,7 +71,7 @@ class CoursePermission
     private $courseInfo;
 
     /**
-     * @var \App\Syllabus\Entity\User
+     * @var User
      *
      * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\User", cascade={ "persist" })
      * @ORM\JoinColumns({

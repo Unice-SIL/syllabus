@@ -127,11 +127,11 @@ class DomainControllerTest extends AbstractAdminControllerTest
 
         $this->assertResponseRedirects($this->generateUrl(self::ROUTE_ADMIN_DOMAIN_LIST));
 
-        $campus = $em->getRepository(Domain::class)->findOneBy(['label' => $data['label'] ?? '']);
+        $domain = $em->getRepository(Domain::class)->findOneBy(['label' => $data['label'] ?? '']);
 
-        $this->assertInstanceOf(Domain::class, $campus);
+        $this->assertInstanceOf(Domain::class, $domain);
 
-        $this->assertCheckEntityProps($campus, $data, [
+        $this->assertCheckEntityProps($domain, $data, [
             'structures' => function ($entity, $value) {
                 $this->assertCount(1,
                     array_filter($entity->getStructures()->toArray(), function (Structure $structure) use ($value) {

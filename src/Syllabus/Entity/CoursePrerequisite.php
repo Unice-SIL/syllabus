@@ -57,7 +57,7 @@ class CoursePrerequisite
     private $position = 0;
 
     /**
-     * @var \App\Syllabus\Entity\CourseInfo
+     * @var CourseInfo
      *
      * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\CourseInfo", inversedBy="coursePrerequisites")
      * @ORM\JoinColumns({

@@ -35,7 +35,8 @@ class CourseTutoringResourcesType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => CourseTutoringResource::class
+            'data_class' => CourseTutoringResource::class,
+            'csrf_token_id' => 'create_edit_tutoring_resources'
         ]);
     }
 }

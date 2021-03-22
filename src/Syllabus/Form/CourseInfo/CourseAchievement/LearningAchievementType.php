@@ -36,7 +36,8 @@ class LearningAchievementType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => LearningAchievement::class
+            'data_class' => LearningAchievement::class,
+            'csrf_token_id' => 'create_edit_learning_achievement'
         ]);
     }
 }
