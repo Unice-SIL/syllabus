@@ -6,7 +6,7 @@ namespace App\Syllabus\Twig;
 use App\Syllabus\Entity\CourseInfo;
 use App\Syllabus\Twig\Runtime\LanguageRuntime;
 use App\Syllabus\Twig\Runtime\ReportRuntime;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Twig\Extension\AbstractExtension;

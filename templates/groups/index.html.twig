@@ -17,11 +17,11 @@
                     {{ form_row(form.label) }}
                 </div>
                 <div class="col-md-2 col-sm-6">
-                    <a class="btn btn-danger" style="margin-top: 32px" href="{{  path('app_admin_groups_index')  }}">{{ 'admin.button.reset_filters' | trans }}</a>
+                    <a class="btn btn-danger" style="margin-top: 32px" href="{{  path('app.admin.groups.index')  }}">{{ 'admin.button.reset_filters' | trans }}</a>
                 </div>
                 <input type="submit" style="position: absolute; left: -9999px"/>
                 <div class="col-md-8 col-sm-8">
-                    <a class="btn btn-primary float-right" style="margin-top: 32px" href="{{  path('app_admin_groups_new')  }}">{{ 'admin.button.add_group' | trans }}</a>
+                    <a class="btn btn-primary float-right" style="margin-top: 32px" href="{{  path('app.admin.groups.new')  }}">{{ 'admin.button.add_group' | trans }}</a>
                 </div>
             </div>
             {{ form_end(form) }}
@@ -40,7 +40,7 @@
                     <tbody>
                     {% for groups in pagination %}
                         <tr>
-                            <td><a href="{{ path('app_admin_groups_edit', { 'id' : groups.id }) }}">{{ groups.label }}</a></td>
+                            <td><a href="{{ path('app.admin.groups.edit', { 'id' : groups.id }) }}">{{ groups.label }}</a></td>
                             <td>{{ groups.obsolete|humanizeBoolean }}</td>
                             <td>
                                 {% set deleteFormView = deleteFormsView[groups.id] %}

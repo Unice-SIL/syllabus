@@ -7,6 +7,7 @@ use App\Syllabus\Entity\CoursePrerequisite;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
@@ -18,7 +19,7 @@ use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 class CoursePrerequisiteType extends AbstractType
 {
     /**
-     * @var null|\Symfony\Component\HttpFoundation\Request
+     * @var null|Request
      */
     private $request;
 
@@ -64,7 +65,8 @@ class CoursePrerequisiteType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => CoursePrerequisite::class
+            'data_class' => CoursePrerequisite::class,
+            'csrf_token_id' => 'create_edit_prerequisite'
         ]);
     }
 }

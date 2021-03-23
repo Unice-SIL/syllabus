@@ -9,7 +9,9 @@ use App\Syllabus\Form\Filter\GroupsFilterType;
 use App\Syllabus\Form\GroupsType;
 use App\Syllabus\Manager\GroupsManager;
 use App\Syllabus\Repository\Doctrine\GroupsDoctrineRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormInterface;
@@ -19,14 +21,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class GroupsController
  * @package App\Syllabus\Controller
- * @Route("/groups", name="app_admin_groups_")
+ * @Route("/groups", name="app.admin.groups.")
  */
-class GroupsController extends Controller
+class GroupsController extends AbstractController
 {
     /**
      * Lists all groups entities.
@@ -35,12 +37,14 @@ class GroupsController extends Controller
      * @param Request $request
      * @param GroupsDoctrineRepository $groupsDoctrineRepository
      * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
+     * @param PaginatorInterface $paginator
      * @return Response
      */
     public function indexAction(
         Request $request,
         GroupsDoctrineRepository $groupsDoctrineRepository,
-        FilterBuilderUpdaterInterface $filterBuilderUpdater
+        FilterBuilderUpdaterInterface $filterBuilderUpdater,
+        PaginatorInterface $paginator
     )
     {
 
@@ -55,7 +59,7 @@ class GroupsController extends Controller
 
         }
 
-        $pagination = $this->get('knp_paginator')->paginate(
+        $pagination = $paginator->paginate(
             $qb,
             $request->query->getInt('page', 1),
             5
@@ -95,7 +99,7 @@ class GroupsController extends Controller
 
             $this->addFlash('success', $translator->trans('admin.group.flashbag.new'));
 
-            return $this->redirectToRoute('app_admin_groups_index');
+            return $this->redirectToRoute('app.admin.groups.index');
         }
 
         return $this->render('groups/new.html.twig', array(
@@ -125,7 +129,7 @@ class GroupsController extends Controller
 
             $this->addFlash('success', $translator->trans('admin.group.flashbag.edit'));
 
-            return $this->redirectToRoute('app_admin_groups_edit', array('id' => $groups->getId()));
+            return $this->redirectToRoute('app.admin.groups.edit', array('id' => $groups->getId()));
         }
 
         return $this->render('groups/edit.html.twig', array(
@@ -176,7 +180,7 @@ class GroupsController extends Controller
             $groupsManager->delete($groups);
         }
 
-        return $this->redirectToRoute('app_admin_groups_index');
+        return $this->redirectToRoute('app.admin.groups.index');
     }
 
     /**
@@ -187,7 +191,7 @@ class GroupsController extends Controller
     private function createDeleteForm(Groups $group)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('app_admin_groups_delete', array('id' => $group->getId())))
+            ->setAction($this->generateUrl('app.admin.groups.delete', array('id' => $group->getId())))
             ->setMethod('DELETE')
             ->getForm();
     }

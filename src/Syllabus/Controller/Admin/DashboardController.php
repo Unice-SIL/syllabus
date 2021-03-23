@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class DashboardController
  * @package App\Syllabus\Controller
  *
- * @Route("/dashboard", name="app_admin.dashboard_")
+ * @Route("/dashboard", name="app.admin.dashboard.")
  */
 class DashboardController extends AbstractController
 {

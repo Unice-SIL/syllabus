@@ -14,7 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class AchievementController
@@ -75,8 +75,10 @@ class AchievementController extends AbstractController
                 'content' => $translator->trans('app.controller.error.empty_skill')
             ]);
         }
+
         $form = $this->createForm(RemoveCourseAchievementType::class, $achievement);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $courseAchievementManager->delete($achievement);
             return $this->json([
@@ -84,6 +86,7 @@ class AchievementController extends AbstractController
                 'content' => null
             ]);
         }
+
         $render = $this->get('twig')->render('course_info/objectives_course/form/remove_achievement.html.twig', [
             'form' => $form->createView()
         ]);

@@ -927,6 +927,7 @@ admin:
       course: Cours
   activity:
     list_activities: Liste des activités
+    edit_activity: Modifier une activité
     flashbag:
       new: L'activité a été ajoutée avec succès.
       edit: L'activité a été modifiée avec succès.
@@ -1098,7 +1099,7 @@ admin:
     add_campus: Ajouter un campus
     add_course: Ajouter un cours
     add_critical_achievement: Ajouter un apprentissage critique
-    add_domain: Ajouter un domain
+    add_domain: Ajouter un domaine
     add_equipment: Ajouter un équipement
     add_group: Ajouter un groupe
     add_job: Ajouter une tâche planifiée

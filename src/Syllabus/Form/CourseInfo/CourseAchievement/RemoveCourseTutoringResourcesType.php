@@ -20,7 +20,8 @@ class RemoveCourseTutoringResourcesType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => CourseTutoringResource::class
+            'data_class' => CourseTutoringResource::class,
+            'csrf_token_id' => 'delete_tutoring_resources'
         ]);
     }
 }

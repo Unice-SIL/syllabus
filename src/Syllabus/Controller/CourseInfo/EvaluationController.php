@@ -12,7 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class EvaluationController
@@ -95,6 +95,7 @@ class EvaluationController extends AbstractController
                 'content' => $render
             ]);
         }
+
         $render = $this->get('twig')->render('course_info/evaluation/form/specifications.html.twig', [
             'courseInfo' => $courseInfo,
             'form' => $form->createView()

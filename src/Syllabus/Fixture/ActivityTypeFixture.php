@@ -14,15 +14,15 @@ class ActivityTypeFixture extends Fixture implements FixtureGroupInterface
     /**
      *
      */
-    const ACTIVITY_TYPE_1 = 'activity_type1';
-    const ACTIVITY_TYPE_2 = 'activity_type2';
-    const ACTIVITY_TYPE_3 = 'activity_type3';
+    const ACTIVITY_TYPE_DISTANT = 'Distant';
+    const ACTIVITY_TYPE_AUTONOMY = 'Autonomy';
+    const ACTIVITY_TYPE_CLASS = 'Class';
 
     public function load(ObjectManager $manager)
     {
         $activityType = new ActivityType();
         $activityType
-            ->setLabel("Distant")
+            ->setLabel(self::ACTIVITY_TYPE_DISTANT)
             ->addActivity($this->getReference(ActivityFixture::ACTIVITY_1))
             ->addActivity($this->getReference(ActivityFixture::ACTIVITY_2))
             ->addActivity($this->getReference(ActivityFixture::ACTIVITY_4))
@@ -30,12 +30,12 @@ class ActivityTypeFixture extends Fixture implements FixtureGroupInterface
             ->addActivityMode($this->getReference(ActivityModeFixture::ACTIVITY_MODE_1))
             ->addActivityMode($this->getReference(ActivityModeFixture::ACTIVITY_MODE_2))
             ->setObsolete(false);
-        $this->addReference(self::ACTIVITY_TYPE_3, $activityType);
+        $this->addReference(self::ACTIVITY_TYPE_CLASS, $activityType);
         $manager->persist($activityType);
 
         $activityType = new ActivityType();
         $activityType
-            ->setLabel("Autonomy")
+            ->setLabel(self::ACTIVITY_TYPE_AUTONOMY)
             ->addActivity($this->getReference(ActivityFixture::ACTIVITY_1))
             ->addActivity($this->getReference(ActivityFixture::ACTIVITY_2))
             ->addActivity($this->getReference(ActivityFixture::ACTIVITY_3))
@@ -45,19 +45,19 @@ class ActivityTypeFixture extends Fixture implements FixtureGroupInterface
             ->addActivity($this->getReference(ActivityFixture::ACTIVITY_7))
             ->addActivityMode($this->getReference(ActivityModeFixture::ACTIVITY_MODE_1))
             ->setObsolete(false);
-        $this->addReference(self::ACTIVITY_TYPE_1, $activityType);
+        $this->addReference(self::ACTIVITY_TYPE_DISTANT, $activityType);
         $manager->persist($activityType);
 
         $activityType = new ActivityType();
         $activityType
-            ->setLabel("Class")
+            ->setLabel(self::ACTIVITY_TYPE_CLASS)
             ->addActivity($this->getReference(ActivityFixture::ACTIVITY_2))
             ->addActivity($this->getReference(ActivityFixture::ACTIVITY_3))
             ->addActivity($this->getReference(ActivityFixture::ACTIVITY_4))
             ->addActivity($this->getReference(ActivityFixture::ACTIVITY_7))
             ->addActivityMode($this->getReference(ActivityModeFixture::ACTIVITY_MODE_2))
             ->setObsolete(false);
-        $this->addReference(self::ACTIVITY_TYPE_2, $activityType);
+        $this->addReference(self::ACTIVITY_TYPE_AUTONOMY, $activityType);
         $manager->persist($activityType);
 
         $manager->flush();

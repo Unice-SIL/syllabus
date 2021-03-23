@@ -5,7 +5,6 @@ namespace App\Syllabus\Controller\Admin;
 
 
 use App\Syllabus\Entity\Domain;
-use App\Syllabus\Entity\Structure;
 use App\Syllabus\Form\DomainType;
 use App\Syllabus\Form\Filter\DomainFilterType;
 use App\Syllabus\Manager\DomainManager;
@@ -14,12 +13,11 @@ use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class DomainController

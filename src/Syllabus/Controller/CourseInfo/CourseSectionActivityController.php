@@ -4,7 +4,6 @@ namespace App\Syllabus\Controller\CourseInfo;
 
 use App\Syllabus\Entity\Activity;
 use App\Syllabus\Entity\ActivityType;
-use App\Syllabus\Entity\CourseSection;
 use App\Syllabus\Entity\CourseSectionActivity;
 use App\Syllabus\Form\CourseInfo\Activities\CourseSectionActivityType;
 use App\Syllabus\Form\CourseInfo\Activities\RemoveCourseSectionActivityType;
@@ -12,9 +11,11 @@ use App\Syllabus\Manager\CourseSectionActivityManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class CourseSectionActivityController
@@ -33,7 +34,7 @@ class CourseSectionActivityController extends AbstractController
      * @param Request $request
      * @param CourseSectionActivityManager $manager
      * @param TranslatorInterface $translator
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return JsonResponse
      * @ParamConverter("activity", options={"mapping": {"activityId": "id"}})
      */
     public function editCourseSectionActivityAction(CourseSectionActivity $courseSectionActivity, Activity $activity,
@@ -107,7 +108,7 @@ class CourseSectionActivityController extends AbstractController
      * @param Request $request
      * @param CourseSectionActivityManager $manager
      * @param TranslatorInterface $translator
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      * @ParamConverter("courseSection", options={"mapping": {"sectionId": "id"}})
      */
     public function removeCourseSectionActivityAction(CourseSectionActivity $courseSectionActivity,Request $request,

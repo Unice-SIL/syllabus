@@ -9,6 +9,10 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Class RemoveCourseAchievementType
+ * @package App\Syllabus\Form\CourseInfo\CourseAchievement
+ */
 class RemoveCourseAchievementType extends AbstractType
 {
     /**
@@ -24,7 +28,8 @@ class RemoveCourseAchievementType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => CourseAchievement::class
+            'data_class' => CourseAchievement::class,
+            'csrf_token_id' => 'delete_achievement'
         ]);
     }
 }

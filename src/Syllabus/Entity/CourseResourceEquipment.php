@@ -57,7 +57,7 @@ class CourseResourceEquipment
     private $position = 0;
 
     /**
-     * @var \App\Syllabus\Entity\CourseInfo
+     * @var CourseInfo
      *
      * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\CourseInfo", inversedBy="courseResourceEquipments")
      * @ORM\JoinColumns({
@@ -67,7 +67,7 @@ class CourseResourceEquipment
     private $courseInfo;
 
     /**
-     * @var \App\Syllabus\Entity\Equipment
+     * @var Equipment
      *
      * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\Equipment")
      * @ORM\JoinColumns({

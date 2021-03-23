@@ -86,6 +86,7 @@ class Activity
      * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\ActivityType", mappedBy="activities")
+     * @Assert\Count(min="1")
      * @ApiSubresource()
      */
     private $activityTypes;

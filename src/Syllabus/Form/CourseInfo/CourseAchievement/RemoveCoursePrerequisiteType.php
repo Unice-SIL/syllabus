@@ -20,7 +20,8 @@ class RemoveCoursePrerequisiteType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => CoursePrerequisite::class
+            'data_class' => CoursePrerequisite::class,
+            'csrf_token_id' => 'delete_prerequisite'
         ]);
     }
 }

@@ -5,7 +5,7 @@ namespace App\Syllabus\Controller\Admin;
 use App\Syllabus\Entity\CourseInfoField;
 use App\Syllabus\Form\CourseInfoFieldType;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,9 +14,9 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * CourseInfoField controller.
  *
- * @Route("/syllabus-import-field", name="app_admin_course_info_field_")
+ * @Route("/syllabus-import-field", name="app.admin.course_info_field.")
  */
-class CourseInfoFieldController extends Controller
+class CourseInfoFieldController extends AbstractController
 {
     /**
      * Lists all CourseInfoField entities.

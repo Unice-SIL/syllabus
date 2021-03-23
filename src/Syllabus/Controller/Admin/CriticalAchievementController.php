@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Activity controller.
@@ -90,7 +90,6 @@ class CriticalAchievementController extends AbstractController
 
             return $this->redirectToRoute('app.admin.critical_achievement.index');
         }
-
         return $this->render('critical_achievement/new.html.twig', array(
             'form' => $form->createView(),
         ));

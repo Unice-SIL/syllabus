@@ -27,7 +27,8 @@ class ResourceEquipmentEditType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => CourseResourceEquipment::class
+            'data_class' => CourseResourceEquipment::class,
+            'csrf_token_id' => 'create_edit_equipment'
         ]);
     }
 }

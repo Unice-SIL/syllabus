@@ -14,10 +14,11 @@ use App\Syllabus\Form\Filter\CourseFilterType;
 use App\Syllabus\Manager\CourseManager;
 use App\Syllabus\Repository\Doctrine\CourseDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -25,7 +26,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class CourseController
@@ -34,7 +35,7 @@ use Symfony\Component\Translation\TranslatorInterface;
  * @Route("course", name="app.admin.course.")
  * @Security("is_granted('ROLE_ADMIN_COURSE')")
  */
-class CourseController extends Controller
+class CourseController extends AbstractController
 {
     /**
      * @Route("/", name="index", methods={"GET"})
@@ -43,12 +44,14 @@ class CourseController extends Controller
      * @param Request $request
      * @param CourseDoctrineRepository $courseDoctrineRepository
      * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
+     * @param PaginatorInterface $paginator
      * @return Response
      */
     public function indexAction(
         Request $request,
         CourseDoctrineRepository $courseDoctrineRepository,
-        FilterBuilderUpdaterInterface $filterBuilderUpdater
+        FilterBuilderUpdaterInterface $filterBuilderUpdater,
+        PaginatorInterface $paginator
     )
     {
         $qb = $courseDoctrineRepository->getIndexQueryBuilder();
@@ -59,7 +62,7 @@ class CourseController extends Controller
             $filterBuilderUpdater->addFilterConditions($form, $qb);
         }
 
-        $pagination = $this->get('knp_paginator')->paginate(
+        $pagination = $paginator->paginate(
             $qb,
             $request->query->getInt('page', 1),
             10
@@ -133,6 +136,7 @@ class CourseController extends Controller
      * @param Request $request
      * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
      * @param FormFactoryInterface $formFactory
+     * @param PaginatorInterface $paginator
      * @return Response
      */
     public function showAction(
@@ -140,7 +144,8 @@ class CourseController extends Controller
         EntityManagerInterface $em,
         Request $request,
         FilterBuilderUpdaterInterface $filterBuilderUpdater,
-        FormFactoryInterface $formFactory
+        FormFactoryInterface $formFactory,
+        PaginatorInterface $paginator
     )
     {
 
@@ -211,7 +216,7 @@ class CourseController extends Controller
             $filterBuilderUpdater->addFilterConditions($filterParentForm, $parentQb);
         }
 
-        $parentPagination = $this->get('knp_paginator')->paginate(
+        $parentPagination = $paginator->paginate(
             $parentQb,
             $request->query->getInt('parents_page', 1),
             10,
@@ -226,7 +231,7 @@ class CourseController extends Controller
             $filterBuilderUpdater->addFilterConditions($filterChildrenForm, $childrenQb);
         }
 
-        $childrenPagination = $this->get('knp_paginator')->paginate(
+        $childrenPagination = $paginator->paginate(
             $childrenQb,
             $request->query->getInt('children_page', 1),
             10,

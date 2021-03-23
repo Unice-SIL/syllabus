@@ -92,7 +92,7 @@ class CourseSectionActivity
     private $position = 0;
 
     /**
-     * @var \App\Syllabus\Entity\Activity
+     * @var Activity
      *
      * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\Activity")
      * @Assert\NotBlank(groups={"new"})
@@ -116,7 +116,7 @@ class CourseSectionActivity
     private $activityType;
 
     /**
-     * @var \App\Syllabus\Entity\ActivityMode|null
+     * @var ActivityMode|null
      *
      * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\ActivityMode")
      * @ORM\JoinColumns({
@@ -128,7 +128,7 @@ class CourseSectionActivity
     private $activityMode;
 
     /**
-     * @var \App\Syllabus\Entity\CourseSection|null
+     * @var CourseSection|null
      *
      * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\CourseSection", inversedBy="courseSectionActivities",)
      * @ORM\JoinColumns({

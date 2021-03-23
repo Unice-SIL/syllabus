@@ -3,7 +3,6 @@
 namespace App\Syllabus\Controller\Admin;
 
 use App\Syllabus\Entity\Notification;
-use App\Syllabus\Form\Filter\CourseInfoFilterType;
 use App\Syllabus\Form\NotificationType;
 use App\Syllabus\Manager\NotificationManager;
 use App\Syllabus\Repository\Doctrine\NotificationDoctrineRepository;
@@ -11,13 +10,12 @@ use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Notification controller.
@@ -36,14 +34,12 @@ class NotificationController extends AbstractController
      * @param Request $request
      * @param NotificationDoctrineRepository $repository
      * @param PaginatorInterface $paginator
-     * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
      * @return Response
      */
     public function indexAction(
         Request $request,
         NotificationDoctrineRepository $repository,
-        PaginatorInterface $paginator,
-        FilterBuilderUpdaterInterface $filterBuilderUpdater
+        PaginatorInterface $paginator
     )
     {
         $qb =  $repository->getIndexQueryBuilder();

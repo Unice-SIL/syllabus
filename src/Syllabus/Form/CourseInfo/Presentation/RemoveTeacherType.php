@@ -26,7 +26,8 @@ class RemoveTeacherType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => CourseTeacher::class
+            'data_class' => CourseTeacher::class,
+            'csrf_token_id' => 'delete_teacher'
         ]);
     }
 }
