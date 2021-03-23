@@ -32,7 +32,8 @@ class SpecificationsType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => CourseInfo::class
+            'data_class' => CourseInfo::class,
+            'csrf_token_id' => 'create_edit_specifications'
         ]);
     }
 }

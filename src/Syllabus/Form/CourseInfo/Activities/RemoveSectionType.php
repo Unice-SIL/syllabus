@@ -27,7 +27,8 @@ class RemoveSectionType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => CourseSection::class
+            'data_class' => CourseSection::class,
+            'csrf_token_id' => 'delete_section'
         ]);
     }
 }

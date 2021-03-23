@@ -75,7 +75,7 @@ class CourseTeacher
     private $emailVisibility = false;
 
     /**
-     * @var \App\Syllabus\Entity\CourseInfo
+     * @var CourseInfo
      *
      * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\CourseInfo", inversedBy="courseTeachers")
      * @ORM\JoinColumns({

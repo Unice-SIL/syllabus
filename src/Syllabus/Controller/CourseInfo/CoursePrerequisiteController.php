@@ -5,6 +5,7 @@ namespace App\Syllabus\Controller\CourseInfo;
 
 
 use App\Syllabus\Entity\CourseInfo;
+use App\Syllabus\Entity\CoursePrerequisite;
 use App\Syllabus\Form\CourseInfo\CourseAchievement\CoursePrerequisiteType;
 use App\Syllabus\Form\CourseInfo\CourseAchievement\CourseTutoringResourcesType;
 use App\Syllabus\Manager\CourseInfoManager;
@@ -66,7 +67,7 @@ class CoursePrerequisiteController extends AbstractController
     }
 
     /**
-     * @Route("/prerequisite/add", name="prerequisite.add"))
+     * @Route("/prerequisite/add", name="add"))
      *
      * @param CourseInfo $courseInfo
      * @param Request $request
@@ -76,7 +77,7 @@ class CoursePrerequisiteController extends AbstractController
      */
     public function addPrerequisiteAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
     {
-        $prerequisite = new \App\Syllabus\Entity\CoursePrerequisite();
+        $prerequisite = new CoursePrerequisite();
         $form = $this->createForm(CoursePrerequisiteType::class, $prerequisite);
         $form->handleRequest($request);
 

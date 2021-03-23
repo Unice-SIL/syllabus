@@ -128,14 +128,20 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     public const ROUTE_APP_COURSE_LIGHT_VIEW                        = 'app.course_info.view.light_version';
 
     public const ROUTE_APP_ACTIVITIES_INDEX                         = 'app.course_info.activities.index';
+    public const ROUTE_APP_ACTIVITIES_ADD_SECTION                   = 'app.course_info.activities.section.add';
+    public const ROUTE_APP_ACTIVITIES_DUPLICATE_SECTION             = 'app.course_info.activities.section.duplicate';
 
     public const ROUTE_APP_CLOSING_REMARKS_INDEX                    = 'app.course_info.closing_remarks.index';
 
     public const ROUTE_APP_COURSE_PERMISSION_INDEX                  = 'app.course_info.permission.index';
 
     public const ROUTE_APP_COURSE_PREREQUISITE_INDEX                = 'app.course_info.prerequisite.index';
+    public const ROUTE_APP_COURSE_PREREQUISITE_ADD                  = 'app.course_info.prerequisite.add';
     public const ROUTE_APP_COURSE_PREREQUISITE_EDIT                 = 'app.course_info.prerequisite.edit';
     public const ROUTE_APP_COURSE_PREREQUISITE_DELETE               = 'app.course_info.prerequisite.delete';
+
+    public const ROUTE_APP_COURSE_SECTION_EDIT                      = 'app.course_info.section.edit';
+    public const ROUTE_APP_COURSE_SECTION_DELETE                    = 'app.course_info.section.delete';
 
     public const ROUTE_APP_DASHBOARD_INDEX                          = 'app.course_info.dashboard.index';
 
@@ -143,6 +149,7 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     public const ROUTE_APP_EQUIPMENT_DELETE                         = 'app.course_info.equipment.delete';
 
     public const ROUTE_APP_EVALUATION_INDEX                         = 'app.course_info.evaluation.index';
+    public const ROUTE_APP_EVALUATION_SPECIFICATIONS_EDIT           = 'app.course_info.evaluation.specifications.edit';
 
     public const ROUTE_APP_INFO_INDEX                               = 'app.course_info.info.index';
 
@@ -150,10 +157,14 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     public const ROUTE_APP_LEARNING_ACHIEVEMENT_DELETE              = 'app.course_info.equipment.delete';
 
     public const ROUTE_APP_OBJECTIVES_INDEX                         = 'app.course_info.objectives.index';
+    public const ROUTE_APP_OBJECTIVES_ADD_ACHIEVEMENT               = 'app.course_info.objectives.achievement.add';
 
     public const ROUTE_APP_PRESENTATION_INDEX                       = 'app.course_info.presentation.index';
 
     public const ROUTE_APP_RESOURCE_EQUIPMENT_INDEX                 = 'app.course_info.resource_equipment.index';
+
+    public const ROUTE_APP_COURSE_TEACHER_EDIT             = 'app.course_info.teacher.edit';
+    public const ROUTE_APP_COURSE_TEACHER_DELETE           = 'app.course_info.teacher.delete';
 
     public const ROUTE_APP_COURSE_TUTORING_RESOURCE_EDIT            = 'app.course_info.tutoring_resource.edit';
     public const ROUTE_APP_COURSE_TUTORING_RESOURCE_DELETE          = 'app.course_info.tutoring_resource.delete';

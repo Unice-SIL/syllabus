@@ -5,10 +5,12 @@ namespace Tests\Syllabus\Controller\CourseInfo;
 
 
 use App\Syllabus\Entity\CourseAchievement;
+use App\Syllabus\Entity\CourseSection;
 use App\Syllabus\Entity\CriticalAchievement;
 use App\Syllabus\Entity\Equipment;
 use App\Syllabus\Exception\CourseAchievementNotFoundException;
 use App\Syllabus\Exception\CourseNotFoundException;
+use App\Syllabus\Exception\CourseSectionNotFoundException;
 use App\Syllabus\Exception\CriticalAchievementNotFoundException;
 use App\Syllabus\Exception\EquipmentNotFoundException;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -125,5 +127,25 @@ abstract class AbstractCourseInfoControllerTest extends WebTestCase
         }
 
         return $equipment;
+    }
+
+    /**
+     * @return CourseSection
+     * @throws CourseSectionNotFoundException
+     */
+    public function getCourseSection()
+    {
+        $courseSection = null;
+        if (!$courseSection instanceof CourseSection)
+        {
+            $courseSection = current($this->getEntityManager()->getRepository(CourseSection::class)->findAll());
+        }
+
+        if (!$courseSection instanceof CourseSection)
+        {
+            throw new CourseSectionNotFoundException();
+        }
+
+        return $courseSection;
     }
 }

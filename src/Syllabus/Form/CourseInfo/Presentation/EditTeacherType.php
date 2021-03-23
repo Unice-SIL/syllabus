@@ -57,7 +57,8 @@ class EditTeacherType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => CourseTeacher::class,
-            'allow_extra_fields' => true
+            'allow_extra_fields' => true,
+            'csrf_token_id' => 'create_edit_teacher'
         ]);
     }
 }

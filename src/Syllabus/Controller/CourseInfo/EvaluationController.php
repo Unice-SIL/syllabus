@@ -95,6 +95,7 @@ class EvaluationController extends AbstractController
                 'content' => $render
             ]);
         }
+
         $render = $this->get('twig')->render('course_info/evaluation/form/specifications.html.twig', [
             'courseInfo' => $courseInfo,
             'form' => $form->createView()

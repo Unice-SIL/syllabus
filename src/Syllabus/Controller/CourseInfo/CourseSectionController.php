@@ -14,7 +14,9 @@ use Ramsey\Uuid\Uuid;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -33,7 +35,7 @@ class CourseSectionController extends AbstractController
      * @param Request $request
      * @param CourseSectionManager $courseSectionManager
      * @param TranslatorInterface $translator
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function editSectionAction(?CourseSection $section, Request $request, CourseSectionManager $courseSectionManager, TranslatorInterface $translator)
     {
@@ -69,7 +71,7 @@ class CourseSectionController extends AbstractController
      * @param Request $request
      * @param CourseSectionManager $courseSectionManager
      * @param TranslatorInterface $translator
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return JsonResponse
      */
     public function removeSectionAction(CourseSection $section, Request $request, CourseSectionManager $courseSectionManager, TranslatorInterface $translator)
     {
@@ -112,7 +114,7 @@ class CourseSectionController extends AbstractController
      * @param CourseSectionActivityManager $courseSectionActivityManager
      * @param CourseSectionManager $courseSectionManager
      * @param TranslatorInterface $translator
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      * @throws \Exception
      * @ParamConverter("activity", options={"mapping": {"activityId": "id"}})
      * @ParamConverter("activityType", options={"mapping": {"activityTypeId": "id"}})
@@ -205,7 +207,7 @@ class CourseSectionController extends AbstractController
      * @param Request $request
      * @param CourseSectionManager $courseSectionManager
      * @param TranslatorInterface $translator
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return JsonResponse
      */
     public function sortCourseSectionActivitiesAction(CourseSection $section,
                                                       Request $request,
