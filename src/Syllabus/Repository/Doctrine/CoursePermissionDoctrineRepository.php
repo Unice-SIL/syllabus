@@ -33,7 +33,7 @@ class CoursePermissionDoctrineRepository extends ServiceEntityRepository
         $qb = $this->_em->getRepository(CourseInfo::class)->createQueryBuilder('ci');
         $qb->join('ci.coursePermissions', 'cp')
             ->where($qb->expr()->eq('cp.user', ':user'))
-            ->setParameter('user', $user);
+            ->setParameter('user', $user->getId());
         $courseInfos = $qb->getQuery()->getResult();
 
         return $courseInfos;
