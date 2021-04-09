@@ -1,4 +1,8 @@
-{{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('app.course_info.activities.section.add', {'id': courseInfo.id })}}) }}
+{{ form_start(form, {'attr': {
+    'class': 'modal-action-form',
+    'data-action-url': path('app.course_info.activities.section.add', {'id': courseInfo.id }),
+    'data-redirect-url': path('app.course_info.activities.index', {'id': courseInfo.id, 'sectionId': sectionId})
+}}) }}
 {{ form_errors(form) }}
 {{ form_row(form.title) }}
 {{ form_row(form.url) }}

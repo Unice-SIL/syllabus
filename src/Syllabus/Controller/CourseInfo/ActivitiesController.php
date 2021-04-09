@@ -10,6 +10,7 @@ use App\Syllabus\Manager\ActivityManager;
 use App\Syllabus\Manager\ActivityTypeManager;
 use App\Syllabus\Manager\CourseInfoManager;
 use App\Syllabus\Manager\CourseSectionManager;
+use Exception;
 use Ramsey\Uuid\Uuid;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -68,7 +69,7 @@ class ActivitiesController extends AbstractController
      * @param CourseSectionManager $courseSectionManager
      * @param TranslatorInterface $translator
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
     public function addSectionAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager, CourseSectionManager $courseSectionManager, TranslatorInterface $translator)
     {
@@ -106,7 +107,8 @@ class ActivitiesController extends AbstractController
 
         $render = $this->get('twig')->render('course_info/activities/form/add_section.html.twig', [
             'courseInfo' => $courseInfo,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'sectionId' => $section->getId()
         ]);
         return $this->json([
             'status' => $status,
@@ -176,7 +178,7 @@ class ActivitiesController extends AbstractController
      * @param Request $request
      * @param CourseInfoManager $manager
      * @return JsonResponse
-     * @throws \Exception
+     * @throws Exception
      */
     public function sortSectionsAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
     {

@@ -335,7 +335,7 @@ li.sidebar-footer {
 .sidebar-activities {
   position: absolute;
   width: 250px;
-  min-height: calc(100% - 1.8rem - 3px);
+  min-height: calc(100% - 3.4rem - 3px);
   z-index: 100;
   transition-duration: 0.5s;
   -webkit-transition-duration: 0.5s;
@@ -378,6 +378,13 @@ li.sidebar-footer {
 #button-minimize {
   position: absolute;
   z-index: 101;
+}
+
+.slick-prev:before {
+  color: var(--primary);
+}
+.slick-next:before {
+  color: var(--primary);
 }
 
 /*

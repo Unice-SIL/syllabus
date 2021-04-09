@@ -11,18 +11,18 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
- * Class YearFilterType
+ * Class StructureCodeFilterType
  * @package App\Syllabus\Form\Filter
  */
-class YearFilterType extends AbstractType
+class StructureCodeFilterType extends AbstractType
 {
     /**
      * @var
      */
-    private  $generator;
+    private $generator;
 
     /**
-     * YearFilterType constructor.
+     * StructureFilterType constructor.
      * @param UrlGeneratorInterface $generator
      */
     public function __construct(UrlGeneratorInterface $generator)
@@ -38,11 +38,11 @@ class YearFilterType extends AbstractType
     {
         $builder->add('label', TextFilterType::class, [
             'condition_pattern' => FilterOperands::STRING_CONTAINS,
-            'label' => 'app.form.year.label.label',
+            'label' => 'admin.syllabus.structure',
             'attr' => [
                 'class' => 'autocomplete-input',
                 'data-autocomplete-path' => $this->generator->generate('app.common.autocomplete.generic', [
-                    'entityName' => 'Year',
+                    'entityName' => 'Structure',
                     'findBy' => 'label',
                     'property' => 'label'
                 ])
@@ -63,7 +63,7 @@ class YearFilterType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'year_filter';
+        return 'structure_filter';
     }
 
     /**
@@ -77,8 +77,8 @@ class YearFilterType extends AbstractType
             'method' => 'get',
             'attr' => [
                 'class' => 'filter-form'
-            ]
+            ],
+            'context' => 'structure'
         ));
     }
-
 }

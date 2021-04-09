@@ -53,29 +53,27 @@ class SyllabusFilterType extends AbstractType
                     ])
                 ]
             ])
-            ->add('structure', TextFilterType::class, [
-                'condition_pattern' => FilterOperands::STRING_CONTAINS,
-                'label' => 'admin.syllabus.structure',
-                'attr' => [
-                    'class' => 'autocomplete-input',
-                    'data-autocomplete-path' => $this->generator->generate('app.common.autocomplete.generic', [
-                        'entityName' => 'Structure',
-                        'findBy' => 'code',
-                        'property' => 'code'
-                    ])
-                ]
+            ->add('structure', StructureCodeFilterType::class, [
+                'label' => false,
+                'add_shared' => function (FilterBuilderExecuterInterface $qbe) {
+
+                    $closure = function (QueryBuilder $filterBuilder, $alias, $joinAlias, Expr $expr) {
+                        $filterBuilder->leftJoin($alias . '.structure', $joinAlias);
+                    };
+
+                    $qbe->addOnce($qbe->getAlias().'.structure', 'st', $closure);
+                }
             ])
-            ->add('year', TextFilterType::class, [
-                'condition_pattern' => FilterOperands::STRING_CONTAINS,
-                'label' => 'admin.syllabus.year',
-                'attr' => [
-                    'class' => 'autocomplete-input',
-                    'data-autocomplete-path' => $this->generator->generate('app.common.autocomplete.generic', [
-                        'entityName' => 'Year',
-                        'findBy' => 'label',
-                        'property' => 'label'
-                    ])
-                ]
+            ->add('year', YearFilterType::class, [
+                'label' => false,
+                'add_shared' => function (FilterBuilderExecuterInterface $qbe) {
+
+                    $closure = function (QueryBuilder $filterBuilder, $alias, $joinAlias, Expr $expr) {
+                        $filterBuilder->leftJoin($alias . '.year', $joinAlias);
+                    };
+
+                    $qbe->addOnce($qbe->getAlias().'.year', 'ye', $closure);
+                }
             ]);
 
     }
