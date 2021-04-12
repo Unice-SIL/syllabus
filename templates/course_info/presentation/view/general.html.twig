@@ -92,10 +92,10 @@
             </div>
         </dt>
         <dd class="mandatory-data">
-            <div class="mr-3 mb-3" style="float: left; width: 50%;">
+            <div class="mr-3 mb-3 float-left w-50">
                 {% if courseInfo.mediaType == 'image' and courseInfo.image is not null %}
                     {% set imgSrc = courseInfo.image | split('/') | last %}
-                    <img class="img-thumbnail" src="{{ asset('data/' ~ imgSrc) }}">
+                    <img class="img-summary" src="{{ asset('data/' ~ imgSrc) }}">
                 {% elseif courseInfo.mediaType == 'video' and courseInfo.video is not null %}
                     <div class="embed-responsive embed-responsive-16by9">
                         {{ courseInfo.video|raw }}
@@ -106,7 +106,9 @@
                     </div>
                 {% endif %}
             </div>
-            {{ courseInfo.summary|humanizeEmptyData()|purify }}
+            <div class="ml-auto">
+                {{ courseInfo.summary|humanizeEmptyData()|purify }}
+            </div>
         </dd>
     </dl>
 </div>
