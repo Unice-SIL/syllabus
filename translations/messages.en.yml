@@ -610,6 +610,7 @@ app:
         educational_resources: Educational resources
         list: List of equipments
         required_equipments: Required equipments
+        resources_link: Link to the bibliographic resources
       info:
         agenda: Schedule
         closing_remarks: Closing remarks
@@ -1133,9 +1134,11 @@ credits:
   website_developpers: Direction of the informations system
   conception: Conception
   conception_description: Project L@UCA, DSI of the University Côte d'Azur
-  credits_description: Freepik Flaticon, Pixabay
+  credits_description: "Freepik Flaticon, Pixabay : Copyright © 2014-2019AdminLTE.io.All rights reserved."
   host: Host
   host_description: The website is host by the direction of the informations system of the university Côte d'Azur
+  legal_mentions: Legal mentions
+  legal_mentions_description: https://univ-cotedazur.fr/mentions-legales
   rgaa:
     title: Compliance declaration RGAA
     description: Dedicated tab to the compliance declaration RGAA 3.0 for the website web www.u-bordeaux.fr

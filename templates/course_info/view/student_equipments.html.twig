@@ -8,6 +8,10 @@
         </div>
     </div>
 
+    <a href="{{ app.request.server.get('ENV_RESOURCES_LINK') | trans }}" class="btn btn-primary text-center mb-4" target="_blank">
+        {{ 'app.view.student.equipments.resources_link' | trans }}
+    </a>
+
     {% if courseInfo.bibliographicResources is not empty %}
         <div class="mb-4">
             <div class="student-subtitle mb-3">

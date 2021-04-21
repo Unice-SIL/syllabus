@@ -610,6 +610,7 @@ app:
         educational_resources: Ressources
         list: Liste des équipements
         required_equipments: Matériel
+        resources_link: Accéder aux ressources de la bibliothèque
       info:
         agenda: Calendrier
         closing_remarks: Le mot de la fin
@@ -1133,9 +1134,11 @@ credits:
   website_developpers: Direction des systèmes d'informations
   conception: Conception
   conception_description: Projet L@UCA, DSI de l'Université Côte d'Azur
-  credits_description: Freepik Flaticon, Pixabay
+  credits_description: "Freepik Flaticon, Pixabay : Copyright © 2014-2019AdminLTE.io.All rights reserved."
   host: Hébergement
   host_description: Le site est hébergé par la Direction des systèmes d'informations de l'université Côte d'Azur
+  legal_mentions: Mentions légales
+  legal_mentions_description: https://univ-cotedazur.fr/mentions-legales
   rgaa:
     title: Déclaration de conformité RGAA
     description: Page dédiée à la déclaration de conformité au RGAA 3.0 pour le site web www.u-bordeaux.fr

@@ -1,10 +1,23 @@
 <section id="presentation-section" class="pb-3">
     <div class="student-title">
         <h1 class="mb-0">{{ 'app.view.student.tabs.presentation' | trans }}</h1>
-        <h5 class="mb-3">
+        <h5>
             {{ courseInfo.title }} - {{ courseInfo.course.code }}
             <span class="float-right text-sm">{{ 'app.view.student.presentation.last_update' | trans }} - {{ courseInfo.modificationDate | date("d/m/Y") }}</span>
         </h5>
+        <div class="d-flex dropdown justify-content-end">
+            <button class="btn text-white" type="button" id="dropdown-languages" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Langues<i class="fas fa-caret-down ml-2"></i>
+            </button>
+            <div class="dropdown-menu bg-black" aria-labelledby="dropdown-languages">
+                {% for locale in managed_locales %}
+                    <a href="{{ path(app.request.get('_route'), app.request.attributes.get('_route_params')|merge({'_locale' : locale})) }}" class="dropdown-item text-muted text-decoration-none">
+                        <img class="mr-1 mb-0 icon-20" src="{{ asset('build/images/' ~ locale ~ '.png') }}">
+                        {{ ('app.locale.' ~ locale)|trans }}
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
 
     </div>
     <div class="presentation-info row p-4">
@@ -139,7 +152,7 @@
             {{ courseInfo.summary|purify }}
         </div>
 
-        <div class="row w-100">
+        <div class="row pt-2 w-100">
             <div class="d-flex flex-column col-12 col-lg-6 mb-4">
                 <h6 class="text-bold">
                     {{ 'app.view.student.presentation.teachers' | trans }}
