@@ -92,7 +92,7 @@
             </div>
         </dt>
         <dd class="mandatory-data">
-            <div class="mr-3 mb-3 float-left w-50">
+            <div class="mr-4 mb-3 float-left w-50">
                 {% if courseInfo.mediaType == 'image' and courseInfo.image is not null %}
                     {% set imgSrc = courseInfo.image | split('/') | last %}
                     <img class="img-summary" src="{{ asset('data/' ~ imgSrc) }}">
