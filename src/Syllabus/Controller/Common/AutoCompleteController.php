@@ -114,6 +114,7 @@ class AutoCompleteController extends AbstractController
         $entityName = "{$namespace}{$entityName}";
         $query = $request->query->get('q', '');
         $property = $request->query->get('property', 'label');
+        $propertyOptional = $request->query->get('property_optional', null);
         $groupProperty = $request->query->get('groupProperty', null);
 
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
@@ -124,7 +125,12 @@ class AutoCompleteController extends AbstractController
         $data = [];
         foreach ($entities as $entity)
         {
-            $d = ['id' => $entity->getId(), 'text' => $propertyAccessor->getValue($entity, $property)];
+            $text = $propertyAccessor->getValue($entity, $property);
+            if ($propertyOptional !== null)
+            {
+                $text .= ' ('.$propertyAccessor->getValue($entity, $propertyOptional).')';
+            }
+            $d = ['id' => $entity->getId(), 'text' => $text];
             if(!empty($groupProperty))
             {
                 $group = $propertyAccessor->getValue($entity, $groupProperty)?? 0;

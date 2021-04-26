@@ -70,7 +70,8 @@ class CoursePrerequisiteType extends AbstractType
                 'required' => false,
                 'remote_params' => [
                     'entityName' => 'Course',
-                    'property' => 'title'
+                    'property' => 'title',
+                    'property_optional' => 'code'
                 ],
             ]);
     }
