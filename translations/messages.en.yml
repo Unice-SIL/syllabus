@@ -383,6 +383,7 @@ app:
       prerequisite_courses: Choose the associate(s) course(s)
       tutoring_resources_delete: "Are you sure you want to delete this remediation \"%description%\"?"
       tutoring_resources_description: If the student has difficulties, he can...
+      is_course_associated: Is there any course associated?
   objectives:
     view:
       add_capacity: Add a capacity

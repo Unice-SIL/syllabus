@@ -8,7 +8,11 @@
                 {% if form.description is defined %}
                     {{ form_row(form.description) }}
                 {% endif %}
-                {{ form_row(form.courses) }}
+                <label>{{ "app.prerequisites.form.is_course_associated" | trans }}</label>
+                {{ form_row(form.isCourseAssociated) }}
+                <div id="courses-content" class="d-none">
+                    {{ form_row(form.courses) }}
+                </div>
             </div>
         </div>
     </div>
@@ -22,7 +26,27 @@
 {{ form_end(form, {'render_rest': false }) }}
 
 <script>
+    $('#course_prerequisite_isCourseAssociated').bootstrapToggle();
+
     $(document).ready(function () {
+        displayCoursesContent();
+
+        $(document).on('change', '#course_prerequisite_isCourseAssociated', function () {
+            displayCoursesContent();
+        });
+
+        function displayCoursesContent() {
+            let display = $('#course_prerequisite_isCourseAssociated').closest('div .toggle');
+            if (display.hasClass("off"))
+            {
+                $('#courses-content').addClass('d-none');
+            }
+            else
+            {
+                $('#courses-content').removeClass('d-none');
+            }
+        }
+
         $('form[name="course_prerequisite"]').find('.select2entity').select2entity();
     });
 </script>

@@ -5,6 +5,7 @@ namespace App\Syllabus\Form\CourseInfo\CourseAchievement;
 use App\Syllabus\Entity\Course;
 use App\Syllabus\Entity\CoursePrerequisite;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,6 +43,21 @@ class CoursePrerequisiteType extends AbstractType
             ->add('description', TextareaType::class, [
                 'label' => 'app.prerequisites.form.prerequisite_description',
                 'required' => false,
+            ])
+            ->add('isCourseAssociated', CheckboxType::class, [
+                'label' => false,
+                'required' => false,
+                'attr' => [
+                    'type' => 'checkbox',
+                    'data-toggle' => 'toggle',
+                    'data-width' => '100',
+                    'data-height' => '40',
+                    'data-onstyle' => 'primary',
+                    'data-offstyle' => 'secondary',
+                    'data-style' => 'ios',
+                    'data-on' => 'Oui',
+                    'data-off' => 'Non'
+                ]
             ])
             ->add('courses', Select2EntityType::class, [
                 'label' => 'app.prerequisites.form.prerequisite_courses',

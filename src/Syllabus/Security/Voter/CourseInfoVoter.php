@@ -123,7 +123,7 @@ class CourseInfoVoter extends Voter
     }
 
     /**
-     * @param CourseInfo $couseInfo
+     * @param CourseInfo $courseInfo
      * @param User $user
      * @param $attribute
      * @return bool

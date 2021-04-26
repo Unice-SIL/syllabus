@@ -383,6 +383,7 @@ app:
       prerequisite_courses: Choisir le(s) cours associé(s)
       tutoring_resources_delete: "Êtes-vous sûr(e) de vouloir supprimer la rémédiation \"%description%\" ?"
       tutoring_resources_description: Si l'étudiant rencontre des difficultés, il peut…
+      is_course_associated: Il y a-t-il des cours associés ?
   objectives:
     view:
       add_capacity: Ajouter une capacité

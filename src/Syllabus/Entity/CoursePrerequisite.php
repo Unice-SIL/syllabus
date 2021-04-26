@@ -67,6 +67,13 @@ class CoursePrerequisite
     private $courseInfo;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(name="is_course_associated", type="boolean", nullable=false)
+     */
+    private $isCourseAssociated = false;
+
+    /**
      * @var ArrayCollection
      *
      * @ORM\ManyToMany(targetEntity="Course", mappedBy="coursePrerequisites", cascade={ "persist" })
@@ -155,6 +162,24 @@ class CoursePrerequisite
     {
         $this->courseInfo = $courseInfo;
 
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCourseAssociated(): bool
+    {
+        return $this->isCourseAssociated;
+    }
+
+    /**
+     * @param bool $isCourseAssociated
+     * @return CoursePrerequisite
+     */
+    public function setIsCourseAssociated(bool $isCourseAssociated): CoursePrerequisite
+    {
+        $this->isCourseAssociated = $isCourseAssociated;
         return $this;
     }
 

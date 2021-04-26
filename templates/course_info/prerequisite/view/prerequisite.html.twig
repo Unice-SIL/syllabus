@@ -16,15 +16,15 @@
         {% for prerequisite in courseInfo.coursePrerequisites %}
             <tr class="item-sortable" data-id="{{ prerequisite.id }}">
                 <td class="text-left">
-                    <span>{{ prerequisite.description }}</span></br>
-                    <i>
-                        {{ 'app.prerequisites.view.mandatory_courses' | trans }}
-                        {% set titles = '' %}
-                        {% for c in prerequisite.courses %}
-                            {% set titles = titles ~ (not loop.first ? ', ') ~ c.title %}
+                    <span>{{ prerequisite.description }}</span>
+                    {% if prerequisite.isCourseAssociated %}
+                        {% for course in prerequisite.courses %}
+                            <div class="ml-3">
+                                <i class="fas fa-check text-success"></i>
+                                {{ course.title }} - ({{ course.code }})
+                            </div>
                         {% endfor %}
-                        {{ titles|humanizeEmptyData }}
-                    </i>
+                    {% endif %}
                 </td>
                 <td class="text-center">
                     <button type="button"

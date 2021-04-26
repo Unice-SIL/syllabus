@@ -20,15 +20,14 @@
                             <div class="d-flex flex-column">
                                 <span>{{ prerequisite.description | linkify({"attr": {"target": "_blank"}}) | raw }}</span>
                                 {% if prerequisite.courses is not empty %}
-                                    <span class="small font-italic">
-                                        {{ 'app.view.student.prerequisites.associate_courses' | trans }}
+                                    {% if prerequisite.isCourseAssociated %}
                                         {% for course in prerequisite.courses %}
-                                            {% if not loop.first %}
-                                                ,
-                                            {% endif %}
-                                            {{ course.title }}
+                                            <div class="ml-3 small font-italic">
+                                                <i class="fas fa-check text-success"></i>
+                                                {{ course.title }} - ({{ course.code }})
+                                            </div>
                                         {% endfor %}
-                                    </span>
+                                    {% endif %}
                                 {% endif %}
                             </div>
                         </li>
