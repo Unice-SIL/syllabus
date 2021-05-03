@@ -15,8 +15,8 @@
                     <div class="student-section-header collapsed" data-toggle="collapse"
                          data-target="#activity-{{ section.id }}"
                          aria-expanded="false" aria-controls="Title">
-                        <span class="student-section-title">{{ section.title }}</span>
                         <img class="collapse-button" src="{{ asset('build/images/collapsed-arrow.png') }}" alt=""/>
+                        <h4 class="student-section-title">{{ section.title }}</h4>
                     </div>
                     <div class="student-section-content collapse" id="activity-{{ section.id }}">
                             <div class="row ml-2">
@@ -35,19 +35,25 @@
                                     </div>
                                 {% endif %}
                             </div>
-                        <ul class="student-list">
                             {% set oldActivityType = '' %}
                             {% for courseSectionActivity in section.courseSectionActivities %}
                                 {% set activityType = courseSectionActivity.activityType %}
                                 {% if oldActivityType != activityType %}
-                                    <div class="mt-3 student-subtitle">
+                                    {% if oldActivityType != '' %}
+                                        </ul>
+                                    {% endif %}
+                                    <div class="mt-3 student-subtitle student-list-title">
                                         {% if courseSectionActivity.activityType.icon is not null %}
                                             {% set imgSrc = courseSectionActivity.activityType.icon | split('/') | last %}
                                             <img src="{{ asset('data/' ~ imgSrc) }}" class="icon-40">
+                                        {% else %}
+                                            <i class="fas fa-cubes fa-2x icon-40"></i>
                                         {% endif %}
                                         <h5 class="title-underlined">{{ courseSectionActivity.activityType.label }}</h5>
                                     </div>
+                                <ul class="student-list">
                                 {% endif %}
+
                                 <li {% if courseSectionActivity.evaluable == true %}style="background-color: rgba(70,174,216, 0.4);" {% endif %}>
                                     <i class="fas fa-check text-primary {% if courseSectionActivity.evaluable %} icon-evaluable{% endif %}"></i>
                                     <div class="activity">

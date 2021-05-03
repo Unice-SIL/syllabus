@@ -32,10 +32,10 @@
                     <img src="{{ asset('build/images/materiel_picto.png') }}" class="icon-40" alt="">
                     <h5 class="title-underlined">{{ 'app.view.student.equipments.required_equipments' | trans }}</h5>
                 </div>
-                <ul class="student-list">
+                <ul class="row student-list">
                     {% for resourceEquipment in courseInfo.courseResourceEquipments %}
                         {% if resourceEquipment.equipment.labelVisibility == true or resourceEquipment.description is not null %}
-                            <li>
+                            <li class="col-12 col-md-6 col-lg-4">
                                 <i class="fas fa-check"></i>
                                 <div class="d-flex flex-column">
                                     {% if resourceEquipment.equipment.labelVisibility == true %}

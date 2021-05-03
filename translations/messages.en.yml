@@ -628,6 +628,7 @@ app:
       prerequisites:
         prerequisites_list: List of prerequisites
         prerequisites_description: Before the start of the course, I must ...
+        prerequisites_empty_description: Have validated the following course(s)
         associate_courses: "Associated course(s):"
         empty_prerequiste: No prerequisite
         tutoring_resources_list: List of tutoring resources

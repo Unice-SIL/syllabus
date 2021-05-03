@@ -171,6 +171,10 @@
       }
     }
 
+    .student-list-title > h5 {
+      margin-left: -10px;
+    }
+
     ul.student-list {
       list-style: none;
       padding-left: 0;
@@ -282,15 +286,18 @@
 
       & > li {
         margin-bottom: 0.7rem;
+        background-color: #3C3A3A;
+        padding: 0.5rem;
+        border-left: 0.3rem solid var(--primary);
 
         .student-section-header {
           padding: 0.7rem;
-          background-color: $dark-light;
           display: flex;
-          justify-content: space-between;
+          justify-content: start;
           cursor: pointer;
 
           .student-section-title {
+            margin-left: 1rem;
             font-weight: 900;
           }
 
@@ -313,6 +320,11 @@
           .student-section-url {
             padding-bottom: 0.5rem;
             text-align: right;
+          }
+
+          ul.student-list {
+            border-left: solid white;
+            margin-left: 45px;
           }
 
           ul.student-list > li {

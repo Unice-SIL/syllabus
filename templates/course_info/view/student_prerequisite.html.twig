@@ -18,13 +18,29 @@
                     {% for prerequisite in courseInfo.coursePrerequisites %}
                         <li>
                             <div class="d-flex flex-column">
-                                <span>{{ prerequisite.description | linkify({"attr": {"target": "_blank"}}) | raw }}</span>
+                                {% if prerequisite.description is not null %}
+                                    <span>{{ prerequisite.description | linkify({"attr": {"target": "_blank"}}) | raw }}</span>
+                                {% elseif prerequisite.description is null and prerequisite.courses is not empty %}
+                                    {{ 'app.view.student.prerequisites.prerequisites_empty_description' | trans }}
+                                {% endif %}
                                 {% if prerequisite.courses is not empty %}
                                     {% if prerequisite.isCourseAssociated %}
                                         {% for course in prerequisite.courses %}
+                                            {% set courseInfoId = null %}
+                                            {% for ci in course.courseInfos %}
+                                                {% if ci.year.id == courseInfo.year.id and ci.publicationDate is not null %}
+                                                    {% set courseInfoId = ci.id %}
+                                                {% endif %}
+                                            {% endfor %}
                                             <div class="ml-3 small font-italic">
-                                                <i class="fas fa-check text-success"></i>
-                                                {{ course.title }} - ({{ course.code }})
+                                                <i class="fas fa-check text-primary"></i>
+                                                {% if courseInfoId is not null %}
+                                                    <a href="{{ path('app.course_info.view.student', { 'id': courseInfoId }) }}" target="_blank">
+                                                        {{ course.title }} - ({{ course.code }})
+                                                    </a>
+                                                {% else %}
+                                                    {{ course.title }} - ({{ course.code }})
+                                                {% endif %}
                                             </div>
                                         {% endfor %}
                                     {% endif %}

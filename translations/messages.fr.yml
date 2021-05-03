@@ -628,6 +628,7 @@ app:
       prerequisites:
         prerequisites_list: Liste des prérequis
         prerequisites_description: Avant le début du cours, je dois ...
+        prerequisites_empty_description: Avoir validé le/les cours suivant(s)
         associate_courses: "Cours associé(s):"
         empty_prerequiste: Pas de prérequis
         tutoring_resources_list: Liste des rémédiations
