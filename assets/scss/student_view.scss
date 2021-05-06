@@ -297,7 +297,7 @@
           cursor: pointer;
 
           .student-section-title {
-            margin-left: 1rem;
+            margin: auto 0 auto 1rem;
             font-weight: 900;
           }
 
@@ -305,6 +305,8 @@
             width: 20px;
             height: 20px;
             transition: .3s transform ease-in-out;
+            margin-top: auto;
+            margin-bottom: auto;
           }
 
 
@@ -316,6 +318,7 @@
         .student-section-content {
           margin-bottom: 0.5rem;
           padding-top: 0.5rem;
+          border-top: solid var(--primary);
 
           .student-section-url {
             padding-bottom: 0.5rem;
