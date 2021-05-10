@@ -1,5 +1,3 @@
-
-/web/bundles/
 /config/packages/parameters.yaml
 /config/packages/dev/parameters.yaml
 /config/packages/test/parameters.yaml
@@ -41,8 +39,6 @@ yarn-error.log
 /app_save/config/jwt/*
 /app_save/config/parameters.yml
 /app_save/config/jwt
-/config/jwt/*
-/config/jwt
 /app/Resources/views/jquery.collection.html.twig
 /build/
 !/var/cache
@@ -55,10 +51,8 @@ yarn-error.log
 /var/sessions/*
 !var/sessions/.gitkeep
 !var/SymfonyRequirements.php
-/web/data/
 /.phpunit.result.cache
 /yarn-error.log
-/web/build/
 
 ###> lexik/jwt-authentication-bundle ###
 /config/jwt/*.pem
