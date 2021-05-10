@@ -44,7 +44,7 @@ services:
             $mailerTarget: '%env(MAILER_TARGET)%'
             $moodleApiUrl: '%env(MOODLE_API_URL)%'
             $moodleApiToken: '%env(MOODLE_API_TOKEN)%'
-            $apogeeCourseNatureToImport: '%env(APOGEE_COURSE_NATURE_TO_IMPORT)%'
+            $apogeeCourseNatureToImport: '%env(json:APOGEE_COURSE_NATURE_TO_IMPORT)%'
             $moodlePermissionImporterOptions: '%moodle_permission_importer_options%'
 
     App\Syllabus\:
