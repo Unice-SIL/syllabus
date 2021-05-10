@@ -1,0 +1,11 @@
+webpack_encore:
+  # The path where Encore is building the assets - i.e. Encore.setOutputPath()
+  #output_path: '%kernel.public_dir%/build' -> S4 syntax…
+  output_path: '%kernel.project_dir%/public/build'
+
+    # if you have multiple builds:
+    # builds:
+    # pass "frontend" as the 3rg arg to the Twig functions
+    # {{ encore_entry_script_tags('entry1', null, 'frontend') }}
+
+  # frontend: '%kernel.public_dir%/frontend/build'

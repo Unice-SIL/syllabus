@@ -1,7 +1,11 @@
-<section id="presentation-section" class="pb-5">
+<section id="presentation-section" class="pb-3">
     <div class="student-title">
         <h1 class="mb-0">{{ 'app.view.student.tabs.presentation' | trans }}</h1>
-        <h5 class="mb-3">{{ courseInfo.title }}</h5>
+        <h5 class="mb-3">
+            {{ courseInfo.title }} - {{ courseInfo.course.code }}
+            <span class="float-right text-sm">{{ 'app.view.student.presentation.last_update' | trans }} - {{ courseInfo.modificationDate | date("d/m/Y") }}</span>
+        </h5>
+
     </div>
     <div class="presentation-info row p-4">
         <div class="presentation-info-element col-12 col-lg-4 col-md-6 col-sm-12">
@@ -112,6 +116,12 @@
         {% endif %}
     </div>
 
+    {% if courseInfo.publisher is null and courseInfo.publicationDate is null %}
+        <h3 class="mt-5 text-center">
+            {{ 'app.view.student.presentation.not_published' | trans }}
+        </h3>
+    {% endif %}
+
     <div class="presentation-summary mt-5">
         {% if courseInfo.mediaType == 'image' and courseInfo.image is not null %}
             {% set imgSrc = courseInfo.image | split('/') | last %}
@@ -128,30 +138,32 @@
         <div class="summary">
             {{ courseInfo.summary|purify }}
         </div>
-        <div class="d-flex flex-column">
-            <h6 class="text-bold">
-                {{ 'app.view.student.presentation.teachers' | trans }}
-            </h6>
-            <span class="text-primary">
-            {% for teacher in courseInfo.courseTeachers %}
-                {% if not loop.first %}
-                    ,
-                {% endif %}
-                {{ teacher.firstname }} {{ teacher.lastname }}
-            {% endfor %}
-            </span>
-        </div>
-    </div>
 
-    <div class="student-grid pt-5" style="clear: both;">
-        {% if courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::IN_CLASS') or
-            courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::HYBRID') %}
-            {% include 'course_info/view/student_teaching_mode_in_class.html.twig' %}
-        {% endif %}
-        {% if courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::DIST') or
-            courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::HYBRID') %}
-            {% include 'course_info/view/student_teaching_mode_dist.html.twig' %}
-        {% endif %}
+        <div class="row w-100">
+            <div class="d-flex flex-column col-12 col-lg-6 mb-4">
+                <h6 class="text-bold">
+                    {{ 'app.view.student.presentation.teachers' | trans }}
+                </h6>
+                <span class="text-primary">
+                    {% for teacher in courseInfo.courseTeachers %}
+                        {% if not loop.first %}
+                            ,
+                        {% endif %}
+                        {{ teacher.firstname }} {{ teacher.lastname }} {% if teacher.emailVisibility and teacher.email is not null %}({{ teacher.email }}){% endif %}
+                    {% endfor %}
+                </span>
+            </div>
+            <div class="col-12 col-lg-6 d-flex justify-content-between flex-wrap">
+                {% if courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::IN_CLASS') or
+                    courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::HYBRID') %}
+                    {% include 'course_info/view/student_teaching_mode_in_class.html.twig' %}
+                {% endif %}
+                {% if courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::DIST') or
+                    courseInfo.teachingMode == constant('AppBundle\\Constant\\TeachingMode::HYBRID') %}
+                    {% include 'course_info/view/student_teaching_mode_dist.html.twig' %}
+                {% endif %}
+            </div>
+        </div>
     </div>
 
 </section>

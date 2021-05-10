@@ -1,0 +1,89 @@
+{% if courseInfo.teachingMode is null %}
+    <div class="d-flex justify-content-center align-items-center mandatory-data">
+        <span class="empty-data">
+            {{ 'app.presentation.view.teaching_mode.empty_teaching_mode' | trans }}
+        </span>
+    </div>
+{% else %}
+    <h4 class="text-shadow">{{ ('app.const.teaching_mode.' ~ courseInfo.teachingMode) | trans }}</h4>
+    {% if courseInfo.teachingMode == constant('App\\Syllabus\\Constant\\TeachingMode::IN_CLASS') %}
+        <div class="row">
+            {% if courseInfo.teachingCmClass is not null %}
+                <div class="col-md-3 col-sm-6 col-12">
+                    {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': 'app.presentation.form.teaching_mode.cm', 'teachingTypeHours': courseInfo.teachingCmClass } %}
+                </div>
+            {% endif %}
+            {% if courseInfo.teachingTdClass is not null %}
+                <div class="col-md-3 col-sm-6 col-12">
+                    {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': 'app.presentation.form.teaching_mode.td', 'teachingTypeHours': courseInfo.teachingTdClass } %}
+                </div>
+            {% endif %}
+            {% if courseInfo.teachingTpClass is not null %}
+                <div class="col-md-3 col-sm-6 col-12">
+                    {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': 'app.presentation.form.teaching_mode.tp', 'teachingTypeHours': courseInfo.teachingTpClass } %}
+                </div>
+            {% endif %}
+            {% include 'course_info/presentation/view/_teaching_other_types.html.twig' with {'teachings': courseInfo.teachings, 'mode': constant('App\\Syllabus\\Constant\\TeachingMode::IN_CLASS') } %}
+        </div>
+    {% elseif courseInfo.teachingMode == constant('App\\Syllabus\\Constant\\TeachingMode::DIST') %}
+        <div class="row">
+            {% if courseInfo.teachingCmDist is not null %}
+                <div class="col-md-3 col-sm-6 col-12">
+                    {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': 'app.presentation.form.teaching_mode.cm', 'teachingTypeHours': courseInfo.teachingCmDist } %}
+                </div>
+            {% endif %}
+            {% if courseInfo.teachingTdDist is not null %}
+                <div class="col-md-3 col-sm-6 col-12">
+                    {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': 'app.presentation.form.teaching_mode.td', 'teachingTypeHours': courseInfo.teachingTdDist } %}
+                </div>
+            {% endif %}
+            {% include 'course_info/presentation/view/_teaching_other_types.html.twig' with {'teachings': courseInfo.teachings, 'mode': constant('App\\Syllabus\\Constant\\TeachingMode::DIST') } %}
+        </div>
+    {% elseif courseInfo.teachingMode == constant('App\\Syllabus\\Constant\\TeachingMode::HYBRID') %}
+        <div class="row">
+            <div class="col">
+                <h5 class="text-shadow">{{ 'app.presentation.form.teaching_mode.class' | trans }}</h5>
+            </div>
+            <div class="col">
+                <h5 class="text-shadow">{{ 'app.presentation.form.teaching_mode.distant' | trans }}</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="row">
+                    {% if courseInfo.teachingCmHybridClass is not null %}
+                        <div class="col-lg-6 col-md-12 col-12">
+                            {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': 'app.presentation.form.teaching_mode.cm', 'teachingTypeHours': courseInfo.teachingCmHybridClass } %}
+                        </div>
+                    {% endif %}
+                    {% if courseInfo.teachingTdHybridClass is not null %}
+                        <div class="col-lg-6 col-md-12 col-12">
+                            {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': 'app.presentation.form.teaching_mode.td', 'teachingTypeHours': courseInfo.teachingTdHybridClass } %}
+                        </div>
+                    {% endif %}
+                    {% if courseInfo.teachingTpHybridClass is not null %}
+                        <div class="col-lg-6 col-md-12 col-12">
+                            {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': 'app.presentation.form.teaching_mode.tp', 'teachingTypeHours': courseInfo.teachingTpHybridClass } %}
+                        </div>
+                    {% endif %}
+                    {% include 'course_info/presentation/view/_teaching_other_types.html.twig' with {'teachings': courseInfo.teachings, 'mode': constant('App\\Syllabus\\Constant\\TeachingMode::IN_CLASS'), 'class': 'col-lg-6 col-md-12 col-12' } %}
+                </div>
+            </div>
+            <div class="col border-left">
+                <div class="row">
+                    {% if courseInfo.teachingCmHybridDist is not null %}
+                        <div class="col-lg-6 col-md-12 col-12">
+                            {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': 'app.presentation.form.teaching_mode.cm', 'teachingTypeHours': courseInfo.teachingCmHybridDist } %}
+                        </div>
+                    {% endif %}
+                    {% if courseInfo.teachingTdHybridDist is not null %}
+                        <div class="col-lg-6 col-md-12 col-12">
+                            {% include 'course_info/presentation/view/_teaching_type_card.html.twig' with {'teachingTypeText': 'app.presentation.form.teaching_mode.td', 'teachingTypeHours': courseInfo.teachingTdHybridDist } %}
+                        </div>
+                    {% endif %}
+                    {% include 'course_info/presentation/view/_teaching_other_types.html.twig' with {'teachings': courseInfo.teachings, 'mode': constant('App\\Syllabus\\Constant\\TeachingMode::DIST'), 'class': 'col-lg-6 col-md-12 col-12' } %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endif %}

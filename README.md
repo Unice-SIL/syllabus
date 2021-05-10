@@ -42,7 +42,17 @@ La commande `make build` fait appel à un nouveau block de commande qui sont les
 Ajouter dans le cron du serveur la commande suivante:
 `* * * * * php path_to_syllabus\bin\console app:scheduler`
 
-### v2.0
+### v2
+
+#### v2.2.0
+##### Release
+- Migration Symfony 4.4
+- Rework student view
+- Add student light version
+
+#### v2.1.5
+##### Release
+- Added API filters for Course and CourseInfo
 
 #### v2.1.4
 ##### Release
@@ -50,7 +60,3 @@ Ajouter dans le cron du serveur la commande suivante:
 - Prerequisite not mandatory
 - Fixed obsolete => false
 - Added title on student view
-
-#### v2.1.5
-##### Release
-- Added API filters for Course and CourseInfo

@@ -1,0 +1,364 @@
+{% macro printActiveAdminSidebarLink(routes, options) %}
+    {% for route in routes %}
+        {% if  route in  'app_admin.activity' %}
+            {% if options.activityType is defined %}
+                {{ app.request.attributes.get('type') in options.activityType ? 'active' }}
+            {% else %}
+                active
+            {% endif %}
+        {% else %}
+            {{ route in app.request.get('_route') ? 'active' }}
+        {% endif %}
+    {% endfor %}
+{% endmacro %}
+<nav class="mt-2">
+
+    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+
+        <li class="nav-item has-treeview">
+            <a class="nav-link {{ printActiveAdminSidebarLink(['app.admin.dashboard.composer require lexik/translation-bundle']) }}"
+               href="{{ path('app.admin.dashboard.index') }}"
+               id="menu-dashboard">
+                <i class="nav-icon fas fa-th"></i>
+                <p>{{ 'admin.sidebar.dashboard' | trans }}</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a
+                    href="{{ path('app.admin.course.index') }}"
+                    class="nav-link {{ printActiveAdminSidebarLink(['app.admin.course.']) }}">
+                <i class="nav-icon fas fa-graduation-cap"></i>
+                <p>
+                    {{ 'admin.sidebar.courses' | trans }}
+                </p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a
+                    href="{{ path('app.admin.syllabus.index') }}"
+                    class="nav-link {{ printActiveAdminSidebarLink(['app.admin.syllabus.']) }}">
+                <i class="nav-icon fas fa-list"></i>
+                <p>
+                    {{ 'admin.sidebar.syllabus' | trans }}
+                </p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a
+                    href="{{ path('app.admin.ask_advice.index') }}"
+                    class="nav-link {{ printActiveAdminSidebarLink(['app.admin.ask_advice.']) }}">
+                <i class="nav-icon fas fa-life-ring"></i>
+                <p>
+                    {{ 'admin.sidebar.ask_advice' | trans }}
+                </p>
+            </a>
+        </li>
+
+        {% set referentielLink = ['app.admin.activity.', 'app.admin.activity_type.', 'app.admin.activity_mode.','app.admin.year.',
+            'app.admin.equipment', 'app.admin.structure.', 'app.admin.domain.', 'app.admin.period.index', 'app.admin.language.',
+            'app.admin.campus.', 'app.admin.critical_achievement.', 'app.admin.level.'] %}
+        {% if is_granted(['ROLE_ADMIN_ACTIVITY', 'ROLE_ADMIN_ACTIVITYTYPE', 'ROLE_ADMIN_ACTIVITYMODE', 'ROLE_ADMIN_CAMPUS',
+            'ROLE_ADMIN_DOMAIN', 'ROLE_ADMIN_EQUIPMENT', 'ROLE_ADMIN_LANGUAGE', 'ROLE_ADMIN_PERIOD', 'ROLE_ADMIN_STRUCTURE'
+        ]) %}
+            <li class="nav-item has-treeview {{ printActiveAdminSidebarLink(referentielLink) ? 'menu-open' }}">
+                <a href="#" class="nav-link {{ printActiveAdminSidebarLink(referentielLink) }}">
+                    <i class="nav-icon fas fa-book"></i>
+                    <p>
+                        {{ 'admin.sidebar.reference_source' | trans }}
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview"
+                    style="display: {{ printActiveAdminSidebarLink(referentielLink) ? 'block' : 'none' }};">
+
+                    {% if is_granted('ROLE_ADMIN_CRITICAL_ACHIEVEMENT') %}
+                        <li class="nav-item pl-2">
+                            <a href="{{ path('app.admin.critical_achievement.index') }}"
+                               class="nav-link {{ printActiveAdminSidebarLink(['app.admin.critical_achievement']) }}">
+                                <i class="fas fa-award nav-icon"></i>
+                                <p>
+                                    {{ 'admin.sidebar.critical_achievements' | trans }}
+                                </p>
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    {% set activityLink = ['app.admin.activity.', 'app.admin.activity_type.', 'app.admin.activity_mode.'] %}
+                    {% if is_granted('ROLE_ADMIN_ACTIVITY') or is_granted('ROLE_ADMIN_ACTIVITYTYPE') or is_granted('ROLE_ADMIN_ACTIVITYMODE') %}
+                        <li class="nav-item pl-2 has-treeview {{ printActiveAdminSidebarLink(activityLink) ? 'menu-open' }}">
+                            <a href="#" class="nav-link {{ printActiveAdminSidebarLink(activityLink) }}">
+                                <i class="nav-icon fas fa-film"></i>
+                                <p>
+                                    {{ 'admin.sidebar.activities.activities' | trans }}
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview"
+                                style="display: {{ printActiveAdminSidebarLink(activityLink) ? 'block' : 'none' }};">
+                                {% if is_granted('ROLE_ADMIN_ACTIVITY') %}
+                                    <li class="pl-3">
+                                        <a href="{{ path('app.admin.activity.index') }}"
+                                           class="nav-link {{ printActiveAdminSidebarLink(['app.admin.activity.']) }}">
+                                            <i class="fas fa-dot-circle nav-icon"></i>
+                                            <p>
+                                                {{ 'admin.sidebar.activities.activities' | trans }}
+                                            </p>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                {% if is_granted('ROLE_ADMIN_ACTIVITYMODE') %}
+                                    <li class="pl-3">
+                                        <a href="{{ path('app.admin.activity_mode.index') }}"
+                                           class="nav-link {{ printActiveAdminSidebarLink(['app_admin.mode_activity']) }}">
+                                            <i class="fas fa-dot-circle nav-icon"></i>
+                                            <p>
+                                                {{ 'admin.sidebar.activities.modes' | trans }}
+                                            </p>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                {% if is_granted('ROLE_ADMIN_ACTIVITYTYPE') %}
+                                    <li class="pl-3">
+                                        <a href="{{ path('app.admin.activity_type.index') }}"
+                                           class="nav-link {{ printActiveAdminSidebarLink(['app.admin.activity_type.']) }}">
+                                            <i class="fas fa-dot-circle nav-icon"></i>
+                                            <p>
+                                                {{ 'admin.sidebar.activities.types' | trans }}
+                                            </p>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </li>
+                    {% endif %}
+                    {% if is_granted('ROLE_ADMIN_YEAR') %}
+                        <li class="nav-item pl-2">
+                            <a href="{{ path('app.admin.year.index') }}"
+                               class="nav-link {{ printActiveAdminSidebarLink(['app.admin.year.']) }}">
+                                <i class="nav-icon fas fa-calendar"></i>
+                                <p>
+                                    {{ 'admin.sidebar.years' | trans }}
+                                </p>
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    {% if is_granted('ROLE_ADMIN_CAMPUS') %}
+                        <li class="nav-item pl-2">
+                            <a href="{{ path('app.admin.campus.index') }}"
+                               class="nav-link {{ printActiveAdminSidebarLink(['app.admin.campus.']) }}">
+                                <i class="fas fa-map-marker-alt nav-icon"></i>
+                                <p>
+                                    {{ 'admin.sidebar.campuses' | trans }}
+                                </p>
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    {% if is_granted('ROLE_ADMIN_DOMAIN') %}
+                        <li class="nav-item pl-2">
+                            <a href="{{ path('app.admin.domain.index') }}"
+                               class="nav-link {{ printActiveAdminSidebarLink(['app.admin.domain.']) }}">
+                                <i class="fas fa-gem nav-icon"></i>
+                                <p>
+                                    {{ 'admin.sidebar.domains' | trans }}
+                                </p>
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    {% if is_granted('ROLE_ADMIN_EQUIPMENT') %}
+                        <li class="nav-item pl-2">
+                            <a href="{{ path('app.admin.equipment.index') }}"
+                               class="nav-link {{ printActiveAdminSidebarLink(['app.admin.equipment.']) }}">
+                                <i class="nav-icon fas fa-drafting-compass"></i>
+                                <p>
+                                    {{ 'admin.sidebar.equipments' | trans }}
+                                </p>
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    {% if is_granted('ROLE_ADMIN_LANGUAGE') %}
+                        <li class="nav-item pl-2">
+                            <a href="{{ path('app.admin.language.index') }}"
+                               class="nav-link {{ printActiveAdminSidebarLink(['app.admin.language.']) }}">
+                                <i class="fas fa-language nav-icon"></i>
+                                <p>
+                                    {{ 'admin.sidebar.languages' | trans }}
+                                </p>
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    {% if is_granted('ROLE_ADMIN_LEVEL') %}
+                        <li class="nav-item pl-2">
+                            <a href="{{ path('app.admin.level.index') }}"
+                               class="nav-link {{ printActiveAdminSidebarLink(['app.admin.level.']) }}">
+                                <i class="fas fa-layer-group nav-icon"></i>
+                                <p>
+                                    {{ 'admin.sidebar.levels' | trans }}
+                                </p>
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    {% if is_granted('ROLE_ADMIN_PERIOD') %}
+                        <li class="nav-item pl-2">
+                            <a href="{{ path('app.admin.period.index') }}"
+                               class="nav-link {{ printActiveAdminSidebarLink(['app.admin.period.']) }}">
+                                <i class="nav-icon fas fa-calendar-week"></i>
+                                <p>
+                                    {{ 'admin.sidebar.periods' | trans }}
+                                </p>
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    {% if is_granted('ROLE_ADMIN_STRUCTURE') %}
+                        <li class="nav-item pl-2">
+                            <a href="{{ path('app.admin.structure.index') }}"
+                               class="nav-link {{ printActiveAdminSidebarLink(['app.admin.structure.']) }}">
+                                <i class="nav-icon fas fa-building"></i>
+                                <p>
+                                    {{ 'admin.sidebar.structures' | trans }}
+                                </p>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </li>
+        {% endif %}
+
+        {% set importLink = ['app.admin.import_csv.course_info', 'app.admin.import_csv.permission', 'app.admin.import_csv.user'] %}
+        <li class="nav-item has-treeview {{ printActiveAdminSidebarLink(importLink) ? 'menu-open' }}">
+            <a href="#" class="nav-link {{ printActiveAdminSidebarLink(importLink) }}">
+                <i class="nav-icon fas fa-download"></i>
+                <p>
+                    {{ 'admin.sidebar.imports' | trans }}
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview"
+                style="display: {{ printActiveAdminSidebarLink(importLink) ? 'block' : 'none' }};">
+                <li class="nav-item pl-2">
+                    <a href="{{ path('app.admin.import_csv.course_info') }}"
+                       class="nav-link {{ printActiveAdminSidebarLink(['app.admin.import_csv.course_info']) }}">
+                        <i class="nav-icon fas fa-graduation-cap"></i>
+                        <p>
+                            {{ 'admin.sidebar.syllabus' | trans }}
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item pl-2">
+                    <a href="{{ path('app.admin.import_csv.permission') }}"
+                       class="nav-link {{ printActiveAdminSidebarLink(['app.admin.import_csv.permission']) }}">
+                        <i class="nav-icon fas fa-user-lock"></i>
+                        <p>
+                            {{ 'admin.sidebar.permissions' | trans }}
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item pl-2">
+                    <a href="{{ path('app.admin.import_csv.user') }}"
+                       class="nav-link {{ printActiveAdminSidebarLink(['app.admin.import_csv.user']) }}">
+                        <i class="nav-icon fas fa-user"></i>
+                        <p>
+                            {{ 'admin.sidebar.users' | trans }}
+                        </p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        {% set administrationLink = ['app.admin.user.', 'app_admin_groups', 'app.admin.job.', 'app.admin.notification.', 'lexik_translation_', 'dmishh_settings_manage_global'] %}
+        <li class="nav-item has-treeview {{ printActiveAdminSidebarLink(administrationLink) ? 'menu-open' }}">
+            <a href="#" class="nav-link {{ printActiveAdminSidebarLink(administrationLink) }}">
+                <i class="nav-icon fas fa-cogs"></i>
+                <p>
+                    {{ 'admin.sidebar.administration' | trans }}
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview"
+                style="display: {{ printActiveAdminSidebarLink(administrationLink) ? 'block' : 'none' }};">
+                {% if is_granted(constant('App\\Syllabus\\Constant\\UserRole::ROLE_SUPER_ADMIN')) %}
+                    <li class="nav-item pl-2">
+                        <a href="{{ path('dmishh_settings_manage_global') }}"
+                           class="nav-link {{ printActiveAdminSidebarLink(['dmishh_settings_manage_global']) }}">
+                            <i class="nav-icon fas fa-calculator"></i>
+                            <p>
+                                {{ 'admin.sidebar.settings' | trans }}
+                            </p>
+                        </a>
+                    </li>
+                {% endif %}
+
+                <li class="nav-item pl-2">
+                    <a href="{{ path('app.admin.groups.index') }}"
+                       class="nav-link {{ printActiveAdminSidebarLink(['app_admin_groups']) }}">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            {{ 'admin.sidebar.groups' | trans }}
+                        </p>
+                    </a>
+                </li>
+
+                {% if is_granted('ROLE_ADMIN_JOB') %}
+                    <li class="nav-item pl-2">
+                        <a href="{{ path('app.admin.job.index') }}"
+                           class="nav-link {{ printActiveAdminSidebarLink(['app.admin.job.']) }}">
+                            <i class="nav-icon fas fa-clock"></i>
+                            <p>
+                                {{ 'admin.sidebar.jobs' | trans }}
+                            </p>
+                        </a>
+                    </li>
+                {% endif %}
+
+                {% if is_granted('ROLE_ADMIN_USER') %}
+                    <li class="nav-item pl-2">
+                        <a href="{{ path('app.admin.user.index') }}"
+                           class="nav-link {{ printActiveAdminSidebarLink(['app.admin.user.']) }}">
+                            <i class="nav-icon fas fa-user"></i>
+                            <p>
+                                {{ 'admin.sidebar.users' | trans }}
+                            </p>
+                        </a>
+                    </li>
+                {% endif %}
+
+                <li class="nav-item pl-2">
+                    <a href="{{ path('lexik_translation_grid') }}"
+                       class="nav-link {{ printActiveAdminSidebarLink(['lexik_translation']) }}">
+                        <i class="nav-icon fas fa-globe-africa"></i>
+                        <p>
+                            {{ 'admin.sidebar.translations' | trans }}
+                        </p>
+                    </a>
+                </li>
+
+                {% if is_granted('ROLE_ADMIN_NOTIFICATION') %}
+                    <li class="nav-item pl-2">
+                        <a href="{{ path('app.admin.notification.index') }}"
+                           class="nav-link {{ printActiveAdminSidebarLink(['app.admin.notification.']) }}">
+                            <i class="nav-icon fas fa-bell"></i>
+                            <p>
+                                {{ 'admin.sidebar.notifications' | trans }}
+                            </p>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </li>
+        <li class="nav-item">
+            <a href="{{ path('app.admin.course_info_field.index') }}"
+               class="nav-link {{ printActiveAdminSidebarLink(['app.admin.course_info_field.index']) }}">
+                <i class="nav-icon fas fa-copy"></i>
+                <p>
+                    {{ 'admin.sidebar.duplication' | trans }}
+                </p>
+            </a>
+        </li>
+    </ul>
+</nav>

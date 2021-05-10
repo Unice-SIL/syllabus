@@ -1,0 +1,59 @@
+<h6 class="mb-3">
+    {{ 'app.presentation.view.teachers.title' | trans }}
+</h6>
+{% if teachers is empty %}
+    <div class="d-flex justify-content-center align-items-center mandatory-data">
+        <span class="empty-data">
+            {{ 'app.presentation.view.teachers.empty_teacher' | trans }}
+        </span>
+    </div>
+{% else %}
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr class="text-center">
+                    <th>{{ 'app.presentation.view.teachers.lastname' | trans }}</th>
+                    <th>{{ 'app.presentation.view.teachers.firstname' | trans }}</th>
+                    <th>{{ 'app.presentation.view.teachers.mail' | trans }}</th>
+                    <th>{{ 'app.presentation.view.teachers.attributes' | trans }}</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for teacher in teachers %}
+                <tr class="text-center">
+                    <td>{{ teacher.lastname }}</td>
+                    <td>{{ teacher.firstname }}</td>
+                    <td>{{ teacher.email }}</td>
+                    <td>
+                        {% if teacher.emailVisibility %}
+                            <i class="fas fa-at" data-toggle="tooltip" title="{{ 'app.presentation.view.teachers.mail_visible' | trans }}"></i>
+                        {% endif %}
+                        {% if teacher.manager %}
+                            <i class="fas fa-graduation-cap" data-toggle="tooltip" title="{{ 'app.presentation.view.teachers.responsible' | trans }}"></i>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-link modal-action p-0"
+                                data-action-title="{{ 'app.presentation.view.teachers.edit_teacher' | trans }}"
+                                data-action-url="{{ path('app.course_info.teacher.edit', {'id': teacher.id}) }}">
+                            <i class="fas fa-edit text-primary"></i>
+                        </button>
+                        <button type="button" class="btn btn-link modal-action p-0"
+                                data-action-title="{{ 'app.presentation.view.teachers.delete_teacher' | trans }}"
+                                data-action-url="{{ path('app.course_info.teacher.delete', {'id': teacher.id}) }}">
+                            <i class="fas fa-trash-alt text-danger"></i>
+                        </button>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endif %}
+
+<script>
+    $('[data-toggle="tooltip"]').tooltip({
+        container: '.content-wrapper'
+    });
+</script>

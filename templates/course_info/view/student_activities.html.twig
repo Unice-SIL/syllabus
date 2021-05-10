@@ -1,0 +1,118 @@
+<section id="activities-section" class="pb-5">
+    <div class="student-title">
+        <div class="student-img-banner"
+             style="background-image: url('{{ asset('build/images/programmation_photo.png') }}') !important; ">
+        </div>
+        <div class="student-text-banner">
+            {{ 'app.view.student.tabs.activities' | trans }}
+        </div>
+    </div>
+
+    <ul class="student-sections">
+        {% for section in courseInfo.courseSections %}
+            {% if section.courseSectionActivities is not empty %}
+                <li>
+                    <div class="student-section-header collapsed" data-toggle="collapse"
+                         data-target="#activity-{{ section.id }}"
+                         aria-expanded="false" aria-controls="Title">
+                        <img class="collapse-button" src="{{ asset('build/images/collapsed-arrow.png') }}" alt=""/>
+                        <h5 class="student-section-title">{{ section.title }}</h5>
+                    </div>
+                    <div class="student-section-content collapse" id="activity-{{ section.id }}">
+                            <div class="row ml-2">
+                                {% if section.url %}
+                                    <div class="summary col-10">
+                                        {{ section.description|purify }}
+                                    </div>
+                                    <div class="student-section-url col-2">
+                                        <a href="{{ section.url }}" target="_blank">
+                                            <u>{{ 'app.view.student.activities.section_url' | trans }}</u>
+                                        </a>
+                                    </div>
+                                {% else %}
+                                    <div class="summary">
+                                        {{ section.description|purify }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            {% set oldActivityType = '' %}
+                            {% for courseSectionActivity in section.courseSectionActivities %}
+                                {% set activityType = courseSectionActivity.activityType %}
+                                {% if oldActivityType != activityType %}
+                                    {% if oldActivityType != '' %}
+                                        </ul>
+                                    {% endif %}
+                                    <div class="mt-3 student-subtitle student-list-title">
+                                        {% if courseSectionActivity.activityType.icon is not null %}
+                                            {% set imgSrc = courseSectionActivity.activityType.icon | split('/') | last %}
+                                            <img src="{{ asset('data/' ~ imgSrc) }}" class="icon-40">
+                                        {% else %}
+                                            <i class="fas fa-cubes fa-2x icon-40"></i>
+                                        {% endif %}
+                                        <h5 class="title-underlined">{{ courseSectionActivity.activityType.label }}</h5>
+                                    </div>
+                                <ul class="student-list">
+                                {% endif %}
+
+                                <li {% if courseSectionActivity.evaluable == true %}style="background-color: rgba(70,174,216, 0.4);" {% endif %}>
+                                    <i class="fas fa-check text-primary {% if courseSectionActivity.evaluable %} icon-evaluable{% endif %}"></i>
+                                    <div class="activity">
+                                        <span>
+                                            {{ courseSectionActivity.activity.label }} ({{ courseSectionActivity.activityMode.label }})
+                                            {% if courseSectionActivity.description is not empty %}
+                                                : {{ courseSectionActivity.description | linkify({"attr": {"target": "_blank"}}) | raw }}
+                                            {% endif %}
+                                        </span>
+                                        {% if courseSectionActivity.evaluable == true %}
+                                            <span class="activity-evaluation-type">
+                                                {% if courseSectionActivity.evaluationCt == true %}
+                                                    {{ 'app.view.student.activities.ct' | trans }}
+                                                {% else %}
+                                                    {{ 'app.view.student.activities.cc' | trans }}
+                                                {% endif %}
+                                                {% if courseSectionActivity.evaluationRate > 0 and courseSectionActivity.evaluationRate is not null %}
+                                                    - {{ courseSectionActivity.evaluationRate }}%
+                                                {% endif %}
+                                            </span>
+                                            {% if courseSectionActivity.evaluationRate > 0 and courseSectionActivity.evaluationRate is not null %}
+                                                <div class="progress student-progress">
+                                                    <div class="progress-bar" role="progressbar"
+                                                         style="width: {{ courseSectionActivity.evaluationRate }}%;"
+                                                         aria-valuenow="{{ courseSectionActivity.evaluationRate }}"
+                                                         aria-valuemin="0" aria-valuemax="100">
+
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                            {% if courseSectionActivity.evaluationTeacher == true or courseSectionActivity.evaluationPeer == true %}
+                                                {% set evaluateBy = '' %}
+                                                {% if courseSectionActivity.evaluationTeacher == true %}
+                                                    {% set evaluateBy = evaluateBy ~ 'app.view.student.activities.evaluate_by_teachers'|trans %}
+                                                {% endif %}
+                                                {% if courseSectionActivity.evaluationPeer == true %}
+                                                    {% if evaluateBy is not empty %}
+                                                        {% set evaluateBy = evaluateBy ~ ' ' ~ 'app.view.student.activities.evaluate_by_and'|trans ~ ' ' %}
+                                                    {% endif %}
+                                                    {% set evaluateBy = evaluateBy ~ 'app.view.student.activities.evaluate_by_peer'|trans %}
+                                                {% endif %}
+                                                <span class="activity-evaluate-by">
+                                                    {{ 'app.view.student.activities.evaluate_by'|trans }} {{ evaluateBy }}
+                                                </span>
+                                            {% endif %}
+                                        {% endif %}
+                                    </div>
+                                </li>
+                                {% set oldActivityType = courseSectionActivity.activityType %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</section>
+{#
+<div class="mt-2">
+
+</div>
+#}

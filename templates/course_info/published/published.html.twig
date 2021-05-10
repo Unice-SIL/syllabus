@@ -1,0 +1,51 @@
+{% extends 'admin_layout.html.twig' %}
+{% set h1 = 'admin.published_syllabus.list_syllabus' | trans %}
+{% block subContent %}
+
+    <div class="card">
+        <div class="card-body">
+            {% if pagination.totalItemCount > 0 %}
+                <table class="table table-bordered table-responsive-sm">
+                    <thead>
+                    <tr>
+                        <th class="sortable">{{ knp_pagination_sortable(pagination, 'app.form.activity.label.label'|trans, 'a.label') }}</th>
+                        <th class="sortable">{{ 'admin.published_syllabus.type' | trans }}</th>
+                        <th class="sortable">{{ 'admin.published_syllabus.establishment_code' | trans }}</th>
+                        <th class="sortable">{{ 'admin.published_syllabus.publisher' | trans }}</th>
+                        <th class="sortable">{{ 'admin.published_syllabus.publication_date' | trans }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for courseInfo in pagination %}
+                        <tr>
+                            <td>
+                                <a href="{{ path('app.course_info.dashboard.index', { 'id' : courseInfo.id }) }}">{{ courseInfo.title }}</a>
+                            </td>
+                            <td>
+                                {{ courseInfo.course.type }}
+                            </td>
+                            <td>
+                                {{ courseInfo.course.code }}
+                            </td>
+                            <td>
+                                {{ courseInfo.publisher.firstname }} {{ courseInfo.publisher.lastname }}
+                            </td>
+                            <td>
+                                {{ courseInfo.publicationDate|localizeddate('full', 'none', null) }} {{ courseInfo.publicationDate|date('H:i') }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="alert alert-info">{{ 'admin.published_syllabus.empty_syllabus' | trans }}</div>
+            {% endif %}
+        </div>
+        <!-- /.card-body -->
+        {% if knp_pagination_render(pagination) %}
+            <div class="card-footer clearfix">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'course_info/layout.html.twig' %}
+
+{% block subContent %}
+    <div class="pt-3">
+        <div class="card my-2 shadow card-syllabus"
+             data-view-url="{{ path('app.course_info.resource_equipment.resources', {'id': courseInfo.id }) }}"
+             data-form-url="{{ path('app.course_info.resource_equipment.resource.edit', {'id': courseInfo.id }) }}"
+        >
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <h3 class="text-blue-title">{{ 'app.equipment.view.resources' | trans }}</h3>
+                    <button type="button" class="edit-button btn button-orange" data-title="{{ 'app.equipment.view.edit' | trans }}">
+                        {{ 'app.equipment.view.edit' | trans }}
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            $('#menu-resource').addClass('active');
+        });
+    </script>
+{% endblock %}

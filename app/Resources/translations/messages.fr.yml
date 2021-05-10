@@ -283,9 +283,10 @@ app:
       objectives: Objectif du cours
       activities: Programme détaillé
       evaluations: Modalités d'évaluation
-      equipments: Matériel et ressources
+      equipments: Biblio et ressources
       information: Informations pratiques
       closing_remarks: Le mot de la fin
+      student_view: Syllabus étudiant
   dashboard:
     title: Tableau de bord
     progress: Progression du remplissage
@@ -294,8 +295,8 @@ app:
       publish_syllabus: Publier le syllabus
       publish_success: Bravo le syllabus a été publié
       see_student: Voir le syllabus étudiant
-      not_duplicate_syllabus: Ne pas dupliquer le syllabus pour l'année suivante
-      duplicate_syllabus: Dupliquer le syllabus pour l'année suivante
+      duplicate_syllabus: Je souhaite que ce syllabus soit copié à la fin de l'année universitaire sur le cours de l'année prochaine
+      duplicate_syllabus_additionnal: (attention, si le code Apogée du cours change, utilisez le bouton dupliquer sur un autre cours)
       duplicate_syllabus_other_course: Dupliquer le syllabus sur un autre cours
     intro_panel:
       title: Découvrez votre tout nouveau syllabus
@@ -328,6 +329,9 @@ app:
         failed: Le syllabus n'a pas été publié veuillez réessayer
         already_published: Le syllabus a déjà été publié
         cannot_published: Un onglet ne rempli pas les conditions de publication
+    syllabus_instructions:
+      syllabus_problem: Vous avez un problème avec votre Syllabus ?
+      instructions_link: Rendez-vous sur l'espace "Syllabus mode d'emploi" et posez votre question dans le forum d'assistance.
   homepage:
     establishment_code: Code d'établissement
     syllabus_list: Liste des syllabus
@@ -355,12 +359,12 @@ app:
       prerequisites: Prérequis
       add_prerequisite: Ajouter un prérequis
       empty_prerequisite: Aucun prérequis renseigné
-      mandatory_courses: Cours obligatoire(s):
+      mandatory_courses: "Cours obligatoire(s):"
       update_prerequisite: Modifier un prérequis
       delete_prerequisite: Supprimer un prérequis
       tutoring_resource: Rémédiation / Aide à la réussite
       add_tutoring_resource: Ajouter une rémédiation
-      attend_tutoring: Assister à des séances de tutorat :
+      attend_tutoring: "Assister à des séances de tutorat :"
       add_tutoring: Ajouter une séance de tutorat
       update_tutoring: Modifier une séance de tutorat
       tutoring_teacher: Avec tuteur enseignant
@@ -395,6 +399,7 @@ app:
       edit: Modifier
   evaluation:
     view:
+      mcc_informations: Les informations affichées sont issues du document des MCC (Modalité de Contrôles des Connaissances). Vous ne pouvez pas les modifier car elles ont fait l’objet d’un vote en CAC.
       first_session: 1ère session
       evaluation_type: Type d'évaluation
       evaluation_rate: Coefficient
@@ -475,7 +480,7 @@ app:
         level: Niveau du cours
         period: Semestre
         description: Description
-        description_message: Pour trouver des images libres de droit :
+        description_message: "Pour trouver des images libres de droit :"
         structure: Composante
       teachers:
         add_teacher: Ajouter un enseignant
@@ -487,6 +492,7 @@ app:
         mail: Email
         attributes: Attributs
         delete_teacher: Supprimer un enseignant
+        edit_teacher: Modifier un enseignant
         mail_visible: Email visible
         mail_invisible: Mail non visible
         responsible: Responsable
@@ -624,8 +630,14 @@ app:
         empty_prerequiste: Pas de prérequis
         tutoring_resources_list: Liste des rémédiations
         tutoring_resources_description: Pour me remettre à niveau, je peux ...
+        tutoring: M'inscrire et assister aux séances de tutorat
+        tutoring_by_teacher: avec un tuteur enseignant
+        tutoring_by_student: avec un tuteur étudiant
+        tutoring_by_both: avec un tuteur enseignant et/ou étudiant
         empty_tutoring_resources: Pas de remise à niveau
       presentation:
+        last_update: Dernière mis à jour
+        not_published: Ce syllabus n'a pas encore été publié
         structure: Composante
         domain: Domaine disciplinaire
         level: Niveau du cours
@@ -656,12 +668,20 @@ app:
       tabs:
         activities: Programme détaillé
         closing_remarks: Le mot de la fin
-        equipments: Matériel et ressources
+        equipments: Biblio et ressources
         evaluation: Modalités d'évaluation
         info: Informations pratiques
         objectives: Objectifs du cours
         prerequisites: Prérequis
         presentation: Présentation générale
+      alert:
+        important: Important
+        text:
+          part_1: "Ce syllabus n’a aucune valeur contractuelle. Son contenu est susceptible d’évoluer en cours d’année : soyez attentifs aux dernières modifications."
+          part_2: La date de dernière mise à jour est affichée en haut de la page droite.
+      syllabus_form:
+        link: "https://forms.office.com/Pages/ResponsePage.aspx?id=fUQgvFKJzUqD5F1otezkb78RiPD675VPioqx3pigUrJUNFRFTUlOUFhEWVVEUktRQlkyTjIxUFJJTS4u"
+        text: Donner votre avis sur le Syllabus
   partial:
     warning_delete_modal: Êtes vous sûr de vouloir supprimer cet élément ?
     no_element: Aucun élément n'a été trouvé
@@ -684,6 +704,10 @@ app:
       hybrid: Hybride
       distant: A distance
   form:
+    switch_user:
+      imitate: Imiter
+      title: Imiter un utilisateur
+      username: Nom d'utilisateur
     notification:
       label:
         message: 'Message'
@@ -803,6 +827,7 @@ admin:
     structures: Structures
     imports: Imports
     syllabus: Syllabus
+    ask_advice: Demande d'avis
     permissions: Permissions
     users: Utilisateurs
     administration: Administration
@@ -812,6 +837,16 @@ admin:
     translations: Traductions
     notifications: Notifications
     duplication: Config duplication
+  syllabus:
+    list_syllabus: Liste des syllabus
+    title: Intitulé
+    published_by: Publié par
+    level: Niveau
+    date: Date
+    year: Année
+    structure: Composante
+    code: Code
+    export: Exporter
   dashboard:
     syllabus_dashboard: Tableau de bord des syllabus
     published_syllabus: Syllabus publié(s)
@@ -963,7 +998,7 @@ admin:
     description_part2: Chaque champs que ce soit pour le nom dans l'entête ou pour les valeurs doivent être séparés par un point-virgule (;).
     description_part3: La liste des champs pouvant être spécifiés dans le fichier d'import est présentée ci-dessous.
     description_part4: Pour évite tout problème d'encodage, le fichier doit être encodé en UTF-8.
-    example: Exemple:
+    example: "Exemple:"
     syllabus_example_part1: code;year;title
     syllabus_example_part2: SLEPB111;2018;"Introduction à la Microbiologie"
     permission_example_part1: code;year;username;permission
@@ -977,6 +1012,13 @@ admin:
     reporting_helper:
       parsing: Parsing du Fichier Csv
       insertion_db: Insertion en base de données
+  export:
+    course_name: Nom du cours
+    code: Code Apogée
+    publisher: Nom de l'enseignant qui l'a publié
+    publication_date: Date de publication
+    structure: Composante
+    level: Niveau
   setting:
     config: Configurer les paramètres
   group:
@@ -989,7 +1031,7 @@ admin:
   job:
     list_jobs: Liste des tâches planifiées
     edit_job: Modifier une tâche planifiée
-    job_report: Rapport du job :
+    job_report: "Rapport du job :"
     actions:
       report: Rapport
       execute: Executer

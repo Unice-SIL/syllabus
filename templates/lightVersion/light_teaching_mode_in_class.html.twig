@@ -1,0 +1,54 @@
+{% set teachingCm = courseInfo.teachingCmClass %}
+{% set teachingTd = courseInfo.teachingTdClass %}
+{% set teachingTp = courseInfo.teachingTpClass %}
+{% if courseInfo.teachingMode == constant('App\\Syllabus\\Constant\\TeachingMode::HYBRID') %}
+    {% set teachingCm = courseInfo.teachingCmHybridClass %}
+    {% set teachingTd = courseInfo.teachingTdHybridClass %}
+    {% set teachingTp = courseInfo.teachingTpHybridClass %}
+{% endif %}
+
+
+<div class="mb-4">
+    <div class="d-flex mb-2">
+        <div class="info-rounded-icon">
+            <img src="{{ asset('build/images/presentiel_picto.png') }}">
+        </div>
+        <h4>{{ 'app.view.student.presentation.class' | trans }}</h4>
+    </div>
+    <ul class="light-list">
+        {% if teachingCm is not null %}
+            <li>
+                <i class="fas fa-check text-primary"></i>
+                {{ 'app.view.student.presentation.hours_cm' | trans({'%hours%': teachingCm}) }}
+            </li>
+        {% endif %}
+        {% if teachingTd is not null %}
+            <li>
+                <i class="fas fa-check text-primary"></i>
+                {{ 'app.view.student.presentation.hours_td' | trans({'%hours%': teachingTd}) }}
+            </li>
+        {% endif %}
+        {% if teachingTp is not null %}
+            <li>
+                <i class="fas fa-check text-primary"></i>
+                {{ 'app.view.student.presentation.hours_tp' | trans({'%hours%': teachingTp}) }}
+            </li>
+        {% endif %}
+        {% for teaching in courseInfo.teachings %}
+            {% if teaching.mode == constant('App\\Syllabus\\Constant\\TeachingMode::IN_CLASS') %}
+                <li>
+                    <i class="fas fa-check text-primary"></i>
+                    {{ 'app.view.student.presentation.hours_teachings' | trans({'%hours%': teaching.hourlyVolume, '%type%': teaching.type}) }}
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</div>
+
+
+
+
+
+
+
+

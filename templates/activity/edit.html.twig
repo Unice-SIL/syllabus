@@ -1,0 +1,27 @@
+{% extends 'admin_layout.html.twig' %}
+{% set h1 = 'admin.activity.edit_activity' | trans %}
+{% set href = path('app.admin.activity.index') %}
+
+{% block subContent %}
+
+    <div class="card card-primary">
+        <!-- /.card-header -->
+        <!-- form start -->
+        {{ form_start(form) }}
+        <div class="card-body">
+            {{ form_row(form.label) }}
+            {{ form_row(form.description) }}
+            {{ form_row(form.activityTypes) }}
+            <div class="custom-control custom-switch">
+                {{ form_row(form.obsolete) }}
+            </div>
+
+        </div>
+        <!-- /.card-body -->
+
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary">{{ 'admin.button.edit' | trans }}</button>
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

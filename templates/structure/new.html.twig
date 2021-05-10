@@ -1,0 +1,20 @@
+{% extends 'admin_layout.html.twig' %}
+{% set h1 = 'admin.button.add_structure' | trans%}
+{% set href = path('app.admin.structure.index') %}
+
+{% block subContent %}
+    <div class="card">
+        <div class="card-body">
+            {{ form_start(form) }}
+                {{ form_row(form.label) }}
+                {{ form_row(form.code) }}
+                <div class="custom-control custom-switch">
+                    {{ form_widget(form.synchronized) }}
+                    {{ form_label(form.synchronized) }}
+                </div>
+                <button type="submit" class="btn btn-primary">{{ 'admin.button.save' | trans }}</button>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
+

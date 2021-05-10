@@ -1,0 +1,31 @@
+{% extends 'admin_layout.html.twig' %}
+{% set h1 = 'admin.structure.edit_structure' | trans %}
+{% set href = path('app.admin.structure.index') %}
+
+{% block subContent %}
+    <div class="card card-primary">
+        <!-- /.card-header -->
+        <!-- form start -->
+        {{ form_start(form) }}
+        <div class="card-body">
+            <div class="text-bold">
+                {{ structure.label }} - {{ structure.code }}
+            </div>
+            <div class="custom-control custom-switch">
+                {{ form_widget(form.synchronized) }}
+                {{ form_label(form.synchronized) }}
+            </div>
+            <div class="custom-control custom-switch">
+                {{ form_widget(form.obsolete) }}
+                {{ form_label(form.obsolete) }}
+            </div>
+        </div>
+        <!-- /.card-body -->
+
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary">{{ 'admin.button.edit' | trans }}</button>
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
+

@@ -286,6 +286,7 @@ app:
       equipments: Materials and resources
       information: Practical information
       closing_remarks: Closing remarks
+      student_view: Student syllabus
   dashboard:
     title: Dashboard
     progress: Filling progress
@@ -294,8 +295,8 @@ app:
       publish_syllabus: Publish the syllabus
       publish_success: Congratulations, the syllabus has been published
       see_student: See student's syllabus
-      not_duplicate_syllabus: Do not duplicate the syllabus for the next year
-      duplicate_syllabus: Duplicate the syllabus for the next year
+      duplicate_syllabus: I want this syllabus to be copied at the end of the year for the next year
+      duplicate_syllabus_additionnal: (be careful, if the course's Apogee code, use the button duplicate for another course)
       duplicate_syllabus_other_course: Duplicate the syllabus for another course
     intro_panel:
       title: Discover your brand new syllabus
@@ -328,6 +329,9 @@ app:
         failed: Syllabus has not been published, please try again
         already_published: Syllabus has already been published
         cannot_published: A tab does not meet the requirements of publication
+    syllabus_instructions:
+      syllabus_problem: Do you have a problem with your Syllabus?
+      instructions_link: Go to the "Syllabus' instructions" and ask your question in the assistance forum.
   homepage:
     establishment_code: Establishment code
     syllabus_list: Syllabus list
@@ -395,6 +399,7 @@ app:
       edit: Edit
   evaluation:
     view:
+      mcc_informations: The informations displayed below are taken from a document. You cannot edit them because they were voted that way.
       first_session: 1st session
       evaluation_type: Evaluation type
       evaluation_rate: Evaluation rate
@@ -475,7 +480,7 @@ app:
         level: Levels
         period: Periods
         description: Description
-        description_message: To find copyright free images:
+        description_message: "To find copyright free images:"
         structure: Structure
       teachers:
         add_teacher: Add a teacher
@@ -487,6 +492,7 @@ app:
         mail: Email
         attributes: Attributes
         delete_teacher: Delete a teacher
+        edit_teacher: Edit a teacher
         mail_visible: Email visible
         mail_invisible: Mail not visible
         responsible: Manager
@@ -620,12 +626,18 @@ app:
       prerequisites:
         prerequisites_list: List of prerequisites
         prerequisites_description: Before the start of the course, I must ...
-        associate_courses: Associated course(s):
+        associate_courses: "Associated course(s):"
         empty_prerequiste: No prerequisite
         tutoring_resources_list: List of tutoring resources
         tutoring_resources_description: If I find difficulties, I can...
+        tutoring: Register and attempt the tutoring courses
+        tutoring_by_teacher: with a teacher
+        tutoring_by_student: with a student
+        tutoring_by_both: with a teacher and/or student
         empty_tutoring_resources: no tutoring resource
       presentation:
+        last_update: Last update
+        not_published: This syllabus has not been published yet.
         structure: Structure
         domain: Disciplinary domain
         level: Course's level
@@ -662,6 +674,14 @@ app:
         objectives: Course's objectives
         prerequisites: Prerequisites
         presentation: Course's presentation
+      alert:
+        important: Important
+        text:
+          part_1: "This syllabus has no contractual value. Its content is subject to change throughout this year: be aware to the last updates"
+          part_2: The last modification date is displayed on the top-right of the page.
+      syllabus_form:
+        link: "https://forms.office.com/Pages/ResponsePage.aspx?id=fUQgvFKJzUqD5F1otezkb78RiPD675VPioqx3pigUrJUNFRFTUlOUFhEWVVEUktRQlkyTjIxUFJJTS4u"
+        text: Give your opinion on the Syllabus
   partial:
     warning_delete_modal: Are you sure you want to delete this element?
     no_element: No element has been found
@@ -684,6 +704,10 @@ app:
       hybrid: Hybrid
       distant: Distant
   form:
+    switch_user:
+      username: Username
+      title: Imitate an user
+      imitate: Imitate
     notification:
       label:
         message: 'Message'
@@ -803,6 +827,7 @@ admin:
     structures: Structures
     imports: Imports
     syllabus: Syllabus
+    ask_advice: Ask advice
     permissions: Permissions
     users: Users
     administration: Administration
@@ -812,6 +837,16 @@ admin:
     translations: Translations
     notifications: Notifications
     duplication: Duplication config
+  syllabus:
+    list_syllabus: List of syllabus
+    title: Title
+    published_by: Published by
+    level: Level
+    date: Date
+    year: Year
+    structure: Structure
+    code: Code
+    export: Export
   dashboard:
     syllabus_dashboard: Syllabus dashboard
     published_syllabus: Published Syllabus
@@ -963,7 +998,7 @@ admin:
     description_part2: Every fields, either the name in the header or for the value must be separated by a semi-colon (;).
     description_part3: The fields list that can be specified in the imported field is specified below.
     description_part4: To avoid any encoding problems, the file must be encoded in UTF-8.
-    example: Example:
+    example: "Example:"
     syllabus_example_part1: code;year;title
     syllabus_example_part2: SLEPB111;2018;"Introduction à la Microbiologie"
     permission_example_part1: code;year;username;permission
@@ -977,6 +1012,13 @@ admin:
     reporting_helper:
       parsing: Parsing the csv file
       insertion_db: Inserting in database
+  export:
+    course_name: Course's name
+    code: Apogée code
+    publisher: Publisher's name
+    publication_date: Publication date
+    structure: Structure
+    level: Level
   setting:
     config: Settings
   group:

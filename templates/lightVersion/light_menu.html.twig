@@ -1,0 +1,37 @@
+<div class="breadcrumb-menu">
+    <div>
+        <img class="icon-20" src="{{ asset('build/images/logo_fil_ariane.png') }}"> /
+        <a class="mx-1" href="https://univ-cotedazur.fr/choisir-sa-formation-1">Formation</a> /
+        <span class="ml-1">Syllabus {{ courseInfo.course.code }}</span>
+    </div>
+    <div class="dropdown ml-auto">
+        <button class="btn" type="button" id="dropdown-languages" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Langues<i class="fas fa-caret-down ml-2"></i>
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdown-languages">
+            {% for locale in managed_locales %}
+                <a href="{{ path(app.request.get('_route'), app.request.attributes.get('_route_params')|merge({'_locale' : locale})) }}" class="dropdown-item text-muted">
+                    <img class="mr-1 icon-20" src="{{ asset('build/images/' ~ locale ~ '.png') }}">
+                    {{ ('app.locale.' ~ locale)|trans }}
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<nav id="student-sidebar" class="light-menu">
+    <ul>
+        <li>
+            <a class="nav-link" href="#presentation-section">{{ 'app.light_version.title_section.presentation' | trans }}</a>
+        </li>
+        <li>
+            <a class="nav-link" href="#prerequisites-section">{{ 'app.light_version.title_section.prerequisites' | trans }}</a>
+        </li>
+        <li>
+            <a href="#objectives-section">{{ 'app.light_version.title_section.objectives' | trans }}</a>
+        </li>
+        <li>
+            <a href="#activities-section">{{ 'app.light_version.title_section.activities' | trans }}</a>
+        </li>
+    </ul>
+</nav>

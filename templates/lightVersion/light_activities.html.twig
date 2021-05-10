@@ -1,0 +1,43 @@
+<section id="activities-section">
+    <h3>
+        {{ 'app.light_version.title_section.activities' | trans }}
+    </h3>
+
+    <ul class="light-sections">
+        {% for section in courseInfo.courseSections %}
+            {% if section.courseSectionActivities is not empty %}
+                <li>
+                    <div class="light-section-header collapsed" data-toggle="collapse"
+                         data-target="#activity-{{ section.id }}"
+                         aria-expanded="false" aria-controls="Title">
+                        <span class="light-section-title">{{ section.title }}</span>
+                        <img class="collapse-button" src="{{ asset('build/images/collapsed-arrow.png') }}" alt=""/>
+                    </div>
+                    <div class="light-section-content collapse" id="activity-{{ section.id }}">
+                            <div class="row ml-2">
+                                {% if section.url %}
+                                    <div class="summary col-10">
+                                        {{ section.description|purify }}
+                                    </div>
+                                    <div class="light-section-url col-2">
+                                        <a href="{{ section.url }}" target="_blank">
+                                            <u>{{ 'app.view.student.activities.section_url' | trans }}</u>
+                                        </a>
+                                    </div>
+                                {% else %}
+                                    <div class="summary">
+                                        {{ section.description|purify }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                    </div>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</section>
+{#
+<div class="mt-2">
+
+</div>
+#}

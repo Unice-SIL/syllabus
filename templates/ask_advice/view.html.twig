@@ -1,0 +1,69 @@
+{% extends 'admin_layout.html.twig' %}
+{% set h1 = 'Demande d\'avis' %}
+{% block subContent %}
+    <div class="card card-primary">
+    <!-- /.card-header -->
+    {{ form_start(form) }}
+    <div class="card-body">
+
+        <div class="d-flex flex-column">
+            <div class="row">
+                <div class="col-6">
+                    <div>
+                        <div class="border p-2">
+                            <label class="title-bold-light">Demandeur</label>
+                            <p>{{ askAdvice.user.firstname }} {{ askAdvice.user.lastname }}</p>
+                            {{ askAdvice.user.email }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div>
+                        <div class="border p-2">
+                            <label class="title-bold-light">Cours</label>
+                            <p>
+                                <a href="{{ path('app.course_info.dashboard.index', { 'id' : askAdvice.courseInfo.id }) }}">{{ askAdvice.courseInfo.title }}</a>
+                            </p>
+                            {{ askAdvice.courseInfo.year.id }}<br>
+                            {{ course.code }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div>
+                        <div class="border p-2 mt-3">
+                            <label class="title-bold-light">Demande</label>
+                            <p>{{ askAdvice.description }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div>
+                        <div class="border p-2 mt-3">
+                            <label class="title-bold-light">Commentaire (facultatif)</label>
+                            <p>
+                                {{ form_row(form.comment) }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="custom-control custom-switch  mt-2">
+                {{ form_row(form.process) }}
+            </div>
+            {{ form_widget(form.description, { 'attr': {'class': 'd-none'} }) }}
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </div>
+        {{ form_end(form) }}
+    </div>
+    <!-- /.card-body -->
+
+{% endblock %}

@@ -1,0 +1,37 @@
+<div class="d-flex p-3 view-{{ activityType }} view-{{ activityMode }}">
+    <div class="mr-auto p-2 d-flex flex-column align-self-center">
+        {% for act in activities %}
+            <span>
+            {{ act.activity.label }}
+                {% if act.description is not null %}
+                    : {{ act.description|linkify({"attr": {"target": "_blank"}})|raw }}
+                {% endif %}
+        </span>
+        {% endfor %}
+    </div>
+    {% if activityType=='activity' and activityMode=='class' %}
+        <div class="p-2 d-flex align-self-center font-weight-bold">En présentiel</div>
+        <div class="p-2 d-flex align-self-center">
+            <img src="{{ asset('build/images/activity_in_class_white_64.png') }}">
+        </div>
+    {% elseif activityType=='activity' and activityMode=='autonomy' %}
+        <div class="p-2 d-flex align-self-center font-weight-bold">En autonomie</div>
+        <div class="p-2 d-flex align-self-center">
+            <img src="{{ asset('build/images/activity_in_autonomy_white_64.png') }}">
+        </div>
+    {% elseif activityType=='evaluation' %}
+        <div class="p-2 d-flex flex-column align-self-center font-weight-bold">
+            {% for act in activities %}
+                <span class="text-right">
+            {% if act.evaluationRate is not null %}
+                {{ act.evaluationRate }}% du
+            {% endif %}
+                    Contrôle Continu
+        </span>
+            {% endfor %}
+        </div>
+        <div class="p-2 d-flex align-self-center">
+            <img src="{{ asset('build/images/evaluation_cc_white_64.png') }}">
+        </div>
+    {% endif %}
+</div>

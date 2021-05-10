@@ -1,0 +1,26 @@
+/*
+        Main SASS file.
+
+
+*/
+
+@import "custom_variables";
+
+@import "~@fortawesome/fontawesome-free/css/all.css";
+@import "../../node_modules/@fortawesome/fontawesome-free/scss/regular";
+
+@import "../../node_modules/bootstrap4-toggle/css/bootstrap4-toggle.min.css";
+
+
+@import "../../node_modules/select2";
+
+@import "../../node_modules/slick-carousel/slick/slick.css";
+@import "../../node_modules/slick-carousel/slick/slick-theme.css";
+
+@import "../../node_modules/admin-lte";
+
+@import 'custom';
+
+@import "student_view";
+
+@import "light_version";

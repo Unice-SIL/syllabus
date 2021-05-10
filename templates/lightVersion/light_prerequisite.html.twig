@@ -1,0 +1,26 @@
+<section id="prerequisites-section" class="pb-3">
+    <h3>
+        {{ 'app.light_version.title_section.prerequisites' | trans }}
+    </h3>
+
+    <div>
+        {% if courseInfo.coursePrerequisites is not empty %}
+            <div class="light-subtitle">
+                <span class="text-bold">{{ 'app.view.student.prerequisites.prerequisites_description' | trans }}</span>
+            </div>
+            <ul class="light-list list-dotted">
+                {% for prerequisite in courseInfo.coursePrerequisites %}
+                    {% if prerequisite.description %}
+                    <li class="ml-2 text-primary">
+                        <div class="d-flex flex-column">
+                            <span>{{ prerequisite.description | linkify({"attr": {"target": "_blank"}}) | raw }}</span>
+                        </div>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="p-2 empty-element">{{ 'app.view.student.prerequisites.empty_prerequiste' | trans }}</div>
+        {% endif %}
+    </div>
+</section>

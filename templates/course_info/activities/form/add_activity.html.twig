@@ -1,0 +1,85 @@
+<div class="mb-2 bg-primary">
+    <h5>
+        {{ activity.label }}
+    </h5>
+    <small class="text-italic">
+        {{ activity.description }}
+    </small>
+</div>
+<div>
+    {{ form_start(form, {'attr': {'class': 'modal-action-form', 'data-action-url': path('app.course_info.section.activity.add', {'id': courseSection.id, 'activityId': activity.id, 'activityTypeId': form.vars.value.activityType.id })}}) }}
+    {{ form_errors(form) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.activityType, {label_attr: {class: 'radio-custom'} }) }}
+
+    {{ form_row(form.activityMode, {label_attr: {class: 'radio-custom'} }) }}
+
+    <label>{{ "app.activities.form.activity.evaluable" | trans }}</label>
+    {{ form_row(form.evaluable) }}
+    <div id="eval-content" class="d-none">
+        <label>{{ "app.activities.form.activity.control" | trans }}</label>
+        {{ form_row(form.evaluationCt) }}
+        <div class="input-group mb-3">
+            {{ form_errors(form.evaluationRate) }}
+            {{ form_label(form.evaluationRate) }}
+            {{ form_widget(form.evaluationRate) }}
+            <div class="input-group-append">
+        <span class="input-group-text">
+            <i class="fas fa-percent"></i>
+        </span>
+            </div>
+        </div>
+        {{ form_row(form.evaluationTeacher) }}
+        {{ form_row(form.evaluationPeer) }}
+    </div>
+    <div class="d-flex justify-content-center">
+        <button type="submit" class="btn btn-primary rounded">
+            {{ "app.general.button.add" | trans }}
+        </button>
+    </div>
+    {{ form_widget(form._token) }}
+    {{ form_end(form) }}
+</div>
+
+<script>
+    $('#course_section_activity_evaluable').bootstrapToggle();
+    $('#course_section_activity_evaluationCt').bootstrapToggle();
+
+    var $activityType = $('#course_section_activity_activityType');
+
+    $activityType.change(function () {
+        let $form = $(this).closest('form');
+        let data = {};
+        data['activity_type'] = $('input[name="course_section_activity[activityType]"]:checked').val();
+        $.ajax({
+            url : $form.data('action-url'),
+            type: 'GET',
+            data : data,
+            success: function (html) {
+                $('#course_section_activity_activityMode').replaceWith(
+                    $(html['content']).find('#course_section_activity_activityMode')
+                )
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        displayEvalContent();
+
+        $(document).on('change', '#course_section_activity_evaluable', function () {
+            displayEvalContent();
+        });
+
+        function displayEvalContent() {
+            let display = $('#course_section_activity_evaluable').closest('div .toggle');
+            if (display.hasClass("off"))
+            {
+                $('#eval-content').addClass('d-none');
+            }
+            else
+            {
+                $('#eval-content').removeClass('d-none');
+            }
+        }
+    })
+</script>

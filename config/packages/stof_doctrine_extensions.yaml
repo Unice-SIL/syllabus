@@ -1,0 +1,9 @@
+stof_doctrine_extensions:
+  default_locale: '%env(LOCALE)%'
+  translation_fallback: true
+  persist_default_translation: true
+  orm:
+    syllabus:
+      timestampable: true
+      blameable: true
+      translatable: true

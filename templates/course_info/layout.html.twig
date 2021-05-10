@@ -1,0 +1,132 @@
+{% extends 'base_layout.html.twig' %}
+
+{% block modals %}
+    {% include 'default/modal.html.twig' %}
+{% endblock %}
+
+{% block navbar %}
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
+        </li>
+    </ul>
+    {{ not app.request.query.get('iframe') ? ('<div class="syllabus-title"><h3>' ~ courseInfo.title ~ '-' ~ courseInfo.course.code ~ '</h3></div>')|raw }}
+{% endblock %}
+
+{% block sidebar %}
+    <div class="sidebar">
+            <h4 class="text-white text-center py-3 border-bottom">
+                {{ courseInfo.year.label }}
+            </h4>
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column user-panel" data-widget="treeview" role="menu"
+                data-accordion="false">
+                <li class="nav-item">
+                    <a class="nav-link menu-tab"
+                       href="{{ path('app.course_info.dashboard.index', { 'id': courseInfo.id }) }}"
+                       id="menu-dashboard">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>{{ 'app.course_info.sidebar.dashboard' | trans }}</p>
+                    </a>
+                </li>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li class="nav-item">
+                        <a class="nav-link menu-tab"
+                           href="{{ path('app.course_info.permission.index', { 'id': courseInfo.id }) }}"
+                           id="menu-permissions">
+                            <i class="nav-icon fas fa-user-shield"></i>
+                            <p>{{ 'app.course_info.sidebar.permissions' | trans }}</p>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <li class="nav-item">
+                    <a class="nav-link menu-tab"
+                       href="{{ path('app.course_info.presentation.index', { 'id': courseInfo.id }) }}"
+                       id="menu-presentation">
+                        <i class="nav-icon fas fa-star"></i>
+                        <p>{{ 'app.course_info.sidebar.presentation' | trans }}</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-tab"
+                       id="menu-prerequisites-course"
+                       href="{{ path('app.course_info.prerequisite.index', { 'id': courseInfo.id }) }}">
+                        <i class="nav-icon fas fa-suitcase"></i>
+                        <p>{{ 'app.course_info.sidebar.prerequisites' | trans }}</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-tab"
+                       id="menu-objectives-course"
+                       href="{{ path('app.course_info.objectives.index', { 'id': courseInfo.id }) }}">
+                        <i class="nav-icon fas fa-bullseye"></i>
+                        <p>{{ 'app.course_info.sidebar.objectives' | trans }}</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-tab"
+                       id="menu-activities"
+                       href="{{ path('app.course_info.activities.index', { 'id': courseInfo.id }) }}">
+                        <i class="nav-icon fas fa-box-open"></i>
+                        <p>{{ 'app.course_info.sidebar.activities' | trans }}</p>
+                    </a>
+                </li>
+                <li class="nav-item has-treeview">
+                    <a class="nav-link menu-tab"
+                       id="menu-evaluation"
+                       href="{{ path('app.course_info.evaluation.index', { 'id': courseInfo.id }) }}">
+                        <i class="nav-icon fas fa-medal"></i>
+                        <p>{{ 'app.course_info.sidebar.evaluations' | trans }}</p>
+                    </a>
+                </li>
+                <li class="nav-item menu-tab">
+                    <a class="nav-link"
+                       id="menu-resource"
+                       href="{{ path('app.course_info.resource_equipment.index', { 'id': courseInfo.id }) }}">
+                        <i class="nav-icon fas fa-pencil-ruler"></i>
+                        <p>{{ 'app.course_info.sidebar.equipments' | trans }}</p>
+                    </a>
+                </li>
+                <li class="nav-item menu-tab">
+                    <a class="nav-link" href="{{ path('app.course_info.info.index', { 'id': courseInfo.id }) }}"
+                       id="menu-info">
+                        <i class="nav-icon fas fa-info-circle"></i>
+                        <p>{{ 'app.course_info.sidebar.information' | trans }}</p>
+                    </a>
+                </li>
+                <li class="nav-item menu-tab">
+                    <a class="nav-link" href="{{ path('app.course_info.closing_remarks.index', { 'id': courseInfo.id }) }}"
+                       id="menu-closing_remarks">
+                        <i class="nav-icon fas fa-flag-checkered"></i>
+                        <p>{{ 'app.course_info.sidebar.closing_remarks' | trans }}</p>
+                    </a>
+                </li>
+                <li class="nav-item menu-tab">
+                    <a class="nav-link mt-3" href="{{ path('app.course_info.view.student', { 'id': courseInfo.id }) }}" target="_blank">
+                        <div class="btn btn-outline-light">
+
+                        <i class="nav-icon fas fa-eye"></i>
+                        <p>{{ 'app.course_info.sidebar.student_view' | trans }}</p>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+{% endblock %}
+{% block content %}
+    <section id="content-{{ contentName|default('default') }}" class="content">
+        <div class="container-fluid">
+            {% block subContent %}{% endblock %}
+        </div>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('course_info_layout') }}
+{% endblock %}

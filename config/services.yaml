@@ -1,0 +1,181 @@
+# Learn more about services, parameters and containers at
+# https://symfony.com/doc/current/service_container.html
+parameters:
+    locale: '%env(LOCALE)%'
+    moodle_permission_importer_options:
+        url: '%env(MOODLE_API_URL)%'
+        token: '%env(MOODLE_API_TOKEN)%'
+    course_teacher_factory:
+        sources:
+            ldap_uns:
+                name: '%env(COURSE_TEACHER_FACTORY_SOURCES_LDAP_UNS_NAME)%'
+                searchService: '%env(COURSE_TEACHER_FACTORY_SOURCES_LDAP_UNS_SEARCHSERVICE)%'
+                findByIdService: '%env(COURSE_TEACHER_FACTORY_SOURCES_LDAP_UNS_FINDBYIDSERVICE)%'
+    ldap_uns_repositories:
+        teacher:
+            base_dn: '%env(LDAP_UNS_REPOSITORIES_TEACHER_BASE_DN)%'
+            queries:
+                search: '%env(LDAP_UNS_REPOSITORIES_TEACHER_QUERIES_SEARCH)%'
+                find: '%env(LDAP_UNS_REPOSITORIES_TEACHER_QUERIES_FIND)%'
+            mapping:
+                id: '%env(LDAP_UNS_REPOSITORIES_TEACHER_MAPPING_ID)%'
+                email: '%env(LDAP_UNS_REPOSITORIES_TEACHER_MAPPING_EMAIL)%'
+                firstname: '%env(LDAP_UNS_REPOSITORIES_TEACHER_MAPPING_FIRSTNAME)%'
+                lastname: '%env(LDAP_UNS_REPOSITORIES_TEACHER_MAPPING_LASTNAME)%'
+    test_authenticator:
+        current: '%env(TEST_AUTHENTICATOR_CURRENT)%'
+        users:
+            user1:
+                firstname: '%env(TEST_AUTHENTICATOR_USERS_USER1_FIRSTNAME)%'
+                lastname: '%env(TEST_AUTHENTICATOR_USERS_USER1_LASTNAME)%'
+                email: '%env(TEST_AUTHENTICATOR_USERS_USER1_EMAIL)%'
+                roles:
+                    - ROLE_USER
+    ldap_uns_options:
+        protocol_version: '%env(LDAP_UNS_OPTIONS_PROTOCOL_VERSION)%'
+        referrals: '%env(LDAP_UNS_OPTIONS_REFERRALS)%'
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+        bind:
+            $mailerSource: '%env(MAILER_SOURCE)%'
+            $mailerTarget: '%env(MAILER_TARGET)%'
+            $moodleApiUrl: '%env(MOODLE_API_URL)%'
+            $moodleApiToken: '%env(MOODLE_API_TOKEN)%'
+            $apogeeCourseNatureToImport: '%env(APOGEE_COURSE_NATURE_TO_IMPORT)%'
+            $moodlePermissionImporterOptions: '%moodle_permission_importer_options%'
+
+    App\Syllabus\:
+        resource: '../src/Syllabus/*'
+        exclude: '../src/Syllabus/{Entity,Tests, Client}'
+
+    App\Syllabus\Controller\:
+        resource: '../src/Syllabus/Controller'
+        public: true
+        tags: ['controller.service_arguments']
+
+    # Twig Intl
+    twig.extension.intl:
+        class: Twig_Extensions_Extension_Intl
+        tags:
+            - { name: twig.extension }
+
+    Dmishh\SettingsBundle\Controller\SettingsController:
+        public: true
+        autowire: true
+        tags: ['container.service_subscriber']
+        arguments:
+            - '@translator'
+            - '@Dmishh\SettingsBundle\Manager\SettingsManagerInterface'
+            - 'setting/manage.html.twig'
+            - false
+            - ROLE_SUPER_ADMIN
+
+    # AUTHENTICATOR
+    App\Syllabus\Security\Authenticator\TestAuthenticator:
+        arguments: ['%test_authenticator%']
+
+    # COMMAND
+    #App\Syllabus\Importer\Course\CoursesDuplicateCommand:
+    #    arguments: ['@syllabus_entity_manager']
+
+    # ENTITY MANAGER
+    syllabus_entity_manager:
+        class: Doctrine\ORM\EntityManager
+        factory: ['@doctrine', getManager]
+        arguments: ['syllabus']
+
+    # FACTORY
+    App\Syllabus\Factory\ImportCourseTeacherFactory:
+        arguments: [ '%course_teacher_factory%' ]
+
+    # FORM
+    App\Syllabus\Form\Course\EditPresentationCourseInfoType:
+        arguments: [ '%course_teacher_factory%' ]
+
+    App\Syllabus\Form\CourseInfo\Presentation\TeachersType:
+        arguments: [ '%course_teacher_factory%' ]
+
+    # FIXTURE
+    App\Syllabus\Fixture\CourseFixture:
+        tags: ['doctrine.fixture.orm']
+
+    # HELPER
+    App\Syllabus\Helper\FileUploaderHelper:
+        arguments: [ '%env(DATA_DIRECTORY)%' ]
+    App\Syllabus\Helper\FileRemoverHelper:
+        arguments: ['@filesystem', '%env(DATA_DIRECTORY)%']
+
+    # LISTENER
+    App\Syllabus\Listener\CoursePresentationImageUploadListener:
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: preUpdate }
+            - { name: doctrine.event_listener, event: postUpdate }
+            - { name: doctrine.event_listener, event: postLoad }
+
+    App\Syllabus\Listener\NotificationListener:
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+            - { name: doctrine.event_listener, event: postUpdate }
+            - { name: doctrine.event_listener, event: postRemove }
+
+    App\Syllabus\Listener\ExceptionListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
+
+    # QUERY
+    App\Syllabus\Query\CourseTeacher\Adapter\Ldap\SearchCourseTeacherLdapQuery:
+        public: true
+        autowire: true
+    App\Syllabus\Query\CourseTeacher\Adapter\Ldap\FindCourseTeacherByIdLdapQuery:
+        public: true
+        autowire: true
+
+    # PROVIDERS
+    App\Syllabus\Security\Provider\TestUserProvider:
+        arguments: ['%test_authenticator%']
+
+    #JMS
+    jms_serializer.object_constructor:
+        alias: jms_serializer.doctrine_object_constructor
+
+#LDAP
+    App\Ldap\:
+        resource: '../src/Ldap/*'
+        exclude: '../src/Ldap/{Entity,Repository,Tests}'
+
+    # ALIAS
+    App\Ldap\Repository\TeacherRepositoryInterface:
+        #class: App\Ldap\Repository\TeacherRepositoryInterface
+        factory: 'App\Ldap\Factory\TeacherRepositoryFactory:getService'
+
+    # FACTORY
+    App\Ldap\Factory\TeacherRepositoryFactory:
+        autowire: true
+        arguments: [ '%env(LDAP_UNS_TEACHER_REPOSITORY_SERVICE)%' ]
+
+    # LDAP
+    ldap_uns_adapter:
+        class: Symfony\Component\Ldap\Adapter\ExtLdap\Adapter
+        arguments:
+            -   host: '%env(LDAP_UNS_HOST)%'
+                port: '%env(LDAP_UNS_PORT)%'
+                encryption: '%env(LDAP_UNS_ENCRYPTION)%'
+                options: '%ldap_uns_options%'
+
+    ldap_uns:
+        class: Symfony\Component\Ldap\Ldap
+        arguments: ['@ldap_uns_adapter']
+
+    # REPOSITORY
+    teacher_inmemory_repository:
+        class: 'App\Ldap\Repository\InMemory\TeacherInMemoryRepository'
+        public: true
+
+    teacher_ldap_repository:
+        class: 'App\Ldap\Repository\Ldap\TeacherLdapRepository'
+        arguments: [ '@ldap_uns', '%ldap_uns_repositories%', '%env(LDAP_UNS_BIND_DN)%', '%env(LDAP_UNS_BIND_PASSWORD)%' ]
+        public: true

@@ -1,0 +1,37 @@
+{% extends 'admin_layout.html.twig' %}
+{% set h1 = 'admin.group.edit_group' | trans %}
+{% set href = path('app.admin.groups.index') %}
+
+{% block subContent %}
+    <div class="card">
+        <div class="card-body">
+            {{ include('groups/_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        function toggleRoles($role)
+        {
+            if($role.is(':checked'))
+            {
+                $('ul[data-parent="'+$role.attr('id')+'"]').show();
+            }else{
+                $('ul[data-parent="'+$role.attr('id')+'"]').hide();
+            }
+        }
+
+        $(document).ready(function(){
+            $('#groups_roles input[type="checkbox"]').each(function(){
+                toggleRoles($(this));
+            });
+
+            $(document).on('change', '#groups_roles input[type="checkbox"]', function () {
+                toggleRoles($(this));
+            });
+        });
+
+    </script>
+{% endblock %}

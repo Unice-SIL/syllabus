@@ -1,0 +1,16 @@
+{% extends 'admin_layout.html.twig' %}
+{% set h1 = 'app.form.switch_user.title' | trans %}
+{% set href = path('app.admin.dashboard.index') %}
+
+{% block subContent %}
+    <div class="card card-primary">
+        <!-- /.card-header -->
+        <!-- form start -->
+        {{ form_start(form) }}
+        <div class="card-body">
+            {{ form(form) }}
+        </div>
+        <!-- /.card-body -->
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
