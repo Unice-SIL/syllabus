@@ -1,6 +1,6 @@
 lexik_jwt_authentication:
-  secret_key:       '%env(JWT_SECRET_KEY)%' # required for token creation
-  public_key:       '%env(JWT_PUBLIC_KEY)%'  # required for token verification
+  secret_key:       '%env(resolve:JWT_SECRET_KEY)%' # required for token creation
+  public_key:       '%env(resolve:JWT_PUBLIC_KEY)%'  # required for token verification
   pass_phrase:      '%env(JWT_PASSPHRASE)%' # required for token creation, usage of an environment variable is recommended
   token_ttl:        3600
   user_identity_field: username
