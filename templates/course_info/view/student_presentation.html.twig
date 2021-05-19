@@ -129,12 +129,6 @@
         {% endif %}
     </div>
 
-    {% if courseInfo.publisher is null and courseInfo.publicationDate is null %}
-        <h3 class="mt-5 text-center">
-            {{ 'app.view.student.presentation.not_published' | trans }}
-        </h3>
-    {% endif %}
-
     <div class="presentation-summary mt-5">
         {% if courseInfo.mediaType == 'image' and courseInfo.image is not null %}
             {% set imgSrc = courseInfo.image | split('/') | last %}
