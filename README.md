@@ -44,6 +44,10 @@ Ajouter dans le cron du serveur la commande suivante:
 
 ### v2
 
+#### v2.2.1
+##### Hotfix
+- Syllabus not published is now invisible to student views
+
 #### v2.2.0
 ##### Release
 - Migration Symfony 4.4
