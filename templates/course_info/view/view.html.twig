@@ -6,23 +6,32 @@
 {% block main %}
     <div class="student-view">
         <div class="container">
-            {% include 'course_info/view/student_vertical_menu.html.twig' %}
+            {% if courseInfo.publisher is not null and courseInfo.publicationDate is not null %}
+                {% include 'course_info/view/student_vertical_menu.html.twig' %}
+            {% endif %}
             <div class="student-content">
-                {% include 'course_info/view/student_presentation.html.twig' %}
-                {% include 'course_info/view/student_prerequisite.html.twig' %}
-                {% include 'course_info/view/student_objectives.html.twig' %}
-                {% include 'course_info/view/student_activities.html.twig' %}
-                {% if (courseInfo | displayValidator('evaluation_empty')) == true %}
-                    {% include 'course_info/view/student_evaluation.html.twig' %}
-                {% endif %}
-                {% if (courseInfo | displayValidator('equipments_empty')) == true %}
-                    {% include 'course_info/view/student_equipments.html.twig' %}
-                {% endif %}
-                {% if (courseInfo | displayValidator('info_empty')) == true %}
-                    {% include 'course_info/view/student_info.html.twig' %}
-                {% endif %}
-                {% if (courseInfo | displayValidator('closing_remarks_empty')) == true %}
-                    {% include 'course_info/view/student_closing_remarks.html.twig' %}
+                {% if courseInfo.publisher is null and courseInfo.publicationDate is null %}
+                    <h3 class="my-5 text-center">
+                        {{ 'app.view.student.presentation.not_published' | trans }}
+                    </h3>
+                {% else %}
+
+                    {% include 'course_info/view/student_presentation.html.twig' %}
+                    {% include 'course_info/view/student_prerequisite.html.twig' %}
+                    {% include 'course_info/view/student_objectives.html.twig' %}
+                    {% include 'course_info/view/student_activities.html.twig' %}
+                    {% if (courseInfo | displayValidator('evaluation_empty')) == true %}
+                        {% include 'course_info/view/student_evaluation.html.twig' %}
+                    {% endif %}
+                    {% if (courseInfo | displayValidator('equipments_empty')) == true %}
+                        {% include 'course_info/view/student_equipments.html.twig' %}
+                    {% endif %}
+                    {% if (courseInfo | displayValidator('info_empty')) == true %}
+                        {% include 'course_info/view/student_info.html.twig' %}
+                    {% endif %}
+                    {% if (courseInfo | displayValidator('closing_remarks_empty')) == true %}
+                        {% include 'course_info/view/student_closing_remarks.html.twig' %}
+                    {% endif %}
                 {% endif %}
 
 

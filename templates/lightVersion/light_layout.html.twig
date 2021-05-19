@@ -15,10 +15,13 @@
             {% include 'lightVersion/light_menu.html.twig' %}
             <div class="light-content">
                 {% include 'lightVersion/light_presentation.html.twig' %}
+                {% if courseInfo.publisher is not null and courseInfo.publicationDate is not null %}
+
                 {% include 'lightVersion/light_prerequisite.html.twig' %}
                 {% include 'lightVersion/light_objectives.html.twig' %}
                 {% include 'lightVersion/light_activities.html.twig' %}
 
+                {% endif %}
                 <div class="text-center">
                     <a href="{{ path('app.course_info.dashboard.index', { 'id' : courseInfo.id }) }}" class="btn btn-primary text-center">
                         {{ 'app.light_version.layout.link_to_authenticate' | trans }}

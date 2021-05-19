@@ -5,6 +5,11 @@
             {{ 'app.light_version.presentation.code_ecue' | trans }} {{ courseInfo.course.code }}
         </h2>
     </div>
+    {% if courseInfo.publisher is null and courseInfo.publicationDate is null %}
+    <h4 class="my-5 text-center">
+        {{ 'app.view.student.presentation.not_published' | trans }}
+    </h4>
+    {% else %}
 
     <div class="presentation-info row">
         <div class="col-12 col-lg-4 col-md-6 col-sm-12">
@@ -163,4 +168,5 @@
             </div>
         </div>
     </div>
+    {% endif %}
 </section>

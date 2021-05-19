@@ -19,7 +19,8 @@
     </div>
 </div>
 
-<nav id="student-sidebar" class="light-menu">
+{% if courseInfo.publisher is not null and courseInfo.publicationDate is not null %}
+    <nav id="student-sidebar" class="light-menu">
     <ul>
         <li>
             <a class="nav-link" href="#presentation-section">{{ 'app.light_version.title_section.presentation' | trans }}</a>
@@ -35,3 +36,4 @@
         </li>
     </ul>
 </nav>
+{% endif %}
