@@ -865,6 +865,8 @@ admin:
     structure: Composante
     code: Code
     export: Exporter
+    all: Tous
+    published_syllabus: Syllabus publié(s)
   dashboard:
     syllabus_dashboard: Tableau de bord des syllabus
     published_syllabus: Syllabus publié(s)

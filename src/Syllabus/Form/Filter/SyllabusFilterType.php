@@ -8,8 +8,11 @@ use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderExecuterInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterOperands;
+use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\ChoiceFilterType;
 use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\TextFilterType;
+use Lexik\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -73,6 +76,30 @@ class SyllabusFilterType extends AbstractType
                     };
 
                     $qbe->addOnce($qbe->getAlias().'.year', 'ye', $closure);
+                }
+            ])
+            ->add('publicationDate', ChoiceFilterType::class, [
+                'label' => 'admin.syllabus.published_syllabus',
+                'mapped' => false,
+                'required' => false,
+                'placeholder' => 'admin.syllabus.all',
+                'choices'  => [
+                    'yes' => true,
+                    'no' => false,
+                ],
+                'apply_filter' => function (QueryInterface $filterQuery, $field, $values) {
+                    if (is_null($values['value'])) {
+                        return null;
+                    }
+
+                    $expression = $filterQuery->getExpr()->isNull($field);
+
+                    if ($values['value'] === true)
+                    {
+                        $expression = $filterQuery->getExpr()->isNotNull($field);
+                    }
+
+                    return $filterQuery->createCondition($expression);
                 }
             ]);
 
