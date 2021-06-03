@@ -8,11 +8,14 @@
                 {{ form_start(form) }}
                 <div class="row">
                     <div class="col-lg-6 col-md-12">
+                        <fieldset class="form-group">
                         {{ form_row(form.title) }}
+                        </fieldset>
                         {{ form_row(form.structure) }}
                     </div>
                     <div class="col-lg-6 col-md-12">
                         {{ form_row(form.year) }}
+                        {{ form_row(form.publicationDate) }}
                     </div>
                     <div class="col-12">
                         <div class="form-group">
@@ -57,7 +60,11 @@
                                     {{ courseInfo.publisher.lastname }} {{ courseInfo.publisher.firstname }}
                                 {% endif %}
                             </td>
-                            <td>{{ courseInfo.publicationDate | date('d/m/Y') }}</td>
+                            <td>
+                                {% if courseInfo.publicationDate %}
+                                    {{ courseInfo.publicationDate | date('d/m/Y') }}
+                                {% endif %}
+                            </td>
                             <td>
                                 {% if courseInfo.year %}
                                     {{ courseInfo.year.label }}

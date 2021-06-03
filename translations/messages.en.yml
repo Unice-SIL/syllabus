@@ -865,6 +865,8 @@ admin:
     structure: Structure
     code: Code
     export: Export
+    all: All
+    published_syllabus: Published Syllabus
   dashboard:
     syllabus_dashboard: Syllabus dashboard
     published_syllabus: Published Syllabus

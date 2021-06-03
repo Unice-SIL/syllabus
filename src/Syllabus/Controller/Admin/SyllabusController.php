@@ -61,6 +61,7 @@ class SyllabusController extends Controller
 
         if ($isExport)
         {
+            set_time_limit(0);
             return $syllabusExport->export('Liste_Syllabus', $qb->getQuery()->getResult());
         }
 
