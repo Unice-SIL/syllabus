@@ -6,15 +6,17 @@
 {% block main %}
     <div class="student-view">
         <div class="container">
-            {% if courseInfo.publisher is not null and courseInfo.publicationDate is not null %}
+            {% if courseInfo.publicationDate is not null or is_granted(constant('App\\Syllabus\\Constant\\Permission::WRITE'), courseInfo) %}
                 {% include 'course_info/view/student_vertical_menu.html.twig' %}
             {% endif %}
             <div class="student-content">
-                {% if courseInfo.publisher is null and courseInfo.publicationDate is null %}
+                {% if courseInfo.publicationDate is null %}
                     <h3 class="my-5 text-center">
                         {{ 'app.view.student.presentation.not_published' | trans }}
                     </h3>
-                {% else %}
+                {% endif %}
+
+                {% if is_granted(constant('App\\Syllabus\\Constant\\Permission::WRITE'), courseInfo) %}
 
                     {% include 'course_info/view/student_presentation.html.twig' %}
                     {% include 'course_info/view/student_prerequisite.html.twig' %}
