@@ -104,9 +104,9 @@ services:
 
     # HELPER
     App\Syllabus\Helper\FileUploaderHelper:
-        arguments: [ '%env(DATA_DIRECTORY)%' ]
+        arguments: [ '%env(resolve:DATA_DIRECTORY)%' ]
     App\Syllabus\Helper\FileRemoverHelper:
-        arguments: ['@filesystem', '%env(DATA_DIRECTORY)%']
+        arguments: ['@filesystem', '%env(resolve:DATA_DIRECTORY)%']
 
     # LISTENER
     App\Syllabus\Listener\CoursePresentationImageUploadListener:
