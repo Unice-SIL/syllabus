@@ -15,11 +15,11 @@
             {% include 'lightVersion/light_menu.html.twig' %}
             <div class="light-content">
                 {% include 'lightVersion/light_presentation.html.twig' %}
-                {% if courseInfo.publisher is not null and courseInfo.publicationDate is not null %}
+                {% if courseInfo.publicationDate is not null or is_granted(constant('App\\Syllabus\\Constant\\Permission::WRITE'), courseInfo)  %}
 
-                {% include 'lightVersion/light_prerequisite.html.twig' %}
-                {% include 'lightVersion/light_objectives.html.twig' %}
-                {% include 'lightVersion/light_activities.html.twig' %}
+                    {% include 'lightVersion/light_prerequisite.html.twig' %}
+                    {% include 'lightVersion/light_objectives.html.twig' %}
+                    {% include 'lightVersion/light_activities.html.twig' %}
 
                 {% endif %}
                 <div class="text-center">
