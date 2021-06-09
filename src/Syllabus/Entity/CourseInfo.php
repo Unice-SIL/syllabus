@@ -674,7 +674,7 @@ class CourseInfo
      *
      * @ORM\Column(name="duplicate_next_year", type="boolean", nullable=false)
      */
-    private $duplicateNextYear = false;
+    private $duplicateNextYear = true;
 
     /**
      * CourseInfo constructor.
