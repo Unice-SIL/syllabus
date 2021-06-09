@@ -16,7 +16,7 @@
                     </h3>
                 {% endif %}
 
-                {% if is_granted(constant('App\\Syllabus\\Constant\\Permission::WRITE'), courseInfo) %}
+                {% if courseInfo.publicationDate is not null or is_granted(constant('App\\Syllabus\\Constant\\Permission::WRITE'), courseInfo) %}
 
                     {% include 'course_info/view/student_presentation.html.twig' %}
                     {% include 'course_info/view/student_prerequisite.html.twig' %}
