@@ -30,7 +30,7 @@ class DefaultController extends AbstractController
      * @return RedirectResponse|Response
      * @throws \Exception
      */
-    public function routerAction($code, string $year, CourseInfoDoctrineRepository $repository, YearManager $yearManager)
+    public function routerAction($code, CourseInfoDoctrineRepository $repository, YearManager $yearManager, string $year = null)
     {
         if (empty($year)) {
             $year = $yearManager->findCurrentYear();
