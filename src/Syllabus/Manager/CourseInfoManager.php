@@ -17,6 +17,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use League\Csv\Reader;
 use Ramsey\Uuid\Uuid;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -220,7 +222,6 @@ class CourseInfoManager extends AbstractManager
      */
     private function duplicationProcess(array $fieldsToDuplicate, CourseInfo $courseInfoSender, CourseInfo $courseInfoRecipient)
     {
-
         foreach ($fieldsToDuplicate as $field) {
 
             $property = $field->getField();
@@ -230,9 +231,12 @@ class CourseInfoManager extends AbstractManager
 
             // if the data to duplicate is a instance of collection we do a specific treatment (erase every old elements before duplicate the new ones)
             if ($CourseInfoSenderData instanceof Collection && !in_array($property, self::DUPLICATION_MANY_TO_MANY_FIELDS)) {
-
                 $this->duplicateCollectionProperty($CourseInfoSenderData, $courseInfoRecipient, $property, 'courseInfo');
+                continue;
+            }
 
+            if ($CourseInfoSenderData instanceof File) {
+                $this->duplicateFileProperty($CourseInfoSenderData, $courseInfoRecipient, $property);
                 continue;
             }
 
@@ -270,6 +274,21 @@ class CourseInfoManager extends AbstractManager
 
         $this->propertyAccessor->setValue($courseInfoRecipient, $property, $collection);
 
+    }
+
+    /**
+     * @param File $CourseInfoSenderData
+     * @param CourseInfo $courseInfoRecipient
+     * @param string $property
+     */
+    private function duplicateFileProperty(File $CourseInfoSenderData, CourseInfo $courseInfoRecipient, string $property)
+    {
+        $filesystem = new Filesystem();
+        $path = $CourseInfoSenderData->getPath();
+        $filename = $CourseInfoSenderData->getFilename();
+        $copiedFilename = md5(uniqid()).'.'.$CourseInfoSenderData->guessExtension();
+        $filesystem->copy($path . '/' . $filename, $path . '/' . $copiedFilename);
+        $this->propertyAccessor->setValue($courseInfoRecipient, $property, $copiedFilename);
     }
 
     /**
