@@ -548,7 +548,6 @@ class CourseInfo
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="last_updater", referencedColumnName="id")
      * })
-     * @Gedmo\Blameable(on="update")
      * @ApiSubresource()
      */
     private $lastUpdater;
@@ -560,7 +559,6 @@ class CourseInfo
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="publisher", referencedColumnName="id", nullable=true)
      * })
-     * @Gedmo\Blameable(on="create")
      * @ApiSubresource()
      */
     private $publisher;
