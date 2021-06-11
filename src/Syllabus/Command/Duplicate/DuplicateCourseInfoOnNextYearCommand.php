@@ -129,7 +129,9 @@ class DuplicateCourseInfoOnNextYearCommand extends AbstractJob
                 $nextCourseInfo->setCourse($courseInfo->getCourse())
                     ->setYear($nextYear)
                     ->setStructure($courseInfo->getStructure())
-                    ->setTitle($courseInfo->getTitle());
+                    ->setTitle($courseInfo->getTitle())
+                    ->setPublicationDate(!empty($courseInfo->getPublicationDate())? new \DateTime() : null);
+
 
                 $this->em->persist($nextCourseInfo);
                 $this->em->flush();

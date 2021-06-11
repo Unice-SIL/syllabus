@@ -154,11 +154,9 @@ class AutoCompleteController extends AbstractController
      * @Route("/s2-courseinfo-with-write-permission", name="s2_courseinfo_with_write_permission")
      *
      * @param Request $request
-     * @param AccessDecisionManagerInterface $decisionManager
-     * @param TokenInterface $token
      * @return JsonResponse
      */
-    public function autoCompleteS2CourseInfoWithWritePermission(Request $request, AccessDecisionManagerInterface $decisionManager, TokenStorageInterface $tokenStorage)
+    public function autoCompleteS2CourseInfoWithWritePermission(Request $request)
     {
         $search = $request->query->get('q', '');
         $currentCourseInfo = $request->query->get('currentCourseInfo', null);
