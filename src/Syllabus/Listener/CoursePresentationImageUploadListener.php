@@ -124,7 +124,7 @@ class CoursePresentationImageUploadListener
     private function uploadFile($entity)
     {
         $property = $this->getProperty($entity);
-        if ($property === null) return;
+        if ($property === null)  return;
 
         if ($file = $this->propertyAccessor->getValue($entity, $property)) {
             if ($file instanceof UploadedFile) {
@@ -139,23 +139,21 @@ class CoursePresentationImageUploadListener
      * @param $entity
      * @return string|null
      */
-    private function getProperty($entity)
+    private function getProperty($entity): ?string
     {
-        $property = null;
-        if ($entity instanceof CourseInfo) $property = self::COURSE_INFO_PROP_IMAGE;
-        if ($entity instanceof ActivityType) $property = self::ACTIVITY_TYPE_PROP_ICON;
-        return $property;
+        if ($entity instanceof CourseInfo) return self::COURSE_INFO_PROP_IMAGE;
+        if ($entity instanceof ActivityType) return self::ACTIVITY_TYPE_PROP_ICON;
+        return null;
     }
 
     /**
      * @param $entity
      * @return string|null
      */
-    private function getPreviousProperty($entity)
+    private function getPreviousProperty($entity): ?string
     {
-        $property = null;
-        if ($entity instanceof CourseInfo) $property = self::COURSE_INFO_PROP_PREVIOUS_IMAGE;
-        if ($entity instanceof ActivityType) $property = self::ACTIVITY_TYPE_PROP_PREVIOUS_ICON;
-        return $property;
+        if ($entity instanceof CourseInfo) return self::COURSE_INFO_PROP_PREVIOUS_IMAGE;
+        if ($entity instanceof ActivityType) return self::ACTIVITY_TYPE_PROP_PREVIOUS_ICON;
+        return null;
     }
 }
