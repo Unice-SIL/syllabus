@@ -1,10 +1,9 @@
 <?php
 
-
 namespace App\Syllabus\Controller\Common;
 
-
 use App\Syllabus\Constant\Permission;
+use App\Syllabus\Constant\UserRole;
 use App\Syllabus\Entity\CourseInfo;
 use App\Syllabus\Entity\Structure;
 use App\Syllabus\Repository\Doctrine\UserDoctrineRepository;
@@ -14,6 +13,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\expr;
@@ -158,7 +158,7 @@ class AutoCompleteController extends AbstractController
      * @param TokenInterface $token
      * @return JsonResponse
      */
-    public function autoCompleteS2CourseInfoWithWritePermission(Request $request, AccessDecisionManagerInterface $decisionManager, ?TokenInterface $token)
+    public function autoCompleteS2CourseInfoWithWritePermission(Request $request, AccessDecisionManagerInterface $decisionManager, TokenStorageInterface $tokenStorage)
     {
         $search = $request->query->get('q', '');
         $currentCourseInfo = $request->query->get('currentCourseInfo', null);
@@ -166,14 +166,15 @@ class AutoCompleteController extends AbstractController
         /** @var QueryBuilder $qb */
         $qb = $this->getDoctrine()->getRepository(CourseInfo::class)->createQueryBuilder('ci')
             ->innerJoin('ci.course', 'c')
-            ->innerJoin('ci.coursePermissions', 'cp')
-            ->addSelect('c', 'cp');
-        $qb->where('ci.title LIKE :search OR c.code LIKE :search')
+            ->addSelect('c')
+            ->where('ci.title LIKE :search OR c.code LIKE :search')
             ->setParameter('search', "%{$search}%");
 
-        if (empty($token) || !$decisionManager->decide($token, ['ROLE_ADMIN_COURSE_INFO_UPDATE']))
-        {
-            $qb->andWhere($qb->expr()->eq('cp.user', ':user'))
+        if (!$this->isGranted(UserRole::ROLE_ADMIN_COURSE_INFO_UPDATE)) {
+            $qb
+                ->innerJoin('ci.coursePermissions', 'cp')
+                ->addSelect('cp')
+                ->andWhere($qb->expr()->eq('cp.user', ':user'))
                 ->andWhere($qb->expr()->eq('cp.permission', ':permission'))
                 ->setParameter('user', $this->getUser())
                 ->setParameter('permission', Permission::WRITE);
