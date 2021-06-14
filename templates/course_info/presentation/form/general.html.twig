@@ -93,6 +93,10 @@
             toggleMediaType();
         });
 
+        $(document).on('change', '#general_image', function(e){
+            $(this).next('.custom-file-label').html(e.target.files[0].name);
+        })
+
         toggleMediaType();
 
         $('form[name="general"]').find('.select2entity').select2entity();
