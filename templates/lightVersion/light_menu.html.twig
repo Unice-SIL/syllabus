@@ -19,7 +19,7 @@
     </div>
 </div>
 
-{% courseInfo.publicationDate is not null or is_granted(constant('App\\Syllabus\\Constant\\Permission::WRITE'), courseInfo) %}
+{% if courseInfo.publicationDate is not null or is_granted(constant('App\\Syllabus\\Constant\\Permission::WRITE'), courseInfo) %}
     <nav id="student-sidebar" class="light-menu">
     <ul>
         <li>
