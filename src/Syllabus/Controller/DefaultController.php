@@ -7,12 +7,14 @@ namespace App\Syllabus\Controller;
 use App\Syllabus\Entity\CourseInfo;
 use App\Syllabus\Entity\CoursePermission;
 use App\Syllabus\Entity\User;
+use App\Syllabus\Entity\Year;
 use App\Syllabus\Manager\YearManager;
 use App\Syllabus\Repository\Doctrine\CourseInfoDoctrineRepository;
 use App\Syllabus\Repository\Doctrine\CoursePermissionDoctrineRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -63,16 +65,22 @@ class DefaultController extends AbstractController
     {
         if (empty($year)) {
             $year = $yearManager->findCurrentYear();
+            if (!$year instanceof Year) {
+                throw new NotFoundHttpException('Year not found');
+            }
+            $year = $year->getId();
         }
+        
         /** @var CourseInfo $courseInfo */
         $courseInfo = $repository->findByCodeAndYear($code, $year);
-        if (empty($courseInfo)) {
+        if (!$courseInfo instanceof CourseInfo) {
             return $this->render('error/courseNotFound.html.twig');
         }
-        if (!$this->getUser())
-        {
+
+        if (!$this->getUser()) {
             return $this->redirectToRoute('app.course_info.view.light_version', ['id' => $courseInfo->getId()]);
         }
+
         return $this->redirectToRoute('app_router', ['code' => $code, 'year' => $year]);
     }
 
