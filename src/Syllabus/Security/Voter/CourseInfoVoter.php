@@ -87,6 +87,9 @@ class CourseInfoVoter extends Voter
 
         /** @var User $user */
         $user = $token->getUser();
+        if ($user instanceof User) {
+            return false;
+        }
 
         if($subject instanceof CourseInfo)
         {
