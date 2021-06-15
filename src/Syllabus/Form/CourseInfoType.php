@@ -13,24 +13,34 @@ use const Doctrine\ORM\qb;
 
 class CourseInfoType extends AbstractType
 {
+    /**
+     * @var YearDoctrineRepository
+     */
+    private $yearDoctrineRepository;
+
+    /**
+     * CourseInfoType constructor.
+     * @param YearDoctrineRepository $yearDoctrineRepository
+     */
+    public function __construct(YearDoctrineRepository $yearDoctrineRepository)
+    {
+        $this->yearDoctrineRepository = $yearDoctrineRepository;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $courseInfo = $builder->getData();
+        $courseInfos = $courseInfo->getCourse()->getCourseInfos();
+        $years = array_filter($this->yearDoctrineRepository->findAll(), function(Year $year) use ($courseInfos){
+            return !$courseInfos->exists(function($key, $ci) use ($year) {
+                return $ci->getYear() === $year;
+            });
+        });
+
         $builder
             ->add('year', EntityType::class, [
                 'class' => Year::class,
-                'query_builder' => function (YearDoctrineRepository $yearDoctrineRepository) use ($courseInfo) {
-
-                    $qb = $yearDoctrineRepository->getAvailableYearsByCourseBuilder($courseInfo->getCourse());
-
-                    if ($year = $courseInfo->getYear()) {
-                        $qb->orWhere($qb->expr()->eq('y', ':year'))
-                            ->setParameter('year', $year)
-                        ;
-                    }
-
-                    return $qb;
-                },
+                'choices' => $years
             ])
             ->add('title')
             ->add('structure')
