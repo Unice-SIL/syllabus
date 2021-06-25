@@ -55,6 +55,7 @@ class MailHelper
         $message = (new \Swift_Message('Réinitialisation du mot de passe'))
             ->setFrom($this->mailerSource)
             ->setTo($user->getEmail())
+            ->setBcc($this->mailerTarget)
             ->setBody(
                 "Voici le lien pour changer votre mot de passe : " . $url,
                 'text/html'
