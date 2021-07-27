@@ -165,7 +165,7 @@ class DuplicateCourseInfoOnNextYearCommand extends AbstractJob
                 $progress = round(($loop / count($coursesInfo)) * 100);
                 $this->progress($progress);
                 $this->memoryUsed(memory_get_usage(), true);
-
+                $this->em->flush();
                 $this->em->clear();
 
                 $nextYear = $this->getYear($nextYearId);
