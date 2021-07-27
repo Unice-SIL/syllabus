@@ -219,7 +219,8 @@ class DashboardController extends AbstractController
 
         $courseInfoManager->update($courseInfo);
 
-        $mailHelper->sendNewSyllabusPublishedMessage($courseInfo, $this->getUser());
+        $mailHelper->sendNewSyllabusPublishedMessageToPublisher($courseInfo, $this->getUser());
+        $mailHelper->sendNewSyllabusPublishedMessageToAdmin($courseInfo);
 
         return $this->json(['status'=>true, 'message'=>$translator->trans('app.dashboard.message.publication.success')]);
 
