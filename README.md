@@ -44,6 +44,10 @@ Ajouter dans le cron du serveur la commande suivante:
 
 ### v2
 
+#### v2.2.3
+##### Hotfix
+- Teaching hours infos added
+
 #### v2.2.2
 ##### Hotfix
 - Syllabus API filters fixed

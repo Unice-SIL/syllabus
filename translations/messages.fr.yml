@@ -500,6 +500,7 @@ app:
       teaching_mode:
         empty_teaching_mode: Aucun mode d'enseignement sélectionné
         label: Mode d'enseignement
+        hours_infos: Le volume horaire total doit être supérieur à 0.
     form:
       general:
         periods: Semestre

@@ -5,6 +5,11 @@
         </span>
     </div>
 {% else %}
+    <div class="mb-2">
+        <u>
+            {{ 'app.presentation.view.teaching_mode.hours_infos' | trans }}
+        </u>
+    </div>
     <h4 class="text-shadow">{{ ('app.const.teaching_mode.' ~ courseInfo.teachingMode) | trans }}</h4>
     {% if courseInfo.teachingMode == constant('App\\Syllabus\\Constant\\TeachingMode::IN_CLASS') %}
         <div class="row">
