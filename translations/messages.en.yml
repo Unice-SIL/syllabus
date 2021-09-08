@@ -500,6 +500,7 @@ app:
       teaching_mode:
         empty_teaching_mode: No teaching mode selected
         label: Teaching mode
+        hours_infos: The sum of the teaching hours must be superior to 0.
     form:
       general:
         periods: Period (optionnal)
