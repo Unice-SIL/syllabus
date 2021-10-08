@@ -4,6 +4,7 @@ twig:
   globals:
     tutorial_link_syllabus_dashboard: '%env(TUTORIAL_LINK_SYLLABUS_DASHBOARD)%'
     tutorial_link_mail_published: '%env(TUTORIAL_LINK_MAIL_PUBLISHED)%'
+    tutorial_link_syllabus_issue: '%env(TUTORIAL_LINK_SYLLABUS_ISSUE)%'
     regulation_link : '%env(REGULATION_LINK)%'
     app_version: prototype
     managed_locales: '%managed_locales%'

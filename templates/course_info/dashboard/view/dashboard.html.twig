@@ -181,10 +181,11 @@
             <span class="font-italic">{{ 'app.dashboard.card.duplicate_syllabus_additionnal' | trans }}</span>
         </div>
 
+        {% if tutorial_link_syllabus_issue is not empty %}
         <div class="col-12 d-flex flex-column">
             <div class="card mb-5">
                 <div class="card-body">
-                    <a class="text-dark" href="https://lms.univ-cotedazur.fr/course/view.php?id=22745" target="_blank">
+                    <a class="text-dark" href="{{ tutorial_link_syllabus_issue }}" target="_blank">
                         <div class="row">
                             <div class="col-lg-2 col-md-4 col-sm-6">
                                 <img style="width: 120px;" src={{ asset('build/images/dashboard-information.jpg') }}>
@@ -200,6 +201,7 @@
                 </div>
             </div>
         </div>
+        {% endif %}
 
     </div>
 
