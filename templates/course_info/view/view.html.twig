@@ -53,3 +53,12 @@
         </div>
     </div>
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $('[data-toggle="tooltip"]').tooltip({
+            template: '<div class="tooltip" role="tooltip"><div class="arrow border-white"></div><div class="tooltip-inner bg-white"></div></div>'
+        });
+    </script>
+{% endblock %}

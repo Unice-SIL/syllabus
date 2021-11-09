@@ -151,14 +151,23 @@
                 <h6 class="text-bold">
                     {{ 'app.view.student.presentation.teachers' | trans }}
                 </h6>
-                <span class="text-primary">
+                <div class="text-primary">
                     {% for teacher in courseInfo.courseTeachers %}
                         {% if not loop.first %}
                             ,
                         {% endif %}
-                        {{ teacher.firstname }} {{ teacher.lastname }} {% if teacher.emailVisibility and teacher.email is not null %}({{ teacher.email }}){% endif %}
+                        {% set role = 'app.view.student.presentation.teacher'|trans %}
+                        {% if teacher.manager %}
+                            {% set role = 'app.view.student.presentation.teacher_manager'|trans %}
+                        {% endif %}
+                        <span data-toggle="tooltip" title="{{ role }}">
+                            {{ teacher.firstname }} {{ teacher.lastname }}
+                            {% if teacher.emailVisibility and teacher.email is not null %}
+                                ({{ teacher.email }})
+                            {% endif %}
+                        </span>
                     {% endfor %}
-                </span>
+                </div>
             </div>
             <div class="col-12 col-lg-6 d-flex justify-content-between flex-wrap">
                 {% if courseInfo.teachingMode == constant('App\\Syllabus\\Constant\\TeachingMode::IN_CLASS') or
