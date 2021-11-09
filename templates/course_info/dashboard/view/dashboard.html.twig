@@ -112,10 +112,10 @@
                     <span style="font-weight: 700;">{{ 'app.dashboard.label.modification_date' | trans }}</span>
                     : {% if courseInfo.modificationDate is not empty %}
                         {{ courseInfo.modificationDate|localizeddate('full', 'none', null) }} {{ courseInfo.modificationDate|date('H:i') }}
-                        {% if courseInfo.lastUpdater is not null %}
+                        {#{% if courseInfo.lastUpdater is not null %}
                             {{ 'app.dashboard.label.edit_by' | trans }}
                             {{ courseInfo.lastUpdater.email }}
-                        {% endif %}
+                        {% endif %}#}
                     {% else %}
                         {{ courseInfo.creationDate|localizeddate('full', 'none', null) }} {{ courseInfo.creationDate|date('H:i') }}
                     {% endif %}
