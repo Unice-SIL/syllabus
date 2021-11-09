@@ -4,6 +4,7 @@ namespace App\Syllabus\Subscriber;
 
 use App\Syllabus\Entity\CourseInfo;
 use App\Syllabus\Entity\User;
+use DateTime;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events;
@@ -35,8 +36,21 @@ class DatabaseActivitySubscriber implements EventSubscriber
     public function getSubscribedEvents()
     {
         return [
+            Events::prePersist,
             Events::preUpdate,
         ];
+    }
+
+    /**
+     * @param LifecycleEventArgs $args
+     */
+    public function prePersist(LifecycleEventArgs $args): void
+    {
+        $entity = $args->getEntity();
+
+        if ($entity instanceof CourseInfo) {
+            $this->logCourseInfoCreate($entity);
+        }
     }
 
     /**
@@ -47,8 +61,26 @@ class DatabaseActivitySubscriber implements EventSubscriber
         $entity = $args->getEntity();
 
         if ($entity instanceof CourseInfo) {
-            $this->logCourseInfoLastUpdater($entity);
+            $this->logCourseInfoUpdate($entity);
         }
+    }
+
+    /**
+     * @param CourseInfo $courseInfo
+     */
+    private function logCourseInfoCreate(CourseInfo $courseInfo)
+    {
+        $courseInfo->setCreationDate(new DateTime());
+        $this->logCourseInfoLastUpdater($courseInfo);
+    }
+
+    /**
+     * @param CourseInfo $courseInfo
+     */
+    private function logCourseInfoUpdate(CourseInfo $courseInfo)
+    {
+        $courseInfo->setModificationDate(new DateTime());
+        $this->logCourseInfoLastUpdater($courseInfo);
     }
 
     /**
@@ -60,5 +92,4 @@ class DatabaseActivitySubscriber implements EventSubscriber
             $courseInfo->setLastUpdater($this->security->getUser());
         }
     }
-
 }

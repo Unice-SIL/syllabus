@@ -73,7 +73,7 @@ class CoursePermission
     /**
      * @var User
      *
-     * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\User", cascade={ "persist" })
+     * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\User")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      * })

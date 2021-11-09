@@ -76,7 +76,7 @@ class CoursePrerequisite
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="Course", mappedBy="coursePrerequisites", cascade={ "persist" })
+     * @ORM\ManyToMany(targetEntity="Course", mappedBy="coursePrerequisites")
      *
      */
     private $courses;

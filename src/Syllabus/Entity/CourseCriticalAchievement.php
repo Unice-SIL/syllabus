@@ -76,7 +76,7 @@ class CourseCriticalAchievement
     private $criticalAchievement;
 
     /**
-     * @ManyToOne(targetEntity="CourseInfo", inversedBy="courseCriticalAchievements", cascade={"persist"})
+     * @ManyToOne(targetEntity="CourseInfo", inversedBy="courseCriticalAchievements")
      * @JoinColumn(name="course_info_course_critical_achievement", referencedColumnName="id")
      */
     private $courseInfo;
