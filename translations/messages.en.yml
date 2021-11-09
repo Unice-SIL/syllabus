@@ -649,6 +649,8 @@ app:
         semester: Semester
         language: Language
         belong_to: "Belong to %title%"
+        teacher: Teacher
+        teacher_manager: Teacher in charge
         teachers: Teaching team
         distant: Distant
         hours_cm: "%hours%h of lectures"

@@ -456,7 +456,6 @@ class CourseInfo
      * @var DateTime|null
      *
      * @ORM\Column(name="creation_date", type="datetime", nullable=false)
-     * @Gedmo\Timestampable(on="create")
      */
     private $creationDate;
 
@@ -464,7 +463,6 @@ class CourseInfo
      * @var DateTime|null
      *
      * @ORM\Column(name="modification_date", type="datetime", nullable=true)
-     * @Gedmo\Timestampable(on="update")
      */
     private $modificationDate;
 

@@ -649,6 +649,8 @@ app:
         semester: Semestre
         language: Langue
         belong_to: "Appartient a %title%"
+        teacher: Enseignant
+        teacher_manager: Responsable
         teachers: Équipe enseignante
         distant: Distanciel
         hours_cm: "%hours%h de cours magistral"
