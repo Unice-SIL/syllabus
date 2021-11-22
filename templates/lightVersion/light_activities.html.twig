@@ -14,22 +14,15 @@
                         <img class="collapse-button" src="{{ asset('build/images/collapsed-arrow.png') }}" alt=""/>
                     </div>
                     <div class="light-section-content collapse" id="activity-{{ section.id }}">
-                            <div class="row ml-2">
-                                {% if section.url %}
-                                    <div class="summary col-10">
-                                        {{ section.description|purify }}
-                                    </div>
-                                    <div class="light-section-url col-2">
-                                        <a href="{{ section.url }}" target="_blank">
-                                            <u>{{ 'app.view.student.activities.section_url' | trans }}</u>
-                                        </a>
-                                    </div>
+                        <div class="row ml-2">
+                            <div class="summary">
+                                {% if section.description %}
+                                    {{ section.description|purify }}
                                 {% else %}
-                                    <div class="summary">
-                                        {{ section.description|purify }}
-                                    </div>
+                                    {{ 'app.light_version.activities.description_empty' | trans }}
                                 {% endif %}
                             </div>
+                        </div>
                     </div>
                 </li>
             {% endif %}

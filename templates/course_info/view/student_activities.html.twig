@@ -20,20 +20,9 @@
                     </div>
                     <div class="student-section-content collapse" id="activity-{{ section.id }}">
                             <div class="row ml-2">
-                                {% if section.url %}
-                                    <div class="summary col-10">
-                                        {{ section.description|purify }}
-                                    </div>
-                                    <div class="student-section-url col-2">
-                                        <a href="{{ section.url }}" target="_blank">
-                                            <u>{{ 'app.view.student.activities.section_url' | trans }}</u>
-                                        </a>
-                                    </div>
-                                {% else %}
-                                    <div class="summary">
-                                        {{ section.description|purify }}
-                                    </div>
-                                {% endif %}
+                                <div class="summary">
+                                    {{ section.description|purify }}
+                                </div>
                             </div>
                             {% set oldActivityType = '' %}
                             {% for courseSectionActivity in section.courseSectionActivities %}
