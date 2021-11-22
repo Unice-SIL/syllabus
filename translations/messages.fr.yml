@@ -808,6 +808,8 @@ app:
       top_link: Université Côte d'azur
     layout:
       link_to_authenticate: Accéder au Syllabus complet (Authentification requise)
+    activities:
+      description_empty: Aucune description
     presentation:
       code_ecue: "Code de l'ECUE : "
       distant: Volume horaire à distance
