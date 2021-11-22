@@ -510,7 +510,7 @@ app:
         levels: Niveau du cours
         description: Description
         level_label: Quel est le niveau de ce cours ?
-        media_label: Intégrer une ressource vidéo (ou audio) ou téléverser un fichier image de présentation du cours, en respectant la règlementation sur les droits d'auteur.
+        media_label: "Intégrer une ressource multimédia qui illustre le cours, en respectant la réglementation sur les droits d'auteur. Recherchez des exemples libres ici : https://pixabay.com/fr/"
         picture: Image
         video: Vidéo
         file_type: Fichier de type jpeg ou png (2Mo maximum)
