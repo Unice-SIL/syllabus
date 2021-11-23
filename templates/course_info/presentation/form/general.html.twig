@@ -35,18 +35,23 @@
             </div>
 
             <div id="video" class="media-type">
-                <label>
-                    {{ 'app.presentation.form.general.add_video' | trans }}
-                </label>
-                <div class="help d-inline-block">
-                    <i class="fas fa-question-circle help-button"></i>
-                    <span class="help-message">
+                <div>
+                    <label>
+                        {{ 'app.presentation.form.general.add_video' | trans }}
+                    </label>
+                    <div class="help d-inline-block">
+                        <i class="fas fa-question-circle help-button"></i>
+                        <span class="help-message">
                         <p>{{ 'app.presentation.form.general.add_video_info.part1' | trans | raw }}</p>
                         <p>{{ 'app.presentation.form.general.add_video_info.part2' | trans | raw }}</p>
                         <p>{{ 'app.presentation.form.general.add_video_info.part3' | trans | raw }}</p>
                         <p><pre class="mb-0">&lt;iframe ... &gt;&lt;/iframe&gt;</pre></p>
-                        <p>{{ 'app.presentation.form.general.add_video_info.part4' | trans }}</p>
+                            <p>{{ 'app.presentation.form.general.add_video_info.part4' | trans }}</p>
                     </span>
+                    </div>
+                    <a class="btn btn-sm btn-primary mb-1 float-right" href="{{ tutorial_link_presentation_video }}" target="_blank">
+                        {{ 'app.presentation.form.general.add_video_info.tutorial' | trans }}
+                    </a>
                 </div>
                 {{ form_row(form.video) }}
             </div>
