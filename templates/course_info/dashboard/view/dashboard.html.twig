@@ -115,7 +115,7 @@
                         {#{% if courseInfo.lastUpdater is not null %}
                             {{ 'app.dashboard.label.edit_by' | trans }}
                             {{ courseInfo.lastUpdater.email }}
-                        {% endif %}#}
+                        {% endif %}
                     {% else %}
                         {{ courseInfo.creationDate|localizeddate('full', 'none', null) }} {{ courseInfo.creationDate|date('H:i') }}
                     {% endif %}
