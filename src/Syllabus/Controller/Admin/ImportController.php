@@ -67,11 +67,10 @@ class ImportController extends AbstractController
             ]);
 
 
-            $courseInfoFields = $em->getRepository(CourseInfoField::class)->findByImport(true);
+            $courseInfoFields = $em->getRepository(CourseInfoField::class)->findByAutomaticDuplication(true);
             $fieldsToUpdate = array_map(function ($courseInfoField) {
                 return $courseInfoField->getField();
             }, $courseInfoFields);
-
 
             $fieldsToUpdate = array_intersect($fieldsToUpdate, $courseInfoCsvConfiguration->getExtractor()->getCsv()->getHeader());
             if(in_array('mccCtCoeffSession1', $fieldsToUpdate))
