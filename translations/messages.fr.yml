@@ -521,6 +521,7 @@ app:
           part2: Si ce n’est pas le cas, vous pouvez demander de l’aide pour la déposer sur une de ces plateformes.
           part3: "Une fois qu’elle y est stockée, vous pouvez cliquer sur “Partager / Intégrer” afin de récupérer le lien d'intégration ressemblant à :"
           part4: Copiez ce code et insérez-le dans le champ "Vidéo" ci-dessous. La vidéo sera visible par vos étudiants directement sur votre syllabus.
+          tutorial: Tutoriel vidéo
         level:
           beginner: "<li><strong>Débutant</strong> : Ce cours demande peu ou pas de connaissances préaables.</li>"
           intermediary: "<li><strong>Intermédiaire</strong> : Ce cours demande quelques connaissances préalables.</li>"
