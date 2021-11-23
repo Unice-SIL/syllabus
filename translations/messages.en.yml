@@ -521,6 +521,7 @@ app:
           part2: If that is not the cas, you can ask for help to upload on one of those plateforms.
           part3: "Once it is stored there, you can click on \"Share / Integrate\" to retrieve the integration link looking like :"
           part4: Copy this code and insert it in the "Video" field below. The video will be visible to your students directly on your syllabus.
+          tutorial: Video tutorial
         level:
           beginner: "<li><strong>Beginner</strong> : This course requires little or no prior knowledge.</li>"
           intermediary: "<li><strong>intermediate</strong> : This course requires some prior knowledge.</li>"
