@@ -125,6 +125,7 @@
       }
 
       .grid-element {
+        min-width: 0;
         max-width: 100%;
         flex: 0 0 100%;
         display: flex;
@@ -178,6 +179,8 @@
     ul.student-list {
       list-style: none;
       padding-left: 0;
+      max-width: 100%;
+      overflow-wrap: anywhere;
 
       &.list-dotted {
         & > li:before {
