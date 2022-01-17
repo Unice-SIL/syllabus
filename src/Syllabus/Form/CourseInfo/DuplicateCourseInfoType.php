@@ -6,9 +6,9 @@ use App\Syllabus\Entity\CourseInfo;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 
@@ -19,23 +19,17 @@ use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 class DuplicateCourseInfoType extends AbstractType
 {
     /**
-     * @var UrlGeneratorInterface
-     */
-    private  $generator;
-    /**
-     * @var null|\Symfony\Component\HttpFoundation\Request
+     * @var null|Request
      */
     private $request;
 
 
     /**
      * DuplicateCourseInfoType constructor.
-     * @param UrlGeneratorInterface $generator
      * @param RequestStack $request
      */
-    public function __construct(UrlGeneratorInterface $generator, RequestStack $request)
+    public function __construct(RequestStack $request)
     {
-        $this->generator = $generator;
         $this->request = $request->getCurrentRequest();
     }
 
@@ -76,6 +70,7 @@ class DuplicateCourseInfoType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
+            'csrf_protection'   => false,
             'currentCourseInfo' => null
         ]);
     }
