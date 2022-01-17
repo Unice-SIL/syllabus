@@ -46,6 +46,10 @@ Ajouter dans le cron du serveur la commande suivante:
 
 #### v2.2.3
 ##### Hotfix
+- Disable csrf protection for general presentation and duplicate course info forms
+
+#### v2.2.3
+##### Hotfix
 - Teaching hours infos added
 
 #### v2.2.2
