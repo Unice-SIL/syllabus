@@ -85,7 +85,7 @@ class CourseInfoCsvMatching extends AbstractMatching implements MatchingInterfac
             'mccCapitalizable' => ['type' => 'boolean', 'choices' => ['OUI', 'NON', 'TRUE', 'FALSE'], 'description' => "Témoin UE/ECUE capitalisable"],
             'mccCompensable' => ['type' => 'boolean', 'choices' => ['OUI', 'NON', 'TRUE', 'FALSE'], 'description' => "Témoin UE/ECUE compensable"],
             'evaluationType' => [ 'choices' => ['CC', 'CT', 'CC&CT'], 'description' => "Type d'évaluation contrôle continu, terminal ou les deux"],
-            'mccCtCoeffSession1' => ['type' => 'int', 'description' => "Coefficient Contrôle Continu pour la 1ère session (le coefficient du Contrôle Terminal est calculé automatiquement en fonction du type d'avaluation et du coefficient CC)"],
+            'mccCtCoeffSession1' => ['type' => 'int', 'description' => "Coefficient Contrôle Continu pour la 1ère session (le coefficient du Contrôle Terminal est calculé automatiquement en fonction du type d'evaluation et du coefficient CC)"],
             'mccCcNbEvalSession1' => ['type' => 'int', 'description' => "Nombre d'évaluation(s) en contrôle continu pour la 1ère session"],
             'mccCtNatSession1' => ['description' => "Nature du contrôle terminal pour la 1ère session"],
             'mccCtDurationSession1' => ['description' => "Durée du contrôle terminal pour la 1ère session"],
