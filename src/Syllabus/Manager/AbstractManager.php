@@ -7,6 +7,7 @@ use App\Syllabus\Helper\ErrorManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
+use Symfony\Component\Translation\Exception\InvalidResourceException;
 
 abstract class AbstractManager
 {
@@ -76,7 +77,6 @@ abstract class AbstractManager
         }
 
         if ($entity instanceof $className) {
-
             $options['validation_groups'] = $options['validations_groups_edit'];
             foreach ($fieldsToUpdate as $field) {
                 $newValue = $this->propertyAccessor->getValue($entityData, $field);

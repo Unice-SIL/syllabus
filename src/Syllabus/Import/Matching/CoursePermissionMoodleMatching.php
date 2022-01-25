@@ -128,6 +128,7 @@ class CoursePermissionMoodleMatching extends AbstractMatching implements Matchin
             case 'email':
                 if($entity->getUser() instanceof User)
                 {
+                    $data = empty($data) ? 'nomail@domain.com' : $data;
                     $entity->getUser()->setEmail($data);
                 }
                 return false;
