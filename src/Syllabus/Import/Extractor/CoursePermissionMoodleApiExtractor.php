@@ -11,10 +11,10 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 
 /**
- * Class CoursePermissionMoodleExtractor
+ * Class CoursePermissionMoodleApiExtractor
  * @package App\Syllabus\Import\Extractor
  */
-class CoursePermissionMoodleExtractor implements ExtractorInterface
+class CoursePermissionMoodleApiExtractor implements ExtractorInterface
 {
 
     /**

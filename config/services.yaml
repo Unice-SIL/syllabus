@@ -2,9 +2,18 @@
 # https://symfony.com/doc/current/service_container.html
 parameters:
     locale: '%env(LOCALE)%'
-    moodle_permission_importer_options:
+    moodle_permission_api_importer_options:
         url: '%env(MOODLE_API_URL)%'
         token: '%env(MOODLE_API_TOKEN)%'
+    moodle_permission_db_importer_options:
+        driver: '%env(MOODLE_DB_DRIVER)%'
+        host: '%env(MOODLE_DB_HOST)%'
+        port: '%env(MOODLE_DB_PORT)%'
+        database: '%env(MOODLE_DB_DATABASE)%'
+        user: '%env(MOODLE_DB_USER)%'
+        password: '%env(MOODLE_DB_PASSWORD)%'
+        charset: '%env(MOODLE_DB_CHARSET)%'
+        table_prefix: '%env(MOODLE_DB_TABLE_PREFIX)%'
     course_teacher_factory:
         sources:
             ldap_uns:
@@ -45,7 +54,9 @@ services:
             $moodleApiUrl: '%env(MOODLE_API_URL)%'
             $moodleApiToken: '%env(MOODLE_API_TOKEN)%'
             $apogeeCourseNatureToImport: '%env(json:APOGEE_COURSE_NATURE_TO_IMPORT)%'
-            $moodlePermissionImporterOptions: '%moodle_permission_importer_options%'
+            $moodlePermissionApiImporterOptions: '%moodle_permission_api_importer_options%'
+            $moodlePermissionDbImporterOptions: '%moodle_permission_db_importer_options%'
+
 
     App\Syllabus\:
         resource: '../src/Syllabus/*'

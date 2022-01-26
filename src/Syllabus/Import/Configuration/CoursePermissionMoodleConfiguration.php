@@ -4,7 +4,7 @@
 namespace App\Syllabus\Import\Configuration;
 
 
-use App\Syllabus\Import\Extractor\CoursePermissionMoodleExtractor;
+use App\Syllabus\Import\Extractor\CoursePermissionMoodleDoctrineExtractor;
 use App\Syllabus\Import\Matching\CoursePermissionMoodleMatching;
 use App\Syllabus\Import\Transformer\ArrayTransformer;
 
@@ -13,12 +13,12 @@ class CoursePermissionMoodleConfiguration extends AbstractConfiguration implemen
 
     /**
      * CoursePermissionMoodleConfiguration constructor.
-     * @param CoursePermissionMoodleExtractor $coursePermissionMoodleExtractor
+     * @param CoursePermissionMoodleDoctrineExtractor $coursePermissionMoodleExtractor
      * @param ArrayTransformer $arrayTransformer
      * @param CoursePermissionMoodleMatching $coursePermissionMoodleMatching
      */
     public function __construct(
-        CoursePermissionMoodleExtractor $coursePermissionMoodleExtractor,
+        CoursePermissionMoodleDoctrineExtractor $coursePermissionMoodleExtractor,
         ArrayTransformer $arrayTransformer,
         CoursePermissionMoodleMatching $coursePermissionMoodleMatching
     )

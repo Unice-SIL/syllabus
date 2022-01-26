@@ -2,7 +2,6 @@
 
 namespace App\Syllabus\Repository\Doctrine;
 
-use App\Syllabus\Entity\Activity;
 use Doctrine\Common\Persistence\Mapping\MappingException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;

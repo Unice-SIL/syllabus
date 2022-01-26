@@ -60,11 +60,11 @@ class MoodleCoursePermissionImportCommand extends AbstractJob
         EntityManagerInterface $em,
         CoursePermissionManager $coursePermissionManager,
         UserManager $userManager,
-        array $moodlePermissionImporterOptions
+        array $moodlePermissionDbImporterOptions
     )
     {
         parent::__construct($em);
-        $this->options = $moodlePermissionImporterOptions;
+        $this->options = $moodlePermissionDbImporterOptions;
         $this->importManager = $importManager;
         $this->coursePermissionMoodleConfiguration = $coursePermissionMoodleConfiguration;
         $this->coursePermissionManager = $coursePermissionManager;
@@ -90,16 +90,14 @@ class MoodleCoursePermissionImportCommand extends AbstractJob
         //======================Perf==================
         $start = microtime(true);
         $interval = [];
-        $loopBreak = 4;
+        $loopBreak = 10;
         //======================End Perf==================
 
         $report = ReportingHelper::createReport();
 
-        $this->progress(1);
+        $this->progress(0);
 
         $coursePermissions = $this->importManager->parseFromConfig($this->coursePermissionMoodleConfiguration, $report, $this->options);
-
-        $this->progress(50);
 
         $yearsToImport = $this->em->getRepository(Year::class)->findByImport(true);
 
@@ -126,7 +124,6 @@ class MoodleCoursePermissionImportCommand extends AbstractJob
                 $user = $coursePermission->getUser();
 
                 if (!in_array($user->getUsername(), $handledUserUsernames)) {
-
                     /** @var User $user */
                     $user = $this->userManager->updateIfExistsOrCreate($user, ['username'], [
                         'find_by_parameters' => ['username' => $user->getUsername()],
@@ -190,7 +187,7 @@ class MoodleCoursePermissionImportCommand extends AbstractJob
                 $this->em->flush(); //if every permission import from moodle hasn't got a unique key username-code
 
                 if ($loop % $loopBreak === 0) {
-                    $progress = round((($loop / count($coursePermissions)) * 50) + 50);
+                    $progress = round((($loop / count($coursePermissions)) * 100));
                     $this->progress($progress);
                     $this->memoryUsed(memory_get_usage(), true);
 
