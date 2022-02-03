@@ -7,7 +7,7 @@ namespace App\Syllabus\Repository\Doctrine;
 use App\Syllabus\Entity\Course;
 use App\Syllabus\Entity\CriticalAchievement;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
 
 class CriticalAchievementDoctrineRepository extends ServiceEntityRepository

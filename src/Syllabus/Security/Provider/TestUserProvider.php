@@ -2,16 +2,9 @@
 
 namespace App\Syllabus\Security\Provider;
 
-use App\Syllabus\Command\User\CreateUserCommand;
-use App\Syllabus\Command\User\EditUserCommand;
 use App\Syllabus\Entity\User;
-use App\Syllabus\Exception\UserNotFoundException;
-use App\Syllabus\Query\User\CreateUserQuery;
-use App\Syllabus\Query\User\EditUserQuery;
-use App\Syllabus\Query\User\FindUserByIdQuery;
-use App\Syllabus\Query\User\FindUserByUsernameQuery;
 use Doctrine\ORM\EntityManager;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -35,11 +28,11 @@ class TestUserProvider implements UserProviderInterface
     /**
      * TestUserProvider constructor.
      * @param array $config
-     * @param RegistryInterface $registry
+     * @param ManagerRegistry $registry
      */
     public function __construct(
         array $config,
-        RegistryInterface $registry
+        ManagerRegistry $registry
     )
     {
         if(!is_array($config)) $config = [];

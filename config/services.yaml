@@ -164,8 +164,7 @@ services:
 
     # ALIAS
     App\Ldap\Repository\TeacherRepositoryInterface:
-        #class: App\Ldap\Repository\TeacherRepositoryInterface
-        factory: 'App\Ldap\Factory\TeacherRepositoryFactory:getService'
+      ['@App\Ldap\Factory\TeacherRepositoryFactory', 'getService']
 
     # FACTORY
     App\Ldap\Factory\TeacherRepositoryFactory:

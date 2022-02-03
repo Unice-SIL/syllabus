@@ -4,8 +4,7 @@
 namespace App\Syllabus\Import\Extractor;
 
 use App\Syllabus\Helper\Report\Report;
-use Doctrine\Persistence\ObjectManager;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * Class CourseApogeeExtractor
@@ -13,11 +12,6 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class CourseApogeeExtractor implements ExtractorInterface
 {
-
-    /**
-     * @var ObjectManager
-     */
-    private $em;
     /**
      * @var object
      */
@@ -30,10 +24,10 @@ class CourseApogeeExtractor implements ExtractorInterface
 
     /**
      * StructureApogeeExtractor constructor.
-     * @param RegistryInterface $doctrine
+     * @param ManagerRegistry $doctrine
      * @param array $apogeeCourseNatureToImport
      */
-    public function __construct(RegistryInterface $doctrine, array $apogeeCourseNatureToImport = [])
+    public function __construct(ManagerRegistry $doctrine, array $apogeeCourseNatureToImport = [])
     {
         $this->em = $doctrine->getManager('apogee');
         $this->conn = $doctrine->getConnection('apogee');

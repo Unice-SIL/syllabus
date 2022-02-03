@@ -5,7 +5,7 @@ namespace App\Syllabus\Fixture;
 use App\Syllabus\Entity\Equipment;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Ramsey\Uuid\Uuid;
 
 /**

@@ -6,7 +6,7 @@ namespace App\Syllabus\Repository\Doctrine;
 
 use App\Syllabus\Entity\CourseCriticalAchievement;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 class CourseCriticalAchievementDoctrineRepository extends ServiceEntityRepository
 {

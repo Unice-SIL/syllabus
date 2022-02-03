@@ -4,8 +4,8 @@
 namespace App\Syllabus\Import\Extractor;
 
 use App\Syllabus\Helper\Report\Report;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class StructureApogeeExtractor implements ExtractorInterface
 {
@@ -16,9 +16,9 @@ class StructureApogeeExtractor implements ExtractorInterface
 
     /**
      * StructureApogeeExtractor constructor.
-     * @param RegistryInterface $doctrine
+     * @param ManagerRegistry $doctrine
      */
-    public function __construct(RegistryInterface $doctrine)
+    public function __construct(ManagerRegistry $doctrine)
     {
         $this->em = $doctrine->getManager('apogee');
     }

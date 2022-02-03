@@ -6,7 +6,7 @@ use App\Syllabus\Entity\CourseInfo;
 use App\Syllabus\Entity\CoursePermission;
 use App\Syllabus\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
 
 /**

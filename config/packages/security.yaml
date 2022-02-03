@@ -41,7 +41,6 @@ security:
             guard:
                 authenticator: '%authenticator%'
                 provider: main
-            logout_on_user_change: true
             anonymous: ~
 
     role_hierarchy:

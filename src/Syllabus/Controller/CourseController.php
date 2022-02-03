@@ -16,7 +16,7 @@ use App\Syllabus\Repository\Doctrine\CourseDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -32,7 +32,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  *
  * @Route("/course", name="app_admin.course_")
  */
-class CourseController extends Controller
+class CourseController extends AbstractController
 {
     /**
      * @Route("/", name="index")

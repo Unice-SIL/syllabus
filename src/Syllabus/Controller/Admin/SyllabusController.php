@@ -9,7 +9,7 @@ use App\Syllabus\Form\Filter\SyllabusFilterType;
 use App\Syllabus\Repository\Doctrine\CourseInfoDoctrineRepository;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * @Route("syllabus", name="app.admin.syllabus.")
  * @Security("is_granted('ROLE_ADMIN_COURSE')")
  */
-class SyllabusController extends Controller
+class SyllabusController extends AbstractController
 {
 
     /**

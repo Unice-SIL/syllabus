@@ -28,7 +28,7 @@ class AppRuntime implements RuntimeExtensionInterface
     public function __construct(RequestStack $requestStack)
     {
         $this->requestStack = $requestStack;
-        $this->masterRequest = $requestStack->getMasterRequest();
+        $this->masterRequest = $requestStack->getMainRequest();
     }
 
     public function printActiveAdminSidebarLink(array $routes, array $options = [])
