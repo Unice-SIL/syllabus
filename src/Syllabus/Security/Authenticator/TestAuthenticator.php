@@ -12,6 +12,7 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
+use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface;
 
 /**
@@ -62,13 +63,13 @@ class TestAuthenticator extends AbstractAuthenticator implements AuthenticationE
      * @param Request $request
      * @return mixed
      */
-    public function authenticate(Request $request)
+    public function authenticate(Request $request): SelfValidatingPassport
     {
         if(!array_key_exists('current', $this->config)){
             throw new UserNotFoundException("Username not found in test authenticator_configuration");
         }
 
-        return new UserBadge($this->config['current']);
+        return new SelfValidatingPassport(new UserBadge($this->config['current']));
     }
 
     /**
