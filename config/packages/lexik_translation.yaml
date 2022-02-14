@@ -1,7 +1,7 @@
-#lexik_translation:
-#  fallback_locale: '%fallback_locales%'         # (required) default locale(s) to use
-#  managed_locales: '%managed_locales%' # (required) locales that the bundle has to manage
-#  base_layout: 'LexikTranslationBundle/views/Translation/grid.html.twig'
-#  storage:
-#    type: orm                  # orm | mongodb | propel
-#    object_manager: syllabus
+lexik_translation:
+  fallback_locale: '%fallback_locales%'         # (required) default locale(s) to use
+  managed_locales: '%managed_locales%' # (required) locales that the bundle has to manage
+  base_layout: 'LexikTranslationBundle/views/Translation/grid.html.twig'
+  storage:
+    type: orm                  # orm | mongodb | propel
+    object_manager: syllabus

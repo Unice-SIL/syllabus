@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d204b3dc2e0dac0033f91e5fb96d56fc",
+    "content-hash": "3e1437861936a1244063a460b68a7bbf",
     "packages": [
         {
             "name": "api-platform/core",
@@ -3295,6 +3295,83 @@
                 }
             ],
             "time": "2022-01-04T23:33:23+00:00"
+        },
+        {
+            "name": "lexik/translation-bundle",
+            "version": "v5.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Unice-SIL/LexikTranslationBundle.git",
+                "reference": "07d00c9c41f60935b5451d388c6b09c21b85be60"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Unice-SIL/LexikTranslationBundle/zipball/07d00c9c41f60935b5451d388c6b09c21b85be60",
+                "reference": "07d00c9c41f60935b5451d388c6b09c21b85be60",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2|^8.0",
+                "symfony/framework-bundle": "~5.2"
+            },
+            "require-dev": {
+                "doctrine/data-fixtures": "~1.1",
+                "doctrine/doctrine-bundle": "^2.2",
+                "doctrine/mongodb-odm": "^2.1",
+                "doctrine/mongodb-odm-bundle": "~4.2",
+                "doctrine/orm": ">=2.4",
+                "ext-mongodb": "*",
+                "ext-pdo": "*",
+                "mikey179/vfsstream": "^1.6",
+                "mongodb/mongodb": "^1.8",
+                "phpunit/phpunit": "^9.5",
+                "propel/propel": "2.0.0-alpha12|dev-master",
+                "symfony/symfony": "~5.0"
+            },
+            "suggest": {
+                "doctrine/orm": ">=2.4"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.x.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Lexik\\Bundle\\TranslationBundle\\": ""
+                }
+            },
+            "autoload-dev": {
+                "classmap": [
+                    "Tests/app/AppKernel.php"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Cedric Girard",
+                    "email": "c.girard@lexik.fr"
+                },
+                {
+                    "name": "Dev Lexik",
+                    "email": "dev@lexik.fr"
+                }
+            ],
+            "description": "This bundle allows to import translation files content into the database and provide a GUI to edit translations.",
+            "homepage": "https://github.com/lexik/LexikTranslationBundle",
+            "keywords": [
+                "Symfony",
+                "bundle",
+                "i18n",
+                "translation"
+            ],
+            "support": {
+                "source": "https://github.com/Unice-SIL/LexikTranslationBundle/tree/v5.4.0"
+            },
+            "time": "2022-02-14T13:44:34+00:00"
         },
         {
             "name": "monolog/monolog",

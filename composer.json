@@ -17,6 +17,10 @@
         {
             "type": "vcs",
             "url": "https://github.com/Unice-SIL/linkify-bundle"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/Unice-SIL/LexikTranslationBundle"
         }
     ],
     "require": {
@@ -36,6 +40,7 @@
         "league/csv": "^9.5",
         "lexik/form-filter-bundle": "^7.0",
         "lexik/jwt-authentication-bundle": "^2.6",
+        "lexik/translation-bundle": "^5.4",
         "nelmio/cors-bundle": "^2.2",
         "peppeocchi/php-cron-scheduler": "^3.0",
         "phpdocumentor/reflection-docblock": "v4.3.4",

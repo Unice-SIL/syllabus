@@ -216,6 +216,9 @@
             "./config/packages/lexik_jwt_authentication.yaml"
         ]
     },
+    "lexik/translation-bundle": {
+        "version": "v4.4.1"
+    },
     "monolog/monolog": {
         "version": "2.3.5"
     },
