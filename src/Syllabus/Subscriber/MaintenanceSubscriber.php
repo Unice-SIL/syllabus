@@ -6,13 +6,16 @@ use App\Syllabus\Constant\UserRole;
 use Dmishh\SettingsBundle\Manager\SettingsManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 class MaintenanceSubscriber implements EventSubscriberInterface
 {
@@ -50,16 +53,24 @@ class MaintenanceSubscriber implements EventSubscriberInterface
         $this->security = $security;
     }
 
-    public static function getSubscribedEvents()
+    /**
+     * @return string[][][]
+     */
+    public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::REQUEST => [
-                ['diplayMaintenancePage'],
+                ['displayMaintenancePage'],
             ],
         ];
     }
 
-    public function diplayMaintenancePage(GetResponseEvent $event)
+    /**
+     * @throws RuntimeError
+     * @throws SyntaxError
+     * @throws LoaderError
+     */
+    public function displayMaintenancePage(RequestEvent $event)
     {
         $user = $this->security->getUser();
 

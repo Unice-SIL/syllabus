@@ -133,10 +133,6 @@ services:
             - { name: doctrine.event_listener, event: postUpdate }
             - { name: doctrine.event_listener, event: postRemove }
 
-    App\Syllabus\Listener\ExceptionListener:
-        tags:
-            - { name: kernel.event_listener, event: kernel.exception }
-
     App\Syllabus\Subscriber\DatabaseActivitySubscriber:
         tags:
             - { name: 'doctrine.event_subscriber' }
