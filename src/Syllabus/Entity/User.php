@@ -156,6 +156,14 @@ class User implements UserInterface
     }
 
     /**
+     * @return string
+     */
+    public function getUserIdentifier(): string
+    {
+        return $this->getUsername();
+    }
+
+    /**
      * @return null|string
      */
     public function getUsername(): ?string
@@ -375,7 +383,7 @@ class User implements UserInterface
     }
 
     /**
-     * @param Groups $groups
+     * @param Groups|null $groups
      * @return $this
      */
     public function addGroups(?Groups $groups): self
