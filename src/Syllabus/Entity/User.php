@@ -145,7 +145,7 @@ class User implements UserInterface
     }
 
     /**
-     * @param string $id
+     * @param string|null $id
      * @return User
      */
     public function setId(?string $id): self

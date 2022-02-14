@@ -2,147 +2,85 @@
 
 namespace App\Syllabus\Security\Provider;
 
-
 use App\Syllabus\Entity\User;
-use App\Syllabus\Repository\Doctrine\UserDoctrineRepository;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\User\UserInterface;
-use UniceSIL\ShibbolethBundle\Security\User\ShibbolethUserProviderInterface;
+use UniceSIL\ShibbolethBundle\Security\Provider\AbstractShibbolethUserProvider;
 
 /**
  * Class ShibbolethUserProvider
  * @package App\Syllabus\Security\Provider
  */
-class ShibbolethUserProvider implements ShibbolethUserProviderInterface
+class ShibbolethUserProvider extends AbstractShibbolethUserProvider
 {
-
-    /**
-     * Default roles
-     */
     const DEFAULT_ROLE = 'ROLE_USER';
 
     /**
-     * @var EntityManager
+     * @var ObjectManager
      */
     private $em;
 
     /**
-     * @var UserDoctrineRepository
-     */
-    private $userRepository;
-
-    /**
-     * ShibbolethUserProvider constructor.
      * @param ManagerRegistry $registry
-     * @param UserDoctrineRepository $userRepository
+     * @param RequestStack $requestStack
      */
-    public function __construct(
-        ManagerRegistry $registry,
-        UserDoctrineRepository $userRepository)
+    public function __construct(ManagerRegistry $registry, RequestStack $requestStack)
     {
         $this->em = $registry->getManager();
-        $this->userRepository = $userRepository;
+        parent::__construct($requestStack);
     }
 
-    /**
-     * @param array $credentials
-     * @return User|object|null
-     * @throws ORMException
-     * @throws OptimisticLockException
-     * @throws \Exception
-     */
-    public function loadUser(array $credentials)
+    public function loadUserByIdentifier(string $identifier): UserInterface
     {
-        if(!array_key_exists('username', $credentials)){
-            throw new UsernameNotFoundException(sprintf("Username not found"));
-        }
+        return $this->loadUserByUsername($identifier);
+    }
 
-        $username = $credentials['username'];
-
+    public function loadUserByUsername(string $username)
+    {
         $user = $this->findUserByUsername($username);
-        if(!$user instanceof User)
-        {
+
+        if (!$user instanceof User) {
             $user = new User();
             $user->setUsername($username);
         }
 
-        if(array_key_exists('givenName', $credentials)) {
-            $user->setFirstname($credentials['givenName']);
-        }
+        $attributes = $this->getAttributes();
+        $user
+            ->setFirstname($attributes['givenName'] ?? '')
+            ->setLastname($attributes['sn'] ?? '')
+            ->setEmail($attributes['mail'] ?? '')
+            ->addRole(self::DEFAULT_ROLE);
 
-        if(array_key_exists('sn', $credentials)) {
-            $user->setLastname($credentials['sn']);
-        }
-
-        if(array_key_exists('mail', $credentials)) {
-            $user->setEmail($credentials['mail']);
-        }
-
-        $roles = $user->getRoles();
-        if(!in_array(self::DEFAULT_ROLE, $roles))
-        {
-            $roles[] = self::DEFAULT_ROLE;
-        }
-        $user->setRoles($roles);
-
-        // On ne créé pas l'utilisateur en Bdd
-        if(!empty($user->getId())){
-            $this->em->flush();
-        }
-
-        return $user;
-    }
-
-    /**
-     * @param string $username
-     * @return User|object|UserInterface|null
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    public function loadUserByUsername($username)
-    {
-        return $this->loadUser(['username' => $username]);
-    }
-
-    /**
-     * @param $username
-     * @return User|null
-     */
-    public function refresh($username)
-    {
-        return $this->findUserByUsername($username);
+        $this->em->flush();
     }
 
     /**
      * @param UserInterface $user
-     * @return UserInterface
+     * @return User|UserInterface
      */
     public function refreshUser(UserInterface $user)
     {
-        $refreshedUser = $this->refresh($user->getUsername());
-        return ($refreshedUser instanceof User)? $refreshedUser : $user;
+        $refreshedUser = $this->findUserByUsername($user->getUserIdentifier());
+        return $refreshedUser ?? $user;
     }
+
 
     /**
      * @param $username
      * @return User|null
      */
-    private function findUserByUsername($username)
+    private function findUserByUsername($username): ?User
     {
-        /** @var User|null $user */
-        $user = $this->em->getRepository(User::class)->findOneBy(['username' => $username]);
-        return $user;
+        return $this->em->getRepository(User::class)->findOneByUsername($username);
     }
 
     /**
      * @param string $class
      * @return bool
      */
-    public function supportsClass($class)
+    public function supportsClass($class): bool
     {
         return $class === User::class;
     }
