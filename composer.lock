@@ -10095,12 +10095,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Unice-SIL/ShibbolethBundle.git",
-                "reference": "496337289345cfd3c6135ef6b13b03bb0ae05218"
+                "reference": "784ccb5669ce938ec5cf9699d0e456e9b02a9207"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Unice-SIL/ShibbolethBundle/zipball/496337289345cfd3c6135ef6b13b03bb0ae05218",
-                "reference": "496337289345cfd3c6135ef6b13b03bb0ae05218",
+                "url": "https://api.github.com/repos/Unice-SIL/ShibbolethBundle/zipball/784ccb5669ce938ec5cf9699d0e456e9b02a9207",
+                "reference": "784ccb5669ce938ec5cf9699d0e456e9b02a9207",
                 "shasum": ""
             },
             "require": {
@@ -10137,7 +10137,7 @@
                 "issues": "https://github.com/Unice-SIL/ShibbolethBundle/issues",
                 "source": "https://github.com/Unice-SIL/ShibbolethBundle/tree/5.x"
             },
-            "time": "2022-02-14T09:06:58+00:00"
+            "time": "2022-02-14T09:49:47+00:00"
         },
         {
             "name": "webmozart/assert",
