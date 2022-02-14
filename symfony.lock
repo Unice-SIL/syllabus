@@ -219,6 +219,12 @@
     "lexik/translation-bundle": {
         "version": "v4.4.1"
     },
+    "misd/linkify": {
+        "version": "v1.1.4"
+    },
+    "misd/linkify-bundle": {
+        "version": "v5.4.0"
+    },
     "monolog/monolog": {
         "version": "2.3.5"
     },
