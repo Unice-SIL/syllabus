@@ -32,11 +32,19 @@ class ShibbolethUserProvider extends AbstractShibbolethUserProvider
         parent::__construct($requestStack);
     }
 
+    /**
+     * @param string $identifier
+     * @return UserInterface
+     */
     public function loadUserByIdentifier(string $identifier): UserInterface
     {
         return $this->loadUserByUsername($identifier);
     }
 
+    /**
+     * @param string $username
+     * @return UserInterface|void
+     */
     public function loadUserByUsername(string $username)
     {
         $user = $this->findUserByUsername($username);
@@ -54,6 +62,8 @@ class ShibbolethUserProvider extends AbstractShibbolethUserProvider
             ->addRole(self::DEFAULT_ROLE);
 
         $this->em->flush();
+
+        return $user;
     }
 
     /**
