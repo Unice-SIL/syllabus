@@ -688,11 +688,8 @@
     "twig/twig": {
         "version": "v2.14.11"
     },
-    "unicesil/syllabus-apogee-importer-bundle": {
-        "version": "1.0.0"
-    },
-    "unicesil/syllabus-importer-toolkit": {
-        "version": "1.0.0"
+    "unicesil/shibboleth-bundle": {
+        "version": "5.x-dev"
     },
     "webmozart/assert": {
         "version": "1.10.0"

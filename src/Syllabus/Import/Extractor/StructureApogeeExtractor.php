@@ -10,9 +10,9 @@ use Doctrine\Persistence\ObjectManager;
 class StructureApogeeExtractor implements ExtractorInterface
 {
     /**
-     * @var ObjectManager
+     * @var object
      */
-    private $em;
+    private $conn;
 
     /**
      * StructureApogeeExtractor constructor.
@@ -20,7 +20,7 @@ class StructureApogeeExtractor implements ExtractorInterface
      */
     public function __construct(ManagerRegistry $doctrine)
     {
-        $this->em = $doctrine->getManager('apogee');
+        $this->conn = $doctrine->getConnection('apogee');
     }
 
     /**
@@ -32,9 +32,8 @@ class StructureApogeeExtractor implements ExtractorInterface
     {
         $structures = [];
 
-        $conn = $this->em->getConnection();
         $sql = "SELECT * FROM composante WHERE tem_en_sve_cmp='O'";
-        $stmt = $conn->prepare($sql);
+        $stmt = $this->conn->prepare($sql);
         $stmt->execute();
 
         foreach ($stmt->fetchAll() as $structure)

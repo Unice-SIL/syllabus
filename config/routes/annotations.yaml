@@ -24,11 +24,11 @@ syllabus.home:
   requirements:
     _locale: "fr|en"
 
-lexik_translation_edition:
-  resource: "@LexikTranslationBundle/Resources/config/routing.yml"
-  prefix:   /{_locale}/admin/translation
-  defaults:
-    _locale: '%locale%'
+#lexik_translation_edition:
+#  resource: "@LexikTranslationBundle/Resources/config/routing.yml"
+#  prefix:   /{_locale}/admin/translation
+#  defaults:
+#    _locale: '%locale%'
 
 api_login_check:
   path: /api/login_check

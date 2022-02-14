@@ -29,7 +29,6 @@ class CourseApogeeExtractor implements ExtractorInterface
      */
     public function __construct(ManagerRegistry $doctrine, array $apogeeCourseNatureToImport = [])
     {
-        $this->em = $doctrine->getManager('apogee');
         $this->conn = $doctrine->getConnection('apogee');
         $this->apogeeCourseNatureToImport = $apogeeCourseNatureToImport;
     }

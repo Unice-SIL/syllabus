@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "12499209d43ef233f196df643164414a",
+    "content-hash": "d204b3dc2e0dac0033f91e5fb96d56fc",
     "packages": [
         {
             "name": "api-platform/core",
@@ -10090,75 +10090,54 @@
             "time": "2022-02-04T06:57:25+00:00"
         },
         {
-            "name": "unicesil/syllabus-apogee-importer-bundle",
-            "version": "1.0.0",
+            "name": "unicesil/shibboleth-bundle",
+            "version": "5.x-dev",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Unice-SIL/syllabus-apogee-importer-bundle.git",
-                "reference": "d66f5ffc1403958f60faaae3fc03acc55b1d4fb9"
+                "url": "https://github.com/Unice-SIL/ShibbolethBundle.git",
+                "reference": "0adaf79af25196dbd0eebf880d5c3b15f1706a0f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Unice-SIL/syllabus-apogee-importer-bundle/zipball/d66f5ffc1403958f60faaae3fc03acc55b1d4fb9",
-                "reference": "d66f5ffc1403958f60faaae3fc03acc55b1d4fb9",
+                "url": "https://api.github.com/repos/Unice-SIL/ShibbolethBundle/zipball/0adaf79af25196dbd0eebf880d5c3b15f1706a0f",
+                "reference": "0adaf79af25196dbd0eebf880d5c3b15f1706a0f",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.1",
-                "unicesil/syllabus-importer-toolkit": ">=1.0"
+                "php": ">=7.2.5",
+                "symfony/routing": "^5.4",
+                "symfony/security-bundle": "^5.4"
             },
             "type": "symfony-bundle",
             "autoload": {
                 "psr-4": {
-                    "UniceSIL\\SyllabusApogeeImporterBundle\\": ""
+                    "UniceSIL\\ShibbolethBundle\\": ""
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "description": "Importer to import data in Syllabus from Apogée",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Frédéric Casazza",
+                    "email": "frederic.casazza@unice.fr"
+                }
+            ],
+            "description": "Shibboleth bundle authentication for Symfony 5+",
             "keywords": [
-                "Apogee",
-                "Syllabus",
+                "Authentication",
                 "UNS",
                 "Unice",
                 "Unice-SIL",
-                "importer"
+                "shibboleth",
+                "symfony 5"
             ],
             "support": {
-                "issues": "https://github.com/Unice-SIL/syllabus-apogee-importer-bundle/issues",
-                "source": "https://github.com/Unice-SIL/syllabus-apogee-importer-bundle/tree/1.0.0"
+                "issues": "https://github.com/Unice-SIL/ShibbolethBundle/issues",
+                "source": "https://github.com/Unice-SIL/ShibbolethBundle/tree/5.x"
             },
-            "time": "2019-05-16T09:09:21+00:00"
-        },
-        {
-            "name": "unicesil/syllabus-importer-toolkit",
-            "version": "1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Unice-SIL/syllabus-importer-toolkit.git",
-                "reference": "45a9117718e33dd0927af63987e94388266cd275"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Unice-SIL/syllabus-importer-toolkit/zipball/45a9117718e33dd0927af63987e94388266cd275",
-                "reference": "45a9117718e33dd0927af63987e94388266cd275",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.1"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "UniceSIL\\SyllabusImporterToolkit\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "description": "Toolkit to develop syllabus importer to import data in Syllabus from external repository",
-            "support": {
-                "issues": "https://github.com/Unice-SIL/syllabus-importer-toolkit/issues",
-                "source": "https://github.com/Unice-SIL/syllabus-importer-toolkit/tree/1.0"
-            },
-            "time": "2019-05-14T13:54:08+00:00"
+            "time": "2022-02-11T13:15:08+00:00"
         },
         {
             "name": "webmozart/assert",
@@ -10967,7 +10946,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "dmishh/settings-bundle": 20
+        "dmishh/settings-bundle": 20,
+        "unicesil/shibboleth-bundle": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

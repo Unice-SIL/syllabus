@@ -31,8 +31,3 @@ doctrine:
             dir: "%kernel.project_dir%/vendor/gedmo/doctrine-extensions/src/Translatable/Entity"
             alias: GedmoTranslatable
           DmishhSettingsBundle: ~
-      apogee:
-        connection: apogee
-        auto_mapping: false
-        mappings:
-          UniceSILSyllabusApogeeImporterBundle: ~
