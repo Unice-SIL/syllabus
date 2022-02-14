@@ -1,4 +1,6 @@
 security:
+    enable_authenticator_manager: true
+
     encoders:
         App\Syllabus\Entity\User:
             algorithm: bcrypt
@@ -20,7 +22,7 @@ security:
         login:
             pattern:  ^/api/login
             stateless: true
-            anonymous: true
+            lazy: true
             json_login:
                 check_path:               /api/login_check
                 success_handler:          lexik_jwt_authentication.handler.authentication_success
@@ -36,12 +38,11 @@ security:
                     - lexik_jwt_authentication.jwt_token_authenticator
         main:
             pattern: ^/
+            lazy: true
             provider: main
             switch_user: false
-            guard:
-                authenticator: '%authenticator%'
-                provider: main
-            anonymous: ~
+            custom_authenticators:
+                - '%authenticator%'
 
     role_hierarchy:
         ROLE_ADMIN:
