@@ -690,7 +690,7 @@
         "version": "v2.14.11"
     },
     "unicesil/shibboleth-bundle": {
-        "version": "5.x-dev"
+        "version": "v5.4.0"
     },
     "webmozart/assert": {
         "version": "1.10.0"

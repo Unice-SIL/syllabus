@@ -111,4 +111,13 @@ class DefaultController extends AbstractController
     {
         return $this->render('default/credits.html.twig');
     }
+
+    /**
+     * @Route("/logout", name="app_logout")
+     * @return RedirectResponse
+     */
+    public function logoutAction()
+    {
+        return $this->redirectToRoute('app_index');
+    }
 }

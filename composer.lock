@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "452404f13384925ddb775fb5cee40171",
+    "content-hash": "4fcbfa586e4697b67c9a6141386d48b0",
     "packages": [
         {
             "name": "api-platform/core",
@@ -10276,7 +10276,7 @@
         },
         {
             "name": "unicesil/shibboleth-bundle",
-            "version": "5.x-dev",
+            "version": "v5.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Unice-SIL/ShibbolethBundle.git",
@@ -10320,7 +10320,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Unice-SIL/ShibbolethBundle/issues",
-                "source": "https://github.com/Unice-SIL/ShibbolethBundle/tree/5.x"
+                "source": "https://github.com/Unice-SIL/ShibbolethBundle/tree/v5.4.0"
             },
             "time": "2022-02-14T09:49:47+00:00"
         },
@@ -11131,8 +11131,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "dmishh/settings-bundle": 20,
-        "unicesil/shibboleth-bundle": 20
+        "dmishh/settings-bundle": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
