@@ -33,6 +33,9 @@ lexik_translation_edition:
 api_login_check:
   path: /api/login_check
 
+logout:
+  path: /logout
+
 settings:
   resource: "@DmishhSettingsBundle/Resources/config/routing.yml"
   prefix: /admin/settings

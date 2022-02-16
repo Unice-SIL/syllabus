@@ -42,7 +42,7 @@ security:
             provider: main
             switch_user: false
             logout:
-                path: app_logout
+                path: /logout
             custom_authenticators:
                 - '%authenticator%'
 

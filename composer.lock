@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4fcbfa586e4697b67c9a6141386d48b0",
+    "content-hash": "e697e56c1a296f5e6d279156b2b9569e",
     "packages": [
         {
             "name": "api-platform/core",
@@ -10280,12 +10280,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Unice-SIL/ShibbolethBundle.git",
-                "reference": "784ccb5669ce938ec5cf9699d0e456e9b02a9207"
+                "reference": "80905bb44e71a32418492c5b493a2b316c11e4e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Unice-SIL/ShibbolethBundle/zipball/784ccb5669ce938ec5cf9699d0e456e9b02a9207",
-                "reference": "784ccb5669ce938ec5cf9699d0e456e9b02a9207",
+                "url": "https://api.github.com/repos/Unice-SIL/ShibbolethBundle/zipball/80905bb44e71a32418492c5b493a2b316c11e4e8",
+                "reference": "80905bb44e71a32418492c5b493a2b316c11e4e8",
                 "shasum": ""
             },
             "require": {
@@ -10322,7 +10322,7 @@
                 "issues": "https://github.com/Unice-SIL/ShibbolethBundle/issues",
                 "source": "https://github.com/Unice-SIL/ShibbolethBundle/tree/v5.4.0"
             },
-            "time": "2022-02-14T09:49:47+00:00"
+            "time": "2022-02-16T08:36:40+00:00"
         },
         {
             "name": "webmozart/assert",
