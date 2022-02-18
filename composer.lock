@@ -10276,16 +10276,16 @@
         },
         {
             "name": "unicesil/shibboleth-bundle",
-            "version": "5.x-dev",
+            "version": "v5.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Unice-SIL/ShibbolethBundle.git",
-                "reference": "784ccb5669ce938ec5cf9699d0e456e9b02a9207"
+                "reference": "e71a85758cf1de8a6fade962d9e06f7fcf1dbd0b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Unice-SIL/ShibbolethBundle/zipball/784ccb5669ce938ec5cf9699d0e456e9b02a9207",
-                "reference": "784ccb5669ce938ec5cf9699d0e456e9b02a9207",
+                "url": "https://api.github.com/repos/Unice-SIL/ShibbolethBundle/zipball/e71a85758cf1de8a6fade962d9e06f7fcf1dbd0b",
+                "reference": "e71a85758cf1de8a6fade962d9e06f7fcf1dbd0b",
                 "shasum": ""
             },
             "require": {
@@ -10320,9 +10320,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Unice-SIL/ShibbolethBundle/issues",
-                "source": "https://github.com/Unice-SIL/ShibbolethBundle/tree/5.x"
+                "source": "https://github.com/Unice-SIL/ShibbolethBundle/tree/v5.4.0"
             },
-            "time": "2022-02-14T09:49:47+00:00"
+            "time": "2022-02-16T08:42:51+00:00"
         },
         {
             "name": "webmozart/assert",
@@ -12456,8 +12456,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "dmishh/settings-bundle": 20,
-        "unicesil/shibboleth-bundle": 20
+        "dmishh/settings-bundle": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
