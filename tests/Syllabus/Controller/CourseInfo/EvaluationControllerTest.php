@@ -4,6 +4,7 @@
 namespace Tests\Syllabus\Controller\CourseInfo;
 
 
+use App\Syllabus\Constant\Permission;
 use App\Syllabus\Entity\CourseInfo;
 use App\Syllabus\Exception\CourseNotFoundException;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,9 +37,9 @@ class EvaluationControllerTest extends AbstractCourseInfoControllerTest
     /**
      * @throws CourseNotFoundException
      */
-    public function testEvaluationRedirectWithPermission()
+    public function testEvaluationWithPermission()
     {
-        $this->tryRedirectWithPermission(self::ROUTE_APP_EVALUATION_INDEX);
+        $this->tryWithPermission(self::ROUTE_APP_EVALUATION_INDEX, Permission::WRITE);
         $this->assertResponseIsSuccessful();
     }
 

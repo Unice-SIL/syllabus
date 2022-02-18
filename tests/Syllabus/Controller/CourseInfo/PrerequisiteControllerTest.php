@@ -118,6 +118,10 @@ class PrerequisiteControllerTest extends AbstractCourseInfoControllerTest
         $em->persist($coursePrerequisite);
         $em->flush();
 
+        $this->client()->request(
+            'POST',
+            $this->generateUrl(self::ROUTE_APP_COURSE_PREREQUISITE_DELETE, ['id' => $coursePrerequisite->getId()])
+        );
         $coursePrerequisiteId = $coursePrerequisite->getId();
         $token = $this->getCsrfToken('delete_prerequisite');
 

@@ -3,8 +3,8 @@
 
 namespace Tests\Syllabus\Controller\CourseInfo;
 
+use App\Syllabus\Constant\Permission;
 use App\Syllabus\Exception\CourseNotFoundException;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -35,9 +35,9 @@ class DashboardControllerTest extends AbstractCourseInfoControllerTest
     /**
      * @throws CourseNotFoundException
      */
-    public function testDashboardRedirectWithPermission()
+    public function testDashboardWithPermission()
     {
-        $this->tryRedirectWithPermission(self::ROUTE_APP_DASHBOARD_INDEX);
+        $this->tryWithPermission(self::ROUTE_APP_DASHBOARD_INDEX, Permission::WRITE);
         $this->assertResponseIsSuccessful();
     }
 

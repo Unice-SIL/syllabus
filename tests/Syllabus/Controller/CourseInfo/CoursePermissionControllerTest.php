@@ -3,6 +3,7 @@
 
 namespace Tests\Syllabus\Controller\CourseInfo;
 
+use App\Syllabus\Constant\Permission;
 use App\Syllabus\Exception\CourseNotFoundException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,9 +36,9 @@ class CoursePermissionControllerTest extends AbstractCourseInfoControllerTest
     /**
      * @throws CourseNotFoundException
      */
-    public function testCoursePermissionRedirectWithPermission()
+    public function testCoursePermissionWithPermission()
     {
-        $this->tryRedirectWithPermission(self::ROUTE_APP_COURSE_PERMISSION_INDEX);
+        $this->tryWithPermission(self::ROUTE_APP_COURSE_PERMISSION_INDEX, Permission::WRITE);
         $this->assertResponseIsSuccessful();
     }
 

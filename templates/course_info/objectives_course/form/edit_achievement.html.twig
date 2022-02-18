@@ -6,9 +6,7 @@
         <div>
             <div>
                 <label>{{ 'app.objectives.form.description' | trans }}</label>
-                {% if form.description is defined %}
                     {{ form_widget(form.description) }}
-                {% endif %}
             </div>
         </div>
     </div>

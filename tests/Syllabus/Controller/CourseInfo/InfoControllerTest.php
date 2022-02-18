@@ -4,8 +4,8 @@
 namespace Tests\Syllabus\Controller\CourseInfo;
 
 
+use App\Syllabus\Constant\Permission;
 use App\Syllabus\Exception\CourseNotFoundException;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -36,9 +36,9 @@ class InfoControllerTest extends AbstractCourseInfoControllerTest
     /**
      * @throws CourseNotFoundException
      */
-    public function testInfoRedirectWithPermission()
+    public function testInfotWithPermission()
     {
-        $this->tryRedirectWithPermission(self::ROUTE_APP_INFO_INDEX);
+        $this->tryWithPermission(self::ROUTE_APP_INFO_INDEX, Permission::WRITE);
         $this->assertResponseIsSuccessful();
     }
 

@@ -26,156 +26,156 @@ use Symfony\Component\Security\Guard\Token\PostAuthenticationGuardToken;
  */
 class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
 {
-    public const AUTH_FIREWALL_NAME                                 = 'main';
-    public const AUTH_FIREWALL_CONTEXT                              = 'main';
+    public const AUTH_FIREWALL_NAME = 'main';
+    public const AUTH_FIREWALL_CONTEXT = 'main';
 
-    public const ROUTE_APP_LOGIN                                    = '/login';
-    public const ROUTE_APP_LOGIN_BASIC                              = '/login/basic';
-    public const ROUTE_APP_LOGIN_SHIBBOLETH                         = '/login/shibboleth';
-    public const ROUTE_APP_LOGOUT                                   = '/logout';
+    public const ROUTE_APP_LOGIN = '/login';
+    public const ROUTE_APP_LOGIN_BASIC = '/login/basic';
+    public const ROUTE_APP_LOGIN_SHIBBOLETH = '/login/shibboleth';
+    public const ROUTE_APP_LOGOUT = '/logout';
 
-    public const ROUTE_APP_HOMEPAGE                                 = 'app_index';
-    public const ROUTE_APP_ROUTER                                   = 'app_router';
-    public const ROUTE_APP_ROUTER_LIGHT                             = 'app_router_anon';
+    public const ROUTE_APP_HOMEPAGE = 'app_index';
+    public const ROUTE_APP_ROUTER = 'app_router';
+    public const ROUTE_APP_ROUTER_LIGHT = 'app_router_anon';
 
     /*
      *  Admin
      */
 
-    public const ROUTE_ADMIN_ACTIVITY_LIST                          = 'app.admin.activity.index';
-    public const ROUTE_ADMIN_ACTIVITY_NEW                           = 'app.admin.activity.new';
-    public const ROUTE_ADMIN_ACTIVITY_EDIT                          = 'app.admin.activity.edit';
+    public const ROUTE_ADMIN_ACTIVITY_LIST = 'app.admin.activity.index';
+    public const ROUTE_ADMIN_ACTIVITY_NEW = 'app.admin.activity.new';
+    public const ROUTE_ADMIN_ACTIVITY_EDIT = 'app.admin.activity.edit';
 
-    public const ROUTE_ADMIN_ACTIVITY_MODE_LIST                     = 'app.admin.activity_mode.index';
-    public const ROUTE_ADMIN_ACTIVITY_MODE_NEW                      = 'app.admin.activity_mode.new';
-    public const ROUTE_ADMIN_ACTIVITY_MODE_EDIT                     = 'app.admin.activity_mode.edit';
+    public const ROUTE_ADMIN_ACTIVITY_MODE_LIST = 'app.admin.activity_mode.index';
+    public const ROUTE_ADMIN_ACTIVITY_MODE_NEW = 'app.admin.activity_mode.new';
+    public const ROUTE_ADMIN_ACTIVITY_MODE_EDIT = 'app.admin.activity_mode.edit';
 
-    public const ROUTE_ADMIN_ACTIVITY_TYPE_LIST                     = 'app.admin.activity_type.index';
-    public const ROUTE_ADMIN_ACTIVITY_TYPE_NEW                      = 'app.admin.activity_type.new';
-    public const ROUTE_ADMIN_ACTIVITY_TYPE_EDIT                     = 'app.admin.activity_type.edit';
+    public const ROUTE_ADMIN_ACTIVITY_TYPE_LIST = 'app.admin.activity_type.index';
+    public const ROUTE_ADMIN_ACTIVITY_TYPE_NEW = 'app.admin.activity_type.new';
+    public const ROUTE_ADMIN_ACTIVITY_TYPE_EDIT = 'app.admin.activity_type.edit';
 
-    public const ROUTE_ADMIN_ASK_ADVICE_LIST                        = 'app.admin.ask_advice.index';
+    public const ROUTE_ADMIN_ASK_ADVICE_LIST = 'app.admin.ask_advice.index';
 
-    public const ROUTE_ADMIN_CAMPUS_LIST                            = 'app.admin.campus.index';
-    public const ROUTE_ADMIN_CAMPUS_NEW                             = 'app.admin.campus.new';
-    public const ROUTE_ADMIN_CAMPUS_EDIT                            = 'app.admin.campus.edit';
+    public const ROUTE_ADMIN_CAMPUS_LIST = 'app.admin.campus.index';
+    public const ROUTE_ADMIN_CAMPUS_NEW = 'app.admin.campus.new';
+    public const ROUTE_ADMIN_CAMPUS_EDIT = 'app.admin.campus.edit';
 
-    public const ROUTE_ADMIN_COURSE_LIST                            = 'app.admin.course.index';
+    public const ROUTE_ADMIN_COURSE_LIST = 'app.admin.course.index';
 
-    public const ROUTE_ADMIN_COURSE_INFO_LIST                       = 'app.admin.course_info.index';
+    public const ROUTE_ADMIN_COURSE_INFO_LIST = 'app.admin.course_info.index';
 
-    public const ROUTE_ADMIN_COURSE_INFO_FIELD_LIST                 = 'app.admin.course_info_field.index';
+    public const ROUTE_ADMIN_COURSE_INFO_FIELD_LIST = 'app.admin.course_info_field.index';
 
-    public const ROUTE_ADMIN_CRITICAL_ACHIEVEMENT_LIST              = 'app.admin.critical_achievement.index';
-    public const ROUTE_ADMIN_CRITICAL_ACHIEVEMENT_NEW               = 'app.admin.critical_achievement.new';
-    public const ROUTE_ADMIN_CRITICAL_ACHIEVEMENT_EDIT              = 'app.admin.critical_achievement.edit';
+    public const ROUTE_ADMIN_CRITICAL_ACHIEVEMENT_LIST = 'app.admin.critical_achievement.index';
+    public const ROUTE_ADMIN_CRITICAL_ACHIEVEMENT_NEW = 'app.admin.critical_achievement.new';
+    public const ROUTE_ADMIN_CRITICAL_ACHIEVEMENT_EDIT = 'app.admin.critical_achievement.edit';
 
-    public const ROUTE_ADMIN_DASHBOARD                              = 'app.admin.dashboard.index';
+    public const ROUTE_ADMIN_DASHBOARD = 'app.admin.dashboard.index';
 
-    public const ROUTE_ADMIN_DOMAIN_LIST                            = 'app.admin.domain.index';
-    public const ROUTE_ADMIN_DOMAIN_NEW                             = 'app.admin.domain.new';
-    public const ROUTE_ADMIN_DOMAIN_EDIT                            = 'app.admin.domain.edit';
+    public const ROUTE_ADMIN_DOMAIN_LIST = 'app.admin.domain.index';
+    public const ROUTE_ADMIN_DOMAIN_NEW = 'app.admin.domain.new';
+    public const ROUTE_ADMIN_DOMAIN_EDIT = 'app.admin.domain.edit';
 
-    public const ROUTE_ADMIN_EQUIPMENT_LIST                         = 'app.admin.equipment.index';
-    public const ROUTE_ADMIN_EQUIPMENT_NEW                          = 'app.admin.equipment.new';
-    public const ROUTE_ADMIN_EQUIPMENT_EDIT                         = 'app.admin.equipment.edit';
+    public const ROUTE_ADMIN_EQUIPMENT_LIST = 'app.admin.equipment.index';
+    public const ROUTE_ADMIN_EQUIPMENT_NEW = 'app.admin.equipment.new';
+    public const ROUTE_ADMIN_EQUIPMENT_EDIT = 'app.admin.equipment.edit';
 
-    public const ROUTE_ADMIN_GROUPS_LIST                            = 'app.admin.groups.index';
+    public const ROUTE_ADMIN_GROUPS_LIST = 'app.admin.groups.index';
 
-    public const ROUTE_ADMIN_IMPORT_COURSE_INFO                     = 'app.admin.import_csv.course_info';
-    public const ROUTE_ADMIN_IMPORT_PERMISSION                      = 'app.admin.import_csv.permission';
+    public const ROUTE_ADMIN_IMPORT_COURSE_INFO = 'app.admin.import_csv.course_info';
+    public const ROUTE_ADMIN_IMPORT_PERMISSION = 'app.admin.import_csv.permission';
 
-    public const ROUTE_ADMIN_IMPORT_USER                            = 'app.admin.import_csv.user';
+    public const ROUTE_ADMIN_IMPORT_USER = 'app.admin.import_csv.user';
 
-    public const ROUTE_ADMIN_JOB_LIST                               = 'app.admin.job.index';
+    public const ROUTE_ADMIN_JOB_LIST = 'app.admin.job.index';
 
-    public const ROUTE_ADMIN_LANGUAGE_LIST                          = 'app.admin.language.index';
-    public const ROUTE_ADMIN_LANGUAGE_NEW                           = 'app.admin.language.new';
-    public const ROUTE_ADMIN_LANGUAGE_EDIT                          = 'app.admin.language.edit';
+    public const ROUTE_ADMIN_LANGUAGE_LIST = 'app.admin.language.index';
+    public const ROUTE_ADMIN_LANGUAGE_NEW = 'app.admin.language.new';
+    public const ROUTE_ADMIN_LANGUAGE_EDIT = 'app.admin.language.edit';
 
-    public const ROUTE_ADMIN_LEVEL_LIST                             = 'app.admin.level.index';
-    public const ROUTE_ADMIN_LEVEL_NEW                              = 'app.admin.level.new';
-    public const ROUTE_ADMIN_LEVEL_EDIT                             = 'app.admin.level.edit';
+    public const ROUTE_ADMIN_LEVEL_LIST = 'app.admin.level.index';
+    public const ROUTE_ADMIN_LEVEL_NEW = 'app.admin.level.new';
+    public const ROUTE_ADMIN_LEVEL_EDIT = 'app.admin.level.edit';
 
-    public const ROUTE_ADMIN_NOTIFICATION_LIST                      = 'app.admin.notification.index';
+    public const ROUTE_ADMIN_NOTIFICATION_LIST = 'app.admin.notification.index';
 
-    public const ROUTE_ADMIN_PERIOD_LIST                            = 'app.admin.period.index';
-    public const ROUTE_ADMIN_PERIOD_NEW                             = 'app.admin.period.new';
-    public const ROUTE_ADMIN_PERIOD_EDIT                            = 'app.admin.period.edit';
+    public const ROUTE_ADMIN_PERIOD_LIST = 'app.admin.period.index';
+    public const ROUTE_ADMIN_PERIOD_NEW = 'app.admin.period.new';
+    public const ROUTE_ADMIN_PERIOD_EDIT = 'app.admin.period.edit';
 
-    public const ROUTE_ADMIN_STRUCTURE_LIST                         = 'app.admin.structure.index';
-    public const ROUTE_ADMIN_STRUCTURE_NEW                          = 'app.admin.structure.new';
-    public const ROUTE_ADMIN_STRUCTURE_EDIT                         = 'app.admin.structure.edit';
+    public const ROUTE_ADMIN_STRUCTURE_LIST = 'app.admin.structure.index';
+    public const ROUTE_ADMIN_STRUCTURE_NEW = 'app.admin.structure.new';
+    public const ROUTE_ADMIN_STRUCTURE_EDIT = 'app.admin.structure.edit';
 
-    public const ROUTE_ADMIN_SYLLABUS_LIST                          = 'app.admin.syllabus.index';
+    public const ROUTE_ADMIN_SYLLABUS_LIST = 'app.admin.syllabus.index';
 
-    public const ROUTE_ADMIN_USER_LIST                              = 'app.admin.user.index';
+    public const ROUTE_ADMIN_USER_LIST = 'app.admin.user.index';
 
-    public const ROUTE_ADMIN_YEAR_LIST                              = 'app.admin.year.index';
-    public const ROUTE_ADMIN_YEAR_NEW                               = 'app.admin.year.new';
-    public const ROUTE_ADMIN_YEAR_EDIT                              = 'app.admin.year.edit';
+    public const ROUTE_ADMIN_YEAR_LIST = 'app.admin.year.index';
+    public const ROUTE_ADMIN_YEAR_NEW = 'app.admin.year.new';
+    public const ROUTE_ADMIN_YEAR_EDIT = 'app.admin.year.edit';
 
     /*
      *  Course Info
      */
-    public const ROUTE_APP_COURSE_ACHIEVEMENT_EDIT                  = 'app.course_info.achievement.edit';
-    public const ROUTE_APP_COURSE_ACHIEVEMENT_DELETE                = 'app.course_info.achievement.delete';
+    public const ROUTE_APP_COURSE_ACHIEVEMENT_EDIT = 'app.course_info.achievement.edit';
+    public const ROUTE_APP_COURSE_ACHIEVEMENT_DELETE = 'app.course_info.achievement.delete';
 
-    public const ROUTE_APP_COURSE_INFO_DASHBOARD                    = 'app.course_info.dashboard.index';
+    public const ROUTE_APP_COURSE_INFO_DASHBOARD = 'app.course_info.dashboard.index';
 
-    public const ROUTE_APP_COURSE_STUDENT_VIEW                      = 'app.course_info.view.student';
+    public const ROUTE_APP_COURSE_STUDENT_VIEW = 'app.course_info.view.student';
 
-    public const ROUTE_APP_COURSE_LIGHT_VIEW                        = 'app.course_info.view.light_version';
+    public const ROUTE_APP_COURSE_LIGHT_VIEW = 'app.course_info.view.light_version';
 
-    public const ROUTE_APP_ACTIVITIES_INDEX                         = 'app.course_info.activities.index';
-    public const ROUTE_APP_ACTIVITIES_ADD_SECTION                   = 'app.course_info.activities.section.add';
-    public const ROUTE_APP_ACTIVITIES_DUPLICATE_SECTION             = 'app.course_info.activities.section.duplicate';
+    public const ROUTE_APP_ACTIVITIES_INDEX = 'app.course_info.activities.index';
+    public const ROUTE_APP_ACTIVITIES_ADD_SECTION = 'app.course_info.activities.section.add';
+    public const ROUTE_APP_ACTIVITIES_DUPLICATE_SECTION = 'app.course_info.activities.section.duplicate';
 
-    public const ROUTE_APP_CLOSING_REMARKS_INDEX                    = 'app.course_info.closing_remarks.index';
+    public const ROUTE_APP_CLOSING_REMARKS_INDEX = 'app.course_info.closing_remarks.index';
 
-    public const ROUTE_APP_COURSE_PERMISSION_INDEX                  = 'app.course_info.permission.index';
+    public const ROUTE_APP_COURSE_PERMISSION_INDEX = 'app.course_info.permission.index';
 
-    public const ROUTE_APP_COURSE_PREREQUISITE_INDEX                = 'app.course_info.prerequisite.index';
-    public const ROUTE_APP_COURSE_PREREQUISITE_ADD                  = 'app.course_info.prerequisite.add';
-    public const ROUTE_APP_COURSE_PREREQUISITE_EDIT                 = 'app.course_info.prerequisite.edit';
-    public const ROUTE_APP_COURSE_PREREQUISITE_DELETE               = 'app.course_info.prerequisite.delete';
+    public const ROUTE_APP_COURSE_PREREQUISITE_INDEX = 'app.course_info.prerequisite.index';
+    public const ROUTE_APP_COURSE_PREREQUISITE_ADD = 'app.course_info.prerequisite.add';
+    public const ROUTE_APP_COURSE_PREREQUISITE_EDIT = 'app.course_info.prerequisite.edit';
+    public const ROUTE_APP_COURSE_PREREQUISITE_DELETE = 'app.course_info.prerequisite.delete';
 
-    public const ROUTE_APP_COURSE_SECTION_EDIT                      = 'app.course_info.section.edit';
-    public const ROUTE_APP_COURSE_SECTION_DELETE                    = 'app.course_info.section.delete';
+    public const ROUTE_APP_COURSE_SECTION_EDIT = 'app.course_info.section.edit';
+    public const ROUTE_APP_COURSE_SECTION_DELETE = 'app.course_info.section.delete';
 
-    public const ROUTE_APP_DASHBOARD_INDEX                          = 'app.course_info.dashboard.index';
+    public const ROUTE_APP_DASHBOARD_INDEX = 'app.course_info.dashboard.index';
 
-    public const ROUTE_APP_EQUIPMENT_EDIT                           = 'app.course_info.equipment.edit';
-    public const ROUTE_APP_EQUIPMENT_DELETE                         = 'app.course_info.equipment.delete';
+    public const ROUTE_APP_EQUIPMENT_EDIT = 'app.course_info.equipment.edit';
+    public const ROUTE_APP_EQUIPMENT_DELETE = 'app.course_info.equipment.delete';
 
-    public const ROUTE_APP_EVALUATION_INDEX                         = 'app.course_info.evaluation.index';
-    public const ROUTE_APP_EVALUATION_SPECIFICATIONS_EDIT           = 'app.course_info.evaluation.specifications.edit';
+    public const ROUTE_APP_EVALUATION_INDEX = 'app.course_info.evaluation.index';
+    public const ROUTE_APP_EVALUATION_SPECIFICATIONS_EDIT = 'app.course_info.evaluation.specifications.edit';
 
-    public const ROUTE_APP_INFO_INDEX                               = 'app.course_info.info.index';
+    public const ROUTE_APP_INFO_INDEX = 'app.course_info.info.index';
 
-    public const ROUTE_APP_LEARNING_ACHIEVEMENT_EDIT                = 'app.course_info.equipment.edit';
-    public const ROUTE_APP_LEARNING_ACHIEVEMENT_DELETE              = 'app.course_info.equipment.delete';
+    public const ROUTE_APP_LEARNING_ACHIEVEMENT_EDIT = 'app.course_info.equipment.edit';
+    public const ROUTE_APP_LEARNING_ACHIEVEMENT_DELETE = 'app.course_info.equipment.delete';
 
-    public const ROUTE_APP_OBJECTIVES_INDEX                         = 'app.course_info.objectives.index';
-    public const ROUTE_APP_OBJECTIVES_ADD_ACHIEVEMENT               = 'app.course_info.objectives.achievement.add';
+    public const ROUTE_APP_OBJECTIVES_INDEX = 'app.course_info.objectives.index';
+    public const ROUTE_APP_OBJECTIVES_ADD_ACHIEVEMENT = 'app.course_info.objectives.achievement.add';
 
-    public const ROUTE_APP_PRESENTATION_INDEX                       = 'app.course_info.presentation.index';
+    public const ROUTE_APP_PRESENTATION_INDEX = 'app.course_info.presentation.index';
 
-    public const ROUTE_APP_RESOURCE_EQUIPMENT_INDEX                 = 'app.course_info.resource_equipment.index';
+    public const ROUTE_APP_RESOURCE_EQUIPMENT_INDEX = 'app.course_info.resource_equipment.index';
 
-    public const ROUTE_APP_COURSE_TEACHER_EDIT             = 'app.course_info.teacher.edit';
-    public const ROUTE_APP_COURSE_TEACHER_DELETE           = 'app.course_info.teacher.delete';
+    public const ROUTE_APP_COURSE_TEACHER_EDIT = 'app.course_info.teacher.edit';
+    public const ROUTE_APP_COURSE_TEACHER_DELETE = 'app.course_info.teacher.delete';
 
-    public const ROUTE_APP_COURSE_TUTORING_RESOURCE_EDIT            = 'app.course_info.tutoring_resource.edit';
-    public const ROUTE_APP_COURSE_TUTORING_RESOURCE_DELETE          = 'app.course_info.tutoring_resource.delete';
+    public const ROUTE_APP_COURSE_TUTORING_RESOURCE_EDIT = 'app.course_info.tutoring_resource.edit';
+    public const ROUTE_APP_COURSE_TUTORING_RESOURCE_DELETE = 'app.course_info.tutoring_resource.delete';
 
-    public const ROUTE_APP_MAINTENANCE                              = 'app.maintenance.index';
+    public const ROUTE_APP_MAINTENANCE = 'app.maintenance.index';
 
-    public const DEFAULT_USER_USERNAME                              = 'user1';
-    public const COURSE_ALLOWED_CODE                                = CourseFixture::COURSE_2;
-    public const COURSE_ALLOWED_YEAR                                = YearFixture::YEAR_2018;
-    public const COURSE_NOT_ALLOWED_CODE                            = CourseFixture::COURSE_3;
-    public const COURSE_NOT_ALLOWED_YEAR                            = YearFixture::YEAR_2018;
+    public const DEFAULT_USER_USERNAME = 'user1';
+    public const COURSE_ALLOWED_CODE = CourseFixture::COURSE_2;
+    public const COURSE_ALLOWED_YEAR = YearFixture::YEAR_2018;
+    public const COURSE_NOT_ALLOWED_CODE = CourseFixture::COURSE_3;
+    public const COURSE_NOT_ALLOWED_YEAR = YearFixture::YEAR_2018;
 
     /**
      * @var KernelBrowser|null
@@ -224,7 +224,7 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
      * @param bool $refresh
      * @return User
      */
-    public function getUser($username = self::DEFAULT_USER_USERNAME, bool $refresh = false): User
+    public function getUser($username = 'user2', bool $refresh = false): User
     {
         if (!$this->user instanceof User || $this->user->getUsername() !== $username || !$refresh) {
             $this->user = $this->getEntityManager()->getRepository(User::class)->findOneBy(['username' => $username]);
@@ -246,13 +246,11 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     public function getCourse($code = self::COURSE_ALLOWED_CODE, $year = self::COURSE_ALLOWED_YEAR)
     {
         $course = null;
-        if (!$course instanceof CourseInfo)
-        {
+        if (!$course instanceof CourseInfo) {
             $course = $this->getEntityManager()->getRepository(CourseInfo::class)->findByCodeAndYear($code, $year);
         }
 
-        if (!$course instanceof CourseInfo)
-        {
+        if (!$course instanceof CourseInfo) {
             throw new CourseNotFoundException();
         }
 
@@ -376,6 +374,7 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
      */
     public function getCsrfToken(string $tokenName)
     {
-        return $this->client()->getContainer()->get('security.csrf.token_manager')->getToken($tokenName)->getValue();
+        $session = $this->client()->getContainer()->get('session');
+        return $session->get('_csrf/' . $tokenName);
     }
 }

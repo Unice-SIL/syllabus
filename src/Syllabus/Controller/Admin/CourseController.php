@@ -67,7 +67,6 @@ class CourseController extends AbstractController
             $request->query->getInt('page', 1),
             10
         );
-
         return $this->render('course/index.html.twig', array(
             'pagination' => $pagination,
             'form' => $form->createView(),

@@ -4,6 +4,7 @@
 namespace Tests\Syllabus\Controller\CourseInfo;
 
 
+use App\Syllabus\Constant\Permission;
 use App\Syllabus\Entity\CourseAchievement;
 use App\Syllabus\Exception\CourseNotFoundException;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,9 +37,9 @@ class ObjectivesControllerTest extends AbstractCourseInfoControllerTest
     /**
      * @throws CourseNotFoundException
      */
-    public function testObjectivesRedirectWithPermission()
+    public function testObjectivesWithPermission()
     {
-        $this->tryRedirectWithPermission(self::ROUTE_APP_OBJECTIVES_INDEX);
+        $this->tryWithPermission(self::ROUTE_APP_OBJECTIVES_INDEX, Permission::WRITE);
         $this->assertResponseIsSuccessful();
     }
 

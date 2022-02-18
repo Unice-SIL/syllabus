@@ -3,6 +3,7 @@
 
 namespace Tests\Syllabus\Controller\CourseInfo;
 
+use App\Syllabus\Constant\Permission;
 use App\Syllabus\Entity\CoursePrerequisite;
 use App\Syllabus\Exception\CourseNotFoundException;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,9 +36,9 @@ class CoursePrerequisiteControllerTest extends AbstractCourseInfoControllerTest
     /**
      * @throws CourseNotFoundException
      */
-    public function testCoursePrerequisiteRedirectWithPermission()
+    public function testCoursePrerequisiteWithPermission()
     {
-        $this->tryRedirectWithPermission(self::ROUTE_APP_COURSE_PREREQUISITE_INDEX);
+        $this->tryWithPermission(self::ROUTE_APP_COURSE_PREREQUISITE_INDEX, Permission::WRITE);
         $this->assertResponseIsSuccessful();
     }
 

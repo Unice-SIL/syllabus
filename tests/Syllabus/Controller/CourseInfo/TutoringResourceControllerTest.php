@@ -122,6 +122,11 @@ class TutoringResourceControllerTest extends AbstractCourseInfoControllerTest
         $em->persist($tutoringResource);
         $em->flush();
 
+        $this->client()->request(
+            'GET',
+            $this->generateUrl(self::ROUTE_APP_COURSE_TUTORING_RESOURCE_DELETE, ['id' => $tutoringResource->getId()])
+        );
+
         $tutoringResourceId = $tutoringResource->getId();
         $token = $this->getCsrfToken('delete_tutoring_resources');
 

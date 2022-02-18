@@ -119,6 +119,10 @@ class TeacherControllerTest extends AbstractCourseInfoControllerTest
 
         $em->persist($courseTeacher);
         $em->flush();
+        $this->client()->request(
+            'GET',
+            $this->generateUrl(self::ROUTE_APP_COURSE_TEACHER_DELETE, ['id' => $courseTeacher->getId()]),
+          );
 
         $courseTeacherId = $courseTeacher->getId();
         $token = $this->getCsrfToken('delete_teacher');

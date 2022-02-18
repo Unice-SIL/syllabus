@@ -55,7 +55,7 @@ class CourseSectionControllerTest extends AbstractCourseInfoControllerTest
     public function editCourseSectionSuccessfulProvider(): array
     {
         return [
-            [['title' => 'SectionTest', 'description' => 'CourseAchievementTest', 'url' => 'UrlTest']],
+            [['title' => 'SectionTest', 'description' => 'CourseAchievementTest']],
             [['title' => 'SectionTest']]
         ];
     }
@@ -120,6 +120,11 @@ class CourseSectionControllerTest extends AbstractCourseInfoControllerTest
 
         $em->persist($courseSection);
         $em->flush();
+
+        $this->client()->request(
+            'GET',
+            $this->generateUrl(self::ROUTE_APP_COURSE_SECTION_DELETE, ['id' => $courseSection->getId()])
+        );
 
         $courseSectionId = $courseSection->getId();
         $token = $this->getCsrfToken('delete_section');

@@ -4,8 +4,8 @@
 namespace Tests\Syllabus\Controller\CourseInfo;
 
 
+use App\Syllabus\Constant\Permission;
 use App\Syllabus\Exception\CourseNotFoundException;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Response;
 
 class ResourceEquipmentControllerTest extends AbstractCourseInfoControllerTest
@@ -32,9 +32,9 @@ class ResourceEquipmentControllerTest extends AbstractCourseInfoControllerTest
     /**
      * @throws CourseNotFoundException
      */
-    public function testResourceEquipmentRedirectWithPermission()
+    public function testResourceEquipmentWithPermission()
     {
-        $this->tryRedirectWithPermission(self::ROUTE_APP_RESOURCE_EQUIPMENT_INDEX);
+        $this->tryWithPermission(self::ROUTE_APP_RESOURCE_EQUIPMENT_INDEX, Permission::WRITE);
         $this->assertResponseIsSuccessful();
     }
 

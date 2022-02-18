@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Environment;
 
 /**
  * Class ActivitiesController
@@ -63,6 +64,7 @@ class ActivitiesController extends AbstractController
     /**
      * @Route("/section/add", name="section.add"))
      *
+     * @param Environment $twig
      * @param CourseInfo $courseInfo
      * @param Request $request
      * @param CourseInfoManager $manager
@@ -71,7 +73,7 @@ class ActivitiesController extends AbstractController
      * @return Response
      * @throws Exception
      */
-    public function addSectionAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager, CourseSectionManager $courseSectionManager, TranslatorInterface $translator)
+    public function addSectionAction(Environment $twig, CourseInfo $courseInfo, Request $request, CourseInfoManager $manager, CourseSectionManager $courseSectionManager, TranslatorInterface $translator)
     {
         if (!$courseInfo instanceof CourseInfo)
         {
@@ -105,7 +107,7 @@ class ActivitiesController extends AbstractController
             }
         }
 
-        $render = $this->get('twig')->render('course_info/activities/form/add_section.html.twig', [
+        $render = $twig->render('course_info/activities/form/add_section.html.twig', [
             'courseInfo' => $courseInfo,
             'form' => $form->createView(),
             'sectionId' => $section->getId()

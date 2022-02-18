@@ -3,6 +3,8 @@
 
 namespace Tests\Syllabus\Controller;
 
+use App\Syllabus\Constant\Permission;
+use App\Syllabus\Entity\CoursePermission;
 use App\Syllabus\Exception\CourseNotFoundException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Tests\WebTestCase;
@@ -51,12 +53,19 @@ class DefaultControllerTest extends WebTestCase
             ->setGroups(new ArrayCollection());
         $this->getEntityManager()->flush();
         $this->login($user);
-        $course = $this->getCourse(self::COURSE_ALLOWED_CODE, self::COURSE_ALLOWED_YEAR);
+        $courseInfo = $this->getCourse(self::COURSE_ALLOWED_CODE, self::COURSE_ALLOWED_YEAR);
+
+        /** @var CoursePermission $coursePermission */
+        $coursePermission = new CoursePermission();
+        $coursePermission->setUser($user)->setCourseInfo($courseInfo)->setPermission(Permission::WRITE);
+
+        $this->getEntityManager()->persist($coursePermission);
+        $this->getEntityManager()->flush();
         $this->client()->request('GET', $this->generateUrl(self::ROUTE_APP_ROUTER, [
-            'code' => $course->getCourse()->getCode(),
-            'year' => $course->getYear()->getId()
+            'code' => $courseInfo->getCourse()->getCode(),
+            'year' => $courseInfo->getYear()->getId()
         ]));
-        $this->assertResponseRedirects($this->generateUrl(self::ROUTE_APP_COURSE_INFO_DASHBOARD, ['id' => $course->getId()]));
+        $this->assertResponseRedirects($this->generateUrl(self::ROUTE_APP_COURSE_INFO_DASHBOARD, ['id' => $courseInfo->getId()]));
     }
 
     /**

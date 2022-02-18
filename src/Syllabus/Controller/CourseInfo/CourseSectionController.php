@@ -86,8 +86,13 @@ class CourseSectionController extends AbstractController
         $form = $this->createForm(RemoveSectionType::class, $section);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
+        if ($form->isSubmitted() )
         {
+            foreach ($form->getErrors(true) as $error){
+
+                dd($error->getMessage());
+            }
+
             $courseSectionManager->delete($section);
             return $this->json([
                 'status' => true,

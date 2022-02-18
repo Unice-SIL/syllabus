@@ -28,7 +28,7 @@ class ActivitiesControllerTest extends AbstractCourseInfoControllerTest
     /**
      * @throws CourseNotFoundException
      */
-    public function testActivitiesRedirectWithAdminPermission()
+    public function testActivitiesWithAdminPermission()
     {
         $this->tryRedirectWithAdminPermission(self::ROUTE_APP_ACTIVITIES_INDEX);
         $this->assertResponseIsSuccessful();
@@ -37,9 +37,9 @@ class ActivitiesControllerTest extends AbstractCourseInfoControllerTest
     /**
      * @throws CourseNotFoundException
      */
-    public function testActivitiesRedirectWithPermission()
+    public function testActivitiesWithPermission()
     {
-        $this->tryRedirectWithPermission(self::ROUTE_APP_ACTIVITIES_INDEX);
+        $this->tryWithPermission(self::ROUTE_APP_ACTIVITIES_INDEX, 'WRITE');
         $this->assertResponseIsSuccessful();
     }
 
@@ -89,7 +89,7 @@ class ActivitiesControllerTest extends AbstractCourseInfoControllerTest
     public function addSectionSuccessfulProvider(): array
     {
         return [
-            [['title' => 'SectionTest', 'description' => 'CourseAchievementTest', 'url' => 'UrlTest']],
+            [['title' => 'SectionTest', 'description' => 'CourseAchievementTest']],
             [['title' => 'SectionTest']]
         ];
     }

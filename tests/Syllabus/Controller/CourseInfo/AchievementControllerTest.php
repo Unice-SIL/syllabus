@@ -34,10 +34,9 @@ class AchievementControllerTest extends AbstractCourseInfoControllerTest
             'GET',
             $this->generateUrl(self::ROUTE_APP_COURSE_ACHIEVEMENT_EDIT, ['id' => $achievement->getId()])
         );
-
         $data['_token'] = $this->getCsrfToken('create_edit_achievement');
 
-        $this->client()->request(
+         $this->client()->request(
             'POST',
             $this->generateUrl(self::ROUTE_APP_COURSE_ACHIEVEMENT_EDIT, ['id' => $achievement->getId()]),
             ['course_achievement' => $data]
@@ -55,8 +54,7 @@ class AchievementControllerTest extends AbstractCourseInfoControllerTest
     public function editAchievementSuccessfulProvider(): array
     {
         return [
-            [['description' => 'CourseAchievementTest']],
-            [['description' => null]]
+            [['description' => 'descriptionCourseAchievementTest']]
         ];
     }
 
@@ -117,14 +115,16 @@ class AchievementControllerTest extends AbstractCourseInfoControllerTest
         $course = $this->getCourse();
 
         $achievement = new CourseAchievement();
-        $achievement->setCourseInfo($course);
+        $achievement->setCourseInfo($course)->setDescription('testDescription');
 
         $em->persist($achievement);
         $em->flush();
-
         $achievementId = $achievement->getId();
+        $this->client()->request(
+            'GET',
+            $this->generateUrl(self::ROUTE_APP_COURSE_ACHIEVEMENT_DELETE, ['id' => $achievement->getId()])
+        );
         $token = $this->getCsrfToken('delete_achievement');
-
         $this->client()->request(
             'POST',
             $this->generateUrl(self::ROUTE_APP_COURSE_ACHIEVEMENT_DELETE, ['id' => $achievement->getId()]),
@@ -132,7 +132,6 @@ class AchievementControllerTest extends AbstractCourseInfoControllerTest
                 '_token' => $token
             ]]
         );
-
         $this->assertNull($em->getRepository(CourseAchievement::class)->find($achievementId));
     }
 
