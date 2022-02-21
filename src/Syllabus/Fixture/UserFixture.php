@@ -8,8 +8,8 @@ use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ObjectManager;
 use Ramsey\Uuid\Uuid;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Class UserFixture
@@ -26,11 +26,11 @@ class UserFixture extends Fixture  implements FixtureGroupInterface
     public const USER_SALIM = 'Salim';
 
     /**
-     * @var UserPasswordEncoderInterface
+     * @var UserPasswordHasherInterface
      */
     private $encoder;
 
-    public function __construct(UserPasswordEncoderInterface $encoder) {
+    public function __construct(UserPasswordHasherInterface $encoder) {
         $this->encoder = $encoder;
     }
 
@@ -110,7 +110,7 @@ class UserFixture extends Fixture  implements FixtureGroupInterface
                         $value .= '@unice.fr';
                         break;
                     case 'password':
-                        $value = $this->encoder->encodePassword($user, $value);
+                        $value = $this->encoder->hashPassword($user, $value);
                         break;
 /*
                     case 'groups':

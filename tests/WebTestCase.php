@@ -6,7 +6,9 @@ namespace Tests;
 use App\Syllabus\Entity\CourseInfo;
 use App\Syllabus\Entity\User;
 use App\Syllabus\Exception\CourseNotFoundException;
+use App\Syllabus\Exception\UserNotFoundException;
 use App\Syllabus\Fixture\CourseFixture;
+use App\Syllabus\Fixture\UserFixture;
 use App\Syllabus\Fixture\YearFixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -19,6 +21,7 @@ use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Guard\Token\PostAuthenticationGuardToken;
+use Symfony\Component\Security\Http\Authenticator\Token\PostAuthenticationToken;
 
 /**
  * Class WebTestCase
@@ -223,27 +226,28 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
      * @param string $username
      * @param bool $refresh
      * @return User
+     * @throws UserNotFoundException
      */
-    public function getUser($username = 'user2', bool $refresh = false): User
+    public function getUser(string $username = UserFixture::USER_1, bool $refresh = false): User
     {
         if (!$this->user instanceof User || $this->user->getUsername() !== $username || !$refresh) {
             $this->user = $this->getEntityManager()->getRepository(User::class)->findOneBy(['username' => $username]);
         }
 
         if (!$this->user instanceof User) {
-            throw new UsernameNotFoundException();
+            throw new UserNotFoundException();
         }
 
         return $this->user;
     }
 
     /**
-     * @param $code
+     * @param string $code
      * @param $year
      * @return CourseInfo
      * @throws CourseNotFoundException
      */
-    public function getCourse($code = self::COURSE_ALLOWED_CODE, $year = self::COURSE_ALLOWED_YEAR)
+    public function getCourse(string $code = self::COURSE_ALLOWED_CODE, $year = self::COURSE_ALLOWED_YEAR): CourseInfo
     {
         $course = null;
         if (!$course instanceof CourseInfo) {
@@ -260,14 +264,16 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     /**
      * @param string $username
      * @return User
+     * @throws UserNotFoundException
      */
-    public function refreshUser($username = self::DEFAULT_USER_USERNAME): User
+    public function refreshUser(string $username = self::DEFAULT_USER_USERNAME): User
     {
         return $this->getUser($username, true);
     }
 
     /**
      * @param User|null $user
+     * @throws UserNotFoundException
      */
     public function login(?User $user = null)
     {
@@ -275,7 +281,7 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
             $user = $this->getUser();
         }
 
-        $token = new PostAuthenticationGuardToken($user, self::AUTH_FIREWALL_NAME, $user->getRoles());
+        $token = new PostAuthenticationToken($user, self::AUTH_FIREWALL_NAME, $user->getRoles());
 
         $session = $this->client()->getContainer()->get('session');
         $session->set('_security_' . self::AUTH_FIREWALL_CONTEXT, serialize($token));

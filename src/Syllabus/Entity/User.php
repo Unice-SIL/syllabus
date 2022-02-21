@@ -7,7 +7,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Serializable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -34,7 +36,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     }
  * )
  */
-class User implements UserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface, Serializable
 {
 
     /**
@@ -290,9 +292,7 @@ class User implements UserInterface
         foreach ($groups as $group) {
             $roles = array_merge($roles, $group->getRoles());
         }
-        $roles = array_unique($roles);
-        $roles = array_values($roles);
-        return $roles;
+        return array_values(array_unique($roles));
     }
 
     /**
@@ -415,6 +415,40 @@ class User implements UserInterface
         }
 
         return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function serialize(): ?string
+    {
+        return serialize([
+            $this->id,
+            $this->username,
+            $this->firstname,
+            $this->lastname,
+            $this->email,
+            $this->password,
+            $this->salt,
+            $this->roles
+        ]);
+    }
+
+    /**
+     * @param string $data
+     */
+    public function unserialize($data)
+    {
+        list(
+            $this->id,
+            $this->username,
+            $this->firstname,
+            $this->lastname,
+            $this->email,
+            $this->password,
+            $this->salt,
+            $this->roles
+            ) = unserialize($data);
     }
 
 }

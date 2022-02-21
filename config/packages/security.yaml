@@ -40,7 +40,6 @@ security:
             pattern: ^/
             lazy: true
             provider: main
-            switch_user: false
             logout:
                 path: /logout
             custom_authenticators:
@@ -57,10 +56,10 @@ security:
             - ROLE_API_PUT_YEAR
 
     access_control:
-        - { path: light(\/.*)?$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: /maintenance$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api(/docs)?$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: light(\/.*)?$, roles: IS_PUBLIC }
+        - { path: /maintenance$, roles: IS_PUBLIC }
+        - { path: ^/api/login, roles: IS_PUBLIC }
+        - { path: ^/api(/docs)?$, roles: IS_PUBLIC }
         - { path: ^/api/, roles: ROLE_API }
         - { path: "^/[^/]{1,5}/admin/settings", role: ROLE_SUPER_ADMIN }
         - { path: "^/[^/]{1,5}/admin", role: ROLE_ADMIN }
