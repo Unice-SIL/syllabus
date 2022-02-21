@@ -56,10 +56,10 @@ security:
             - ROLE_API_PUT_YEAR
 
     access_control:
-        - { path: light(\/.*)?$, roles: IS_PUBLIC }
-        - { path: /maintenance$, roles: IS_PUBLIC }
-        - { path: ^/api/login, roles: IS_PUBLIC }
-        - { path: ^/api(/docs)?$, roles: IS_PUBLIC }
+        - { path: light(\/.*)?$, roles: PUBLIC_ACCESS }
+        - { path: /maintenance$, roles: PUBLIC_ACCESS }
+        - { path: ^/api/login, roles: PUBLIC_ACCESS }
+        - { path: ^/api(/docs)?$, roles: PUBLIC_ACCESS }
         - { path: ^/api/, roles: ROLE_API }
         - { path: "^/[^/]{1,5}/admin/settings", role: ROLE_SUPER_ADMIN }
         - { path: "^/[^/]{1,5}/admin", role: ROLE_ADMIN }
