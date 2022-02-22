@@ -121,7 +121,7 @@ class TeacherControllerTest extends AbstractCourseInfoControllerTest
         $em->flush();
         $this->client()->request(
             'GET',
-            $this->generateUrl(self::ROUTE_APP_COURSE_TEACHER_DELETE, ['id' => $courseTeacher->getId()]),
+            $this->generateUrl(self::ROUTE_APP_COURSE_TEACHER_DELETE, ['id' => $courseTeacher->getId()])
           );
 
         $courseTeacherId = $courseTeacher->getId();

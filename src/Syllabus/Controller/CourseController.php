@@ -14,6 +14,7 @@ use App\Syllabus\Form\Filter\CourseFilterType;
 use App\Syllabus\Manager\CourseManager;
 use App\Syllabus\Repository\Doctrine\CourseDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -40,12 +41,14 @@ class CourseController extends AbstractController
      * @param Request $request
      * @param CourseDoctrineRepository $courseDoctrineRepository
      * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
+     * @param PaginatorInterface $paginator
      * @return Response
      */
     public function indexAction(
         Request $request,
         CourseDoctrineRepository $courseDoctrineRepository,
-        FilterBuilderUpdaterInterface $filterBuilderUpdater
+        FilterBuilderUpdaterInterface $filterBuilderUpdater,
+        PaginatorInterface $paginator
     )
     {
         $qb = $courseDoctrineRepository->getIndexQueryBuilder();
@@ -56,7 +59,7 @@ class CourseController extends AbstractController
             $filterBuilderUpdater->addFilterConditions($form, $qb);
         }
 
-        $pagination = $this->get('knp_paginator')->paginate(
+        $pagination = $paginator->paginate(
             $qb,
             $request->query->getInt('page', 1),
             10
@@ -126,6 +129,7 @@ class CourseController extends AbstractController
      * @param Request $request
      * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
      * @param FormFactoryInterface $formFactory
+     * @param PaginatorInterface $paginator
      * @return Response
      */
     public function showAction(
@@ -133,7 +137,8 @@ class CourseController extends AbstractController
         EntityManagerInterface $em,
         Request $request,
         FilterBuilderUpdaterInterface $filterBuilderUpdater,
-        FormFactoryInterface $formFactory
+        FormFactoryInterface $formFactory,
+        PaginatorInterface $paginator
     )
     {
 
@@ -204,7 +209,7 @@ class CourseController extends AbstractController
             $filterBuilderUpdater->addFilterConditions($filterParentForm, $parentQb);
         }
 
-        $parentPagination = $this->get('knp_paginator')->paginate(
+        $parentPagination = $paginator->paginate(
             $parentQb,
             $request->query->getInt('parents_page', 1),
             10,
@@ -219,7 +224,7 @@ class CourseController extends AbstractController
             $filterBuilderUpdater->addFilterConditions($filterChildrenForm, $childrenQb);
         }
 
-        $childrenPagination = $this->get('knp_paginator')->paginate(
+        $childrenPagination = $paginator->paginate(
             $childrenQb,
             $request->query->getInt('children_page', 1),
             10,
