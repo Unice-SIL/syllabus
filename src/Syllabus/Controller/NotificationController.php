@@ -6,7 +6,7 @@ namespace App\Syllabus\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -66,13 +66,13 @@ class NotificationController extends AbstractController
 
     /**
      * @Route("/to-show", name="to_show", methods={"GET"})
-     * @param SessionInterface $session
+     * @param RequestStack $requestStack
      * @return JsonResponse
      */
-    public function notificationToShowAction(SessionInterface $session)
+    public function notificationToShowAction(RequestStack $requestStack): JsonResponse
     {
 
-        $adminNotifications = $session->get('admin_notifications');
+        $adminNotifications = $requestStack->getSession()->get('admin_notifications');
 
         if (!is_array($adminNotifications)) {
             $adminNotifications = [];
