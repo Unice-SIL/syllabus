@@ -7,6 +7,7 @@ namespace Tests\Syllabus\Controller\CourseInfo;
 use App\Syllabus\Entity\CourseSection;
 use App\Syllabus\Exception\CourseNotFoundException;
 use App\Syllabus\Exception\CourseSectionNotFoundException;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -31,6 +32,20 @@ class ActivitiesControllerTest extends AbstractCourseInfoControllerTest
     public function testActivitiesWithAdminPermission()
     {
         $this->tryRedirectWithAdminPermission(self::ROUTE_APP_ACTIVITIES_INDEX);
+        $this->assertResponseIsSuccessful();
+    }
+
+    /**
+     * @throws CourseNotFoundException
+     * @throws CourseSectionNotFoundException
+     * @throws \App\Syllabus\Exception\UserNotFoundException
+     */
+    public function testActivitiesNotWithNotFoundSection()
+    {
+        $this->login();
+        $course = $this->getCourse(self::COURSE_NOT_ALLOWED_CODE, self::COURSE_NOT_ALLOWED_YEAR);
+        $course->addCourseSection($this->getCourseSection());
+        $this->client()->request('GET', $this->generateUrl(self::ROUTE_APP_ACTIVITIES_INDEX, ['id' => $course->getId(), 'sectionId' => 'NotFound']));
         $this->assertResponseIsSuccessful();
     }
 
@@ -160,8 +175,18 @@ class ActivitiesControllerTest extends AbstractCourseInfoControllerTest
         );
 
         $duplicateSection = $em->getRepository(CourseSection::class)->findOneBy(['position' => $section->getPosition() + 1]);
-
         $this->assertInstanceOf(CourseSection::class, $duplicateSection);
+
+        // second duplication
+        $this->client()->request(
+            'POST',
+            $this->generateUrl(self::ROUTE_APP_ACTIVITIES_DUPLICATE_SECTION,
+                ['id' => $course->getId(), 'sectionId' => $section->getId()]),
+            ['duplicate_course_section' => $data]
+        );
+
+        $duplicateSection2 = $em->getRepository(CourseSection::class)->findOneBy(['position' => $section->getPosition() + 2]);
+        $this->assertInstanceOf(CourseSection::class, $duplicateSection2);
     }
 
     /**
@@ -193,5 +218,61 @@ class ActivitiesControllerTest extends AbstractCourseInfoControllerTest
         $duplicateSection = $em->getRepository(CourseSection::class)->findOneBy(['position' => $section->getPosition() + 1]);
 
         $this->assertNull($duplicateSection);
+    }
+
+    /**
+     * @throws CourseNotFoundException
+     * @throws CourseSectionNotFoundException
+     * @throws \App\Syllabus\Exception\UserNotFoundException
+     */
+    public function testSortSectionSuccessful()
+    {
+        $em = $this->getEntityManager();
+        $this->login();
+        $course = $this->getCourse();
+
+        $section = $this->getCourseSection();
+        $course->addCourseSection($section);
+
+        $this->client()->request(
+            'GET',
+            $this->generateUrl(self::ROUTE_APP_ACTIVITIES_DUPLICATE_SECTION,
+                ['id' => $course->getId(), 'sectionId' => $section->getId()])
+        );
+
+        $data['_token'] = $this->getCsrfToken('duplicate_section');
+
+        $this->client()->request(
+            'POST',
+            $this->generateUrl(self::ROUTE_APP_ACTIVITIES_DUPLICATE_SECTION,
+                ['id' => $course->getId(), 'sectionId' => $section->getId()]),
+            ['duplicate_course_section' => $data]
+        );
+
+        /** @var CourseSection $duplicateSection */
+        $duplicateSection = $em->getRepository(CourseSection::class)->findOneBy(['position' => $section->getPosition() + 1]);
+
+        $this->assertInstanceOf(CourseSection::class, $duplicateSection);
+
+        // Before sorting
+        self::assertEquals($section->getPosition(),0);
+        self::assertEquals($duplicateSection->getPosition(),1);
+
+        $this->client()->request(
+            'POST',
+            $this->generateUrl(self::ROUTE_APP_ACTIVITIES_SORT_SECTION,
+                [
+                    'id' => $course->getId()
+                ]),
+            ['data' =>
+                [
+                    $duplicateSection->getId(),
+                    $section->getId()
+                ]
+            ]
+        );
+        // After sorting
+        self::assertEquals($duplicateSection->getPosition(),1);
+        self::assertEquals($section->getPosition(),0);
     }
 }

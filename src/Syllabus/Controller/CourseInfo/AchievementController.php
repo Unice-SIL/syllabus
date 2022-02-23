@@ -40,7 +40,6 @@ class AchievementController extends AbstractController
     {
         $form = $this->createForm(CourseAchievementType::class, $achievement);
         $form->handleRequest($request);
-        $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $courseAchievementManager->update($achievement);
@@ -66,7 +65,6 @@ class AchievementController extends AbstractController
      * @param CourseAchievement $achievement
      * @param Request $request
      * @param CourseAchievementManager $courseAchievementManager
-     * @param TranslatorInterface $translator
      * @return JsonResponse
      * @throws Exception
      */
