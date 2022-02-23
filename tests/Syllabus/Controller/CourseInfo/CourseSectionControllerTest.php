@@ -4,6 +4,7 @@
 namespace Tests\Syllabus\Controller\CourseInfo;
 
 use App\Syllabus\Entity\CourseSection;
+use App\Syllabus\Entity\CourseSectionActivity;
 use App\Syllabus\Exception\CourseNotFoundException;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -171,4 +172,122 @@ class CourseSectionControllerTest extends AbstractCourseInfoControllerTest
         $this->assertInstanceOf(CourseSection::class, $checkCourseSection);
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
     }
+
+    /**
+     * @throws CourseNotFoundException
+     * @throws \App\Syllabus\Exception\CourseSectionNotFoundException
+     * @throws \App\Syllabus\Exception\UserNotFoundException
+     */
+    public function testAddCourseToSectionSuccessful()
+    {
+        $em = $this->getEntityManager();
+        $this->login();
+        $course = $this->getCourse();
+        $section = $this->getCourseSection();
+        $course->addCourseSection($section);
+
+        /** @var CourseSectionActivity $courseSectionActivity */
+        $courseSectionActivity = $section->getCourseSectionActivities()->first();
+
+        $activity = $courseSectionActivity->getActivity();
+        $activityType = $activity->getActivityTypes()->first();
+
+
+        $courseSection = new CourseSection();
+        $courseSection->setCourseInfo($course);
+
+        $em->persist($courseSection);
+        $em->flush();
+
+        $this->client()->request(
+            'GET',
+            $this->generateUrl(self::ROUTE_APP_COURSE_SECTION_ACTIVITY_ADD,
+                [
+                    'id' => $section->getId(),
+                    'activityId' => $activity->getId(),
+                    'activityTypeId' => $activityType->getId()
+                ]
+            )
+        );
+
+        $token = $this->getCsrfToken('course_section_activity');
+
+        $this->client()->request(
+            'POST',
+            $this->generateUrl(self::ROUTE_APP_COURSE_SECTION_ACTIVITY_ADD,
+                [
+                    'id' => $courseSection->getId(),
+                    'activityId' => $activity->getId(),
+                    'activityTypeId' => $activityType->getId()
+                ]
+            ),
+            [
+                'course_section_activity' => [
+                    "description" => "myDescription",
+                    "activityType" => $activityType->getId() ,
+                    "activityMode" => "79ca9545-02ae-4eb1-9893-ac97a0ea9104",
+                    "evaluationRate" => "",
+                    "_token" => $token
+                ]
+            ]
+        );
+        $courseSectionActivity = $this->getEntityManager()->getRepository(CourseSectionActivity::class)->findOneBy(['description' => 'myDescription']) ;
+        $this->assertNotNull($courseSectionActivity);
+    }
+
+    /**
+     * @throws CourseNotFoundException
+     * @throws \App\Syllabus\Exception\CourseSectionNotFoundException
+     * @throws \App\Syllabus\Exception\UserNotFoundException
+     */
+    public function testAddCourseToSectionFailed()
+    {
+        $em = $this->getEntityManager();
+        $this->login();
+        $course = $this->getCourse();
+        $section = $this->getCourseSection();
+        $course->addCourseSection($section);
+
+        /** @var CourseSectionActivity $courseSectionActivity */
+        $courseSectionActivity = $section->getCourseSectionActivities()->first();
+
+        $activity = $courseSectionActivity->getActivity();
+        $activityType = $activity->getActivityTypes()->first();
+
+
+        $courseSection = new CourseSection();
+        $courseSection->setCourseInfo($course);
+
+        $em->persist($courseSection);
+        $em->flush();
+
+
+        $token = $this->getCsrfToken('fake');
+
+        $this->client()->request(
+            'POST',
+            $this->generateUrl(self::ROUTE_APP_COURSE_SECTION_ACTIVITY_ADD,
+                [
+                    'id' => $courseSection->getId(),
+                    'activityId' => $activity->getId(),
+                    'activityTypeId' => $activityType->getId()
+                ]
+            ),
+            [
+                'course_section_activity' => [
+                    "description" => "myDescription",
+                    "activityType" => $activityType->getId() ,
+                    "activityMode" => "79ca9545-02ae-4eb1-9893-ac97a0ea9104",
+                    "evaluationRate" => "",
+                    "_token" => $token
+                ]
+            ]
+        );
+        $courseSectionActivity = $this->getEntityManager()->getRepository(CourseSectionActivity::class)->findOneBy(['description' => 'myDescription']) ;
+        $this->assertNull($courseSectionActivity);
+    }
+
+  /*  public function testSortCourseSectionActivities {
+
+    }*/
 }
