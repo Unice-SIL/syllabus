@@ -167,12 +167,7 @@ abstract class AbstractCourseInfoControllerTest extends WebTestCase
      */
     public function getCourseSection()
     {
-        $courseSection = null;
-        if (!$courseSection instanceof CourseSection)
-        {
-            $courseSection = current($this->getEntityManager()->getRepository(CourseSection::class)->findAll());
-        }
-
+        $courseSection = current($this->getEntityManager()->getRepository(CourseSection::class)->findAll());
         if (!$courseSection instanceof CourseSection)
         {
             throw new CourseSectionNotFoundException();
