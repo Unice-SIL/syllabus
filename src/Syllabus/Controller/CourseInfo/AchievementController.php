@@ -40,6 +40,7 @@ class AchievementController extends AbstractController
     {
         $form = $this->createForm(CourseAchievementType::class, $achievement);
         $form->handleRequest($request);
+        $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $courseAchievementManager->update($achievement);
@@ -61,6 +62,7 @@ class AchievementController extends AbstractController
     /**
      * @Route("/delete", name="delete"))
      *
+     * @param Environment $twig
      * @param CourseAchievement $achievement
      * @param Request $request
      * @param CourseAchievementManager $courseAchievementManager
@@ -68,16 +70,9 @@ class AchievementController extends AbstractController
      * @return JsonResponse
      * @throws Exception
      */
-    public function deleteAchievementAction(CourseAchievement $achievement, Request $request,
-                                            CourseAchievementManager $courseAchievementManager, TranslatorInterface $translator)
+    public function deleteAchievementAction(Environment $twig, CourseAchievement $achievement, Request $request,
+                                            CourseAchievementManager $courseAchievementManager)
     {
-        if (!$achievement instanceof CourseAchievement) {
-            return $this->json([
-                'status' => false,
-                'content' => $translator->trans('app.controller.error.empty_skill')
-            ]);
-        }
-
         $form = $this->createForm(RemoveCourseAchievementType::class, $achievement);
         $form->handleRequest($request);
 
@@ -89,7 +84,7 @@ class AchievementController extends AbstractController
             ]);
         }
 
-        $render = $this->get('twig')->render('course_info/objectives_course/form/remove_achievement.html.twig', [
+        $render = $twig->render('course_info/objectives_course/form/remove_achievement.html.twig', [
             'form' => $form->createView()
         ]);
         return $this->json([
