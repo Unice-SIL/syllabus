@@ -75,14 +75,6 @@ class ActivitiesController extends AbstractController
      */
     public function addSectionAction(Environment $twig, CourseInfo $courseInfo, Request $request, CourseInfoManager $manager, CourseSectionManager $courseSectionManager, TranslatorInterface $translator)
     {
-        if (!$courseInfo instanceof CourseInfo)
-        {
-            return $this->json([
-                'status' => false,
-                'render' => $translator->trans('app.controller.error.empty_course')
-            ]);
-        }
-
         $status = true;
         $message = null;
         $section = $courseSectionManager->new();
@@ -130,16 +122,8 @@ class ActivitiesController extends AbstractController
      * @return JsonResponse
      * @ParamConverter("courseSection", options={"mapping": {"sectionId": "id"}})
      */
-    public function duplicateSectionAction(CourseInfo $courseInfo, CourseSection $courseSection, Request $request, CourseInfoManager $manager, TranslatorInterface $translator)
+    public function duplicateSectionAction(Environment $twig, CourseInfo $courseInfo, CourseSection $courseSection, Request $request, CourseInfoManager $manager, TranslatorInterface $translator)
     {
-        if (!$courseSection instanceof CourseSection)
-        {
-            return $this->json([
-                'status' => false,
-                'render' => $translator->trans('app.controller.error.empty_section')
-            ]);
-        }
-
         $form = $this->createForm(DuplicateCourseSectionType::class, $courseSection);
         $form->handleRequest($request);
 
@@ -149,7 +133,7 @@ class ActivitiesController extends AbstractController
 
             foreach ($courseInfo->getCourseSections() as $section) {
                 if ($courseSection->getPosition() < $section->getPosition())
-                    $section->setPosition($section->getPosition() + 1);
+                $section->setPosition($section->getPosition() + 1);
             }
             $newSection->setPosition($courseSection->getPosition() + 1);
             $courseInfo->addCourseSection($newSection);
@@ -162,7 +146,7 @@ class ActivitiesController extends AbstractController
             ]);
         }
 
-        $render = $this->get('twig')->render('course_info/activities/form/duplicate_section.html.twig', [
+        $render = $twig->render('course_info/activities/form/duplicate_section.html.twig', [
             'courseInfo' => $courseInfo,
             'courseSection' => $courseSection,
             'form' => $form->createView()
