@@ -11,6 +11,7 @@ use App\Syllabus\Entity\Campus;
 use App\Syllabus\Entity\CriticalAchievement;
 use App\Syllabus\Entity\Domain;
 use App\Syllabus\Entity\Equipment;
+use App\Syllabus\Entity\Groups;
 use App\Syllabus\Entity\Language;
 use App\Syllabus\Entity\Level;
 use App\Syllabus\Entity\Period;
@@ -23,6 +24,7 @@ use App\Syllabus\Exception\CampusNotFoundException;
 use App\Syllabus\Exception\CriticalAchievementNotFoundException;
 use App\Syllabus\Exception\DomainNotFoundException;
 use App\Syllabus\Exception\EquipmentNotFoundException;
+use App\Syllabus\Exception\GroupsNotFoundException;
 use App\Syllabus\Exception\LanguageNotFoundException;
 use App\Syllabus\Exception\LevelNotFoundException;
 use App\Syllabus\Exception\PeriodNotFoundException;
@@ -213,6 +215,26 @@ abstract class AbstractAdminControllerTest extends WebTestCase
         }
 
         return $equipment;
+    }
+
+    /**
+     * @return Groups
+     * @throws GroupsNotFoundException
+     */
+    public function getGroupsUser(): Groups
+    {
+        $groups = null;
+        if (!$groups instanceof Groups)
+        {
+            $groups = current($this->getEntityManager()->getRepository(Groups::class)->findAll());
+        }
+
+        if (!$groups instanceof Groups)
+        {
+            throw new GroupsNotFoundException();
+        }
+
+        return $groups;
     }
 
     /**
