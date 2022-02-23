@@ -7,6 +7,7 @@ namespace App\Syllabus\Controller\Admin;
 use App\Syllabus\Export\SyllabusExport;
 use App\Syllabus\Form\Filter\SyllabusFilterType;
 use App\Syllabus\Repository\Doctrine\CourseInfoDoctrineRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -33,6 +34,7 @@ class SyllabusController extends AbstractController
      * @param CourseInfoDoctrineRepository $courseInfoDoctrineRepository
      * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
      * @param SyllabusExport $syllabusExport
+     * @param PaginatorInterface $paginator
      * @param bool $isExport
      * @return Response
      */
@@ -41,6 +43,7 @@ class SyllabusController extends AbstractController
         CourseInfoDoctrineRepository $courseInfoDoctrineRepository,
         FilterBuilderUpdaterInterface $filterBuilderUpdater,
         SyllabusExport $syllabusExport,
+        PaginatorInterface $paginator,
         bool $isExport = false
     )
     {
@@ -53,7 +56,7 @@ class SyllabusController extends AbstractController
         }
 
 
-        $pagination = $this->get('knp_paginator')->paginate(
+        $pagination = $paginator->paginate(
             $qb,
             $request->query->getInt('page', 1),
             10
