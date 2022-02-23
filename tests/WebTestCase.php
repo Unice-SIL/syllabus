@@ -87,6 +87,7 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     public const ROUTE_ADMIN_GROUPS_LIST = 'app.admin.groups.index';
     public const ROUTE_ADMIN_GROUPS_NEW = 'app.admin.groups.new';
     public const ROUTE_ADMIN_GROUPS_EDIT = 'app.admin.groups.edit';
+    public const ROUTE_ADMIN_GROUPS_DELETE = 'app.admin.groups.delete';
 
     public const ROUTE_ADMIN_IMPORT_COURSE_INFO = 'app.admin.import_csv.course_info';
     public const ROUTE_ADMIN_IMPORT_PERMISSION = 'app.admin.import_csv.permission';

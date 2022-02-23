@@ -11,6 +11,7 @@ use App\Syllabus\Manager\GroupsManager;
 use App\Syllabus\Repository\Doctrine\GroupsDoctrineRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormInterface;
@@ -26,6 +27,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  * Class GroupsController
  * @package App\Syllabus\Controller
  * @Route("/groups", name="app.admin.groups.")
+ * @Security("is_granted('ROLE_ADMIN_GROUPS')")
  */
 class GroupsController extends AbstractController
 {
@@ -33,6 +35,7 @@ class GroupsController extends AbstractController
      * Lists all groups entities.
      *
      * @Route("/", name="index", methods={"GET"})
+     * @Security("is_granted('ROLE_ADMIN_GROUPS_LIST')")
      * @param Request $request
      * @param GroupsDoctrineRepository $groupsDoctrineRepository
      * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
@@ -80,6 +83,7 @@ class GroupsController extends AbstractController
      * Creates a new groups entity.
      *
      * @Route("/new", name="new", methods={"GET", "POST"})
+     * @Security("is_granted('ROLE_ADMIN_GROUPS_CREATE')")
      * @param Request $request
      * @param GroupsManager $groupsManager
      * @param TranslatorInterface $translator
@@ -109,6 +113,7 @@ class GroupsController extends AbstractController
      * Displays a form to edit an existing groups entity.
      *
      * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
+     * @Security("is_granted('ROLE_ADMIN_GROUPS_UPDATE')")
      * @param Request $request
      * @param Groups $groups
      * @param GroupsManager $groupsManager
@@ -164,6 +169,7 @@ class GroupsController extends AbstractController
      * Deletes a groups entity.
      *
      * @Route("/{id}", name="delete", methods={"DELETE"})
+     * @Security("is_granted('ROLE_ADMIN_GROUPS_DELETE')")
      * @param Request $request
      * @param Groups $groups
      * @param GroupsManager $groupsManager

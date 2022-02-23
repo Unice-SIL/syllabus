@@ -78,6 +78,12 @@ class UserRole
     const ROLE_ADMIN_EQUIPMENT_CREATE = 'ROLE_ADMIN_EQUIPMENT_CREATE';
     const ROLE_ADMIN_EQUIPMENT_UPDATE = 'ROLE_ADMIN_EQUIPMENT_UPDATE';
 
+    // DOMAINS
+    const ROLE_ADMIN_GROUPS = 'ROLE_ADMIN_GROUPS';
+    const ROLE_ADMIN_GROUPS_LIST = 'ROLE_ADMIN_GROUPS_LIST';
+    const ROLE_ADMIN_GROUPS_CREATE = 'ROLE_ADMIN_GROUPS_CREATE';
+    const ROLE_ADMIN_GROUPS_UPDATE = 'ROLE_ADMIN_GROUPS_UPDATE';
+    const ROLE_ADMIN_GROUPS_DELETE = 'ROLE_ADMIN_GROUPS_DELETE';
 
     // JOBS
     const ROLE_ADMIN_JOB = 'ROLE_ADMIN_JOB';
@@ -362,6 +368,11 @@ class UserRole
         self::ROLE_ADMIN_EQUIPMENT_LIST,
         self::ROLE_ADMIN_EQUIPMENT_CREATE,
         self::ROLE_ADMIN_EQUIPMENT_UPDATE,
+        self::ROLE_ADMIN_GROUPS,
+        self::ROLE_ADMIN_GROUPS_LIST,
+        self::ROLE_ADMIN_GROUPS_CREATE,
+        self::ROLE_ADMIN_GROUPS_UPDATE,
+        self::ROLE_ADMIN_GROUPS_DELETE,
         self::ROLE_ADMIN_JOB,
         self::ROLE_ADMIN_JOB_LIST,
         self::ROLE_ADMIN_JOB_CREATE,
@@ -604,6 +615,12 @@ class UserRole
                 self::ROLE_ADMIN_EQUIPMENT_LIST,
                 self::ROLE_ADMIN_EQUIPMENT_CREATE,
                 self::ROLE_ADMIN_EQUIPMENT_UPDATE
+            ],
+            self::ROLE_ADMIN_GROUPS => [
+                self::ROLE_ADMIN_GROUPS_LIST,
+                self::ROLE_ADMIN_GROUPS_CREATE,
+                self::ROLE_ADMIN_GROUPS_UPDATE,
+                self::ROLE_ADMIN_GROUPS_DELETE,
             ],
             self::ROLE_ADMIN_JOB => [
                 self::ROLE_ADMIN_JOB_LIST,
