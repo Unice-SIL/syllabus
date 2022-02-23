@@ -15,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\DomCrawler\Field\ChoiceFormField;
+use Symfony\Component\DomCrawler\Form;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
@@ -84,6 +85,8 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     public const ROUTE_ADMIN_EQUIPMENT_EDIT = 'app.admin.equipment.edit';
 
     public const ROUTE_ADMIN_GROUPS_LIST = 'app.admin.groups.index';
+    public const ROUTE_ADMIN_GROUPS_NEW = 'app.admin.groups.new';
+    public const ROUTE_ADMIN_GROUPS_EDIT = 'app.admin.groups.edit';
 
     public const ROUTE_ADMIN_IMPORT_COURSE_INFO = 'app.admin.import_csv.course_info';
     public const ROUTE_ADMIN_IMPORT_PERMISSION = 'app.admin.import_csv.permission';
@@ -304,13 +307,7 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
         return $type ? $session->getFlashBag()->get($type) : $session->getFlashBag()->all();
     }
 
-    /**
-     * @param Crawler $node
-     * @param string|null $formName
-     * @param array $data
-     * @return Crawler|null
-     */
-    public function submitForm(Crawler $node, string $formName = null, array $data = []): ?Crawler
+/*    public function submitForm(Crawler $node, string $formName = null, array $data = []): ?Crawler
     {
         $form = $node->form();
         foreach ($data as $field => $value) {
@@ -322,6 +319,87 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
             $form[$fieldName]->setValue($value);
         }
         return $this->client()->submit($form);
+    }*/
+
+    /**
+     * @param Crawler $node
+     * @param string|null $formName
+     * @param array $data
+     * @param array $options
+     * @return Crawler|null
+     */
+    public function submitForm(Crawler $node, string $formName = null, array $data = [], array $options = []): ?Crawler
+    {
+        $form = $node->form();
+
+        $this->populateFormFields($form, $data, $options);
+        return $this->client()->submit($form);
+    }
+
+    /**
+     * @param Form $form
+     * @param array $data
+     * @param array $options
+     * @return Form
+     */
+    protected function populateFormFields(Form $form, array $data = [], array $options = []): Form
+    {
+        $formName = $form->getName();
+        foreach ($data as $field => $value) {
+            if (preg_match('/^\[.*\]$/' ,$field) !== 1) {
+                $field = '[' . $field . ']';
+            }
+            $fieldName = $formName ? $formName . $field : $field;
+            if (array_key_exists('disable_validation', $options)) {
+                $this->disableValidationField($form[$fieldName], $field, $options['disable_validation']);
+            }
+            if (is_array($form[$fieldName])) {
+                $this->handleCompoundField($form[$fieldName], $value);
+            } else {
+                $form[$fieldName] = $value;
+            }
+        }
+        return $form;
+    }
+
+    /**
+     * @param $formField
+     * @param $field
+     * @param $disableValidation
+     */
+    protected function disableValidationField($formField, $field, $disableValidation)
+    {
+        $disableValidation = is_array($disableValidation) ? $disableValidation : [$disableValidation];
+        if (in_array($field, $disableValidation)) {
+            $formField->disableValidation()->setValue(1);
+        }
+    }
+
+    /**
+     * @param array $fields
+     * @param $value
+     */
+    protected function handleCompoundField(array $fields, $value)
+    {
+        foreach ($fields as $field) {
+            switch ($field->getType()) {
+                case 'checkbox':
+                    $this->handleCheckboxField($field, $value);
+            }
+        }
+    }
+
+    /**
+     * @param ChoiceFormField $field
+     * @param $value
+     */
+    private function handleCheckboxField(ChoiceFormField $field, $value)
+    {
+        $value = is_array($value) ? $value : [$value];
+        $fieldValue = $field->availableOptionValues()[0];
+        if (in_array($fieldValue, $value)) {
+            $field->tick();
+        }
     }
 
     public function assertCheckEntityProps($entity, array $data, array $callables = [])

@@ -12,7 +12,6 @@ use App\Syllabus\Repository\Doctrine\GroupsDoctrineRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -52,11 +51,10 @@ class GroupsController extends AbstractController
 
         $form = $this->createForm(GroupsFilterType::class);
 
-        if ($request->query->has($form->getName())) {
-
+        if ($request->query->has($form->getName()))
+        {
             $form->submit($request->query->get($form->getName()));
             $filterBuilderUpdater->addFilterConditions($form, $qb);
-
         }
 
         $pagination = $paginator->paginate(
