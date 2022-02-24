@@ -153,6 +153,9 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     public const ROUTE_APP_COURSE_SECTION_ACTIVITY_ADD = 'app.course_info.section.activity.add';
     public const ROUTE_APP_COURSE_SECTION_ACTIVITIES_SORT = 'app.course_info.section.activities.sort';
 
+    public const ROUTE_APP_COURSE_SECTION_ACTIVITY_EDIT = 'app.course_info.section_activity.edit';
+    public const ROUTE_APP_COURSE_SECTION_ACTIVITY_DELETE = 'app.course_info.section_activity.delete';
+
     public const ROUTE_APP_DASHBOARD_INDEX = 'app.course_info.dashboard.index';
 
     public const ROUTE_APP_EQUIPMENT_EDIT = 'app.course_info.equipment.edit';
