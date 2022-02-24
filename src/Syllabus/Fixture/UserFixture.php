@@ -59,7 +59,7 @@ class UserFixture extends Fixture  implements FixtureGroupInterface
                 'lastname' => 'User2',
                 'email' => self::USER_2,
                 'roles' => ['ROLE_USER'],
-                'groups' => clone $groups
+                'groups' => new ArrayCollection()
             ],
             [
                 'username' => self::USER_FREDERIC,
