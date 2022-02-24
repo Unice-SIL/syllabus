@@ -8,6 +8,7 @@ use App\Syllabus\Entity\Groups;
 use App\Syllabus\Exception\GroupsNotFoundException;
 use App\Syllabus\Exception\UserNotFoundException;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -277,7 +278,7 @@ class GroupsControllerTest extends AbstractAdminControllerTest
     public function testGroupsDeleteUserNotAuthenticated()
     {
         $groups = $this->getGroupsUser();
-        $this->tryUserNotAuthenticate(self::ROUTE_ADMIN_GROUPS_DELETE, ['id' => $groups->getId()]);
+        $this->tryUserNotAuthenticate(self::ROUTE_ADMIN_GROUPS_DELETE, ['id' => $groups->getId()], Request::METHOD_DELETE);
         $this->assertResponseRedirects();
         $this->assertStringContainsString('/Shibboleth.sso', $this->client()->getResponse()->getContent());
     }
@@ -289,8 +290,8 @@ class GroupsControllerTest extends AbstractAdminControllerTest
     public function testGroupsDeleteWithAdminPermission()
     {
         $groups = $this->getGroupsUser();
-        $this->tryWithAdminPermission(self::ROUTE_ADMIN_GROUPS_DELETE, ['id' => $groups->getId()]);
-        $this->assertResponseIsSuccessful();
+        $this->tryWithAdminPermission(self::ROUTE_ADMIN_GROUPS_DELETE, ['id' => $groups->getId()], Request::METHOD_DELETE);
+        $this->assertResponseRedirects($this->generateUrl(self::ROUTE_ADMIN_GROUPS_LIST));
     }
 
     /**
@@ -304,7 +305,10 @@ class GroupsControllerTest extends AbstractAdminControllerTest
         $this->getUser()->setRoles($data)->setGroups(new ArrayCollection());
         $this->getEntityManager()->flush();
         $this->login();
-        $this->client()->request('GET', $this->generateUrl(self::ROUTE_ADMIN_GROUPS_DELETE, ['id' => $groups->getId()]));
+        $this->client()->request(
+            Request::METHOD_DELETE,
+            $this->generateUrl(self::ROUTE_ADMIN_GROUPS_DELETE, ['id' => $groups->getId()])
+        );
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
     }
 
@@ -324,4 +328,14 @@ class GroupsControllerTest extends AbstractAdminControllerTest
         ];
     }
 
+    /**
+     * @throws GroupsNotFoundException
+     */
+    public function testDeleteGroupsSuccessfulAndGroupsNotFoundException()
+    {
+        $groups = $this->getGroupsUser();
+        $this->tryWithAdminPermission(self::ROUTE_ADMIN_GROUPS_DELETE, ['id' => $groups->getId()]);
+        $this->expectException(GroupsNotFoundException::class);
+        $this->getGroupsUser();
+    }
 }

@@ -33,7 +33,7 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     public const AUTH_FIREWALL_NAME = 'main';
     public const AUTH_FIREWALL_CONTEXT = 'main';
 
-    public const ROUTE_APP_LOGIN = '/login';
+    public const URL_APP_LOGIN = '/Shibboleth.sso/Login';
     public const ROUTE_APP_LOGIN_BASIC = '/login/basic';
     public const ROUTE_APP_LOGIN_SHIBBOLETH = '/login/shibboleth';
     public const ROUTE_APP_LOGOUT = '/logout';
@@ -179,6 +179,9 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     public const ROUTE_APP_COURSE_TEACHER_EDIT = 'app.course_info.teacher.edit';
     public const ROUTE_APP_COURSE_TEACHER_DELETE = 'app.course_info.teacher.delete';
 
+    public const ROUTE_APP_COURSE_TUTORING_CREATE = 'app.course_info.tutoring.create';
+    public const ROUTE_APP_COURSE_TUTORING_ACTIVE = 'app.course_info.tutoring.active';
+
     public const ROUTE_APP_COURSE_TUTORING_RESOURCE_EDIT = 'app.course_info.tutoring_resource.edit';
     public const ROUTE_APP_COURSE_TUTORING_RESOURCE_DELETE = 'app.course_info.tutoring_resource.delete';
 
@@ -253,16 +256,13 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
 
     /**
      * @param string $code
-     * @param $year
+     * @param string $year
      * @return CourseInfo
      * @throws CourseNotFoundException
      */
-    public function getCourse(string $code = self::COURSE_ALLOWED_CODE, $year = self::COURSE_ALLOWED_YEAR): CourseInfo
+    public function getCourse(string $code = self::COURSE_ALLOWED_CODE, string $year = self::COURSE_ALLOWED_YEAR): CourseInfo
     {
-        $course = null;
-        if (!$course instanceof CourseInfo) {
-            $course = $this->getEntityManager()->getRepository(CourseInfo::class)->findByCodeAndYear($code, $year);
-        }
+        $course = $this->getEntityManager()->getRepository(CourseInfo::class)->findByCodeAndYear($code, $year);
 
         if (!$course instanceof CourseInfo) {
             throw new CourseNotFoundException();
@@ -282,14 +282,16 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     }
 
     /**
-     * @param User|null $user
+     * @param User|string|null $user
      * @throws UserNotFoundException
      */
-    public function login(?User $user = null)
+    public function login($user = UserFixture::USER_1)
     {
-        if (!$user instanceof User) {
-            $user = $this->getUser();
+        if ($user instanceof User) {
+            $user = $user->getUsername();
         }
+
+        $user = $this->getUser($user);
 
         $token = new PostAuthenticationToken($user, self::AUTH_FIREWALL_NAME, $user->getRoles());
 
@@ -443,6 +445,12 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     public function assertInvalidFormField(Crawler $crawler, string $field, $tagName = "input")
     {
         $this->assertEquals(1, $crawler->filter($tagName . '[name="' . $field . '"].is-invalid')->count());
+    }
+
+    public function assertRedirectToLogin()
+    {
+        $this->assertResponseRedirects();
+        $this->assertStringContainsString(self::URL_APP_LOGIN, $this->client()->getResponse()->getContent());
     }
 
     /**

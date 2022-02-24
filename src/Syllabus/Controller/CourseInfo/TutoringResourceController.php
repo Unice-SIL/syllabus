@@ -33,12 +33,17 @@ class TutoringResourceController extends AbstractController
      * @param CourseTutoringResource $tutoringResources
      * @param Request $request
      * @param CourseTutoringResourceManager $courseTutoringResourceManager
+     * @param Environment $environment
      * @return JsonResponse
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function editTutoringResourceAction(
         CourseTutoringResource $tutoringResources,
         Request $request,
-        CourseTutoringResourceManager $courseTutoringResourceManager
+        CourseTutoringResourceManager $courseTutoringResourceManager,
+        Environment $environment
     ): JsonResponse
     {
         $form = $this->createForm(CourseTutoringResourcesType::class, $tutoringResources);
@@ -52,7 +57,7 @@ class TutoringResourceController extends AbstractController
             ]);
         }
 
-        $render = $this->render('course_info/prerequisite/form/edit_tutoring_resources.html.twig', [
+        $render = $environment->render('course_info/prerequisite/form/edit_tutoring_resources.html.twig', [
             'form' => $form->createView()
         ]);
 
