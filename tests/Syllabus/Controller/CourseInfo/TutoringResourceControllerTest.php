@@ -5,6 +5,7 @@ namespace Tests\Syllabus\Controller\CourseInfo;
 
 use App\Syllabus\Entity\CourseTutoringResource;
 use App\Syllabus\Exception\CourseNotFoundException;
+use App\Syllabus\Exception\UserNotFoundException;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -17,6 +18,7 @@ class TutoringResourceControllerTest extends AbstractCourseInfoControllerTest
      * @dataProvider editTutoringResourceSuccessfulProvider
      * @param array $data
      * @throws CourseNotFoundException
+     * @throws UserNotFoundException
      */
     public function testEditTutoringResourceSuccessful(array $data)
     {
@@ -63,7 +65,7 @@ class TutoringResourceControllerTest extends AbstractCourseInfoControllerTest
     /**
      * @dataProvider editTutoringResourceCsrfNotValidProvider
      * @param array $data
-     * @throws CourseNotFoundException
+     * @throws CourseNotFoundException|UserNotFoundException
      */
     public function testEditTutoringResourceCsrfNotValid(array $data)
     {
@@ -108,7 +110,7 @@ class TutoringResourceControllerTest extends AbstractCourseInfoControllerTest
     }
 
     /**
-     * @throws CourseNotFoundException
+     * @throws CourseNotFoundException|UserNotFoundException
      */
     public function testDeleteTutoringResourceSuccessful()
     {
@@ -142,7 +144,40 @@ class TutoringResourceControllerTest extends AbstractCourseInfoControllerTest
     }
 
     /**
-     * @throws CourseNotFoundException
+     * @throws CourseNotFoundException|UserNotFoundException
+     */
+    public function testDeleteTutoringResourceNotExists()
+    {
+        $em = $this->getEntityManager();
+        $this->login();
+        $course = $this->getCourse();
+
+        $tutoringResource = new CourseTutoringResource();
+        $tutoringResource->setCourseInfo($course);
+
+        $em->persist($tutoringResource);
+        $em->flush();
+
+        $this->client()->request(
+            'GET',
+            $this->generateUrl(self::ROUTE_APP_COURSE_TUTORING_RESOURCE_DELETE, ['id' => $tutoringResource->getId()])
+        );
+
+        $token = $this->getCsrfToken('delete_tutoring_resources');
+
+        $this->client()->request(
+            'POST',
+            $this->generateUrl(self::ROUTE_APP_COURSE_TUTORING_RESOURCE_DELETE, ['id' => 'fake']),
+            ['remove_course_tutoring_resources' => [
+                '_token' => $token
+            ]]
+        );
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
+    }
+
+    /**
+     * @throws CourseNotFoundException|UserNotFoundException
      */
     public function testDeleteTutoringResourceWrongCsrfToken()
     {
