@@ -15,6 +15,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 /**
  * Class TutoringResourceController
@@ -64,14 +67,17 @@ class TutoringResourceController extends AbstractController
      * @param CourseTutoringResource $tutoringResources
      * @param Request $request
      * @param CourseTutoringResourceManager $courseTutoringResourceManager
-     * @param TranslatorInterface $translator
+     * @param Environment $environment
      * @return JsonResponse
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function deleteTutoringResourcesAction(
         CourseTutoringResource $tutoringResources,
         Request $request,
         CourseTutoringResourceManager $courseTutoringResourceManager,
-        TranslatorInterface $translator
+        Environment $environment
     ): JsonResponse
     {
         $form = $this->createForm(RemoveCourseTutoringResourcesType::class, $tutoringResources);
@@ -83,7 +89,7 @@ class TutoringResourceController extends AbstractController
                 'content' => null
             ]);
         }
-        $render = $this->render('course_info/prerequisite/form/remove_tutoring_resources.html.twig', [
+        $render = $environment->render('course_info/prerequisite/form/remove_tutoring_resources.html.twig', [
             'form' => $form->createView()
         ]);
         return $this->json([
