@@ -224,14 +224,14 @@ class CourseSectionControllerTest extends AbstractCourseInfoControllerTest
             [
                 'course_section_activity' => [
                     "description" => "myDescription",
-                    "activityType" => $activityType->getId() ,
+                    "activityType" => $activityType->getId(),
                     "activityMode" => "79ca9545-02ae-4eb1-9893-ac97a0ea9104",
                     "evaluationRate" => "",
                     "_token" => $token
                 ]
             ]
         );
-        $courseSectionActivity = $this->getEntityManager()->getRepository(CourseSectionActivity::class)->findOneBy(['description' => 'myDescription']) ;
+        $courseSectionActivity = $this->getEntityManager()->getRepository(CourseSectionActivity::class)->findOneBy(['description' => 'myDescription']);
         $this->assertNotNull($courseSectionActivity);
     }
 
@@ -276,18 +276,53 @@ class CourseSectionControllerTest extends AbstractCourseInfoControllerTest
             [
                 'course_section_activity' => [
                     "description" => "myDescription",
-                    "activityType" => $activityType->getId() ,
+                    "activityType" => $activityType->getId(),
                     "activityMode" => "79ca9545-02ae-4eb1-9893-ac97a0ea9104",
                     "evaluationRate" => "",
                     "_token" => $token
                 ]
             ]
         );
-        $courseSectionActivity = $this->getEntityManager()->getRepository(CourseSectionActivity::class)->findOneBy(['description' => 'myDescription']) ;
+        $courseSectionActivity = $this->getEntityManager()->getRepository(CourseSectionActivity::class)->findOneBy(['description' => 'myDescription']);
         $this->assertNull($courseSectionActivity);
     }
 
-  /*  public function testSortCourseSectionActivities {
+    public function testSortCourseSectionActivities()
+    {
 
-    }*/
+        $em = $this->getEntityManager();
+
+        $this->login();
+        $course = $this->getCourse();
+
+        $section = $this->getCourseSection();
+        $course->addCourseSection($section);
+
+        $courseSectionActivities = $section->getCourseSectionActivities()->toArray();
+
+        self::assertEquals($courseSectionActivities[0]->getPosition(), 1);
+        self::assertEquals($courseSectionActivities[1]->getPosition(), 2);
+
+        $this->client()->request(
+            'POST',
+            $this->generateUrl(self::ROUTE_APP_COURSE_SECTION_ACTIVITIES_SORT,
+                [
+                    'id' => $section->getId()
+                ]),
+            ['data' =>
+                [
+                    $courseSectionActivities[1]->getId(),
+                    $courseSectionActivities[0]->getId()
+                ]
+            ]
+        );
+
+        $firstCourseSectionActivity = $em->getRepository(CourseSectionActivity::class)->findOneBy(['id'=> $courseSectionActivities[1]->getId()]);
+        $secondCourseSectionActivity = $em->getRepository(CourseSectionActivity::class)->findOneBy(['id'=> $courseSectionActivities[0]->getId()]);
+
+        // After sorting
+        self::assertEquals($firstCourseSectionActivity->getPosition(), 0);
+        self::assertEquals($secondCourseSectionActivity->getPosition(), 1);
+    }
+
 }
