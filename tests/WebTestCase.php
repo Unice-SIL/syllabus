@@ -65,6 +65,10 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     public const ROUTE_ADMIN_CAMPUS_EDIT = 'app.admin.campus.edit';
 
     public const ROUTE_ADMIN_COURSE_LIST = 'app.admin.course.index';
+    public const ROUTE_ADMIN_COURSE_NEW = 'app.admin.course.new';
+    public const ROUTE_ADMIN_COURSE_NEW_COURSE_INFO = 'app.admin.course.edit';
+    public const ROUTE_ADMIN_COURSE_EDIT = 'app.admin.course.show';
+    public const ROUTE_ADMIN_COURSE_SHOW = 'app.admin.course.new_course_info';
 
     public const ROUTE_ADMIN_COURSE_INFO_LIST = 'app.admin.course_info.index';
 
