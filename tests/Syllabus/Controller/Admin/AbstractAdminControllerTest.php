@@ -30,6 +30,7 @@ use App\Syllabus\Exception\LevelNotFoundException;
 use App\Syllabus\Exception\PeriodNotFoundException;
 use App\Syllabus\Exception\StructureNotFoundException;
 use App\Syllabus\Exception\YearNotFoundException;
+use Symfony\Component\HttpFoundation\Request;
 use Tests\WebTestCase;
 
 /**
@@ -42,19 +43,19 @@ abstract class AbstractAdminControllerTest extends WebTestCase
      * @param $route
      * @param array $parameters
      */
-    public function tryUserNotAuthenticate($route, array $parameters = [])
+    public function tryUserNotAuthenticate($route, array $parameters = [], string $method = Request::METHOD_GET)
     {
-        $this->client()->request('GET', $this->generateUrl($route, $parameters));
+        $this->client()->request($method, $this->generateUrl($route, $parameters));
     }
 
     /**
      * @param $route
      * @param array $parameters
      */
-    public function tryWithAdminPermission($route, array $parameters = [])
+    public function tryWithAdminPermission($route, array $parameters = [], string $method = Request::METHOD_GET)
     {
         $this->login();
-        $this->client()->request('GET', $this->generateUrl($route, $parameters));
+        $this->client()->request($method, $this->generateUrl($route, $parameters));
     }
 
     /**

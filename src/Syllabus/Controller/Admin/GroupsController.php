@@ -129,7 +129,6 @@ class GroupsController extends AbstractController
 
             $groupsManager->update($groups);
 
-
             $this->addFlash('success', $translator->trans('admin.group.flashbag.edit'));
 
             return $this->redirectToRoute('app.admin.groups.edit', array('id' => $groups->getId()));
@@ -168,22 +167,17 @@ class GroupsController extends AbstractController
     /**
      * Deletes a groups entity.
      *
-     * @Route("/{id}", name="delete", methods={"DELETE"})
+     * @Route("/delete/{id}", name="delete")
      * @Security("is_granted('ROLE_ADMIN_GROUPS_DELETE')")
-     * @param Request $request
+     * @param TranslatorInterface $translator
      * @param Groups $groups
      * @param GroupsManager $groupsManager
      * @return RedirectResponse
      */
-    public function deleteAction(Request $request, Groups $groups, GroupsManager $groupsManager)
+    public function deleteAction(TranslatorInterface $translator, Groups $groups, GroupsManager $groupsManager)
     {
-        $form = $this->createDeleteForm($groups);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $groupsManager->delete($groups);
-        }
-
+        $groupsManager->delete($groups);
+        $this->addFlash('success', $translator->trans('admin.group.flashbag.delete'));
         return $this->redirectToRoute('app.admin.groups.index');
     }
 
