@@ -153,21 +153,12 @@ class CourseSectionController extends AbstractController
      * @param CourseSection $section
      * @param Request $request
      * @param CourseSectionManager $courseSectionManager
-     * @param TranslatorInterface $translator
      * @return JsonResponse
      */
     public function sortCourseSectionActivitiesAction(CourseSection $section,
                                                       Request $request,
-                                                      CourseSectionManager $courseSectionManager,
-                                                      TranslatorInterface $translator)
+                                                      CourseSectionManager $courseSectionManager)
     {
-        if (!$section instanceof CourseSection) {
-            return $this->json([
-                'status' => false,
-                'render' => $translator->trans('app.controller.error.empty_section')
-            ]);
-        }
-
         $activities = $section->getCourseSectionActivities();
         $dataActivities = $request->request->get('data');
 
