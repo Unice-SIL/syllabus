@@ -43,7 +43,6 @@ class CoursePermissionController extends AbstractController
         $isValid = true;
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
-                dd($coursePermission);
                 $coursePermissionManager->create($coursePermission);
 
                 $this->addFlash('success', $translator->trans('app.controller.course_permission.add_permission'));
