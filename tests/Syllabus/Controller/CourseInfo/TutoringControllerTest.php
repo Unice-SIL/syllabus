@@ -59,11 +59,10 @@ class TutoringControllerTest extends AbstractCourseInfoControllerTest
         $this->login();
         $this->client()->request(
             'GET',
-            $this->generateUrl(self::ROUTE_APP_COURSE_TUTORING_CREATE, [
-                'id' => $this->getCourse(self::COURSE_NOT_ALLOWED_CODE)->getId()
-            ])
+            $this->generateUrl(self::ROUTE_APP_COURSE_TUTORING_CREATE, ['id' => $this->course->getId()])
         );
 
+        $this->assertResponseIsSuccessful();
         $data['_token'] = $this->getCsrfToken('course_assist_tutoring');
 
         $this->client()->request(
@@ -108,21 +107,18 @@ class TutoringControllerTest extends AbstractCourseInfoControllerTest
         $this->login();
         $this->client()->request(
             'GET',
-            $this->generateUrl(self::ROUTE_APP_COURSE_TUTORING_CREATE, [
-                'id' => $this->getCourse(self::COURSE_NOT_ALLOWED_CODE)->getId()
-            ])
+            $this->generateUrl(self::ROUTE_APP_COURSE_TUTORING_CREATE, ['id' => $this->course->getId()])
         );
 
+        $this->assertResponseIsSuccessful();
         $data = [
-            'tutoringDescription' => 'invalidToken',
+            'tutoringDescription' => 'invalid token description',
             '_token' => 'invalidToken',
         ];
-
-        if (!$this->course->isTutoringTeacher()) {
+        if ($this->course->isTutoringTeacher() === false) {
             $data['tutoringTeacher'] = true;
         }
-
-        if (!$this->course->isTutoringStudent()) {
+        if ($this->course->isTutoringStudent() === false) {
             $data['tutoringStudent'] = true;
         }
 
@@ -131,6 +127,9 @@ class TutoringControllerTest extends AbstractCourseInfoControllerTest
             $this->generateUrl(self::ROUTE_APP_COURSE_TUTORING_CREATE, ['id' => $this->course->getId()]),
             ['course_assist_tutoring' => $data]
         );
+
+        $data['tutoringTeacher'] = $data['tutoringTeacher'] ?? false;
+        $data['tutoringStudent'] = $data['tutoringStudent'] ?? false;
 
         $this->assertResponseIsSuccessful();
         $this->getEntityManager()->clear();
