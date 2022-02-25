@@ -70,32 +70,3 @@
     </div>
 
 {% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    <script>
-        $(document).ready(function () {
-            $('.group-deleted').on('click', function () {
-                var id = $(this).attr('data-group-id');
-                bootbox.confirm({
-                    message: "{{ 'confirm.group.deleted' | trans }}",
-                    buttons: {
-                        confirm: {
-                            label: '{{ 'yes' | trans }}',
-                            className: 'btn-danger'
-                        },
-                        cancel: {
-                            label: '{{ 'no' | trans }}',
-                            className: 'btn-secondary'
-                        }
-                    },
-                    callback: function (result) {
-                        if (result === true) {
-                            location.href = Routing.generate('app.admin.groups.delete', {'id': id});
-                        }
-                    }
-                });
-            });
-        });
-    </script>
-{% endblock %}
