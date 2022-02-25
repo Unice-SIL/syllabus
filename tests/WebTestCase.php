@@ -147,10 +147,15 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
 
     public const ROUTE_APP_COURSE_PERMISSION_INDEX = 'app.course_info.permission.index';
 
+    public const ROUTE_APP_COURSE_PREREQUISITE_PREREQUISITES = 'app.course_info.prerequisite.prerequisites';
+    public const ROUTE_APP_COURSE_PREREQUISITE_TUTORING_RESSOURCES_VIEW = 'app.course_info.prerequisite.tutoring_resources';
+    public const ROUTE_APP_COURSE_PREREQUISITE_TUTORING_RESOURCE_ADD = 'app.course_info.prerequisite.tutoring_resource.add';
+    public const ROUTE_APP_COURSE_PREREQUISITE_TUTORING_RESOURCE_SORT = 'app.course_info.prerequisite.sort_tutoring_resources';
     public const ROUTE_APP_COURSE_PREREQUISITE_INDEX = 'app.course_info.prerequisite.index';
     public const ROUTE_APP_COURSE_PREREQUISITE_ADD = 'app.course_info.prerequisite.add';
     public const ROUTE_APP_COURSE_PREREQUISITE_EDIT = 'app.course_info.prerequisite.edit';
     public const ROUTE_APP_COURSE_PREREQUISITE_DELETE = 'app.course_info.prerequisite.delete';
+    public const ROUTE_APP_COURSE_PREREQUISITE_PREREQUISITE_SORT = 'app.course_info.prerequisite.prerequisite.sort';
 
     public const ROUTE_APP_COURSE_SECTION_EDIT = 'app.course_info.section.edit';
     public const ROUTE_APP_COURSE_SECTION_DELETE = 'app.course_info.section.delete';

@@ -87,7 +87,8 @@ class CoursePermissionControllerTest extends AbstractCourseInfoControllerTest
         $coursePermission = $this->getEntityManager()->getRepository(CoursePermission::class)->findOneBy(
             [
                 'user' => $this->getUser(),
-                'permission' => Permission::WRITE
+                'permission' => Permission::WRITE,
+                'courseInfo' => $course
             ]
         );
         $this->assertNotNull($coursePermission);
