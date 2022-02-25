@@ -37,6 +37,7 @@ class TutoringResourceControllerTest extends AbstractCourseInfoControllerTest
             $this->generateUrl(self::ROUTE_APP_COURSE_TUTORING_RESOURCE_EDIT, ['id' => $tutoringResource->getId()])
         );
 
+        $this->assertResponseIsSuccessful();
         $data['_token'] = $this->getCsrfToken('create_edit_tutoring_resources');
 
         $this->client()->request(
@@ -47,7 +48,7 @@ class TutoringResourceControllerTest extends AbstractCourseInfoControllerTest
 
         /** @var CourseTutoringResource $updatedCourseTutoringResource */
         $updatedCourseTutoringResource = $em->getRepository(CourseTutoringResource::class)->find($tutoringResource->getId());
-
+        $this->assertResponseIsSuccessful();
         $this->assertCheckEntityProps($updatedCourseTutoringResource, $data);
     }
 
@@ -84,6 +85,7 @@ class TutoringResourceControllerTest extends AbstractCourseInfoControllerTest
             $this->generateUrl(self::ROUTE_APP_COURSE_TUTORING_RESOURCE_EDIT, ['id' => $tutoringResource->getId()])
         );
 
+        $this->assertResponseIsSuccessful();
         $data['_token'] = $this->getCsrfToken('fake');
 
         $this->client()->request(
@@ -94,7 +96,7 @@ class TutoringResourceControllerTest extends AbstractCourseInfoControllerTest
 
         /** @var CourseTutoringResource $updatedCourseTutoringResource */
         $updatedCourseTutoringResource = $em->getRepository(CourseTutoringResource::class)->find($tutoringResource->getId());
-
+        $this->assertResponseIsSuccessful();
         $this->assertCheckNotSameEntityProps($updatedCourseTutoringResource, $data);
     }
 
@@ -129,6 +131,7 @@ class TutoringResourceControllerTest extends AbstractCourseInfoControllerTest
             $this->generateUrl(self::ROUTE_APP_COURSE_TUTORING_RESOURCE_DELETE, ['id' => $tutoringResource->getId()])
         );
 
+        $this->assertResponseIsSuccessful();
         $tutoringResourceId = $tutoringResource->getId();
         $token = $this->getCsrfToken('delete_tutoring_resources');
 
@@ -140,6 +143,7 @@ class TutoringResourceControllerTest extends AbstractCourseInfoControllerTest
             ]]
         );
 
+        $this->assertResponseIsSuccessful();
         $this->assertNull($em->getRepository(CourseTutoringResource::class)->find($tutoringResourceId));
     }
 
@@ -203,7 +207,7 @@ class TutoringResourceControllerTest extends AbstractCourseInfoControllerTest
 
         /** @var CourseTutoringResource $checkTutoringResource */
         $checkTutoringResource = $em->getRepository(CourseTutoringResource::class)->find($tutoringResource->getId());
-
+        $this->assertResponseIsSuccessful();
         $this->assertInstanceOf(CourseTutoringResource::class, $checkTutoringResource);
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
     }
