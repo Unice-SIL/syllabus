@@ -171,6 +171,7 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     public const ROUTE_APP_EQUIPMENT_DELETE = 'app.course_info.equipment.delete';
 
     public const ROUTE_APP_EVALUATION_INDEX = 'app.course_info.evaluation.index';
+    public const ROUTE_APP_EVALUATION_SPECIFICATION = 'app.course_info.evaluation.specifications';
     public const ROUTE_APP_EVALUATION_SPECIFICATIONS_EDIT = 'app.course_info.evaluation.specifications.edit';
 
     public const ROUTE_APP_INFO_INDEX = 'app.course_info.info.index';

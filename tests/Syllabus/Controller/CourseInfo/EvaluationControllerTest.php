@@ -46,6 +46,15 @@ class EvaluationControllerTest extends AbstractCourseInfoControllerTest
     /**
      * @throws CourseNotFoundException
      */
+    public function testEvaluationSpecificationWithAdminPermission()
+    {
+        $this->tryRedirectWithAdminPermission(self::ROUTE_APP_EVALUATION_SPECIFICATION);
+        $this->assertResponseIsSuccessful();
+    }
+
+    /**
+     * @throws CourseNotFoundException
+
     public function testEvaluationWithoutPermission()
     {
         $this->tryWithoutPermission(self::ROUTE_APP_EVALUATION_INDEX);
