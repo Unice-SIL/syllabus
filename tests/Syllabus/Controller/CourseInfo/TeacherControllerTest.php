@@ -3,8 +3,13 @@
 
 namespace Tests\Syllabus\Controller\CourseInfo;
 
+use App\Syllabus\Entity\CourseInfo;
 use App\Syllabus\Entity\CourseTeacher;
 use App\Syllabus\Exception\CourseNotFoundException;
+use App\Syllabus\Exception\UserNotFoundException;
+use App\Syllabus\Fixture\CourseFixture;
+use App\Syllabus\Fixture\UserFixture;
+use App\Syllabus\Fixture\YearFixture;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -14,159 +19,181 @@ use Symfony\Component\HttpFoundation\Response;
 class TeacherControllerTest extends AbstractCourseInfoControllerTest
 {
     /**
-     * @dataProvider editCourseTeacherSuccessfulProvider
-     * @param array $data
+     * @var CourseTeacher
+     */
+    private $courseTeacher;
+
+    /**
      * @throws CourseNotFoundException
      */
-    public function testEditCourseTeacherSuccessful(array $data)
+    protected function setUp(): void
     {
-        $em = $this->getEntityManager();
-        $this->login();
-        $course = $this->getCourse();
-        $courseTeacher = new CourseTeacher();
+        $this->courseTeacher = $this->getCourse(CourseFixture::COURSE_1, YearFixture::YEAR_2018)
+            ->getCourseTeachers()->offsetGet(0);
+    }
 
-        $courseTeacher->setCourseInfo($course);
-
-        $em->persist($courseTeacher);
-        $em->flush();
-
+    public function testEditCourseTeacherUnauthorized()
+    {
         $this->client()->request(
             'GET',
-            $this->generateUrl(self::ROUTE_APP_COURSE_TEACHER_EDIT, ['id' => $courseTeacher->getId()])
+            $this->generateUrl(self::ROUTE_APP_COURSE_TEACHER_EDIT, ['id' => $this->courseTeacher->getId()])
+        );
+        $this->assertRedirectToLogin();
+    }
+
+    /**
+     * @throws UserNotFoundException
+     */
+    public function testEditCourseTeacherForbidden()
+    {
+        $this->login(UserFixture::USER_3);
+        $this->client()->request(
+            'GET',
+            $this->generateUrl(self::ROUTE_APP_COURSE_TEACHER_EDIT, ['id' => $this->courseTeacher->getId()])
+        );
+        $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
+    }
+
+    /**
+     * @throws UserNotFoundException
+     */
+    public function testEditCourseTeacherSuccessful()
+    {
+        $this->login();
+        $this->client()->request(
+            'GET',
+            $this->generateUrl(self::ROUTE_APP_COURSE_TEACHER_EDIT, ['id' => $this->courseTeacher->getId()])
         );
 
-        $data['_token'] = $this->getCsrfToken('create_edit_teacher');
+        $this->assertResponseIsSuccessful();
+        $data = [
+            '_token' => $this->getCsrfToken('create_edit_teacher')
+        ];
+        if ($this->courseTeacher->isEmailVisibility() === false) {
+            $data['emailVisibility'] = true;
+        }
+        if ($this->courseTeacher->isManager() === false) {
+            $data['manager'] = true;
+        }
 
         $this->client()->request(
             'POST',
-            $this->generateUrl(self::ROUTE_APP_COURSE_TEACHER_EDIT, ['id' => $courseTeacher->getId()]),
+            $this->generateUrl(self::ROUTE_APP_COURSE_TEACHER_EDIT, ['id' => $this->courseTeacher->getId()]),
             ['edit_teacher' => $data]
         );
 
-        /** @var CourseTeacher $updatedCourseTeacher */
-        $updatedCourseTeacher = $em->getRepository(CourseTeacher::class)->find($courseTeacher->getId());
+        $data['emailVisibility'] = $data['emailVisibility'] ?? false;
+        $data['manager'] = $data['manager'] ?? false;
 
+        /** @var CourseTeacher $updatedCourseTeacher */
+        $updatedCourseTeacher = $this->getEntityManager()->getRepository(CourseTeacher::class)->find($this->courseTeacher->getId());
+        $this->assertResponseIsSuccessful();
         $this->assertCheckEntityProps($updatedCourseTeacher, $data);
     }
 
     /**
-     * @return array
+     * @throws UserNotFoundException
      */
-    public function editCourseTeacherSuccessfulProvider(): array
+    public function testEditCourseTeacherCsrfNotValid()
     {
-        return [
-            [['emailVisibility' => true, 'manager' => true]]
-        ];
-    }
-
-    /**
-     * @dataProvider editCourseTeacherCsrfNotValidProvider
-     * @param array $data
-     * @throws CourseNotFoundException
-     */
-    public function testEditCourseTeacherCsrfNotValid(array $data)
-    {
-        $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
-        $courseTeacher = new CourseTeacher();
-
-        $courseTeacher->setCourseInfo($course);
-
-        $em->persist($courseTeacher);
-        $em->flush();
-
         $this->client()->request(
             'GET',
-            $this->generateUrl(self::ROUTE_APP_COURSE_TEACHER_EDIT, ['id' => $courseTeacher->getId()])
+            $this->generateUrl(self::ROUTE_APP_COURSE_TEACHER_EDIT, ['id' => $this->courseTeacher->getId()])
         );
 
-        $data['_token'] = $this->getCsrfToken('fake');
+        $this->assertResponseIsSuccessful();
+        $data = [
+            '_token' => 'invalidToken'
+        ];
+        if ($this->courseTeacher->isEmailVisibility() === false) {
+            $data['emailVisibility'] = true;
+        }
+        if ($this->courseTeacher->isManager() === false) {
+            $data['manager'] = true;
+        }
 
         $this->client()->request(
             'POST',
-            $this->generateUrl(self::ROUTE_APP_COURSE_TEACHER_EDIT, ['id' => $courseTeacher->getId()]),
+            $this->generateUrl(self::ROUTE_APP_COURSE_TEACHER_EDIT, ['id' => $this->courseTeacher->getId()]),
             ['edit_teacher' => $data]
         );
 
-        /** @var CourseTeacher $updatedCourseTeacher */
-        $updatedCourseTeacher = $em->getRepository(CourseTeacher::class)->find($courseTeacher->getId());
+        $data['emailVisibility'] = $data['emailVisibility'] ?? false;
+        $data['manager'] = $data['manager'] ?? false;
 
+        $this->assertResponseIsSuccessful();
+        $this->getEntityManager()->clear();
+        $updatedCourseTeacher = $this->getEntityManager()->getRepository(CourseTeacher::class)->find($this->courseTeacher->getId());
         $this->assertCheckNotSameEntityProps($updatedCourseTeacher, $data);
     }
 
-    /**
-     * @return array
-     */
-    public function editCourseTeacherCsrfNotValidProvider(): array
+    public function testDeleteCourseTeacherUnauthorized()
     {
-        return [
-            [['emailVisibility' => true, 'manager' => true]]
-        ];
+        $this->client()->request(
+            'GET',
+            $this->generateUrl(self::ROUTE_APP_COURSE_TEACHER_DELETE, ['id' => $this->courseTeacher->getId()])
+        );
+        $this->assertRedirectToLogin();
     }
 
     /**
-     * @throws CourseNotFoundException
+     * @throws UserNotFoundException
+     */
+    public function testDeleteCourseTeacherForbidden()
+    {
+        $this->login(UserFixture::USER_3);
+        $this->client()->request(
+            'GET',
+            $this->generateUrl(self::ROUTE_APP_COURSE_TEACHER_DELETE, ['id' => $this->courseTeacher->getId()])
+        );
+        $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
+    }
+
+    /**
+     * @throws UserNotFoundException
      */
     public function testDeleteCourseTeacherSuccessful()
     {
-        $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
-
-        $courseTeacher = new CourseTeacher();
-        $courseTeacher->setCourseInfo($course);
-
-        $em->persist($courseTeacher);
-        $em->flush();
         $this->client()->request(
             'GET',
-            $this->generateUrl(self::ROUTE_APP_COURSE_TEACHER_DELETE, ['id' => $courseTeacher->getId()])
-          );
+            $this->generateUrl(self::ROUTE_APP_COURSE_TEACHER_DELETE, ['id' => $this->courseTeacher->getId()])
+        );
 
-        $courseTeacherId = $courseTeacher->getId();
         $token = $this->getCsrfToken('delete_teacher');
 
         $this->client()->request(
             'POST',
-            $this->generateUrl(self::ROUTE_APP_COURSE_TEACHER_DELETE, ['id' => $courseTeacher->getId()]),
+            $this->generateUrl(self::ROUTE_APP_COURSE_TEACHER_DELETE, ['id' => $this->courseTeacher->getId()]),
             ['remove_teacher' => [
                 '_token' => $token
             ]]
         );
-
-        $this->assertNull($em->getRepository(CourseTeacher::class)->find($courseTeacherId));
+        $this->assertResponseIsSuccessful();
+        $this->assertNull($this->getEntityManager()->getRepository(CourseTeacher::class)->find($this->courseTeacher->getId()));
     }
 
     /**
-     * @throws CourseNotFoundException
+     * @throws UserNotFoundException
      */
-    public function testDeleteCourseTeacherWrongCsrfToken()
+    public function testDeleteCourseTeacherInvalidToken()
     {
-        $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
-
-        $courseTeacher = new CourseTeacher();
-        $courseTeacher->setCourseInfo($course);
-
-        $em->persist($courseTeacher);
-        $em->flush();
-
-        $token = $this->getCsrfToken('fake');
+        $this->client()->request(
+            'GET',
+            $this->generateUrl(self::ROUTE_APP_COURSE_TEACHER_DELETE, ['id' => $this->courseTeacher->getId()])
+        );
+        $this->assertResponseIsSuccessful();
 
         $this->client()->request(
             'POST',
-            $this->generateUrl(self::ROUTE_APP_COURSE_TEACHER_DELETE, ['id' => $courseTeacher->getId()]),
+            $this->generateUrl(self::ROUTE_APP_COURSE_TEACHER_DELETE, ['id' => $this->courseTeacher->getId()]),
             ['remove_teacher' => [
-                '_token' => $token
+                '_token' => 'invalidToken'
             ]]
         );
-
-        /** @var CourseTeacher $checkCourseTeacher */
-        $checkCourseTeacher = $em->getRepository(CourseTeacher::class)->find($courseTeacher->getId());
-
-        $this->assertInstanceOf(CourseTeacher::class, $checkCourseTeacher);
-        $this->assertResponseStatusCodeSame(Response::HTTP_OK);
+        $this->assertResponseIsSuccessful();
+        $this->assertInstanceOf(CourseTeacher::class, $this->getEntityManager()->getRepository(CourseTeacher::class)->find($this->courseTeacher->getId()));
     }
 }
