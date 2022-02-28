@@ -61,7 +61,7 @@ class ObjectivesControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
 
         $this->client()->request(
             'GET',
@@ -103,7 +103,7 @@ class ObjectivesControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
 
         $this->client()->request(
             'GET',

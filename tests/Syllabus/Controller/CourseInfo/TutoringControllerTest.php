@@ -21,7 +21,7 @@ class TutoringControllerTest extends AbstractCourseInfoControllerTest
      */
     protected function setUp(): void
     {
-        $this->course = $this->getCourse();
+        $this->course = $this->getCourseInfo();
     }
 
     public function testAddTutoringUserNotAuthenticated()
@@ -43,7 +43,7 @@ class TutoringControllerTest extends AbstractCourseInfoControllerTest
         $this->client()->request(
             'GET',
             $this->generateUrl(self::ROUTE_APP_COURSE_TUTORING_CREATE, [
-                'id' => $this->getCourse(self::COURSE_NOT_ALLOWED_CODE)->getId()
+                'id' => $this->getCourseInfo(self::COURSE_NOT_ALLOWED_CODE)->getId()
             ])
         );
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
@@ -73,7 +73,7 @@ class TutoringControllerTest extends AbstractCourseInfoControllerTest
 
         $this->assertResponseIsSuccessful();
         $this->getEntityManager()->clear();
-        $this->assertCheckEntityProps($this->getCourse(), $data);
+        $this->assertCheckEntityProps($this->getCourseInfo(), $data);
     }
 
     /**
@@ -133,7 +133,7 @@ class TutoringControllerTest extends AbstractCourseInfoControllerTest
 
         $this->assertResponseIsSuccessful();
         $this->getEntityManager()->clear();
-        $this->assertCheckNotSameEntityProps($this->getCourse(), $data);
+        $this->assertCheckNotSameEntityProps($this->getCourseInfo(), $data);
     }
 
 
@@ -181,7 +181,7 @@ class TutoringControllerTest extends AbstractCourseInfoControllerTest
             ])
         );
         $this->assertResponseIsSuccessful();
-        $this->assertEquals($active, $this->getCourse()->isTutoring());
+        $this->assertEquals($active, $this->getCourseInfo()->isTutoring());
     }
     /**
      * @return array

@@ -22,7 +22,7 @@ class AchievementControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
 
         $achievement = new CourseAchievement();
         $achievement->setCourseInfo($course);
@@ -67,7 +67,7 @@ class AchievementControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
 
         $achievement = new CourseAchievement();
         $achievement->setCourseInfo($course);
@@ -112,7 +112,7 @@ class AchievementControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
 
         $achievement = new CourseAchievement();
         $achievement->setCourseInfo($course)->setDescription('testDescription');
@@ -142,7 +142,7 @@ class AchievementControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
 
         $achievement = new CourseAchievement();
         $achievement->setCourseInfo($course);

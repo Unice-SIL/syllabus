@@ -73,7 +73,7 @@ class CoursePrerequisiteControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
 
         $this->client()->request(
             'GET',
@@ -114,7 +114,7 @@ class CoursePrerequisiteControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
 
         $this->client()->request(
             'GET',
@@ -150,7 +150,7 @@ class CoursePrerequisiteControllerTest extends AbstractCourseInfoControllerTest
         $em = $this->getEntityManager();
 
         $this->login();
-        $course = $this->getCourse(CourseFixture::COURSE_1, YearFixture::YEAR_2018);
+        $course = $this->getCourseInfo(CourseFixture::COURSE_1, YearFixture::YEAR_2018);
 
         $prerequisite1 = $course->getCoursePrerequisites()->first();
         $prerequisite2 = clone $prerequisite1;
@@ -201,7 +201,7 @@ class CoursePrerequisiteControllerTest extends AbstractCourseInfoControllerTest
         $em = $this->getEntityManager();
 
         $this->login();
-        $course = $this->getCourse(CourseFixture::COURSE_1, YearFixture::YEAR_2018);
+        $course = $this->getCourseInfo(CourseFixture::COURSE_1, YearFixture::YEAR_2018);
 
 
         $tutoringResource1 = $course->getCourseTutoringResources()->first();
@@ -246,7 +246,7 @@ class CoursePrerequisiteControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
 
         $this->client()->request(
             'GET',

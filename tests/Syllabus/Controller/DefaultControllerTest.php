@@ -35,7 +35,7 @@ class DefaultControllerTest extends WebTestCase
     public function testRouterRedirectWithAdminPermission()
     {
         $this->login();
-        $course = $this->getCourse(self::COURSE_NOT_ALLOWED_CODE, self::COURSE_NOT_ALLOWED_YEAR);
+        $course = $this->getCourseInfo(self::COURSE_NOT_ALLOWED_CODE, self::COURSE_NOT_ALLOWED_YEAR);
         $this->client()->request('GET', $this->generateUrl(self::ROUTE_APP_ROUTER, [
             'code' => $course->getCourse()->getCode(),
             'year' => $course->getYear()->getId()
@@ -53,7 +53,7 @@ class DefaultControllerTest extends WebTestCase
             ->setGroups(new ArrayCollection());
         $this->getEntityManager()->flush();
         $this->login($user);
-        $courseInfo = $this->getCourse(self::COURSE_ALLOWED_CODE, self::COURSE_ALLOWED_YEAR);
+        $courseInfo = $this->getCourseInfo(self::COURSE_ALLOWED_CODE, self::COURSE_ALLOWED_YEAR);
 
         /** @var CoursePermission $coursePermission */
         $coursePermission = new CoursePermission();
@@ -78,7 +78,7 @@ class DefaultControllerTest extends WebTestCase
             ->setGroups(new ArrayCollection());
         $this->getEntityManager()->flush();
         $this->login($user);
-        $course = $this->getCourse(self::COURSE_NOT_ALLOWED_CODE, self::COURSE_NOT_ALLOWED_YEAR);
+        $course = $this->getCourseInfo(self::COURSE_NOT_ALLOWED_CODE, self::COURSE_NOT_ALLOWED_YEAR);
         $this->client()->request('GET', $this->generateUrl(self::ROUTE_APP_ROUTER, [
             'code' => $course->getCourse()->getCode(),
             'year' => $course->getYear()->getId()
@@ -91,7 +91,7 @@ class DefaultControllerTest extends WebTestCase
      */
     public function testLightRouterUserNotAuthenticate()
     {
-        $course = $this->getCourse(self::COURSE_ALLOWED_CODE, self::COURSE_ALLOWED_YEAR);
+        $course = $this->getCourseInfo(self::COURSE_ALLOWED_CODE, self::COURSE_ALLOWED_YEAR);
         $this->client()->request('GET', $this->generateUrl(self::ROUTE_APP_ROUTER_LIGHT, [
             'code' => $course->getCourse()->getCode(),
             'year' => $course->getYear()->getId()
@@ -105,7 +105,7 @@ class DefaultControllerTest extends WebTestCase
     public function testLightRouterUserAuthenticate()
     {
         $this->login();
-        $course = $this->getCourse(self::COURSE_ALLOWED_CODE, self::COURSE_ALLOWED_YEAR);
+        $course = $this->getCourseInfo(self::COURSE_ALLOWED_CODE, self::COURSE_ALLOWED_YEAR);
         $this->client()->request('GET', $this->generateUrl(self::ROUTE_APP_ROUTER_LIGHT, [
             'code' => $course->getCourse()->getCode(),
             'year' => $course->getYear()->getId()

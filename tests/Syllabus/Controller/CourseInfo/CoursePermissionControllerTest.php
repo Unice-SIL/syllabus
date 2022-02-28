@@ -57,7 +57,7 @@ class CoursePermissionControllerTest extends AbstractCourseInfoControllerTest
     public function testAddPermissionSectionSuccessful()
     {
         $this->login();
-        $course = $this->getCourse(CourseFixture::COURSE_3);
+        $course = $this->getCourseInfo(CourseFixture::COURSE_3);
         $this->client()->request(
             'GET',
             $this->generateUrl(self::ROUTE_APP_COURSE_PERMISSION_INDEX,
@@ -100,7 +100,7 @@ class CoursePermissionControllerTest extends AbstractCourseInfoControllerTest
     public function testAddPermissionSectionFailed()
     {
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
         $this->client()->request(
             'GET',
             $this->generateUrl(self::ROUTE_APP_COURSE_PERMISSION_INDEX,

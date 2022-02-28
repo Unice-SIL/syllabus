@@ -43,7 +43,7 @@ class ActivitiesControllerTest extends AbstractCourseInfoControllerTest
     public function testActivitiesNotWithNotFoundSection()
     {
         $this->login();
-        $course = $this->getCourse(self::COURSE_NOT_ALLOWED_CODE, self::COURSE_NOT_ALLOWED_YEAR);
+        $course = $this->getCourseInfo(self::COURSE_NOT_ALLOWED_CODE, self::COURSE_NOT_ALLOWED_YEAR);
         $course->addCourseSection($this->getCourseSection());
         $this->client()->request('GET', $this->generateUrl(self::ROUTE_APP_ACTIVITIES_INDEX, ['id' => $course->getId(), 'sectionId' => 'NotFound']));
         $this->assertResponseIsSuccessful();
@@ -76,7 +76,7 @@ class ActivitiesControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
 
         $this->client()->request(
             'GET',
@@ -118,7 +118,7 @@ class ActivitiesControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
 
         $this->client()->request(
             'GET',
@@ -156,7 +156,7 @@ class ActivitiesControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
         $section = $this->getCourseSection();
 
         $this->client()->request(
@@ -197,7 +197,7 @@ class ActivitiesControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
         $section = $this->getCourseSection();
 
         $this->client()->request(
@@ -229,7 +229,7 @@ class ActivitiesControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
 
         $section = $this->getCourseSection();
         $course->addCourseSection($section);

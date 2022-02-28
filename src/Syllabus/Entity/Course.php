@@ -65,6 +65,7 @@ class Course
      *
      * @ORM\Column(name="title", type="string", length=150, nullable=false)
      * @Assert\NotBlank()
+     * @Assert\Length(max=150)
      * @Gedmo\Translatable
      */
     private $title;

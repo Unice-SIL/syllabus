@@ -148,7 +148,7 @@ class CriticalAchievementControllerTest extends AbstractAdminControllerTest
      */
     public function newCriticalAchievementSuccessfulProvider(): array
     {
-        $course = $this->getCourse(self::COURSE_ALLOWED_CODE, self::COURSE_ALLOWED_YEAR);
+        $course = $this->getCourseInfo(self::COURSE_ALLOWED_CODE, self::COURSE_ALLOWED_YEAR);
 
         return [
             [['label' => 'CriticalAchievementTest']],
