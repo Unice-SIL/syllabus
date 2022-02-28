@@ -52,6 +52,9 @@ class Report
         return $this;
     }
 
+    /**
+     * @return ArrayCollection
+     */
     public function getLines(): ArrayCollection
     {
         return $this->lines;
@@ -94,7 +97,7 @@ class Report
         return !$this->lines->isEmpty();
     }
 
-    public function addCommentToLine($error, string $lineIdReport)
+    public function addCommentToLine($error, string $lineIdReport): ?ReportLine
     {
         if (!$line = $this->getLineReport($lineIdReport)) {
             $line =  new ReportLine($lineIdReport);
@@ -106,6 +109,10 @@ class Report
         return $line;
     }
 
+    /**
+     * @param string $lineIdReport
+     * @return ReportLine|bool|null
+     */
     public function getLineReport(string $lineIdReport)
     {
         return $this->getLines()->filter(function ($line) use($lineIdReport){return $line->getId() === $lineIdReport;})->first();
