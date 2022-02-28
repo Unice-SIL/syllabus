@@ -11,6 +11,7 @@ use App\Syllabus\Entity\CoursePermission;
 use App\Syllabus\Entity\User;
 use App\Syllabus\Entity\Year;
 use App\Syllabus\Helper\Report\ReportingHelper;
+use App\Syllabus\Helper\Report\ReportLine;
 use App\Syllabus\Import\Configuration\CoursePermissionMoodleConfiguration;
 use App\Syllabus\Import\ImportManager;
 use App\Syllabus\Manager\CoursePermissionManager;
@@ -21,7 +22,28 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class MoodleCoursePermissionImportCommand extends AbstractJob
 {
+
     protected static $defaultName = 'app:import:moodle:permission';
+
+    private const LOOP_BREAK = 10;
+
+    private $timeStart;
+
+    /**
+     * @var int
+     */
+    private $memStart = 0;
+
+    /**
+     * @var int
+     */
+    private $loop = 1;
+
+    /**
+     * @var int
+     */
+    private $totalLoop = 0;
+
     /**
      * @var array
      */
@@ -90,7 +112,6 @@ class MoodleCoursePermissionImportCommand extends AbstractJob
         //======================Perf==================
         $start = microtime(true);
         $interval = [];
-        $loopBreak = 10;
         //======================End Perf==================
 
         $report = ReportingHelper::createReport();
@@ -99,10 +120,10 @@ class MoodleCoursePermissionImportCommand extends AbstractJob
 
         $coursePermissions = $this->importManager->parseFromConfig($this->coursePermissionMoodleConfiguration, $report, $this->options);
 
+        $this->totalLoop = count($coursePermissions);
+
         $yearsToImport = $this->em->getRepository(Year::class)->findByImport(true);
 
-        $loop = 1;
-        $memStart = 0;
         $handledCourseInfoIds = [];
         $handledUserUsernames = [];
 
@@ -110,9 +131,9 @@ class MoodleCoursePermissionImportCommand extends AbstractJob
         foreach ($coursePermissions as $reportLineId => $coursePermission) {
 
             //======================Perf==================
-            if ($loop % $loopBreak === 1) {
-                $timeStart = microtime(true);
-                $memStart = memory_get_usage();
+            if ($this->loop % self::LOOP_BREAK === 1) {
+                $this->timeStart = microtime(true);
+                $this->memStart = memory_get_usage();
             }
             //======================End Perf==================
 
@@ -133,6 +154,14 @@ class MoodleCoursePermissionImportCommand extends AbstractJob
                         'report' => $report,
                         'lineIdReport' => $reportLineId,
                     ]);
+
+                    if ($report->getLineReport($reportLineId) instanceof ReportLine) {
+                        dump($course->getCode() . ' - ' . $user->getUsername());
+                        dump($report->getLineReport($reportLineId)->getComments());
+                        $this->nextLoop();
+                        continue;
+                    }
+
                     $handledUserUsernames[] = $user->getUsername();
 
                 } else {
@@ -186,24 +215,9 @@ class MoodleCoursePermissionImportCommand extends AbstractJob
 
                 $this->em->flush(); //if every permission import from moodle hasn't got a unique key username-code
 
-                if ($loop % $loopBreak === 0) {
-                    $progress = round((($loop / count($coursePermissions)) * 100));
-                    $this->progress($progress);
-                    $this->memoryUsed(memory_get_usage(), true);
-
-                    $this->em->clear();
-
-                    //======================Perf==================
-
-                    $interval[$loop]['time'] = microtime(true) - $timeStart . ' s';
-                    $interval[$loop]['memory'] = round((memory_get_usage() - $memStart) / 1048576, 2) . ' MB';
-                    $interval[$loop]['progress'] = $progress . '%';
-                    dump($interval[$loop]);
-                    //======================End Perf==================
-                }
             }
 
-            $loop++;
+            $this->nextLoop();
         }
 
         $this->em->flush(); //necessary to be sure every coursePermission was flushed;
@@ -214,5 +228,25 @@ class MoodleCoursePermissionImportCommand extends AbstractJob
         return $report;
     }
 
+
+    private function nextLoop() {
+        if ($this->loop % self::LOOP_BREAK === 0) {
+            $progress = round((($this->loop / $this->totalLoop) * 100));
+            $this->progress($progress);
+            $this->memoryUsed(memory_get_usage(), true);
+
+            $this->em->clear();
+
+            //======================Perf==================
+
+            $interval[$this->loop]['time'] = microtime(true) - $this->timeStart . ' s';
+            $interval[$this->loop]['memory'] = round((memory_get_usage() - $this->memStart) / 1048576, 2) . ' MB';
+            $interval[$this->loop]['progress'] = $progress . '%';
+            dump($interval[$this->loop]);
+            //======================End Perf==================
+        }
+
+        $this->loop++;
+    }
 
 }
