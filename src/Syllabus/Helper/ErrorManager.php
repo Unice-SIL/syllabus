@@ -50,16 +50,14 @@ class ErrorManager
         ], $options);
 
         $violations = $this->validator->validate($value, $options['constraints'], $options['groups']);
+        $line = null;
         if (count($violations) > 0) {
-
             foreach ($violations as $violation) {
                 $error = $violation->getPropertyPath() . ' => ' . $violation->getMessage() . "\n";
                 $line = $report->addCommentToLine($error, $lineIdReport);
             }
-
-            return $line;
         }
 
-        return null;
+        return $line;
     }
 }
