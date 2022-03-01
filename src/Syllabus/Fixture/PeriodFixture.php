@@ -18,8 +18,13 @@ class PeriodFixture extends Fixture  implements FixtureGroupInterface
 
     public function load(ObjectManager $manager)
     {
+        $period = new Period();
+        $period->setLabel(self::PERIOD_1);
+        $this->addReference(self::PERIOD_1, $period);
+        $manager->persist($period);
+
+
         $periods = [
-            ['label' => self::PERIOD_1],
             ['label' => self::PERIOD_2],
             ['label' => self::PERIOD_3],
             ['label' => self::PERIOD_4]
