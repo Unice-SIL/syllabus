@@ -19,7 +19,7 @@ class PrerequisiteControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
 
         $coursePrerequisite = new CoursePrerequisite();
         $coursePrerequisite->setCourseInfo($course);
@@ -66,7 +66,7 @@ class PrerequisiteControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
 
         $coursePrerequisite = new CoursePrerequisite();
         $coursePrerequisite->setCourseInfo($course);
@@ -110,7 +110,7 @@ class PrerequisiteControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
 
         $coursePrerequisite = new CoursePrerequisite();
         $coursePrerequisite->setCourseInfo($course);
@@ -143,7 +143,7 @@ class PrerequisiteControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
 
         $coursePrerequisite = new CoursePrerequisite();
         $coursePrerequisite->setCourseInfo($course);

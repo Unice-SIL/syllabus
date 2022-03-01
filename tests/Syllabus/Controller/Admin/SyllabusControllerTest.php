@@ -66,7 +66,7 @@ class SyllabusControllerTest extends AbstractAdminControllerTest
                 [
                     'structure' =>
                         [
-                            'label' => $this->getCourse()->getStructure()->getLabel()
+                            'label' => $this->getCourseInfo()->getStructure()->getLabel()
                         ]
                 ]
             ],
@@ -74,7 +74,7 @@ class SyllabusControllerTest extends AbstractAdminControllerTest
                 [
                     'year' =>
                         [
-                            'label' => $this->getCourse()->getYear()->getLabel()
+                            'label' => $this->getCourseInfo()->getYear()->getLabel()
                         ]
                 ]
             ]

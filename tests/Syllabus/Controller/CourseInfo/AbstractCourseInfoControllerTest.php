@@ -33,7 +33,7 @@ abstract class AbstractCourseInfoControllerTest extends WebTestCase
      */
     public function tryUserNotAuthenticated($route)
     {
-        $course = $this->getCourse(self::COURSE_ALLOWED_CODE, self::COURSE_ALLOWED_YEAR);
+        $course = $this->getCourseInfo(self::COURSE_ALLOWED_CODE, self::COURSE_ALLOWED_YEAR);
         $this->client()->request('GET', $this->generateUrl($route, ['id' => $course->getId()]));
     }
 
@@ -44,7 +44,7 @@ abstract class AbstractCourseInfoControllerTest extends WebTestCase
     public function tryRedirectWithAdminPermission($route)
     {
         $this->login();
-        $course = $this->getCourse(self::COURSE_NOT_ALLOWED_CODE, self::COURSE_NOT_ALLOWED_YEAR);
+        $course = $this->getCourseInfo(self::COURSE_NOT_ALLOWED_CODE, self::COURSE_NOT_ALLOWED_YEAR);
         $this->client()->request('GET', $this->generateUrl($route, ['id' => $course->getId()]));
     }
 
@@ -59,7 +59,7 @@ abstract class AbstractCourseInfoControllerTest extends WebTestCase
             ->setGroups(new ArrayCollection());
 
         /** @var CourseInfo $course */
-        $courseInfo = $this->getCourse(self::COURSE_ALLOWED_CODE, self::COURSE_ALLOWED_YEAR);
+        $courseInfo = $this->getCourseInfo(self::COURSE_ALLOWED_CODE, self::COURSE_ALLOWED_YEAR);
 
         /** @var CoursePermission $coursePermission */
         $coursePermission = new CoursePermission();
@@ -82,7 +82,7 @@ abstract class AbstractCourseInfoControllerTest extends WebTestCase
             ->setGroups(new ArrayCollection());
         $this->getEntityManager()->flush();
         $this->login($user);
-        $course = $this->getCourse(self::COURSE_ALLOWED_CODE, self::COURSE_ALLOWED_YEAR);
+        $course = $this->getCourseInfo(self::COURSE_ALLOWED_CODE, self::COURSE_ALLOWED_YEAR);
         $this->client()->request('GET', $this->generateUrl($route, ['id' => $course->getId()]));
     }
 
@@ -97,7 +97,7 @@ abstract class AbstractCourseInfoControllerTest extends WebTestCase
             ->setGroups(new ArrayCollection());
         $this->getEntityManager()->flush();
         $this->login($user);
-        $course = $this->getCourse(self::COURSE_NOT_ALLOWED_CODE, self::COURSE_NOT_ALLOWED_YEAR);
+        $course = $this->getCourseInfo(self::COURSE_NOT_ALLOWED_CODE, self::COURSE_NOT_ALLOWED_YEAR);
         $this->client()->request('GET', $this->generateUrl($route, ['id' => $course->getId()]));
     }
 

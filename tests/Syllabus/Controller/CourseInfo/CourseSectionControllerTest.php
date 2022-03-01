@@ -23,7 +23,7 @@ class CourseSectionControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
 
         $courseSection = new CourseSection();
         $courseSection->setCourseInfo($course);
@@ -70,7 +70,7 @@ class CourseSectionControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
 
         $courseSection = new CourseSection();
         $courseSection->setCourseInfo($course);
@@ -114,7 +114,7 @@ class CourseSectionControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
 
         $courseSection = new CourseSection();
         $courseSection->setCourseInfo($course);
@@ -148,7 +148,7 @@ class CourseSectionControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
 
         $courseSection = new CourseSection();
         $courseSection->setCourseInfo($course);
@@ -182,7 +182,7 @@ class CourseSectionControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
         $section = $this->getCourseSection();
         $course->addCourseSection($section);
 
@@ -244,7 +244,7 @@ class CourseSectionControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
         $section = $this->getCourseSection();
         $course->addCourseSection($section);
 
@@ -293,7 +293,7 @@ class CourseSectionControllerTest extends AbstractCourseInfoControllerTest
         $em = $this->getEntityManager();
 
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
 
         $section = $this->getCourseSection();
         $course->addCourseSection($section);

@@ -28,7 +28,7 @@ class TeacherControllerTest extends AbstractCourseInfoControllerTest
      */
     protected function setUp(): void
     {
-        $this->courseTeacher = $this->getCourse(CourseFixture::COURSE_1, YearFixture::YEAR_2018)
+        $this->courseTeacher = $this->getCourseInfo(CourseFixture::COURSE_1, YearFixture::YEAR_2018)
             ->getCourseTeachers()->offsetGet(0);
     }
 

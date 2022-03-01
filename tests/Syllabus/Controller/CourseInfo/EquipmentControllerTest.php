@@ -25,7 +25,7 @@ class EquipmentControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
         $equipment = $this->getEquipment();
         $resourceEquipment = new CourseResourceEquipment();
 
@@ -75,7 +75,7 @@ class EquipmentControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
         $equipment = $this->getEquipment();
 
         $resourceEquipment = new CourseResourceEquipment();
@@ -122,7 +122,7 @@ class EquipmentControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
         $equipment = $this->getEquipment();
 
         $resourceEquipment = new CourseResourceEquipment();
@@ -154,7 +154,7 @@ class EquipmentControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
         $equipment = $this->getEquipment();
 
         $resourceEquipment = new CourseResourceEquipment();

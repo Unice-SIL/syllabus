@@ -56,6 +56,7 @@ class CourseInfo
      *
      * @ORM\Column(name="title", type="string", length=200, nullable=false)
      * @Assert\NotBlank(groups={"new", "edit"})
+     * @Assert\Length(max=200, groups={"new", "edit"})
      * @Gedmo\Translatable
      */
     private $title;

@@ -24,7 +24,7 @@ class TutoringResourceControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
 
         $tutoringResource = new CourseTutoringResource();
         $tutoringResource->setCourseInfo($course);
@@ -72,7 +72,7 @@ class TutoringResourceControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
 
         $tutoringResource = new CourseTutoringResource();
         $tutoringResource->setCourseInfo($course);
@@ -118,7 +118,7 @@ class TutoringResourceControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
 
         $tutoringResource = new CourseTutoringResource();
         $tutoringResource->setCourseInfo($course);
@@ -154,7 +154,7 @@ class TutoringResourceControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
 
         $tutoringResource = new CourseTutoringResource();
         $tutoringResource->setCourseInfo($course);
@@ -187,7 +187,7 @@ class TutoringResourceControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
 
         $tutoringResource = new CourseTutoringResource();
         $tutoringResource->setCourseInfo($course);

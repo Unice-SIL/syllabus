@@ -59,6 +59,19 @@ class LanguageControllerTest extends AbstractAdminControllerTest
             [['ROLE_USER', 'ROLE_ADMIN_LANGUAGE_LIST']],
         ];
     }
+    
+    /**
+     * @throws LanguageNotFoundException
+     */
+    public function testLanguageFilter()
+    {
+        $this->tryWithAdminPermission(self::ROUTE_ADMIN_LANGUAGE_LIST, [
+            'language_filter' => [
+                'label' => $this->getLanguage()->getLabel()
+            ]
+        ]);
+        $this->assertResponseIsSuccessful();
+    }
 
     /*
      *  New Language

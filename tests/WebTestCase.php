@@ -69,9 +69,9 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
 
     public const ROUTE_ADMIN_COURSE_LIST = 'app.admin.course.index';
     public const ROUTE_ADMIN_COURSE_NEW = 'app.admin.course.new';
-    public const ROUTE_ADMIN_COURSE_NEW_COURSE_INFO = 'app.admin.course.edit';
-    public const ROUTE_ADMIN_COURSE_EDIT = 'app.admin.course.show';
-    public const ROUTE_ADMIN_COURSE_SHOW = 'app.admin.course.new_course_info';
+    public const ROUTE_ADMIN_COURSE_NEW_COURSE_INFO = 'app.admin.course.new_course_info';
+    public const ROUTE_ADMIN_COURSE_EDIT = 'app.admin.course.edit';
+    public const ROUTE_ADMIN_COURSE_SHOW = 'app.admin.course.show';
 
     public const ROUTE_ADMIN_COURSE_INFO_LIST = 'app.admin.course_info.index';
 
@@ -280,7 +280,7 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
      * @return CourseInfo
      * @throws CourseNotFoundException
      */
-    public function getCourse(string $code = self::COURSE_ALLOWED_CODE, string $year = self::COURSE_ALLOWED_YEAR): CourseInfo
+    public function getCourseInfo(string $code = self::COURSE_ALLOWED_CODE, string $year = self::COURSE_ALLOWED_YEAR): CourseInfo
     {
         $course = $this->getEntityManager()->getRepository(CourseInfo::class)->findByCodeAndYear($code, $year);
 
