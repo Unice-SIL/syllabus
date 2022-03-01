@@ -5,6 +5,8 @@ namespace Tests\Syllabus\Controller\CourseInfo;
 
 use App\Syllabus\Entity\CourseAchievement;
 use App\Syllabus\Exception\CourseNotFoundException;
+use App\Syllabus\Exception\UserNotFoundException;
+use App\Syllabus\Fixture\UserFixture;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -13,6 +15,42 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class AchievementControllerTest extends AbstractCourseInfoControllerTest
 {
+
+    /**
+     * @var CourseAchievement
+     */
+    private $achievement;
+
+    /**
+     * @throws CourseNotFoundException
+     */
+    protected function setUp(): void
+    {
+        $this->achievement = $this->getCourseAchievement();
+    }
+
+    public function testEditAchievementUserNotAuthenticated()
+    {
+        $this->client()->request(
+            'GET',
+            $this->generateUrl(self::ROUTE_APP_COURSE_ACHIEVEMENT_EDIT, ['id' => $this->achievement->getId()])
+        );
+        $this->assertRedirectToLogin();
+    }
+
+    /**
+     * @throws UserNotFoundException
+     */
+    public function testEditAchievementForbidden()
+    {
+        $this->login(UserFixture::USER_3);
+        $this->client()->request(
+            'GET',
+            $this->generateUrl(self::ROUTE_APP_COURSE_ACHIEVEMENT_EDIT, ['id' => $this->achievement->getId()])
+        );
+        $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
+    }
+
     /**
      * @dataProvider editAchievementSuccessfulProvider
      * @param array $data
@@ -103,6 +141,28 @@ class AchievementControllerTest extends AbstractCourseInfoControllerTest
             [['description' => 'CourseAchievementTest']],
             [['description' => null]]
         ];
+    }
+
+    public function testDeleteAchievementUserNotAuthenticated()
+    {
+        $this->client()->request(
+            'GET',
+            $this->generateUrl(self::ROUTE_APP_COURSE_ACHIEVEMENT_DELETE, ['id' => $this->achievement->getId()])
+        );
+        $this->assertRedirectToLogin();
+    }
+
+    /**
+     * @throws UserNotFoundException
+     */
+    public function testDeleteAchievementForbidden()
+    {
+        $this->login(UserFixture::USER_3);
+        $this->client()->request(
+            'GET',
+            $this->generateUrl(self::ROUTE_APP_COURSE_ACHIEVEMENT_DELETE, ['id' => $this->achievement->getId()])
+        );
+        $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
     }
 
     /**

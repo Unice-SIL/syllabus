@@ -24,6 +24,12 @@ class LanguageFixture extends Fixture  implements FixtureGroupInterface
 
     public function load(ObjectManager $manager)
     {
+
+        $language = new Language();
+        $language->setLabel(self::LANGUAGE_FR);
+        $this->addReference(self::LANGUAGE_FR, $language);
+        $manager->persist($language);
+
         $languages = [
             [
                 'label' => self::LANGUAGE_FR,

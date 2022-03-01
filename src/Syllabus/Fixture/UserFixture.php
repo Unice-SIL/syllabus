@@ -20,6 +20,7 @@ class UserFixture extends Fixture  implements FixtureGroupInterface
     const REF_PREFIX = 'user_';
     public const USER_1 = 'user1';
     public const USER_2 = 'user2';
+    public const USER_3 = 'user3';
     public const USER_FREDERIC = 'casazza@unice.fr';
     public const USER_STEPHANE = 'shauser';
     public const USER_KEVIN = 'genes';
@@ -58,6 +59,14 @@ class UserFixture extends Fixture  implements FixtureGroupInterface
                 'firstname' => 'User2',
                 'lastname' => 'User2',
                 'email' => self::USER_2,
+                'roles' => ['ROLE_USER'],
+                'groups' => new ArrayCollection()
+            ],
+            [
+                'username' => self::USER_3,
+                'firstname' => 'User3',
+                'lastname' => 'User3',
+                'email' => self::USER_3,
                 'roles' => ['ROLE_USER'],
                 'groups' => new ArrayCollection()
             ],
@@ -112,14 +121,6 @@ class UserFixture extends Fixture  implements FixtureGroupInterface
                     case 'password':
                         $value = $this->encoder->hashPassword($user, $value);
                         break;
-/*
-                    case 'groups':
-                        foreach ($userFixture['groups'] as $group )
-                        {
-                            $user->addGroups($group);
-                        }
-                        continue;
-                        break;*/
                 }
 
                 $propertyAccessor->setValue($user, $property, $value);

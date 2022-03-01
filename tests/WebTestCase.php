@@ -4,10 +4,13 @@
 namespace Tests;
 
 use App\Syllabus\Entity\CourseInfo;
+use App\Syllabus\Entity\Level;
 use App\Syllabus\Entity\User;
 use App\Syllabus\Exception\CourseNotFoundException;
+use App\Syllabus\Exception\LevelNotFoundException;
 use App\Syllabus\Exception\UserNotFoundException;
 use App\Syllabus\Fixture\CourseFixture;
+use App\Syllabus\Fixture\LevelFixture;
 use App\Syllabus\Fixture\UserFixture;
 use App\Syllabus\Fixture\YearFixture;
 use Doctrine\Persistence\ObjectManager;
@@ -79,7 +82,6 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     public const ROUTE_ADMIN_CRITICAL_ACHIEVEMENT_EDIT = 'app.admin.critical_achievement.edit';
 
     public const ROUTE_ADMIN_DASHBOARD = 'app.admin.dashboard.index';
-
     public const ROUTE_ADMIN_DOMAIN_LIST = 'app.admin.domain.index';
     public const ROUTE_ADMIN_DOMAIN_NEW = 'app.admin.domain.new';
     public const ROUTE_ADMIN_DOMAIN_EDIT = 'app.admin.domain.edit';
@@ -136,6 +138,10 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     public const ROUTE_APP_COURSE_ACHIEVEMENT_DELETE = 'app.course_info.achievement.delete';
 
     public const ROUTE_APP_COURSE_INFO_DASHBOARD = 'app.course_info.dashboard.index';
+    public const ROUTE_APP_COURSE_INFO_DASHBOARD_DASHBOARD = 'app.course_info.dashboard.dashboard';
+    public const ROUTE_APP_COURSE_INFO_DASHBOARD_PUBLISHE_NEXT_YEAR = 'app.course_info.dashboard.publishNextYear';
+    PUBLIC CONST ROUTE_APP_COURSE_INFO_DASHBOARD_ASK_ADVICE = 'app.course_info.dashboard.askAdvice';
+    PUBLIC CONST ROUTE_APP_COURSE_INFO_DASHBOARD_PUBLISH = 'app.course_info.dashboard.publish';
 
     public const ROUTE_APP_COURSE_STUDENT_VIEW = 'app.course_info.view.student';
 
@@ -205,6 +211,10 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     public const COURSE_ALLOWED_YEAR = YearFixture::YEAR_2018;
     public const COURSE_NOT_ALLOWED_CODE = CourseFixture::COURSE_3;
     public const COURSE_NOT_ALLOWED_YEAR = YearFixture::YEAR_2018;
+
+    public const COURSE_LEVEL = LevelFixture::LEVEL_L1;
+
+
 
     /**
      * @var KernelBrowser|null
@@ -282,6 +292,22 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
         }
 
         return $course;
+    }
+
+    /**
+     * @param string $label
+     * @return Level
+     * @throws LevelNotFoundException
+     */
+    public function getLevel(string $label = self::COURSE_LEVEL): Level
+    {
+        $level = $this->getEntityManager()->getRepository(Level::class)->findOneBy(['label' => $label] );
+
+        if (!$level instanceof Level) {
+            throw new LevelNotFoundException();
+        }
+
+        return $level;
     }
 
     /**

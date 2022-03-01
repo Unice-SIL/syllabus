@@ -22,10 +22,12 @@ class LevelFixture extends Fixture  implements FixtureGroupInterface
 
     public function load(ObjectManager $manager)
     {
+        $level = new Level();
+        $level->setLabel(self::LEVEL_L1);
+        $this->addReference(self::LEVEL_L1, $level);
+        $manager->persist($level);
+
         $levels = [
-            [
-                'label' => self::LEVEL_L1
-            ],
             [
                 'label' => self::LEVEL_L2
             ],
@@ -37,7 +39,6 @@ class LevelFixture extends Fixture  implements FixtureGroupInterface
         foreach ($levels as $l) {
 
             $level = new Level();
-
             $level->setLabel($l['label']);
             $manager->persist($level);
         }

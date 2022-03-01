@@ -4,10 +4,11 @@
 namespace Tests\Syllabus\Controller\CourseInfo;
 
 
+use App\Syllabus\Entity\CourseInfo;
 use App\Syllabus\Entity\CourseSection;
 use App\Syllabus\Exception\CourseNotFoundException;
 use App\Syllabus\Exception\CourseSectionNotFoundException;
-use Doctrine\Common\Collections\ArrayCollection;
+use App\Syllabus\Fixture\UserFixture;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -16,6 +17,26 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ActivitiesControllerTest extends AbstractCourseInfoControllerTest
 {
+
+    /**
+     * @var CourseInfo
+     */
+    private $course;
+
+    /**
+     * @var CourseSection
+     */
+    private $section;
+
+    /**
+     * @throws CourseNotFoundException
+     */
+    protected function setUp(): void
+    {
+        $this->course = $this->getCourseInfo();
+        $this->section = $this->getCourseSection();
+    }
+
     /**
      * @throws CourseNotFoundException
      */
@@ -67,6 +88,27 @@ class ActivitiesControllerTest extends AbstractCourseInfoControllerTest
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
     }
 
+    public function testEditAchievementUserNotAuthenticated()
+    {
+        $this->client()->request(
+            'GET',
+            $this->generateUrl(self::ROUTE_APP_ACTIVITIES_ADD_SECTION, ['id' => $this->course->getId()])
+        );
+        $this->assertRedirectToLogin();
+    }
+
+    /**
+     * @throws UserNotFoundException
+     */
+    public function testAddSectionForbidden()
+    {
+        $this->login(UserFixture::USER_3);
+        $this->client()->request(
+            'GET',
+            $this->generateUrl(self::ROUTE_APP_ACTIVITIES_ADD_SECTION, ['id' => $this->course->getId()])
+        );
+        $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
+    }
     /**
      * @dataProvider addSectionSuccessfulProvider
      * @param array $data
@@ -149,6 +191,39 @@ class ActivitiesControllerTest extends AbstractCourseInfoControllerTest
     }
 
     /**
+     * @throws CourseSectionNotFoundException
+     */
+    public function testDuplicateSectionUserNotAuthenticated()
+    {
+        $this->client()->request(
+            'GET',
+            $this->generateUrl(self::ROUTE_APP_ACTIVITIES_DUPLICATE_SECTION, [
+                'id' => $this->course->getId(),
+                'sectionId' => $this->section->getId()
+            ])
+        );
+        $this->assertRedirectToLogin();
+    }
+
+    /**
+     * @throws CourseSectionNotFoundException
+     * @throws \App\Syllabus\Exception\UserNotFoundException
+     */
+    public function testADuplicateSectionForbidden()
+    {
+        $this->login(UserFixture::USER_3);
+        $this->client()->request(
+            'GET',
+            $this->generateUrl(self::ROUTE_APP_ACTIVITIES_DUPLICATE_SECTION,
+                [
+                    'id' => $this->course->getId(),
+                    'sectionId' => $this->section->getId()
+                ])
+        );
+        $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
+    }
+
+    /**
      * @throws CourseNotFoundException
      * @throws CourseSectionNotFoundException
      */
@@ -157,12 +232,11 @@ class ActivitiesControllerTest extends AbstractCourseInfoControllerTest
         $em = $this->getEntityManager();
         $this->login();
         $course = $this->getCourseInfo();
-        $section = $this->getCourseSection();
 
         $this->client()->request(
             'GET',
             $this->generateUrl(self::ROUTE_APP_ACTIVITIES_DUPLICATE_SECTION,
-                ['id' => $course->getId(), 'sectionId' => $section->getId()])
+                ['id' => $course->getId(), 'sectionId' => $this->section->getId()])
         );
 
         $data['_token'] = $this->getCsrfToken('duplicate_section');
@@ -170,22 +244,22 @@ class ActivitiesControllerTest extends AbstractCourseInfoControllerTest
         $this->client()->request(
             'POST',
             $this->generateUrl(self::ROUTE_APP_ACTIVITIES_DUPLICATE_SECTION,
-                ['id' => $course->getId(), 'sectionId' => $section->getId()]),
+                ['id' => $course->getId(), 'sectionId' => $this->section->getId()]),
             ['duplicate_course_section' => $data]
         );
 
-        $duplicateSection = $em->getRepository(CourseSection::class)->findOneBy(['position' => $section->getPosition() + 1]);
+        $duplicateSection = $em->getRepository(CourseSection::class)->findOneBy(['position' => $this->section->getPosition() + 1]);
         $this->assertInstanceOf(CourseSection::class, $duplicateSection);
 
         // second duplication
         $this->client()->request(
             'POST',
             $this->generateUrl(self::ROUTE_APP_ACTIVITIES_DUPLICATE_SECTION,
-                ['id' => $course->getId(), 'sectionId' => $section->getId()]),
+                ['id' => $course->getId(), 'sectionId' => $this->section->getId()]),
             ['duplicate_course_section' => $data]
         );
 
-        $duplicateSection2 = $em->getRepository(CourseSection::class)->findOneBy(['position' => $section->getPosition() + 2]);
+        $duplicateSection2 = $em->getRepository(CourseSection::class)->findOneBy(['position' => $this->section->getPosition() + 2]);
         $this->assertInstanceOf(CourseSection::class, $duplicateSection2);
     }
 
@@ -198,12 +272,11 @@ class ActivitiesControllerTest extends AbstractCourseInfoControllerTest
         $em = $this->getEntityManager();
         $this->login();
         $course = $this->getCourseInfo();
-        $section = $this->getCourseSection();
 
         $this->client()->request(
             'GET',
             $this->generateUrl(self::ROUTE_APP_ACTIVITIES_DUPLICATE_SECTION,
-                ['id' => $course->getId(), 'sectionId' => $section->getId()])
+                ['id' => $course->getId(), 'sectionId' => $this->section->getId()])
         );
 
         $data['_token'] = $this->getCsrfToken('fake');
@@ -211,13 +284,36 @@ class ActivitiesControllerTest extends AbstractCourseInfoControllerTest
         $this->client()->request(
             'POST',
             $this->generateUrl(self::ROUTE_APP_ACTIVITIES_DUPLICATE_SECTION,
-                ['id' => $course->getId(), 'sectionId' => $section->getId()]),
+                ['id' => $course->getId(), 'sectionId' => $this->section->getId()]),
             ['duplicate_course_section' => $data]
         );
 
-        $duplicateSection = $em->getRepository(CourseSection::class)->findOneBy(['position' => $section->getPosition() + 1]);
+        $duplicateSection = $em->getRepository(CourseSection::class)->findOneBy(['position' => $this->section->getPosition() + 1]);
 
         $this->assertNull($duplicateSection);
+    }
+
+    public function testSortSectionUserNotAuthenticated()
+    {
+        $this->client()->request(
+            'GET',
+            $this->generateUrl(self::ROUTE_APP_ACTIVITIES_ADD_SECTION, ['id' => $this->course->getId()])
+        );
+        $this->assertRedirectToLogin();
+    }
+
+    /**
+     * @throws UserNotFoundException
+     */
+    public function testSortSectionForbidden()
+    {
+        $this->login(UserFixture::USER_3);
+        $this->client()->request(
+            'GET',
+            $this->generateUrl(self::ROUTE_APP_ACTIVITIES_DUPLICATE_SECTION,
+                ['id' => $this->course->getId(), 'sectionId' => $this->getCourseSection()->getId()])
+        );
+        $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
     }
 
     /**
@@ -231,13 +327,12 @@ class ActivitiesControllerTest extends AbstractCourseInfoControllerTest
         $this->login();
         $course = $this->getCourseInfo();
 
-        $section = $this->getCourseSection();
-        $course->addCourseSection($section);
+        $course->addCourseSection($this->section);
 
         $this->client()->request(
             'GET',
             $this->generateUrl(self::ROUTE_APP_ACTIVITIES_DUPLICATE_SECTION,
-                ['id' => $course->getId(), 'sectionId' => $section->getId()])
+                ['id' => $this->course->getId(), 'sectionId' => $this->section->getId()])
         );
 
         $data['_token'] = $this->getCsrfToken('duplicate_section');
@@ -245,17 +340,17 @@ class ActivitiesControllerTest extends AbstractCourseInfoControllerTest
         $this->client()->request(
             'POST',
             $this->generateUrl(self::ROUTE_APP_ACTIVITIES_DUPLICATE_SECTION,
-                ['id' => $course->getId(), 'sectionId' => $section->getId()]),
+                ['id' => $course->getId(), 'sectionId' => $this->section->getId()]),
             ['duplicate_course_section' => $data]
         );
 
         /** @var CourseSection $duplicateSection */
-        $duplicateSection = $em->getRepository(CourseSection::class)->findOneBy(['position' => $section->getPosition() + 1]);
+        $duplicateSection = $em->getRepository(CourseSection::class)->findOneBy(['position' => $this->section->getPosition() + 1]);
 
         $this->assertInstanceOf(CourseSection::class, $duplicateSection);
 
         // Before sorting
-        self::assertEquals($section->getPosition(),0);
+        self::assertEquals($this->section->getPosition(),0);
         self::assertEquals($duplicateSection->getPosition(),1);
 
         $this->client()->request(
@@ -267,12 +362,12 @@ class ActivitiesControllerTest extends AbstractCourseInfoControllerTest
             ['data' =>
                 [
                     $duplicateSection->getId(),
-                    $section->getId()
+                    $this->section->getId()
                 ]
             ]
         );
         // After sorting
         self::assertEquals($duplicateSection->getPosition(),1);
-        self::assertEquals($section->getPosition(),0);
+        self::assertEquals($this->section->getPosition(),0);
     }
 }

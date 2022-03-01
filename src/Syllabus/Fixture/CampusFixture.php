@@ -18,10 +18,14 @@ class CampusFixture extends Fixture  implements FixtureGroupInterface
 
     public function load(ObjectManager $manager)
     {
+
+        $campus = new Campus();
+
+        $campus->setLabel(self::CAMPUS_1);
+        $this->addReference(self::CAMPUS_1, $campus);
+        $manager->persist($campus);
+
         $campuses = [
-            [
-                'label' => self::CAMPUS_1
-            ],
             [
                 'label' => self::CAMPUS_2
             ],

@@ -5,6 +5,7 @@ namespace App\Syllabus\Fixture;
 use App\Syllabus\Entity\CourseInfo;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Ramsey\Uuid\Uuid;
@@ -27,6 +28,21 @@ class CourseInfoFixture extends Fixture implements DependentFixtureInterface,  F
      */
     public function load(ObjectManager $manager)
     {
+        $demains = new ArrayCollection();
+        $demains->add($this->getReference(DomainFixture::DOMAIN_1));
+
+        $periods = new ArrayCollection();
+        $periods->add($this->getReference(PeriodFixture::PERIOD_1));
+
+        $levels = new ArrayCollection();
+        $levels->add($this->getReference(LevelFixture::LEVEL_L1));
+
+        $campus = new ArrayCollection();
+        $campus->add($this->getReference(CampusFixture::CAMPUS_1));
+
+        $languages = new ArrayCollection();
+        $languages->add($this->getReference(LanguageFixture::LANGUAGE_FR));
+
         // Course info 1
         $courseInfo = new CourseInfo();
         $courseInfo->setId('00000000-aaaa-bbbb-cccc-dddddddddddd')
@@ -46,7 +62,14 @@ class CourseInfoFixture extends Fixture implements DependentFixtureInterface,  F
             ->setMccCtDurationSession1('1h')
             ->setMccCtCoeffSession2(100)
             ->setMccCtDurationSession2('1h')
-            ->setCreationDate(new \DateTime());
+            ->setCreationDate(new \DateTime())
+            ->setLanguages($languages)
+            ->setLevels($levels)
+            ->setCampuses($campus)
+            ->setPeriods($periods)
+            ->setDomains($demains)
+            ->setSummary('Mon résumé')
+        ;
         $this->addReference(self::COURSE_INFO_1, $courseInfo);
         $manager->persist($courseInfo);
 
@@ -89,7 +112,12 @@ class CourseInfoFixture extends Fixture implements DependentFixtureInterface,  F
         return [
             CourseFixture::class,
             StructureFixture::class,
-            YearFixture::class
+            YearFixture::class,
+            LevelFixture::class,
+            CampusFixture::class,
+            LanguageFixture::class,
+            PeriodFixture::class,
+            DomainFixture::class
         ];
     }
 
