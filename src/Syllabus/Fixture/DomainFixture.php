@@ -17,6 +17,12 @@ class DomainFixture extends Fixture  implements FixtureGroupInterface
 
     public function load(ObjectManager $manager)
     {
+
+        $demain = new Domain();
+        $demain->setLabel(self::DOMAIN_1);
+        $this->addReference(self::DOMAIN_1, $demain);
+        $manager->persist($demain);
+
         $domains = [
             [
                 'label' => self::DOMAIN_1
