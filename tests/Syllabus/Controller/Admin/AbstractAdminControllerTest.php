@@ -259,26 +259,6 @@ abstract class AbstractAdminControllerTest extends WebTestCase
     }
 
     /**
-     * @return Level
-     * @throws LevelNotFoundException
-     */
-    public function getLevel()
-    {
-        $level = null;
-        if (!$level instanceof Level)
-        {
-            $level = current($this->getEntityManager()->getRepository(Level::class)->findAll());
-        }
-
-        if (!$level instanceof Level)
-        {
-            throw new LevelNotFoundException();
-        }
-
-        return $level;
-    }
-
-    /**
      * @return Period|object
      * @throws PeriodNotFoundException
      */
