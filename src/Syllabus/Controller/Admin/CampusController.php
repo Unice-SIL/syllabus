@@ -51,7 +51,6 @@ class CampusController extends AbstractController
         $form = $this->createForm(CampusFilterType::class);
 
         if ($request->query->has($form->getName())) {
-
             $form->submit($request->query->get($form->getName()));
 
             $filterBuilderUpdater->addFilterConditions($form, $qb);
