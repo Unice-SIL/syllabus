@@ -161,7 +161,6 @@ class InfoControllerTest extends AbstractCourseInfoControllerTest
     public function testInfoEditSuccessfulWihPermission()
     {
         $this->tryWithPermission(self::ROUTE_APP_INFO_EDIT, Permission::WRITE);
-        $this->login();
         $data = [
             'agenda' => 'Mon agenda',
             '_token' => $this->getCsrfToken('info')

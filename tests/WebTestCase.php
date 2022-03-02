@@ -153,6 +153,8 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     public const ROUTE_APP_ACTIVITIES_SORT_SECTION = 'app.course_info.activities.sections.sort';
 
     public const ROUTE_APP_CLOSING_REMARKS_INDEX = 'app.course_info.closing_remarks.index';
+    public const ROUTE_APP_CLOSING_REMARKS_CLOSING_REMARKS = 'app.course_info.closing_remarks.closing_remarks';
+    public const ROUTE_APP_CLOSING_REMARKS_CLOSING_REMARKS_EDIT = 'app.course_info.closing_remarks.closing_remarks.edit';
 
     public const ROUTE_APP_COURSE_PERMISSION_INDEX = 'app.course_info.permission.index';
 
