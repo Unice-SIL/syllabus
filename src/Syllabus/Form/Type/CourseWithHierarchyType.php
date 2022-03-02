@@ -32,7 +32,7 @@ class CourseWithHierarchyType extends AbstractType
             ->add('code', null, [
                 'attr' => [
                     'class' => 'autocomplete-input',
-                    'data-autocomplete-path' => $this->generator->generate('app_admin_course_autocomplete', ['field' => 'code'])
+                    'data-autocomplete-path' => $this->generator->generate('app.admin.course.autocomplete', ['field' => 'code'])
                 ]
             ])
             /*

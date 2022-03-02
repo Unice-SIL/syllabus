@@ -35,6 +35,7 @@ class LanguageControllerTest extends AbstractAdminControllerTest
     /**
      * @dataProvider languageListWithMissingRoleProvider
      * @param array $data
+     * @throws UserNotFoundException
      */
     public function testLanguageListWithMissingRole(array $data)
     {
