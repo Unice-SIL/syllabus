@@ -60,6 +60,19 @@ class ActivityModeControllerTest extends AbstractAdminControllerTest
         ];
     }
 
+    /**
+     * @throws ActivityModeNotFoundException
+     */
+    public function testLanguageFilter()
+    {
+        $this->tryWithAdminPermission(self::ROUTE_ADMIN_ACTIVITY_MODE_LIST, [
+            'activity_mode_filter' => [
+                'label' => $this->getActivityMode()->getLabel()
+            ]
+        ]);
+        $this->assertResponseIsSuccessful();
+    }
+
     /*
      *  New Activity Mode
      */
