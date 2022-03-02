@@ -27,19 +27,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class UserController extends AbstractController
 {
-
-    private $em;
-
-    /**
-     * UserController constructor.
-     * @param EntityManagerInterface $entityManager
-     */
-    public function __construct(EntityManagerInterface $entityManager)
-    {
-        $this->em = $entityManager;
-    }
-
-
     /**
      * Lists all user entities.
      *
@@ -101,7 +88,7 @@ class UserController extends AbstractController
             $userManager->create($user);
             $this->addFlash('success', $translator->trans('admin.user.flashbag.new'));
 
-            return $this->redirectToRoute('app.admin.user.edit', ['id' => $user->getId()]);
+            return $this->redirectToRoute('app.admin.user.index');
         }
 
         return $this->render('user/new.html.twig', ['form' => $form->createView()]);
@@ -145,7 +132,7 @@ class UserController extends AbstractController
      * @param TranslatorInterface $translator
      * @return RedirectResponse
      */
-    public function sendPasswordToken(User $user, UserManager $userManager, MailHelper $mailer, TranslatorInterface $translator)
+    public function sendPasswordToken(User $user, UserManager $userManager, MailHelper $mailer, TranslatorInterface $translator): RedirectResponse
     {
         $token = $userManager->setResetPasswordToken($user, ['flush' => true]);
 

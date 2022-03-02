@@ -5,6 +5,7 @@ namespace Tests\Syllabus\Controller\Admin;
 
 use App\Syllabus\Entity\Language;
 use App\Syllabus\Exception\LanguageNotFoundException;
+use App\Syllabus\Exception\UserNotFoundException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -252,6 +253,7 @@ class LanguageControllerTest extends AbstractAdminControllerTest
     /**
      * @dataProvider editLanguageSuccessfulProvider
      * @param array $data
+     * @throws UserNotFoundException
      */
     public function testEditLanguageSuccessful(array $data)
     {

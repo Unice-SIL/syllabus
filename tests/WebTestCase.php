@@ -123,6 +123,9 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     public const ROUTE_ADMIN_SYLLABUS_LIST = 'app.admin.syllabus.index';
 
     public const ROUTE_ADMIN_USER_LIST = 'app.admin.user.index';
+    public const ROUTE_ADMIN_USER_NEW = 'app.admin.user.new';
+    public const ROUTE_ADMIN_USER_EDIT = 'app.admin.user.edit';
+    public const ROUTE_ADMIN_USER_SEND_PASSWORD = 'app.admin.user.send_password_token';
 
     public const ROUTE_ADMIN_YEAR_LIST = 'app.admin.year.index';
     public const ROUTE_ADMIN_YEAR_NEW = 'app.admin.year.new';
