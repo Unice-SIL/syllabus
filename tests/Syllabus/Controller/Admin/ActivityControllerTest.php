@@ -64,6 +64,20 @@ class ActivityControllerTest extends AbstractAdminControllerTest
         ];
     }
 
+    /**
+     * @throws ActivityNotFoundException
+     */
+    public function testLanguageFilter()
+    {
+        $this->tryWithAdminPermission(self::ROUTE_ADMIN_ACTIVITY_LIST, [
+            'activity_filter' => [
+                'label' => $this->getActivity()->getLabel(),
+                'activityTypes' => $this->getActivity()->getActivityTypes()->current()->getLabel()
+            ]
+        ]);
+        $this->assertResponseIsSuccessful();
+    }
+
     /*
      *  New Activity
      */
