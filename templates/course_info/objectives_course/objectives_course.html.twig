@@ -28,7 +28,7 @@
 
 <!--
         <div id="card-critical_achievement" class="card my-2 shadow card-syllabus"
-             data-view-url="{{ path('app.course_info.objectives.critical_achievements', {'id': courseInfo.id }) }}"
+             data-view-url="{#{{ path('app.course_info.objectives.critical_achievements', {'id': courseInfo.id }) }}#}"
         >
 
             <div class="card-header">
@@ -37,7 +37,7 @@
                     <button type="button"
                             class="btn btn-primary rounded modal-action"
                             data-action-title="Ajouter un apprentissage critique"
-                            data-action-url="{{ path('app.course_info.objectives.critical_achievement.add', {'id': courseInfo.id }) }}">
+                            data-action-url="{#{{ path('app.course_info.objectives.critical_achievement.add', {'id': courseInfo.id }) }}#}">
                         Ajouter un apprentissage critique
                     </button>
                 </div>
