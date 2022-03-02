@@ -83,6 +83,7 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     public const ROUTE_ADMIN_CRITICAL_ACHIEVEMENT_NEW = 'app.admin.critical_achievement.new';
     public const ROUTE_ADMIN_CRITICAL_ACHIEVEMENT_EDIT = 'app.admin.critical_achievement.edit';
 
+
     public const ROUTE_ADMIN_DASHBOARD = 'app.admin.dashboard.index';
     public const ROUTE_ADMIN_DOMAIN_LIST = 'app.admin.domain.index';
     public const ROUTE_ADMIN_DOMAIN_NEW = 'app.admin.domain.new';
@@ -195,7 +196,9 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     public const ROUTE_APP_LEARNING_ACHIEVEMENT_DELETE = 'app.course_info.equipment.delete';
 
     public const ROUTE_APP_OBJECTIVES_INDEX = 'app.course_info.objectives.index';
+    public const ROUTE_APP_OBJECTIVES_ACHIEVEMENT = 'app.course_info.objectives.achievements';
     public const ROUTE_APP_OBJECTIVES_ADD_ACHIEVEMENT = 'app.course_info.objectives.achievement.add';
+    public const ROUTE_APP_OBJECTIVES_SORT_ACHIEVEMENT = 'app.course_info.objectives.sort_achievements';
 
     public const ROUTE_APP_PRESENTATION_INDEX = 'app.course_info.presentation.index';
 

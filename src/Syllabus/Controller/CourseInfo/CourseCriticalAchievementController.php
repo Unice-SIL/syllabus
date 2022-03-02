@@ -37,7 +37,7 @@ class CourseCriticalAchievementController extends AbstractController
      * @param Environment $twig
      * @return JsonResponse
      */
-    public function editCriticalAchievementAction(CourseCriticalAchievement        $courseCriticalAchievement,
+    /*public function editCriticalAchievementAction(CourseCriticalAchievement        $courseCriticalAchievement,
                                                   Request                          $request,
                                                   CourseCriticalAchievementManager $courseCriticalAchievementManager,
                                                   Environment                      $twig
@@ -63,7 +63,7 @@ class CourseCriticalAchievementController extends AbstractController
             'content' => $render
         ]);
     }
-
+     */
     /**
      * @Route("/delete", name="delete"))
      *
@@ -73,7 +73,7 @@ class CourseCriticalAchievementController extends AbstractController
      * @param Environment $twig
      * @return JsonResponse
      */
-    public function deleteCriticalAchievementAction(CourseCriticalAchievement        $courseCriticalAchievement,
+/*    public function deleteCriticalAchievementAction(CourseCriticalAchievement        $courseCriticalAchievement,
                                                     Request                          $request,
                                                     CourseCriticalAchievementManager $courseCriticalAchievementManager,
                                                     Environment                      $twig
@@ -96,7 +96,7 @@ class CourseCriticalAchievementController extends AbstractController
             'content' => $render
         ]);
     }
-
+*/
     /**
      * @Route("/learning-achievement/add", name="learning_achievement.add"))
      *
@@ -106,7 +106,7 @@ class CourseCriticalAchievementController extends AbstractController
      * @param EntityManagerInterface $em
      * @return Response
      */
-    public function addLearningAchievementAction(CourseCriticalAchievement $courseCriticalAchievement,
+  /*  public function addLearningAchievementAction(CourseCriticalAchievement $courseCriticalAchievement,
                                                  Request                   $request,
                                                  Environment               $twig,
                                                  EntityManagerInterface    $em
@@ -131,5 +131,5 @@ class CourseCriticalAchievementController extends AbstractController
             'status' => true,
             'content' => $render
         ]);
-    }
+    }*/
 }
