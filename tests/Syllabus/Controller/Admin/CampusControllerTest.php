@@ -68,7 +68,7 @@ class CampusControllerTest extends AbstractAdminControllerTest
     public function testGroupsFilter()
     {
         $this->tryWithAdminPermission(self::ROUTE_ADMIN_CAMPUS_LIST, [
-            'groups_filter' => [
+            'campus_filter' => [
                 'label' => $this->getCampus()->getLabel()
             ]
         ]);
