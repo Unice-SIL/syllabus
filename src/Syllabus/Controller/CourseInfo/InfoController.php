@@ -12,7 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Environment;
 
 /**
  * Class InfoController
@@ -41,22 +41,15 @@ class InfoController extends AbstractController
      *
      * @param CourseInfo $courseInfo
      * @param Request $request
-     * @param TranslatorInterface $translator
+     * @param Environment $twig
      * @return Response
      */
-    public function infoCourseViewAction(CourseInfo $courseInfo, Request $request, TranslatorInterface $translator)
+    public function infoCourseViewAction(CourseInfo $courseInfo, Request $request, Environment $twig)
     {
-        if (!$courseInfo instanceof CourseInfo) {
-            return $this->json([
-                'status' => false,
-                'content' => $translator->trans('app.controller.error.empty_course')
-            ]);
-        }
-
         $form = $this->createForm(InfoType::class, $courseInfo);
         $form->handleRequest($request);
 
-        $render = $this->get('twig')->render('course_info/info/view/info.html.twig', [
+        $render = $twig->render('course_info/info/view/info.html.twig', [
             'courseInfo' => $courseInfo,
             'form' => $form->createView()
         ]);
@@ -71,18 +64,24 @@ class InfoController extends AbstractController
      *
      * @param CourseInfo $courseInfo
      * @param Request $request
+     * @param Environment $twig
      * @param CourseInfoManager $manager
      * @return Response
      * @throws \Exception
      */
-    public function closingRemarksFormAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
+    public function closingRemarksFormAction(
+        CourseInfo $courseInfo,
+        Request $request,
+        CourseInfoManager $manager,
+        Environment $twig
+    )
     {
         $form = $this->createForm(InfoType::class, $courseInfo);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $manager->update($courseInfo);
-            $render = $this->get('twig')->render('course_info/info/view/info.html.twig', [
+            $render = $twig->render('course_info/info/view/info.html.twig', [
                 'courseInfo' => $courseInfo
             ]);
             return $this->json([
