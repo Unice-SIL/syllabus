@@ -5,6 +5,7 @@ namespace Tests\Syllabus\Controller\Admin;
 
 use App\Syllabus\Entity\Campus;
 use App\Syllabus\Exception\CampusNotFoundException;
+use App\Syllabus\Exception\UserNotFoundException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -34,6 +35,7 @@ class CampusControllerTest extends AbstractAdminControllerTest
     /**
      * @dataProvider campusListWithMissingRoleProvider
      * @param array $data
+     * @throws UserNotFoundException
      */
     public function testCampusListWithMissingRole(array $data)
     {
@@ -58,6 +60,19 @@ class CampusControllerTest extends AbstractAdminControllerTest
             [['ROLE_USER']],
             [['ROLE_USER', 'ROLE_ADMIN_CAMPUS_LIST']],
         ];
+    }
+
+    /**
+     * @throws CampusNotFoundException
+     */
+    public function testGroupsFilter()
+    {
+        $this->tryWithAdminPermission(self::ROUTE_ADMIN_CAMPUS_LIST, [
+            'groups_filter' => [
+                'label' => $this->getCampus()->getLabel()
+            ]
+        ]);
+        $this->assertResponseIsSuccessful();
     }
 
     /*
