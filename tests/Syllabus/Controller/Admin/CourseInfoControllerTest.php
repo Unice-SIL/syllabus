@@ -4,6 +4,7 @@
 namespace Tests\Syllabus\Controller\Admin;
 
 use App\Syllabus\Constant\UserRole;
+use App\Syllabus\Entity\Course;
 use App\Syllabus\Entity\CourseInfo;
 use App\Syllabus\Exception\CourseNotFoundException;
 use App\Syllabus\Exception\StructureNotFoundException;
@@ -209,5 +210,96 @@ class CourseInfoControllerTest extends AbstractAdminControllerTest
                 ]
             ]
         ];
+    }
+
+    /**
+     * @dataProvider autocompleteProvider
+     * @param array $field
+     * @param string $query
+     * @throws UserNotFoundException
+     */
+    public function testAutocomplete(array $field, string $query)
+    {
+        $responseData = $this->getAutocompleteJson(
+            $this->generateUrl(self::ROUTE_ADMIN_COURSE_INFO_AUTOCOMPLETE, $field),
+            ['query' => $query]
+        );
+        $this->assertEquals($query, current($responseData));
+    }
+
+    /**
+     * @return array[]
+     * @throws CourseNotFoundException
+     */
+    public function autocompleteProvider(): array
+    {
+        return [
+            [
+                ['field' => 'c.code'],
+                $this->getCourseInfo()->getCourse()->getCode()
+            ],
+            [
+                ['field' => 'ci.title'],
+                $this->getCourseInfo()->getTitle()
+            ],
+            [
+                ['field' => 'c.type'],
+                $this->getCourseInfo()->getCourse()->getType()
+            ],
+            [
+                ['field' => 'y.label'],
+                $this->getCourseInfo()->getYear()->getLabel()
+            ],
+            [
+                ['field' => 's.label'],
+                $this->getCourseInfo()->getStructure()->getLabel()
+            ],
+        ];
+    }
+
+    /**
+     * @throws CourseNotFoundException
+     * @throws UserNotFoundException
+     */
+    public function testAutocompleteS2()
+    {
+        $course = $this->getCourseInfo()->getCourse();
+        $courseInfo = $this->getCourseInfo();
+        $responseData = $this->getAutocompleteJson(
+            $this->generateUrl(self::ROUTE_ADMIN_COURSE_INFO_AUTOCOMPLETES2),
+            ['q' => $course->getCode()]
+        );
+        $this->assertEquals($courseInfo->getId(), current($responseData)['id']);
+    }
+
+    /**
+     * @throws CourseNotFoundException
+     * @throws UserNotFoundException
+     */
+    public function testAutocompleteS2ReturnFalse()
+    {
+        $course = $this->getCourseInfo()->getCourse();
+        $courseInfo = $this->getCourseInfo();
+        $responseData = $this->getAutocompleteJson(
+            $this->generateUrl(self::ROUTE_ADMIN_COURSE_INFO_AUTOCOMPLETES2),
+            [
+                'q' => $course->getCode(),
+                'fromCodeYear' => $courseInfo->getCodeYear(true)
+            ]
+        );
+        $this->assertFalse(current($responseData));
+    }
+
+    /**
+     * @throws UserNotFoundException
+     */
+    public function testAutocompleteS3()
+    {
+        $courses = $this->getEntityManager()->getRepository(Course::class)->findAll();
+        $responseData = $this->getAutocompleteJson(
+            $this->generateUrl(self::ROUTE_ADMIN_COURSE_INFO_AUTOCOMPLETES3),
+            []
+        );
+        $this->assertSameSize($courses, $responseData);
     }
 }

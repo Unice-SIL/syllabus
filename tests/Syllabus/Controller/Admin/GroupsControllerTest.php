@@ -338,4 +338,18 @@ class GroupsControllerTest extends AbstractAdminControllerTest
         $this->expectException(GroupsNotFoundException::class);
         $this->getGroupsUser();
     }
+
+    /**
+     * @throws GroupsNotFoundException
+     * @throws UserNotFoundException
+     */
+    public function testAutocompleteS2()
+    {
+        $groups = $this->getGroupsUser();
+        $responseData = $this->getAutocompleteJson(
+            $this->generateUrl(self::ROUTE_ADMIN_GROUPS_AUTOCOMPLETE, ['field' => 'label']),
+            ['query' => $groups->getLabel()]
+        );
+        $this->assertEquals($groups->getLabel(), current($responseData));
+    }
 }

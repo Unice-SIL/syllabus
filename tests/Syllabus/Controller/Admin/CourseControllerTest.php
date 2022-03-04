@@ -577,4 +577,61 @@ class CourseControllerTest extends AbstractAdminControllerTest
         ];
     }
 
+    /**
+     * @throws CourseNotFoundException
+     * @throws UserNotFoundException
+     */
+    public function testAutocomplete()
+    {
+        $course = $this->getCourseInfo()->getCourse();
+        $responseData = $this->getAutocompleteJson(
+            $this->generateUrl(self::ROUTE_ADMIN_COURSE_AUTOCOMPLETE, ['field' => 'code']),
+            ['query' => $course->getCode()]
+        );
+        $this->assertEquals($course->getCode(), current($responseData));
+    }
+
+    /**
+     * @throws CourseNotFoundException
+     * @throws UserNotFoundException
+     */
+    public function testAutocompleteS2()
+    {
+        $course = $this->getCourseInfo()->getCourse();
+        $responseData = $this->getAutocompleteJson(
+            $this->generateUrl(self::ROUTE_ADMIN_COURSE_AUTOCOMPLETES2),
+            ['q' => $course->getCode()]
+        );
+        $this->assertEquals($course->getId(), current($responseData)['id']);
+    }
+
+    /**
+     * @throws CourseNotFoundException
+     * @throws UserNotFoundException
+     */
+    public function testAutocompleteS2ReturnFalse()
+    {
+        $course = $this->getCourseInfo()->getCourse();
+        $responseData = $this->getAutocompleteJson(
+            $this->generateUrl(self::ROUTE_ADMIN_COURSE_AUTOCOMPLETES2),
+            [
+                'q' => $course->getCode(),
+                'code' => $course->getCode()
+            ]
+        );
+        $this->assertFalse(current($responseData));
+    }
+
+    /**
+     * @throws UserNotFoundException
+     */
+    public function testAutocompleteS3()
+    {
+        $courses = $this->getEntityManager()->getRepository(CourseInfo::class)->findAll();
+        $responseData = $this->getAutocompleteJson(
+            $this->generateUrl(self::ROUTE_ADMIN_COURSE_AUTOCOMPLETES3),
+            []
+        );
+        $this->assertSameSize($courses, $responseData);
+    }
 }

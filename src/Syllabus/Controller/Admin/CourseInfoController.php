@@ -2,11 +2,11 @@
 
 namespace App\Syllabus\Controller\Admin;
 
-use App\Syllabus\Entity\Course;
 use App\Syllabus\Entity\CourseInfo;
 use App\Syllabus\Entity\Year;
 use App\Syllabus\Form\CourseInfoType;
 use App\Syllabus\Manager\StatisticSyllabusManager;
+use App\Syllabus\Repository\Doctrine\CourseDoctrineRepository;
 use App\Syllabus\Repository\Doctrine\CourseInfoDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -94,7 +94,7 @@ class CourseInfoController extends AbstractController
      * @return Response
      */
     public function beingFilled(Year $year, Request $request,StatisticSyllabusManager $statisticSyllabusManager,
-                              PaginatorInterface $paginator)
+                                PaginatorInterface $paginator)
     {
         $pagination = $paginator->paginate(
             $statisticSyllabusManager->findSyllabusBeingFilled($year->getId()),
@@ -176,9 +176,9 @@ class CourseInfoController extends AbstractController
      *
      * @return JsonResponse
      */
-    public function autocompleteS3()
+    public function autocompleteS3(CourseDoctrineRepository $courseDoctrineRepository)
     {
-        $results = $this->getDoctrine()->getRepository(Course::class)->findAll();
+        $results = $courseDoctrineRepository->findAll();
         $courses = [];
         foreach($results as $course)
         {
