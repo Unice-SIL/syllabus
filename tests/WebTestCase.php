@@ -164,6 +164,7 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     public const ROUTE_APP_CLOSING_REMARKS_CLOSING_REMARKS_EDIT = 'app.course_info.closing_remarks.closing_remarks.edit';
 
     public const ROUTE_APP_COURSE_PERMISSION_INDEX = 'app.course_info.permission.index';
+    public const ROUTE_APP_COURSE_PERMISSION_DELETE = 'app.course_info.permission.delete';
 
     public const ROUTE_APP_COURSE_PREREQUISITE_PREREQUISITES = 'app.course_info.prerequisite.prerequisites';
     public const ROUTE_APP_COURSE_PREREQUISITE_TUTORING_RESSOURCES_VIEW = 'app.course_info.prerequisite.tutoring_resources';
