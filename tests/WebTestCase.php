@@ -3,13 +3,17 @@
 
 namespace Tests;
 
+use App\Syllabus\Entity\Campus;
 use App\Syllabus\Entity\CourseInfo;
 use App\Syllabus\Entity\Level;
 use App\Syllabus\Entity\User;
+use App\Syllabus\Exception\CampusNotFoundException;
 use App\Syllabus\Exception\CourseNotFoundException;
 use App\Syllabus\Exception\LevelNotFoundException;
 use App\Syllabus\Exception\UserNotFoundException;
+use App\Syllabus\Fixture\CampusFixture;
 use App\Syllabus\Fixture\CourseFixture;
+use App\Syllabus\Fixture\LanguageFixture;
 use App\Syllabus\Fixture\LevelFixture;
 use App\Syllabus\Fixture\UserFixture;
 use App\Syllabus\Fixture\YearFixture;
@@ -201,6 +205,13 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     public const ROUTE_APP_OBJECTIVES_SORT_ACHIEVEMENT = 'app.course_info.objectives.sort_achievements';
 
     public const ROUTE_APP_PRESENTATION_INDEX = 'app.course_info.presentation.index';
+    public const ROUTE_APP_PRESENTATION_GENERALE = 'app.course_info.presentation.general';
+    public const ROUTE_APP_PRESENTATION_GENERALE_EDIT = 'app.course_info.presentation.general.edit';
+    public const ROUTE_APP_PRESENTATION_GENERALE_COVERAGE = 'app.course_info.presentation.general.coverage';
+    public const ROUTE_APP_PRESENTATION_TEACHERS = 'app.course_info.presentation.teachers';
+    public const ROUTE_APP_PRESENTATION_TEACHERS_ADD = 'app.course_info.presentation.teachers.add';
+    public const ROUTE_APP_PRESENTATION_TEACHING_MODE = 'app.course_info.presentation.teaching_mode';
+    public const ROUTE_APP_PRESENTATION_TEACHING_MODE_EDIT = 'app.course_info.presentation.teaching_mode.edit';
 
     public const ROUTE_APP_RESOURCE_EQUIPMENT_INDEX = 'app.course_info.resource_equipment.index';
 
@@ -220,6 +231,9 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     public const COURSE_ALLOWED_YEAR = YearFixture::YEAR_2018;
     public const COURSE_NOT_ALLOWED_CODE = CourseFixture::COURSE_3;
     public const COURSE_NOT_ALLOWED_YEAR = YearFixture::YEAR_2018;
+
+    public const CAMPUS_VALROSE = CampusFixture::CAMPUS_1;
+    public const LANGUE_FR = LanguageFixture::LANGUAGE_FR;
 
     public const COURSE_LEVEL = LevelFixture::LEVEL_L1;
 
@@ -301,6 +315,22 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
         }
 
         return $course;
+    }
+
+    /**
+     * @param string $label
+     * @return Campus
+     * @throws CampusNotFoundException
+     */
+    public function getCampus(string $label = self::CAMPUS_VALROSE): Campus
+    {
+        $campus = $this->getEntityManager()->getRepository(Campus::class)->findOneBy(['label'=>$label]);
+
+        if (!$campus instanceof Campus) {
+            throw new CampusNotFoundException();
+        }
+
+        return $campus;
     }
 
     /**
