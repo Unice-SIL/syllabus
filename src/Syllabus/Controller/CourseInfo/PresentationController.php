@@ -45,7 +45,6 @@ class PresentationController extends AbstractController
      * @Route("/general", name="general"))
      *
      * @param CourseInfo|null $courseInfo
-     * @param TranslatorInterface $translator
      * @return Response
      */
     public function generalViewAction(?CourseInfo $courseInfo, Environment $twig)
@@ -65,7 +64,7 @@ class PresentationController extends AbstractController
      * @param CourseInfo $courseInfo
      * @param Request $request
      * @param CourseInfoManager $manager
-     * @param Environment $twig )
+     * @param Environment $twig
      * @return Response
      */
     public function generalFormAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager, Environment $twig)
@@ -131,8 +130,12 @@ class PresentationController extends AbstractController
      * @return Response
      * @throws \Exception
      */
-    public function addTeachersAction(CourseInfo                 $courseInfo, Request $request, CourseTeacherManager $courseTeacherManager,
-                                      ImportCourseTeacherFactory $factory, Environment $twig)
+    public function addTeachersAction(CourseInfo                 $courseInfo,
+                                      Request                    $request,
+                                      CourseTeacherManager       $courseTeacherManager,
+                                      ImportCourseTeacherFactory $factory,
+                                      Environment                $twig
+    )
     {
         $status = true;
         $message = null;
@@ -142,7 +145,12 @@ class PresentationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
+
+              foreach($form->getErrors(true) as $error){
+/*                  dd($error->getMessage());*/
+              }
             if ($form->isValid()) {
+
                 /** @var CourseTeacher $data */
                 $data = $form->getData();
                 $login = $form->get('login')->getData();
