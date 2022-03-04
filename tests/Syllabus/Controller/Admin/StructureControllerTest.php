@@ -60,6 +60,20 @@ class StructureControllerTest extends AbstractAdminControllerTest
         ];
     }
 
+    /**
+     * @throws StructureNotFoundException
+     */
+    public function testStructureFilter()
+    {
+        $this->tryWithAdminPermission(self::ROUTE_ADMIN_STRUCTURE_LIST, [
+            'structure_filter' => [
+                'label' => $this->getStructure()->getLabel(),
+                'code' => $this->getStructure()->getCode()
+            ]
+        ]);
+        $this->assertResponseIsSuccessful();
+    }
+
     /*
      *  New Structure
      */

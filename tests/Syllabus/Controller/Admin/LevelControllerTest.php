@@ -63,6 +63,19 @@ class LevelControllerTest extends AbstractAdminControllerTest
         ];
     }
 
+    /**
+     * @throws LevelNotFoundException
+     */
+    public function testLevelFilter()
+    {
+        $this->tryWithAdminPermission(self::ROUTE_ADMIN_LEVEL_LIST, [
+            'level_filter' => [
+                'label' => $this->getLevel()->getLabel()
+            ]
+        ]);
+        $this->assertResponseIsSuccessful();
+    }
+
     /*
      *  New Level
      */

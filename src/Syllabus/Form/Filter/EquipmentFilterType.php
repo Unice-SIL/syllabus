@@ -54,7 +54,7 @@ class EquipmentFilterType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'activity_filter';
+        return 'equipment_filter';
     }
 
     /**
