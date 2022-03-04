@@ -325,4 +325,18 @@ class CampusControllerTest extends AbstractAdminControllerTest
             [['label' => null], '[label]']
         ];
     }
+
+    /**
+     * @throws CampusNotFoundException
+     * @throws UserNotFoundException
+     */
+    public function testAutocompleteS2()
+    {
+        $campus = $this->getCampus();
+        $responseData = $this->getAutocompleteJson(
+            $this->generateUrl(self::ROUTE_ADMIN_CAMPUS_AUTOCOMPLETE),
+            ['c' => $campus->getLabel()]
+        );
+        $this->assertEquals($campus->getId(), current($responseData)['id']);
+    }
 }

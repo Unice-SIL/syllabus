@@ -29,6 +29,7 @@ use App\Syllabus\Exception\LanguageNotFoundException;
 use App\Syllabus\Exception\LevelNotFoundException;
 use App\Syllabus\Exception\PeriodNotFoundException;
 use App\Syllabus\Exception\StructureNotFoundException;
+use App\Syllabus\Exception\UserNotFoundException;
 use App\Syllabus\Exception\YearNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 use Tests\WebTestCase;
@@ -296,5 +297,24 @@ abstract class AbstractAdminControllerTest extends WebTestCase
         }
 
         return $structure;
+    }
+
+    /**
+     * @param $url
+     * @param array $query
+     * @return mixed
+     * @throws UserNotFoundException
+     */
+    public function getAutocompleteJson($url, array $query)
+    {
+        $this->login();
+        $this->client()->request(
+            Request::METHOD_GET,
+            $url,
+            $query
+        );
+        $response = $this->client()->getResponse();
+        $this->assertResponseIsSuccessful();
+        return json_decode($response->getContent(), true);
     }
 }

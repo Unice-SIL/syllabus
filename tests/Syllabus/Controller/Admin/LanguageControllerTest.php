@@ -325,4 +325,18 @@ class LanguageControllerTest extends AbstractAdminControllerTest
             [['label' => null], '[label]']
         ];
     }
+
+    /**
+     * @throws LanguageNotFoundException
+     * @throws UserNotFoundException
+     */
+    public function testAutocompleteS2()
+    {
+        $language = $this->getLanguage();
+        $responseData = $this->getAutocompleteJson(
+            $this->generateUrl(self::ROUTE_ADMIN_LANGUAGE_AUTOCOMPLETE),
+            ['q' => $language->getLabel()]
+        );
+        $this->assertEquals($language->getId(), current($responseData)['id']);
+    }
 }

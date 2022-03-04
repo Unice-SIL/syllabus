@@ -4,8 +4,10 @@
 namespace Tests;
 
 use App\Syllabus\Entity\CourseInfo;
+use App\Syllabus\Entity\CourseInfoField;
 use App\Syllabus\Entity\Level;
 use App\Syllabus\Entity\User;
+use App\Syllabus\Exception\CourseInfoFieldNotFoundException;
 use App\Syllabus\Exception\CourseNotFoundException;
 use App\Syllabus\Exception\LevelNotFoundException;
 use App\Syllabus\Exception\UserNotFoundException;
@@ -66,18 +68,26 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     public const ROUTE_ADMIN_CAMPUS_LIST = 'app.admin.campus.index';
     public const ROUTE_ADMIN_CAMPUS_NEW = 'app.admin.campus.new';
     public const ROUTE_ADMIN_CAMPUS_EDIT = 'app.admin.campus.edit';
+    public const ROUTE_ADMIN_CAMPUS_AUTOCOMPLETE = 'app.admin.campus.autocompleteS2';
 
     public const ROUTE_ADMIN_COURSE_LIST = 'app.admin.course.index';
     public const ROUTE_ADMIN_COURSE_NEW = 'app.admin.course.new';
     public const ROUTE_ADMIN_COURSE_NEW_COURSE_INFO = 'app.admin.course.new_course_info';
     public const ROUTE_ADMIN_COURSE_EDIT = 'app.admin.course.edit';
     public const ROUTE_ADMIN_COURSE_SHOW = 'app.admin.course.show';
+    public const ROUTE_ADMIN_COURSE_AUTOCOMPLETE = 'app.admin.course.autocomplete';
+    public const ROUTE_ADMIN_COURSE_AUTOCOMPLETES2 = 'app.admin.course.autocompleteS2';
+    public const ROUTE_ADMIN_COURSE_AUTOCOMPLETES3 = 'app.admin.course.autocompleteS3';
 
     public const ROUTE_ADMIN_COURSE_INFO_EDIT = 'app.admin.course_info.edit';
     public const ROUTE_ADMIN_COURSE_INFO_BEING_FILLED = 'app.admin.course_info.being_filled';
     public const ROUTE_ADMIN_COURSE_INFO_PUBLISHED = 'app.admin.course_info.published';
+    public const ROUTE_ADMIN_COURSE_INFO_AUTOCOMPLETE = 'app.admin.course_info.autocomplete';
+    public const ROUTE_ADMIN_COURSE_INFO_AUTOCOMPLETES2 = 'app.admin.course_info.autocompleteS2';
+    public const ROUTE_ADMIN_COURSE_INFO_AUTOCOMPLETES3 = 'app.admin.course_info.autocompleteS3';
 
     public const ROUTE_ADMIN_COURSE_INFO_FIELD_LIST = 'app.admin.course_info_field.index';
+    public const ROUTE_ADMIN_COURSE_INFO_FIELD_EDIT = 'app.admin.course_info_field.edit';
 
     public const ROUTE_ADMIN_CRITICAL_ACHIEVEMENT_LIST = 'app.admin.critical_achievement.index';
     public const ROUTE_ADMIN_CRITICAL_ACHIEVEMENT_NEW = 'app.admin.critical_achievement.new';
@@ -97,6 +107,7 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     public const ROUTE_ADMIN_GROUPS_NEW = 'app.admin.groups.new';
     public const ROUTE_ADMIN_GROUPS_EDIT = 'app.admin.groups.edit';
     public const ROUTE_ADMIN_GROUPS_DELETE = 'app.admin.groups.delete';
+    public const ROUTE_ADMIN_GROUPS_AUTOCOMPLETE = 'app.admin.groups.autocomplete';
 
     public const ROUTE_ADMIN_IMPORT_COURSE_INFO = 'app.admin.import_csv.course_info';
     public const ROUTE_ADMIN_IMPORT_PERMISSION = 'app.admin.import_csv.permission';
@@ -108,10 +119,12 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     public const ROUTE_ADMIN_LANGUAGE_LIST = 'app.admin.language.index';
     public const ROUTE_ADMIN_LANGUAGE_NEW = 'app.admin.language.new';
     public const ROUTE_ADMIN_LANGUAGE_EDIT = 'app.admin.language.edit';
+    public const ROUTE_ADMIN_LANGUAGE_AUTOCOMPLETE = 'app.admin.language.autocompleteS2';
 
     public const ROUTE_ADMIN_LEVEL_LIST = 'app.admin.level.index';
     public const ROUTE_ADMIN_LEVEL_NEW = 'app.admin.level.new';
     public const ROUTE_ADMIN_LEVEL_EDIT = 'app.admin.level.edit';
+    public const ROUTE_ADMIN_LEVEL_AUTOCOMPLETE = 'app.admin.level.autocomplete';
 
     public const ROUTE_ADMIN_NOTIFICATION_LIST = 'app.admin.notification.index';
 
@@ -122,6 +135,7 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     public const ROUTE_ADMIN_STRUCTURE_LIST = 'app.admin.structure.index';
     public const ROUTE_ADMIN_STRUCTURE_NEW = 'app.admin.structure.new';
     public const ROUTE_ADMIN_STRUCTURE_EDIT = 'app.admin.structure.edit';
+    public const ROUTE_ADMIN_STRUCTURE_AUTOCOMPLETE = 'app.admin.structure.autocompleteS2';
 
     public const ROUTE_ADMIN_SYLLABUS_LIST = 'app.admin.syllabus.index';
 
@@ -133,6 +147,7 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     public const ROUTE_ADMIN_YEAR_LIST = 'app.admin.year.index';
     public const ROUTE_ADMIN_YEAR_NEW = 'app.admin.year.new';
     public const ROUTE_ADMIN_YEAR_EDIT = 'app.admin.year.edit';
+    public const ROUTE_ADMIN_YEAR_AUTOCOMPLETE = 'app.admin.year.autocompleteS2';
 
     /*
      *  Course Info
@@ -301,6 +316,27 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
         }
 
         return $course;
+    }
+
+    /**
+     * @param string|null $label
+     * @return CourseInfoField
+     * @throws CourseInfoFieldNotFoundException
+     */
+    public function getCourseInfoField(string $label = null): CourseInfoField
+    {
+        if (!$label) {
+            $courseInfoField = current($this->getEntityManager()->getRepository(CourseInfoField::class)->findAll());
+        }
+        else {
+            $courseInfoField = $this->getEntityManager()->getRepository(CourseInfoField::class)->findOneBy(['label' => $label] );
+        }
+
+        if (!$courseInfoField instanceof CourseInfoField) {
+            throw new CourseInfoFieldNotFoundException();
+        }
+
+        return $courseInfoField;
     }
 
     /**
