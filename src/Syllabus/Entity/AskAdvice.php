@@ -35,8 +35,7 @@ class AskAdvice
      *
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="App\Syllabus\Doctrine\IdGenerator")
+     * @ORM\GeneratedValue(strategy="UUID")
      */
     private $id;
 
@@ -55,14 +54,16 @@ class AskAdvice
     /**
      * @var User
      *
-     * @ORM\Column(name="user", type="object", options={"fixed"=true})
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
 
     /**
      * @var CourseInfo
      *
-     * @ORM\Column(name="course_info", type="object", options={"fixed"=true})
+     * @ORM\ManyToOne(targetEntity="CourseInfo")
+     * @ORM\JoinColumn(name="course_info_id", referencedColumnName="id")
      */
     private $courseInfo;
 
