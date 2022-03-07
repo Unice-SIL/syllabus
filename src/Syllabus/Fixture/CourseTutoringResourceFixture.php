@@ -2,48 +2,39 @@
 
 namespace App\Syllabus\Fixture;
 
-use App\Syllabus\Entity\CourseAchievement;
 use App\Syllabus\Entity\CourseTutoringResource;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Persistence\ObjectManager;
-use Ramsey\Uuid\Uuid;
 
-/**
- * Class CourseAchievementFixture
- * @package App\Syllabus\Fixture
- */
-class CourseTutoringResourceFixture extends Fixture implements DependentFixtureInterface,  FixtureGroupInterface
+class CourseTutoringResourceFixture extends AbstractFixture implements DependentFixtureInterface, FixtureGroupInterface
 {
-    /**
-     *
-     */
-    const COURSE_TUTORING_RESOURCE_1 = 'courseTutoringResource1';
-
+    const COURSE_TUTORING_RESOURCE_1 = 'Tutoring resource n°1';
 
     /**
-     * @param ObjectManager $manager
+     * @return array
      */
-    public function load(ObjectManager $manager)
+    protected function getDataEntities(): array
     {
-        // CourseSection 1
-        $courseTutoringResource = new CourseTutoringResource();
-        $courseTutoringResource->setId(Uuid::uuid4())
-            ->setCourseInfo($this->getReference(CourseInfoFixture::COURSE_INFO_1))
-            ->setDescription('Tutoring resource n°1');
+        return [
+            self::COURSE_TUTORING_RESOURCE_1 => [
+                'description' => self::COURSE_TUTORING_RESOURCE_1,
+                '@courseInfo' => CourseInfoFixture::COURSE_INFO_1
+            ]
+        ];
+    }
 
-        $this->addReference(self::COURSE_TUTORING_RESOURCE_1, $courseTutoringResource);
-
-        // Save
-        $manager->persist($courseTutoringResource);
-        $manager->flush();
+    /**
+     * @return string
+     */
+    protected function getEntityClassName(): string
+    {
+        return CourseTutoringResource::class;
     }
 
     /**
      * @return array
      */
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
             CourseInfoFixture::class,

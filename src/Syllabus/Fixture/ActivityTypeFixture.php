@@ -2,75 +2,84 @@
 
 namespace App\Syllabus\Fixture;
 
-
 use App\Syllabus\Entity\ActivityType;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
-use Doctrine\Persistence\ObjectManager;
-use Ramsey\Uuid\Uuid;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
-class ActivityTypeFixture extends Fixture implements FixtureGroupInterface
+class ActivityTypeFixture extends AbstractFixture implements FixtureGroupInterface, DependentFixtureInterface
 {
-    /**
-     *
-     */
     const ACTIVITY_TYPE_DISTANT = 'Distant';
     const ACTIVITY_TYPE_AUTONOMY = 'Autonomy';
     const ACTIVITY_TYPE_CLASS = 'Class';
 
-    public function load(ObjectManager $manager)
+    /**
+     * @return array
+     */
+    protected function getDataEntities(): array
     {
-        $activityType = new ActivityType();
-        $activityType
-            ->setLabel(self::ACTIVITY_TYPE_DISTANT)
-            ->addActivity($this->getReference(ActivityFixture::ACTIVITY_1))
-            ->addActivity($this->getReference(ActivityFixture::ACTIVITY_2))
-            ->addActivity($this->getReference(ActivityFixture::ACTIVITY_4))
-            ->addActivity($this->getReference(ActivityFixture::ACTIVITY_5))
-            ->addActivityMode($this->getReference(ActivityModeFixture::ACTIVITY_MODE_1))
-            ->addActivityMode($this->getReference(ActivityModeFixture::ACTIVITY_MODE_2))
-            ->setObsolete(false);
-        $this->addReference(self::ACTIVITY_TYPE_CLASS, $activityType);
-        $manager->persist($activityType);
-
-        $activityType = new ActivityType();
-        $activityType
-            ->setLabel(self::ACTIVITY_TYPE_AUTONOMY)
-            ->addActivity($this->getReference(ActivityFixture::ACTIVITY_1))
-            ->addActivity($this->getReference(ActivityFixture::ACTIVITY_2))
-            ->addActivity($this->getReference(ActivityFixture::ACTIVITY_3))
-            ->addActivity($this->getReference(ActivityFixture::ACTIVITY_4))
-            ->addActivity($this->getReference(ActivityFixture::ACTIVITY_5))
-            ->addActivity($this->getReference(ActivityFixture::ACTIVITY_6))
-            ->addActivity($this->getReference(ActivityFixture::ACTIVITY_7))
-            ->addActivityMode($this->getReference(ActivityModeFixture::ACTIVITY_MODE_1))
-            ->setObsolete(false);
-        $this->addReference(self::ACTIVITY_TYPE_DISTANT, $activityType);
-        $manager->persist($activityType);
-
-        $activityType = new ActivityType();
-        $activityType
-            ->setLabel(self::ACTIVITY_TYPE_CLASS)
-            ->addActivity($this->getReference(ActivityFixture::ACTIVITY_2))
-            ->addActivity($this->getReference(ActivityFixture::ACTIVITY_3))
-            ->addActivity($this->getReference(ActivityFixture::ACTIVITY_4))
-            ->addActivity($this->getReference(ActivityFixture::ACTIVITY_7))
-            ->addActivityMode($this->getReference(ActivityModeFixture::ACTIVITY_MODE_2))
-            ->setObsolete(false);
-        $this->addReference(self::ACTIVITY_TYPE_AUTONOMY, $activityType);
-        $manager->persist($activityType);
-
-        $manager->flush();
+        return [
+            self::ACTIVITY_TYPE_DISTANT => [
+                'label' => self::ACTIVITY_TYPE_DISTANT,
+                '@activities' => [
+                    ActivityFixture::ACTIVITY_1,
+                    ActivityFixture::ACTIVITY_2,
+                    ActivityFixture::ACTIVITY_4,
+                    ActivityFixture::ACTIVITY_5
+                ],
+                '@activityModes' => [
+                    ActivityModeFixture::ACTIVITY_MODE_1,
+                    ActivityModeFixture::ACTIVITY_MODE_2
+                ]
+            ],
+            self::ACTIVITY_TYPE_AUTONOMY => [
+                'label' => self::ACTIVITY_TYPE_AUTONOMY,
+                '@activities' => [
+                    ActivityFixture::ACTIVITY_1,
+                    ActivityFixture::ACTIVITY_2,
+                    ActivityFixture::ACTIVITY_3,
+                    ActivityFixture::ACTIVITY_4,
+                    ActivityFixture::ACTIVITY_5,
+                    ActivityFixture::ACTIVITY_6
+                ],
+                '@activityModes' => [
+                    ActivityModeFixture::ACTIVITY_MODE_1
+                ]
+            ],
+            self::ACTIVITY_TYPE_CLASS => [
+                'label' => self::ACTIVITY_TYPE_CLASS,
+                '@activities' => [
+                    ActivityFixture::ACTIVITY_2,
+                    ActivityFixture::ACTIVITY_3,
+                    ActivityFixture::ACTIVITY_4,
+                ],
+                '@activityModes' => [
+                    ActivityModeFixture::ACTIVITY_MODE_2
+                ]
+            ]
+        ];
     }
 
     /**
-     * This method must return an array of groups
-     * on which the implementing class belongs to
-     *
+     * @return string
+     */
+    protected function getEntityClassName(): string
+    {
+        return ActivityType::class;
+    }
+
+    /**
      * @return string[]
      */
     public static function getGroups(): array
     {
         return ['prod', 'test'];
+    }
+
+    public function getDependencies()
+    {
+        return [
+            ActivityFixture::class,
+            ActivityModeFixture::class
+        ];
     }
 }

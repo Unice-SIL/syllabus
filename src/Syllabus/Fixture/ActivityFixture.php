@@ -14,16 +14,13 @@ use Ramsey\Uuid\Uuid;
  */
 class ActivityFixture extends Fixture implements FixtureGroupInterface
 {
-    /**
-     *
-     */
-    const ACTIVITY_1 = 'activity1';
-    const ACTIVITY_2 = 'activity2';
-    const ACTIVITY_3 = 'activity3';
-    const ACTIVITY_4 = 'activity4';
-    const ACTIVITY_5 = 'activity5';
-    const ACTIVITY_6 = 'activity6';
-    const ACTIVITY_7 = 'activity7';
+    const ACTIVITY_1 = 'Cours Magistral';
+    const ACTIVITY_2 = 'Étude d\'un document (texte, vidéo…)';
+    const ACTIVITY_3 = 'Discussion / réflexion';
+    const ACTIVITY_4 = 'Cours en ligne';
+    const ACTIVITY_5 = 'Étude d\'un document (texte, vidéo, cours en ligne…)';
+    const ACTIVITY_6 = 'Test d\'auto-évaluation';
+    const ACTIVITY_7 = 'Mise en situation';
 
 
     /**
@@ -39,11 +36,8 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
         // Cours Magistral
         $activity = new Activity();
         $activity->setId(Uuid::uuid4())
-            ->setLabel("Cours Magistral")
+            ->setLabel(self::ACTIVITY_1)
             ->setLabelVisibility(true)
-            
-            
-            
             ->setPosition(0)
             ->setObsolete(false);
         $this->addReference(self::ACTIVITY_1, $activity);
@@ -59,9 +53,6 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
         $activity->setId(Uuid::uuid4())
             ->setLabel("Débat")
             ->setLabelVisibility(true)
-            
-            
-            
             ->setPosition(0)
             ->setObsolete(false);
         $manager->persist($activity);
@@ -71,9 +62,6 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
         $activity->setId(Uuid::uuid4())
             ->setLabel("Démonstration ")
             ->setLabelVisibility(true)
-            
-            
-            
             ->setPosition(0)
             ->setObsolete(false);
         $manager->persist($activity);
@@ -83,9 +71,6 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
         $activity->setId(Uuid::uuid4())
             ->setLabel("Discussion / réflexion")
             ->setLabelVisibility(true)
-            
-            
-            
             ->setPosition(0)
             ->setObsolete(false);
         $manager->persist($activity);
@@ -93,11 +78,8 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
         // Étude d'un document (texte, vidéo, cours en ligne…)
         $activity = new Activity();
         $activity->setId(Uuid::uuid4())
-            ->setLabel("Étude d'un document (texte, vidéo…)")
+            ->setLabel(self::ACTIVITY_2)
             ->setLabelVisibility(true)
-            
-            
-            
             ->setPosition(0)
             ->setObsolete(false);
         $this->addReference(self::ACTIVITY_2, $activity);
@@ -108,9 +90,6 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
         $activity->setId(Uuid::uuid4())
             ->setLabel("Étude de cas")
             ->setLabelVisibility(true)
-            
-            
-            
             ->setPosition(0)
             ->setObsolete(false);
         $manager->persist($activity);
@@ -120,9 +99,6 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
         $activity->setId(Uuid::uuid4())
             ->setLabel("Exercices")
             ->setLabelVisibility(true)
-            
-            
-            
             ->setPosition(0)
             ->setObsolete(false);
         $manager->persist($activity);
@@ -132,9 +108,6 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
         $activity->setId(Uuid::uuid4())
             ->setLabel("Jeu de rôle")
             ->setLabelVisibility(true)
-            
-            
-            
             ->setPosition(0)
             ->setObsolete(false);
         $manager->persist($activity);
@@ -313,10 +286,9 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
         // Discussion / Réflexion
         $activity = new Activity();
         $activity->setId(Uuid::uuid4())
-            ->setLabel("Discussion / réflexion")
+            ->setLabel(self::ACTIVITY_3)
             ->setLabelVisibility(true)
-            
-            
+
             ->setPosition(0)
             ->setObsolete(false);
         $this->addReference(self::ACTIVITY_3, $activity);
@@ -506,11 +478,8 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
         // Cours en ligne
         $activity = new Activity();
         $activity->setId(Uuid::uuid4())
-            ->setLabel("Cours en ligne")
+            ->setLabel(self::ACTIVITY_4)
             ->setLabelVisibility(true)
-            
-            
-            
             ->setPosition(0)
             ->setObsolete(false);
         $this->addReference(self::ACTIVITY_4, $activity);
@@ -524,11 +493,8 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
         // Étude d'un document (texte, vidéo, cours en ligne…)
         $activity = new Activity();
         $activity->setId(Uuid::uuid4())
-            ->setLabel("Étude d'un document (texte, vidéo, cours en ligne…)")
+            ->setLabel(self::ACTIVITY_5)
             ->setLabelVisibility(true)
-            
-            
-            
             ->setPosition(0)
             ->setObsolete(false);
         $this->addReference(self::ACTIVITY_5, $activity);
@@ -785,9 +751,6 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
         $activity->setId(Uuid::uuid4())
             ->setLabel("Production multimédia (vidéo, affiche, poster, blog, wiki, prototype, portfolio…)")
             ->setLabelVisibility(true)
-            
-            
-            
             ->setPosition(0)
             ->setObsolete(false);
         $manager->persist($activity);
@@ -807,11 +770,8 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
         // Test d'auto-évaluation
         $activity = new Activity();
         $activity->setId(Uuid::uuid4())
-            ->setLabel("Test d'auto-évaluation")
+            ->setLabel(self::ACTIVITY_6)
             ->setLabelVisibility(true)
-            
-            
-            
             ->setPosition(0)
             ->setObsolete(false);
         $this->addReference(self::ACTIVITY_6, $activity);
@@ -822,9 +782,6 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
         $activity->setId(Uuid::uuid4())
             ->setLabel("Jeu sérieux")
             ->setLabelVisibility(true)
-            
-            
-            
             ->setPosition(0)
             ->setObsolete(false);
         $manager->persist($activity);
@@ -965,10 +922,8 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
         // Mise en situation
         $activity = new Activity();
         $activity->setId(Uuid::uuid4())
-            ->setLabel("Mise en situation")
+            ->setLabel(self::ACTIVITY_7)
             ->setLabelVisibility(true)
-            
-            
             ->setPosition(0)
             ->setObsolete(false);
         $this->addReference(self::ACTIVITY_7, $activity);
