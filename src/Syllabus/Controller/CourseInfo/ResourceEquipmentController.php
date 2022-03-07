@@ -21,6 +21,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 /**
  * Class ResourceEquipmentController
@@ -51,6 +54,9 @@ class ResourceEquipmentController extends AbstractController
      * @param Environment $twig
      * @param EntityManagerInterface $em
      * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function equipmentViewAction(CourseInfo $courseInfo, Environment $twig, EntityManagerInterface $em)
     {
