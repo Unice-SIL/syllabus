@@ -5,8 +5,10 @@ namespace Tests\Syllabus\Controller\CourseInfo;
 
 use App\Syllabus\Constant\Permission;
 use App\Syllabus\Entity\CourseInfo;
+use App\Syllabus\Entity\Equipment;
 use App\Syllabus\Exception\CourseNotFoundException;
 use App\Syllabus\Fixture\CourseFixture;
+use App\Syllabus\Fixture\UserFixture;
 use Symfony\Component\HttpFoundation\Response;
 
 class ResourceEquipmentControllerTest extends AbstractCourseInfoControllerTest
@@ -31,7 +33,7 @@ class ResourceEquipmentControllerTest extends AbstractCourseInfoControllerTest
 
     /**
      * @throws CourseNotFoundException
-     * @throws UserNotFoundException
+     * @throws \App\Syllabus\Exception\UserNotFoundException
      */
     public function testIndexForbidden()
     {
@@ -52,6 +54,15 @@ class ResourceEquipmentControllerTest extends AbstractCourseInfoControllerTest
     {
         $this->tryWithoutPermission(self::ROUTE_APP_RESOURCE_EQUIPMENT_INDEX);
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
+    }
+
+    /**
+     * @throws CourseNotFoundException
+     */
+    public function testResourceEquipmentRedirectWithAdminPermission()
+    {
+        $this->tryRedirectWithAdminPermission(self::ROUTE_APP_RESOURCE_EQUIPMENT_INDEX);
+        $this->assertResponseIsSuccessful();
     }
 
     // action equipmentView
@@ -78,19 +89,10 @@ class ResourceEquipmentControllerTest extends AbstractCourseInfoControllerTest
                 ]
             )
         );
-      //  $this->assertResponseIsSuccessful();
-     //   self::assertJson($this->client()->getResponse()->getContent());
+        $response = $this->client()->getResponse()->getContent();
+        self::assertJson($response);
+        self::assertEquals($this->course->getCourseResourceEquipments()->count(), 3);
     }
-
-    /**
-     * @throws CourseNotFoundException
-     */
-    public function testResourceEquipmentViewRedirectWithAdminPermission()
-    {
-        $this->tryRedirectWithAdminPermission(self::ROUTE_APP_RESOURCE_EQUIPMENT_EQUIPMENT_VIEW);
-        $this->assertResponseIsSuccessful();
-    }
-
 
     // action resourceEdit
     /**
@@ -157,8 +159,7 @@ class ResourceEquipmentControllerTest extends AbstractCourseInfoControllerTest
         $updatedRessource = $em->getRepository(CourseInfo::class)->findOneBy(['id' => $this->course->getId()]);
 
         $this->assertEquals($updatedRessource->getBibliographicResources(), $data['bibliographicResources']);
-        /*        $this->assertEquals($updatedRessource->getEducationalResources(), $data['educationalResource']);*/
-
+        // $this->assertEquals($updatedRessource->getEducationalResources(), $data['educationalResource']);
     }
 
     /**
@@ -185,14 +186,13 @@ class ResourceEquipmentControllerTest extends AbstractCourseInfoControllerTest
                 ['educationalResource' => null]
             ],
         ];
-
     }
 
     // resourceViewAction
     /**
      * @throws CourseNotFoundException
      */
-    public function testResourceViewAddUserNotAuthenticated()
+    public function testResourceViewUserNotAuthenticated()
     {
         $this->tryUserNotAuthenticated(self::ROUTE_APP_RESOURCE_EQUIPMENT_RESOURCE_VIEW);
         $this->assertResponseRedirects();
@@ -224,5 +224,72 @@ class ResourceEquipmentControllerTest extends AbstractCourseInfoControllerTest
     {
         $this->tryWithoutPermission(self::ROUTE_APP_RESOURCE_EQUIPMENT_RESOURCE_VIEW);
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
+    }
+
+    //addEquipementAction
+    public function testAddEquipmentForbidden()
+    {
+        $em = $this->getEntityManager();
+        $this->login(UserFixture::USER_2);
+        $equipments = $em->getRepository(Equipment::class)->findBy(['obsolete' => false], ['label' => 'ASC']);
+
+        $this->client()->request(
+            'GET',
+            $this->generateUrl(self::ROUTE_APP_RESOURCE_EQUIPMENT_RESOURCE_ADD, [
+                'id' => $this->getCourseInfo(self::COURSE_NOT_ALLOWED_CODE)->getId(),
+                'idEquipment' => $equipments[0]->getId()
+            ])
+        );
+        $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
+    }
+
+    /**
+     * @throws CourseNotFoundException
+     * @throws \App\Syllabus\Exception\CourseSectionNotFoundException
+     * @throws \App\Syllabus\Exception\UserNotFoundException
+     */
+    public function testAddEquipmentSuccessful()
+    {
+        $em = $this->getEntityManager();
+        $this->login();
+
+        $equipments = $em->getRepository(Equipment::class)->findBy(['obsolete' => false], ['label' => 'ASC']);
+
+        /** @var Equipment $equipment */
+        // Calculatrice non programmable
+        $equipment = $equipments[3];
+
+        self::assertEquals($this->course->getCourseResourceEquipments()->count(), 3);
+
+        $this->client()->request(
+            'GET',
+            $this->generateUrl(self::ROUTE_APP_RESOURCE_EQUIPMENT_RESOURCE_ADD, [
+                    'id' => $this->course->getId(),
+                    'idEquipment' => $equipment->getId()
+                ]
+            )
+        );
+        $token = $this->getCsrfToken('resource_equipment');
+
+        $this->client()->request(
+            'POST',
+            $this->generateUrl(self::ROUTE_APP_RESOURCE_EQUIPMENT_RESOURCE_ADD,
+                [
+                    'id' => $this->course->getId(),
+                    'idEquipment' => $equipment->getId()
+                ]
+            ),
+            [
+                'resource_equipment' => [
+                    "description" => "myDescription",
+                    "_token" => $token
+                ]
+            ]
+        );
+        $course = $em->getRepository(CourseInfo::class)->findOneBy(['id' => $this->course->getId()]);
+        self::assertEquals($course->getCourseResourceEquipments()->count(), 4);
+
+        $createdEquipment = $this->getEntityManager()->getRepository(Equipment::class)->findOneBy(['label' => $equipment->getLabel()]);
+        $this->assertNotNull($createdEquipment);
     }
 }
