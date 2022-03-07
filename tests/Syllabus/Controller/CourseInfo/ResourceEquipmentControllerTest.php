@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Tests\Syllabus\Controller\CourseInfo;
 
 
@@ -25,31 +24,41 @@ class ResourceEquipmentControllerTest extends AbstractCourseInfoControllerTest
 
     // action index
     /**
-     * @throws CourseNotFoundException
+     * @var CourseInfo
      */
-    public function testResourceEquipmentUserNotAuthenticated()
-    {
-        $this->tryUserNotAuthenticated(self::ROUTE_APP_RESOURCE_EQUIPMENT_INDEX);
-        $this->assertResponseRedirects();
-        $this->assertStringContainsString('/Shibboleth.sso', $this->client()->getResponse()->getContent());
-    }
+    private $course;
 
     /**
      * @throws CourseNotFoundException
      */
-    public function testResourceEquipmentRedirectWithAdminPermission()
+    protected function setUp(): void
     {
-        $this->tryRedirectWithAdminPermission(self::ROUTE_APP_RESOURCE_EQUIPMENT_INDEX);
-        $this->assertResponseIsSuccessful();
+        $this->course = $this->getCourseInfo();
+    }
+
+    public function testIndexUnauthorized()
+    {
+        $this->client()->request(
+            'GET',
+            $this->generateUrl(self::ROUTE_APP_RESOURCE_EQUIPMENT_INDEX, ['id' => $this->course->getId()])
+        );
+        $this->assertRedirectToLogin();
     }
 
     /**
      * @throws CourseNotFoundException
+     * @throws UserNotFoundException
      */
-    public function testResourceEquipmentWithPermission()
+    public function testIndexForbidden()
     {
-        $this->tryWithPermission(self::ROUTE_APP_RESOURCE_EQUIPMENT_INDEX, Permission::WRITE);
-        $this->assertResponseIsSuccessful();
+        $this->login(UserFixture::USER_2);
+        $this->client()->request(
+            'GET',
+            $this->generateUrl(self::ROUTE_APP_RESOURCE_EQUIPMENT_INDEX, [
+                'id' => $this->getCourseInfo(self::COURSE_NOT_ALLOWED_CODE)->getId()
+            ])
+        );
+        $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
     }
 
     /**
