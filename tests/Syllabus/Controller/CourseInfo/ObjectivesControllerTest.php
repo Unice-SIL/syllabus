@@ -238,21 +238,37 @@ class ObjectivesControllerTest extends AbstractCourseInfoControllerTest
     }
 
     public function testSortAchievementSuccessful(){
+
         $em = $this->getEntityManager();
         $this->login();
 
         /** @var CourseAchievement $achievement_1 */
         $achievement_1 = $this->course->getCourseAchievements()->first();
+        // position 0
+
+        /** @var CourseAchievement $achievement_2 */
+ /*       $achievement_2 = new CourseAchievement();
+        $achievement_2->setDescription('Achievement n°2');
+
+        $this->course->addCourseAchievement($achievement_2);
+
+        $em->flush();
+
+        dd($achievement_2->getPosition());
+        dd($this->course->getCourseAchievements()->first()->getPosition());*/
+
+
         /** @var CourseAchievement $achievement_2 */
         $achievement_2 = clone $achievement_1;
 
-        $achievement_2->setDescription('achievement_2')->setId(null)->setPosition(0);
+        $achievement_2->setDescription('achievement_2')->setId(null)->setPosition(1);
+        $this->course->addCourseAchievement($achievement_2);
 
         $em->persist($achievement_2);
         $em->flush();
 
-        self::assertEquals($achievement_1->getPosition(), 1);
-        self::assertEquals($achievement_2->getPosition(), 0);
+        self::assertEquals($achievement_1->getPosition(), 0);
+        self::assertEquals($achievement_2->getPosition(), 1);
 
         $this->client()->request(
             'POST',
