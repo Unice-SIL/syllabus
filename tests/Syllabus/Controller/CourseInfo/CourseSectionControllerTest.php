@@ -6,6 +6,8 @@ namespace Tests\Syllabus\Controller\CourseInfo;
 use App\Syllabus\Entity\CourseSection;
 use App\Syllabus\Entity\CourseSectionActivity;
 use App\Syllabus\Exception\CourseNotFoundException;
+use App\Syllabus\Exception\CourseSectionNotFoundException;
+use App\Syllabus\Exception\UserNotFoundException;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -175,8 +177,8 @@ class CourseSectionControllerTest extends AbstractCourseInfoControllerTest
 
     /**
      * @throws CourseNotFoundException
-     * @throws \App\Syllabus\Exception\CourseSectionNotFoundException
-     * @throws \App\Syllabus\Exception\UserNotFoundException
+     * @throws CourseSectionNotFoundException
+     * @throws UserNotFoundException
      */
     public function testAddCourseToSectionSuccessful()
     {
@@ -237,8 +239,7 @@ class CourseSectionControllerTest extends AbstractCourseInfoControllerTest
 
     /**
      * @throws CourseNotFoundException
-     * @throws \App\Syllabus\Exception\CourseSectionNotFoundException
-     * @throws \App\Syllabus\Exception\UserNotFoundException
+     * @throws CourseSectionNotFoundException|UserNotFoundException
      */
     public function testAddCourseToSectionFailed()
     {

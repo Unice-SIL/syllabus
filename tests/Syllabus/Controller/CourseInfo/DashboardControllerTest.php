@@ -8,8 +8,10 @@ use App\Syllabus\Entity\AskAdvice;
 use App\Syllabus\Entity\CourseInfoField;
 use App\Syllabus\Entity\Level;
 use App\Syllabus\Exception\CourseNotFoundException;
+use App\Syllabus\Exception\UserNotFoundException;
 use App\Syllabus\Fixture\CourseFixture;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\WebTestCase;
 
 /**
  * Class DashboardControllerTest
@@ -56,13 +58,13 @@ class DashboardControllerTest extends AbstractCourseInfoControllerTest
 
     /**
      * @throws CourseNotFoundException
-     * @throws \App\Syllabus\Exception\UserNotFoundException
+     * @throws UserNotFoundException
      */
     public function testDashboardSyllabusDuplicateSuccessful()
     {
         $from = 'SLUPB11__UNION__2018';
         $this->login();
-        $courseInfo = $this->getCourse();
+        $courseInfo = $this->getCourseInfo();
 
         $em = $this->getEntityManager();
 
@@ -93,7 +95,7 @@ class DashboardControllerTest extends AbstractCourseInfoControllerTest
             ['appbundle_duplicate_course_info' =>
                 [
                     'from' => $from,
-                    'to' => $this->getCourse(CourseFixture::COURSE_3)->getId()
+                    'to' => $this->getCourseInfo(CourseFixture::COURSE_3)->getId()
                 ]
             ]
         );
@@ -104,7 +106,7 @@ class DashboardControllerTest extends AbstractCourseInfoControllerTest
     public function testDashboardSyllabusDuplicateFailedWithFormNotValid()
     {
         $this->login();
-        $courseInfo = $this->getCourse();
+        $courseInfo = $this->getCourseInfo();
 
         $this->client()->request(
             'POST',
@@ -135,7 +137,7 @@ class DashboardControllerTest extends AbstractCourseInfoControllerTest
     {
         $from = 'SLUPB11__UNION__2018';
         $this->login();
-        $courseInfo = $this->getCourse();
+        $courseInfo = $this->getCourseInfo();
 
         $em = $this->getEntityManager();
 
@@ -166,7 +168,7 @@ class DashboardControllerTest extends AbstractCourseInfoControllerTest
             ['appbundle_duplicate_course_info' =>
                 [
                     'from' => $from,
-                    'to' => $this->getCourse(CourseFixture::COURSE_3)->getId()
+                    'to' => $this->getCourseInfo(CourseFixture::COURSE_3)->getId()
                 ]
             ]
         );
@@ -176,7 +178,7 @@ class DashboardControllerTest extends AbstractCourseInfoControllerTest
     public function testDashboardView()
     {
         $this->login();
-        $courseInfo = $this->getCourse();
+        $courseInfo = $this->getCourseInfo();
         $this->client()->request(
             'GET',
             $this->generateUrl(self::ROUTE_APP_COURSE_INFO_DASHBOARD_DASHBOARD,
@@ -191,7 +193,7 @@ class DashboardControllerTest extends AbstractCourseInfoControllerTest
     public function testDuplicateCourseInfoNextYear()
     {
         $this->login();
-        $courseInfo = $this->getCourse();
+        $courseInfo = $this->getCourseInfo();
         $this->client()->request(
             'POST',
             $this->generateUrl(self::ROUTE_APP_COURSE_INFO_DASHBOARD_PUBLISHE_NEXT_YEAR,
@@ -206,7 +208,7 @@ class DashboardControllerTest extends AbstractCourseInfoControllerTest
     public function testDashboardaskAdvice()
     {
         $this->login();
-        $courseInfo = $this->getCourse();
+        $courseInfo = $this->getCourseInfo();
         $this->client()->request(
             'GET',
             $this->generateUrl(self::ROUTE_APP_COURSE_INFO_DASHBOARD_ASK_ADVICE,
@@ -237,7 +239,7 @@ class DashboardControllerTest extends AbstractCourseInfoControllerTest
     public function testPublishCourseInfo()
     {
         $this->login();
-        $courseInfo = $this->getCourse(CourseFixture::COURSE_1);
+        $courseInfo = $this->getCourseInfo(CourseFixture::COURSE_1);
         $this->client()->request(
             'GET',
             $this->generateUrl(self::ROUTE_APP_COURSE_INFO_DASHBOARD_DASHBOARD,

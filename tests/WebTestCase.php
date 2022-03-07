@@ -3,20 +3,51 @@
 
 namespace Tests;
 
+use App\Syllabus\Entity\Activity;
+use App\Syllabus\Entity\ActivityMode;
+use App\Syllabus\Entity\ActivityType;
 use App\Syllabus\Entity\Campus;
 use App\Syllabus\Entity\CourseInfo;
 use App\Syllabus\Entity\CourseInfoField;
+use App\Syllabus\Entity\CriticalAchievement;
+use App\Syllabus\Entity\Domain;
+use App\Syllabus\Entity\Equipment;
+use App\Syllabus\Entity\Groups;
+use App\Syllabus\Entity\Language;
 use App\Syllabus\Entity\Level;
+use App\Syllabus\Entity\Period;
+use App\Syllabus\Entity\Structure;
 use App\Syllabus\Entity\User;
-use App\Syllabus\Exception\CourseInfoFieldNotFoundException;
+use App\Syllabus\Entity\Year;
+use App\Syllabus\Exception\ActivityModeNotFoundException;
+use App\Syllabus\Exception\ActivityNotFoundException;
+use App\Syllabus\Exception\ActivityTypeNotFoundException;
 use App\Syllabus\Exception\CampusNotFoundException;
+use App\Syllabus\Exception\CourseInfoFieldNotFoundException;
 use App\Syllabus\Exception\CourseNotFoundException;
+use App\Syllabus\Exception\CriticalAchievementNotFoundException;
+use App\Syllabus\Exception\DomainNotFoundException;
+use App\Syllabus\Exception\EquipmentNotFoundException;
+use App\Syllabus\Exception\GroupsNotFoundException;
+use App\Syllabus\Exception\LanguageNotFoundException;
 use App\Syllabus\Exception\LevelNotFoundException;
+use App\Syllabus\Exception\PeriodNotFoundException;
+use App\Syllabus\Exception\StructureNotFoundException;
 use App\Syllabus\Exception\UserNotFoundException;
+use App\Syllabus\Exception\YearNotFoundException;
+use App\Syllabus\Fixture\ActivityFixture;
+use App\Syllabus\Fixture\ActivityModeFixture;
+use App\Syllabus\Fixture\ActivityTypeFixture;
 use App\Syllabus\Fixture\CampusFixture;
 use App\Syllabus\Fixture\CourseFixture;
+use App\Syllabus\Fixture\CriticalAchievementFixture;
+use App\Syllabus\Fixture\DomainFixture;
+use App\Syllabus\Fixture\EquipmentFixture;
+use App\Syllabus\Fixture\GroupsFixture;
 use App\Syllabus\Fixture\LanguageFixture;
 use App\Syllabus\Fixture\LevelFixture;
+use App\Syllabus\Fixture\PeriodFixture;
+use App\Syllabus\Fixture\StructureFixture;
 use App\Syllabus\Fixture\UserFixture;
 use App\Syllabus\Fixture\YearFixture;
 use Doctrine\Persistence\ObjectManager;
@@ -25,12 +56,9 @@ use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\DomCrawler\Field\ChoiceFormField;
 use Symfony\Component\DomCrawler\Form;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
-use Symfony\Component\PropertyAccess\PropertyAccessor;
-use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
-use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
-use Symfony\Component\Security\Guard\Token\PostAuthenticationGuardToken;
 use Symfony\Component\Security\Http\Authenticator\Token\PostAuthenticationToken;
 
 /**
@@ -359,38 +387,6 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     }
 
     /**
-     * @param string $label
-     * @return Campus
-     * @throws CampusNotFoundException
-     */
-    public function getCampus(string $label = self::CAMPUS_VALROSE): Campus
-    {
-        $campus = $this->getEntityManager()->getRepository(Campus::class)->findOneBy(['label'=>$label]);
-
-        if (!$campus instanceof Campus) {
-            throw new CampusNotFoundException();
-        }
-
-        return $campus;
-    }
-
-    /**
-     * @param string $label
-     * @return Level
-     * @throws LevelNotFoundException
-     */
-    public function getLevel(string $label = self::COURSE_LEVEL): Level
-    {
-        $level = $this->getEntityManager()->getRepository(Level::class)->findOneBy(['label' => $label] );
-
-        if (!$level instanceof Level) {
-            throw new LevelNotFoundException();
-        }
-
-        return $level;
-    }
-
-    /**
      * @param string $username
      * @return User
      * @throws UserNotFoundException
@@ -497,6 +493,7 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     {
         $disableValidation = is_array($disableValidation) ? $disableValidation : [$disableValidation];
         if (in_array($field, $disableValidation)) {
+            //dump($field);
             $formField->disableValidation()->setValue(1);
         }
     }
@@ -559,9 +556,9 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     /**
      * @param Crawler $crawler
      * @param string $field
-     * @param string $tagName
+     * @param string|null $tagName
      */
-    public function assertInvalidFormField(Crawler $crawler, string $field, $tagName = "input")
+    public function assertInvalidFormField(Crawler $crawler, string $field, ?string $tagName = "input")
     {
         $this->assertEquals(1, $crawler->filter($tagName . '[name="' . $field . '"].is-invalid')->count());
     }
@@ -577,7 +574,7 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
      * @param $token
      * @return string
      */
-    protected function setCsrfToken($id, $token)
+    protected function setCsrfToken($id, $token): string
     {
         $session = $this->client()->getContainer()->get('session');
         $session->set('_csrf/' . $id, $token);
@@ -594,5 +591,232 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     {
         $session = $this->client()->getContainer()->get('session');
         return $session->get('_csrf/' . $tokenName);
+    }
+
+    /**
+     * @param string $label
+     * @return Activity
+     * @throws ActivityNotFoundException
+     */
+    public function getActivity(string $label = ActivityFixture::ACTIVITY_1): Activity
+    {
+        $activity = $this->getEntityManager()->getRepository(Activity::class)->findOneBy(['label'=>$label]);
+
+        if (!$activity instanceof Activity) {
+            throw new ActivityNotFoundException();
+        }
+
+        return $activity;
+    }
+
+    /**
+     * @param string $label
+     * @return ActivityMode
+     * @throws ActivityModeNotFoundException
+     */
+    public function getActivityMode(string $label = ActivityModeFixture::ACTIVITY_MODE_1): ActivityMode
+    {
+        $activityMode = $this->getEntityManager()->getRepository(ActivityMode::class)->findOneBy(['label'=>$label]);
+
+        if (!$activityMode instanceof ActivityMode) {
+            throw new ActivityModeNotFoundException();
+        }
+
+        return $activityMode;
+    }
+
+    /**
+     * @param string $label
+     * @return ActivityType
+     * @throws ActivityTypeNotFoundException
+     */
+    public function getActivityType(string $label = ActivityTypeFixture::ACTIVITY_TYPE_AUTONOMY): ActivityType
+    {
+        $activityType = $this->getEntityManager()->getRepository(ActivityType::class)->findOneBy(['label'=>$label]);
+
+        if (!$activityType instanceof ActivityType) {
+            throw new ActivityTypeNotFoundException();
+        }
+
+        return $activityType;
+    }
+
+    /**
+     * @param string $label
+     * @return Campus
+     * @throws CampusNotFoundException
+     */
+    public function getCampus(string $label = self::CAMPUS_VALROSE): Campus
+    {
+        $campus = $this->getEntityManager()->getRepository(Campus::class)->findOneBy(['label'=>$label]);
+
+        if (!$campus instanceof Campus) {
+            throw new CampusNotFoundException();
+        }
+
+        return $campus;
+    }
+
+    /**
+     * @param string $label
+     * @return CriticalAchievement
+     * @throws CriticalAchievementNotFoundException
+     */
+    public function getCriticalAchievement(string $label = CriticalAchievementFixture::CRITICAL_ACHIEVEMENT_1): CriticalAchievement
+    {
+        $criticalAchievement = $this->getEntityManager()->getRepository(CriticalAchievement::class)->findOneBy(['label'=>$label]);
+
+        if (!$criticalAchievement instanceof CriticalAchievement) {
+            throw new CriticalAchievementNotFoundException();
+        }
+
+        return $criticalAchievement;
+    }
+
+    /**
+     * @param string $label
+     * @return Domain
+     * @throws DomainNotFoundException
+     */
+    public function getDomain(string $label = DomainFixture::DOMAIN_1): Domain
+    {
+        $domain = $this->getEntityManager()->getRepository(Domain::class)->findOneBy(['label'=>$label]);
+
+        if (!$domain instanceof Domain) {
+            throw new DomainNotFoundException();
+        }
+
+        return $domain;
+    }
+
+    /**
+     * @param string $label
+     * @return Equipment
+     * @throws EquipmentNotFoundException
+     */
+    public function getEquipment(string $label = EquipmentFixture::EQUIPMENT_1): Equipment
+    {
+        $equipment = $this->getEntityManager()->getRepository(Equipment::class)->findOneBy(['label'=>$label]);
+
+        if (!$equipment instanceof Equipment) {
+            throw new EquipmentNotFoundException();
+        }
+
+        return $equipment;
+    }
+
+    /**
+     * @param string $label
+     * @return Groups
+     * @throws GroupsNotFoundException
+     */
+    public function getGroupsUser(string $label = GroupsFixture::SUPER_ADMIN): Groups
+    {
+        $group = $this->getEntityManager()->getRepository(Groups::class)->findOneBy(['label'=>$label]);
+
+        if (!$group instanceof Groups) {
+            throw new GroupsNotFoundException();
+        }
+
+        return $group;
+    }
+
+    /**
+     * @param string $label
+     * @return Language
+     * @throws LanguageNotFoundException
+     */
+    public function getLanguage(string $label = LanguageFixture::LANGUAGE_FR): Language
+    {
+        $language = $this->getEntityManager()->getRepository(Language::class)->findOneBy(['label'=>$label]);
+
+        if (!$language instanceof Language) {
+            throw new LanguageNotFoundException();
+        }
+
+        return $language;
+    }
+
+    /**
+     * @param string $label
+     * @return Period
+     * @throws PeriodNotFoundException
+     */
+    public function getPeriod(string $label = PeriodFixture::PERIOD_1): Period
+    {
+        $period = $this->getEntityManager()->getRepository(Period::class)->findOneBy(['label'=>$label]);
+
+        if (!$period instanceof Period) {
+            throw new PeriodNotFoundException();
+        }
+
+        return $period;
+    }
+
+    /**
+     * @param string $label
+     * @return Level
+     * @throws LevelNotFoundException
+     */
+    public function getLevel(string $label = LevelFixture::LEVEL_L1): Level
+    {
+        $level = $this->getEntityManager()->getRepository(Level::class)->findOneBy(['label'=>$label]);
+
+        if (!$level instanceof Level) {
+            throw new LevelNotFoundException();
+        }
+
+        return $level;
+    }
+
+    /**
+     * @param string $label
+     * @return Structure
+     * @throws StructureNotFoundException
+     */
+    public function getStructure(string $label = StructureFixture::SCIENCES): Structure
+    {
+        $structure = $this->getEntityManager()->getRepository(Structure::class)->findOneBy(['label'=>$label]);
+
+        if (!$structure instanceof Structure) {
+            throw new StructureNotFoundException();
+        }
+
+        return $structure;
+    }
+
+    /**
+     * @param string $id
+     * @return Year
+     * @throws YearNotFoundException
+     */
+    public function getYear(string $id = YearFixture::YEAR_2018): Year
+    {
+        $year = $this->getEntityManager()->getRepository(Year::class)->find($id);
+
+        if (!$year instanceof Year) {
+            throw new YearNotFoundException();
+        }
+
+        return $year;
+    }
+
+    /**
+     * @param $url
+     * @param array $query
+     * @return mixed
+     * @throws UserNotFoundException
+     */
+    public function getAutocompleteJson($url, array $query)
+    {
+        $this->login();
+        $this->client()->request(
+            Request::METHOD_GET,
+            $url,
+            $query
+        );
+        $response = $this->client()->getResponse();
+        $this->assertResponseIsSuccessful();
+        return json_decode($response->getContent(), true);
     }
 }

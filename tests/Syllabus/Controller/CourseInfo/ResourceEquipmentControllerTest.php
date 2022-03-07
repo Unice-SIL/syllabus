@@ -7,7 +7,10 @@ use App\Syllabus\Constant\Permission;
 use App\Syllabus\Entity\CourseInfo;
 use App\Syllabus\Entity\Equipment;
 use App\Syllabus\Exception\CourseNotFoundException;
+use App\Syllabus\Exception\EquipmentNotFoundException;
+use App\Syllabus\Exception\UserNotFoundException;
 use App\Syllabus\Fixture\CourseFixture;
+use App\Syllabus\Fixture\EquipmentFixture;
 use App\Syllabus\Fixture\UserFixture;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -33,7 +36,7 @@ class ResourceEquipmentControllerTest extends AbstractCourseInfoControllerTest
 
     /**
      * @throws CourseNotFoundException
-     * @throws \App\Syllabus\Exception\UserNotFoundException
+     * @throws UserNotFoundException
      */
     public function testIndexForbidden()
     {
@@ -77,7 +80,7 @@ class ResourceEquipmentControllerTest extends AbstractCourseInfoControllerTest
     }
 
     /**
-     * @throws CourseNotFoundException
+     * @throws UserNotFoundException
      */
     public function testResourceEquipmentViewSuccessful()
     {
@@ -135,8 +138,7 @@ class ResourceEquipmentControllerTest extends AbstractCourseInfoControllerTest
     /**
      * @dataProvider editEquipmentResourceSuccessfulProvider
      * @param array $data
-     * @throws CourseNotFoundException
-     * @throws \App\Syllabus\Exception\UserNotFoundException
+     * @throws CourseNotFoundException|UserNotFoundException
      */
     public function testEditRessourceSuccessful(array $data)
     {
@@ -244,22 +246,14 @@ class ResourceEquipmentControllerTest extends AbstractCourseInfoControllerTest
     }
 
     /**
-     * @throws CourseNotFoundException
-     * @throws \App\Syllabus\Exception\CourseSectionNotFoundException
-     * @throws \App\Syllabus\Exception\UserNotFoundException
+     * @throws UserNotFoundException|EquipmentNotFoundException
      */
     public function testAddEquipmentSuccessful()
     {
         $em = $this->getEntityManager();
         $this->login();
 
-        $equipments = $em->getRepository(Equipment::class)->findBy(['obsolete' => false], ['label' => 'ASC']);
-
-        /** @var Equipment $equipment */
-        // Calculatrice non programmable
-        $equipment = $equipments[3];
-
-        self::assertEquals($this->course->getCourseResourceEquipments()->count(), 3);
+        $equipment = $this->getEquipment(EquipmentFixture::EQUIPMENT_3);
 
         $this->client()->request(
             'GET',
