@@ -26,7 +26,7 @@ class UserFixture extends AbstractFixture  implements FixtureGroupInterface, Dep
             self::USER_1 => ['username' => self::USER_1,
                 'firstname' => 'User1',
                 'lastname' => 'User1',
-                'email' => self::USER_1,
+                'email' => self::USER_1 . '@gmail.com',
                 'roles' => [UserRole::ROLE_USER],
                 '@groups' => [GroupsFixture::SUPER_ADMIN]
             ],
@@ -34,14 +34,14 @@ class UserFixture extends AbstractFixture  implements FixtureGroupInterface, Dep
                 'username' => self::USER_2,
                 'firstname' => 'User2',
                 'lastname' => 'User2',
-                'email' => self::USER_2,
+                'email' => self::USER_2 . '@gmail.com',
                 'roles' => [UserRole::ROLE_USER]
             ],
             [
                 'username' => self::USER_3,
                 'firstname' => 'User3',
                 'lastname' => 'User3',
-                'email' => self::USER_3,
+                'email' => self::USER_3 . '@gmail.com',
                 'roles' => [UserRole::ROLE_USER]
             ]
         ];
