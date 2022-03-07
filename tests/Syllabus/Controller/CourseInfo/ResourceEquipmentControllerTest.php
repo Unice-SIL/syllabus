@@ -100,7 +100,6 @@ class ResourceEquipmentControllerTest extends AbstractCourseInfoControllerTest
 
 
     // action resourceEdit
-
     /**
      * @throws CourseNotFoundException
      */
@@ -197,7 +196,6 @@ class ResourceEquipmentControllerTest extends AbstractCourseInfoControllerTest
     }
 
     // resourceViewAction
-
     /**
      * @throws CourseNotFoundException
      */
