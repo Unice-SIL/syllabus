@@ -5,8 +5,6 @@ namespace Tests\Syllabus\Controller\CourseInfo;
 
 use App\Syllabus\Constant\Permission;
 use App\Syllabus\Entity\CourseInfo;
-use App\Syllabus\Entity\CourseResourceEquipment;
-use App\Syllabus\Entity\CourseSection;
 use App\Syllabus\Exception\CourseNotFoundException;
 use App\Syllabus\Fixture\CourseFixture;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,20 +18,6 @@ class ResourceEquipmentControllerTest extends AbstractCourseInfoControllerTest
     public function setUp(): void
     {
         $this->course = $this->getCourseInfo(CourseFixture::COURSE_1);
-    }
-
-    // action index
-    /**
-     * @var CourseInfo
-     */
-    private $course;
-
-    /**
-     * @throws CourseNotFoundException
-     */
-    protected function setUp(): void
-    {
-        $this->course = $this->getCourseInfo();
     }
 
     public function testIndexUnauthorized()
