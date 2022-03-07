@@ -3,10 +3,12 @@
 
 namespace Tests\Syllabus\Controller\CourseInfo;
 
+use App\Syllabus\Entity\CourseInfo;
 use App\Syllabus\Entity\CourseResourceEquipment;
 use App\Syllabus\Entity\Equipment;
 use App\Syllabus\Exception\CourseNotFoundException;
 use App\Syllabus\Exception\EquipmentNotFoundException;
+use App\Syllabus\Fixture\CourseFixture;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -15,6 +17,15 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class EquipmentControllerTest extends AbstractCourseInfoControllerTest
 {
+
+    /** @var CourseInfo $course */
+    private $course;
+
+    public function setUp(): void
+    {
+        $this->course = $this->getCourseInfo(CourseFixture::COURSE_1);
+    }
+
     /**
      * @dataProvider editResourceEquipmentSuccessfulProvider
      * @param array $data
@@ -122,28 +133,28 @@ class EquipmentControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourseInfo();
-        $equipment = $this->getEquipment();
 
-        $resourceEquipment = new CourseResourceEquipment();
-        $resourceEquipment->setCourseInfo($course)
-            ->setEquipment($equipment);
+        $equipment = $this->course->getCourseResourceEquipments()->first();
+        $this->assertNotNull($equipment);
 
-        $em->persist($resourceEquipment);
-        $em->flush();
+        $this->client()->request(
+            'GET',
+            $this->generateUrl(self::ROUTE_APP_EQUIPMENT_DELETE, [
+                    'id' => $equipment->getId()
+                ]
+            )
+        );
 
-        $resourceEquipmentId = $resourceEquipment->getId();
         $token = $this->getCsrfToken('delete_equipment');
 
         $this->client()->request(
             'POST',
-            $this->generateUrl(self::ROUTE_APP_EQUIPMENT_DELETE, ['id' => $resourceEquipment->getId()]),
+            $this->generateUrl(self::ROUTE_APP_EQUIPMENT_DELETE, ['id' => $equipment->getId()]),
             ['remove_resource_equipment' => [
                 '_token' => $token
             ]]
         );
-
-        $this->assertNull($em->getRepository(Equipment::class)->find($resourceEquipmentId));
+        $this->assertNull($em->getRepository(Equipment::class)->find($equipment));
     }
 
     /**

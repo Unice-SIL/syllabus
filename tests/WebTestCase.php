@@ -232,6 +232,7 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     public const ROUTE_APP_RESOURCE_EQUIPMENT_INDEX = 'app.course_info.resource_equipment.index';
     public const ROUTE_APP_RESOURCE_EQUIPMENT_EQUIPMENT_VIEW = 'app.course_info.resource_equipment.equipments';
     public const ROUTE_APP_RESOURCE_EQUIPMENT_RESOURCE_EDIT = 'app.course_info.resource_equipment.resource.edit';
+    public const ROUTE_APP_RESOURCE_EQUIPMENT_RESOURCE_ADD = 'app.course_info.resource_equipment.equipment.add';
     public const ROUTE_APP_RESOURCE_EQUIPMENT_RESOURCE_VIEW = 'app.course_info.resource_equipment.resources';
 
     public const ROUTE_APP_COURSE_TEACHER_EDIT = 'app.course_info.teacher.edit';
