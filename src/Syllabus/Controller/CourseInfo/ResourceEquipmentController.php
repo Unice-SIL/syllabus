@@ -81,12 +81,16 @@ class ResourceEquipmentController extends AbstractController
      * @param Equipment $equipment
      * @param Request $request
      * @param CourseResourceEquipmentManager $courseResourceEquipmentManager
-     * @param TranslatorInterface $translator
+     * @param Environment $twig
      * @return JsonResponse
      * @ParamConverter("equipment", options={"mapping": {"idEquipment": "id"}})
      */
-    /*public function addEquipmentAction(CourseInfo                     $courseInfo, Equipment $equipment, Request $request,
-                                       CourseResourceEquipmentManager $courseResourceEquipmentManager, TranslatorInterface $translator)
+    public function addEquipmentAction(CourseInfo                     $courseInfo,
+                                       Equipment $equipment,
+                                       Request $request,
+                                       CourseResourceEquipmentManager $courseResourceEquipmentManager,
+                                       Environment $twig
+    )
     {
         $courseResourceEquipment = $courseResourceEquipmentManager->new($courseInfo, $equipment);
 
@@ -95,14 +99,13 @@ class ResourceEquipmentController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $courseResourceEquipmentManager->create($courseResourceEquipment);
-
             return $this->json([
                 'status' => true,
                 'content' => null
             ]);
         }
 
-        $render = $this->get('twig')->render('course_info/equipment/form/equipment.html.twig', [
+        $render = $twig->render('course_info/equipment/form/equipment.html.twig', [
             'form' => $form->createView()
         ]);
 
@@ -110,7 +113,7 @@ class ResourceEquipmentController extends AbstractController
             'status' => true,
             'content' => $render
         ]);
-    }*/
+    }
 
     /**
      * @Route("/resources", name="resources"))
@@ -121,7 +124,6 @@ class ResourceEquipmentController extends AbstractController
      */
     public function resourceViewAction(CourseInfo $courseInfo, Environment $twig)
     {
-     //   dd('ops');
         $render = $twig->render('course_info/equipment/view/resource.html.twig', [
             'courseInfo' => $courseInfo
         ]);
