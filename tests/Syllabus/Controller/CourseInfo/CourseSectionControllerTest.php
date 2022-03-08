@@ -192,6 +192,7 @@ class CourseSectionControllerTest extends AbstractCourseInfoControllerTest
         $activity = $courseSectionActivity->getActivity();
         $activityType = $activity->getActivityTypes()->first();
 
+        $activityMode = $courseSectionActivity->getActivityMode();
 
         $courseSection = new CourseSection();
         $courseSection->setCourseInfo($course);
@@ -225,7 +226,7 @@ class CourseSectionControllerTest extends AbstractCourseInfoControllerTest
                 'course_section_activity' => [
                     "description" => "myDescription",
                     "activityType" => $activityType->getId(),
-                    "activityMode" => "79ca9545-02ae-4eb1-9893-ac97a0ea9104",
+                    "activityMode" => $activityMode->getId(),
                     "evaluationRate" => "",
                     "_token" => $token
                 ]
