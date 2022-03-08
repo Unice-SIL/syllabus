@@ -4,8 +4,11 @@
 namespace Tests\Syllabus\Controller\CourseInfo;
 
 use App\Syllabus\Entity\Activity;
+use App\Syllabus\Entity\CourseInfo;
+use App\Syllabus\Entity\CourseSection;
 use App\Syllabus\Entity\CourseSectionActivity;
 use App\Syllabus\Exception\CourseNotFoundException;
+use App\Syllabus\Fixture\CourseFixture;
 
 /**
  * Class CourseSectionActivityControllerTest
@@ -16,36 +19,34 @@ class CourseSectionActivityControllerTest extends AbstractCourseInfoControllerTe
     /**
      * @dataProvider editCourseSectionActivitySuccessfulProvider
      * @param array $data
-     * @throws \App\Syllabus\Exception\CourseSectionNotFoundException
-     * @throws \App\Syllabus\Exception\UserNotFoundException
      */
     public function testEditCourseSectionActivitySuccessful(array $data)
     {
-        $em = $this->getEntityManager();
         $this->login();
+        $em = $this->getEntityManager();
+        /** @var CourseInfo $courseInfo */
+        $courseInfo = $this->getCourseInfo(CourseFixture::COURSE_1);
 
-        $section = $this->getCourseSection();
+        /** @var CourseSection $section */
+        $section = $courseInfo->getCourseSections()->first();
+
         /** @var CourseSectionActivity $courseSectionActivity */
         $courseSectionActivity = $section->getCourseSectionActivities()->first();
-        $courseSectionActivity->setDescription('tata');
+
         /** @var Activity $activity */
         $activity = $courseSectionActivity->getActivity();
 
         $this->client()->request(
-            'GET',
-            $this->generateUrl(self::ROUTE_APP_COURSE_SECTION_ACTIVITY_EDIT,
-                [
-                    'id' => $courseSectionActivity->getId(),
-                    'activityId' => $activity->getId()
-                ]
-            )
+            'GET',   $this->generateUrl(self::ROUTE_APP_COURSE_SECTION_ACTIVITY_EDIT,
+             [
+                 'id' => $courseSectionActivity->getId(),
+                 'activityId' => $activity->getId()
+             ]
+        )
         );
-
         $data['_token'] = $this->getCsrfToken('course_section_activity');
-        $data['activityType'] = $activity->getActivityTypes()->first();
-        $data['activity'] = $activity;
-
-      //  dd($data);
+        $data['activityType'] = $courseSectionActivity->getActivityType()->getId();
+        $data['activityMode'] = $courseSectionActivity->getActivityMode()->getId();
 
         $this->client()->request(
             'POST',
@@ -60,9 +61,12 @@ class CourseSectionActivityControllerTest extends AbstractCourseInfoControllerTe
         self::assertTrue(true);
 
         /** @var CourseSectionActivity $updatedCourseSectionActivity */
-/*        $updatedCourseSectionActivity = $em->getRepository(CourseSectionActivity::class)->findOneBy(['id' => $courseSectionActivity]);
-
-        $this->assertCheckEntityProps($updatedCourseSectionActivity, $data);*/
+        $updatedCourseSectionActivity = $em->getRepository(CourseSectionActivity::class)->findOneBy(
+            [
+                'id' => $courseSectionActivity->getId()
+            ]
+        );
+        $this->assertEquals($updatedCourseSectionActivity->getDescription(), $data['description']);
     }
 
     /**
@@ -72,7 +76,16 @@ class CourseSectionActivityControllerTest extends AbstractCourseInfoControllerTe
     {
         return [
             [
-                ['description' => 'CoursSectionTest']
+                [
+                    'description' => 'CoursSectionActivityTest',
+                    "evaluationRate" => ""
+                ]
+            ],
+            [
+                [
+                    'description' => null,
+                    "evaluationRate" => ""
+                ]
             ]
         ];
     }
