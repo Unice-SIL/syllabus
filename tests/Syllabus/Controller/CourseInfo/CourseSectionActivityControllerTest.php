@@ -58,8 +58,6 @@ class CourseSectionActivityControllerTest extends AbstractCourseInfoControllerTe
             ['course_section_activity' => $data]
         );
 
-        self::assertTrue(true);
-
         /** @var CourseSectionActivity $updatedCourseSectionActivity */
         $updatedCourseSectionActivity = $em->getRepository(CourseSectionActivity::class)->findOneBy(
             [
@@ -88,6 +86,54 @@ class CourseSectionActivityControllerTest extends AbstractCourseInfoControllerTe
                 ]
             ]
         ];
+    }
+
+    public function testEditCourseSectionActivityFailedWithFormNotValid()
+    {
+        $this->login();
+        $em = $this->getEntityManager();
+        /** @var CourseInfo $courseInfo */
+        $courseInfo = $this->getCourseInfo(CourseFixture::COURSE_1);
+
+        /** @var CourseSection $section */
+        $section = $courseInfo->getCourseSections()->first();
+
+        /** @var CourseSectionActivity $courseSectionActivity */
+        $courseSectionActivity = $section->getCourseSectionActivities()->first();
+
+        /** @var Activity $activity */
+        $activity = $courseSectionActivity->getActivity();
+
+        $this->client()->request(
+            'GET',   $this->generateUrl(self::ROUTE_APP_COURSE_SECTION_ACTIVITY_EDIT,
+            [
+                'id' => $courseSectionActivity->getId(),
+                'activityId' => $activity->getId()
+            ]
+        )
+        );
+        $descriptionBeforeUpdated =  $courseSectionActivity->getDescription();
+        $data['_token'] = $this->getCsrfToken('course_section_activity');
+        $data['activityType'] = $courseSectionActivity->getActivityType()->getId();
+        $data['description'] = 'myDescription';
+
+        $this->client()->request(
+            'POST',
+            $this->generateUrl(self::ROUTE_APP_COURSE_SECTION_ACTIVITY_EDIT,
+                [
+                    'id' => $courseSectionActivity->getId(),
+                    'activityId' => $activity->getId()
+                ]),
+            ['course_section_activity' => $data]
+        );
+
+        /** @var CourseSectionActivity $updatedCourseSectionActivity */
+        $updatedCourseSectionActivity = $em->getRepository(CourseSectionActivity::class)->findOneBy(
+            [
+                'id' => $courseSectionActivity->getId()
+            ]
+        );
+        $this->assertEquals($updatedCourseSectionActivity->getDescription(), $descriptionBeforeUpdated);
     }
 
     /**
