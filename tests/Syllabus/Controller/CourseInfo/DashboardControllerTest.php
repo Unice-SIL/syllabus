@@ -4,14 +4,11 @@
 namespace Tests\Syllabus\Controller\CourseInfo;
 
 use App\Syllabus\Constant\Permission;
-use App\Syllabus\Entity\AskAdvice;
+use App\Syllabus\Entity\CourseInfo;
 use App\Syllabus\Entity\CourseInfoField;
-use App\Syllabus\Entity\Level;
 use App\Syllabus\Exception\CourseNotFoundException;
-use App\Syllabus\Exception\UserNotFoundException;
 use App\Syllabus\Fixture\CourseFixture;
 use Symfony\Component\HttpFoundation\Response;
-use Tests\WebTestCase;
 
 /**
  * Class DashboardControllerTest
@@ -19,6 +16,15 @@ use Tests\WebTestCase;
  */
 class DashboardControllerTest extends AbstractCourseInfoControllerTest
 {
+
+    /** @var CourseInfo $course */
+    private $course;
+
+    public function setUp(): void
+    {
+        $this->course = $this->getCourseInfo(CourseFixture::COURSE_1);
+    }
+
     /**
      * @throws CourseNotFoundException
      */
@@ -56,19 +62,13 @@ class DashboardControllerTest extends AbstractCourseInfoControllerTest
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
     }
 
-    /**
-     * @throws CourseNotFoundException
-     * @throws UserNotFoundException
-     */
-    public function testDashboardSyllabusDuplicateSuccessful()
+    public function testDashboardSyllabusDuplicateFailedWithDangerMessage()
     {
         $from = 'SLUPB11__UNION__2018';
         $this->login();
-        $courseInfo = $this->getCourseInfo();
-
         $em = $this->getEntityManager();
-
         $courseInfoFields = $em->getRepository(CourseInfoField::class)->findAll();
+
 
         foreach ($courseInfoFields as $courseInfoField) {
             /** @var CourseInfoField $courseInfoField */
@@ -80,7 +80,7 @@ class DashboardControllerTest extends AbstractCourseInfoControllerTest
             'POST',
             $this->generateUrl(self::ROUTE_APP_DASHBOARD_INDEX,
                 [
-                    'id' => $courseInfo->getId()
+                    'id' => $this->course->getId()
                 ]
             )
         );
@@ -89,7 +89,7 @@ class DashboardControllerTest extends AbstractCourseInfoControllerTest
             'POST',
             $this->generateUrl(self::ROUTE_APP_DASHBOARD_INDEX,
                 [
-                    'id' => $courseInfo->getId()
+                    'id' => $this->course->getId()
                 ]
             ),
             ['appbundle_duplicate_course_info' =>
@@ -99,20 +99,24 @@ class DashboardControllerTest extends AbstractCourseInfoControllerTest
                 ]
             ]
         );
-        $this->assertResponseRedirects($this->generateUrl(self::ROUTE_APP_DASHBOARD_INDEX, ['id' => $courseInfo->getId()]));
-        $em->clear();
+        $this->assertCount(1, $this->getFlashMessagesInSession('danger'));
+        $this->assertResponseRedirects($this->generateUrl(self::ROUTE_APP_DASHBOARD_INDEX, ['id' => $this->course->getId()]));
     }
 
-    public function testDashboardSyllabusDuplicateFailedWithFormNotValid()
+    /**
+     * @throws CourseNotFoundException
+     * @throws \App\Syllabus\Exception\UserNotFoundException
+     */
+    public function testDashboardSyllabusDuplicateSuccessful()
     {
+        $from = 'SLUPB11__UNION__2018';
         $this->login();
-        $courseInfo = $this->getCourseInfo();
 
         $this->client()->request(
             'POST',
             $this->generateUrl(self::ROUTE_APP_DASHBOARD_INDEX,
                 [
-                    'id' => $courseInfo->getId()
+                    'id' => $this->course->getId()
                 ]
             )
         );
@@ -121,23 +125,53 @@ class DashboardControllerTest extends AbstractCourseInfoControllerTest
             'POST',
             $this->generateUrl(self::ROUTE_APP_DASHBOARD_INDEX,
                 [
-                    'id' => $courseInfo->getId()
+                    'id' => $this->course->getId()
                 ]
             ),
             ['appbundle_duplicate_course_info' =>
                 [
-                    'to' => $courseInfo->getId()
+                    'from' => $from,
+                    'to' => $this->getCourseInfo(CourseFixture::COURSE_3)->getId()
+                ]
+            ]
+        );
+        $this->assertResponseRedirects($this->generateUrl(self::ROUTE_APP_DASHBOARD_INDEX, ['id' => $this->course->getId()]));
+    }
+
+
+    public function testDashboardSyllabusDuplicateFailedWithFormNotValid()
+    {
+        $this->login();
+
+        $this->client()->request(
+            'POST',
+            $this->generateUrl(self::ROUTE_APP_DASHBOARD_INDEX,
+                [
+                    'id' => $this->course->getId()
+                ]
+            )
+        );
+
+        $this->client()->request(
+            'POST',
+            $this->generateUrl(self::ROUTE_APP_DASHBOARD_INDEX,
+                [
+                    'id' => $this->course->getId()
+                ]
+            ),
+            ['appbundle_duplicate_course_info' =>
+                [
+                    'id' => $this->course->getId()
                 ]
             ]
         );
         $this->assertResponseIsSuccessful();
     }
 
-    public function testDashboardSyllabusDuplicateFailedWithNoFieldActive()
+    public function testDashboardSyllabusDuplicateFailedWithNoCommentError()
     {
         $from = 'SLUPB11__UNION__2018';
         $this->login();
-        $courseInfo = $this->getCourseInfo();
 
         $em = $this->getEntityManager();
 
@@ -153,7 +187,7 @@ class DashboardControllerTest extends AbstractCourseInfoControllerTest
             'POST',
             $this->generateUrl(self::ROUTE_APP_DASHBOARD_INDEX,
                 [
-                    'id' => $courseInfo->getId()
+                    'id' => $this->course->getId()
                 ]
             )
         );
@@ -162,28 +196,37 @@ class DashboardControllerTest extends AbstractCourseInfoControllerTest
             'POST',
             $this->generateUrl(self::ROUTE_APP_DASHBOARD_INDEX,
                 [
-                    'id' => $courseInfo->getId()
+                    'id' => $this->course->getId()
                 ]
             ),
             ['appbundle_duplicate_course_info' =>
                 [
-                    'from' => $from,
-                    'to' => $this->getCourseInfo(CourseFixture::COURSE_3)->getId()
+                    'from' => $this->course->getId(),
+                    'to' => $this->course->getId()
                 ]
             ]
         );
-        $this->assertResponseRedirects($this->generateUrl(self::ROUTE_APP_DASHBOARD_INDEX, ['id' => $courseInfo->getId()]));
+        $this->assertResponseRedirects($this->generateUrl(self::ROUTE_APP_DASHBOARD_INDEX, ['id' => $this->course->getId()]));
     }
 
-    public function testDashboardView()
+    /**
+     * @throws CourseNotFoundException
+     */
+    public function testDashboardViewUserNotAuthenticated()
+    {
+        $this->tryUserNotAuthenticated(self::ROUTE_APP_COURSE_INFO_DASHBOARD_DASHBOARD);
+        $this->assertResponseRedirects();
+        $this->assertStringContainsString('/Shibboleth.sso', $this->client()->getResponse()->getContent());
+    }
+
+    public function testDashboardViewSuccessful()
     {
         $this->login();
-        $courseInfo = $this->getCourseInfo();
         $this->client()->request(
             'GET',
             $this->generateUrl(self::ROUTE_APP_COURSE_INFO_DASHBOARD_DASHBOARD,
                 [
-                    'id' => $courseInfo->getId()
+                    'id' => $this->course->getId()
                 ]
             )
         );
@@ -193,80 +236,51 @@ class DashboardControllerTest extends AbstractCourseInfoControllerTest
     public function testDuplicateCourseInfoNextYear()
     {
         $this->login();
-        $courseInfo = $this->getCourseInfo();
         $this->client()->request(
             'POST',
             $this->generateUrl(self::ROUTE_APP_COURSE_INFO_DASHBOARD_PUBLISHE_NEXT_YEAR,
                 [
-                    'id' => $courseInfo->getId()
+                    'id' => $this->course->getId(),
+                    'action' => 1
                 ]
             )
         );
+        self::assertEquals($this->course->getDuplicateNextYear(),1);
         $this->assertJson($this->client()->getResponse()->getContent());
     }
 
-    public function testDashboardaskAdvice()
-    {
-        $this->login();
-        $courseInfo = $this->getCourseInfo();
-        $this->client()->request(
-            'GET',
-            $this->generateUrl(self::ROUTE_APP_COURSE_INFO_DASHBOARD_ASK_ADVICE,
-                [
-                    'id' => $courseInfo->getId()
-                ]
-            )
-        );
-        $this->assertJson($this->client()->getResponse()->getContent());
 
-        $this->client()->request(
-            'POST',
-            $this->generateUrl(self::ROUTE_APP_COURSE_INFO_DASHBOARD_ASK_ADVICE,
-                [
-                    'id' => $courseInfo->getId()
-                ]
-            ),
-            [
-                'ask_advice' => [
-                    'description' => 'myDescription',
-                    '_token' => $this->getCsrfToken('ask_advice')
-                ]
-            ]
-        );
-    }
 
     // a compeleter
-    public function testPublishCourseInfo()
-    {
-        $this->login();
-        $courseInfo = $this->getCourseInfo(CourseFixture::COURSE_1);
-        $this->client()->request(
-            'GET',
-            $this->generateUrl(self::ROUTE_APP_COURSE_INFO_DASHBOARD_DASHBOARD,
-                [
-                    'id' => $courseInfo->getId()
-                ]
-            )
-        );
+    /* public function testPublishCourseInfo()
+     {
+         $this->login();
+         $courseInfo = $this->getCourse(CourseFixture::COURSE_1);
+         $this->client()->request(
+             'GET',
+             $this->generateUrl(self::ROUTE_APP_COURSE_INFO_DASHBOARD_DASHBOARD,
+                 [
+                     'id' => $courseInfo->getId()
+                 ]
+             )
+         );
 
-        $token = $this->getCsrfToken('publish_course_info');
+         $token = $this->getCsrfToken('publish_course_info');
 
-        $this->client()->request(
-            'POST',
-            $this->generateUrl(self::ROUTE_APP_COURSE_INFO_DASHBOARD_PUBLISH,
-                [
-                    'id' => $courseInfo->getId()
-                ]
-            ),
-            [
-                'ask_advice' => [
-                    '_token' => $token
-                ]
-            ]
-        );
-        $this->assertJson($this->client()->getResponse()->getContent());
-    }
+         $this->client()->request(
+             'POST',
+             $this->generateUrl(self::ROUTE_APP_COURSE_INFO_DASHBOARD_PUBLISH,
+                 [
+                     'id' => $courseInfo->getId()
+                 ]
+             ),
+             [
+                 'ask_advice' => [
+                     '_token' => $token
+                 ]
+             ]
+         );
+         $this->assertJson($this->client()->getResponse()->getContent());
+     }*/
 }
-
-
 

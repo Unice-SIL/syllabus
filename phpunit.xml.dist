@@ -36,6 +36,7 @@
                 <file>src/Syllabus/Controller/Admin/NotificationController.php</file>
                 <file>src/Syllabus/Controller/Admin/SwitchUserController.php</file>
                 <file>src/Syllabus/Controller/CourseInfo/CourseCriticalAchievementController.php</file>
+                <file>src/Syllabus/Controller/CourseInfo/LearningAchievementController.php</file>
                 <file>src/Kernel.php</file>
             </exclude>
         </whitelist>

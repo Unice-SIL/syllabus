@@ -29,7 +29,7 @@ class LearningAchievementController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
-   /* public function editLearningAchievementAction(LearningAchievement $learningAchievement, Request $request)
+    public function editLearningAchievementAction(LearningAchievement $learningAchievement, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(LearningAchievementType::class, $learningAchievement);
@@ -53,7 +53,7 @@ class LearningAchievementController extends AbstractController
             'status' => true,
             'content' => $render
         ]);
-    }*/
+    }
 
     /**
      * @Route("/delete", name="delete"))
@@ -62,14 +62,14 @@ class LearningAchievementController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
-  /*  public function deleteLearningAchievementAction(LearningAchievement $learningAchievement, Request $request)
+    public function deleteLearningAchievementAction(LearningAchievement $learningAchievement, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(RemoveLearningAchievementType::class, $learningAchievement);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {*/
+        if ($form->isSubmitted() && $form->isValid()) {
             /** @var LearningAchievementController $learningAchievement */
-        /*    $learningAchievement = $form->getData();
+            $learningAchievement = $form->getData();
             $em->remove($learningAchievement);
             $em->flush();
             return $this->json([
@@ -84,5 +84,5 @@ class LearningAchievementController extends AbstractController
             'status' => true,
             'content' => $render
         ]);
-    }*/
+    }
 }
