@@ -1,28 +1,15 @@
 <?php
 
-
 namespace Tests\Syllabus\Controller\CourseInfo;
 
-
-use App\Syllabus\Constant\Permission;
-use App\Syllabus\Entity\Course;
 use App\Syllabus\Entity\CourseAchievement;
 use App\Syllabus\Entity\CourseInfo;
 use App\Syllabus\Entity\CoursePermission;
 use App\Syllabus\Entity\CourseSection;
-use App\Syllabus\Entity\CriticalAchievement;
-use App\Syllabus\Entity\Equipment;
-use App\Syllabus\Entity\Structure;
-use App\Syllabus\Entity\Year;
 use App\Syllabus\Exception\CourseAchievementNotFoundException;
 use App\Syllabus\Exception\CourseNotFoundException;
 use App\Syllabus\Exception\CourseSectionNotFoundException;
-use App\Syllabus\Exception\CriticalAchievementNotFoundException;
-use App\Syllabus\Exception\EquipmentNotFoundException;
-use App\Syllabus\Fixture\CourseFixture;
-use App\Syllabus\Form\CourseInfo\Permission\AddCourseInfoPermissionType;
 use Doctrine\Common\Collections\ArrayCollection;
-use Ramsey\Uuid\Uuid;
 use Tests\WebTestCase;
 
 abstract class AbstractCourseInfoControllerTest extends WebTestCase
@@ -119,46 +106,6 @@ abstract class AbstractCourseInfoControllerTest extends WebTestCase
         }
 
         return $courseAchievement;
-    }
-
-    /**
-     * @return CriticalAchievement
-     * @throws CriticalAchievementNotFoundException
-     */
-    public function getCriticalAchievement()
-    {
-        $criticalAchievement = null;
-        if (!$criticalAchievement instanceof CriticalAchievement)
-        {
-            $criticalAchievement = current($this->getEntityManager()->getRepository(CriticalAchievement::class)->findAll());
-        }
-
-        if (!$criticalAchievement instanceof CourseAchievement)
-        {
-            throw new CriticalAchievementNotFoundException();
-        }
-
-        return $criticalAchievement;
-    }
-
-    /**
-     * @return Equipment
-     * @throws EquipmentNotFoundException
-     */
-    public function getEquipment()
-    {
-        $equipment = null;
-        if (!$equipment instanceof Equipment)
-        {
-            $equipment = current($this->getEntityManager()->getRepository(Equipment::class)->findAll());
-        }
-
-        if (!$equipment instanceof Equipment)
-        {
-            throw new EquipmentNotFoundException();
-        }
-
-        return $equipment;
     }
 
     /**

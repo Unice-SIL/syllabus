@@ -57,9 +57,11 @@
         {% set referentielLink = ['app.admin.activity.', 'app.admin.activity_type.', 'app.admin.activity_mode.','app.admin.year.',
             'app.admin.equipment', 'app.admin.structure.', 'app.admin.domain.', 'app.admin.period.index', 'app.admin.language.',
             'app.admin.campus.', 'app.admin.critical_achievement.', 'app.admin.level.'] %}
-        {% if is_granted(['ROLE_ADMIN_ACTIVITY', 'ROLE_ADMIN_ACTIVITYTYPE', 'ROLE_ADMIN_ACTIVITYMODE', 'ROLE_ADMIN_CAMPUS',
-            'ROLE_ADMIN_DOMAIN', 'ROLE_ADMIN_EQUIPMENT', 'ROLE_ADMIN_LANGUAGE', 'ROLE_ADMIN_PERIOD', 'ROLE_ADMIN_STRUCTURE'
-        ]) %}
+        {% if
+            is_granted('ROLE_ADMIN_ACTIVITY') or is_granted('ROLE_ADMIN_ACTIVITYTYPE') or is_granted('ROLE_ADMIN_ACTIVITYMODE')
+            or is_granted('ROLE_ADMIN_CAMPUS') or is_granted('ROLE_ADMIN_DOMAIN') or is_granted('ROLE_ADMIN_EQUIPMENT')
+            or is_granted('ROLE_ADMIN_LANGUAGE') or is_granted('ROLE_ADMIN_PERIOD') or is_granted('ROLE_ADMIN_STRUCTURE')
+        %}
             <li class="nav-item has-treeview {{ printActiveAdminSidebarLink(referentielLink) ? 'menu-open' }}">
                 <a href="#" class="nav-link {{ printActiveAdminSidebarLink(referentielLink) }}">
                     <i class="nav-icon fas fa-book"></i>

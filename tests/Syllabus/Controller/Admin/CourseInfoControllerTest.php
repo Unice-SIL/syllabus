@@ -10,6 +10,7 @@ use App\Syllabus\Exception\CourseNotFoundException;
 use App\Syllabus\Exception\StructureNotFoundException;
 use App\Syllabus\Exception\UserNotFoundException;
 use App\Syllabus\Exception\YearNotFoundException;
+use App\Syllabus\Fixture\YearFixture;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -205,7 +206,7 @@ class CourseInfoControllerTest extends AbstractAdminControllerTest
             [
                 [
                     'title' => 'CourseInfoTest',
-                    'year' => $this->getYear()->getId(),
+                    'year' => $this->getYear(YearFixture::YEAR_2013)->getId(),
                     'structure' => $this->getStructure()->getId()
                 ]
             ]

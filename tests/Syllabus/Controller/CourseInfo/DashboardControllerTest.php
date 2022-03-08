@@ -4,10 +4,8 @@
 namespace Tests\Syllabus\Controller\CourseInfo;
 
 use App\Syllabus\Constant\Permission;
-use App\Syllabus\Entity\AskAdvice;
 use App\Syllabus\Entity\CourseInfo;
 use App\Syllabus\Entity\CourseInfoField;
-use App\Syllabus\Entity\Level;
 use App\Syllabus\Exception\CourseNotFoundException;
 use App\Syllabus\Fixture\CourseFixture;
 use Symfony\Component\HttpFoundation\Response;
@@ -141,16 +139,15 @@ class DashboardControllerTest extends AbstractCourseInfoControllerTest
     }
 
 
-  /*  public function testDashboardSyllabusDuplicateFailedWithFormNotValid()
+    public function testDashboardSyllabusDuplicateFailedWithFormNotValid()
     {
         $this->login();
-        $courseInfo = $this->getCourse();
 
         $this->client()->request(
             'POST',
             $this->generateUrl(self::ROUTE_APP_DASHBOARD_INDEX,
                 [
-                    'id' => $courseInfo->getId()
+                    'id' => $this->course->getId()
                 ]
             )
         );
@@ -159,31 +156,30 @@ class DashboardControllerTest extends AbstractCourseInfoControllerTest
             'POST',
             $this->generateUrl(self::ROUTE_APP_DASHBOARD_INDEX,
                 [
-                    'id' => $courseInfo->getId()
+                    'id' => $this->course->getId()
                 ]
             ),
             ['appbundle_duplicate_course_info' =>
                 [
-                    'to' => $courseInfo->getId()
+                    'id' => $this->course->getId()
                 ]
             ]
         );
         $this->assertResponseIsSuccessful();
-    }*/
+    }
 
- /*   public function testDashboardSyllabusDuplicateFailedWithNoFieldActive()
+    public function testDashboardSyllabusDuplicateFailedWithNoCommentError()
     {
         $from = 'SLUPB11__UNION__2018';
         $this->login();
-        $courseInfo = $this->getCourse();
 
         $em = $this->getEntityManager();
 
         $courseInfoFields = $em->getRepository(CourseInfoField::class)->findAll();
 
         foreach ($courseInfoFields as $courseInfoField) {
-        */    /** @var CourseInfoField $courseInfoField */
-            /*$courseInfoField->setManuallyDuplication(false);
+            /** @var CourseInfoField $courseInfoField */
+            $courseInfoField->setManuallyDuplication(false);
         }
         $em->flush();
 
@@ -191,7 +187,7 @@ class DashboardControllerTest extends AbstractCourseInfoControllerTest
             'POST',
             $this->generateUrl(self::ROUTE_APP_DASHBOARD_INDEX,
                 [
-                    'id' => $courseInfo->getId()
+                    'id' => $this->course->getId()
                 ]
             )
         );
@@ -200,23 +196,23 @@ class DashboardControllerTest extends AbstractCourseInfoControllerTest
             'POST',
             $this->generateUrl(self::ROUTE_APP_DASHBOARD_INDEX,
                 [
-                    'id' => $courseInfo->getId()
+                    'id' => $this->course->getId()
                 ]
             ),
             ['appbundle_duplicate_course_info' =>
                 [
-                    'from' => $from,
-                    'to' => $this->getCourse(CourseFixture::COURSE_3)->getId()
+                    'from' => $this->course->getId(),
+                    'to' => $this->course->getId()
                 ]
             ]
         );
-        $this->assertResponseRedirects($this->generateUrl(self::ROUTE_APP_DASHBOARD_INDEX, ['id' => $courseInfo->getId()]));
-    }*/
+        $this->assertResponseRedirects($this->generateUrl(self::ROUTE_APP_DASHBOARD_INDEX, ['id' => $this->course->getId()]));
+    }
 
     /**
      * @throws CourseNotFoundException
      */
-   /* public function testDashboardViewUserNotAuthenticated()
+    public function testDashboardViewUserNotAuthenticated()
     {
         $this->tryUserNotAuthenticated(self::ROUTE_APP_COURSE_INFO_DASHBOARD_DASHBOARD);
         $this->assertResponseRedirects();
@@ -251,42 +247,40 @@ class DashboardControllerTest extends AbstractCourseInfoControllerTest
         );
         self::assertEquals($this->course->getDuplicateNextYear(),1);
         $this->assertJson($this->client()->getResponse()->getContent());
-    }*/
+    }
 
 
 
     // a compeleter
-   /* public function testPublishCourseInfo()
-    {
-        $this->login();
-        $courseInfo = $this->getCourse(CourseFixture::COURSE_1);
-        $this->client()->request(
-            'GET',
-            $this->generateUrl(self::ROUTE_APP_COURSE_INFO_DASHBOARD_DASHBOARD,
-                [
-                    'id' => $courseInfo->getId()
-                ]
-            )
-        );
+    /* public function testPublishCourseInfo()
+     {
+         $this->login();
+         $courseInfo = $this->getCourse(CourseFixture::COURSE_1);
+         $this->client()->request(
+             'GET',
+             $this->generateUrl(self::ROUTE_APP_COURSE_INFO_DASHBOARD_DASHBOARD,
+                 [
+                     'id' => $courseInfo->getId()
+                 ]
+             )
+         );
 
-        $token = $this->getCsrfToken('publish_course_info');
+         $token = $this->getCsrfToken('publish_course_info');
 
-        $this->client()->request(
-            'POST',
-            $this->generateUrl(self::ROUTE_APP_COURSE_INFO_DASHBOARD_PUBLISH,
-                [
-                    'id' => $courseInfo->getId()
-                ]
-            ),
-            [
-                'ask_advice' => [
-                    '_token' => $token
-                ]
-            ]
-        );
-        $this->assertJson($this->client()->getResponse()->getContent());
-    }*/
+         $this->client()->request(
+             'POST',
+             $this->generateUrl(self::ROUTE_APP_COURSE_INFO_DASHBOARD_PUBLISH,
+                 [
+                     'id' => $courseInfo->getId()
+                 ]
+             ),
+             [
+                 'ask_advice' => [
+                     '_token' => $token
+                 ]
+             ]
+         );
+         $this->assertJson($this->client()->getResponse()->getContent());
+     }*/
 }
-
-
 

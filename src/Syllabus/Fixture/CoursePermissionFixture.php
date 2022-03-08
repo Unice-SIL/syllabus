@@ -4,78 +4,51 @@ namespace App\Syllabus\Fixture;
 
 use App\Syllabus\Constant\Permission;
 use App\Syllabus\Entity\CoursePermission;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Persistence\ObjectManager;
-use Ramsey\Uuid\Uuid;
 
 /**
  * Class CoursePermissionFixture
  * @package App\Syllabus\Fixture
  */
-class CoursePermissionFixture extends Fixture implements DependentFixtureInterface,  FixtureGroupInterface
+class CoursePermissionFixture extends AbstractFixture implements DependentFixtureInterface, FixtureGroupInterface
 {
     /**
-     * @param ObjectManager $manager
-     * @throws \Exception
+     * @return array
      */
-    public function load(ObjectManager $manager)
+    protected function getDataEntities(): array
     {
-        $coursePermissions = [
-            [
-                'courseInfoRef' => CourseInfoFixture::COURSE_INFO_1,
-                'userRef' => UserFixture::REF_PREFIX . UserFixture::USER_1,
-                'permission' => Permission::WRITE
+        return [
+            CourseInfoFixture::COURSE_INFO_1 . '_' . UserFixture::USER_1 => [
+                'permission' => Permission::WRITE,
+                '@courseInfo' => CourseInfoFixture::COURSE_INFO_1,
+                '@user' => UserFixture::USER_1
             ],
-            [
-                'courseInfoRef' => CourseInfoFixture::COURSE_INFO_2,
-                'userRef' => UserFixture::REF_PREFIX . UserFixture::USER_1,
-                'permission' => Permission::WRITE
+            CourseInfoFixture::COURSE_INFO_2 . '_' . UserFixture::USER_1 => [
+                'permission' => Permission::WRITE,
+                '@courseInfo' => CourseInfoFixture::COURSE_INFO_2,
+                '@user' => UserFixture::USER_1
             ],
-            [
-                'courseInfoRef' => CourseInfoFixture::COURSE_INFO_1,
-                'userRef' => UserFixture::REF_PREFIX . UserFixture::USER_2,
-                'permission' => Permission::WRITE
-            ],
-            [
-                'courseInfoRef' => CourseInfoFixture::COURSE_INFO_1,
-                'userRef' => UserFixture::REF_PREFIX . UserFixture::USER_FREDERIC,
-                'permission' => Permission::WRITE
-            ],
-            [
-                'courseInfoRef' => CourseInfoFixture::COURSE_INFO_1,
-                'userRef' => UserFixture::REF_PREFIX . UserFixture::USER_STEPHANE,
-                'permission' => Permission::WRITE
-            ],
-            [
-                'courseInfoRef' => CourseInfoFixture::COURSE_INFO_1,
-                'userRef' => UserFixture::REF_PREFIX . UserFixture::USER_KEVIN,
-                'permission' => Permission::WRITE
-            ],
-            [
-                'courseInfoRef' => CourseInfoFixture::COURSE_INFO_1,
-                'userRef' => UserFixture::REF_PREFIX . UserFixture::USER_SALIM,
-                'permission' => Permission::WRITE
-            ],
+            CourseInfoFixture::COURSE_INFO_1 . '_' . UserFixture::USER_2 => [
+                'permission' => Permission::WRITE,
+                '@courseInfo' => CourseInfoFixture::COURSE_INFO_1,
+                '@user' => UserFixture::USER_2
+            ]
         ];
+    }
 
-        foreach ($coursePermissions as $coursePermissionFixture) {
-            $permission = new CoursePermission();
-            $permission->setId(Uuid::uuid4())
-                ->setCourseInfo($this->getReference($coursePermissionFixture['courseInfoRef']))
-                ->setUser($this->getReference($coursePermissionFixture['userRef']))
-                ->setPermission($coursePermissionFixture['permission']);
-            $manager->persist($permission);
-        }
-
-        $manager->flush();
+    /**
+     * @return string
+     */
+    protected function getEntityClassName(): string
+    {
+        return CoursePermission::class;
     }
 
     /**
      * @return array
      */
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
             CourseInfoFixture::class,
@@ -83,6 +56,9 @@ class CoursePermissionFixture extends Fixture implements DependentFixtureInterfa
         ];
     }
 
+    /**
+     * @return string[]
+     */
     public static function getGroups(): array
     {
         return ['test'];

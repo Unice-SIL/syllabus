@@ -6,11 +6,11 @@ namespace Tests\Syllabus\Controller\Admin;
 use App\Syllabus\Entity\Activity;
 use App\Syllabus\Entity\ActivityType;
 use App\Syllabus\Exception\ActivityNotFoundException;
+use App\Syllabus\Exception\UserNotFoundException;
+use App\Syllabus\Fixture\ActivityFixture;
 use App\Syllabus\Fixture\ActivityTypeFixture;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PropertyAccess\PropertyAccess;
-use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 /**
  * Class ActivityControllerTest
@@ -180,10 +180,11 @@ class ActivityControllerTest extends AbstractAdminControllerTest
     /**
      * @dataProvider newActivityNotValidProvider
      * @param array $data
-     * @param $fieldName
-     * @param $tagName
+     * @param string $fieldName
+     * @param string|null $tagName
+     * @throws UserNotFoundException
      */
-    public function testNewActivityNotValid(array $data, $fieldName, $tagName = null)
+    public function testNewActivityNotValid(array $data, string $fieldName, ?string $tagName = null)
     {
         $em = $this->getEntityManager();
         $this->login();
@@ -242,7 +243,7 @@ class ActivityControllerTest extends AbstractAdminControllerTest
     /**
      * @dataProvider editActivityWithMissingRoleProvider
      * @param array $data
-     * @throws ActivityNotFoundException
+     * @throws ActivityNotFoundException|UserNotFoundException
      */
     public function testEditActivityWithMissingRole(array $data)
     {
@@ -279,6 +280,7 @@ class ActivityControllerTest extends AbstractAdminControllerTest
     /**
      * @dataProvider editActivitySuccessfulProvider
      * @param array $data
+     * @throws UserNotFoundException
      */
     public function testEditActivitySuccessful(array $data)
     {
@@ -348,14 +350,15 @@ class ActivityControllerTest extends AbstractAdminControllerTest
      * @param array $data
      * @param $fieldName
      * @param null $tagName
-     * @throws ActivityNotFoundException
+     * @throws ActivityNotFoundException|UserNotFoundException
      */
     public function testEditActivityNotValid(array $data, $fieldName, $tagName = null)
     {
-        $activity = $this->getActivity();
+        $activity = $this->getActivity(ActivityFixture::ACTIVITY_7);
         $this->login();
         $crawler = $this->client()->request('GET', $this->generateUrl(self::ROUTE_ADMIN_ACTIVITY_EDIT, ['id' => $activity->getId()]));
         $crawler = $this->submitForm($crawler->filter('button[type="submit"]'), 'appbundle_activity', $data);
+        $this->assertResponseIsSuccessful();
 
         $this->assertInvalidFormField($crawler, 'appbundle_activity' . $fieldName, $tagName);
     }

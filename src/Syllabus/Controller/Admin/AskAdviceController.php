@@ -32,7 +32,7 @@ class AskAdviceController extends AbstractController
      * @param PaginatorInterface $paginator
      * @return Response
      */
-    public function indexAction(Request $request, AskAdviceManager $adviceManager, PaginatorInterface $paginator)
+    public function indexAction(Request $request, AskAdviceManager $adviceManager, PaginatorInterface $paginator): Response
     {
         $pagination = $paginator->paginate(
             $adviceManager->findAll(),

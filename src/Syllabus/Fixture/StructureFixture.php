@@ -3,16 +3,13 @@
 namespace App\Syllabus\Fixture;
 
 use App\Syllabus\Entity\Structure;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
-use Doctrine\Persistence\ObjectManager;
-use Ramsey\Uuid\Uuid;
 
 /**
  * Class StructureFixture
  * @package App\Syllabus\Fixture
  */
-class StructureFixture extends Fixture  implements FixtureGroupInterface
+class StructureFixture extends AbstractFixture  implements FixtureGroupInterface
 {
     /**
      *
@@ -22,35 +19,37 @@ class StructureFixture extends Fixture  implements FixtureGroupInterface
     const LA = 'structureLA';
 
     /**
-     * @param ObjectManager $manager
-     * @throws \Exception
+     * @return string[][]
      */
-    public function load(ObjectManager $manager)
+    protected function getDataEntities(): array
     {
-        $structure = new Structure();
-        $structure->setId(Uuid::uuid4())
-            ->setLabel('UFR Sciences')
-            ->setCode('SCI');
-        $this->addReference(self::SCIENCES, $structure);
-        $manager->persist($structure);
-
-        $structure = new Structure();
-        $structure->setId(Uuid::uuid4())
-            ->setLabel('UFR LASH')
-            ->setCode('LAS');
-        $this->addReference(self::LAS, $structure);
-        $manager->persist($structure);
-
-        $structure = new Structure();
-        $structure->setId(Uuid::uuid4())
-            ->setLabel('UFR LASH UCA')
-            ->setCode('LA');
-        $this->addReference(self::LA, $structure);
-        $manager->persist($structure);
-
-        $manager->flush();
+        return [
+            self::SCIENCES => [
+                'label' => self::SCIENCES,
+                'code' => 'SCI'
+            ],
+            self::LAS => [
+                'label' => self::LAS,
+                'code' => 'LAS'
+            ],
+            self::LA => [
+                'label' => self::LA,
+                'code' => 'LA'
+            ],
+        ];
     }
 
+    /**
+     * @return string
+     */
+    protected function getEntityClassName(): string
+    {
+        return Structure::class;
+    }
+
+    /**
+     * @return string[]
+     */
     public static function getGroups(): array
     {
         return ['prod', 'test'];

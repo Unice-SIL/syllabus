@@ -10,6 +10,7 @@ use App\Syllabus\Exception\CourseNotFoundException;
 use App\Syllabus\Exception\StructureNotFoundException;
 use App\Syllabus\Exception\UserNotFoundException;
 use App\Syllabus\Exception\YearNotFoundException;
+use App\Syllabus\Fixture\YearFixture;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -509,7 +510,7 @@ class CourseControllerTest extends AbstractAdminControllerTest
                 [
                     'title' => 'GroupTest42',
                     'structure' => $this->getStructure()->getId(),
-                    'year' => $this->getYear()->getId()
+                    'year' => $this->getYear(YearFixture::YEAR_2013)->getId()
                 ]
             ]
         ];
@@ -552,7 +553,7 @@ class CourseControllerTest extends AbstractAdminControllerTest
                 [
                     'title' => null,
                     'structure' => $this->getStructure()->getId(),
-                    'year' => $this->getYear()->getId()
+                    'year' => $this->getYear(YearFixture::YEAR_2013)->getId()
                 ],
                 '[title]'
             ],
@@ -560,7 +561,7 @@ class CourseControllerTest extends AbstractAdminControllerTest
                 [
                     'title' => '',
                     'structure' => $this->getStructure()->getId(),
-                    'year' => $this->getYear()->getId()
+                    'year' => $this->getYear(YearFixture::YEAR_2013)->getId()
                 ],
                 '[title]'
             ],
@@ -570,7 +571,7 @@ class CourseControllerTest extends AbstractAdminControllerTest
                     Morbi nibh dui, sollicitudin id lectus et, iaculis feugiat justo.
                     Nullam rutrum mauris a sagittis volutpat. Etiam quam.',
                     'structure' => $this->getStructure()->getId(),
-                    'year' => $this->getYear()->getId()
+                    'year' => $this->getYear(YearFixture::YEAR_2013)->getId()
                 ],
                 '[title]'
             ]

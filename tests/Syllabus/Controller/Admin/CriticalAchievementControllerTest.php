@@ -5,7 +5,9 @@ namespace Tests\Syllabus\Controller\Admin;
 
 use App\Syllabus\Entity\Course;
 use App\Syllabus\Entity\CriticalAchievement;
+use App\Syllabus\Exception\CourseNotFoundException;
 use App\Syllabus\Exception\CriticalAchievementNotFoundException;
+use App\Syllabus\Exception\UserNotFoundException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -110,6 +112,7 @@ class CriticalAchievementControllerTest extends AbstractAdminControllerTest
     /**
      * @dataProvider newCriticalAchievementSuccessfulProvider
      * @param array $data
+     * @throws UserNotFoundException
      */
     public function testNewCriticalAchievementSuccessful(array $data)
     {
@@ -118,11 +121,9 @@ class CriticalAchievementControllerTest extends AbstractAdminControllerTest
 
         $crawler = $this->client()->request('GET', $this->generateUrl(self::ROUTE_ADMIN_CRITICAL_ACHIEVEMENT_NEW));
 
-        $this->submitForm(
-            $crawler->filter('button[type="submit"]'),
-            'critical_achievement',
-            $data
-        );
+        $this->submitForm($crawler->filter('button[type="submit"]'), 'critical_achievement', $data, [
+            'disable_validation' => ['[courses]']
+        ]);
 
         $this->assertResponseRedirects($this->generateUrl(self::ROUTE_ADMIN_CRITICAL_ACHIEVEMENT_LIST));
 
@@ -145,6 +146,7 @@ class CriticalAchievementControllerTest extends AbstractAdminControllerTest
 
     /**
      * @return array
+     * @throws CourseNotFoundException
      */
     public function newCriticalAchievementSuccessfulProvider(): array
     {
