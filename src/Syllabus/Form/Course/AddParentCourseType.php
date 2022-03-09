@@ -42,7 +42,7 @@ class AddParentCourseType extends AbstractType
         $builder->add('parents', Select2EntityType::class, [
             'label' => 'admin.course.course_parents',
             'multiple' => true,
-            'remote_route' => 'app_admin.course_autocompleteS2',
+            'remote_route' => 'app.admin.course.autocompleteS2',
             'remote_params' => ['course_id' => $course->getId()], // static route parameters for request->query
             'class' => Course::class,
             'primary_key' => 'id',

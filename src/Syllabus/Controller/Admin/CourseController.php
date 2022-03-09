@@ -161,7 +161,7 @@ class CourseController extends AbstractController
 
             $em->flush();
 
-            return $this->redirectToRoute('app_admin.course_show', [
+            return $this->redirectToRoute('app.admin.course.show', [
                 'id' => $course->getId()
             ]);
         }
@@ -179,7 +179,7 @@ class CourseController extends AbstractController
 
             $em->flush();
 
-            return $this->redirectToRoute('app_admin.course_show', [
+            return $this->redirectToRoute('app.admin.course.show', [
                 'id' => $course->getId()
             ]);
         }
@@ -198,7 +198,7 @@ class CourseController extends AbstractController
 
             $em->flush();
 
-            return $this->redirectToRoute('app_admin.course_show', [
+            return $this->redirectToRoute('app.admin.course.show', [
                 'id' => $course->getId()
             ]);
         }
