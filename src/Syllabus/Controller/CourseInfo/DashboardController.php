@@ -145,30 +145,30 @@ class DashboardController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
-    public function AskAdvice(CourseInfo $courseInfo, Request $request, Environment $twig, EntityManagerInterface $em)
-    {
-        $askAdvice = new AskAdvice();
-        $askAdvice->setUser($this->getUser())->setCourseInfo($courseInfo);
-        $form = $this->createForm(AskAdviceType::class, $askAdvice);
-        $form->handleRequest($request);
+    /*   public function AskAdvice(CourseInfo $courseInfo, Request $request, Environment $twig, EntityManagerInterface $em)
+        {
+            $askAdvice = new AskAdvice();
+            $askAdvice->setUser($this->getUser())->setCourseInfo($courseInfo);
+            $form = $this->createForm(AskAdviceType::class, $askAdvice);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($askAdvice);
-            $em->flush();
+            if ($form->isSubmitted() && $form->isValid()) {
+                $em->persist($askAdvice);
+                $em->flush();
+                return $this->json([
+                    'status' => true,
+                    'content' => null
+                ]);
+            }
+            $render = $twig->render('course_info/dashboard/form/ask_advice.html.twig', [
+                'courseInfo' => $courseInfo,
+                'form' => $form->createView()
+            ]);
             return $this->json([
                 'status' => true,
-                'content' => null
+                'content' => $render
             ]);
-        }
-        $render = $twig->render('course_info/dashboard/form/ask_advice.html.twig', [
-            'courseInfo' => $courseInfo,
-            'form' => $form->createView()
-        ]);
-        return $this->json([
-            'status' => true,
-            'content' => $render
-        ]);
-    }
+        }*/
 
     /**
      * @param CourseInfo $courseInfo

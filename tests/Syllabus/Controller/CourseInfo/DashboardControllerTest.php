@@ -8,6 +8,7 @@ use App\Syllabus\Entity\CourseInfo;
 use App\Syllabus\Entity\CourseInfoField;
 use App\Syllabus\Exception\CourseNotFoundException;
 use App\Syllabus\Fixture\CourseFixture;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -17,12 +18,12 @@ use Symfony\Component\HttpFoundation\Response;
 class DashboardControllerTest extends AbstractCourseInfoControllerTest
 {
 
-    /** @var CourseInfo $course */
-    private $course;
+    /** @var CourseInfo $courseInfo */
+    private $courseInfo;
 
     public function setUp(): void
     {
-        $this->course = $this->getCourseInfo(CourseFixture::COURSE_1);
+        $this->courseInfo = $this->getCourseInfo(CourseFixture::COURSE_1);
     }
 
     /**
@@ -62,53 +63,15 @@ class DashboardControllerTest extends AbstractCourseInfoControllerTest
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
     }
 
-    public function testDashboardSyllabusDuplicateFailedWithDangerMessage()
-    {
-        $from = 'SLUPB11__UNION__2018';
-        $this->login();
-        $em = $this->getEntityManager();
-        $courseInfoFields = $em->getRepository(CourseInfoField::class)->findAll();
-
-
-        foreach ($courseInfoFields as $courseInfoField) {
-            /** @var CourseInfoField $courseInfoField */
-            $courseInfoField->setManuallyDuplication(false);
-        }
-        $em->flush();
-
-        $this->client()->request(
-            'POST',
-            $this->generateUrl(self::ROUTE_APP_DASHBOARD_INDEX,
-                [
-                    'id' => $this->course->getId()
-                ]
-            )
-        );
-
-        $this->client()->request(
-            'POST',
-            $this->generateUrl(self::ROUTE_APP_DASHBOARD_INDEX,
-                [
-                    'id' => $this->course->getId()
-                ]
-            ),
-            ['appbundle_duplicate_course_info' =>
-                [
-                    'from' => $from,
-                    'to' => $this->getCourseInfo(CourseFixture::COURSE_3)->getId()
-                ]
-            ]
-        );
-        $this->assertCount(1, $this->getFlashMessagesInSession('danger'));
-        $this->assertResponseRedirects($this->generateUrl(self::ROUTE_APP_DASHBOARD_INDEX, ['id' => $this->course->getId()]));
-    }
-
     /**
      * @throws CourseNotFoundException
      * @throws \App\Syllabus\Exception\UserNotFoundException
      */
     public function testDashboardSyllabusDuplicateSuccessful()
     {
+        $course1 = $this->getCourseInfo(CourseFixture::COURSE_1);
+        $course3 = $this->getCourseInfo(CourseFixture::COURSE_3);
+
         $from = 'SLUPB11__UNION__2018';
         $this->login();
 
@@ -116,26 +79,18 @@ class DashboardControllerTest extends AbstractCourseInfoControllerTest
             'POST',
             $this->generateUrl(self::ROUTE_APP_DASHBOARD_INDEX,
                 [
-                    'id' => $this->course->getId()
-                ]
-            )
-        );
-
-        $this->client()->request(
-            'POST',
-            $this->generateUrl(self::ROUTE_APP_DASHBOARD_INDEX,
-                [
-                    'id' => $this->course->getId()
+                    'id' => $course1->getId()
                 ]
             ),
             ['appbundle_duplicate_course_info' =>
                 [
                     'from' => $from,
-                    'to' => $this->getCourseInfo(CourseFixture::COURSE_3)->getId()
+                    'to' => $course3->getId()
                 ]
             ]
         );
-        $this->assertResponseRedirects($this->generateUrl(self::ROUTE_APP_DASHBOARD_INDEX, ['id' => $this->course->getId()]));
+        $this->assertCount(1, $this->getFlashMessagesInSession('success'));
+        $this->assertResponseRedirects($this->generateUrl(self::ROUTE_APP_DASHBOARD_INDEX, ['id' => $this->courseInfo->getId()]));
     }
 
 
@@ -147,7 +102,7 @@ class DashboardControllerTest extends AbstractCourseInfoControllerTest
             'POST',
             $this->generateUrl(self::ROUTE_APP_DASHBOARD_INDEX,
                 [
-                    'id' => $this->course->getId()
+                    'id' => $this->courseInfo->getId()
                 ]
             )
         );
@@ -156,12 +111,12 @@ class DashboardControllerTest extends AbstractCourseInfoControllerTest
             'POST',
             $this->generateUrl(self::ROUTE_APP_DASHBOARD_INDEX,
                 [
-                    'id' => $this->course->getId()
+                    'id' => $this->courseInfo->getId()
                 ]
             ),
             ['appbundle_duplicate_course_info' =>
                 [
-                    'id' => $this->course->getId()
+                    'id' => $this->courseInfo->getId()
                 ]
             ]
         );
@@ -187,7 +142,7 @@ class DashboardControllerTest extends AbstractCourseInfoControllerTest
             'POST',
             $this->generateUrl(self::ROUTE_APP_DASHBOARD_INDEX,
                 [
-                    'id' => $this->course->getId()
+                    'id' => $this->courseInfo->getId()
                 ]
             )
         );
@@ -196,17 +151,17 @@ class DashboardControllerTest extends AbstractCourseInfoControllerTest
             'POST',
             $this->generateUrl(self::ROUTE_APP_DASHBOARD_INDEX,
                 [
-                    'id' => $this->course->getId()
+                    'id' => $this->courseInfo->getId()
                 ]
             ),
             ['appbundle_duplicate_course_info' =>
                 [
-                    'from' => $this->course->getId(),
-                    'to' => $this->course->getId()
+                    'from' => $this->courseInfo->getId(),
+                    'to' => $this->courseInfo->getId()
                 ]
             ]
         );
-        $this->assertResponseRedirects($this->generateUrl(self::ROUTE_APP_DASHBOARD_INDEX, ['id' => $this->course->getId()]));
+        $this->assertResponseRedirects($this->generateUrl(self::ROUTE_APP_DASHBOARD_INDEX, ['id' => $this->courseInfo->getId()]));
     }
 
     /**
@@ -226,7 +181,7 @@ class DashboardControllerTest extends AbstractCourseInfoControllerTest
             'GET',
             $this->generateUrl(self::ROUTE_APP_COURSE_INFO_DASHBOARD_DASHBOARD,
                 [
-                    'id' => $this->course->getId()
+                    'id' => $this->courseInfo->getId()
                 ]
             )
         );
@@ -240,47 +195,188 @@ class DashboardControllerTest extends AbstractCourseInfoControllerTest
             'POST',
             $this->generateUrl(self::ROUTE_APP_COURSE_INFO_DASHBOARD_PUBLISHE_NEXT_YEAR,
                 [
-                    'id' => $this->course->getId(),
+                    'id' => $this->courseInfo->getId(),
                     'action' => 1
                 ]
             )
         );
-        self::assertEquals($this->course->getDuplicateNextYear(),1);
+        self::assertEquals($this->courseInfo->getDuplicateNextYear(), 1);
         $this->assertJson($this->client()->getResponse()->getContent());
     }
 
+    public function testDashboardSyllabusDuplicateFailedWithReceiverSyllabusIdenticalToTransmitter()
+    {
+        $from = 'SLUPB11__UNION__2018';
+        $this->login();
+        $em = $this->getEntityManager();
+        $courseInfoFields = $em->getRepository(CourseInfoField::class)->findAll();
 
 
-    // a compeleter
-    /* public function testPublishCourseInfo()
-     {
-         $this->login();
-         $courseInfo = $this->getCourse(CourseFixture::COURSE_1);
-         $this->client()->request(
-             'GET',
-             $this->generateUrl(self::ROUTE_APP_COURSE_INFO_DASHBOARD_DASHBOARD,
-                 [
-                     'id' => $courseInfo->getId()
-                 ]
-             )
-         );
+        foreach ($courseInfoFields as $courseInfoField) {
+            /** @var CourseInfoField $courseInfoField */
+            $courseInfoField->setManuallyDuplication(false);
+        }
+        $em->flush();
 
-         $token = $this->getCsrfToken('publish_course_info');
+        $this->client()->request(
+            'POST',
+            $this->generateUrl(self::ROUTE_APP_DASHBOARD_INDEX,
+                [
+                    'id' => $this->courseInfo->getId()
+                ]
+            ),
+            ['appbundle_duplicate_course_info' =>
+                [
+                    'from' => $from,
+                    'to' => $this->getCourseInfo(CourseFixture::COURSE_2)->getId()
+                ]
+            ]
+        );
+        $this->assertCount(1, $this->getFlashMessagesInSession('danger'));
+        $this->assertResponseRedirects($this->generateUrl(self::ROUTE_APP_DASHBOARD_INDEX, ['id' => $this->courseInfo->getId()]));
+    }
 
-         $this->client()->request(
-             'POST',
-             $this->generateUrl(self::ROUTE_APP_COURSE_INFO_DASHBOARD_PUBLISH,
-                 [
-                     'id' => $courseInfo->getId()
-                 ]
-             ),
-             [
-                 'ask_advice' => [
-                     '_token' => $token
-                 ]
-             ]
-         );
-         $this->assertJson($this->client()->getResponse()->getContent());
-     }*/
+    public function testPublishCourseInfoFailedNotValidForm()
+    {
+        $this->login();
+        $this->client()->request(
+            'GET',
+            $this->generateUrl(self::ROUTE_APP_COURSE_INFO_DASHBOARD_DASHBOARD,
+                [
+                    'id' => $this->courseInfo->getId()
+                ]
+            )
+        );
+
+        $token = $this->getCsrfToken('publish_course_info');
+
+        $this->client()->request(
+            'POST',
+            $this->generateUrl(self::ROUTE_APP_COURSE_INFO_DASHBOARD_PUBLISH,
+                [
+                    'id' => $this->courseInfo->getId()
+                ]
+            ),
+            [
+                'ask_advice' => [
+                    '_token' => $token
+                ]
+            ]
+        );
+        $this->assertJson($this->client()->getResponse()->getContent());
+    }
+
+    public function testPublishCourseInfoFailedWithViolation()
+    {
+        $this->login();
+        $this->client()->request(
+            'GET',
+            $this->generateUrl(self::ROUTE_APP_COURSE_INFO_DASHBOARD_DASHBOARD,
+                [
+                    'id' => $this->courseInfo->getId()
+                ]
+            )
+        );
+
+        $token = $this->getCsrfToken('publish_course_info');
+        $this->client()->request(
+            'POST',
+            $this->generateUrl(self::ROUTE_APP_COURSE_INFO_DASHBOARD_PUBLISH,
+                [
+                    'id' => $this->courseInfo->getId()
+                ]
+            ),
+            [
+                'publish_course_info' => [
+                    '_token' => $token
+                ]
+            ]
+        );
+        $this->assertJson($this->client()->getResponse()->getContent());
+    }
+
+    // a completer
+    public function testPublishCourseInfoSuccessful()
+    {
+        $em = $this->getEntityManager();
+        $this->login();
+
+      //  $uploadFile = new UploadedFile(__DIR__.'/data/test.jpg', 'tsest.jpg');
+      //  dd($this->courseInfo->getImage());
+        $this->courseInfo->setImage(__DIR__.'/data/test.jpg')->setMediaType('image');
+/*       $this->courseInfo->setPreviousImage(__DIR__.'/data/test.jpg');*/
+        $em->flush();
+
+        $this->assertNull($this->courseInfo->getPublicationDate());
+        $this->assertNull($this->courseInfo->getPublisher());
+        $this->courseInfo = $em->getRepository(CourseInfo::class)->find($this->courseInfo->getId());
+
+        $this->client()->request(
+            'GET',
+            $this->generateUrl(self::ROUTE_APP_COURSE_INFO_DASHBOARD_DASHBOARD,
+                [
+                    'id' => $this->courseInfo->getId()
+                ]
+            )
+        );
+
+        $token = $this->getCsrfToken('publish_course_info');
+
+        $this->client()->request(
+            'POST',
+            $this->generateUrl(self::ROUTE_APP_COURSE_INFO_DASHBOARD_PUBLISH,
+                [
+                    'id' => $this->courseInfo->getId()
+                ]
+            ),
+            [
+                'publish_course_info' => [
+                    '_token' => $token
+                ]
+            ]
+        );
+        /** @var CourseInfo $courseInfoPublished */
+        $courseInfoPublished = $em->getRepository(CourseInfo::class)->find($this->courseInfo->getId());
+
+       // dd(  $courseInfoPublished->getPreviousImage());
+        self::assertTrue(true);
+        //$this->assertNotNull($courseInfoPublished->getPublicationDate());
+        //$this->assertNotNull($courseInfoPublished->getPublisher());
+    }
+
+    public function testPublishCourseInfoFailedAlreadyPublish()
+    {
+        $em = $this->getEntityManager();
+        $this->login();
+        $this->courseInfo->setImage('data/test.jpg')
+            ->setPublicationDate(new \DateTime());
+        $em->flush();
+
+        $this->client()->request(
+            'GET',
+            $this->generateUrl(self::ROUTE_APP_COURSE_INFO_DASHBOARD_DASHBOARD,
+                [
+                    'id' => $this->courseInfo->getId()
+                ]
+            )
+        );
+
+        $token = $this->getCsrfToken('publish_course_info');
+
+        $this->client()->request(
+            'POST',
+            $this->generateUrl(self::ROUTE_APP_COURSE_INFO_DASHBOARD_PUBLISH,
+                [
+                    'id' => $this->courseInfo->getId()
+                ]
+            ),
+            [
+                'publish_course_info' => [
+                    '_token' => $token
+                ]
+            ]
+        );
+        $this->assertNotNull($this->courseInfo->getPublicationDate());
+    }
 }
 
