@@ -8,6 +8,7 @@ use App\Syllabus\Entity\AskAdvice;
 use App\Syllabus\Form\DashboardType;
 use App\Syllabus\Manager\StatisticSyllabusManager;
 use App\Syllabus\Manager\YearManager;
+use App\Syllabus\Repository\Doctrine\AskAdviceDoctrineRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,15 +32,17 @@ class DashboardController extends AbstractController
      * @return Response
      * @throws \Exception
      */
-    public function IndexAction(Request $request, StatisticSyllabusManager $statisticSyllabusManager, YearManager $yearManager)
+    public function IndexAction(
+        Request $request,
+        StatisticSyllabusManager $statisticSyllabusManager,
+        YearManager $yearManager,
+        AskAdviceDoctrineRepository $adviceDoctrineRepository
+    )
     {
-        $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(DashboardType::class);
         $form->handleRequest($request);
 
-        $repoAskDevice = $em->getRepository(AskAdvice::class);
-
-        $totalAskAdvices = $repoAskDevice->createQueryBuilder('a')
+        $totalAskAdvices = $adviceDoctrineRepository->createQueryBuilder('a')
             ->select('count(a.id)')
             ->where('a.process = 0')
             ->getQuery()

@@ -3,18 +3,16 @@
 {% block subContent %}
     <div class="card">
         <div class="card-header">
-            <div class="col-7" style="padding-left: 0px;">
-                <div class="row">
-                    <div class="col-10">
-                        {{ form_start(form) }}
-                        {{ form_row(form.years) }}
-                    </div>
-                    <div class=" form-group col-2" style="display: flex; justify-content: flex-end">
-                        <button type="submit" class="btn btn-primary" style="align-self: flex-end">{{ 'admin.button.display' | trans }}</button>
-                    </div>
-                    {{ form_end(form) }}
+            {{ form_start(form) }}
+            <div class="row">
+                <div class="col-lg-6 col-md-12">
+                    {{ form_row(form.years) }}
+                </div>
+                <div class="form-group d-flex justify-content-start col-lg-6 col-md-12">
+                    <button type="submit" class="btn btn-primary align-self-end">{{ 'admin.button.display' | trans }}</button>
                 </div>
             </div>
+            {{ form_end(form) }}
         </div>
         <div class="card-body">
             <div class="row">

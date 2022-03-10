@@ -65,7 +65,7 @@ class CampusControllerTest extends AbstractAdminControllerTest
     /**
      * @throws CampusNotFoundException
      */
-    public function testGroupsFilter()
+    public function testCampusFilter()
     {
         $this->tryWithAdminPermission(self::ROUTE_ADMIN_CAMPUS_LIST, [
             'campus_filter' => [
