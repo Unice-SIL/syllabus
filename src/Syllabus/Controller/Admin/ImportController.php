@@ -171,7 +171,7 @@ class ImportController extends AbstractController
             $validationReport->finishReport(count($coursePermissions));
             $request->getSession()->set('parsingCsvReport', $parsingReport);
             $request->getSession()->set('validationReport', $validationReport);
-            return $this->redirectToRoute('app..admin..import_csv.permission');
+            return $this->redirectToRoute('app.admin.import_csv.permission');
 
         }
 

@@ -50,7 +50,6 @@ abstract class AbstractManager
      */
     public function updateIfExistsOrCreate(object $entityData, array $fieldsToUpdate = [], $options = [])
     {
-
         $options = array_merge([
             'force_create' => false,
             'flush' => false,
