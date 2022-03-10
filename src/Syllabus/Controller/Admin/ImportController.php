@@ -81,7 +81,6 @@ class ImportController extends AbstractController
             $validationReport = ReportingHelper::createReport($translator->trans('admin.import.reporting_helper.insertion_db'));
 
             foreach ($courseInfos as $lineIdReport => $courseInfo) {
-
                 $courseInfoManager->updateIfExistsOrCreate($courseInfo, $fieldsToUpdate, [
                     'flush' => true,
                     'find_by_parameters' => [
