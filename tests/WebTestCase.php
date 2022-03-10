@@ -78,6 +78,7 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     public const ROUTE_APP_HOMEPAGE = 'app_index';
     public const ROUTE_APP_ROUTER = 'app_router';
     public const ROUTE_APP_ROUTER_LIGHT = 'app_router_anon';
+    public const ROUTE_CREDITS = 'credits';
 
     /*
      *  Admin
@@ -190,8 +191,8 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     public const ROUTE_APP_COURSE_INFO_DASHBOARD = 'app.course_info.dashboard.index';
     public const ROUTE_APP_COURSE_INFO_DASHBOARD_DASHBOARD = 'app.course_info.dashboard.dashboard';
     public const ROUTE_APP_COURSE_INFO_DASHBOARD_PUBLISHE_NEXT_YEAR = 'app.course_info.dashboard.publishNextYear';
-    PUBLIC CONST ROUTE_APP_COURSE_INFO_DASHBOARD_ASK_ADVICE = 'app.course_info.dashboard.askAdvice';
-    PUBLIC CONST ROUTE_APP_COURSE_INFO_DASHBOARD_PUBLISH = 'app.course_info.dashboard.publish';
+    public const ROUTE_APP_COURSE_INFO_DASHBOARD_ASK_ADVICE = 'app.course_info.dashboard.askAdvice';
+    public const ROUTE_APP_COURSE_INFO_DASHBOARD_PUBLISH = 'app.course_info.dashboard.publish';
 
     public const ROUTE_APP_COURSE_STUDENT_VIEW = 'app.course_info.view.student';
 
@@ -272,6 +273,13 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     public const ROUTE_APP_COURSE_TUTORING_RESOURCE_EDIT = 'app.course_info.tutoring_resource.edit';
     public const ROUTE_APP_COURSE_TUTORING_RESOURCE_DELETE = 'app.course_info.tutoring_resource.delete';
 
+    public const ROUTE_APP_AUTO_COMPLETE_GENERIC = 'app.common.autocomplete.generic';
+    public const ROUTE_APP_AUTO_COMPLETE_S2_GENERIC = 'app.common.autocomplete.generic_s2';
+    public const ROUTE_APP_AUTO_COMPLETE_S2_GENERIC_USER = 'app.common.autocomplete.generic_s2_user';
+    public const ROUTE_APP_AUTO_COMPLETE_S2_GENERIC_COURSES = 'app.common.autocomplete.generic_s2_courses';
+    public const ROUTE_APP_AUTO_COMPLETE_S2_GENERIC_COURSES_INFO_WITH_WRITE_PERMISSION =
+        'app.common.autocomplete.s2_courseinfo_with_write_permission';
+
     public const ROUTE_APP_MAINTENANCE = 'app.maintenance.index';
 
     public const DEFAULT_USER_USERNAME = 'user1';
@@ -284,7 +292,6 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     public const LANGUE_FR = LanguageFixture::LANGUAGE_FR;
 
     public const COURSE_LEVEL = LevelFixture::LEVEL_L1;
-
 
 
     /**
@@ -374,9 +381,8 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     {
         if (!$label) {
             $courseInfoField = current($this->getEntityManager()->getRepository(CourseInfoField::class)->findAll());
-        }
-        else {
-            $courseInfoField = $this->getEntityManager()->getRepository(CourseInfoField::class)->findOneBy(['label' => $label] );
+        } else {
+            $courseInfoField = $this->getEntityManager()->getRepository(CourseInfoField::class)->findOneBy(['label' => $label]);
         }
 
         if (!$courseInfoField instanceof CourseInfoField) {
@@ -429,19 +435,19 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
         return $type ? $session->getFlashBag()->get($type) : $session->getFlashBag()->all();
     }
 
-/*    public function submitForm(Crawler $node, string $formName = null, array $data = []): ?Crawler
-    {
-        $form = $node->form();
-        foreach ($data as $field => $value) {
-            $fieldName = $formName ? $formName . '[' . $field . ']' : $field;
-            if ($form[$fieldName] instanceof ChoiceFormField)
-            {
-                $form[$fieldName]->disableValidation();
+    /*    public function submitForm(Crawler $node, string $formName = null, array $data = []): ?Crawler
+        {
+            $form = $node->form();
+            foreach ($data as $field => $value) {
+                $fieldName = $formName ? $formName . '[' . $field . ']' : $field;
+                if ($form[$fieldName] instanceof ChoiceFormField)
+                {
+                    $form[$fieldName]->disableValidation();
+                }
+                $form[$fieldName]->setValue($value);
             }
-            $form[$fieldName]->setValue($value);
-        }
-        return $this->client()->submit($form);
-    }*/
+            return $this->client()->submit($form);
+        }*/
 
     /**
      * @param Crawler $node
@@ -468,7 +474,7 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     {
         $formName = $form->getName();
         foreach ($data as $field => $value) {
-            if (preg_match('/^\[.*\]$/' ,$field) !== 1) {
+            if (preg_match('/^\[.*\]$/', $field) !== 1) {
                 $field = '[' . $field . ']';
             }
             $fieldName = $formName ? $formName . $field : $field;
@@ -600,7 +606,7 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
      */
     public function getActivity(string $label = ActivityFixture::ACTIVITY_1): Activity
     {
-        $activity = $this->getEntityManager()->getRepository(Activity::class)->findOneBy(['label'=>$label]);
+        $activity = $this->getEntityManager()->getRepository(Activity::class)->findOneBy(['label' => $label]);
 
         if (!$activity instanceof Activity) {
             throw new ActivityNotFoundException();
@@ -616,7 +622,7 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
      */
     public function getActivityMode(string $label = ActivityModeFixture::ACTIVITY_MODE_1): ActivityMode
     {
-        $activityMode = $this->getEntityManager()->getRepository(ActivityMode::class)->findOneBy(['label'=>$label]);
+        $activityMode = $this->getEntityManager()->getRepository(ActivityMode::class)->findOneBy(['label' => $label]);
 
         if (!$activityMode instanceof ActivityMode) {
             throw new ActivityModeNotFoundException();
@@ -632,7 +638,7 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
      */
     public function getActivityType(string $label = ActivityTypeFixture::ACTIVITY_TYPE_AUTONOMY): ActivityType
     {
-        $activityType = $this->getEntityManager()->getRepository(ActivityType::class)->findOneBy(['label'=>$label]);
+        $activityType = $this->getEntityManager()->getRepository(ActivityType::class)->findOneBy(['label' => $label]);
 
         if (!$activityType instanceof ActivityType) {
             throw new ActivityTypeNotFoundException();
@@ -648,7 +654,7 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
      */
     public function getCampus(string $label = self::CAMPUS_VALROSE): Campus
     {
-        $campus = $this->getEntityManager()->getRepository(Campus::class)->findOneBy(['label'=>$label]);
+        $campus = $this->getEntityManager()->getRepository(Campus::class)->findOneBy(['label' => $label]);
 
         if (!$campus instanceof Campus) {
             throw new CampusNotFoundException();
@@ -664,7 +670,7 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
      */
     public function getCriticalAchievement(string $label = CriticalAchievementFixture::CRITICAL_ACHIEVEMENT_1): CriticalAchievement
     {
-        $criticalAchievement = $this->getEntityManager()->getRepository(CriticalAchievement::class)->findOneBy(['label'=>$label]);
+        $criticalAchievement = $this->getEntityManager()->getRepository(CriticalAchievement::class)->findOneBy(['label' => $label]);
 
         if (!$criticalAchievement instanceof CriticalAchievement) {
             throw new CriticalAchievementNotFoundException();
@@ -680,7 +686,7 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
      */
     public function getDomain(string $label = DomainFixture::DOMAIN_1): Domain
     {
-        $domain = $this->getEntityManager()->getRepository(Domain::class)->findOneBy(['label'=>$label]);
+        $domain = $this->getEntityManager()->getRepository(Domain::class)->findOneBy(['label' => $label]);
 
         if (!$domain instanceof Domain) {
             throw new DomainNotFoundException();
@@ -696,7 +702,7 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
      */
     public function getEquipment(string $label = EquipmentFixture::EQUIPMENT_1): Equipment
     {
-        $equipment = $this->getEntityManager()->getRepository(Equipment::class)->findOneBy(['label'=>$label]);
+        $equipment = $this->getEntityManager()->getRepository(Equipment::class)->findOneBy(['label' => $label]);
 
         if (!$equipment instanceof Equipment) {
             throw new EquipmentNotFoundException();
@@ -712,7 +718,7 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
      */
     public function getGroupsUser(string $label = GroupsFixture::SUPER_ADMIN): Groups
     {
-        $group = $this->getEntityManager()->getRepository(Groups::class)->findOneBy(['label'=>$label]);
+        $group = $this->getEntityManager()->getRepository(Groups::class)->findOneBy(['label' => $label]);
 
         if (!$group instanceof Groups) {
             throw new GroupsNotFoundException();
@@ -728,7 +734,7 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
      */
     public function getLanguage(string $label = LanguageFixture::LANGUAGE_FR): Language
     {
-        $language = $this->getEntityManager()->getRepository(Language::class)->findOneBy(['label'=>$label]);
+        $language = $this->getEntityManager()->getRepository(Language::class)->findOneBy(['label' => $label]);
 
         if (!$language instanceof Language) {
             throw new LanguageNotFoundException();
@@ -744,7 +750,7 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
      */
     public function getPeriod(string $label = PeriodFixture::PERIOD_1): Period
     {
-        $period = $this->getEntityManager()->getRepository(Period::class)->findOneBy(['label'=>$label]);
+        $period = $this->getEntityManager()->getRepository(Period::class)->findOneBy(['label' => $label]);
 
         if (!$period instanceof Period) {
             throw new PeriodNotFoundException();
@@ -760,7 +766,7 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
      */
     public function getLevel(string $label = LevelFixture::LEVEL_L1): Level
     {
-        $level = $this->getEntityManager()->getRepository(Level::class)->findOneBy(['label'=>$label]);
+        $level = $this->getEntityManager()->getRepository(Level::class)->findOneBy(['label' => $label]);
 
         if (!$level instanceof Level) {
             throw new LevelNotFoundException();
@@ -776,7 +782,7 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
      */
     public function getStructure(string $label = StructureFixture::SCIENCES): Structure
     {
-        $structure = $this->getEntityManager()->getRepository(Structure::class)->findOneBy(['label'=>$label]);
+        $structure = $this->getEntityManager()->getRepository(Structure::class)->findOneBy(['label' => $label]);
 
         if (!$structure instanceof Structure) {
             throw new StructureNotFoundException();

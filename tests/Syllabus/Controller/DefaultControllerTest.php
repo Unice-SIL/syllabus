@@ -40,7 +40,13 @@ class DefaultControllerTest extends WebTestCase
             'code' => $course->getCourse()->getCode(),
             'year' => $course->getYear()->getId()
         ]));
+
         $this->assertResponseRedirects($this->generateUrl(self::ROUTE_APP_COURSE_INFO_DASHBOARD, ['id' => $course->getId()]));
+
+        $this->client()->request('GET', $this->generateUrl(self::ROUTE_APP_ROUTER, [
+            'code' => $course->getCourse()->getCode()
+        ]));
+        $this->assertResponseIsSuccessful();
     }
 
     /**
@@ -114,5 +120,24 @@ class DefaultControllerTest extends WebTestCase
             'code' => $course->getCourse()->getCode(),
             'year' => $course->getYear()->getId()
         ]));
+
+        $this->client()->request('GET', $this->generateUrl(self::ROUTE_APP_ROUTER_LIGHT, [
+            'code' => $course->getCourse()->getCode(),
+        ]));
+       $this->assertResponseIsSuccessful();
+    }
+
+    public function testCreditsUserNotAuthenticated()
+    {
+        $this->client()->request('GET', $this->generateUrl(self::ROUTE_CREDITS));
+        $this->assertResponseRedirects();
+        $this->assertStringContainsString('/Shibboleth.sso', $this->client()->getResponse()->getContent());
+    }
+
+    public function testCreditsSuccessful()
+    {
+        $this->login();
+        $this->client()->request('GET', $this->generateUrl(self::ROUTE_CREDITS));
+        $this->assertResponseIsSuccessful();
     }
 }
