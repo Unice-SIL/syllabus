@@ -7,6 +7,7 @@ use App\Syllabus\Constant\UserRole;
 use App\Syllabus\Entity\CourseInfo;
 use App\Syllabus\Entity\Structure;
 use App\Syllabus\Repository\Doctrine\UserDoctrineRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -16,6 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
+use Twig\Environment;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\expr;
 
 /**
@@ -61,9 +63,10 @@ class AutoCompleteController extends AbstractController
      *
      * @param string $entityName
      * @param Request $request
+     * @param EntityManagerInterface $em
      * @return JsonResponse
      */
-    public function autoCompleteS2(string $entityName, Request $request)
+    public function autoCompleteS2(string $entityName, Request $request, EntityManagerInterface $em)
     {
         $namespace = 'App\Syllabus\\Entity\\';
         $entityName = "{$namespace}{$entityName}";
@@ -75,7 +78,7 @@ class AutoCompleteController extends AbstractController
 
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
 
-        $repository = $this->getDoctrine()->getRepository($entityName);
+        $repository = $em->getRepository($entityName);
         $entities = $repository->findByFilters(array_merge($findByOther, [$findBy=>$query]));
 
         $data = [];
@@ -106,9 +109,10 @@ class AutoCompleteController extends AbstractController
      *
      * @param string $entityName
      * @param Request $request
+     * @param EntityManagerInterface $em
      * @return JsonResponse
      */
-    public function autoCompleteS2Courses(string $entityName, Request $request)
+    public function autoCompleteS2Courses(string $entityName, Request $request,EntityManagerInterface $em)
     {
         $namespace = 'App\Syllabus\\Entity\\';
         $entityName = "{$namespace}{$entityName}";
@@ -119,7 +123,7 @@ class AutoCompleteController extends AbstractController
 
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
 
-        $repository = $this->getDoctrine()->getRepository($entityName);
+        $repository = $em->getRepository($entityName);
         $entities = $repository->findByTitleOrCode($query);
 
         $data = [];
@@ -154,15 +158,16 @@ class AutoCompleteController extends AbstractController
      * @Route("/s2-courseinfo-with-write-permission", name="s2_courseinfo_with_write_permission")
      *
      * @param Request $request
+     * @param EntityManagerInterface $em
      * @return JsonResponse
      */
-    public function autoCompleteS2CourseInfoWithWritePermission(Request $request)
+    public function autoCompleteS2CourseInfoWithWritePermission(Request $request, EntityManagerInterface $em): JsonResponse
     {
         $search = $request->query->get('q', '');
         $currentCourseInfo = $request->query->get('currentCourseInfo', null);
 
         /** @var QueryBuilder $qb */
-        $qb = $this->getDoctrine()->getRepository(CourseInfo::class)->createQueryBuilder('ci')
+        $qb = $em->getRepository(CourseInfo::class)->createQueryBuilder('ci')
             ->innerJoin('ci.course', 'c')
             ->addSelect('c')
             ->where('ci.title LIKE :search OR c.code LIKE :search')
