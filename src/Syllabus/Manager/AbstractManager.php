@@ -59,7 +59,6 @@ abstract class AbstractManager
             'lineIdReport' => null,
         ], $options);
 
-
         if (!isset($options['find_by_parameters'])) {
             $options['find_by_parameters'] = ['id' => $entityData->getId()];
         }

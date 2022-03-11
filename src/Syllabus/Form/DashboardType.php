@@ -31,6 +31,7 @@ class DashboardType extends AbstractType
                 'label' => "admin.dashboard.form.years",
                 'choices' => $this->manager->findAll(),
                 'choice_label' => 'label',
+                'choice_value' => 'id',
                 'data' => $this->manager->findCurrentYear(),
                 'required' => true
             ]);

@@ -3,7 +3,9 @@
 
 namespace Tests\Syllabus\Controller\Admin;
 
+use App\Syllabus\Exception\CourseNotFoundException;
 use App\Syllabus\Exception\UserNotFoundException;
+use App\Syllabus\Fixture\CourseFixture;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -63,13 +65,134 @@ class ImportControllerTest extends AbstractAdminControllerTest
         $this->assertResponseRedirects($this->generateUrl(self::ROUTE_ADMIN_IMPORT_COURSE_INFO));
     }
 
-    public function importCourseInfoSuccessfulProvider()
+    /**
+     * @return \array[][]
+     * @throws CourseNotFoundException
+     */
+    public function importCourseInfoSuccessfulProvider(): array
     {
+        $courseInfo = $this->getCourseInfo(CourseFixture::COURSE_1);
         return [
             [
                 [
                     ['code', 'year'],
-                    ['TEST', '2022']
+                    [$courseInfo->getCourse()->getCode(), $courseInfo->getYear()->getId()]
+                ]
+            ],
+            [
+                [
+                    [
+                        'code', 'year', 'structure', 'title', 'ects', 'summary', 'teachingMode', 'teachingCmClass',
+                        'teachingTdClass', 'teachingTpClass', 'teachingOtherClass', 'teachingOtherTypeClass',
+                        'teachingCmHybridClass', 'teachingTdHybridClass', 'teachingTpHybridClass', 'teachingOtherHybridClass',
+                        'teachingOtherTypeHybridClass', 'teachingCmHybridDist', 'teachingTdHybridDist', 'teachingOtherHybridDist',
+                        'teachingOtherTypeHybridDistant', 'teachingCmDist', 'teachingTdDist', 'teachingOtherDist', 'teachingOtherTypeDist',
+                        'mccWeight', 'mccCapitalizable', 'mccCompensable', 'evaluationType', 'mccCtCoeffSession1', 'mccCcNbEvalSession1',
+                        'mccCtNatSession1', 'mccCtDurationSession1', 'mccAdvice', 'tutoring', 'tutoringTeacher', 'tutoringStudent',
+                        'tutoringDescription', 'educationalResources', 'bibliographicResources', 'agenda', 'organization', 'closingRemarks'
+                    ],
+                    [
+                        $courseInfo->getCourse()->getCode(),
+                        $courseInfo->getYear()->getId(),
+                        $courseInfo->getStructure()->getCode(),
+                        '',
+                        '',
+                        '',
+                        $courseInfo->getTeachingMode(),
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        $courseInfo->isMccCapitalizable(),
+                        $courseInfo->isMccCompensable(),
+                        'CC',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        ''
+                    ]
+                ]
+            ],
+            [
+                [
+                    [
+                        'code', 'year', 'structure', 'title', 'ects', 'summary', 'teachingMode', 'teachingCmClass',
+                        'teachingTdClass', 'teachingTpClass', 'teachingOtherClass', 'teachingOtherTypeClass',
+                        'teachingCmHybridClass', 'teachingTdHybridClass', 'teachingTpHybridClass', 'teachingOtherHybridClass',
+                        'teachingOtherTypeHybridClass', 'teachingCmHybridDist', 'teachingTdHybridDist', 'teachingOtherHybridDist',
+                        'teachingOtherTypeHybridDistant', 'teachingCmDist', 'teachingTdDist', 'teachingOtherDist', 'teachingOtherTypeDist',
+                        'mccWeight', 'mccCapitalizable', 'mccCompensable', 'evaluationType', 'mccCtCoeffSession1', 'mccCcNbEvalSession1',
+                        'mccCtNatSession1', 'mccCtDurationSession1', 'mccAdvice', 'tutoring', 'tutoringTeacher', 'tutoringStudent',
+                        'tutoringDescription', 'educationalResources', 'bibliographicResources', 'agenda', 'organization', 'closingRemarks'
+                    ],
+                    [
+                        $courseInfo->getCourse()->getCode(),
+                        $courseInfo->getYear()->getId(),
+                        $courseInfo->getStructure()->getCode(),
+                        $courseInfo->getTitle(),
+                        $courseInfo->getEcts(),
+                        $courseInfo->getSummary(),
+                        $courseInfo->getTeachingMode(),
+                        $courseInfo->getTeachingCmClass(),
+                        $courseInfo->getTeachingTdClass(),
+                        $courseInfo->getTeachingTpClass(),
+                        $courseInfo->getTeachingOtherClass(),
+                        $courseInfo->getTeachingOtherTypeClass(),
+                        $courseInfo->getTeachingCmHybridClass(),
+                        $courseInfo->getTeachingTdHybridClass(),
+                        $courseInfo->getTeachingTpHybridClass(),
+                        $courseInfo->getTeachingOtherHybridClass(),
+                        $courseInfo->getTeachingOtherTypeHybridClass(),
+                        $courseInfo->getTeachingCmHybridDist(),
+                        $courseInfo->getTeachingTdHybridDist(),
+                        $courseInfo->getTeachingOtherHybridDist(),
+                        $courseInfo->getTeachingOtherTypeHybridDistant(),
+                        $courseInfo->getTeachingCmDist(),
+                        $courseInfo->getTeachingTdDist(),
+                        $courseInfo->getTeachingOtherDist(),
+                        $courseInfo->getTeachingOtherTypeDist(),
+                        $courseInfo->getMccWeight(),
+                        $courseInfo->isMccCapitalizable(),
+                        $courseInfo->isMccCompensable(),
+                        'CC',
+                        $courseInfo->getMccCtCoeffSession1(),
+                        $courseInfo->getMccCtNatSession1(),
+                        $courseInfo->getMccCtDurationSession1(),
+                        $courseInfo->getMccAdvice(),
+                        $courseInfo->isTutoring(),
+                        $courseInfo->isTutoringStudent(),
+                        $courseInfo->isTutoringTeacher(),
+                        $courseInfo->getTutoringDescription(),
+                        $courseInfo->getEducationalResources(),
+                        $courseInfo->getBibliographicResources(),
+                        $courseInfo->getAgenda(),
+                        $courseInfo->getOrganization(),
+                        $courseInfo->getClosingRemarks()
+                    ]
                 ]
             ],
         ];
@@ -116,23 +239,22 @@ class ImportControllerTest extends AbstractAdminControllerTest
         $this->assertResponseRedirects($this->generateUrl(self::ROUTE_ADMIN_IMPORT_PERMISSION));
     }
 
-    public function importPermissionSuccessfulProvider()
+    /**
+     * @return \array[][]
+     * @throws CourseNotFoundException
+     * @throws UserNotFoundException
+     */
+    public function importPermissionSuccessfulProvider(): array
     {
         $courseInfo = $this->getCourseInfo();
         return [
             [
                 [
                     ['code', 'year', 'username', 'permission'],
-                    ['CODE', '2022', 'scurry', 'READ']
-                ]
-            ],
-            [
-                [
-                    ['code', 'year', 'username', 'permission'],
                     [
                         $courseInfo->getCourse()->getCode(),
-                        $courseInfo->getYear(),
-                        'scurry',
+                        $courseInfo->getYear()->getId(),
+                        $this->getUser()->getUsername(),
                         'READ'
                     ]
                 ]
