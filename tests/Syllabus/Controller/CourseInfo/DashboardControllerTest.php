@@ -8,7 +8,6 @@ use App\Syllabus\Entity\CourseInfo;
 use App\Syllabus\Entity\CourseInfoField;
 use App\Syllabus\Exception\CourseNotFoundException;
 use App\Syllabus\Fixture\CourseFixture;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -295,21 +294,14 @@ class DashboardControllerTest extends AbstractCourseInfoControllerTest
         $this->assertJson($this->client()->getResponse()->getContent());
     }
 
-    // a completer
     public function testPublishCourseInfoSuccessful()
     {
         $em = $this->getEntityManager();
         $this->login();
-
-      //  $uploadFile = new UploadedFile(__DIR__.'/data/test.jpg', 'tsest.jpg');
-      //  dd($this->courseInfo->getImage());
-        $this->courseInfo->setImage(__DIR__.'/data/test.jpg')->setMediaType('image');
-/*       $this->courseInfo->setPreviousImage(__DIR__.'/data/test.jpg');*/
+        $this->courseInfo->setMediaType('video')->setVideo('myVideo');
         $em->flush();
-
         $this->assertNull($this->courseInfo->getPublicationDate());
         $this->assertNull($this->courseInfo->getPublisher());
-        $this->courseInfo = $em->getRepository(CourseInfo::class)->find($this->courseInfo->getId());
 
         $this->client()->request(
             'GET',
@@ -335,13 +327,12 @@ class DashboardControllerTest extends AbstractCourseInfoControllerTest
                 ]
             ]
         );
-        /** @var CourseInfo $courseInfoPublished */
-        $courseInfoPublished = $em->getRepository(CourseInfo::class)->find($this->courseInfo->getId());
+        $this->assertJson($this->client()->getResponse()->getContent());
+        /** @var CourseInfo $updatedCourseInfo */
+        $updatedCourseInfo = $em->getRepository(CourseInfo::class)->findOneBy(['id' => $this->courseInfo->getId()]);
 
-       // dd(  $courseInfoPublished->getPreviousImage());
-        self::assertTrue(true);
-        //$this->assertNotNull($courseInfoPublished->getPublicationDate());
-        //$this->assertNotNull($courseInfoPublished->getPublisher());
+        $this->assertNotNull($updatedCourseInfo->getPublisher());
+        $this->assertNotNull($updatedCourseInfo->getPublicationDate());
     }
 
     public function testPublishCourseInfoFailedAlreadyPublish()
