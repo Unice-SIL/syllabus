@@ -39,7 +39,7 @@
 
     {% set teachingClassForm = [] %}
     {% set teachingDistantForm = [] %}
-    {% set teachingPrototype = form.teachings.vars.prototype %}
+    {% set teachingPrototype = macros.printTeachingRow(form.teachings.vars.prototype, '__teaching_mode__') %}
 
     {% for teachingForm in form.teachings %}
         {% if teachingForm.vars.data.mode is same as (constant('App\\Syllabus\\Constant\\TeachingMode::IN_CLASS')) %}
@@ -49,11 +49,13 @@
         {% endif %}
     {% endfor %}
     <div class="row">
-        <div class="col-6 teaching-fields-list-container" id="teaching-fields-list-container-{{ constant('App\\Syllabus\\Constant\\TeachingMode::IN_CLASS') }}">
-            {{ _self.printTeachingModeContainer(teachingClassForm, constant('App\\Syllabus\\Constant\\TeachingMode::IN_CLASS'), teachingPrototype ) }}
+        {% set mode = constant('App\\Syllabus\\Constant\\TeachingMode::IN_CLASS') %}
+        <div class="col-6 teaching-fields-list-container" id="teaching-fields-list-container-{{ mode }}">
+            {{ _self.printTeachingModeContainer(teachingClassForm, mode, teachingPrototype ) }}
         </div>
-        <div class="col-6 teaching-fields-list-container" id="teaching-fields-list-container-{{ constant('App\\Syllabus\\Constant\\TeachingMode::DIST') }}">
-            {{ _self.printTeachingModeContainer(teachingDistantForm, constant('App\\Syllabus\\Constant\\TeachingMode::DIST'), teachingPrototype ) }}
+        {% set mode = constant('App\\Syllabus\\Constant\\TeachingMode::DIST') %}
+        <div class="col-6 teaching-fields-list-container" id="teaching-fields-list-container-{{ mode }}">
+            {{ _self.printTeachingModeContainer(teachingDistantForm, mode, teachingPrototype ) }}
         </div>
     </div>
 
@@ -61,7 +63,7 @@
 
         <div id="teaching-fields-list-{{ mode }}"
              class="teaching-fields-list"
-             data-prototype="{{ macros.printTeachingRow(teachingPrototype, mode)|e('html_attr') }}"
+             data-prototype="{{ teachingPrototype|replace({'__teaching_mode__': mode})|e('html_attr') }}"
              data-widget-tags="{{ '<div></div>'|e }}"
         >
             {% for teachingForm in forms %}
@@ -87,8 +89,6 @@
     {% endmacro %}
 
 
-    {# prevents weird label from showing up in new #}
-    {{ form_widget(form.teachings) }}
 
     {#    =================================================End Teaching======================================================#}
 
