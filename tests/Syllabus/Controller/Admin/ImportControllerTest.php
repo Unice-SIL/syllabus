@@ -140,7 +140,7 @@ class ImportControllerTest extends AbstractAdminControllerTest
             [
                 [
                     [
-                        'code', 'year', 'structure', 'title', 'ects', 'summary', 'teachingMode', 'teachingCmClass',
+                        'code', 'year','structure', 'title', 'ects', 'summary', 'teachingMode', 'teachingCmClass',
                         'teachingTdClass', 'teachingTpClass', 'teachingOtherClass', 'teachingOtherTypeClass',
                         'teachingCmHybridClass', 'teachingTdHybridClass', 'teachingTpHybridClass', 'teachingOtherHybridClass',
                         'teachingOtherTypeHybridClass', 'teachingCmHybridDist', 'teachingTdHybridDist', 'teachingOtherHybridDist',
@@ -171,15 +171,16 @@ class ImportControllerTest extends AbstractAdminControllerTest
                         $courseInfo->getTeachingTdHybridDist(),
                         $courseInfo->getTeachingOtherHybridDist(),
                         $courseInfo->getTeachingOtherTypeHybridDistant(),
-                        $courseInfo->getTeachingCmDist(),
-                        $courseInfo->getTeachingTdDist(),
-                        $courseInfo->getTeachingOtherDist(),
+                        0,
+                        0,
+                        0,
                         $courseInfo->getTeachingOtherTypeDist(),
                         $courseInfo->getMccWeight(),
                         $courseInfo->isMccCapitalizable(),
                         $courseInfo->isMccCompensable(),
                         'CC',
                         $courseInfo->getMccCtCoeffSession1(),
+                        $courseInfo->getMccCcNbEvalSession1(),
                         $courseInfo->getMccCtNatSession1(),
                         $courseInfo->getMccCtDurationSession1(),
                         $courseInfo->getMccAdvice(),
