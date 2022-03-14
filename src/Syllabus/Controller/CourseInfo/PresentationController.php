@@ -145,10 +145,6 @@ class PresentationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-
-              foreach($form->getErrors(true) as $error){
-/*                  dd($error->getMessage());*/
-              }
             if ($form->isValid()) {
 
                 /** @var CourseTeacher $data */
@@ -221,6 +217,7 @@ class PresentationController extends AbstractController
                 'content' => $render
             ]);
         }
+
         $render = $twig->render('course_info/presentation/form/teaching_mode.html.twig', [
             'courseInfo' => $courseInfo,
             'form' => $form->createView()

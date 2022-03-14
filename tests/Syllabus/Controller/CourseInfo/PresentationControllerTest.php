@@ -18,15 +18,14 @@ use Symfony\Component\HttpFoundation\Response;
 class PresentationControllerTest extends AbstractCourseInfoControllerTest
 {
 
-    /** @var CourseInfo $course */
-    private $course;
+    /** @var CourseInfo $courseInfo */
+    private $courseInfo;
 
     public function setUp(): void
     {
-        $this->course = $this->getCourseInfo(CourseFixture::COURSE_1);
+        $this->courseInfo = $this->getCourseInfo(CourseFixture::COURSE_1);
     }
 
-    //  index
 
     /**
      * @throws CourseNotFoundException
@@ -105,8 +104,6 @@ class PresentationControllerTest extends AbstractCourseInfoControllerTest
     }
 
     //generalForm = edit
-
-    // generalView
     /**
      * @throws CourseNotFoundException
      */
@@ -152,7 +149,7 @@ class PresentationControllerTest extends AbstractCourseInfoControllerTest
 
         $this->client()->request(
             'GET',
-            $this->generateUrl(self::ROUTE_APP_PRESENTATION_GENERALE_EDIT, ['id' => $this->course->getId()])
+            $this->generateUrl(self::ROUTE_APP_PRESENTATION_GENERALE_EDIT, ['id' => $this->courseInfo->getId()])
         );
         $data = [
             'campuses' => [
@@ -162,12 +159,12 @@ class PresentationControllerTest extends AbstractCourseInfoControllerTest
 
         $this->client()->request(
             'POST',
-            $this->generateUrl(self::ROUTE_APP_PRESENTATION_GENERALE_EDIT, ['id' => $this->course->getId()]),
+            $this->generateUrl(self::ROUTE_APP_PRESENTATION_GENERALE_EDIT, ['id' => $this->courseInfo->getId()]),
             ['general' => $data]
         );
 
         /** @var CourseInfo $updatedCourseInfo */
-        $updatedCourseInfo = $em->getRepository(CourseInfo::class)->findOneBy(['id' => $this->course->getId()]);
+        $updatedCourseInfo = $em->getRepository(CourseInfo::class)->findOneBy(['id' => $this->courseInfo->getId()]);
         self::assertEquals($updatedCourseInfo->getCampuses()->first()->getLabel(), $this->getCampus()->getLabel());
     }
 
@@ -215,12 +212,10 @@ class PresentationControllerTest extends AbstractCourseInfoControllerTest
         $this->login();
         $this->client()->request(
             'GET',
-            $this->generateUrl(self::ROUTE_APP_PRESENTATION_TEACHERS, ['id' => $this->course->getId()])
+            $this->generateUrl(self::ROUTE_APP_PRESENTATION_TEACHERS, ['id' => $this->courseInfo->getId()])
         );
         $this->assertResponseIsSuccessful();
     }
-
-    // addTeachers
 
     /**
      * @throws CourseNotFoundException
@@ -259,7 +254,6 @@ class PresentationControllerTest extends AbstractCourseInfoControllerTest
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
     }
 
-    // a compléter
     public function testPresentationTeachersAddSuccessful()
     {
         $this->login();
@@ -267,7 +261,7 @@ class PresentationControllerTest extends AbstractCourseInfoControllerTest
             'GET',
             $this->generateUrl(self::ROUTE_APP_PRESENTATION_TEACHERS_ADD,
                 [
-                    'id' => $this->course->getId()
+                    'id' => $this->courseInfo->getId()
                 ]
             )
         );
@@ -276,14 +270,14 @@ class PresentationControllerTest extends AbstractCourseInfoControllerTest
             'POST',
             $this->generateUrl(self::ROUTE_APP_PRESENTATION_TEACHERS_ADD,
                 [
-                    'id' => $this->course->getId(),
-                    '_token' => $token
-
+                    'id' => $this->courseInfo->getId()
                 ]
             ),
             [
                 'teachers' => [
-                    'username' => $this->getUser(UserFixture::USER_3)->getId()
+                    'login' => $this->getUser(UserFixture::USER_3)->getUserIdentifier(),
+                    'teacherSource' => 'LDAP',
+                    '_token' => $token
                 ]
             ]
         );
@@ -292,6 +286,7 @@ class PresentationControllerTest extends AbstractCourseInfoControllerTest
     }
 
     // teachingMode
+
     /**
      * @throws CourseNotFoundException
      */
@@ -330,41 +325,65 @@ class PresentationControllerTest extends AbstractCourseInfoControllerTest
     }
 
     // teachingModeEdit
-
     /**
      * @throws CourseNotFoundException
      */
-  /*  public function testPresentationTeachingModeEditUserNotAuthenticated()
+    public function testPresentationTeachingModeEditUserNotAuthenticated()
     {
         $this->tryUserNotAuthenticated(self::ROUTE_APP_PRESENTATION_TEACHING_MODE_EDIT);
         $this->assertResponseRedirects();
         $this->assertStringContainsString('/Shibboleth.sso', $this->client()->getResponse()->getContent());
-    }*/
+    }
 
     /**
      * @throws CourseNotFoundException
      */
-/*    public function testPresentationTeachingModeEditRedirectWithAdminPermission()
+    public function testPresentationTeachingModeEditRedirectWithAdminPermission()
     {
         $this->tryRedirectWithAdminPermission(self::ROUTE_APP_PRESENTATION_TEACHING_MODE_EDIT);
         $this->assertResponseIsSuccessful();
-    }*/
+    }
 
     /**
      * @throws CourseNotFoundException
      */
-/*    public function testPresentationTeachingModeEditWithPermission()
+    public function testPresentationTeachingModeEditWithPermission()
     {
         $this->tryWithPermission(self::ROUTE_APP_PRESENTATION_TEACHING_MODE_EDIT, Permission::WRITE);
         $this->assertResponseIsSuccessful();
-    }*/
+    }
 
     /**
      * @throws CourseNotFoundException
-     *//*
+     */
     public function testPresentationTeachingModeEditWithoutPermission()
     {
         $this->tryWithoutPermission(self::ROUTE_APP_PRESENTATION_TEACHING_MODE_EDIT);
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
-    }*/
+    }
+
+    public function testPresentationTeachingModeEditSuccessful()
+    {
+        $this->login();
+        $this->client()->request('GET',
+            $this->generateUrl(self::ROUTE_APP_PRESENTATION_TEACHING_MODE_EDIT,
+                [
+                    'id' => $this->courseInfo->getId()
+                ])
+        );
+
+        $data['_token'] = $this->getCsrfToken('teaching_mode');
+
+        $this->client()->request('POST',
+            $this->generateUrl(self::ROUTE_APP_PRESENTATION_TEACHING_MODE_EDIT,
+                [
+                    'id' => $this->courseInfo->getId()
+                ]),
+            [
+                'teaching_mode' => $data
+            ]
+        );
+
+        $this->assertResponseIsSuccessful();
+    }
 }
