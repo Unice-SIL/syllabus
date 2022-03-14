@@ -133,7 +133,8 @@ class LanguageController extends AbstractController
      */
     public function autocompleteS2(LanguageDoctrineRepository $repository, Request $request)
     {
-        $query = $request->query->get('q');
+        $parameters = $request->query->all();
+        $query = $parameters['q'];
 
         $languages = $repository->getIndexQueryBuilder()
             ->andWhere('l.label LIKE :query ')

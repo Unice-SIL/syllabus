@@ -117,7 +117,8 @@ class CourseInfoController extends AbstractController
      */
     public function autocomplete(CourseInfoDoctrineRepository $courseInfoDoctrineRepository, Request $request, $field)
     {
-        $query = $request->query->get('query');
+        $parameters = $request->query->all();
+        $query = $parameters['query'];
 
         $courseInfos = $courseInfoDoctrineRepository->findLikeQuery($query, $field);
 
@@ -150,8 +151,9 @@ class CourseInfoController extends AbstractController
      */
     public function autocompleteS2(CourseInfoDoctrineRepository $courseInfoDoctrineRepository, Request $request)
     {
-        $query = $request->query->get('q');
-        $field = $request->query->get('field_name');
+        $parameters = $request->query->all();
+        $query = $parameters['q'];
+        $field = $parameters['field_name'] ?? null;
 
         switch ($field) {
             default:
@@ -162,7 +164,9 @@ class CourseInfoController extends AbstractController
         $courseInfos = $courseInfoDoctrineRepository->findLikeQuery($query, $searchField);
 
         $data = array_map(function ($ci) use ($request) {
-            if ($fromCodeYear = $request->query->get('fromCodeYear') and $ci->getCodeYear(true) == $fromCodeYear) {
+            $parameters = $request->query->all();
+            $fromCodeYear = $parameters['fromCodeYear'] ?? null;
+            if ($fromCodeYear = $fromCodeYear and $ci->getCodeYear(true) == $fromCodeYear) {
                 return false;
             }
             return ['id' => $ci->getId(), 'text' => $ci->getCodeYear()];

@@ -111,7 +111,7 @@ class CoursePrerequisiteController extends AbstractController
     public function sortPrerequisitesAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
     {
         $prerequisites = $courseInfo->getCoursePrerequisites();
-        $dataPrerequisites = $request->request->get('data');
+        $dataPrerequisites = $request->request->all('data');
 
         $this->sortList($courseInfo, $prerequisites, $dataPrerequisites, $manager);
 
@@ -186,7 +186,7 @@ class CoursePrerequisiteController extends AbstractController
     public function sortTutoringResourcesAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
     {
         $tutoringResources = $courseInfo->getCourseTutoringResources();
-        $dataTutoringResources = $request->request->get('data');
+        $dataTutoringResources = $request->request->all('data');
 
    //     dd($dataTutoringResources);
         $this->sortList($courseInfo, $tutoringResources, $dataTutoringResources, $manager);

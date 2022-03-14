@@ -296,6 +296,9 @@ class CourseController extends AbstractController
     {
         $query = $request->query->get('query');
 
+
+
+
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
 
         $courses = $courseDoctrineRepository->findLikeQuery($query, $field);
@@ -318,12 +321,15 @@ class CourseController extends AbstractController
      */
     public function autocompleteS2(CourseDoctrineRepository $courseDoctrineRepository, Request $request)
     {
-        $query = $request->query->get('q');
+        $parameters =  $request->query->all();
+        $query = $parameters['q'];
         $courses = $courseDoctrineRepository->findLikeQuery($query, 'code');
 
         $data = array_map(function ($c) use ($request) {
+            $parameters =  $request->query->all();
+            $code =  $parameters['code'] ?? null;
 
-            if (strtolower($c->getCode()) == strtolower($request->query->get('code'))) {
+            if (strtolower($c->getCode()) == strtolower($code)) {
                 return false;
             }
             return ['id' => $c->getId(), 'text' => $c->getCode()];

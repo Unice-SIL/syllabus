@@ -137,7 +137,8 @@ class CampusController extends AbstractController
      */
     public function autocompleteS2(CampusDoctrineRepository $repository, Request $request)
     {
-        $query = $request->query->get('c');
+        $parameters =  $request->query->all();
+        $query = $parameters['c'];
 
         $em = $repository->getIndexQueryBuilder();
         $campuses = $em->andWhere('c.label LIKE :query ')

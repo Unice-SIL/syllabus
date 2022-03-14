@@ -133,7 +133,7 @@ class CriticalAchievementController extends AbstractController
     public function autocompleteByCourse(CourseInfo $courseInfo, CriticalAchievementDoctrineRepository $criticalAchievementDoctrineRepository,
                                           Request $request)
     {
-        $query = $request->query->get('q', '');
+        $query = $request->query->all('q', '');
 
         $criticalAchievements = $criticalAchievementDoctrineRepository->findLikeQueryByCourse($query, $courseInfo->getCourse());
         $result = [];

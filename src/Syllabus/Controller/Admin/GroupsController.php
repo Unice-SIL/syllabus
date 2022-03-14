@@ -149,7 +149,8 @@ class GroupsController extends AbstractController
      */
     public function autocomplete(GroupsDoctrineRepository $groupsDoctrineRepository, Request $request, $field)
     {
-        $query = $request->query->get('query');
+        $parameters = $request->query->all();
+        $query = $parameters['query'];
 
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
 
