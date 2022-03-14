@@ -11,6 +11,7 @@ use App\Syllabus\Form\CourseInfo\Presentation\TeachersType;
 use App\Syllabus\Form\CourseInfo\Presentation\TeachingModeType;
 use App\Syllabus\Manager\CourseInfoManager;
 use App\Syllabus\Manager\CourseTeacherManager;
+use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,6 +19,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 /**
  * Class PresentationController
@@ -32,7 +36,7 @@ class PresentationController extends AbstractController
      *
      * @param CourseInfo $courseInfo
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
     public function indexAction(CourseInfo $courseInfo)
     {
@@ -128,7 +132,7 @@ class PresentationController extends AbstractController
      * @param ImportCourseTeacherFactory $factory
      * @param Environment $twig )
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
     public function addTeachersAction(CourseInfo                 $courseInfo,
                                       Request                    $request,
@@ -199,9 +203,16 @@ class PresentationController extends AbstractController
      * @param CourseInfoManager $manager
      * @param Environment $twig
      * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function teachingModeFormAction(CourseInfo  $courseInfo, Request $request, CourseInfoManager $manager,
-                                           Environment $twig)
+    public function teachingModeFormAction(
+        CourseInfo  $courseInfo,
+        Request $request,
+        CourseInfoManager $manager,
+        Environment $twig
+    ): Response
     {
         $form = $this->createForm(TeachingModeType::class, $courseInfo);
 
