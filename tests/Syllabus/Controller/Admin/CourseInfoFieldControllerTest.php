@@ -87,59 +87,45 @@ class CourseInfoFieldControllerTest extends AbstractAdminControllerTest
     }
 
     /**
-     * @dataProvider editCourseInfoFieldSuccessfulProvider
-     * @param array $data
+     * @return void
+     * @throws CourseInfoFieldNotFoundException
      * @throws UserNotFoundException
      */
-    /*public function testEditCourseInfoFieldSuccessful(array $data)
+    public function testEditCourseInfoFieldSuccessful()
     {
         $em = $this->getEntityManager();
         $this->login();
 
-        $courseInfoField = new CourseInfoField('Fake');
-        $courseInfoField->setLabel('Fake')
-            ->setManuallyDuplication(false)
-            ->setAutomaticDuplication(false)
-            ->setImport(false);
+        $courseInfoField = $this->getCourseInfoField();
 
+        $courseInfoField->setAutomaticDuplication(false)
+            ->setManuallyDuplication(false)
+            ->setImport(false);
         $em->persist($courseInfoField);
         $em->flush();
 
-        $crawler = $this->client()->request(
+        $this->client()->request(
+            Request::METHOD_GET,
+            $this->generateUrl(self::ROUTE_ADMIN_COURSE_INFO_FIELD_LIST)
+        );
+
+        $token = $this->getCsrfToken('appbundle_course_info_field');
+        $data = [
+            'manuallyDuplication' => true,
+            'automaticDuplication' => true,
+            'import' => true,
+            '_token' => $token
+        ];
+
+        $this->client()->request(
             Request::METHOD_POST,
-            $this->generateUrl(self::ROUTE_ADMIN_COURSE_INFO_FIELD_EDIT, ['id' => $courseInfoField->getId()])
+            $this->generateUrl(self::ROUTE_ADMIN_COURSE_INFO_FIELD_EDIT, ['id' => $courseInfoField->getId()]),
+            ['appbundle_course_info_field' => $data]
         );
 
-        $this->submitForm(
-            $crawler->filter('input[class="course-info-field-edit-ajax"]'),
-            'appbundle_course_info_field',
-            $data
-        );
-
-        $this->assertCount(
-            1,
-            $this->getFlashMessagesInSession('success')
-        );
-
-        /** @var CourseInfoField $updatedCourseInfoField *//*
+        /** @var CourseInfoField $updatedCourseInfoField */
         $updatedCourseInfoField = $em->getRepository(CourseInfoField::class)->find($courseInfoField->getId());
 
         $this->assertCheckEntityProps($updatedCourseInfoField, $data);
-    }*/
-
-    /**
-     * @return array
-     */
-    public function editCourseInfoFieldSuccessfulProvider(): array
-    {
-        return [
-            [
-                [
-                    'manuallyDuplication' => true,
-                    'automaticDuplication' => true,
-                    'import' => true,
-                ]
-            ]
-        ];
     }
 }
