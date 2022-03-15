@@ -5,7 +5,7 @@ namespace App\Syllabus\Security\Provider;
 use App\Syllabus\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
@@ -43,11 +43,12 @@ class TestUserProvider implements UserProviderInterface
     /**
      * @param string $username
      * @return User
+     * @throws UserNotFoundException
      */
-    public function loadUserByUsername($username)
+    public function loadUserByUsername($username) : UserInterface
     {
         if(!array_key_exists($username, $this->config['users'])){
-            throw new UsernameNotFoundException(sprintf("User %s not found in users configured for test_authenticator.", $username));
+            throw new UserNotFoundException(sprintf("User %s not found in users configured for test_authenticator.", $username));
         }
         $credentials = $this->config['users'][$username];
 
