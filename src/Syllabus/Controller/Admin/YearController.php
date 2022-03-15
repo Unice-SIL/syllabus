@@ -116,7 +116,8 @@ class YearController extends AbstractController
      */
     public function autocompleteS2(YearDoctrineRepository $yearDoctrineRepository, Request $request)
     {
-        $query = $request->query->get('q');
+        $parameters = $request->query->all();
+        $query = $parameters['q'];
 
         $years = $yearDoctrineRepository->findLikeQuery($query, 'y.label');
 

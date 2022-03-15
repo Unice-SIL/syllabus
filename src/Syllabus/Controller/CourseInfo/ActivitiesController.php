@@ -169,7 +169,8 @@ class ActivitiesController extends AbstractController
     public function sortSectionsAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
     {
         $sections = $courseInfo->getCourseSections();
-        $dataSections = $request->request->get('data');
+        $parameters = $request->request->all();
+        $dataSections = $parameters['data'];
 
         if ($dataSections)
         {

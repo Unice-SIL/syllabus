@@ -222,7 +222,8 @@ class DashboardController extends AbstractController
      */
     public function DuplicateCourseInfoNextYear(CourseInfo $courseInfo, Request $request, CourseInfoManager $courseInfoManager)
     {
-        $courseInfo->setDuplicateNextYear($request->get('action'));
+        $parameters = $request->query->all();
+        $courseInfo->setDuplicateNextYear($parameters['action']);
         $courseInfoManager->update($courseInfo);
         return $this->json(['status' => true]);
     }

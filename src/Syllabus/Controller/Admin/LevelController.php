@@ -133,7 +133,8 @@ class LevelController extends AbstractController
      */
     public function autocomplete(LevelDoctrineRepository $levelDoctrineRepository, Request $request)
     {
-        $query = $request->query->get('query');
+        $parameters = $request->query->all();
+        $query = $parameters['query'];
 
         $levels = $levelDoctrineRepository->findLikeQuery($query);
         $levels = array_map(function($level){

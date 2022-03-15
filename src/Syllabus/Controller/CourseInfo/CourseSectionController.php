@@ -160,7 +160,7 @@ class CourseSectionController extends AbstractController
                                                       CourseSectionManager $courseSectionManager)
     {
         $activities = $section->getCourseSectionActivities();
-        $dataActivities = $request->request->get('data');
+        $dataActivities = $request->request->all('data');
 
         if ($dataActivities)
         {

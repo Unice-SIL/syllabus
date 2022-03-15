@@ -104,7 +104,7 @@ class ObjectivesController extends AbstractController
     public function sortAchievementsAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
     {
         $achievements = $courseInfo->getCourseAchievements();
-        $dataAchievements = $request->request->get('data');
+        $dataAchievements = $request->request->all('data');
 
         $this->sortList($courseInfo, $achievements, $dataAchievements, $manager);
 

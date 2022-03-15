@@ -24,7 +24,7 @@ class NotificationController extends AbstractController
      */
     public function seenAction(Request $request)
     {
-        if ($this->isCsrfTokenValid('notification-seen', $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('notification-seen', $request->request->all('_token'))) {
 
             $session = $request->getSession();
             $adminNotifications = $session->get('admin_notifications');
@@ -50,7 +50,7 @@ class NotificationController extends AbstractController
     public function seenOneAction(Request $request, string $id)
     {
 
-        if ($this->isCsrfTokenValid('notification' . $id, $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('notification' . $id, $request->request->all('_token'))) {
 
             $session = $request->getSession();
             $adminNotifications = $session->get('admin_notifications');
