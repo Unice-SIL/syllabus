@@ -50,6 +50,7 @@ security:
             - ROLE_API_GET_YEAR
             - ROLE_API_POST_YEAR
             - ROLE_API_PUT_YEAR
+            - ROLE_API_DUPLICATE_SYLLABUS
 
     access_control:
         - { path: light(\/.*)?$, roles: PUBLIC_ACCESS }
