@@ -24,6 +24,11 @@ syllabus.home:
   requirements:
     _locale: "fr|en"
 
+syllabus.api:
+  resource: ../../src/Syllabus/Controller/Api
+  type: annotation
+  prefix: /api
+
 lexik_translation_edition:
   resource: "@LexikTranslationBundle/Resources/config/routing.yml"
   prefix:   /{_locale}/admin/translation

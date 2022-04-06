@@ -2,17 +2,10 @@
 
 namespace App\Syllabus\Controller\Api;
 
-use App\Syllabus\Entity\Course;
 use App\Syllabus\Entity\CourseInfo;
 use App\Syllabus\Entity\Year;
-use App\Syllabus\Exception\CourseInfoAlreadyExistException;
-use App\Syllabus\Exception\CourseInfoNotFoundException;
-use App\Syllabus\Exception\CourseNotFoundException;
-use App\Syllabus\Exception\YearNotFoundException;
 use App\Syllabus\Manager\CourseInfoManager;
-use App\Syllabus\Manager\YearManager;
 use App\Syllabus\Repository\Doctrine\CourseInfoDoctrineRepository;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,7 +18,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
  * Class CourseController
  * @package App\Syllabus\Controller
  *
- * @Route("/api", name="app.api.")
+ * @Route(name="app.api.")
  * @Security("is_granted('ROLE_API')")
  */
 class ApiController extends AbstractController
@@ -35,11 +28,12 @@ class ApiController extends AbstractController
      * @Security("is_granted('ROLE_API_DUPLICATE_SYLLABUS')")
      * @throws Exception
      */
-    public function duplicationSyllabusAction($code1, $year1, $code2, $year2,
-                                              EntityManagerInterface $em,
-                                              CourseInfoManager $courseInfoManager,
-                                              CourseInfoDoctrineRepository $courseInfoDoctrineRepository)
-    {
+    public function duplicationSyllabusAction(
+        $code1, $year1, $code2, $year2,
+        EntityManagerInterface $em,
+        CourseInfoManager $courseInfoManager,
+        CourseInfoDoctrineRepository $courseInfoDoctrineRepository
+    ) {
         if(!$em->getRepository(Year::class)->find($year1) instanceof Year)
         {
             return $this->json(
@@ -84,8 +78,6 @@ class ApiController extends AbstractController
         );
 
         $em->flush();
-
-        //dd($courseInfoDoctrineRepository->findByCodeAndYear($code2, $year2));
 
         return $this->json('');
     }
