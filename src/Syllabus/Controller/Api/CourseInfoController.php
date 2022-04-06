@@ -9,31 +9,33 @@ use App\Syllabus\Repository\Doctrine\CourseInfoDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 
 /**
- * Class CourseController
- * @package App\Syllabus\Controller
+ * Class CourseInfoController
+ * @package App\Syllabus\Controller\Api
  *
- * @Route(name="app.api.")
+ * @Route("/course-info", name="app.course_info.api.")
  * @Security("is_granted('ROLE_API')")
  */
-class ApiController extends AbstractController
+class CourseInfoController extends AbstractController
 {
     /**
-     * @Route("/{code1}/{year1}/{code2}/{year2}", name="duplicate", methods={"GET"})
+     * @Route("/duplicate/{code1}/{year1}/{code2}/{year2}", name="duplicate", methods={"GET"})
      * @Security("is_granted('ROLE_API_DUPLICATE_SYLLABUS')")
      * @throws Exception
      */
-    public function duplicationSyllabusAction(
+    public function duplicationCourseInfoAction(
         $code1, $year1, $code2, $year2,
         EntityManagerInterface $em,
         CourseInfoManager $courseInfoManager,
         CourseInfoDoctrineRepository $courseInfoDoctrineRepository
-    ) {
+    ): JsonResponse
+    {
         if(!$em->getRepository(Year::class)->find($year1) instanceof Year)
         {
             return $this->json(
@@ -79,6 +81,6 @@ class ApiController extends AbstractController
 
         $em->flush();
 
-        return $this->json('');
+        return $this->json('Duplication réussi');
     }
 }
