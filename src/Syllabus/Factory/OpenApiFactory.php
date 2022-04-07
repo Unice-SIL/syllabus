@@ -23,7 +23,7 @@ class OpenApiFactory implements OpenApiFactoryInterface
         $openApi = $this->decorated->__invoke($context);
         $pathItem = $openApi->getPaths()->getPath('/api/course_infos/duplicate/{code1}/{year1}/{code2}/{year2}');
         $operation = $pathItem->getGet();
-        dump($operation);
+        
         $openApi->getPaths()->addPath('/api/course_infos/duplicate/{code1}/{year1}/{code2}/{year2}', $pathItem->withGet(
             $operation->withParameters(
                 [
