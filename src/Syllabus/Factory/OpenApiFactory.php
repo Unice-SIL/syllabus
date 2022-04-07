@@ -23,17 +23,16 @@ class OpenApiFactory implements OpenApiFactoryInterface
         $openApi = $this->decorated->__invoke($context);
         $pathItem = $openApi->getPaths()->getPath('/api/course_infos/duplicate/{code1}/{year1}/{code2}/{year2}');
         $operation = $pathItem->getGet();
-
+        dump($operation);
         $openApi->getPaths()->addPath('/api/course_infos/duplicate/{code1}/{year1}/{code2}/{year2}', $pathItem->withGet(
-            $operation->withParameters(array_merge(
-                $operation->getParameters(),
+            $operation->withParameters(
                 [
                     new Model\Parameter('code1', 'query', 'Code of the syllabus to duplicate'),
                     new Model\Parameter('year1', 'query', 'Year of the syllabus to duplicate'),
                     new Model\Parameter('code2', 'query', 'Code of the new syllabus'),
                     new Model\Parameter('year2', 'query', 'Year of the new syllabus')
                 ]
-            ))
+            )
         ));
 
         return $openApi;
