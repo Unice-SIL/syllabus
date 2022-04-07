@@ -102,6 +102,11 @@ services:
     App\Syllabus\Factory\ImportCourseTeacherFactory:
         arguments: [ '%course_teacher_factory%' ]
 
+    App\Syllabus\Factory\OpenApiFactory:
+        decorates: 'api_platform.openapi.factory'
+        arguments: [ '@App\Syllabus\Factory\OpenApiFactory.inner' ]
+        autoconfigure: false
+
     # FORM
     App\Syllabus\Form\Course\EditPresentationCourseInfoType:
         arguments: [ '%course_teacher_factory%' ]

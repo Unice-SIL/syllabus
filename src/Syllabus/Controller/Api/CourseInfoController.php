@@ -14,17 +14,17 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
-
 /**
  * Class CourseInfoController
  * @package App\Syllabus\Controller\Api
  *
- * @Route("/course-info", name="app.course_info.api.")
+ * @Route("/course_infos", name="app.course_infos.api.")
  * @Security("is_granted('ROLE_API')")
  */
 class CourseInfoController extends AbstractController
 {
     /**
+     * @
      * @Route("/duplicate/{code1}/{year1}/{code2}/{year2}", name="duplicate", methods={"GET"})
      * @Security("is_granted('ROLE_API_DUPLICATE_SYLLABUS')")
      * @throws Exception

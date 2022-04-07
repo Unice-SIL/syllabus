@@ -16,7 +16,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use App\Syllabus\Controller\Api\CourseInfoController;
 /**
  * CourseInfo
  * @package App\Syllabus\Entity
@@ -34,6 +34,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     },
  *     itemOperations={
  *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_COURSE_INFO_GET')"},
+ *          "get"={
+ *              "method"="GET",
+ *              "path"="/course_infos/duplicate/{code1}/{year1}/{code2}/{year2}",
+ *              "controller"=CourseInfoController::class
+ *          },
  *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_COURSE_INFO_PUT')"},
  *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_COURSE_INFO_DELETE')"},
  *     }
