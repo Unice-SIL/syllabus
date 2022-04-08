@@ -24,7 +24,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 class CourseInfoController extends AbstractController
 {
     /**
-     * @
      * @Route("/duplicate/{code1}/{year1}/{code2}/{year2}", name="duplicate", methods={"GET"})
      * @Security("is_granted('ROLE_API_DUPLICATE_SYLLABUS')")
      * @throws Exception
