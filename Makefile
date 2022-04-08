@@ -35,3 +35,10 @@ deploy_db_dev: ## Deploy project for dev environment
 	php bin/console doctrine:fixtures:load --no-interaction --env=dev --append
 	php bin/console lexik:translations:import
 	php bin/console app:custom-db
+
+deploy_prod: ## Deploy project for prod environment
+	composer install --prefer-dist --no-ansi --no-interaction --no-dev
+	yarn install
+	yarn encore prod
+	php bin/console doctrine:database:create --env=prod --if-not-exists --no-interaction
+	php bin/console doctrine:migrations:migrate --env=prod --no-interaction
