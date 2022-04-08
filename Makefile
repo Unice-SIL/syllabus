@@ -27,3 +27,11 @@ build: ## Build database
 build_assets: ## build assets
 	yarn install
 	yarn encore dev
+
+deploy_db_dev: ## Deploy project for dev environment
+	php bin/console doctrine:database:drop --force --env=dev --if-exists --no-interaction
+	php bin/console doctrine:database:create --if-not-exists --env=dev --no-interaction
+	php bin/console doctrine:migrations:migrate --env=dev --no-interaction
+	php bin/console doctrine:fixtures:load --no-interaction --env=dev --append
+	php bin/console lexik:translations:import
+	php bin/console app:custom-db
