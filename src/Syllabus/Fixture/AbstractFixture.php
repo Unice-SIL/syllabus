@@ -3,13 +3,29 @@
 namespace App\Syllabus\Fixture;
 
 use App\Syllabus\Entity\AskAdvice;
+use App\Syllabus\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
 abstract class AbstractFixture extends Fixture
 {
+    /**
+     * @var UserPasswordHasherInterface
+     */
+    private $encoder;
+
+    /**
+     * UserFixtures constructor.
+     * @param UserPasswordHasherInterface $encoder
+     */
+    public function __construct(UserPasswordHasherInterface $encoder)
+    {
+        $this->encoder = $encoder;
+    }
+
     /**
      * Return an array that contains the data from all entities will be created
      * For each sub-array which contain entity data, the key will be the reference used to store the entity
@@ -44,6 +60,10 @@ abstract class AbstractFixture extends Fixture
         foreach ($this->getDataEntities() as $reference => $data)
         {
             $entity = $this->generateEntity($data);
+            if ($entity instanceof User)
+            {
+                $entity->setPassword($this->encoder->hashPassword($entity, UserFixture::PASSWORD_TEST));
+            }
             $this->addReference($reference, $entity);
             $manager->persist($entity);
         }

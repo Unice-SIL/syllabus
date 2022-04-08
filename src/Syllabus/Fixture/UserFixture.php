@@ -6,6 +6,7 @@ use App\Syllabus\Constant\UserRole;
 use App\Syllabus\Entity\User;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * Class UserFixture
@@ -16,6 +17,7 @@ class UserFixture extends AbstractFixture  implements FixtureGroupInterface, Dep
     public const USER_1 = 'user1';
     public const USER_2 = 'user2';
     public const USER_3 = 'user3';
+    public const PASSWORD_TEST = 'Administrator42';
 
     /**
      * @return array
