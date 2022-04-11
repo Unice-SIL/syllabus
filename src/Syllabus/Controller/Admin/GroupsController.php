@@ -11,8 +11,8 @@ use App\Syllabus\Manager\GroupsManager;
 use App\Syllabus\Repository\Doctrine\GroupsDoctrineRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -27,6 +27,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  * Class GroupsController
  * @package App\Syllabus\Controller
  * @Route("/groups", name="app.admin.groups.")
+ * @Security("is_granted('ROLE_ADMIN_GROUPS')")
  */
 class GroupsController extends AbstractController
 {
@@ -34,6 +35,7 @@ class GroupsController extends AbstractController
      * Lists all groups entities.
      *
      * @Route("/", name="index", methods={"GET"})
+     * @Security("is_granted('ROLE_ADMIN_GROUPS_LIST')")
      * @param Request $request
      * @param GroupsDoctrineRepository $groupsDoctrineRepository
      * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
@@ -52,11 +54,10 @@ class GroupsController extends AbstractController
 
         $form = $this->createForm(GroupsFilterType::class);
 
-        if ($request->query->has($form->getName())) {
-
+        if ($request->query->has($form->getName()))
+        {
             $form->submit($request->query->get($form->getName()));
             $filterBuilderUpdater->addFilterConditions($form, $qb);
-
         }
 
         $pagination = $paginator->paginate(
@@ -82,6 +83,7 @@ class GroupsController extends AbstractController
      * Creates a new groups entity.
      *
      * @Route("/new", name="new", methods={"GET", "POST"})
+     * @Security("is_granted('ROLE_ADMIN_GROUPS_CREATE')")
      * @param Request $request
      * @param GroupsManager $groupsManager
      * @param TranslatorInterface $translator
@@ -111,6 +113,7 @@ class GroupsController extends AbstractController
      * Displays a form to edit an existing groups entity.
      *
      * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
+     * @Security("is_granted('ROLE_ADMIN_GROUPS_UPDATE')")
      * @param Request $request
      * @param Groups $groups
      * @param GroupsManager $groupsManager
@@ -125,7 +128,6 @@ class GroupsController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $groupsManager->update($groups);
-
 
             $this->addFlash('success', $translator->trans('admin.group.flashbag.edit'));
 
@@ -147,7 +149,8 @@ class GroupsController extends AbstractController
      */
     public function autocomplete(GroupsDoctrineRepository $groupsDoctrineRepository, Request $request, $field)
     {
-        $query = $request->query->get('query');
+        $parameters = $request->query->all();
+        $query = $parameters['query'];
 
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
 
@@ -165,21 +168,17 @@ class GroupsController extends AbstractController
     /**
      * Deletes a groups entity.
      *
-     * @Route("/{id}", name="delete", methods={"DELETE"})
-     * @param Request $request
+     * @Route("/delete/{id}", name="delete")
+     * @Security("is_granted('ROLE_ADMIN_GROUPS_DELETE')")
+     * @param TranslatorInterface $translator
      * @param Groups $groups
      * @param GroupsManager $groupsManager
      * @return RedirectResponse
      */
-    public function deleteAction(Request $request, Groups $groups, GroupsManager $groupsManager)
+    public function deleteAction(TranslatorInterface $translator, Groups $groups, GroupsManager $groupsManager)
     {
-        $form = $this->createDeleteForm($groups);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $groupsManager->delete($groups);
-        }
-
+        $groupsManager->delete($groups);
+        $this->addFlash('success', $translator->trans('admin.group.flashbag.delete'));
         return $this->redirectToRoute('app.admin.groups.index');
     }
 

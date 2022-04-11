@@ -29,7 +29,9 @@ class CourseType extends AbstractType
                 'label' => 'app.form.course.label.synchronized'
             ])
             ;
-    }/**
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
@@ -46,6 +48,4 @@ class CourseType extends AbstractType
     {
         return 'appbundle_course';
     }
-
-
 }

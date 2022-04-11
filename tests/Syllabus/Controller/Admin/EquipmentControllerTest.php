@@ -60,6 +60,19 @@ class EquipmentControllerTest extends AbstractAdminControllerTest
         ];
     }
 
+    /**
+     * @throws EquipmentNotFoundException
+     */
+    public function testEquipmentFilter()
+    {
+        $this->tryWithAdminPermission(self::ROUTE_ADMIN_EQUIPMENT_LIST, [
+            'equipment_filter' => [
+                'label' => $this->getEquipment()->getLabel()
+            ]
+        ]);
+        $this->assertResponseIsSuccessful();
+    }
+
     /*
      *  New Equipment
      */

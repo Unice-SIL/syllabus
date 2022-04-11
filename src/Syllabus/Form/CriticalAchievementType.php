@@ -44,7 +44,7 @@ class CriticalAchievementType extends AbstractType
             ->add('courses', Select2EntityType::class, [
                 'label' => 'admin.critical_achievement.form.course',
                 'multiple' => true,
-                'remote_route' => 'app_admin.course_autocompleteS3',
+                'remote_route' => 'app.admin.course.autocompleteS3',
                 'class' => Course::class,
                 'text_property' => 'code',
                 'language' => $this->request->getLocale(),

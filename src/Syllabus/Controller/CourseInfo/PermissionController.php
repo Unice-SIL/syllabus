@@ -12,6 +12,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Twig\Environment;
 
 /**
  * Class PermissionController
@@ -29,7 +30,11 @@ class PermissionController extends AbstractController
      * @param CoursePermissionManager $coursePermissionManager
      * @return mixed
      */
-    public function deleteAction(CoursePermission $permission, Request $request, CoursePermissionManager $coursePermissionManager)
+    public function deleteAction(CoursePermission        $permission,
+                                 Request                 $request,
+                                 CoursePermissionManager $coursePermissionManager,
+                                 Environment             $twig
+    )
     {
         $form = $this->createForm(RemoveCoursePermissionType::class, $permission);
         $form->handleRequest($request);
@@ -41,7 +46,7 @@ class PermissionController extends AbstractController
                 'content' => null
             ]);
         }
-        $render = $this->get('twig')->render('course_info/permission/form/remove.html.twig', [
+        $render = $twig->render('course_info/permission/form/remove.html.twig', [
             'form' => $form->createView()
         ]);
         return $this->json([

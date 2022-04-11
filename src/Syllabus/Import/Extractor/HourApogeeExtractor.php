@@ -5,24 +5,24 @@ namespace App\Syllabus\Import\Extractor;
 
 use App\Syllabus\Helper\Report\Report;
 use Doctrine\DBAL\FetchMode;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class HourApogeeExtractor implements ExtractorInterface
 {
 
     /**
-     * @var ObjectManager
+     * @var object
      */
-    private $em;
+    private $conn;
 
     /**
      * StructureApogeeExtractor constructor.
-     * @param RegistryInterface $doctrine
+     * @param ManagerRegistry $doctrine
      */
-    public function __construct(RegistryInterface $doctrine)
+    public function __construct(ManagerRegistry $doctrine)
     {
-        $this->em = $doctrine->getManager('apogee');
+        $this->conn = $doctrine->getConnection('apogee');
     }
 
     /**
@@ -35,9 +35,8 @@ class HourApogeeExtractor implements ExtractorInterface
         $courseHours = [];
 
         if (isset($options['extractor']['filter']['code'])  && isset($options['extractor']['filter']['year'])) {
-            $conn = $this->em->getConnection();
             $sql = "SELECT * FROM elp_chg_typ_heu WHERE cod_elp = :cod_elp AND cod_anu = :cod_anu";
-            $stmt = $conn->prepare($sql);
+            $stmt = $this->conn->prepare($sql);
             $stmt->bindValue(':cod_elp', $options['extractor']['filter']['code']);
             $stmt->bindValue(':cod_anu', $options['extractor']['filter']['year']);
             $stmt->execute();

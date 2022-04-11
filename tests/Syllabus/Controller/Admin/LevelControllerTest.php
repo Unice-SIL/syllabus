@@ -7,6 +7,7 @@ use App\Syllabus\Entity\Level;
 use App\Syllabus\Entity\Structure;
 use App\Syllabus\Exception\LevelNotFoundException;
 use App\Syllabus\Exception\StructureNotFoundException;
+use App\Syllabus\Exception\UserNotFoundException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -62,6 +63,19 @@ class LevelControllerTest extends AbstractAdminControllerTest
         ];
     }
 
+    /**
+     * @throws LevelNotFoundException
+     */
+    public function testLevelFilter()
+    {
+        $this->tryWithAdminPermission(self::ROUTE_ADMIN_LEVEL_LIST, [
+            'level_filter' => [
+                'label' => $this->getLevel()->getLabel()
+            ]
+        ]);
+        $this->assertResponseIsSuccessful();
+    }
+
     /*
      *  New Level
      */
@@ -111,6 +125,7 @@ class LevelControllerTest extends AbstractAdminControllerTest
     /**
      * @dataProvider newLevelSuccessfulProvider
      * @param array $data
+     * @throws UserNotFoundException
      */
     public function testNewLevelSuccessful(array $data)
     {
@@ -321,5 +336,19 @@ class LevelControllerTest extends AbstractAdminControllerTest
         return [
             [['label' => null], '[label]']
         ];
+    }
+
+    /**
+     * @throws LevelNotFoundException
+     * @throws UserNotFoundException
+     */
+    public function testAutocompleteS2()
+    {
+        $level = $this->getLevel();
+        $responseData = $this->getAutocompleteJson(
+            $this->generateUrl(self::ROUTE_ADMIN_LEVEL_AUTOCOMPLETE),
+            ['query' => $level->getLabel()]
+        );
+        $this->assertEquals($level->getLabel(), current($responseData));
     }
 }

@@ -11,6 +11,7 @@ use App\Syllabus\Entity\Year;
 use App\Syllabus\Manager\YearManager;
 use App\Syllabus\Repository\Doctrine\CourseInfoDoctrineRepository;
 use App\Syllabus\Repository\Doctrine\CoursePermissionDoctrineRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,13 +27,19 @@ class DefaultController extends AbstractController
     /**
      * @Route("/course/router/{code}/{year}", name="app_router", defaults={"year"=null})
      * @param $code
-     * @param string $year
      * @param CourseInfoDoctrineRepository $repository
      * @param YearManager $yearManager
+     * @param string|null $year
+     * @param EntityManagerInterface $em
      * @return RedirectResponse|Response
      * @throws \Exception
      */
-    public function routerAction($code, CourseInfoDoctrineRepository $repository, YearManager $yearManager, string $year = null)
+    public function routerAction($code,
+                                 CourseInfoDoctrineRepository $repository,
+                                 YearManager $yearManager,
+                                 string $year = null,
+                                 EntityManagerInterface $em
+    )
     {
         if (empty($year)) {
             $year = $yearManager->findCurrentYear();
@@ -42,11 +49,11 @@ class DefaultController extends AbstractController
         if (empty($courseInfo)) {
             return $this->render('error/courseNotFound.html.twig');
         }
-        $permissions = $this->getDoctrine()->getRepository(CoursePermission::class)->findBy([
+        $permissions = $em->getRepository(CoursePermission::class)->findBy([
             'user' => $this->getUser(),
             'courseInfo' => $courseInfo
         ]);
-        if(count($permissions)>0 || $this->container->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+        if (count($permissions) > 0 || $this->container->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app.course_info.dashboard.index', ['id' => $courseInfo->getId()]);
         }
         return $this->redirectToRoute('app.course_info.view.student', ['id' => $courseInfo->getId()]);
@@ -63,6 +70,7 @@ class DefaultController extends AbstractController
      */
     public function routerLightAction($code, $year, CourseInfoDoctrineRepository $repository, YearManager $yearManager)
     {
+
         if (empty($year)) {
             $year = $yearManager->findCurrentYear();
             if (!$year instanceof Year) {
@@ -70,7 +78,7 @@ class DefaultController extends AbstractController
             }
             $year = $year->getId();
         }
-        
+
         /** @var CourseInfo $courseInfo */
         $courseInfo = $repository->findByCodeAndYear($code, $year);
         if (!$courseInfo instanceof CourseInfo) {
@@ -95,8 +103,7 @@ class DefaultController extends AbstractController
         $user = $this->getUser();
         $courseInfos = $coursePermissionRepository->getCourseByPermission($user);
         $courseInfosByYear = [];
-        foreach ($courseInfos as $courseInfo )
-        {
+        foreach ($courseInfos as $courseInfo) {
             $courseInfosByYear[$courseInfo->getYear()->getId()][] = $courseInfo;
         }
 

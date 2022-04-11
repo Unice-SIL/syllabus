@@ -14,6 +14,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 /**
  * Class TutoringController
@@ -26,22 +30,30 @@ class TutoringController extends AbstractController
 {
     /**
      * @Route("/create", name="create"))
-     *
      * @param CourseInfo $courseInfo
      * @param CourseInfoManager $manager
      * @param Request $request
+     * @param Environment $environment
      * @return JsonResponse
-     * @throws Exception
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function addTutoringAction(CourseInfo $courseInfo, CourseInfoManager $manager, Request $request)
+    public function addTutoringAction(
+        CourseInfo $courseInfo,
+        CourseInfoManager $manager,
+        Request $request,
+        Environment $environment
+    ): JsonResponse
     {
         $form = $this->createForm(CourseAssistTutoringType::class, $courseInfo);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $courseInfo = $form->getData();
+            /*
             foreach ($courseInfo->getCourseTutoringResources() as $tutoringResource) {
                 $tutoringResource->setPosition($tutoringResource->getPosition() + 1);
             }
+            */
             $manager->update($courseInfo);
             return $this->json([
                 'status' => true,
@@ -49,7 +61,7 @@ class TutoringController extends AbstractController
             ]);
         }
 
-        $render = $this->get('twig')->render('course_info/prerequisite/form/assist_tutoring.html.twig', [
+        $render = $environment->render('course_info/prerequisite/form/assist_tutoring.html.twig', [
             'courseInfo' => $courseInfo,
             'form' => $form->createView()
         ]);
@@ -62,26 +74,26 @@ class TutoringController extends AbstractController
 
     /**
      * @Route("/{action}", name="active"))
-     *
      * @param CourseInfo $courseInfo
      * @param $action
      * @param CourseInfoManager $manager
-     * @param TranslatorInterface $translator
+     * @param Environment $environment
      * @return JsonResponse
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function activeTutoringAction(CourseInfo $courseInfo, $action, CourseInfoManager $manager, TranslatorInterface $translator)
+    public function activeTutoringAction(
+        CourseInfo $courseInfo,
+        $action,
+        CourseInfoManager $manager,
+        Environment $environment
+    ): JsonResponse
     {
-        if (!$courseInfo instanceof CourseInfo) {
-            return $this->json([
-                'status' => false,
-                'content' => $translator->trans('app.controller.error.empty_course')
-            ]);
-        }
-
         $courseInfo->setTutoring($action);
         $manager->update($courseInfo);
 
-        $render = $this->get('twig')->render('course_info/prerequisite/view/tutoring_resources.html.twig', [
+        $render = $environment->render('course_info/prerequisite/view/tutoring_resources.html.twig', [
             'courseInfo' => $courseInfo
         ]);
 

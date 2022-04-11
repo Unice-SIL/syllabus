@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Environment;
 
 /**
  * Class CoursePrerequisite
@@ -45,19 +46,12 @@ class CoursePrerequisiteController extends AbstractController
      * @Route("/prerequisites", name="prerequisites"))
      *
      * @param CourseInfo $courseInfo
-     * @param TranslatorInterface $translator
+     * @param Environment $twig
      * @return Response
      */
-    public function prerequisiteViewAction(CourseInfo $courseInfo, TranslatorInterface $translator)
+    public function prerequisiteViewAction(CourseInfo $courseInfo, Environment $twig)
     {
-        if (!$courseInfo instanceof CourseInfo) {
-            return $this->json([
-                'status' => false,
-                'content' => $translator->trans('app.controller.error.empty_course')
-            ]);
-        }
-
-        $render = $this->get('twig')->render('course_info/prerequisite/view/prerequisite.html.twig', [
+        $render = $twig->render('course_info/prerequisite/view/prerequisite.html.twig', [
             'courseInfo' => $courseInfo
         ]);
         return $this->json([
@@ -75,7 +69,7 @@ class CoursePrerequisiteController extends AbstractController
      * @return Response
      * @throws Exception
      */
-    public function addPrerequisiteAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
+    public function addPrerequisiteAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager, Environment $twig)
     {
         $prerequisite = new CoursePrerequisite();
         $form = $this->createForm(CoursePrerequisiteType::class, $prerequisite);
@@ -95,7 +89,7 @@ class CoursePrerequisiteController extends AbstractController
             ]);
         }
 
-        $render = $this->get('twig')->render('course_info/prerequisite/form/prerequisite.html.twig', [
+        $render = $twig->render('course_info/prerequisite/form/prerequisite.html.twig', [
             'courseInfo' => $courseInfo,
             'form' => $form->createView()
         ]);
@@ -117,7 +111,7 @@ class CoursePrerequisiteController extends AbstractController
     public function sortPrerequisitesAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
     {
         $prerequisites = $courseInfo->getCoursePrerequisites();
-        $dataPrerequisites = $request->request->get('data');
+        $dataPrerequisites = $request->request->all('data');
 
         $this->sortList($courseInfo, $prerequisites, $dataPrerequisites, $manager);
 
@@ -131,18 +125,10 @@ class CoursePrerequisiteController extends AbstractController
      * @Route("/tutoring-resources", name="tutoring_resources"))
      *
      * @param CourseInfo $courseInfo
-     * @param TranslatorInterface $translator
      * @return Response
      */
-    public function tutoringResourcesViewAction(CourseInfo $courseInfo, TranslatorInterface $translator)
+    public function tutoringResourcesViewAction(CourseInfo $courseInfo)
     {
-        if (!$courseInfo instanceof CourseInfo) {
-            return $this->json([
-                'status' => false,
-                'content' => $translator->trans('app.controller.error.empty_course')
-            ]);
-        }
-
         $render = $this->get('twig')->render('course_info/prerequisite/view/tutoring_resources.html.twig', [
             'courseInfo' => $courseInfo
         ]);
@@ -160,8 +146,9 @@ class CoursePrerequisiteController extends AbstractController
      * @param CourseTutoringResourceManager $courseTutoringResourceManager
      * @return Response
      */
-    public function addTutoringResourceAction(CourseInfo $courseInfo, Request $request,
-                                              CourseTutoringResourceManager $courseTutoringResourceManager)
+    public function addTutoringResourceAction(CourseInfo                    $courseInfo, Request $request,
+                                              CourseTutoringResourceManager $courseTutoringResourceManager,
+                                              Environment                   $twig)
     {
         $tutoringResource = $courseTutoringResourceManager->new();
         $tutoringResource->setCourseInfo($courseInfo);
@@ -177,7 +164,7 @@ class CoursePrerequisiteController extends AbstractController
             ]);
         }
 
-        $render = $this->get('twig')->render('course_info/prerequisite/form/tutoring_resources.html.twig', [
+        $render = $twig->render('course_info/prerequisite/form/tutoring_resources.html.twig', [
             'courseInfo' => $courseInfo,
             'form' => $form->createView()
         ]);
@@ -199,8 +186,9 @@ class CoursePrerequisiteController extends AbstractController
     public function sortTutoringResourcesAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
     {
         $tutoringResources = $courseInfo->getCourseTutoringResources();
-        $dataTutoringResources = $request->request->get('data');
+        $dataTutoringResources = $request->request->all('data');
 
+   //     dd($dataTutoringResources);
         $this->sortList($courseInfo, $tutoringResources, $dataTutoringResources, $manager);
 
         return $this->json([
@@ -221,6 +209,7 @@ class CoursePrerequisiteController extends AbstractController
         if ($data) {
             foreach ($courseInfoList as $item) {
                 if (in_array($item->getId(), $data)) {
+
                     $item->setPosition(array_search($item->getId(), $data));
                 }
             }

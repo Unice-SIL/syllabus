@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Environment;
 
 /**
  * Class CourseSectionController
@@ -37,16 +38,8 @@ class CourseSectionController extends AbstractController
      * @param TranslatorInterface $translator
      * @return Response
      */
-    public function editSectionAction(?CourseSection $section, Request $request, CourseSectionManager $courseSectionManager, TranslatorInterface $translator)
+    public function editSectionAction(Environment $twig, ?CourseSection $section, Request $request, CourseSectionManager $courseSectionManager, TranslatorInterface $translator)
     {
-        if (!$section instanceof CourseSection)
-        {
-            return $this->json([
-                'status' => false,
-                'render' => $translator->trans('app.controller.error.empty_section')
-            ]);
-        }
-
         $form = $this->createForm(SectionType::class, $section);
         $form->handleRequest($request);
 
@@ -54,7 +47,7 @@ class CourseSectionController extends AbstractController
             $courseSectionManager->update($section);
         }
 
-        $render = $this->get('twig')->render('course_info/activities/form/edit_section.html.twig', [
+        $render = $twig->render('course_info/activities/form/edit_section.html.twig', [
             'form' => $form->createView(),
             'sectionId' => $section->getId()
         ]);
@@ -75,18 +68,10 @@ class CourseSectionController extends AbstractController
      */
     public function removeSectionAction(CourseSection $section, Request $request, CourseSectionManager $courseSectionManager, TranslatorInterface $translator)
     {
-        if (!$section instanceof CourseSection)
-        {
-            return $this->json([
-                'status' => false,
-                'render' => $translator->trans('app.controller.error.empty_section')
-            ]);
-        }
-
         $form = $this->createForm(RemoveSectionType::class, $section);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
+        if ($form->isSubmitted() )
         {
             $courseSectionManager->delete($section);
             return $this->json([
@@ -113,55 +98,17 @@ class CourseSectionController extends AbstractController
      * @param Request $request
      * @param CourseSectionActivityManager $courseSectionActivityManager
      * @param CourseSectionManager $courseSectionManager
-     * @param TranslatorInterface $translator
      * @return Response
      * @throws \Exception
      * @ParamConverter("activity", options={"mapping": {"activityId": "id"}})
      * @ParamConverter("activityType", options={"mapping": {"activityTypeId": "id"}})
      */
-    public function addCourseSectionActivityAction(CourseSection $section, Activity $activity, ActivityType $activityType, Request $request,
-                                                   CourseSectionActivityManager $courseSectionActivityManager, CourseSectionManager $courseSectionManager,
-                                                   TranslatorInterface $translator)
+    public function addCourseSectionActivityAction(Environment $twig, CourseSection $section, Activity $activity, ActivityType $activityType, Request $request,
+                                                   CourseSectionActivityManager $courseSectionActivityManager, CourseSectionManager $courseSectionManager)
     {
-
-        if (!$section instanceof CourseSection)
-        {
-            return $this->json([
-                'status' => false,
-                'render' => $translator->trans('app.controller.error.empty_section')
-            ]);
-        }
-
-        if (!$activityType instanceof ActivityType)
-        {
-            return $this->json([
-                'status' => false,
-                'render' => $translator->trans('app.controller.error.empty_activity_type')
-            ]);
-        }
-
-        if (!$activity instanceof Activity)
-        {
-            return $this->json([
-                'status' => false,
-                'render' => $translator->trans('app.controller.error.empty_activity')
-            ]);
-        }
 
         $courseSectionActivity = $courseSectionActivityManager->new();
         $courseSectionActivity->setActivityType($activityType);
-
-        $typeId = $request->query->get('activity_type');
-        if ($typeId)
-        {
-            $activityTypes = array_filter($activity->getActivityTypes()->toArray(), function (ActivityType $type) use ($typeId) {
-                return $type->getId() === $typeId;
-            });
-            if (count($activityTypes) > 0)
-            {
-                $courseSectionActivity->setActivityType(current($activityTypes));
-            }
-        }
 
         $status = true;
         $message = null;
@@ -188,7 +135,7 @@ class CourseSectionController extends AbstractController
             }
         }
 
-        $render = $this->get('twig')->render('course_info/activities/form/add_activity.html.twig', [
+        $render = $twig->render('course_info/activities/form/add_activity.html.twig', [
             'courseSection' => $section,
             'activity' => $activity,
             'form' => $form->createView()
@@ -206,23 +153,14 @@ class CourseSectionController extends AbstractController
      * @param CourseSection $section
      * @param Request $request
      * @param CourseSectionManager $courseSectionManager
-     * @param TranslatorInterface $translator
      * @return JsonResponse
      */
     public function sortCourseSectionActivitiesAction(CourseSection $section,
                                                       Request $request,
-                                                      CourseSectionManager $courseSectionManager,
-                                                      TranslatorInterface $translator)
+                                                      CourseSectionManager $courseSectionManager)
     {
-        if (!$section instanceof CourseSection) {
-            return $this->json([
-                'status' => false,
-                'render' => $translator->trans('app.controller.error.empty_section')
-            ]);
-        }
-
         $activities = $section->getCourseSectionActivities();
-        $dataActivities = $request->request->get('data');
+        $dataActivities = $request->request->all('data');
 
         if ($dataActivities)
         {

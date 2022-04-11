@@ -8,8 +8,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Psr\Cache\InvalidArgumentException;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
@@ -26,9 +27,9 @@ class NotificationSubscriber implements EventSubscriberInterface
      */
     const NOTIFICATIONS_CACHE_KEY = 'app.notifications';
     /**
-     * @var SessionInterface
+     * @var RequestStack
      */
-    private $session;
+    private $requestStack;
     /**
      * @var EntityManagerInterface
      */
@@ -44,19 +45,19 @@ class NotificationSubscriber implements EventSubscriberInterface
 
     /**
      * AdminNotificationSubscriber constructor.
-     * @param SessionInterface $session
+     * @param RequestStack $requestStack
      * @param EntityManagerInterface $em
      * @param CsrfTokenManagerInterface $csrfTokenManager
      * @param UrlGeneratorInterface $urlGenerator
      */
     public function __construct(
-        SessionInterface $session,
+        RequestStack $requestStack,
         EntityManagerInterface $em,
         CsrfTokenManagerInterface $csrfTokenManager,
         UrlGeneratorInterface $urlGenerator
     )
     {
-        $this->session = $session;
+        $this->requestStack = $requestStack;
         $this->em = $em;
         $this->csrfTokenManager = $csrfTokenManager;
         $this->urlGenerator = $urlGenerator;
@@ -65,9 +66,8 @@ class NotificationSubscriber implements EventSubscriberInterface
     /**
      * @return array
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
-        // return the subscribed events, their methods and priorities
         return [
             KernelEvents::REQUEST => [
                 ['setNotifications'],
@@ -76,12 +76,12 @@ class NotificationSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @param GetResponseEvent $event
+     * @param RequestEvent $event
      * @throws InvalidArgumentException
      */
-    public function setNotifications(GetResponseEvent $event)
+    public function setNotifications(RequestEvent $event)
     {
-        if (!$event->isMasterRequest()) {
+        if (!$event->isMainRequest()) {
             return;
         }
         $newAdminNotifications = [];
@@ -110,7 +110,7 @@ class NotificationSubscriber implements EventSubscriberInterface
                     'path' => $this->urlGenerator->generate('app.notification.seen_one', ['id' => $notification->getId()])
                 ];
 
-                $oldAdminNotifications = $this->session->get('admin_notifications');
+                $oldAdminNotifications = $this->requestStack->getSession()->get('admin_notifications');
 
                 if (isset($oldAdminNotifications[$newNotification['id']])) {
 
@@ -135,7 +135,7 @@ class NotificationSubscriber implements EventSubscriberInterface
             }
         }
 
-        $this->session->set( 'admin_notifications', $newAdminNotifications );
+        $this->requestStack->getSession()->set( 'admin_notifications', $newAdminNotifications );
     }
 
 }

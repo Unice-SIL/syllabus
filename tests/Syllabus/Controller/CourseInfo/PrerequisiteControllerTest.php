@@ -19,7 +19,7 @@ class PrerequisiteControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
 
         $coursePrerequisite = new CoursePrerequisite();
         $coursePrerequisite->setCourseInfo($course);
@@ -66,7 +66,7 @@ class PrerequisiteControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
 
         $coursePrerequisite = new CoursePrerequisite();
         $coursePrerequisite->setCourseInfo($course);
@@ -110,7 +110,7 @@ class PrerequisiteControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
 
         $coursePrerequisite = new CoursePrerequisite();
         $coursePrerequisite->setCourseInfo($course);
@@ -118,6 +118,10 @@ class PrerequisiteControllerTest extends AbstractCourseInfoControllerTest
         $em->persist($coursePrerequisite);
         $em->flush();
 
+        $this->client()->request(
+            'POST',
+            $this->generateUrl(self::ROUTE_APP_COURSE_PREREQUISITE_DELETE, ['id' => $coursePrerequisite->getId()])
+        );
         $coursePrerequisiteId = $coursePrerequisite->getId();
         $token = $this->getCsrfToken('delete_prerequisite');
 
@@ -139,7 +143,7 @@ class PrerequisiteControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
 
         $coursePrerequisite = new CoursePrerequisite();
         $coursePrerequisite->setCourseInfo($course);

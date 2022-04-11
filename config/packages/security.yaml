@@ -1,5 +1,7 @@
 security:
-    encoders:
+    enable_authenticator_manager: true
+
+    password_hashers:
         App\Syllabus\Entity\User:
             algorithm: bcrypt
             cost: 12
@@ -12,37 +14,33 @@ security:
             entity: { class: App\Syllabus\Entity\User, property: username }
 
     firewalls:
-        # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-
         login:
             pattern:  ^/api/login
             stateless: true
-            anonymous: true
+            lazy: true
             json_login:
-                check_path:               /api/login_check
-                success_handler:          lexik_jwt_authentication.handler.authentication_success
-                failure_handler:          lexik_jwt_authentication.handler.authentication_failure
-                provider:                 user_db
-
+                check_path:         /api/login_check
+                username_path:      username
+                password_path:      password
+                success_handler:    lexik_jwt_authentication.handler.authentication_success
+                failure_handler:    lexik_jwt_authentication.handler.authentication_failure
+                provider:           user_db
         api:
             pattern: ^/api/(?!docs.+/?)
             stateless: true
-            guard:
-                provider: user_db
-                authenticators:
-                    - lexik_jwt_authentication.jwt_token_authenticator
+            provider: user_db
+            jwt: ~
         main:
             pattern: ^/
+            lazy: true
             provider: main
-            switch_user: false
-            guard:
-                authenticator: '%authenticator%'
-                provider: main
-            logout_on_user_change: true
-            anonymous: ~
+            logout:
+                path: /logout
+            custom_authenticators:
+                - '%authenticator%'
 
     role_hierarchy:
         ROLE_ADMIN:
@@ -53,12 +51,13 @@ security:
             - ROLE_API_GET_YEAR
             - ROLE_API_POST_YEAR
             - ROLE_API_PUT_YEAR
+            - ROLE_API_DUPLICATE_SYLLABUS
 
     access_control:
-        - { path: light(\/.*)?$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: /maintenance$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api(/docs)?$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: light(\/.*)?$, roles: PUBLIC_ACCESS }
+        - { path: /maintenance$, roles: PUBLIC_ACCESS }
+        - { path: ^/api/login, roles: PUBLIC_ACCESS }
+        - { path: ^/api(/docs)?$, roles: PUBLIC_ACCESS }
         - { path: ^/api/, roles: ROLE_API }
         - { path: "^/[^/]{1,5}/admin/settings", role: ROLE_SUPER_ADMIN }
         - { path: "^/[^/]{1,5}/admin", role: ROLE_ADMIN }

@@ -50,7 +50,6 @@ abstract class AbstractManager
      */
     public function updateIfExistsOrCreate(object $entityData, array $fieldsToUpdate = [], $options = [])
     {
-
         $options = array_merge([
             'force_create' => false,
             'flush' => false,
@@ -59,7 +58,6 @@ abstract class AbstractManager
             'report' => null,
             'lineIdReport' => null,
         ], $options);
-
 
         if (!isset($options['find_by_parameters'])) {
             $options['find_by_parameters'] = ['id' => $entityData->getId()];

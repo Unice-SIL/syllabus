@@ -13,8 +13,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Environment;
 
 /**
  * Class AchievementController
@@ -33,7 +36,7 @@ class AchievementController extends AbstractController
      * @param CourseAchievementManager $courseAchievementManager
      * @return JsonResponse
      */
-    public function editAchievementAction(CourseAchievement $achievement, Request $request, CourseAchievementManager $courseAchievementManager)
+    public function editAchievementAction(Environment $twig, CourseAchievement $achievement, Request $request, CourseAchievementManager $courseAchievementManager)
     {
         $form = $this->createForm(CourseAchievementType::class, $achievement);
         $form->handleRequest($request);
@@ -45,8 +48,7 @@ class AchievementController extends AbstractController
                 'content' => null
             ]);
         }
-
-        $render = $this->get('twig')->render('course_info/objectives_course/form/edit_achievement.html.twig', [
+        $render = $twig->render('course_info/objectives_course/form/edit_achievement.html.twig', [
             'form' => $form->createView()
         ]);
 
@@ -59,23 +61,16 @@ class AchievementController extends AbstractController
     /**
      * @Route("/delete", name="delete"))
      *
+     * @param Environment $twig
      * @param CourseAchievement $achievement
      * @param Request $request
      * @param CourseAchievementManager $courseAchievementManager
-     * @param TranslatorInterface $translator
      * @return JsonResponse
      * @throws Exception
      */
-    public function deleteAchievementAction(CourseAchievement $achievement, Request $request,
-                                            CourseAchievementManager $courseAchievementManager, TranslatorInterface $translator)
+    public function deleteAchievementAction(Environment $twig, CourseAchievement $achievement, Request $request,
+                                            CourseAchievementManager $courseAchievementManager)
     {
-        if (!$achievement instanceof CourseAchievement) {
-            return $this->json([
-                'status' => false,
-                'content' => $translator->trans('app.controller.error.empty_skill')
-            ]);
-        }
-
         $form = $this->createForm(RemoveCourseAchievementType::class, $achievement);
         $form->handleRequest($request);
 
@@ -87,7 +82,7 @@ class AchievementController extends AbstractController
             ]);
         }
 
-        $render = $this->get('twig')->render('course_info/objectives_course/form/remove_achievement.html.twig', [
+        $render = $twig->render('course_info/objectives_course/form/remove_achievement.html.twig', [
             'form' => $form->createView()
         ]);
         return $this->json([

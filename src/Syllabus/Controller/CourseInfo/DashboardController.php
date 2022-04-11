@@ -23,6 +23,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Twig\Environment;
 
 /**
  * Class DashboardController
@@ -58,7 +59,7 @@ class DashboardController extends AbstractController
      * @return Response
      * @throws \Exception
      */
-    public function indexAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $courseInfoManager,
+    public function indexAction(CourseInfo             $courseInfo, Request $request, CourseInfoManager $courseInfoManager,
                                 EntityManagerInterface $em, TranslatorInterface $translator)
     {
         $duplicationForm = $this->createForm(DuplicateCourseInfoType::class, ['currentCourseInfo' => $courseInfo->getId()]);
@@ -66,7 +67,6 @@ class DashboardController extends AbstractController
 
         $isFormValid = true;
         if ($duplicationForm->isSubmitted()) {
-
             if ($duplicationForm->isValid()) {
                 $data = $duplicationForm->getData();
                 $from = $data['from'];
@@ -78,7 +78,6 @@ class DashboardController extends AbstractController
                 $report = $courseInfoManager->duplicate($from, $to, CourseInfoManager::DUPLICATION_CONTEXTE_MANUALLY);
 
                 if (!$report->hasMessages() and !$report->hasLines()) {
-
                     $this->addFlash('success', $translator->trans('app.controller.dashboard.duplication_success'));
                     $em->flush();
 
@@ -111,31 +110,23 @@ class DashboardController extends AbstractController
      * @Route("/dashboard", name="dashboard"))
      *
      * @param CourseInfo $courseInfo
-     * @param TranslatorInterface $translator
      * @return Response
      */
-    public function dashboardViewAction(CourseInfo $courseInfo, TranslatorInterface $translator)
+    public function dashboardViewAction(CourseInfo $courseInfo, Environment $twig)
     {
-        if (!$courseInfo instanceof CourseInfo) {
-            return $this->json([
-                'status' => false,
-                'content' => $translator->trans('app.controller.error.empty_course')
-            ]);
-        }
 
         /** @var Validation $violations */
         $violations = $this->getViolation($courseInfo);
 
         // pourcentage violations
         $countViolation = 0;
-        foreach ($violations as $violation)
-        {
-            if ($violation->count() === 0){
-                $countViolation +=1;
+        foreach ($violations as $violation) {
+            if ($violation->count() === 0) {
+                $countViolation += 1;
             }
         }
-        $violationPourcentage = ($countViolation/count($violations)) * 100;
-        $render = $this->get('twig')->render('course_info/dashboard/view/dashboard.html.twig', [
+        $violationPourcentage = ($countViolation / count($violations)) * 100;
+        $render = $twig->render('course_info/dashboard/view/dashboard.html.twig', [
             'courseInfo' => $courseInfo,
             'violations' => $violations,
             'violationPourcentage' => round($violationPourcentage),
@@ -154,32 +145,30 @@ class DashboardController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
-    public function AskAdvice(CourseInfo $courseInfo, Request $request)
-    {
-        $askAdvice = new AskAdvice();
-        $askAdvice->setUser($this->getUser())->setCourseInfo($courseInfo);
-        $form = $this->createForm(AskAdviceType::class, $askAdvice);
-        $form->handleRequest($request);
+    /*   public function AskAdvice(CourseInfo $courseInfo, Request $request, Environment $twig, EntityManagerInterface $em)
+        {
+            $askAdvice = new AskAdvice();
+            $askAdvice->setUser($this->getUser())->setCourseInfo($courseInfo);
+            $form = $this->createForm(AskAdviceType::class, $askAdvice);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($askAdvice);
-            $em->flush();
+            if ($form->isSubmitted() && $form->isValid()) {
+                $em->persist($askAdvice);
+                $em->flush();
+                return $this->json([
+                    'status' => true,
+                    'content' => null
+                ]);
+            }
+            $render = $twig->render('course_info/dashboard/form/ask_advice.html.twig', [
+                'courseInfo' => $courseInfo,
+                'form' => $form->createView()
+            ]);
             return $this->json([
                 'status' => true,
-                'content' => null
+                'content' => $render
             ]);
-        }
-
-        $render = $this->get('twig')->render('course_info/dashboard/form/ask_advice.html.twig', [
-            'courseInfo' => $courseInfo,
-            'form' => $form->createView()
-        ]);
-        return $this->json([
-            'status' => true,
-            'content' => $render
-        ]);
-    }
+        }*/
 
     /**
      * @param CourseInfo $courseInfo
@@ -194,24 +183,22 @@ class DashboardController extends AbstractController
         $publishForm = $this->createForm(PublishCourseInfoType::class, $courseInfo);
         $publishForm->handleRequest($request);
 
-        if (!$publishForm->isSubmitted() or !$publishForm->isValid())
-        {
-            return $this->json(['status'=>false, 'message'=>$translator->trans('app.dashboard.message.publication.failed')]);
+
+        if (!$publishForm->isSubmitted() or !$publishForm->isValid()) {
+            return $this->json(['status' => false, 'message' => $translator->trans('app.dashboard.message.publication.failed')]);
         };
 
         /** @var CourseInfo $courseInfo */
         $courseInfo = $publishForm->getData();
 
-        if(!empty($courseInfo->getPublicationDate()))
-        {
-            return $this->json(['status'=>false, 'message'=>$translator->trans('app.dashboard.message.publication.already_publish')]);
+        if (!empty($courseInfo->getPublicationDate())) {
+            return $this->json(['status' => false, 'message' => $translator->trans('app.dashboard.message.publication.already_publish')]);
         }
 
         $violationsGroups = $this->getViolation($courseInfo);
         /** @var ConstraintViolationList $violationsGroup */
-        foreach ($violationsGroups as $violationsGroup)
-        {
-            if($violationsGroup->count() > 0) return $this->json(['status'=>false, 'message'=>$translator->trans('app.dashboard.message.publication.cannot_published')]);
+        foreach ($violationsGroups as $violationsGroup) {
+            if ($violationsGroup->count() > 0) return $this->json(['status' => false, 'message' => $translator->trans('app.dashboard.message.publication.cannot_published')]);
         }
 
         $courseInfo->setPublisher($this->getUser())
@@ -222,7 +209,7 @@ class DashboardController extends AbstractController
         $mailHelper->sendNewSyllabusPublishedMessageToPublisher($courseInfo, $this->getUser());
         $mailHelper->sendNewSyllabusPublishedMessageToAdmin($courseInfo);
 
-        return $this->json(['status'=>true, 'message'=>$translator->trans('app.dashboard.message.publication.success')]);
+        return $this->json(['status' => true, 'message' => $translator->trans('app.dashboard.message.publication.success')]);
 
     }
 
@@ -235,7 +222,8 @@ class DashboardController extends AbstractController
      */
     public function DuplicateCourseInfoNextYear(CourseInfo $courseInfo, Request $request, CourseInfoManager $courseInfoManager)
     {
-        $courseInfo->setDuplicateNextYear($request->get('action'));
+        $parameters = $request->query->all();
+        $courseInfo->setDuplicateNextYear($parameters['action']);
         $courseInfoManager->update($courseInfo);
         return $this->json(['status' => true]);
     }

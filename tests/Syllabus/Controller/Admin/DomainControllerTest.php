@@ -62,6 +62,26 @@ class DomainControllerTest extends AbstractAdminControllerTest
         ];
     }
 
+    /**
+     * @throws DomainNotFoundException
+     * @throws StructureNotFoundException
+     */
+    public function testDomainFilter()
+    {
+        $domain = $this->getDomain();
+        if ($domain->getStructures()->isEmpty()) {
+            $domain->addStructure($this->getStructure());
+        }
+        $this->getEntityManager()->persist($domain);
+        $this->tryWithAdminPermission(self::ROUTE_ADMIN_DOMAIN_LIST, [
+            'domain_filter' => [
+                'label' => $this->getDomain()->getLabel(),
+                'structures' => $this->getDomain()->getStructures()->current()->getLabel()
+            ]
+        ]);
+        $this->assertResponseIsSuccessful();
+    }
+
     /*
      *  New Domain
      */

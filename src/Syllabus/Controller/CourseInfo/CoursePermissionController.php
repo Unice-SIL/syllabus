@@ -42,7 +42,6 @@ class CoursePermissionController extends AbstractController
 
         $isValid = true;
         if ($form->isSubmitted()) {
-
             if ($form->isValid()) {
                 $coursePermissionManager->create($coursePermission);
 

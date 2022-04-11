@@ -85,7 +85,7 @@ class DomainFilterType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'activity_filter';
+        return 'domain_filter';
     }
 
     /**

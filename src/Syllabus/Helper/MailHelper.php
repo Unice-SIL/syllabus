@@ -53,7 +53,12 @@ class MailHelper
         $this->urlGenerator = $urlGenerator;
     }
 
-    public function sendResetPasswordMessage(User $user, string $token)
+    /**
+     * @param User $user
+     * @param string $token
+     * @return int
+     */
+    public function sendResetPasswordMessage(User $user, string $token): int
     {
         $url = $this->urlGenerator->generate('app.security.reset_password', array('token' => $token), UrlGeneratorInterface::ABSOLUTE_URL);
 

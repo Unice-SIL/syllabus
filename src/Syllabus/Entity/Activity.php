@@ -38,8 +38,7 @@ class Activity
      *
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="App\Syllabus\Doctrine\IdGenerator")
+     * @ORM\GeneratedValue(strategy="UUID")
      */
     private $id;
 

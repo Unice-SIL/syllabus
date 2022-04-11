@@ -7,9 +7,10 @@ namespace App\Syllabus\Controller\Admin;
 use App\Syllabus\Export\SyllabusExport;
 use App\Syllabus\Form\Filter\SyllabusFilterType;
 use App\Syllabus\Repository\Doctrine\CourseInfoDoctrineRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,7 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * @Route("syllabus", name="app.admin.syllabus.")
  * @Security("is_granted('ROLE_ADMIN_COURSE')")
  */
-class SyllabusController extends Controller
+class SyllabusController extends AbstractController
 {
 
     /**
@@ -33,6 +34,7 @@ class SyllabusController extends Controller
      * @param CourseInfoDoctrineRepository $courseInfoDoctrineRepository
      * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
      * @param SyllabusExport $syllabusExport
+     * @param PaginatorInterface $paginator
      * @param bool $isExport
      * @return Response
      */
@@ -41,6 +43,7 @@ class SyllabusController extends Controller
         CourseInfoDoctrineRepository $courseInfoDoctrineRepository,
         FilterBuilderUpdaterInterface $filterBuilderUpdater,
         SyllabusExport $syllabusExport,
+        PaginatorInterface $paginator,
         bool $isExport = false
     )
     {
@@ -53,7 +56,7 @@ class SyllabusController extends Controller
         }
 
 
-        $pagination = $this->get('knp_paginator')->paginate(
+        $pagination = $paginator->paginate(
             $qb,
             $request->query->getInt('page', 1),
             10

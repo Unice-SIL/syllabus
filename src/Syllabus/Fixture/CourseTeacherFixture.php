@@ -6,7 +6,7 @@ use App\Syllabus\Entity\CourseTeacher;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Ramsey\Uuid\Uuid;
 
 /**
@@ -37,8 +37,17 @@ class CourseTeacherFixture extends Fixture implements DependentFixtureInterface,
 
         $this->addReference(self::COURSE_TEACHER_1, $courseTeacher);
 
+        // CourseTeacher 2
+        $courseTeacher2 = new CourseTeacher();
+        $courseTeacher2->setId(Uuid::uuid4())
+            ->setCourseInfo($this->getReference(CourseInfoFixture::COURSE_INFO_1))
+            ->setFirstname('Alex')
+            ->setLastname('DODO')
+            ->setEmail('Alex.DODO@unice.fr')
+            ->setManager(true);
+
         // Save
-        $manager->persist($courseTeacher);
+        $manager->persist($courseTeacher2);
         $manager->flush();
     }
 

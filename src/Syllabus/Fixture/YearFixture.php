@@ -3,19 +3,14 @@
 namespace App\Syllabus\Fixture;
 
 use App\Syllabus\Entity\Year;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 
 /**
  * Class YearFixture
  * @package App\Syllabus\Fixture
  */
-class YearFixture extends Fixture  implements FixtureGroupInterface
+class YearFixture extends AbstractFixture  implements FixtureGroupInterface
 {
-    /**
-     *
-     */
     public const YEAR_2013 = '2013';
     public const YEAR_2014 = '2014';
     public const YEAR_2015 = '2015';
@@ -25,78 +20,70 @@ class YearFixture extends Fixture  implements FixtureGroupInterface
     public const YEAR_2019 = '2019';
 
     /**
-     * @param ObjectManager $manager
+     * @return array[]
      */
-    public function load(ObjectManager $manager)
+    protected function getDataEntities(): array
     {
-
-        $years = [
-          [
-              'id' => self::YEAR_2013,
-              'label' => '2013-2014',
-              'import' => false,
-              'current' => false,
-              'ref' => self::YEAR_2013
-          ],
-            [
+        return [
+            self::YEAR_2013 => [
+                'id' => self::YEAR_2013,
+                'label' => '2013-2014',
+                'import' => false,
+                'current' => false
+            ],
+            self::YEAR_2014 => [
                 'id' => self::YEAR_2014,
                 'label' => '2014-2015',
                 'import' => false,
-                'current' => false,
-                'ref' => self::YEAR_2014
+                'current' => false
             ],
-            [
+            self::YEAR_2015 => [
                 'id' => self::YEAR_2015,
                 'label' => '2015-2016',
                 'import' => false,
-                'current' => false,
-                'ref' => self::YEAR_2015
+                'current' => false
             ],
-            [
+            self::YEAR_2016 => [
                 'id' => self::YEAR_2016,
                 'label' => '2016-2017',
                 'import' => false,
-                'current' => false,
-                'ref' => self::YEAR_2016
+                'current' => false
             ],
-            [
+            self::YEAR_2017 => [
                 'id' => self::YEAR_2017,
                 'label' => '2017-2018',
                 'import' => false,
-                'current' => false,
-                'ref' => self::YEAR_2017
+                'current' => false
             ],
-            [
+            self::YEAR_2018 => [
                 'id' => self::YEAR_2018,
                 'label' => '2018-2019',
                 'import' => false,
-                'current' => false,
-                'ref' => self::YEAR_2018
+                'current' => false
             ],
-            [
+            self::YEAR_2019 => [
                 'id' => self::YEAR_2019,
                 'label' => '2019-2020',
                 'import' => true,
-                'current' => true,
-                'ref' => self::YEAR_2019
+                'current' => true
             ]
         ];
-
-        foreach ($years as $y) {
-
-            $year = new Year();
-            $year->setId($y['id'])
-                ->setLabel($y['label'])
-                ->setImport($y['import'])
-                ->setCurrent($y['current']);
-            $this->addReference($y['ref'], $year);
-            $manager->persist($year);
-        }
-        $manager->flush();
     }
 
+    /**
+     * @return string
+     */
+    protected function getEntityClassName(): string
+    {
+        return Year::class;
+    }
+
+    /**
+     * @return string[]
+     */
     public static function getGroups(): array
     {
         return ['prod', 'test'];
     }
+
 }

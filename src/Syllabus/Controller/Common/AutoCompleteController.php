@@ -7,6 +7,7 @@ use App\Syllabus\Constant\UserRole;
 use App\Syllabus\Entity\CourseInfo;
 use App\Syllabus\Entity\Structure;
 use App\Syllabus\Repository\Doctrine\UserDoctrineRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -16,6 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
+use Twig\Environment;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\expr;
 
 /**
@@ -33,17 +35,20 @@ class AutoCompleteController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
-    public function autoComplete(string $entityName, Request $request)
+    public function autoComplete(string $entityName, Request $request, EntityManagerInterface $em)
     {
         $namespace = 'App\Syllabus\\Entity\\';
         $entityName = "{$namespace}{$entityName}";
-        $query = $request->query->get('query', '');
-        $findBy = $request->query->get('findBy', 'label');
-        $property = $request->query->get('property', 'label');
+
+        $parameters = $request->query->all();
+
+        $query = $parameters['query'] ?? '' ;
+        $findBy = $parameters['findBy'] ?? 'label' ;
+        $property = $parameters['property'] ?? 'label' ;
 
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
 
-        $repository = $this->getDoctrine()->getRepository($entityName);
+        $repository = $em->getRepository($entityName);
         $entities = $repository->findLikeQuery($query, $findBy);
 
         $entities = array_map(function ($entity) use ($propertyAccessor, $property) {
@@ -61,41 +66,45 @@ class AutoCompleteController extends AbstractController
      *
      * @param string $entityName
      * @param Request $request
+     * @param EntityManagerInterface $em
      * @return JsonResponse
      */
-    public function autoCompleteS2(string $entityName, Request $request)
+    public function autoCompleteS2(string $entityName, Request $request, EntityManagerInterface $em)
     {
+
+
         $namespace = 'App\Syllabus\\Entity\\';
         $entityName = "{$namespace}{$entityName}";
-        $query = $request->query->get('q', '');
-        $findBy = $request->query->get('findBy', 'label');
-        $findByOther = $request->query->get('findByOther', []);
-        $property = $request->query->get('property', 'label');
-        $groupProperty = $request->query->get('groupProperty', null);
+
+        $allParameters = $request->query->all();
+
+        $query = $allParameters['q'];
+
+        $findBy = $allParameters['findBy'] ?? 'label';
+
+        $findByOther = $allParameters['findByOther'] ?? [];
+        $property = $allParameters['property'] ?? 'label';
+        $groupProperty = $allParameters['groupProperty'] ?? null;
 
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
 
-        $repository = $this->getDoctrine()->getRepository($entityName);
-        $entities = $repository->findByFilters(array_merge($findByOther, [$findBy=>$query]));
+        $repository = $em->getRepository($entityName);
+        $entities = $repository->findByFilters(array_merge($findByOther, [$findBy => $query]));
 
         $data = [];
-        foreach ($entities as $entity)
-        {
+        foreach ($entities as $entity) {
             $d = ['id' => $entity->getId(), 'text' => $propertyAccessor->getValue($entity, $property)];
-            if(!empty($groupProperty))
-            {
-                $group = $propertyAccessor->getValue($entity, $groupProperty)?? 0;
-                if(!array_key_exists($group, $data))
-                {
+            if (!empty($groupProperty)) {
+                $group = $propertyAccessor->getValue($entity, $groupProperty) ?? 0;
+                if (!array_key_exists($group, $data)) {
                     $data[$group] = ['text' => $propertyAccessor->getValue($entity, $groupProperty), 'children' => []];
                 }
                 $data[$group]['children'][] = $d;
-            }
-            else
-            {
+            } else {
                 $data[] = $d;
             }
         }
+        //dd($data);
         ksort($data);
 
         return $this->json(array_values($data));
@@ -106,42 +115,40 @@ class AutoCompleteController extends AbstractController
      *
      * @param string $entityName
      * @param Request $request
+     * @param EntityManagerInterface $em
      * @return JsonResponse
      */
-    public function autoCompleteS2Courses(string $entityName, Request $request)
+    public function autoCompleteS2Courses(string $entityName, Request $request, EntityManagerInterface $em)
     {
         $namespace = 'App\Syllabus\\Entity\\';
         $entityName = "{$namespace}{$entityName}";
-        $query = $request->query->get('q', '');
-        $property = $request->query->get('property', 'label');
-        $propertyOptional = $request->query->get('property_optional', null);
-        $groupProperty = $request->query->get('groupProperty', null);
+
+        $parameters = $request->query->all();
+
+        $query = $parameters['q'] ?? '';
+        $property = $parameters['property'] ?? 'label';
+        $propertyOptional = $parameters['property_optional'] ?? null;
+        $groupProperty = $parameters['groupProperty'] ?? null;
 
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
 
-        $repository = $this->getDoctrine()->getRepository($entityName);
+        $repository = $em->getRepository($entityName);
         $entities = $repository->findByTitleOrCode($query);
 
         $data = [];
-        foreach ($entities as $entity)
-        {
+        foreach ($entities as $entity) {
             $text = $propertyAccessor->getValue($entity, $property);
-            if ($propertyOptional !== null)
-            {
-                $text .= ' ('.$propertyAccessor->getValue($entity, $propertyOptional).')';
+            if ($propertyOptional !== null) {
+                $text .= ' (' . $propertyAccessor->getValue($entity, $propertyOptional) . ')';
             }
             $d = ['id' => $entity->getId(), 'text' => $text];
-            if(!empty($groupProperty))
-            {
-                $group = $propertyAccessor->getValue($entity, $groupProperty)?? 0;
-                if(!array_key_exists($group, $data))
-                {
+            if (!empty($groupProperty)) {
+                $group = $propertyAccessor->getValue($entity, $groupProperty) ?? 0;
+                if (!array_key_exists($group, $data)) {
                     $data[$group] = ['text' => $propertyAccessor->getValue($entity, $groupProperty), 'children' => []];
                 }
                 $data[$group]['children'][] = $d;
-            }
-            else
-            {
+            } else {
                 $data[] = $d;
             }
         }
@@ -154,15 +161,17 @@ class AutoCompleteController extends AbstractController
      * @Route("/s2-courseinfo-with-write-permission", name="s2_courseinfo_with_write_permission")
      *
      * @param Request $request
+     * @param EntityManagerInterface $em
      * @return JsonResponse
      */
-    public function autoCompleteS2CourseInfoWithWritePermission(Request $request)
+    public function autoCompleteS2CourseInfoWithWritePermission(Request $request, EntityManagerInterface $em): JsonResponse
     {
-        $search = $request->query->get('q', '');
-        $currentCourseInfo = $request->query->get('currentCourseInfo', null);
+        $parameters = $request->query->all();
+        $search = $parameters['q'] ?? null;
+        $currentCourseInfo = $parameters['currentCourseInfo'] ?? null;
 
         /** @var QueryBuilder $qb */
-        $qb = $this->getDoctrine()->getRepository(CourseInfo::class)->createQueryBuilder('ci')
+        $qb = $em->getRepository(CourseInfo::class)->createQueryBuilder('ci')
             ->innerJoin('ci.course', 'c')
             ->addSelect('c')
             ->where('ci.title LIKE :search OR c.code LIKE :search')
@@ -178,8 +187,7 @@ class AutoCompleteController extends AbstractController
                 ->setParameter('permission', Permission::WRITE);
         }
 
-        if(!empty($currentCourseInfo))
-        {
+        if (!empty($currentCourseInfo)) {
             $qb->andWhere($qb->expr()->neq('ci.id', ':currentCourseInfo'))
                 ->setParameter('currentCourseInfo', $currentCourseInfo);
         }
@@ -209,9 +217,9 @@ class AutoCompleteController extends AbstractController
     {
         $namespace = 'App\Syllabus\\Entity\\';
         $entityName = "{$namespace}{$entityName}";
-        $query = $request->query->get('q', '');
-        $findBy = $request->query->get('findBy', 'label');
-        $property = $request->query->get('property', 'label');
+        $query = $request->query->all('q', '');
+        $findBy = $request->query->all('findBy', 'label');
+        $property = $request->query->all('property', 'label');
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
 
         $repository = $this->getDoctrine()->getRepository($entityName);
@@ -236,9 +244,11 @@ class AutoCompleteController extends AbstractController
      */
     public function autocompleteS2User(UserDoctrineRepository $userDoctrineRepository, Request $request)
     {
-        $query = $request->query->get('q');
 
-        $field = $request->query->get('field_name');
+        $allParameters = $request->query->all();
+        $query = $allParameters['q'];
+        $field = $allParameters['field_name'];
+
         switch ($field) {
             default:
                 $searchFields = ['u.firstname', 'u.lastname'];

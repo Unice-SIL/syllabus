@@ -5,6 +5,7 @@ namespace Tests\Syllabus\Controller\Admin;
 
 use App\Syllabus\Entity\Structure;
 use App\Syllabus\Exception\StructureNotFoundException;
+use App\Syllabus\Exception\UserNotFoundException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -57,6 +58,20 @@ class StructureControllerTest extends AbstractAdminControllerTest
             [['ROLE_USER']],
             [['ROLE_USER', 'ROLE_ADMIN_STRUCTURE_LIST']],
         ];
+    }
+
+    /**
+     * @throws StructureNotFoundException
+     */
+    public function testStructureFilter()
+    {
+        $this->tryWithAdminPermission(self::ROUTE_ADMIN_STRUCTURE_LIST, [
+            'structure_filter' => [
+                'label' => $this->getStructure()->getLabel(),
+                'code' => $this->getStructure()->getCode()
+            ]
+        ]);
+        $this->assertResponseIsSuccessful();
     }
 
     /*
@@ -281,5 +296,19 @@ class StructureControllerTest extends AbstractAdminControllerTest
         return [
             [['obsolete' => true]]
         ];
+    }
+
+    /**
+     * @throws StructureNotFoundException
+     * @throws UserNotFoundException
+     */
+    public function testAutocompleteS2()
+    {
+        $structure = $this->getStructure();
+        $responseData = $this->getAutocompleteJson(
+            $this->generateUrl(self::ROUTE_ADMIN_STRUCTURE_AUTOCOMPLETE),
+            ['q' => $structure->getLabel()]
+        );
+        $this->assertEquals($structure->getId(), current($responseData)['id']);
     }
 }

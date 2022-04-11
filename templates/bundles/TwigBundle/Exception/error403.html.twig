@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="error-bg error-bg-403"></div>
+    <div class="error-card">
+        <div class="text-white text-center" style="font-size: 30px;">STOP ! Vous n'êtes pas autorisé à entrer ici.</div>
+        <span class="font-weight-bold text-white" style="font-size: 80px;">403</span>
+        <a href="{{ path('app_index') }}" class="btn btn-link text-white border mt-4">Retour à la page d'accueil</a>
+    </div>
+{% endblock %}

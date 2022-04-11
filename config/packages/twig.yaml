@@ -1,6 +1,7 @@
 twig:
   debug: '%kernel.debug%'
   strict_variables: '%kernel.debug%'
+  exception_controller: null
   globals:
     tutorial_link_syllabus_dashboard: '%env(TUTORIAL_LINK_SYLLABUS_DASHBOARD)%'
     tutorial_link_mail_published: '%env(TUTORIAL_LINK_MAIL_PUBLISHED)%'

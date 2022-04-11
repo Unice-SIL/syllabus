@@ -4,6 +4,7 @@
 namespace Tests\Syllabus\Controller\Admin;
 
 use App\Syllabus\Entity\Year;
+use App\Syllabus\Exception\UserNotFoundException;
 use App\Syllabus\Exception\YearNotFoundException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Response;
@@ -314,5 +315,19 @@ class YearControllerTest extends AbstractAdminControllerTest
         return [
             [['label' => null], '[label]']
         ];
+    }
+
+    /**
+     * @throws UserNotFoundException
+     * @throws YearNotFoundException
+     */
+    public function testAutocompleteS2()
+    {
+        $year = $this->getYear();
+        $responseData = $this->getAutocompleteJson(
+            $this->generateUrl(self::ROUTE_ADMIN_YEAR_AUTOCOMPLETE),
+            ['q' => $year->getLabel()]
+        );
+        $this->assertEquals($year->getId(), current($responseData)['id']);
     }
 }

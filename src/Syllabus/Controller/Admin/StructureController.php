@@ -45,13 +45,14 @@ class StructureController extends AbstractController
     )
     {
 
+        $parameters = $request->query->all();
         $qb = $structureDoctrineRepository->getIndexQueryBuilder();
 
         $form = $this->createForm(StructureFilterType::class);
 
         if ($request->query->has($form->getName())) {
 
-            $form->submit($request->query->get($form->getName()));
+            $form->submit($parameters[$form->getName()]);
             $filterBuilderUpdater->addFilterConditions($form, $qb);
 
         }
@@ -131,7 +132,8 @@ class StructureController extends AbstractController
      */
     public function autocompleteS2(StructureDoctrineRepository $structureDoctrineRepository, Request $request)
     {
-        $query = $request->query->get('q');
+        $parameters = $request->query->all();
+        $query = $parameters['q'];
 
         $structures = $structureDoctrineRepository->findLikeQuery($query, 'label');
 

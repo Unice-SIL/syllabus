@@ -14,6 +14,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 /**
  * Class TutoringResourceController
@@ -26,14 +30,21 @@ class TutoringResourceController extends AbstractController
 {
     /**
      * @Route("/edit", name="edit"))
-     *
      * @param CourseTutoringResource $tutoringResources
      * @param Request $request
      * @param CourseTutoringResourceManager $courseTutoringResourceManager
+     * @param Environment $environment
      * @return JsonResponse
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function editTutoringResourceAction(CourseTutoringResource $tutoringResources,
-                                               Request $request, CourseTutoringResourceManager $courseTutoringResourceManager)
+    public function editTutoringResourceAction(
+        CourseTutoringResource $tutoringResources,
+        Request $request,
+        CourseTutoringResourceManager $courseTutoringResourceManager,
+        Environment $environment
+    ): JsonResponse
     {
         $form = $this->createForm(CourseTutoringResourcesType::class, $tutoringResources);
         $form->handleRequest($request);
@@ -46,7 +57,7 @@ class TutoringResourceController extends AbstractController
             ]);
         }
 
-        $render = $this->get('twig')->render('course_info/prerequisite/form/edit_tutoring_resources.html.twig', [
+        $render = $environment->render('course_info/prerequisite/form/edit_tutoring_resources.html.twig', [
             'form' => $form->createView()
         ]);
 
@@ -58,33 +69,32 @@ class TutoringResourceController extends AbstractController
 
     /**
      * @Route("/delete", name="delete"))
-     *
      * @param CourseTutoringResource $tutoringResources
      * @param Request $request
      * @param CourseTutoringResourceManager $courseTutoringResourceManager
-     * @param TranslatorInterface $translator
+     * @param Environment $environment
      * @return JsonResponse
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function deleteTutoringResourcesAction(CourseTutoringResource $tutoringResources, Request $request,
-                                                  CourseTutoringResourceManager $courseTutoringResourceManager, TranslatorInterface $translator)
+    public function deleteTutoringResourcesAction(
+        CourseTutoringResource $tutoringResources,
+        Request $request,
+        CourseTutoringResourceManager $courseTutoringResourceManager,
+        Environment $environment
+    ): JsonResponse
     {
-        if (!$tutoringResources instanceof CourseTutoringResource) {
-            return $this->json([
-                'status' => false,
-                'content' => $translator->trans('app.controller.error.empty_course')
-            ]);
-        }
         $form = $this->createForm(RemoveCourseTutoringResourcesType::class, $tutoringResources);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $courseTutoringResourceManager->delete($tutoringResources);
-
             return $this->json([
                 'status' => true,
                 'content' => null
             ]);
         }
-        $render = $this->get('twig')->render('course_info/prerequisite/form/remove_tutoring_resources.html.twig', [
+        $render = $environment->render('course_info/prerequisite/form/remove_tutoring_resources.html.twig', [
             'form' => $form->createView()
         ]);
         return $this->json([

@@ -62,6 +62,25 @@ class PeriodControllerTest extends AbstractAdminControllerTest
         ];
     }
 
+    /**
+     * @throws PeriodNotFoundException
+     * @throws StructureNotFoundException
+     */
+    public function testPeriodFilter()
+    {
+        $period = $this->getPeriod();
+        if ($period->getStructures()->isEmpty()) {
+            $period->addStructure($this->getStructure());
+        }
+        $this->tryWithAdminPermission(self::ROUTE_ADMIN_PERIOD_LIST, [
+            'period_filter' => [
+                'label' => $this->getPeriod()->getLabel(),
+                'structures' => $this->getPeriod()->getStructures()->current()->getLabel()
+            ]
+        ]);
+        $this->assertResponseIsSuccessful();
+    }
+
     /*
      *  New Period
      */

@@ -34,12 +34,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class Groups
 {
     /**
-     * @var int
+     * @var string|null
      *
      * @ORM\Column(name="id", type="string")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="App\Syllabus\Doctrine\IdGenerator")
+     * @ORM\GeneratedValue(strategy="UUID")
      */
     private $id;
 
@@ -81,11 +80,10 @@ class Groups
         $this->users = new ArrayCollection();
     }
 
-
     /**
      * Get id.
      *
-     * @return int
+     * @return string
      */
     public function getId()
     {
@@ -93,13 +91,10 @@ class Groups
     }
 
     /**
-     * Set label.
-     *
-     * @param string $label
-     *
-     * @return Groups
+     * @param $label
+     * @return $this
      */
-    public function setLabel($label)
+    public function setLabel($label): Groups
     {
         $this->label = $label;
 
@@ -107,11 +102,9 @@ class Groups
     }
 
     /**
-     * Get label.
-     *
      * @return string
      */
-    public function getLabel()
+    public function getLabel(): string
     {
         return $this->label;
     }
@@ -119,7 +112,7 @@ class Groups
     /**
      * @return array
      */
-    public function getRoles()
+    public function getRoles(): array
     {
         return $this->roles;
     }
@@ -127,7 +120,7 @@ class Groups
     /**
      * @param array $roles
      */
-    public function setRoles($roles)
+    public function setRoles(array $roles)
     {
         $this->roles = $roles;
     }
@@ -135,7 +128,7 @@ class Groups
     /**
      * @return bool
      */
-    public function isObsolete()
+    public function isObsolete(): bool
     {
         return $this->obsolete;
     }
@@ -143,7 +136,7 @@ class Groups
     /**
      * @param bool $obsolete
      */
-    public function setObsolete($obsolete)
+    public function setObsolete(bool $obsolete)
     {
         $this->obsolete = $obsolete;
     }
@@ -168,7 +161,7 @@ class Groups
     }
 
     /**
-     * @param User $user
+     * @param User|null $user
      * @return $this
      */
     public function addUser(?User $user): self
@@ -197,6 +190,9 @@ class Groups
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return $this->getLabel();
