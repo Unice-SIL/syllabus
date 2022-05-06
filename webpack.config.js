@@ -31,12 +31,14 @@ Encore
     .enableVersioning(Encore.isProduction())
     .enableSassLoader()
     .enablePostCssLoader(
+        /*
         (options) => {
             options.config = {
                 // the directory where the postcss.config.js file is stored
                 path: './assets'
             };
         }
+         */
     )
     .autoProvideVariables({
         $: 'jquery',
