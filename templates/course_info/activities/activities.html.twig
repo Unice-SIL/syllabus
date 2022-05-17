@@ -89,6 +89,7 @@
     {{ parent() }}
     <script>
 
+        $.fn.modal.Constructor.prototype._enforceFocus = function() {};
 
         $(document).ready(function() {
             /**
