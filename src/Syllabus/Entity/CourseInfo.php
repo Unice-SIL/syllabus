@@ -2456,10 +2456,6 @@ class CourseInfo
         if (!$this->domains->contains($domain))
         {
             $this->domains->add($domain);
-            if (!$domain->getCourseInfos()->contains($this))
-            {
-                $domain->getCourseInfos()->add($this);
-            }
         }
         return $this;
     }
@@ -2473,10 +2469,6 @@ class CourseInfo
         if ($this->domains->contains($domain))
         {
             $this->domains->removeElement($domain);
-            if ($domain->getCourseInfos()->contains($this))
-            {
-                $domain->getCourseInfos()->removeElement($this);
-            }
         }
         return $this;
     }
