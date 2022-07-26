@@ -547,7 +547,10 @@ class CourseInfo
      * @var ArrayCollection
      *
      * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Period", inversedBy="courseInfos")
-     * @ORM\JoinTable(name="course_info_period")
+     * @ORM\JoinTable(name="course_info_period",
+     *     joinColumns={@ORM\JoinColumn(name="courseinfo_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="period_id", referencedColumnName="id")}
+     * )
      * @Assert\Count(min="1", groups={"presentation"})
      * @ApiSubresource()
      */
