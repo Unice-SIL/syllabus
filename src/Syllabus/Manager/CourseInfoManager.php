@@ -15,6 +15,7 @@ use App\Syllabus\Repository\Doctrine\CourseInfoDoctrineRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use League\Csv\Reader;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Filesystem\Filesystem;
@@ -149,7 +150,7 @@ class CourseInfoManager extends AbstractManager
      * @param string $context
      * @param Report|null $report
      * @return Report
-     * @throws \Exception
+     * @throws Exception
      */
     public function duplicate(?string $courseInfoSender, ?string $courseInfoRecipient, string $context, Report $report = null): Report
     {
@@ -224,13 +225,11 @@ class CourseInfoManager extends AbstractManager
      * @param array $fieldsToDuplicate
      * @param CourseInfo $courseInfoSender
      * @param CourseInfo $courseInfoRecipient
-     * @throws \Exception
+     * @throws Exception
      */
     private function duplicationProcess(array $fieldsToDuplicate, CourseInfo $courseInfoSender, CourseInfo $courseInfoRecipient)
     {
         foreach ($fieldsToDuplicate as $field) {
-            dump('Duplicate info ' . $field->getField());
-
             $property = $field->getField();
 
             //Stocks data to duplicate in a variable
@@ -259,43 +258,11 @@ class CourseInfoManager extends AbstractManager
     }
 
     /**
-     * @param Collection $courseInfoSenderData
-     * @param CourseInfo $courseInfoRecipient
-     * @param string $property
-     * @param string $inversedBy
-     */
-    public function duplicateCollectionProperty(Collection $courseInfoSenderData, CourseInfo $courseInfoRecipient, string $property, string $inversedBy)
-    {
-        $courseInfoRecipientData = $this->propertyAccessor->getValue($courseInfoRecipient, $property);
-        foreach ($courseInfoRecipientData as $item) {
-            $courseInfoRecipientData->removeElement($item);
-            if ($item->contains($courseInfoRecipient)) {
-                $item->removeElement($courseInfoRecipient);
-            }
-        }
-
-
-        dump($courseInfoRecipientData->count());
-        foreach ($courseInfoSenderData as $item) {
-            if (!$courseInfoRecipientData->contains($item)) {
-                $courseInfoRecipientData->add($item);
-                $courseInfoRecipientItemData = $this->propertyAccessor->getValue($item, $inversedBy);
-                dump(get_class($item), $item->getLabel(), $courseInfoRecipientItemData->count());
-                if (!$courseInfoRecipientItemData->contains($courseInfoRecipientData)) {
-                    $courseInfoRecipientItemData->add($courseInfoRecipientData);
-                }
-                dump($this->propertyAccessor->getValue($item, $inversedBy)->count());
-            }
-        }
-        dump($courseInfoRecipientData->count());
-    }
-
-    /**
      * @param Collection $CourseInfoSenderData
      * @param CourseInfo $courseInfoRecipient
      * @param string $property
      * @param string $inversedBy
-     * @throws \Exception
+     * @throws Exception
      */
     private function duplicateAndCloneCollectionProperty(Collection $CourseInfoSenderData, CourseInfo $courseInfoRecipient, string $property, string $inversedBy)
     {
@@ -336,7 +303,7 @@ class CourseInfoManager extends AbstractManager
      * @param string $pathName
      * @return Report
      * @throws \League\Csv\Exception
-     * @throws \Exception
+     * @throws Exception
      */
     public function duplicateFromFile(string $pathName)
     {
