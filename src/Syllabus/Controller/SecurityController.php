@@ -10,8 +10,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -25,7 +25,7 @@ class SecurityController extends AbstractController
     /**
      * @param Request $request
      * @param string $token
-     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @param UserPasswordHasherInterface $passwordEncoder
      * @param EntityManagerInterface $manager
      * @param TranslatorInterface $translator
      * @return Response
@@ -35,10 +35,10 @@ class SecurityController extends AbstractController
     public function resetPassword(
         Request $request,
         string $token,
-        UserPasswordEncoderInterface $passwordEncoder,
+        UserPasswordHasherInterface $passwordEncoder,
         EntityManagerInterface $manager,
         TranslatorInterface $translator
-    )
+    ): Response
     {
         $user = new User();
         $form = $this->createForm(ResetPasswordType::class, $user);
@@ -56,7 +56,7 @@ class SecurityController extends AbstractController
             }
 
             $user->setResetPasswordToken(null);
-            $user->setPassword($passwordEncoder->encodePassword($user, $password));
+            $user->setPassword($passwordEncoder->hashPassword($user, $password));
             $manager->flush();
 
 
@@ -72,7 +72,7 @@ class SecurityController extends AbstractController
      * @return Response
      * @Route("/reset-password-success", name="reset_password_success", methods={"GET"})
      */
-    public function resetPasswordSuccess()
+    public function resetPasswordSuccess(): Response
     {
         return $this->render('security/reset_password_success.html.twig');
     }

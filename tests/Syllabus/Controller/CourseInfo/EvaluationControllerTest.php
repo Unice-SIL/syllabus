@@ -4,6 +4,7 @@
 namespace Tests\Syllabus\Controller\CourseInfo;
 
 
+use App\Syllabus\Constant\Permission;
 use App\Syllabus\Entity\CourseInfo;
 use App\Syllabus\Exception\CourseNotFoundException;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,15 +37,24 @@ class EvaluationControllerTest extends AbstractCourseInfoControllerTest
     /**
      * @throws CourseNotFoundException
      */
-    public function testEvaluationRedirectWithPermission()
+    public function testEvaluationWithPermission()
     {
-        $this->tryRedirectWithPermission(self::ROUTE_APP_EVALUATION_INDEX);
+        $this->tryWithPermission(self::ROUTE_APP_EVALUATION_INDEX, Permission::WRITE);
         $this->assertResponseIsSuccessful();
     }
 
     /**
      * @throws CourseNotFoundException
      */
+    public function testEvaluationSpecificationWithAdminPermission()
+    {
+        $this->tryRedirectWithAdminPermission(self::ROUTE_APP_EVALUATION_SPECIFICATION);
+        $this->assertResponseIsSuccessful();
+    }
+
+    /**
+     * @throws CourseNotFoundException
+
     public function testEvaluationWithoutPermission()
     {
         $this->tryWithoutPermission(self::ROUTE_APP_EVALUATION_INDEX);
@@ -60,7 +70,7 @@ class EvaluationControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
 
         $this->client()->request(
             'GET',
@@ -100,7 +110,7 @@ class EvaluationControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
 
         $this->client()->request(
             'GET',

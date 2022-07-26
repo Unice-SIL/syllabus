@@ -6,8 +6,10 @@ use App\Syllabus\Entity\Year;
 use App\Syllabus\Form\YearType;
 use App\Syllabus\Manager\YearManager;
 use App\Syllabus\Repository\Doctrine\YearDoctrineRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -33,12 +35,13 @@ class YearController extends AbstractController
      *
      * @param Request $request
      * @param PaginatorInterface $paginator
+     * @param EntityManagerInterface $em
      * @return Response
      */
-    public function indexAction(Request $request, PaginatorInterface $paginator)
+    public function indexAction(Request $request, PaginatorInterface $paginator, EntityManagerInterface $em)
     {
         $pagination = $paginator->paginate(
-            $this->getDoctrine()->getManager()->createQuery("SELECT y FROM Syllabus:Year y"),
+            $em->createQuery("SELECT y FROM Syllabus:Year y"),
             $request->query->getInt('page', 1),
             10
         );
@@ -116,7 +119,8 @@ class YearController extends AbstractController
      */
     public function autocompleteS2(YearDoctrineRepository $yearDoctrineRepository, Request $request)
     {
-        $query = $request->query->get('q');
+        $parameters = $request->query->all();
+        $query = $parameters['q'];
 
         $years = $yearDoctrineRepository->findLikeQuery($query, 'y.label');
 

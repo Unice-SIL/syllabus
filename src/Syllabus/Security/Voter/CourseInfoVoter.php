@@ -45,7 +45,7 @@ class CourseInfoVoter extends Voter
      * @param mixed $subject
      * @return bool
      */
-    protected function supports($attribute, $subject)
+    protected function supports($attribute, $subject): bool
     {
         $classes = [
             CourseAchievement::class,
@@ -79,7 +79,7 @@ class CourseInfoVoter extends Voter
      * @param TokenInterface $token
      * @return bool
      */
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
+    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
     {
         if ($this->decisionManager->decide($token, ['ROLE_ADMIN_COURSE_INFO_UPDATE'])) {
             return true;
@@ -131,7 +131,7 @@ class CourseInfoVoter extends Voter
      * @param $attribute
      * @return bool
      */
-    private function getPermission(CourseInfo $courseInfo, User $user, $attribute)
+    private function getPermission(CourseInfo $courseInfo, User $user, $attribute): bool
     {
         foreach ($courseInfo->getCoursePermissions() as $coursePermission) {
             if ($coursePermission->getUser()->getId() === $user->getId() && $coursePermission->getPermission() === $attribute) {

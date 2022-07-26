@@ -67,7 +67,6 @@ class CourseController extends AbstractController
             $request->query->getInt('page', 1),
             10
         );
-
         return $this->render('course/index.html.twig', array(
             'pagination' => $pagination,
             'form' => $form->createView(),
@@ -162,7 +161,7 @@ class CourseController extends AbstractController
 
             $em->flush();
 
-            return $this->redirectToRoute('app_admin.course_show', [
+            return $this->redirectToRoute('app.admin.course.show', [
                 'id' => $course->getId()
             ]);
         }
@@ -180,7 +179,7 @@ class CourseController extends AbstractController
 
             $em->flush();
 
-            return $this->redirectToRoute('app_admin.course_show', [
+            return $this->redirectToRoute('app.admin.course.show', [
                 'id' => $course->getId()
             ]);
         }
@@ -199,7 +198,7 @@ class CourseController extends AbstractController
 
             $em->flush();
 
-            return $this->redirectToRoute('app_admin.course_show', [
+            return $this->redirectToRoute('app.admin.course.show', [
                 'id' => $course->getId()
             ]);
         }
@@ -297,6 +296,9 @@ class CourseController extends AbstractController
     {
         $query = $request->query->get('query');
 
+
+
+
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
 
         $courses = $courseDoctrineRepository->findLikeQuery($query, $field);
@@ -319,12 +321,15 @@ class CourseController extends AbstractController
      */
     public function autocompleteS2(CourseDoctrineRepository $courseDoctrineRepository, Request $request)
     {
-        $query = $request->query->get('q');
+        $parameters =  $request->query->all();
+        $query = $parameters['q'];
         $courses = $courseDoctrineRepository->findLikeQuery($query, 'code');
 
         $data = array_map(function ($c) use ($request) {
+            $parameters =  $request->query->all();
+            $code =  $parameters['code'] ?? null;
 
-            if (strtolower($c->getCode()) == strtolower($request->query->get('code'))) {
+            if (strtolower($c->getCode()) == strtolower($code)) {
                 return false;
             }
             return ['id' => $c->getId(), 'text' => $c->getCode()];

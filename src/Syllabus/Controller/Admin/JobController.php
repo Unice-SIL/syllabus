@@ -220,7 +220,7 @@ class JobController extends AbstractController
      */
     public function runCommandAction(Request $request, Job $job, EntityManagerInterface $em, TranslatorInterface $translator)
     {
-        if (!$this->isCsrfTokenValid('job' . $job->getId(), $request->request->get('_token'))) {
+        if (!$this->isCsrfTokenValid('job' . $job->getId(), $request->request->all('_token'))) {
             $this->addFlash( 'danger', $translator->trans('admin.job.flashbag.unauthorized_action'));
 
             return $this->redirectToRoute('app.admin.job.index');

@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Environment;
 
 /**
  * Class ActivitiesController
@@ -63,6 +64,7 @@ class ActivitiesController extends AbstractController
     /**
      * @Route("/section/add", name="section.add"))
      *
+     * @param Environment $twig
      * @param CourseInfo $courseInfo
      * @param Request $request
      * @param CourseInfoManager $manager
@@ -71,16 +73,8 @@ class ActivitiesController extends AbstractController
      * @return Response
      * @throws Exception
      */
-    public function addSectionAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager, CourseSectionManager $courseSectionManager, TranslatorInterface $translator)
+    public function addSectionAction(Environment $twig, CourseInfo $courseInfo, Request $request, CourseInfoManager $manager, CourseSectionManager $courseSectionManager, TranslatorInterface $translator)
     {
-        if (!$courseInfo instanceof CourseInfo)
-        {
-            return $this->json([
-                'status' => false,
-                'render' => $translator->trans('app.controller.error.empty_course')
-            ]);
-        }
-
         $status = true;
         $message = null;
         $section = $courseSectionManager->new();
@@ -105,7 +99,7 @@ class ActivitiesController extends AbstractController
             }
         }
 
-        $render = $this->get('twig')->render('course_info/activities/form/add_section.html.twig', [
+        $render = $twig->render('course_info/activities/form/add_section.html.twig', [
             'courseInfo' => $courseInfo,
             'form' => $form->createView(),
             'sectionId' => $section->getId()
@@ -128,16 +122,8 @@ class ActivitiesController extends AbstractController
      * @return JsonResponse
      * @ParamConverter("courseSection", options={"mapping": {"sectionId": "id"}})
      */
-    public function duplicateSectionAction(CourseInfo $courseInfo, CourseSection $courseSection, Request $request, CourseInfoManager $manager, TranslatorInterface $translator)
+    public function duplicateSectionAction(Environment $twig, CourseInfo $courseInfo, CourseSection $courseSection, Request $request, CourseInfoManager $manager, TranslatorInterface $translator)
     {
-        if (!$courseSection instanceof CourseSection)
-        {
-            return $this->json([
-                'status' => false,
-                'render' => $translator->trans('app.controller.error.empty_section')
-            ]);
-        }
-
         $form = $this->createForm(DuplicateCourseSectionType::class, $courseSection);
         $form->handleRequest($request);
 
@@ -147,7 +133,7 @@ class ActivitiesController extends AbstractController
 
             foreach ($courseInfo->getCourseSections() as $section) {
                 if ($courseSection->getPosition() < $section->getPosition())
-                    $section->setPosition($section->getPosition() + 1);
+                $section->setPosition($section->getPosition() + 1);
             }
             $newSection->setPosition($courseSection->getPosition() + 1);
             $courseInfo->addCourseSection($newSection);
@@ -160,7 +146,7 @@ class ActivitiesController extends AbstractController
             ]);
         }
 
-        $render = $this->get('twig')->render('course_info/activities/form/duplicate_section.html.twig', [
+        $render = $twig->render('course_info/activities/form/duplicate_section.html.twig', [
             'courseInfo' => $courseInfo,
             'courseSection' => $courseSection,
             'form' => $form->createView()
@@ -183,7 +169,8 @@ class ActivitiesController extends AbstractController
     public function sortSectionsAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
     {
         $sections = $courseInfo->getCourseSections();
-        $dataSections = $request->request->get('data');
+        $parameters = $request->request->all();
+        $dataSections = $parameters['data'];
 
         if ($dataSections)
         {

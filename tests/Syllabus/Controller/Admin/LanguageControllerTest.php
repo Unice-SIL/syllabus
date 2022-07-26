@@ -5,6 +5,7 @@ namespace Tests\Syllabus\Controller\Admin;
 
 use App\Syllabus\Entity\Language;
 use App\Syllabus\Exception\LanguageNotFoundException;
+use App\Syllabus\Exception\UserNotFoundException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -34,6 +35,7 @@ class LanguageControllerTest extends AbstractAdminControllerTest
     /**
      * @dataProvider languageListWithMissingRoleProvider
      * @param array $data
+     * @throws UserNotFoundException
      */
     public function testLanguageListWithMissingRole(array $data)
     {
@@ -58,6 +60,19 @@ class LanguageControllerTest extends AbstractAdminControllerTest
             [['ROLE_USER']],
             [['ROLE_USER', 'ROLE_ADMIN_LANGUAGE_LIST']],
         ];
+    }
+    
+    /**
+     * @throws LanguageNotFoundException
+     */
+    public function testLanguageFilter()
+    {
+        $this->tryWithAdminPermission(self::ROUTE_ADMIN_LANGUAGE_LIST, [
+            'language_filter' => [
+                'label' => $this->getLanguage()->getLabel()
+            ]
+        ]);
+        $this->assertResponseIsSuccessful();
     }
 
     /*
@@ -239,6 +254,7 @@ class LanguageControllerTest extends AbstractAdminControllerTest
     /**
      * @dataProvider editLanguageSuccessfulProvider
      * @param array $data
+     * @throws UserNotFoundException
      */
     public function testEditLanguageSuccessful(array $data)
     {
@@ -308,5 +324,19 @@ class LanguageControllerTest extends AbstractAdminControllerTest
         return [
             [['label' => null], '[label]']
         ];
+    }
+
+    /**
+     * @throws LanguageNotFoundException
+     * @throws UserNotFoundException
+     */
+    public function testAutocompleteS2()
+    {
+        $language = $this->getLanguage();
+        $responseData = $this->getAutocompleteJson(
+            $this->generateUrl(self::ROUTE_ADMIN_LANGUAGE_AUTOCOMPLETE),
+            ['q' => $language->getLabel()]
+        );
+        $this->assertEquals($language->getId(), current($responseData)['id']);
     }
 }

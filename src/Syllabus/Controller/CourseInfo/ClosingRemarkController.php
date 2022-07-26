@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Environment;
 
 /**
  * Class ClosingRemarkController
@@ -42,22 +43,15 @@ class ClosingRemarkController extends AbstractController
      *
      * @param CourseInfo|null $courseInfo
      * @param Request $request
-     * @param TranslatorInterface $translator
+     * @param Environment $twig
      * @return Response
      */
-    public function closingRemarksViewAction(CourseInfo $courseInfo, Request $request, TranslatorInterface $translator)
+    public function closingRemarksViewAction(CourseInfo $courseInfo, Request $request, Environment $twig)
     {
-        if(!$courseInfo instanceof CourseInfo){
-            return $this->json([
-                'status' => false,
-                'content' => $translator->trans('app.controller.error.empty_course')
-            ]);
-        }
-
         $form = $this->createForm(Closing_remarksType::class, $courseInfo);
         $form->handleRequest($request);
 
-        $render = $this->get('twig')->render('course_info/closing_remarks/view/closing_remarks.html.twig', [
+        $render = $twig->render('course_info/closing_remarks/view/closing_remarks.html.twig', [
             'courseInfo' => $courseInfo,
             'form' => $form->createView()
         ]);
@@ -74,24 +68,17 @@ class ClosingRemarkController extends AbstractController
      * @param CourseInfo|null $courseInfo
      * @param Request $request
      * @param CourseInfoManager $manager
-     * @param TranslatorInterface $translator
+     * @param Environment $twig
      * @return Response
      */
-    public function closingRemarksFormAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager, TranslatorInterface $translator)
+    public function closingRemarksFormAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager, Environment $twig)
     {
-        if(!$courseInfo instanceof CourseInfo){
-            return $this->json([
-                'status' => false,
-                'content' => $translator->trans('app.controller.error.empty_course')
-            ]);
-        }
-
         $form = $this->createForm(Closing_remarksType::class, $courseInfo);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $manager->update($courseInfo);
-            $render = $this->get('twig')->render('course_info/closing_remarks/view/closing_remarks.html.twig', [
+            $render = $twig->render('course_info/closing_remarks/view/closing_remarks.html.twig', [
                 'courseInfo' => $courseInfo
             ]);
             return $this->json([
@@ -100,7 +87,7 @@ class ClosingRemarkController extends AbstractController
             ]);
         }
 
-        $render = $this->get('twig')->render('course_info/closing_remarks/form/closing_remarks.html.twig', [
+        $render = $twig->render('course_info/closing_remarks/form/closing_remarks.html.twig', [
             'courseInfo' => $courseInfo,
             'form' => $form->createView()
         ]);

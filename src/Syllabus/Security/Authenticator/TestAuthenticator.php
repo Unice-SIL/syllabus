@@ -2,23 +2,24 @@
 
 namespace App\Syllabus\Security\Authenticator;
 
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use Symfony\Component\Security\Core\Exception\UserNotFoundException;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
+use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
+use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
+use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
+use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface;
 
 /**
  * Class TestAuthAuthenticator
  * @package App\Syllabus\Security
  */
-class TestAuthenticator extends AbstractGuardAuthenticator
+class TestAuthenticator extends AbstractAuthenticator implements AuthenticationEntryPointInterface
 {
     /**
      * @var array
@@ -26,32 +27,26 @@ class TestAuthenticator extends AbstractGuardAuthenticator
     private $config;
 
     /**
-     * @var TokenStorageInterface
+     * @var Security
      */
-    private $tokenStorage;
+    private $security;
 
     /**
-     * TestAuthAuthenticator constructor.
      * @param array $config
-     * @param TokenStorageInterface $tokenStorage
+     * @param Security $security
      */
-    public function __construct(
-        array $config = array(),
-        TokenStorageInterface $tokenStorage)
+    public function __construct(array $config, Security $security)
     {
         $this->config = $config;
-        $this->tokenStorage = $tokenStorage;
+        $this->security = $security;
     }
 
     /**
      * @param Request $request
      * @return bool
      */
-    public function supports(Request $request){
-        if (!empty($this->tokenStorage->getToken()) && $this->tokenStorage->getToken()->getUser()) {
-            return false;
-        }
-        return true;
+    public function supports(Request $request): bool{
+        return ! $this->security->getUser() instanceof UserInterface;
     }
 
     /**
@@ -59,7 +54,7 @@ class TestAuthenticator extends AbstractGuardAuthenticator
      * @param AuthenticationException|null $authException
      * @return RedirectResponse
      */
-    public function start(Request $request, AuthenticationException $authException = null)
+    public function start(Request $request, AuthenticationException $authException = null): RedirectResponse
     {
         return new RedirectResponse($request->getUri());
     }
@@ -68,70 +63,33 @@ class TestAuthenticator extends AbstractGuardAuthenticator
      * @param Request $request
      * @return mixed
      */
-    public function getCredentials(Request $request)
+    public function authenticate(Request $request): SelfValidatingPassport
     {
         if(!array_key_exists('current', $this->config)){
-            throw new UsernameNotFoundException("Username not found in test authenticator_configuration");
+            throw new UserNotFoundException("Username not found in test authenticator_configuration");
         }
-        $username = $this->config['current'];
-        if(!array_key_exists($username, $this->config['users'])){
-            throw new UsernameNotFoundException(sprintf("User %s not found in users configured for test_authenticator.", $username));
-        }
-        $credentials = $this->config['users'][$username];
-        $credentials['username'] = $username;
-        return $credentials;
-    }
 
-    /**
-     * @param mixed $credentials
-     * @param UserProviderInterface $userProvider
-     * @return UserInterface
-     */
-    public function getUser($credentials, UserProviderInterface $userProvider)
-    {
-        if(!array_key_exists('username', $credentials)){
-            throw new UsernameNotFoundException("Username not found in credentials");
-        }
-        return $userProvider->loadUserByUsername($credentials['username']);
-    }
-
-    /**
-     * @param mixed $credentials
-     * @param UserInterface $user
-     * @return bool
-     */
-    public function checkCredentials($credentials, UserInterface $user)
-    {
-        return true;
-    }
-
-    /**
-     * @param Request $request
-     * @param AuthenticationException $exception
-     * @return JsonResponse
-     */
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
-    {
-        return new JsonResponse(array('message' => $exception->getMessageKey()), Response::HTTP_FORBIDDEN);
+        return new SelfValidatingPassport(new UserBadge($this->config['current']));
     }
 
     /**
      * @param Request $request
      * @param TokenInterface $token
-     * @param string $providerKey
-     * @return null
+     * @param string $firewallName
+     * @return Response|null
      */
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
         return null;
     }
 
     /**
-     * @return bool
+     * @param Request $request
+     * @param AuthenticationException $exception
+     * @return Response|null
      */
-    public function supportsRememberMe()
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
-        return false;
+        return null;
     }
-
 }

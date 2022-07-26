@@ -43,8 +43,7 @@ class Language
      *
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="App\Syllabus\Doctrine\IdGenerator")
+     * @ORM\GeneratedValue(strategy="UUID")
      * @Groups({"language"})
      */
     private $id;
@@ -66,21 +65,6 @@ class Language
      * @Groups({"language"})
      */
     private $obsolete = false;
-
-    /**
-     * @var ArrayCollection
-     *
-     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\CourseInfo", mappedBy="languages")
-     */
-    private $courseInfos;
-
-    /**
-     * Language constructor.
-     */
-    public function __construct()
-    {
-        $this->courseInfos = new ArrayCollection();
-    }
 
     /**
      * @return null|string
@@ -137,45 +121,6 @@ class Language
         $this->obsolete = $obsolete;
 
         return $this;
-    }
-
-    /**
-     * @param CourseInfo $courseInfo
-     * @return Language
-     */
-    public function addCourseInfo(CourseInfo $courseInfo): self
-    {
-        if (!$this->courseInfos->contains($courseInfo))
-        {
-            $this->courseInfos->add($courseInfo);
-            $courseInfo->getLanguages()->add($this);
-        }
-        return $this;
-    }
-
-    /**
-     * @param CourseInfo $courseInfo
-     * @return Language
-     */
-    public function removeCourseInfo(CourseInfo $courseInfo): self
-    {
-        if ($this->courseInfos->contains($courseInfo))
-        {
-            $this->courseInfos->removeElement($courseInfo);
-            if ($courseInfo->getLanguages()->contains($this))
-            {
-                $courseInfo->getLanguages()->removeElement($this);
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * @return Collection
-     */
-    public function getCourseInfos(): Collection
-    {
-        return $this->courseInfos;
     }
 
     /**

@@ -52,5 +52,6 @@ class CustomDBCommand extends Command
         $this->em->flush();
         $io->success('Customization succeed');
 
+        return self::SUCCESS;
     }
 }

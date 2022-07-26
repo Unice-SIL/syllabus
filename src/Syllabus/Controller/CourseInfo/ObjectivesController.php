@@ -5,15 +5,11 @@ namespace App\Syllabus\Controller\CourseInfo;
 
 
 use App\Syllabus\Entity\CourseInfo;
-use App\Syllabus\Entity\CoursePrerequisite;
 use App\Syllabus\Form\CourseInfo\CourseAchievement\CourseAchievementType;
 use App\Syllabus\Form\CourseInfo\CourseAchievement\CourseCriticalAchievementType;
-use App\Syllabus\Form\CourseInfo\CourseAchievement\CoursePrerequisiteType;
-use App\Syllabus\Form\CourseInfo\CourseAchievement\CourseTutoringResourcesType;
 use App\Syllabus\Manager\CourseAchievementManager;
 use App\Syllabus\Manager\CourseCriticalAchievementManager;
 use App\Syllabus\Manager\CourseInfoManager;
-use App\Syllabus\Manager\CourseTutoringResourceManager;
 use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,7 +17,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Environment;
 
 /**
  * Class ObjectivesController
@@ -48,19 +44,12 @@ class ObjectivesController extends AbstractController
      * @Route("/achievements", name="achievements"))
      *
      * @param CourseInfo $courseInfo
-     * @param TranslatorInterface $translator
+     * @param Environment $twig
      * @return Response
      */
-    public function achievementViewAction(CourseInfo $courseInfo, TranslatorInterface $translator)
+    public function achievementViewAction(CourseInfo $courseInfo, Environment $twig)
     {
-        if (!$courseInfo instanceof CourseInfo) {
-            return $this->json([
-                'status' => false,
-                'content' => $translator->trans('app.controller.error.empty_course')
-            ]);
-        }
-
-        $render = $this->get('twig')->render('course_info/objectives_course/view/achievement.html.twig', [
+        $render = $twig->render('course_info/objectives_course/view/achievement.html.twig', [
             'courseInfo' => $courseInfo
         ]);
         return $this->json([
@@ -75,18 +64,11 @@ class ObjectivesController extends AbstractController
      * @param CourseInfo $courseInfo
      * @param Request $request
      * @param CourseAchievementManager $courseAchievementManager
-     * @param TranslatorInterface $translator
+     * @param Environment $twig
      * @return Response
      */
-    public function addAchievementAction(CourseInfo $courseInfo, Request $request, CourseAchievementManager $courseAchievementManager, TranslatorInterface $translator)
+    public function addAchievementAction(CourseInfo $courseInfo, Request $request, CourseAchievementManager $courseAchievementManager, Environment $twig)
     {
-        if (!$courseInfo instanceof CourseInfo) {
-            return $this->json([
-                'status' => false,
-                'content' => $translator->trans('app.controller.error.empty_course')
-            ]);
-        }
-
         $courseAchievement = $courseAchievementManager->new($courseInfo);
         $form = $this->createForm(CourseAchievementType::class, $courseAchievement);
         $form->handleRequest($request);
@@ -100,7 +82,7 @@ class ObjectivesController extends AbstractController
             ]);
         }
 
-        $render = $this->get('twig')->render('course_info/objectives_course/form/achievement.html.twig', [
+        $render = $twig->render('course_info/objectives_course/form/achievement.html.twig', [
             'courseInfo' => $courseInfo,
             'form' => $form->createView()
         ]);
@@ -122,7 +104,7 @@ class ObjectivesController extends AbstractController
     public function sortAchievementsAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
     {
         $achievements = $courseInfo->getCourseAchievements();
-        $dataAchievements = $request->request->get('data');
+        $dataAchievements = $request->request->all('data');
 
         $this->sortList($courseInfo, $achievements, $dataAchievements, $manager);
 
@@ -136,17 +118,11 @@ class ObjectivesController extends AbstractController
      * @Route("/critical-achievements", name="critical_achievements"))
      *
      * @param CourseInfo $courseInfo
-     * @param TranslatorInterface $translator
+     * @param Environment $twig
      * @return Response
      */
-    public function criticalAchievementViewAction(CourseInfo $courseInfo, TranslatorInterface $translator)
+   /* public function criticalAchievementViewAction(CourseInfo $courseInfo, Environment $twig)
     {
-        if (!$courseInfo instanceof CourseInfo) {
-            return $this->json([
-                'status' => false,
-                'content' => $translator->trans('app.controller.error.empty_course')
-            ]);
-        }
         $criticalAchievements = $courseInfo->getCourseCriticalAchievements();
         $tabValideScore = [];
         foreach ($criticalAchievements as $ca) {
@@ -162,7 +138,7 @@ class ObjectivesController extends AbstractController
                 $tabValideScore[] = $ca->getId();
             }
         }
-        $render = $this->get('twig')->render('course_info/objectives_course/view/critical_achievement.html.twig', [
+        $render = $twig->render('course_info/objectives_course/view/critical_achievement.html.twig', [
             'courseInfo' => $courseInfo,
             'tabValideScore' => $tabValideScore
         ]);
@@ -170,18 +146,21 @@ class ObjectivesController extends AbstractController
             'status' => true,
             'content' => $render
         ]);
-    }
+    }*/
 
     /**
      * @Route("critical-achievement/add", name="critical_achievement.add"))
      *
      * @param CourseInfo $courseInfo
      * @param Request $request
+     * @param Environment $twig
      * @param CourseCriticalAchievementManager $courseCriticalAchievementManager
      * @return Response
      */
-    public function addCriticalAchievementAction(CourseInfo $courseInfo, Request $request,
-                                                 CourseCriticalAchievementManager $courseCriticalAchievementManager)
+    /*public function addCriticalAchievementAction(CourseInfo $courseInfo, Request $request,
+                                                 CourseCriticalAchievementManager $courseCriticalAchievementManager,
+                                                 Environment $twig
+    )
     {
         $courseCriticalAchievement = $courseCriticalAchievementManager->new($courseInfo);
         $form = $this->createForm(CourseCriticalAchievementType::class, $courseCriticalAchievement);
@@ -194,7 +173,7 @@ class ObjectivesController extends AbstractController
             ]);
         }
 
-        $render = $this->get('twig')->render('course_info/objectives_course/form/critical_achievement.html.twig', [
+        $render = $twig->render('course_info/objectives_course/form/critical_achievement.html.twig', [
             'courseInfo' => $courseInfo,
             'form' => $form->createView()
         ]);
@@ -202,7 +181,7 @@ class ObjectivesController extends AbstractController
             'status' => true,
             'content' => $render
         ]);
-    }
+    }*/
 
     /**
      * @param CourseInfo $courseInfo
@@ -222,5 +201,4 @@ class ObjectivesController extends AbstractController
             $manager->update($courseInfo);
         }
     }
-
 }

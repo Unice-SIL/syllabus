@@ -5,6 +5,8 @@ namespace Tests\Syllabus\Controller\CourseInfo;
 
 use App\Syllabus\Entity\CourseAchievement;
 use App\Syllabus\Exception\CourseNotFoundException;
+use App\Syllabus\Exception\UserNotFoundException;
+use App\Syllabus\Fixture\UserFixture;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -13,6 +15,42 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class AchievementControllerTest extends AbstractCourseInfoControllerTest
 {
+
+    /**
+     * @var CourseAchievement
+     */
+    private $achievement;
+
+    /**
+     * @throws CourseNotFoundException
+     */
+    protected function setUp(): void
+    {
+        $this->achievement = $this->getCourseAchievement();
+    }
+
+    public function testEditAchievementUserNotAuthenticated()
+    {
+        $this->client()->request(
+            'GET',
+            $this->generateUrl(self::ROUTE_APP_COURSE_ACHIEVEMENT_EDIT, ['id' => $this->achievement->getId()])
+        );
+        $this->assertRedirectToLogin();
+    }
+
+    /**
+     * @throws UserNotFoundException
+     */
+    public function testEditAchievementForbidden()
+    {
+        $this->login(UserFixture::USER_3);
+        $this->client()->request(
+            'GET',
+            $this->generateUrl(self::ROUTE_APP_COURSE_ACHIEVEMENT_EDIT, ['id' => $this->achievement->getId()])
+        );
+        $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
+    }
+
     /**
      * @dataProvider editAchievementSuccessfulProvider
      * @param array $data
@@ -22,7 +60,7 @@ class AchievementControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
 
         $achievement = new CourseAchievement();
         $achievement->setCourseInfo($course);
@@ -34,10 +72,9 @@ class AchievementControllerTest extends AbstractCourseInfoControllerTest
             'GET',
             $this->generateUrl(self::ROUTE_APP_COURSE_ACHIEVEMENT_EDIT, ['id' => $achievement->getId()])
         );
-
         $data['_token'] = $this->getCsrfToken('create_edit_achievement');
 
-        $this->client()->request(
+         $this->client()->request(
             'POST',
             $this->generateUrl(self::ROUTE_APP_COURSE_ACHIEVEMENT_EDIT, ['id' => $achievement->getId()]),
             ['course_achievement' => $data]
@@ -55,8 +92,7 @@ class AchievementControllerTest extends AbstractCourseInfoControllerTest
     public function editAchievementSuccessfulProvider(): array
     {
         return [
-            [['description' => 'CourseAchievementTest']],
-            [['description' => null]]
+            [['description' => 'descriptionCourseAchievementTest']]
         ];
     }
 
@@ -69,7 +105,7 @@ class AchievementControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
 
         $achievement = new CourseAchievement();
         $achievement->setCourseInfo($course);
@@ -107,6 +143,28 @@ class AchievementControllerTest extends AbstractCourseInfoControllerTest
         ];
     }
 
+    public function testDeleteAchievementUserNotAuthenticated()
+    {
+        $this->client()->request(
+            'GET',
+            $this->generateUrl(self::ROUTE_APP_COURSE_ACHIEVEMENT_DELETE, ['id' => $this->achievement->getId()])
+        );
+        $this->assertRedirectToLogin();
+    }
+
+    /**
+     * @throws UserNotFoundException
+     */
+    public function testDeleteAchievementForbidden()
+    {
+        $this->login(UserFixture::USER_3);
+        $this->client()->request(
+            'GET',
+            $this->generateUrl(self::ROUTE_APP_COURSE_ACHIEVEMENT_DELETE, ['id' => $this->achievement->getId()])
+        );
+        $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
+    }
+
     /**
      * @throws CourseNotFoundException
      */
@@ -114,17 +172,19 @@ class AchievementControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
 
         $achievement = new CourseAchievement();
-        $achievement->setCourseInfo($course);
+        $achievement->setCourseInfo($course)->setDescription('testDescription');
 
         $em->persist($achievement);
         $em->flush();
-
         $achievementId = $achievement->getId();
+        $this->client()->request(
+            'GET',
+            $this->generateUrl(self::ROUTE_APP_COURSE_ACHIEVEMENT_DELETE, ['id' => $achievement->getId()])
+        );
         $token = $this->getCsrfToken('delete_achievement');
-
         $this->client()->request(
             'POST',
             $this->generateUrl(self::ROUTE_APP_COURSE_ACHIEVEMENT_DELETE, ['id' => $achievement->getId()]),
@@ -132,7 +192,6 @@ class AchievementControllerTest extends AbstractCourseInfoControllerTest
                 '_token' => $token
             ]]
         );
-
         $this->assertNull($em->getRepository(CourseAchievement::class)->find($achievementId));
     }
 
@@ -143,7 +202,7 @@ class AchievementControllerTest extends AbstractCourseInfoControllerTest
     {
         $em = $this->getEntityManager();
         $this->login();
-        $course = $this->getCourse();
+        $course = $this->getCourseInfo();
 
         $achievement = new CourseAchievement();
         $achievement->setCourseInfo($course);

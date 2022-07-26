@@ -4,8 +4,7 @@ namespace App\Syllabus\Repository\Doctrine;
 
 use App\Syllabus\Entity\Teaching;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * TeachingRepository

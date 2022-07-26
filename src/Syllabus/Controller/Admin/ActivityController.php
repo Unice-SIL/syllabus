@@ -45,7 +45,6 @@ class ActivityController extends AbstractController
         PaginatorInterface $paginator
     )
     {
-
         $qb =  $repository->getIndexQueryBuilder();
 
         $form = $this->createForm(ActivityFilterType::class);

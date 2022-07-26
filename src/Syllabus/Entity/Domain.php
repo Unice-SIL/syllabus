@@ -43,8 +43,7 @@ class Domain
      *
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="App\Syllabus\Doctrine\IdGenerator")
+     * @ORM\GeneratedValue(strategy="UUID")
      */
     private $id;
 
@@ -82,19 +81,11 @@ class Domain
     private $structures;
 
     /**
-     * @var ArrayCollection
-     *
-     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\CourseInfo", mappedBy="domains")
-     */
-    private $courseInfos;
-
-    /**
      * Domain constructor.
      */
     public function __construct()
     {
         $this->structures = new ArrayCollection();
-        $this->courseInfos = new ArrayCollection();
     }
 
     /**
@@ -222,48 +213,6 @@ class Domain
             }
         }
         return $this;
-    }
-
-    /**
-     * @param CourseInfo $courseInfo
-     * @return Domain
-     */
-    public function addCourseInfo(CourseInfo $courseInfo): self
-    {
-        if (!$this->courseInfos->contains($courseInfo))
-        {
-            $this->courseInfos->add($courseInfo);
-            if (!$courseInfo->getDomains()->contains($this))
-            {
-                $courseInfo->getDomains()->add($this);
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * @param CourseInfo $courseInfo
-     * @return Domain
-     */
-    public function removeCourseInfo(CourseInfo $courseInfo): self
-    {
-        if ($this->courseInfos->contains($courseInfo))
-        {
-            $this->courseInfos->removeElement($courseInfo);
-            if ($courseInfo->getDomains()->contains($this))
-            {
-                $courseInfo->getDomains()->removeElement($this);
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getCourseInfos()
-    {
-        return $this->courseInfos;
     }
 
     /**

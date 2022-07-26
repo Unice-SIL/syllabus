@@ -14,6 +14,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
+use function Doctrine\ORM\QueryBuilder;
 
 class DuplicateCourseInfoOnNextYearCommand extends AbstractJob
 {
@@ -100,10 +101,25 @@ class DuplicateCourseInfoOnNextYearCommand extends AbstractJob
         }
 
         /** @var CourseInfo[] $coursesInfo */
+        $qb = $this->em->getRepository(CourseInfo::class)->createQueryBuilder('ci');
+        $coursesInfo = $qb
+            ->select('ci.id')
+            ->where($qb->expr()->eq('ci.year', ':year'))
+            ->andWhere($qb->expr()->orX(
+                $qb->expr()->isNotNull('ci.publicationDate'),
+                $qb->expr()->isNotNull('ci.summary'),
+                $qb->expr()->neq('ci.modificationDate', 'ci.creationDate')
+            ))
+            ->setParameter('year', $year)
+            ->getQuery()
+            ->getArrayResult();
+        $output->writeln("<info>". count($coursesInfo) ." courses info to duplicate</info>");
+        /*
         $coursesInfo = $this->em->getRepository(CourseInfo::class)->findBy([
             'year' => $year,
             'duplicateNextYear' => true
         ]);
+        */
 
         $loop = 1;
         foreach ($coursesInfo as $courseInfo)
@@ -115,7 +131,7 @@ class DuplicateCourseInfoOnNextYearCommand extends AbstractJob
             }
             //======================End Perf==================
 
-            $courseInfo = $this->em->getRepository(CourseInfo::class)->find($courseInfo->getId());
+            $courseInfo = $this->em->getRepository(CourseInfo::class)->find($courseInfo['id']);
 
             $nextCourseInfo = $this->em->getRepository(CourseInfo::class)->findOneBy([
                 'course' => $courseInfo->getCourse(),
@@ -124,7 +140,7 @@ class DuplicateCourseInfoOnNextYearCommand extends AbstractJob
 
             if(!$nextCourseInfo instanceof CourseInfo)
             {
-
+                $output->writeln("<info>Create course info " . $courseInfo->getCourse()->getCode() . " for year " . $nextYear . "</info>");
                 $nextCourseInfo = new CourseInfo();
                 $nextCourseInfo->setCourse($courseInfo->getCourse())
                     ->setYear($nextYear)

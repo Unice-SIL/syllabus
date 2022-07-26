@@ -54,7 +54,7 @@ class CampusFilterType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'language_filter';
+        return 'campus_filter';
     }
 
     /**

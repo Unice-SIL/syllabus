@@ -7,43 +7,40 @@ use App\Syllabus\Entity\Groups;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 /**
  * Class YearFixture
  * @package App\Syllabus\Fixture
  */
-class GroupsFixture extends Fixture  implements FixtureGroupInterface
+class GroupsFixture extends AbstractFixture  implements FixtureGroupInterface
 {
-    /**
-     *
-     */
     public const SUPER_ADMIN = 'Super Administrateur';
 
     /**
-     * @param ObjectManager $manager
+     * @return array
      */
-    public function load(ObjectManager $manager)
+    protected function getDataEntities(): array
     {
-
-        $groups = [
-            [
+        return [
+            self::SUPER_ADMIN => [
                 'label' => self::SUPER_ADMIN,
-                'roles' => UserRole::ROLES,
-                'ref' => self::SUPER_ADMIN,
+                'roles' => UserRole::ROLES
             ]
         ];
-
-        foreach ($groups as $g) {
-            $group = new Groups();
-            $group->setLabel($g['label'])
-                ->setRoles($g['roles']);
-            $this->addReference($g['ref'], $group);
-            $manager->persist($group);
-        }
-        $manager->flush();
     }
 
+    /**
+     * @return string
+     */
+    protected function getEntityClassName(): string
+    {
+        return Groups::class;
+    }
+
+    /**
+     * @return string[]
+     */
     public static function getGroups(): array
     {
         return ['prod', 'test'];

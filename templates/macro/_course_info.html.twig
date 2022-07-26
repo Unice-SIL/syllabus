@@ -1,4 +1,7 @@
 {% macro printTeachingRow(teachingForm, mode) %}
+    {% if mode is empty %}
+        {% set mode = '__teaching_mode__' %}
+    {% endif %}
     <div class="teaching-item-collection item-collection">
         <div class="row mb-2">
             <div class="col-md-4 d-flex flex-column justify-content-end">
@@ -9,7 +12,7 @@
                 {{ form_label(teachingForm.type) }}
                 {{ form_widget(teachingForm.type) }}
             </div>
-                {{ form_widget(teachingForm.mode, {'attr' : {'class' : 'teaching-type-mode-input'},  'value' : mode }) }}
+                {{ form_widget(teachingForm.mode, {'attr' : {'class' : 'teaching-type-mode-input'}, 'value' : mode  }) }}
             <div class="col-md-2 d-flex align-items-end">
                 <button type="button" class="btn btn-danger btn-block remove-collection-widget mb-0"><i class="fas fa-trash"></i></button>
             </div>

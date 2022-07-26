@@ -11,12 +11,17 @@ use App\Syllabus\Form\CourseInfo\Presentation\TeachersType;
 use App\Syllabus\Form\CourseInfo\Presentation\TeachingModeType;
 use App\Syllabus\Manager\CourseInfoManager;
 use App\Syllabus\Manager\CourseTeacherManager;
+use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 /**
  * Class PresentationController
@@ -31,7 +36,7 @@ class PresentationController extends AbstractController
      *
      * @param CourseInfo $courseInfo
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
     public function indexAction(CourseInfo $courseInfo)
     {
@@ -44,20 +49,11 @@ class PresentationController extends AbstractController
      * @Route("/general", name="general"))
      *
      * @param CourseInfo|null $courseInfo
-     * @param TranslatorInterface $translator
      * @return Response
      */
-    public function generalViewAction(?CourseInfo $courseInfo, TranslatorInterface $translator)
+    public function generalViewAction(?CourseInfo $courseInfo, Environment $twig)
     {
-        if (!$courseInfo instanceof CourseInfo)
-        {
-            return $this->json([
-                'status' => false,
-                'render' => $translator->trans('app.controller.error.empty_course')
-            ]);
-        }
-
-        $render = $this->get('twig')->render('course_info/presentation/view/general.html.twig', [
+        $render = $twig->render('course_info/presentation/view/general.html.twig', [
             'courseInfo' => $courseInfo
         ]);
         return $this->json([
@@ -72,26 +68,18 @@ class PresentationController extends AbstractController
      * @param CourseInfo $courseInfo
      * @param Request $request
      * @param CourseInfoManager $manager
-     * @param TranslatorInterface $translator
+     * @param Environment $twig
      * @return Response
      */
-    public function generalFormAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager, TranslatorInterface $translator)
+    public function generalFormAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager, Environment $twig)
     {
-        if (!$courseInfo instanceof CourseInfo)
-        {
-            return $this->json([
-                'status' => false,
-                'render' => $translator->trans('app.controller.error.empty_course')
-            ]);
-        }
-
-        $form = $this->createForm(GeneralType::class, $courseInfo, ['media' => $courseInfo->getMediaType()] );
+        $form = $this->createForm(GeneralType::class, $courseInfo, ['media' => $courseInfo->getMediaType()]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $courseInfo->checkMedia();
             $manager->update($courseInfo);
-            $render = $this->get('twig')->render('course_info/presentation/view/general.html.twig', [
+            $render = $twig->render('course_info/presentation/view/general.html.twig', [
                 'courseInfo' => $courseInfo
             ]);
             return $this->json([
@@ -100,7 +88,7 @@ class PresentationController extends AbstractController
             ]);
         }
 
-        $render = $this->get('twig')->render('course_info/presentation/form/general.html.twig', [
+        $render = $twig->render('course_info/presentation/form/general.html.twig', [
             'courseInfo' => $courseInfo,
             'form' => $form->createView()
         ]);
@@ -114,26 +102,18 @@ class PresentationController extends AbstractController
      * @Route("/teachers", name="teachers"))
      *
      * @param CourseInfo $courseInfo
-     * @param TranslatorInterface $translator
+     * @param Environment $twig )
      * @return Response
      */
-    public function teachersViewAction(CourseInfo $courseInfo, TranslatorInterface $translator)
+    public function teachersViewAction(CourseInfo $courseInfo, Environment $twig)
     {
-        if (!$courseInfo instanceof CourseInfo)
-        {
-            return $this->json([
-                'status' => false,
-                'render' => $translator->trans('app.controller.error.empty_course')
-            ]);
-        }
-
         $teachers = $courseInfo->getCourseTeachers()->toArray();
         setlocale(LC_ALL, "fr_FR.utf8");
         usort($teachers, function ($a, $b) {
             return strcoll($a->getLastname(), $b->getLastname());
         });
 
-        $render = $this->get('twig')->render('course_info/presentation/view/teachers.html.twig', [
+        $render = $twig->render('course_info/presentation/view/teachers.html.twig', [
             'courseInfo' => $courseInfo,
             'teachers' => $teachers
         ]);
@@ -150,21 +130,17 @@ class PresentationController extends AbstractController
      * @param Request $request
      * @param CourseTeacherManager $courseTeacherManager
      * @param ImportCourseTeacherFactory $factory
-     * @param TranslatorInterface $translator
+     * @param Environment $twig )
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
-    public function addTeachersAction(CourseInfo $courseInfo, Request $request, CourseTeacherManager $courseTeacherManager,
-                                      ImportCourseTeacherFactory $factory, TranslatorInterface $translator)
+    public function addTeachersAction(CourseInfo                 $courseInfo,
+                                      Request                    $request,
+                                      CourseTeacherManager       $courseTeacherManager,
+                                      ImportCourseTeacherFactory $factory,
+                                      Environment                $twig
+    )
     {
-        if (!$courseInfo instanceof CourseInfo)
-        {
-            return $this->json([
-                'status' => false,
-                'render' => $translator->trans('app.controller.error.empty_course')
-            ]);
-        }
-
         $status = true;
         $message = null;
         $teacher = $courseTeacherManager->new();
@@ -173,8 +149,8 @@ class PresentationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-            if ($form->isValid())
-            {
+            if ($form->isValid()) {
+
                 /** @var CourseTeacher $data */
                 $data = $form->getData();
                 $login = $form->get('login')->getData();
@@ -184,15 +160,13 @@ class PresentationController extends AbstractController
                     ->setEmailVisibility($data->isEmailVisibility())
                     ->setCourseInfo($courseInfo);
                 $courseTeacherManager->create($courseTeacher);
-            }
-            else
-            {
+            } else {
                 $status = false;
                 $message = ['type' => 'none'];
             }
         }
 
-        $render = $this->get('twig')->render('course_info/presentation/form/teachers.html.twig', [
+        $render = $twig->render('course_info/presentation/form/teachers.html.twig', [
             'courseInfo' => $courseInfo,
             'form' => $form->createView()
         ]);
@@ -207,20 +181,12 @@ class PresentationController extends AbstractController
      * @Route("/teaching-mode", name="teaching_mode"))
      *
      * @param CourseInfo $courseInfo
-     * @param TranslatorInterface $translator
+     * @param Environment $twig )
      * @return Response
      */
-    public function teachingModeViewAction(CourseInfo $courseInfo, TranslatorInterface $translator)
+    public function teachingModeViewAction(CourseInfo $courseInfo, Environment $twig)
     {
-        if (!$courseInfo instanceof CourseInfo)
-        {
-            return $this->json([
-                'status' => false,
-                'render' => $translator->trans('app.controller.error.empty_course')
-            ]);
-        }
-
-        $render = $this->get('twig')->render('course_info/presentation/view/teaching_mode.html.twig', [
+        $render = $twig->render('course_info/presentation/view/teaching_mode.html.twig', [
             'courseInfo' => $courseInfo
         ]);
         return $this->json([
@@ -235,26 +201,26 @@ class PresentationController extends AbstractController
      * @param CourseInfo $courseInfo
      * @param Request $request
      * @param CourseInfoManager $manager
-     * @param TranslatorInterface $translator
+     * @param Environment $twig
      * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function teachingModeFormAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager, TranslatorInterface $translator)
+    public function teachingModeFormAction(
+        CourseInfo  $courseInfo,
+        Request $request,
+        CourseInfoManager $manager,
+        Environment $twig
+    ): Response
     {
-        if (!$courseInfo instanceof CourseInfo)
-        {
-            return $this->json([
-                'status' => false,
-                'render' => $translator->trans('app.controller.error.empty_course')
-            ]);
-        }
-        
         $form = $this->createForm(TeachingModeType::class, $courseInfo);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $manager->update($courseInfo);
-            $render = $this->get('twig')->render('course_info/presentation/view/teaching_mode.html.twig', [
+            $render = $twig->render('course_info/presentation/view/teaching_mode.html.twig', [
                 'courseInfo' => $courseInfo
             ]);
             return $this->json([
@@ -262,7 +228,8 @@ class PresentationController extends AbstractController
                 'content' => $render
             ]);
         }
-        $render = $this->get('twig')->render('course_info/presentation/form/teaching_mode.html.twig', [
+
+        $render = $twig->render('course_info/presentation/form/teaching_mode.html.twig', [
             'courseInfo' => $courseInfo,
             'form' => $form->createView()
         ]);

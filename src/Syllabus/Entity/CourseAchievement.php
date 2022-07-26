@@ -6,7 +6,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Ramsey\Uuid\UuidInterface;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * CourseAchievement
  *
@@ -45,6 +45,7 @@ class CourseAchievement
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=true)
      * @Gedmo\Translatable
+     * @Assert\NotBlank()
      */
     private $description = "";
 

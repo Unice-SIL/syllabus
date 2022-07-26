@@ -14,7 +14,7 @@ class LightControllerTest extends WebTestCase
      */
     public function testLightView()
     {
-        $course = $this->getCourse(self::COURSE_ALLOWED_CODE, self::COURSE_ALLOWED_YEAR);
+        $course = $this->getCourseInfo(self::COURSE_ALLOWED_CODE, self::COURSE_ALLOWED_YEAR);
         $this->client()->request('GET', $this->generateUrl(self::ROUTE_APP_COURSE_LIGHT_VIEW, ['id' => $course->getId()]));
         $this->assertResponseIsSuccessful();
     }

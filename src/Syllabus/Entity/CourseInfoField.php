@@ -117,10 +117,12 @@ class CourseInfoField
 
     /**
      * @param string $label
+     * @return $this
      */
-    public function setLabel($label)
+    public function setLabel(string $label): self
     {
         $this->label = $label;
+        return $this;
     }
 
     /**

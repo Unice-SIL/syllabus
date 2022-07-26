@@ -81,7 +81,6 @@ class ImportController extends AbstractController
             $validationReport = ReportingHelper::createReport($translator->trans('admin.import.reporting_helper.insertion_db'));
 
             foreach ($courseInfos as $lineIdReport => $courseInfo) {
-
                 $courseInfoManager->updateIfExistsOrCreate($courseInfo, $fieldsToUpdate, [
                     'flush' => true,
                     'find_by_parameters' => [
@@ -171,7 +170,7 @@ class ImportController extends AbstractController
             $validationReport->finishReport(count($coursePermissions));
             $request->getSession()->set('parsingCsvReport', $parsingReport);
             $request->getSession()->set('validationReport', $validationReport);
-            return $this->redirectToRoute('app..admin..import_csv.permission');
+            return $this->redirectToRoute('app.admin.import_csv.permission');
 
         }
 

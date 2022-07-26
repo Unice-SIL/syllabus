@@ -42,8 +42,7 @@ class Period
      *
      * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="App\Syllabus\Doctrine\IdGenerator")
+     * @ORM\GeneratedValue(strategy="UUID")
      */
     private $id;
 
@@ -71,19 +70,11 @@ class Period
     private $structures;
 
     /**
-     * @var ArrayCollection
-     *
-     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\CourseInfo", mappedBy="periods")
-     */
-    private $courseInfos;
-
-    /**
      * Period constructor.
      */
     public function __construct()
     {
         $this->structures = new ArrayCollection();
-        $this->courseInfos = new ArrayCollection();
     }
 
     /**
@@ -193,48 +184,6 @@ class Period
             }
         }
         return $this;
-    }
-
-    /**
-     * @param CourseInfo $courseInfo
-     * @return Period
-     */
-    public function addCourseInfo(CourseInfo $courseInfo): self
-    {
-        if (!$this->courseInfos->contains($courseInfo))
-        {
-            $this->courseInfos->add($courseInfo);
-            if (!$courseInfo->getPeriods()->contains($this))
-            {
-                $courseInfo->getPeriods()->add($this);
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * @param CourseInfo $courseInfo
-     * @return Period
-     */
-    public function removeCourseInfo(CourseInfo $courseInfo): self
-    {
-        if ($this->courseInfos->contains($courseInfo))
-        {
-            $this->courseInfos->removeElement($courseInfo);
-            if ($courseInfo->getPeriods()->contains($this))
-            {
-                $courseInfo->getPeriods()->removeElement($this);
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * @return Collection
-     */
-    public function getCourseInfos(): Collection
-    {
-        return $this->courseInfos;
     }
 
     /**

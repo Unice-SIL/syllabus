@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Environment;
 
 /**
  * Class EquipmentController
@@ -61,21 +62,14 @@ class EquipmentController extends AbstractController
      * @Route("/delete", name="delete"))
      *
      * @param CourseResourceEquipment $resourceEquipment
-     * @param TranslatorInterface $translator
+     * @param Environment $twig
      * @param Request $request
      * @param CourseResourceEquipmentManager $courseResourceEquipmentManager
      * @return JsonResponse
      */
-    public function removeResourceEquipmentAction(CourseResourceEquipment $resourceEquipment, TranslatorInterface $translator,
+    public function removeResourceEquipmentAction(CourseResourceEquipment $resourceEquipment, Environment $twig,
                                                   Request $request, CourseResourceEquipmentManager $courseResourceEquipmentManager)
     {
-        if (!$resourceEquipment) {
-            return $this->json([
-                'status' => false,
-                'content' => $translator->trans('app.controller.error.empty_equipment')
-            ]);
-        };
-
         $form = $this->createForm(RemoveResourceEquipmentType::class, $resourceEquipment);
         $form->handleRequest($request);
 
@@ -88,7 +82,7 @@ class EquipmentController extends AbstractController
             ]);
         }
 
-        $render = $this->get('twig')->render('course_info/equipment/form/remove_resource_equipment.html.twig', [
+        $render = $twig->render('course_info/equipment/form/remove_resource_equipment.html.twig', [
             'form' => $form->createView()
         ]);
 

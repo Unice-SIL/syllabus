@@ -102,6 +102,11 @@ services:
     App\Syllabus\Factory\ImportCourseTeacherFactory:
         arguments: [ '%course_teacher_factory%' ]
 
+    App\Syllabus\Factory\OpenApiFactory:
+        decorates: 'api_platform.openapi.factory'
+        arguments: [ '@App\Syllabus\Factory\OpenApiFactory.inner' ]
+        autoconfigure: false
+
     # FORM
     App\Syllabus\Form\Course\EditPresentationCourseInfoType:
         arguments: [ '%course_teacher_factory%' ]
@@ -133,13 +138,18 @@ services:
             - { name: doctrine.event_listener, event: postUpdate }
             - { name: doctrine.event_listener, event: postRemove }
 
-    App\Syllabus\Listener\ExceptionListener:
-        tags:
-            - { name: kernel.event_listener, event: kernel.exception }
-
     App\Syllabus\Subscriber\DatabaseActivitySubscriber:
         tags:
             - { name: 'doctrine.event_subscriber' }
+
+    unicesil.shibboleth_logout_event:
+        class: UniceSIL\ShibbolethBundle\EventListener\LogoutEventListener
+        arguments: ['%unice_sil_shibboleth%', "@router"]
+        tags:
+            - name: 'kernel.event_listener'
+              event: 'Symfony\Component\Security\Http\Event\LogoutEvent'
+              method: onLogout
+              dispatcher: security.event_dispatcher.main
 
     # QUERY
     App\Syllabus\Query\CourseTeacher\Adapter\Ldap\SearchCourseTeacherLdapQuery:
@@ -164,8 +174,7 @@ services:
 
     # ALIAS
     App\Ldap\Repository\TeacherRepositoryInterface:
-        #class: App\Ldap\Repository\TeacherRepositoryInterface
-        factory: 'App\Ldap\Factory\TeacherRepositoryFactory:getService'
+      ['@App\Ldap\Factory\TeacherRepositoryFactory', 'getService']
 
     # FACTORY
     App\Ldap\Factory\TeacherRepositoryFactory:

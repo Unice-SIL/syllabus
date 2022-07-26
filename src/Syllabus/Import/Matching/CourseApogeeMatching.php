@@ -3,11 +3,10 @@
 
 namespace App\Syllabus\Import\Matching;
 
-use App\Syllabus\Entity\Course;
 use App\Syllabus\Helper\Report\Report;
 use App\Syllabus\Helper\Report\ReportLine;
 use App\Syllabus\Import\ImportManager;
-use App\Syllabus\Manager\ CourseManager;
+use App\Syllabus\Manager\CourseManager;
 
 /**
  * Class CourseApogeeMatching

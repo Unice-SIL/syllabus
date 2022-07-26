@@ -13,10 +13,6 @@ use Twig\Extension\RuntimeExtensionInterface;
 class AppRuntime implements RuntimeExtensionInterface
 {
     /**
-     * @var RequestStack
-     */
-    private $requestStack;
-    /**
      * @var Request|null
      */
     private $masterRequest;
@@ -27,8 +23,7 @@ class AppRuntime implements RuntimeExtensionInterface
      */
     public function __construct(RequestStack $requestStack)
     {
-        $this->requestStack = $requestStack;
-        $this->masterRequest = $requestStack->getMasterRequest();
+        $this->masterRequest = $requestStack->getMainRequest();
     }
 
     public function printActiveAdminSidebarLink(array $routes, array $options = [])
@@ -45,8 +40,6 @@ class AppRuntime implements RuntimeExtensionInterface
             if (strpos($this->masterRequest->get('_route'), $route) !== false) {
                 return 'active';
             }
-
-            continue;
         }
 
         return null;

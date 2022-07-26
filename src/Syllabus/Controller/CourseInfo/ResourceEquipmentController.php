@@ -10,6 +10,8 @@ use App\Syllabus\Form\CourseInfo\Equipment\ResourceEquipmentType;
 use App\Syllabus\Form\CourseInfo\Equipment\Resourcetype;
 use App\Syllabus\Manager\CourseInfoManager;
 use App\Syllabus\Manager\CourseResourceEquipmentManager;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,6 +20,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 /**
  * Class ResourceEquipmentController
@@ -45,20 +51,16 @@ class ResourceEquipmentController extends AbstractController
      * @Route("/equipments", name="equipments"))
      *
      * @param CourseInfo $courseInfo
-     * @param TranslatorInterface $translator
+     * @param Environment $twig
+     * @param EntityManagerInterface $em
      * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function equipmentViewAction(CourseInfo $courseInfo, TranslatorInterface $translator)
+    public function equipmentViewAction(CourseInfo $courseInfo, Environment $twig, EntityManagerInterface $em)
     {
-        $em = $this->getDoctrine()->getManager();
         $equipments = $em->getRepository(Equipment::class)->findBy(['obsolete' => false], ['label' => 'ASC']);
-
-        if (!$courseInfo instanceof CourseInfo) {
-            return $this->json([
-                'status' => false,
-                'content' => $translator->trans('app.controller.error.empty_course')
-            ]);
-        }
 
         /*
         setlocale(LC_ALL, "fr_FR.utf8");
@@ -67,7 +69,7 @@ class ResourceEquipmentController extends AbstractController
         });
         */
 
-        $render = $this->get('twig')->render('course_info/equipment/view/equipment.html.twig', [
+        $render = $twig->render('course_info/equipment/view/equipment.html.twig', [
             'courseInfo' => $courseInfo,
             'equipments' => $equipments
         ]);
@@ -85,27 +87,17 @@ class ResourceEquipmentController extends AbstractController
      * @param Equipment $equipment
      * @param Request $request
      * @param CourseResourceEquipmentManager $courseResourceEquipmentManager
-     * @param TranslatorInterface $translator
+     * @param Environment $twig
      * @return JsonResponse
      * @ParamConverter("equipment", options={"mapping": {"idEquipment": "id"}})
      */
-    public function addEquipmentAction(CourseInfo $courseInfo, Equipment $equipment, Request $request,
-                                       CourseResourceEquipmentManager $courseResourceEquipmentManager, TranslatorInterface $translator)
+    public function addEquipmentAction(CourseInfo                     $courseInfo,
+                                       Equipment $equipment,
+                                       Request $request,
+                                       CourseResourceEquipmentManager $courseResourceEquipmentManager,
+                                       Environment $twig
+    )
     {
-        if (!$equipment) {
-            return $this->json([
-                'status' => false,
-                'content' => $translator->trans('app.controller.error.empty_equipment')
-            ]);
-        };
-
-        if (!$courseInfo instanceof CourseInfo) {
-            return $this->json([
-                'status' => false,
-                'content' => $translator->trans('app.controller.error.empty_course')
-            ]);
-        }
-
         $courseResourceEquipment = $courseResourceEquipmentManager->new($courseInfo, $equipment);
 
         $form = $this->createForm(ResourceEquipmentType::class, $courseResourceEquipment);
@@ -113,14 +105,13 @@ class ResourceEquipmentController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $courseResourceEquipmentManager->create($courseResourceEquipment);
-
             return $this->json([
                 'status' => true,
                 'content' => null
             ]);
         }
 
-        $render = $this->get('twig')->render('course_info/equipment/form/equipment.html.twig', [
+        $render = $twig->render('course_info/equipment/form/equipment.html.twig', [
             'form' => $form->createView()
         ]);
 
@@ -134,19 +125,12 @@ class ResourceEquipmentController extends AbstractController
      * @Route("/resources", name="resources"))
      *
      * @param CourseInfo $courseInfo
-     * @param TranslatorInterface $translator
+     * @param Environment $twig
      * @return Response
      */
-    public function resourceViewAction(CourseInfo $courseInfo, TranslatorInterface $translator)
+    public function resourceViewAction(CourseInfo $courseInfo, Environment $twig)
     {
-        if (!$courseInfo instanceof CourseInfo) {
-            return $this->json([
-                'status' => false,
-                'content' => $translator->trans('app.controller.error.empty_course')
-            ]);
-        }
-
-        $render = $this->get('twig')->render('course_info/equipment/view/resource.html.twig', [
+        $render = $twig->render('course_info/equipment/view/resource.html.twig', [
             'courseInfo' => $courseInfo
         ]);
 
@@ -162,24 +146,20 @@ class ResourceEquipmentController extends AbstractController
      * @param CourseInfo $courseInfo
      * @param Request $request
      * @param CourseInfoManager $manager
-     * @param TranslatorInterface $translator
+     * @param Environment $twig
      * @return Response
      */
-    public function resourceEditAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager, TranslatorInterface $translator)
+    public function resourceEditAction(CourseInfo        $courseInfo,
+                                       Request           $request,
+                                       CourseInfoManager $manager,
+                                       Environment       $twig)
     {
-        if (!$courseInfo instanceof CourseInfo) {
-            return $this->json([
-                'status' => false,
-                'content' => $translator->trans('app.controller.error.empty_course')
-            ]);
-        }
-
         $form = $this->createForm(Resourcetype::class, $courseInfo);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $manager->update($courseInfo);
-            $render = $this->get('twig')->render('course_info/equipment/view/resource.html.twig', [
+            $render = $twig->render('course_info/equipment/view/resource.html.twig', [
                 'courseInfo' => $courseInfo
             ]);
             return $this->json([
@@ -188,7 +168,7 @@ class ResourceEquipmentController extends AbstractController
             ]);
         }
 
-        $render = $this->get('twig')->render('course_info/equipment/form/resource.html.twig', [
+        $render = $twig->render('course_info/equipment/form/resource.html.twig', [
             'courseInfo' => $courseInfo,
             'form' => $form->createView()
         ]);

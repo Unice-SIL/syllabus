@@ -1055,6 +1055,7 @@ admin:
     flashbag:
       new: Le groupe a été ajouté avec succès.
       edit: Le groups a été modifié avec succès.
+      delete: Le groups a été supprimé avec succès.
   job:
     list_jobs: Liste des tâches planifiées
     edit_job: Modifier une tâche planifiée

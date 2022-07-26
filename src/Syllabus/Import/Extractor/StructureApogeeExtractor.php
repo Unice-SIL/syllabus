@@ -4,23 +4,23 @@
 namespace App\Syllabus\Import\Extractor;
 
 use App\Syllabus\Helper\Report\Report;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class StructureApogeeExtractor implements ExtractorInterface
 {
     /**
-     * @var ObjectManager
+     * @var object
      */
-    private $em;
+    private $conn;
 
     /**
      * StructureApogeeExtractor constructor.
-     * @param RegistryInterface $doctrine
+     * @param ManagerRegistry $doctrine
      */
-    public function __construct(RegistryInterface $doctrine)
+    public function __construct(ManagerRegistry $doctrine)
     {
-        $this->em = $doctrine->getManager('apogee');
+        $this->conn = $doctrine->getConnection('apogee');
     }
 
     /**
@@ -32,9 +32,8 @@ class StructureApogeeExtractor implements ExtractorInterface
     {
         $structures = [];
 
-        $conn = $this->em->getConnection();
         $sql = "SELECT * FROM composante WHERE tem_en_sve_cmp='O'";
-        $stmt = $conn->prepare($sql);
+        $stmt = $this->conn->prepare($sql);
         $stmt->execute();
 
         foreach ($stmt->fetchAll() as $structure)

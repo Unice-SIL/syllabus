@@ -55,6 +55,7 @@ class Course
      *
      * @ORM\Column(name="type", type="string", length=5, nullable=false, options={"fixed"=true})
      * @Assert\NotBlank()
+     * @Assert\Length(max=5)
      * @Gedmo\Translatable
      */
     private $type;
@@ -64,6 +65,7 @@ class Course
      *
      * @ORM\Column(name="title", type="string", length=150, nullable=false)
      * @Assert\NotBlank()
+     * @Assert\Length(max=150)
      * @Gedmo\Translatable
      */
     private $title;
