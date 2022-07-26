@@ -520,7 +520,10 @@ class CourseInfo
      * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Language", inversedBy="courseInfos")
-     * @ORM\JoinTable(name="course_info_language")
+     * @ORM\JoinTable(name="course_info_language",
+     *     joinColumns={@ORM\JoinColumn(name="courseinfo_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="language_id", referencedColumnName="id")}
+     * )
      * @Assert\Count(min="1", groups={"presentation"})
      * @ORM\OrderBy({"label" = "ASC"})
      * @ApiSubresource()
@@ -2382,7 +2385,6 @@ class CourseInfo
         if (!$this->languages->contains($language))
         {
             $this->languages->add($language);
-            $language->getCourseInfos()->add($this);
         }
         return $this;
     }
@@ -2396,10 +2398,6 @@ class CourseInfo
         if ($this->languages->contains($language))
         {
             $this->languages->removeElement($language);
-            if ($language->getCourseInfos()->contains($this))
-            {
-                $language->getCourseInfos()->removeElement($this);
-            }
         }
         return $this;
     }
