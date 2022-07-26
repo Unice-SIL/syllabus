@@ -506,8 +506,11 @@ class CourseInfo
     /**
      * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Campus", inversedBy="courseInfos")
-     * @ORM\JoinTable(name="course_info_campus")
+     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Campus")
+     * @ORM\JoinTable(name="course_info_campus",
+     *     joinColumns={@ORM\JoinColumn(name="courseinfo_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="campus_id", referencedColumnName="id")}
+     * )
      * @Assert\Count(min="1", groups={"presentation"})
      * @ApiSubresource()
      */
@@ -2418,10 +2421,6 @@ class CourseInfo
         if (!$this->campuses->contains($campus))
         {
             $this->campuses->add($campus);
-            if (!$campus->getCourseInfos()->contains($this))
-            {
-                $campus->getCourseInfos()->add($this);
-            }
         }
         return $this;
     }
@@ -2435,10 +2434,6 @@ class CourseInfo
         if ($this->campuses->contains($campus))
         {
             $this->campuses->removeElement($campus);
-            if ($campus->getCourseInfos()->contains($this))
-            {
-                $campus->getCourseInfos()->removeElement($this);
-            }
         }
         return $this;
     }
