@@ -79,22 +79,6 @@ class Campus
     private $obsolete = false;
 
     /**
-     * @var ArrayCollection
-     *
-     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\CourseInfo", mappedBy="campuses")
-     * @Groups({"campuses"})
-     */
-    private $courseInfos;
-
-    /**
-     * Campus constructor.
-     */
-    public function __construct()
-    {
-        $this->courseInfos = new ArrayCollection();
-    }
-
-    /**
      * @return null|string
      */
     public function getId(): ?string
@@ -166,59 +150,6 @@ class Campus
     {
         $this->obsolete = $obsolete;
 
-        return $this;
-    }
-
-    /**
-     * @return Collection
-     */
-    public function getCourseInfos(): Collection
-    {
-        return $this->courseInfos;
-    }
-
-    /**
-     * @param Collection $courseInfos
-     * @return Campus
-     */
-    public function setCourseInfos(Collection $courseInfos): self
-    {
-        $this->courseInfos = $courseInfos;
-
-        return $this;
-    }
-
-    /**
-     * @param CourseInfo $courseInfo
-     * @return Campus
-     */
-    public function addCourseInfo(CourseInfo $courseInfo): self
-    {
-        if (!$this->courseInfos->contains($courseInfo))
-        {
-            $this->courseInfos->add($courseInfo);
-            if (!$courseInfo->getCampuses()->contains($this))
-            {
-                $courseInfo->getCampuses()->add($this);
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * @param CourseInfo $courseInfo
-     * @return Campus
-     */
-    public function removeCourseInfo(CourseInfo $courseInfo): self
-    {
-        if ($this->courseInfos->contains($courseInfo))
-        {
-            $this->courseInfos->removeElement($courseInfo);
-            if ($courseInfo->getCampuses()->contains($this))
-            {
-                $courseInfo->getCampuses()->removeElement($this);
-            }
-        }
         return $this;
     }
 

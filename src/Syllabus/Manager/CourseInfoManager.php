@@ -15,6 +15,7 @@ use App\Syllabus\Repository\Doctrine\CourseInfoDoctrineRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use League\Csv\Reader;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Filesystem\Filesystem;
@@ -33,7 +34,13 @@ class CourseInfoManager extends AbstractManager
     const DUPLICATION_CONTEXTE_AUTOMATIC = 'automatic';
     const DUPLICATION_CONTEXTE_IMPORT = 'import';
 
-    const DUPLICATION_MANY_TO_MANY_FIELDS = ['levels', 'domains', 'languages', 'periods', 'campuses'];
+    const DUPLICATION_MANY_TO_MANY_FIELDS = [
+        'levels',
+        'domains',
+        'languages',
+        'periods',
+        'campuses'
+    ];
 
     private static $fieldsToDuplicate = [];
     private static $yearsConcernedByImport;
@@ -143,7 +150,7 @@ class CourseInfoManager extends AbstractManager
      * @param string $context
      * @param Report|null $report
      * @return Report
-     * @throws \Exception
+     * @throws Exception
      */
     public function duplicate(?string $courseInfoSender, ?string $courseInfoRecipient, string $context, Report $report = null): Report
     {
@@ -218,21 +225,22 @@ class CourseInfoManager extends AbstractManager
      * @param array $fieldsToDuplicate
      * @param CourseInfo $courseInfoSender
      * @param CourseInfo $courseInfoRecipient
-     * @throws \Exception
+     * @throws Exception
      */
     private function duplicationProcess(array $fieldsToDuplicate, CourseInfo $courseInfoSender, CourseInfo $courseInfoRecipient)
     {
         foreach ($fieldsToDuplicate as $field) {
-
             $property = $field->getField();
 
             //Stocks data to duplicate in a variable
             $CourseInfoSenderData = $this->propertyAccessor->getValue($courseInfoSender, $property);
 
             // if the data to duplicate is a instance of collection we do a specific treatment (erase every old elements before duplicate the new ones)
-            if ($CourseInfoSenderData instanceof Collection && !in_array($property, self::DUPLICATION_MANY_TO_MANY_FIELDS)) {
-                $this->duplicateCollectionProperty($CourseInfoSenderData, $courseInfoRecipient, $property, 'courseInfo');
-                continue;
+            if ($CourseInfoSenderData instanceof Collection) {
+                if (!in_array($property, self::DUPLICATION_MANY_TO_MANY_FIELDS)) {
+                    $this->duplicateAndCloneCollectionProperty($CourseInfoSenderData, $courseInfoRecipient, $property, 'courseInfo');
+                    continue;
+                }
             }
 
             if ($CourseInfoSenderData instanceof File) {
@@ -254,9 +262,9 @@ class CourseInfoManager extends AbstractManager
      * @param CourseInfo $courseInfoRecipient
      * @param string $property
      * @param string $inversedBy
-     * @throws \Exception
+     * @throws Exception
      */
-    private function duplicateCollectionProperty(Collection $CourseInfoSenderData, CourseInfo $courseInfoRecipient, string $property, string $inversedBy)
+    private function duplicateAndCloneCollectionProperty(Collection $CourseInfoSenderData, CourseInfo $courseInfoRecipient, string $property, string $inversedBy)
     {
         //erases every current items
         foreach ($this->propertyAccessor->getValue($courseInfoRecipient, $property) as $item) {
@@ -266,10 +274,10 @@ class CourseInfoManager extends AbstractManager
         //duplicates every items
         $collection = new ArrayCollection();
         foreach ($CourseInfoSenderData as $data){
-            $dataClone = clone $data;
-            $dataClone->setId(Uuid::uuid4());
-            $this->propertyAccessor->setValue($dataClone, $inversedBy, $courseInfoRecipient);
-            $collection->add($dataClone);
+            $data = clone $data;
+            $data->setId(Uuid::uuid4());
+            $this->propertyAccessor->setValue($data, $inversedBy, $courseInfoRecipient);
+            $collection->add($data);
         }
 
         $this->propertyAccessor->setValue($courseInfoRecipient, $property, $collection);
@@ -295,7 +303,7 @@ class CourseInfoManager extends AbstractManager
      * @param string $pathName
      * @return Report
      * @throws \League\Csv\Exception
-     * @throws \Exception
+     * @throws Exception
      */
     public function duplicateFromFile(string $pathName)
     {

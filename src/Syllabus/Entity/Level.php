@@ -56,14 +56,6 @@ class Level
      */
     private $label;
 
-
-    /**
-     * @var ArrayCollection
-     *
-     * @ORM\ManyToMany(targetEntity="CourseInfo", mappedBy="levels")
-     */
-    private $courseInfos;
-
     /**
      * @var Collection
      *
@@ -84,7 +76,6 @@ class Level
      */
     public function __construct()
     {
-        $this->courseInfos = new ArrayCollection();
         $this->structures = new ArrayCollection();
     }
 
@@ -153,56 +144,6 @@ class Level
     public function __toString()
     {
         return $this->getLabel();
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCourseInfos()
-    {
-        return $this->courseInfos;
-    }
-
-    /**
-     * @param mixed $courseInfos
-     */
-    public function setCourseInfos($courseInfos): void
-    {
-        $this->courseInfos = $courseInfos;
-    }
-
-    /**
-     * @param CourseInfo $courseInfo
-     * @return Level
-     */
-    public function addCourseInfo(CourseInfo $courseInfo): self
-    {
-        if (!$this->courseInfos->contains($courseInfo))
-        {
-            $this->courseInfos->add($courseInfo);
-            if (!$courseInfo->getLevels()->contains($this))
-            {
-                $courseInfo->getLevels()->add($this);
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * @param CourseInfo $courseInfo
-     * @return Level
-     */
-    public function removeCourseInfo(CourseInfo $courseInfo): self
-    {
-        if ($this->courseInfos->contains($courseInfo))
-        {
-            $this->courseInfos->removeElement($courseInfo);
-            if ($courseInfo->getLevels()->contains($this))
-            {
-                $courseInfo->getLevels()->removeElement($this);
-            }
-        }
-        return $this;
     }
 
     /**

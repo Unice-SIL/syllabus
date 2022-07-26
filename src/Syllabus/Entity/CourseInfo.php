@@ -506,8 +506,11 @@ class CourseInfo
     /**
      * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Campus", inversedBy="courseInfos")
-     * @ORM\JoinTable(name="course_info_campus")
+     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Campus")
+     * @ORM\JoinTable(name="course_info_campus",
+     *     joinColumns={@ORM\JoinColumn(name="courseinfo_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="campus_id", referencedColumnName="id")}
+     * )
      * @Assert\Count(min="1", groups={"presentation"})
      * @ApiSubresource()
      */
@@ -516,8 +519,11 @@ class CourseInfo
     /**
      * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Language", inversedBy="courseInfos")
-     * @ORM\JoinTable(name="course_info_language")
+     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Language")
+     * @ORM\JoinTable(name="course_info_language",
+     *     joinColumns={@ORM\JoinColumn(name="courseinfo_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="language_id", referencedColumnName="id")}
+     * )
      * @Assert\Count(min="1", groups={"presentation"})
      * @ORM\OrderBy({"label" = "ASC"})
      * @ApiSubresource()
@@ -527,8 +533,11 @@ class CourseInfo
     /**
      * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Domain", inversedBy="courseInfos")
-     * @ORM\JoinTable(name="course_info_domain")
+     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Domain")
+     * @ORM\JoinTable(name="course_info_domain",
+     *     joinColumns={@ORM\JoinColumn(name="courseinfo_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="domain_id", referencedColumnName="id")}
+     * )
      * @Assert\Count(min="1", groups={"presentation"})
      * @ApiSubresource()
      */
@@ -537,8 +546,11 @@ class CourseInfo
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Period", inversedBy="courseInfos")
-     * @ORM\JoinTable(name="course_info_period")
+     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Period")
+     * @ORM\JoinTable(name="course_info_period",
+     *     joinColumns={@ORM\JoinColumn(name="courseinfo_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="period_id", referencedColumnName="id")}
+     * )
      * @Assert\Count(min="1", groups={"presentation"})
      * @ApiSubresource()
      */
@@ -660,7 +672,11 @@ class CourseInfo
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="Level", inversedBy="courseInfos")
+     * @ORM\ManyToMany(targetEntity="Level")
+     * @ORM\JoinTable(name="courseinfo_level",
+     *     joinColumns={@ORM\JoinColumn(name="courseinfo_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="level_id", referencedColumnName="id")}
+     * )
      * @Assert\Count(min="1", groups={"presentation"})
      * @ApiSubresource()
      */
@@ -845,10 +861,6 @@ class CourseInfo
         if (!$this->levels->contains($level))
         {
             $this->levels->add($level);
-            if (!$level->getCourseInfos()->contains($this))
-            {
-                $level->getCourseInfos()->add($this);
-            }
         }
         return $this;
     }
@@ -862,10 +874,6 @@ class CourseInfo
         if ($this->levels->contains($level))
         {
             $this->levels->removeElement($level);
-            if ($level->getCourseInfos()->contains($this))
-            {
-                $level->getCourseInfos()->removeElement($this);
-            }
         }
         return $this;
     }
@@ -2380,7 +2388,6 @@ class CourseInfo
         if (!$this->languages->contains($language))
         {
             $this->languages->add($language);
-            $language->getCourseInfos()->add($this);
         }
         return $this;
     }
@@ -2394,10 +2401,6 @@ class CourseInfo
         if ($this->languages->contains($language))
         {
             $this->languages->removeElement($language);
-            if ($language->getCourseInfos()->contains($this))
-            {
-                $language->getCourseInfos()->removeElement($this);
-            }
         }
         return $this;
     }
@@ -2419,10 +2422,6 @@ class CourseInfo
         if (!$this->campuses->contains($campus))
         {
             $this->campuses->add($campus);
-            if (!$campus->getCourseInfos()->contains($this))
-            {
-                $campus->getCourseInfos()->add($this);
-            }
         }
         return $this;
     }
@@ -2436,10 +2435,6 @@ class CourseInfo
         if ($this->campuses->contains($campus))
         {
             $this->campuses->removeElement($campus);
-            if ($campus->getCourseInfos()->contains($this))
-            {
-                $campus->getCourseInfos()->removeElement($this);
-            }
         }
         return $this;
     }
@@ -2461,10 +2456,6 @@ class CourseInfo
         if (!$this->domains->contains($domain))
         {
             $this->domains->add($domain);
-            if (!$domain->getCourseInfos()->contains($this))
-            {
-                $domain->getCourseInfos()->add($this);
-            }
         }
         return $this;
     }
@@ -2478,10 +2469,6 @@ class CourseInfo
         if ($this->domains->contains($domain))
         {
             $this->domains->removeElement($domain);
-            if ($domain->getCourseInfos()->contains($this))
-            {
-                $domain->getCourseInfos()->removeElement($this);
-            }
         }
         return $this;
     }
@@ -2503,10 +2490,6 @@ class CourseInfo
         if (!$this->periods->contains($period))
         {
             $this->periods->add($period);
-            if (!$period->getCourseInfos()->contains($this))
-            {
-                $period->getCourseInfos()->add($this);
-            }
         }
         return $this;
     }
@@ -2520,10 +2503,6 @@ class CourseInfo
         if ($this->periods->contains($period))
         {
             $this->periods->removeElement($period);
-            if ($period->getCourseInfos()->contains($this))
-            {
-                $period->getCourseInfos()->removeElement($this);
-            }
         }
         return $this;
     }
