@@ -56,14 +56,6 @@ class Level
      */
     private $label;
 
-
-    /**
-     * @var ArrayCollection
-     *
-     * @ORM\ManyToMany(targetEntity="CourseInfo", mappedBy="levels")
-     */
-    private $courseInfos;
-
     /**
      * @var Collection
      *

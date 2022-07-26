@@ -660,7 +660,11 @@ class CourseInfo
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="Level", inversedBy="courseInfos")
+     * @ORM\ManyToMany(targetEntity="Level")
+     * @ORM\JoinTable(name="courseinfo_level",
+     *     joinColumns={@ORM\JoinColumn(name="courseinfo_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="level_id", referencedColumnName="id")}
+     * )
      * @Assert\Count(min="1", groups={"presentation"})
      * @ApiSubresource()
      */
@@ -845,10 +849,12 @@ class CourseInfo
         if (!$this->levels->contains($level))
         {
             $this->levels->add($level);
+            /*
             if (!$level->getCourseInfos()->contains($this))
             {
                 $level->getCourseInfos()->add($this);
             }
+            */
         }
         return $this;
     }
@@ -862,10 +868,12 @@ class CourseInfo
         if ($this->levels->contains($level))
         {
             $this->levels->removeElement($level);
+            /*
             if ($level->getCourseInfos()->contains($this))
             {
                 $level->getCourseInfos()->removeElement($this);
             }
+            */
         }
         return $this;
     }

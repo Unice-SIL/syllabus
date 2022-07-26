@@ -96,6 +96,8 @@ abstract class AbstractJob extends Command
             $this->em->flush();
 
         }
+
+        return self::SUCCESS;
     }
 
     /**

@@ -33,7 +33,13 @@ class CourseInfoManager extends AbstractManager
     const DUPLICATION_CONTEXTE_AUTOMATIC = 'automatic';
     const DUPLICATION_CONTEXTE_IMPORT = 'import';
 
-    const DUPLICATION_MANY_TO_MANY_FIELDS = ['levels', 'domains', 'languages', 'periods', 'campuses'];
+    const DUPLICATION_MANY_TO_MANY_FIELDS = [
+        'levels',
+        'domains',
+        'languages',
+        'periods',
+        'campuses'
+    ];
 
     private static $fieldsToDuplicate = [];
     private static $yearsConcernedByImport;
@@ -223,6 +229,7 @@ class CourseInfoManager extends AbstractManager
     private function duplicationProcess(array $fieldsToDuplicate, CourseInfo $courseInfoSender, CourseInfo $courseInfoRecipient)
     {
         foreach ($fieldsToDuplicate as $field) {
+            dump('Duplicate info ' . $field->getField());
 
             $property = $field->getField();
 
@@ -230,9 +237,11 @@ class CourseInfoManager extends AbstractManager
             $CourseInfoSenderData = $this->propertyAccessor->getValue($courseInfoSender, $property);
 
             // if the data to duplicate is a instance of collection we do a specific treatment (erase every old elements before duplicate the new ones)
-            if ($CourseInfoSenderData instanceof Collection && !in_array($property, self::DUPLICATION_MANY_TO_MANY_FIELDS)) {
-                $this->duplicateCollectionProperty($CourseInfoSenderData, $courseInfoRecipient, $property, 'courseInfo');
-                continue;
+            if ($CourseInfoSenderData instanceof Collection) {
+                if (!in_array($property, self::DUPLICATION_MANY_TO_MANY_FIELDS)) {
+                    $this->duplicateAndCloneCollectionProperty($CourseInfoSenderData, $courseInfoRecipient, $property, 'courseInfo');
+                    continue;
+                }
             }
 
             if ($CourseInfoSenderData instanceof File) {
@@ -250,13 +259,45 @@ class CourseInfoManager extends AbstractManager
     }
 
     /**
+     * @param Collection $courseInfoSenderData
+     * @param CourseInfo $courseInfoRecipient
+     * @param string $property
+     * @param string $inversedBy
+     */
+    public function duplicateCollectionProperty(Collection $courseInfoSenderData, CourseInfo $courseInfoRecipient, string $property, string $inversedBy)
+    {
+        $courseInfoRecipientData = $this->propertyAccessor->getValue($courseInfoRecipient, $property);
+        foreach ($courseInfoRecipientData as $item) {
+            $courseInfoRecipientData->removeElement($item);
+            if ($item->contains($courseInfoRecipient)) {
+                $item->removeElement($courseInfoRecipient);
+            }
+        }
+
+
+        dump($courseInfoRecipientData->count());
+        foreach ($courseInfoSenderData as $item) {
+            if (!$courseInfoRecipientData->contains($item)) {
+                $courseInfoRecipientData->add($item);
+                $courseInfoRecipientItemData = $this->propertyAccessor->getValue($item, $inversedBy);
+                dump(get_class($item), $item->getLabel(), $courseInfoRecipientItemData->count());
+                if (!$courseInfoRecipientItemData->contains($courseInfoRecipientData)) {
+                    $courseInfoRecipientItemData->add($courseInfoRecipientData);
+                }
+                dump($this->propertyAccessor->getValue($item, $inversedBy)->count());
+            }
+        }
+        dump($courseInfoRecipientData->count());
+    }
+
+    /**
      * @param Collection $CourseInfoSenderData
      * @param CourseInfo $courseInfoRecipient
      * @param string $property
      * @param string $inversedBy
      * @throws \Exception
      */
-    private function duplicateCollectionProperty(Collection $CourseInfoSenderData, CourseInfo $courseInfoRecipient, string $property, string $inversedBy)
+    private function duplicateAndCloneCollectionProperty(Collection $CourseInfoSenderData, CourseInfo $courseInfoRecipient, string $property, string $inversedBy)
     {
         //erases every current items
         foreach ($this->propertyAccessor->getValue($courseInfoRecipient, $property) as $item) {
@@ -266,10 +307,10 @@ class CourseInfoManager extends AbstractManager
         //duplicates every items
         $collection = new ArrayCollection();
         foreach ($CourseInfoSenderData as $data){
-            $dataClone = clone $data;
-            $dataClone->setId(Uuid::uuid4());
-            $this->propertyAccessor->setValue($dataClone, $inversedBy, $courseInfoRecipient);
-            $collection->add($dataClone);
+            $data = clone $data;
+            $data->setId(Uuid::uuid4());
+            $this->propertyAccessor->setValue($data, $inversedBy, $courseInfoRecipient);
+            $collection->add($data);
         }
 
         $this->propertyAccessor->setValue($courseInfoRecipient, $property, $collection);
