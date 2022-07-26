@@ -528,7 +528,10 @@ class CourseInfo
      * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Domain", inversedBy="courseInfos")
-     * @ORM\JoinTable(name="course_info_domain")
+     * @ORM\JoinTable(name="course_info_domain",
+     *     joinColumns={@ORM\JoinColumn(name="courseinfo_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="domain_id", referencedColumnName="id")}
+     * )
      * @Assert\Count(min="1", groups={"presentation"})
      * @ApiSubresource()
      */
@@ -849,12 +852,6 @@ class CourseInfo
         if (!$this->levels->contains($level))
         {
             $this->levels->add($level);
-            /*
-            if (!$level->getCourseInfos()->contains($this))
-            {
-                $level->getCourseInfos()->add($this);
-            }
-            */
         }
         return $this;
     }
@@ -868,12 +865,6 @@ class CourseInfo
         if ($this->levels->contains($level))
         {
             $this->levels->removeElement($level);
-            /*
-            if ($level->getCourseInfos()->contains($this))
-            {
-                $level->getCourseInfos()->removeElement($this);
-            }
-            */
         }
         return $this;
     }
@@ -2511,10 +2502,6 @@ class CourseInfo
         if (!$this->periods->contains($period))
         {
             $this->periods->add($period);
-            if (!$period->getCourseInfos()->contains($this))
-            {
-                $period->getCourseInfos()->add($this);
-            }
         }
         return $this;
     }
@@ -2528,10 +2515,6 @@ class CourseInfo
         if ($this->periods->contains($period))
         {
             $this->periods->removeElement($period);
-            if ($period->getCourseInfos()->contains($this))
-            {
-                $period->getCourseInfos()->removeElement($this);
-            }
         }
         return $this;
     }
