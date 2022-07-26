@@ -519,7 +519,7 @@ class CourseInfo
     /**
      * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Language", inversedBy="courseInfos")
+     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Language")
      * @ORM\JoinTable(name="course_info_language",
      *     joinColumns={@ORM\JoinColumn(name="courseinfo_id", referencedColumnName="id")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="language_id", referencedColumnName="id")}
@@ -533,7 +533,7 @@ class CourseInfo
     /**
      * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Domain", inversedBy="courseInfos")
+     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Domain")
      * @ORM\JoinTable(name="course_info_domain",
      *     joinColumns={@ORM\JoinColumn(name="courseinfo_id", referencedColumnName="id")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="domain_id", referencedColumnName="id")}
@@ -546,7 +546,7 @@ class CourseInfo
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Period", inversedBy="courseInfos")
+     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Period")
      * @ORM\JoinTable(name="course_info_period",
      *     joinColumns={@ORM\JoinColumn(name="courseinfo_id", referencedColumnName="id")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="period_id", referencedColumnName="id")}
