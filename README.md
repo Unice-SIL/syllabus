@@ -44,6 +44,10 @@ Ajouter dans le cron du serveur la commande suivante:
 
 ### v2
 
+#### v2.2.5
+##### Hotfix
+- Select2 teachers form focus issue fixed
+
 #### v2.2.4
 ##### Hotfix
 - Disable csrf protection for general presentation and duplicate course info forms
