@@ -21,7 +21,7 @@
 <script>
     $(document).ready(function(){
         $('input[data-toggle="toggle"]').bootstrapToggle();
-
+        $.fn.modal.Constructor.prototype._enforceFocus = function() {};
         let select2minimumInputLength = 2;
         $('#teachers_login').select2({
             minimumInputLength: select2minimumInputLength,
