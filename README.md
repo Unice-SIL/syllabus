@@ -44,6 +44,10 @@ Ajouter dans le cron du serveur la commande suivante:
 
 ### v2
 
+#### v2.2.6
+##### Hotfix
+- TeacherRepositoryFactory and TeacherRepositoryInterface services fixed in services.yaml
+
 #### v2.2.5
 ##### Hotfix
 - Select2 teachers form focus issue fixed
