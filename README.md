@@ -44,6 +44,10 @@ Ajouter dans le cron du serveur la commande suivante:
 
 ### v2
 
+#### v2.2.7
+##### Hotfix
+- Disabled CSRF Token for TeachersType. Still no idea why it randomly doesn't work.
+
 #### v2.2.6
 ##### Hotfix
 - TeacherRepositoryFactory and TeacherRepositoryInterface services fixed in services.yaml
