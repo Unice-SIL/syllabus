@@ -114,6 +114,15 @@
                         </div>
                     </a>
                 </li>
+                <li class="nav-item menu-tab">
+                    <a class="nav-link mt-3" href="{{ path('app.course_info.view.light_version', { 'id': courseInfo.id }) }}" target="_blank">
+                        <div class="btn btn-outline-light text-left">
+
+                            <i class="nav-icon fas fa-eye"></i>
+                            <p>{{ 'app.course_info.sidebar.student_view_web' | trans }}</p>
+                        </div>
+                    </a>
+                </li>
             </ul>
         </nav>
     </div>
