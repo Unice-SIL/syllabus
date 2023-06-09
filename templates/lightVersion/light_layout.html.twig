@@ -6,12 +6,10 @@
         <i class="fas fa-chevron-left"></i> <a href="https://univ-cotedazur.fr/">{{ 'app.light_version.menu.top_link' | trans }}</a>
     </div>
 
-    <div>
-        <img class="w-100" style="height: 20vh; background-position: center; background-repeat: no-repeat;" src="{{ asset('build/images/image_banniere.png') }}">
-    </div>
-
+    <div class="light-view-header"></div>
     <div class="light-view">
         <div class="container">
+
             {% include 'lightVersion/light_menu.html.twig' %}
             <div class="light-content">
                 {% include 'lightVersion/light_presentation.html.twig' %}

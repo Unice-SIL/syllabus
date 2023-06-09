@@ -2,6 +2,7 @@
 
 {% block modals %}
     {% include 'default/modal.html.twig' %}
+    {% include 'modal/FillingHelpSyllabus.html.twig' %}
 {% endblock %}
 
 {% block navbar %}
@@ -106,9 +107,16 @@
                     </a>
                 </li>
                 <li class="nav-item menu-tab">
+                    <a class="nav-link mt-3" href="#" data-toggle="modal" data-target="#fillingHelpSyllabusModal">
+                        <div class="btn btn-outline-light">
+                            <i class="fa fa-question" aria-hidden="true"></i>
+                            <p>{{ 'app.course_info.sidebar.help' | trans }}</p>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item menu-tab">
                     <a class="nav-link mt-3" href="{{ path('app.course_info.view.student', { 'id': courseInfo.id }) }}" target="_blank">
                         <div class="btn btn-outline-light">
-
                         <i class="nav-icon fas fa-eye"></i>
                         <p>{{ 'app.course_info.sidebar.student_view' | trans }}</p>
                         </div>

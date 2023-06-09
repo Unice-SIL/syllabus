@@ -287,6 +287,8 @@ app:
       information: Informations pratiques
       closing_remarks: Le mot de la fin
       student_view: Syllabus étudiant
+      student_view_web: Syllabus web
+      help: Aide
   dashboard:
     title: Tableau de bord
     progress: Progression du remplissage
