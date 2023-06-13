@@ -5,147 +5,154 @@
             {{ 'app.light_version.presentation.code_ecue' | trans }} {{ courseInfo.course.code }}
         </h2>
     </div>
+
+    {% set parent = courseInfo.course.parents[0] %}
+    {% set parentInfo = parent.courseInfo(courseInfo.year.id) %}
+    {% if parentInfo is not empty %}
+        <span>{{ 'app.view.student.presentation.belong_to' | trans({'%title%' : parentInfo.title}) }} </span>
+    {% endif %}
+
     {% if courseInfo.publisher is null and courseInfo.publicationDate is null %}
-    <h4 class="my-5 text-center">
-        {{ 'app.view.student.presentation.not_published' | trans }}
-    </h4>
+        <h4 class="my-5 text-center">
+            {{ 'app.view.student.presentation.not_published' | trans }}
+        </h4>
     {% else %}
 
-    <div class="presentation-info row">
-        <div class="col-12 col-lg-4 col-md-6 col-sm-12">
-            <div class="presentation-info-element">
-                <div class="info-rounded-icon">
-                    <img class="" src="{{ asset('build/images/composante_picto.png') }}">
-                </div>
-                <div class="presentation-info-element-text">
-                    <label>{{ 'app.view.student.presentation.structure' | trans }}</label>
-                    <div>
-                        {{ courseInfo.structure.label }}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-lg-4 col-md-6 col-sm-12">
-            <div class="presentation-info-element">
-                <div class="info-rounded-icon">
-                    <img class="" src="{{ asset('build/images/domaine_picto.png') }}">
-                </div>
-                <div class="presentation-info-element-text">
-                    <label>{{ 'app.view.student.presentation.domain' | trans }}</label>
-                    <div>
-                        {% for domain in courseInfo.domains %}
-                            {% if not loop.first %}
-                                ,
-                            {% endif %}
-                            {{ domain.label }}
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-lg-4 col-md-6 col-sm-12">
-            <div class="presentation-info-element">
-                <div class="info-rounded-icon">
-                    <img class="" src="{{ asset('build/images/lieu_picto.png') }}">
-                </div>
-                <div class="presentation-info-element-text">
-                    <label>{{ 'app.view.student.presentation.campus' | trans }}</label>
-                    <div>
-                        {% for campus in courseInfo.campuses %}
-                            {% if not loop.first %}
-                                ,
-                            {% endif %}
-                            {{ campus.label }}
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-lg-4 col-md-6 col-sm-12">
-            <div class="presentation-info-element">
-                <div class="info-rounded-icon">
-                    <img class="" src="{{ asset('build/images/niveau_picto.png') }}">
-                </div>
-                <div class="presentation-info-element-text">
-                    <label>{{ 'app.view.student.presentation.level' | trans }}</label>
-                    <div>
-                        {% for level in courseInfo.levels %}
-                            {% if not loop.first %}
-                                ,
-                            {% endif %}
-                            {{ level.label }}
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% if courseInfo.periods is not empty %}
+        <div class="presentation-info row">
             <div class="col-12 col-lg-4 col-md-6 col-sm-12">
                 <div class="presentation-info-element">
                     <div class="info-rounded-icon">
-                        <img class="" src="{{ asset('build/images/calendrier_picto.png') }}">
+                        <img class="" src="{{ asset('build/images/composante_picto.png') }}">
                     </div>
                     <div class="presentation-info-element-text">
-                        <label>{{ 'app.view.student.presentation.semester' | trans }}</label>
+                        <label>{{ 'app.view.student.presentation.structure' | trans }}</label>
                         <div>
-                            {% for period in courseInfo.periods %}
+                            {{ courseInfo.structure.label }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-4 col-md-6 col-sm-12">
+                <div class="presentation-info-element">
+                    <div class="info-rounded-icon">
+                        <img class="" src="{{ asset('build/images/domaine_picto.png') }}">
+                    </div>
+                    <div class="presentation-info-element-text">
+                        <label>{{ 'app.view.student.presentation.domain' | trans }}</label>
+                        <div>
+                            {% for domain in courseInfo.domains %}
                                 {% if not loop.first %}
                                     ,
                                 {% endif %}
-                                {{ period.label }}
+                                {{ domain.label }}
                             {% endfor %}
                         </div>
                     </div>
                 </div>
             </div>
-        {% endif %}
-        <div class="col-12 col-lg-4 col-md-6 col-sm-12">
-            <div class="presentation-info-element">
-                <div class="info-rounded-icon">
-                    <img class="" src="{{ asset('build/images/langue_picto.png') }}">
+            <div class="col-12 col-lg-4 col-md-6 col-sm-12">
+                <div class="presentation-info-element">
+                    <div class="info-rounded-icon">
+                        <img class="" src="{{ asset('build/images/lieu_picto.png') }}">
+                    </div>
+                    <div class="presentation-info-element-text">
+                        <label>{{ 'app.view.student.presentation.campus' | trans }}</label>
+                        <div>
+                            {% for campus in courseInfo.campuses %}
+                                {% if not loop.first %}
+                                    ,
+                                {% endif %}
+                                {{ campus.label }}
+                            {% endfor %}
+                        </div>
+                    </div>
                 </div>
-                <div class="presentation-info-element-text">
-                    <label>{{ 'app.view.student.presentation.language' | trans }}</label>
-                    <div>
-                        {% for language in courseInfo.languages %}
-                            {% if not loop.first %}
-                                ,
-                            {% endif %}
-                            {{ language.label }}
-                        {% endfor %}
+            </div>
+            <div class="col-12 col-lg-4 col-md-6 col-sm-12">
+                <div class="presentation-info-element">
+                    <div class="info-rounded-icon">
+                        <img class="" src="{{ asset('build/images/niveau_picto.png') }}">
+                    </div>
+                    <div class="presentation-info-element-text">
+                        <label>{{ 'app.view.student.presentation.level' | trans }}</label>
+                        <div>
+                            {% for level in courseInfo.levels %}
+                                {% if not loop.first %}
+                                    ,
+                                {% endif %}
+                                {{ level.label }}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% if courseInfo.periods is not empty %}
+                <div class="col-12 col-lg-4 col-md-6 col-sm-12">
+                    <div class="presentation-info-element">
+                        <div class="info-rounded-icon">
+                            <img class="" src="{{ asset('build/images/calendrier_picto.png') }}">
+                        </div>
+                        <div class="presentation-info-element-text">
+                            <label>{{ 'app.view.student.presentation.semester' | trans }}</label>
+                            <div>
+                                {% for period in courseInfo.periods %}
+                                    {% if not loop.first %}
+                                        ,
+                                    {% endif %}
+                                    {{ period.label }}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="col-12 col-lg-4 col-md-6 col-sm-12">
+                <div class="presentation-info-element">
+                    <div class="info-rounded-icon">
+                        <img class="" src="{{ asset('build/images/langue_picto.png') }}">
+                    </div>
+                    <div class="presentation-info-element-text">
+                        <label>{{ 'app.view.student.presentation.language' | trans }}</label>
+                        <div>
+                            {% for language in courseInfo.languages %}
+                                {% if not loop.first %}
+                                    ,
+                                {% endif %}
+                                {{ language.label }}
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <h3 class="mt-3">
-        {{ 'app.light_version.title_section.presentation' | trans }}
-    </h3>
+        <h3 class="mt-3">
+            {{ 'app.light_version.title_section.presentation' | trans }}
+        </h3>
 
-    <div class="presentation-summary mt-5">
-        {% if courseInfo.mediaType == 'image' and courseInfo.image is not null %}
-            {% set imgSrc = courseInfo.image | split('/') | last %}
-            <div class="media media-image">
-                <img class="img-fluid" src="{{ asset('data/' ~ imgSrc) }}">
-            </div>
-        {% elseif courseInfo.mediaType == 'video' and courseInfo.video is not null %}
-            <div class="media media-video">
-                <div class="embed-responsive embed-responsive-16by9">
-                    {{ courseInfo.video|raw }}
+        <div class="presentation-summary mt-5">
+            {% if courseInfo.mediaType == 'image' and courseInfo.image is not null %}
+                {% set imgSrc = courseInfo.image | split('/') | last %}
+                <div class="media media-image">
+                    <img class="img-fluid" src="{{ asset('data/' ~ imgSrc) }}">
                 </div>
+            {% elseif courseInfo.mediaType == 'video' and courseInfo.video is not null %}
+                <div class="media media-video">
+                    <div class="embed-responsive embed-responsive-16by9">
+                        {{ courseInfo.video|raw }}
+                    </div>
+                </div>
+            {% endif %}
+            <div class="summary">
+                {{ courseInfo.summary|purify }}
             </div>
-        {% endif %}
-        <div class="summary">
-            {{ courseInfo.summary|purify }}
-        </div>
 
-        <div class="row w-100">
-            <div class="d-flex flex-column col-12 col-lg-6 mb-4">
-                <h4>
-                    {{ 'app.light_version.presentation.teachers' | trans }}
-                </h4>
-                <span>
+            <div class="row w-100">
+                <div class="d-flex flex-column col-12 col-lg-6 mb-4">
+                    <h4>
+                        {{ 'app.light_version.presentation.teachers' | trans }}
+                    </h4>
+                    <span>
                     {% for teacher in courseInfo.courseTeachers %}
                         {% if teacher.manager %}
                             {% if not loop.first %}
@@ -155,18 +162,18 @@
                         {% endif %}
                     {% endfor %}
                 </span>
-            </div>
-            <div class="col-12 col-lg-6 d-flex justify-content-between flex-wrap">
-                {% if courseInfo.teachingMode == constant('App\\Syllabus\\Constant\\TeachingMode::IN_CLASS') or
-                    courseInfo.teachingMode == constant('App\\Syllabus\\Constant\\TeachingMode::HYBRID') %}
-                    {% include 'lightVersion/light_teaching_mode_in_class.html.twig' %}
-                {% endif %}
-                {% if courseInfo.teachingMode == constant('App\\Syllabus\\Constant\\TeachingMode::DIST') or
-                    courseInfo.teachingMode == constant('App\\Syllabus\\Constant\\TeachingMode::HYBRID') %}
-                    {% include 'lightVersion/light_teaching_mode_dist.html.twig' %}
-                {% endif %}
+                </div>
+                <div class="col-12 col-lg-6 d-flex justify-content-between flex-wrap">
+                    {% if courseInfo.teachingMode == constant('App\\Syllabus\\Constant\\TeachingMode::IN_CLASS') or
+                        courseInfo.teachingMode == constant('App\\Syllabus\\Constant\\TeachingMode::HYBRID') %}
+                        {% include 'lightVersion/light_teaching_mode_in_class.html.twig' %}
+                    {% endif %}
+                    {% if courseInfo.teachingMode == constant('App\\Syllabus\\Constant\\TeachingMode::DIST') or
+                        courseInfo.teachingMode == constant('App\\Syllabus\\Constant\\TeachingMode::HYBRID') %}
+                        {% include 'lightVersion/light_teaching_mode_dist.html.twig' %}
+                    {% endif %}
+                </div>
             </div>
         </div>
-    </div>
     {% endif %}
 </section>
