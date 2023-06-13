@@ -111,7 +111,7 @@
                 </li>
                 <li class="nav-item menu-tab">
                     <a class="nav-link mt-3" href="#" data-toggle="modal" data-target="#fillingHelpSyllabusModal">
-                        <div class="btn btn-outline-light">
+                        <div class="btn btn-outline-light btn-block text-left">
                             <i class="fa fa-question" aria-hidden="true"></i>
                             <p>{{ 'app.course_info.sidebar.help' | trans }}</p>
                         </div>
@@ -119,16 +119,15 @@
                 </li>
                 <li class="nav-item menu-tab">
                     <a class="nav-link mt-3" href="{{ path('app.course_info.view.student', { 'id': courseInfo.id }) }}" target="_blank">
-                        <div class="btn btn-outline-light">
+                        <div class="btn btn-outline-light btn-block text-left">
                         <i class="nav-icon fas fa-eye"></i>
                         <p>{{ 'app.course_info.sidebar.student_view' | trans }}</p>
                         </div>
                     </a>
                 </li>
                 <li class="nav-item menu-tab">
-                    <a class="nav-link mt-3" href="{{ path('app.course_info.view.light_version', { 'id': courseInfo.id }) }}" target="_blank">
-                        <div class="btn btn-outline-light text-left">
-
+                    <a class="nav-link mt-3 d-inline-block" href="{{ path('app.course_info.view.light_version', { 'id': courseInfo.id }) }}" target="_blank">
+                        <div class="btn btn-outline-light btn-block text-left">
                             <i class="nav-icon fas fa-eye"></i>
                             <p>{{ 'app.course_info.sidebar.student_view_web' | trans }}</p>
                         </div>
