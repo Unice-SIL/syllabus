@@ -1,0 +1,26 @@
+<div class="modal fade" id="EcueListUeModal" tabindex="-1" role="dialog"
+     aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <p>Cet ECUE est commun à plusieurs UE : </p>
+                    <ul>
+                        {% for parent in courseInfo.course.parents.toArray %}
+                            {% set parentInfo = parent.courseInfo(courseInfo.year.id) %}
+                            <li> {{ parentInfo.title }} {{ parentInfo.ects ? '(' ~ parentInfo.ects ~ "Ects)" : '' }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="d-flex">
+                    <button class="btn btn-success" data-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

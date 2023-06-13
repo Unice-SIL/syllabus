@@ -651,7 +651,7 @@ app:
         campus: Lieu d'enseignement
         semester: Semestre
         language: Langue
-        belong_to: "Appartient a %title%"
+        belong_to: "Ce cours appartient a %title%"
         teacher: Enseignant
         teacher_manager: Responsable
         teachers: Équipe enseignante
@@ -662,7 +662,7 @@ app:
         hours_teachings: "%hours%h de %type%"
         class: Présentiel
         nb_ects: "(%ects% ECTS)"
-        nb_ecue: "UE comprenant %ecue% ECUE"
+        nb_ecue: "comprenant %ecue% ECUE"
         title: "ECUE appartenant à %title%"
         autonomy: Autonomie
       sidebar:
