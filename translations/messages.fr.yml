@@ -643,6 +643,7 @@ app:
         tutoring_by_both: avec un tuteur enseignant et/ou étudiant
         empty_tutoring_resources: Pas de remise à niveau
       presentation:
+        support_for_success: Soutiens à la réussite
         last_update: Dernière mis à jour
         not_published: Ce syllabus n'a pas encore été publié
         structure: Composante
