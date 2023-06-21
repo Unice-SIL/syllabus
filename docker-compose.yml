@@ -1,0 +1,54 @@
+version: '3.7'
+
+services:
+  database:
+    container_name: ${PROJECT_NAME:-syllabus}_database
+    image: mariadb:${DATABASE_VERSION:-10.3.34}
+    environment:
+      MARIADB_NAME: ${DATABASE_NAME:-syllabus}
+      MARIADB_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD:-password}
+    ports:
+      - ${DATABASE_PORT:-3390}:3306
+    volumes:
+      - db-data:/var/lib/mysql:rw
+    networks:
+      - dev
+
+  phpmyadmin:
+    container_name: ${PROJECT_NAME:-syllabus}_phpmyadmin
+    image: phpmyadmin
+    ports:
+      - ${PHPMYADMIN_PORT:-9091}:80
+    environment:
+      PMA_HOST: database
+    depends_on:
+      - database
+    networks:
+      - dev
+
+  php:
+    container_name: ${PROJECT_NAME:-syllabus}_php
+    build:
+      context: ./docker/php
+    env_file:
+      - .env.local
+    environment:
+      DATABASE_SYLLABUS_URL: mysql://root:${DATABASE_ROOT_PASSWORD:-password}@database/${DATABASE_NAME:-syllabus}
+      DATABASE_APOGEE_URL: mysql://root:${DATABASE_ROOT_PASSWORD:-password}@database/${DATABASE_NAME:-apogee}
+    ports:
+      - ${PHP_PORT:-9090}:8000
+    volumes:
+      - .:/web/app:cached
+      - /web/app/node_modules
+      - /web/app/var/cache
+      - /web/app/vendor
+    depends_on:
+      - database
+    networks:
+      - dev
+
+networks:
+  dev:
+
+volumes:
+  db-data:
