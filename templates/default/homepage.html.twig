@@ -23,23 +23,30 @@
 
     <div class="container-fluid">
         <div class="card">
-            {% for key,course in courses %}
-                <h4 class="p-2">
-                    {{ key }}
-                </h4>
+            <div class="mr-auto">
+                {% include 'partial/_table_filter.html.twig' with {'form': form, 'formUrl': path('app_index'), 'method' : 'get' } %}
+            </div>
+            <div class="table-responsive">
                 <table class="table table-hover table-responsive-sm">
                     <thead>
                     <tr>
-                        <th>{{ 'app.homepage.title' | trans }}</th>
-                        <th>{{ 'app.homepage.type' | trans }}</th>
-                        <th>{{ 'app.homepage.establishment_code' | trans }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(courses, 'app.homepage.year'|trans, 'y.id') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(courses, 'app.homepage.title'|trans, 'ci.title') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(courses, 'app.homepage.type'|trans, 'c.type') }}</th>
+                        <th class="sortable">{{ knp_pagination_sortable(courses, 'app.homepage.establishment_code'|trans, 'c.code') }}</th>
+                        <th>{{ 'app.homepage.publication' | trans }}</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {% for courseInfo in course %}
+                    {% for courseInfo in courses %}
                         <tr>
                             <td>
-                                <a href="{{ path('app.course_info.dashboard.index', { 'id' : courseInfo.id }) }}">{{ courseInfo.title }}</a>
+                                {{ courseInfo.year.label }}
+                            </td>
+                            <td>
+                                <a href="{{ path('app.course_info.dashboard.index', { 'id' : courseInfo.id }) }}">
+                                    {{ courseInfo.title }}
+                                </a>
                             </td>
                             <td>
                                 {{ courseInfo.course.type }}
@@ -47,11 +54,23 @@
                             <td>
                                 {{ courseInfo.course.code }}
                             </td>
+                            <td class="text-center">
+                                {% if courseInfo.publicationDate is empty %}
+                                    <i class="fas fa-times fa-2x text-danger"></i>
+                                {% else %}
+                                    <i class="fas fa-check fa-2x text-success"></i>
+                                {% endif %}
+                            </td>
                         </tr>
                     {% endfor %}
                     </tbody>
                 </table>
-            {% endfor %}
+            </div>
+            {% if knp_pagination_render(courses) %}
+                <div class="card-footer clearfix">
+                    {{ knp_pagination_render(courses) }}
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

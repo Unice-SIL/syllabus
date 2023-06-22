@@ -336,9 +336,11 @@ app:
       instructions_link: Rendez-vous sur l'espace "Syllabus mode d'emploi" et posez votre question dans le forum d'assistance.
   homepage:
     establishment_code: Code d'établissement
+    publication: Publication
     syllabus_list: Liste des syllabus
     title: Intitulé
     type: Type
+    year: Année
   permission:
     modal:
       title: Ajouter une permission
@@ -1134,7 +1136,10 @@ admin:
     reset_filters: Réinitialiser les filtres
     save: Enregistrer
     edit: Modifier
-
+filters:
+  modal:
+    title: Filtres
+    button_filter: Filtrer
 credits:
   link: Crédits
   title: Crédits et mentions légales
