@@ -337,6 +337,7 @@ app:
     syllabus_list: Syllabus list
     title: Title
     type: Type
+    year: Year
   permission:
     modal:
       title: Add a permission
@@ -1131,7 +1132,10 @@ admin:
     reset_filters: Reset filters
     save: Save
     edit: Edit
-
+filters:
+  modal:
+    title: Filters
+    button_filter: Filter
 credits:
   link: Credits
   title: Credits and legal mentions
