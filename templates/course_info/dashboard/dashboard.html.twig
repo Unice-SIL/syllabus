@@ -1,6 +1,8 @@
 {% extends 'course_info/layout.html.twig' %}
 {% block modals %}
     {{ parent() }}
+    {% include 'modal/PublicContent.html.twig' %}
+    {% include 'modal/RestrictedContent.html.twig' %}
     <div class="modal modal-initialized fade" id="courseInfoDuplicationModal" style="display: none;" aria-hidden="true"
          data-show="{{ isFormValid ? "false" : "true" }}">
         <div class="modal-dialog">

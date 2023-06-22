@@ -1,5 +1,10 @@
 {% extends 'course_info/layout.html.twig' %}
 
+{% block modals %}
+    {{ parent() }}
+    {% include 'modal/LibraryInformation.html.twig' %}
+{% endblock %}
+
 {% block subContent %}
     <div class="pt-3">
         <div class="card my-2 shadow card-syllabus"
