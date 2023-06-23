@@ -100,6 +100,7 @@ class DefaultController extends AbstractController
      * @Route("/courses", name="app_index")
      * @param Request $request
      * @param CoursePermissionDoctrineRepository $coursePermissionRepository
+     * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
      * @param PaginatorInterface $paginator
      * @return Response
      */

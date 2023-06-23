@@ -250,6 +250,9 @@ yes: Yes
 no: No
 
 app:
+  navbar:
+    administration: Administration
+    syllabus_list: List of syllabus
   locale:
     fr: 'Français'
     en: 'English'
