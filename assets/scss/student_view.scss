@@ -403,3 +403,14 @@
     }
   }
 }
+
+.modal-student {
+  & .modal-content {
+    background-color: #000a10;
+    color: #f8f9fa;
+    border: solid 1px #f8f9fa;
+    & .close {
+      color: #f8f9fa;
+    }
+  }
+}

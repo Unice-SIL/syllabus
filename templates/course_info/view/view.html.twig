@@ -3,6 +3,10 @@
 {% block body_class %}
 {% endblock %}
 
+{% block modals %}
+    {% include 'modal/EcueListUe.html.twig' %}
+{% endblock %}
+
 {% block main %}
     <div class="student-view">
         <div class="container">
@@ -35,7 +39,47 @@
                         {% include 'course_info/view/student_closing_remarks.html.twig' %}
                     {% endif %}
                 {% endif %}
-
+                <h3 class="my-5 text-left text-primary">
+                    {{ 'app.view.student.presentation.support_for_success' | trans }}
+                </h3>
+                <ul>
+                    <li>
+                        <a href="https://univ-cotedazur.fr/tuttop" class="text-blue" target="_blank">
+                            TUT'TOP
+                        </a>&nbsp;: du tutorat par les pairs sur le plan méthodologique, social, administratif ou logistique
+                    </li>
+                    <li>
+                        <a href="https://ecriplus.fr/" class="text-blue" target="_blank">
+                            écri+
+                        </a> : pour améliorer son francais écrit
+                    </li>
+                    <li>
+                        <a href="https://univ-cotedazur.fr/portails/staps/scolarite/organisation-des-etudes/centres-de-ressources-en-langues" class="text-blue" target="_blank">
+                            Centre de ressources en langues
+                        </a>&nbsp;: développer ses compétences en langues vivantes, française ou étrangères
+                    </li>
+                    <li>
+                        <a href="https://bu.univ-cotedazur.fr/fr/se-former/metoda" class="text-blue" target="_blank">
+                            METODA
+                        </a>&nbsp;: pour booster ses compétences informationnelles
+                    </li>
+                    <li>
+                        <a href="https://univ-cotedazur.fr/universite/responsabilite-ethique-et-universitaire/handicap" class="text-blue" target="_blank">
+                            Cellule Handicap
+                        </a>&nbsp;: découvrir les aides proposées pour les étudiants en situation de handicap
+                    </li>
+                    <li>
+                        <a href="https://univ-cotedazur.fr/portails/portail-sciences-et-technologies/scolarite/sorienter-se-reorienter/sorienter-se-reorienter" class="text-blue" target="_blank">
+                            S'orienter ou se réorienter
+                        </a>&nbsp;: être accompagné dans les BIO
+                    </li>
+                    <li>
+                        <a href="https://univ-cotedazur.fr/formation/scolarite/evaluation-des-enseignements-et-des-formations" class="text-blue" target="_blank">
+                            Maison de l'évaluation
+                        </a>&nbsp;: évaluer ses enseignements à la fin de chaque semestre
+                    </li>
+                    <li>Université Numérique thématique</li>
+                </ul>
 
                 <div class="text-muted text-center pb-5">
                     <h5>{{ 'app.view.student.alert.important' | trans }}</h5>
@@ -45,7 +89,8 @@
                     <p>
                         {{ 'app.view.student.alert.text.part_2' | trans }}
                     </p>
-                    <a href="{{ 'app.view.student.syllabus_form.link' | trans }}" class="btn btn-outline-primary text-center" target="_blank">
+                    <a href="{{ 'app.view.student.syllabus_form.link' | trans }}"
+                       class="btn btn-outline-primary text-center" target="_blank">
                         {{ 'app.view.student.syllabus_form.text' | trans }}
                     </a>
                 </div>

@@ -84,12 +84,6 @@
         <dt>
             <img class="icon-20" src="{{ asset('build/images/black_info_picto.png') }}"/>
             {{ 'app.presentation.view.general.description' | trans }}
-            <div class="mb-2">
-                <small>
-                    {{ 'app.presentation.view.general.description_message' | trans }}
-                    <a class="btn-link" href="https://pixabay.com/fr/" target="_blank"><u>https://pixabay.com/fr/</u></a>
-                </small>
-            </div>
         </dt>
         <dd class="mandatory-data">
             <div class="mr-4 mb-3 float-left w-50">
@@ -101,9 +95,12 @@
                         {{ courseInfo.video|raw }}
                     </div>
                 {% else %}
+                    <img class="img-summary" src="{{ asset('build/images/syllabus_default_image.png') }}" alt="">
+                    {#
                     <div class="border rounded d-flex align-items-center justify-content-center" style="min-height: 200px;">
                         <i class="fas fa-4x fa-images text-light"></i>
                     </div>
+                    #}
                 {% endif %}
             </div>
             <div class="ml-auto">

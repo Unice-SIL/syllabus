@@ -1,0 +1,57 @@
+<form method="{{method}}" action="{{formUrl}}">
+
+    <div class="card-icon d-flex">
+        <div class="">
+            {% set nbFilter = 0 %}
+            {% for val in form.vars.value %}
+                {% if val is not null  %}
+                {% set nbFilter = nbFilter + 1 %}
+                {% endif %}
+            {% endfor %}
+            <button type="button" class="btn btn-submit justify-content-center {{nbFilter > 0 ? 'active' : ''}}" data-toggle="modal" data-target="#filtersModal_{{form.vars.name}}">
+                <div class="">
+                    <div class="">
+                        <i class="fas fa-sliders-h"></i>
+                        {{ 'filters.modal.title' | trans() }}
+                        {% if nbFilter > 0 %}
+                            <span class="badge badge-dark">{{nbFilter}}</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="filtersModal_{{form.vars.name}}" tabindex="-1" role="dialog" aria-labelledby="filtersModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="filtersModalLabel">{{ 'filters.modal.title' | trans() }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {% for input in form.children %}
+                        <div class="row mb-2">
+                            <div class="col-12">
+                                {{ form_row(input) }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="modal-footer">
+                    <a href="{{formUrl}}" class="btn btn-link">
+                        <i class="fas fa-sync"></i>
+                    </a>
+                    <button class="btn btn-primary" type="submit">
+                        {{ 'filters.modal.button_filter' | trans | capitalize }}
+                    </button>
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</form>

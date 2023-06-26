@@ -8,12 +8,16 @@ use App\Syllabus\Entity\CourseInfo;
 use App\Syllabus\Entity\CoursePermission;
 use App\Syllabus\Entity\User;
 use App\Syllabus\Entity\Year;
+use App\Syllabus\Form\Filter\MySyllabusFilterType;
 use App\Syllabus\Manager\YearManager;
 use App\Syllabus\Repository\Doctrine\CourseInfoDoctrineRepository;
 use App\Syllabus\Repository\Doctrine\CoursePermissionDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
@@ -94,21 +98,37 @@ class DefaultController extends AbstractController
 
     /**
      * @Route("/courses", name="app_index")
+     * @param Request $request
      * @param CoursePermissionDoctrineRepository $coursePermissionRepository
+     * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
+     * @param PaginatorInterface $paginator
      * @return Response
      */
-    public function indexAction(CoursePermissionDoctrineRepository $coursePermissionRepository)
+    public function indexAction(
+        Request $request,
+        CoursePermissionDoctrineRepository $coursePermissionRepository,
+        FilterBuilderUpdaterInterface $filterBuilderUpdater,
+        PaginatorInterface $paginator
+    ): Response
     {
         /** @var User $user */
         $user = $this->getUser();
-        $courseInfos = $coursePermissionRepository->getCourseByPermission($user);
-        $courseInfosByYear = [];
-        foreach ($courseInfos as $courseInfo) {
-            $courseInfosByYear[$courseInfo->getYear()->getId()][] = $courseInfo;
+        $page = $request->query->getInt('page', 1);
+
+        $form = $this->createForm(MySyllabusFilterType::class, null);
+        $qb = $coursePermissionRepository->getCourseByPermissionQueryBuilder($user);
+
+        if ($request->query->has($form->getName())) {
+            $form->submit($request->query->get($form->getName()));
+            $filterBuilderUpdater->addFilterConditions($form, $qb);
         }
 
-        return $this->render('default/homepage.html.twig', array(
-            'courses' => $courseInfosByYear));
+        $courses = $paginator->paginate($qb, $page, 10);
+
+        return $this->render('default/homepage.html.twig', [
+            'courses' => $courses,
+            'form' => $form->createView()
+        ]);
     }
 
     /**

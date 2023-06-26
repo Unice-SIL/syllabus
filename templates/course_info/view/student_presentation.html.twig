@@ -6,12 +6,14 @@
             <span class="float-right text-sm">{{ 'app.view.student.presentation.last_update' | trans }} - {{ courseInfo.modificationDate | date("d/m/Y") }}</span>
         </h5>
         <div class="d-flex dropdown justify-content-end">
-            <button class="btn text-white" type="button" id="dropdown-languages" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button class="btn text-white" type="button" id="dropdown-languages" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
                 Langues<i class="fas fa-caret-down ml-2"></i>
             </button>
             <div class="dropdown-menu bg-black" aria-labelledby="dropdown-languages">
                 {% for locale in managed_locales %}
-                    <a href="{{ path(app.request.get('_route'), app.request.attributes.get('_route_params')|merge({'_locale' : locale})) }}" class="dropdown-item text-muted text-decoration-none">
+                    <a href="{{ path(app.request.get('_route'), app.request.attributes.get('_route_params')|merge({'_locale' : locale})) }}"
+                       class="dropdown-item text-muted text-decoration-none">
                         <img class="mr-1 mb-0 icon-20" src="{{ asset('build/images/' ~ locale ~ '.png') }}">
                         {{ ('app.locale.' ~ locale)|trans }}
                     </a>
@@ -99,34 +101,26 @@
                 {% endfor %}
             </ul>
         </div>
-        {% if courseInfo.course.parents | length == 1 %}
-            {% set parent = courseInfo.course.parents[0] %}
-            {% set parentInfo = '' %}
-            {% if courseInfo.course.parents|length == 1 %}
-                {% for info in parent.courseInfos %}
-                    {% if info.year.id == courseInfo.year.id %}
-                        {% set parentInfo = info %}
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
-            {% if parentInfo is not empty %}
-                {% set title = parentInfo.title %}
-                {% set ects = parentInfo.ects %}
-                {% set ecue = parent.children|length %}
-                <div class="presentation-info-element col-12">
-                    <div class="student-subtitle">
-                        <img class="icon-20" src="{{ asset('build/images/info_picto.png') }}">
-                        <span>{{ 'app.view.student.presentation.belong_to' | trans({'%title%' : title}) }} </span>
+        <div class="presentation-info-element col-12">
+            <div class="student-subtitle">
+                <img class="icon-20" src="{{ asset('build/images/info_picto.png') }}">
+                {% if courseInfo.course.parents.count == 1 %}
+                    {% set parent = courseInfo.course.parents[0] %}
+                    {% set parentInfo = parent.courseInfo(courseInfo.year.id) %}
+                    {% if parentInfo is not empty %}
+                        <span>{{ 'app.view.student.presentation.belong_to' | trans({'%title%' : parentInfo.title}) }} </span>
                         <span class="text-primary ml-1">
-                        {% if ects is not null %}
-                            ({{ ects }} ECTS)
+                        {% if parentInfo.ects is not null %}
+                            ({{ parentInfo.ects }} ECTS)
                         {% endif %}
-                            {{ 'app.view.student.presentation.nb_ecue' | trans({'%ecue%': ecue}) }}
+                            {{ 'app.view.student.presentation.nb_ecue' | trans({'%ecue%': parent.children.count}) }}
                         </span>
-                    </div>
-                </div>
-            {% endif %}
-        {% endif %}
+                    {% endif %}
+                {% else %}
+                    <span>Ce cours est proposé dans  <a href="#" data-toggle="modal" data-target="#EcueListUeModal">{{ courseInfo.course.parents.count }} UE</a></span>
+                {% endif %}
+            </div>
+        </div>
     </div>
 
     <div class="presentation-summary mt-5">
@@ -140,6 +134,10 @@
                 <div class="embed-responsive embed-responsive-16by9">
                     {{ courseInfo.video|raw }}
                 </div>
+            </div>
+        {% else %}
+            <div class="media media-image">
+                <img class="img-fluid" src="{{ asset('build/images/syllabus_default_image_white.png') }}">
             </div>
         {% endif %}
         <div class="summary">
