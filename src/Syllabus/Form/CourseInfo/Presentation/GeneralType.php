@@ -151,7 +151,7 @@ class GeneralType extends AbstractType
                 ),
             ])
             ->add('mediaType', ChoiceType::class, [
-                'label' => 'app.presentation.form.general.media_label',
+                'label' => false,
                 'required' => false,
                 'multiple' => false,
                 'expanded' => true,

@@ -135,6 +135,10 @@
                     {{ courseInfo.video|raw }}
                 </div>
             </div>
+        {% else %}
+            <div class="media media-image">
+                <img class="img-fluid" src="{{ asset('build/images/syllabus_default_image_white.png') }}">
+            </div>
         {% endif %}
         <div class="summary">
             {{ courseInfo.summary|purify }}

@@ -518,7 +518,7 @@ app:
         levels: Niveau du cours
         description: Description
         level_label: Quel est le niveau de ce cours ?
-        media_label: "Intégrer une ressource multimédia qui illustre le cours, en respectant la réglementation sur les droits d'auteur. Recherchez des exemples libres ici : https://pixabay.com/fr/"
+        media_label: "Personnalisez votre syllabus avec une image/vidéo personnelle ou avec le logo de votre campus/EUR (<a target='_blank' href='https://intranet.univ-cotedazur.fr/infos-pratiques/communication-et-impression/charte-et-papeterie?ksession=6aa48cc4-9062-4dcc-84da-fdf2a6ef6719'>ici</a>) ou libre de droits (ex: https://pixabay.com)."
         picture: Image
         video: Vidéo
         file_type: Fichier de type jpeg ou png (2Mo maximum)

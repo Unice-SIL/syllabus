@@ -12,13 +12,29 @@
 
             {% include 'lightVersion/light_menu.html.twig' %}
             <div class="light-content">
-                {% include 'lightVersion/light_presentation.html.twig' %}
-                {% if courseInfo.publicationDate is not null or is_granted(constant('App\\Syllabus\\Constant\\Permission::WRITE'), courseInfo)  %}
 
+                <div class="student-title">
+                    <h1>{{ courseInfo.title }}</h1>
+                    <h2>
+                        {{ 'app.light_version.presentation.code_ecue' | trans }} {{ courseInfo.course.code }}
+                    </h2>
+                </div>
+
+                {% set parent = courseInfo.course.parents[0] %}
+                {% set parentInfo = parent.courseInfo(courseInfo.year.id) %}
+                {% if parentInfo is not empty %}
+                    <span>{{ 'app.view.student.presentation.belong_to' | trans({'%title%' : parentInfo.title}) }} </span>
+                {% endif %}
+
+                {% if courseInfo.publicationDate is not null or is_granted(constant('App\\Syllabus\\Constant\\Permission::WRITE'), courseInfo)  %}
+                    {% include 'lightVersion/light_presentation.html.twig' %}
                     {% include 'lightVersion/light_prerequisite.html.twig' %}
                     {% include 'lightVersion/light_objectives.html.twig' %}
                     {% include 'lightVersion/light_activities.html.twig' %}
-
+                {% else %}
+                    <h4 class="my-5 text-center">
+                        {{ 'app.view.student.presentation.not_published' | trans }}
+                    </h4>
                 {% endif %}
                 <div class="text-center">
                     <a href="{{ path('app.course_info.dashboard.index', { 'id' : courseInfo.id }) }}" class="btn btn-primary text-center">

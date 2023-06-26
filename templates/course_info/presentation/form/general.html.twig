@@ -16,7 +16,10 @@
 
 <div class="row mt-2">
     <div class="col-6">
-        {{ form_row(form.mediaType, {label_attr: {class: 'radio-custom'}} ) | linkify({'attr': {'target': '_blank'}}) }}
+        <div class="mb-2 font-italic font-weight-bold">
+            {{ 'app.presentation.form.general.media_label'| trans | raw | linkify({'attr': {'target': '_blank'}}) }}
+        </div>
+        {{ form_row(form.mediaType) }}
 
         <div class="medias-type border p-2">
 
