@@ -1,5 +1,10 @@
 {% extends 'base.html.twig' %}
 
+{% block modals %}
+    {{ parent() }}
+    {% include 'modal/EcueListUeLight.html.twig' %}
+{% endblock %}
+
 
 {% block main %}
     <div class="bg-dark p-2">
@@ -20,10 +25,22 @@
                     </h2>
                 </div>
 
-                {% set parent = courseInfo.course.parents[0] %}
-                {% set parentInfo = parent.courseInfo(courseInfo.year.id) %}
-                {% if parentInfo is not empty %}
-                    <span>{{ 'app.view.student.presentation.belong_to' | trans({'%title%' : parentInfo.title}) }} </span>
+                {% if courseInfo.course.parents.count == 1 %}
+                    {% set parent = courseInfo.course.parents[0] %}
+                    {% set parentInfo = parent.courseInfo(courseInfo.year.id) %}
+                    {% if parentInfo is not empty %}
+                        <span>{{ 'app.view.student.presentation.belong_to' | trans({'%title%' : parentInfo.title}) }} </span>
+                        <span class="text-primary ml-1">
+                        {% if parentInfo.ects is not null %}
+                            ({{ parentInfo.ects }} ECTS)
+                        {% endif %}
+                            {{ 'app.view.student.presentation.nb_ecue' | trans({'%ecue%': parent.children.count}) }}
+                        </span>
+                    {% endif %}
+                {% else %}
+                    <span>
+                        {{ 'app.view.student.presentation.belong_to_multi' | trans }} <a href="#" data-toggle="modal" data-target="#EcueListUeModalLight">{{ courseInfo.course.parents.count }} UE</a>
+                    </span>
                 {% endif %}
 
                 {% if courseInfo.publicationDate is not null or is_granted(constant('App\\Syllabus\\Constant\\Permission::WRITE'), courseInfo)  %}

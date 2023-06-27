@@ -659,6 +659,7 @@ app:
         semester: Semestre
         language: Langue
         belong_to: "Ce cours appartient a %title%"
+        belong_to_multi: "Ce cours est proposé dans "
         teacher: Enseignant
         teacher_manager: Responsable
         teachers: Équipe enseignante
