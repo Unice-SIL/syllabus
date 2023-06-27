@@ -117,7 +117,9 @@
                         </span>
                     {% endif %}
                 {% else %}
-                    <span>Ce cours est proposé dans  <a href="#" data-toggle="modal" data-target="#EcueListUeModal">{{ courseInfo.course.parents.count }} UE</a></span>
+                    <span>
+                        {{ 'app.view.student.presentation.belong_to_multi' | trans }} <a href="#" data-toggle="modal" data-target="#EcueListUeModal">{{ courseInfo.course.parents.count }} UE</a>
+                    </span>
                 {% endif %}
             </div>
         </div>
