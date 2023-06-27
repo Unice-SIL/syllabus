@@ -30,13 +30,27 @@ class CoursePermissionDoctrineRepository extends ServiceEntityRepository
      */
     public function getCourseByPermission(User $user)
     {
-        $qb = $this->_em->getRepository(CourseInfo::class)->createQueryBuilder('ci');
-        $qb->join('ci.coursePermissions', 'cp')
-            ->where($qb->expr()->eq('cp.user', ':user'))
-            ->setParameter('user', $user->getId());
-        $courseInfos = $qb->getQuery()->getResult();
+        return $this->getCourseByPermissionQueryBuilder($user)->getQuery()->getResult();
+    }
 
-        return $courseInfos;
+    /**
+     * @param User $user
+     * @return QueryBuilder
+     */
+    public function getCourseByPermissionQueryBuilder(User $user): QueryBuilder
+    {
+        $qb = $this->_em->getRepository(CourseInfo::class)->createQueryBuilder('ci');
+        $qb
+            ->innerJoin('ci.course', 'c')
+            ->innerJoin('ci.year', 'y')
+            ->innerJoin('ci.structure', 's')
+            ->join('ci.coursePermissions', 'cp')
+            ->where($qb->expr()->eq('cp.user', ':user'))
+            ->orderBy('y.id', 'DESC')
+            ->addOrderBy('ci.title', 'ASC')
+            ->setParameter('user', $user->getId());
+
+        return $qb;
     }
 
     /**

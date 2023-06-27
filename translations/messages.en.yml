@@ -250,6 +250,9 @@ yes: Yes
 no: No
 
 app:
+  navbar:
+    administration: Administration
+    syllabus_list: List of syllabus
   locale:
     fr: 'Français'
     en: 'English'
@@ -295,6 +298,7 @@ app:
       publish_syllabus: Publish the syllabus
       publish_success: Congratulations, the syllabus has been published
       see_student: See student's syllabus
+      see_web: See web syllabus
       duplicate_syllabus: I want this syllabus to be copied at the end of the year for the next year
       duplicate_syllabus_additionnal: (be careful, if the course's Apogee code, use the button duplicate for another course)
       duplicate_syllabus_other_course: Duplicate the syllabus for another course
@@ -337,6 +341,7 @@ app:
     syllabus_list: Syllabus list
     title: Title
     type: Type
+    year: Year
   permission:
     modal:
       title: Add a permission
@@ -650,6 +655,7 @@ app:
         semester: Semester
         language: Language
         belong_to: "Belong to %title%"
+        belong_to_multi: "Belong to"
         teacher: Teacher
         teacher_manager: Teacher in charge
         teachers: Teaching team
@@ -1131,7 +1137,10 @@ admin:
     reset_filters: Reset filters
     save: Save
     edit: Edit
-
+filters:
+  modal:
+    title: Filters
+    button_filter: Filter
 credits:
   link: Credits
   title: Credits and legal mentions

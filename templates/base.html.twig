@@ -149,7 +149,6 @@
                         data
                     ).done(function (response) {
                         let redirect = $(response.content).data('redirect-url');
-                        console.log(redirect);
                         if (Syllabus.handleAjaxResponseModal(response, $modal_app_body)) {
                             $modal_app.modal('hide');
                             if (view)

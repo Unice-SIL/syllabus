@@ -1,15 +1,4 @@
 <section id="presentation-section" class="pb-3">
-    <div class="student-title">
-        <h1>{{ courseInfo.title }}</h1>
-        <h2>
-            {{ 'app.light_version.presentation.code_ecue' | trans }} {{ courseInfo.course.code }}
-        </h2>
-    </div>
-    {% if courseInfo.publisher is null and courseInfo.publicationDate is null %}
-    <h4 class="my-5 text-center">
-        {{ 'app.view.student.presentation.not_published' | trans }}
-    </h4>
-    {% else %}
 
     <div class="presentation-info row">
         <div class="col-12 col-lg-4 col-md-6 col-sm-12">
@@ -135,6 +124,10 @@
                     {{ courseInfo.video|raw }}
                 </div>
             </div>
+        {% else %}
+            <div class="media media-image">
+                <img class="img-fluid" src="{{ asset('build/images/syllabus_default_image.png') }}">
+            </div>
         {% endif %}
         <div class="summary">
             {{ courseInfo.summary|purify }}
@@ -168,5 +161,4 @@
             </div>
         </div>
     </div>
-    {% endif %}
 </section>

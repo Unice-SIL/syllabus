@@ -8,17 +8,21 @@
                 {{ app.user.username }}
             </a>
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right text-sm">
+                <a href="{{ path('app_index') }}" class="dropdown-item">
+                    <i class="fas fa-list mr-1"></i>
+                    <span>{{ 'app.navbar.syllabus_list'|trans }}</span>
+                </a>
                 {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ALLOWED_TO_SWITCH') or is_granted('ROLE_PREVIOUS_ADMIN') %}
                     {% if is_granted('ROLE_ADMIN') %}
-                    <a href="{{ path('app.admin.course.index') }}" class="dropdown-item text-muted">
+                    <a href="{{ path('app.admin.course.index') }}" class="dropdown-item">
                         <i class="fas fa-cogs mr-1"></i>
-                        Administration
+                        {{ 'app.navbar.administration'|trans }}
                     </a>
                     {% endif %}
                     <div class="dropdown-divider"></div>
                 {% endif %}
                 {% for locale in managed_locales %}
-                    <a href="{{ path(app.request.get('_route'), app.request.attributes.get('_route_params')|merge({'_locale' : locale})) }}" class="dropdown-item text-muted">
+                    <a href="{{ path(app.request.get('_route'), app.request.attributes.get('_route_params')|merge({'_locale' : locale})) }}" class="dropdown-item">
                         <img class="mr-1" src="{{ asset('build/images/' ~ locale ~ '.png') }}">
                         {{ ('app.locale.' ~ locale)|trans }}
                     </a>

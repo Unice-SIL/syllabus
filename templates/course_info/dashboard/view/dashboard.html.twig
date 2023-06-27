@@ -20,88 +20,153 @@
                 </div>
             </div>
         </div>
-
         <h4 class="text-blue-title text-bold mb-3">{{ 'app.dashboard.progress' | trans }}</h4>
         <div class="card mb-5">
             <div class="card-body">
                 <div class="row border-bottom pb-4">
-                    <div class="col-12 col-sm-7 col-lg-8 col-md-7">
+                    <div class="col-12 col-sm-7 col-lg-8 col-md-7 mb-3">
                         <div class="row">
-                            <div class="col-lg-6 col-12 py-1">
-                                {% if violations['presentation'] is empty %}
-                                    <i class="fas fa-check text-success"></i>
-                                {% else %}
-                                    <i class="fas fa-times text-danger"></i>
-                                {% endif %}
-                                {{ 'app.course_info.sidebar.presentation' | trans }}
+                            <div class="col-12 col-lg-6 py-1">
+                                <div class="d-flex justify-content-start">
+                                    {% if violations['presentation'] is empty %}
+                                        <i class="fas fa-check text-success m-1"></i>
+                                    {% else %}
+                                        <i class="fas fa-times text-danger m-1"></i>
+                                    {% endif %}
+                                    <div class="d-flex flex-column align-items-start">
+                                        <span>{{ 'app.course_info.sidebar.presentation' | trans }}</span>
+                                        <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#PublicContentModal">
+                                            Contenu public &nbsp;
+                                            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-lg-6 col-12 py-1">
-                                {% if violations['objectives'] is empty %}
-                                    <i class="fas fa-check text-success"></i>
-                                {% else %}
-                                    <i class="fas fa-times text-danger"></i>
-                                {% endif %}
-                                {{ 'app.course_info.sidebar.objectives' | trans }}
-                            </div>
-                            <div class="col-lg-6 col-md-12 py-1">
-                                {% if violations['prerequisites'] is empty %}
-                                    <i class="fas fa-check text-success"></i>
-                                {% else %}
-                                    <i class="fas fa-times text-danger"></i>
-                                {% endif %}
-                                {{ 'app.course_info.sidebar.prerequisites' | trans }}
-                            </div>
-                            <div class="col-lg-6 col-12 py-1">
-                                {% if violations['contentActivities'] is empty %}
-                                    <i class="fas fa-check text-success"></i>
-                                {% else %}
-                                    <i class="fas fa-times text-danger"></i>
-                                {% endif %}
-                                {{ 'app.course_info.sidebar.activities' | trans }}
+                                <div class="d-flex justify-content-start">
+                                    {% if violations['objectives'] is empty %}
+                                        <i class="fas fa-check text-success m-1"></i>
+                                    {% else %}
+                                        <i class="fas fa-times text-danger m-1"></i>
+                                    {% endif %}
+                                    <div class="d-flex flex-column align-items-start">
+                                        <span>{{ 'app.course_info.sidebar.objectives' | trans }}</span>
+                                        <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#PublicContentModal">
+                                            Contenu public &nbsp;
+                                            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-lg-6 col-12 py-1">
-                                {% if violations['evaluation'] is empty %}
-                                    <i class="fas fa-check text-success"></i>
-                                {% else %}
-                                    <i class="fas fa-times text-danger"></i>
-                                {% endif %}
-                                {{ 'app.course_info.sidebar.evaluations' | trans }}
+                                <div class="d-flex justify-content-start">
+                                    {% if violations['prerequisites'] is empty %}
+                                        <i class="fas fa-check text-success m-1"></i>
+                                    {% else %}
+                                        <i class="fas fa-times text-danger m-1"></i>
+                                    {% endif %}
+                                    <div class="d-flex flex-column align-items-start">
+                                        <span>{{ 'app.course_info.sidebar.prerequisites' | trans }}</span>
+                                        <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#PublicContentModal">
+                                            Contenu public &nbsp;
+                                            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-lg-6 col-md-12 py-1">
-                                {% if violations['equipment'] is empty %}
-                                    <i class="fas fa-check text-success"></i>
-                                {% else %}
-                                    <i class="fas fa-times text-danger"></i>
-                                {% endif %}
-                                {{ 'app.course_info.sidebar.equipments' | trans }}
+                            <div class="col-lg-6 col-12 py-1">
+                                <div class="d-flex justify-content-start">
+                                    {% if violations['contentActivities'] is empty %}
+                                        <i class="fas fa-check text-success m-1"></i>
+                                    {% else %}
+                                        <i class="fas fa-times text-dangerm-1"></i>
+                                    {% endif %}
+                                    <div class="d-flex flex-column align-items-start">
+                                        <span>{{ 'app.course_info.sidebar.activities' | trans }}</span>
+                                        <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#PublicContentModal">
+                                            Contenu public &nbsp;
+                                            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-lg-6 col-md-12 py-1">
-                                {% if violations['info'] is empty %}
-                                    <i class="fas fa-check text-success"></i>
-                                {% else %}
-                                    <i class="fas fa-times text-danger"></i>
-                                {% endif %}
-                                {{ 'app.course_info.sidebar.information' | trans }}
+                            <div class="col-lg-6 col-12 py-1">
+                                <div class="d-flex justify-content-start">
+                                    {% if violations['evaluation'] is empty %}
+                                        <i class="fas fa-check text-success m-1"></i>
+                                    {% else %}
+                                        <i class="fas fa-times text-danger m-1"></i>
+                                    {% endif %}
+                                    <div class="d-flex flex-column align-items-start">
+                                        <span>{{ 'app.course_info.sidebar.evaluations' | trans }}</span>
+                                        <button type="button" class="btn btn-xs btn-secondary" data-toggle="modal"
+                                                data-target="#RestrictedContentModal"> Contenu restreint &nbsp;
+                                            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-lg-6 col-md-12 py-1">
-                                {% if violations['closingRemark'] is empty %}
-                                    <i class="fas fa-check text-success"></i>
-                                {% else %}
-                                    <i class="fas fa-times text-danger"></i>
-                                {% endif %}
-                                {{ 'app.course_info.sidebar.closing_remarks' | trans }}
+                            <div class="col-lg-6 col-12 py-1">
+                                <div class="d-flex justify-content-start">
+                                    {% if violations['equipment'] is empty %}
+                                        <i class="fas fa-check text-success m-1"></i>
+                                    {% else %}
+                                        <i class="fas fa-times text-danger m-1"></i>
+                                    {% endif %}
+                                    <div class="d-flex flex-column align-items-start">
+                                        <span>{{ 'app.course_info.sidebar.equipments' | trans }}</span>
+                                        <button type="button" class="btn btn-xs btn-secondary" data-toggle="modal" data-target="#RestrictedContentModal">
+                                            Contenu restreint &nbsp;
+                                            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-12 py-1">
+                                <div class="d-flex justify-content-start">
+                                    {% if violations['info'] is empty %}
+                                        <i class="fas fa-check text-success m-1"></i>
+                                    {% else %}
+                                        <i class="fas fa-times text-danger m-1"></i>
+                                    {% endif %}
+                                    <div class="d-flex flex-column align-items-start">
+                                        {{ 'app.course_info.sidebar.information' | trans }}
+                                        <button type="button" class="btn btn-xs btn-secondary" data-toggle="modal" data-target="#RestrictedContentModal">
+                                            Contenu restreint &nbsp;
+                                            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-12 py-1">
+                                <div class="d-flex justify-content-start">
+                                    {% if violations['closingRemark'] is empty %}
+                                        <i class="fas fa-check text-success m-1"></i>
+                                    {% else %}
+                                        <i class="fas fa-times text-danger m-1"></i>
+                                    {% endif %}
+                                    <div class="d-flex flex-column align-items-start">
+                                        {{ 'app.course_info.sidebar.closing_remarks' | trans }}
+                                        <button type="button" class="btn btn-xs btn-secondary" data-toggle="modal" data-target="#RestrictedContentModal">
+                                            Contenu restreint &nbsp;
+                                            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-12 col-sm-5 col-lg-4 col-md-5 d-flex justify-content-center align-items-center">
-                        <input type="text" class="knob dashboard-progress-percent" value="{{ violationPourcentage }}" data-thickness="0.1"
+                        <input type="text" class="knob dashboard-progress-percent"
+                               value="{{ violationPourcentage }}"
+                               data-thickness="0.1"
                                data-width="150"
                                data-height="150"
                                data-fgcolor="#00a65a">
                     </div>
                 </div>
             </div>
-            {#<div class="mt-2 ml-3">
+            {# <div class="mt-2 ml-3">
                 <p>
                     <span style="font-weight: 700;">{{ 'app.dashboard.label.creation_date' | trans }}</span>
                     : {% if courseInfo.creationDate is not empty %}
@@ -120,7 +185,7 @@
                         {{ courseInfo.creationDate|localizeddate('full', 'none', null) }} {{ courseInfo.creationDate|date('H:i') }}
                     {% endif %}
                 </p>
-            </div>#}
+            </div> #}
         </div>
 
         <!-- button -->
@@ -128,7 +193,7 @@
             <span id="publish_error" class="font-weight-bold" style="color: red"></span>
         </div>
         <div class="row">
-            <div class="col-12 col-lg-4 mb-3 justify-content-center d-flex">
+            <div class="col-12 col-md-6 col-xl-3 mb-3 justify-content-center d-flex">
                 {% if courseInfo.publicationDate is null %}
                     <div id="btn_publish" class="btn-dashboard bg-orange">
                         <span class="label-dashboard text-white">{{ 'app.dashboard.card.publish_syllabus' | trans }}</span>
@@ -146,8 +211,9 @@
                 {% endif %}
             </div>
 
-            <div class="col-12 col-lg-4 mb-3 justify-content-center d-flex">
-                <a href="{{ path('app.course_info.view.student', { 'id': courseInfo.id }) }}" target="_blank">
+            <div class="col-12 col-md-6 col-xl-3 mb-3 justify-content-center d-flex">
+                <a href="{{ path('app.course_info.view.student', { 'id': courseInfo.id }) }}"
+                   target="_blank">
                     <div class="btn-dashboard">
                         <span class="label-dashboard">{{ 'app.dashboard.card.see_student' | trans }}</span>
                         <img src="{{ asset('build/images/Etudiant.png') }}">
@@ -155,7 +221,17 @@
                 </a>
             </div>
 
-            <div class="col-12 col-lg-4 mb-3 justify-content-center d-flex">
+            <div class="col-12 col-md-6 col-xl-3 mb-3 justify-content-center d-flex">
+                <a href="{{ path('app.course_info.view.light_version', { 'id': courseInfo.id }) }}"
+                   target="_blank">
+                    <div class="btn-dashboard bg-white">
+                        <span class="label-dashboard">{{ 'app.dashboard.card.see_web' | trans }}</span>
+                        <img src="{{ asset('build/images/syllabus_web.png') }}">
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-12 col-md-6 col-xl-3 mb-3 justify-content-center d-flex">
                 <a href="#"
                    data-toggle="modal"
                    data-target="#courseInfoDuplicationModal"
@@ -171,7 +247,8 @@
 
     <div class="d-flex justify-content-center flex-wrap">
 
-        <div id="btn_duplicate" class="btn-duplicate" {% if courseInfo.duplicateNextYear == false %} data-duplicate="duplicate" {% endif %}>
+        <div id="btn_duplicate"
+             class="btn-duplicate" {% if courseInfo.duplicateNextYear == false %} data-duplicate="duplicate" {% endif %}>
             {% if courseInfo.duplicateNextYear == true %}
                 <i class="far fa-check-square"></i>
             {% else %}
@@ -182,30 +259,31 @@
         </div>
 
         {% if tutorial_link_syllabus_issue is not empty %}
-        <div class="col-12 d-flex flex-column">
-            <div class="card mb-5">
-                <div class="card-body">
-                    <a class="text-dark" href="{{ tutorial_link_syllabus_issue }}" target="_blank">
-                        <div class="row">
-                            <div class="col-lg-2 col-md-4 col-sm-6">
-                                <img style="width: 120px;" src={{ asset('build/images/dashboard-information.jpg') }}>
+            <div class="col-12 d-flex flex-column">
+                <div class="card mb-5">
+                    <div class="card-body">
+                        <a class="text-dark" href="{{ tutorial_link_syllabus_issue }}" target="_blank">
+                            <div class="row">
+                                <div class="col-lg-2 col-md-4 col-sm-6">
+                                    <img style="width: 120px;"
+                                         src={{ asset('build/images/dashboard-information.jpg') }}>
+                                </div>
+                                <div class="col-lg-10 col-md-8 col-sm-6">
+                                    <h4 class="mb-4">{{ 'app.dashboard.syllabus_instructions.syllabus_problem' | trans }}</h4>
+                                    <p>
+                                        {{ 'app.dashboard.syllabus_instructions.instructions_link' | trans }}
+                                    </p>
+                                </div>
                             </div>
-                            <div class="col-lg-10 col-md-8 col-sm-6">
-                                <h4 class="mb-4">{{ 'app.dashboard.syllabus_instructions.syllabus_problem' | trans }}</h4>
-                                <p>
-                                    {{ 'app.dashboard.syllabus_instructions.instructions_link' | trans }}
-                                </p>
-                            </div>
-                        </div>
-                    </a>
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
         {% endif %}
 
     </div>
 
-    {#        <div class="mt-2 d-flex flex-row justify-content-center w-100">
+    {# <div class="mt-2 d-flex flex-row justify-content-center w-100">
             <button type="button"
                     class="btn btn-outline-secondary modal-action btn-dashboard-ingeneer border-0"
                     data-action-title="{{ 'app.dashboard.ask_advice_syllabus' | trans }}"
@@ -213,7 +291,7 @@
                 <img class="mr-3" src="{{ asset('/build/images/Avis.png') }}" style="width: 10%;">
                 <span class="label-dashboard">{{ 'app.dashboard.button.advice' | trans }}</span>
             </button>
-        </div>#}
+        </div> #}
 </div>
 </div>
 
@@ -266,7 +344,7 @@
                 'text': data.message,
                 'icon': icon,
             }).then((result) => {
-                if(data.status) document.location.reload(true);
+                if (data.status) document.location.reload(true);
             });
         });
     });

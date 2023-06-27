@@ -250,6 +250,9 @@ yes: Oui
 no: Non
 
 app:
+  navbar:
+    administration: Administration
+    syllabus_list: Liste des syllabus
   locale:
     fr: 'Français'
     en: 'English'
@@ -287,6 +290,8 @@ app:
       information: Informations pratiques
       closing_remarks: Le mot de la fin
       student_view: Syllabus étudiant
+      student_view_web: Syllabus web
+      help: Aide
   dashboard:
     title: Tableau de bord
     progress: Progression du remplissage
@@ -295,6 +300,7 @@ app:
       publish_syllabus: Publier le syllabus
       publish_success: Bravo le syllabus a été publié
       see_student: Voir le syllabus étudiant
+      see_web: Voir le syllabus web
       duplicate_syllabus: Je souhaite que ce syllabus soit copié à la fin de l'année universitaire sur le cours de l'année prochaine
       duplicate_syllabus_additionnal: (attention, si le code Apogée du cours change, utilisez le bouton dupliquer sur un autre cours)
       duplicate_syllabus_other_course: Dupliquer le syllabus sur un autre cours
@@ -334,9 +340,11 @@ app:
       instructions_link: Rendez-vous sur l'espace "Syllabus mode d'emploi" et posez votre question dans le forum d'assistance.
   homepage:
     establishment_code: Code d'établissement
+    publication: Publication
     syllabus_list: Liste des syllabus
     title: Intitulé
     type: Type
+    year: Année
   permission:
     modal:
       title: Ajouter une permission
@@ -510,7 +518,7 @@ app:
         levels: Niveau du cours
         description: Description
         level_label: Quel est le niveau de ce cours ?
-        media_label: "Intégrer une ressource multimédia qui illustre le cours, en respectant la réglementation sur les droits d'auteur. Recherchez des exemples libres ici : https://pixabay.com/fr/"
+        media_label: "Personnalisez votre syllabus avec une image/vidéo personnelle ou avec le logo de votre campus/EUR (<a target='_blank' href='https://intranet.univ-cotedazur.fr/infos-pratiques/communication-et-impression/charte-et-papeterie?ksession=6aa48cc4-9062-4dcc-84da-fdf2a6ef6719'>ici</a>) ou libre de droits (ex: https://pixabay.com)."
         picture: Image
         video: Vidéo
         file_type: Fichier de type jpeg ou png (2Mo maximum)
@@ -641,6 +649,7 @@ app:
         tutoring_by_both: avec un tuteur enseignant et/ou étudiant
         empty_tutoring_resources: Pas de remise à niveau
       presentation:
+        support_for_success: Soutiens à la réussite
         last_update: Dernière mis à jour
         not_published: Ce syllabus n'a pas encore été publié
         structure: Composante
@@ -649,7 +658,8 @@ app:
         campus: Lieu d'enseignement
         semester: Semestre
         language: Langue
-        belong_to: "Appartient a %title%"
+        belong_to: "Ce cours appartient a %title%"
+        belong_to_multi: "Ce cours est proposé dans "
         teacher: Enseignant
         teacher_manager: Responsable
         teachers: Équipe enseignante
@@ -660,7 +670,7 @@ app:
         hours_teachings: "%hours%h de %type%"
         class: Présentiel
         nb_ects: "(%ects% ECTS)"
-        nb_ecue: "UE comprenant %ecue% ECUE"
+        nb_ecue: "comprenant %ecue% ECUE"
         title: "ECUE appartenant à %title%"
         autonomy: Autonomie
       sidebar:
@@ -1131,7 +1141,10 @@ admin:
     reset_filters: Réinitialiser les filtres
     save: Enregistrer
     edit: Modifier
-
+filters:
+  modal:
+    title: Filtres
+    button_filter: Filtrer
 credits:
   link: Crédits
   title: Crédits et mentions légales

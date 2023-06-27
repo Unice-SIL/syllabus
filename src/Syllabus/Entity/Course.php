@@ -214,8 +214,7 @@ class Course
      */
     public function addParent(Course $course): self
     {
-        if(!$this->parents->contains($course))
-        {
+        if (!$this->parents->contains($course)) {
             $this->parents->add($course);
             $course->addChild($this);
         }
@@ -229,8 +228,7 @@ class Course
      */
     public function removeParent(Course $course): self
     {
-        if($this->parents->contains($course))
-        {
+        if ($this->parents->contains($course)) {
             $this->parents->removeElement($course);
             $course->removeChild($this);
         }
@@ -264,8 +262,7 @@ class Course
     public function addChild(Course $course): self
     {
 
-        if(!$this->children->contains($course))
-        {
+        if (!$this->children->contains($course)) {
             $this->children->add($course);
             $course->addParent($this);
         }
@@ -279,13 +276,25 @@ class Course
      */
     public function removeChild(Course $course): self
     {
-        if($this->children->contains($course))
-        {
+        if ($this->children->contains($course)) {
             $this->children->removeElement($course);
             $course->removeParent($this);
         }
 
         return $this;
+    }
+
+    /**
+     * @param string $yearId
+     * @return CourseInfo|null
+     */
+    public function getCourseInfo(string $yearId): ?CourseInfo
+    {
+        foreach ($this->courseInfos as $courseInfo) {
+            if ($courseInfo->getYear()->getId() === $yearId)
+                return $courseInfo;
+        }
+        return null;
     }
 
     /**
@@ -313,11 +322,9 @@ class Course
      */
     public function addCourseInfo(CourseInfo $courseInfo): self
     {
-        if(!$this->courseInfos->contains($courseInfo))
-        {
+        if (!$this->courseInfos->contains($courseInfo)) {
             $this->courseInfos->add($courseInfo);
-            if($courseInfo->getCourse() !== $this)
-            {
+            if ($courseInfo->getCourse() !== $this) {
                 $courseInfo->setCourse($this);
             }
         }
@@ -344,11 +351,9 @@ class Course
      */
     public function addCriticalAchievement(CriticalAchievement $criticalAchievement): self
     {
-        if(!$this->criticalAchievements->contains($criticalAchievement))
-        {
+        if (!$this->criticalAchievements->contains($criticalAchievement)) {
             $this->criticalAchievements->add($criticalAchievement);
-            if($criticalAchievement->getCourses() !== $this)
-            {
+            if ($criticalAchievement->getCourses() !== $this) {
                 $criticalAchievement->getCourses($this);
             }
         }
@@ -361,11 +366,9 @@ class Course
      */
     public function removeCriticalAchievement(CriticalAchievement $criticalAchievement): self
     {
-        if ($this->criticalAchievements->contains($criticalAchievement))
-        {
+        if ($this->criticalAchievements->contains($criticalAchievement)) {
             $this->criticalAchievements->removeElement($criticalAchievement);
-            if ($criticalAchievement->getActivities()->contains($this))
-            {
+            if ($criticalAchievement->getActivities()->contains($this)) {
                 $criticalAchievement->getActivities()->removeElement($this);
             }
         }
@@ -441,11 +444,9 @@ class Course
      */
     public function addCoursePrerequisite(CoursePrerequisite $coursePrerequisite): self
     {
-        if (!$this->coursePrerequisites->contains($coursePrerequisite))
-        {
+        if (!$this->coursePrerequisites->contains($coursePrerequisite)) {
             $this->coursePrerequisites->add($coursePrerequisite);
-            if (!$coursePrerequisite->getCourses()->contains($this))
-            {
+            if (!$coursePrerequisite->getCourses()->contains($this)) {
                 $coursePrerequisite->getCourses()->add($this);
             }
         }
@@ -458,11 +459,9 @@ class Course
      */
     public function removeCoursePrerequisite(CoursePrerequisite $coursePrerequisite): self
     {
-        if ($this->coursePrerequisites->contains($coursePrerequisite))
-        {
+        if ($this->coursePrerequisites->contains($coursePrerequisite)) {
             $this->coursePrerequisites->removeElement($coursePrerequisite);
-            if ($coursePrerequisite->getCourses()->contains($this))
-            {
+            if ($coursePrerequisite->getCourses()->contains($this)) {
                 $coursePrerequisite->getCourses()->removeElement($this);
             }
         }

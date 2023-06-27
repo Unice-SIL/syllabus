@@ -296,7 +296,7 @@
         .student-section-header {
           padding: 0.7rem;
           display: flex;
-          justify-content: start;
+          justify-content: flex-start;
           cursor: pointer;
 
           .student-section-title {
@@ -400,6 +400,17 @@
 
     .student-ressources {
       word-break: break-word;
+    }
+  }
+}
+
+.modal-student {
+  & .modal-content {
+    background-color: #000a10;
+    color: #f8f9fa;
+    border: solid 1px #f8f9fa;
+    & .close {
+      color: #f8f9fa;
     }
   }
 }

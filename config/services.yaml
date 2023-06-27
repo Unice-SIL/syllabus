@@ -172,14 +172,14 @@ services:
         resource: '../src/Ldap/*'
         exclude: '../src/Ldap/{Entity,Repository,Tests}'
 
-    # ALIAS
-    App\Ldap\Repository\TeacherRepositoryInterface:
-      ['@App\Ldap\Factory\TeacherRepositoryFactory', 'getService']
-
     # FACTORY
     App\Ldap\Factory\TeacherRepositoryFactory:
         autowire: true
         arguments: [ '%env(LDAP_UNS_TEACHER_REPOSITORY_SERVICE)%' ]
+
+    # ALIAS
+    App\Ldap\Repository\TeacherRepositoryInterface:
+        factory: ['@App\Ldap\Factory\TeacherRepositoryFactory', 'getService']
 
     # LDAP
     ldap_uns_adapter:

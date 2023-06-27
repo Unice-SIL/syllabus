@@ -124,10 +124,12 @@
       background-color: #f4f7f6;
       padding: 0 1.5rem;
       margin-top: 2rem;
+
       .presentation-info-element {
         display: flex;
-        align-items: start;
+        align-items: flex-start;
         margin: 1rem 0;
+
         .presentation-info-element-text {
           label {
             font-weight: bold;
@@ -145,6 +147,7 @@
       justify-content: center;
       align-items: center;
       margin-right: 1.5rem;
+
       img {
         height: 25px;
         width: 25px;
@@ -180,10 +183,12 @@
         @media (min-width: 768px) {
           margin-top: 0;
         }
+
         & > ol, & > ul {
           display: flex !important;
           flex-direction: column !important;
-          & >li {
+
+          & > li {
             margin-bottom: 0.25rem;
           }
         }
@@ -271,3 +276,12 @@
     color: #6c757d;
   }
 }
+
+.light-view-header {
+  width: 100%;
+  height: 20vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url('../images/image_banniere.png');
+}
+
