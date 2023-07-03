@@ -289,7 +289,7 @@ app:
       equipments: Materials and resources
       information: Practical information
       closing_remarks: Closing remarks
-      student_view: Student syllabus
+      student_view: Complete syllabus
   dashboard:
     title: Dashboard
     progress: Filling progress
@@ -297,7 +297,7 @@ app:
     card:
       publish_syllabus: Publish the syllabus
       publish_success: Congratulations, the syllabus has been published
-      see_student: See student's syllabus
+      see_student: See the complete syllabus
       see_web: See web syllabus
       duplicate_syllabus: I want this syllabus to be copied at the end of the year for the next year
       duplicate_syllabus_additionnal: (be careful, if the course's Apogee code, use the button duplicate for another course)
@@ -515,7 +515,7 @@ app:
         levels: Year
         description: Description
         level_label: What is the level of this course?
-        media_label: Integrate a video (or audio) resource or upload an image file of the course presentation, respecting copyright regulations.
+        media_label: "Personalize your syllabus with a personal image/video or with the logo of your campus/EUR (<a target='_blank' href='https://intranet.univ-cotedazur.fr/infos-pratiques/communication-et-impression /charte-et-papeterie?ksession=6aa48cc4-9062-4dcc-84da-fdf2a6ef6719'>see here</a>) or free of rights (ex: https://pixabay.com)."
         picture: Picture
         video: Video
         file_type: File type jpeg or png (2Mo maximum)
