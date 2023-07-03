@@ -79,7 +79,7 @@
                                     {% if violations['contentActivities'] is empty %}
                                         <i class="fas fa-check text-success m-1"></i>
                                     {% else %}
-                                        <i class="fas fa-times text-dangerm-1"></i>
+                                        <i class="fas fa-times text-danger m-1"></i>
                                     {% endif %}
                                     <div class="d-flex flex-column align-items-start">
                                         <span>{{ 'app.course_info.sidebar.activities' | trans }}</span>
@@ -224,7 +224,7 @@
             <div class="col-12 col-md-6 col-xl-3 mb-3 justify-content-center d-flex">
                 <a href="{{ path('app.course_info.view.light_version', { 'id': courseInfo.id }) }}"
                    target="_blank">
-                    <div class="btn-dashboard bg-white">
+                    <div class="btn-dashboard">
                         <span class="label-dashboard">{{ 'app.dashboard.card.see_web' | trans }}</span>
                         <img src="{{ asset('build/images/syllabus_web.png') }}">
                     </div>
