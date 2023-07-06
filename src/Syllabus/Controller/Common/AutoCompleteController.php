@@ -78,7 +78,7 @@ class AutoCompleteController extends AbstractController
 
         $allParameters = $request->query->all();
 
-        $query = $allParameters['q'];
+        $query = $allParameters['q'] ?? '';
 
         $findBy = $allParameters['findBy'] ?? 'label';
 
@@ -246,7 +246,7 @@ class AutoCompleteController extends AbstractController
     {
 
         $allParameters = $request->query->all();
-        $query = $allParameters['q'];
+        $query = $allParameters['q'] ?? '';
         $field = $allParameters['field_name'];
 
         switch ($field) {
