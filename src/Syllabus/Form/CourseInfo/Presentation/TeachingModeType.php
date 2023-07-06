@@ -85,6 +85,7 @@ class TeachingModeType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => CourseInfo::class,
+            'csrf_protection' => false
         ]);
     }
 }
