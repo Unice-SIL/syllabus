@@ -622,6 +622,25 @@ app:
         list: Liste des équipements
         required_equipments: Matériel
         resources_link: Accéder aux ressources de la bibliothèque
+      footer:
+        support_for_success: Soutien à la réussite
+        tuttop: "<a href=\"https://univ-cotedazur.fr/tuttop\" class=\"text-blue\" target=\"_blank\">TUT'TOP</a> : du tutorat par les pairs sur le plan méthodologique, social, administratif ou logistique"
+        ecri+: '<a href="https://ecriplus.fr/" class="text-blue" target="_blank">écri+</a> : pour améliorer son francais écrit'
+        languages_resources_center: '<a href="https://univ-cotedazur.fr/portails/staps/scolarite/organisation-des-etudes/centres-de-ressources-en-langues" class="text-blue" target="_blank">Centre de ressources en langues</a> : développer ses compétences en langues vivantes, française ou étrangères'
+        metoda: '<a href="https://bu.univ-cotedazur.fr/fr/se-former/metoda" class="text-blue" target="_blank">METODA</a> : pour booster ses compétences informationnelles'
+        handicaped_cell: '<a href="https://univ-cotedazur.fr/universite/responsabilite-ethique-et-universitaire/handicap" class="text-blue" target="_blank">Cellule Handicap</a> : découvrir les aides proposées pour les étudiants en situation de handicap'
+        orient_or_reorient: "<a href=\"https://univ-cotedazur.fr/portails/portail-sciences-et-technologies/scolarite/sorienter-se-reorienter/sorienter-se-reorienter\" class=\"text-blue\" target=\"_blank\">S'orienter ou se réorienter</a> : être accompagné par les conseillers d'orientation et d'insertion professionnelle de l'université"
+        evaluation_house: "<a href=\"https://univ-cotedazur.fr/formation/scolarite/evaluation-des-enseignements-et-des-formations\" class=\"text-blue\" target=\"_blank\">Maison de l'évaluation</a> : évaluer ses enseignements à la fin de chaque semestre"
+        university_numeric_thematic: "Universités Numériques thématiques :
+                        <a href=\"https://cours.unjf.fr/\" class=\"text-blue\" target=\"_blank\">en droits et sciences politiques, </a>
+                        <a href=\"https://unit.eu/\" class=\"text-blue\" target=\"_blank\">en sciences de l'ingénieur, </a>
+                       <a href=\"https://uoh.fr/\" class=\"text-blue\" target=\"_blank\">en SHS et en langues, </a>
+                       <a href=\"https://aunege.fr/\" class=\"text-blue\" target=\"_blank\">en économie et gestion, </a>
+                       <a href=\"https://www.unisciel.fr/\" class=\"text-blue\" target=\"_blank\">en sciences, </a>
+                       <a href=\"https://www.uness.fr/\" class=\"text-blue\" target=\"_blank\">en sport et santé, </a>
+                       <a href=\"https://www.uved.fr/\" class=\"text-blue\" target=\"_blank\">en environnement et développement durable, </a>
+                       <a href=\"https://www.iutenligne.net/\" class=\"text-blue\" target=\"_blank\">et pour les IUT</a>"
+
       info:
         agenda: Calendrier
         closing_remarks: Le mot de la fin
@@ -649,7 +668,6 @@ app:
         tutoring_by_both: avec un tuteur enseignant et/ou étudiant
         empty_tutoring_resources: Pas de remise à niveau
       presentation:
-        support_for_success: Soutien à la réussite
         last_update: Dernière mis à jour
         not_published: Ce syllabus n'a pas encore été publié
         structure: Composante
