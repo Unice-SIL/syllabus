@@ -35,6 +35,7 @@ security:
             jwt: ~
         main:
             pattern: ^/
+            stateless: false
             lazy: true
             provider: main
             logout:
