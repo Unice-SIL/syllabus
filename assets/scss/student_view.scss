@@ -313,7 +313,7 @@
           }
 
 
-          &.collapsed > .collapse-button {
+          &.collapsed .collapse-button {
             transform: rotate(-180deg);
           }
         }
