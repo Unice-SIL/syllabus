@@ -5,7 +5,6 @@
 
     <ul class="light-sections">
         {% for section in courseInfo.courseSections %}
-            {% if section.courseSectionActivities is not empty %}
                 <li>
                     <div class="light-section-header collapsed" data-toggle="collapse"
                          data-target="#activity-{{ section.id }}"
@@ -25,7 +24,6 @@
                         </div>
                     </div>
                 </li>
-            {% endif %}
         {% endfor %}
     </ul>
 </section>

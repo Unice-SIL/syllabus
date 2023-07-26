@@ -10,14 +10,19 @@
 
     <ul class="student-sections">
         {% for section in courseInfo.courseSections %}
-            {% if section.courseSectionActivities is not empty %}
                 <li>
                     <div class="student-section-header collapsed" data-toggle="collapse"
                          data-target="#activity-{{ section.id }}"
                          aria-expanded="false" aria-controls="Title">
-                        <img class="collapse-button" src="{{ asset('build/images/collapsed-arrow.png') }}" alt=""/>
+                        <div style="width: 22px;">
+                            {% if section.courseSectionActivities is not empty %}
+                                <img class="collapse-button" src="{{ asset('build/images/collapsed-arrow.png') }}" alt=""/>
+                            {% endif %}
+                        </div>
                         <h5 class="student-section-title">{{ section.title }}</h5>
                     </div>
+
+                    {% if section.courseSectionActivities is not empty %}
                     <div class="student-section-content collapse" id="activity-{{ section.id }}">
                             <div class="row ml-2">
                                 <div class="summary">
@@ -95,8 +100,8 @@
                             {% endfor %}
                         </ul>
                     </div>
+                    {% endif %}
                 </li>
-            {% endif %}
         {% endfor %}
     </ul>
 </section>
