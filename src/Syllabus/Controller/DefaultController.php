@@ -9,10 +9,12 @@ use App\Syllabus\Entity\CoursePermission;
 use App\Syllabus\Entity\User;
 use App\Syllabus\Entity\Year;
 use App\Syllabus\Form\Filter\MySyllabusFilterType;
+use App\Syllabus\Form\SearchSyllabusType;
 use App\Syllabus\Manager\YearManager;
 use App\Syllabus\Repository\Doctrine\CourseInfoDoctrineRepository;
 use App\Syllabus\Repository\Doctrine\CoursePermissionDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -36,7 +38,7 @@ class DefaultController extends AbstractController
      * @param string|null $year
      * @param EntityManagerInterface $em
      * @return RedirectResponse|Response
-     * @throws \Exception
+     * @throws Exception
      */
     public function routerAction($code,
                                  CourseInfoDoctrineRepository $repository,
@@ -70,7 +72,7 @@ class DefaultController extends AbstractController
      * @param CourseInfoDoctrineRepository $repository
      * @param YearManager $yearManager
      * @return RedirectResponse|Response
-     * @throws \Exception
+     * @throws Exception
      */
     public function routerLightAction($code, $year, CourseInfoDoctrineRepository $repository, YearManager $yearManager)
     {
@@ -111,10 +113,12 @@ class DefaultController extends AbstractController
         PaginatorInterface $paginator
     ): Response
     {
+
         /** @var User $user */
         $user = $this->getUser();
         $page = $request->query->getInt('page', 1);
 
+        $formCourses = $this->createForm(SearchSyllabusType::class);
         $form = $this->createForm(MySyllabusFilterType::class, null);
         $qb = $coursePermissionRepository->getCourseByPermissionQueryBuilder($user);
 
@@ -127,6 +131,27 @@ class DefaultController extends AbstractController
 
         return $this->render('default/homepage.html.twig', [
             'courses' => $courses,
+            'form' => $form->createView(),
+            'formCourses' => $formCourses->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/search-courses", name="app.search_courses")
+     * @param Request $request
+     * @return Response
+     */
+    public function searchCourses(Request $request)
+    {
+        $form = $this->createForm(SearchSyllabusType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $course = $form->get('courses')->getData();
+            return $this->redirectToRoute('app_router_anon', ['code' => $course->getCode()]);
+        }
+
+        return $this->render('default/search_courses.html.twig', [
             'form' => $form->createView()
         ]);
     }

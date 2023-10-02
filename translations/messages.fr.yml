@@ -253,6 +253,7 @@ app:
   navbar:
     administration: Administration
     syllabus_list: Liste des syllabus
+    search_courses: Rechercher un syllabus
   locale:
     fr: 'Français'
     en: 'English'
@@ -345,6 +346,7 @@ app:
     title: Intitulé
     type: Type
     year: Année
+    search_courses: Rechercher un syllabus
   permission:
     modal:
       title: Ajouter une permission
@@ -858,6 +860,7 @@ app:
       delete: Supprimer
       duplicate: Dupliquer
       save: Sauvegarder
+      search_courses: Accéder au syllabus
 
 admin:
   sidebar:

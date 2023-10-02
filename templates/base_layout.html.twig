@@ -1,62 +1,89 @@
 {% extends 'base.html.twig' %}
 {% block main %}
-<nav class="main-header navbar navbar-expand navbar-white navbar-light">
-    {% block navbar %}{% endblock %}
-    <ul class="navbar-nav ml-auto navbar-right-menu">
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
-                {{ app.user.username }}
-            </a>
-            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right text-sm">
-                <a href="{{ path('app_index') }}" class="dropdown-item">
-                    <i class="fas fa-list mr-1"></i>
-                    <span>{{ 'app.navbar.syllabus_list'|trans }}</span>
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+        {% block navbar %}{% endblock %}
+        <ul class="navbar-nav ml-auto navbar-right-menu">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+                    {{ app.user.username }}
                 </a>
-                {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ALLOWED_TO_SWITCH') or is_granted('ROLE_PREVIOUS_ADMIN') %}
-                    {% if is_granted('ROLE_ADMIN') %}
-                    <a href="{{ path('app.admin.course.index') }}" class="dropdown-item">
-                        <i class="fas fa-cogs mr-1"></i>
-                        {{ 'app.navbar.administration'|trans }}
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right text-sm">
+                    <a href="{{ path('app_index') }}" class="dropdown-item">
+                        <i class="fas fa-list mr-1"></i>
+                        <span>{{ 'app.navbar.syllabus_list'|trans }}</span>
                     </a>
+                    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ALLOWED_TO_SWITCH') or is_granted('ROLE_PREVIOUS_ADMIN') %}
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('app.admin.course.index') }}" class="dropdown-item">
+                                <i class="fas fa-cogs mr-1"></i>
+                                {{ 'app.navbar.administration'|trans }}
+                            </a>
+                        {% endif %}
+                        <div class="dropdown-divider"></div>
                     {% endif %}
-                    <div class="dropdown-divider"></div>
-                {% endif %}
-                {% for locale in managed_locales %}
-                    <a href="{{ path(app.request.get('_route'), app.request.attributes.get('_route_params')|merge({'_locale' : locale})) }}" class="dropdown-item">
-                        <img class="mr-1" src="{{ asset('build/images/' ~ locale ~ '.png') }}">
-                        {{ ('app.locale.' ~ locale)|trans }}
-                    </a>
-                {% endfor %}
+                    {% for locale in managed_locales %}
+                        <a href="{{ path(app.request.get('_route'), app.request.attributes.get('_route_params')|merge({'_locale' : locale})) }}" class="dropdown-item">
+                            <img class="mr-1" src="{{ asset('build/images/' ~ locale ~ '.png') }}">
+                            {{ ('app.locale.' ~ locale)|trans }}
+                        </a>
+                    {% endfor %}
+                </div>
+            </li>
+        </ul>
+    </nav>
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        {% if not app.request.query.get('iframe') %}
+            <a href="{{ logoHref|default('#') }}" class="brand-link elevation-4 logo-switch">
+                <img src="{{ asset('build/images/uca-logo-dark-small.png') }}" alt="Logo Syllabus" class="brand-image-xs logo-xs">
+                <img src="{{ asset('build/images/uca-logo-dark.png') }}" alt="Logo Syllabus" class="brand-image-xl logo-xl">
+            </a>
+        {% else %}
+            <a class="brand-link elevation-4 logo-switch text-center"
+               href="{{
+               path(app.request.get('_route'),
+                   app.request.query.all|merge( { 'iframe' : 0, 'id' : app.request.attributes.get('id') } )  )
+               }}"
+            >
+                <i class="fas fa-external-link-alt"></i>
+            </a>
+        {% endif %}
+        {% block sidebar %}
+            <div class="sidebar">
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <li class="nav-item">
+                            <a
+                                    href="{{ path('app_index') }}"
+                                    class="nav-link {{ printActiveAdminSidebarLink(['app_index']) }}">
+                                <i class="nav-icon fas fa-list"></i>
+                                <p>
+                                    {{ 'app.navbar.syllabus_list'|trans }}
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a
+                                    href="{{ path('app.search_courses') }}"
+                                    class="nav-link {{ printActiveAdminSidebarLink(['app.search_courses']) }}">
+                                <i class="nav-icon fas fa-search"></i>
+                                <p>
+                                    {{ 'app.navbar.search_courses'|trans }}
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
-        </li>
-    </ul>
-</nav>
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
-    {% if not app.request.query.get('iframe') %}
-        <a href="{{ logoHref|default('#') }}" class="brand-link elevation-4 logo-switch">
-            <img src="{{ asset('build/images/uca-logo-dark-small.png') }}" alt="Logo Syllabus" class="brand-image-xs logo-xs">
-            <img src="{{ asset('build/images/uca-logo-dark.png') }}" alt="Logo Syllabus" class="brand-image-xl logo-xl">
-        </a>
-    {% else %}
-        <a class="brand-link elevation-4 logo-switch text-center"
-           href="{{
-           path(app.request.get('_route'),
-               app.request.query.all|merge( { 'iframe' : 0, 'id' : app.request.attributes.get('id') } )  )
-           }}"
-        >
-            <i class="fas fa-external-link-alt"></i>
-        </a>
-    {% endif %}
-    {% block sidebar %}{% endblock %}
-</aside>
-<div class="content-wrapper">
-    {% block content %}{% endblock %}
-</div>
-<footer class="main-footer">
-    {% block footer %}
-        <a href="{{ path('credits') }}" target="_blank">
-            {{ 'credits.link' | trans }}
-        </a>
-    {% endblock %}
-</footer>
+        {% endblock %}
+    </aside>
+    <div class="content-wrapper">
+        {% block content %}{% endblock %}
+    </div>
+    <footer class="main-footer">
+        {% block footer %}
+            <a href="{{ path('credits') }}" target="_blank">
+                {{ 'credits.link' | trans }}
+            </a>
+        {% endblock %}
+    </footer>
 {% endblock %}
