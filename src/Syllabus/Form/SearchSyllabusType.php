@@ -3,14 +3,11 @@
 
 namespace App\Syllabus\Form;
 
-
-use App\Syllabus\Entity\Course;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
+use Symfony\Component\Validator\Constraints\Length;
 
 /**
  *
@@ -18,22 +15,20 @@ use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 class SearchSyllabusType extends AbstractType
 {
     /**
-     * @var null|Request
-     */
-    private $request;
-
-    public function __construct(RequestStack $requestStack)
-    {
-        $this->request = $requestStack->getCurrentRequest();
-    }
-
-    /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('courses', Select2EntityType::class, [
+        $builder->add('search', TextType::class, [
+            'label' => false,
+            'required' => false,
+            'constraints' => [
+                new Length(null, 4)
+            ]
+        ]);
+        /*
+            ->add('courses', Select2EntityType::class, [
             'label' => false,
             'remote_route' => 'app.common.autocomplete.generic_s2_courses',
             'required' => false,
@@ -49,7 +44,7 @@ class SearchSyllabusType extends AbstractType
                 'property' => 'title',
                 'property_optional' => 'code'
             ],
-        ]);
+        ]);*/
     }
 
     public function configureOptions(OptionsResolver $resolver)

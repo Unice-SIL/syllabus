@@ -69,6 +69,34 @@ class CourseInfoDoctrineRepository  extends ServiceEntityRepository
         return $courseInfo;
     }
 
+
+    /**
+     * @param $value
+     * @param $yearId
+     * @return QueryBuilder
+     */
+    public function findByTitleOrCodeForCurrentYear($value, $yearId)
+    {
+        $qb = $this->_em->getRepository(CourseInfo::class)
+            ->createQueryBuilder('ci');
+
+        $qb->join('ci.course', 'c')
+            ->join('ci.year', 'y')
+            ->where($qb->expr()->eq('y.id', ':yearId'))
+            ->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->like('c.title', ':title'),
+                    $qb->expr()->like('c.code', ':code')
+                )
+            )
+            ->setParameters([
+                'title' => '%'.$value.'%',
+                'code'  => '%'.$value.'%',
+                'yearId'  => $yearId
+            ]);
+
+        return $qb->getQuery()->getResult();
+    }
     /**
      * @param $year
      * @return array

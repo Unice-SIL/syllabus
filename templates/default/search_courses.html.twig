@@ -24,12 +24,29 @@
         <div>
             {{ form_start(form) }}
             {{ form_row(form) }}
-            <div class="d-flex justify-content-center mt-3">
+            <div class="d-flex justify-content-center my-3">
                 <button type="submit" class="btn button-orange">
                     {{ 'app.general.button.search_courses' | trans }}
                 </button>
             </div>
             {{ form_end(form) }}
+        </div>
+        <div>
+            {% for courseInfo in courseInfosList %}
+                <div class="card my-2">
+                    <div class="card-body">
+                        <a
+                                href="{{ path('app_router_anon', {
+                                    'code': courseInfo.course.code,
+                                    'year': courseInfo.year.id
+                                }) }}"
+                                target="_blank"
+                        >
+                            {{ courseInfo.course.code }} - {{ courseInfo.title }}
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}

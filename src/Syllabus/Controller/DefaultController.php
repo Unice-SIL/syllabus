@@ -11,6 +11,7 @@ use App\Syllabus\Entity\Year;
 use App\Syllabus\Form\Filter\MySyllabusFilterType;
 use App\Syllabus\Form\SearchSyllabusType;
 use App\Syllabus\Manager\YearManager;
+use App\Syllabus\Repository\Doctrine\CourseDoctrineRepository;
 use App\Syllabus\Repository\Doctrine\CourseInfoDoctrineRepository;
 use App\Syllabus\Repository\Doctrine\CoursePermissionDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -139,20 +140,34 @@ class DefaultController extends AbstractController
     /**
      * @Route("/search-courses", name="app.search_courses")
      * @param Request $request
+     * @param CourseInfoDoctrineRepository $courseInfoDoctrineRepository
+     * @param YearManager $yearManager
      * @return Response
      */
-    public function searchCourses(Request $request)
-    {
+    public function searchCourses(
+        Request $request,
+        CourseInfoDoctrineRepository $courseInfoDoctrineRepository,
+        YearManager $yearManager
+    ) {
+        $courseInfosList = [];
         $form = $this->createForm(SearchSyllabusType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $course = $form->get('courses')->getData();
-            return $this->redirectToRoute('app_router_anon', ['code' => $course->getCode()]);
+            $search = $form->get('search')->getData();
+            $year = $yearManager->findCurrentYear();
+            $courseInfosList = $courseInfoDoctrineRepository->findByTitleOrCodeForCurrentYear($search, $year->getId());
+
+            return $this->render('default/search_courses.html.twig', [
+                'form' => $form->createView(),
+                'courseInfosList' => $courseInfosList
+            ]);
+            //return $this->redirectToRoute('app_router_anon', ['code' => $course->getCode()]);
         }
 
         return $this->render('default/search_courses.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'courseInfosList' => $courseInfosList
         ]);
     }
 
