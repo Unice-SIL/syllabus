@@ -1,55 +1,42 @@
-{% extends 'base_layout.html.twig' %}
-{% set h1 = 'app.homepage.search_courses' %}
-{% block navbar %}
-    <ul class="navbar-nav">
-        <li class="nav-item">
-            <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
-        </li>
-    </ul>
-{% endblock %}
-{% block content %}
+{% extends 'base.html.twig' %}
 
-    <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">{{ h1|default('Il faut ajouter un h1') | trans }}</h1>
-                </div><!-- /.col -->
 
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
-    </div>
+{% block main %}
+    <div class="container mt-4">
+        <div class="card shadow">
+            <div class="card-body">
+                <div class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <h1 class="m-0 text-dark">{{ 'app.homepage.search_courses' | trans }}</h1>
+                            </div><!-- /.col -->
 
-    <div class="container-fluid">
-        <div>
-            {{ form_start(form) }}
-            {{ form_row(form) }}
-            <div class="d-flex justify-content-center my-3">
-                <button type="submit" class="btn button-orange">
-                    {{ 'app.general.button.search_courses' | trans }}
-                </button>
-            </div>
-            {{ form_end(form) }}
-        </div>
-        <div>
-            {% for courseInfo in courseInfosList %}
-                <div class="card my-2">
-                    <div class="card-body">
-                        <a
-                                href="{{ path('app_router_anon', {
-                                    'code': courseInfo.course.code,
-                                    'year': courseInfo.year.id
-                                }) }}"
-                                target="_blank"
-                        >
-                            <span class="badge badge-primary mr-2">
-                                {{ courseInfo.course.code }}
-                            </span>
-                            {{ courseInfo.title }}
-                        </a>
+                        </div><!-- /.row -->
+                    </div><!-- /.container-fluid -->
+                </div>
+
+                <div class="container-fluid">
+                    <div>
+                        {{ form_start(form) }}
+                        {{ form_row(form) }}
+                        <button type="submit" class="btn btn-block btn-info">Lancer la recherche</button>
+                        {{ form_end(form) }}
+                    </div>
+                    <div class="mt-4">
+                        <ul class="list-group">
+                            {% for courseInfo in courseInfosList %}
+                                <li class="list-group-item">
+                                    <a href="{{ path('app.course_info.view.light_version', {'id': courseInfo.id}) }}" target="_blank">
+                                        <span class="badge badge-primary mr-2">{{ courseInfo.course.code }}</span>
+                                        {{ courseInfo.title }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
                     </div>
                 </div>
-            {% endfor %}
+            </div>
         </div>
     </div>
 {% endblock %}

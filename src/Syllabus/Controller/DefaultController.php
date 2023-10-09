@@ -148,7 +148,8 @@ class DefaultController extends AbstractController
         Request $request,
         CourseInfoDoctrineRepository $courseInfoDoctrineRepository,
         YearManager $yearManager
-    ) {
+    ): Response
+    {
         $courseInfosList = [];
         $form = $this->createForm(SearchSyllabusType::class);
         $form->handleRequest($request);
@@ -156,13 +157,12 @@ class DefaultController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $search = $form->get('search')->getData();
             $year = $yearManager->findCurrentYear();
-            $courseInfosList = $courseInfoDoctrineRepository->findByTitleOrCodeForCurrentYear($search, $year->getId());
+            $courseInfosList = $courseInfoDoctrineRepository->findByTitleOrCodeForCurrentYear($search, $year);
 
             return $this->render('default/search_courses.html.twig', [
                 'form' => $form->createView(),
                 'courseInfosList' => $courseInfosList
             ]);
-            //return $this->redirectToRoute('app_router_anon', ['code' => $course->getCode()]);
         }
 
         return $this->render('default/search_courses.html.twig', [

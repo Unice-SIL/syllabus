@@ -23,6 +23,10 @@ class SearchSyllabusType extends AbstractType
         $builder->add('search', TextType::class, [
             'label' => false,
             'required' => false,
+            'attr' => [
+                'placeholder' => 'Rechercher un syllabus par titre ou code (4 caractères minimum)',
+                'minlength' => 4
+            ],
             'constraints' => [
                 new Length(null, 4)
             ]

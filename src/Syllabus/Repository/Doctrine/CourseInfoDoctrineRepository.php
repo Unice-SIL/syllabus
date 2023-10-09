@@ -3,6 +3,7 @@
 namespace App\Syllabus\Repository\Doctrine;
 
 use App\Syllabus\Entity\CourseInfo;
+use App\Syllabus\Entity\Year;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
@@ -75,24 +76,24 @@ class CourseInfoDoctrineRepository  extends ServiceEntityRepository
      * @param $yearId
      * @return QueryBuilder
      */
-    public function findByTitleOrCodeForCurrentYear($value, $yearId)
+    public function findByTitleOrCodeForCurrentYear($value, Year $year)
     {
         $qb = $this->_em->getRepository(CourseInfo::class)
             ->createQueryBuilder('ci');
 
         $qb->join('ci.course', 'c')
-            ->join('ci.year', 'y')
-            ->where($qb->expr()->eq('y.id', ':yearId'))
+            ->where($qb->expr()->eq('ci.year', ':year'))
             ->andWhere(
                 $qb->expr()->orX(
-                    $qb->expr()->like('c.title', ':title'),
+                    $qb->expr()->like('ci.title', ':title'),
                     $qb->expr()->like('c.code', ':code')
                 )
             )
+            ->orderBy('ci.title', 'ASC')
             ->setParameters([
                 'title' => '%'.$value.'%',
                 'code'  => '%'.$value.'%',
-                'yearId'  => $yearId
+                'year'  => $year
             ]);
 
         return $qb->getQuery()->getResult();
