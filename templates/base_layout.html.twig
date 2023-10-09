@@ -5,12 +5,16 @@
         <ul class="navbar-nav ml-auto navbar-right-menu">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
-                    {{ app.user.username }}
+                    {{  app.user.firstname ~ ' ' ~ app.user.lastname}}
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right text-sm">
                     <a href="{{ path('app_index') }}" class="dropdown-item">
                         <i class="fas fa-list mr-1"></i>
-                        <span>{{ 'app.navbar.syllabus_list'|trans }}</span>
+                        <span>{{ 'app.navbar.my_syllabus_list'|trans }}</span>
+                    </a>
+                    <a href="{{ path('app.search_courses') }}" class="dropdown-item" target="_blank">
+                        <i class="fas fa-search mr-1"></i>
+                        <span>{{ 'app.navbar.search_syllabus'|trans }}</span>
                     </a>
                     {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ALLOWED_TO_SWITCH') or is_granted('ROLE_PREVIOUS_ADMIN') %}
                         {% if is_granted('ROLE_ADMIN') %}
@@ -48,32 +52,6 @@
             </a>
         {% endif %}
         {% block sidebar %}
-            <div class="sidebar">
-                <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                        <li class="nav-item">
-                            <a
-                                    href="{{ path('app_index') }}"
-                                    class="nav-link {{ printActiveAdminSidebarLink(['app_index']) }}">
-                                <i class="nav-icon fas fa-list"></i>
-                                <p>
-                                    {{ 'app.navbar.syllabus_list'|trans }}
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a
-                                    href="{{ path('app.search_courses') }}"
-                                    class="nav-link {{ printActiveAdminSidebarLink(['app.search_courses']) }}">
-                                <i class="nav-icon fas fa-search"></i>
-                                <p>
-                                    {{ 'app.navbar.search_courses'|trans }}
-                                </p>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
         {% endblock %}
     </aside>
     <div class="content-wrapper">

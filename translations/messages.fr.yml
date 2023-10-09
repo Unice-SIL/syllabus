@@ -252,8 +252,8 @@ no: Non
 app:
   navbar:
     administration: Administration
-    syllabus_list: Liste des syllabus
-    search_courses: Rechercher un syllabus
+    my_syllabus_list: Liste de mes syllabus
+    search_syllabus: Rechercher un syllabus
   locale:
     fr: 'Français'
     en: 'English'
@@ -342,11 +342,11 @@ app:
   homepage:
     establishment_code: Code d'établissement
     publication: Publication
-    syllabus_list: Liste des syllabus
+    my_syllabus_list: Liste de mes syllabus
     title: Intitulé
     type: Type
     year: Année
-    search_courses: Rechercher un syllabus
+    search_syllabus: Rechercher un syllabus
   permission:
     modal:
       title: Ajouter une permission

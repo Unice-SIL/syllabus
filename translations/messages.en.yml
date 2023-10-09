@@ -252,8 +252,8 @@ no: No
 app:
   navbar:
     administration: Administration
-    syllabus_list: List of syllabus
-    search_courses: Search a syllabus
+    my_syllabus_list: List of my syllabus
+    search_syllabus: Search a syllabus
   locale:
     fr: 'Français'
     en: 'English'
@@ -339,11 +339,11 @@ app:
       instructions_link: Go to the "Syllabus' instructions" and ask your question in the assistance forum.
   homepage:
     establishment_code: Establishment code
-    syllabus_list: Syllabus list
+    my_syllabus_list: List of my syllabus
     title: Title
     type: Type
     year: Year
-    search_courses: Search a syllabus
+    search_syllabus: Search a syllabus
   permission:
     modal:
       title: Add a permission
