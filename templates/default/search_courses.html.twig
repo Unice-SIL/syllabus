@@ -28,7 +28,7 @@
                             {% for courseInfo in courseInfosList %}
                                 <li class="list-group-item">
                                     <a href="{{ path('app.course_info.view.light_version', {'id': courseInfo.id}) }}" target="_blank">
-                                        <span class="badge badge-primary mr-2">{{ courseInfo.course.code }}</span>
+                                        <span class="badge badge-primary mr-2">{{ courseInfo.code }}</span>
                                         {{ courseInfo.title }}
                                     </a>
                                 </li>

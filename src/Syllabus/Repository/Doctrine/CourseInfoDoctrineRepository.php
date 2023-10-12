@@ -73,28 +73,35 @@ class CourseInfoDoctrineRepository  extends ServiceEntityRepository
 
     /**
      * @param $value
-     * @param $yearId
-     * @return QueryBuilder
+     * @param Year $year
+     * @return array
      */
-    public function findByTitleOrCodeForCurrentYear($value, Year $year)
+    public function findByTitleOrCodeForCurrentYear($value): array
     {
-        $qb = $this->_em->getRepository(CourseInfo::class)
-            ->createQueryBuilder('ci');
+        $qb = $this->_em->getRepository(CourseInfo::class)->createQueryBuilder('ci');
 
-        $qb->join('ci.course', 'c')
-            ->where($qb->expr()->eq('ci.year', ':year'))
-            ->andWhere(
-                $qb->expr()->orX(
-                    $qb->expr()->like('ci.title', ':title'),
-                    $qb->expr()->like('c.code', ':code')
+        $terms = explode(' ', $value);
+        $ciTitleCondition = $qb->expr()->andX();
+        $cCodeCondition = $qb->expr()->orX();
+        foreach ($terms as $k => $term) {
+            $t = 'term_' . $k;
+            $ciTitleCondition->add($qb->expr()->like('ci.title', ':' . $t));
+            $cCodeCondition->add($qb->expr()->like('c.code', ':' . $t));
+            $qb->setParameter($t, '%' . $term . '%');
+        }
+
+        $qb
+            ->select('ci.id', 'ci.title, c.code')
+            ->join('ci.course', 'c')
+            ->join('ci.year', 'y')
+            ->leftJoin('c.children', 'ch')
+            ->where(
+                $qb->expr()->andX(
+                    $qb->expr()->eq('y.current', 1)),
+                    $qb->expr()->isNull('ch'),
+                    $qb->expr()->orX($ciTitleCondition, $cCodeCondition)
                 )
-            )
-            ->orderBy('ci.title', 'ASC')
-            ->setParameters([
-                'title' => '%'.$value.'%',
-                'code'  => '%'.$value.'%',
-                'year'  => $year
-            ]);
+            ->orderBy('ci.title', 'ASC');
 
         return $qb->getQuery()->getResult();
     }

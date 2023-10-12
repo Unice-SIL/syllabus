@@ -141,14 +141,9 @@ class DefaultController extends AbstractController
      * @Route("/search-courses", name="app.search_courses")
      * @param Request $request
      * @param CourseInfoDoctrineRepository $courseInfoDoctrineRepository
-     * @param YearManager $yearManager
      * @return Response
      */
-    public function searchCourses(
-        Request $request,
-        CourseInfoDoctrineRepository $courseInfoDoctrineRepository,
-        YearManager $yearManager
-    ): Response
+    public function searchCourses(Request $request, CourseInfoDoctrineRepository $courseInfoDoctrineRepository): Response
     {
         $courseInfosList = [];
         $form = $this->createForm(SearchSyllabusType::class);
@@ -156,8 +151,7 @@ class DefaultController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $search = $form->get('search')->getData();
-            $year = $yearManager->findCurrentYear();
-            $courseInfosList = $courseInfoDoctrineRepository->findByTitleOrCodeForCurrentYear($search, $year);
+            $courseInfosList = $courseInfoDoctrineRepository->findByTitleOrCodeForCurrentYear($search);
 
             return $this->render('default/search_courses.html.twig', [
                 'form' => $form->createView(),
