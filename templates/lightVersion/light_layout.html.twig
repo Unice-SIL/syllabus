@@ -7,10 +7,7 @@
 
 
 {% block main %}
-    <div class="bg-dark p-2">
-        <i class="fas fa-chevron-left"></i> <a href="https://univ-cotedazur.fr/">{{ 'app.light_version.menu.top_link' | trans }}</a>
-    </div>
-
+    {% include 'partial/_light_header.html.twig' %}
     <div class="light-view-header"></div>
     <div class="light-view">
         <div class="container">

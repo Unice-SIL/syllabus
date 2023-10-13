@@ -52,6 +52,9 @@
             </a>
         {% endif %}
         {% block sidebar %}
+            <div class="sidebar">
+                {{ include('partial/_homepage_sidebar.html.twig') }}
+            </div>
         {% endblock %}
     </aside>
     <div class="content-wrapper">

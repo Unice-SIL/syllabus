@@ -2,8 +2,10 @@
 
 
 {% block main %}
+    {% include 'partial/_light_header.html.twig' %}
     <div class="container mt-4">
-        <div class="card shadow">
+        <div class="card shadow card-search-courses"
+             data-view-url="{{ path('app.search_courses') }}">
             <div class="card-body">
                 <div class="content-header">
                     <div class="container-fluid">
@@ -18,9 +20,9 @@
 
                 <div class="container-fluid">
                     <div>
-                        {{ form_start(form) }}
+                        {{ form_start(form, {'attr': {'class': 'form-search-courses'}}) }}
                         {{ form_row(form) }}
-                        <button type="submit" class="btn btn-block btn-info">Lancer la recherche</button>
+                        <button type="submit" class="btn btn-block btn-info search-button">Lancer la recherche</button>
                         {{ form_end(form) }}
                     </div>
                     <div class="mt-4">
@@ -39,4 +41,15 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).on('submit', '.form-search-courses', function(e){
+            let $button = $($(this).find('button[type="submit"]'));
+            $button.attr("disabled", true).html('<i class="fas fa-spinner fa-spin"></i>');
+            /*$button.attr("disabled", false).html('Lancer la recherche');*/
+        });
+    </script>
 {% endblock %}
