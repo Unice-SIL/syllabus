@@ -347,6 +347,7 @@ app:
     type: Type
     year: Année
     search_syllabus: Rechercher un syllabus
+    syllabus_found: Syllabus trouvé(s)
   permission:
     modal:
       title: Ajouter une permission

@@ -155,13 +155,15 @@ class DefaultController extends AbstractController
 
             return $this->render('default/search_courses.html.twig', [
                 'form' => $form->createView(),
-                'courseInfosList' => $courseInfosList
+                'courseInfosList' => $courseInfosList,
+                'isSubmit' => true
             ]);
         }
 
         return $this->render('default/search_courses.html.twig', [
             'form' => $form->createView(),
-            'courseInfosList' => $courseInfosList
+            'courseInfosList' => $courseInfosList,
+            'isSubmit' => false
         ]);
     }
 
