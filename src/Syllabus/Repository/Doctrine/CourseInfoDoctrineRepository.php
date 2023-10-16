@@ -82,7 +82,7 @@ class CourseInfoDoctrineRepository  extends ServiceEntityRepository
 
         $terms = explode(' ', $value);
         $ciTitleCondition = $qb->expr()->andX();
-        $cCodeCondition = $qb->expr()->orX();
+        $cCodeCondition = $qb->expr()->andX();
         foreach ($terms as $k => $term) {
             $t = 'term_' . $k;
             $ciTitleCondition->add($qb->expr()->like('ci.title', ':' . $t));
