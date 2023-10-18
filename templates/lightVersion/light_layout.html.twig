@@ -33,6 +33,8 @@
                         {% endif %}
                             {{ 'app.view.student.presentation.nb_ecue' | trans({'%ecue%': parent.children.count}) }}
                         </span>
+                    {% else %}
+                        <span>{{ 'app.view.student.presentation.belong_to' | trans({'%title%' : parent.title}) }} </span>
                     {% endif %}
                 {% else %}
                     <span>

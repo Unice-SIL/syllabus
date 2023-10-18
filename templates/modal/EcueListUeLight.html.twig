@@ -11,7 +11,11 @@
                     <ul>
                         {% for parent in courseInfo.course.parents.toArray %}
                             {% set parentInfo = parent.courseInfo(courseInfo.year.id) %}
-                            <li> {{ parentInfo.title }} {{ parentInfo.ects ? '(' ~ parentInfo.ects ~ "Ects)" : '' }}</li>
+                            {% if parentInfo %}
+                                <li> {{ parentInfo.title }} {{ parentInfo.ects ? '(' ~ parentInfo.ects ~ "Ects)" : '' }}</li>
+                            {% else %}
+                                {{ parent.title }}
+                            {% endif %}
                         {% endfor %}
                     </ul>
                 </div>
