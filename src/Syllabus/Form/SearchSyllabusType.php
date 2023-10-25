@@ -24,7 +24,7 @@ class SearchSyllabusType extends AbstractType
             'label' => false,
             'required' => false,
             'attr' => [
-                'placeholder' => 'Rechercher un syllabus par titre ou code (4 caractères minimum)',
+                'placeholder' => 'Rechercher un syllabus par titre OU code (4 caractères minimum)',
                 'minlength' => 4
             ],
             'constraints' => [
