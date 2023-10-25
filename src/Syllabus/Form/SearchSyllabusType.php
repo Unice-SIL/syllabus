@@ -24,31 +24,13 @@ class SearchSyllabusType extends AbstractType
             'label' => false,
             'required' => false,
             'attr' => [
-                'placeholder' => 'Rechercher un syllabus par titre OU code (4 caractères minimum)',
+                'placeholder' => 'app.homepage.search_syllabus_placeholder',
                 'minlength' => 4
             ],
             'constraints' => [
                 new Length(null, 4)
             ]
         ]);
-        /*
-            ->add('courses', Select2EntityType::class, [
-            'label' => false,
-            'remote_route' => 'app.common.autocomplete.generic_s2_courses',
-            'required' => false,
-            'multiple' => false,
-            'mapped' => false,
-            'class' => Course::class,
-            'primary_key' => 'id',
-            'text_property' => 'title',
-            'language' => $this->request->getLocale(),
-            'minimum_input_length' => 4,
-            'remote_params' => [
-                'entityName' => 'Course',
-                'property' => 'title',
-                'property_optional' => 'code'
-            ],
-        ]);*/
     }
 
     public function configureOptions(OptionsResolver $resolver)

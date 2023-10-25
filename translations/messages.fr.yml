@@ -347,6 +347,7 @@ app:
     type: Type
     year: Année
     search_syllabus: Rechercher un syllabus
+    search_syllabus_placeholder: Rechercher un syllabus par titre OU code (4 caractères minimum)
     syllabus_found: Syllabus trouvé(s)
   permission:
     modal:
