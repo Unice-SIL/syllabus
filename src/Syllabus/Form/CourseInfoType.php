@@ -9,7 +9,6 @@ use App\Syllabus\Repository\Doctrine\YearDoctrineRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use const Doctrine\ORM\qb;
 
 class CourseInfoType extends AbstractType
 {
@@ -29,13 +28,7 @@ class CourseInfoType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $courseInfo = $builder->getData();
-        $courseInfos = $courseInfo->getCourse()->getCourseInfos();
-        $years = array_filter($this->yearDoctrineRepository->findAll(), function(Year $year) use ($courseInfos){
-            return !$courseInfos->exists(function($key, $ci) use ($year) {
-                return $ci->getYear() === $year;
-            });
-        });
+        $years = $this->yearDoctrineRepository->findAll();
 
         $builder
             ->add('year', EntityType::class, [

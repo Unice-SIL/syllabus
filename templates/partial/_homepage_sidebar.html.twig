@@ -1,0 +1,21 @@
+<nav class="mt-2">
+    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <li class="nav-item has-treeview">
+            <a class="nav-link"
+               href="{{ path('app_index') }}"
+               id="menu-index">
+                <i class="nav-icon fas fa-list"></i>
+                <p>{{ 'app.navbar.my_syllabus_list'|trans }}</p>
+            </a>
+        </li>
+        <li class="nav-item has-treeview">
+            <a class="nav-link"
+               href="{{ path('app.search_courses') }}"
+               target="_blank"
+               id="menu-search-courses">
+                <i class="nav-icon fas fa-search"></i>
+                <p>{{ 'app.navbar.search_syllabus'|trans }}</p>
+            </a>
+        </li>
+    </ul>
+</nav>

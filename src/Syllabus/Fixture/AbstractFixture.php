@@ -102,7 +102,7 @@ abstract class AbstractFixture extends Fixture
      * @param string $name
      * @return array|object
      */
-    public function getReference($name)
+    public function getReference($name, ?string $class = NULL)
     {
         if (is_array($name)) {
             $references = new ArrayCollection();

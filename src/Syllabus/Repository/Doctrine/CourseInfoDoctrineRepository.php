@@ -3,6 +3,7 @@
 namespace App\Syllabus\Repository\Doctrine;
 
 use App\Syllabus\Entity\CourseInfo;
+use App\Syllabus\Entity\Year;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
@@ -69,6 +70,41 @@ class CourseInfoDoctrineRepository  extends ServiceEntityRepository
         return $courseInfo;
     }
 
+
+    /**
+     * @param $value
+     * @param Year $year
+     * @return array
+     */
+    public function findByTitleOrCodeForCurrentYear($value): array
+    {
+        $qb = $this->_em->getRepository(CourseInfo::class)->createQueryBuilder('ci');
+
+        $terms = explode(' ', $value);
+        $ciTitleCondition = $qb->expr()->andX();
+        $cCodeCondition = $qb->expr()->andX();
+        foreach ($terms as $k => $term) {
+            $t = 'term_' . $k;
+            $ciTitleCondition->add($qb->expr()->like('ci.title', ':' . $t));
+            $cCodeCondition->add($qb->expr()->like('c.code', ':' . $t));
+            $qb->setParameter($t, '%' . $term . '%');
+        }
+
+        $qb
+            ->select('ci.id', 'ci.title, c.code')
+            ->join('ci.course', 'c')
+            ->join('ci.year', 'y')
+            ->leftJoin('c.children', 'ch')
+            ->where(
+                $qb->expr()->andX(
+                    $qb->expr()->eq('y.current', 1)),
+                    $qb->expr()->isNull('ch'),
+                    $qb->expr()->orX($ciTitleCondition, $cCodeCondition)
+                )
+            ->orderBy('ci.title', 'ASC');
+
+        return $qb->getQuery()->getResult();
+    }
     /**
      * @param $year
      * @return array
