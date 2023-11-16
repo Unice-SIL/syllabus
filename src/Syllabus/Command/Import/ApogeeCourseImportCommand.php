@@ -180,7 +180,7 @@ class ApogeeCourseImportCommand extends AbstractJob
                 ]);
                 if (!$course->isSynchronized()) {
                     $this->em->refresh($course);
-                    continue;
+                    throw new Exception('Synchronization is not enabled');
                 }
                 $course->setSource(self::SOURCE);
                 $this->setCourseInfos($course);
@@ -226,7 +226,7 @@ class ApogeeCourseImportCommand extends AbstractJob
                             ]);
                             if (!$parent->isSynchronized()) {
                                 $this->em->refresh($parent);
-                                continue;
+                                throw new Exception('Synchronization is not enabled');
                             }
                             $parent->setSource(self::SOURCE);
                             $this->setCourseInfos($parent);
