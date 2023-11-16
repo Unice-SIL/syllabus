@@ -127,7 +127,7 @@ class ApogeeCourseImportCommand extends AbstractJob
         //======================Perf==================
         $start = microtime(true);
         $interval = [];
-        $loopBreak = 75;
+        $loopBreak = 25;
         //======================End Perf==================
 
         $fieldsAllowed = iterator_to_array($this->configuration->getMatching()->getCompleteMatching());
@@ -239,18 +239,10 @@ class ApogeeCourseImportCommand extends AbstractJob
                     } catch (Throwable $e) {
                         dump('  ' . $e->getMessage());
                     }
-
-                    if ($parent instanceof Course) {
-                        $this->em->detach($parent);
-                    }
                 }
 
             }catch (Throwable $e) {
                 dump($e->getMessage());
-            }
-
-            if ($course instanceof Course) {
-                $this->em->detach($course);
             }
 
             if ($loop % $loopBreak === 0) {
