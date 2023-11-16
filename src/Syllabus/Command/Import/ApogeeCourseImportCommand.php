@@ -12,7 +12,6 @@ use App\Syllabus\Entity\Teaching;
 use App\Syllabus\Entity\Year;
 use App\Syllabus\Helper\Report\Report;
 use App\Syllabus\Helper\Report\ReportingHelper;
-use App\Syllabus\Helper\Report\ReportLine;
 use App\Syllabus\Import\Configuration\CourseApogeeConfiguration;
 use App\Syllabus\Import\Configuration\CourseParentApogeeConfiguration;
 use App\Syllabus\Import\Configuration\HourApogeeConfiguration;
@@ -20,8 +19,10 @@ use App\Syllabus\Import\ImportManager;
 use App\Syllabus\Manager\CourseInfoManager;
 use App\Syllabus\Manager\CourseManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Throwable;
 
 
 class ApogeeCourseImportCommand extends AbstractJob
@@ -117,7 +118,7 @@ class ApogeeCourseImportCommand extends AbstractJob
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return Report|mixed
-     * @throws \Exception
+     * @throws Exception
      */
     protected function subExecute(InputInterface $input, OutputInterface $output)
     {
@@ -150,78 +151,94 @@ class ApogeeCourseImportCommand extends AbstractJob
             }
             //======================End Perf==================
 
-            if (!self::$yearsToImport) {
-                self::$yearsToImport = $this->em->getRepository(Year::class)->findByImport(true);
-            }
+            dump('Import info course ' . $course->getCode());
 
-            if($this->getStructure($course->getStructureCode()) instanceof Structure) {
+            try {
 
-                $course->setSource(self::SOURCE);
-
-                $course = $this->courseManager->updateIfExistsOrCreate($course, $fieldsToUpdate, [
-                    'flush' => true,
-                    'find_by_parameters' => [
-                        'code' => $course->getCode(),
-                    ],
-                    'lineIdReport' => $lineIdReport,
-                    'report' => $this->report,
-                    'validations_groups_new' => ['Default'],
-                    'validations_groups_edit' => ['Default']
-                ]);
-
-                //$parsingParentReport = ReportingHelper::createReport('Parsing');
-                $parents = $this->importManager->parseFromConfig($this->parentConfiguration, $this->report, [
-                    'allow_extra_field' => true,
-                    'extractor' => [
-                        'filter' => [
-                            'code' => $course->getCode()
-                        ]
-                    ]
-                ]);
-
-
-                //$parentValidationReport = ReportingHelper::createReport('Insertion en base de données');
-                // Important remove all parents before add news
-                foreach ($course->getParents() as $parent) {
-                    $course->removeParent($parent);
+                if (!self::$yearsToImport) {
+                    self::$yearsToImport = $this->em->getRepository(Year::class)->findByImport(true);
                 }
-                /**
-                 * @var Course $parent
-                 */
-                foreach ($parents as $parentLineIdReport => $parent) {
 
-                    if (!$this->getStructure($parent->getStructureCode()) instanceof Structure) {
+                if ($this->getStructure($course->getStructureCode()) instanceof Structure) {
+                    $course->setSynchronized(true);
+                    $course = $this->courseManager->updateIfExistsOrCreate($course, $fieldsToUpdate, [
+                        'flush' => false,
+                        'find_by_parameters' => [
+                            'code' => $course->getCode(),
+                        ],
+                        'lineIdReport' => $lineIdReport,
+                        'report' => $this->report,
+                        'validations_groups_new' => ['Default'],
+                        'validations_groups_edit' => ['Default']
+                    ]);
+                    if (!$course->isSynchronized()) {
+                        $this->em->refresh($course);
                         continue;
                     }
+                    $course->setSource(self::SOURCE);
 
-                    if (!in_array($parent->getCode(), $this->handledParents)) {
-                        $parent->setSource(self::SOURCE);
+                    //$this->em->flush();
 
-                        $parent = $this->courseManager->updateIfExistsOrCreate($parent, $fieldsToUpdate, [
-                            'find_by_parameters' => [
-                                'code' => $parent->getCode(),
-                            ],
+                    //$parsingParentReport = ReportingHelper::createReport('Parsing');
+                    $parents = $this->importManager->parseFromConfig($this->parentConfiguration, $this->report, [
+                        'allow_extra_field' => true,
+                        'extractor' => [
+                            'filter' => [
+                                'code' => $course->getCode()
+                            ]
+                        ]
+                    ]);
 
-                            'lineIdReport' => $parentLineIdReport,
-                            'report' => $this->report,
-                            'validations_groups_new' => ['Default'],
-                            'validations_groups_edit' => ['Default'],
-                        ]);
 
-                        $this->setCourseInfos($parent);
-                        $this->handledParents[] = $parent->getCode();
-                    } else {
-                        $parent = $this->em->getRepository(Course::class)->findOneBy(['code' => $parent->getCode()]);
+                    //$parentValidationReport = ReportingHelper::createReport('Insertion en base de données');
+                    // Important remove all parents before add news
+                    foreach ($course->getParents() as $parent) {
+                        $course->removeParent($parent);
+                    }
+                    /**
+                     * @var Course $parent
+                     */
+                    foreach ($parents as $parentLineIdReport => $parent) {
+
+                        if (!$this->getStructure($parent->getStructureCode()) instanceof Structure) {
+                            continue;
+                        }
+
+                        if (!in_array($parent->getCode(), $this->handledParents)) {
+                            $parent->setSynchronized(true);
+                            $parent = $this->courseManager->updateIfExistsOrCreate($parent, $fieldsToUpdate, [
+                                'find_by_parameters' => [
+                                    'code' => $parent->getCode(),
+                                ],
+
+                                'lineIdReport' => $parentLineIdReport,
+                                'report' => $this->report,
+                                'validations_groups_new' => ['Default'],
+                                'validations_groups_edit' => ['Default'],
+                            ]);
+                            if (!$parent->isSynchronized()) {
+                                $this->em->refresh($parent);
+                                continue;
+                            }
+                            $parent->setSource(self::SOURCE);
+
+                            $this->setCourseInfos($parent);
+                            $this->handledParents[] = $parent->getCode();
+                        } else {
+                            $parent = $this->em->getRepository(Course::class)->findOneBy(['code' => $parent->getCode()]);
+                        }
+
+                        $course->addParent($parent);
                     }
 
-                    $course->addParent($parent);
+                    /** @var CourseInfo $courseInfo */
+                    $this->setCourseInfos($course);
+
+                    // Important ne pas déplacer
+                    $this->em->flush();
                 }
-
-                /** @var CourseInfo $courseInfo */
-                $this->setCourseInfos($course);
-
-                // Important ne pas déplacer
-                $this->em->flush();
+            }catch (Throwable $e) {
+                dump($e->getMessage());
             }
 
             if ($loop % $loopBreak === 0) {
