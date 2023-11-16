@@ -823,7 +823,7 @@ app:
     activities:
       description_empty: No description
     presentation:
-      code_ecue: "ECUE's code : "
+      code_ecue: "%type%'s code : "
       distant: Distant schedule
       class: Class schedule
       teachers: Course's manager(s)
