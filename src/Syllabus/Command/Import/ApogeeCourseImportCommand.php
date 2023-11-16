@@ -153,58 +153,66 @@ class ApogeeCourseImportCommand extends AbstractJob
 
             dump('Import info course ' . $course->getCode());
 
+            if (!self::$yearsToImport) {
+                self::$yearsToImport = $this->em->getRepository(Year::class)->findByImport(true);
+                if (empty(self::$yearsToImport)) {
+                    dd('No years to import found');
+                }
+            }
+
             try {
 
-                if (!self::$yearsToImport) {
-                    self::$yearsToImport = $this->em->getRepository(Year::class)->findByImport(true);
+                $structure = $this->getStructure($course->getStructureCode());
+                if (!$structure instanceof Structure) {
+                    throw new Exception('Structure ' . $course->getStructureCode() . ' not found');
                 }
 
-                if ($this->getStructure($course->getStructureCode()) instanceof Structure) {
-                    $course->setSynchronized(true);
-                    $course = $this->courseManager->updateIfExistsOrCreate($course, $fieldsToUpdate, [
-                        'flush' => false,
-                        'find_by_parameters' => [
-                            'code' => $course->getCode(),
-                        ],
-                        'lineIdReport' => $lineIdReport,
-                        'report' => $this->report,
-                        'validations_groups_new' => ['Default'],
-                        'validations_groups_edit' => ['Default']
-                    ]);
-                    if (!$course->isSynchronized()) {
-                        $this->em->refresh($course);
-                        continue;
-                    }
-                    $course->setSource(self::SOURCE);
+                $course->setSynchronized(true);
+                $course = $this->courseManager->updateIfExistsOrCreate($course, $fieldsToUpdate, [
+                    'flush' => false,
+                    'find_by_parameters' => [
+                        'code' => $course->getCode(),
+                    ],
+                    'lineIdReport' => $lineIdReport,
+                    'report' => $this->report,
+                    'validations_groups_new' => ['Default'],
+                    'validations_groups_edit' => ['Default']
+                ]);
+                if (!$course->isSynchronized()) {
+                    $this->em->refresh($course);
+                    continue;
+                }
+                $course->setSource(self::SOURCE);
+                $this->setCourseInfos($course);
+                $this->em->flush();
 
-                    //$this->em->flush();
 
-                    //$parsingParentReport = ReportingHelper::createReport('Parsing');
-                    $parents = $this->importManager->parseFromConfig($this->parentConfiguration, $this->report, [
-                        'allow_extra_field' => true,
-                        'extractor' => [
-                            'filter' => [
-                                'code' => $course->getCode()
-                            ]
+                //$parsingParentReport = ReportingHelper::createReport('Parsing');
+                $parents = $this->importManager->parseFromConfig($this->parentConfiguration, $this->report, [
+                    'allow_extra_field' => true,
+                    'extractor' => [
+                        'filter' => [
+                            'code' => $course->getCode()
                         ]
-                    ]);
+                    ]
+                ]);
 
-
-                    //$parentValidationReport = ReportingHelper::createReport('Insertion en base de données');
-                    // Important remove all parents before add news
-                    foreach ($course->getParents() as $parent) {
-                        $course->removeParent($parent);
-                    }
-                    /**
-                     * @var Course $parent
-                     */
-                    foreach ($parents as $parentLineIdReport => $parent) {
-
-                        if (!$this->getStructure($parent->getStructureCode()) instanceof Structure) {
-                            continue;
-                        }
-
+                //$parentValidationReport = ReportingHelper::createReport('Insertion en base de données');
+                // Important remove all parents before add news
+                foreach ($course->getParents() as $parent) {
+                    $course->removeParent($parent);
+                }
+                /** @var Course $parent */
+                foreach ($parents as $parentLineIdReport => $parent) {
+                    try {
                         if (!in_array($parent->getCode(), $this->handledParents)) {
+                            dump('  Import info parent ' . $parent->getCode());
+
+                            $structure = $this->getStructure($parent->getStructureCode());
+                            if (!$structure instanceof Structure) {
+                                throw new Exception('Structure ' . $course->getStructureCode() . ' not found');
+                            }
+
                             $parent->setSynchronized(true);
                             $parent = $this->courseManager->updateIfExistsOrCreate($parent, $fieldsToUpdate, [
                                 'find_by_parameters' => [
@@ -221,24 +229,28 @@ class ApogeeCourseImportCommand extends AbstractJob
                                 continue;
                             }
                             $parent->setSource(self::SOURCE);
-
                             $this->setCourseInfos($parent);
                             $this->handledParents[] = $parent->getCode();
                         } else {
                             $parent = $this->em->getRepository(Course::class)->findOneBy(['code' => $parent->getCode()]);
                         }
-
                         $course->addParent($parent);
+                        $this->em->flush();
+                    } catch (Throwable $e) {
+                        dump('  ' . $e->getMessage());
                     }
 
-                    /** @var CourseInfo $courseInfo */
-                    $this->setCourseInfos($course);
-
-                    // Important ne pas déplacer
-                    $this->em->flush();
+                    if ($parent instanceof Course) {
+                        $this->em->detach($parent);
+                    }
                 }
+
             }catch (Throwable $e) {
                 dump($e->getMessage());
+            }
+
+            if ($course instanceof Course) {
+                $this->em->detach($course);
             }
 
             if ($loop % $loopBreak === 0) {
@@ -337,12 +349,11 @@ class ApogeeCourseImportCommand extends AbstractJob
         }
 
         /** @var Structure $structure */
-        $structure =$this->em->getRepository(Structure::class)->findOneByCode($code);
-        if($structure instanceof Structure)
-        {
+        $structure = $this->em->getRepository(Structure::class)->findOneByCode($code);
+        if($structure instanceof Structure) {
             $this->structures[$structure->getCode()] = $structure;
-            return $structure;
         }
-        return null;
+
+        return $structure;
     }
 }
