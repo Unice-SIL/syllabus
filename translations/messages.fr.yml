@@ -682,6 +682,7 @@ app:
         language: Langue
         belong_to: "Ce cours appartient a %title%"
         belong_to_multi: "Ce cours est proposé dans "
+        course_ects: "Ce cours donne droit à %nb_ects% ECTS."
         teacher: Enseignant
         teacher_manager: Responsable
         teachers: Équipe enseignante
