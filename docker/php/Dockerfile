@@ -1,20 +1,23 @@
-FROM php:7.2
+FROM php:8.2.14-cli
 
 RUN apt-get update \
     &&  apt-get install -y --no-install-recommends \
-        locales apt-utils git libicu-dev g++ libpng-dev libxml2-dev libzip-dev libonig-dev libxslt-dev unzip libpq-dev nodejs wget \
+        locales apt-utils git libicu-dev g++ libpng-dev libxml2-dev libzip-dev libonig-dev libxslt-dev unzip libpq-dev nodejs npm wget \
         apt-transport-https lsb-release ca-certificates libldap2-dev
 
 RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen  \
     &&  echo "fr_FR.UTF-8 UTF-8" >> /etc/locale.gen \
     &&  locale-gen
 
-RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - \
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - \
     && apt install -y nodejs \
     && mkdir ~/.npm-global \
     && npm config set prefix '~/.npm-global' \
     && export PATH=~/.npm-global/bin:$PATH \
-    && npm install --global yarn
+    && curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | tee /usr/share/keyrings/yarnkey.gpg >/dev/null \
+    && echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main" | tee /etc/apt/sources.list.d/yarn.list \
+    && apt update \
+    && apt install -y yarn
 
 RUN curl -sS https://getcomposer.org/installer | php -- \
     &&  mv composer.phar /usr/local/bin/composer
@@ -43,10 +46,9 @@ RUN docker-php-ext-configure \
 RUN docker-php-ext-configure \
             pdo_oci --with-pdo-oci=instantclient,/opt/oracle/instantclient,21.1
 
-RUN echo 'instantclient,/opt/oracle/instantclient/' | pecl install oci8-2.2.0
-
+RUN echo 'instantclient,/opt/oracle/instantclient/' | pecl install oci8-3.3.0
 RUN apt-get install libaio1 libaio-dev
-RUN ldd /usr/local/lib/php/extensions/no-debug-non-zts-20170718/oci8.so
+RUN ldd /usr/local/lib/php/extensions/no-debug-non-zts-20220829/oci8.so
 
 RUN docker-php-ext-install \
             pdo pdo_mysql pdo_pgsql pdo_oci opcache intl zip calendar dom mbstring gd xsl ldap

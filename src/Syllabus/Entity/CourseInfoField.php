@@ -2,7 +2,14 @@
 
 namespace App\Syllabus\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiFilter;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -12,21 +19,19 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="course_info_field")
  * @ORM\Entity
  * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\CourseInfoFieldTranslation")
- * @ApiResource(attributes={
- *     "filters"={"id.search_filter", "label.search_filter"},
- *     "access_control"="is_granted('ROLE_API_COURSE_INFO_FIELD')",
- *     },
- *     collectionOperations={
- *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_COURSE_INFO_FIELD_GET')"},
- *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_COURSE_INFO_FIELD_POST')"}
- *     },
- *     itemOperations={
- *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_COURSE_INFO_FIELD_GET')"},
- *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_COURSE_INFO_FIELD_PUT')"},
- *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_COURSE_INFO_FIELD_DELETE')"},
- *     }
- * )
  */
+#[
+    ApiResource(
+        operations: [
+            new Get(security: 'is_granted(\'ROLE_API_COURSE_INFO_FIELD_GET\')'),
+            new Put(security: 'is_granted(\'ROLE_API_COURSE_INFO_FIELD_PUT\')'),
+            new Delete(security: 'is_granted(\'ROLE_API_COURSE_INFO_FIELD_DELETE\')'),
+            new GetCollection(security: 'is_granted(\'ROLE_API_COURSE_INFO_FIELD_GET\')'),
+            new Post(security: 'is_granted(\'ROLE_API_COURSE_INFO_FIELD_POST\')')
+        ], filters: ['id.search_filter', 'label.search_filter'],
+        security: 'is_granted(\'ROLE_API_COURSE_INFO_FIELD\')'
+    )
+]
 class CourseInfoField
 {
 

@@ -17,7 +17,7 @@ return [
     Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle::class => ['all' => true],
     Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle::class => ['all' => true],
     Dmishh\SettingsBundle\DmishhSettingsBundle::class => ['all' => true],
-    ApiPlatform\Core\Bridge\Symfony\Bundle\ApiPlatformBundle::class => ['all' => true],
+    ApiPlatform\Symfony\Bundle\ApiPlatformBundle::class => ['all' => true],
     Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle::class => ['dev' => true, 'test' => true],
     DAMA\DoctrineTestBundle\DAMADoctrineTestBundle::class => ['test' => true],
     Twig\Extra\TwigExtraBundle\TwigExtraBundle::class => ['all' => true],
@@ -26,6 +26,6 @@ return [
     Nelmio\CorsBundle\NelmioCorsBundle::class => ['all' => true],
     Lexik\Bundle\FormFilterBundle\LexikFormFilterBundle::class => ['all' => true],
     Lexik\Bundle\TranslationBundle\LexikTranslationBundle::class => ['all' => true],
-    Misd\LinkifyBundle\MisdLinkifyBundle::class => ['all' => true],
     UniceSIL\ShibbolethBundle\UniceSILShibbolethBundle::class => ['all' => true],
+    Misd\LinkifyBundle\MisdLinkifyBundle::class => ['all' => true],
 ];
