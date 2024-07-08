@@ -3,9 +3,15 @@
 
 namespace App\Syllabus\Entity;
 
-
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Annotation\ApiSubresource;
+use ApiPlatform\Metadata\Link;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiFilter;
 use App\Syllabus\Traits\Importable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -19,21 +25,519 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="domain")
  * @ORM\Entity(repositoryClass="App\Syllabus\Repository\Doctrine\DomainDoctrineRepository")
  * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\DomainTranslation")
- * @ApiResource(attributes={
- *     "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"},
- *     "access_control"="is_granted('ROLE_API_DOMAIN')",
- *     },
- *     collectionOperations={
- *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_DOMAIN_GET')"},
- *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_DOMAIN_POST')"}
- *     },
- *     itemOperations={
- *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_DOMAIN_GET')"},
- *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_DOMAIN_PUT')"},
- *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_DOMAIN_DELETE')"},
- *     }
- * )
  */
+#[
+    ApiResource(
+        operations: [
+            new Get(security: 'is_granted(\'ROLE_API_DOMAIN_GET\')'),
+            new Put(security: 'is_granted(\'ROLE_API_DOMAIN_PUT\')'),
+            new Delete(security: 'is_granted(\'ROLE_API_DOMAIN_DELETE\')'),
+            new GetCollection(security: 'is_granted(\'ROLE_API_DOMAIN_GET\')'),
+            new Post(security: 'is_granted(\'ROLE_API_DOMAIN_POST\')')
+        ],
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter'],
+        security: 'is_granted(\'ROLE_API_DOMAIN\')'
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/parents/{parents}/childrens/{children}/course_infos/{courseInfos}/structure/domains.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'parents' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'children' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'structure', fromClass: CourseInfo::class, identifiers: ['id']),
+            'structure' => new Link(toProperty: 'structures', fromClass: Structure::class, identifiers: [], expandedValue: 'structure')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/parents/{parents}/childrens/{children}/course_infos/{courseInfos}/domains.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'parents' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'children' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'domains', fromClass: CourseInfo::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/parents/{parents}/childrens/{children}/course_infos/{courseInfos}/domains/{domains}/structures/{structures}/domains.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'parents' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'children' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'domains', fromClass: CourseInfo::class, identifiers: ['id']),
+            'domains' => new Link(fromProperty: 'structures', fromClass: self::class, identifiers: ['id']),
+            'structures' => new Link(toProperty: 'structures', fromClass: Structure::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/parents/{parents}/course_infos/{courseInfos}/structure/domains.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'parents' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'structure', fromClass: CourseInfo::class, identifiers: ['id']),
+            'structure' => new Link(toProperty: 'structures', fromClass: Structure::class, identifiers: [], expandedValue: 'structure')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/parents/{parents}/course_infos/{courseInfos}/domains.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'parents' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'domains', fromClass: CourseInfo::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/parents/{parents}/course_infos/{courseInfos}/domains/{domains}/structures/{structures}/domains.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'parents' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'domains', fromClass: CourseInfo::class, identifiers: ['id']),
+            'domains' => new Link(fromProperty: 'structures', fromClass: self::class, identifiers: ['id']),
+            'structures' => new Link(toProperty: 'structures', fromClass: Structure::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/childrens/{children}/parents/{parents}/course_infos/{courseInfos}/structure/domains.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'children' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'parents' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'structure', fromClass: CourseInfo::class, identifiers: ['id']),
+            'structure' => new Link(toProperty: 'structures', fromClass: Structure::class, identifiers: [], expandedValue: 'structure')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/childrens/{children}/parents/{parents}/course_infos/{courseInfos}/domains.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'children' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'parents' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'domains', fromClass: CourseInfo::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/childrens/{children}/parents/{parents}/course_infos/{courseInfos}/domains/{domains}/structures/{structures}/domains.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'children' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'parents' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'domains', fromClass: CourseInfo::class, identifiers: ['id']),
+            'domains' => new Link(fromProperty: 'structures', fromClass: self::class, identifiers: ['id']),
+            'structures' => new Link(toProperty: 'structures', fromClass: Structure::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/childrens/{children}/course_infos/{courseInfos}/structure/domains.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'children' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'structure', fromClass: CourseInfo::class, identifiers: ['id']),
+            'structure' => new Link(toProperty: 'structures', fromClass: Structure::class, identifiers: [], expandedValue: 'structure')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/childrens/{children}/course_infos/{courseInfos}/domains.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'children' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'domains', fromClass: CourseInfo::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/childrens/{children}/course_infos/{courseInfos}/domains/{domains}/structures/{structures}/domains.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'children' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'domains', fromClass: CourseInfo::class, identifiers: ['id']),
+            'domains' => new Link(fromProperty: 'structures', fromClass: self::class, identifiers: ['id']),
+            'structures' => new Link(toProperty: 'structures', fromClass: Structure::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/course_infos/{courseInfos}/structure/domains.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: ['id' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'structure', fromClass: CourseInfo::class, identifiers: ['id']),
+            'structure' => new Link(toProperty: 'structures', fromClass: Structure::class, identifiers: [], expandedValue: 'structure')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/course_infos/{courseInfos}/domains.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'domains', fromClass: CourseInfo::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/course_infos/{courseInfos}/domains/{domains}/structures/{structures}/domains.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'domains', fromClass: CourseInfo::class, identifiers: ['id']),
+            'domains' => new Link(fromProperty: 'structures', fromClass: self::class, identifiers: ['id']),
+            'structures' => new Link(toProperty: 'structures', fromClass: Structure::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/parents/{parents}/childrens/{children}/course_infos/{courseInfos}/structure/domains.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'parents' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'children' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'structure', fromClass: CourseInfo::class, identifiers: ['id']),
+            'structure' => new Link(toProperty: 'structures', fromClass: Structure::class, identifiers: [], expandedValue: 'structure')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/parents/{parents}/childrens/{children}/course_infos/{courseInfos}/domains.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'parents' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'children' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'domains', fromClass: CourseInfo::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/parents/{parents}/childrens/{children}/course_infos/{courseInfos}/domains/{domains}/structures/{structures}/domains.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'parents' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'children' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'domains', fromClass: CourseInfo::class, identifiers: ['id']),
+            'domains' => new Link(fromProperty: 'structures', fromClass: self::class, identifiers: ['id']),
+            'structures' => new Link(toProperty: 'structures', fromClass: Structure::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/parents/{parents}/course_infos/{courseInfos}/structure/domains.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'parents' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'structure', fromClass: CourseInfo::class, identifiers: ['id']),
+            'structure' => new Link(toProperty: 'structures', fromClass: Structure::class, identifiers: [], expandedValue: 'structure')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/parents/{parents}/course_infos/{courseInfos}/domains.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'parents' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'domains', fromClass: CourseInfo::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/parents/{parents}/course_infos/{courseInfos}/domains/{domains}/structures/{structures}/domains.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'parents' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'domains', fromClass: CourseInfo::class, identifiers: ['id']),
+            'domains' => new Link(fromProperty: 'structures', fromClass: self::class, identifiers: ['id']),
+            'structures' => new Link(toProperty: 'structures', fromClass: Structure::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/childrens/{children}/parents/{parents}/course_infos/{courseInfos}/structure/domains.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'children' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'parents' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'structure', fromClass: CourseInfo::class, identifiers: ['id']),
+            'structure' => new Link(toProperty: 'structures', fromClass: Structure::class, identifiers: [], expandedValue: 'structure')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/childrens/{children}/parents/{parents}/course_infos/{courseInfos}/domains.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'children' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'parents' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'domains', fromClass: CourseInfo::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/childrens/{children}/parents/{parents}/course_infos/{courseInfos}/domains/{domains}/structures/{structures}/domains.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'children' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'parents' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'domains', fromClass: CourseInfo::class, identifiers: ['id']),
+            'domains' => new Link(fromProperty: 'structures', fromClass: self::class, identifiers: ['id']),
+            'structures' => new Link(toProperty: 'structures', fromClass: Structure::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/childrens/{children}/course_infos/{courseInfos}/structure/domains.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'children' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'structure', fromClass: CourseInfo::class, identifiers: ['id']),
+            'structure' => new Link(toProperty: 'structures', fromClass: Structure::class, identifiers: [], expandedValue: 'structure')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/childrens/{children}/course_infos/{courseInfos}/domains.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'children' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'domains', fromClass: CourseInfo::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/childrens/{children}/course_infos/{courseInfos}/domains/{domains}/structures/{structures}/domains.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'children' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'domains', fromClass: CourseInfo::class, identifiers: ['id']),
+            'domains' => new Link(fromProperty: 'structures', fromClass: self::class, identifiers: ['id']),
+            'structures' => new Link(toProperty: 'structures', fromClass: Structure::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/course_infos/{courseInfos}/structure/domains.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'courseInfos' => new Link(fromProperty: 'structure', fromClass: CourseInfo::class, identifiers: ['id']),
+            'structure' => new Link(toProperty: 'structures', fromClass: Structure::class, identifiers: [], expandedValue: 'structure')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/course_infos/{courseInfos}/domains.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'courseInfos' => new Link(fromProperty: 'domains', fromClass: CourseInfo::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/course_infos/{courseInfos}/domains/{domains}/structures/{structures}/domains.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'courseInfos' => new Link(fromProperty: 'domains', fromClass: CourseInfo::class, identifiers: ['id']),
+            'domains' => new Link(fromProperty: 'structures', fromClass: self::class, identifiers: ['id']),
+            'structures' => new Link(toProperty: 'structures', fromClass: Structure::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/structure/domains.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'structure', fromClass: CourseInfo::class, identifiers: ['id']),
+            'structure' => new Link(toProperty: 'structures', fromClass: Structure::class, identifiers: [], expandedValue: 'structure')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/domains.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'domains', fromClass: CourseInfo::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/domains/{domains}/structures/{structures}/domains.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'domains', fromClass: CourseInfo::class, identifiers: ['id']),
+            'domains' => new Link(fromProperty: 'structures', fromClass: self::class, identifiers: ['id']),
+            'structures' => new Link(toProperty: 'structures', fromClass: Structure::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/domains/{id}/structures/{structures}/domains.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'structures', fromClass: self::class, identifiers: ['id']),
+            'structures' => new Link(toProperty: 'structures', fromClass: Structure::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/structures/{id}/domains.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(toProperty: 'structures', fromClass: Structure::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
 class Domain
 {
     use Importable;
@@ -76,7 +580,6 @@ class Domain
      *
      * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Structure", inversedBy="domains")
      * @ORM\OrderBy({"label" = "ASC"})
-     * @ApiSubresource()
      */
     private $structures;
 

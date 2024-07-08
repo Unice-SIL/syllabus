@@ -2,8 +2,15 @@
 
 namespace App\Syllabus\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Annotation\ApiSubresource;
+use ApiPlatform\Metadata\Link;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,21 +24,1220 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="activity_type")
  * @ORM\Entity(repositoryClass="App\Syllabus\Repository\Doctrine\ActivityTypeDoctrineRepository")
  * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\ActivityTypeTranslation")
- * @ApiResource(attributes={
- *     "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"},
- *     "access_control"="is_granted('ROLE_API_ACTIVITY_TYPE')",
- *     },
- *     collectionOperations={
- *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_ACTIVITY_TYPE_GET')"},
- *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_ACTIVITY_TYPE_POST')"}
- *     },
- *     itemOperations={
- *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_ACTIVITY_TYPE_GET')"},
- *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_ACTIVITY_TYPE_PUT')"},
- *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_ACTIVITY_TYPE_DELETE')"},
- *     }
- * )
  */
+#[
+    ApiResource(
+        operations: [
+            new Get(security: 'is_granted(\'ROLE_API_ACTIVITY_TYPE_GET\')'),
+            new Put(security: 'is_granted(\'ROLE_API_ACTIVITY_TYPE_PUT\')'),
+            new Delete(security: 'is_granted(\'ROLE_API_ACTIVITY_TYPE_DELETE\')'),
+            new GetCollection(security: 'is_granted(\'ROLE_API_ACTIVITY_TYPE_GET\')'),
+            new Post(security: 'is_granted(\'ROLE_API_ACTIVITY_TYPE_POST\')')
+        ],
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter'],
+        security: 'is_granted(\'ROLE_API_ACTIVITY_TYPE\')'
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/activities/{id}/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(toProperty: 'activities', fromClass: Activity::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/activities/{id}/activity_types/{activityTypes}/activity_modes/{activityModes}/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(toProperty: 'activities', fromClass: Activity::class, identifiers: ['id']),
+            'activityTypes' => new Link(fromProperty: 'activityModes', fromClass: self::class, identifiers: ['id']),
+            'activityModes' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/activity_modes/{id}/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/activity_types/{id}/activity_modes/{activityModes}/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'activityModes', fromClass: self::class, identifiers: ['id']),
+            'activityModes' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/parents/{parents}/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'parents' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'children' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activity', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activity' => new Link(toProperty: 'activities', fromClass: Activity::class, identifiers: [], expandedValue: 'activity')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/parents/{parents}/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types/{activityTypes
+}/activity_modes/{activityModes}/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'parents' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'children' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activity', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activity' => new Link(toProperty: 'activities', fromClass: Activity::class, identifiers: [], expandedValue: 'activity'),
+            'activityTypes' => new Link(fromProperty: 'activityModes', fromClass: self::class, identifiers: ['id']),
+            'activityModes' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/parents/{parents}/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_type.{_format}',
+        operations: [new Get()],
+        uriVariables: [
+            'id' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'parents' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'children' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activityType', fromClass: CourseSectionActivity::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/parents/{parents}/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_type/activity_modes/{activity
+Modes}/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'parents' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'children' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activityType', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activityType' => new Link(fromProperty: 'activityModes', fromClass: self::class, identifiers: [], expandedValue: 'activity_type'),
+            'activityModes' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/parents/{parents}/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_mode/activity_types.{_format}
+',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'parents' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'children' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activityMode', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activityMode' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: [], expandedValue: 'activity_mode')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/parents/{parents}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'parents' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activity', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activity' => new Link(toProperty: 'activities', fromClass: Activity::class, identifiers: [], expandedValue: 'activity')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/parents/{parents}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types/{activityTypes}/activity_modes/{act
+ivityModes}/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'parents' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activity', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activity' => new Link(toProperty: 'activities', fromClass: Activity::class, identifiers: [], expandedValue: 'activity'),
+            'activityTypes' => new Link(fromProperty: 'activityModes', fromClass: self::class, identifiers: ['id']),
+            'activityModes' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/parents/{parents}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_type.{_format}',
+        operations: [new Get()],
+        uriVariables: [
+            'id' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'parents' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activityType', fromClass: CourseSectionActivity::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/parents/{parents}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_type/activity_modes/{activityModes}/activity_types
+.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'parents' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activityType', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activityType' => new Link(fromProperty: 'activityModes', fromClass: self::class, identifiers: [], expandedValue: 'activity_type'),
+            'activityModes' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/parents/{parents}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_mode/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'parents' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activityMode', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activityMode' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: [], expandedValue: 'activity_mode')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/childrens/{children}/parents/{parents}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'children' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'parents' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activity', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activity' => new Link(toProperty: 'activities', fromClass: Activity::class, identifiers: [], expandedValue: 'activity')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/childrens/{children}/parents/{parents}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types/{activityTypes
+}/activity_modes/{activityModes}/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'children' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'parents' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activity', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activity' => new Link(toProperty: 'activities', fromClass: Activity::class, identifiers: [], expandedValue: 'activity'),
+            'activityTypes' => new Link(fromProperty: 'activityModes', fromClass: self::class, identifiers: ['id']),
+            'activityModes' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/childrens/{children}/parents/{parents}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_type.{_format}',
+        operations: [new Get()],
+        uriVariables: [
+            'id' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'children' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'parents' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activityType', fromClass: CourseSectionActivity::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/childrens/{children}/parents/{parents}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_type/activity_modes/{activity
+Modes}/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'children' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'parents' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activityType', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activityType' => new Link(fromProperty: 'activityModes', fromClass: self::class, identifiers: [], expandedValue: 'activity_type'),
+            'activityModes' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/childrens/{children}/parents/{parents}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_mode/activity_types.{_format}
+',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'children' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'parents' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activityMode', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activityMode' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: [], expandedValue: 'activity_mode')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'children' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activity', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activity' => new Link(toProperty: 'activities', fromClass: Activity::class, identifiers: [], expandedValue: 'activity')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types/{activityTypes}/activity_modes/{
+activityModes}/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'children' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activity', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activity' => new Link(toProperty: 'activities', fromClass: Activity::class, identifiers: [], expandedValue: 'activity'),
+            'activityTypes' => new Link(fromProperty: 'activityModes', fromClass: self::class, identifiers: ['id']),
+            'activityModes' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_type.{_format}',
+        operations: [new Get()],
+        uriVariables: [
+            'id' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'children' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activityType', fromClass: CourseSectionActivity::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_type/activity_modes/{activityModes}/activity_ty
+pes.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'children' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activityType', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activityType' => new Link(fromProperty: 'activityModes', fromClass: self::class, identifiers: [], expandedValue: 'activity_type'),
+            'activityModes' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_mode/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'children' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activityMode', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activityMode' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: [], expandedValue: 'activity_mode')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activity', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activity' => new Link(toProperty: 'activities', fromClass: Activity::class, identifiers: [], expandedValue: 'activity')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types/{activityTypes}/activity_modes/{activityModes}/activi
+ty_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activity', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activity' => new Link(toProperty: 'activities', fromClass: Activity::class, identifiers: [], expandedValue: 'activity'),
+            'activityTypes' => new Link(fromProperty: 'activityModes', fromClass: self::class, identifiers: ['id']),
+            'activityModes' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_type.{_format}',
+        operations: [new Get()],
+        uriVariables: [
+            'id' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activityType', fromClass: CourseSectionActivity::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_type/activity_modes/{activityModes}/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activityType', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activityType' => new Link(fromProperty: 'activityModes', fromClass: self::class, identifiers: [], expandedValue: 'activity_type'),
+            'activityModes' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_mode/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activityMode', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activityMode' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: [], expandedValue: 'activity_mode')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/parents/{parents}/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types.{_
+format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'parents' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'children' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activity', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activity' => new Link(toProperty: 'activities', fromClass: Activity::class, identifiers: [], expandedValue: 'activity')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/parents/{parents}/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types/{a
+ctivityTypes}/activity_modes/{activityModes}/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'parents' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'children' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activity', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activity' => new Link(toProperty: 'activities', fromClass: Activity::class, identifiers: [], expandedValue: 'activity'),
+            'activityTypes' => new Link(fromProperty: 'activityModes', fromClass: self::class, identifiers: ['id']),
+            'activityModes' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/parents/{parents}/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_type.{_format}',
+        operations: [new Get()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'parents' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'children' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activityType', fromClass: CourseSectionActivity::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/parents/{parents}/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_type/activity_mod
+es/{activityModes}/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'parents' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'children' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activityType', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activityType' => new Link(fromProperty: 'activityModes', fromClass: self::class, identifiers: [], expandedValue: 'activity_type'),
+            'activityModes' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/parents/{parents}/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_mode/activity_typ
+es.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'parents' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'children' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activityMode', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activityMode' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: [], expandedValue: 'activity_mode')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/parents/{parents}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'parents' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activity', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activity' => new Link(toProperty: 'activities', fromClass: Activity::class, identifiers: [], expandedValue: 'activity')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/parents/{parents}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types/{activityTypes}/activit
+y_modes/{activityModes}/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'parents' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activity', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activity' => new Link(toProperty: 'activities', fromClass: Activity::class, identifiers: [], expandedValue: 'activity'),
+            'activityTypes' => new Link(fromProperty: 'activityModes', fromClass: self::class, identifiers: ['id']),
+            'activityModes' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/parents/{parents}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_type.{_format}',
+        operations: [new Get()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'parents' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activityType', fromClass: CourseSectionActivity::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/parents/{parents}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_type/activity_modes/{activityModes}/ac
+tivity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'parents' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activityType', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activityType' => new Link(fromProperty: 'activityModes', fromClass: self::class, identifiers: [], expandedValue: 'activity_type'),
+            'activityModes' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/parents/{parents}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_mode/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'parents' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activityMode', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activityMode' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: [], expandedValue: 'activity_mode')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/childrens/{children}/parents/{parents}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types.{_
+format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'children' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'parents' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activity', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activity' => new Link(toProperty: 'activities', fromClass: Activity::class, identifiers: [], expandedValue: 'activity')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/childrens/{children}/parents/{parents}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types/{a
+ctivityTypes}/activity_modes/{activityModes}/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'children' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'parents' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activity', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activity' => new Link(toProperty: 'activities', fromClass: Activity::class, identifiers: [], expandedValue: 'activity'),
+            'activityTypes' => new Link(fromProperty: 'activityModes', fromClass: self::class, identifiers: ['id']),
+            'activityModes' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/childrens/{children}/parents/{parents}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_type.{_format}',
+        operations: [new Get()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'children' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'parents' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activityType', fromClass: CourseSectionActivity::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/childrens/{children}/parents/{parents}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_type/activity_mod
+es/{activityModes}/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'children' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'parents' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activityType', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activityType' => new Link(fromProperty: 'activityModes', fromClass: self::class, identifiers: [], expandedValue: 'activity_type'),
+            'activityModes' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/childrens/{children}/parents/{parents}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_mode/activity_typ
+es.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'children' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'parents' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activityMode', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activityMode' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: [], expandedValue: 'activity_mode')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types.{_format}', 
+        uriVariables: [
+            'id' => new Link(fromClass: CourseInfo::class, identifiers: ['id'], fromProperty: 'course'), 
+            'course' => new Link(fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'children' => new Link(fromClass: Course::class, identifiers: ['id'], toProperty: 'course'), 
+            'courseInfos' => new Link(fromClass: CourseInfo::class, identifiers: ['id'], toProperty: 'courseInfo'), 
+            'courseSections' => new Link(fromClass: CourseSection::class, identifiers: ['id'], toProperty: 'courseSection'),
+            'courseSectionActivities' => new Link(fromClass: CourseSectionActivity::class, identifiers: ['id'], fromProperty: 'activity'),
+            'activity' => new Link(fromClass: Activity::class, identifiers: [], expandedValue: 'activity', toProperty: 'activities')
+        ],
+        status: 200, 
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter'], 
+        operations: [new GetCollection()]
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types/{activityTypes}/acti
+vity_modes/{activityModes}/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'children' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activity', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activity' => new Link(toProperty: 'activities', fromClass: Activity::class, identifiers: [], expandedValue: 'activity'),
+            'activityTypes' => new Link(fromProperty: 'activityModes', fromClass: self::class, identifiers: ['id']),
+            'activityModes' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_type.{_format}',
+        operations: [new Get()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'children' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activityType', fromClass: CourseSectionActivity::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_type/activity_modes/{activityModes}
+/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'children' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activityType', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activityType' => new Link(fromProperty: 'activityModes', fromClass: self::class, identifiers: [], expandedValue: 'activity_type'),
+            'activityModes' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_mode/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'children' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activityMode', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activityMode' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: [], expandedValue: 'activity_mode')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activity', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activity' => new Link(toProperty: 'activities', fromClass: Activity::class, identifiers: [], expandedValue: 'activity')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types/{activityTypes}/activity_modes/{activityM
+odes}/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activity', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activity' => new Link(toProperty: 'activities', fromClass: Activity::class, identifiers: [], expandedValue: 'activity'),
+            'activityTypes' => new Link(fromProperty: 'activityModes', fromClass: self::class, identifiers: ['id']),
+            'activityModes' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_type.{_format}',
+        operations: [new Get()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activityType', fromClass: CourseSectionActivity::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_type/activity_modes/{activityModes}/activity_types.{_for
+mat}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activityType', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activityType' => new Link(fromProperty: 'activityModes', fromClass: self::class, identifiers: [], expandedValue: 'activity_type'),
+            'activityModes' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_mode/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activityMode', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activityMode' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: [], expandedValue: 'activity_mode')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activity', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activity' => new Link(toProperty: 'activities', fromClass: Activity::class, identifiers: [], expandedValue: 'activity')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types/{activityTypes}/activity_modes/{activityModes}/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activity', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activity' => new Link(toProperty: 'activities', fromClass: Activity::class, identifiers: [], expandedValue: 'activity'),
+            'activityTypes' => new Link(fromProperty: 'activityModes', fromClass: self::class, identifiers: ['id']),
+            'activityModes' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_type.{_format}',
+        operations: [new Get()],
+        uriVariables: [
+            'id' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activityType', fromClass: CourseSectionActivity::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_type/activity_modes/{activityModes}/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activityType', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activityType' => new Link(fromProperty: 'activityModes', fromClass: self::class, identifiers: [], expandedValue: 'activity_type'),
+            'activityModes' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_mode/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activityMode', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activityMode' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: [], expandedValue: 'activity_mode')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_sections/{id}/course_section_activities/{courseSectionActivities}/activity/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activity', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activity' => new Link(toProperty: 'activities', fromClass: Activity::class, identifiers: [], expandedValue: 'activity')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_sections/{id}/course_section_activities/{courseSectionActivities}/activity/activity_types/{activityTypes}/activity_modes/{activityModes}/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activity', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activity' => new Link(toProperty: 'activities', fromClass: Activity::class, identifiers: [], expandedValue: 'activity'),
+            'activityTypes' => new Link(fromProperty: 'activityModes', fromClass: self::class, identifiers: ['id']),
+            'activityModes' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_sections/{id}/course_section_activities/{courseSectionActivities}/activity_type.{_format}',
+        operations: [new Get()],
+        uriVariables: [
+            'id' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activityType', fromClass: CourseSectionActivity::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_sections/{id}/course_section_activities/{courseSectionActivities}/activity_type/activity_modes/{activityModes}/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activityType', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activityType' => new Link(fromProperty: 'activityModes', fromClass: self::class, identifiers: [], expandedValue: 'activity_type'),
+            'activityModes' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_sections/{id}/course_section_activities/{courseSectionActivities}/activity_mode/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activityMode', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activityMode' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: [], expandedValue: 'activity_mode')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_section_activities/{id}/activity/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'activity', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activity' => new Link(toProperty: 'activities', fromClass: Activity::class, identifiers: [], expandedValue: 'activity')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_section_activities/{id}/activity/activity_types/{activityTypes}/activity_modes/{activityModes}/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'activity', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activity' => new Link(toProperty: 'activities', fromClass: Activity::class, identifiers: [], expandedValue: 'activity'),
+            'activityTypes' => new Link(fromProperty: 'activityModes', fromClass: self::class, identifiers: ['id']),
+            'activityModes' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_section_activities/{id}/activity_type.{_format}',
+        operations: [new Get()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'activityType', fromClass: CourseSectionActivity::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_section_activities/{id}/activity_type/activity_modes/{activityModes}/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'activityType', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activityType' => new Link(fromProperty: 'activityModes', fromClass: self::class, identifiers: [], expandedValue: 'activity_type'),
+            'activityModes' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_section_activities/{id}/activity_mode/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'activityMode', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activityMode' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: [], expandedValue: 'activity_mode')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_section_activities/{id}/course_section/course_section_activities/{courseSectionActivities}/activity/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'courseSection', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'courseSection' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: [], expandedValue: 'course_section'),
+            'courseSectionActivities' => new Link(fromProperty: 'activity', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activity' => new Link(toProperty: 'activities', fromClass: Activity::class, identifiers: [], expandedValue: 'activity')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_section_activities/{id}/course_section/course_section_activities/{courseSectionActivities}/activity/activity_types/{activityTypes}/activity_modes/{activityModes}/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'courseSection', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'courseSection' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: [], expandedValue: 'course_section'),
+            'courseSectionActivities' => new Link(fromProperty: 'activity', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activity' => new Link(toProperty: 'activities', fromClass: Activity::class, identifiers: [], expandedValue: 'activity'),
+            'activityTypes' => new Link(fromProperty: 'activityModes', fromClass: self::class, identifiers: ['id']),
+            'activityModes' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_section_activities/{id}/course_section/course_section_activities/{courseSectionActivities}/activity_type.{_format}',
+        operations: [new Get()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'courseSection', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'courseSection' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: [], expandedValue: 'course_section'),
+            'courseSectionActivities' => new Link(fromProperty: 'activityType', fromClass: CourseSectionActivity::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_section_activities/{id}/course_section/course_section_activities/{courseSectionActivities}/activity_type/activity_modes/{activityModes}/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'courseSection', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'courseSection' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: [], expandedValue: 'course_section'),
+            'courseSectionActivities' => new Link(fromProperty: 'activityType', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activityType' => new Link(fromProperty: 'activityModes', fromClass: self::class, identifiers: [], expandedValue: 'activity_type'),
+            'activityModes' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_section_activities/{id}/course_section/course_section_activities/{courseSectionActivities}/activity_mode/activity_types.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'courseSection', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'courseSection' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: [], expandedValue: 'course_section'),
+            'courseSectionActivities' => new Link(fromProperty: 'activityMode', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activityMode' => new Link(toProperty: 'activityModes', fromClass: ActivityMode::class, identifiers: [], expandedValue: 'activity_mode')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
+    )
+]
 class ActivityType
 {
     /**
@@ -41,7 +1247,7 @@ class ActivityType
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="UUID")
      */
-    private $id;
+    private string $id;
 
     /**
      * @var string
@@ -50,7 +1256,7 @@ class ActivityType
      * @Assert\NotBlank()
      * @Gedmo\Translatable
      */
-    private $label;
+    private string $label;
 
     /**
      * @var string|null
@@ -61,19 +1267,19 @@ class ActivityType
      *     mimeTypes={ "image/jpeg", "image/png" }
      *     )
      */
-    private $icon;
+    private ?string $icon;
 
     /**
      * @var string|null
      */
-    private $previousIcon = null;
+    private ?string $previousIcon = null;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
      */
-    private $obsolete = false;
+    private bool $obsolete = false;
 
     /**
      * @var Collection
@@ -81,16 +1287,15 @@ class ActivityType
      * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Activity", inversedBy="activityTypes")
      * @JoinTable(name="activity_type_activity")
      */
-    private $activities;
+    private Collection $activities;
 
     /**
      * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\ActivityMode", inversedBy="activityTypes")
      * @JoinTable(name="activity_type_activity_mode")
-     * @ApiSubresource()
      */
-    private $activityModes;
+    private Collection $activityModes;
 
     /**
      * ActivityType constructor.

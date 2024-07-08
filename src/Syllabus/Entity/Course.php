@@ -2,8 +2,15 @@
 
 namespace App\Syllabus\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Annotation\ApiSubresource;
+use ApiPlatform\Metadata\Link;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiFilter;
 use App\Syllabus\Traits\Importable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -21,21 +28,275 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity(fields={"code", "source"}, message="Le cours avec pour code établissement {{ value }} existe déjà pour cette source", errorPath="code")
  * @ORM\Entity(repositoryClass="App\Syllabus\Repository\Doctrine\CourseDoctrineRepository")
  * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\CourseTranslation")
- * @ApiResource(attributes={
- *     "filters"={"id.search_filter", "title.search_filter", "code.search_filter"},
- *     "access_control"="is_granted('ROLE_API_COURSE')",
- *     },
- *     collectionOperations={
- *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_COURSE_GET')"},
- *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_COURSE_POST')"}
- *     },
- *     itemOperations={
- *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_COURSE_GET')"},
- *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_COURSE_PUT')"},
- *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_COURSE_DELETE')"},
- *     }
- * )
  */
+#[
+    ApiResource(
+        operations: [
+            new Get(security: 'is_granted(\'ROLE_API_COURSE_GET\')'),
+            new Put(security: 'is_granted(\'ROLE_API_COURSE_PUT\')'),
+            new Delete(security: 'is_granted(\'ROLE_API_COURSE_DELETE\')'),
+            new GetCollection(security: 'is_granted(\'ROLE_API_COURSE_GET\')'),
+            new Post(security: 'is_granted(\'ROLE_API_COURSE_POST\')')
+        ],
+        filters: ['id.search_filter', 'title.search_filter', 'code.search_filter'],
+        security: 'is_granted(\'ROLE_API_COURSE\')'
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/parents.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromClass: self::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'title.search_filter', 'code.search_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/parents/{parents}/childrens.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromClass: self::class, identifiers: ['id']),
+            'parents' => new Link(fromClass: self::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'title.search_filter', 'code.search_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/parents/{parents}/childrens/{children}/course_infos/{courseInfos}/course.{_format}',
+        operations: [new Get()],
+        uriVariables: [
+            'id' => new Link(fromClass: self::class, identifiers: ['id']),
+            'parents' => new Link(fromClass: self::class, identifiers: ['id']),
+            'children' => new Link(toProperty: 'course', fromClass: self::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'title.search_filter', 'code.search_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/parents/{parents}/course_infos/{courseInfos}/course.{_format}',
+        operations: [new Get()],
+        uriVariables: [
+            'id' => new Link(fromClass: self::class, identifiers: ['id']),
+            'parents' => new Link(toProperty: 'course', fromClass: self::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'title.search_filter', 'code.search_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/parents/{parents}/course_infos/{courseInfos}/course/childrens.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromClass: self::class, identifiers: ['id']),
+            'parents' => new Link(toProperty: 'course', fromClass: self::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: self::class, identifiers: [], expandedValue: 'course')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'title.search_filter', 'code.search_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/childrens.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromClass: self::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'title.search_filter', 'code.search_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/childrens/{children}/parents.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromClass: self::class, identifiers: ['id']),
+            'children' => new Link(fromClass: self::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'title.search_filter', 'code.search_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/childrens/{children}/parents/{parents}/course_infos/{courseInfos}/course.{_format}',
+        operations: [new Get()],
+        uriVariables: [
+            'id' => new Link(fromClass: self::class, identifiers: ['id']),
+            'children' => new Link(fromClass: self::class, identifiers: ['id']),
+            'parents' => new Link(toProperty: 'course', fromClass: self::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'title.search_filter', 'code.search_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/childrens/{children}/course_infos/{courseInfos}/course.{_format}',
+        operations: [new Get()],
+        uriVariables: [
+            'id' => new Link(fromClass: self::class, identifiers: ['id']),
+            'children' => new Link(toProperty: 'course', fromClass: self::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'title.search_filter', 'code.search_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/childrens/{children}/course_infos/{courseInfos}/course/parents.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromClass: self::class, identifiers: ['id']),
+            'children' => new Link(toProperty: 'course', fromClass: self::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: self::class, identifiers: [], expandedValue: 'course')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'title.search_filter', 'code.search_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/course_infos/{courseInfos}/course.{_format}',
+        operations: [new Get()],
+        uriVariables: [
+            'id' => new Link(toProperty: 'course', fromClass: self::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'title.search_filter', 'code.search_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/course_infos/{courseInfos}/course/parents.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(toProperty: 'course', fromClass: self::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: self::class, identifiers: [], expandedValue: 'course')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'title.search_filter', 'code.search_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/course_infos/{courseInfos}/course/parents/{parents}/childrens.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(toProperty: 'course', fromClass: self::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: self::class, identifiers: [], expandedValue: 'course'),
+            'parents' => new Link(fromClass: self::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'title.search_filter', 'code.search_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/course_infos/{courseInfos}/course/childrens.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(toProperty: 'course', fromClass: self::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: self::class, identifiers: [], expandedValue: 'course')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'title.search_filter', 'code.search_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/course_infos/{courseInfos}/course/childrens/{children}/parents.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(toProperty: 'course', fromClass: self::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: self::class, identifiers: [], expandedValue: 'course'),
+            'children' => new Link(fromClass: self::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'title.search_filter', 'code.search_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course.{_format}',
+        operations: [new Get()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'title.search_filter', 'code.search_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/parents.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: self::class, identifiers: [], expandedValue: 'course')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'title.search_filter', 'code.search_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/parents/{parents}/childrens.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: self::class, identifiers: [], expandedValue: 'course'),
+            'parents' => new Link(fromClass: self::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'title.search_filter', 'code.search_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/childrens.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: self::class, identifiers: [], expandedValue: 'course')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'title.search_filter', 'code.search_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/childrens/{children}/parents.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: self::class, identifiers: [], expandedValue: 'course'),
+            'children' => new Link(fromClass: self::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'title.search_filter', 'code.search_filter']
+    )
+]
 class Course
 {
     use Importable;
@@ -48,7 +309,7 @@ class Course
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="App\Syllabus\Doctrine\IdGenerator")
      */
-    private $id;
+    private string $id;
 
     /**
      * @var string
@@ -58,7 +319,7 @@ class Course
      * @Assert\Length(max=5)
      * @Gedmo\Translatable
      */
-    private $type;
+    private string $type;
 
     /**
      * @var string
@@ -68,7 +329,7 @@ class Course
      * @Assert\Length(max=150)
      * @Gedmo\Translatable
      */
-    private $title;
+    private string $title;
 
     /**
      * @var Collection
@@ -82,62 +343,57 @@ class Course
      *     @ORM\JoinColumn(name="course_parent_id", referencedColumnName="id")
      *   }
      * )
-     * @ApiSubresource()
      */
-    private $parents;
+    private Collection $parents;
 
     /**
      * @var Collection
      * @ORM\ManyToMany(targetEntity="Course", mappedBy="parents")
-     * @ApiSubresource()
      */
-    private $children;
+    private Collection $children;
 
     /**
      * @var Collection
      *
      * @ORM\OneToMany(targetEntity="CourseInfo", mappedBy="course", cascade={ "persist" })
-     * @ApiSubresource()
      */
-    private $courseInfos;
+    private Collection $courseInfos;
 
     /**
      * @var Collection
      * @ORM\ManyToMany(targetEntity="CriticalAchievement", inversedBy="courses", cascade={ "persist" })
-     * @ApiSubresource()
      */
-    private $criticalAchievements;
+    private Collection $criticalAchievements;
 
 
     /**
      * @var string
      * @Gedmo\Locale
      */
-    private $locale;
+    private string $locale;
 
     /**
      * @var Collection
      * @ORM\ManyToMany(targetEntity="CoursePrerequisite", inversedBy="courses", cascade={ "persist" })
-     * @ApiSubresource()
      */
-    private $coursePrerequisites;
+    private Collection $coursePrerequisites;
 
     /**
      * @var array
      */
-    private $hours = [];
+    private array $hours = [];
 
     /**
      * @var float|null
      *
      */
-    private $ects;
+    private ?float $ects;
 
     /**
      * @var string|null
      *
      */
-    private $structureCode;
+    private ?string $structureCode;
 
     /**
      * Constructor
