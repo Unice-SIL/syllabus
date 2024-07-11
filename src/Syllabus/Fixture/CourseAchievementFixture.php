@@ -7,7 +7,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Ramsey\Uuid\Uuid;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * Class CourseAchievementFixture
@@ -28,7 +28,7 @@ class CourseAchievementFixture extends Fixture implements DependentFixtureInterf
     {
         // CourseSection 1
         $courseAchievement = new CourseAchievement();
-        $courseAchievement->setId(Uuid::uuid4())
+        $courseAchievement->setId(Uuid::v4())
             ->setCourseInfo($this->getReference(CourseInfoFixture::COURSE_INFO_1))
             ->setDescription('Achievement n°1');
 

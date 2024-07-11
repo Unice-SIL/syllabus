@@ -7,7 +7,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Ramsey\Uuid\Uuid;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * Class CourseSectionFixture
@@ -28,7 +28,7 @@ class CourseSectionFixture extends Fixture implements DependentFixtureInterface,
     {
         // CourseSection 1
         $courseSection = new CourseSection();
-        $courseSection->setId(Uuid::uuid4())
+        $courseSection->setId(Uuid::v4())
             ->setCourseInfo($this->getReference(CourseInfoFixture::COURSE_INFO_1))
             ->setTitle('Chapitre 1')
             ->setDescription('Ceci est le chapitre 1 du cours');

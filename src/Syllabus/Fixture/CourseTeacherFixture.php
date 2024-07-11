@@ -7,7 +7,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Ramsey\Uuid\Uuid;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * Class CourseTeacherFixture
@@ -28,7 +28,7 @@ class CourseTeacherFixture extends Fixture implements DependentFixtureInterface,
     {
         // CourseTeacher 1
         $courseTeacher = new CourseTeacher();
-        $courseTeacher->setId(Uuid::uuid4())
+        $courseTeacher->setId(Uuid::v4())
             ->setCourseInfo($this->getReference(CourseInfoFixture::COURSE_INFO_1))
             ->setFirstname('John')
             ->setLastname('DOE')
@@ -39,7 +39,7 @@ class CourseTeacherFixture extends Fixture implements DependentFixtureInterface,
 
         // CourseTeacher 2
         $courseTeacher2 = new CourseTeacher();
-        $courseTeacher2->setId(Uuid::uuid4())
+        $courseTeacher2->setId(Uuid::v4())
             ->setCourseInfo($this->getReference(CourseInfoFixture::COURSE_INFO_1))
             ->setFirstname('Alex')
             ->setLastname('DODO')

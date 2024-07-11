@@ -9,7 +9,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Ramsey\Uuid\Uuid;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * Class CoursePrerequisiteFixture
@@ -30,7 +30,7 @@ class CoursePrerequisiteFixture extends Fixture implements DependentFixtureInter
     {
         // CourseSection 1
         $coursePrerequisite = new CoursePrerequisite();
-        $coursePrerequisite->setId(Uuid::uuid4())
+        $coursePrerequisite->setId(Uuid::v4())
             ->setCourseInfo($this->getReference(CourseInfoFixture::COURSE_INFO_1))
             ->setDescription('Prerequisite n°1');
 

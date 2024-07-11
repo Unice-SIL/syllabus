@@ -6,7 +6,7 @@ use App\Syllabus\Entity\Activity;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
-use Ramsey\Uuid\Uuid;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * Class ActivityFixture
@@ -35,7 +35,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Cours Magistral
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel(self::ACTIVITY_1)
             ->setLabelVisibility(true)
             ->setPosition(0)
@@ -50,7 +50,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Débat
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Débat")
             ->setLabelVisibility(true)
             ->setPosition(0)
@@ -59,7 +59,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Démonstration
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Démonstration ")
             ->setLabelVisibility(true)
             ->setPosition(0)
@@ -68,7 +68,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Discussion / Réflexion
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Discussion / réflexion")
             ->setLabelVisibility(true)
             ->setPosition(0)
@@ -77,7 +77,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Étude d'un document (texte, vidéo, cours en ligne…)
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel(self::ACTIVITY_2)
             ->setLabelVisibility(true)
             ->setPosition(0)
@@ -87,7 +87,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Étude de cas
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Étude de cas")
             ->setLabelVisibility(true)
             ->setPosition(0)
@@ -96,7 +96,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Exercices
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Exercices")
             ->setLabelVisibility(true)
             ->setPosition(0)
@@ -105,7 +105,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Jeu de rôle
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Jeu de rôle")
             ->setLabelVisibility(true)
             ->setPosition(0)
@@ -114,7 +114,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Jeu sérieux
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Jeu sérieux")
             ->setLabelVisibility(true)
             
@@ -126,7 +126,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Production artistique (installation, sculpture, performance…)
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Production artistique (installation, sculpture, performance…)")
             ->setLabelVisibility(true)
             
@@ -138,7 +138,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Production écrite (synthèse / compte rendu, carte mentale…) 
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Production écrite (synthèse / compte rendu, carte mentale…)")
             ->setLabelVisibility(true)
             
@@ -150,7 +150,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Production multimédia (vidéo, affiche, poster, blog, wiki, prototype, portfolio…)
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Production multimédia (vidéo, affiche, poster, blog, wiki, prototype, portfolio…)")
             ->setLabelVisibility(true)
             
@@ -162,7 +162,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Production orale (entretien, argumentaire, exposé, narration…)
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Production orale (entretien, argumentaire, exposé, narration…)")
             ->setLabelVisibility(true)
             
@@ -174,7 +174,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Projet
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Projet")
             ->setLabelVisibility(true)
             
@@ -186,7 +186,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Tournoi
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Tournoi")
             ->setLabelVisibility(true)
             
@@ -198,7 +198,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Séance question / réponse
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Séance question / réponse")
             ->setLabelVisibility(true)
             
@@ -210,7 +210,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Vote interactif
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Vote interactif (Quizlet, Socrative, Mentimeter)")
             ->setLabelVisibility(true)
             
@@ -222,7 +222,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Exercice d'évaluation par les pairs
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Exercice d'évaluation par les pairs")
             ->setLabelVisibility(true)
             
@@ -234,7 +234,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Mise en situation
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Mise en situation")
             ->setLabelVisibility(true)
             
@@ -246,7 +246,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Recherche documentaire
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Recherche documentaire")
             ->setLabelVisibility(true)
             
@@ -263,7 +263,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Débat
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Débat")
             ->setLabelVisibility(true)
             
@@ -274,7 +274,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Démonstration
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Démonstration")
             ->setLabelVisibility(true)
             
@@ -285,7 +285,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Discussion / Réflexion
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel(self::ACTIVITY_3)
             ->setLabelVisibility(true)
 
@@ -296,7 +296,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Étude d'un document (texte, vidéo…)
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Étude d'un document (texte, vidéo…)")
             ->setLabelVisibility(true)
             
@@ -307,7 +307,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Étude de cas
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Étude de cas")
             ->setLabelVisibility(true)
             
@@ -318,7 +318,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Exercices
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Exercices")
             ->setLabelVisibility(true)
             
@@ -329,7 +329,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Exercice d'évaluation par les pairs
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Exercice d'évaluation par les pairs")
             ->setLabelVisibility(true)
             
@@ -340,7 +340,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Exercices pratiques (observation, expérimentation, simulation…)
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Exercices pratiques (observation, expérimentation, simulation…)")
             ->setLabelVisibility(true)
             
@@ -351,7 +351,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Mise en situation
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Mise en situation")
             ->setLabelVisibility(true)
             
@@ -362,7 +362,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Projet
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Projet")
             ->setLabelVisibility(true)
             
@@ -373,7 +373,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Production écrite (synthèse / compte rendu, carte mentale…)
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Production écrite (synthèse / compte rendu, carte mentale…)")
             ->setLabelVisibility(true)
             
@@ -384,7 +384,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Production orale (entretien, argumentaire, exposé, narration…)
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Production orale (entretien, argumentaire, exposé, narration…)")
             ->setLabelVisibility(true)
             
@@ -395,7 +395,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Production multimédia (vidéo, affiche, poster, blog, wiki, prototype, portfolio…)
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Production multimédia (vidéo, affiche, poster, blog, wiki, prototype, portfolio…)")
             ->setLabelVisibility(true)
             
@@ -406,7 +406,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Production artistique (installation, sculpture, performance…)
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Production artistique (installation, sculpture, performance…)")
             ->setLabelVisibility(true)
             
@@ -417,7 +417,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Recherche documentaire
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Recherche documentaire")
             ->setLabelVisibility(true)
             
@@ -428,7 +428,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Séance question / réponse
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Séance question / réponse")
             ->setLabelVisibility(true)
             
@@ -439,7 +439,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Vote interactif
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Vote interactif (Quizlet, Socrative, Mentimeter)")
             ->setLabelVisibility(true)
             
@@ -450,7 +450,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Jeu de rôle
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Jeu de rôle")
             ->setLabelVisibility(true)
             
@@ -461,7 +461,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Jeu sérieux
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Jeu sérieux")
             ->setLabelVisibility(true)
             
@@ -477,7 +477,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Cours en ligne
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel(self::ACTIVITY_4)
             ->setLabelVisibility(true)
             ->setPosition(0)
@@ -492,7 +492,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Étude d'un document (texte, vidéo, cours en ligne…)
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel(self::ACTIVITY_5)
             ->setLabelVisibility(true)
             ->setPosition(0)
@@ -502,7 +502,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Étude de cas
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Étude de cas")
             ->setLabelVisibility(true)
             
@@ -514,7 +514,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Exercice d'évaluation par les pairs
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Exercice d'évaluation par les pairs")
             ->setLabelVisibility(true)
             
@@ -526,7 +526,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Exercices
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Exercices")
             ->setLabelVisibility(true)
             
@@ -538,7 +538,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Production artistique (installation, sculpture, performance…)
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Production artistique (installation, sculpture, performance…)")
             ->setLabelVisibility(true)
             
@@ -550,7 +550,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Production écrite (dissertation, synthèse / compte rendu…)
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Production écrite (dissertation, synthèse / compte rendu…)")
             ->setLabelVisibility(true)
             
@@ -562,7 +562,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Production multimédia (vidéo, affiche, poster, blog, wiki, prototype, portfolio…)
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Production multimédia (vidéo, affiche, poster, blog, wiki, prototype, portfolio…)")
             ->setLabelVisibility(true)
             
@@ -574,7 +574,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Production orale (entretien, argumentaire, exposé, narration…)
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Production orale (entretien, argumentaire, exposé, narration…)")
             ->setLabelVisibility(true)
             
@@ -586,7 +586,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Projet
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Projet")
             ->setLabelVisibility(true)
             
@@ -598,7 +598,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Recherche documentaire
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Recherche documentaire")
             ->setLabelVisibility(true)
             
@@ -610,7 +610,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Tournoi
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Tournoi")
             ->setLabelVisibility(true)
             
@@ -622,7 +622,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Jeu sérieux
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Jeu sérieux")
             ->setLabelVisibility(true)
             
@@ -640,7 +640,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Étude d'un document (texte, vidéo, cours en ligne…)
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Étude d'un document (texte, vidéo, cours en ligne…)")
             ->setLabelVisibility(true)
             
@@ -652,7 +652,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Étude de cas
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Étude de cas")
             ->setLabelVisibility(true)
             
@@ -664,7 +664,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Exercice d'évaluation par les pairs
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Exercice d'évaluation par les pairs")
             ->setLabelVisibility(true)
             
@@ -676,7 +676,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Exercices
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Exercices")
             ->setLabelVisibility(true)
             
@@ -688,7 +688,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Projet
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Projet")
             ->setLabelVisibility(true)
             
@@ -700,7 +700,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Recherche documentaire
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Recherche documentaire")
             ->setLabelVisibility(true)
             
@@ -712,7 +712,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Participation au forum de discussion
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Participation au forum de discussion")
             ->setLabelVisibility(true)
             
@@ -724,7 +724,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Production artistique (installation, sculpture, performance…)
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Production artistique (installation, sculpture, performance…)")
             ->setLabelVisibility(true)
             
@@ -736,7 +736,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Production écrite (dissertation, synthèse / compte rendu…)
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Production écrite (dissertation, synthèse / compte rendu…)")
             ->setLabelVisibility(true)
             
@@ -748,7 +748,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Production multimédia (vidéo, affiche, poster, blog, wiki, prototype, portfolio…)
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Production multimédia (vidéo, affiche, poster, blog, wiki, prototype, portfolio…)")
             ->setLabelVisibility(true)
             ->setPosition(0)
@@ -757,7 +757,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Production orale (entretien, argumentaire, exposé, narration…)
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Production orale (entretien, argumentaire, exposé, narration…)")
             ->setLabelVisibility(true)
             
@@ -769,7 +769,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Test d'auto-évaluation
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel(self::ACTIVITY_6)
             ->setLabelVisibility(true)
             ->setPosition(0)
@@ -779,7 +779,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Jeu sérieux
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Jeu sérieux")
             ->setLabelVisibility(true)
             ->setPosition(0)
@@ -793,7 +793,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Evalué plus tard
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Evalué plus tard")
             ->setLabelVisibility(true)
             
@@ -804,7 +804,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Contribution au forum
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Contribution au forum")
             ->setLabelVisibility(true)
             
@@ -815,7 +815,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Mise en situation
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Mise en situation")
             ->setLabelVisibility(true)
             
@@ -826,7 +826,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Production artistique (installation, sculpture, performance…)
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Production artistique (installation, sculpture, performance…)")
             ->setLabelVisibility(true)
             
@@ -837,7 +837,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Production écrite (dissertation, commentaire de texte…)
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Production écrite (dissertation, commentaire de texte…)")
             ->setLabelVisibility(true)
             
@@ -848,7 +848,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Production multimédia (vidéo, affiche, poster, blog, wiki, prototype, portfolio…)
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Production multimédia (vidéo, affiche, poster, blog, wiki, prototype, portfolio…)")
             ->setLabelVisibility(true)
             
@@ -859,7 +859,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Production orale (entretien, exposé, discours d'éloquence, grand oral…)
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Production orale (entretien, exposé, discours d'éloquence, grand oral…)")
             ->setLabelVisibility(true)
             
@@ -870,7 +870,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Test standardisé (Moodle, QCM, WIMS…)
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Test standardisé (Moodle, QCM, WIMS…)")
             ->setLabelVisibility(true)
             
@@ -881,7 +881,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Tournoi
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Tournoi")
             ->setLabelVisibility(true)
             
@@ -892,7 +892,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Exercice pratique
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Exercice pratique")
             ->setLabelVisibility(true)
             
@@ -909,7 +909,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
         // Pas d'évaluation terminale (sauf dispensés de CC*)
         /*
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Pas d'évaluation terminale (sauf dispensés de CC*)")
             ->setLabelVisibility(true)
             
@@ -921,7 +921,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Mise en situation
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel(self::ACTIVITY_7)
             ->setLabelVisibility(true)
             ->setPosition(0)
@@ -931,7 +931,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Production artistique (installation, sculpture, performance…)
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Production artistique (installation, sculpture, performance…)")
             ->setLabelVisibility(true)
             
@@ -942,7 +942,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Production écrite (dissertation, commentaire de texte…)
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Production écrite (dissertation, commentaire de texte…)")
             ->setLabelVisibility(true)
             
@@ -953,7 +953,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Production multimédia (vidéo, affiche, poster, blog, wiki, prototype, portfolio…)
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Production multimédia (vidéo, affiche, poster, blog, wiki, prototype, portfolio…)")
             ->setLabelVisibility(true)
             
@@ -964,7 +964,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Production orale (entretien, exposé, discours d'éloquence, grand oral…)
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Production orale (entretien, exposé, discours d'éloquence, grand oral…)")
             ->setLabelVisibility(true)
             
@@ -975,7 +975,7 @@ class ActivityFixture extends Fixture implements FixtureGroupInterface
 
         // Test standardisé (Moodle, QCM, WIMS…)
         $activity = new Activity();
-        $activity->setId(Uuid::uuid4())
+        $activity->setId(Uuid::v4())
             ->setLabel("Test standardisé (Moodle, QCM, WIMS…)")
             ->setLabelVisibility(true)
             

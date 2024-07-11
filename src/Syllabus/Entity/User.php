@@ -354,9 +354,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
     /**
      * @var string|null
      *
-     * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
+     * @ORM\Column(type="string", length=36, unique=true, options={"fixed"=true})
+     * @ORM\Id()
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      */
     private $id;
 
@@ -591,9 +592,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
     }
 
     /**
-     * @return null|array
+     * @return array
      */
-    public function getRoles(): ?array
+    public function getRoles(): array
     {
         if ($this->roles === null) {
             $this->roles = [];

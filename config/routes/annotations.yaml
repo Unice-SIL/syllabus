@@ -44,8 +44,3 @@ logout:
 settings:
   resource: "@DmishhSettingsBundle/Resources/config/routing.yml"
   prefix: /admin/settings
-
-api_platform:
-  resource: .
-  type: api_platform
-  prefix: /api

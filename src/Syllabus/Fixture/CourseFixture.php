@@ -6,7 +6,7 @@ use App\Syllabus\Entity\Course;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
-use Ramsey\Uuid\Uuid;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * Class CourseFixture
@@ -29,7 +29,7 @@ class CourseFixture extends Fixture  implements FixtureGroupInterface
     {
         // Course 1
         $course1 = new Course();
-        $course1->setId(Uuid::uuid4())
+        $course1->setId(Uuid::v4())
             ->setType('ECUE')
             ->setSource('fixtures')
             ->setCode(self::COURSE_1)
@@ -38,7 +38,7 @@ class CourseFixture extends Fixture  implements FixtureGroupInterface
 
         // Course 2
         $course2 = new Course();
-        $course2->setId(Uuid::uuid4())
+        $course2->setId(Uuid::v4())
             ->setType('UE')
             ->setSource('fixtures')
             ->setCode(self::COURSE_2)
@@ -47,7 +47,7 @@ class CourseFixture extends Fixture  implements FixtureGroupInterface
 
         // Course 3
         $course3 = new Course();
-        $course3->setId(Uuid::uuid4())
+        $course3->setId(Uuid::v4())
             ->setType('UE')
             ->setSource('fixtures')
             ->setCode(self::COURSE_3)

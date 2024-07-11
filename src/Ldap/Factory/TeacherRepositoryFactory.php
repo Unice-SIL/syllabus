@@ -15,12 +15,12 @@ class TeacherRepositoryFactory
     /**
      * @var string
      */
-    private $serviceName;
+    private string $serviceName;
 
     /**
      * @var ContainerInterface
      */
-    private $container;
+    private ContainerInterface $container;
 
     /**
      * TeacherRepositoryFactory constructor.

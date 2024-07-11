@@ -8,7 +8,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Ramsey\Uuid\Uuid;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * Class CourseAchievementFixture
@@ -30,7 +30,7 @@ class CourseResourceEquipmentFixture extends Fixture implements DependentFixture
     {
         // CourseResourceEquipment 1
         $courseResourceEquipment1 = new CourseResourceEquipment();
-        $courseResourceEquipment1->setId(Uuid::uuid4())
+        $courseResourceEquipment1->setId(Uuid::v4())
             ->setCourseInfo($this->getReference(CourseInfoFixture::COURSE_INFO_1))
             ->setEquipment($this->getReference(EquipmentFixture::EQUIPMENT_1));
         $this->addReference(self::COURSE_RESOURCE_EQUIPMENT_1, $courseResourceEquipment1);
@@ -38,7 +38,7 @@ class CourseResourceEquipmentFixture extends Fixture implements DependentFixture
 
         // CourseResourceEquipment 2
         $courseResourceEquipment2 = new CourseResourceEquipment();
-        $courseResourceEquipment2->setId(Uuid::uuid4())
+        $courseResourceEquipment2->setId(Uuid::v4())
             ->setCourseInfo($this->getReference(CourseInfoFixture::COURSE_INFO_1))
             ->setEquipment($this->getReference(EquipmentFixture::EQUIPMENT_2))
             ->setDescription('Texas Instruments ');
@@ -47,7 +47,7 @@ class CourseResourceEquipmentFixture extends Fixture implements DependentFixture
 
         // CourseResourceEquipment 3
         $courseResourceEquipment3 = new CourseResourceEquipment();
-        $courseResourceEquipment3->setId(Uuid::uuid4())
+        $courseResourceEquipment3->setId(Uuid::v4())
             ->setCourseInfo($this->getReference(CourseInfoFixture::COURSE_INFO_1))
             ->setEquipment($this->getReference(EquipmentFixture::EQUIPMENT_3));
         $this->addReference(self::COURSE_RESOURCE_EQUIPMENT_3, $courseResourceEquipment3);

@@ -334,8 +334,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 ]
 #[
     ApiResource(
-        uriTemplate: '/course_infos/{id}/course/parents/{parents}/childrens/{children}/course_infos/{courseInfos}/structure/domains/{domains}/structures/{structures}/levels.{_fo
-rmat}',
+        uriTemplate: '/course_infos/{id}/course/parents/{parents}/childrens/{children}/course_infos/{courseInfos}/structure/domains/{domains}/structures/{structures}/levels.{_format}',
         operations: [new GetCollection()],
         uriVariables: [
             'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
@@ -463,8 +462,7 @@ rmat}',
 ]
 #[
     ApiResource(
-        uriTemplate: '/course_infos/{id}/course/childrens/{children}/parents/{parents}/course_infos/{courseInfos}/structure/domains/{domains}/structures/{structures}/levels.{_fo
-rmat}',
+        uriTemplate: '/course_infos/{id}/course/childrens/{children}/parents/{parents}/course_infos/{courseInfos}/structure/domains/{domains}/structures/{structures}/levels.{_format}',
         operations: [new GetCollection()],
         uriVariables: [
             'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
@@ -742,9 +740,10 @@ class Level
     /**
      * @var string
      *
-     * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
+     * @ORM\Column(type="string", length=36, unique=true, options={"fixed"=true})
+     * @ORM\Id()
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      */
     private $id;
 

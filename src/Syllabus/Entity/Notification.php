@@ -41,10 +41,10 @@ class Notification
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="string")
-     * @ORM\Id
+     * @ORM\Column(type="string", unique=true)
+     * @ORM\Id()
      * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="App\Syllabus\Doctrine\IdGenerator")
+     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      */
     private $id;
 

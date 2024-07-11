@@ -81,8 +81,8 @@ services:
             - '@translator'
             - '@Dmishh\SettingsBundle\Manager\SettingsManagerInterface'
             - 'setting/manage.html.twig'
-            - false
-            - ROLE_SUPER_ADMIN
+            - 'false'
+            - 'ROLE_SUPER_ADMIN'
 
     # AUTHENTICATOR
     App\Syllabus\Security\Authenticator\TestAuthenticator:
@@ -175,7 +175,7 @@ services:
     # FACTORY
     App\Ldap\Factory\TeacherRepositoryFactory:
         autowire: true
-        arguments: [ '%env(LDAP_UNS_TEACHER_REPOSITORY_SERVICE)%' ]
+        arguments: [ '%env(LDAP_UNS_TEACHER_REPOSITORY_SERVICE)%', '@service_container' ]
 
     # ALIAS
     App\Ldap\Repository\TeacherRepositoryInterface:

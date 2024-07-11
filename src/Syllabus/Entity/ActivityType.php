@@ -104,8 +104,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 ]
 #[
     ApiResource(
-        uriTemplate: '/courses/{id}/parents/{parents}/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types/{activityTypes
-}/activity_modes/{activityModes}/activity_types.{_format}',
+        uriTemplate: '/courses/{id}/parents/{parents}/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types/{activityTypes}/activity_modes/{activityModes}/activity_types.{_format}',
         operations: [new GetCollection()],
         uriVariables: [
             'id' => new Link(fromClass: Course::class, identifiers: ['id']),
@@ -140,8 +139,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 ]
 #[
     ApiResource(
-        uriTemplate: '/courses/{id}/parents/{parents}/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_type/activity_modes/{activity
-Modes}/activity_types.{_format}',
+        uriTemplate: '/courses/{id}/parents/{parents}/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_type/activity_modes/{activityModes}/activity_types.{_format}',
         operations: [new GetCollection()],
         uriVariables: [
             'id' => new Link(fromClass: Course::class, identifiers: ['id']),
@@ -159,8 +157,7 @@ Modes}/activity_types.{_format}',
 ]
 #[
     ApiResource(
-        uriTemplate: '/courses/{id}/parents/{parents}/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_mode/activity_types.{_format}
-',
+        uriTemplate: '/courses/{id}/parents/{parents}/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_mode/activity_types.{_format}',
         operations: [new GetCollection()],
         uriVariables: [
             'id' => new Link(fromClass: Course::class, identifiers: ['id']),
@@ -193,8 +190,7 @@ Modes}/activity_types.{_format}',
 ]
 #[
     ApiResource(
-        uriTemplate: '/courses/{id}/parents/{parents}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types/{activityTypes}/activity_modes/{act
-ivityModes}/activity_types.{_format}',
+        uriTemplate: '/courses/{id}/parents/{parents}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types/{activityTypes}/activity_modes/{activityModes}/activity_types.{_format}',
         operations: [new GetCollection()],
         uriVariables: [
             'id' => new Link(fromClass: Course::class, identifiers: ['id']),
@@ -227,8 +223,7 @@ ivityModes}/activity_types.{_format}',
 ]
 #[
     ApiResource(
-        uriTemplate: '/courses/{id}/parents/{parents}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_type/activity_modes/{activityModes}/activity_types
-.{_format}',
+        uriTemplate: '/courses/{id}/parents/{parents}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_type/activity_modes/{activityModes}/activity_types.{_format}',
         operations: [new GetCollection()],
         uriVariables: [
             'id' => new Link(fromClass: Course::class, identifiers: ['id']),
@@ -278,8 +273,7 @@ ivityModes}/activity_types.{_format}',
 ]
 #[
     ApiResource(
-        uriTemplate: '/courses/{id}/childrens/{children}/parents/{parents}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types/{activityTypes
-}/activity_modes/{activityModes}/activity_types.{_format}',
+        uriTemplate: '/courses/{id}/childrens/{children}/parents/{parents}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types/{activityTypes}/activity_modes/{activityModes}/activity_types.{_format}',
         operations: [new GetCollection()],
         uriVariables: [
             'id' => new Link(fromClass: Course::class, identifiers: ['id']),
@@ -314,8 +308,7 @@ ivityModes}/activity_types.{_format}',
 ]
 #[
     ApiResource(
-        uriTemplate: '/courses/{id}/childrens/{children}/parents/{parents}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_type/activity_modes/{activity
-Modes}/activity_types.{_format}',
+        uriTemplate: '/courses/{id}/childrens/{children}/parents/{parents}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_type/activity_modes/{activityModes}/activity_types.{_format}',
         operations: [new GetCollection()],
         uriVariables: [
             'id' => new Link(fromClass: Course::class, identifiers: ['id']),
@@ -333,8 +326,7 @@ Modes}/activity_types.{_format}',
 ]
 #[
     ApiResource(
-        uriTemplate: '/courses/{id}/childrens/{children}/parents/{parents}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_mode/activity_types.{_format}
-',
+        uriTemplate: '/courses/{id}/childrens/{children}/parents/{parents}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_mode/activity_types.{_format}',
         operations: [new GetCollection()],
         uriVariables: [
             'id' => new Link(fromClass: Course::class, identifiers: ['id']),
@@ -367,8 +359,7 @@ Modes}/activity_types.{_format}',
 ]
 #[
     ApiResource(
-        uriTemplate: '/courses/{id}/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types/{activityTypes}/activity_modes/{
-activityModes}/activity_types.{_format}',
+        uriTemplate: '/courses/{id}/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types/{activityTypes}/activity_modes/{activityModes}/activity_types.{_format}',
         operations: [new GetCollection()],
         uriVariables: [
             'id' => new Link(fromClass: Course::class, identifiers: ['id']),
@@ -401,8 +392,7 @@ activityModes}/activity_types.{_format}',
 ]
 #[
     ApiResource(
-        uriTemplate: '/courses/{id}/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_type/activity_modes/{activityModes}/activity_ty
-pes.{_format}',
+        uriTemplate: '/courses/{id}/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_type/activity_modes/{activityModes}/activity_types.{_format}',
         operations: [new GetCollection()],
         uriVariables: [
             'id' => new Link(fromClass: Course::class, identifiers: ['id']),
@@ -450,8 +440,7 @@ pes.{_format}',
 ]
 #[
     ApiResource(
-        uriTemplate: '/courses/{id}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types/{activityTypes}/activity_modes/{activityModes}/activi
-ty_types.{_format}',
+        uriTemplate: '/courses/{id}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types/{activityTypes}/activity_modes/{activityModes}/activity_types.{_format}',
         operations: [new GetCollection()],
         uriVariables: [
             'id' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
@@ -513,8 +502,7 @@ ty_types.{_format}',
 ]
 #[
     ApiResource(
-        uriTemplate: '/course_infos/{id}/course/parents/{parents}/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types.{_
-format}',
+        uriTemplate: '/course_infos/{id}/course/parents/{parents}/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types.{_format}',
         operations: [new GetCollection()],
         uriVariables: [
             'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
@@ -532,8 +520,7 @@ format}',
 ]
 #[
     ApiResource(
-        uriTemplate: '/course_infos/{id}/course/parents/{parents}/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types/{a
-ctivityTypes}/activity_modes/{activityModes}/activity_types.{_format}',
+        uriTemplate: '/course_infos/{id}/course/parents/{parents}/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types/{activityTypes}/activity_modes/{activityModes}/activity_types.{_format}',
         operations: [new GetCollection()],
         uriVariables: [
             'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
@@ -570,8 +557,7 @@ ctivityTypes}/activity_modes/{activityModes}/activity_types.{_format}',
 ]
 #[
     ApiResource(
-        uriTemplate: '/course_infos/{id}/course/parents/{parents}/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_type/activity_mod
-es/{activityModes}/activity_types.{_format}',
+        uriTemplate: '/course_infos/{id}/course/parents/{parents}/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_type/activity_modes/{activityModes}/activity_types.{_format}',
         operations: [new GetCollection()],
         uriVariables: [
             'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
@@ -590,8 +576,7 @@ es/{activityModes}/activity_types.{_format}',
 ]
 #[
     ApiResource(
-        uriTemplate: '/course_infos/{id}/course/parents/{parents}/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_mode/activity_typ
-es.{_format}',
+        uriTemplate: '/course_infos/{id}/course/parents/{parents}/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_mode/activity_types.{_format}',
         operations: [new GetCollection()],
         uriVariables: [
             'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
@@ -626,8 +611,7 @@ es.{_format}',
 ]
 #[
     ApiResource(
-        uriTemplate: '/course_infos/{id}/course/parents/{parents}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types/{activityTypes}/activit
-y_modes/{activityModes}/activity_types.{_format}',
+        uriTemplate: '/course_infos/{id}/course/parents/{parents}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types/{activityTypes}/activity_modes/{activityModes}/activity_types.{_format}',
         operations: [new GetCollection()],
         uriVariables: [
             'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
@@ -662,8 +646,7 @@ y_modes/{activityModes}/activity_types.{_format}',
 ]
 #[
     ApiResource(
-        uriTemplate: '/course_infos/{id}/course/parents/{parents}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_type/activity_modes/{activityModes}/ac
-tivity_types.{_format}',
+        uriTemplate: '/course_infos/{id}/course/parents/{parents}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_type/activity_modes/{activityModes}/activity_types.{_format}',
         operations: [new GetCollection()],
         uriVariables: [
             'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
@@ -698,8 +681,7 @@ tivity_types.{_format}',
 ]
 #[
     ApiResource(
-        uriTemplate: '/course_infos/{id}/course/childrens/{children}/parents/{parents}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types.{_
-format}',
+        uriTemplate: '/course_infos/{id}/course/childrens/{children}/parents/{parents}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types.{_format}',
         operations: [new GetCollection()],
         uriVariables: [
             'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
@@ -717,8 +699,7 @@ format}',
 ]
 #[
     ApiResource(
-        uriTemplate: '/course_infos/{id}/course/childrens/{children}/parents/{parents}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types/{a
-ctivityTypes}/activity_modes/{activityModes}/activity_types.{_format}',
+        uriTemplate: '/course_infos/{id}/course/childrens/{children}/parents/{parents}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types/{activityTypes}/activity_modes/{activityModes}/activity_types.{_format}',
         operations: [new GetCollection()],
         uriVariables: [
             'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
@@ -755,8 +736,7 @@ ctivityTypes}/activity_modes/{activityModes}/activity_types.{_format}',
 ]
 #[
     ApiResource(
-        uriTemplate: '/course_infos/{id}/course/childrens/{children}/parents/{parents}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_type/activity_mod
-es/{activityModes}/activity_types.{_format}',
+        uriTemplate: '/course_infos/{id}/course/childrens/{children}/parents/{parents}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_type/activity_modes/{activityModes}/activity_types.{_format}',
         operations: [new GetCollection()],
         uriVariables: [
             'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
@@ -775,8 +755,7 @@ es/{activityModes}/activity_types.{_format}',
 ]
 #[
     ApiResource(
-        uriTemplate: '/course_infos/{id}/course/childrens/{children}/parents/{parents}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_mode/activity_typ
-es.{_format}',
+        uriTemplate: '/course_infos/{id}/course/childrens/{children}/parents/{parents}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_mode/activity_types.{_format}',
         operations: [new GetCollection()],
         uriVariables: [
             'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
@@ -794,25 +773,24 @@ es.{_format}',
 ]
 #[
     ApiResource(
-        uriTemplate: '/course_infos/{id}/course/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types.{_format}', 
+        uriTemplate: '/course_infos/{id}/course/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types.{_format}',
+        operations: [new GetCollection()],
         uriVariables: [
-            'id' => new Link(fromClass: CourseInfo::class, identifiers: ['id'], fromProperty: 'course'), 
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
             'course' => new Link(fromClass: Course::class, identifiers: [], expandedValue: 'course'),
-            'children' => new Link(fromClass: Course::class, identifiers: ['id'], toProperty: 'course'), 
-            'courseInfos' => new Link(fromClass: CourseInfo::class, identifiers: ['id'], toProperty: 'courseInfo'), 
-            'courseSections' => new Link(fromClass: CourseSection::class, identifiers: ['id'], toProperty: 'courseSection'),
-            'courseSectionActivities' => new Link(fromClass: CourseSectionActivity::class, identifiers: ['id'], fromProperty: 'activity'),
-            'activity' => new Link(fromClass: Activity::class, identifiers: [], expandedValue: 'activity', toProperty: 'activities')
+            'children' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(toProperty: 'courseInfo', fromClass: CourseInfo::class, identifiers: ['id']),
+            'courseSections' => new Link(toProperty: 'courseSection', fromClass: CourseSection::class, identifiers: ['id']),
+            'courseSectionActivities' => new Link(fromProperty: 'activity', fromClass: CourseSectionActivity::class, identifiers: ['id']),
+            'activity' => new Link(toProperty: 'activities', fromClass: Activity::class, identifiers: [], expandedValue: 'activity')
         ],
-        status: 200, 
-        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter'], 
-        operations: [new GetCollection()]
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
     )
 ]
 #[
     ApiResource(
-        uriTemplate: '/course_infos/{id}/course/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types/{activityTypes}/acti
-vity_modes/{activityModes}/activity_types.{_format}',
+        uriTemplate: '/course_infos/{id}/course/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types/{activityTypes}/activity_modes/{activityModes}/activity_types.{_format}',
         operations: [new GetCollection()],
         uriVariables: [
             'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
@@ -847,8 +825,7 @@ vity_modes/{activityModes}/activity_types.{_format}',
 ]
 #[
     ApiResource(
-        uriTemplate: '/course_infos/{id}/course/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_type/activity_modes/{activityModes}
-/activity_types.{_format}',
+        uriTemplate: '/course_infos/{id}/course/childrens/{children}/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_type/activity_modes/{activityModes}/activity_types.{_format}',
         operations: [new GetCollection()],
         uriVariables: [
             'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
@@ -899,8 +876,7 @@ vity_modes/{activityModes}/activity_types.{_format}',
 ]
 #[
     ApiResource(
-        uriTemplate: '/course_infos/{id}/course/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types/{activityTypes}/activity_modes/{activityM
-odes}/activity_types.{_format}',
+        uriTemplate: '/course_infos/{id}/course/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity/activity_types/{activityTypes}/activity_modes/{activityModes}/activity_types.{_format}',
         operations: [new GetCollection()],
         uriVariables: [
             'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
@@ -933,8 +909,7 @@ odes}/activity_types.{_format}',
 ]
 #[
     ApiResource(
-        uriTemplate: '/course_infos/{id}/course/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_type/activity_modes/{activityModes}/activity_types.{_for
-mat}',
+        uriTemplate: '/course_infos/{id}/course/course_infos/{courseInfos}/course_sections/{courseSections}/course_section_activities/{courseSectionActivities}/activity_type/activity_modes/{activityModes}/activity_types.{_format}',
         operations: [new GetCollection()],
         uriVariables: [
             'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
@@ -1243,9 +1218,10 @@ class ActivityType
     /**
      * @var string
      *
-     * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
+     * @ORM\Column(type="string", length=36, unique=true, options={"fixed"=true})
+     * @ORM\Id()
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      */
     private string $id;
 
@@ -1267,7 +1243,7 @@ class ActivityType
      *     mimeTypes={ "image/jpeg", "image/png" }
      *     )
      */
-    private ?string $icon;
+    private ?string $icon = null;
 
     /**
      * @var string|null

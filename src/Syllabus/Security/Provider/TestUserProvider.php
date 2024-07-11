@@ -106,4 +106,9 @@ class TestUserProvider implements UserProviderInterface
     {
         return $class === User::class;
     }
+
+    public function loadUserByIdentifier(string $identifier): UserInterface
+    {
+        return $this->loadUserByUsername($identifier);
+    }
 }

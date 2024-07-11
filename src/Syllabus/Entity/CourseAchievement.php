@@ -13,7 +13,6 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiFilter;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -189,12 +188,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 class CourseAchievement
 {
     /**
-     * @var UuidInterface
-     *
-     * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
-     * @ORM\Id
+     * @ORM\Column(type="string", length=36, unique=true, options={"fixed"=true})
+     * @ORM\Id()
      * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="App\Syllabus\Doctrine\IdGenerator")
+     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      */
     private $id;
 

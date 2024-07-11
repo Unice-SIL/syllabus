@@ -7,7 +7,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Ramsey\Uuid\Uuid;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * Class CourseSectionFixture
@@ -28,7 +28,7 @@ class CourseSectionActivityFixture extends Fixture implements DependentFixtureIn
     {
         // CourseSectionActivity 1
         $courseSectionActivity1 = new CourseSectionActivity();
-        $courseSectionActivity1->setId(Uuid::uuid4())
+        $courseSectionActivity1->setId(Uuid::v4())
             ->setDescription('')
             ->setPosition(1)
             ->setActivity($this->getReference(ActivityFixture::ACTIVITY_1))
@@ -40,7 +40,7 @@ class CourseSectionActivityFixture extends Fixture implements DependentFixtureIn
 
         // CourseSectionActivity 2
         $courseSectionActivity2 = new CourseSectionActivity();
-        $courseSectionActivity2->setId(Uuid::uuid4())
+        $courseSectionActivity2->setId(Uuid::v4())
             ->setDescription('Projet Syllabus')
             ->setPosition(2)
             ->setActivity($this->getReference(ActivityFixture::ACTIVITY_2))

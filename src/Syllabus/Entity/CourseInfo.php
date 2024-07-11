@@ -18,7 +18,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\OneToMany;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Ramsey\Uuid\Uuid;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\PropertyAccess\PropertyAccess;
@@ -177,10 +176,10 @@ class CourseInfo
     /**
      * @var string
      *
-     * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
-     * @ORM\Id
+     * @ORM\Column(type="string", length=36, unique=true, options={"fixed"=true})
+     * @ORM\Id()
      * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="App\Syllabus\Doctrine\IdGenerator")
+     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      */
     private string $id;
 
@@ -234,7 +233,7 @@ class CourseInfo
      *     mimeTypes={ "image/jpeg", "image/png" }
      *     )
      */
-    private ?string $image;
+    private ?string $image = null;
 
     /**
      * @var string|null
@@ -669,7 +668,7 @@ class CourseInfo
      * )
      * @Assert\Count(min="1", groups={"presentation"})
      */
-    private ArrayCollection $periods;
+    private $periods;
 
 
     /**
@@ -745,7 +744,7 @@ class CourseInfo
      * @Assert\NotBlank(groups={"objectives"})
      * @AssertCustom\AchievementConstraintValidator
      */
-    private ArrayCollection $courseCriticalAchievements;
+    private $courseCriticalAchievements;
 
     /**
      * @var Collection
@@ -783,7 +782,7 @@ class CourseInfo
      * )
      * @Assert\Count(min="1", groups={"presentation"})
      */
-    private ArrayCollection $levels;
+    private $levels;
 
     /**
      * @var string|null

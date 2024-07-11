@@ -304,10 +304,10 @@ class Course
     /**
      * @var string
      *
-     * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
-     * @ORM\Id
+     * @ORM\Column(type="string", length=36, unique=true, options={"fixed"=true})
+     * @ORM\Id()
      * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="App\Syllabus\Doctrine\IdGenerator")
+     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      */
     private string $id;
 
@@ -370,7 +370,7 @@ class Course
      * @var string
      * @Gedmo\Locale
      */
-    private string $locale;
+    private string $locale = 'fr';
 
     /**
      * @var Collection

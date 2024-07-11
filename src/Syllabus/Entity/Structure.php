@@ -174,7 +174,8 @@ use Symfony\Component\Validator\Constraints as Assert;
     )
 ]
 #[
-    ApiResource(uriTemplate: '/courses/{id}/childrens/{children}/course_infos/{courseInfos}/structure.{_format}',
+    ApiResource(
+        uriTemplate: '/courses/{id}/childrens/{children}/course_infos/{courseInfos}/structure.{_format}',
         operations: [new Get()],
         uriVariables: [
             'id' => new Link(fromClass: Course::class, identifiers: ['id']),
@@ -545,9 +546,10 @@ class Structure
     /**
      * @var string|null
      *
-     * @ORM\Column(name="id", type="string", length=36, options={"fixed"=true})
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
+     * @ORM\Column(type="string", length=36, unique=true, options={"fixed"=true})
+     * @ORM\Id()
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      */
     private $id;
 
