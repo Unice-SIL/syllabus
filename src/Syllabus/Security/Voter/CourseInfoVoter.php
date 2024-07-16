@@ -29,7 +29,7 @@ class CourseInfoVoter extends Voter
     /**
      * @var AccessDecisionManagerInterface
      */
-    private $decisionManager;
+    private AccessDecisionManagerInterface $decisionManager;
 
     /**
      * CourseInfoVoter constructor.
@@ -45,7 +45,7 @@ class CourseInfoVoter extends Voter
      * @param mixed $subject
      * @return bool
      */
-    protected function supports($attribute, $subject): bool
+    protected function supports(string $attribute, mixed $subject): bool
     {
         $classes = [
             CourseAchievement::class,
@@ -79,7 +79,7 @@ class CourseInfoVoter extends Voter
      * @param TokenInterface $token
      * @return bool
      */
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         if ($this->decisionManager->decide($token, ['ROLE_ADMIN_COURSE_INFO_UPDATE'])) {
             return true;

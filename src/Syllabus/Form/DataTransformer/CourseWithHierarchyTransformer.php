@@ -15,7 +15,7 @@ class CourseWithHierarchyTransformer implements DataTransformerInterface
     /**
      * @var EntityManagerInterface
      */
-    private $em;
+    private EntityManagerInterface $em;
 
     public function __construct(EntityManagerInterface $em)
     {

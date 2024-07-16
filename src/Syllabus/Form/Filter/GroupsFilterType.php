@@ -16,9 +16,9 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class GroupsFilterType extends AbstractType
 {
     /**
-     * @var
+     * @var UrlGeneratorInterface
      */
-    private  $generator;
+    private UrlGeneratorInterface $generator;
 
     /**
      * GroupsFilterType constructor.
@@ -33,7 +33,7 @@ class GroupsFilterType extends AbstractType
      * @param FormBuilderInterface $builder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
 
         $builder->add('label', TextFilterType::class, [
@@ -54,7 +54,7 @@ class GroupsFilterType extends AbstractType
     /**
      * @return string
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'groups_filter';
     }
@@ -62,7 +62,7 @@ class GroupsFilterType extends AbstractType
     /**
      * @param OptionsResolver $resolver
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(array(
             'csrf_protection'   => false,

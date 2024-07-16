@@ -33,9 +33,10 @@ class AutoCompleteController extends AbstractController
      *
      * @param string $entityName
      * @param Request $request
+     * @param EntityManagerInterface $em
      * @return JsonResponse
      */
-    public function autoComplete(string $entityName, Request $request, EntityManagerInterface $em)
+    public function autoComplete(string $entityName, Request $request, EntityManagerInterface $em): JsonResponse
     {
         $namespace = 'App\Syllabus\\Entity\\';
         $entityName = "{$namespace}{$entityName}";
@@ -69,7 +70,7 @@ class AutoCompleteController extends AbstractController
      * @param EntityManagerInterface $em
      * @return JsonResponse
      */
-    public function autoCompleteS2(string $entityName, Request $request, EntityManagerInterface $em)
+    public function autoCompleteS2(string $entityName, Request $request, EntityManagerInterface $em): JsonResponse
     {
 
 
@@ -118,7 +119,7 @@ class AutoCompleteController extends AbstractController
      * @param EntityManagerInterface $em
      * @return JsonResponse
      */
-    public function autoCompleteS2Courses(string $entityName, Request $request, EntityManagerInterface $em)
+    public function autoCompleteS2Courses(string $entityName, Request $request, EntityManagerInterface $em): JsonResponse
     {
         $namespace = 'App\Syllabus\\Entity\\';
         $entityName = "{$namespace}{$entityName}";
@@ -170,7 +171,6 @@ class AutoCompleteController extends AbstractController
         $search = $parameters['q'] ?? null;
         $currentCourseInfo = $parameters['currentCourseInfo'] ?? null;
 
-        /** @var QueryBuilder $qb */
         $qb = $em->getRepository(CourseInfo::class)->createQueryBuilder('ci')
             ->innerJoin('ci.course', 'c')
             ->addSelect('c')
@@ -242,7 +242,7 @@ class AutoCompleteController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
-    public function autocompleteS2User(UserDoctrineRepository $userDoctrineRepository, Request $request)
+    public function autocompleteS2User(UserDoctrineRepository $userDoctrineRepository, Request $request): JsonResponse
     {
 
         $allParameters = $request->query->all();

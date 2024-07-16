@@ -14,10 +14,14 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class CourseWithHierarchyType extends AbstractType
 {
     /**
-     * @var EntityManagerInterface
+     * @var CourseWithHierarchyTransformer
      */
-    private $transformer;
-    private $generator;
+    private CourseWithHierarchyTransformer $transformer;
+
+    /**
+     * @var UrlGeneratorInterface
+     */
+    private UrlGeneratorInterface $generator;
 
 
     public function __construct(CourseWithHierarchyTransformer $transformer, UrlGeneratorInterface $generator)
@@ -26,7 +30,7 @@ class CourseWithHierarchyType extends AbstractType
         $this->generator = $generator;
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('code', null, [
@@ -34,26 +38,13 @@ class CourseWithHierarchyType extends AbstractType
                     'class' => 'autocomplete-input',
                     'data-autocomplete-path' => $this->generator->generate('app.admin.course.autocomplete', ['field' => 'code'])
                 ]
-            ])
-            /*
-            ->add('parents', Select2EntityType::class, [
-                'label' => 'app.form.course.label.parents',
-                'multiple' => true,
-                'remote_route' => 'app_admin_course_autocompleteS2',
-                'class' => Course::class,
-                'text_property' => 'code',
-                'page_limit' => 10,
-                'placeholder' => 'Choisissez une code établissement',
-                'required' => true,
-            ])
-            */
-            ;
+            ]);
 
 
         $builder->addModelTransformer($this->transformer);
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'invalid_message' => 'Le code établissement ne correspond a aucun cours.',

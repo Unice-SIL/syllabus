@@ -38,7 +38,7 @@ class YearController extends AbstractController
      * @param EntityManagerInterface $em
      * @return Response
      */
-    public function indexAction(Request $request, PaginatorInterface $paginator, EntityManagerInterface $em)
+    public function indexAction(Request $request, PaginatorInterface $paginator, EntityManagerInterface $em): Response
     {
         $pagination = $paginator->paginate(
             $em->createQuery("SELECT y FROM Syllabus:Year y"),
@@ -61,7 +61,7 @@ class YearController extends AbstractController
      * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function newAction(Request $request, YearManager $yearManager, TranslatorInterface $translator)
+    public function newAction(Request $request, YearManager $yearManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $year = $yearManager->new();
 
@@ -92,7 +92,7 @@ class YearController extends AbstractController
      * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, Year $year, YearManager $yearManager, TranslatorInterface $translator)
+    public function editAction(Request $request, Year $year, YearManager $yearManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $form = $this->createForm('App\Syllabus\Form\YearType', $year);
         $form->handleRequest($request);
@@ -117,7 +117,7 @@ class YearController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
-    public function autocompleteS2(YearDoctrineRepository $yearDoctrineRepository, Request $request)
+    public function autocompleteS2(YearDoctrineRepository $yearDoctrineRepository, Request $request): JsonResponse
     {
         $parameters = $request->query->all();
         $query = $parameters['q'];

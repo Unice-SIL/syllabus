@@ -13,5 +13,5 @@ use Symfony\Component\Validator\Constraint;
  */
 class ContainsAchievements extends Constraint
 {
-    public $message = 'The string contains an illegal character: it can only contain letters or numbers.';
+    public string $message = 'The string contains an illegal character: it can only contain letters or numbers.';
 }

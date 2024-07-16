@@ -12,14 +12,13 @@ class ReportMessage
     const TYPE_SUCCESS = 'success';
     const TYPE_WARNING = 'warning';
 
-    private $content;
+    private string $content;
 
-    private $type = self::TYPE_INFO;
+    private string $type = self::TYPE_INFO;
 
     /**
-     * ReportMessage constructor.
-     * @param $type
-     * @param $content
+     * @param string $content
+     * @param string|null $type
      */
     public function __construct(string $content, string $type = null)
     {
@@ -28,33 +27,35 @@ class ReportMessage
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getContent()
+    public function getContent(): string
     {
         return $this->content;
     }
 
     /**
-     * @param mixed $content
+     * @param $content
+     * @return void
      */
-    public function setContent($content)
+    public function setContent($content): void
     {
         $this->content = $content;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
 
     /**
-     * @param mixed $type
+     * @param $type
+     * @return void
      */
-    public function setType($type)
+    public function setType($type): void
     {
         $this->type = $type;
     }

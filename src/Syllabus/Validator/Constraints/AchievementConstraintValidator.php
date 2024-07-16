@@ -15,7 +15,7 @@ use Symfony\Component\Validator\ConstraintValidator;
 class AchievementConstraintValidator extends ConstraintValidator
 {
 
-    public function validate($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint): void
     {
         //$values = $this->context->getRoot()->getData();
         $this->context->buildViolation($constraint->message)

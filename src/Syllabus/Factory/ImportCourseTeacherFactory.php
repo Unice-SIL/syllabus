@@ -16,12 +16,12 @@ class ImportCourseTeacherFactory
     /**
      * @var ContainerInterface
      */
-    private $container;
+    private ContainerInterface $container;
 
     /**
      * @var array
      */
-    private $sources = [];
+    private mixed $sources = [];
 
     /**
      * ImportCourseTeacherFactory constructor.

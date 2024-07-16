@@ -5,11 +5,13 @@ namespace App\Syllabus\Command\Import;
 
 use App\Syllabus\Command\Scheduler\AbstractJob;
 use App\Syllabus\Entity\Structure;
+use App\Syllabus\Helper\Report\Report;
 use App\Syllabus\Helper\Report\ReportingHelper;
 use App\Syllabus\Import\Configuration\StructureApogeeConfiguration;
 use App\Syllabus\Import\ImportManager;
 use App\Syllabus\Manager\StructureManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -20,15 +22,15 @@ class ApogeeStructureImportCommand extends AbstractJob
     /**
      * @var ImportManager
      */
-    private $importManager;
+    private ImportManager $importManager;
     /**
      * @var StructureApogeeConfiguration
      */
-    private $configuration;
+    private StructureApogeeConfiguration $configuration;
     /**
      * @var StructureManager
      */
-    private $structureManager;
+    private StructureManager $structureManager;
 
     const SOURCE = 'apogee';
 
@@ -52,7 +54,7 @@ class ApogeeStructureImportCommand extends AbstractJob
         $this->structureManager = $structureManager;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
         $this
@@ -62,10 +64,10 @@ class ApogeeStructureImportCommand extends AbstractJob
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
-     * @return mixed|void
-     * @throws \Exception
+     * @return Report
+     * @throws Exception
      */
-    protected function subExecute(InputInterface $input, OutputInterface $output)
+    protected function subExecute(InputInterface $input, OutputInterface $output): Report
     {
         $report = ReportingHelper::createReport();
         $fieldsAllowed = iterator_to_array($this->configuration->getMatching()->getCompleteMatching());

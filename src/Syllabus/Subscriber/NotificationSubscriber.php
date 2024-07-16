@@ -29,19 +29,19 @@ class NotificationSubscriber implements EventSubscriberInterface
     /**
      * @var RequestStack
      */
-    private $requestStack;
+    private RequestStack $requestStack;
     /**
      * @var EntityManagerInterface
      */
-    private $em;
+    private EntityManagerInterface $em;
     /**
-     * @var UriSafeTokenGenerator
+     * @var CsrfTokenManagerInterface
      */
-    private $csrfTokenManager;
+    private CsrfTokenManagerInterface $csrfTokenManager;
     /**
      * @var UrlGeneratorInterface
      */
-    private $urlGenerator;
+    private UrlGeneratorInterface $urlGenerator;
 
     /**
      * AdminNotificationSubscriber constructor.
@@ -79,7 +79,7 @@ class NotificationSubscriber implements EventSubscriberInterface
      * @param RequestEvent $event
      * @throws InvalidArgumentException
      */
-    public function setNotifications(RequestEvent $event)
+    public function setNotifications(RequestEvent $event): void
     {
         if (!$event->isMainRequest()) {
             return;

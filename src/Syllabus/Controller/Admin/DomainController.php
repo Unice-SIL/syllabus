@@ -44,7 +44,7 @@ class DomainController extends AbstractController
         DomainDoctrineRepository $repository,
         PaginatorInterface $paginator,
         FilterBuilderUpdaterInterface $filterBuilderUpdater
-    )
+    ): Response
     {
         $qb =  $repository->getIndexQueryBuilder();
 
@@ -78,7 +78,7 @@ class DomainController extends AbstractController
      * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function newAction(Request $request, DomainManager $domainManager, TranslatorInterface $translator)
+    public function newAction(Request $request, DomainManager $domainManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $domain = $domainManager->new();
         $form = $this->createForm(DomainType::class, $domain);
@@ -107,7 +107,7 @@ class DomainController extends AbstractController
      * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, Domain $domain, DomainManager $domainManager, TranslatorInterface $translator)
+    public function editAction(Request $request, Domain $domain, DomainManager $domainManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $form = $this->createForm(DomainType::class, $domain);
         $form->handleRequest($request);

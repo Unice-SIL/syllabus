@@ -13,6 +13,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 /**
  * Class InfoController
@@ -29,7 +32,7 @@ class InfoController extends AbstractController
      * @param CourseInfo $courseInfo
      * @return Response
      */
-    public function indexAction(CourseInfo $courseInfo)
+    public function indexAction(CourseInfo $courseInfo): Response
     {
         return $this->render('course_info/info/info.html.twig', [
             'courseInfo' => $courseInfo
@@ -43,8 +46,11 @@ class InfoController extends AbstractController
      * @param Request $request
      * @param Environment $twig
      * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function infoCourseViewAction(CourseInfo $courseInfo, Request $request, Environment $twig)
+    public function infoCourseViewAction(CourseInfo $courseInfo, Request $request, Environment $twig): Response
     {
         $form = $this->createForm(InfoType::class, $courseInfo);
         $form->handleRequest($request);
@@ -74,7 +80,7 @@ class InfoController extends AbstractController
         Request $request,
         CourseInfoManager $manager,
         Environment $twig
-    )
+    ): Response
     {
         $form = $this->createForm(InfoType::class, $courseInfo);
         $form->handleRequest($request);

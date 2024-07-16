@@ -5,7 +5,8 @@ namespace App\Syllabus\Query\CourseTeacher\Adapter\Ldap;
 use App\Syllabus\Entity\CourseTeacher;
 use App\Syllabus\Query\CourseTeacher\Adapter\FindCourseTeacherByIdQueryInterface;
 use App\Ldap\Repository\TeacherRepositoryInterface;
-use Ramsey\Uuid\Uuid;
+use Exception;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * Class FindCourseTeacherByIdLdapQuery
@@ -16,12 +17,12 @@ class FindCourseTeacherByIdLdapQuery implements FindCourseTeacherByIdQueryInterf
     /**
      * @var TeacherRepositoryInterface
      */
-    private $teacherRepository;
+    private TeacherRepositoryInterface $teacherRepository;
 
     /**
      * @var string
      */
-    private $id;
+    private string $id;
 
     /**
      * FindCourseTeacherByIdLdapQuery constructor.
@@ -46,7 +47,7 @@ class FindCourseTeacherByIdLdapQuery implements FindCourseTeacherByIdQueryInterf
 
     /**
      * @return CourseTeacher|null
-     * @throws \Exception
+     * @throws Exception
      */
     public function execute(): ?CourseTeacher
     {
@@ -55,12 +56,12 @@ class FindCourseTeacherByIdLdapQuery implements FindCourseTeacherByIdQueryInterf
             $teacher = $this->teacherRepository->find($this->id);
             if (!is_null($teacher)){
                 $courseTeacher = new CourseTeacher();
-                $courseTeacher->setId(Uuid::uuid4())
+                $courseTeacher->setId(Uuid::v4())
                     ->setFirstname($teacher->getFirstname())
                     ->setLastname($teacher->getLastname())
                     ->setEmail($teacher->getEmail());
             }
-        }catch (\Exception $e){
+        }catch (Exception $e){
             throw $e;
         }
         return $courseTeacher;

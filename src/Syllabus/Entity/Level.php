@@ -745,7 +745,7 @@ class Level
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      */
-    private $id;
+    private string $id;
 
     /**
      * @var string
@@ -755,7 +755,7 @@ class Level
      * @Assert\Length(max="100")
      * @Gedmo\Translatable
      */
-    private $label;
+    private string $label;
 
     /**
      * @var Collection
@@ -763,14 +763,14 @@ class Level
      * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Structure", inversedBy="levels")
      * @ORM\OrderBy({"label" = "ASC"})
      */
-    private $structures;
+    private Collection $structures;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
      */
-    private $obsolete = false;
+    private bool $obsolete = false;
 
     /**
      * Level constructor.

@@ -11,7 +11,7 @@ use App\Syllabus\Manager\StructureManager;
 class StructureApogeeMatching extends AbstractMatching implements MatchingInterface
 {
 
-    private $structureManager;
+    private StructureManager $structureManager;
 
 
     /**

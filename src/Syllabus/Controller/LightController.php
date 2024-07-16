@@ -23,7 +23,7 @@ class LightController extends AbstractController
      * @param CourseInfo $courseInfo
      * @return Response
      */
-    public function lightVersionView(CourseInfo $courseInfo)
+    public function lightVersionView(CourseInfo $courseInfo): Response
     {
         return $this->render('lightVersion/light_layout.html.twig', array(
             'courseInfo' => $courseInfo,

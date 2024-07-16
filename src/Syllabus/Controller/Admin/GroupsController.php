@@ -47,7 +47,7 @@ class GroupsController extends AbstractController
         GroupsDoctrineRepository $groupsDoctrineRepository,
         FilterBuilderUpdaterInterface $filterBuilderUpdater,
         PaginatorInterface $paginator
-    )
+    ): Response
     {
 
         $qb = $groupsDoctrineRepository->getIndexQueryBuilder();
@@ -89,7 +89,7 @@ class GroupsController extends AbstractController
      * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function newAction(Request $request, GroupsManager $groupsManager, TranslatorInterface $translator)
+    public function newAction(Request $request, GroupsManager $groupsManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $groups = $groupsManager->new();
 
@@ -120,7 +120,7 @@ class GroupsController extends AbstractController
      * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, Groups $groups, GroupsManager $groupsManager, TranslatorInterface $translator)
+    public function editAction(Request $request, Groups $groups, GroupsManager $groupsManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $form = $this->createForm(GroupsType::class, $groups);
         $form->handleRequest($request);
@@ -147,7 +147,7 @@ class GroupsController extends AbstractController
      * @param $field
      * @return JsonResponse
      */
-    public function autocomplete(GroupsDoctrineRepository $groupsDoctrineRepository, Request $request, $field)
+    public function autocomplete(GroupsDoctrineRepository $groupsDoctrineRepository, Request $request, $field): JsonResponse
     {
         $parameters = $request->query->all();
         $query = $parameters['query'];
@@ -175,7 +175,7 @@ class GroupsController extends AbstractController
      * @param GroupsManager $groupsManager
      * @return RedirectResponse
      */
-    public function deleteAction(TranslatorInterface $translator, Groups $groups, GroupsManager $groupsManager)
+    public function deleteAction(TranslatorInterface $translator, Groups $groups, GroupsManager $groupsManager): RedirectResponse
     {
         $groupsManager->delete($groups);
         $this->addFlash('success', $translator->trans('admin.group.flashbag.delete'));
@@ -187,7 +187,7 @@ class GroupsController extends AbstractController
      * @param Groups $group
      * @return FormInterface
      */
-    private function createDeleteForm(Groups $group)
+    private function createDeleteForm(Groups $group): FormInterface
     {
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('app.admin.groups.delete', array('id' => $group->getId())))

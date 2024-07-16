@@ -12,7 +12,7 @@ class SyllabusExport extends AbstractExportService
     /**
      * @var TranslatorInterface
      */
-    private $translator;
+    private TranslatorInterface $translator;
 
     /**
      * SyllabusExport constructor.

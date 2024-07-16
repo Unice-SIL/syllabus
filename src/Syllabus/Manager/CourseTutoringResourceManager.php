@@ -13,14 +13,14 @@ use Doctrine\ORM\EntityManagerInterface;
 class CourseTutoringResourceManager
 {
     /**
-     * @var \Doctrine\Persistence\ObjectRepository
+     * @var EntityManagerInterface
      */
-    private $em;
+    private EntityManagerInterface $em;
 
     /**
      * @var CourseTutoringResourceDoctrineRepository
      */
-    private $repository;
+    private CourseTutoringResourceDoctrineRepository $repository;
 
     /**
      * CourseTutoringResourceManager constructor.
@@ -36,7 +36,7 @@ class CourseTutoringResourceManager
     /**
      * @return CourseTutoringResource
      */
-    public function new()
+    public function new(): CourseTutoringResource
     {
         return new CourseTutoringResource();
     }

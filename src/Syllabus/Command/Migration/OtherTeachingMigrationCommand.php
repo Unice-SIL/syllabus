@@ -22,15 +22,15 @@ class OtherTeachingMigrationCommand extends Command
     /**
      * @var EntityManagerInterface
      */
-    private $em;
+    private EntityManagerInterface $em;
     /**
      * @var ValidatorInterface
      */
-    private $validator;
+    private ValidatorInterface $validator;
     /**
      * @var TeachingManager
      */
-    private $teachingManager;
+    private TeachingManager $teachingManager;
 
     /**
      * OtherTeachingMigrationCommand constructor.
@@ -47,13 +47,12 @@ class OtherTeachingMigrationCommand extends Command
     }
 
 
-    protected function configure()
+    protected function configure(): void
     {
-        $this
-            ->setDescription('Transfer otherTeaching from courseInfo data in a new table');
+        $this->setDescription('Transfer otherTeaching from courseInfo data in a new table');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $io = new SymfonyStyle($input, $output);
 

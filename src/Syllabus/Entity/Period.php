@@ -746,7 +746,7 @@ class Period
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      */
-    private $id;
+    private string $id;
 
     /**
      * @var string
@@ -755,21 +755,21 @@ class Period
      * @Assert\NotBlank()
      * @Gedmo\Translatable
      */
-    private $label;
+    private string $label;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
      */
-    private $obsolete = false;
+    private bool $obsolete = false;
 
     /**
      * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Structure", inversedBy="periods")
      */
-    private $structures;
+    private Collection $structures;
 
     /**
      * Period constructor.
@@ -837,7 +837,7 @@ class Period
     }
 
     /**
-     * @return Collection
+     * @return Collection|null
      */
     public function getStructures(): ?Collection
     {

@@ -16,12 +16,12 @@ class YearManager
     /**
      * @var EntityManagerInterface
      */
-    private $em;
+    private EntityManagerInterface $em;
 
     /**
      * @var YearDoctrineRepository
      */
-    private $repository;
+    private YearDoctrineRepository $repository;
 
     /**
      * YearManager constructor.
@@ -37,7 +37,7 @@ class YearManager
     /**
      * @return Year
      */
-    public function new()
+    public function new(): Year
     {
         return new Year();
     }
@@ -54,7 +54,7 @@ class YearManager
     /**
      * @return array
      */
-    public function findAll()
+    public function findAll(): array
     {
         return $this->repository->findAll();
     }
@@ -104,7 +104,7 @@ class YearManager
     /**
      * @param Year $year
      */
-    public function delete(Year $year)
+    public function delete(Year $year): void
     {
         $this->em->remove($year);
         $this->em->flush();

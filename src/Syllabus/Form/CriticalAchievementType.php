@@ -8,6 +8,7 @@ use App\Syllabus\Entity\Course;
 use App\Syllabus\Form\Subscriber\CriticalAchievementTypeSubscriber;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 
@@ -20,12 +21,12 @@ class CriticalAchievementType extends AbstractType
     /**
      * @var CriticalAchievementTypeSubscriber
      */
-    private $criticalAchievementTypeSubscriber;
+    private CriticalAchievementTypeSubscriber $criticalAchievementTypeSubscriber;
 
     /**
-     * @var null|\Symfony\Component\HttpFoundation\Request
+     * @var null|Request
      */
-    private $request;
+    private ?Request $request;
 
     public function __construct(CriticalAchievementTypeSubscriber $criticalAchievementTypeSubscriber, RequestStack $requestStack)
     {
@@ -37,7 +38,7 @@ class CriticalAchievementType extends AbstractType
      * @param FormBuilderInterface $builder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('label')

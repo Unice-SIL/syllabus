@@ -16,20 +16,20 @@ trait Importable
      * @var string|null
      * @ORM\Column(type="string", length=50, nullable=true)
      */
-    private $code;
+    private ?string $code;
 
     /**
      * @var string|null
      * @ORM\Column(type="string", length=50, nullable=true)
      */
-    private $source;
+    private ?string $source;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="synchronized", type="boolean")
      */
-    private $synchronized = false;
+    private bool $synchronized = false;
 
     /**
      * @return string|null
@@ -43,7 +43,7 @@ trait Importable
      * @param null|string $code
      * @return $this
      */
-    public function setCode(?string $code)
+    public function setCode(?string $code): static
     {
         $this->code = $code;
 
@@ -62,7 +62,7 @@ trait Importable
      * @param null|string $source
      * @return $this
      */
-    public function setSource(?string $source)
+    public function setSource(?string $source): static
     {
         $this->source = $source;
 
@@ -70,7 +70,7 @@ trait Importable
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
     public function isSynchronized(): ?bool
     {

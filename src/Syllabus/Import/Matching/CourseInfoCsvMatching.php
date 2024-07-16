@@ -16,12 +16,17 @@ use Doctrine\ORM\EntityManagerInterface;
 class CourseInfoCsvMatching extends AbstractMatching implements MatchingInterface
 {
 
-    private $courseInfoManager;
+    private CourseInfoManager $courseInfoManager;
+
+    /**
+     * @var
+     */
     private $evaluationType;
+
     /**
      * @var EntityManagerInterface
      */
-    private $em;
+    private EntityManagerInterface $em;
 
 
     /**

@@ -14,10 +14,10 @@ class UserType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $context = $options['context'];
-        $disabled = $context === 'new' ? false : true;
+        $disabled = !($context === 'new');
         $builder
             ->add('username', null, [
                 'disabled' => $disabled,
@@ -43,7 +43,7 @@ class UserType extends AbstractType
     }/**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(array(
             'data_class' => 'App\Syllabus\Entity\User',
@@ -54,7 +54,7 @@ class UserType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'appbundle_user';
     }

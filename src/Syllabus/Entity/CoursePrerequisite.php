@@ -480,7 +480,7 @@ class CoursePrerequisite
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      */
-    private $id;
+    private ?string $id;
 
     /**
      * @var null|string
@@ -488,14 +488,14 @@ class CoursePrerequisite
      * @ORM\Column(name="description", type="text", length=65535, nullable=true)
      * @Gedmo\Translatable
      */
-    private $description = "";
+    private ?string $description = "";
 
     /**
      * @var int
      *
      * @ORM\Column(name="position", type="integer", nullable=false)
      */
-    private $position = 0;
+    private int $position = 0;
 
     /**
      * @var CourseInfo
@@ -505,14 +505,14 @@ class CoursePrerequisite
      *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
      * })
      */
-    private $courseInfo;
+    private CourseInfo $courseInfo;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="is_course_associated", type="boolean", nullable=false)
      */
-    private $isCourseAssociated = false;
+    private bool $isCourseAssociated = false;
 
     /**
      * @var ArrayCollection
@@ -558,10 +558,10 @@ class CoursePrerequisite
     }
 
     /**
-     * @param null|string $description
+     * @param string|null $description
      * @return CoursePrerequisite
      */
-    public function setDescription($description): self
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
 

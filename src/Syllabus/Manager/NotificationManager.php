@@ -2,12 +2,9 @@
 
 namespace App\Syllabus\Manager;
 
-use App\Syllabus\Entity\Domain;
 use App\Syllabus\Entity\Notification;
-use App\Syllabus\Repository\Doctrine\DomainDoctrineRepository;
 use App\Syllabus\Repository\Doctrine\NotificationDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Persistence\ObjectRepository;
 
 /**
  * Class NotificationManager
@@ -16,14 +13,14 @@ use Doctrine\Persistence\ObjectRepository;
 class NotificationManager
 {
     /**
-     * @var ObjectRepository
+     * @var EntityManagerInterface
      */
-    private $em;
+    private EntityManagerInterface $em;
 
     /**
      * @var NotificationDoctrineRepository
      */
-    private $repository;
+    private NotificationDoctrineRepository $repository;
 
     /**
      * DomainManager constructor.
@@ -39,7 +36,7 @@ class NotificationManager
     /**
      * @return Notification
      */
-    public function new()
+    public function new(): Notification
     {
         return new Notification();
     }
@@ -64,7 +61,7 @@ class NotificationManager
     /**
      * @param Notification $notification
      */
-    public function create(Notification $notification)
+    public function create(Notification $notification): void
     {
         $this->em->persist($notification);
         $this->em->flush();

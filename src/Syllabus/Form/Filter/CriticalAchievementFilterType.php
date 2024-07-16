@@ -16,9 +16,9 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class CriticalAchievementFilterType extends AbstractType
 {
     /**
-     * @var
+     * @var UrlGeneratorInterface
      */
-    private $generator;
+    private UrlGeneratorInterface $generator;
 
     /**
      * CriticalAchievementFilterType constructor.
@@ -33,7 +33,7 @@ class CriticalAchievementFilterType extends AbstractType
      * @param FormBuilderInterface $builder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('label', TextFilterType::class, [
@@ -51,7 +51,7 @@ class CriticalAchievementFilterType extends AbstractType
     /**
      * @return string
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'critical_achievement_filter';
     }

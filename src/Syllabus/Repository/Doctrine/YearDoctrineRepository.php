@@ -5,6 +5,8 @@ namespace App\Syllabus\Repository\Doctrine;
 use App\Syllabus\Entity\Course;
 use App\Syllabus\Entity\Year;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
@@ -99,9 +101,9 @@ class YearDoctrineRepository  extends ServiceEntityRepository
     }
 
     /**
-     * @return EntityManager
+     * @return EntityManagerInterface
      */
-    public function getEm(): EntityManager
+    public function getEm(): EntityManagerInterface
     {
         return $this->_em;
     }
@@ -117,24 +119,24 @@ class YearDoctrineRepository  extends ServiceEntityRepository
     }
 
     /**
-     * @return Mapping\ClassMetadata
+     * @return ClassMetadata
      */
-    public function getClass(): Mapping\ClassMetadata
+    public function getClass(): ClassMetadata
     {
         return $this->_class;
     }
 
     /**
-     * @param Mapping\ClassMetadata $class
+     * @param ClassMetadata $class
      * @return YearDoctrineRepository
      */
-    public function setClass(Mapping\ClassMetadata $class): YearDoctrineRepository
+    public function setClass(ClassMetadata $class): YearDoctrineRepository
     {
         $this->_class = $class;
         return $this;
     }
 
-    public function getAvailableYearsByCourseBuilder(Course $course)
+    public function getAvailableYearsByCourseBuilder(Course $course): QueryBuilder
     {
         $qb = $this->createQueryBuilder('y');
         $qb

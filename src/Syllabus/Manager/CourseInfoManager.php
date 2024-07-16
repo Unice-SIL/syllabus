@@ -23,6 +23,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Class CourseInfoManager
@@ -42,22 +43,22 @@ class CourseInfoManager extends AbstractManager
         'campuses'
     ];
 
-    private static $fieldsToDuplicate = [];
-    private static $yearsConcernedByImport;
+    private static array $fieldsToDuplicate = [];
 
     /**
      * @var CourseInfoDoctrineRepository
      */
-    private $repository;
+    private CourseInfoDoctrineRepository $repository;
 
     /**
-     * @var User
+     * @var UserInterface|null
      */
-    private $user;
+    private ?UserInterface $user;
+
     /**
      * @var PropertyAccessor
      */
-    private $propertyAccessor;
+    private PropertyAccessor $propertyAccessor;
 
     /**
      * CourseInfoManager constructor.
@@ -85,7 +86,7 @@ class CourseInfoManager extends AbstractManager
     /**
      * @return CourseInfo
      */
-    public function new()
+    public function new(): CourseInfo
     {
         $courseInfo = new CourseInfo();
         $courseInfo->setCreationDate(new \DateTime());
@@ -206,7 +207,7 @@ class CourseInfoManager extends AbstractManager
     /**
      * @param string $context
      */
-    private function setFieldsToDuplicate(string $context)
+    private function setFieldsToDuplicate(string $context): void
     {
         //If we're looping on this function it's no necessary to get fields from the database every time (we put them in a static property cache)
         if (!isset(self::$fieldsToDuplicate[$context])) {
@@ -227,7 +228,7 @@ class CourseInfoManager extends AbstractManager
      * @param CourseInfo $courseInfoRecipient
      * @throws Exception
      */
-    private function duplicationProcess(array $fieldsToDuplicate, CourseInfo $courseInfoSender, CourseInfo $courseInfoRecipient)
+    private function duplicationProcess(array $fieldsToDuplicate, CourseInfo $courseInfoSender, CourseInfo $courseInfoRecipient): void
     {
         foreach ($fieldsToDuplicate as $field) {
             $property = $field->getField();
@@ -264,7 +265,7 @@ class CourseInfoManager extends AbstractManager
      * @param string $inversedBy
      * @throws Exception
      */
-    private function duplicateAndCloneCollectionProperty(Collection $CourseInfoSenderData, CourseInfo $courseInfoRecipient, string $property, string $inversedBy)
+    private function duplicateAndCloneCollectionProperty(Collection $CourseInfoSenderData, CourseInfo $courseInfoRecipient, string $property, string $inversedBy): void
     {
         //erases every current items
         foreach ($this->propertyAccessor->getValue($courseInfoRecipient, $property) as $item) {
@@ -289,7 +290,7 @@ class CourseInfoManager extends AbstractManager
      * @param CourseInfo $courseInfoRecipient
      * @param string $property
      */
-    private function duplicateFileProperty(File $CourseInfoSenderData, CourseInfo $courseInfoRecipient, string $property)
+    private function duplicateFileProperty(File $CourseInfoSenderData, CourseInfo $courseInfoRecipient, string $property): void
     {
         $filesystem = new Filesystem();
         $path = $CourseInfoSenderData->getPath();
@@ -305,7 +306,7 @@ class CourseInfoManager extends AbstractManager
      * @throws \League\Csv\Exception
      * @throws Exception
      */
-    public function duplicateFromFile(string $pathName)
+    public function duplicateFromFile(string $pathName): Report
     {
         $csv = Reader::createFromPath($pathName);
         $csv->setHeaderOffset(0);

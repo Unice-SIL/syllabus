@@ -8,6 +8,7 @@ use App\Syllabus\Entity\AskAdvice;
 use App\Syllabus\Entity\Course;
 use App\Syllabus\Form\CourseInfo\dashboard\AskAdviceType;
 use App\Syllabus\Manager\AskAdviceManager;
+use App\Syllabus\Repository\Doctrine\CourseDoctrineRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -51,11 +52,17 @@ class AskAdviceController extends AbstractController
      * @param Request $request
      * @param AskAdvice $askAdvice
      * @param AskAdviceManager $adviceManager
+     * @param CourseDoctrineRepository $courseDoctrineRepository
      * @return JsonResponse|Response
      */
-    public function viewAction(Request $request, AskAdvice $askAdvice, AskAdviceManager $adviceManager)
+    public function viewAction(
+        Request $request,
+        AskAdvice $askAdvice,
+        AskAdviceManager $adviceManager,
+        CourseDoctrineRepository $courseDoctrineRepository
+    ): JsonResponse|Response
     {
-        $course = $this->getDoctrine()->getRepository(Course::class)->find($askAdvice->getCourseInfo()->getCourse()->getId());
+        $course = $courseDoctrineRepository->find($askAdvice->getCourseInfo()->getCourse()->getId());
         $form = $this->createForm(AskAdviceType::class, $askAdvice);
         $form->handleRequest($request);
 

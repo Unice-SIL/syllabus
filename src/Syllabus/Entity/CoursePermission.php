@@ -203,7 +203,7 @@ class CoursePermission
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      */
-    private $id;
+    private string $id;
 
     /**
      * @var string|null
@@ -211,7 +211,7 @@ class CoursePermission
      * @ORM\Column(name="permission", type="string", length=45, nullable=false, options={"fixed"=true})
      * @Assert\NotBlank()
      */
-    private $permission = Permission::READ;
+    private ?string $permission = Permission::READ;
 
     /**
      * @var CourseInfo
@@ -222,7 +222,7 @@ class CoursePermission
      * })
      * @Assert\NotBlank()
      */
-    private $courseInfo;
+    private CourseInfo $courseInfo;
 
     /**
      * @var User
@@ -233,10 +233,10 @@ class CoursePermission
      * })
      * @Assert\NotBlank()
      */
-    private $user;
+    private User $user;
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getId(): ?string
     {
@@ -263,10 +263,10 @@ class CoursePermission
     }
 
     /**
-     * @param null|string $permission
+     * @param string|null $permission
      * @return CoursePermission
      */
-    public function setPermission($permission): self
+    public function setPermission(?string $permission): self
     {
         $this->permission = $permission;
 
@@ -293,7 +293,7 @@ class CoursePermission
     }
 
     /**
-     * @return User
+     * @return User|null
      */
     public function getUser(): ?User
     {
@@ -309,7 +309,7 @@ class CoursePermission
     }
 
     /**
-     * @param User $user
+     * @param User|null $user
      * @return CoursePermission
      */
     public function setUser(?User $user): self

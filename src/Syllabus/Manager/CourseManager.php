@@ -8,18 +8,19 @@ use App\Syllabus\Entity\Course;
 use App\Syllabus\Helper\ErrorManager;
 use App\Syllabus\Repository\Doctrine\CourseDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 
 class CourseManager extends AbstractManager
 {
     /**
      * @var CourseDoctrineRepository
      */
-    private $repository;
+    private CourseDoctrineRepository $repository;
 
     /**
-     * CourseManager constructor.
      * @param CourseDoctrineRepository $repository
      * @param ErrorManager $errorManager
+     * @param EntityManagerInterface $em
      */
     public function __construct(CourseDoctrineRepository $repository, ErrorManager $errorManager, EntityManagerInterface $em)
     {
@@ -30,7 +31,7 @@ class CourseManager extends AbstractManager
     /**
      * @return Course
      */
-    public function new()
+    public function new(): Course
     {
         return new Course();
     }
@@ -90,9 +91,9 @@ class CourseManager extends AbstractManager
     /**
      * @param Course $courseData
      * @param array $options
-     * @throws \Exception
+     * @throws Exception
      */
-    public function createOrUpdate(Course $courseData, array $options = [])
+    public function createOrUpdate(Course $courseData, array $options = []): void
     {
 
         $options = array_merge([
@@ -114,7 +115,7 @@ class CourseManager extends AbstractManager
 
                 $this->em->persist($course);
             } elseif (!$course->isSynchronized()) {
-                throw new \Exception('Ce cours n\'est pas synchronisable.');
+                throw new Exception('Ce cours n\'est pas synchronisable.');
             }
 
             $this->errorManager->throwExceptionIfError($course, null, $options['validation_groups']);

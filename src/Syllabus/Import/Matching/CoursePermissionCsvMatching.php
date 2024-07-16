@@ -16,12 +16,12 @@ class CoursePermissionCsvMatching extends AbstractMatching implements MatchingIn
     /**
      * @var CourseInfoDoctrineRepository
      */
-    private $courseInfoDoctrineRepository;
+    private CourseInfoDoctrineRepository $courseInfoDoctrineRepository;
     private $code;
     /**
      * @var CoursePermissionManager
      */
-    private $coursePermissionManager;
+    private CoursePermissionManager $coursePermissionManager;
 
     /**
      * CoursePermissionCsvParser constructor.

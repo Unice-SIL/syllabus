@@ -359,7 +359,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      */
-    private $id;
+    private ?string $id;
 
     /**
      * @var string|null
@@ -367,7 +367,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
      * @ORM\Column(name="username", type="string", length=255, nullable=true)
      * @Assert\NotBlank()
      */
-    private $username;
+    private ?string $username;
 
     /**
      * @var string|null
@@ -375,7 +375,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
      * @ORM\Column(name="firstname", type="string", length=100, nullable=true, options={"fixed"=true})
      * @Assert\NotBlank()
      */
-    private $firstname;
+    private ?string $firstname;
 
     /**
      * @var string|null
@@ -383,7 +383,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
      * @ORM\Column(name="lastname", type="string", length=100, nullable=true, options={"fixed"=true})
      * @Assert\NotBlank()
      */
-    private $lastname;
+    private ?string $lastname;
 
     /**
      * @var string|null
@@ -392,7 +392,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
      * @Assert\NotBlank()
      * @Assert\Email()
      */
-    private $email;
+    private ?string $email;
 
     /**
      * @var string|null
@@ -409,14 +409,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
      * )
      * @Assert\NotBlank(groups={"reset_password"})
      */
-    private $password;
+    private ?string $password;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="salt", type="string", length=255, nullable=true)
      */
-    private $salt;
+    private ?string $salt;
 
     /**
      * @var array|null
@@ -427,13 +427,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
      *      minMessage = "Vous devez selectionner au moins un rôle",
      * )
      */
-    private $roles;
+    private ?array $roles;
 
     /**
      * @var string|null
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $resetPasswordToken;
+    protected ?string $resetPasswordToken;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Groups", inversedBy="users")
@@ -441,8 +441,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
     private $groups;
 
     /**
-     * User constructor.
-     * @param $groups
+     *
      */
     public function __construct()
     {
@@ -608,8 +607,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
     }
 
     /**
-     * @param null|array $roles
-     * @return User
+     * @param array $roles
+     * @return $this
      */
     public function setRoles(array $roles): self
     {
@@ -670,7 +669,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
         // TODO: Implement eraseCredentials() method.
     }
 
-    public function getSelect2Name()
+    public function getSelect2Name(): string
     {
         return $this->lastname . ' ' . $this->firstname . ' (' . $this->username . ')';
     }
@@ -749,7 +748,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
     /**
      * @param string $data
      */
-    public function unserialize($data)
+    public function unserialize(string $data): void
     {
         list(
             $this->id,

@@ -16,17 +16,19 @@ class UserCsvConfiguration implements ConfigurationInterface
     /**
      * @var ArrayTransformer
      */
-    private $arrayTransformer;
+    private ArrayTransformer $arrayTransformer;
+
     /**
      * @var UserCsvMatching
      */
-    private $userCsvMatching;
+    private UserCsvMatching $userCsvMatching;
 
-    private $path;
+    private mixed $path;
+
     /**
      * @var CsvExtractor
      */
-    private $csvExtractor;
+    private CsvExtractor $csvExtractor;
 
     /**
      * UserCsvConfiguration constructor.
@@ -69,7 +71,7 @@ class UserCsvConfiguration implements ConfigurationInterface
     /**
      * @param mixed $path
      */
-    public function setPath($path): void
+    public function setPath(mixed $path): void
     {
         $this->path = $path;
     }

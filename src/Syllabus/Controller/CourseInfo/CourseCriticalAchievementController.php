@@ -18,6 +18,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 /**
  * Class CourseCriticalAchievementController
@@ -36,12 +39,15 @@ class CourseCriticalAchievementController extends AbstractController
      * @param CourseCriticalAchievementManager $courseCriticalAchievementManager
      * @param Environment $twig
      * @return JsonResponse
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function editCriticalAchievementAction(CourseCriticalAchievement        $courseCriticalAchievement,
                                                   Request                          $request,
                                                   CourseCriticalAchievementManager $courseCriticalAchievementManager,
                                                   Environment                      $twig
-    )
+    ): JsonResponse
     {
         $form = $this->createForm(CourseCriticalAchievementType::class, $courseCriticalAchievement);
         $form->handleRequest($request);
@@ -72,12 +78,15 @@ class CourseCriticalAchievementController extends AbstractController
      * @param CourseCriticalAchievementManager $courseCriticalAchievementManager
      * @param Environment $twig
      * @return JsonResponse
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function deleteCriticalAchievementAction(CourseCriticalAchievement        $courseCriticalAchievement,
                                                     Request                          $request,
                                                     CourseCriticalAchievementManager $courseCriticalAchievementManager,
                                                     Environment                      $twig
-    )
+    ): JsonResponse
     {
         $form = $this->createForm(RemoveCourseCriticalAchievementType::class, $courseCriticalAchievement);
         $form->handleRequest($request);
@@ -105,12 +114,15 @@ class CourseCriticalAchievementController extends AbstractController
      * @param Environment $twig
      * @param EntityManagerInterface $em
      * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function addLearningAchievementAction(CourseCriticalAchievement $courseCriticalAchievement,
                                                  Request                   $request,
                                                  Environment               $twig,
                                                  EntityManagerInterface    $em
-    )
+    ): Response
     {
         $learningAchievement = new LearningAchievement();
         $learningAchievement->setCourseCriticalAchievement($courseCriticalAchievement);

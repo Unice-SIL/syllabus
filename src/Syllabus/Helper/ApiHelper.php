@@ -7,11 +7,10 @@ namespace App\Syllabus\Helper;
 use App\Syllabus\Exception\ResourceValidationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
-use JMS\Serializer\SerializationContext;
-use JMS\Serializer\SerializerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 
@@ -20,38 +19,24 @@ class ApiHelper
     /**
      * @var SerializerInterface
      */
-    private $serializer;
+    private SerializerInterface $serializer;
     /**
      * @var PaginatorInterface
      */
-    private $paginator;
-    /**
-     * @var EntityManagerInterface
-     */
-    private $em;
-    /**
-     * @var ValidatorInterface
-     */
-    private $validator;
+    private PaginatorInterface $paginator;
 
     /**
      * ApiHelper constructor.
      * @param SerializerInterface $serializer
      * @param PaginatorInterface $paginator
-     * @param EntityManagerInterface $em
-     * @param ValidatorInterface $validator
      */
     public function __construct(
         SerializerInterface $serializer,
-        PaginatorInterface $paginator,
-        EntityManagerInterface $em,
-        ValidatorInterface $validator
+        PaginatorInterface $paginator
     )
     {
         $this->serializer = $serializer;
         $this->paginator = $paginator;
-        $this->em = $em;
-        $this->validator = $validator;
     }
 
     /**
@@ -106,7 +91,7 @@ class ApiHelper
      * @param array $options
      * @return array
      */
-    public function setDataAndGetResponse(QueryBuilder $qb, array $config, array $options = [])
+    public function setDataAndGetResponse(QueryBuilder $qb, array $config, array $options = []): array
     {
         $options = array_merge($defaultOptions = [
             'groups' => [],
@@ -138,9 +123,9 @@ class ApiHelper
     /**
      * @param $type
      * @param $value
-     * @return bool|null
+     * @return bool|float|int|string|null
      */
-    private function formatValue($type, $value)
+    private function formatValue($type, $value): float|bool|int|string|null
     {
         if ($type === 'boolean') {
             if (strtolower($value) == 'true') {
@@ -175,7 +160,7 @@ class ApiHelper
      * @param FormInterface $form
      * @throws ResourceValidationException
      */
-    public function throwExceptionIfEntityInvalid(FormInterface $form)
+    public function throwExceptionIfEntityInvalid(FormInterface $form): void
     {
 
         if(!$form->isValid())
@@ -207,9 +192,9 @@ class ApiHelper
     /**
      * @param Request $request
      * @param string $id
-     * @return mixed|string
+     * @return false|string
      */
-    public function adIdToRequestContent(Request $request, string $id)
+    public function adIdToRequestContent(Request $request, string $id): bool|string
     {
         $entity = json_decode($request->getContent());
         $entity->id = $id;

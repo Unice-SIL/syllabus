@@ -40,7 +40,7 @@ class ResourceEquipmentController extends AbstractController
      * @param CourseInfo $courseInfo
      * @return Response
      */
-    public function indexAction(CourseInfo $courseInfo)
+    public function indexAction(CourseInfo $courseInfo): Response
     {
         return $this->render('course_info/equipment/equipment.html.twig', [
             'courseInfo' => $courseInfo
@@ -58,16 +58,9 @@ class ResourceEquipmentController extends AbstractController
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    public function equipmentViewAction(CourseInfo $courseInfo, Environment $twig, EntityManagerInterface $em)
+    public function equipmentViewAction(CourseInfo $courseInfo, Environment $twig, EntityManagerInterface $em): Response
     {
         $equipments = $em->getRepository(Equipment::class)->findBy(['obsolete' => false], ['label' => 'ASC']);
-
-        /*
-        setlocale(LC_ALL, "fr_FR.utf8");
-        usort($equipments, function ($a, $b) {
-            return strcoll($a->getLabel(), $b->getLabel());
-        });
-        */
 
         $render = $twig->render('course_info/equipment/view/equipment.html.twig', [
             'courseInfo' => $courseInfo,
@@ -89,6 +82,9 @@ class ResourceEquipmentController extends AbstractController
      * @param CourseResourceEquipmentManager $courseResourceEquipmentManager
      * @param Environment $twig
      * @return JsonResponse
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      * @ParamConverter("equipment", options={"mapping": {"idEquipment": "id"}})
      */
     public function addEquipmentAction(CourseInfo                     $courseInfo,
@@ -96,7 +92,7 @@ class ResourceEquipmentController extends AbstractController
                                        Request $request,
                                        CourseResourceEquipmentManager $courseResourceEquipmentManager,
                                        Environment $twig
-    )
+    ): JsonResponse
     {
         $courseResourceEquipment = $courseResourceEquipmentManager->new($courseInfo, $equipment);
 
@@ -127,8 +123,11 @@ class ResourceEquipmentController extends AbstractController
      * @param CourseInfo $courseInfo
      * @param Environment $twig
      * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function resourceViewAction(CourseInfo $courseInfo, Environment $twig)
+    public function resourceViewAction(CourseInfo $courseInfo, Environment $twig): Response
     {
         $render = $twig->render('course_info/equipment/view/resource.html.twig', [
             'courseInfo' => $courseInfo
@@ -148,11 +147,14 @@ class ResourceEquipmentController extends AbstractController
      * @param CourseInfoManager $manager
      * @param Environment $twig
      * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function resourceEditAction(CourseInfo        $courseInfo,
                                        Request           $request,
                                        CourseInfoManager $manager,
-                                       Environment       $twig)
+                                       Environment       $twig): Response
     {
         $form = $this->createForm(Resourcetype::class, $courseInfo);
         $form->handleRequest($request);

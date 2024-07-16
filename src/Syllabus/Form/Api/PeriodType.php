@@ -9,7 +9,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class PeriodType extends ApiAbstractType
 {
-    protected function buildApiForm(FormBuilderInterface $builder, array $options)
+    protected function buildApiForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('id')

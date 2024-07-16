@@ -46,7 +46,7 @@ class Notification
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var string
@@ -54,7 +54,7 @@ class Notification
      * @ORM\Column(name="message", type="text")
      * @Gedmo\Translatable
      */
-    private $message;
+    private string $message;
 
 
     /**
@@ -62,7 +62,7 @@ class Notification
      *
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -74,7 +74,7 @@ class Notification
      *
      * @return Notification
      */
-    public function setMessage($message)
+    public function setMessage(string $message): static
     {
         $this->message = $message;
 
@@ -86,7 +86,7 @@ class Notification
      *
      * @return string
      */
-    public function getMessage()
+    public function getMessage(): string
     {
         return $this->message;
     }

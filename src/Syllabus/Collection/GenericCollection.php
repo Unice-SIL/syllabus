@@ -2,6 +2,8 @@
 
 namespace App\Syllabus\Collection;
 
+use ArrayIterator;
+
 /**
  * Class GenericCollection
  * @package App\Syllabus\Collection
@@ -43,7 +45,7 @@ abstract class GenericCollection implements \ArrayAccess, \IteratorAggregate, \C
     /**
      * @param mixed $offset
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         unset($this->container[$offset]);
     }
@@ -52,7 +54,7 @@ abstract class GenericCollection implements \ArrayAccess, \IteratorAggregate, \C
      * @param mixed $offset
      * @return mixed|null
      */
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         return array_key_exists($offset, $this->container)? $this->container[$offset] : null;
     }
@@ -61,7 +63,7 @@ abstract class GenericCollection implements \ArrayAccess, \IteratorAggregate, \C
      * @param mixed $offset
      * @param mixed $value
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         if(!is_a($value, $this->type)){
             throw new \UnexpectedValueException('%s expected instead of %s.', $this->type, get_class($value));
@@ -70,17 +72,18 @@ abstract class GenericCollection implements \ArrayAccess, \IteratorAggregate, \C
     }
 
     /**
-     * @return \ArrayIterator
+     * @return ArrayIterator
      */
-    public function getIterator()
+    public function getIterator(): ArrayIterator
     {
-        return new \ArrayIterator($this->container);
+        return new ArrayIterator($this->container);
     }
 
     /**
      * @param $value
      */
-    public function append($value){
+    public function append($value): void
+    {
         if(!is_a($value, $this->type)){
             throw new \UnexpectedValueException('%s expected instead of %s.', $this->type, get_class($value));
         }
@@ -89,8 +92,10 @@ abstract class GenericCollection implements \ArrayAccess, \IteratorAggregate, \C
 
     /**
      * @param $value
+     * @return void
      */
-    public function remove($value){
+    public function remove($value): void
+    {
         if(!is_a($value, $this->type)){
             throw new \UnexpectedValueException('%s expected instead of %s.', $this->type, get_class($value));
         }
@@ -103,14 +108,16 @@ abstract class GenericCollection implements \ArrayAccess, \IteratorAggregate, \C
     /**
      * @return int
      */
-    public function count(){
+    public function count(): int
+    {
         return count($this->container);
     }
 
     /**
      * @return array
      */
-    public function toArray(){
+    public function toArray(): array
+    {
         return $this->container;
     }
 }

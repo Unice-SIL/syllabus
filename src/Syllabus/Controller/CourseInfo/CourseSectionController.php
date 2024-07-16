@@ -10,7 +10,6 @@ use App\Syllabus\Form\CourseInfo\Activities\RemoveSectionType;
 use App\Syllabus\Form\CourseInfo\Activities\SectionType;
 use App\Syllabus\Manager\CourseSectionActivityManager;
 use App\Syllabus\Manager\CourseSectionManager;
-use Ramsey\Uuid\Uuid;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,8 +17,12 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 /**
  * Class CourseSectionController
@@ -32,13 +35,17 @@ class CourseSectionController extends AbstractController
     /**
      * @Route("/edit", name="edit"))
      *
+     * @param Environment $twig
      * @param CourseSection|null $section
      * @param Request $request
      * @param CourseSectionManager $courseSectionManager
      * @param TranslatorInterface $translator
      * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function editSectionAction(Environment $twig, ?CourseSection $section, Request $request, CourseSectionManager $courseSectionManager, TranslatorInterface $translator)
+    public function editSectionAction(Environment $twig, ?CourseSection $section, Request $request, CourseSectionManager $courseSectionManager, TranslatorInterface $translator): Response
     {
         $form = $this->createForm(SectionType::class, $section);
         $form->handleRequest($request);
@@ -63,10 +70,18 @@ class CourseSectionController extends AbstractController
      * @param CourseSection $section
      * @param Request $request
      * @param CourseSectionManager $courseSectionManager
-     * @param TranslatorInterface $translator
+     * @param Environment $twig
      * @return JsonResponse
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function removeSectionAction(CourseSection $section, Request $request, CourseSectionManager $courseSectionManager, TranslatorInterface $translator)
+    public function removeSectionAction(
+        CourseSection $section,
+        Request $request,
+        CourseSectionManager $courseSectionManager,
+        Environment $twig
+    ): JsonResponse
     {
         $form = $this->createForm(RemoveSectionType::class, $section);
         $form->handleRequest($request);
@@ -80,7 +95,7 @@ class CourseSectionController extends AbstractController
             ]);
         }
 
-        $render = $this->get('twig')->render('course_info/activities/form/remove_section.html.twig', [
+        $render = $twig->render('course_info/activities/form/remove_section.html.twig', [
             'form' => $form->createView()
         ]);
         return $this->json([
@@ -92,6 +107,7 @@ class CourseSectionController extends AbstractController
     /**
      * @Route("/activity/{activityId}/activityType/{activityTypeId}/add", name="activity.add"))
      *
+     * @param Environment $twig
      * @param CourseSection $section
      * @param Activity $activity
      * @param ActivityType $activityType
@@ -99,12 +115,14 @@ class CourseSectionController extends AbstractController
      * @param CourseSectionActivityManager $courseSectionActivityManager
      * @param CourseSectionManager $courseSectionManager
      * @return Response
-     * @throws \Exception
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      * @ParamConverter("activity", options={"mapping": {"activityId": "id"}})
      * @ParamConverter("activityType", options={"mapping": {"activityTypeId": "id"}})
      */
     public function addCourseSectionActivityAction(Environment $twig, CourseSection $section, Activity $activity, ActivityType $activityType, Request $request,
-                                                   CourseSectionActivityManager $courseSectionActivityManager, CourseSectionManager $courseSectionManager)
+                                                   CourseSectionActivityManager $courseSectionActivityManager, CourseSectionManager $courseSectionManager): Response
     {
 
         $courseSectionActivity = $courseSectionActivityManager->new();
@@ -121,7 +139,7 @@ class CourseSectionController extends AbstractController
         {
             if ($form->isValid())
             {
-                $courseSectionActivity->setId(Uuid::uuid4())
+                $courseSectionActivity->setId(Uuid::v4())
                     ->setCourseSection($section)
                     ->setPosition(count($section->getCourseSectionActivities()))
                     ->setActivity($activity);
@@ -157,7 +175,7 @@ class CourseSectionController extends AbstractController
      */
     public function sortCourseSectionActivitiesAction(CourseSection $section,
                                                       Request $request,
-                                                      CourseSectionManager $courseSectionManager)
+                                                      CourseSectionManager $courseSectionManager): JsonResponse
     {
         $activities = $section->getCourseSectionActivities();
         $dataActivities = $request->request->all('data');

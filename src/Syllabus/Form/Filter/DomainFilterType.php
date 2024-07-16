@@ -25,33 +25,25 @@ class DomainFilterType extends AbstractType
     /**
      * @var UrlGeneratorInterface
      */
-    private $generator;
-
-    /**
-     * @var DomainManager
-     */
-    private $domainManager;
+    private UrlGeneratorInterface $generator;
 
     /**
      * @var StructureDoctrineRepository
      */
-    private $structureRepository;
+    private StructureDoctrineRepository $structureRepository;
 
-    private $domain;
 
-    public function __construct(UrlGeneratorInterface $generator, DomainManager $domainManager, StructureDoctrineRepository $structureRepository)
+    public function __construct(UrlGeneratorInterface $generator, StructureDoctrineRepository $structureRepository)
     {
         $this->generator = $generator;
-        $this->domainManager = $domainManager;
         $this->structureRepository = $structureRepository;
-        $this->domain = new Domain();
     }
 
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('label', TextFilterType::class, [
@@ -83,7 +75,7 @@ class DomainFilterType extends AbstractType
     /**
      * @return string
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'domain_filter';
     }
@@ -91,7 +83,7 @@ class DomainFilterType extends AbstractType
     /**
      * @param OptionsResolver $resolver
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(array(
             'csrf_protection'   => false,

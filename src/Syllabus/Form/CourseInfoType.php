@@ -15,7 +15,7 @@ class CourseInfoType extends AbstractType
     /**
      * @var YearDoctrineRepository
      */
-    private $yearDoctrineRepository;
+    private YearDoctrineRepository $yearDoctrineRepository;
 
     /**
      * CourseInfoType constructor.
@@ -26,7 +26,7 @@ class CourseInfoType extends AbstractType
         $this->yearDoctrineRepository = $yearDoctrineRepository;
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $years = $this->yearDoctrineRepository->findAll();
 

@@ -25,7 +25,7 @@ class CourseInfoFieldController extends AbstractController
      * @param EntityManagerInterface $em
      * @return Response
      */
-    public function indexAction(EntityManagerInterface $em)
+    public function indexAction(EntityManagerInterface $em): Response
     {
 
         $form = $this->createForm(CourseInfoFieldType::class, null, ['method' => 'POST']);
@@ -46,7 +46,7 @@ class CourseInfoFieldController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
-    public function editAction(EntityManagerInterface $entityManager, CourseInfoField $courseInfoField, Request $request)
+    public function editAction(EntityManagerInterface $entityManager, CourseInfoField $courseInfoField, Request $request): JsonResponse
     {
         $form = $this->createForm(CourseInfoFieldType::class, $courseInfoField);
         $form->handleRequest($request);

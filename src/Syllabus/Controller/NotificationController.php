@@ -22,7 +22,7 @@ class NotificationController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
-    public function seenAction(Request $request)
+    public function seenAction(Request $request): JsonResponse
     {
         if ($this->isCsrfTokenValid('notification-seen', $request->request->all('_token'))) {
 
@@ -47,7 +47,7 @@ class NotificationController extends AbstractController
      * @param string $id
      * @return JsonResponse
      */
-    public function seenOneAction(Request $request, string $id)
+    public function seenOneAction(Request $request, string $id): JsonResponse
     {
 
         if ($this->isCsrfTokenValid('notification' . $id, $request->request->all('_token'))) {

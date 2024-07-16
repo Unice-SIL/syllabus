@@ -191,7 +191,7 @@ class Teaching
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      */
-    private $id;
+    private string $id;
 
     /**
      * @var string
@@ -199,7 +199,7 @@ class Teaching
      * @ORM\Column(name="type", type="string", length=65)
      * @Assert\NotNull()
      */
-    private $type;
+    private string $type;
 
     /**
      * @var float
@@ -207,7 +207,7 @@ class Teaching
      * @ORM\Column(name="hourlyVolume", type="float")
      * @Assert\NotNull()
      */
-    private $hourlyVolume;
+    private float $hourlyVolume;
 
     /**
      * @var string
@@ -215,7 +215,7 @@ class Teaching
      * @ORM\Column(name="mode", type="string", length=15)
      * @Assert\NotNull()
      */
-    private $mode;
+    private string $mode;
 
     /**
      * @var CourseInfo
@@ -225,13 +225,13 @@ class Teaching
      *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
      * })
      */
-    private $courseInfo;
+    private CourseInfo $courseInfo;
 
     /**
      * Teaching constructor.
-     * @param string $type
-     * @param float $hourlyVolume
-     * @param string $mode
+     * @param string|null $type
+     * @param float|null $hourlyVolume
+     * @param string|null $mode
      */
     public function __construct(string $type  = null, float $hourlyVolume = null, string $mode = null)
     {
@@ -242,11 +242,9 @@ class Teaching
 
 
     /**
-     * Get id.
-     *
-     * @return int
+     * @return int|string
      */
-    public function getId()
+    public function getId(): int|string
     {
         return $this->id;
     }
@@ -255,7 +253,7 @@ class Teaching
      * @param string|null $id
      * @return $this
      */
-    public function setId(?string $id)
+    public function setId(?string $id): static
     {
         $this->id = $id;
 
@@ -269,7 +267,7 @@ class Teaching
      *
      * @return Teaching
      */
-    public function setType($type)
+    public function setType(string $type): static
     {
         $this->type = $type;
 
@@ -277,11 +275,9 @@ class Teaching
     }
 
     /**
-     * Get type.
-     *
-     * @return string
+     * @return string|null
      */
-    public function getType()
+    public function getType(): ?string
     {
         return $this->type;
     }
@@ -293,7 +289,7 @@ class Teaching
      *
      * @return Teaching
      */
-    public function setHourlyVolume($hourlyVolume)
+    public function setHourlyVolume(float $hourlyVolume): static
     {
         $this->hourlyVolume = $hourlyVolume;
 
@@ -305,7 +301,7 @@ class Teaching
      *
      * @return float
      */
-    public function getHourlyVolume()
+    public function getHourlyVolume(): ?float
     {
         return $this->hourlyVolume;
     }
@@ -317,7 +313,7 @@ class Teaching
      *
      * @return Teaching
      */
-    public function setMode($mode)
+    public function setMode(string $mode): static
     {
         $this->mode = $mode;
 
@@ -325,17 +321,15 @@ class Teaching
     }
 
     /**
-     * Get mode.
-     *
-     * @return string
+     * @return string|null
      */
-    public function getMode()
+    public function getMode(): ?string
     {
         return $this->mode;
     }
 
     /**
-     * @return CourseInfo
+     * @return CourseInfo|null
      */
     public function getCourseInfo(): ?CourseInfo
     {
@@ -343,8 +337,8 @@ class Teaching
     }
 
     /**
-     * @param $courseInfo
-     * @return Teaching
+     * @param CourseInfo|null $courseInfo
+     * @return $this
      */
     public function setCourseInfo(?CourseInfo $courseInfo): self
     {

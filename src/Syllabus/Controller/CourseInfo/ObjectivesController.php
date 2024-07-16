@@ -18,6 +18,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 /**
  * Class ObjectivesController
@@ -33,7 +36,7 @@ class ObjectivesController extends AbstractController
      * @param CourseInfo $courseInfo
      * @return Response
      */
-    public function indexAction(CourseInfo $courseInfo)
+    public function indexAction(CourseInfo $courseInfo): Response
     {
         return $this->render('course_info/objectives_course/objectives_course.html.twig', [
             'courseInfo' => $courseInfo
@@ -46,8 +49,11 @@ class ObjectivesController extends AbstractController
      * @param CourseInfo $courseInfo
      * @param Environment $twig
      * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function achievementViewAction(CourseInfo $courseInfo, Environment $twig)
+    public function achievementViewAction(CourseInfo $courseInfo, Environment $twig): Response
     {
         $render = $twig->render('course_info/objectives_course/view/achievement.html.twig', [
             'courseInfo' => $courseInfo
@@ -66,8 +72,11 @@ class ObjectivesController extends AbstractController
      * @param CourseAchievementManager $courseAchievementManager
      * @param Environment $twig
      * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function addAchievementAction(CourseInfo $courseInfo, Request $request, CourseAchievementManager $courseAchievementManager, Environment $twig)
+    public function addAchievementAction(CourseInfo $courseInfo, Request $request, CourseAchievementManager $courseAchievementManager, Environment $twig): Response
     {
         $courseAchievement = $courseAchievementManager->new($courseInfo);
         $form = $this->createForm(CourseAchievementType::class, $courseAchievement);
@@ -101,7 +110,7 @@ class ObjectivesController extends AbstractController
      * @return JsonResponse
      * @throws \Exception
      */
-    public function sortAchievementsAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
+    public function sortAchievementsAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager): JsonResponse
     {
         $achievements = $courseInfo->getCourseAchievements();
         $dataAchievements = $request->request->all('data');
@@ -190,7 +199,7 @@ class ObjectivesController extends AbstractController
      * @param CourseInfoManager $manager
      * @throws Exception
      */
-    private function sortList(CourseInfo $courseInfo, $courseInfoList, $data, CourseInfoManager $manager)
+    private function sortList(CourseInfo $courseInfo, $courseInfoList, $data, CourseInfoManager $manager): void
     {
         if ($data) {
             foreach ($courseInfoList as $item) {

@@ -5,6 +5,7 @@ namespace App\Syllabus\Listener;
 use App\Syllabus\Entity\Notification;
 use App\Syllabus\Subscriber\NotificationSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
+use Psr\Cache\InvalidArgumentException;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 
 /**
@@ -17,7 +18,7 @@ class NotificationListener
     /**
      * @param LifecycleEventArgs $args
      */
-    public function postPersist(LifecycleEventArgs $args)
+    public function postPersist(LifecycleEventArgs $args): void
     {
         $this->deleteCacheNotification($args);
     }
@@ -25,7 +26,7 @@ class NotificationListener
     /**
      * @param LifecycleEventArgs $args
      */
-    public function postUpdate(LifecycleEventArgs $args)
+    public function postUpdate(LifecycleEventArgs $args): void
     {
         $this->deleteCacheNotification($args);
     }
@@ -33,12 +34,15 @@ class NotificationListener
     /**
      * @param LifecycleEventArgs $args
      */
-    public function postRemove(LifecycleEventArgs $args)
+    public function postRemove(LifecycleEventArgs $args): void
     {
         $this->deleteCacheNotification($args);
     }
 
-    private function deleteCacheNotification(LifecycleEventArgs $args)
+    /**
+     * @throws InvalidArgumentException
+     */
+    private function deleteCacheNotification(LifecycleEventArgs $args): void
     {
         $entity = $args->getEntity();
 

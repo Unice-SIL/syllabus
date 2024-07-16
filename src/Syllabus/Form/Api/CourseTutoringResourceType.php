@@ -11,7 +11,7 @@ class CourseTutoringResourceType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('id')
@@ -21,7 +21,7 @@ class CourseTutoringResourceType extends AbstractType
     }/**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(array(
             'data_class' => 'App\Syllabus\Entity\CourseTutoringResource'
@@ -31,7 +31,7 @@ class CourseTutoringResourceType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'appbundle_coursetutoringresource';
     }

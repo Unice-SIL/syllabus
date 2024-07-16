@@ -217,7 +217,7 @@ class Campus
      * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      * @Groups({"campuses"})
      */
-    private $id;
+    private ?string $id;
 
     /**
      * @var string
@@ -226,7 +226,7 @@ class Campus
      * @Assert\NotBlank()
      * @Groups({"campuses"})
      */
-    private $label;
+    private string $label;
 
     /**
      * @var string|null
@@ -235,7 +235,7 @@ class Campus
      * @Gedmo\Translatable
      * @Groups({"campuses"})
      */
-    private $grp;
+    private ?string $grp;
 
     /**
      * @var bool
@@ -243,7 +243,7 @@ class Campus
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
      * @Groups({"campuses"})
      */
-    private $obsolete = false;
+    private bool $obsolete = false;
 
     /**
      * @return null|string

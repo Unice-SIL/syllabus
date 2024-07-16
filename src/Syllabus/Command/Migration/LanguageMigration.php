@@ -194,7 +194,7 @@ class LanguageMigration extends AbstractReferentialMigration
      * @param $string
      * @return bool
      */
-    private function checkAR($string)
+    private function checkAR($string): bool
     {
         return $this->checkLang($string, "/arabe|arabic/i");
     }
@@ -203,7 +203,7 @@ class LanguageMigration extends AbstractReferentialMigration
      * @param $string
      * @return bool
      */
-    private function checkDE($string)
+    private function checkDE($string): bool
     {
         return $this->checkLang($string, "/allemand|deutsch/i");
     }
@@ -212,7 +212,7 @@ class LanguageMigration extends AbstractReferentialMigration
      * @param $string
      * @return bool
      */
-    private function checkEL($string)
+    private function checkEL($string): bool
     {
         return $this->checkLang($string, "/grec|greek/i");
     }
@@ -221,7 +221,7 @@ class LanguageMigration extends AbstractReferentialMigration
      * @param $string
      * @return bool
      */
-    private function checkEN($string)
+    private function checkEN($string): bool
     {
         return $this->checkLang($string, "/anglais|english|\ben\b/i");
     }
@@ -230,7 +230,7 @@ class LanguageMigration extends AbstractReferentialMigration
      * @param $string
      * @return bool
      */
-    private function checkES($string)
+    private function checkES($string): bool
     {
         return $this->checkLang($string, "/espagnol|spain/i");
     }
@@ -239,7 +239,7 @@ class LanguageMigration extends AbstractReferentialMigration
      * @param $string
      * @return bool
      */
-    private function checkFR($string)
+    private function checkFR($string): bool
     {
         return $this->checkLang($string, "/français|francais|french|\bfr\b/i");
     }
@@ -248,7 +248,7 @@ class LanguageMigration extends AbstractReferentialMigration
      * @param $string
      * @return bool
      */
-    private function checkIT($string)
+    private function checkIT($string): bool
     {
         return $this->checkLang($string, "/italien|italian/i");
     }
@@ -257,7 +257,7 @@ class LanguageMigration extends AbstractReferentialMigration
      * @param $string
      * @return bool
      */
-    private function checkLA($string)
+    private function checkLA($string): bool
     {
         return $this->checkLang($string, "/latin/i");
     }
@@ -266,7 +266,7 @@ class LanguageMigration extends AbstractReferentialMigration
      * @param $string
      * @return bool
      */
-    private function checkPT($string)
+    private function checkPT($string): bool
     {
         return $this->checkLang($string, "/portugais|portuguese/i");
     }
@@ -275,7 +275,7 @@ class LanguageMigration extends AbstractReferentialMigration
      * @param $string
      * @return bool
      */
-    private function checkSA($string)
+    private function checkSA($string): bool
     {
         return $this->checkLang($string, "/sanskrit/i");
     }
@@ -284,7 +284,7 @@ class LanguageMigration extends AbstractReferentialMigration
      * @param $string
      * @return bool
      */
-    private function checkRU($string)
+    private function checkRU($string): bool
     {
         return $this->checkLang($string, "/russe|russian/i");
     }
@@ -293,7 +293,7 @@ class LanguageMigration extends AbstractReferentialMigration
      * @param $string
      * @return bool
      */
-    private function checkZH($string)
+    private function checkZH($string): bool
     {
         return $this->checkLang($string, "/chinois|chinese/i");
     }
@@ -303,7 +303,7 @@ class LanguageMigration extends AbstractReferentialMigration
      * @param $pattern
      * @return bool
      */
-    private function checkLang($string, $pattern)
+    private function checkLang($string, $pattern): bool
     {
         if(preg_match($pattern, $string, $matches) === 1)
         {

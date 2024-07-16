@@ -19,7 +19,7 @@ class DatabaseActivitySubscriber implements EventSubscriber
     /**
      * @var Security
      */
-    private $security;
+    private Security $security;
 
     /**
      * DatabaseActivitySubscriber constructor.
@@ -68,7 +68,7 @@ class DatabaseActivitySubscriber implements EventSubscriber
     /**
      * @param CourseInfo $courseInfo
      */
-    private function logCourseInfoCreate(CourseInfo $courseInfo)
+    private function logCourseInfoCreate(CourseInfo $courseInfo): void
     {
         $courseInfo->setCreationDate(new DateTime());
         $this->logCourseInfoLastUpdater($courseInfo);
@@ -77,7 +77,7 @@ class DatabaseActivitySubscriber implements EventSubscriber
     /**
      * @param CourseInfo $courseInfo
      */
-    private function logCourseInfoUpdate(CourseInfo $courseInfo)
+    private function logCourseInfoUpdate(CourseInfo $courseInfo): void
     {
         $courseInfo->setModificationDate(new DateTime());
         $this->logCourseInfoLastUpdater($courseInfo);
@@ -86,7 +86,7 @@ class DatabaseActivitySubscriber implements EventSubscriber
     /**
      * @param CourseInfo $courseInfo
      */
-    private function logCourseInfoLastUpdater(CourseInfo $courseInfo)
+    private function logCourseInfoLastUpdater(CourseInfo $courseInfo): void
     {
         if ($this->security instanceof Security and $this->security->getUser() instanceof User) {
             $courseInfo->setLastUpdater($this->security->getUser());

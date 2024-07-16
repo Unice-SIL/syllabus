@@ -14,7 +14,7 @@ class HourApogeeExtractor implements ExtractorInterface
     /**
      * @var object
      */
-    private $conn;
+    private object $conn;
 
     /**
      * StructureApogeeExtractor constructor.
@@ -30,7 +30,7 @@ class HourApogeeExtractor implements ExtractorInterface
      * @param array $options
      * @return array
      */
-    public function extract(Report $report = null, array $options = [])
+    public function extract(Report $report = null, array $options = []): array
     {
         $courseHours = [];
 

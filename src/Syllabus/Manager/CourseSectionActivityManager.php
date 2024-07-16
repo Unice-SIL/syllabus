@@ -14,14 +14,14 @@ class CourseSectionActivityManager
 {
 
     /**
-     * @var \Doctrine\Persistence\ObjectRepository
+     * @var EntityManagerInterface
      */
-    private $em;
+    private EntityManagerInterface $em;
 
     /**
      * @var CourseSectionActivityDoctrineRepository
      */
-    private $repository;
+    private CourseSectionActivityDoctrineRepository $repository;
 
     /**
      * CourseSectionActivityManager constructor.
@@ -37,7 +37,7 @@ class CourseSectionActivityManager
     /**
      * @return CourseSectionActivity
      */
-    public function new()
+    public function new(): CourseSectionActivity
     {
         return new CourseSectionActivity();
     }
@@ -54,7 +54,7 @@ class CourseSectionActivityManager
     /**
      * @return array
      */
-    public function findAll()
+    public function findAll(): array
     {
         return $this->repository->findAll();
     }
@@ -62,7 +62,7 @@ class CourseSectionActivityManager
     /**
      * @param CourseSectionActivity $courseSectionActivity
      */
-    public function create(CourseSectionActivity $courseSectionActivity)
+    public function create(CourseSectionActivity $courseSectionActivity): void
     {
         $this->em->persist($courseSectionActivity);
         $this->em->flush();
@@ -71,7 +71,7 @@ class CourseSectionActivityManager
     /**
      * @param CourseSectionActivity $courseSectionActivity
      */
-    public function update(CourseSectionActivity $courseSectionActivity)
+    public function update(CourseSectionActivity $courseSectionActivity): void
     {
         $this->em->flush();
     }
@@ -79,7 +79,7 @@ class CourseSectionActivityManager
     /**
      * @param CourseSectionActivity $courseSectionActivity
      */
-    public function delete(CourseSectionActivity $courseSectionActivity)
+    public function delete(CourseSectionActivity $courseSectionActivity): void
     {
         $this->em->remove($courseSectionActivity);
         $this->em->flush();

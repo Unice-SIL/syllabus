@@ -7,11 +7,16 @@ namespace App\Syllabus\Controller\CourseInfo;
 use App\Syllabus\Entity\LearningAchievement;
 use App\Syllabus\Form\CourseInfo\CourseAchievement\LearningAchievementType;
 use App\Syllabus\Form\CourseInfo\CourseAchievement\RemoveLearningAchievementType;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 /**
  * Class LearningAchievement
@@ -27,11 +32,20 @@ class LearningAchievementController extends AbstractController
      *
      * @param LearningAchievement $learningAchievement
      * @param Request $request
+     * @param EntityManagerInterface $em
+     * @param Environment $twig
      * @return JsonResponse
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function editLearningAchievementAction(LearningAchievement $learningAchievement, Request $request)
+    public function editLearningAchievementAction(
+        LearningAchievement $learningAchievement,
+        Request $request,
+        EntityManagerInterface $em,
+        Environment $twig
+    ): JsonResponse
     {
-        $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(LearningAchievementType::class, $learningAchievement);
         $form->handleRequest($request);
 
@@ -45,7 +59,7 @@ class LearningAchievementController extends AbstractController
             ]);
         }
 
-        $render = $this->get('twig')->render('course_info/objectives_course/form/edit_learning_achievement.html.twig', [
+        $render = $twig->render('course_info/objectives_course/form/edit_learning_achievement.html.twig', [
             'form' => $form->createView()
         ]);
 
@@ -60,11 +74,20 @@ class LearningAchievementController extends AbstractController
      *
      * @param LearningAchievement $learningAchievement
      * @param Request $request
+     * @param EntityManagerInterface $em
+     * @param Environment $twig
      * @return JsonResponse
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function deleteLearningAchievementAction(LearningAchievement $learningAchievement, Request $request)
+    public function deleteLearningAchievementAction(
+        LearningAchievement $learningAchievement,
+        Request $request,
+        EntityManagerInterface $em,
+        Environment $twig
+    ): JsonResponse
     {
-        $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(RemoveLearningAchievementType::class, $learningAchievement);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -77,7 +100,7 @@ class LearningAchievementController extends AbstractController
                 'content' => null
             ]);
         }
-        $render = $this->get('twig')->render('course_info/objectives_course/form/remove_learning_achievement.html.twig', [
+        $render = $twig->render('course_info/objectives_course/form/remove_learning_achievement.html.twig', [
             'form' => $form->createView()
         ]);
         return $this->json([

@@ -6,7 +6,9 @@ namespace App\Syllabus\Doctrine;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Id\AbstractIdGenerator;
-use Ramsey\Uuid\Uuid;
+use Exception;
+use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Uid\UuidV4;
 
 class IdGenerator extends AbstractIdGenerator
 {
@@ -14,11 +16,11 @@ class IdGenerator extends AbstractIdGenerator
     /**
      * @param EntityManager $em
      * @param object|null $entity
-     * @return mixed|string
-     * @throws \Exception
+     * @return UuidV4
+     * @throws Exception
      */
-    public function generate(EntityManager $em, $entity)
+    public function generate(EntityManager $em, $entity): UuidV4
     {
-        return Uuid::uuid4();
+        return Uuid::v4();
     }
 }

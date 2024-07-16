@@ -15,12 +15,12 @@ class ConnectionKeepAlive
     /**
      * @var Connection[]
      */
-    protected $connections;
+    protected array $connections;
 
     /**
      * @var bool
      */
-    protected $isAttached;
+    protected bool $isAttached;
 
     /**
      * ConnectionKeepAlive constructor.
@@ -34,7 +34,7 @@ class ConnectionKeepAlive
     /**
      *
      */
-    public function detach()
+    public function detach(): void
     {
         unregister_tick_function(array($this, 'kick'));
         $this->isAttached = false;
@@ -43,7 +43,7 @@ class ConnectionKeepAlive
     /**
      *
      */
-    public function attach()
+    public function attach(): void
     {
         if ($this->isAttached || register_tick_function(array($this, 'kick'))) {
             $this->isAttached = true;
@@ -55,7 +55,7 @@ class ConnectionKeepAlive
     /**
      * @param Connection $logConnection
      */
-    public function addConnection(Connection $logConnection)
+    public function addConnection(Connection $logConnection): void
     {
         $this->connections[spl_object_hash($logConnection)] = $logConnection;
     }
@@ -63,7 +63,7 @@ class ConnectionKeepAlive
     /**
      * @throws \Exception
      */
-    public function kick()
+    public function kick(): void
     {
         foreach ($this->connections as $conn) {
             try {

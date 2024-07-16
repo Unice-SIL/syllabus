@@ -15,12 +15,12 @@ class ActivityTypeManager
     /**
      * @var EntityManagerInterface
      */
-    private $em;
+    private EntityManagerInterface $em;
 
     /**
      * @var ActivityTypeDoctrineRepository
      */
-    private $repository;
+    private ActivityTypeDoctrineRepository $repository;
 
 
     public function __construct(EntityManagerInterface $em, ActivityTypeDoctrineRepository $repository)
@@ -29,7 +29,7 @@ class ActivityTypeManager
         $this->repository = $repository;
     }
 
-    public function new()
+    public function new(): ActivityType
     {
         return new ActivityType();
     }
@@ -38,7 +38,7 @@ class ActivityTypeManager
      * @param string $id
      * @return ActivityType|null
      */
-    public function find($id): ?ActivityType
+    public function find(string $id): ?ActivityType
     {
         return $this->repository->find($id);
     }
@@ -54,7 +54,7 @@ class ActivityTypeManager
     /**
      * @return array
      */
-    public function findAllNotObsolete()
+    public function findAllNotObsolete(): array
     {
         return $this->repository->getIndexQueryBuilder()->andWhere('at.obsolete = 0')->getQuery()->getResult();
     }

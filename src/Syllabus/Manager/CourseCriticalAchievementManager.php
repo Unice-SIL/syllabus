@@ -16,12 +16,12 @@ class CourseCriticalAchievementManager
     /**
      * @var EntityManagerInterface
      */
-    private $em;
+    private EntityManagerInterface $em;
 
     /**
      * @var CourseCriticalAchievementDoctrineRepository
      */
-    private $repository;
+    private CourseCriticalAchievementDoctrineRepository $repository;
 
     /**
      * CourseCriticalAchievementManager constructor.
@@ -38,7 +38,7 @@ class CourseCriticalAchievementManager
      * @param CourseInfo|null $courseInfo
      * @return CourseCriticalAchievement
      */
-    public function new(CourseInfo $courseInfo = null)
+    public function new(CourseInfo $courseInfo = null): CourseCriticalAchievement
     {
         $courseCriticalAchievement = new CourseCriticalAchievement();
         $courseCriticalAchievement->setCourseInfo($courseInfo);

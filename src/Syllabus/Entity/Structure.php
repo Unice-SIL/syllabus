@@ -551,7 +551,7 @@ class Structure
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      */
-    private $id;
+    private ?string $id;
 
     /**
      * @var string|null
@@ -560,35 +560,35 @@ class Structure
      * @Assert\NotBlank()
      * @Gedmo\Translatable
      */
-    private $label;
+    private ?string $label;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
      */
-    private $obsolete = '0';
+    private string|bool $obsolete = '0';
 
     /**
      * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Domain", mappedBy="structures")
      */
-    private $domains;
+    private Collection $domains;
 
     /**
      * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Period", mappedBy="structures")
      */
-    private $periods;
+    private Collection $periods;
 
     /**
      * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Level", mappedBy="structures")
      */
-    private $levels;
+    private Collection $levels;
 
     /**
      * Structure constructor.

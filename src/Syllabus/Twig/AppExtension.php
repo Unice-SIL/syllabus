@@ -4,7 +4,6 @@
 namespace App\Syllabus\Twig;
 
 use App\Syllabus\Entity\CourseInfo;
-use App\Syllabus\Twig\Runtime\LanguageRuntime;
 use App\Syllabus\Twig\Runtime\ReportRuntime;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Validation;
@@ -23,13 +22,13 @@ class AppExtension extends AbstractExtension
     /**
      * @var TranslatorInterface
      */
-    private $translator;
+    private TranslatorInterface $translator;
 
     /**
      * @var ValidatorInterface
      *
      */
-    private $validator;
+    private ValidatorInterface $validator;
 
     /**
      * AppExtension constructor.
@@ -45,7 +44,7 @@ class AppExtension extends AbstractExtension
     /**
      * @return array
      */
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             new TwigFilter('humanizeBoolean', [$this, 'humanizeBoolean']),
@@ -58,7 +57,7 @@ class AppExtension extends AbstractExtension
     /**
      * @return array
      */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('printActiveAdminSidebarLink', [AppRuntime::class, 'printActiveAdminSidebarLink']),
@@ -72,18 +71,18 @@ class AppExtension extends AbstractExtension
      * @param $boolean
      * @return string
      */
-    public function humanizeBoolean($boolean)
+    public function humanizeBoolean($boolean): string
     {
         return $boolean ? $this->translator->trans('yes') : $this->translator->trans('no');
     }
 
     /**
      * @param $data
-     * @param null $class
-     * @param null $prefix
-     * @return string
+     * @param $class
+     * @param $prefix
+     * @return string|Markup
      */
-    public function humanizeEmptyData($data, $class = null, $prefix = null)
+    public function humanizeEmptyData($data, $class = null, $prefix = null): string|Markup
     {
         $class = empty($class) ? 'empty-data' : $class;
         return empty($data) ? new Markup('<span class="' . $class . '">' . $this->translator->trans('empty_data') . '</span>',
@@ -95,7 +94,7 @@ class AppExtension extends AbstractExtension
      * @param $group
      * @return bool
      */
-    public function displayValidator(CourseInfo $courseInfo, $group)
+    public function displayValidator(CourseInfo $courseInfo, $group): bool
     {
         $groupTab = ['equipments_empty', 'info_empty', 'closing_remarks_empty', 'evaluation_empty'];
         return (
@@ -108,7 +107,7 @@ class AppExtension extends AbstractExtension
      * @param int $value
      * @return string
      */
-    public function humanizeBytes(int $value)
+    public function humanizeBytes(int $value): string
     {
         $sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
         $i = 1;

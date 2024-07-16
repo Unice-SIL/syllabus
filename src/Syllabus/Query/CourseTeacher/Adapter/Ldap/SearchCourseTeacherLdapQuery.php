@@ -15,12 +15,12 @@ class SearchCourseTeacherLdapQuery implements SearchCourseTeacherQueryInterface
     /**
      * @var TeacherRepositoryInterface
      */
-    private $teacherRepository;
+    private TeacherRepositoryInterface $teacherRepository;
 
     /**
      * @var string
      */
-    private $term;
+    private string $term;
 
     /**
      * ImportCourseTeacherLdapQuery constructor.

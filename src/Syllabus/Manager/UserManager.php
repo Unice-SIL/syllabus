@@ -13,12 +13,12 @@ class UserManager extends AbstractManager
     /**
      * @var UserDoctrineRepository
      */
-    private $repository;
+    private UserDoctrineRepository $repository;
 
     /**
      * @var TokenGeneratorInterface
      */
-    private $tokenGenerator;
+    private TokenGeneratorInterface $tokenGenerator;
 
     /**
      * UserManager constructor.
@@ -39,7 +39,7 @@ class UserManager extends AbstractManager
         $this->repository = $repository;
     }
 
-    public function new()
+    public function new(): User
     {
         return new User();
     }
@@ -94,7 +94,7 @@ class UserManager extends AbstractManager
      * @param array $options
      * @return string
      */
-    public function setResetPasswordToken(User $user, array $options = [])
+    public function setResetPasswordToken(User $user, array $options = []): string
     {
         $options = array_merge($defaultOptions = [
             'flush' => false,

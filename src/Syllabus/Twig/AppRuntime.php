@@ -15,7 +15,7 @@ class AppRuntime implements RuntimeExtensionInterface
     /**
      * @var Request|null
      */
-    private $masterRequest;
+    private ?Request $masterRequest;
 
     /**
      * AppRuntime constructor.
@@ -26,7 +26,7 @@ class AppRuntime implements RuntimeExtensionInterface
         $this->masterRequest = $requestStack->getMainRequest();
     }
 
-    public function printActiveAdminSidebarLink(array $routes, array $options = [])
+    public function printActiveAdminSidebarLink(array $routes, array $options = []): ?string
     {
 
         foreach ($routes as $route) {
@@ -52,7 +52,6 @@ class AppRuntime implements RuntimeExtensionInterface
      */
     public function findChoiceIdByLabel(string $label, array $choices): ?int
     {
-        /** @var ChoiceView $choice */
         foreach ($choices as $key => $choice)
         {
             if($choice instanceof ChoiceView)
@@ -69,7 +68,7 @@ class AppRuntime implements RuntimeExtensionInterface
     /**
      * @return string
      */
-    public function getMemoryLimit()
+    public function getMemoryLimit(): string
     {
         return ini_get('memory_limit');
     }

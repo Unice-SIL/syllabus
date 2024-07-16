@@ -9,6 +9,8 @@ use App\Syllabus\Form\DashboardType;
 use App\Syllabus\Manager\StatisticSyllabusManager;
 use App\Syllabus\Manager\YearManager;
 use App\Syllabus\Repository\Doctrine\AskAdviceDoctrineRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,15 +31,17 @@ class DashboardController extends AbstractController
      * @param Request $request
      * @param StatisticSyllabusManager $statisticSyllabusManager
      * @param YearManager $yearManager
+     * @param AskAdviceDoctrineRepository $adviceDoctrineRepository
      * @return Response
-     * @throws \Exception
+     * @throws NoResultException
+     * @throws NonUniqueResultException
      */
     public function IndexAction(
         Request $request,
         StatisticSyllabusManager $statisticSyllabusManager,
         YearManager $yearManager,
         AskAdviceDoctrineRepository $adviceDoctrineRepository
-    )
+    ): Response
     {
         $form = $this->createForm(DashboardType::class);
         $form->handleRequest($request);

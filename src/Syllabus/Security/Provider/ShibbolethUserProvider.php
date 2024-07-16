@@ -20,7 +20,7 @@ class ShibbolethUserProvider extends AbstractShibbolethUserProvider
     /**
      * @var ObjectManager
      */
-    private $em;
+    private ObjectManager $em;
 
     /**
      * @param ManagerRegistry $registry
@@ -43,9 +43,9 @@ class ShibbolethUserProvider extends AbstractShibbolethUserProvider
 
     /**
      * @param string $username
-     * @return UserInterface|void
+     * @return User|null
      */
-    public function loadUserByUsername(string $username)
+    public function loadUserByUsername(string $username): ?User
     {
         $user = $this->findUserByUsername($username);
 
@@ -70,7 +70,7 @@ class ShibbolethUserProvider extends AbstractShibbolethUserProvider
      * @param UserInterface $user
      * @return User|UserInterface
      */
-    public function refreshUser(UserInterface $user)
+    public function refreshUser(UserInterface $user): UserInterface|User
     {
         $refreshedUser = $this->findUserByUsername($user->getUserIdentifier());
         return $refreshedUser ?? $user;
@@ -90,7 +90,7 @@ class ShibbolethUserProvider extends AbstractShibbolethUserProvider
      * @param string $class
      * @return bool
      */
-    public function supportsClass($class): bool
+    public function supportsClass(string $class): bool
     {
         return $class === User::class;
     }

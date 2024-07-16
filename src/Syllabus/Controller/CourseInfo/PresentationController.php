@@ -38,7 +38,7 @@ class PresentationController extends AbstractController
      * @return Response
      * @throws Exception
      */
-    public function indexAction(CourseInfo $courseInfo)
+    public function indexAction(CourseInfo $courseInfo): Response
     {
         return $this->render('course_info/presentation/presentation.html.twig', [
             'courseInfo' => $courseInfo
@@ -49,9 +49,13 @@ class PresentationController extends AbstractController
      * @Route("/general", name="general"))
      *
      * @param CourseInfo|null $courseInfo
+     * @param Environment $twig
      * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function generalViewAction(?CourseInfo $courseInfo, Environment $twig)
+    public function generalViewAction(?CourseInfo $courseInfo, Environment $twig): Response
     {
         $render = $twig->render('course_info/presentation/view/general.html.twig', [
             'courseInfo' => $courseInfo
@@ -70,8 +74,11 @@ class PresentationController extends AbstractController
      * @param CourseInfoManager $manager
      * @param Environment $twig
      * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function generalFormAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager, Environment $twig)
+    public function generalFormAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager, Environment $twig): Response
     {
         $form = $this->createForm(GeneralType::class, $courseInfo, ['media' => $courseInfo->getMediaType()]);
         $form->handleRequest($request);
@@ -104,8 +111,11 @@ class PresentationController extends AbstractController
      * @param CourseInfo $courseInfo
      * @param Environment $twig )
      * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function teachersViewAction(CourseInfo $courseInfo, Environment $twig)
+    public function teachersViewAction(CourseInfo $courseInfo, Environment $twig): Response
     {
         $teachers = $courseInfo->getCourseTeachers()->toArray();
         setlocale(LC_ALL, "fr_FR.utf8");
@@ -139,7 +149,7 @@ class PresentationController extends AbstractController
                                       CourseTeacherManager       $courseTeacherManager,
                                       ImportCourseTeacherFactory $factory,
                                       Environment                $twig
-    )
+    ): Response
     {
         $status = true;
         $message = null;
@@ -183,8 +193,11 @@ class PresentationController extends AbstractController
      * @param CourseInfo $courseInfo
      * @param Environment $twig )
      * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function teachingModeViewAction(CourseInfo $courseInfo, Environment $twig)
+    public function teachingModeViewAction(CourseInfo $courseInfo, Environment $twig): Response
     {
         $render = $twig->render('course_info/presentation/view/teaching_mode.html.twig', [
             'courseInfo' => $courseInfo

@@ -18,6 +18,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,14 +41,15 @@ class DefaultController extends AbstractController
      * @param string|null $year
      * @param EntityManagerInterface $em
      * @return RedirectResponse|Response
-     * @throws Exception
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function routerAction($code,
                                  CourseInfoDoctrineRepository $repository,
                                  YearManager $yearManager,
-                                 string $year = null,
-                                 EntityManagerInterface $em
-    )
+                                 EntityManagerInterface $em,
+                                 string $year = null
+    ): RedirectResponse|Response
     {
         if (empty($year)) {
             $year = $yearManager->findCurrentYear();
@@ -75,7 +78,7 @@ class DefaultController extends AbstractController
      * @return RedirectResponse|Response
      * @throws Exception
      */
-    public function routerLightAction($code, $year, CourseInfoDoctrineRepository $repository, YearManager $yearManager)
+    public function routerLightAction($code, $year, CourseInfoDoctrineRepository $repository, YearManager $yearManager): RedirectResponse|Response
     {
 
         if (empty($year)) {
@@ -170,7 +173,7 @@ class DefaultController extends AbstractController
     /**
      * @Route("/credits", name="credits")
      */
-    public function creditsAction()
+    public function creditsAction(): Response
     {
         return $this->render('default/credits.html.twig');
     }

@@ -228,7 +228,7 @@ class Activity
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      */
-    private $id;
+    private string $id;
 
     /**
      * @var string
@@ -237,7 +237,7 @@ class Activity
      * @Assert\NotBlank()
      * @Gedmo\Translatable
      */
-    private $label;
+    private string $label;
 
     /**
      * @var string|null
@@ -246,28 +246,28 @@ class Activity
      * @Assert\Length(max="200")
      * @Gedmo\Translatable
      */
-    private $description;
+    private ?string $description;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="label_visibility", type="boolean", nullable=false, options={"comment"="Témoin affichage de l'intitulé de l'activité"})
      */
-    private $labelVisibility = true;
+    private bool $labelVisibility = true;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
      */
-    private $obsolete = false;
+    private bool $obsolete = false;
 
     /**
      * @var int
      *
      * @ORM\Column(name="position", type="integer", nullable=false)
      */
-    private $position = 0;
+    private int $position = 0;
 
     /**
      * @var Collection
@@ -275,7 +275,7 @@ class Activity
      * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\ActivityType", mappedBy="activities")
      * @Assert\Count(min="1")
      */
-    private $activityTypes;
+    private Collection|ArrayCollection $activityTypes;
 
     /**
      * Activity constructor.
@@ -286,7 +286,7 @@ class Activity
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getId(): ?string
     {

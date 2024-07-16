@@ -194,7 +194,7 @@ class CourseResourceEquipment
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      */
-    private $id;
+    private ?string $id;
 
     /**
      * @var string|null
@@ -202,14 +202,14 @@ class CourseResourceEquipment
      * @ORM\Column(name="description", type="string", length=255, nullable=true)
      * @Gedmo\Translatable
      */
-    private $description;
+    private ?string $description;
 
     /**
      * @var int
      *
      * @ORM\Column(name="position", type="integer", nullable=false)
      */
-    private $position = 0;
+    private int $position = 0;
 
     /**
      * @var CourseInfo
@@ -219,7 +219,7 @@ class CourseResourceEquipment
      *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
      * })
      */
-    private $courseInfo;
+    private CourseInfo $courseInfo;
 
     /**
      * @var Equipment
@@ -230,7 +230,7 @@ class CourseResourceEquipment
      * })
      * @Assert\Blank(groups={"equipments_empty"})
      */
-    private $equipment;
+    private Equipment $equipment;
 
     /**
      * @return null|string
@@ -260,10 +260,10 @@ class CourseResourceEquipment
     }
 
     /**
-     * @param null|string $description
+     * @param string|null $description
      * @return CourseResourceEquipment
      */
-    public function setDescription($description): self
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
 
@@ -310,7 +310,7 @@ class CourseResourceEquipment
     }
 
     /**
-     * @return Equipment
+     * @return Equipment|null
      */
     public function getEquipment(): ?Equipment
     {
@@ -318,9 +318,9 @@ class CourseResourceEquipment
     }
 
     /**
-     * @return Equipment|null
+     * @return string|null
      */
-    public function getEquipmentApi()
+    public function getEquipmentApi(): ?string
     {
         return $this->getEquipment()->getId();
     }

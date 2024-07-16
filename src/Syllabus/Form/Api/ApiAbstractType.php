@@ -17,7 +17,7 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 abstract class ApiAbstractType extends AbstractType
 {
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
 
         $this->buildApiForm($builder, $options);

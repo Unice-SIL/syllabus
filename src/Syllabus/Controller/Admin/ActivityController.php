@@ -43,7 +43,7 @@ class ActivityController extends AbstractController
         ActivityDoctrineRepository $repository,
         FilterBuilderUpdaterInterface $filterBuilderUpdater,
         PaginatorInterface $paginator
-    )
+    ): Response
     {
         $qb =  $repository->getIndexQueryBuilder();
 
@@ -76,11 +76,10 @@ class ActivityController extends AbstractController
      * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function newAction(Request $request, ActivityManager $activityManager, TranslatorInterface $translator)
+    public function newAction(Request $request, ActivityManager $activityManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $activity = $activityManager->new();
 
-        /** @var FormInterface $form */
         $form = $this->createForm(ActivityType::class, $activity);
         $form->handleRequest($request);
 
@@ -106,9 +105,8 @@ class ActivityController extends AbstractController
      * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, Activity $activity, ActivityManager $activityManager, TranslatorInterface $translator)
+    public function editAction(Request $request, Activity $activity, ActivityManager $activityManager, TranslatorInterface $translator): RedirectResponse|Response
     {
-        /** @var FormInterface $form */
         $form = $this->createForm(ActivityType::class, $activity);
         $form->handleRequest($request);
 

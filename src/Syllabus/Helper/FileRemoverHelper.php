@@ -14,12 +14,12 @@ class FileRemoverHelper
     /**
      * @var Filesystem
      */
-    private $filesystem;
+    private Filesystem $filesystem;
 
     /**
      * @var string
      */
-    private $filePath;
+    private string $filePath;
 
     /**
      * @param Filesystem $filesystem
@@ -35,10 +35,9 @@ class FileRemoverHelper
     }
 
     /**
-     * @param Filesystem $filesystem
      * @param string $fileName
      */
-    public function remove($fileName)
+    public function remove(string $fileName)
     {
         $this->filesystem->remove(
             $this->filePath . '/' . $fileName

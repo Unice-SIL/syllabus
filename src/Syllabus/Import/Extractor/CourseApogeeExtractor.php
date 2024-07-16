@@ -15,12 +15,12 @@ class CourseApogeeExtractor implements ExtractorInterface
     /**
      * @var object
      */
-    private $conn;
+    private object $conn;
 
     /**
      * @var array
      */
-    private $apogeeCourseNatureToImport;
+    private array $apogeeCourseNatureToImport;
 
     /**
      * StructureApogeeExtractor constructor.
@@ -38,7 +38,7 @@ class CourseApogeeExtractor implements ExtractorInterface
      * @param array $options
      * @return array
      */
-    public function extract(Report $report = null, array $options = [])
+    public function extract(Report $report = null, array $options = []): array
     {
 
         $courses = [];
@@ -71,7 +71,7 @@ class CourseApogeeExtractor implements ExtractorInterface
     /**
      * @return mixed
      */
-    private function getElps()
+    private function getElps(): mixed
     {
         $natures = str_repeat('?,', count($this->apogeeCourseNatureToImport) - 1) . '?';
         $sql = "SELECT * FROM element_pedagogi elp
@@ -88,7 +88,7 @@ AND elp.eta_elp = 'O' AND elp.tem_sus_elp = 'N' AND elp.cod_nel IN ({$natures})"
      * @param $code
      * @return mixed
      */
-    private function getElpParents($code)
+    private function getElpParents($code): mixed
     {
         $natures = str_repeat('?,', count($this->apogeeCourseNatureToImport) - 1) . '?';
         $sql = "SELECT elp.* FROM element_pedagogi elp

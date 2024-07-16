@@ -192,7 +192,7 @@ class CourseTutoringResource
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      */
-    private $id;
+    private ?string $id;
 
     /**
      * @var null|string
@@ -200,14 +200,14 @@ class CourseTutoringResource
      * @ORM\Column(name="description", type="text", length=65535, nullable=true)
      * @Gedmo\Translatable
      */
-    private $description = "";
+    private ?string $description = "";
 
     /**
      * @var int
      *
      * @ORM\Column(name="position", type="integer", nullable=false)
      */
-    private $position = 0;
+    private int $position = 0;
 
     /**
      * @var CourseInfo
@@ -217,7 +217,7 @@ class CourseTutoringResource
      *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
      * })
      */
-    private $courseInfo;
+    private CourseInfo $courseInfo;
 
     /**
      * @return null|string
@@ -247,10 +247,10 @@ class CourseTutoringResource
     }
 
     /**
-     * @param null|string $description
+     * @param string|null $description
      * @return CourseTutoringResource
      */
-    public function setDescription($description): self
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
 

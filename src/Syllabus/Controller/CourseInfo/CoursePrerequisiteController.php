@@ -19,6 +19,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 /**
  * Class CoursePrerequisite
@@ -35,7 +38,7 @@ class CoursePrerequisiteController extends AbstractController
      * @param CourseInfo $courseInfo
      * @return Response
      */
-    public function indexAction(CourseInfo $courseInfo)
+    public function indexAction(CourseInfo $courseInfo): Response
     {
         return $this->render('course_info/prerequisite/prerequisite.html.twig', [
             'courseInfo' => $courseInfo
@@ -48,8 +51,11 @@ class CoursePrerequisiteController extends AbstractController
      * @param CourseInfo $courseInfo
      * @param Environment $twig
      * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function prerequisiteViewAction(CourseInfo $courseInfo, Environment $twig)
+    public function prerequisiteViewAction(CourseInfo $courseInfo, Environment $twig): Response
     {
         $render = $twig->render('course_info/prerequisite/view/prerequisite.html.twig', [
             'courseInfo' => $courseInfo
@@ -66,10 +72,13 @@ class CoursePrerequisiteController extends AbstractController
      * @param CourseInfo $courseInfo
      * @param Request $request
      * @param CourseInfoManager $manager
+     * @param Environment $twig
      * @return Response
-     * @throws Exception
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function addPrerequisiteAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager, Environment $twig)
+    public function addPrerequisiteAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager, Environment $twig): Response
     {
         $prerequisite = new CoursePrerequisite();
         $form = $this->createForm(CoursePrerequisiteType::class, $prerequisite);
@@ -106,9 +115,9 @@ class CoursePrerequisiteController extends AbstractController
      * @param Request $request
      * @param CourseInfoManager $manager
      * @return JsonResponse
-     * @throws \Exception
+     * @throws Exception
      */
-    public function sortPrerequisitesAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
+    public function sortPrerequisitesAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager): JsonResponse
     {
         $prerequisites = $courseInfo->getCoursePrerequisites();
         $dataPrerequisites = $request->request->all('data');
@@ -125,11 +134,15 @@ class CoursePrerequisiteController extends AbstractController
      * @Route("/tutoring-resources", name="tutoring_resources"))
      *
      * @param CourseInfo $courseInfo
+     * @param Environment $twig
      * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function tutoringResourcesViewAction(CourseInfo $courseInfo)
+    public function tutoringResourcesViewAction(CourseInfo $courseInfo, Environment $twig): Response
     {
-        $render = $this->get('twig')->render('course_info/prerequisite/view/tutoring_resources.html.twig', [
+        $render = $twig->render('course_info/prerequisite/view/tutoring_resources.html.twig', [
             'courseInfo' => $courseInfo
         ]);
         return $this->json([
@@ -144,11 +157,15 @@ class CoursePrerequisiteController extends AbstractController
      * @param CourseInfo $courseInfo
      * @param Request $request
      * @param CourseTutoringResourceManager $courseTutoringResourceManager
+     * @param Environment $twig
      * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function addTutoringResourceAction(CourseInfo                    $courseInfo, Request $request,
                                               CourseTutoringResourceManager $courseTutoringResourceManager,
-                                              Environment                   $twig)
+                                              Environment                   $twig): Response
     {
         $tutoringResource = $courseTutoringResourceManager->new();
         $tutoringResource->setCourseInfo($courseInfo);
@@ -180,10 +197,10 @@ class CoursePrerequisiteController extends AbstractController
      * @param CourseInfo $courseInfo
      * @param Request $request
      * @param CourseInfoManager $manager
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
-     * @throws \Exception
+     * @return JsonResponse
+     * @throws Exception
      */
-    public function sortTutoringResourcesAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
+    public function sortTutoringResourcesAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager): JsonResponse
     {
         $tutoringResources = $courseInfo->getCourseTutoringResources();
         $dataTutoringResources = $request->request->all('data');
@@ -204,7 +221,7 @@ class CoursePrerequisiteController extends AbstractController
      * @param CourseInfoManager $manager
      * @throws Exception
      */
-    private function sortList(CourseInfo $courseInfo, $courseInfoList, $data, CourseInfoManager $manager)
+    private function sortList(CourseInfo $courseInfo, $courseInfoList, $data, CourseInfoManager $manager): void
     {
         if ($data) {
             foreach ($courseInfoList as $item) {

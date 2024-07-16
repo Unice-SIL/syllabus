@@ -15,6 +15,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 /**
  * Class CourseSectionActivityController
@@ -34,10 +37,13 @@ class CourseSectionActivityController extends AbstractController
      * @param Request $request
      * @param CourseSectionActivityManager $manager
      * @return JsonResponse
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      * @ParamConverter("activity", options={"mapping": {"activityId": "id"}})
      */
     public function editCourseSectionActivityAction(Environment $twig,  CourseSectionActivity $courseSectionActivity, Activity $activity,
-                                                    Request $request, CourseSectionActivityManager $manager)
+                                                    Request $request, CourseSectionActivityManager $manager): JsonResponse
     {
         $status = true;
         $message = null;
@@ -76,11 +82,18 @@ class CourseSectionActivityController extends AbstractController
      * @param CourseSectionActivity $courseSectionActivity
      * @param Request $request
      * @param CourseSectionActivityManager $manager
+     * @param Environment $twig
      * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      * @ParamConverter("courseSection", options={"mapping": {"sectionId": "id"}})
      */
-    public function removeCourseSectionActivityAction(CourseSectionActivity $courseSectionActivity,Request $request,
-                                                      CourseSectionActivityManager $manager)
+    public function removeCourseSectionActivityAction(
+        CourseSectionActivity $courseSectionActivity,Request $request,
+        CourseSectionActivityManager $manager,
+        Environment $twig
+    ): Response
     {
 
         $status = true;
@@ -105,7 +118,7 @@ class CourseSectionActivityController extends AbstractController
             }
         }
 
-        $render = $this->get('twig')->render('course_info/activities/form/remove_activity.html.twig', [
+        $render = $twig->render('course_info/activities/form/remove_activity.html.twig', [
             'form' => $form->createView()
         ]);
         return $this->json([

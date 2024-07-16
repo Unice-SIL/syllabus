@@ -5,22 +5,22 @@ namespace App\Syllabus\Import\Extractor;
 
 use App\Syllabus\Helper\Report\Report;
 use League\Csv\AbstractCsv;
+use League\Csv\InvalidArgument;
 use League\Csv\Reader;
+use League\Csv\UnavailableStream;
 
 class CsvExtractor implements ExtractorInterface
 {
 
-    private $csv;
-    private $path;
-    private $options = [
+    private AbstractCsv $csv;
+    private mixed $path;
+    private array $options = [
         'headerOffset' => 0,
         'delimiter' => ';',
     ];
 
     /**
-     * CsvExtractor constructor.
-     * @param string $path
-     * @param $options
+     * @param array $options
      */
     public function __construct(array $options = [])
     {
@@ -38,17 +38,22 @@ class CsvExtractor implements ExtractorInterface
 
     /**
      * @param AbstractCsv $csv
-     * @return CsvExtractor
+     * @return void
      */
-    private function setCsv(AbstractCsv $csv): self
+    private function setCsv(AbstractCsv $csv): void
     {
         $this->csv = $csv;
-
-        return $this;
     }
 
 
-    public function extract(Report $report = null, array $options = [])
+    /**
+     * @param Report|null $report
+     * @param array $options
+     * @return AbstractCsv
+     * @throws InvalidArgument
+     * @throws UnavailableStream
+     */
+    public function extract(Report $report = null, array $options = []): AbstractCsv
     {
 
         $this->setCsv(Reader::createFromPath($this->getPath()));
@@ -61,7 +66,7 @@ class CsvExtractor implements ExtractorInterface
     /**
      * @return mixed
      */
-    public function getPath()
+    public function getPath(): mixed
     {
         return $this->path;
     }
@@ -69,7 +74,7 @@ class CsvExtractor implements ExtractorInterface
     /**
      * @param mixed $path
      */
-    public function setPath($path): void
+    public function setPath(mixed $path): void
     {
         $this->path = $path;
     }

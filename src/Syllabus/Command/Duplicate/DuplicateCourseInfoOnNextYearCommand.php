@@ -14,7 +14,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
-use function Doctrine\ORM\QueryBuilder;
 
 class DuplicateCourseInfoOnNextYearCommand extends AbstractJob
 {
@@ -24,7 +23,7 @@ class DuplicateCourseInfoOnNextYearCommand extends AbstractJob
     /**
      * @var CourseInfoManager
      */
-    private $courseInfoManager;
+    private CourseInfoManager $courseInfoManager;
 
     /**
      * DuplicateCourseInfoOnNextYearCommand constructor.
@@ -40,7 +39,7 @@ class DuplicateCourseInfoOnNextYearCommand extends AbstractJob
         $this->courseInfoManager = $courseInfoManager;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
         $this
@@ -50,10 +49,9 @@ class DuplicateCourseInfoOnNextYearCommand extends AbstractJob
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
-     * @return mixed|void
-     * @throws \Exception
+     * @return mixed
      */
-    protected function subExecute(InputInterface $input, OutputInterface $output)
+    protected function subExecute(InputInterface $input, OutputInterface $output): mixed
     {
         //======================Perf==================
         $start = microtime(true);
@@ -80,7 +78,7 @@ class DuplicateCourseInfoOnNextYearCommand extends AbstractJob
         if(!$year instanceof Year)
         {
             $output->writeln("<error>Year {$yearId} not found</error>");
-            return;
+            return null;
         }
 
         $nextYearId = ((int)$yearId)+1;
@@ -91,7 +89,7 @@ class DuplicateCourseInfoOnNextYearCommand extends AbstractJob
             $question = new ConfirmationQuestion('The next year ('.$nextYearId.') does not exist, do you want create it (n/y) ? ', false);
             if(!$helper->ask($input, $output, $question))
             {
-                return;
+                return null;
             }
             $nextYear = new Year();
             $nextYear->setId($nextYearId)
@@ -211,7 +209,7 @@ class DuplicateCourseInfoOnNextYearCommand extends AbstractJob
      * @param $yearId
      * @return object|null
      */
-    private function getYear($yearId)
+    private function getYear($yearId): ?object
     {
         return $this->em->getRepository(Year::class)->find($yearId);
     }

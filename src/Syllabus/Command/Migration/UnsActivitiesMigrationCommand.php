@@ -12,6 +12,7 @@ use App\Syllabus\Entity\CourseInfo;
 use App\Syllabus\Entity\CourseSection;
 use App\Syllabus\Entity\CourseSectionActivity;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Ramsey\Uuid\Uuid;
@@ -32,12 +33,12 @@ class UnsActivitiesMigrationCommand extends Command
      */
     protected static $defaultName = 'app:uns-activities-migration';
 
-    protected  static $batchSize = 10;
+    protected  static int $batchSize = 10;
 
     /**
      * @var EntityManagerInterface
      */
-    private $em;
+    private EntityManagerInterface $em;
 
     const OLD_TYPE_ACTIVITY = 'activity';
     const OLD_TYPE_EVALUATION = 'evaluation';
@@ -73,7 +74,7 @@ class UnsActivitiesMigrationCommand extends Command
     /**
      *
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Transfer actvities and courses sections activities data in new tables');
@@ -82,9 +83,10 @@ class UnsActivitiesMigrationCommand extends Command
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
-     * @throws \Doctrine\DBAL\DBALException
+     * @return void
+     * @throws Exception
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $io = new SymfonyStyle($input, $output);
 

@@ -28,50 +28,52 @@ use Throwable;
 class ApogeeCourseImportCommand extends AbstractJob
 {
     protected static $defaultName = 'app:import:apogee:course';
+
     /**
      * @var Year[]
      */
-    private static $yearsToImport;
+    private static array $yearsToImport;
+
     /**
      * @var Structure[]
      */
-    private $structures = [];
+    private array $structures = [];
     /**
      * @var Course[]
      */
-    private $handledParents = [];
+    private array $handledParents = [];
     /**
      * @var ImportManager
      */
-    private $importManager;
+    private ImportManager $importManager;
     /**
      * @var CourseApogeeConfiguration
      */
-    private $configuration;
+    private CourseApogeeConfiguration $configuration;
     /**
      * @var EntityManagerInterface
      */
-    protected $em;
+    protected EntityManagerInterface $em;
     /**
      * @var CourseManager
      */
-    private $courseManager;
+    private CourseManager $courseManager;
     /**
      * @var CourseInfoManager
      */
-    private $courseInfoManager;
+    private CourseInfoManager $courseInfoManager;
     /**
      * @var CourseParentApogeeConfiguration
      */
-    private $parentConfiguration;
+    private CourseParentApogeeConfiguration $parentConfiguration;
     /**
      * @var HourApogeeConfiguration
      */
-    private $hourApogeeConfiguration;
+    private HourApogeeConfiguration $hourApogeeConfiguration;
     /**
      * @var Report
      */
-    private $report;
+    private Report $report;
 
 
     const SOURCE = 'apogee';
@@ -107,7 +109,7 @@ class ApogeeCourseImportCommand extends AbstractJob
         $this->report = ReportingHelper::createReport();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
         $this
@@ -117,10 +119,9 @@ class ApogeeCourseImportCommand extends AbstractJob
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
-     * @return Report|mixed
-     * @throws Exception
+     * @return mixed
      */
-    protected function subExecute(InputInterface $input, OutputInterface $output)
+    protected function subExecute(InputInterface $input, OutputInterface $output): mixed
     {
         $this->em->getConnection()->getConfiguration()->setSQLLogger(null);
 
@@ -282,7 +283,7 @@ class ApogeeCourseImportCommand extends AbstractJob
 
     }
 
-    private function setCourseInfos(Course $course)
+    private function setCourseInfos(Course $course): void
     {
         //$hours = $course->getHours();
         $ects = $course->getEcts();
@@ -341,7 +342,7 @@ class ApogeeCourseImportCommand extends AbstractJob
      * @param $code
      * @return Structure|null
      */
-    private function getStructure($code)
+    private function getStructure($code): ?Structure
     {
         $structure = null;
         if(in_array($code, $this->structures)) {

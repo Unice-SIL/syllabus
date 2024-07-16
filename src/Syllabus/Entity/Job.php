@@ -10,7 +10,9 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiFilter;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -43,7 +45,7 @@ class Job
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var string
@@ -52,7 +54,7 @@ class Job
      * @Assert\NotBlank()
      * @Gedmo\Translatable
      */
-    private $label;
+    private string $label;
 
     /**
      * @var string
@@ -61,7 +63,7 @@ class Job
      * @Assert\NotBlank()
      * @Assert\Choice(choices=\App\Syllabus\Constant\Job::COMMANDS)
      */
-    private $command;
+    private string $command;
 
     /**
      * @var string
@@ -72,23 +74,23 @@ class Job
      *     pattern="/^(\*|((\*\/)?[1-5]?[0-9])) (\*|((\*\/)?1?[0-9]|2?[0-3])) (\*|((\*\/)?([1-2]?[0-9]|3[0-1]))) (\*|((\*\/)?[0-9]|1[0-2])) (\*|((\*\/)?[0-6]))$/"
      * )
      */
-    private $frequencyJobFormat;
+    private string $frequencyJobFormat;
 
     /**
-     * @var \DateTime|null
+     * @var DateTime|null
      *
      * @ORM\Column(name="last_use_start", type="datetime", nullable=true)
      * @Assert\DateTime()
      */
-    private $lastUseStart;
+    private ?DateTime $lastUseStart;
 
     /**
-     * @var \DateTime|null
+     * @var DateTime|null
      *
      * @ORM\Column(name="last_use_end", type="datetime", nullable=true)
      * @Assert\DateTime()
      */
-    private $lastUseEnd;
+    private ?DateTime $lastUseEnd;
 
     /**
      * @var int|null
@@ -96,21 +98,21 @@ class Job
      * @ORM\Column(name="last_status", type="integer", nullable=true)
      * @Assert\Choice(choices=\App\Syllabus\Constant\Job::STATUSES)
      */
-    private $lastStatus = \App\Syllabus\Constant\Job::STATUS_INIT;
+    private ?int $lastStatus = \App\Syllabus\Constant\Job::STATUS_INIT;
 
     /**
      *
      * @var int|null
      * @ORM\Column(name="progress", type="integer", nullable=true)
      */
-    private $progress = 0;
+    private ?int $progress = 0;
 
     /**
      *
      * @var int|null
      * @ORM\Column(name="memory_used", type="integer", nullable=true)
      */
-    private $memoryUsed = 0;
+    private ?int $memoryUsed = 0;
 
     /**
      * @var bool
@@ -118,7 +120,7 @@ class Job
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
      * @Assert\Type("bool")
      */
-    private $obsolete = false;
+    private bool $obsolete = false;
 
     /**
      * @var bool
@@ -126,14 +128,14 @@ class Job
      * @ORM\Column(name="immediately", type="boolean", nullable=false)
      * @Assert\Type("bool")
      */
-    private $immediately = false;
+    private bool $immediately = false;
 
     /**
      * @var string
      *
      * @ORM\Column(name="report", type="text", nullable=true )
      */
-    private $report;
+    private string $report;
 
 
     /**
@@ -141,7 +143,7 @@ class Job
      *
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -153,7 +155,7 @@ class Job
      *
      * @return Job
      */
-    public function setLabel($label)
+    public function setLabel(string $label): static
     {
         $this->label = $label;
 
@@ -165,7 +167,7 @@ class Job
      *
      * @return string
      */
-    public function getLabel()
+    public function getLabel(): string
     {
         return $this->label;
     }
@@ -177,7 +179,7 @@ class Job
      *
      * @return Job
      */
-    public function setCommand($command)
+    public function setCommand(string $command): static
     {
         $this->command = $command;
 
@@ -189,7 +191,7 @@ class Job
      *
      * @return string
      */
-    public function getCommand()
+    public function getCommand(): string
     {
         return $this->command;
     }
@@ -197,7 +199,7 @@ class Job
     /**
      * @return string
      */
-    public function getFrequencyJobFormat()
+    public function getFrequencyJobFormat(): string
     {
         return $this->frequencyJobFormat;
     }
@@ -205,7 +207,7 @@ class Job
     /**
      * @param string $frequencyJobFormat
      */
-    public function setFrequencyJobFormat($frequencyJobFormat)
+    public function setFrequencyJobFormat(string $frequencyJobFormat): void
     {
         $this->frequencyJobFormat = $frequencyJobFormat;
     }
@@ -213,19 +215,19 @@ class Job
     /**
      * @return int|null
      */
-    public function getLastStatus()
+    public function getLastStatus(): ?int
     {
         return $this->lastStatus;
     }
 
     /**
      * @param $lastStatus
-     * @throws \Exception
+     * @throws Exception
      */
-    public function setLastStatus($lastStatus)
+    public function setLastStatus($lastStatus): void
     {
         if ($lastStatus !== \App\Syllabus\Constant\Job::STATUS_IN_PROGRESS) {
-            $this->setLastUseEnd(new \DateTime());
+            $this->setLastUseEnd(new DateTime());
         }
 
         $this->lastStatus = $lastStatus;
@@ -234,7 +236,7 @@ class Job
     /**
      * @return bool
      */
-    public function isObsolete()
+    public function isObsolete(): bool
     {
         return $this->obsolete;
     }
@@ -242,39 +244,39 @@ class Job
     /**
      * @param bool $obsolete
      */
-    public function setObsolete($obsolete)
+    public function setObsolete(bool $obsolete): void
     {
         $this->obsolete = $obsolete;
     }
 
     /**
-     * @return \DateTime|null
+     * @return DateTime|null
      */
-    public function getLastUseStart()
+    public function getLastUseStart(): ?DateTime
     {
         return $this->lastUseStart;
     }
 
     /**
-     * @param \DateTime|null $lastUseStart
+     * @param DateTime|null $lastUseStart
      */
-    public function setLastUseStart($lastUseStart)
+    public function setLastUseStart(?DateTime $lastUseStart): void
     {
         $this->lastUseStart = $lastUseStart;
     }
 
     /**
-     * @return \DateTime|null
+     * @return DateTime|null
      */
-    public function getLastUseEnd()
+    public function getLastUseEnd(): ?DateTime
     {
         return $this->lastUseEnd;
     }
 
     /**
-     * @param \DateTime|null $lastUseEnd
+     * @param DateTime|null $lastUseEnd
      */
-    public function setLastUseEnd($lastUseEnd)
+    public function setLastUseEnd(?DateTime $lastUseEnd): void
     {
         $this->lastUseEnd = $lastUseEnd;
     }
@@ -282,7 +284,7 @@ class Job
     /**
      * @return string
      */
-    public function getReport()
+    public function getReport(): string
     {
         return $this->report;
     }
@@ -290,7 +292,7 @@ class Job
     /**
      * @param string $report
      */
-    public function setReport($report)
+    public function setReport(string $report): void
     {
         $this->report = $report;
     }
@@ -298,7 +300,7 @@ class Job
     /**
      * @return bool
      */
-    public function isImmediately()
+    public function isImmediately(): bool
     {
         return $this->immediately;
     }
@@ -306,7 +308,7 @@ class Job
     /**
      * @param bool $immediately
      */
-    public function setImmediately($immediately)
+    public function setImmediately(bool $immediately): void
     {
         $this->immediately = $immediately;
     }

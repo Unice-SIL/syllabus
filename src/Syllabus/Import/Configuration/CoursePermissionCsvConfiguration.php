@@ -14,7 +14,7 @@ class CoursePermissionCsvConfiguration extends AbstractConfiguration implements 
     /**
      * @var
      */
-    private $path;
+    private mixed $path;
 
     /**
      * CoursePermissionCsvConfiguration constructor.
@@ -42,7 +42,7 @@ class CoursePermissionCsvConfiguration extends AbstractConfiguration implements 
     /**
      * @return mixed
      */
-    public function getPath()
+    public function getPath(): mixed
     {
         return $this->path;
     }
@@ -50,7 +50,7 @@ class CoursePermissionCsvConfiguration extends AbstractConfiguration implements 
     /**
      * @param mixed $path
      */
-    public function setPath($path): void
+    public function setPath(mixed $path): void
     {
         $this->path = $path;
     }

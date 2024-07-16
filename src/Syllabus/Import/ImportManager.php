@@ -19,7 +19,7 @@ class ImportManager
         return $extractor->extract($report);
     }
 
-    public function parse(ExtractorInterface $extractor, TransformerInterface $transformer, MatchingInterface $matching, ?Report $report = null, $options = [])
+    public function parse(ExtractorInterface $extractor, TransformerInterface $transformer, MatchingInterface $matching, ?Report $report = null, $options = []): array
     {
 
         $data = $extractor->extract($report, $options);
@@ -27,15 +27,8 @@ class ImportManager
         return $transformer->transform($data, $matching, $options, $report);
     }
 
-    public function parseFromConfig(ConfigurationInterface $configuration, ?Report $report = null, $options = [])
+    public function parseFromConfig(ConfigurationInterface $configuration, ?Report $report = null, $options = []): array
     {
         return $this->parse($configuration->getExtractor(), $configuration->getTransformer(), $configuration->getMatching(), $report, $options);
     }
-
-    /*public function import()
-    {
-
-    }*/
-
-
 }

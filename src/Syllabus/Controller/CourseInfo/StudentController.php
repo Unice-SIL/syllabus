@@ -21,7 +21,7 @@ class StudentController extends AbstractController
      * @param CourseInfo $courseInfo
      * @return Response
      */
-    public function studentView(CourseInfo $courseInfo)
+    public function studentView(CourseInfo $courseInfo): Response
     {
         return $this->render('course_info/view/view.html.twig', array(
             'courseInfo' => $courseInfo,

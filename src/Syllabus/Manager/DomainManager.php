@@ -9,14 +9,14 @@ use Doctrine\ORM\EntityManagerInterface;
 class DomainManager
 {
     /**
-     * @var \Doctrine\Persistence\ObjectRepository
+     * @var EntityManagerInterface
      */
-    private $em;
+    private EntityManagerInterface $em;
 
     /**
      * @var DomainDoctrineRepository
      */
-    private $repository;
+    private DomainDoctrineRepository $repository;
 
     /**
      * DomainManager constructor.
@@ -32,7 +32,7 @@ class DomainManager
     /**
      * @return Domain
      */
-    public function new()
+    public function new(): Domain
     {
         return new Domain();
     }
@@ -47,9 +47,9 @@ class DomainManager
     }
 
     /**
-     * @return mixed
+     * @return array|object[]
      */
-    public function findAll()
+    public function findAll(): array
     {
         return $this->repository->findAll();
     }
@@ -57,7 +57,7 @@ class DomainManager
     /**
      * @param Domain $domain
      */
-    public function create(Domain $domain)
+    public function create(Domain $domain): void
     {
         $this->em->persist($domain);
         $this->em->flush();

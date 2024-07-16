@@ -11,7 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class DashboardType extends AbstractType
 {
-    private $manager;
+    private YearManager $manager;
 
     /**
      * DashboardType constructor.
@@ -24,7 +24,7 @@ class DashboardType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('years', ChoiceType::class, [

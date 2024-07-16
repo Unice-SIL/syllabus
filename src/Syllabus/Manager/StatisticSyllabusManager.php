@@ -8,35 +8,29 @@ use App\Syllabus\Repository\Doctrine\CourseInfoDoctrineRepository;
 use App\Syllabus\Repository\Doctrine\StatisticSyllabusDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
+use Exception;
 use function GuzzleHttp\Psr7\str;
 
 class StatisticSyllabusManager
 {
     /**
-     * @var ObjectRepository
-     */
-    private $em;
-
-    /**
      * @var StatisticSyllabusDoctrineRepository
      */
-    private $repository;
+    private StatisticSyllabusDoctrineRepository $repository;
 
     /**
      * @var CourseInfoDoctrineRepository
      */
-    private $courseInfoDoctrineRepository;
+    private CourseInfoDoctrineRepository $courseInfoDoctrineRepository;
 
     /**
      * StatisticSyllabusManager constructor.
-     * @param EntityManagerInterface $em
      * @param StatisticSyllabusDoctrineRepository $repository
      * @param CourseInfoDoctrineRepository $courseInfoDoctrineRepository
      */
-    public function __construct(EntityManagerInterface $em, StatisticSyllabusDoctrineRepository $repository,
+    public function __construct(StatisticSyllabusDoctrineRepository $repository,
                                 CourseInfoDoctrineRepository $courseInfoDoctrineRepository)
     {
-        $this->em = $em;
         $this->repository = $repository;
         $this->courseInfoDoctrineRepository = $courseInfoDoctrineRepository;
     }
@@ -45,7 +39,7 @@ class StatisticSyllabusManager
      * @param string $year
      * @return mixed
      */
-    public function findSyllabusPublished(string $year)
+    public function findSyllabusPublished(string $year): mixed
     {
         return $this->repository->getSyllabusPublished($year);
     }
@@ -54,7 +48,7 @@ class StatisticSyllabusManager
      * @param string $year
      * @return mixed
      */
-    public function findSyllabusBeingFilled(string $year)
+    public function findSyllabusBeingFilled(string $year): mixed
     {
         return $this->repository->getSyllabusBeingFilled($year);
     }
@@ -62,9 +56,9 @@ class StatisticSyllabusManager
     /**
      * @param string $year
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
-    public function findSyllabusByYear(string $year)
+    public function findSyllabusByYear(string $year): array
     {
         return $this->courseInfoDoctrineRepository->findByYear($year);
     }

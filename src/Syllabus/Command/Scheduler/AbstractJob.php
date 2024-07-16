@@ -5,6 +5,7 @@ namespace App\Syllabus\Command\Scheduler;
 
 use App\Syllabus\Entity\Job;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -21,12 +22,12 @@ abstract class AbstractJob extends Command
     /**
      * @var EntityManagerInterface
      */
-    protected $em;
+    protected EntityManagerInterface $em;
 
     /**
      * @var string
      */
-    private $jobId;
+    private string $jobId;
 
     /**
      * AbstractJob constructor.
@@ -40,7 +41,7 @@ abstract class AbstractJob extends Command
     /**
      *
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->addOption('job-id',null, InputOption::VALUE_OPTIONAL, 'The job id referenced in the database');
     }
@@ -49,10 +50,10 @@ abstract class AbstractJob extends Command
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
-     * @return int|void|null
-     * @throws \Exception
+     * @return int
+     * @throws Exception
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
 
         $this->jobId = $input->getOption('job-id');
@@ -72,7 +73,7 @@ abstract class AbstractJob extends Command
 
         try {
             $result = $this->subExecute($input, $output);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
 
             $job = $this->getJob();
             if ($job instanceof  Job) {
@@ -103,7 +104,7 @@ abstract class AbstractJob extends Command
     /**
      * @return object|null
      */
-    protected function getJob()
+    protected function getJob(): ?object
     {
         if($this->jobId)
         {
@@ -116,7 +117,7 @@ abstract class AbstractJob extends Command
      * @param int $progress
      * @param bool $flush
      */
-    protected function progress(int $progress, bool $flush = false)
+    protected function progress(int $progress, bool $flush = false): void
     {
         $job = $this->getJob();
         if($job instanceof Job)
@@ -133,7 +134,7 @@ abstract class AbstractJob extends Command
      * @param int $memoryUsed
      * @param bool $flush
      */
-    protected function memoryUsed(int $memoryUsed, bool $flush = false)
+    protected function memoryUsed(int $memoryUsed, bool $flush = false): void
     {
         $job = $this->getJob();
         if($job instanceof Job)
@@ -151,5 +152,5 @@ abstract class AbstractJob extends Command
      * @param OutputInterface $output
      * @return mixed
      */
-    abstract protected function subExecute(InputInterface $input, OutputInterface $output);
+    abstract protected function subExecute(InputInterface $input, OutputInterface $output): mixed;
 }

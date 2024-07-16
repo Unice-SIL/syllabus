@@ -42,7 +42,7 @@ class ActivityModeController extends AbstractController
         ActivityModeDoctrineRepository $repository,
         PaginatorInterface $paginator,
         FilterBuilderUpdaterInterface $filterBuilderUpdater
-    )
+    ): Response
     {
         $qb =  $repository->getIndexQueryBuilder();
 
@@ -76,7 +76,7 @@ class ActivityModeController extends AbstractController
      * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function newAction(Request $request, ActivityModeManager $activityTypeManager, TranslatorInterface $translator)
+    public function newAction(Request $request, ActivityModeManager $activityTypeManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $activityMode = $activityTypeManager->new();
         $form = $this->createForm(ActivityModeType::class, $activityMode);
@@ -106,7 +106,7 @@ class ActivityModeController extends AbstractController
      * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, ActivityMode $activityMode, ActivityModeManager $activityModeManager, TranslatorInterface $translator)
+    public function editAction(Request $request, ActivityMode $activityMode, ActivityModeManager $activityModeManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $form = $this->createForm(ActivityModeType::class, $activityMode);
         $form->handleRequest($request);

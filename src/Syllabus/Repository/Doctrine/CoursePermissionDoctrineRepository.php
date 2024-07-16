@@ -26,9 +26,9 @@ class CoursePermissionDoctrineRepository extends ServiceEntityRepository
 
     /**
      * @param User $user
-     * @return mixed
+     * @return float|int|mixed|string
      */
-    public function getCourseByPermission(User $user)
+    public function getCourseByPermission(User $user): mixed
     {
         return $this->getCourseByPermissionQueryBuilder($user)->getQuery()->getResult();
     }

@@ -15,12 +15,12 @@ class CourseTeacherManager
     /**
      * @var EntityManagerInterface
      */
-    private $em;
+    private EntityManagerInterface $em;
 
     /**
      * @var CourseTeacherDoctrineRepository
      */
-    private $repository;
+    private CourseTeacherDoctrineRepository $repository;
 
     /**
      * CourseTeacherManager constructor.
@@ -36,7 +36,7 @@ class CourseTeacherManager
     /**
      * @return CourseTeacher
      */
-    public function new()
+    public function new(): CourseTeacher
     {
         return new CourseTeacher();
     }

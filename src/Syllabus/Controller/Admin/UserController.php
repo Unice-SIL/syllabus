@@ -44,7 +44,7 @@ class UserController extends AbstractController
         PaginatorInterface $paginator,
         UserDoctrineRepository $userDoctrineRepository,
         FilterBuilderUpdaterInterface $filterBuilderUpdater
-    )
+    ): Response
     {
         $qb = $userDoctrineRepository->getIndexQueryBuilder();
         $form = $this->createForm(UserFilterType::class);
@@ -78,7 +78,7 @@ class UserController extends AbstractController
      * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function newAction(Request $request, UserManager $userManager, TranslatorInterface $translator)
+    public function newAction(Request $request, UserManager $userManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $user = $userManager->new();
         $form = $this->createForm(UserType::class, $user, ['context' => 'new']);
@@ -106,7 +106,7 @@ class UserController extends AbstractController
      * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, User $user, UserManager $userManager, TranslatorInterface $translator)
+    public function editAction(Request $request, User $user, UserManager $userManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);

@@ -13,12 +13,12 @@ class EquipmentManager
     /**
      * @var EntityManagerInterface
      */
-    private $em;
+    private EntityManagerInterface $em;
 
     /**
      * @var EquipmentDoctrineRepository
      */
-    private $repository;
+    private EquipmentDoctrineRepository $repository;
 
     public function __construct(EntityManagerInterface $em, EquipmentDoctrineRepository $repository)
     {
@@ -26,7 +26,7 @@ class EquipmentManager
         $this->repository = $repository;
     }
 
-    public function new()
+    public function new(): Equipment
     {
         return new Equipment();
     }
@@ -51,7 +51,7 @@ class EquipmentManager
     /**
      * @param Equipment $equipment
      */
-    public function create(Equipment $equipment)
+    public function create(Equipment $equipment): void
     {
         $this->em->persist($equipment);
         $this->em->flush();

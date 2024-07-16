@@ -3,6 +3,8 @@
 
 namespace App\Syllabus\Import\Matching;
 
+use Generator;
+
 abstract class AbstractMatching
 {
 
@@ -21,7 +23,7 @@ abstract class AbstractMatching
      */
     abstract protected function getBaseMatching(): array;
 
-    public function getCompleteMatching()
+    public function getCompleteMatching(): Generator
     {
         //todo: refacto to return array instead of generator
         $matching = $this->getBaseMatching();
@@ -66,7 +68,7 @@ abstract class AbstractMatching
      * @param string $type (could be source|entity)
      * @return array
      */
-    public function getFields($type = 'source'): array
+    public function getFields(string $type = 'source'): array
     {
         $fields = [];
         if ('entity' === $type) {

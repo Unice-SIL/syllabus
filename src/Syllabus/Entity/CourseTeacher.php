@@ -190,42 +190,42 @@ class CourseTeacher
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      */
-    private $id;
+    private ?string $id;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="firstname", type="string", length=100, nullable=true)
      */
-    private $firstname;
+    private ?string $firstname;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="lastname", type="string", length=100, nullable=true)
      */
-    private $lastname;
+    private ?string $lastname;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="email", type="string", length=255, nullable=true)
      */
-    private $email;
+    private ?string $email;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="manager", type="boolean", nullable=false)
      */
-    private $manager = false;
+    private bool $manager = false;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="email_visibility", type="boolean", nullable=false)
      */
-    private $emailVisibility = false;
+    private bool $emailVisibility = false;
 
     /**
      * @var CourseInfo
@@ -235,7 +235,7 @@ class CourseTeacher
      *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
      * })
      */
-    private $courseInfo;
+    private CourseInfo $courseInfo;
 
     /**
      * @return string|null
@@ -265,10 +265,10 @@ class CourseTeacher
     }
 
     /**
-     * @param null|string $firstname
+     * @param string|null $firstname
      * @return CourseTeacher
      */
-    public function setFirstname($firstname): self
+    public function setFirstname(?string $firstname): self
     {
         $this->firstname = $firstname;
 
@@ -284,10 +284,10 @@ class CourseTeacher
     }
 
     /**
-     * @param null|string $lastname
+     * @param string|null $lastname
      * @return CourseTeacher
      */
-    public function setLastname($lastname): self
+    public function setLastname(?string $lastname): self
     {
         $this->lastname = $lastname;
 
@@ -303,10 +303,10 @@ class CourseTeacher
     }
 
     /**
-     * @param null|string $email
+     * @param string|null $email
      * @return CourseTeacher
      */
-    public function setEmail($email): self
+    public function setEmail(?string $email): self
     {
         $this->email = $email;
 

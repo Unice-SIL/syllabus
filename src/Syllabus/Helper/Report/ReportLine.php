@@ -6,9 +6,9 @@ namespace App\Syllabus\Helper\Report;
 
 class ReportLine
 {
-    private $id;
+    private mixed $id;
 
-    private $comments = [];
+    private array $comments = [];
 
     /**
      * ReportLine constructor.
@@ -23,7 +23,7 @@ class ReportLine
      * @param mixed $id
      * @return ReportLine
      */
-    public function setId($id): self
+    public function setId(mixed $id): self
     {
         $this->id = $id;
         return $this;
@@ -32,7 +32,7 @@ class ReportLine
     /**
      * @return mixed
      */
-    public function getId()
+    public function getId(): mixed
     {
         return $this->id;
     }

@@ -37,6 +37,7 @@ class LevelDoctrineRepository extends ServiceEntityRepository
 
     /**
      * @param string $query
+     * @param string $field
      * @return array
      */
     public function findLikeQuery(string $query, string $field = 'label'): array

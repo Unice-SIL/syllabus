@@ -214,7 +214,7 @@ class Equipment
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      */
-    private $id;
+    private ?string $id;
 
     /**
      * @var string|null
@@ -223,35 +223,35 @@ class Equipment
      * @Assert\NotBlank()
      * @Gedmo\Translatable
      */
-    private $label;
+    private ?string $label;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="label_visibility", type="boolean", nullable=false)
      */
-    private $labelVisibility = true;
+    private bool $labelVisibility = true;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="icon", type="text", length=65535, nullable=true)
      */
-    private $icon;
+    private ?string $icon;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
      */
-    private $obsolete = false;
+    private bool $obsolete = false;
 
     /**
      * @var int
      *
      * @ORM\Column(name="position", type="integer", nullable=false)
      */
-    private $position = 0;
+    private int $position = 0;
 
     /**
      * @return null|string

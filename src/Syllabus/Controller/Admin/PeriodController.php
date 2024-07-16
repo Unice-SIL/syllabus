@@ -42,7 +42,7 @@ class PeriodController extends AbstractController
         PeriodDoctrineRepository $repository,
         PaginatorInterface $paginator,
         FilterBuilderUpdaterInterface $filterBuilderUpdater
-    )
+    ): Response
     {
         $qb =  $repository->getIndexQueryBuilder();
 
@@ -77,7 +77,7 @@ class PeriodController extends AbstractController
      * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function newAction(Request $request, PeriodManager $periodManager, TranslatorInterface $translator)
+    public function newAction(Request $request, PeriodManager $periodManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $period = $periodManager->new();
         $form = $this->createForm(PeriodType::class, $period);
@@ -108,7 +108,7 @@ class PeriodController extends AbstractController
      * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, Period $period, PeriodManager $periodManager, TranslatorInterface $translator)
+    public function editAction(Request $request, Period $period, PeriodManager $periodManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $form = $this->createForm(PeriodType::class, $period);
         $form->handleRequest($request);

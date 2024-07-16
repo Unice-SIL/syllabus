@@ -11,10 +11,10 @@ use App\Syllabus\Entity\CourseTeacher;
 interface FindCourseTeacherByIdQueryInterface
 {
     /**
-     * @param string $term
+     * @param string $id
      * @return FindCourseTeacherByIdQueryInterface
      */
-    public function setId(string $term): FindCourseTeacherByIdQueryInterface;
+    public function setId(string $id): FindCourseTeacherByIdQueryInterface;
 
     /**
      * @return CourseTeacher|null

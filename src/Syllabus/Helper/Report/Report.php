@@ -9,14 +9,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class Report
 {
-    private $messages;
+    private ArrayCollection $messages;
 
-    private $lines;
+    private ArrayCollection $lines;
 
     /**
      * @var string|null
      */
-    private $title = 'Aucun';
+    private ?string $title = 'Aucun';
 
     /**
      * Report constructor.

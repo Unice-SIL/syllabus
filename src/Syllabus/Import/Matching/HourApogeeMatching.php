@@ -18,25 +18,17 @@ class HourApogeeMatching extends AbstractMatching implements MatchingInterface
     /**
      * @var TeachingManager
      */
-    private $teachingManager;
-    /**
-     * @var ImportManager
-     */
-    private $importManager;
-
+    private TeachingManager $teachingManager;
 
     /**
      * HourApogeeMatching constructor.
      * @param TeachingManager $teachingManager
-     * @param ImportManager $importManager
      */
     public function __construct(
-        TeachingManager $teachingManager,
-        ImportManager $importManager
+        TeachingManager $teachingManager
     )
     {
         $this->teachingManager = $teachingManager;
-        $this->importManager = $importManager;
     }
 
     /**
@@ -68,7 +60,7 @@ class HourApogeeMatching extends AbstractMatching implements MatchingInterface
     }
 
     /**
-     * @param Course $course
+     * @param $entity
      * @param string $property
      * @param string $name
      * @param string $type
@@ -77,7 +69,7 @@ class HourApogeeMatching extends AbstractMatching implements MatchingInterface
      * @param Report $report
      * @return bool
      */
-    public function manageSpecialCase($course, string $property, string $name, string $type, $data, ReportLine $reportLine, Report $report): bool
+    public function manageSpecialCase($entity, string $property, string $name, string $type, $data, ReportLine $reportLine, Report $report): bool
     {
         return true;
     }

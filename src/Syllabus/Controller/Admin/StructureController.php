@@ -42,7 +42,7 @@ class StructureController extends AbstractController
         PaginatorInterface $paginator,
         StructureDoctrineRepository $structureDoctrineRepository,
         FilterBuilderUpdaterInterface $filterBuilderUpdater
-    )
+    ): Response
     {
 
         $parameters = $request->query->all();
@@ -78,7 +78,7 @@ class StructureController extends AbstractController
      * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function newAction(Request $request, StructureManager $structureManager, TranslatorInterface $translator)
+    public function newAction(Request $request, StructureManager $structureManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $structure = $structureManager->new();
         $form = $this->createForm(StructureType::class, $structure, ['context' => 'new']);
@@ -106,7 +106,7 @@ class StructureController extends AbstractController
      * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, Structure $structure, StructureManager $structureManager, TranslatorInterface $translator)
+    public function editAction(Request $request, Structure $structure, StructureManager $structureManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $form = $this->createForm(StructureType::class, $structure);
         $form->handleRequest($request);
@@ -130,7 +130,7 @@ class StructureController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
-    public function autocompleteS2(StructureDoctrineRepository $structureDoctrineRepository, Request $request)
+    public function autocompleteS2(StructureDoctrineRepository $structureDoctrineRepository, Request $request): JsonResponse
     {
         $parameters = $request->query->all();
         $query = $parameters['q'];

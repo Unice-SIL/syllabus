@@ -24,7 +24,7 @@ class MySyllabusFilterType extends AbstractType
      * @param FormBuilderInterface $builder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('title', TextFilterType::class, [
@@ -55,7 +55,7 @@ class MySyllabusFilterType extends AbstractType
     /**
      * @return string
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'course_info_filter';
     }
@@ -63,7 +63,7 @@ class MySyllabusFilterType extends AbstractType
     /**
      * @param OptionsResolver $resolver
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,

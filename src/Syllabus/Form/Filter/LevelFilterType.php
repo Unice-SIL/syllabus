@@ -16,9 +16,9 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class LevelFilterType extends AbstractType
 {
     /**
-     * @var
+     * @var UrlGeneratorInterface
      */
-    private  $generator;
+    private UrlGeneratorInterface $generator;
 
     /**
      * LevelFilterType constructor.
@@ -33,7 +33,7 @@ class LevelFilterType extends AbstractType
      * @param FormBuilderInterface $builder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('label', TextFilterType::class, [
             'condition_pattern' => FilterOperands::STRING_CONTAINS,
@@ -48,7 +48,7 @@ class LevelFilterType extends AbstractType
     /**
      * @return string
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'level_filter';
     }
@@ -56,7 +56,7 @@ class LevelFilterType extends AbstractType
     /**
      * @param OptionsResolver $resolver
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(array(
             'csrf_protection'   => false,

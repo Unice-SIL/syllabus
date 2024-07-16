@@ -17,6 +17,6 @@ interface MatchingInterface
 
     public function getCompleteMatching();
 
-    public function getFields($type = 'source'): array;
+    public function getFields(string $type = 'source'): array;
 
 }

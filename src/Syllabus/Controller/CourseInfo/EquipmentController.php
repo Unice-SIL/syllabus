@@ -16,6 +16,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 /**
  * Class EquipmentController
@@ -32,10 +35,18 @@ class EquipmentController extends AbstractController
      * @param CourseResourceEquipment $resourceEquipment
      * @param Request $request
      * @param CourseResourceEquipmentManager $courseResourceEquipmentManager
+     * @param Environment $twig
      * @return JsonResponse
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function editDescriptionResourceEquipmentAction(CourseResourceEquipment $resourceEquipment,
-                                                           Request $request, CourseResourceEquipmentManager $courseResourceEquipmentManager)
+    public function editDescriptionResourceEquipmentAction(
+        CourseResourceEquipment $resourceEquipment,
+        Request $request,
+        CourseResourceEquipmentManager $courseResourceEquipmentManager,
+        Environment $twig,
+    ): JsonResponse
     {
         $form = $this->createForm(ResourceEquipmentEditType::class, $resourceEquipment);
         $form->handleRequest($request);
@@ -48,7 +59,7 @@ class EquipmentController extends AbstractController
             ]);
         }
 
-        $render = $this->get('twig')->render('course_info/equipment/form/resource_equipment_edit.html.twig', [
+        $render = $twig->render('course_info/equipment/form/resource_equipment_edit.html.twig', [
             'form' => $form->createView()
         ]);
 
@@ -66,9 +77,12 @@ class EquipmentController extends AbstractController
      * @param Request $request
      * @param CourseResourceEquipmentManager $courseResourceEquipmentManager
      * @return JsonResponse
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function removeResourceEquipmentAction(CourseResourceEquipment $resourceEquipment, Environment $twig,
-                                                  Request $request, CourseResourceEquipmentManager $courseResourceEquipmentManager)
+                                                  Request $request, CourseResourceEquipmentManager $courseResourceEquipmentManager): JsonResponse
     {
         $form = $this->createForm(RemoveResourceEquipmentType::class, $resourceEquipment);
         $form->handleRequest($request);

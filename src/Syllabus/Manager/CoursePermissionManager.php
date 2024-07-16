@@ -16,7 +16,7 @@ class CoursePermissionManager extends AbstractManager
     /**
      * @var CoursePrerequisiteDoctrineRepository
      */
-    private $repository;
+    private CoursePrerequisiteDoctrineRepository $repository;
 
     /**
      * CoursePermissionManager constructor.

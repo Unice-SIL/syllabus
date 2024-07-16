@@ -7,6 +7,7 @@ namespace App\Syllabus\Manager;
 use App\Syllabus\Entity\Level;
 use App\Syllabus\Repository\Doctrine\LevelDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 
 /**
  * Class LevelManager
@@ -17,12 +18,12 @@ class LevelManager
     /**
      * @var EntityManagerInterface
      */
-    private $em;
+    private EntityManagerInterface $em;
 
     /**
      * @var LevelDoctrineRepository
      */
-    private $repository;
+    private LevelDoctrineRepository $repository;
 
     public function __construct(EntityManagerInterface $em, LevelDoctrineRepository $repository)
     {
@@ -33,7 +34,7 @@ class LevelManager
     /**
      * @return Level
      */
-    public function new()
+    public function new(): Level
     {
         return new Level();
     }
@@ -41,9 +42,9 @@ class LevelManager
     /**
      * @param string $id
      * @return Level|null
-     * @throws \Exception
+     * @throws Exception
      */
-    public function find($id): ?Level
+    public function find(string $id): ?Level
     {
         return $this->repository->find($id);
     }

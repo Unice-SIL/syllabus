@@ -14,8 +14,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ActivityTypeType extends AbstractType
 {
-    private $activityTypeTypeSubscriber;
-
+    private ActivityTypeTypeSubscriber $activityTypeTypeSubscriber;
 
     public function __construct(ActivityTypeTypeSubscriber $activityTypeTypeSubscriber)
     {
@@ -25,7 +24,7 @@ class ActivityTypeType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $icon = $options['icon'];
 
@@ -50,7 +49,7 @@ class ActivityTypeType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(array(
             'data_class' => 'App\Syllabus\Entity\ActivityType',
@@ -61,7 +60,7 @@ class ActivityTypeType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'appbundle_activity_type';
     }

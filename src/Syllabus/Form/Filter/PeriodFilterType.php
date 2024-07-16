@@ -19,9 +19,9 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class PeriodFilterType extends AbstractType
 {
     /**
-     * @var
+     * @var UrlGeneratorInterface
      */
-    private  $generator;
+    private UrlGeneratorInterface $generator;
 
     /**
      * PeriodFilterType constructor.
@@ -36,7 +36,7 @@ class PeriodFilterType extends AbstractType
      * @param FormBuilderInterface $builder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('label', TextFilterType::class, [
             'condition_pattern' => FilterOperands::STRING_CONTAINS,
@@ -66,7 +66,7 @@ class PeriodFilterType extends AbstractType
     /**
      * @return string
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'period_filter';
     }
@@ -74,7 +74,7 @@ class PeriodFilterType extends AbstractType
     /**
      * @param OptionsResolver $resolver
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(array(
             'csrf_protection'   => false,

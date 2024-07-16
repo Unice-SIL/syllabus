@@ -7,6 +7,7 @@ namespace App\Syllabus\Form\Course;
 use App\Syllabus\Entity\Course;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 
@@ -17,9 +18,9 @@ use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 class AddParentCourseType extends AbstractType
 {
     /**
-     * @var null|\Symfony\Component\HttpFoundation\Request
+     * @var null|Request
      */
-    private $request;
+    private ?Request $request;
 
     /**
      * AddParentCourseType constructor.
@@ -34,7 +35,7 @@ class AddParentCourseType extends AbstractType
      * @param FormBuilderInterface $builder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         /** @var Course $course */
         $course = $builder->getData();

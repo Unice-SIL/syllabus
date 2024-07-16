@@ -550,7 +550,7 @@ class Domain
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      */
-    private $id;
+    private ?string $id;
 
     /**
      * @var string
@@ -559,7 +559,7 @@ class Domain
      * @Assert\NotBlank()
      * @Gedmo\Translatable
      */
-    private $label;
+    private string $label;
 
     /**
      * @var string|null
@@ -567,14 +567,14 @@ class Domain
      * @ORM\Column(name="grp", type="string", length=100, nullable=true)
      * @Gedmo\Translatable
      */
-    private $grp;
+    private ?string $grp;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
      */
-    private $obsolete = false;
+    private bool $obsolete = false;
 
     /**
      * @var Collection
@@ -582,7 +582,7 @@ class Domain
      * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Structure", inversedBy="domains")
      * @ORM\OrderBy({"label" = "ASC"})
      */
-    private $structures;
+    private Collection $structures;
 
     /**
      * Domain constructor.
@@ -668,7 +668,7 @@ class Domain
     }
 
     /**
-     * @return Collection
+     * @return Collection|null
      */
     public function getStructures(): ?Collection
     {

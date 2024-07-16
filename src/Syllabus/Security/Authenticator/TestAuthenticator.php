@@ -24,12 +24,12 @@ class TestAuthenticator extends AbstractAuthenticator implements AuthenticationE
     /**
      * @var array
      */
-    private $config;
+    private array $config;
 
     /**
      * @var Security
      */
-    private $security;
+    private Security $security;
 
     /**
      * @param array $config

@@ -6,6 +6,7 @@ use App\Syllabus\Entity\CourseAchievement;
 use App\Syllabus\Entity\CourseInfo;
 use App\Syllabus\Repository\Doctrine\CourseAchievementDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 
 /**
  * Class CourseAchievementManager
@@ -16,12 +17,12 @@ class CourseAchievementManager
     /**
      * @var EntityManagerInterface
      */
-    private $em;
+    private EntityManagerInterface $em;
 
     /**
      * @var CourseAchievementDoctrineRepository
      */
-    private $repository;
+    private CourseAchievementDoctrineRepository $repository;
 
     /**
      * CourseAchievementManager constructor.
@@ -38,7 +39,7 @@ class CourseAchievementManager
      * @param CourseInfo|null $courseInfo
      * @return CourseAchievement
      */
-    public function new(CourseInfo $courseInfo = null)
+    public function new(CourseInfo $courseInfo = null): CourseAchievement
     {
         $courseAchievement = new CourseAchievement();
         $courseAchievement->setCourseInfo($courseInfo);
@@ -81,7 +82,7 @@ class CourseAchievementManager
 
     /**
      * @param CourseAchievement $courseAchievement
-     * @throws \Exception
+     * @throws Exception
      */
     public function delete(CourseAchievement $courseAchievement): void
     {

@@ -12,9 +12,9 @@ class ReportRuntime implements RuntimeExtensionInterface
 {
 
     /**
-     * @var EngineInterface
+     * @var Environment
      */
-    private $twigEnvironment;
+    private Environment $twigEnvironment;
 
     /**
      * ReportRuntime constructor.

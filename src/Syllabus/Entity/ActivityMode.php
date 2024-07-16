@@ -964,7 +964,7 @@ class ActivityMode
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      */
-    private $id;
+    private string $id;
 
     /**
      * @var string
@@ -973,21 +973,21 @@ class ActivityMode
      * @Assert\NotBlank()
      * @Gedmo\Translatable
      */
-    private $label;
+    private string $label;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
      */
-    private $obsolete = false;
+    private bool $obsolete = false;
 
     /**
      * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\ActivityType", mappedBy="activityModes")
      */
-    private $activityTypes;
+    private Collection $activityTypes;
 
     /**
      * ActivityMode constructor.
@@ -998,7 +998,7 @@ class ActivityMode
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getId(): ?string
     {
@@ -1016,7 +1016,7 @@ class ActivityMode
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getLabel(): ?string
     {

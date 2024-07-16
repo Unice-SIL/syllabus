@@ -23,7 +23,7 @@ class CoursePermissionMoodleApiExtractor implements ExtractorInterface
      * @return array
      * @throws GuzzleException
      */
-    public function extract(Report $report = null, array $options = [])
+    public function extract(Report $report = null, array $options = []): array
     {
         if(empty($options['url']))
         {

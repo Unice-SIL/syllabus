@@ -20,7 +20,7 @@ abstract class AbstractReferentialMigration extends Command
     /**
      * @var EntityManagerInterface
      */
-    protected $em;
+    protected EntityManagerInterface $em;
 
     /**
      * CampusMigration constructor.

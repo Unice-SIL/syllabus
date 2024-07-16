@@ -17,7 +17,7 @@ class TestImportCommand extends AbstractJob
      * @param InputInterface $input
      * @param OutputInterface $output
      */
-    protected function subExecute(InputInterface $input, OutputInterface $output)
+    protected function subExecute(InputInterface $input, OutputInterface $output): mixed
     {
         $totalExecutionTimeInSecond = 900;
         $interval = $totalExecutionTimeInSecond / 100;
@@ -30,7 +30,7 @@ class TestImportCommand extends AbstractJob
             dump($progress);
         }
 
-        return;
+        return null;
 
     }
 

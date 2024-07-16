@@ -10,17 +10,16 @@ use Doctrine\ORM\EntityManagerInterface;
 class GroupsManager
 {
     /**
-     * @var \Doctrine\Persistence\ObjectRepository
+     * @var EntityManagerInterface
      */
-    private $em;
+    private EntityManagerInterface $em;
 
     /**
      * @var GroupsDoctrineRepository
      */
-    private $repository;
+    private GroupsDoctrineRepository $repository;
 
     /**
-     * GroupsManager constructor.
      * @param EntityManagerInterface $em
      * @param GroupsDoctrineRepository $repository
      */
@@ -33,7 +32,7 @@ class GroupsManager
     /**
      * @return Groups
      */
-    public function new()
+    public function new(): Groups
     {
         return new Groups();
     }
@@ -50,7 +49,7 @@ class GroupsManager
     /**
      * @return array
      */
-    public function findAll()
+    public function findAll(): array
     {
         return $this->repository->findAll();
     }
@@ -58,7 +57,7 @@ class GroupsManager
     /**
      * @param Groups $groups
      */
-    public function create(Groups $groups)
+    public function create(Groups $groups): void
     {
         $this->em->persist($groups);
         $this->em->flush();
@@ -67,7 +66,7 @@ class GroupsManager
     /**
      * @param Groups $groups
      */
-    public function update(Groups $groups)
+    public function update(Groups $groups): void
     {
         $this->em->flush();
     }
@@ -75,7 +74,7 @@ class GroupsManager
     /**
      * @param Groups $groups
      */
-    public function delete(Groups $groups)
+    public function delete(Groups $groups): void
     {
         $this->em->remove($groups);
         $this->em->flush();

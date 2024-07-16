@@ -10,9 +10,13 @@ use App\Syllabus\Form\CourseInfo\Permission\RemoveCoursePermissionType;
 use App\Syllabus\Manager\CoursePermissionManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 /**
  * Class PermissionController
@@ -28,13 +32,17 @@ class PermissionController extends AbstractController
      * @param CoursePermission $permission
      * @param Request $request
      * @param CoursePermissionManager $coursePermissionManager
-     * @return mixed
+     * @param Environment $twig
+     * @return JsonResponse
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function deleteAction(CoursePermission        $permission,
                                  Request                 $request,
                                  CoursePermissionManager $coursePermissionManager,
                                  Environment             $twig
-    )
+    ): JsonResponse
     {
         $form = $this->createForm(RemoveCoursePermissionType::class, $permission);
         $form->handleRequest($request);

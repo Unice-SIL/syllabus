@@ -24,6 +24,9 @@ use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 /**
  * Class DashboardController
@@ -37,7 +40,7 @@ class DashboardController extends AbstractController
     /**
      * @var ValidatorInterface
      */
-    private $validator;
+    private ValidatorInterface $validator;
 
     /**
      * DashboardController constructor.
@@ -60,7 +63,7 @@ class DashboardController extends AbstractController
      * @throws \Exception
      */
     public function indexAction(CourseInfo             $courseInfo, Request $request, CourseInfoManager $courseInfoManager,
-                                EntityManagerInterface $em, TranslatorInterface $translator)
+                                EntityManagerInterface $em, TranslatorInterface $translator): Response
     {
         $duplicationForm = $this->createForm(DuplicateCourseInfoType::class, ['currentCourseInfo' => $courseInfo->getId()]);
         $duplicationForm->handleRequest($request);
@@ -110,9 +113,13 @@ class DashboardController extends AbstractController
      * @Route("/dashboard", name="dashboard"))
      *
      * @param CourseInfo $courseInfo
+     * @param Environment $twig
      * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function dashboardViewAction(CourseInfo $courseInfo, Environment $twig)
+    public function dashboardViewAction(CourseInfo $courseInfo, Environment $twig): Response
     {
 
         /** @var Validation $violations */
@@ -175,10 +182,14 @@ class DashboardController extends AbstractController
      * @param Request $request
      * @param CourseInfoManager $courseInfoManager
      * @param TranslatorInterface $translator
+     * @param MailHelper $mailHelper
      * @return JsonResponse
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      * @Route("/publish", name="publish", methods={"POST"} )
      */
-    public function publishCourseInfo(CourseInfo $courseInfo, Request $request, CourseInfoManager $courseInfoManager, TranslatorInterface $translator, MailHelper $mailHelper)
+    public function publishCourseInfo(CourseInfo $courseInfo, Request $request, CourseInfoManager $courseInfoManager, TranslatorInterface $translator, MailHelper $mailHelper): JsonResponse
     {
         $publishForm = $this->createForm(PublishCourseInfoType::class, $courseInfo);
         $publishForm->handleRequest($request);
@@ -220,7 +231,7 @@ class DashboardController extends AbstractController
      * @return JsonResponse
      * @Route("/publish-next-year", name="publishNextYear", methods={"POST"} )
      */
-    public function DuplicateCourseInfoNextYear(CourseInfo $courseInfo, Request $request, CourseInfoManager $courseInfoManager)
+    public function DuplicateCourseInfoNextYear(CourseInfo $courseInfo, Request $request, CourseInfoManager $courseInfoManager): JsonResponse
     {
         $parameters = $request->query->all();
         $courseInfo->setDuplicateNextYear($parameters['action']);
@@ -232,7 +243,7 @@ class DashboardController extends AbstractController
      * @param CourseInfo $courseInfo
      * @return array
      */
-    private function getViolation(CourseInfo $courseInfo)
+    private function getViolation(CourseInfo $courseInfo): array
     {
         $validationsGroups = ['presentation', 'prerequisites', 'contentActivities', 'objectives', 'evaluation',
             'equipment', 'info', 'closingRemark'];

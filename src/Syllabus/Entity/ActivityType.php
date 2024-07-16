@@ -1283,7 +1283,7 @@ class ActivityType
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getId(): ?string
     {
@@ -1301,7 +1301,7 @@ class ActivityType
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getLabel(): ?string
     {
@@ -1319,9 +1319,9 @@ class ActivityType
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getIcon()
+    public function getIcon(): ?string
     {
         return $this->icon;
     }
@@ -1329,7 +1329,7 @@ class ActivityType
     /**
      * @param mixed $icon
      */
-    public function setIcon($icon): void
+    public function setIcon(mixed $icon): void
     {
         $this->icon = $icon;
     }

@@ -408,7 +408,7 @@ class Course
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getId(): ?string
     {
@@ -427,7 +427,7 @@ class Course
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getType(): ?string
     {
@@ -609,8 +609,8 @@ class Course
     {
         if (!$this->criticalAchievements->contains($criticalAchievement)) {
             $this->criticalAchievements->add($criticalAchievement);
-            if ($criticalAchievement->getCourses() !== $this) {
-                $criticalAchievement->getCourses($this);
+            if (!$criticalAchievement->getCourses()->contains($this)) {
+                $criticalAchievement->getCourses()->add($this);
             }
         }
         return $this;
@@ -624,8 +624,8 @@ class Course
     {
         if ($this->criticalAchievements->contains($criticalAchievement)) {
             $this->criticalAchievements->removeElement($criticalAchievement);
-            if ($criticalAchievement->getActivities()->contains($this)) {
-                $criticalAchievement->getActivities()->removeElement($this);
+            if ($criticalAchievement->getCourses()->contains($this)) {
+                $criticalAchievement->getCourses()->removeElement($this);
             }
         }
         return $this;
@@ -666,7 +666,7 @@ class Course
     }
 
     /**
-     * @param string $title
+     * @param string|null $title
      * @return Course
      */
     public function setTitle(?string $title): self
@@ -677,7 +677,7 @@ class Course
     }
 
     /**
-     * @return ArrayCollection|Collection
+     * @return Collection
      */
     public function getCoursePrerequisites(): Collection
     {
@@ -685,10 +685,10 @@ class Course
     }
 
     /**
-     * @param CoursePrerequisite|null $coursePrerequisites
-     * @return Course
+     * @param $coursePrerequisites
+     * @return $this
      */
-    public function setCoursePrerequisites(?CoursePrerequisite $coursePrerequisites): self
+    public function setCoursePrerequisites($coursePrerequisites): self
     {
         $this->coursePrerequisites = $coursePrerequisites;
         return $this;

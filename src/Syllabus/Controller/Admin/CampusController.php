@@ -44,7 +44,7 @@ class CampusController extends AbstractController
         CampusDoctrineRepository $repository,
         PaginatorInterface $paginator,
         FilterBuilderUpdaterInterface $filterBuilderUpdater
-    )
+    ): Response
     {
         $qb =  $repository->getIndexQueryBuilder();
 
@@ -78,7 +78,7 @@ class CampusController extends AbstractController
      * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function newAction(Request $request, CampusManager $campusManager, TranslatorInterface $translator)
+    public function newAction(Request $request, CampusManager $campusManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $campus = $campusManager->new();
         $form = $this->createForm(CampusType::class, $campus);
@@ -109,7 +109,7 @@ class CampusController extends AbstractController
      * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, Campus $campus, CampusManager $campusManager, TranslatorInterface $translator)
+    public function editAction(Request $request, Campus $campus, CampusManager $campusManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $form = $this->createForm(CampusType::class, $campus);
         $form->handleRequest($request);
@@ -135,7 +135,7 @@ class CampusController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function autocompleteS2(CampusDoctrineRepository $repository, Request $request)
+    public function autocompleteS2(CampusDoctrineRepository $repository, Request $request): Response
     {
         $parameters =  $request->query->all();
         $query = $parameters['c'];

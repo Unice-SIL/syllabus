@@ -34,7 +34,7 @@ class CoursePermissionController extends AbstractController
      * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function indexAction(CourseInfo $courseInfo, Request $request, CoursePermissionManager $coursePermissionManager, TranslatorInterface $translator)
+    public function indexAction(CourseInfo $courseInfo, Request $request, CoursePermissionManager $coursePermissionManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $coursePermission = $coursePermissionManager->new($courseInfo);
         $form = $this->createForm(AddCourseInfoPermissionType::class, $coursePermission);

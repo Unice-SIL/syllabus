@@ -16,16 +16,14 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class ActivityFilterType extends AbstractType
 {
-    private  $generator;
-    private  $activityManager;
+    private UrlGeneratorInterface $generator;
 
-    public function __construct(UrlGeneratorInterface $generator, ActivityManager $activityManager)
+    public function __construct(UrlGeneratorInterface $generator)
     {
         $this->generator = $generator;
-        $this->activityManager = $activityManager;
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
         ->add('label', TextFilterType::class, [
@@ -55,12 +53,12 @@ class ActivityFilterType extends AbstractType
         ;
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'activity_filter';
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(array(
             'csrf_protection'   => false,

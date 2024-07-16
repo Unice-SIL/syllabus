@@ -50,7 +50,7 @@ class ImportController extends AbstractController
         ImportManager $importManager,
         CourseInfoCsvConfiguration $courseInfoCsvConfiguration,
         TranslatorInterface $translator
-    )
+    ): RedirectResponse|Response
     {
         $form = $this->createForm(ImportType::class);
         $form->handleRequest($request);
@@ -134,7 +134,7 @@ class ImportController extends AbstractController
         ImportManager $importManager,
         CoursePermissionCsvConfiguration $coursePermissionCsvConfiguration,
         TranslatorInterface $translator
-    )
+    ): RedirectResponse|Response
     {
 
         $form = $this->createForm(ImportType::class);
@@ -199,7 +199,7 @@ class ImportController extends AbstractController
         ImportManager $importManager,
         UserCsvConfiguration $userCsvConfiguration,
         TranslatorInterface $translator
-    )
+    ): RedirectResponse|Response
     {
         $form = $this->createForm(ImportType::class);
         $form->handleRequest($request);

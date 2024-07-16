@@ -17,7 +17,7 @@ class MaintenanceController extends AbstractController
     /**
      * @Route("", name="index")
      */
-    public function indexAction()
+    public function indexAction(): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render('maintenance/index.html.twig');
     }

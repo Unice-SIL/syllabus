@@ -11,12 +11,12 @@ class CriticalAchievementManager
     /**
      * @var EntityManagerInterface
      */
-    private $em;
+    private EntityManagerInterface $em;
 
     /**
      * @var CriticalAchievementDoctrineRepository
      */
-    private $repository;
+    private CriticalAchievementDoctrineRepository $repository;
 
     /**
      * CriticalAchievementManager constructor.
@@ -32,7 +32,7 @@ class CriticalAchievementManager
     /**
      * @return CriticalAchievement
      */
-    public function new()
+    public function new(): CriticalAchievement
     {
         return new CriticalAchievement();
     }

@@ -24,7 +24,7 @@ class SwitchUserController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function form(Request $request)
+    public function form(Request $request): Response
     {
         $form = $this->createForm(SwitchUserType::class);
         $form->handleRequest($request);

@@ -4,6 +4,7 @@ namespace App\Syllabus\Repository\Doctrine;
 
 use App\Syllabus\Entity\Course;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -68,7 +69,7 @@ class CourseDoctrineRepository  extends ServiceEntityRepository
      * @param array $config
      * @return QueryBuilder
      */
-    public function findQueryBuilderForApi(array $config)
+    public function findQueryBuilderForApi(array $config): QueryBuilder
     {
         $qb = $this->getIndexQueryBuilder();
 
@@ -92,7 +93,7 @@ class CourseDoctrineRepository  extends ServiceEntityRepository
      * @param $value
      * @return QueryBuilder
      */
-    public function findByTitleOrCode($value)
+    public function findByTitleOrCode($value): QueryBuilder
     {
         $qb = $this->_em->getRepository(Course::class)
         ->createQueryBuilder('c')
@@ -104,6 +105,9 @@ class CourseDoctrineRepository  extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    /**
+     * @throws NonUniqueResultException
+     */
     public function findCourseWithCourseInfoAndYear(string $id)
     {
 
@@ -117,7 +121,7 @@ class CourseDoctrineRepository  extends ServiceEntityRepository
             ;
     }
 
-    public function getDefaultQueryBuilder()
+    public function getDefaultQueryBuilder(): QueryBuilder
     {
         return $this->createQueryBuilder('c')
             ->leftJoin('c.courseInfos', 'ci')
@@ -127,7 +131,7 @@ class CourseDoctrineRepository  extends ServiceEntityRepository
             ;
     }
 
-    public function getParentCoursesQbByCourse(Course $course)
+    public function getParentCoursesQbByCourse(Course $course): QueryBuilder
     {
         $qb = $this->createQueryBuilder('c');
 
@@ -138,7 +142,7 @@ class CourseDoctrineRepository  extends ServiceEntityRepository
             ;
     }
 
-    public function getChildrenCoursesQbByCourse(Course $course)
+    public function getChildrenCoursesQbByCourse(Course $course): QueryBuilder
     {
         $qb = $this->createQueryBuilder('c');
 

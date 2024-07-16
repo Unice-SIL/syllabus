@@ -13,21 +13,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class UserFilterType extends AbstractType
 {
-    /**
-     * @var
-     */
-    private $generator;
-
-    /**
-     * StructureFilterType constructor.
-     * @param UrlGeneratorInterface $generator
-     */
-    public function __construct(UrlGeneratorInterface $generator)
-    {
-        $this->generator = $generator;
-    }
-
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('username', TextFilterType::class, [
             'condition_pattern' => FilterOperands::STRING_CONTAINS,
@@ -46,7 +32,7 @@ class UserFilterType extends AbstractType
     /**
      * @return string
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'user_filter';
     }
@@ -54,7 +40,7 @@ class UserFilterType extends AbstractType
     /**
      * @param OptionsResolver $resolver
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,

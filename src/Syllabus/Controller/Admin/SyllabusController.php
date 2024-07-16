@@ -45,7 +45,7 @@ class SyllabusController extends AbstractController
         SyllabusExport $syllabusExport,
         PaginatorInterface $paginator,
         bool $isExport = false
-    )
+    ): Response
     {
         $qb = $courseInfoDoctrineRepository->getIndexQueryBuilder();
         $form = $this->createForm(SyllabusFilterType::class, null);

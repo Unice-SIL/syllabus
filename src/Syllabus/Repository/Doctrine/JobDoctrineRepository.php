@@ -21,6 +21,7 @@ class JobDoctrineRepository  extends AbstractDoctrineRepository
         EntityManagerInterface $entityManager
     )
     {
+        parent::__construct($entityManager, Job::class);
         $this->entityManager = $entityManager;
     }
 

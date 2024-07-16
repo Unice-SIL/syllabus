@@ -35,7 +35,7 @@ class CourseInfoController extends AbstractController
      * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function edit(CourseInfo $courseInfo, Request $request, EntityManagerInterface $em, TranslatorInterface $translator)
+    public function edit(CourseInfo $courseInfo, Request $request, EntityManagerInterface $em, TranslatorInterface $translator): RedirectResponse|Response
     {
         $form = $this->createForm(CourseInfoType::class, $courseInfo);
         $form->handleRequest($request);
@@ -68,7 +68,7 @@ class CourseInfoController extends AbstractController
      * @return Response
      */
     public function published(Year $year, Request $request,StatisticSyllabusManager $statisticSyllabusManager,
-                              PaginatorInterface $paginator)
+                              PaginatorInterface $paginator): Response
     {
         $pagination = $paginator->paginate(
             $statisticSyllabusManager->findSyllabusPublished($year->getId()),
@@ -94,7 +94,7 @@ class CourseInfoController extends AbstractController
      * @return Response
      */
     public function beingFilled(Year $year, Request $request,StatisticSyllabusManager $statisticSyllabusManager,
-                                PaginatorInterface $paginator)
+                                PaginatorInterface $paginator): Response
     {
         $pagination = $paginator->paginate(
             $statisticSyllabusManager->findSyllabusBeingFilled($year->getId()),
@@ -115,7 +115,7 @@ class CourseInfoController extends AbstractController
      * @param $field
      * @return JsonResponse
      */
-    public function autocomplete(CourseInfoDoctrineRepository $courseInfoDoctrineRepository, Request $request, $field)
+    public function autocomplete(CourseInfoDoctrineRepository $courseInfoDoctrineRepository, Request $request, $field): JsonResponse
     {
         $parameters = $request->query->all();
         $query = $parameters['query'];
@@ -149,7 +149,7 @@ class CourseInfoController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
-    public function autocompleteS2(CourseInfoDoctrineRepository $courseInfoDoctrineRepository, Request $request)
+    public function autocompleteS2(CourseInfoDoctrineRepository $courseInfoDoctrineRepository, Request $request): JsonResponse
     {
         $parameters = $request->query->all();
         $query = $parameters['q'];
@@ -166,7 +166,7 @@ class CourseInfoController extends AbstractController
         $data = array_map(function ($ci) use ($request) {
             $parameters = $request->query->all();
             $fromCodeYear = $parameters['fromCodeYear'] ?? null;
-            if ($fromCodeYear = $fromCodeYear and $ci->getCodeYear(true) == $fromCodeYear) {
+            if ($ci->getCodeYear(true) == $fromCodeYear) {
                 return false;
             }
             return ['id' => $ci->getId(), 'text' => $ci->getCodeYear()];
@@ -178,9 +178,10 @@ class CourseInfoController extends AbstractController
     /**
      * @Route("/autocompleteS3", name="autocompleteS3", methods={"GET"})
      *
+     * @param CourseDoctrineRepository $courseDoctrineRepository
      * @return JsonResponse
      */
-    public function autocompleteS3(CourseDoctrineRepository $courseDoctrineRepository)
+    public function autocompleteS3(CourseDoctrineRepository $courseDoctrineRepository): JsonResponse
     {
         $results = $courseDoctrineRepository->findAll();
         $courses = [];

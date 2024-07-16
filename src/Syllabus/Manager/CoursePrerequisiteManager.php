@@ -13,14 +13,14 @@ use Doctrine\ORM\EntityManagerInterface;
 class CoursePrerequisiteManager
 {
     /**
-     * @var \Doctrine\Persistence\ObjectRepository
+     * @var EntityManagerInterface
      */
-    private $em;
+    private EntityManagerInterface $em;
 
     /**
      * @var CoursePrerequisiteDoctrineRepository
      */
-    private $repository;
+    private CoursePrerequisiteDoctrineRepository $repository;
 
     /**
      * ActivityManager constructor.
@@ -36,7 +36,7 @@ class CoursePrerequisiteManager
     /**
      * @return CoursePrerequisite
      */
-    public function new()
+    public function new(): CoursePrerequisite
     {
         return new CoursePrerequisite();
     }

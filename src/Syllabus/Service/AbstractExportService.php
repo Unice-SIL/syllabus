@@ -10,7 +10,7 @@ abstract class AbstractExportService
 
     abstract public function getEntityFields($entity): array;
 
-    public function export(string $fileName, array $entities)
+    public function export(string $fileName, array $entities): StreamedResponse
     {
         $fileName = $fileName.".csv";
         $fileName = preg_replace('/\s+/', '_', $fileName);

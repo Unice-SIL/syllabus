@@ -12,7 +12,7 @@ use App\Syllabus\Import\Matching\MatchingInterface;
 class ArrayTransformer extends AbstractTransformer implements TransformerInterface
 {
 
-    private $options = [
+    private array $options = [
         'allow_extra_field' => false,
         'allow_less_field' => false
     ];
@@ -141,7 +141,7 @@ class ArrayTransformer extends AbstractTransformer implements TransformerInterfa
         return $entities;
     }
 
-    private function checkHeaderErrors($header, MatchingInterface $parser, ReportLine $reportLine)
+    private function checkHeaderErrors($header, MatchingInterface $parser, ReportLine $reportLine): void
     {
         $fields = $parser->getFields();
 
@@ -167,7 +167,8 @@ class ArrayTransformer extends AbstractTransformer implements TransformerInterfa
         }
     }
 
-    private function isNull($value) {
+    private function isNull($value): bool
+    {
         return in_array($value, [null, '']);
     }
 }

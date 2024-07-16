@@ -388,7 +388,7 @@ class CourseSection
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      */
-    private $id;
+    private string $id;
 
     /**
      * @var null|string
@@ -396,7 +396,7 @@ class CourseSection
      * @ORM\Column(name="title", type="string", length=200, nullable=true)
      * @Gedmo\Translatable
      */
-    private $title;
+    private ?string $title;
 
     /**
      * @var string|null
@@ -404,21 +404,21 @@ class CourseSection
      * @ORM\Column(name="description", type="text", length=65535, nullable=true)
      * @Gedmo\Translatable
      */
-    private $description;
+    private ?string $description;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="url", type="text", length=32767, nullable=true)
      */
-    private $url;
+    private ?string $url;
 
     /**
      * @var int
      *
      * @ORM\Column(name="position", type="integer", nullable=false)
      */
-    private $position = 0;
+    private int $position = 0;
 
     /**
      * @var CourseInfo
@@ -428,7 +428,7 @@ class CourseSection
      *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
      * })
      */
-    private $courseInfo;
+    private CourseInfo $courseInfo;
 
     /**
      * @var Collection
@@ -436,7 +436,7 @@ class CourseSection
      * @ORM\OneToMany(targetEntity="CourseSectionActivity", mappedBy="courseSection", cascade={ "persist", "remove", "merge" }, orphanRemoval=true)
      * @ORM\OrderBy({"position" = "ASC"})
      */
-    private $courseSectionActivities;
+    private Collection $courseSectionActivities;
 
     /**
      * CourseSection constructor.
@@ -447,7 +447,7 @@ class CourseSection
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getId(): ?string
     {
@@ -455,7 +455,7 @@ class CourseSection
     }
 
     /**
-     * @param string $id
+     * @param string|null $id
      * @return CourseSection
      */
     public function setId(?string $id): self
@@ -474,10 +474,10 @@ class CourseSection
     }
 
     /**
-     * @param null|string $title
+     * @param string|null $title
      * @return CourseSection
      */
-    public function setTitle($title): self
+    public function setTitle(?string $title): self
     {
         $this->title = $title;
 
@@ -493,10 +493,10 @@ class CourseSection
     }
 
     /**
-     * @param null|string $description
+     * @param string|null $description
      * @return CourseSection
      */
-    public function setDescription($description): self
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
 
@@ -522,7 +522,7 @@ class CourseSection
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getPosition(): ?int
     {
@@ -530,7 +530,7 @@ class CourseSection
     }
 
     /**
-     * @param int $position
+     * @param int|null $position
      * @return CourseSection
      */
     public function setPosition(?int $position): self
@@ -541,7 +541,7 @@ class CourseSection
     }
 
     /**
-     * @return CourseInfo
+     * @return CourseInfo|null
      */
     public function getCourseInfo(): ?CourseInfo
     {
@@ -549,8 +549,8 @@ class CourseSection
     }
 
     /**
-     * @param $courseInfo
-     * @return CourseSection
+     * @param CourseInfo|null $courseInfo
+     * @return $this
      */
     public function setCourseInfo(?CourseInfo $courseInfo): self
     {

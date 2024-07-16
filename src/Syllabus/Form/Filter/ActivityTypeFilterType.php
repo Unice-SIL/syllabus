@@ -23,7 +23,7 @@ class ActivityTypeFilterType extends AbstractType
     /**
      * @var UrlGeneratorInterface
      */
-    private $generator;
+    private UrlGeneratorInterface $generator;
 
     /**
      * ActivityTypeFilterType constructor.
@@ -38,7 +38,7 @@ class ActivityTypeFilterType extends AbstractType
      * @param FormBuilderInterface $builder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('label', TextFilterType::class, [
             'condition_pattern' => FilterOperands::STRING_CONTAINS,
@@ -68,7 +68,7 @@ class ActivityTypeFilterType extends AbstractType
     /**
      * @return null|string
      */
-    public function getParent()
+    public function getParent(): ?string
     {
         return SharedableFilterType::class; // this allow us to use the "add_shared" option
     }
@@ -76,7 +76,7 @@ class ActivityTypeFilterType extends AbstractType
     /**
      * @return string
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'activity_type_filter';
     }
@@ -84,7 +84,7 @@ class ActivityTypeFilterType extends AbstractType
     /**
      * @param OptionsResolver $resolver
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,

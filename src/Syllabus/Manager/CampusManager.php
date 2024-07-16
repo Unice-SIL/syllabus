@@ -3,7 +3,6 @@
 namespace App\Syllabus\Manager;
 
 use App\Syllabus\Entity\Campus;
-use App\Syllabus\Repository\CampusRepositoryInterface;
 use App\Syllabus\Repository\Doctrine\CampusDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -19,7 +18,7 @@ class CampusManager
     private $em;
 
     /**
-     * @var CampusRepositoryInterface
+     * @var CampusDoctrineRepository
      */
     private $repository;
 

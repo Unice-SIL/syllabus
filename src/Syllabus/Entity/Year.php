@@ -200,7 +200,7 @@ class Year
      *     message="Cette valeur doit respecter le format AAAA"
      * )
      */
-    private $id;
+    private string $id;
 
     /**
      * @var string|null
@@ -209,28 +209,28 @@ class Year
      * @Assert\NotBlank(message="Ce champ ne doit pas être vide")
      * @Gedmo\Translatable
      */
-    private $label;
+    private ?string $label;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="import", type="boolean", nullable=true)
      */
-    private $import = false;
+    private bool $import = false;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="edit", type="boolean", nullable=true)
      */
-    private $edit = false;
+    private bool $edit = false;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="current", type="boolean", nullable=true)
      */
-    private $current = false;
+    private bool $current = false;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Syllabus\Entity\CourseInfo", mappedBy="year")

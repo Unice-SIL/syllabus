@@ -44,7 +44,7 @@ class LevelController extends AbstractController
         LevelDoctrineRepository $repository,
         PaginatorInterface $paginator,
         FilterBuilderUpdaterInterface $filterBuilderUpdater
-    )
+    ): Response
     {
         $qb =  $repository->getIndexQueryBuilder();
 
@@ -78,7 +78,7 @@ class LevelController extends AbstractController
      * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function newAction(Request $request, LevelManager $levelManager, TranslatorInterface $translator)
+    public function newAction(Request $request, LevelManager $levelManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $level = $levelManager->new();
         $form = $this->createForm(LevelType::class, $level);
@@ -106,7 +106,7 @@ class LevelController extends AbstractController
      * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, Level $level, LevelManager $levelManager, TranslatorInterface $translator)
+    public function editAction(Request $request, Level $level, LevelManager $levelManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $form = $this->createForm(LevelType::class, $level);
         $form->handleRequest($request);
@@ -131,7 +131,7 @@ class LevelController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
-    public function autocomplete(LevelDoctrineRepository $levelDoctrineRepository, Request $request)
+    public function autocomplete(LevelDoctrineRepository $levelDoctrineRepository, Request $request): JsonResponse
     {
         $parameters = $request->query->all();
         $query = $parameters['query'];

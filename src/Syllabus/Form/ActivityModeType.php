@@ -10,13 +10,13 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class ActivityModeType extends AbstractType
 {
-    private $activityModeTypeSubscriber;
+    private ActivityModeSubscriber $activityModeTypeSubscriber;
 
     public function __construct(ActivityModeSubscriber $activityModeTypeSubscriber)
     {
         $this->activityModeTypeSubscriber = $activityModeTypeSubscriber;
     }
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('label')

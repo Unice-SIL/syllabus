@@ -15,7 +15,7 @@ class FileUploaderHelper
     /**
      * @var string|null
      */
-    private $directory;
+    private ?string $directory;
 
     /**
      * FileUploaderHelper constructor.
@@ -42,7 +42,7 @@ class FileUploaderHelper
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getDirectory(): ?string
     {
@@ -53,7 +53,7 @@ class FileUploaderHelper
      * @param File $file
      * @return null|File
      */
-    public function copy(File $file)
+    public function copy(File $file): ?File
     {
         $filename = "{$this->directory}/{$file->getFilename()}";
         if(file_exists($filename)) {

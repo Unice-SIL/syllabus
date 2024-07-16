@@ -17,7 +17,7 @@ class SchedulerCommand extends Command
     /**
      * @var EntityManagerInterface
      */
-    private $em;
+    private EntityManagerInterface $em;
 
     /**
      * SchedulerCommand constructor.
@@ -30,13 +30,13 @@ class SchedulerCommand extends Command
     }
 
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Check the planned command in db and run them');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $scheduler = new Scheduler();
 

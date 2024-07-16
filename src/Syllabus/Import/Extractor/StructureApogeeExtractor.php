@@ -12,7 +12,7 @@ class StructureApogeeExtractor implements ExtractorInterface
     /**
      * @var object
      */
-    private $conn;
+    private object $conn;
 
     /**
      * StructureApogeeExtractor constructor.
@@ -26,9 +26,9 @@ class StructureApogeeExtractor implements ExtractorInterface
     /**
      * @param Report|null $report
      * @param array $options
-     * @return \string[][]
+     * @return array
      */
-    public function extract(Report $report = null, array $options = [])
+    public function extract(Report $report = null, array $options = []): array
     {
         $structures = [];
 

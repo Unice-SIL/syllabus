@@ -15,6 +15,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 /**
  * Class ClosingRemarkController
@@ -31,7 +34,7 @@ class ClosingRemarkController extends AbstractController
      * @param CourseInfo $courseInfo
      * @return Response
      */
-    public function indexAction(CourseInfo $courseInfo)
+    public function indexAction(CourseInfo $courseInfo): Response
     {
         return $this->render('course_info/closing_remarks/closing_remarks.html.twig', [
             'courseInfo' => $courseInfo
@@ -41,12 +44,15 @@ class ClosingRemarkController extends AbstractController
     /**
      * @Route("/closing-remarks", name="closing_remarks"))
      *
-     * @param CourseInfo|null $courseInfo
+     * @param CourseInfo $courseInfo
      * @param Request $request
      * @param Environment $twig
      * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function closingRemarksViewAction(CourseInfo $courseInfo, Request $request, Environment $twig)
+    public function closingRemarksViewAction(CourseInfo $courseInfo, Request $request, Environment $twig): Response
     {
         $form = $this->createForm(Closing_remarksType::class, $courseInfo);
         $form->handleRequest($request);
@@ -65,13 +71,16 @@ class ClosingRemarkController extends AbstractController
     /**
      * @Route("/edit", name="closing_remarks.edit"))
      *
-     * @param CourseInfo|null $courseInfo
+     * @param CourseInfo $courseInfo
      * @param Request $request
      * @param CourseInfoManager $manager
      * @param Environment $twig
      * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function closingRemarksFormAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager, Environment $twig)
+    public function closingRemarksFormAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager, Environment $twig): Response
     {
         $form = $this->createForm(Closing_remarksType::class, $courseInfo);
         $form->handleRequest($request);

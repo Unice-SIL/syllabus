@@ -425,7 +425,7 @@ class CriticalAchievement
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      */
-    private $id;
+    private ?string $id;
 
     /**
      * @var string
@@ -434,25 +434,25 @@ class CriticalAchievement
      * @Assert\NotBlank()
      * @Gedmo\Translatable
      */
-    private $label;
+    private string $label;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
      */
-    private $obsolete = false;
+    private bool $obsolete = false;
 
     /**
      * @OneToMany(targetEntity="CourseCriticalAchievement", mappedBy="criticalAchievement")
      */
-    private $courseCriticalAchievements;
+    private ArrayCollection $courseCriticalAchievements;
 
     /**
      * @var Collection
      * @ORM\ManyToMany(targetEntity="Course", mappedBy="criticalAchievements")
      */
-    private $courses;
+    private Collection $courses;
 
 
     /**
@@ -482,7 +482,7 @@ class CriticalAchievement
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getLabel(): ?string
     {
@@ -518,7 +518,7 @@ class CriticalAchievement
     }
 
     /**
-     * @param $courseCriticalAchievement
+     * @param CourseCriticalAchievement $courseCriticalAchievement
      * @return CriticalAchievement
      */
     public function addCourseCriticalAchievement(CourseCriticalAchievement $courseCriticalAchievement): self
@@ -544,9 +544,9 @@ class CriticalAchievement
     }
 
     /**
-     * @return mixed
+     * @return ArrayCollection
      */
-    public function getCourseCriticalAchievements()
+    public function getCourseCriticalAchievements(): ArrayCollection
     {
         return $this->courseCriticalAchievements;
     }

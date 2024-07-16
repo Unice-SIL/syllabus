@@ -13,13 +13,12 @@ use Symfony\Component\Form\FormEvents;
 
 class AskAdviceTypeSubscriber implements EventSubscriberInterface
 {
-
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [FormEvents::PRE_SET_DATA => 'preSetData'];
     }
 
-    public function preSetData(FormEvent $event)
+    public function preSetData(FormEvent $event): void
     {
         $form = $event->getForm();
 

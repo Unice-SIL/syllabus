@@ -43,19 +43,19 @@ class AskAdvice
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      */
-    private $id;
+    private string $id;
 
     /**
      * @ORM\Column(name="description", type="text", options={"fixed"=true})
      * @Gedmo\Translatable
      */
-    private $description;
+    private mixed $description;
 
     /**
      * @ORM\Column(name="comment", type="text", options={"fixed"=true})
      * @Gedmo\Translatable
      */
-    private $comment;
+    private mixed $comment;
 
     /**
      * @var User
@@ -63,7 +63,7 @@ class AskAdvice
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    private $user;
+    private User $user;
 
     /**
      * @var CourseInfo
@@ -71,17 +71,17 @@ class AskAdvice
      * @ORM\ManyToOne(targetEntity="CourseInfo")
      * @ORM\JoinColumn(name="course_info_id", referencedColumnName="id")
      */
-    private $courseInfo;
+    private CourseInfo $courseInfo;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="process", type="boolean", options={"fixed"=true})
      */
-    private $process = false;
+    private bool $process = false;
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getId(): ?string
     {
@@ -101,7 +101,7 @@ class AskAdvice
     /**
      * @return mixed
      */
-    public function getDescription()
+    public function getDescription(): mixed
     {
         return $this->description;
     }
@@ -119,7 +119,7 @@ class AskAdvice
     /**
      * @return mixed
      */
-    public function getComment()
+    public function getComment(): mixed
     {
         return $this->comment;
     }
@@ -128,7 +128,7 @@ class AskAdvice
      * @param mixed $comment
      * @return AskAdvice
      */
-    public function setComment($comment)
+    public function setComment(mixed $comment): static
     {
         $this->comment = $comment;
         return $this;

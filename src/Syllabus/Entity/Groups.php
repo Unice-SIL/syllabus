@@ -45,7 +45,7 @@ class Groups
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      */
-    private $id;
+    private ?string $id;
 
     /**
      * @var string
@@ -54,14 +54,14 @@ class Groups
      * @Assert\NotBlank()
      * @Gedmo\Translatable
      */
-    private $label;
+    private string $label;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
      */
-    private $obsolete = false;
+    private bool $obsolete = false;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\User", mappedBy="groups")
@@ -77,7 +77,7 @@ class Groups
      *      minMessage = "Vous devez selectionner au moins un rôle",
      * )
      */
-    private $roles = [];
+    private array $roles = [];
 
     public function __construct()
     {
@@ -85,11 +85,9 @@ class Groups
     }
 
     /**
-     * Get id.
-     *
-     * @return string
+     * @return string|null
      */
-    public function getId()
+    public function getId(): ?string
     {
         return $this->id;
     }
@@ -124,7 +122,7 @@ class Groups
     /**
      * @param array $roles
      */
-    public function setRoles(array $roles)
+    public function setRoles(array $roles): void
     {
         $this->roles = $roles;
     }
@@ -140,7 +138,7 @@ class Groups
     /**
      * @param bool $obsolete
      */
-    public function setObsolete(bool $obsolete)
+    public function setObsolete(bool $obsolete): void
     {
         $this->obsolete = $obsolete;
     }

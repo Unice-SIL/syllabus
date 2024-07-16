@@ -213,7 +213,7 @@ class Language
      * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      * @Groups({"language"})
      */
-    private $id;
+    private string $id;
 
     /**
      * @var string
@@ -223,7 +223,7 @@ class Language
      * @Gedmo\Translatable
      * @Groups({"language"})
      */
-    private $label;
+    private string $label;
 
     /**
      * @var bool
@@ -231,7 +231,7 @@ class Language
      * @ORM\Column(name="obsolete", type="boolean", nullable=false)
      * @Groups({"language"})
      */
-    private $obsolete = false;
+    private bool $obsolete = false;
 
     /**
      * @return null|string

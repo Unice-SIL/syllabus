@@ -2,9 +2,9 @@
 
 namespace App\Syllabus\Repository\Doctrine;
 
-use Doctrine\Common\Persistence\Mapping\MappingException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 
 /**
  * Class AbstractDoctrineRepository
@@ -13,11 +13,14 @@ use Doctrine\ORM\EntityManagerInterface;
 class AbstractDoctrineRepository
 {
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
-    protected $entityManager;
+    protected EntityManagerInterface $entityManager;
 
-    protected $repository;
+    /**
+     * @var EntityRepository
+     */
+    protected EntityRepository $repository;
 
     /**
      * AbstractDoctrineRepository constructor.
@@ -63,16 +66,18 @@ class AbstractDoctrineRepository
     }
 
     /**
-     * @throws MappingException
+     * @return void
      */
-    public function clear(){
+    public function clear(): void
+    {
         $this->entityManager->clear();
     }
 
     /**
-     * @return EntityManager
+     * @return EntityManagerInterface
      */
-    public function getEntityManager(){
+    public function getEntityManager(): EntityManagerInterface
+    {
         return $this->entityManager;
     }
 }

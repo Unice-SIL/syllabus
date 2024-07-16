@@ -13,15 +13,15 @@ abstract class AbstractManager
     /**
      * @var EntityManagerInterface
      */
-    protected $em;
+    protected EntityManagerInterface $em;
     /**
      * @var ErrorManager
      */
-    protected $errorManager;
+    protected ErrorManager $errorManager;
     /**
      * @var PropertyAccessor
      */
-    private $propertyAccessor;
+    private PropertyAccessor $propertyAccessor;
 
     /**
      * AbstractManager constructor.
@@ -47,7 +47,7 @@ abstract class AbstractManager
      * @return mixed
      * @throws \Exception
      */
-    public function updateIfExistsOrCreate(object $entityData, array $fieldsToUpdate = [], $options = [])
+    public function updateIfExistsOrCreate(object $entityData, array $fieldsToUpdate = [], array $options = []): mixed
     {
         $options = array_merge([
             'force_create' => false,

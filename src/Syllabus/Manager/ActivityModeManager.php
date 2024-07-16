@@ -3,7 +3,6 @@
 namespace App\Syllabus\Manager;
 
 use App\Syllabus\Entity\ActivityMode;
-use App\Syllabus\Repository\ActivityModeRepositoryInterface;
 use App\Syllabus\Repository\Doctrine\ActivityModeDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -16,12 +15,12 @@ class ActivityModeManager
     /**
      * @var EntityManagerInterface
      */
-    private $em;
+    private EntityManagerInterface $em;
 
     /**
-     * @var ActivityModeRepositoryInterface
+     * @var ActivityModeDoctrineRepository
      */
-    private $repository;
+    private ActivityModeDoctrineRepository $repository;
 
     /**
      * ActivityModeManager constructor.
@@ -37,7 +36,7 @@ class ActivityModeManager
     /**
      * @return ActivityMode
      */
-    public function new()
+    public function new(): ActivityMode
     {
         return new ActivityMode();
     }
@@ -46,7 +45,7 @@ class ActivityModeManager
      * @param mixed $id
      * @return ActivityMode|null
      */
-    public function find($id): ?ActivityMode
+    public function find(mixed $id): ?ActivityMode
     {
         return $this->repository->find($id);
     }
@@ -62,7 +61,7 @@ class ActivityModeManager
     /**
      * @param ActivityMode $activityMode
      */
-    public function create(ActivityMode $activityMode)
+    public function create(ActivityMode $activityMode): void
     {
         $this->em->persist($activityMode);
         $this->em->flush();
@@ -71,7 +70,7 @@ class ActivityModeManager
     /**
      * @param ActivityMode $activityMode
      */
-    public function update(ActivityMode $activityMode)
+    public function update(ActivityMode $activityMode): void
     {
         $this->em->flush();
     }
@@ -79,7 +78,7 @@ class ActivityModeManager
     /**
      * @param ActivityMode $activityMode
      */
-    public function delete(ActivityMode $activityMode)
+    public function delete(ActivityMode $activityMode): void
     {
         $this->em->remove($activityMode);
         $this->em->flush();

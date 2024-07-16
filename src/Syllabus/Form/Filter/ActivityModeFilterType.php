@@ -18,7 +18,7 @@ class ActivityModeFilterType extends AbstractType
     /**
      * @var UrlGeneratorInterface
      */
-    private $generator;
+    private UrlGeneratorInterface $generator;
 
     /**
      * ActivityModeFilterType constructor.
@@ -33,7 +33,7 @@ class ActivityModeFilterType extends AbstractType
      * @param FormBuilderInterface $builder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('label', TextFilterType::class, [
@@ -54,7 +54,7 @@ class ActivityModeFilterType extends AbstractType
     /**
      * @return null|string
      */
-    public function getParent()
+    public function getParent(): ?string
     {
         return SharedableFilterType::class; // this allow us to use the "add_shared" option
     }
@@ -62,7 +62,7 @@ class ActivityModeFilterType extends AbstractType
     /**
      * @return string
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'activity_mode_filter';
     }

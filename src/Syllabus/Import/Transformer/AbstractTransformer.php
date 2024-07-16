@@ -7,11 +7,12 @@ namespace App\Syllabus\Import\Transformer;
 use App\Syllabus\Helper\Report\ReportLine;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 abstract class AbstractTransformer
 {
-    protected $propertyAccessor;
-    protected $em;
+    protected PropertyAccessor $propertyAccessor;
+    protected EntityManagerInterface $em;
 
     /**
      * AbstractTransformer constructor.
@@ -23,7 +24,7 @@ abstract class AbstractTransformer
         $this->em = $em;
     }
 
-    protected function getReportLine($lineIds, $offset, $record)
+    protected function getReportLine($lineIds, $offset, $record): ReportLine
     {
         $reportLine = new ReportLine($offset);
         $header = array_keys($record);

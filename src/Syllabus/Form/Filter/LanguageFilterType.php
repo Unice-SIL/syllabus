@@ -16,9 +16,9 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class LanguageFilterType extends AbstractType
 {
     /**
-     * @var
+     * @var UrlGeneratorInterface
      */
-    private  $generator;
+    private UrlGeneratorInterface $generator;
 
     /**
      * LanguageFilterType constructor.
@@ -33,7 +33,7 @@ class LanguageFilterType extends AbstractType
      * @param FormBuilderInterface $builder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('label', TextFilterType::class, [
             'condition_pattern' => FilterOperands::STRING_CONTAINS,
@@ -52,7 +52,7 @@ class LanguageFilterType extends AbstractType
     /**
      * @return string
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'language_filter';
     }
@@ -60,7 +60,7 @@ class LanguageFilterType extends AbstractType
     /**
      * @param OptionsResolver $resolver
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(array(
             'csrf_protection'   => false,

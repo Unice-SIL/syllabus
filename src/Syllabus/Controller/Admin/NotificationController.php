@@ -40,7 +40,7 @@ class NotificationController extends AbstractController
         Request $request,
         NotificationDoctrineRepository $repository,
         PaginatorInterface $paginator
-    )
+    ): Response
     {
         $qb =  $repository->getIndexQueryBuilder();
 
@@ -73,7 +73,7 @@ class NotificationController extends AbstractController
      * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function newAction(Request $request, NotificationManager $notificationManager, TranslatorInterface $translator)
+    public function newAction(Request $request, NotificationManager $notificationManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $notification = $notificationManager->new();
         $form = $this->createForm(NotificationType::class, $notification);
@@ -102,9 +102,10 @@ class NotificationController extends AbstractController
      * @param Request $request
      * @param Notification $notification
      * @param NotificationManager $notificationManager
+     * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, Notification $notification, NotificationManager $notificationManager, TranslatorInterface $translator)
+    public function editAction(Request $request, Notification $notification, NotificationManager $notificationManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $editForm = $this->createForm(NotificationType::class, $notification);
         $editForm->handleRequest($request);
@@ -135,7 +136,7 @@ class NotificationController extends AbstractController
      * @param TranslatorInterface $translator
      * @return RedirectResponse
      */
-    public function deleteAction(Request $request, Notification $notification, NotificationManager $notificationManager, TranslatorInterface $translator)
+    public function deleteAction(Request $request, Notification $notification, NotificationManager $notificationManager, TranslatorInterface $translator): RedirectResponse
     {
         $form = $this->createDeleteForm($notification);
         $form->handleRequest($request);
@@ -156,7 +157,7 @@ class NotificationController extends AbstractController
      *
      * @return FormInterface The form
      */
-    private function createDeleteForm(Notification $notification)
+    private function createDeleteForm(Notification $notification): FormInterface
     {
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('app.admin.notification.delete', array('id' => $notification->getId())))

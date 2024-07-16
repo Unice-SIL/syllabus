@@ -13,22 +13,14 @@ use Symfony\Component\Form\FormEvents;
 
 class ActivityTypeTypeSubscriber implements EventSubscriberInterface
 {
-    private $activityTypeManager;
-
-    public function __construct(ActivityTypeManager $activityTypeManager)
-    {
-        $this->activityTypeManager = $activityTypeManager;
-    }
-
-
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         // Tells the dispatcher that you want to listen on the form.pre_set_data
         // event and that the preSetData method should be called.
         return [FormEvents::PRE_SET_DATA => 'preSetData'];
     }
 
-    public function preSetData(FormEvent $event)
+    public function preSetData(FormEvent $event): void
     {
         $form = $event->getForm();
 

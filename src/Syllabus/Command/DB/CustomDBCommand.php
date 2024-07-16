@@ -3,8 +3,8 @@
 
 namespace App\Syllabus\Command\DB;
 
+use App\Syllabus\Entity\CourseInfoField;
 use Doctrine\ORM\EntityManagerInterface;
-use Proxies\__CG__\App\Syllabus\Entity\CourseInfoField;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -26,13 +26,13 @@ class CustomDBCommand extends Command
     }
 
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Change somme data in the database. It is especially usefull when using the makefile commands');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 

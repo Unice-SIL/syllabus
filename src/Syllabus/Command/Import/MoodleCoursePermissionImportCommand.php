@@ -10,6 +10,7 @@ use App\Syllabus\Entity\CourseInfo;
 use App\Syllabus\Entity\CoursePermission;
 use App\Syllabus\Entity\User;
 use App\Syllabus\Entity\Year;
+use App\Syllabus\Helper\Report\Report;
 use App\Syllabus\Helper\Report\ReportingHelper;
 use App\Syllabus\Helper\Report\ReportLine;
 use App\Syllabus\Import\Configuration\CoursePermissionMoodleConfiguration;
@@ -17,6 +18,7 @@ use App\Syllabus\Import\ImportManager;
 use App\Syllabus\Manager\CoursePermissionManager;
 use App\Syllabus\Manager\UserManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -32,38 +34,38 @@ class MoodleCoursePermissionImportCommand extends AbstractJob
     /**
      * @var int
      */
-    private $memStart = 0;
+    private int $memStart = 0;
 
     /**
      * @var int
      */
-    private $loop = 1;
+    private int $loop = 1;
 
     /**
      * @var int
      */
-    private $totalLoop = 0;
+    private int $totalLoop = 0;
 
     /**
      * @var array
      */
-    private $options;
+    private array $options;
     /**
      * @var ImportManager
      */
-    private $importManager;
+    private ImportManager $importManager;
     /**
      * @var CoursePermissionMoodleConfiguration
      */
-    private $coursePermissionMoodleConfiguration;
+    private CoursePermissionMoodleConfiguration $coursePermissionMoodleConfiguration;
     /**
      * @var CoursePermissionManager
      */
-    private $coursePermissionManager;
+    private CoursePermissionManager $coursePermissionManager;
     /**
      * @var UserManager
      */
-    private $userManager;
+    private UserManager $userManager;
 
     const SOURCE = 'moodle';
 
@@ -74,7 +76,7 @@ class MoodleCoursePermissionImportCommand extends AbstractJob
      * @param EntityManagerInterface $em
      * @param CoursePermissionManager $coursePermissionManager
      * @param UserManager $userManager
-     * @param array $moodlePermissionImporterOptions
+     * @param array $moodlePermissionDbImporterOptions
      */
     public function __construct(
         ImportManager $importManager,
@@ -94,7 +96,7 @@ class MoodleCoursePermissionImportCommand extends AbstractJob
     }
 
 
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
         $this
@@ -104,10 +106,10 @@ class MoodleCoursePermissionImportCommand extends AbstractJob
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
-     * @return mixed|void
-     * @throws \Exception
+     * @return Report
+     * @throws Exception
      */
-    protected function subExecute(InputInterface $input, OutputInterface $output)
+    protected function subExecute(InputInterface $input, OutputInterface $output): Report
     {
         //======================Perf==================
         $start = microtime(true);
@@ -229,7 +231,8 @@ class MoodleCoursePermissionImportCommand extends AbstractJob
     }
 
 
-    private function nextLoop() {
+    private function nextLoop(): void
+    {
         if ($this->loop % self::LOOP_BREAK === 0) {
             $progress = round((($this->loop / $this->totalLoop) * 100));
             $this->progress($progress);

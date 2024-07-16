@@ -4,51 +4,51 @@ namespace App\Syllabus\Import\Extractor;
 
 use App\Syllabus\Helper\Report\Report;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\DriverManager;
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\FetchMode;
 
 class CoursePermissionMoodleDoctrineExtractor implements ExtractorInterface
 {
     /**
-     * @var string
+     * @var mixed
      */
-    protected $host;
+    protected mixed $host;
 
     /**
-     * @var string
+     * @var mixed
      */
-    protected $port;
+    protected mixed $port;
 
     /**
-     * @var string
+     * @var mixed
      */
-    protected $dbname;
+    protected mixed $dbname;
 
     /**
-     * @var string
+     * @var mixed
      */
-    protected $driver;
+    protected mixed $driver;
 
     /**
-     * @var string
+     * @var mixed
      */
-    protected $user;
+    protected mixed $user;
 
     /**
-     * @var string|null
+     * @var mixed
      */
-    protected $password;
+    protected mixed $password;
 
     /**
-     * @var string|null
+     * @var mixed|string
      */
-    protected $charset;
+    protected mixed $charset;
 
     /**
-     * @var string|null
+     * @var mixed
      */
-    protected $tablePrefix;
+    protected mixed $tablePrefix;
 
     /**
      * @param array $moodlePermissionDbImporterOptions
@@ -67,7 +67,7 @@ class CoursePermissionMoodleDoctrineExtractor implements ExtractorInterface
 
     /**
      * @return Connection
-     * @throws DBALException
+     * @throws Exception
      */
     private function getConnection(): Connection
     {
@@ -92,9 +92,10 @@ class CoursePermissionMoodleDoctrineExtractor implements ExtractorInterface
     /**
      * @param Report|null $report
      * @param array $options
-     * @throws DBALException
+     * @return mixed
+     * @throws Exception
      */
-    public function extract(Report $report = null, array $options = [])
+    public function extract(Report $report = null, array $options = []): mixed
     {
         $conn = $this->getConnection();
         $sql  = 'SELECT '.

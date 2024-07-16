@@ -227,7 +227,7 @@ class CourseSectionActivity
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      */
-    private $id;
+    private string $id;
 
     /**
      * @var string|null
@@ -235,49 +235,49 @@ class CourseSectionActivity
      * @ORM\Column(name="description", type="string", length=255, nullable=true)
      * @Gedmo\Translatable
      */
-    private $description;
+    private ?string $description;
 
     /**
      * @var float|null
      *
      * @ORM\Column(name="evaluation_rate", type="float", nullable=true)
      */
-    private $evaluationRate;
+    private ?float $evaluationRate;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="evaluable", type="boolean", nullable=false)
      */
-    private $evaluable = false;
+    private bool $evaluable = false;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="evaluation_ct", type="boolean", nullable=false)
      */
-    private $evaluationCt = false;
+    private bool $evaluationCt = false;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="evaluation_teacher", type="boolean", nullable=false)
      */
-    private $evaluationTeacher = false;
+    private bool $evaluationTeacher = false;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="evaluation_peer", type="boolean", nullable=false)
      */
-    private $evaluationPeer = false;
+    private bool $evaluationPeer = false;
 
     /**
      * @var int
      *
      * @ORM\Column(name="position", type="integer", nullable=false)
      */
-    private $position = 0;
+    private int $position = 0;
 
     /**
      * @var Activity
@@ -288,7 +288,7 @@ class CourseSectionActivity
      *   @ORM\JoinColumn(name="activity_id", referencedColumnName="id", nullable=false)
      * })
      */
-    private $activity;
+    private Activity $activity;
 
     /**
      * @var ActivityType|null
@@ -299,7 +299,7 @@ class CourseSectionActivity
      * })
      * @Assert\NotBlank()
      */
-    private $activityType;
+    private ?ActivityType $activityType;
 
     /**
      * @var ActivityMode|null
@@ -310,7 +310,7 @@ class CourseSectionActivity
      * })
      * @Assert\NotBlank()
      */
-    private $activityMode;
+    private ?ActivityMode $activityMode;
 
     /**
      * @var CourseSection|null
@@ -320,10 +320,10 @@ class CourseSectionActivity
      *   @ORM\JoinColumn(name="course_section_id", referencedColumnName="id", nullable=false)
      * })
      */
-    private $courseSection;
+    private ?CourseSection $courseSection;
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getId(): ?string
     {
@@ -350,10 +350,10 @@ class CourseSectionActivity
     }
 
     /**
-     * @param null|string $description
+     * @param string|null $description
      * @return CourseSectionActivity
      */
-    public function setDescription($description): self
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
 
@@ -408,7 +408,7 @@ class CourseSectionActivity
      * @param float|null $evaluationRate
      * @return CourseSectionActivity
      */
-    public function setEvaluationRate($evaluationRate): self
+    public function setEvaluationRate(?float $evaluationRate): self
     {
         $this->evaluationRate = $evaluationRate;
 

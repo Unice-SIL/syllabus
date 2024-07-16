@@ -21,6 +21,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Syllabus\Controller\Api\CourseInfoController;
 /**
@@ -744,7 +745,7 @@ class CourseInfo
      * @Assert\NotBlank(groups={"objectives"})
      * @AssertCustom\AchievementConstraintValidator
      */
-    private $courseCriticalAchievements;
+    private Collection $courseCriticalAchievements;
 
     /**
      * @var Collection
@@ -860,7 +861,7 @@ class CourseInfo
     /**
      * @return mixed
      */
-    public function getDuplicateNextYear()
+    public function getDuplicateNextYear(): mixed
     {
         return $this->duplicateNextYear;
     }
@@ -877,9 +878,8 @@ class CourseInfo
     }
 
 
-
     /**
-     * @return string
+     * @return string|null
      */
     public function getId(): ?string
     {
@@ -906,7 +906,7 @@ class CourseInfo
     }
 
     /**
-     * @param string $title
+     * @param string|null $title
      * @return CourseInfo
      */
     public function setTitle(?string $title): self
@@ -917,18 +917,18 @@ class CourseInfo
     }
 
     /**
-     * @return int|null
+     * @return float|null
      */
-    public function getEcts()
+    public function getEcts(): ?float
     {
         return $this->ects;
     }
 
     /**
      * @param int|null $ects
-     * @return CourseInfo
+     * @return $this
      */
-    public function setEcts($ects)
+    public function setEcts(?int $ects): static
     {
         $this->ects = $ects;
 
@@ -936,9 +936,9 @@ class CourseInfo
     }
 
     /**
-     * @return ArrayCollection|string|null
+     * @return ArrayCollection
      */
-    public function getLevels()
+    public function getLevels(): ArrayCollection
     {
         return $this->levels;
     }
@@ -947,7 +947,7 @@ class CourseInfo
      * @param $levels
      * @return $this
      */
-    public function setLevels($levels)
+    public function setLevels($levels): static
     {
         $this->levels = $levels;
 
@@ -983,16 +983,16 @@ class CourseInfo
     /**
      * @return null|string
      */
-    public function getSummary()
+    public function getSummary(): ?string
     {
         return $this->summary;
     }
 
     /**
-     * @param null|string $summary
-     * @return CourseInfo
+     * @param $summary
+     * @return $this
      */
-    public function setSummary($summary)
+    public function setSummary($summary): static
     {
         $this->summary = $summary;
 
@@ -1000,18 +1000,18 @@ class CourseInfo
     }
 
     /**
-     * @return null|string|File
+     * @return string|null
      */
-    public function getImage()
+    public function getImage(): ?string
     {
         return $this->image;
     }
 
     /**
-     * @param null|string|File $image
-     * @return CourseInfo
+     * @param $image
+     * @return $this
      */
-    public function setImage($image)
+    public function setImage($image): static
     {
         $this->image = $image;
 
@@ -1021,16 +1021,16 @@ class CourseInfo
     /**
      * @return null|string
      */
-    public function getVideo()
+    public function getVideo(): ?string
     {
         return $this->video;
     }
 
     /**
-     * @param null|string $video
+     * @param string|null $video
      * @return CourseInfo
      */
-    public function setVideo($video)
+    public function setVideo(?string $video): static
     {
         $this->video = $video;
 
@@ -1040,16 +1040,16 @@ class CourseInfo
     /**
      * @return null|string
      */
-    public function getTeachingMode()
+    public function getTeachingMode(): ?string
     {
         return $this->teachingMode;
     }
 
     /**
-     * @param null|string $teachingMode
-     * @return CourseInfo
+     * @param $teachingMode
+     * @return $this
      */
-    public function setTeachingMode($teachingMode)
+    public function setTeachingMode($teachingMode): static
     {
         $this->teachingMode = $teachingMode;
 
@@ -1059,16 +1059,16 @@ class CourseInfo
     /**
      * @return float|null
      */
-    public function getTeachingCmClass()
+    public function getTeachingCmClass(): ?float
     {
         return $this->teachingCmClass;
     }
 
     /**
-     * @param float|null $teachingCmClass
-     * @return CourseInfo
+     * @param $teachingCmClass
+     * @return $this
      */
-    public function setTeachingCmClass($teachingCmClass)
+    public function setTeachingCmClass($teachingCmClass): static
     {
         $this->teachingCmClass = $teachingCmClass;
 
@@ -1078,16 +1078,16 @@ class CourseInfo
     /**
      * @return float|null
      */
-    public function getTeachingTdClass()
+    public function getTeachingTdClass(): ?float
     {
         return $this->teachingTdClass;
     }
 
     /**
-     * @param float|null $teachingTdClass
-     * @return CourseInfo
+     * @param $teachingTdClass
+     * @return $this
      */
-    public function setTeachingTdClass($teachingTdClass)
+    public function setTeachingTdClass($teachingTdClass): static
     {
         $this->teachingTdClass = $teachingTdClass;
 
@@ -1097,16 +1097,16 @@ class CourseInfo
     /**
      * @return float|null
      */
-    public function getTeachingTpClass()
+    public function getTeachingTpClass(): ?float
     {
         return $this->teachingTpClass;
     }
 
     /**
-     * @param float|null $teachingTpClass
-     * @return CourseInfo
+     * @param $teachingTpClass
+     * @return $this
      */
-    public function setTeachingTpClass($teachingTpClass)
+    public function setTeachingTpClass($teachingTpClass): static
     {
         $this->teachingTpClass = $teachingTpClass;
 
@@ -1116,16 +1116,16 @@ class CourseInfo
     /**
      * @return float|null
      */
-    public function getTeachingOtherClass()
+    public function getTeachingOtherClass(): ?float
     {
         return $this->teachingOtherClass;
     }
 
     /**
-     * @param float|null $teachingOtherClass
-     * @return CourseInfo
+     * @param $teachingOtherClass
+     * @return $this
      */
-    public function setTeachingOtherClass($teachingOtherClass)
+    public function setTeachingOtherClass($teachingOtherClass): static
     {
         $this->teachingOtherClass = $teachingOtherClass;
 
@@ -1135,16 +1135,16 @@ class CourseInfo
     /**
      * @return null|string
      */
-    public function getTeachingOtherTypeClass()
+    public function getTeachingOtherTypeClass(): ?string
     {
         return $this->teachingOtherTypeClass;
     }
 
     /**
-     * @param null|string $teachingOtherTypeClass
-     * @return CourseInfo
+     * @param $teachingOtherTypeClass
+     * @return $this
      */
-    public function setTeachingOtherTypeClass($teachingOtherTypeClass)
+    public function setTeachingOtherTypeClass($teachingOtherTypeClass): static
     {
         $this->teachingOtherTypeClass = $teachingOtherTypeClass;
 
@@ -1155,16 +1155,16 @@ class CourseInfo
     /**
      * @return float|null
      */
-    public function getTeachingCmHybridClass()
+    public function getTeachingCmHybridClass(): ?float
     {
         return $this->teachingCmHybridClass;
     }
 
     /**
-     * @param float|null $teachingCmHybridClass
-     * @return CourseInfo
+     * @param $teachingCmHybridClass
+     * @return $this
      */
-    public function setTeachingCmHybridClass($teachingCmHybridClass)
+    public function setTeachingCmHybridClass($teachingCmHybridClass): static
     {
         $this->teachingCmHybridClass = $teachingCmHybridClass;
 
@@ -1174,16 +1174,16 @@ class CourseInfo
     /**
      * @return float|null
      */
-    public function getTeachingTdHybridClass()
+    public function getTeachingTdHybridClass(): ?float
     {
         return $this->teachingTdHybridClass;
     }
 
     /**
-     * @param float|null $teachingTdHybridClass
-     * @return CourseInfo
+     * @param $teachingTdHybridClass
+     * @return $this
      */
-    public function setTeachingTdHybridClass($teachingTdHybridClass)
+    public function setTeachingTdHybridClass($teachingTdHybridClass): static
     {
         $this->teachingTdHybridClass = $teachingTdHybridClass;
 
@@ -1193,16 +1193,16 @@ class CourseInfo
     /**
      * @return float|null
      */
-    public function getTeachingTpHybridClass()
+    public function getTeachingTpHybridClass(): ?float
     {
         return $this->teachingTpHybridClass;
     }
 
     /**
-     * @param float|null $teachingTpHybridClass
-     * @return CourseInfo
+     * @param $teachingTpHybridClass
+     * @return $this
      */
-    public function setTeachingTpHybridClass($teachingTpHybridClass)
+    public function setTeachingTpHybridClass($teachingTpHybridClass): static
     {
         $this->teachingTpHybridClass = $teachingTpHybridClass;
 
@@ -1212,16 +1212,16 @@ class CourseInfo
     /**
      * @return float|null
      */
-    public function getTeachingOtherHybridClass()
+    public function getTeachingOtherHybridClass(): ?float
     {
         return $this->teachingOtherHybridClass;
     }
 
     /**
-     * @param float|null $teachingOtherHybridClass
-     * @return CourseInfo
+     * @param $teachingOtherHybridClass
+     * @return $this
      */
-    public function setTeachingOtherHybridClass($teachingOtherHybridClass)
+    public function setTeachingOtherHybridClass($teachingOtherHybridClass): static
     {
         $this->teachingOtherHybridClass = $teachingOtherHybridClass;
 
@@ -1231,16 +1231,16 @@ class CourseInfo
     /**
      * @return null|string
      */
-    public function getTeachingOtherTypeHybridClass()
+    public function getTeachingOtherTypeHybridClass(): ?string
     {
         return $this->teachingOtherTypeHybridClass;
     }
 
     /**
-     * @param null|string $teachingOtherTypeHybridClass
-     * @return CourseInfo
+     * @param $teachingOtherTypeHybridClass
+     * @return $this
      */
-    public function setTeachingOtherTypeHybridClass($teachingOtherTypeHybridClass)
+    public function setTeachingOtherTypeHybridClass($teachingOtherTypeHybridClass): static
     {
         $this->teachingOtherTypeHybridClass = $teachingOtherTypeHybridClass;
 
@@ -1251,16 +1251,16 @@ class CourseInfo
     /**
      * @return float|null
      */
-    public function getTeachingCmHybridDist()
+    public function getTeachingCmHybridDist(): ?float
     {
         return $this->teachingCmHybridDist;
     }
 
     /**
-     * @param float|null $teachingCmHybridDist
-     * @return CourseInfo
+     * @param $teachingCmHybridDist
+     * @return $this
      */
-    public function setTeachingCmHybridDist($teachingCmHybridDist)
+    public function setTeachingCmHybridDist($teachingCmHybridDist): static
     {
         $this->teachingCmHybridDist = $teachingCmHybridDist;
 
@@ -1270,16 +1270,16 @@ class CourseInfo
     /**
      * @return float|null
      */
-    public function getTeachingTdHybridDist()
+    public function getTeachingTdHybridDist(): ?float
     {
         return $this->teachingTdHybridDist;
     }
 
     /**
-     * @param float|null $teachingTdHybridDist
-     * @return CourseInfo
+     * @param $teachingTdHybridDist
+     * @return $this
      */
-    public function setTeachingTdHybridDist($teachingTdHybridDist)
+    public function setTeachingTdHybridDist($teachingTdHybridDist): static
     {
         $this->teachingTdHybridDist = $teachingTdHybridDist;
 
@@ -1289,16 +1289,16 @@ class CourseInfo
     /**
      * @return float|null
      */
-    public function getTeachingOtherHybridDist()
+    public function getTeachingOtherHybridDist(): ?float
     {
         return $this->teachingOtherHybridDist;
     }
 
     /**
-     * @param float|null $teachingOtherHybridDist
-     * @return CourseInfo
+     * @param $teachingOtherHybridDist
+     * @return $this
      */
-    public function setTeachingOtherHybridDist($teachingOtherHybridDist)
+    public function setTeachingOtherHybridDist($teachingOtherHybridDist): static
     {
         $this->teachingOtherHybridDist = $teachingOtherHybridDist;
 
@@ -1308,16 +1308,16 @@ class CourseInfo
     /**
      * @return null|string
      */
-    public function getTeachingOtherTypeHybridDistant()
+    public function getTeachingOtherTypeHybridDistant(): ?string
     {
         return $this->teachingOtherTypeHybridDistant;
     }
 
     /**
-     * @param null|string $teachingOtherTypeHybridDistant
-     * @return CourseInfo
+     * @param $teachingOtherTypeHybridDistant
+     * @return $this
      */
-    public function setTeachingOtherTypeHybridDistant($teachingOtherTypeHybridDistant)
+    public function setTeachingOtherTypeHybridDistant($teachingOtherTypeHybridDistant): static
     {
         $this->teachingOtherTypeHybridDistant = $teachingOtherTypeHybridDistant;
 
@@ -1467,16 +1467,16 @@ class CourseInfo
     /**
      * @return float|null
      */
-    public function getMccWeight()
+    public function getMccWeight(): ?float
     {
         return $this->mccWeight;
     }
 
     /**
-     * @param float|null $mccWeight
-     * @return CourseInfo
+     * @param $mccWeight
+     * @return $this
      */
-    public function setMccWeight($mccWeight)
+    public function setMccWeight($mccWeight): static
     {
         $this->mccWeight = $mccWeight;
 
@@ -1530,10 +1530,10 @@ class CourseInfo
     }
 
     /**
-     * @param float|null $mccCcCoeffSession1
-     * @return CourseInfo
+     * @param $mccCcCoeffSession1
+     * @return $this
      */
-    public function setMccCcCoeffSession1($mccCcCoeffSession1)
+    public function setMccCcCoeffSession1($mccCcCoeffSession1): static
     {
         $this->mccCcCoeffSession1 = $mccCcCoeffSession1;
 
@@ -1543,7 +1543,7 @@ class CourseInfo
     /**
      * @return int|null
      */
-    public function getMccCcNbEvalSession1()
+    public function getMccCcNbEvalSession1(): ?int
     {
         return $this->mccCcNbEvalSession1;
     }
@@ -1552,7 +1552,7 @@ class CourseInfo
      * @param int|null $mccCcNbEvalSession1
      * @return CourseInfo
      */
-    public function setMccCcNbEvalSession1(?int $mccCcNbEvalSession1)
+    public function setMccCcNbEvalSession1(?int $mccCcNbEvalSession1): static
     {
         $this->mccCcNbEvalSession1 = $mccCcNbEvalSession1;
 
@@ -1562,7 +1562,7 @@ class CourseInfo
     /**
      * @return float|null
      */
-    public function getMccCtCoeffSession1()
+    public function getMccCtCoeffSession1(): ?float
     {
         return $this->mccCtCoeffSession1;
     }
@@ -1571,7 +1571,7 @@ class CourseInfo
      * @param float|null $mccCtCoeffSession1
      * @return CourseInfo
      */
-    public function setMccCtCoeffSession1($mccCtCoeffSession1)
+    public function setMccCtCoeffSession1(?float $mccCtCoeffSession1): static
     {
         $this->mccCtCoeffSession1 = $mccCtCoeffSession1;
 
@@ -1581,7 +1581,7 @@ class CourseInfo
     /**
      * @return null|string
      */
-    public function getMccCtNatSession1()
+    public function getMccCtNatSession1(): ?string
     {
         return $this->mccCtNatSession1;
     }
@@ -1590,7 +1590,7 @@ class CourseInfo
      * @param null|string $mccCtNatSession1
      * @return CourseInfo
      */
-    public function setMccCtNatSession1(?string $mccCtNatSession1)
+    public function setMccCtNatSession1(?string $mccCtNatSession1): static
     {
         $this->mccCtNatSession1 = $mccCtNatSession1;
 
@@ -1600,16 +1600,16 @@ class CourseInfo
     /**
      * @return null|string
      */
-    public function getMccCtDurationSession1()
+    public function getMccCtDurationSession1(): ?string
     {
         return $this->mccCtDurationSession1;
     }
 
     /**
-     * @param null|string $mccCtDurationSession1
+     * @param string|null $mccCtDurationSession1
      * @return CourseInfo
      */
-    public function setMccCtDurationSession1($mccCtDurationSession1)
+    public function setMccCtDurationSession1(?string $mccCtDurationSession1): static
     {
         $this->mccCtDurationSession1 = $mccCtDurationSession1;
 
@@ -1619,7 +1619,7 @@ class CourseInfo
     /**
      * @return float|null
      */
-    public function getMccCtCoeffSession2()
+    public function getMccCtCoeffSession2(): ?float
     {
         return $this->mccCtCoeffSession2;
     }
@@ -1628,7 +1628,7 @@ class CourseInfo
      * @param float|null $mccCtCoeffSession2
      * @return CourseInfo
      */
-    public function setMccCtCoeffSession2($mccCtCoeffSession2)
+    public function setMccCtCoeffSession2(?float $mccCtCoeffSession2): static
     {
         $this->mccCtCoeffSession2 = $mccCtCoeffSession2;
 
@@ -1638,16 +1638,16 @@ class CourseInfo
     /**
      * @return null|string
      */
-    public function getMccCtNatSession2()
+    public function getMccCtNatSession2(): ?string
     {
         return $this->mccCtNatSession2;
     }
 
     /**
-     * @param null|string $mccCtNatSession2
+     * @param string|null $mccCtNatSession2
      * @return CourseInfo
      */
-    public function setMccCtNatSession2($mccCtNatSession2)
+    public function setMccCtNatSession2(?string $mccCtNatSession2): static
     {
         $this->mccCtNatSession2 = $mccCtNatSession2;
 
@@ -1657,16 +1657,16 @@ class CourseInfo
     /**
      * @return null|string
      */
-    public function getMccCtDurationSession2()
+    public function getMccCtDurationSession2(): ?string
     {
         return $this->mccCtDurationSession2;
     }
 
     /**
-     * @param null|string $mccCtDurationSession2
+     * @param string|null $mccCtDurationSession2
      * @return CourseInfo
      */
-    public function setMccCtDurationSession2($mccCtDurationSession2)
+    public function setMccCtDurationSession2(?string $mccCtDurationSession2): static
     {
         $this->mccCtDurationSession2 = $mccCtDurationSession2;
 
@@ -1676,7 +1676,7 @@ class CourseInfo
     /**
      * @return null|string
      */
-    public function getMccAdvice()
+    public function getMccAdvice(): ?string
     {
         return $this->mccAdvice;
     }
@@ -1685,7 +1685,7 @@ class CourseInfo
      * @param null|string $mccAdvice
      * @return CourseInfo
      */
-    public function setMccAdvice($mccAdvice)
+    public function setMccAdvice($mccAdvice): static
     {
         $this->mccAdvice = $mccAdvice;
 
@@ -1752,16 +1752,16 @@ class CourseInfo
     /**
      * @return null|string
      */
-    public function getTutoringDescription()
+    public function getTutoringDescription(): ?string
     {
         return $this->tutoringDescription;
     }
 
     /**
-     * @param null|string $tutoringDescription
+     * @param string|null $tutoringDescription
      * @return CourseInfo
      */
-    public function setTutoringDescription($tutoringDescription)
+    public function setTutoringDescription(?string $tutoringDescription): static
     {
         $this->tutoringDescription = $tutoringDescription;
 
@@ -1771,16 +1771,16 @@ class CourseInfo
     /**
      * @return null|string
      */
-    public function getEducationalResources()
+    public function getEducationalResources(): ?string
     {
         return $this->educationalResources;
     }
 
     /**
-     * @param null|string $educationalResources
+     * @param string|null $educationalResources
      * @return CourseInfo
      */
-    public function setEducationalResources($educationalResources)
+    public function setEducationalResources(?string $educationalResources): static
     {
         $this->educationalResources = $educationalResources;
 
@@ -1790,16 +1790,16 @@ class CourseInfo
     /**
      * @return null|string
      */
-    public function getBibliographicResources()
+    public function getBibliographicResources(): ?string
     {
         return $this->bibliographicResources;
     }
 
     /**
-     * @param null|string $bibliographicResources
+     * @param string|null $bibliographicResources
      * @return CourseInfo
      */
-    public function setBibliographicResources($bibliographicResources)
+    public function setBibliographicResources(?string $bibliographicResources): static
     {
         $this->bibliographicResources = $bibliographicResources;
 
@@ -1809,16 +1809,16 @@ class CourseInfo
     /**
      * @return null|string
      */
-    public function getAgenda()
+    public function getAgenda(): ?string
     {
         return $this->agenda;
     }
 
     /**
-     * @param null|string $agenda
+     * @param string|null $agenda
      * @return CourseInfo
      */
-    public function setAgenda($agenda)
+    public function setAgenda(?string $agenda): static
     {
         $this->agenda = $agenda;
 
@@ -1828,16 +1828,16 @@ class CourseInfo
     /**
      * @return null|string
      */
-    public function getOrganization()
+    public function getOrganization(): ?string
     {
         return $this->organization;
     }
 
     /**
-     * @param null|string $organization
+     * @param string|null $organization
      * @return CourseInfo
      */
-    public function setOrganization($organization)
+    public function setOrganization(?string $organization): static
     {
         $this->organization = $organization;
 
@@ -1847,16 +1847,16 @@ class CourseInfo
     /**
      * @return null|string
      */
-    public function getClosingRemarks()
+    public function getClosingRemarks(): ?string
     {
         return $this->closingRemarks;
     }
 
     /**
-     * @param null|string $closingRemarks
+     * @param string|null $closingRemarks
      * @return CourseInfo
      */
-    public function setClosingRemarks($closingRemarks)
+    public function setClosingRemarks(?string $closingRemarks): static
     {
         $this->closingRemarks = $closingRemarks;
 
@@ -1866,16 +1866,16 @@ class CourseInfo
     /**
      * @return null|string
      */
-    public function getClosingVideo()
+    public function getClosingVideo(): ?string
     {
         return $this->closingVideo;
     }
 
     /**
-     * @param null|string $closingVideo
+     * @param string|null $closingVideo
      * @return CourseInfo
      */
-    public function setClosingVideo($closingVideo)
+    public function setClosingVideo(?string $closingVideo): static
     {
         $this->closingVideo = $closingVideo;
 
@@ -1885,7 +1885,7 @@ class CourseInfo
     /**
      * @return DateTime|null
      */
-    public function getCreationDate()
+    public function getCreationDate(): ?DateTime
     {
         return $this->creationDate;
     }
@@ -1894,7 +1894,7 @@ class CourseInfo
      * @param DateTime|null $creationDate
      * @return CourseInfo
      */
-    public function setCreationDate($creationDate)
+    public function setCreationDate(?DateTime $creationDate): static
     {
         $this->creationDate = $creationDate;
 
@@ -1904,7 +1904,7 @@ class CourseInfo
     /**
      * @return DateTime|null
      */
-    public function getModificationDate()
+    public function getModificationDate(): ?DateTime
     {
         return $this->modificationDate;
     }
@@ -1913,7 +1913,7 @@ class CourseInfo
      * @param DateTime|null $modificationDate
      * @return CourseInfo
      */
-    public function setModificationDate($modificationDate)
+    public function setModificationDate(?DateTime $modificationDate): static
     {
         $this->modificationDate = $modificationDate;
 
@@ -1923,7 +1923,7 @@ class CourseInfo
     /**
      * @return DateTime|null
      */
-    public function getPublicationDate()
+    public function getPublicationDate(): ?DateTime
     {
         return $this->publicationDate;
     }
@@ -1932,7 +1932,7 @@ class CourseInfo
      * @param DateTime|null $publicationDate
      * @return CourseInfo
      */
-    public function setPublicationDate($publicationDate)
+    public function setPublicationDate(?DateTime $publicationDate): static
     {
         $this->publicationDate = $publicationDate;
 
@@ -1942,16 +1942,16 @@ class CourseInfo
     /**
      * @return null|string
      */
-    public function getMediaType()
+    public function getMediaType(): ?string
     {
         return $this->mediaType;
     }
 
     /**
-     * @param null|string $mediaType
+     * @param string|null $mediaType
      * @return CourseInfo
      */
-    public function setMediaType($mediaType)
+    public function setMediaType(?string $mediaType): static
     {
         $this->mediaType = $mediaType;
 
@@ -1969,15 +1969,14 @@ class CourseInfo
     /**
      *
      */
-    public function getCourseApi()
+    public function getCourseApi(): ?string
     {
         return $this->getCourse()->getId();
     }
 
     /**
-    /**
-     * @param Course $course
-     * @return CourseInfo
+     * @param Course|null $course
+     * @return $this
      */
     public function setCourse(?Course $course): self
     {
@@ -1987,7 +1986,7 @@ class CourseInfo
     }
 
     /**
-     * @return Structure
+     * @return Structure|null
      */
     public function getStructure(): ?Structure
     {
@@ -1997,13 +1996,13 @@ class CourseInfo
     /**
      *
      */
-    public function getStructureApi()
+    public function getStructureApi(): ?string
     {
         return $this->getStructure()->getId();
     }
 
     /**
-     * @param Structure $structure
+     * @param Structure|null $structure
      * @return CourseInfo
      */
     public function setStructure(?Structure $structure): self
@@ -2016,7 +2015,7 @@ class CourseInfo
     /**
      * @return null|User
      */
-    public function getLastUpdater()
+    public function getLastUpdater(): ?User
     {
         return $this->lastUpdater;
     }
@@ -2035,7 +2034,7 @@ class CourseInfo
     /**
      * @return null|User
      */
-    public function getPublisher()
+    public function getPublisher(): ?User
     {
         return $this->publisher;
     }
@@ -2052,7 +2051,7 @@ class CourseInfo
     }
 
     /**
-     * @return Year
+     * @return Year|null
      */
     public function getYear(): ?Year
     {
@@ -2062,7 +2061,7 @@ class CourseInfo
     /**
      *
      */
-    public function getYearApi()
+    public function getYearApi(): ?string
     {
         return $this->getYear()->getId();
     }
@@ -2079,7 +2078,7 @@ class CourseInfo
     }
 
     /**
-     * @return Collection
+     * @return Collection|null
      */
     public function getCoursePermissions(): ?Collection
     {
@@ -2465,7 +2464,7 @@ class CourseInfo
     /**
      * @return null|string
      */
-    public function getPreviousImage()
+    public function getPreviousImage(): ?string
     {
         return $this->previousImage;
     }
@@ -2474,7 +2473,7 @@ class CourseInfo
      * @param $previousImage
      * @return $this
      */
-    public function setPreviousImage($previousImage)
+    public function setPreviousImage($previousImage): static
     {
         $this->previousImage = $previousImage;
 
@@ -2510,7 +2509,7 @@ class CourseInfo
     /**
      * @return Collection
      */
-    public function getLanguages()
+    public function getLanguages(): Collection
     {
         return $this->languages;
     }
@@ -2544,7 +2543,7 @@ class CourseInfo
     /**
      * @return Collection
      */
-    public function getCampuses()
+    public function getCampuses(): Collection
     {
         return $this->campuses;
     }
@@ -2578,7 +2577,7 @@ class CourseInfo
     /**
      * @return Collection
      */
-    public function getDomains()
+    public function getDomains(): Collection
     {
         return $this->domains;
     }
@@ -2612,7 +2611,7 @@ class CourseInfo
     /**
      * @return Collection
      */
-    public function getPeriods()
+    public function getPeriods(): Collection
     {
         return $this->periods;
     }
@@ -2646,7 +2645,7 @@ class CourseInfo
     /**
      * @return mixed
      */
-    public function getCourseCriticalAchievements()
+    public function getCourseCriticalAchievements(): mixed
     {
         return $this->courseCriticalAchievements;
     }
@@ -2715,7 +2714,7 @@ class CourseInfo
                     continue;
                 }
                 $coursePermission = clone $coursePermission;
-                $coursePermission->setId(Uuid::uuid4())
+                $coursePermission->setId(Uuid::v4())
                     ->setCourseInfo($this);
                 $this->coursePermissions->offsetSet($k, $coursePermission);
             }
@@ -2732,7 +2731,7 @@ class CourseInfo
                     continue;
                 }
                 $courseTeacher = clone $courseTeacher;
-                $courseTeacher->setId(Uuid::uuid4())
+                $courseTeacher->setId(Uuid::v4())
                     ->setCourseInfo($this);
                 $this->courseTeachers->offsetSet($k, $courseTeacher);
             }
@@ -2749,7 +2748,7 @@ class CourseInfo
                     continue;
                 }
                 $courseSection = clone $courseSection;
-                $courseSection->setId(Uuid::uuid4())
+                $courseSection->setId(Uuid::v4())
                     ->setCourseInfo($this);
                 $this->courseSections->offsetSet($k, $courseSection);
             }
@@ -2767,7 +2766,7 @@ class CourseInfo
                     continue;
                 }
                 $courseAchievement = clone $courseAchievement;
-                $courseAchievement->setId(Uuid::uuid4())
+                $courseAchievement->setId(Uuid::v4())
                     ->setCourseInfo($this);
                 $this->courseAchievements->offsetSet($k, $courseAchievement);
             }
@@ -2785,7 +2784,7 @@ class CourseInfo
                     continue;
                 }
                 $coursePrerequisite = clone $coursePrerequisite;
-                $coursePrerequisite->setId(Uuid::uuid4())
+                $coursePrerequisite->setId(Uuid::v4())
                     ->setCourseInfo($this);
                 $this->coursePrerequisites->offsetSet($k, $coursePrerequisite);
             }
@@ -2803,7 +2802,7 @@ class CourseInfo
                     continue;
                 }
                 $courseTutoringResource = clone $courseTutoringResource;
-                $courseTutoringResource->setId(Uuid::uuid4())
+                $courseTutoringResource->setId(Uuid::v4())
                     ->setCourseInfo($this);
                 $this->courseTutoringResources->offsetSet($k, $courseTutoringResource);
             }
@@ -2821,7 +2820,7 @@ class CourseInfo
                     continue;
                 }
                 $courseResourceEquipment = clone $courseResourceEquipment;
-                $courseResourceEquipment->setId(Uuid::uuid4())
+                $courseResourceEquipment->setId(Uuid::v4())
                     ->setCourseInfo($this);
                 $this->courseResourceEquipments->offsetSet($k, $courseResourceEquipment);
             }
@@ -2831,7 +2830,7 @@ class CourseInfo
     /**
      * Checks media consistency.
      */
-    public function checkMedia()
+    public function checkMedia(): void
     {
         $mediaType = $this->getMediaType();
 
@@ -2867,7 +2866,7 @@ class CourseInfo
         }
     }
 
-    public function getCodeYear(bool $dev = null)
+    public function getCodeYear(bool $dev = null): string
     {
         if ($dev) {
             return $this->course->getCode() . '__UNION__' . $this->year->getId();
@@ -2875,7 +2874,7 @@ class CourseInfo
         return $this->course->getCode() . '-' . $this->year->getId();
     }
 
-    public function setAllRelations()
+    public function setAllRelations(): void
     {
         $relations = [
             'coursePermissions',

@@ -43,7 +43,7 @@ class LanguageController extends AbstractController
         LanguageDoctrineRepository $repository,
         PaginatorInterface $paginator,
         FilterBuilderUpdaterInterface $filterBuilderUpdater
-    )
+    ): Response
     {
         $qb =  $repository->getIndexQueryBuilder();
 
@@ -77,7 +77,7 @@ class LanguageController extends AbstractController
      * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function newAction(Request $request, LanguageManager $languageManager, TranslatorInterface $translator)
+    public function newAction(Request $request, LanguageManager $languageManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $language = $languageManager->new();
         $form = $this->createForm(LanguageType::class, $language);
@@ -103,9 +103,10 @@ class LanguageController extends AbstractController
      * @param Request $request
      * @param Language $language
      * @param LanguageManager $languageManager
+     * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, Language $language, LanguageManager $languageManager, TranslatorInterface $translator)
+    public function editAction(Request $request, Language $language, LanguageManager $languageManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $form = $this->createForm(LanguageType::class, $language);
         $form->handleRequest($request);
@@ -131,7 +132,7 @@ class LanguageController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function autocompleteS2(LanguageDoctrineRepository $repository, Request $request)
+    public function autocompleteS2(LanguageDoctrineRepository $repository, Request $request): Response
     {
         $parameters = $request->query->all();
         $query = $parameters['q'];

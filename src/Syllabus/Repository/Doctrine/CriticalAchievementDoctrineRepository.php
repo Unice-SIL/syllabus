@@ -45,7 +45,7 @@ class CriticalAchievementDoctrineRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param string|null $query
+     * @param string $query
      * @param Course $course
      * @return array
      */

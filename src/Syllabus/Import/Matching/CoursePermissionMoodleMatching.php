@@ -21,42 +21,38 @@ class CoursePermissionMoodleMatching extends AbstractMatching implements Matchin
     /**
      * @var CoursePermissionManager
      */
-    private $coursePermissionManager;
-    /**
-     * @var EntityManagerInterface
-     */
-    private $em;
+    private CoursePermissionManager $coursePermissionManager;
+
     /**
      * @var CourseInfoManager
      */
-    private $courseInfoManager;
+    private CourseInfoManager $courseInfoManager;
+
     /**
      * @var UserManager
      */
-    private $userManager;
+    private UserManager $userManager;
+
     /**
      * @var CourseManager
      */
-    private $courseManager;
+    private CourseManager $courseManager;
 
     /**
      * CoursePermissionMoodleMatching constructor.
      * @param CoursePermissionManager $coursePermissionManager
-     * @param EntityManagerInterface $em
      * @param CourseInfoManager $courseInfoManager
      * @param UserManager $userManager
      * @param CourseManager $courseManager
      */
     public function __construct(
         CoursePermissionManager $coursePermissionManager,
-        EntityManagerInterface $em,
         CourseInfoManager $courseInfoManager,
         UserManager $userManager,
         CourseManager $courseManager
     )
     {
         $this->coursePermissionManager = $coursePermissionManager;
-        $this->em = $em;
         $this->courseInfoManager = $courseInfoManager;
         $this->userManager = $userManager;
         $this->courseManager = $courseManager;

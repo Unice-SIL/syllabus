@@ -8,6 +8,9 @@ use App\Syllabus\Entity\CourseInfo;
 use App\Syllabus\Entity\User;
 use Swift_Mailer;
 use Swift_Message;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Environment;
 use Twig\Error\LoaderError;
@@ -17,34 +20,35 @@ use Twig\Error\SyntaxError;
 class MailHelper
 {
     /**
-     * @var Swift_Mailer
+     * @var Mailer
      */
-    private $mailer;
+    private Mailer $mailer;
     /**
      * @var string
      */
-    private $mailerSource;
+    private string $mailerSource;
     /**
      * @var string
      */
-    private $mailerTarget;
+    private string $mailerTarget;
     /**
      * @var Environment
      */
-    private $twig;
+    private Environment $twig;
     /**
      * @var UrlGeneratorInterface
      */
-    private $urlGenerator;
+    private UrlGeneratorInterface $urlGenerator;
 
     /**
      * MailHelper constructor.
-     * @param Swift_Mailer $mailer
+     * @param Mailer $mailer
      * @param string $mailerSource
      * @param string $mailerTarget
      * @param UrlGeneratorInterface $urlGenerator
+     * @param Environment $twig
      */
-    public function __construct(Swift_Mailer $mailer, string $mailerSource, string $mailerTarget, UrlGeneratorInterface $urlGenerator, Environment $twig)
+    public function __construct(Mailer $mailer, string $mailerSource, string $mailerTarget, UrlGeneratorInterface $urlGenerator, Environment $twig)
     {
         $this->mailer = $mailer;
         $this->mailerSource = $mailerSource;
@@ -56,66 +60,61 @@ class MailHelper
     /**
      * @param User $user
      * @param string $token
-     * @return int
+     * @return void
+     * @throws TransportExceptionInterface
      */
-    public function sendResetPasswordMessage(User $user, string $token): int
+    public function sendResetPasswordMessage(User $user, string $token): void
     {
         $url = $this->urlGenerator->generate('app.security.reset_password', array('token' => $token), UrlGeneratorInterface::ABSOLUTE_URL);
 
-        $message = (new Swift_Message('Réinitialisation du mot de passe'))
-            ->setFrom($this->mailerSource)
-            ->setTo($user->getEmail())
-            ->setBcc($this->mailerTarget)
-            ->setBody(
-                "Voici le lien pour changer votre mot de passe : " . $url,
-                'text/html'
-            );
-
-        return $this->mailer->send($message);
+        $message = (new Email())
+            ->from($this->mailerSource)
+            ->to($user->getEmail())
+            ->subject('Réinitialisation du mot de passe')
+            ->bcc($this->mailerTarget)
+            ->html("Voici le lien pour changer votre mot de passe : " . $url);
+        $this->mailer->send($message);
     }
 
     /**
      * @param CourseInfo $courseInfo
      * @param User $user
-     * @return int
+     * @return void
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
+     * @throws TransportExceptionInterface
      */
-    public function sendNewSyllabusPublishedMessageToPublisher(CourseInfo  $courseInfo, User $user): int
+    public function sendNewSyllabusPublishedMessageToPublisher(CourseInfo  $courseInfo, User $user): void
     {
-        $message = (new Swift_Message('Nouveau syllabus publié'))
-            ->setFrom($this->mailerSource)
-            ->setTo($user->getEmail())
-            ->setBody(
-                $this->twig->render('email/publication_publisher.html.twig', [
+        $message = (new Email())
+            ->from($this->mailerSource)
+            ->to($user->getEmail())
+            ->subject('Nouveau syllabus publié')
+            ->html($this->twig->render('email/publication_publisher.html.twig', [
                     'courseInfo' => $courseInfo
-                ]),
-                'text/html'
-            );
+                ]));
 
-        return $this->mailer->send($message);
+        $this->mailer->send($message);
     }
 
     /**
      * @param CourseInfo $courseInfo
-     * @return int
+     * @return void
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
+     * @throws TransportExceptionInterface
      */
-    public function sendNewSyllabusPublishedMessageToAdmin(CourseInfo  $courseInfo): int
+    public function sendNewSyllabusPublishedMessageToAdmin(CourseInfo  $courseInfo): void
     {
-        $message = (new Swift_Message('Nouveau syllabus publié'))
-            ->setFrom($this->mailerSource)
-            ->setTo($this->mailerTarget)
-            ->setBody(
-                $this->twig->render('email/publication_admin.html.twig', [
+        $message = (new Email())
+            ->from($this->mailerSource)
+            ->to($this->mailerTarget)
+            ->subject('Nouveau syllabus publié')
+            ->html($this->twig->render('email/publication_admin.html.twig', [
                     'courseInfo' => $courseInfo
-                ]),
-                'text/html'
-            );
-
-        return $this->mailer->send($message);
+                ]));
+        $this->mailer->send($message);
     }
 }

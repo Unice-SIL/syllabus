@@ -41,7 +41,7 @@ class EquipmentController extends AbstractController
         PaginatorInterface $paginator,
         EquipmentDoctrineRepository $equipmentDoctrineRepository,
         FilterBuilderUpdaterInterface $filterBuilderUpdater
-    )
+    ): Response
     {
 
         $qb = $equipmentDoctrineRepository->getIndexQueryBuilder();
@@ -78,7 +78,7 @@ class EquipmentController extends AbstractController
      * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function newAction(Request $request, EquipmentManager $equipmentManager, TranslatorInterface $translator)
+    public function newAction(Request $request, EquipmentManager $equipmentManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $equipment = $equipmentManager->new();
         $form = $this->createForm(EquipmentType::class, $equipment);
@@ -110,7 +110,7 @@ class EquipmentController extends AbstractController
      * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, Equipment $equipment, EquipmentManager $equipmentManager, TranslatorInterface $translator)
+    public function editAction(Request $request, Equipment $equipment, EquipmentManager $equipmentManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $form = $this->createForm(EquipmentType::class, $equipment);
         $form->handleRequest($request);

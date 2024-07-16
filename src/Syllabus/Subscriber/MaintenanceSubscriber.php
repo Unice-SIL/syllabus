@@ -20,23 +20,23 @@ use Twig\Error\SyntaxError;
 class MaintenanceSubscriber implements EventSubscriberInterface
 {
     /**
-     * @var bool
+     * @var mixed|null
      */
-    private $inMaintenance;
+    private mixed $inMaintenance;
 
     /**
-     * @var UrlGeneratorInterface
+     * @var Environment
      */
-    private $twigEnvironment;
+    private Environment $twigEnvironment;
     /**
      * @var AuthorizationCheckerInterface
      */
-    private $authorizationChecker;
+    private AuthorizationCheckerInterface $authorizationChecker;
 
     /**
      * @var Security
      */
-    private $security;
+    private Security $security;
 
     /**
      * MaintenanceSubscriber constructor.
@@ -70,7 +70,7 @@ class MaintenanceSubscriber implements EventSubscriberInterface
      * @throws SyntaxError
      * @throws LoaderError
      */
-    public function displayMaintenancePage(RequestEvent $event)
+    public function displayMaintenancePage(RequestEvent $event): void
     {
         $user = $this->security->getUser();
 

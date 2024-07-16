@@ -17,7 +17,7 @@ class StructureManager extends AbstractManager
     /**
      * @var StructureDoctrineRepository
      */
-    private $repository;
+    private StructureDoctrineRepository $repository;
 
     /**
      * StructureManager constructor.
@@ -34,7 +34,7 @@ class StructureManager extends AbstractManager
     /**
      * @return Structure
      */
-    public function new()
+    public function new(): Structure
     {
         return new Structure();
     }

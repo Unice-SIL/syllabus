@@ -11,7 +11,6 @@ use App\Syllabus\Manager\ActivityTypeManager;
 use App\Syllabus\Manager\CourseInfoManager;
 use App\Syllabus\Manager\CourseSectionManager;
 use Exception;
-use Ramsey\Uuid\Uuid;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,8 +18,12 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 /**
  * Class ActivitiesController
@@ -40,7 +43,7 @@ class ActivitiesController extends AbstractController
      * @return Response
      * @ParamConverter("activeSection", options={"mapping": {"sectionId": "id"}})
      */
-    public function indexAction(CourseInfo $courseInfo, ?CourseSection $activeSection, ActivityManager $activityManager, ActivityTypeManager $activityTypeManager)
+    public function indexAction(CourseInfo $courseInfo, ?CourseSection $activeSection, ActivityManager $activityManager, ActivityTypeManager $activityTypeManager): Response
     {
         if (!$activeSection)
         {
@@ -73,7 +76,7 @@ class ActivitiesController extends AbstractController
      * @return Response
      * @throws Exception
      */
-    public function addSectionAction(Environment $twig, CourseInfo $courseInfo, Request $request, CourseInfoManager $manager, CourseSectionManager $courseSectionManager, TranslatorInterface $translator)
+    public function addSectionAction(Environment $twig, CourseInfo $courseInfo, Request $request, CourseInfoManager $manager, CourseSectionManager $courseSectionManager, TranslatorInterface $translator): Response
     {
         $status = true;
         $message = null;
@@ -85,7 +88,7 @@ class ActivitiesController extends AbstractController
         if ($form->isSubmitted()) {
             if ($form->isValid())
             {
-                $section->setId(Uuid::uuid4())
+                $section->setId(Uuid::v4())
                     ->setPosition(count($courseInfo->getCourseSections()))
                     ->setCourseInfo($courseInfo);
 
@@ -114,15 +117,19 @@ class ActivitiesController extends AbstractController
     /**
      * @Route("/section/{sectionId}/duplicate", name="section.duplicate"))
      *
+     * @param Environment $twig
      * @param CourseInfo $courseInfo
      * @param CourseSection $courseSection
      * @param Request $request
      * @param CourseInfoManager $manager
      * @param TranslatorInterface $translator
      * @return JsonResponse
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      * @ParamConverter("courseSection", options={"mapping": {"sectionId": "id"}})
      */
-    public function duplicateSectionAction(Environment $twig, CourseInfo $courseInfo, CourseSection $courseSection, Request $request, CourseInfoManager $manager, TranslatorInterface $translator)
+    public function duplicateSectionAction(Environment $twig, CourseInfo $courseInfo, CourseSection $courseSection, Request $request, CourseInfoManager $manager, TranslatorInterface $translator): JsonResponse
     {
         $form = $this->createForm(DuplicateCourseSectionType::class, $courseSection);
         $form->handleRequest($request);
@@ -166,7 +173,7 @@ class ActivitiesController extends AbstractController
      * @return JsonResponse
      * @throws Exception
      */
-    public function sortSectionsAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager)
+    public function sortSectionsAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager): JsonResponse
     {
         $sections = $courseInfo->getCourseSections();
         $parameters = $request->request->all();

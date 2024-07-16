@@ -7,6 +7,7 @@ use App\Syllabus\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 
@@ -17,9 +18,9 @@ use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 class SwitchUserType extends AbstractType
 {
     /**
-     * @var RequestStack
+     * @var Request|null
      */
-    private $request;
+    private ?Request $request;
 
     /**
      * SwitchUserType constructor.
@@ -34,7 +35,7 @@ class SwitchUserType extends AbstractType
      * @param FormBuilderInterface $builder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('username', Select2EntityType::class, [
             'label' => 'app.form.switch_user.username',

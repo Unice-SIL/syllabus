@@ -199,7 +199,7 @@ class CourseCriticalAchievement
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      */
-    private $id;
+    private string $id;
 
     /**
      * @var string|null
@@ -207,31 +207,31 @@ class CourseCriticalAchievement
      * @ORM\Column(name="rule", type="text", length=50, nullable=false)
      * @Gedmo\Translatable
      */
-    private $rule;
+    private ?string $rule;
 
     /**
      * @var int
      *
      * @ORM\Column(name="score", type="integer")
      */
-    private $score = 0;
+    private int $score = 0;
 
     /**
      * @OneToMany(targetEntity="LearningAchievement", mappedBy="courseCriticalAchievement", cascade={"persist"}, orphanRemoval=true)
      */
-    private $learningAchievements;
+    private ArrayCollection $learningAchievements;
 
     /**
      * @ManyToOne(targetEntity="CriticalAchievement", inversedBy="courseCriticalAchievements", cascade={"persist"})
      * @JoinColumn(name="critical_achievement_course_critical_achievement", referencedColumnName="id")
      */
-    private $criticalAchievement;
+    private mixed $criticalAchievement;
 
     /**
      * @ManyToOne(targetEntity="CourseInfo", inversedBy="courseCriticalAchievements")
      * @JoinColumn(name="course_info_course_critical_achievement", referencedColumnName="id")
      */
-    private $courseInfo;
+    private mixed $courseInfo;
 
     /**
      * CourseCriticalAchievement constructor.
@@ -259,7 +259,7 @@ class CourseCriticalAchievement
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getRule(): ?string
     {
@@ -323,7 +323,7 @@ class CourseCriticalAchievement
     /**
      * @return ArrayCollection
      */
-    public function getLearningAchievements()
+    public function getLearningAchievements(): ArrayCollection
     {
         return $this->learningAchievements;
     }
@@ -341,7 +341,7 @@ class CourseCriticalAchievement
     /**
      * @return mixed
      */
-    public function getCriticalAchievement()
+    public function getCriticalAchievement(): mixed
     {
         return $this->criticalAchievement;
     }
@@ -357,7 +357,7 @@ class CourseCriticalAchievement
     /**
      * @return mixed
      */
-    public function getCourseInfo()
+    public function getCourseInfo(): mixed
     {
         return $this->courseInfo;
     }

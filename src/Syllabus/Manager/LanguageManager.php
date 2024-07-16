@@ -6,8 +6,6 @@ namespace App\Syllabus\Manager;
 
 use App\Syllabus\Entity\Language;
 use App\Syllabus\Repository\Doctrine\LanguageDoctrineRepository;
-use App\Syllabus\Repository\LanguageRepositoryInterface;
-use App\Syllabus\Repository\PeriodRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
 
@@ -18,14 +16,14 @@ use Doctrine\Persistence\ObjectRepository;
 class LanguageManager
 {
     /**
-     * @var ObjectRepository
+     * @var EntityManagerInterface
      */
-    private $em;
+    private EntityManagerInterface $em;
 
     /**
      * @var LanguageDoctrineRepository
      */
-    private $repository;
+    private LanguageDoctrineRepository $repository;
 
     public function __construct(EntityManagerInterface $em, LanguageDoctrineRepository $repository)
     {
@@ -36,7 +34,7 @@ class LanguageManager
     /**
      * @return Language
      */
-    public function new()
+    public function new(): Language
     {
         return new Language();
     }
@@ -46,7 +44,7 @@ class LanguageManager
      * @return Language|null
      * @throws \Exception
      */
-    public function find($id): ?Language
+    public function find(string $id): ?Language
     {
         return $this->repository->find($id);
     }

@@ -44,7 +44,7 @@ class JobController extends AbstractController
         PaginatorInterface $paginator,
         FilterBuilderUpdaterInterface $filterBuilderUpdater,
         JobDoctrineRepository $jobDoctrineRepository
-    )
+    ): Response
     {
         $qb =  $jobDoctrineRepository->getIndexQueryBuilder();
 
@@ -82,16 +82,16 @@ class JobController extends AbstractController
      * @Security("is_granted('ROLE_ADMIN_JOB_CREATE')")
      *
      * @param Request $request
+     * @param EntityManagerInterface $em
      * @return RedirectResponse|Response
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request, EntityManagerInterface $em): RedirectResponse|Response
     {
         $job = new Job();
         $form = $this->createForm('App\Syllabus\Form\JobType', $job);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
             $em->persist($job);
             $em->flush();
 
@@ -112,16 +112,17 @@ class JobController extends AbstractController
      *
      * @param Request $request
      * @param Job $job
+     * @param EntityManagerInterface $em
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, Job $job)
+    public function editAction(Request $request, Job $job, EntityManagerInterface $em): RedirectResponse|Response
     {
         $deleteForm = $this->createDeleteForm($job);
         $editForm = $this->createForm('App\Syllabus\Form\JobType', $job);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $em->flush();
 
             return $this->redirectToRoute('app.admin.job.edit', array('id' => $job->getId()));
         }
@@ -143,7 +144,7 @@ class JobController extends AbstractController
      * @param Job $job
      * @return RedirectResponse|Response
      */
-    public function reportAction(Request $request, Job $job)
+    public function reportAction(Request $request, Job $job): RedirectResponse|Response
     {
         if ($job->getLastStatus() === \App\Syllabus\Constant\Job::STATUS_IN_PROGRESS) {
             return $this->redirectToRoute('app.admin.job.index');
@@ -174,9 +175,10 @@ class JobController extends AbstractController
      * @param Request $request
      * @param Job $job
      * @param TranslatorInterface $translator
+     * @param EntityManagerInterface $em
      * @return RedirectResponse
      */
-    public function deleteAction(Request $request, Job $job, TranslatorInterface $translator)
+    public function deleteAction(Request $request, Job $job, TranslatorInterface $translator, EntityManagerInterface $em): RedirectResponse
     {
         if ($job->getLastStatus() !== \App\Syllabus\Constant\Job::STATUS_IN_PROGRESS) {
 
@@ -184,7 +186,6 @@ class JobController extends AbstractController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
                 $em->remove($job);
                 $em->flush();
             }
@@ -200,7 +201,7 @@ class JobController extends AbstractController
      * @param Job $job
      * @return FormInterface
      */
-    private function createDeleteForm(Job $job)
+    private function createDeleteForm(Job $job): FormInterface
     {
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('app.admin.job.delete', array('id' => $job->getId())))
@@ -218,7 +219,7 @@ class JobController extends AbstractController
      * @param TranslatorInterface $translator
      * @return Response
      */
-    public function runCommandAction(Request $request, Job $job, EntityManagerInterface $em, TranslatorInterface $translator)
+    public function runCommandAction(Request $request, Job $job, EntityManagerInterface $em, TranslatorInterface $translator): Response
     {
         if (!$this->isCsrfTokenValid('job' . $job->getId(), $request->request->all('_token'))) {
             $this->addFlash( 'danger', $translator->trans('admin.job.flashbag.unauthorized_action'));

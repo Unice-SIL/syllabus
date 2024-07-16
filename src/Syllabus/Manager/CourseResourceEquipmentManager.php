@@ -17,12 +17,12 @@ class CourseResourceEquipmentManager
     /**
      * @var EntityManagerInterface
      */
-    private $em;
+    private EntityManagerInterface $em;
 
     /**
      * @var CourseResourceEquipmentDoctrineRepository
      */
-    private $repository;
+    private CourseResourceEquipmentDoctrineRepository $repository;
 
     /**
      * CourseResourceEquipmentManager constructor.
@@ -40,7 +40,7 @@ class CourseResourceEquipmentManager
      * @param Equipment|null $equipment
      * @return CourseResourceEquipment
      */
-    public function new(CourseInfo $courseInfo = null, Equipment $equipment = null)
+    public function new(CourseInfo $courseInfo = null, Equipment $equipment = null): CourseResourceEquipment
     {
         $courseResourceEquipment = new CourseResourceEquipment();
         $courseResourceEquipment->setCourseInfo($courseInfo)->setEquipment($equipment);

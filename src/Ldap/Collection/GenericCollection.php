@@ -2,6 +2,9 @@
 
 namespace App\Ldap\Collection;
 
+use ArrayIterator;
+use Exception;
+
 /**
  * Class GenericCollection
  * @package App\Ldap\Collection
@@ -11,23 +14,23 @@ abstract class GenericCollection implements \ArrayAccess, \IteratorAggregate, \C
     /**
      * @var string
      */
-    protected $type;
+    protected string $type;
 
     /**
      * @var array
      */
-    protected $container = [];
+    protected array $container = [];
 
     /**
      * GenericCollection constructor.
      * @param $type
      * @param array $data
-     * @throws \Exception
+     * @throws Exception
      */
     public function __construct($type, array $data = [])
     {
         if(!class_exists($type)){
-            throw new \Exception(sprintf('Class %s does not exist.', $type));
+            throw new Exception(sprintf('Class %s does not exist.', $type));
         }
         $this->type = $type;
         foreach ($data as $d){
@@ -39,7 +42,7 @@ abstract class GenericCollection implements \ArrayAccess, \IteratorAggregate, \C
      * @param mixed $offset
      * @return bool
      */
-    public function offsetExists($offset): bool
+    public function offsetExists(mixed $offset): bool
     {
         return isset($this->container[$offset]);
     }
@@ -47,7 +50,7 @@ abstract class GenericCollection implements \ArrayAccess, \IteratorAggregate, \C
     /**
      * @param mixed $offset
      */
-    public function offsetUnset($offset)
+    public function offsetUnset(mixed $offset): void
     {
         unset($this->container[$offset]);
     }
@@ -56,7 +59,7 @@ abstract class GenericCollection implements \ArrayAccess, \IteratorAggregate, \C
      * @param mixed $offset
      * @return mixed|null
      */
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): mixed
     {
         return array_key_exists($offset, $this->container)? $this->container[$offset] : null;
     }
@@ -65,7 +68,7 @@ abstract class GenericCollection implements \ArrayAccess, \IteratorAggregate, \C
      * @param mixed $offset
      * @param mixed $value
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         if(!is_a($value, $this->type)){
             throw new \UnexpectedValueException(sprintf('%s expected instead of %s.', $this->type, get_class($value)));
@@ -74,17 +77,18 @@ abstract class GenericCollection implements \ArrayAccess, \IteratorAggregate, \C
     }
 
     /**
-     * @return \ArrayIterator
+     * @return ArrayIterator
      */
-    public function getIterator()
+    public function getIterator(): ArrayIterator
     {
-        return new \ArrayIterator($this->container);
+        return new ArrayIterator($this->container);
     }
 
     /**
      * @param $value
      */
-    public function append($value){
+    public function append($value): void
+    {
         if(!is_a($value, $this->type)){
             throw new \UnexpectedValueException(sprintf('%s expected instead of %s.', $this->type, get_class($value)));
         }
@@ -94,7 +98,8 @@ abstract class GenericCollection implements \ArrayAccess, \IteratorAggregate, \C
     /**
      * @param $value
      */
-    public function remove($value){
+    public function remove($value): void
+    {
         if(!is_a($value, $this->type)){
             throw new \UnexpectedValueException(sprintf('%s expected instead of %s.', $this->type, get_class($value)));
         }
@@ -107,14 +112,16 @@ abstract class GenericCollection implements \ArrayAccess, \IteratorAggregate, \C
     /**
      * @return int
      */
-    public function count(){
+    public function count(): int
+    {
         return count($this->container);
     }
 
     /**
      * @return array
      */
-    public function toArray(){
+    public function toArray(): array
+    {
         return $this->container;
     }
 }

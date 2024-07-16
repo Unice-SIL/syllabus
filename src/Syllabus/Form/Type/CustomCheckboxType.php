@@ -10,7 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CustomCheckboxType extends AbstractType
 {
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'label' => 'Custom checkbox',
@@ -24,7 +24,7 @@ class CustomCheckboxType extends AbstractType
         ]);
     }
 
-    public function getParent()
+    public function getParent(): string
     {
         return CheckboxType::class;
     }

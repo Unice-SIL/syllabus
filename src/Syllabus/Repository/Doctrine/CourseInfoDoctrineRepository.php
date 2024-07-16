@@ -73,7 +73,6 @@ class CourseInfoDoctrineRepository  extends ServiceEntityRepository
 
     /**
      * @param $value
-     * @param Year $year
      * @return array
      */
     public function findByTitleOrCodeForCurrentYear($value): array

@@ -10,14 +10,14 @@ use Doctrine\ORM\EntityManagerInterface;
 class CourseSectionManager
 {
     /**
-     * @var \Doctrine\Persistence\ObjectRepository
+     * @var EntityManagerInterface
      */
-    private $em;
+    private EntityManagerInterface $em;
 
     /**
      * @var CourseSectionDoctrineRepository
      */
-    private $repository;
+    private CourseSectionDoctrineRepository $repository;
 
     /**
      * CourseSectionManager constructor.
@@ -33,7 +33,7 @@ class CourseSectionManager
     /**
      * @return CourseSection
      */
-    public function new()
+    public function new(): CourseSection
     {
         return new CourseSection();
     }
@@ -50,7 +50,7 @@ class CourseSectionManager
     /**
      * @return array
      */
-    public function findAll()
+    public function findAll(): array
     {
         return $this->repository->findAll();
     }
@@ -58,7 +58,7 @@ class CourseSectionManager
     /**
      * @param CourseSection $courseSection
      */
-    public function create(CourseSection $courseSection)
+    public function create(CourseSection $courseSection): void
     {
         $this->em->persist($courseSection);
         $this->em->flush();
@@ -67,7 +67,7 @@ class CourseSectionManager
     /**
      * @param CourseSection $courseSection
      */
-    public function update(CourseSection $courseSection)
+    public function update(CourseSection $courseSection): void
     {
         $this->em->flush();
     }
@@ -75,7 +75,7 @@ class CourseSectionManager
     /**
      * @param CourseSection $courseSection
      */
-    public function delete(CourseSection $courseSection)
+    public function delete(CourseSection $courseSection): void
     {
         $this->em->remove($courseSection);
         $this->em->flush();

@@ -219,7 +219,7 @@ class LearningAchievement
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      */
-    private $id;
+    private string $id;
 
     /**
      * @var string
@@ -227,23 +227,23 @@ class LearningAchievement
      * @ORM\Column(name="description", type="string", length=255, nullable=false)
      * @Gedmo\Translatable
      */
-    private $description;
+    private string $description;
 
     /**
      * @var int
      *
      * @ORM\Column(name="score", type="integer")
      */
-    private $score = 0;
+    private int $score = 0;
 
     /**
      * @ManyToOne(targetEntity="CourseCriticalAchievement", inversedBy="learningAchievements")
      * @JoinColumn(name="course_critical_achievement_learning_achievement", referencedColumnName="id")
      */
-    private $courseCriticalAchievement;
+    private mixed $courseCriticalAchievement;
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getId(): ?string
     {
@@ -261,7 +261,7 @@ class LearningAchievement
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getDescription(): ?string
     {
@@ -281,7 +281,7 @@ class LearningAchievement
     /**
      * @return mixed
      */
-    public function getCourseCriticalAchievement()
+    public function getCourseCriticalAchievement(): mixed
     {
         return $this->courseCriticalAchievement;
     }
@@ -297,7 +297,7 @@ class LearningAchievement
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getScore(): ?int
     {

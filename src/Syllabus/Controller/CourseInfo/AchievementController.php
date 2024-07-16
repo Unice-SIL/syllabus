@@ -18,6 +18,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 /**
  * Class AchievementController
@@ -31,12 +34,16 @@ class AchievementController extends AbstractController
     /**
      * @Route("/edit", name="edit"))
      *
+     * @param Environment $twig
      * @param CourseAchievement $achievement
      * @param Request $request
      * @param CourseAchievementManager $courseAchievementManager
      * @return JsonResponse
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function editAchievementAction(Environment $twig, CourseAchievement $achievement, Request $request, CourseAchievementManager $courseAchievementManager)
+    public function editAchievementAction(Environment $twig, CourseAchievement $achievement, Request $request, CourseAchievementManager $courseAchievementManager): JsonResponse
     {
         $form = $this->createForm(CourseAchievementType::class, $achievement);
         $form->handleRequest($request);
@@ -69,7 +76,7 @@ class AchievementController extends AbstractController
      * @throws Exception
      */
     public function deleteAchievementAction(Environment $twig, CourseAchievement $achievement, Request $request,
-                                            CourseAchievementManager $courseAchievementManager)
+                                            CourseAchievementManager $courseAchievementManager): JsonResponse
     {
         $form = $this->createForm(RemoveCourseAchievementType::class, $achievement);
         $form->handleRequest($request);

@@ -17,17 +17,17 @@ abstract class AbstractConfiguration
     /**
      * @var TransformerInterface
      */
-    protected $transformer;
+    protected TransformerInterface $transformer;
 
     /**
      * @var MatchingInterface
      */
-    protected $matching;
+    protected MatchingInterface $matching;
 
     /**
      * @var ExtractorInterface
      */
-    protected $extractor;
+    protected ExtractorInterface $extractor;
 
     /**
      * @return ExtractorInterface

@@ -15,14 +15,14 @@ use Doctrine\Persistence\ObjectRepository;
 class ActivityManager
 {
     /**
-     * @var ObjectRepository
+     * @var EntityManagerInterface
      */
-    private $em;
+    private EntityManagerInterface $em;
 
     /**
      * @var ActivityDoctrineRepository
      */
-    private $repository;
+    private ActivityDoctrineRepository $repository;
 
     /**
      * ActivityManager constructor.
@@ -38,7 +38,7 @@ class ActivityManager
     /**
      * @return Activity
      */
-    public function new()
+    public function new(): Activity
     {
         return new Activity();
     }
@@ -55,7 +55,7 @@ class ActivityManager
     /**
      * @return array
      */
-    public function findAll()
+    public function findAll(): array
     {
         return $this->repository->findAll();
     }
@@ -63,7 +63,7 @@ class ActivityManager
     /**
      * @return array
      */
-    public function findAllNotObsolete()
+    public function findAllNotObsolete(): array
     {
         return $this->repository->getIndexQueryBuilder()->andWhere('a.obsolete = 0')->getQuery()->getResult();
     }
@@ -71,7 +71,7 @@ class ActivityManager
     /**
      * @param Activity $activity
      */
-    public function create(Activity $activity)
+    public function create(Activity $activity): void
     {
         $this->em->persist($activity);
         $this->em->flush();
@@ -80,7 +80,7 @@ class ActivityManager
     /**
      * @param Activity $activity
      */
-    public function update(Activity $activity)
+    public function update(Activity $activity): void
     {
         $this->em->flush();
     }
@@ -88,7 +88,7 @@ class ActivityManager
     /**
      * @param Activity $activity
      */
-    public function delete(Activity $activity)
+    public function delete(Activity $activity): void
     {
         $this->em->remove($activity);
         $this->em->flush();

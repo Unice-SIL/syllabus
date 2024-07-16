@@ -27,15 +27,15 @@ class CoursePresentationImageUploadListener
     /**
      * @var FileUploaderHelper
      */
-    private $fileUploaderHelper;
+    private FileUploaderHelper $fileUploaderHelper;
     /**
      * @var FileRemoverHelper
      */
-    private $fileRemoverHelper;
+    private FileRemoverHelper $fileRemoverHelper;
     /**
      * @var PropertyAccessor
      */
-    private $propertyAccessor;
+    private PropertyAccessor $propertyAccessor;
 
     /**
      * CoursePresentationImageUploadListener constructor.
@@ -55,7 +55,7 @@ class CoursePresentationImageUploadListener
     /**
      * @param LifecycleEventArgs $args
      */
-    public function prePersist(LifecycleEventArgs $args)
+    public function prePersist(LifecycleEventArgs $args): void
     {
         $entity = $args->getEntity();
         $this->uploadFile($entity);
@@ -64,7 +64,7 @@ class CoursePresentationImageUploadListener
     /**
      * @param PreUpdateEventArgs $args
      */
-    public function preUpdate(PreUpdateEventArgs $args)
+    public function preUpdate(PreUpdateEventArgs $args): void
     {
         $entity = $args->getEntity();
         $this->uploadFile($entity);
@@ -73,7 +73,7 @@ class CoursePresentationImageUploadListener
     /**
      * @param LifecycleEventArgs $args
      */
-    public function postUpdate(LifecycleEventArgs $args)
+    public function postUpdate(LifecycleEventArgs $args): void
     {
         $entity = $args->getEntity();
 
@@ -94,7 +94,7 @@ class CoursePresentationImageUploadListener
     /**
      * @param LifecycleEventArgs $args
      */
-    public function postLoad(LifecycleEventArgs $args)
+    public function postLoad(LifecycleEventArgs $args): void
     {
         $entity = $args->getEntity();
         if ($entity instanceof CourseInfo || $entity instanceof ActivityType) {
@@ -105,7 +105,7 @@ class CoursePresentationImageUploadListener
     /**
      * @param $entity
      */
-    public function getFile($entity)
+    public function getFile($entity): void
     {
         $property = $this->getProperty($entity);
         if ($property === null) return;
@@ -121,7 +121,7 @@ class CoursePresentationImageUploadListener
     /**
      * @param $entity
      */
-    private function uploadFile($entity)
+    private function uploadFile($entity): void
     {
         $property = $this->getProperty($entity);
         if ($property === null)  return;

@@ -18,15 +18,17 @@ class StructureApogeeConfiguration implements ConfigurationInterface
     /**
      * @var ArrayTransformer
      */
-    private $arrayTransformer;
+    private ArrayTransformer $arrayTransformer;
+
     /**
      * @var StructureApogeeMatching
      */
-    private $structureApogeeMatching;
+    private StructureApogeeMatching $structureApogeeMatching;
+
     /**
      * @var StructureApogeeExtractor
      */
-    private $structureApogeeExtractor;
+    private StructureApogeeExtractor $structureApogeeExtractor;
 
     /**
      * UserCsvConfiguration constructor.

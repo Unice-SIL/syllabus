@@ -13,7 +13,7 @@ class ErrorManager
     /**
      * @var ValidatorInterface
      */
-    private $validator;
+    private ValidatorInterface $validator;
 
 
     /**
@@ -25,7 +25,7 @@ class ErrorManager
         $this->validator = $validator;
     }
 
-    public function throwExceptionIfError($value, $constraints = null, $groups = null)
+    public function throwExceptionIfError($value, $constraints = null, $groups = null): void
     {
 
         $violations = $this->validator->validate($value, $constraints, $groups);

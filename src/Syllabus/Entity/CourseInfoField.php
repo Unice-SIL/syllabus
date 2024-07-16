@@ -40,14 +40,14 @@ class CourseInfoField
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
-     * @var string
+     * @var ?string
      *
      * @ORM\Column(name="field", type="string", length=150, nullable=false, unique=true)
      */
-    private $field;
+    private ?string $field;
 
     /**
      * @var string
@@ -55,32 +55,32 @@ class CourseInfoField
      * @ORM\Column(name="label", type="string", length=150, nullable=false, unique=true)
      * @Gedmo\Translatable
      */
-    private $label;
+    private string $label;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="manually_duplication", type="boolean", nullable=false, options={"default" : 0})
      */
-    private $manuallyDuplication = 0;
+    private bool $manuallyDuplication = false;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="automatic_duplication", type="boolean", nullable=false, options={"default" : 0})
      */
-    private $automaticDuplication = 0;
+    private bool $automaticDuplication = false;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="import", type="boolean", nullable=false, options={"default" : 0})
      */
-    private $import = 0;
+    private bool $import = false;
 
     /**
      * CourseInfoField constructor.
-     * @param string $field
+     * @param string|null $field
      */
     public function __construct(?string $field)
     {
@@ -97,9 +97,9 @@ class CourseInfoField
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getField()
+    public function getField(): ?string
     {
         return $this->field;
     }
@@ -107,7 +107,7 @@ class CourseInfoField
     /**
      * @param string $field
      */
-    public function setField($field)
+    public function setField(string $field): void
     {
         $this->field = $field;
     }
@@ -115,7 +115,7 @@ class CourseInfoField
     /**
      * @return string
      */
-    public function getLabel()
+    public function getLabel(): string
     {
         return $this->label;
     }
@@ -161,7 +161,7 @@ class CourseInfoField
      * @param bool $automaticDuplication
      * @return CourseInfoField
      */
-    public function setAutomaticDuplication($automaticDuplication): self
+    public function setAutomaticDuplication(bool $automaticDuplication): self
     {
         $this->automaticDuplication = $automaticDuplication;
 
@@ -171,7 +171,7 @@ class CourseInfoField
     /**
      * @return bool
      */
-    public function isImport()
+    public function isImport(): bool
     {
         return $this->import;
     }
@@ -179,7 +179,7 @@ class CourseInfoField
     /**
      * @param bool $import
      */
-    public function setImport($import)
+    public function setImport(bool $import): void
     {
         $this->import = $import;
     }

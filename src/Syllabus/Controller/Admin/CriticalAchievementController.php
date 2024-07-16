@@ -44,7 +44,7 @@ class CriticalAchievementController extends AbstractController
         CriticalAchievementDoctrineRepository $repository,
         PaginatorInterface $paginator,
         FilterBuilderUpdaterInterface $filterBuilderUpdater
-    )
+    ): Response
     {
         $qb =  $repository->getIndexQueryBuilder();
 
@@ -78,7 +78,7 @@ class CriticalAchievementController extends AbstractController
      * @param TranslatorInterface $translator
      * @return Response
      */
-    public function newAction(Request $request, CriticalAchievementManager $criticalAchievementManager, TranslatorInterface $translator)
+    public function newAction(Request $request, CriticalAchievementManager $criticalAchievementManager, TranslatorInterface $translator): Response
     {
         $criticalAchievement = $criticalAchievementManager->new();
         $form = $this->createForm(CriticalAchievementType::class, $criticalAchievement);
@@ -105,7 +105,7 @@ class CriticalAchievementController extends AbstractController
      * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, CriticalAchievement $criticalAchievement, CriticalAchievementManager $criticalAchievementManager, TranslatorInterface $translator)
+    public function editAction(Request $request, CriticalAchievement $criticalAchievement, CriticalAchievementManager $criticalAchievementManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $form = $this->createForm(CriticalAchievementType::class, $criticalAchievement);
         $form->handleRequest($request);
@@ -131,7 +131,7 @@ class CriticalAchievementController extends AbstractController
      * @return JsonResponse
      */
     public function autocompleteByCourse(CourseInfo $courseInfo, CriticalAchievementDoctrineRepository $criticalAchievementDoctrineRepository,
-                                          Request $request)
+                                          Request $request): JsonResponse
     {
         $query = $request->query->all('q', '');
 

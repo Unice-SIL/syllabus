@@ -6,9 +6,7 @@ namespace App\Syllabus\Manager;
 
 use App\Syllabus\Entity\Period;
 use App\Syllabus\Repository\Doctrine\PeriodDoctrineRepository;
-use App\Syllabus\Repository\PeriodRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Persistence\ObjectRepository;
 
 /**
  * Class PeriodManager
@@ -17,14 +15,14 @@ use Doctrine\Persistence\ObjectRepository;
 class PeriodManager
 {
     /**
-     * @var ObjectRepository
+     * @var EntityManagerInterface
      */
-    private $em;
+    private EntityManagerInterface $em;
 
     /**
      * @var PeriodDoctrineRepository
      */
-    private $repository;
+    private PeriodDoctrineRepository $repository;
 
     public function __construct(EntityManagerInterface $em, PeriodDoctrineRepository $repository)
     {
@@ -35,7 +33,7 @@ class PeriodManager
     /**
      * @return Period
      */
-    public function new()
+    public function new(): Period
     {
         return new Period();
     }

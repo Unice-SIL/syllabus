@@ -18,23 +18,15 @@ class CourseApogeeMatching extends AbstractMatching implements MatchingInterface
      * @var CourseManager
      */
     private $courseManager;
-    /**
-     * @var ImportManager
-     */
-    private $importManager;
 
     /**
-     *  CourseApogeeParser constructor.
      * @param CourseManager $courseManager
-     * @param ImportManager $importManager
      */
     public function __construct(
-        CourseManager $courseManager,
-        ImportManager $importManager
+        CourseManager $courseManager
     )
     {
         $this->courseManager = $courseManager;
-        $this->importManager = $importManager;
     }
 
     /**

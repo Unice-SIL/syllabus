@@ -14,7 +14,7 @@ class CourseInfoFieldType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('manuallyDuplication', CustomCheckboxType::class, [
@@ -30,7 +30,7 @@ class CourseInfoFieldType extends AbstractType
     }/**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(array(
             'data_class' => CourseInfoField::class
@@ -40,7 +40,7 @@ class CourseInfoFieldType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'appbundle_course_info_field';
     }

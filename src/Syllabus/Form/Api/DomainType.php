@@ -10,16 +10,12 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class DomainType extends ApiAbstractType
 {
-    protected function buildApiForm(FormBuilderInterface $builder, array $options)
+    protected function buildApiForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('id')
             ->add('label')
-            ->add('obsolete')
-            /*->add('structures', ApiCollectionType::class, [
-                'entry_type'=> Course::class
-            ])*/
-        ;
+            ->add('obsolete');
     }
 
 }

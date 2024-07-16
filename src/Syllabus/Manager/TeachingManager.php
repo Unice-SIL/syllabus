@@ -16,14 +16,14 @@ use Doctrine\Persistence\ObjectRepository;
 class TeachingManager
 {
     /**
-     * @var ObjectRepository
+     * @var EntityManagerInterface
      */
-    private $em;
+    private EntityManagerInterface $em;
 
     /**
      * @var TeachingDoctrineRepository
      */
-    private $repository;
+    private TeachingDoctrineRepository $repository;
 
     /**
      * TeachingManager constructor.
@@ -59,7 +59,7 @@ class TeachingManager
     /**
      * @return array
      */
-    public function findAll()
+    public function findAll(): array
     {
         return $this->repository->findAll();
     }
@@ -67,7 +67,7 @@ class TeachingManager
     /**
      * @param Teaching $teaching
      */
-    public function create(Teaching $teaching)
+    public function create(Teaching $teaching): void
     {
         $this->em->persist($teaching);
         $this->em->flush();
@@ -76,7 +76,7 @@ class TeachingManager
     /**
      * @param Teaching $teaching
      */
-    public function update(Teaching $teaching)
+    public function update(Teaching $teaching): void
     {
         $this->em->flush();
     }
@@ -84,7 +84,7 @@ class TeachingManager
     /**
      * @param Teaching $teaching
      */
-    public function delete(Teaching $teaching)
+    public function delete(Teaching $teaching): void
     {
         $this->em->remove($teaching);
         $this->em->flush();

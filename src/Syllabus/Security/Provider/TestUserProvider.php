@@ -5,6 +5,7 @@ namespace App\Syllabus\Security\Provider;
 use App\Syllabus\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -18,12 +19,12 @@ class TestUserProvider implements UserProviderInterface
     /**
      * @var array
      */
-    private $config;
+    private array $config;
 
     /**
-     * @var EntityManager
+     * @var ObjectManager
      */
-    private $em;
+    private ObjectManager $em;
 
     /**
      * TestUserProvider constructor.
@@ -45,7 +46,7 @@ class TestUserProvider implements UserProviderInterface
      * @return User
      * @throws UserNotFoundException
      */
-    public function loadUserByUsername($username) : UserInterface
+    public function loadUserByUsername(string $username) : UserInterface
     {
         if(!array_key_exists($username, $this->config['users'])){
             throw new UserNotFoundException(sprintf("User %s not found in users configured for test_authenticator.", $username));
@@ -78,18 +79,18 @@ class TestUserProvider implements UserProviderInterface
 
     /**
      * @param $username
-     * @return User|null
+     * @return User|UserInterface
      */
-    public function refresh($username)
+    public function refresh($username): UserInterface|User
     {
         return $this->loadUserByUsername($username);
     }
 
     /**
      * @param UserInterface $user
-     * @return UserInterface
+     * @return User|UserInterface
      */
-    public function refreshUser(UserInterface $user)
+    public function refreshUser(UserInterface $user): UserInterface|User
     {
         //return $user;
 
@@ -99,10 +100,10 @@ class TestUserProvider implements UserProviderInterface
     }
 
     /**
-     * @param string $class
+     * @param $class
      * @return bool
      */
-    public function supportsClass($class)
+    public function supportsClass($class): bool
     {
         return $class === User::class;
     }

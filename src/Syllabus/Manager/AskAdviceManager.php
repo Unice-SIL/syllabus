@@ -7,18 +7,19 @@ namespace App\Syllabus\Manager;
 use App\Syllabus\Entity\AskAdvice;
 use App\Syllabus\Repository\Doctrine\AskAdviceDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ObjectRepository;
 
 class AskAdviceManager
 {
     /**
-     * @var \Doctrine\Persistence\ObjectRepository
+     * @var EntityManagerInterface
      */
-    private $em;
+    private EntityManagerInterface $em;
 
     /**
      * @var AskAdviceDoctrineRepository
      */
-    private $repository;
+    private AskAdviceDoctrineRepository $repository;
 
     /**
      * ActivityManager constructor.
@@ -34,7 +35,7 @@ class AskAdviceManager
     /**
      * @return AskAdvice
      */
-    public function new()
+    public function new(): AskAdvice
     {
         return new AskAdvice();
     }
@@ -51,7 +52,7 @@ class AskAdviceManager
     /**
      * @return array
      */
-    public function findAll()
+    public function findAll(): array
     {
         return $this->repository->findAll();
     }
@@ -59,7 +60,7 @@ class AskAdviceManager
     /**
      * @param AskAdvice $advice
      */
-    public function create(AskAdvice $advice)
+    public function create(AskAdvice $advice): void
     {
         $this->em->persist($advice);
         $this->em->flush();
@@ -68,7 +69,7 @@ class AskAdviceManager
     /**
      * @param AskAdvice $advice
      */
-    public function update(AskAdvice $advice)
+    public function update(AskAdvice $advice): void
     {
         $this->em->flush();
     }
@@ -76,7 +77,7 @@ class AskAdviceManager
     /**
      * @param AskAdvice $advice
      */
-    public function delete(AskAdvice $advice)
+    public function delete(AskAdvice $advice): void
     {
         $this->em->remove($advice);
         $this->em->flush();

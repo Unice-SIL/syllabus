@@ -52,7 +52,7 @@ class CourseController extends AbstractController
         CourseDoctrineRepository $courseDoctrineRepository,
         FilterBuilderUpdaterInterface $filterBuilderUpdater,
         PaginatorInterface $paginator
-    )
+    ): Response
     {
         $qb = $courseDoctrineRepository->getIndexQueryBuilder();
         $form = $this->createForm(CourseFilterType::class, null);
@@ -82,7 +82,7 @@ class CourseController extends AbstractController
      * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function newAction(Request $request, CourseManager $courseManager, TranslatorInterface $translator)
+    public function newAction(Request $request, CourseManager $courseManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $course = $courseManager->new();
         $form = $this->createForm(CourseType::class, $course);
@@ -110,7 +110,7 @@ class CourseController extends AbstractController
      * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, Course $course, CourseManager $courseManager, TranslatorInterface $translator)
+    public function editAction(Request $request, Course $course, CourseManager $courseManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $form = $this->createForm(CourseType::class, $course);
         $form->handleRequest($request);
@@ -145,7 +145,7 @@ class CourseController extends AbstractController
         FilterBuilderUpdaterInterface $filterBuilderUpdater,
         FormFactoryInterface $formFactory,
         PaginatorInterface $paginator
-    )
+    ): Response
     {
 
 
@@ -261,7 +261,7 @@ class CourseController extends AbstractController
      * @param TranslatorInterface $translator
      * @return Response
      */
-    public function newCourseInfo(Course $course, Request $request, EntityManagerInterface $em, TranslatorInterface $translator)
+    public function newCourseInfo(Course $course, Request $request, EntityManagerInterface $em, TranslatorInterface $translator): Response
     {
         $courseInfo = new CourseInfo();
         $courseInfo->setCourse($course);
@@ -292,7 +292,7 @@ class CourseController extends AbstractController
      * @param $field
      * @return JsonResponse
      */
-    public function autocomplete(CourseDoctrineRepository $courseDoctrineRepository, Request $request, $field)
+    public function autocomplete(CourseDoctrineRepository $courseDoctrineRepository, Request $request, $field): JsonResponse
     {
         $query = $request->query->get('query');
 
@@ -319,7 +319,7 @@ class CourseController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
-    public function autocompleteS2(CourseDoctrineRepository $courseDoctrineRepository, Request $request)
+    public function autocompleteS2(CourseDoctrineRepository $courseDoctrineRepository, Request $request): JsonResponse
     {
         $parameters =  $request->query->all();
         $query = $parameters['q'];
@@ -344,7 +344,7 @@ class CourseController extends AbstractController
      * @param CourseManager $courseManager
      * @return JsonResponse
      */
-    public function autocompleteS3(CourseManager $courseManager)
+    public function autocompleteS3(CourseManager $courseManager): JsonResponse
     {
         $results = $courseManager->findAll();
         $courses = [];

@@ -7,6 +7,7 @@ namespace App\Syllabus\Controller;
 use App\Syllabus\Entity\Language;
 use App\Syllabus\Factory\ImportCourseTeacherFactory;
 use App\Syllabus\Manager\LanguageManager;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,9 +22,9 @@ class Select2Controller extends AbstractController
      * @param Request $request
      * @param ImportCourseTeacherFactory $factory
      * @return JsonResponse
-     * @throws \Exception
+     * @throws Exception
      */
-    public function listUsersFromExternalRepositoryAction(Request $request, ImportCourseTeacherFactory $factory)
+    public function listUsersFromExternalRepositoryAction(Request $request, ImportCourseTeacherFactory $factory): JsonResponse
     {
         $courseTeachersArray = [];
         $term = $request->query->get('q');
