@@ -12,13 +12,15 @@ use App\Syllabus\Import\ImportManager;
 use App\Syllabus\Manager\StructureManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(
+    name: 'app:import:apogee:structure',
+)]
 class ApogeeStructureImportCommand extends AbstractJob
 {
-    // the name of the command (the part after "bin/console")
-    protected static $defaultName = 'app:import:apogee:structure';
     /**
      * @var ImportManager
      */

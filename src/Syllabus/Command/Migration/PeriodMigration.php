@@ -8,16 +8,17 @@ use App\Syllabus\Entity\Period;
 use App\Syllabus\Entity\Structure;
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Translatable\Entity\Translation;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Class PeriodMigration
  * @package App\Syllabus\Command\Migration
  */
+#[AsCommand(
+    name: 'app:period-migration',
+)]
 class PeriodMigration extends AbstractReferentialMigration
 {
-
-    protected static $defaultName = 'app:period-migration';
-
     /**
      * @return string
      */

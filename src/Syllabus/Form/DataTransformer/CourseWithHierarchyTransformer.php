@@ -22,12 +22,16 @@ class CourseWithHierarchyTransformer implements DataTransformerInterface
         $this->em = $em;
     }
 
-    public function transform($value)
+    public function transform($value): mixed
     {
         return $value;
     }
 
-    public function reverseTransform($value)
+    /**
+     * @param $value
+     * @return Course|mixed|object|null
+     */
+    public function reverseTransform($value): mixed
     {
         /** @var Course $course */
         $course = $value;

@@ -15,24 +15,23 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\ResultSetMapping;
-use Ramsey\Uuid\Uuid;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * Class UnsActivitiesMigrationCommand
  * @package App\Syllabus\Command\DB
  */
+#[AsCommand(
+    name: 'app:uns-activities-migration',
+)]
 class UnsActivitiesMigrationCommand extends Command
 {
-    /**
-     * @var string
-     */
-    protected static $defaultName = 'app:uns-activities-migration';
-
     protected  static int $batchSize = 10;
 
     /**
@@ -750,7 +749,7 @@ class UnsActivitiesMigrationCommand extends Command
             if(!$sectionCt instanceof CourseSection)
             {
                 $sectionCt = new CourseSection();
-                $sectionCt->setId(Uuid::uuid4())
+                $sectionCt->setId(Uuid::v4())
                     ->setTitle('Évaluations terminales')
                     ->setPosition(10)
                     ->setCourseInfo($courseInfo);

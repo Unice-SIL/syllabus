@@ -3,19 +3,20 @@
 
 namespace App\Syllabus\Command\Import;
 
-
-
 use App\Syllabus\Command\Scheduler\AbstractJob;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(
+    name: 'app:import:test',
+)]
 class TestImportCommand extends AbstractJob
 {
-    protected static $defaultName = 'app:import:test';
-
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
+     * @return mixed
      */
     protected function subExecute(InputInterface $input, OutputInterface $output): mixed
     {

@@ -10,16 +10,17 @@ use App\Syllabus\Helper\Report\ReportingHelper;
 use App\Syllabus\Helper\Report\ReportLine;
 use App\Syllabus\Manager\CourseInfoManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 
+#[AsCommand(
+    name: 'app:duplicate:course-info:next-year',
+)]
 class DuplicateCourseInfoOnNextYearCommand extends AbstractJob
 {
-    // the name of the command (the part after "bin/console")
-    protected static $defaultName = 'app:duplicate:course_info:next_year';
-
     /**
      * @var CourseInfoManager
      */

@@ -5,16 +5,17 @@ namespace App\Syllabus\Command\Migration;
 
 
 use App\Syllabus\Entity\Level;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Class LevelMigration
  * @package App\Syllabus\Command\Migration
  */
+#[AsCommand(
+    name: 'app:level-migration',
+)]
 class LevelMigration extends AbstractReferentialMigration
 {
-
-    protected static $defaultName = 'app:level-migration';
-
     /**
      * @return string
      */

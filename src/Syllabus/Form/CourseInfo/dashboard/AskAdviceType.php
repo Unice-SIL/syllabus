@@ -13,7 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AskAdviceType extends AbstractType
 {
-    private $askAdviceTypeSubscriber;
+    private AskAdviceTypeSubscriber $askAdviceTypeSubscriber;
 
     public function __construct(AskAdviceTypeSubscriber $askAdviceTypeSubscriber)
     {
@@ -24,7 +24,7 @@ class AskAdviceType extends AbstractType
      * @param FormBuilderInterface $builder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('description', TextareaType::class, [
@@ -37,7 +37,7 @@ class AskAdviceType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(array(
             'data_class' => AskAdvice::class

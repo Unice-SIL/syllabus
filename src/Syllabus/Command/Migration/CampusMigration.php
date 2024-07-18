@@ -5,16 +5,17 @@ namespace App\Syllabus\Command\Migration;
 
 
 use App\Syllabus\Entity\Campus;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Class CampusMigration
  * @package App\Syllabus\Command\Migration
  */
+#[AsCommand(
+    name: 'app:campus-migration',
+)]
 class CampusMigration extends AbstractReferentialMigration
 {
-
-    protected static $defaultName = 'app:campus-migration';
-
     /**
      * @return string
      */

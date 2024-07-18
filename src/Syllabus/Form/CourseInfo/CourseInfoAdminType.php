@@ -10,6 +10,7 @@ use App\Syllabus\Entity\Year;
 use App\Syllabus\Form\Type\CourseWithHierarchyType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 
@@ -20,9 +21,9 @@ use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 class CourseInfoAdminType extends AbstractType
 {
     /**
-     * @var null|\Symfony\Component\HttpFoundation\Request
+     * @var null|Request
      */
-    private $request;
+    private ?Request $request;
 
     /**
      * CourseInfoAdminType constructor.
@@ -37,7 +38,7 @@ class CourseInfoAdminType extends AbstractType
      * @param FormBuilderInterface $builder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('title')

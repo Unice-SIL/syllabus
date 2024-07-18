@@ -32,7 +32,7 @@ class GeneralType extends AbstractType
     /**
      * @var null|Request
      */
-    private $request;
+    private ?Request $request;
 
     /**
      * GeneralType constructor.
@@ -47,7 +47,7 @@ class GeneralType extends AbstractType
      * @param FormBuilderInterface $builder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $media = $options['media'];
         if (!$media)
@@ -185,7 +185,7 @@ class GeneralType extends AbstractType
     /**
      * @param OptionsResolver $resolver
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'csrf_protection'   => false,

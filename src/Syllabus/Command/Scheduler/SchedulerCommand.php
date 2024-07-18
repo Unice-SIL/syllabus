@@ -7,13 +7,16 @@ namespace App\Syllabus\Command\Scheduler;
 use App\Syllabus\Entity\Job;
 use Doctrine\ORM\EntityManagerInterface;
 use GO\Scheduler;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(
+    name: 'app:scheduler',
+)]
 class SchedulerCommand extends Command
 {
-    protected static $defaultName = 'app:scheduler';
     /**
      * @var EntityManagerInterface
      */

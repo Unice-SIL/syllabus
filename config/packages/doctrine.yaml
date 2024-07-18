@@ -31,3 +31,6 @@ doctrine:
             dir: "%kernel.project_dir%/vendor/gedmo/doctrine-extensions/src/Translatable/Entity"
             alias: GedmoTranslatable
           DmishhSettingsBundle: ~
+    controller_resolver:
+      auto_mapping: true
+    enable_lazy_ghost_objects: true

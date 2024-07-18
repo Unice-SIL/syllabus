@@ -7,17 +7,18 @@ namespace App\Syllabus\Command\Migration;
 use App\Syllabus\Entity\CourseInfo;
 use App\Syllabus\Entity\Language;
 use Gedmo\Translatable\Entity\Translation;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * Class LanguageMigration
  * @package App\Syllabus\Command\Migration
  */
+#[AsCommand(
+    name: 'app:language-migration',
+)]
 class LanguageMigration extends AbstractReferentialMigration
 {
-
-    protected static $defaultName = 'app:language-migration';
-
     /**
      * @return string
      */

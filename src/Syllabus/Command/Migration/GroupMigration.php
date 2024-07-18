@@ -7,16 +7,17 @@ namespace App\Syllabus\Command\Migration;
 use App\Syllabus\Constant\UserRole;
 use App\Syllabus\Entity\Groups;
 use App\Syllabus\Entity\User;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Class GroupMigration
  * @package App\Syllabus\Command\Migration
  */
+#[AsCommand(
+    name: 'app:group-migration',
+)]
 class GroupMigration extends AbstractReferentialMigration
 {
-
-    protected static $defaultName = 'app:group-migration';
-
     /**
      * @return string
      */

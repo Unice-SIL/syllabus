@@ -7,6 +7,7 @@ use App\Syllabus\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -19,23 +20,15 @@ use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 class AddCourseInfoPermissionType extends AbstractType
 {
     /**
-     * @var null|\Symfony\Component\HttpFoundation\Request
+     * @var null|Request
      */
-    private $request;
+    private ?Request $request;
 
     /**
-     * @var UrlGeneratorInterface
-     */
-    private  $generator;
-
-    /**
-     * AddCourseInfoPermissionType constructor.
-     * @param UrlGeneratorInterface $generator
      * @param RequestStack $requestStack
      */
-    public function __construct(UrlGeneratorInterface $generator, RequestStack $requestStack)
+    public function __construct(RequestStack $requestStack)
     {
-        $this->generator = $generator;
         $this->request = $requestStack->getCurrentRequest();
     }
 
@@ -43,7 +36,7 @@ class AddCourseInfoPermissionType extends AbstractType
      * @param FormBuilderInterface $builder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('user', Select2EntityType::class, [
@@ -71,7 +64,7 @@ class AddCourseInfoPermissionType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(array(
             //Todo:  set some default parameters
@@ -81,7 +74,7 @@ class AddCourseInfoPermissionType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'appbundle_add_course_info_permission';
     }

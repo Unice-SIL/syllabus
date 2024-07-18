@@ -20,15 +20,16 @@ use App\Syllabus\Manager\CourseInfoManager;
 use App\Syllabus\Manager\CourseManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
 
-
+#[AsCommand(
+    name: 'app:import:apogee:course',
+)]
 class ApogeeCourseImportCommand extends AbstractJob
 {
-    protected static $defaultName = 'app:import:apogee:course';
-
     /**
      * @var Year[]
      */

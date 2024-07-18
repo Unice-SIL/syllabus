@@ -23,17 +23,17 @@ class TeachersType extends AbstractType
     /**
      * @var array
      */
-    private $teacherSources = [];
+    private array $teacherSources = [];
 
     /**
      * @var RequestStack
      */
-    protected $requestStack;
+    protected RequestStack $requestStack;
 
     /**
      * @var TranslatorInterface
      */
-    private $translator;
+    private TranslatorInterface $translator;
 
     /**
      * EditPresentationCourseInfoType constructor.
@@ -60,7 +60,7 @@ class TeachersType extends AbstractType
         }
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('teacherSource', ChoiceType::class, [
             'label' => 'app.presentation.form.teacher.source_data',
@@ -122,7 +122,7 @@ class TeachersType extends AbstractType
     /**
      * @param OptionsResolver $resolver
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => CourseTeacher::class,

@@ -9,16 +9,18 @@ use App\Syllabus\Entity\CourseInfo;
 use App\Syllabus\Entity\Teaching;
 use App\Syllabus\Manager\TeachingManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-
+#[AsCommand(
+    name: 'app:other-teaching-migration',
+)]
 class OtherTeachingMigrationCommand extends Command
 {
-    protected static $defaultName = 'app:other-teaching-migration';
     /**
      * @var EntityManagerInterface
      */

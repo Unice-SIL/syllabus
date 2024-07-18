@@ -19,14 +19,15 @@ use App\Syllabus\Manager\CoursePermissionManager;
 use App\Syllabus\Manager\UserManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(
+    name: 'syllabus:import:moodle:import',
+)]
 class MoodleCoursePermissionImportCommand extends AbstractJob
 {
-
-    protected static $defaultName = 'app:import:moodle:permission';
-
     private const LOOP_BREAK = 10;
 
     private $timeStart;

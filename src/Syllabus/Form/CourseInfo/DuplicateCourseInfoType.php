@@ -21,7 +21,7 @@ class DuplicateCourseInfoType extends AbstractType
     /**
      * @var null|Request
      */
-    private $request;
+    private ?Request $request;
 
 
     /**
@@ -37,7 +37,7 @@ class DuplicateCourseInfoType extends AbstractType
      * @param FormBuilderInterface $builder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('from', HiddenType::class, [
@@ -67,7 +67,7 @@ class DuplicateCourseInfoType extends AbstractType
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'csrf_protection'   => false,
@@ -78,7 +78,7 @@ class DuplicateCourseInfoType extends AbstractType
     /**
      * @return string|null
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): ?string
     {
         return 'appbundle_duplicate_course_info';
     }

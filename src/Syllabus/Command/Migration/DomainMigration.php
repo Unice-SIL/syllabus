@@ -7,16 +7,17 @@ namespace App\Syllabus\Command\Migration;
 use App\Syllabus\Entity\Domain;
 use App\Syllabus\Entity\Structure;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Class DomainMigration
  * @package App\Syllabus\Command\Migration
  */
+#[AsCommand(
+    name: 'app:domain-migration',
+)]
 class DomainMigration extends AbstractReferentialMigration
 {
-
-    protected static $defaultName = 'app:domain-migration';
-
     /**
      * @return string
      */

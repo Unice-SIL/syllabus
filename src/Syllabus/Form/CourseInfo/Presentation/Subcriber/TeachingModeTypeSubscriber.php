@@ -10,13 +10,13 @@ use Symfony\Component\Form\FormEvents;
 
 class TeachingModeTypeSubscriber implements EventSubscriberInterface
 {
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
 
         return [FormEvents::POST_SET_DATA => 'postSetData'];
     }
 
-    public function postSetData(FormEvent $event)
+    public function postSetData(FormEvent $event): void
     {
 /*
         $courseInfo = $event->getData();
