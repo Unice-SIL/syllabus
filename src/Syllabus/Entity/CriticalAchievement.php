@@ -446,7 +446,7 @@ class CriticalAchievement
     /**
      * @OneToMany(targetEntity="CourseCriticalAchievement", mappedBy="criticalAchievement")
      */
-    private ArrayCollection $courseCriticalAchievements;
+    private $courseCriticalAchievements;
 
     /**
      * @var Collection

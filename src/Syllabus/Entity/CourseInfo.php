@@ -935,10 +935,7 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getLevels(): ArrayCollection
+    public function getLevels()
     {
         return $this->levels;
     }
