@@ -1104,6 +1104,8 @@ admin:
   course_info_field:
     title: List of fields linked to the duplication of the Syllabus
     empty_field: No field has been registered
+    flashbag:
+      success: The fields have been saved
 
   form:
     obsolete: Obsolete

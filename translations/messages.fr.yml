@@ -1126,7 +1126,8 @@ admin:
   course_info_field:
     title: Liste des champs liés à la duplication des syllabus
     empty_field: Aucun champ n'a été enregistré
-
+    flashbag:
+      success: Les champs ont été enregistré
   form:
     obsolete: Obsolète
     label: Intitulé

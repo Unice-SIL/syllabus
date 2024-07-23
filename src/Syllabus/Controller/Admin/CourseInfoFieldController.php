@@ -3,6 +3,7 @@
 namespace App\Syllabus\Controller\Admin;
 
 use App\Syllabus\Entity\CourseInfoField;
+use App\Syllabus\Form\CourseInfoFieldDynamicType;
 use App\Syllabus\Form\CourseInfoFieldType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -10,6 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * CourseInfoField controller.
@@ -22,17 +24,25 @@ class CourseInfoFieldController extends AbstractController
      * Lists all CourseInfoField entities.
      * @Route("/", name="index")
      *
+     * @param Request $request
      * @param EntityManagerInterface $em
+     * @param TranslatorInterface $translator
      * @return Response
      */
-    public function indexAction(EntityManagerInterface $em): Response
+    public function indexAction(Request $request, EntityManagerInterface $em, TranslatorInterface $translator): Response
     {
+        $form = $this->createForm(CourseInfoFieldDynamicType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
+            //redirect + flashbag
+            $this->addFlash('success', $translator->trans('admin.course_info_field.flashbag.success'));
 
-        $form = $this->createForm(CourseInfoFieldType::class, null, ['method' => 'POST']);
+            return $this->redirectToRoute('app.admin.course_info_field.index');
 
+        }
         return $this->render('course_info_field/index.html.twig', array(
-            'courseInfoFields' => $em->getRepository(CourseInfoField::class)->findAll(),
-            'form' => $form
+            'formView' => $form->createView(),
         ));
     }
 
