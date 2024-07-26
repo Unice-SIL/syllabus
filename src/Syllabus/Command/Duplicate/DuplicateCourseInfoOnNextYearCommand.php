@@ -10,6 +10,7 @@ use App\Syllabus\Helper\Report\ReportingHelper;
 use App\Syllabus\Helper\Report\ReportLine;
 use App\Syllabus\Manager\CourseInfoManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
@@ -50,8 +51,8 @@ class DuplicateCourseInfoOnNextYearCommand extends AbstractJob
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
-     * @return mixed|void
-     * @throws \Exception
+     * @return void
+     * @throws Exception
      */
     protected function subExecute(InputInterface $input, OutputInterface $output)
     {
@@ -162,7 +163,7 @@ class DuplicateCourseInfoOnNextYearCommand extends AbstractJob
                         $report
                     );
 
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
 
                     $this->em->remove($nextCourseInfo);
                     $line = new ReportLine($code . '_' . $nextYearId);

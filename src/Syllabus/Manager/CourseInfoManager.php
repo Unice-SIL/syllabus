@@ -191,7 +191,7 @@ class CourseInfoManager extends AbstractManager
 
         $report->addLineIfHasComments($reportLine);
 
-        if ($report->hasMessages() or $report->hasLines()) {
+        if ($report->addLineIfHasComments($reportLine)) {
             return $report;
         }
         //===============================================End Error Management============================================
