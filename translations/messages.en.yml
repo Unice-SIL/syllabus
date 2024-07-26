@@ -660,6 +660,7 @@ app:
         language: Language
         belong_to: "Belong to %title%"
         belong_to_multi: "Belong to"
+        course_ects: "This course give %nb_ects% ECTS."
         teacher: Teacher
         teacher_manager: Teacher in charge
         teachers: Teaching team

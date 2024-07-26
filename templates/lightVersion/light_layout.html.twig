@@ -38,7 +38,13 @@
                     {% endif %}
                 {% else %}
                     <span>
-                        {{ 'app.view.student.presentation.belong_to_multi' | trans }} <a href="#" data-toggle="modal" data-target="#EcueListUeModalLight">{{ courseInfo.course.parents.count }} UE</a>
+                        {% if courseInfo.course.parents.count == 0 and courseInfo.ects != 0 %}
+                            <span>{{ 'app.view.student.presentation.course_ects' | trans({'%nb_ects%' : courseInfo.ects | number_format(1)}) }}</span>
+                        {% else %}
+                        {{ 'app.view.student.presentation.belong_to_multi' | trans }} <a href="#" data-toggle="modal" data-target="#EcueListUeModalLight">
+                                {{ courseInfo.course.parents.count }} UE
+                            </a>
+                        {% endif %}
                     </span>
                 {% endif %}
 
