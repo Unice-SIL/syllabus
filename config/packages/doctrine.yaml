@@ -19,13 +19,13 @@ doctrine:
         auto_mapping: true
         mappings:
           Syllabus:
-            type: annotation
+            type: attribute
             is_bundle: false
             prefix: 'App\Syllabus\Entity'
             dir: "%kernel.project_dir%/src/Syllabus/Entity"
             alias: Syllabus
           translatable:
-            type: annotation
+            type: attribute
             is_bundle: false
             prefix: Gedmo\Translatable\Entity
             dir: "%kernel.project_dir%/vendor/gedmo/doctrine-extensions/src/Translatable/Entity"

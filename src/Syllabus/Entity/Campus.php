@@ -16,6 +16,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups as Groups;
@@ -23,11 +24,6 @@ use Symfony\Component\Serializer\Annotation\Groups as Groups;
 /**
  * Class Campus
  * @package App\Syllabus\Entity
- * @ORM\Table(name="campus", uniqueConstraints={
- *     @ORM\UniqueConstraint(name="code_source_on_campus_UNIQUE", columns={"code", "source"}),
- * })
- * @UniqueEntity(fields={"code", "source"}, message="Le campus avec pour code établissement {{ value }} existe déjà pour cette source", errorPath="code")
- * @ORM\Entity(repositoryClass="App\Syllabus\Repository\Doctrine\CampusDoctrineRepository")
  * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\CampusTranslation")
  */
 #[
@@ -203,60 +199,50 @@ use Symfony\Component\Serializer\Annotation\Groups as Groups;
         filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
     )
 ]
+#[UniqueEntity(fields: ['code', 'source'], message: 'Le campus avec pour code établissement {{ value }} existe déjà pour cette source', errorPath: 'code')]
+#[ORM\Entity(repositoryClass: \App\Syllabus\Repository\Doctrine\CampusDoctrineRepository::class)]
+#[ORM\Table(name: 'campus')]
+#[ORM\UniqueConstraint(name: 'code_source_on_campus_UNIQUE', columns: ['code', 'source'])]
 class Campus
 {
 
     use Importable;
 
     /**
-     * @var null|string
-     *
-     * @ORM\Column(type="string", length=36, unique=true, options={"fixed"=true})
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      * @Groups({"campuses"})
      */
+    #[ORM\Column(type: 'string', length: 36, unique: true, options: ['fixed' => true])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?string $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="label", type="string", length=100, nullable=false)
-     * @Assert\NotBlank()
      * @Groups({"campuses"})
      */
+    #[ORM\Column(name: 'label', type: 'string', length: 100, nullable: false)]
+    #[Assert\NotBlank]
     private string $label;
 
     /**
-     * @var string|null
      *
-     * @ORM\Column(name="grp", type="string", length=100, nullable=true)
      * @Gedmo\Translatable
      * @Groups({"campuses"})
      */
+    #[ORM\Column(name: 'grp', type: 'string', length: 100, nullable: true)]
     private ?string $grp;
 
     /**
-     * @var bool
-     *
-     * @ORM\Column(name="obsolete", type="boolean", nullable=false)
      * @Groups({"campuses"})
      */
+    #[ORM\Column(name: 'obsolete', type: 'boolean', nullable: false)]
     private bool $obsolete = false;
 
-    /**
-     * @return null|string
-     */
     public function getId(): ?string
     {
         return $this->id;
     }
 
-    /**
-     * @param null|string $id
-     * @return Campus
-     */
     public function setId(?string $id):self
     {
         $this->id = $id;
@@ -264,18 +250,11 @@ class Campus
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getLabel(): ?string
     {
         return $this->label;
     }
 
-    /**
-     * @param null|string $label
-     * @return Campus
-     */
     public function setLabel(?string $label): self
     {
         $this->label = $label;
@@ -283,36 +262,22 @@ class Campus
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getGrp(): ?string
     {
         return $this->grp;
     }
 
-    /**
-     * @param string|null $grp
-     * @return Campus
-     */
     public function setGrp(?string $grp): self
     {
         $this->grp = $grp;
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isObsolete(): bool
     {
         return $this->obsolete;
     }
 
-    /**
-     * @param bool $obsolete
-     * @return Campus
-     */
     public function setObsolete(bool $obsolete): self
     {
         $this->obsolete = $obsolete;

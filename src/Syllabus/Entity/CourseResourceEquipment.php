@@ -13,13 +13,12 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiFilter;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * CourseResourceEquipment
  *
- * @ORM\Table(name="course_resource_equipment")
- * @ORM\Entity
  * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\CourseResourceEquipmentTranslation")
  */
 #[
@@ -183,67 +182,44 @@ use Symfony\Component\Validator\Constraints as Assert;
         filters: ['id.search_filter']
     )
 ]
+#[ORM\Entity]
+#[ORM\Table(name: 'course_resource_equipment')]
 
 class CourseResourceEquipment
 {
-    /**
-     * @var null|string
-     *
-     * @ORM\Column(type="string", length=36, unique=true, options={"fixed"=true})
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
-     */
+    
+    #[ORM\Column(type: 'string', length: 36, unique: true, options: ['fixed' => true])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?string $id;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="description", type="string", length=255, nullable=true)
      * @Gedmo\Translatable
      */
+    #[ORM\Column(name: 'description', type: 'string', length: 255, nullable: true)]
     private ?string $description;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="position", type="integer", nullable=false)
-     */
+    
+    #[ORM\Column(name: 'position', type: 'integer', nullable: false)]
     private int $position = 0;
 
-    /**
-     * @var CourseInfo
-     *
-     * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\CourseInfo", inversedBy="courseResourceEquipments")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
-     * })
-     */
+    
+    #[ORM\ManyToOne(targetEntity: CourseInfo::class, inversedBy: 'courseResourceEquipments')]
+    #[ORM\JoinColumn(name: 'course_info_id', referencedColumnName: 'id', nullable: false)]
     private CourseInfo $courseInfo;
 
-    /**
-     * @var Equipment
-     *
-     * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\Equipment")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="equipment_id", referencedColumnName="id", nullable=false)
-     * })
-     * @Assert\Blank(groups={"equipments_empty"})
-     */
+    
+    #[ORM\ManyToOne(targetEntity: Equipment::class)]
+    #[Assert\Blank(groups: ['equipments_empty'])]
+    #[ORM\JoinColumn(name: 'equipment_id', referencedColumnName: 'id', nullable: false)]
     private Equipment $equipment;
 
-    /**
-     * @return null|string
-     */
     public function getId(): ?string
     {
         return $this->id;
     }
 
-    /**
-     * @param null|string $id
-     * @return CourseResourceEquipment
-     */
     public function setId(?string $id): self
     {
         $this->id = $id;
@@ -251,18 +227,11 @@ class CourseResourceEquipment
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    /**
-     * @param string|null $description
-     * @return CourseResourceEquipment
-     */
     public function setDescription(?string $description): self
     {
         $this->description = $description;
@@ -278,10 +247,6 @@ class CourseResourceEquipment
         return $this->position;
     }
 
-    /**
-     * @param int $position
-     * @return CourseResourceEquipment
-     */
     public function setPosition(int $position): self
     {
         $this->position = $position;
@@ -290,18 +255,11 @@ class CourseResourceEquipment
     }
 
 
-    /**
-     * @return CourseInfo|null
-     */
     public function getCourseInfo(): ?CourseInfo
     {
         return $this->courseInfo;
     }
 
-    /**
-     * @param CourseInfo|null $courseInfo
-     * @return CourseResourceEquipment
-     */
     public function setCourseInfo(?CourseInfo $courseInfo): self
     {
         $this->courseInfo = $courseInfo;
@@ -309,26 +267,16 @@ class CourseResourceEquipment
         return $this;
     }
 
-    /**
-     * @return Equipment|null
-     */
     public function getEquipment(): ?Equipment
     {
         return $this->equipment;
     }
 
-    /**
-     * @return string|null
-     */
     public function getEquipmentApi(): ?string
     {
         return $this->getEquipment()->getId();
     }
 
-    /**
-     * @param Equipment $equipment
-     * @return CourseResourceEquipment
-     */
     public function setEquipment(Equipment $equipment): self
     {
         $this->equipment = $equipment;

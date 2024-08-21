@@ -12,13 +12,11 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiFilter;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Teaching
- *
- * @ORM\Table(name="teaching")
- * @ORM\Entity(repositoryClass="App\Syllabus\Repository\Doctrine\TeachingDoctrineRepository")
  */
 #[
     ApiResource(
@@ -181,50 +179,35 @@ use Symfony\Component\Validator\Constraints as Assert;
         filters: ['id.search_filter']
     )
 ]
+#[ORM\Entity(repositoryClass: \App\Syllabus\Repository\Doctrine\TeachingDoctrineRepository::class)]
+#[ORM\Table(name: 'teaching')]
 class Teaching
 {
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=36, unique=true, options={"fixed"=true})
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
-     */
+    
+    #[ORM\Column(type: 'string', length: 36, unique: true, options: ['fixed' => true])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private string $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="type", type="string", length=65)
-     * @Assert\NotNull()
-     */
+    
+    #[ORM\Column(name: 'type', type: 'string', length: 65)]
+    #[Assert\NotNull]
     private string $type;
 
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="hourlyVolume", type="float")
-     * @Assert\NotNull()
-     */
+    
+    #[ORM\Column(name: 'hourlyVolume', type: 'float')]
+    #[Assert\NotNull]
     private float $hourlyVolume;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="mode", type="string", length=15)
-     * @Assert\NotNull()
-     */
+    
+    #[ORM\Column(name: 'mode', type: 'string', length: 15)]
+    #[Assert\NotNull]
     private string $mode;
 
-    /**
-     * @var CourseInfo
-     *
-     * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\CourseInfo", inversedBy="teachings")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
-     * })
-     */
+    
+    #[ORM\ManyToOne(targetEntity: CourseInfo::class, inversedBy: 'teachings')]
+    #[ORM\JoinColumn(name: 'course_info_id', referencedColumnName: 'id', nullable: false)]
     private CourseInfo $courseInfo;
 
     /**
@@ -241,16 +224,12 @@ class Teaching
     }
 
 
-    /**
-     * @return int|string
-     */
     public function getId(): int|string
     {
         return $this->id;
     }
 
     /**
-     * @param string|null $id
      * @return $this
      */
     public function setId(?string $id): static
@@ -263,9 +242,7 @@ class Teaching
     /**
      * Set type.
      *
-     * @param string $type
      *
-     * @return Teaching
      */
     public function setType(string $type): static
     {
@@ -274,9 +251,6 @@ class Teaching
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getType(): ?string
     {
         return $this->type;
@@ -285,9 +259,7 @@ class Teaching
     /**
      * Set hourlyVolume.
      *
-     * @param float $hourlyVolume
      *
-     * @return Teaching
      */
     public function setHourlyVolume(float $hourlyVolume): static
     {
@@ -309,9 +281,7 @@ class Teaching
     /**
      * Set mode.
      *
-     * @param string $mode
      *
-     * @return Teaching
      */
     public function setMode(string $mode): static
     {
@@ -320,24 +290,17 @@ class Teaching
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getMode(): ?string
     {
         return $this->mode;
     }
 
-    /**
-     * @return CourseInfo|null
-     */
     public function getCourseInfo(): ?CourseInfo
     {
         return $this->courseInfo;
     }
 
     /**
-     * @param CourseInfo|null $courseInfo
      * @return $this
      */
     public function setCourseInfo(?CourseInfo $courseInfo): self

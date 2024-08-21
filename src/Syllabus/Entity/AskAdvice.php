@@ -13,12 +13,11 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiFilter;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 
 /**
  * AskAdvice
  *
- * @ORM\Table(name="ask_advice")
- * @ORM\Entity
  * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\AskAdviceTranslation")
  */
 #[
@@ -33,74 +32,54 @@ use Gedmo\Mapping\Annotation as Gedmo;
         security: 'is_granted(\'ROLE_API_ASK_ADVICE\')'
     )
 ]
+#[ORM\Entity]
+#[ORM\Table(name: 'ask_advice')]
 class AskAdvice
 {
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=36, unique=true, options={"fixed"=true})
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
-     */
+    
+    #[ORM\Column(type: 'string', length: 36, unique: true, options: ['fixed' => true])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private string $id;
 
     /**
-     * @ORM\Column(name="description", type="text", options={"fixed"=true})
      * @Gedmo\Translatable
      */
+    #[ORM\Column(name: 'description', type: 'text', options: ['fixed' => true])]
     private mixed $description;
 
     /**
-     * @ORM\Column(name="comment", type="text", options={"fixed"=true})
      * @Gedmo\Translatable
      */
+    #[ORM\Column(name: 'comment', type: 'text', options: ['fixed' => true])]
     private mixed $comment;
 
-    /**
-     * @var User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     */
+    
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
     private User $user;
 
-    /**
-     * @var CourseInfo
-     *
-     * @ORM\ManyToOne(targetEntity="CourseInfo")
-     * @ORM\JoinColumn(name="course_info_id", referencedColumnName="id")
-     */
+    
+    #[ORM\ManyToOne(targetEntity: CourseInfo::class)]
+    #[ORM\JoinColumn(name: 'course_info_id', referencedColumnName: 'id')]
     private CourseInfo $courseInfo;
 
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="process", type="boolean", options={"fixed"=true})
-     */
+    
+    #[ORM\Column(name: 'process', type: 'boolean', options: ['fixed' => true])]
     private bool $process = false;
 
-    /**
-     * @return string|null
-     */
     public function getId(): ?string
     {
         return $this->id;
     }
 
-    /**
-     * @param string $id
-     * @return AskAdvice
-     */
     public function setId(string $id): self
     {
         $this->id = $id;
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getDescription(): mixed
     {
         return $this->description;
@@ -108,7 +87,6 @@ class AskAdvice
 
     /**
      * @param $description
-     * @return AskAdvice
      */
     public function setDescription($description): self
     {
@@ -116,34 +94,23 @@ class AskAdvice
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getComment(): mixed
     {
         return $this->comment;
     }
 
-    /**
-     * @param mixed $comment
-     * @return AskAdvice
-     */
     public function setComment(mixed $comment): static
     {
         $this->comment = $comment;
         return $this;
     }
 
-    /**
-     * @return User
-     */
     public function getUser(): User
     {
         return $this->user;
     }
 
     /**
-     * @param User $user
      * @return $this
      */
     public function setUser(User $user): self
@@ -152,36 +119,22 @@ class AskAdvice
         return $this;
     }
 
-    /**
-     * @return CourseInfo
-     */
     public function getCourseInfo(): CourseInfo
     {
         return $this->courseInfo;
     }
 
-    /**
-     * @param CourseInfo $courseInfo
-     * @return AskAdvice
-     */
     public function setCourseInfo(CourseInfo $courseInfo): self
     {
         $this->courseInfo = $courseInfo;
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isProcess(): bool
     {
         return $this->process;
     }
 
-    /**
-     * @param bool $process
-     * @return AskAdvice
-     */
     public function setProcess(bool $process): self
     {
         $this->process = $process;

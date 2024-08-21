@@ -13,12 +13,11 @@ use ApiPlatform\Metadata\ApiFilter;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 
 /**
  * Notification
  *
- * @ORM\Table(name="notification")
- * @ORM\Entity
  * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\NotificationTranslation")
  */
 #[
@@ -34,33 +33,28 @@ use Gedmo\Mapping\Annotation as Gedmo;
         security: 'is_granted(\'ROLE_API_NOTIFICATION\')'
     )
 ]
+#[ORM\Entity]
+#[ORM\Table(name: 'notification')]
 class Notification
 {
     use TimestampableEntity;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(type="string", unique=true)
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
-     */
+    
+    #[ORM\Column(type: 'string', unique: true)]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private int $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="message", type="text")
      * @Gedmo\Translatable
      */
+    #[ORM\Column(name: 'message', type: 'text')]
     private string $message;
 
 
     /**
      * Get id.
-     *
-     * @return int
      */
     public function getId(): int
     {
@@ -70,9 +64,7 @@ class Notification
     /**
      * Set message.
      *
-     * @param string $message
      *
-     * @return Notification
      */
     public function setMessage(string $message): static
     {
@@ -83,8 +75,6 @@ class Notification
 
     /**
      * Get message.
-     *
-     * @return string
      */
     public function getMessage(): string
     {

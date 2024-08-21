@@ -18,14 +18,13 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\OneToMany;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
  * Class CriticalAchievement
  * @package App\Syllabus\Entity
- * @ORM\Table(name="critical_achievement")
- * @ORM\Entity(repositoryClass="App\Syllabus\Repository\Doctrine\CriticalAchievementDoctrineRepository")
  * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\CriticalAchievementTranslation")
  */
 #[
@@ -413,45 +412,34 @@ use Symfony\Component\Validator\Constraints as Assert;
         filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
     )
 ]
+#[ORM\Entity(repositoryClass: \App\Syllabus\Repository\Doctrine\CriticalAchievementDoctrineRepository::class)]
+#[ORM\Table(name: 'critical_achievement')]
 class CriticalAchievement
 {
     use Importable;
 
-    /**
-     * @var null|string
-     *
-     * @ORM\Column(type="string", length=36, unique=true, options={"fixed"=true})
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
-     */
+    
+    #[ORM\Column(type: 'string', length: 36, unique: true, options: ['fixed' => true])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?string $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="label", type="string", length=100, nullable=false)
-     * @Assert\NotBlank()
      * @Gedmo\Translatable
      */
+    #[ORM\Column(name: 'label', type: 'string', length: 100, nullable: false)]
+    #[Assert\NotBlank]
     private string $label;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="obsolete", type="boolean", nullable=false)
-     */
+    
+    #[ORM\Column(name: 'obsolete', type: 'boolean', nullable: false)]
     private bool $obsolete = false;
 
-    /**
-     * @OneToMany(targetEntity="CourseCriticalAchievement", mappedBy="criticalAchievement")
-     */
+    #[OneToMany(mappedBy: 'criticalAchievement', targetEntity: CourseCriticalAchievement::class)]
     private $courseCriticalAchievements;
 
-    /**
-     * @var Collection
-     * @ORM\ManyToMany(targetEntity="Course", mappedBy="criticalAchievements")
-     */
+    #[ORM\ManyToMany(targetEntity: Course::class, mappedBy: 'criticalAchievements')]
     private Collection $courses;
 
 
@@ -471,26 +459,18 @@ class CriticalAchievement
         return $this->id;
     }
 
-    /**
-     * @param string $id
-     * @return CriticalAchievement
-     */
     public function setId(string $id): self
     {
         $this->id = $id;
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getLabel(): ?string
     {
         return $this->label;
     }
 
     /**
-     * @param string|null $label
      * @return $this
      */
     public function setLabel(?string $label): self
@@ -499,28 +479,17 @@ class CriticalAchievement
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isObsolete(): bool
     {
         return $this->obsolete;
     }
 
-    /**
-     * @param bool $obsolete
-     * @return CriticalAchievement
-     */
     public function setObsolete(bool $obsolete): CriticalAchievement
     {
         $this->obsolete = $obsolete;
         return $this;
     }
 
-    /**
-     * @param CourseCriticalAchievement $courseCriticalAchievement
-     * @return CriticalAchievement
-     */
     public function addCourseCriticalAchievement(CourseCriticalAchievement $courseCriticalAchievement): self
     {
         if (!$this->courseCriticalAchievements->contains($courseCriticalAchievement))
@@ -530,10 +499,6 @@ class CriticalAchievement
         return $this;
     }
 
-    /**
-     * @param CourseCriticalAchievement $courseCriticalAchievement
-     * @return CriticalAchievement
-     */
     public function removeCourseCriticalAchievement(CourseCriticalAchievement $courseCriticalAchievement): self
     {
         if ($this->courseCriticalAchievements->contains($courseCriticalAchievement))
@@ -543,9 +508,6 @@ class CriticalAchievement
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
     public function getCourseCriticalAchievements(): ArrayCollection
     {
         return $this->courseCriticalAchievements;
@@ -553,7 +515,6 @@ class CriticalAchievement
 
     /**
      * @param $courseCriticalAchievements
-     * @return CriticalAchievement
      */
     public function setCourseCriticalAchievements($courseCriticalAchievements): CriticalAchievement
     {
@@ -561,10 +522,6 @@ class CriticalAchievement
         return $this;
     }
 
-    /**
-     * @param Course $course
-     * @return CriticalAchievement
-     */
     public function addCourse(Course $course): self
     {
         if(!$this->courses->contains($course))
@@ -580,10 +537,6 @@ class CriticalAchievement
         return $this;
     }
 
-    /**
-     * @param Course $course
-     * @return CriticalAchievement
-     */
     public function removeCourse(Course $course): self
     {
         if ($this->courses->contains($course))
@@ -597,18 +550,11 @@ class CriticalAchievement
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
     public function getCourses(): Collection
     {
         return $this->courses;
     }
 
-    /**
-     * @param Collection $courses
-     * @return CriticalAchievement
-     */
     public function setCourses(Collection $courses): CriticalAchievement
     {
         $this->courses = $courses;

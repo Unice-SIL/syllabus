@@ -13,12 +13,11 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiFilter;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 
 /**
  * CourseTeacher
  *
- * @ORM\Table(name="course_teacher")
- * @ORM\Entity
  * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\CourseTeacherTranslation")
  */
 #[
@@ -180,75 +179,47 @@ use Gedmo\Mapping\Annotation as Gedmo;
         filters: ['id.search_filter', 'user.search_filter']
     )
 ]
+#[ORM\Entity]
+#[ORM\Table(name: 'course_teacher')]
 class CourseTeacher
 {
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(type="string", length=36, unique=true, options={"fixed"=true})
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
-     */
+    
+    #[ORM\Column(type: 'string', length: 36, unique: true, options: ['fixed' => true])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?string $id;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="firstname", type="string", length=100, nullable=true)
-     */
+    
+    #[ORM\Column(name: 'firstname', type: 'string', length: 100, nullable: true)]
     private ?string $firstname;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="lastname", type="string", length=100, nullable=true)
-     */
+    
+    #[ORM\Column(name: 'lastname', type: 'string', length: 100, nullable: true)]
     private ?string $lastname;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="email", type="string", length=255, nullable=true)
-     */
+    
+    #[ORM\Column(name: 'email', type: 'string', length: 255, nullable: true)]
     private ?string $email;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="manager", type="boolean", nullable=false)
-     */
+    
+    #[ORM\Column(name: 'manager', type: 'boolean', nullable: false)]
     private bool $manager = false;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="email_visibility", type="boolean", nullable=false)
-     */
+    
+    #[ORM\Column(name: 'email_visibility', type: 'boolean', nullable: false)]
     private bool $emailVisibility = false;
 
-    /**
-     * @var CourseInfo
-     *
-     * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\CourseInfo", inversedBy="courseTeachers")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
-     * })
-     */
+    
+    #[ORM\ManyToOne(targetEntity: CourseInfo::class, inversedBy: 'courseTeachers')]
+    #[ORM\JoinColumn(name: 'course_info_id', referencedColumnName: 'id', nullable: false)]
     private CourseInfo $courseInfo;
 
-    /**
-     * @return string|null
-     */
     public function getId(): ?string
     {
         return $this->id;
     }
 
-    /**
-     * @param string|null $id
-     * @return CourseTeacher
-     */
     public function setId(?string $id): self
     {
         $this->id = $id;
@@ -256,18 +227,11 @@ class CourseTeacher
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getFirstname(): ?string
     {
         return $this->firstname;
     }
 
-    /**
-     * @param string|null $firstname
-     * @return CourseTeacher
-     */
     public function setFirstname(?string $firstname): self
     {
         $this->firstname = $firstname;
@@ -275,18 +239,11 @@ class CourseTeacher
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getLastname(): ?string
     {
         return $this->lastname;
     }
 
-    /**
-     * @param string|null $lastname
-     * @return CourseTeacher
-     */
     public function setLastname(?string $lastname): self
     {
         $this->lastname = $lastname;
@@ -294,18 +251,11 @@ class CourseTeacher
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    /**
-     * @param string|null $email
-     * @return CourseTeacher
-     */
     public function setEmail(?string $email): self
     {
         $this->email = $email;
@@ -321,10 +271,6 @@ class CourseTeacher
         return $this->manager;
     }
 
-    /**
-     * @param bool $manager
-     * @return CourseTeacher
-     */
     public function setManager(bool $manager): self
     {
         $this->manager = $manager;
@@ -340,10 +286,6 @@ class CourseTeacher
         return $this->emailVisibility;
     }
 
-    /**
-     * @param bool $emailVisibility
-     * @return CourseTeacher
-     */
     public function setEmailVisibility(bool $emailVisibility): self
     {
         $this->emailVisibility = $emailVisibility;
@@ -352,24 +294,19 @@ class CourseTeacher
     }
 
 
-    /**
-     * @return CourseInfo|null
-     */
     public function getCourseInfo(): ?CourseInfo
     {
         return $this->courseInfo;
     }
 
-    /**
-     * @param CourseInfo|null $courseInfo
-     * @return CourseTeacher
-     */
     public function setCourseInfo(?CourseInfo $courseInfo): self
     {
         if($courseInfo !== $this->courseInfo)
         {
             $this->courseInfo = $courseInfo;
-            if($courseInfo instanceof CourseInfo) $courseInfo->addCourseTeacher($this);
+            if ($courseInfo instanceof CourseInfo) {
+                $courseInfo->addCourseTeacher($this);
+            }
         }
 
         return $this;

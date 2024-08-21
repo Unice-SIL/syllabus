@@ -16,8 +16,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * CourseInfoField
  *
- * @ORM\Table(name="course_info_field")
- * @ORM\Entity
  * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\CourseInfoFieldTranslation")
  */
 #[
@@ -32,55 +30,40 @@ use Gedmo\Mapping\Annotation as Gedmo;
         security: 'is_granted(\'ROLE_API_COURSE_INFO_FIELD\')'
     )
 ]
+#[ORM\Entity]
+#[ORM\Table(name: 'course_info_field')]
 class CourseInfoField
 {
 
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private int $id;
 
-    /**
-     * @var ?string
-     *
-     * @ORM\Column(name="field", type="string", length=150, nullable=false, unique=true)
-     */
+    
+    #[ORM\Column(name: 'field', type: 'string', length: 150, unique: true, nullable: false)]
     private ?string $field;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="label", type="string", length=150, nullable=false, unique=true)
      * @Gedmo\Translatable
      */
+    #[ORM\Column(name: 'label', type: 'string', length: 150, unique: true, nullable: false)]
     private string $label;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="manually_duplication", type="boolean", nullable=false, options={"default" : 0})
-     */
+    
+    #[ORM\Column(name: 'manually_duplication', type: 'boolean', nullable: false, options: ['default' => 0])]
     private bool $manuallyDuplication = false;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="automatic_duplication", type="boolean", nullable=false, options={"default" : 0})
-     */
+    
+    #[ORM\Column(name: 'automatic_duplication', type: 'boolean', nullable: false, options: ['default' => 0])]
     private bool $automaticDuplication = false;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="import", type="boolean", nullable=false, options={"default" : 0})
-     */
+    
+    #[ORM\Column(name: 'import', type: 'boolean', nullable: false, options: ['default' => 0])]
     private bool $import = false;
 
     /**
      * CourseInfoField constructor.
-     * @param string|null $field
      */
     public function __construct(?string $field)
     {
@@ -88,40 +71,27 @@ class CourseInfoField
     }
 
 
-    /**
-     * @return int
-     */
     public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @return string|null
-     */
     public function getField(): ?string
     {
         return $this->field;
     }
 
-    /**
-     * @param string $field
-     */
     public function setField(string $field): void
     {
         $this->field = $field;
     }
 
-    /**
-     * @return string
-     */
     public function getLabel(): string
     {
         return $this->label;
     }
 
     /**
-     * @param string $label
      * @return $this
      */
     public function setLabel(string $label): self
@@ -130,9 +100,6 @@ class CourseInfoField
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function getManuallyDuplication(): bool
     {
         return $this->manuallyDuplication;
@@ -149,18 +116,11 @@ class CourseInfoField
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function getAutomaticDuplication(): bool
     {
         return $this->automaticDuplication;
     }
 
-    /**
-     * @param bool $automaticDuplication
-     * @return CourseInfoField
-     */
     public function setAutomaticDuplication(bool $automaticDuplication): self
     {
         $this->automaticDuplication = $automaticDuplication;
@@ -168,17 +128,11 @@ class CourseInfoField
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isImport(): bool
     {
         return $this->import;
     }
 
-    /**
-     * @param bool $import
-     */
     public function setImport(bool $import): void
     {
         $this->import = $import;

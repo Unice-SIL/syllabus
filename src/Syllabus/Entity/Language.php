@@ -16,14 +16,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups as Groups;
 
 /**
  * Class Language
  * @package App\Syllabus\Entity
- * @ORM\Table(name="language")
- * @ORM\Entity(repositoryClass="App\Syllabus\Repository\Doctrine\LanguageDoctrineRepository")
  * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\LanguageTranslation")
  */
 #[
@@ -199,52 +198,42 @@ use Symfony\Component\Serializer\Annotation\Groups as Groups;
         filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
     )
 ]
+#[ORM\Entity(repositoryClass: \App\Syllabus\Repository\Doctrine\LanguageDoctrineRepository::class)]
+#[ORM\Table(name: 'language')]
 class Language
 {
 
     use Importable;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=36, unique=true, options={"fixed"=true})
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      * @Groups({"language"})
      */
+    #[ORM\Column(type: 'string', length: 36, unique: true, options: ['fixed' => true])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private string $id;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="label", type="string", length=100, nullable=false)
-     * @Assert\NotBlank()
      * @Gedmo\Translatable
      * @Groups({"language"})
      */
+    #[ORM\Column(name: 'label', type: 'string', length: 100, nullable: false)]
+    #[Assert\NotBlank]
     private string $label;
 
     /**
-     * @var bool
-     *
-     * @ORM\Column(name="obsolete", type="boolean", nullable=false)
      * @Groups({"language"})
      */
+    #[ORM\Column(name: 'obsolete', type: 'boolean', nullable: false)]
     private bool $obsolete = false;
 
-    /**
-     * @return null|string
-     */
     public function getId(): ?string
     {
         return $this->id;
     }
 
-    /**
-     * @param null|string $id
-     * @return Language
-     */
     public function setId(?string $id): self
     {
         $this->id = $id;
@@ -252,18 +241,11 @@ class Language
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getLabel(): ?string
     {
         return $this->label;
     }
 
-    /**
-     * @param null|string $label
-     * @return Language
-     */
     public function setLabel(?string $label): self
     {
         $this->label = $label;
@@ -271,9 +253,6 @@ class Language
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isObsolete(): bool
     {
         return $this->obsolete;
@@ -281,7 +260,6 @@ class Language
 
     /**
      * @param $obsolete
-     * @return Language
      */
     public function setObsolete($obsolete): self
     {

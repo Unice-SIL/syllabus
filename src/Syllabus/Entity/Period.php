@@ -17,13 +17,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Period
  *
- * @ORM\Table(name="period")
- * @ORM\Entity(repositoryClass="App\Syllabus\Repository\Doctrine\PeriodDoctrineRepository")
  * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\PeriodTranslation")
  */
 #[
@@ -732,43 +731,34 @@ use Symfony\Component\Validator\Constraints as Assert;
         filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
     )
 ]
+#[ORM\Entity(repositoryClass: \App\Syllabus\Repository\Doctrine\PeriodDoctrineRepository::class)]
+#[ORM\Table(name: 'period')]
 
 class Period
 {
 
     use Importable;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=36, unique=true, options={"fixed"=true})
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
-     */
+    
+    #[ORM\Column(type: 'string', length: 36, unique: true, options: ['fixed' => true])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private string $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="label", type="string", length=100, nullable=false)
-     * @Assert\NotBlank()
      * @Gedmo\Translatable
      */
+    #[ORM\Column(name: 'label', type: 'string', length: 100, nullable: false)]
+    #[Assert\NotBlank]
     private string $label;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="obsolete", type="boolean", nullable=false)
-     */
+    
+    #[ORM\Column(name: 'obsolete', type: 'boolean', nullable: false)]
     private bool $obsolete = false;
 
-    /**
-     * @var Collection
-     *
-     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Structure", inversedBy="periods")
-     */
+    
+    #[ORM\ManyToMany(targetEntity: Structure::class, inversedBy: 'periods')]
     private Collection $structures;
 
     /**
@@ -779,18 +769,11 @@ class Period
         $this->structures = new ArrayCollection();
     }
 
-    /**
-     * @return null|string
-     */
     public function getId(): ?string
     {
         return $this->id;
     }
 
-    /**
-     * @param null|string $id
-     * @return Period
-     */
     public function setId(?string $id): self
     {
         $this->id = $id;
@@ -798,18 +781,11 @@ class Period
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getLabel(): ?string
     {
         return $this->label;
     }
 
-    /**
-     * @param null|string $label
-     * @return Period
-     */
     public function setLabel(?string $label): self
     {
         $this->label = $label;
@@ -817,18 +793,11 @@ class Period
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isObsolete(): bool
     {
         return $this->obsolete;
     }
 
-    /**
-     * @param bool $obsolete
-     * @return Period
-     */
     public function setObsolete(bool $obsolete): self
     {
         $this->obsolete = $obsolete;
@@ -836,28 +805,17 @@ class Period
         return $this;
     }
 
-    /**
-     * @return Collection|null
-     */
     public function getStructures(): ?Collection
     {
         return $this->structures;
     }
 
-    /**
-     * @param Collection $structures
-     * @return Period
-     */
     public function setStructures(Collection $structures): Period
     {
         $this->structures = $structures;
         return $this;
     }
 
-    /**
-     * @param Structure $structure
-     * @return Period
-     */
     public function addStructure(Structure $structure): self
     {
         if (!$this->structures->contains($structure))
@@ -871,10 +829,6 @@ class Period
         return $this;
     }
 
-    /**
-     * @param Structure $structure
-     * @return Period
-     */
     public function removeStructure(Structure $structure): self
     {
         if ($this->structures->contains($structure))

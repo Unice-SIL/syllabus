@@ -21,10 +21,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Year
  *
- * @ORM\Table(name="year")
- * @ORM\Entity(repositoryClass="App\Syllabus\Repository\Doctrine\YearDoctrineRepository")
- * @UniqueEntity("id")
- * @UniqueEntity("label")
  * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\YearTranslation")
  */
 #[
@@ -186,55 +182,40 @@ use Symfony\Component\Validator\Constraints as Assert;
         filters: ['id.search_filter', 'label.search_filter']
     )
 ]
+#[ORM\Entity(repositoryClass: \App\Syllabus\Repository\Doctrine\YearDoctrineRepository::class)]
+#[UniqueEntity('id')]
+#[UniqueEntity('label')]
+#[ORM\Table(name: 'year')]
 class Year
 {
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="id", type="string", length=4, options={"fixed"=true})
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     * @Assert\NotBlank(message="Ce champ ne doit pas être vide")
-     * @Assert\Regex(
-     *     pattern="/^\d{4}$/",
-     *     message="Cette valeur doit respecter le format AAAA"
-     * )
-     */
+    
+    #[ORM\Column(name: 'id', type: 'string', length: 4, options: ['fixed' => true])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'NONE')]
+    #[Assert\NotBlank(message: 'Ce champ ne doit pas être vide')]
+    #[Assert\Regex(pattern: '/^\d{4}$/', message: 'Cette valeur doit respecter le format AAAA')]
     private string $id;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="label", type="string", length=45, nullable=false, options={"fixed"=true})
-     * @Assert\NotBlank(message="Ce champ ne doit pas être vide")
      * @Gedmo\Translatable
      */
+    #[ORM\Column(name: 'label', type: 'string', length: 45, nullable: false, options: ['fixed' => true])]
+    #[Assert\NotBlank(message: 'Ce champ ne doit pas être vide')]
     private ?string $label;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="import", type="boolean", nullable=true)
-     */
+    
+    #[ORM\Column(name: 'import', type: 'boolean', nullable: true)]
     private bool $import = false;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="edit", type="boolean", nullable=true)
-     */
+    
+    #[ORM\Column(name: 'edit', type: 'boolean', nullable: true)]
     private bool $edit = false;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="current", type="boolean", nullable=true)
-     */
+    
+    #[ORM\Column(name: 'current', type: 'boolean', nullable: true)]
     private bool $current = false;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Syllabus\Entity\CourseInfo", mappedBy="year")
-     */
+    #[ORM\OneToMany(targetEntity: CourseInfo::class, mappedBy: 'year')]
     private $courseInfos;
 
     /**
@@ -246,18 +227,11 @@ class Year
     }
 
 
-    /**
-     * @return null|string
-     */
     public function getId(): ?string
     {
         return $this->id;
     }
 
-    /**
-     * @param null|string $id
-     * @return Year
-     */
     public function setId(?string $id): self
     {
         $this->id = $id;
@@ -265,18 +239,11 @@ class Year
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getLabel(): ?string
     {
         return $this->label;
     }
 
-    /**
-     * @param null|string $label
-     * @return Year
-     */
     public function setLabel(?string $label): self
     {
         $this->label = $label;
@@ -284,18 +251,11 @@ class Year
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function getImport(): bool
     {
         return $this->import;
     }
 
-    /**
-     * @param bool $import
-     * @return Year
-     */
     public function setImport(bool $import): self
     {
         $this->import = $import;
@@ -303,18 +263,11 @@ class Year
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function getEdit(): bool
     {
         return $this->edit;
     }
 
-    /**
-     * @param bool $edit
-     * @return Year
-     */
     public function setEdit(bool $edit): self
     {
         $this->edit = $edit;
@@ -322,18 +275,11 @@ class Year
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function getCurrent(): bool
     {
         return $this->current;
     }
 
-    /**
-     * @param bool $current
-     * @return Year
-     */
     public function setCurrent(bool $current): self
     {
         $this->current = $current;

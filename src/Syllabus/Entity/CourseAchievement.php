@@ -13,13 +13,12 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiFilter;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * CourseAchievement
  *
- * @ORM\Table(name="course_achievement")
- * @ORM\Entity
  * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\CourseAchievementTranslation")
  */
 #[
@@ -185,54 +184,37 @@ use Symfony\Component\Validator\Constraints as Assert;
         filters: ['id.search_filter']
     )
 ]
+#[ORM\Entity]
+#[ORM\Table(name: 'course_achievement')]
 class CourseAchievement
 {
-    /**
-     * @ORM\Column(type="string", length=36, unique=true, options={"fixed"=true})
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
-     */
+    #[ORM\Column(type: 'string', length: 36, unique: true, options: ['fixed' => true])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?string $id;
 
     /**
-     * @var null|string
-     *
-     * @ORM\Column(name="description", type="text", length=65535, nullable=true)
      * @Gedmo\Translatable
-     * @Assert\NotBlank()
      */
+    #[ORM\Column(name: 'description', type: 'text', length: 65535, nullable: true)]
+    #[Assert\NotBlank]
     private ?string $description = "";
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="position", type="integer", nullable=false)
-     */
+    
+    #[ORM\Column(name: 'position', type: 'integer', nullable: false)]
     private int $position = 0;
 
-    /**
-     * @var CourseInfo
-     *
-     * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\CourseInfo", inversedBy="courseAchievements")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
-     * })
-     */
+    
+    #[ORM\ManyToOne(targetEntity: CourseInfo::class, inversedBy: 'courseAchievements')]
+    #[ORM\JoinColumn(name: 'course_info_id', referencedColumnName: 'id', nullable: false)]
     private CourseInfo $courseInfo;
 
-    /**
-     * @return null|string
-     */
     public function getId(): ?string
     {
         return $this->id;
     }
 
-    /**
-     * @param null|string $id
-     * @return CourseAchievement
-     */
     public function setId(?string $id): self
     {
         $this->id = $id;
@@ -240,18 +222,11 @@ class CourseAchievement
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    /**
-     * @param string|null $description
-     * @return CourseAchievement
-     */
     public function setDescription(?string $description): self
     {
         $this->description = $description;
@@ -267,10 +242,6 @@ class CourseAchievement
         return $this->position;
     }
 
-    /**
-     * @param int $position
-     * @return CourseAchievement
-     */
     public function setPosition(int $position): self
     {
         $this->position = $position;
@@ -279,18 +250,11 @@ class CourseAchievement
     }
 
 
-    /**
-     * @return CourseInfo|null
-     */
     public function getCourseInfo(): ?CourseInfo
     {
         return $this->courseInfo;
     }
 
-    /**
-     * @param CourseInfo|null $courseInfo
-     * @return CourseAchievement
-     */
     public function setCourseInfo(?CourseInfo $courseInfo): self
     {
         $this->courseInfo = $courseInfo;

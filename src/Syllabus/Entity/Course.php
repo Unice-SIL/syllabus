@@ -16,17 +16,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Course
  *
- * @ORM\Table(name="course", uniqueConstraints={
- *     @ORM\UniqueConstraint(name="code_source_on_course_UNIQUE", columns={"code", "source"}),
- * })
- * @UniqueEntity(fields={"code", "source"}, message="Le cours avec pour code établissement {{ value }} existe déjà pour cette source", errorPath="code")
- * @ORM\Entity(repositoryClass="App\Syllabus\Repository\Doctrine\CourseDoctrineRepository")
  * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\CourseTranslation")
  */
 #[
@@ -297,102 +293,69 @@ use Symfony\Component\Validator\Constraints as Assert;
         filters: ['id.search_filter', 'title.search_filter', 'code.search_filter']
     )
 ]
+#[UniqueEntity(fields: ['code', 'source'], message: 'Le cours avec pour code établissement {{ value }} existe déjà pour cette source', errorPath: 'code')]
+#[ORM\Entity(repositoryClass: \App\Syllabus\Repository\Doctrine\CourseDoctrineRepository::class)]
+#[ORM\Table(name: 'course')]
+#[ORM\UniqueConstraint(name: 'code_source_on_course_UNIQUE', columns: ['code', 'source'])]
 class Course
 {
     use Importable;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=36, unique=true, options={"fixed"=true})
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
-     */
+    
+    #[ORM\Column(type: 'string', length: 36, unique: true, options: ['fixed' => true])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private string $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="type", type="string", length=5, nullable=false, options={"fixed"=true})
-     * @Assert\NotBlank()
-     * @Assert\Length(max=5)
      * @Gedmo\Translatable
      */
+    #[ORM\Column(name: 'type', type: 'string', length: 5, nullable: false, options: ['fixed' => true])]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 5)]
     private string $type;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="title", type="string", length=150, nullable=false)
-     * @Assert\NotBlank()
-     * @Assert\Length(max=150)
      * @Gedmo\Translatable
      */
+    #[ORM\Column(name: 'title', type: 'string', length: 150, nullable: false)]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 150)]
     private string $title;
 
-    /**
-     * @var Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Course", inversedBy="children", cascade={ "persist" })
-     * @ORM\JoinTable(name="course_hierarchy",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="course_child_id", referencedColumnName="id")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="course_parent_id", referencedColumnName="id")
-     *   }
-     * )
-     */
+    
+    #[ORM\JoinTable(name: 'course_hierarchy')]
+    #[ORM\JoinColumn(name: 'course_child_id', referencedColumnName: 'id')]
+    #[ORM\InverseJoinColumn(name: 'course_parent_id', referencedColumnName: 'id')]
+    #[ORM\ManyToMany(targetEntity: Course::class, inversedBy: 'children', cascade: ['persist'])]
     private Collection $parents;
 
-    /**
-     * @var Collection
-     * @ORM\ManyToMany(targetEntity="Course", mappedBy="parents")
-     */
+    #[ORM\ManyToMany(targetEntity: Course::class, mappedBy: 'parents')]
     private Collection $children;
 
-    /**
-     * @var Collection
-     *
-     * @ORM\OneToMany(targetEntity="CourseInfo", mappedBy="course", cascade={ "persist" })
-     */
+    
+    #[ORM\OneToMany(mappedBy: 'course', targetEntity: CourseInfo::class, cascade: ['persist'])]
     private Collection $courseInfos;
 
-    /**
-     * @var Collection
-     * @ORM\ManyToMany(targetEntity="CriticalAchievement", inversedBy="courses", cascade={ "persist" })
-     */
+    #[ORM\ManyToMany(targetEntity: CriticalAchievement::class, inversedBy: 'courses', cascade: ['persist'])]
     private Collection $criticalAchievements;
 
 
     /**
-     * @var string
      * @Gedmo\Locale
      */
     private string $locale = 'fr';
 
-    /**
-     * @var Collection
-     * @ORM\ManyToMany(targetEntity="CoursePrerequisite", inversedBy="courses", cascade={ "persist" })
-     */
+    #[ORM\ManyToMany(targetEntity: CoursePrerequisite::class, inversedBy: 'courses', cascade: ['persist'])]
     private Collection $coursePrerequisites;
 
-    /**
-     * @var array
-     */
     private array $hours = [];
 
-    /**
-     * @var float|null
-     *
-     */
+    
     private ?float $ects;
 
-    /**
-     * @var string|null
-     *
-     */
+    
     private ?string $structureCode;
 
     /**
@@ -407,18 +370,11 @@ class Course
         $this->coursePrerequisites = new ArrayCollection();
     }
 
-    /**
-     * @return string|null
-     */
     public function getId(): ?string
     {
         return $this->id;
     }
 
-    /**
-     * @param string $id
-     * @return Course
-     */
     public function setId(string $id): self
     {
         $this->id = $id;
@@ -426,18 +382,11 @@ class Course
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getType(): ?string
     {
         return $this->type;
     }
 
-    /**
-     * @param string $type
-     * @return Course
-     */
     public function setType(string $type): self
     {
         $this->type = $type;
@@ -445,18 +394,11 @@ class Course
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
     public function getParents(): Collection
     {
         return $this->parents;
     }
 
-    /**
-     * @param Collection $parents
-     * @return Course
-     */
     public function setParents(Collection $parents): self
     {
         $this->parents = $parents;
@@ -464,10 +406,6 @@ class Course
         return $this;
     }
 
-    /**
-     * @param Course $course
-     * @return Course
-     */
     public function addParent(Course $course): self
     {
         if (!$this->parents->contains($course)) {
@@ -478,10 +416,6 @@ class Course
         return $this;
     }
 
-    /**
-     * @param Course $course
-     * @return Course
-     */
     public function removeParent(Course $course): self
     {
         if ($this->parents->contains($course)) {
@@ -492,18 +426,11 @@ class Course
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
     public function getChildren(): Collection
     {
         return $this->children;
     }
 
-    /**
-     * @param Collection $children
-     * @return Course
-     */
     public function setChildren(Collection $children): self
     {
         $this->children = $children;
@@ -511,10 +438,6 @@ class Course
         return $this;
     }
 
-    /**
-     * @param Course $course
-     * @return Course
-     */
     public function addChild(Course $course): self
     {
 
@@ -526,10 +449,6 @@ class Course
         return $this;
     }
 
-    /**
-     * @param Course $course
-     * @return Course
-     */
     public function removeChild(Course $course): self
     {
         if ($this->children->contains($course)) {
@@ -540,31 +459,21 @@ class Course
         return $this;
     }
 
-    /**
-     * @param string $yearId
-     * @return CourseInfo|null
-     */
     public function getCourseInfo(string $yearId): ?CourseInfo
     {
         foreach ($this->courseInfos as $courseInfo) {
-            if ($courseInfo->getYear()->getId() === $yearId)
+            if ($courseInfo->getYear()->getId() === $yearId) {
                 return $courseInfo;
+            }
         }
         return null;
     }
 
-    /**
-     * @return Collection
-     */
     public function getCourseInfos(): Collection
     {
         return $this->courseInfos;
     }
 
-    /**
-     * @param Collection $courseInfos
-     * @return Course
-     */
     public function setCourseInfos(Collection $courseInfos): self
     {
         $this->courseInfos = $courseInfos;
@@ -572,10 +481,6 @@ class Course
         return $this;
     }
 
-    /**
-     * @param CourseInfo $courseInfo
-     * @return Course
-     */
     public function addCourseInfo(CourseInfo $courseInfo): self
     {
         if (!$this->courseInfos->contains($courseInfo)) {
@@ -589,10 +494,6 @@ class Course
         return $this;
     }
 
-    /**
-     * @param CourseInfo $courseInfo
-     * @return Course
-     */
     public function removeCourseInfo(CourseInfo $courseInfo): self
     {
         $this->courseInfos->removeElement($courseInfo);
@@ -601,10 +502,6 @@ class Course
         return $this;
     }
 
-    /**
-     * @param CriticalAchievement $criticalAchievement
-     * @return Course
-     */
     public function addCriticalAchievement(CriticalAchievement $criticalAchievement): self
     {
         if (!$this->criticalAchievements->contains($criticalAchievement)) {
@@ -616,10 +513,6 @@ class Course
         return $this;
     }
 
-    /**
-     * @param CriticalAchievement $criticalAchievement
-     * @return Course
-     */
     public function removeCriticalAchievement(CriticalAchievement $criticalAchievement): self
     {
         if ($this->criticalAchievements->contains($criticalAchievement)) {
@@ -631,18 +524,11 @@ class Course
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
     public function getCriticalAchievements(): Collection
     {
         return $this->criticalAchievements;
     }
 
-    /**
-     * @param Collection $criticalAchievements
-     * @return Course
-     */
     public function setCriticalAchievements(Collection $criticalAchievements): Course
     {
         $this->criticalAchievements = $criticalAchievements;
@@ -665,10 +551,6 @@ class Course
         return $this->title;
     }
 
-    /**
-     * @param string|null $title
-     * @return Course
-     */
     public function setTitle(?string $title): self
     {
         $this->title = $title;
@@ -676,9 +558,6 @@ class Course
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
     public function getCoursePrerequisites(): Collection
     {
         return $this->coursePrerequisites;
@@ -694,10 +573,6 @@ class Course
         return $this;
     }
 
-    /**
-     * @param CoursePrerequisite $coursePrerequisite
-     * @return Course
-     */
     public function addCoursePrerequisite(CoursePrerequisite $coursePrerequisite): self
     {
         if (!$this->coursePrerequisites->contains($coursePrerequisite)) {
@@ -709,10 +584,6 @@ class Course
         return $this;
     }
 
-    /**
-     * @param CoursePrerequisite $coursePrerequisite
-     * @return Course
-     */
     public function removeCoursePrerequisite(CoursePrerequisite $coursePrerequisite): self
     {
         if ($this->coursePrerequisites->contains($coursePrerequisite)) {
@@ -724,49 +595,31 @@ class Course
         return $this;
     }
 
-    /**
-     * @return array
-     */
     public function getHours(): array
     {
         return $this->hours;
     }
 
-    /**
-     * @param array $hours
-     */
     public function setHours(array $hours): void
     {
         $this->hours = $hours;
     }
 
-    /**
-     * @return float|null
-     */
     public function getEcts(): ?float
     {
         return $this->ects;
     }
 
-    /**
-     * @param float|null $ects
-     */
     public function setEcts(?float $ects): void
     {
         $this->ects = $ects;
     }
 
-    /**
-     * @return string|null
-     */
     public function getStructureCode(): ?string
     {
         return $this->structureCode;
     }
 
-    /**
-     * @param string|null $structureCode
-     */
     public function setStructureCode(?string $structureCode): void
     {
         $this->structureCode = $structureCode;

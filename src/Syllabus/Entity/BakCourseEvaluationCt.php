@@ -3,77 +3,63 @@
 namespace App\Syllabus\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 
 /**
  * CourseEvaluationCt
- *
- * @ORM\Table(name="bak_course_evaluation_ct")
- * @ORM\Entity
  */
+#[ORM\Entity]
+#[ORM\Table(name: 'bak_course_evaluation_ct')]
 class BakCourseEvaluationCt
 {
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=36, unique=true, options={"fixed"=true})
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      */
+    #[ORM\Column(type: 'string', length: 36, unique: true, options: ['fixed' => true])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private $id;
 
     /**
      * @var string|null
-     *
-     * @ORM\Column(name="description", type="string", length=255, nullable=true)
      */
+    #[ORM\Column(name: 'description', type: 'string', length: 255, nullable: true)]
     private $description;
 
     /**
      * @var float|null
-     *
-     * @ORM\Column(name="evaluation_rate", type="float", nullable=true)
      */
+    #[ORM\Column(name: 'evaluation_rate', type: 'float', nullable: true)]
     private $evaluationRate;
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="ord", type="integer", nullable=false)
      */
+    #[ORM\Column(name: 'ord', type: 'integer', nullable: false)]
     private $position = 0;
 
     /**
-     * @var \App\Syllabus\Entity\BakActivity
-     *
-     * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\BakActivity")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="activity_id", referencedColumnName="id", nullable=false)
-     * })
+     * @var BakActivity
      */
+    #[ORM\ManyToOne(targetEntity: BakActivity::class)]
+    #[ORM\JoinColumn(name: 'activity_id', referencedColumnName: 'id', nullable: false)]
     private $activity;
 
     /**
-     * @var \App\Syllabus\Entity\CourseInfo
+     * @var CourseInfo
      *
-     * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\CourseInfo")
-     * @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
      *
      */
+    #[ORM\ManyToOne(targetEntity: CourseInfo::class)]
+    #[ORM\JoinColumn(name: 'course_info_id', referencedColumnName: 'id', nullable: false)]
     private $courseInfo;
 
-    /**
-     * @return string
-     */
     public function getId(): string
     {
         return $this->id;
     }
 
-    /**
-     * @param string $id
-     * @return BakCourseEvaluationCt
-     */
     public function setId(string $id): self
     {
         $this->id = $id;
@@ -91,7 +77,6 @@ class BakCourseEvaluationCt
 
     /**
      * @param $description
-     * @return BakCourseEvaluationCt
      */
     public function setDescription($description): self
     {
@@ -110,7 +95,6 @@ class BakCourseEvaluationCt
 
     /**
      * @param $evaluationRate
-     * @return BakCourseEvaluationCt
      */
     public function setEvaluationRate($evaluationRate): self
     {
@@ -119,18 +103,11 @@ class BakCourseEvaluationCt
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getPosition(): int
     {
         return $this->position;
     }
 
-    /**
-     * @param int $position
-     * @return BakCourseEvaluationCt
-     */
     public function setPosition(int $position): self
     {
         $this->position = $position;
@@ -138,16 +115,12 @@ class BakCourseEvaluationCt
         return $this;
     }
 
-    /**
-     * @return BakActivity
-     */
     public function getActivity(): BakActivity
     {
         return $this->activity;
     }
 
     /**
-     * @param BakActivity $activity
      * @return $this
      */
     public function setActivity(BakActivity $activity): self
@@ -157,16 +130,12 @@ class BakCourseEvaluationCt
         return $this;
     }
 
-    /**
-     * @return CourseInfo
-     */
     public function getCourseInfo(): CourseInfo
     {
         return $this->courseInfo;
     }
 
     /**
-     * @param CourseInfo $courseInfo
      * @return $this
      */
     public function setCourseInfo(CourseInfo $courseInfo): self

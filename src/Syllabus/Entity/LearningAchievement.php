@@ -17,11 +17,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 
 /**
  * @package App\Syllabus\Entity
- * @ORM\Table(name="learning_achievement")
- * @ORM\Entity
  * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\LearningAchievementTranslation")
  */
 #[
@@ -207,80 +206,55 @@ use Gedmo\Mapping\Annotation as Gedmo;
         filters: ['id.search_filter']
     )
 ]
+#[ORM\Entity]
+#[ORM\Table(name: 'learning_achievement')]
 class LearningAchievement
 {
     use Importable;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=36, unique=true, options={"fixed"=true})
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
-     */
+    
+    #[ORM\Column(type: 'string', length: 36, unique: true, options: ['fixed' => true])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private string $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="string", length=255, nullable=false)
      * @Gedmo\Translatable
      */
+    #[ORM\Column(name: 'description', type: 'string', length: 255, nullable: false)]
     private string $description;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="score", type="integer")
-     */
+    
+    #[ORM\Column(name: 'score', type: 'integer')]
     private int $score = 0;
 
-    /**
-     * @ManyToOne(targetEntity="CourseCriticalAchievement", inversedBy="learningAchievements")
-     * @JoinColumn(name="course_critical_achievement_learning_achievement", referencedColumnName="id")
-     */
+    #[ManyToOne(targetEntity: CourseCriticalAchievement::class, inversedBy: 'learningAchievements')]
+    #[JoinColumn(name: 'course_critical_achievement_learning_achievement', referencedColumnName: 'id')]
     private mixed $courseCriticalAchievement;
 
-    /**
-     * @return string|null
-     */
     public function getId(): ?string
     {
         return $this->id;
     }
 
-    /**
-     * @param string $id
-     * @return LearningAchievement
-     */
     public function setId(string $id): LearningAchievement
     {
         $this->id = $id;
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    /**
-     * @param string $description
-     * @return LearningAchievement
-     */
     public function setDescription(string $description): LearningAchievement
     {
         $this->description = $description;
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getCourseCriticalAchievement(): mixed
     {
         return $this->courseCriticalAchievement;
@@ -288,7 +262,6 @@ class LearningAchievement
 
     /**
      * @param $courseCriticalAchievement
-     * @return LearningAchievement
      */
     public function setCourseCriticalAchievement($courseCriticalAchievement): LearningAchievement
     {
@@ -296,17 +269,11 @@ class LearningAchievement
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
     public function getScore(): ?int
     {
         return $this->score;
     }
 
-    /**
-     * @param int $score
-     */
     public function setScore(int $score): void
     {
         $this->score = $score;

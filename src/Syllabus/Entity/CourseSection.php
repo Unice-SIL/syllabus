@@ -15,13 +15,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * CourseSection
  *
- * @ORM\Table(name="course_section")
- * @ORM\Entity
  * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\CourseSectionTranslation")
  */
 #[
@@ -378,64 +377,45 @@ use Symfony\Component\Validator\Constraints as Assert;
         filters: ['id.search_filter', 'title.search_filter']
     )
 ]
+#[ORM\Entity]
+#[ORM\Table(name: 'course_section')]
 class CourseSection
 {
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=36, unique=true, options={"fixed"=true})
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
-     */
+    
+    #[ORM\Column(type: 'string', length: 36, unique: true, options: ['fixed' => true])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private string $id;
 
     /**
-     * @var null|string
-     *
-     * @ORM\Column(name="title", type="string", length=200, nullable=true)
      * @Gedmo\Translatable
      */
+    #[ORM\Column(name: 'title', type: 'string', length: 200, nullable: true)]
     private ?string $title;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="description", type="text", length=65535, nullable=true)
      * @Gedmo\Translatable
      */
+    #[ORM\Column(name: 'description', type: 'text', length: 65535, nullable: true)]
     private ?string $description;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="url", type="text", length=32767, nullable=true)
-     */
+    
+    #[ORM\Column(name: 'url', type: 'text', length: 32767, nullable: true)]
     private ?string $url;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="position", type="integer", nullable=false)
-     */
+    
+    #[ORM\Column(name: 'position', type: 'integer', nullable: false)]
     private int $position = 0;
 
-    /**
-     * @var CourseInfo
-     *
-     * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\CourseInfo", inversedBy="courseSections")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
-     * })
-     */
+    
+    #[ORM\ManyToOne(targetEntity: CourseInfo::class, inversedBy: 'courseSections')]
+    #[ORM\JoinColumn(name: 'course_info_id', referencedColumnName: 'id', nullable: false)]
     private CourseInfo $courseInfo;
 
-    /**
-     * @var Collection
-     *
-     * @ORM\OneToMany(targetEntity="CourseSectionActivity", mappedBy="courseSection", cascade={ "persist", "remove", "merge" }, orphanRemoval=true)
-     * @ORM\OrderBy({"position" = "ASC"})
-     */
+    
+    #[ORM\OneToMany(targetEntity: CourseSectionActivity::class, mappedBy: 'courseSection', cascade: ['persist', 'remove', 'merge'], orphanRemoval: true)]
+    #[ORM\OrderBy(['position' => 'ASC'])]
     private Collection $courseSectionActivities;
 
     /**
@@ -446,18 +426,11 @@ class CourseSection
         $this->courseSectionActivities = new ArrayCollection();
     }
 
-    /**
-     * @return string|null
-     */
     public function getId(): ?string
     {
         return $this->id;
     }
 
-    /**
-     * @param string|null $id
-     * @return CourseSection
-     */
     public function setId(?string $id): self
     {
         $this->id = $id;
@@ -465,18 +438,11 @@ class CourseSection
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    /**
-     * @param string|null $title
-     * @return CourseSection
-     */
     public function setTitle(?string $title): self
     {
         $this->title = $title;
@@ -484,18 +450,11 @@ class CourseSection
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    /**
-     * @param string|null $description
-     * @return CourseSection
-     */
     public function setDescription(?string $description): self
     {
         $this->description = $description;
@@ -503,36 +462,22 @@ class CourseSection
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getUrl(): ?string
     {
         return $this->url;
     }
 
-    /**
-     * @param null|string $url
-     * @return CourseSection
-     */
     public function setUrl(?string $url): self
     {
         $this->url = $url;
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
     public function getPosition(): ?int
     {
         return $this->position;
     }
 
-    /**
-     * @param int|null $position
-     * @return CourseSection
-     */
     public function setPosition(?int $position): self
     {
         $this->position = $position;
@@ -540,16 +485,12 @@ class CourseSection
         return $this;
     }
 
-    /**
-     * @return CourseInfo|null
-     */
     public function getCourseInfo(): ?CourseInfo
     {
         return $this->courseInfo;
     }
 
     /**
-     * @param CourseInfo|null $courseInfo
      * @return $this
      */
     public function setCourseInfo(?CourseInfo $courseInfo): self
@@ -559,18 +500,11 @@ class CourseSection
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
     public function getCourseSectionActivities(): Collection
     {
         return $this->courseSectionActivities;
     }
 
-    /**
-     * @param Collection $courseSectionActivities
-     * @return CourseSection
-     */
     public function setCourseSectionActivities(Collection $courseSectionActivities): self
     {
         $this->courseSectionActivities = $courseSectionActivities;
@@ -578,10 +512,6 @@ class CourseSection
         return $this;
     }
 
-    /**
-     * @param CourseSectionActivity $courseSectionActivity
-     * @return CourseSection
-     */
     public function addCourseSectionActivity(CourseSectionActivity $courseSectionActivity): self
     {
         if(!$this->courseSectionActivities->contains($courseSectionActivity))
@@ -596,10 +526,6 @@ class CourseSection
         return $this;
     }
 
-    /**
-     * @param CourseSectionActivity $courseSectionActivity
-     * @return CourseSection
-     */
     public function removeCourseSectionActivity(CourseSectionActivity $courseSectionActivity): self
     {
         if ($this->courseSectionActivities->contains($courseSectionActivity))

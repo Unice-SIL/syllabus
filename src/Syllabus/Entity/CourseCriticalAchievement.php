@@ -19,11 +19,10 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 
 /**
  * Class CourseCriticalAchievement
- * @ORM\Table(name="course_critical_achievement")
- * @ORM\Entity
  * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\CourseCriticalAchievementTranslation")
  */
 #[
@@ -187,50 +186,38 @@ use Gedmo\Mapping\Annotation as Gedmo;
         filters: ['id.search_filter']
     )
 ]
+#[ORM\Entity]
+#[ORM\Table(name: 'course_critical_achievement')]
 class CourseCriticalAchievement
 {
     use Importable;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=36, unique=true, options={"fixed"=true})
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
-     */
+    
+    #[ORM\Column(type: 'string', length: 36, unique: true, options: ['fixed' => true])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private string $id;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="rule", type="text", length=50, nullable=false)
      * @Gedmo\Translatable
      */
+    #[ORM\Column(name: 'rule', type: 'text', length: 50, nullable: false)]
     private ?string $rule;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="score", type="integer")
-     */
+    
+    #[ORM\Column(name: 'score', type: 'integer')]
     private int $score = 0;
 
-    /**
-     * @OneToMany(targetEntity="LearningAchievement", mappedBy="courseCriticalAchievement", cascade={"persist"}, orphanRemoval=true)
-     */
+    #[OneToMany(targetEntity: LearningAchievement::class, mappedBy: 'courseCriticalAchievement', cascade: ['persist'], orphanRemoval: true)]
     private ArrayCollection $learningAchievements;
 
-    /**
-     * @ManyToOne(targetEntity="CriticalAchievement", inversedBy="courseCriticalAchievements", cascade={"persist"})
-     * @JoinColumn(name="critical_achievement_course_critical_achievement", referencedColumnName="id")
-     */
+    #[ManyToOne(targetEntity: CriticalAchievement::class, inversedBy: 'courseCriticalAchievements', cascade: ['persist'])]
+    #[JoinColumn(name: 'critical_achievement_course_critical_achievement', referencedColumnName: 'id')]
     private mixed $criticalAchievement;
 
-    /**
-     * @ManyToOne(targetEntity="CourseInfo", inversedBy="courseCriticalAchievements")
-     * @JoinColumn(name="course_info_course_critical_achievement", referencedColumnName="id")
-     */
+    #[ManyToOne(targetEntity: CourseInfo::class, inversedBy: 'courseCriticalAchievements')]
+    #[JoinColumn(name: 'course_info_course_critical_achievement', referencedColumnName: 'id')]
     private mixed $courseInfo;
 
     /**
@@ -240,64 +227,39 @@ class CourseCriticalAchievement
         $this->learningAchievements = new ArrayCollection();
     }
 
-    /**
-     * @return string
-     */
     public function getId(): string
     {
         return $this->id;
     }
 
-    /**
-     * @param string $id
-     * @return CourseCriticalAchievement
-     */
     public function setId(string $id): CourseCriticalAchievement
     {
         $this->id = $id;
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getRule(): ?string
     {
         return $this->rule;
     }
 
-    /**
-     * @param string $rule
-     * @return CourseCriticalAchievement
-     */
     public function setRule(string $rule): CourseCriticalAchievement
     {
         $this->rule = $rule;
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getScore(): int
     {
         return $this->score;
     }
 
-    /**
-     * @param int $score
-     * @return CourseCriticalAchievement
-     */
     public function setScore(int $score): CourseCriticalAchievement
     {
         $this->score = $score;
         return $this;
     }
 
-    /**
-     * @param LearningAchievement $learningAchievement
-     * @return CourseCriticalAchievement
-     */
     public function addLearningAchievement(LearningAchievement $learningAchievement): self
     {
         if (!$this->learningAchievements->contains($learningAchievement))
@@ -307,10 +269,6 @@ class CourseCriticalAchievement
         return $this;
     }
 
-    /**
-     * @param LearningAchievement $learningAchievement
-     * @return CourseCriticalAchievement
-     */
     public function removeLearningAchievement(LearningAchievement $learningAchievement): self
     {
         if ($this->learningAchievements->contains($learningAchievement))
@@ -320,9 +278,6 @@ class CourseCriticalAchievement
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
     public function getLearningAchievements(): ArrayCollection
     {
         return $this->learningAchievements;
@@ -330,7 +285,6 @@ class CourseCriticalAchievement
 
     /**
      * @param $learningAchievements
-     * @return CourseCriticalAchievement
      */
     public function setLearningAchievements($learningAchievements): CourseCriticalAchievement
     {
@@ -338,9 +292,6 @@ class CourseCriticalAchievement
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getCriticalAchievement(): mixed
     {
         return $this->criticalAchievement;
@@ -354,9 +305,6 @@ class CourseCriticalAchievement
         $this->criticalAchievement = $criticalAchievement;
     }
 
-    /**
-     * @return mixed
-     */
     public function getCourseInfo(): mixed
     {
         return $this->courseInfo;
@@ -364,7 +312,6 @@ class CourseCriticalAchievement
 
     /**
      * @param $courseInfo
-     * @return CourseCriticalAchievement
      */
     public function setCourseInfo($courseInfo): CourseCriticalAchievement
     {

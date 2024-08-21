@@ -15,19 +15,13 @@ use App\Syllabus\Constant\Permission;
 use App\Syllabus\Traits\Importable;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * CoursePermission
  *
- * @ORM\Table(name="course_permission")
- * @ORM\Entity
- * @UniqueEntity(
- *     fields={"user", "courseInfo", "permission"},
- *     errorPath="user",
- *     message="Cet utilisateur possède déjà une permission identique."
- * )
  * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\CoursePermissionTranslation")
  */
 #[
@@ -190,63 +184,43 @@ use Symfony\Component\Validator\Constraints as Assert;
         filters: ['id.search_filter']
     )
 ]
+#[ORM\Entity]
+#[UniqueEntity(fields: ['user', 'courseInfo', 'permission'], errorPath: 'user', message: 'Cet utilisateur possède déjà une permission identique.')]
+#[ORM\Table(name: 'course_permission')]
 class CoursePermission
 {
 
     use Importable;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=36, unique=true, options={"fixed"=true})
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
-     */
+    
+    #[ORM\Column(type: 'string', length: 36, unique: true, options: ['fixed' => true])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private string $id;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="permission", type="string", length=45, nullable=false, options={"fixed"=true})
-     * @Assert\NotBlank()
-     */
+    
+    #[ORM\Column(name: 'permission', type: 'string', length: 45, nullable: false, options: ['fixed' => true])]
+    #[Assert\NotBlank]
     private ?string $permission = Permission::READ;
 
-    /**
-     * @var CourseInfo
-     *
-     * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\CourseInfo", inversedBy="coursePermissions")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
-     * })
-     * @Assert\NotBlank()
-     */
+    
+    #[ORM\ManyToOne(targetEntity: CourseInfo::class, inversedBy: 'coursePermissions')]
+    #[Assert\NotBlank]
+    #[ORM\JoinColumn(name: 'course_info_id', referencedColumnName: 'id', nullable: false)]
     private CourseInfo $courseInfo;
 
-    /**
-     * @var User
-     *
-     * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
-     * })
-     * @Assert\NotBlank()
-     */
+    
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[Assert\NotBlank]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: false)]
     private User $user;
 
-    /**
-     * @return string|null
-     */
     public function getId(): ?string
     {
         return $this->id;
     }
 
-    /**
-     * @param string|null $id
-     * @return CoursePermission
-     */
     public function setId(?string $id): self
     {
         $this->id = $id;
@@ -254,18 +228,11 @@ class CoursePermission
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getPermission(): ?string
     {
         return $this->permission;
     }
 
-    /**
-     * @param string|null $permission
-     * @return CoursePermission
-     */
     public function setPermission(?string $permission): self
     {
         $this->permission = $permission;
@@ -281,10 +248,6 @@ class CoursePermission
         return $this->courseInfo;
     }
 
-    /**
-     * @param CourseInfo|null $courseInfo
-     * @return CoursePermission
-     */
     public function setCourseInfo(?CourseInfo $courseInfo): self
     {
         $this->courseInfo = $courseInfo;
@@ -292,26 +255,16 @@ class CoursePermission
         return $this;
     }
 
-    /**
-     * @return User|null
-     */
     public function getUser(): ?User
     {
         return $this->user;
     }
 
-    /**
-     * @return null|string
-     */
     public function getUserApi(): ?string
     {
         return $this->getUser()->getId();
     }
 
-    /**
-     * @param User|null $user
-     * @return CoursePermission
-     */
     public function setUser(?User $user): self
     {
         $this->user = $user;

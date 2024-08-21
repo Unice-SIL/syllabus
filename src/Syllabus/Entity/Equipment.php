@@ -13,13 +13,12 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiFilter;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Equipment
  *
- * @ORM\Table(name="equipment")
- * @ORM\Entity(repositoryClass="App\Syllabus\Repository\Doctrine\EquipmentDoctrineRepository")
  * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\EquipmentTranslation")
  */
 #[
@@ -204,67 +203,45 @@ use Symfony\Component\Validator\Constraints as Assert;
         filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
     )
 ]
+#[ORM\Entity(repositoryClass: \App\Syllabus\Repository\Doctrine\EquipmentDoctrineRepository::class)]
+#[ORM\Table(name: 'equipment')]
 class Equipment
 {
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(type="string", length=36, unique=true, options={"fixed"=true})
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
-     */
+    
+    #[ORM\Column(type: 'string', length: 36, unique: true, options: ['fixed' => true])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?string $id;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="label", type="string", length=100, nullable=false)
-     * @Assert\NotBlank()
      * @Gedmo\Translatable
      */
+    #[ORM\Column(name: 'label', type: 'string', length: 100, nullable: false)]
+    #[Assert\NotBlank]
     private ?string $label;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="label_visibility", type="boolean", nullable=false)
-     */
+    
+    #[ORM\Column(name: 'label_visibility', type: 'boolean', nullable: false)]
     private bool $labelVisibility = true;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="icon", type="text", length=65535, nullable=true)
-     */
+    
+    #[ORM\Column(name: 'icon', type: 'text', length: 65535, nullable: true)]
     private ?string $icon;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="obsolete", type="boolean", nullable=false)
-     */
+    
+    #[ORM\Column(name: 'obsolete', type: 'boolean', nullable: false)]
     private bool $obsolete = false;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="position", type="integer", nullable=false)
-     */
+    
+    #[ORM\Column(name: 'position', type: 'integer', nullable: false)]
     private int $position = 0;
 
-    /**
-     * @return null|string
-     */
     public function getId(): ?string
     {
         return $this->id;
     }
 
-    /**
-     * @param null|string $id
-     * @return Equipment
-     */
     public function setId(?string $id): self
     {
         $this->id = $id;
@@ -272,16 +249,12 @@ class Equipment
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getLabel(): ?string
     {
         return $this->label;
     }
 
     /**
-     * @param null|string $label
      * @return $this
      */
     public function setLabel(?string $label): self
@@ -291,18 +264,11 @@ class Equipment
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isLabelVisibility(): bool
     {
         return $this->labelVisibility;
     }
 
-    /**
-     * @param bool $labelVisibility
-     * @return Equipment
-     */
     public function setLabelVisibility(bool $labelVisibility): self
     {
         $this->labelVisibility = $labelVisibility;
@@ -310,18 +276,11 @@ class Equipment
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getIcon(): ?string
     {
         return $this->icon;
     }
 
-    /**
-     * @param null|string $icon
-     * @return Equipment
-     */
     public function setIcon(?string $icon): self
     {
         $this->icon = $icon;
@@ -329,18 +288,11 @@ class Equipment
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isObsolete(): bool
     {
         return $this->obsolete;
     }
 
-    /**
-     * @param bool $obsolete
-     * @return Equipment
-     */
     public function setObsolete(bool $obsolete): self
     {
         $this->obsolete = $obsolete;
@@ -348,18 +300,11 @@ class Equipment
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getPosition(): int
     {
         return $this->position;
     }
 
-    /**
-     * @param int $position
-     * @return Equipment
-     */
     public function setPosition(int $position): self
     {
         $this->position = $position;

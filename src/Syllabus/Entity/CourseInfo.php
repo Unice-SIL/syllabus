@@ -18,6 +18,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\OneToMany;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\PropertyAccess\PropertyAccess;
@@ -27,9 +28,6 @@ use App\Syllabus\Controller\Api\CourseInfoController;
 /**
  * CourseInfo
  * @package App\Syllabus\Entity
- * @ORM\Table(name="course_info")
- * @ORM\Entity(repositoryClass="App\Syllabus\Repository\Doctrine\CourseInfoDoctrineRepository")
- * @UniqueEntity(fields={"year", "course"}, message="Le cours {{ value }} existe déjà pour cette année", errorPath="course")
  * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\CourseInfoTranslation")
  */
 #[
@@ -172,629 +170,412 @@ use App\Syllabus\Controller\Api\CourseInfoController;
         filters: ['id.search_filter', 'title.search_filter', 'year.search_filter']
     )
 ]
+#[ORM\Entity(repositoryClass: \App\Syllabus\Repository\Doctrine\CourseInfoDoctrineRepository::class)]
+#[UniqueEntity(fields: ['year', 'course'], message: 'Le cours {{ value }} existe déjà pour cette année', errorPath: 'course')]
+#[ORM\Table(name: 'course_info')]
 class CourseInfo
 {
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=36, unique=true, options={"fixed"=true})
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
-     */
+    
+    #[ORM\Column(type: 'string', length: 36, unique: true, options: ['fixed' => true])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private string $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="title", type="string", length=200, nullable=false)
-     * @Assert\NotBlank(groups={"new", "edit"})
-     * @Assert\Length(max=200, groups={"new", "edit"})
      * @Gedmo\Translatable
      */
+    #[ORM\Column(name: 'title', type: 'string', length: 200, nullable: false)]
+    #[Assert\NotBlank(groups: ['new', 'edit'])]
+    #[Assert\Length(max: 200, groups: ['new', 'edit'])]
     private string $title;
 
-    /**
-     * @var float|null
-     *
-     * @ORM\Column(name="ects", type="float", nullable=true)
-     */
+    
+    #[ORM\Column(name: 'ects', type: 'float', nullable: true)]
     private ?float $ects;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="bak_languages", type="string", length=200, nullable=true)
-     */
+    
+    #[ORM\Column(name: 'bak_languages', type: 'string', length: 200, nullable: true)]
     private string $bakLanguages;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="summary", type="text", length=65535, nullable=true)
-     * @Assert\NotBlank(groups={"presentation"})
      * @Gedmo\Translatable
      */
+    #[ORM\Column(name: 'summary', type: 'text', length: 65535, nullable: true)]
+    #[Assert\NotBlank(groups: ['presentation'])]
     private ?string $summary;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="media_type", type="string", length=10, nullable=true)
      * @Gedmo\Translatable
      */
+    #[ORM\Column(name: 'media_type', type: 'string', length: 10, nullable: true)]
     private ?string $mediaType;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="image", type="text", length=65535, nullable=true)
-     * @Assert\File(
-     *    maxSize="2M",
-     *     mimeTypes={ "image/jpeg", "image/png" }
-     *     )
-     */
+    
+    #[ORM\Column(name: 'image', type: 'text', length: 65535, nullable: true)]
+    #[Assert\File(maxSize: '2M', mimeTypes: ['image/jpeg', 'image/png'])]
     private ?string $image = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="video", type="text", length=65535, nullable=true)
-     */
+    
+    #[ORM\Column(name: 'video', type: 'text', length: 65535, nullable: true)]
     private ?string $video;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="teaching_mode", type="string", length=15, nullable=true, options={"fixed"=true})
-     * @Assert\NotBlank(groups={"presentation"})
-     * @Assert\Expression(
-     *     "value not in ['distant'] or (this.getTeachingCmDist() != null or this.getTeachingTdDist() != null or this.getTeachingsByMode('distant').count() > 0)",
-     *     message="teaching_mode.distant_hourly_empty",
-     *     groups={"presentation"})
-     * @Assert\Expression(
-     *     "value not in ['hybrid'] or (this.getTeachingCmHybridClass() != null or this.getTeachingTdHybridClass() != null or this.getTeachingTpHybridClass() != null or this.getTeachingsByMode('class').count() > 0)",
-     *     message="teaching_mode.hybrid_class_hourly_empty",
-     *     groups={"presentation"})
-     * @Assert\Expression(
-     *     "value not in ['hybrid'] or (this.getTeachingCmHybridDist() != null or this.getTeachingTdHybridDist() != null or this.getTeachingsByMode('distant').count() > 0)",
-     *     message="teaching_mode.hybrid_distant_hourly_empty",
-     *     groups={"presentation"})
      * @Gedmo\Translatable
      */
+    #[ORM\Column(name: 'teaching_mode', type: 'string', length: 15, nullable: true, options: ['fixed' => true])]
+    #[Assert\NotBlank(groups: ['presentation'])]
+    #[Assert\Expression("value not in ['distant'] or (this.getTeachingCmDist() != null or this.getTeachingTdDist() != null or this.getTeachingsByMode('distant').count() > 0)", message: 'teaching_mode.distant_hourly_empty', groups: ['presentation'])]
+    #[Assert\Expression("value not in ['hybrid'] or (this.getTeachingCmHybridClass() != null or this.getTeachingTdHybridClass() != null or this.getTeachingTpHybridClass() != null or this.getTeachingsByMode('class').count() > 0)", message: 'teaching_mode.hybrid_class_hourly_empty', groups: ['presentation'])]
+    #[Assert\Expression("value not in ['hybrid'] or (this.getTeachingCmHybridDist() != null or this.getTeachingTdHybridDist() != null or this.getTeachingsByMode('distant').count() > 0)", message: 'teaching_mode.hybrid_distant_hourly_empty', groups: ['presentation'])]
     private ?string $teachingMode;
 
-    /**
-     * @var float|null
-     *
-     * @ORM\Column(name="teaching_cm_class", type="float", precision=10, scale=0, nullable=true)
-     */
+    
+    #[ORM\Column(name: 'teaching_cm_class', type: 'float', precision: 10, scale: 0, nullable: true)]
     private ?float $teachingCmClass;
 
-    /**
-     * @var float|null
-     *
-     * @ORM\Column(name="teaching_td_class", type="float", precision=10, scale=0, nullable=true)
-     */
+    
+    #[ORM\Column(name: 'teaching_td_class', type: 'float', precision: 10, scale: 0, nullable: true)]
     private ?float $teachingTdClass;
 
-    /**
-     * @var float|null
-     *
-     * @ORM\Column(name="teaching_tp_class", type="float", precision=10, scale=0, nullable=true)
-     */
+    
+    #[ORM\Column(name: 'teaching_tp_class', type: 'float', precision: 10, scale: 0, nullable: true)]
     private ?float $teachingTpClass;
 
-    /**
-     * @var float|null
-     *
-     * @ORM\Column(name="teaching_other_class", type="float", precision=10, scale=0, nullable=true)
-     *
-     */
+    
+    #[ORM\Column(name: 'teaching_other_class', type: 'float', precision: 10, scale: 0, nullable: true)]
     private ?float $teachingOtherClass;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="teaching_other_type_class", type="string", length=65, nullable=true)
      * @Gedmo\Translatable
      */
+    #[ORM\Column(name: 'teaching_other_type_class', type: 'string', length: 65, nullable: true)]
     private ?string $teachingOtherTypeClass;
 
-    /**
-     * @var float|null
-     *
-     * @ORM\Column(name="teaching_cm_hybrid_class", type="float", precision=10, scale=0, nullable=true)
-     */
+    
+    #[ORM\Column(name: 'teaching_cm_hybrid_class', type: 'float', precision: 10, scale: 0, nullable: true)]
     private ?float $teachingCmHybridClass;
 
-    /**
-     * @var float|null
-     *
-     * @ORM\Column(name="teaching_td_hybrid_class", type="float", precision=10, scale=0, nullable=true)
-     */
+    
+    #[ORM\Column(name: 'teaching_td_hybrid_class', type: 'float', precision: 10, scale: 0, nullable: true)]
     private ?float $teachingTdHybridClass;
 
-    /**
-     * @var float|null
-     *
-     * @ORM\Column(name="teaching_tp_hybrid_class", type="float", precision=10, scale=0, nullable=true)
-     */
+    
+    #[ORM\Column(name: 'teaching_tp_hybrid_class', type: 'float', precision: 10, scale: 0, nullable: true)]
     private ?float $teachingTpHybridClass;
 
-    /**
-     * @var float|null
-     *
-     * @ORM\Column(name="teaching_other_hybrid_class", type="float", precision=10, scale=0, nullable=true)
-     */
+    
+    #[ORM\Column(name: 'teaching_other_hybrid_class', type: 'float', precision: 10, scale: 0, nullable: true)]
     private ?float $teachingOtherHybridClass;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="teaching_other_type_hybrid_class", type="string", length=65, nullable=true)
      * @Gedmo\Translatable
      */
+    #[ORM\Column(name: 'teaching_other_type_hybrid_class', type: 'string', length: 65, nullable: true)]
     private ?string $teachingOtherTypeHybridClass;
 
-    /**
-     * @var float|null
-     *
-     * @ORM\Column(name="teaching_cm_hybrid_dist", type="float", precision=10, scale=0, nullable=true)
-     */
+    
+    #[ORM\Column(name: 'teaching_cm_hybrid_dist', type: 'float', precision: 10, scale: 0, nullable: true)]
     private ?float $teachingCmHybridDist;
 
-    /**
-     * @var float|null
-     *
-     * @ORM\Column(name="teaching_td_hybrid_dist", type="float", precision=10, scale=0, nullable=true)
-     */
+    
+    #[ORM\Column(name: 'teaching_td_hybrid_dist', type: 'float', precision: 10, scale: 0, nullable: true)]
     private ?float $teachingTdHybridDist;
 
-    /**
-     * @var float|null
-     *
-     * @ORM\Column(name="teaching_other_hybrid_dist", type="float", precision=10, scale=0, nullable=true)
-     */
+    
+    #[ORM\Column(name: 'teaching_other_hybrid_dist', type: 'float', precision: 10, scale: 0, nullable: true)]
     private ?float $teachingOtherHybridDist;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="teaching_other_type_hybrid_distant", type="string", length=65, nullable=true)
      * @Gedmo\Translatable
      */
+    #[ORM\Column(name: 'teaching_other_type_hybrid_distant', type: 'string', length: 65, nullable: true)]
     private ?string $teachingOtherTypeHybridDistant;
 
-    /**
-     * @var float|null
-     *
-     * @ORM\Column(name="teaching_cm_dist", type="float", precision=10, scale=0, nullable=true)
-     */
+    
+    #[ORM\Column(name: 'teaching_cm_dist', type: 'float', precision: 10, scale: 0, nullable: true)]
     private ?float $teachingCmDist;
 
-    /**
-     * @var float|null
-     *
-     * @ORM\Column(name="teaching_td_dist", type="float", precision=10, scale=0, nullable=true)
-     */
+    
+    #[ORM\Column(name: 'teaching_td_dist', type: 'float', precision: 10, scale: 0, nullable: true)]
     private ?float $teachingTdDist;
 
-    /**
-     * @var float|null
-     *
-     * @ORM\Column(name="teaching_other_dist", type="float", precision=10, scale=0, nullable=true)
-     */
+    
+    #[ORM\Column(name: 'teaching_other_dist', type: 'float', precision: 10, scale: 0, nullable: true)]
     private ?float $teachingOtherDist;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="teaching_other_type_distant", type="string", length=65, nullable=true)
      * @Gedmo\Translatable
      */
+    #[ORM\Column(name: 'teaching_other_type_distant', type: 'string', length: 65, nullable: true)]
     private ?string $teachingOtherTypeDist;
 
-    /**
-     * @var Collection
-     *
-     * @ORM\OneToMany(targetEntity="App\Syllabus\Entity\Teaching", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
-     * @Assert\Valid()
-     */
+    
+    #[ORM\OneToMany(mappedBy: 'courseInfo', targetEntity: Teaching::class, cascade: ['persist'], orphanRemoval: true)]
+    #[Assert\Valid]
     private Collection $teachings;
 
-    /**
-     * @var float|null
-     *
-     * @ORM\Column(name="mcc_weight", type="float", precision=10, scale=0, nullable=true)
-     */
+    
+    #[ORM\Column(name: 'mcc_weight', type: 'float', precision: 10, scale: 0, nullable: true)]
     private ?float $mccWeight;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="mcc_compensable", type="boolean", nullable=false)
-     */
+    
+    #[ORM\Column(name: 'mcc_compensable', type: 'boolean', nullable: false)]
     private bool $mccCompensable = false;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="mcc_capitalizable", type="boolean", nullable=false)
-     */
+    
+    #[ORM\Column(name: 'mcc_capitalizable', type: 'boolean', nullable: false)]
     private bool $mccCapitalizable = false;
 
-    /**
-     * @var float|null
-     *
-     * @ORM\Column(name="mcc_cc_coeff_session_1", type="float", precision=10, scale=0, nullable=true)
-     * @Assert\Blank(groups={"evaluation_empty"})
-     */
+    
+    #[ORM\Column(name: 'mcc_cc_coeff_session_1', type: 'float', precision: 10, scale: 0, nullable: true)]
+    #[Assert\Blank(groups: ['evaluation_empty'])]
     private ?float $mccCcCoeffSession1;
 
-    /**
-     * @var int|null
-     *
-     * @ORM\Column(name="mcc_cc_nb_eval_session_1", type="integer", nullable=true)
-     */
+    
+    #[ORM\Column(name: 'mcc_cc_nb_eval_session_1', type: 'integer', nullable: true)]
     private ?int $mccCcNbEvalSession1;
 
-    /**
-     * @var float|null
-     *
-     * @ORM\Column(name="mcc_ct_coeff_session_1", type="float", precision=10, scale=0, nullable=true)
-     * @Assert\Blank(groups={"evaluation_empty"})
-     */
+    
+    #[ORM\Column(name: 'mcc_ct_coeff_session_1', type: 'float', precision: 10, scale: 0, nullable: true)]
+    #[Assert\Blank(groups: ['evaluation_empty'])]
     private ?float $mccCtCoeffSession1;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="mcc_ct_nat_session_1", type="string", length=100, nullable=true)
      * @Gedmo\Translatable
      */
+    #[ORM\Column(name: 'mcc_ct_nat_session_1', type: 'string', length: 100, nullable: true)]
     private ?string $mccCtNatSession1;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="mcc_ct_duration_session_1", type="string", length=100, nullable=true)
      * @Gedmo\Translatable
      */
+    #[ORM\Column(name: 'mcc_ct_duration_session_1', type: 'string', length: 100, nullable: true)]
     private ?string $mccCtDurationSession1;
 
-    /**
-     * @var float|null
-     *
-     * @ORM\Column(name="mcc_ct_coeff_session_2", type="float", precision=10, scale=0, nullable=true)
-     */
+    
+    #[ORM\Column(name: 'mcc_ct_coeff_session_2', type: 'float', precision: 10, scale: 0, nullable: true)]
     private ?float $mccCtCoeffSession2;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="mcc_ct_nat_session_2", type="string", length=100, nullable=true)
      * @Gedmo\Translatable
      */
+    #[ORM\Column(name: 'mcc_ct_nat_session_2', type: 'string', length: 100, nullable: true)]
     private ?string $mccCtNatSession2;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="mcc_ct_duration_session_2", type="string", length=100, nullable=true)
      * @Gedmo\Translatable
      */
+    #[ORM\Column(name: 'mcc_ct_duration_session_2', type: 'string', length: 100, nullable: true)]
     private ?string $mccCtDurationSession2;
 
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="mcc_advice", type="text", length=65535, nullable=true)
-     * @Assert\Blank(groups={"evaluation_empty"})
      * @Gedmo\Translatable
      */
+    #[ORM\Column(name: 'mcc_advice', type: 'text', length: 65535, nullable: true)]
+    #[Assert\Blank(groups: ['evaluation_empty'])]
     private ?string $mccAdvice;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="tutoring", type="boolean", nullable=false)
-     */
+    
+    #[ORM\Column(name: 'tutoring', type: 'boolean', nullable: false)]
     private bool $tutoring = false;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="tutoring_teacher", type="boolean", nullable=false)
-     */
+    
+    #[ORM\Column(name: 'tutoring_teacher', type: 'boolean', nullable: false)]
     private bool $tutoringTeacher = false;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="tutoring_student", type="boolean", nullable=false)
-     */
+    
+    #[ORM\Column(name: 'tutoring_student', type: 'boolean', nullable: false)]
     private bool $tutoringStudent = false;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="tutoring_description", type="text", length=65535, nullable=true)
      * @Gedmo\Translatable
      */
+    #[ORM\Column(name: 'tutoring_description', type: 'text', length: 65535, nullable: true)]
     private ?string $tutoringDescription;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="educational_resources", type="text", length=65535, nullable=true)
-     * @Assert\Blank(groups={"equipments_empty"})
      * @Gedmo\Translatable
      */
+    #[ORM\Column(name: 'educational_resources', type: 'text', length: 65535, nullable: true)]
+    #[Assert\Blank(groups: ['equipments_empty'])]
     private ?string $educationalResources;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="bibliographic_resources", type="text", length=65535, nullable=true)
-     * @Assert\Blank(groups={"equipments_empty"})
      * @Gedmo\Translatable
      */
+    #[ORM\Column(name: 'bibliographic_resources', type: 'text', length: 65535, nullable: true)]
+    #[Assert\Blank(groups: ['equipments_empty'])]
     private ?string $bibliographicResources;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="agenda", type="text", length=65535, nullable=true)
-     * @Assert\Blank(groups={"info_empty"})
      * @Gedmo\Translatable
      */
+    #[ORM\Column(name: 'agenda', type: 'text', length: 65535, nullable: true)]
+    #[Assert\Blank(groups: ['info_empty'])]
     private ?string $agenda;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="organization", type="text", length=65535, nullable=true)
-     * @Assert\Blank(groups={"info_empty"})
      * @Gedmo\Translatable
      */
+    #[ORM\Column(name: 'organization', type: 'text', length: 65535, nullable: true)]
+    #[Assert\Blank(groups: ['info_empty'])]
     private ?string $organization;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="closing_remarks", type="text", length=65535, nullable=true)
-     * @Assert\Blank(groups={"closing_remarks_empty"})
      * @Gedmo\Translatable
      */
+    #[ORM\Column(name: 'closing_remarks', type: 'text', length: 65535, nullable: true)]
+    #[Assert\Blank(groups: ['closing_remarks_empty'])]
     private ?string $closingRemarks;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="closing_video", type="text", length=65535, nullable=true)
-     * @Assert\Blank(groups={"closing_remarks_empty"})
      * @Gedmo\Translatable
      */
+    #[ORM\Column(name: 'closing_video', type: 'text', length: 65535, nullable: true)]
+    #[Assert\Blank(groups: ['closing_remarks_empty'])]
     private ?string $closingVideo;
 
-    /**
-     * @var DateTime|null
-     *
-     * @ORM\Column(name="creation_date", type="datetime", nullable=false)
-     */
+    
+    #[ORM\Column(name: 'creation_date', type: 'datetime', nullable: false)]
     private ?DateTime $creationDate;
 
-    /**
-     * @var DateTime|null
-     *
-     * @ORM\Column(name="modification_date", type="datetime", nullable=true)
-     */
+    
+    #[ORM\Column(name: 'modification_date', type: 'datetime', nullable: true)]
     private ?DateTime $modificationDate;
 
-    /**
-     * @var DateTime|null
-     *
-     * @ORM\Column(name="publication_date", type="datetime", nullable=true)
-     */
+    
+    #[ORM\Column(name: 'publication_date', type: 'datetime', nullable: true)]
     private ?DateTime $publicationDate;
 
-    /**
-     * @var Course
-     *
-     * @ORM\ManyToOne(targetEntity="Course", inversedBy="courseInfos", cascade={ "persist" })
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="course_id", referencedColumnName="id", nullable=false)
-     * })
-     * @Assert\NotBlank()
-     */
+    
+    #[ORM\ManyToOne(targetEntity: Course::class, inversedBy: 'courseInfos', cascade: ['persist'])]
+    #[Assert\NotBlank]
+    #[ORM\JoinColumn(name: 'course_id', referencedColumnName: 'id', nullable: false)]
     private Course $course;
 
-    /**
-     * @var Structure
-     *
-     * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\Structure", cascade={ "persist" })
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="structure_id", referencedColumnName="id", nullable=false)
-     * })
-     * @Assert\NotBlank(groups={"new", "edit"})
-     */
+    
+    #[ORM\ManyToOne(targetEntity: Structure::class, cascade: ['persist'])]
+    #[Assert\NotBlank(groups: ['new', 'edit'])]
+    #[ORM\JoinColumn(name: 'structure_id', referencedColumnName: 'id', nullable: false)]
     private Structure $structure;
 
-    /**
-     * @var Collection
-     *
-     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Campus")
-     * @ORM\JoinTable(name="course_info_campus",
-     *     joinColumns={@ORM\JoinColumn(name="courseinfo_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="campus_id", referencedColumnName="id")}
-     * )
-     * @Assert\Count(min="1", groups={"presentation"})
-     */
+    
+    #[ORM\JoinTable(name: 'course_info_campus')]
+    #[ORM\JoinColumn(name: 'courseinfo_id', referencedColumnName: 'id')]
+    #[ORM\InverseJoinColumn(name: 'campus_id', referencedColumnName: 'id')]
+    #[ORM\ManyToMany(targetEntity: Campus::class)]
+    #[Assert\Count(min: 1, groups: ['presentation'])]
     private Collection $campuses;
 
-    /**
-     * @var Collection
-     *
-     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Language")
-     * @ORM\JoinTable(name="course_info_language",
-     *     joinColumns={@ORM\JoinColumn(name="courseinfo_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="language_id", referencedColumnName="id")}
-     * )
-     * @Assert\Count(min="1", groups={"presentation"})
-     * @ORM\OrderBy({"label" = "ASC"})
-     */
+    
+    #[ORM\JoinTable(name: 'course_info_language')]
+    #[ORM\JoinColumn(name: 'courseinfo_id', referencedColumnName: 'id')]
+    #[ORM\InverseJoinColumn(name: 'language_id', referencedColumnName: 'id')]
+    #[ORM\ManyToMany(targetEntity: Language::class)]
+    #[Assert\Count(min: 1, groups: ['presentation'])]
+    #[ORM\OrderBy(['label' => 'ASC'])]
     private Collection $languages;
 
-    /**
-     * @var Collection
-     *
-     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Domain")
-     * @ORM\JoinTable(name="course_info_domain",
-     *     joinColumns={@ORM\JoinColumn(name="courseinfo_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="domain_id", referencedColumnName="id")}
-     * )
-     * @Assert\Count(min="1", groups={"presentation"})
-     */
+    
+    #[ORM\JoinTable(name: 'course_info_domain')]
+    #[ORM\JoinColumn(name: 'courseinfo_id', referencedColumnName: 'id')]
+    #[ORM\InverseJoinColumn(name: 'domain_id', referencedColumnName: 'id')]
+    #[ORM\ManyToMany(targetEntity: Domain::class)]
+    #[Assert\Count(min: 1, groups: ['presentation'])]
     private Collection $domains;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Period")
-     * @ORM\JoinTable(name="course_info_period",
-     *     joinColumns={@ORM\JoinColumn(name="courseinfo_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="period_id", referencedColumnName="id")}
-     * )
-     * @Assert\Count(min="1", groups={"presentation"})
      */
+    #[ORM\JoinTable(name: 'course_info_period')]
+    #[ORM\JoinColumn(name: 'courseinfo_id', referencedColumnName: 'id')]
+    #[ORM\InverseJoinColumn(name: 'period_id', referencedColumnName: 'id')]
+    #[ORM\ManyToMany(targetEntity: Period::class)]
+    #[Assert\Count(min: 1, groups: ['presentation'])]
     private $periods;
 
 
-    /**
-     * @var User|null
-     *
-     * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="last_updater", referencedColumnName="id")
-     * })
-     */
+    
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'last_updater', referencedColumnName: 'id')]
     private ?User $lastUpdater;
 
-    /**
-     * @var User|null
-     *
-     * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="publisher", referencedColumnName="id", nullable=true)
-     * })
-     */
+    
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'publisher', referencedColumnName: 'id', nullable: true)]
     private ?User $publisher;
 
-    /**
-     * @var Year
-     *
-     * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\Year", inversedBy="courseInfos")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="year_id", referencedColumnName="id", nullable=false)
-     * })
-     * @Assert\NotBlank(groups={"new", "edit"})
-     */
+    
+    #[ORM\ManyToOne(targetEntity: Year::class, inversedBy: 'courseInfos')]
+    #[Assert\NotBlank(groups: ['new', 'edit'])]
+    #[ORM\JoinColumn(name: 'year_id', referencedColumnName: 'id', nullable: false)]
     private Year $year;
 
-    /**
-     * @var Collection
-     *
-     * @ORM\OneToMany(targetEntity="CoursePermission", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
-     */
+    
+    #[ORM\OneToMany(targetEntity: CoursePermission::class, mappedBy: 'courseInfo', cascade: ['persist'], orphanRemoval: true)]
     private Collection $coursePermissions;
 
-    /**
-     * @var Collection
-     *
-     * @ORM\OneToMany(targetEntity="CourseTeacher", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
-     * @ORM\OrderBy({"lastname" = "ASC"})
-     * @Assert\Count(min="1", groups={"presentation"})
-     */
+    
+    #[ORM\OneToMany(targetEntity: CourseTeacher::class, mappedBy: 'courseInfo', cascade: ['persist'], orphanRemoval: true)]
+    #[ORM\OrderBy(['lastname' => 'ASC'])]
+    #[Assert\Count(min: 1, groups: ['presentation'])]
     private Collection $courseTeachers;
 
-    /**
-     * @var Collection
-     *
-     * @ORM\OneToMany(targetEntity="CourseSection", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
-     * @ORM\OrderBy({"position" = "ASC"})
-     * @Assert\Count(min="1", groups={"contentActivities"})
-     * @Assert\Valid
-     */
+    
+    #[ORM\OneToMany(targetEntity: CourseSection::class, mappedBy: 'courseInfo', cascade: ['persist'], orphanRemoval: true)]
+    #[ORM\OrderBy(['position' => 'ASC'])]
+    #[Assert\Count(min: 1, groups: ['contentActivities'])]
+    #[Assert\Valid]
     private Collection $courseSections;
 
     /**
-     * @var Collection
-     *
-     * @ORM\OneToMany(targetEntity="CourseAchievement", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
-     * @ORM\OrderBy({"position" = "ASC"})
-     * @Assert\NotBlank
-     * @Assert\Count(min="1", groups={"objectives"})
      * @AssertCustom\AchievementConstraintValidator
      */
+    #[ORM\OneToMany(targetEntity: CourseAchievement::class, mappedBy: 'courseInfo', cascade: ['persist'], orphanRemoval: true)]
+    #[ORM\OrderBy(['position' => 'ASC'])]
+    #[Assert\NotBlank]
+    #[Assert\Count(min: 1, groups: ['objectives'])]
     private Collection $courseAchievements;
 
     /**
-     * @OneToMany(targetEntity="CourseCriticalAchievement", mappedBy="courseInfo")
-     * @Assert\NotBlank(groups={"objectives"})
      * @AssertCustom\AchievementConstraintValidator
      */
+    #[OneToMany(targetEntity: CourseCriticalAchievement::class, mappedBy: 'courseInfo')]
+    #[Assert\NotBlank(groups: ['objectives'])]
     private Collection $courseCriticalAchievements;
 
-    /**
-     * @var Collection
-     *
-     * @ORM\OneToMany(targetEntity="CoursePrerequisite", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
-     * @ORM\OrderBy({"position" = "ASC"})
-     */
+    
+    #[ORM\OneToMany(targetEntity: CoursePrerequisite::class, mappedBy: 'courseInfo', cascade: ['persist'], orphanRemoval: true)]
+    #[ORM\OrderBy(['position' => 'ASC'])]
     private Collection $coursePrerequisites;
 
-    /**
-     * @var Collection
-     *
-     * @ORM\OneToMany(targetEntity="CourseTutoringResource", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
-     * @ORM\OrderBy({"position" = "ASC"})
-     */
+    
+    #[ORM\OneToMany(targetEntity: CourseTutoringResource::class, mappedBy: 'courseInfo', cascade: ['persist'], orphanRemoval: true)]
+    #[ORM\OrderBy(['position' => 'ASC'])]
     private Collection $courseTutoringResources;
 
-    /**
-     * @var Collection
-     *
-     * @ORM\OneToMany(targetEntity="CourseResourceEquipment", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
-     * @ORM\OrderBy({"position" = "ASC", "equipment" = "ASC"})
-     * @Assert\Count(max="0", groups={"info_empty"})
-     * @Assert\Valid
-     */
+    
+    #[ORM\OneToMany(targetEntity: CourseResourceEquipment::class, mappedBy: 'courseInfo', cascade: ['persist'], orphanRemoval: true)]
+    #[ORM\OrderBy(['position' => 'ASC', 'equipment' => 'ASC'])]
+    #[Assert\Count(max: 0, groups: ['info_empty'])]
+    #[Assert\Valid]
     private Collection $courseResourceEquipments;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\ManyToMany(targetEntity="Level")
-     * @ORM\JoinTable(name="courseinfo_level",
-     *     joinColumns={@ORM\JoinColumn(name="courseinfo_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="level_id", referencedColumnName="id")}
-     * )
-     * @Assert\Count(min="1", groups={"presentation"})
      */
+    #[ORM\JoinTable(name: 'courseinfo_level')]
+    #[ORM\JoinColumn(name: 'courseinfo_id', referencedColumnName: 'id')]
+    #[ORM\InverseJoinColumn(name: 'level_id', referencedColumnName: 'id')]
+    #[ORM\ManyToMany(targetEntity: Level::class)]
+    #[Assert\Count(min: 1, groups: ['presentation'])]
     private $levels;
 
-    /**
-     * @var string|null
-     */
     private ?string $previousImage = null;
 
-    /**
-     * @var
-     *
-     * @ORM\Column(name="duplicate_next_year", type="boolean", nullable=false)
-     */
+    #[ORM\Column(name: 'duplicate_next_year', type: 'boolean', nullable: false)]
     private bool $duplicateNextYear = true;
 
     /**
@@ -818,49 +599,30 @@ class CourseInfo
         $this->levels = new ArrayCollection();
     }
 
-    /**
-     * @param Collection $campuses
-     * @return CourseInfo
-     */
     public function setCampuses(Collection $campuses): CourseInfo
     {
         $this->campuses = $campuses;
         return $this;
     }
 
-    /**
-     * @param Collection $languages
-     * @return CourseInfo
-     */
     public function setLanguages(Collection $languages): CourseInfo
     {
         $this->languages = $languages;
         return $this;
     }
 
-    /**
-     * @param Collection $domains
-     * @return CourseInfo
-     */
     public function setDomains(Collection $domains): CourseInfo
     {
         $this->domains = $domains;
         return $this;
     }
 
-    /**
-     * @param ArrayCollection $periods
-     * @return CourseInfo
-     */
     public function setPeriods(ArrayCollection $periods): CourseInfo
     {
         $this->periods = $periods;
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getDuplicateNextYear(): mixed
     {
         return $this->duplicateNextYear;
@@ -878,18 +640,11 @@ class CourseInfo
     }
 
 
-    /**
-     * @return string|null
-     */
     public function getId(): ?string
     {
         return $this->id;
     }
 
-    /**
-     * @param null|string $id
-     * @return CourseInfo
-     */
     public function setId(?string $id): self
     {
         $this->id = $id;
@@ -905,10 +660,6 @@ class CourseInfo
         return $this->title;
     }
 
-    /**
-     * @param string|null $title
-     * @return CourseInfo
-     */
     public function setTitle(?string $title): self
     {
         $this->title = $title;
@@ -916,16 +667,12 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return float|null
-     */
     public function getEcts(): ?float
     {
         return $this->ects;
     }
 
     /**
-     * @param int|null $ects
      * @return $this
      */
     public function setEcts(?int $ects): static
@@ -951,10 +698,6 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @param Level $level
-     * @return CourseInfo
-     */
     public function addLevel(Level $level): self
     {
         if (!$this->levels->contains($level))
@@ -964,10 +707,6 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @param Level $level
-     * @return CourseInfo
-     */
     public function removeLevel(Level $level): self
     {
         if ($this->levels->contains($level))
@@ -977,9 +716,6 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getSummary(): ?string
     {
         return $this->summary;
@@ -996,9 +732,6 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getImage(): ?string
     {
         return $this->image;
@@ -1015,18 +748,11 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getVideo(): ?string
     {
         return $this->video;
     }
 
-    /**
-     * @param string|null $video
-     * @return CourseInfo
-     */
     public function setVideo(?string $video): static
     {
         $this->video = $video;
@@ -1034,9 +760,6 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getTeachingMode(): ?string
     {
         return $this->teachingMode;
@@ -1053,9 +776,6 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return float|null
-     */
     public function getTeachingCmClass(): ?float
     {
         return $this->teachingCmClass;
@@ -1072,9 +792,6 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return float|null
-     */
     public function getTeachingTdClass(): ?float
     {
         return $this->teachingTdClass;
@@ -1091,9 +808,6 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return float|null
-     */
     public function getTeachingTpClass(): ?float
     {
         return $this->teachingTpClass;
@@ -1110,9 +824,6 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return float|null
-     */
     public function getTeachingOtherClass(): ?float
     {
         return $this->teachingOtherClass;
@@ -1129,9 +840,6 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getTeachingOtherTypeClass(): ?string
     {
         return $this->teachingOtherTypeClass;
@@ -1149,9 +857,6 @@ class CourseInfo
     }
 
 
-    /**
-     * @return float|null
-     */
     public function getTeachingCmHybridClass(): ?float
     {
         return $this->teachingCmHybridClass;
@@ -1168,9 +873,6 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return float|null
-     */
     public function getTeachingTdHybridClass(): ?float
     {
         return $this->teachingTdHybridClass;
@@ -1187,9 +889,6 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return float|null
-     */
     public function getTeachingTpHybridClass(): ?float
     {
         return $this->teachingTpHybridClass;
@@ -1206,9 +905,6 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return float|null
-     */
     public function getTeachingOtherHybridClass(): ?float
     {
         return $this->teachingOtherHybridClass;
@@ -1225,9 +921,6 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getTeachingOtherTypeHybridClass(): ?string
     {
         return $this->teachingOtherTypeHybridClass;
@@ -1245,9 +938,6 @@ class CourseInfo
     }
 
 
-    /**
-     * @return float|null
-     */
     public function getTeachingCmHybridDist(): ?float
     {
         return $this->teachingCmHybridDist;
@@ -1264,9 +954,6 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return float|null
-     */
     public function getTeachingTdHybridDist(): ?float
     {
         return $this->teachingTdHybridDist;
@@ -1283,9 +970,6 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return float|null
-     */
     public function getTeachingOtherHybridDist(): ?float
     {
         return $this->teachingOtherHybridDist;
@@ -1302,9 +986,6 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getTeachingOtherTypeHybridDistant(): ?string
     {
         return $this->teachingOtherTypeHybridDistant;
@@ -1321,90 +1002,55 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return float|null
-     */
     public function getTeachingCmDist(): ?float
     {
         return $this->teachingCmDist;
     }
 
-    /**
-     * @param float|null $teachingCmDist
-     * @return CourseInfo
-     */
     public function setTeachingCmDist(?float $teachingCmDist): self
     {
         $this->teachingCmDist = $teachingCmDist;
         return $this;
     }
 
-    /**
-     * @return float|null
-     */
     public function getTeachingTdDist(): ?float
     {
         return $this->teachingTdDist;
     }
 
-    /**
-     * @param float|null $teachingTdDist
-     * @return CourseInfo
-     */
     public function setTeachingTdDist(?float $teachingTdDist): self
     {
         $this->teachingTdDist = $teachingTdDist;
         return $this;
     }
 
-    /**
-     * @return float|null
-     */
     public function getTeachingOtherDist(): ?float
     {
         return $this->teachingOtherDist;
     }
 
-    /**
-     * @param float|null $teachingOtherDist
-     * @return CourseInfo
-     */
     public function setTeachingOtherDist(?float $teachingOtherDist): self
     {
         $this->teachingOtherDist = $teachingOtherDist;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getTeachingOtherTypeDist(): ?string
     {
         return $this->teachingOtherTypeDist;
     }
 
-    /**
-     * @param null|string $teachingOtherTypeDist
-     * @return CourseInfo
-     */
     public function setTeachingOtherTypeDist(?string $teachingOtherTypeDist): self
     {
         $this->teachingOtherTypeDist = $teachingOtherTypeDist;
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
     public function getTeachings(): Collection
     {
         return $this->teachings;
     }
 
-    /**
-     * @param string $mode
-     * @return Collection
-     */
     public function getTeachingsByMode(string $mode): Collection
     {
         return $this->getTeachings()->filter(function(Teaching $teaching) use($mode){
@@ -1412,10 +1058,6 @@ class CourseInfo
         });
     }
 
-    /**
-     * @param Collection $teachings
-     * @return CourseInfo
-     */
     public function setTeachings(Collection $teachings): self
     {
         $this->teachings = $teachings;
@@ -1425,10 +1067,6 @@ class CourseInfo
 
 
 
-    /**
-     * @param Teaching $teaching
-     * @return CourseInfo
-     */
     public function addTeaching(Teaching $teaching): self
     {
         if(!$this->teachings->contains($teaching))
@@ -1443,10 +1081,6 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @param Teaching $teaching
-     * @return CourseInfo
-     */
     public function removeTeaching(Teaching $teaching): self
     {
         if ($this->teachings->contains($teaching))
@@ -1461,9 +1095,6 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return float|null
-     */
     public function getMccWeight(): ?float
     {
         return $this->mccWeight;
@@ -1480,18 +1111,11 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isMccCompensable(): bool
     {
         return $this->mccCompensable;
     }
 
-    /**
-     * @param bool $mccCompensable
-     * @return CourseInfo
-     */
     public function setMccCompensable(bool $mccCompensable): self
     {
         $this->mccCompensable = $mccCompensable;
@@ -1499,18 +1123,11 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isMccCapitalizable(): bool
     {
         return $this->mccCapitalizable;
     }
 
-    /**
-     * @param bool $mccCapitalizable
-     * @return CourseInfo
-     */
     public function setMccCapitalizable(bool $mccCapitalizable): self
     {
         $this->mccCapitalizable = $mccCapitalizable;
@@ -1537,18 +1154,11 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
     public function getMccCcNbEvalSession1(): ?int
     {
         return $this->mccCcNbEvalSession1;
     }
 
-    /**
-     * @param int|null $mccCcNbEvalSession1
-     * @return CourseInfo
-     */
     public function setMccCcNbEvalSession1(?int $mccCcNbEvalSession1): static
     {
         $this->mccCcNbEvalSession1 = $mccCcNbEvalSession1;
@@ -1556,18 +1166,11 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return float|null
-     */
     public function getMccCtCoeffSession1(): ?float
     {
         return $this->mccCtCoeffSession1;
     }
 
-    /**
-     * @param float|null $mccCtCoeffSession1
-     * @return CourseInfo
-     */
     public function setMccCtCoeffSession1(?float $mccCtCoeffSession1): static
     {
         $this->mccCtCoeffSession1 = $mccCtCoeffSession1;
@@ -1575,18 +1178,11 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getMccCtNatSession1(): ?string
     {
         return $this->mccCtNatSession1;
     }
 
-    /**
-     * @param null|string $mccCtNatSession1
-     * @return CourseInfo
-     */
     public function setMccCtNatSession1(?string $mccCtNatSession1): static
     {
         $this->mccCtNatSession1 = $mccCtNatSession1;
@@ -1594,18 +1190,11 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getMccCtDurationSession1(): ?string
     {
         return $this->mccCtDurationSession1;
     }
 
-    /**
-     * @param string|null $mccCtDurationSession1
-     * @return CourseInfo
-     */
     public function setMccCtDurationSession1(?string $mccCtDurationSession1): static
     {
         $this->mccCtDurationSession1 = $mccCtDurationSession1;
@@ -1613,18 +1202,11 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return float|null
-     */
     public function getMccCtCoeffSession2(): ?float
     {
         return $this->mccCtCoeffSession2;
     }
 
-    /**
-     * @param float|null $mccCtCoeffSession2
-     * @return CourseInfo
-     */
     public function setMccCtCoeffSession2(?float $mccCtCoeffSession2): static
     {
         $this->mccCtCoeffSession2 = $mccCtCoeffSession2;
@@ -1632,18 +1214,11 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getMccCtNatSession2(): ?string
     {
         return $this->mccCtNatSession2;
     }
 
-    /**
-     * @param string|null $mccCtNatSession2
-     * @return CourseInfo
-     */
     public function setMccCtNatSession2(?string $mccCtNatSession2): static
     {
         $this->mccCtNatSession2 = $mccCtNatSession2;
@@ -1651,18 +1226,11 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getMccCtDurationSession2(): ?string
     {
         return $this->mccCtDurationSession2;
     }
 
-    /**
-     * @param string|null $mccCtDurationSession2
-     * @return CourseInfo
-     */
     public function setMccCtDurationSession2(?string $mccCtDurationSession2): static
     {
         $this->mccCtDurationSession2 = $mccCtDurationSession2;
@@ -1670,9 +1238,6 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getMccAdvice(): ?string
     {
         return $this->mccAdvice;
@@ -1680,7 +1245,6 @@ class CourseInfo
 
     /**
      * @param null|string $mccAdvice
-     * @return CourseInfo
      */
     public function setMccAdvice($mccAdvice): static
     {
@@ -1689,18 +1253,11 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isTutoring(): bool
     {
         return $this->tutoring;
     }
 
-    /**
-     * @param bool $tutoring
-     * @return CourseInfo
-     */
     public function setTutoring(bool $tutoring): self
     {
         $this->tutoring = $tutoring;
@@ -1708,18 +1265,11 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isTutoringTeacher(): bool
     {
         return $this->tutoringTeacher;
     }
 
-    /**
-     * @param bool $tutoringTeacher
-     * @return CourseInfo
-     */
     public function setTutoringTeacher(bool $tutoringTeacher): self
     {
         $this->tutoringTeacher = $tutoringTeacher;
@@ -1727,18 +1277,11 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isTutoringStudent(): bool
     {
         return $this->tutoringStudent;
     }
 
-    /**
-     * @param bool $tutoringStudent
-     * @return CourseInfo
-     */
     public function setTutoringStudent(bool $tutoringStudent): self
     {
         $this->tutoringStudent = $tutoringStudent;
@@ -1746,18 +1289,11 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getTutoringDescription(): ?string
     {
         return $this->tutoringDescription;
     }
 
-    /**
-     * @param string|null $tutoringDescription
-     * @return CourseInfo
-     */
     public function setTutoringDescription(?string $tutoringDescription): static
     {
         $this->tutoringDescription = $tutoringDescription;
@@ -1765,18 +1301,11 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getEducationalResources(): ?string
     {
         return $this->educationalResources;
     }
 
-    /**
-     * @param string|null $educationalResources
-     * @return CourseInfo
-     */
     public function setEducationalResources(?string $educationalResources): static
     {
         $this->educationalResources = $educationalResources;
@@ -1784,18 +1313,11 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getBibliographicResources(): ?string
     {
         return $this->bibliographicResources;
     }
 
-    /**
-     * @param string|null $bibliographicResources
-     * @return CourseInfo
-     */
     public function setBibliographicResources(?string $bibliographicResources): static
     {
         $this->bibliographicResources = $bibliographicResources;
@@ -1803,18 +1325,11 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getAgenda(): ?string
     {
         return $this->agenda;
     }
 
-    /**
-     * @param string|null $agenda
-     * @return CourseInfo
-     */
     public function setAgenda(?string $agenda): static
     {
         $this->agenda = $agenda;
@@ -1822,18 +1337,11 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getOrganization(): ?string
     {
         return $this->organization;
     }
 
-    /**
-     * @param string|null $organization
-     * @return CourseInfo
-     */
     public function setOrganization(?string $organization): static
     {
         $this->organization = $organization;
@@ -1841,18 +1349,11 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getClosingRemarks(): ?string
     {
         return $this->closingRemarks;
     }
 
-    /**
-     * @param string|null $closingRemarks
-     * @return CourseInfo
-     */
     public function setClosingRemarks(?string $closingRemarks): static
     {
         $this->closingRemarks = $closingRemarks;
@@ -1860,18 +1361,11 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getClosingVideo(): ?string
     {
         return $this->closingVideo;
     }
 
-    /**
-     * @param string|null $closingVideo
-     * @return CourseInfo
-     */
     public function setClosingVideo(?string $closingVideo): static
     {
         $this->closingVideo = $closingVideo;
@@ -1879,18 +1373,11 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return DateTime|null
-     */
     public function getCreationDate(): ?DateTime
     {
         return $this->creationDate;
     }
 
-    /**
-     * @param DateTime|null $creationDate
-     * @return CourseInfo
-     */
     public function setCreationDate(?DateTime $creationDate): static
     {
         $this->creationDate = $creationDate;
@@ -1898,18 +1385,11 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return DateTime|null
-     */
     public function getModificationDate(): ?DateTime
     {
         return $this->modificationDate;
     }
 
-    /**
-     * @param DateTime|null $modificationDate
-     * @return CourseInfo
-     */
     public function setModificationDate(?DateTime $modificationDate): static
     {
         $this->modificationDate = $modificationDate;
@@ -1917,18 +1397,11 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return DateTime|null
-     */
     public function getPublicationDate(): ?DateTime
     {
         return $this->publicationDate;
     }
 
-    /**
-     * @param DateTime|null $publicationDate
-     * @return CourseInfo
-     */
     public function setPublicationDate(?DateTime $publicationDate): static
     {
         $this->publicationDate = $publicationDate;
@@ -1936,18 +1409,11 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getMediaType(): ?string
     {
         return $this->mediaType;
     }
 
-    /**
-     * @param string|null $mediaType
-     * @return CourseInfo
-     */
     public function setMediaType(?string $mediaType): static
     {
         $this->mediaType = $mediaType;
@@ -1972,7 +1438,6 @@ class CourseInfo
     }
 
     /**
-     * @param Course|null $course
      * @return $this
      */
     public function setCourse(?Course $course): self
@@ -1982,9 +1447,6 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return Structure|null
-     */
     public function getStructure(): ?Structure
     {
         return $this->structure;
@@ -1998,10 +1460,6 @@ class CourseInfo
         return $this->getStructure()->getId();
     }
 
-    /**
-     * @param Structure|null $structure
-     * @return CourseInfo
-     */
     public function setStructure(?Structure $structure): self
     {
         $this->structure = $structure;
@@ -2009,18 +1467,11 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return null|User
-     */
     public function getLastUpdater(): ?User
     {
         return $this->lastUpdater;
     }
 
-    /**
-     * @param User|null $lastUpdater
-     * @return CourseInfo
-     */
     public function setLastUpdater(?User $lastUpdater): self
     {
         $this->lastUpdater = $lastUpdater;
@@ -2028,18 +1479,11 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return null|User
-     */
     public function getPublisher(): ?User
     {
         return $this->publisher;
     }
 
-    /**
-     * @param User|null $publisher
-     * @return CourseInfo
-     */
     public function setPublisher(?User $publisher): self
     {
         $this->publisher = $publisher;
@@ -2047,9 +1491,6 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return Year|null
-     */
     public function getYear(): ?Year
     {
         return $this->year;
@@ -2063,10 +1504,6 @@ class CourseInfo
         return $this->getYear()->getId();
     }
 
-    /**
-     * @param Year $year
-     * @return CourseInfo
-     */
     public function setYear(Year $year): self
     {
         $this->year = $year;
@@ -2074,18 +1511,11 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return Collection|null
-     */
     public function getCoursePermissions(): ?Collection
     {
         return $this->coursePermissions;
     }
 
-    /**
-     * @param Collection $coursePermissions
-     * @return CourseInfo
-     */
     public function setCoursePermissions(Collection $coursePermissions): self
     {
         $this->coursePermissions = $coursePermissions;
@@ -2094,7 +1524,6 @@ class CourseInfo
     }
 
     /**
-     * @param CoursePermission $coursePermission
      * @return $this
      */
     public function addCoursePermission(CoursePermission $coursePermission): self
@@ -2112,7 +1541,6 @@ class CourseInfo
     }
 
     /**
-     * @param CoursePermission $coursePermission
      * @return $this
      */
     public function removeCoursePermission(CoursePermission $coursePermission): self
@@ -2129,18 +1557,11 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
     public function getCourseTeachers(): Collection
     {
         return $this->courseTeachers;
     }
 
-    /**
-     * @param Collection $courseTeachers
-     * @return CourseInfo
-     */
     public function setCourseTeachers(Collection $courseTeachers): self
     {
         $this->courseTeachers = $courseTeachers;
@@ -2148,10 +1569,6 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @param CourseTeacher $courseTeacher
-     * @return CourseInfo
-     */
     public function addCourseTeacher(CourseTeacher $courseTeacher): self
     {
         if(!$this->courseTeachers->contains($courseTeacher))
@@ -2166,10 +1583,6 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @param CourseTeacher $courseTeacher
-     * @return CourseInfo
-     */
     public function removeCourseTeacher(CourseTeacher $courseTeacher): self
     {
         if ($this->courseTeachers->contains($courseTeacher))
@@ -2183,18 +1596,11 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
     public function getCourseSections(): Collection
     {
         return $this->courseSections;
     }
 
-    /**
-     * @param Collection $courseSections
-     * @return CourseInfo
-     */
     public function setCourseSections(Collection $courseSections): self
     {
         $this->courseSections = $courseSections;
@@ -2202,10 +1608,6 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @param CourseSection $courseSection
-     * @return CourseInfo
-     */
     public function addCourseSection(CourseSection $courseSection): self
     {
         if(!$this->courseSections->contains($courseSection))
@@ -2220,10 +1622,6 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @param CourseSection $courseSection
-     * @return CourseInfo
-     */
     public function removeCourseSection(CourseSection $courseSection): self
     {
         if ($this->courseSections->contains($courseSection))
@@ -2239,18 +1637,11 @@ class CourseInfo
     }
 
 
-    /**
-     * @return Collection
-     */
     public function getCourseAchievements(): Collection
     {
         return $this->courseAchievements;
     }
 
-    /**
-     * @param Collection $courseAchievements
-     * @return CourseInfo
-     */
     public function setCourseAchievements(Collection $courseAchievements): self
     {
         $this->courseAchievements = $courseAchievements;
@@ -2258,10 +1649,6 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @param CourseAchievement $courseAchievement
-     * @return CourseInfo
-     */
     public function addCourseAchievement(CourseAchievement $courseAchievement): self
     {
         if(!$this->courseAchievements->contains($courseAchievement))
@@ -2276,10 +1663,6 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @param CourseAchievement $courseAchievement
-     * @return CourseInfo
-     */
     public function removeCourseAchievement(CourseAchievement $courseAchievement): self
     {
         if ($this->courseAchievements->contains($courseAchievement))
@@ -2294,18 +1677,11 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
     public function getCoursePrerequisites(): Collection
     {
         return $this->coursePrerequisites;
     }
 
-    /**
-     * @param Collection $coursePrerequisites
-     * @return CourseInfo
-     */
     public function setCoursePrerequisites(Collection $coursePrerequisites): self
     {
         $this->coursePrerequisites = $coursePrerequisites;
@@ -2313,10 +1689,6 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @param CoursePrerequisite $coursePrerequisite
-     * @return CourseInfo
-     */
     public function addCoursePrerequisite(CoursePrerequisite $coursePrerequisite): self
     {
         if(!$this->coursePrerequisites->contains($coursePrerequisite))
@@ -2331,10 +1703,6 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @param CoursePrerequisite $coursePrerequisite
-     * @return CourseInfo
-     */
     public function removeCoursePrerequisite(CoursePrerequisite $coursePrerequisite): self
     {
         if ($this->coursePrerequisites->contains($coursePrerequisite))
@@ -2349,18 +1717,11 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
     public function getCourseTutoringResources(): Collection
     {
         return $this->courseTutoringResources;
     }
 
-    /**
-     * @param Collection $courseTutoringResources
-     * @return CourseInfo
-     */
     public function setCourseTutoringResources(Collection $courseTutoringResources): self
     {
         $this->courseTutoringResources = $courseTutoringResources;
@@ -2368,10 +1729,6 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @param CourseTutoringResource $courseTutoringResource
-     * @return CourseInfo
-     */
     public function addCourseTutoringResource(CourseTutoringResource $courseTutoringResource): self
     {
         if(!$this->courseTutoringResources->contains($courseTutoringResource))
@@ -2386,10 +1743,6 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @param CourseTutoringResource $courseTutoringResource
-     * @return CourseInfo
-     */
     public function removeCourseTutoringResource(CourseTutoringResource $courseTutoringResource): self
     {
         if ($this->courseTutoringResources->contains($courseTutoringResource))
@@ -2412,10 +1765,6 @@ class CourseInfo
         return $this->courseResourceEquipments;
     }
 
-    /**
-     * @param Collection $courseResourceEquipments
-     * @return CourseInfo
-     */
     public function setCourseResourceEquipments(Collection $courseResourceEquipments): self
     {
         $this->courseResourceEquipments = $courseResourceEquipments;
@@ -2423,10 +1772,6 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @param CourseResourceEquipment $courseResourceEquipment
-     * @return CourseInfo
-     */
     public function addCourseResourceEquipment(CourseResourceEquipment $courseResourceEquipment): self
     {
         if(!$this->courseResourceEquipments->contains($courseResourceEquipment))
@@ -2441,10 +1786,6 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @param CourseResourceEquipment $courseResourceEquipment
-     * @return CourseInfo
-     */
     public function removeCourseResourceEquipment(CourseResourceEquipment $courseResourceEquipment): self
     {
         if ($this->courseResourceEquipments->contains($courseResourceEquipment))
@@ -2458,9 +1799,6 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getPreviousImage(): ?string
     {
         return $this->previousImage;
@@ -2477,10 +1815,6 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @param Language $language
-     * @return CourseInfo
-     */
     public function addLanguage(Language $language): self
     {
         if (!$this->languages->contains($language))
@@ -2490,10 +1824,6 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @param Language $language
-     * @return CourseInfo
-     */
     public function removeLanguage(Language $language): self
     {
         if ($this->languages->contains($language))
@@ -2503,18 +1833,11 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
     public function getLanguages(): Collection
     {
         return $this->languages;
     }
 
-    /**
-     * @param Campus $campus
-     * @return CourseInfo
-     */
     public function addCampus(Campus $campus): self
     {
         if (!$this->campuses->contains($campus))
@@ -2524,10 +1847,6 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @param Campus $campus
-     * @return CourseInfo
-     */
     public function removeCampus(Campus $campus): self
     {
         if ($this->campuses->contains($campus))
@@ -2537,18 +1856,11 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
     public function getCampuses(): Collection
     {
         return $this->campuses;
     }
 
-    /**
-     * @param Domain $domain
-     * @return CourseInfo
-     */
     public function addDomain(Domain $domain): self
     {
         if (!$this->domains->contains($domain))
@@ -2558,10 +1870,6 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @param Domain $domain
-     * @return CourseInfo
-     */
     public function removeDomain(Domain $domain): self
     {
         if ($this->domains->contains($domain))
@@ -2571,18 +1879,11 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
     public function getDomains(): Collection
     {
         return $this->domains;
     }
 
-    /**
-     * @param Period $period
-     * @return CourseInfo
-     */
     public function addPeriod(Period $period): self
     {
         if (!$this->periods->contains($period))
@@ -2592,10 +1893,6 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @param Period $period
-     * @return CourseInfo
-     */
     public function removePeriod(Period $period): self
     {
         if ($this->periods->contains($period))
@@ -2605,18 +1902,11 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
     public function getPeriods(): Collection
     {
         return $this->periods;
     }
 
-    /**
-     * @param CourseCriticalAchievement $courseCriticalAchievement
-     * @return CourseInfo
-     */
     public function addCourseCriticalAchievement(CourseCriticalAchievement $courseCriticalAchievement): self
     {
         if (!$this->courseCriticalAchievements->contains($courseCriticalAchievement))
@@ -2626,10 +1916,6 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @param CourseCriticalAchievement $courseCriticalAchievement
-     * @return CourseInfo
-     */
     public function removeCourseCriticalAchievement(CourseCriticalAchievement $courseCriticalAchievement): self
     {
         if ($this->courseCriticalAchievements->contains($courseCriticalAchievement))
@@ -2639,9 +1925,6 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getCourseCriticalAchievements(): mixed
     {
         return $this->courseCriticalAchievements;
@@ -2649,7 +1932,6 @@ class CourseInfo
 
     /**
      * @param $courseCriticalAchievements
-     * @return CourseInfo
      */
     public function setCourseCriticalAchievements($courseCriticalAchievements): CourseInfo
     {
@@ -2657,18 +1939,11 @@ class CourseInfo
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getBakLanguages(): ?string
     {
         return $this->bakLanguages;
     }
 
-    /**
-     * @param string|null $bakLanguages
-     * @return CourseInfo
-     */
     public function setBakLanguages(?string $bakLanguages): CourseInfo
     {
         $this->bakLanguages = $bakLanguages;
@@ -2832,17 +2107,10 @@ class CourseInfo
         $mediaType = $this->getMediaType();
 
         if (in_array($mediaType, ['image', 'video'])) {
-
-            if ($mediaType == "video") {
-                $mediaTypeAlt = "image";
-            } else {
-                $mediaTypeAlt = "video";
-            }
-
+            $mediaTypeAlt = $mediaType == "video" ? "image" : "video";
             $f1 = "get" . ucfirst($mediaType);
             $f2 = "get" . ucfirst($mediaTypeAlt);
             $f3 = "set" . ucfirst($mediaType);
-
             if (empty($this->$f1())) {
                 if (!empty($this->$f2())) {
                     $this->setMediaType($mediaTypeAlt);
@@ -2851,15 +2119,12 @@ class CourseInfo
                 }
                 $this->$f3(null);
             }
-
-        } else {
-            if(!empty($this->getImage())){
-                $this->setMediaType('image');
-            }elseif(!empty($this->getVideo())){
-                $this->setMediaType('video');
-            }else{
-                $this->setMediaType(null);
-            }
+        } elseif ($this->getImage() !== null && $this->getImage() !== '' && $this->getImage() !== '0') {
+            $this->setMediaType('image');
+        } elseif($this->getVideo() !== null && $this->getVideo() !== '' && $this->getVideo() !== '0'){
+            $this->setMediaType('video');
+        } else{
+            $this->setMediaType(null);
         }
     }
 

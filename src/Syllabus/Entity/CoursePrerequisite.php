@@ -15,12 +15,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 
 /**
  * CoursePrerequisite
  *
- * @ORM\Table(name="course_prerequisite")
- * @ORM\Entity
  * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\CoursePrerequisiteTranslation")
  */
 #[
@@ -470,56 +469,42 @@ use Gedmo\Mapping\Annotation as Gedmo;
         filters: ['id.search_filter']
     )
 ]
+#[ORM\Entity]
+#[ORM\Table(name: 'course_prerequisite')]
 class CoursePrerequisite
 {
-    /**
-     * @var null|string
-     *
-     * @ORM\Column(type="string", length=36, unique=true, options={"fixed"=true})
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
-     */
+    
+    #[ORM\Column(type: 'string', length: 36, unique: true, options: ['fixed' => true])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?string $id;
 
     /**
-     * @var null|string
-     *
-     * @ORM\Column(name="description", type="text", length=65535, nullable=true)
      * @Gedmo\Translatable
      */
+    #[ORM\Column(name: 'description', type: 'text', length: 65535, nullable: true)]
     private ?string $description = "";
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="position", type="integer", nullable=false)
-     */
+    
+    #[ORM\Column(name: 'position', type: 'integer', nullable: false)]
     private int $position = 0;
 
-    /**
-     * @var CourseInfo
-     *
-     * @ORM\ManyToOne(targetEntity="App\Syllabus\Entity\CourseInfo", inversedBy="coursePrerequisites")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="course_info_id", referencedColumnName="id", nullable=false)
-     * })
-     */
+    
+    #[ORM\ManyToOne(targetEntity: CourseInfo::class, inversedBy: 'coursePrerequisites')]
+    #[ORM\JoinColumn(name: 'course_info_id', referencedColumnName: 'id', nullable: false)]
     private CourseInfo $courseInfo;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="is_course_associated", type="boolean", nullable=false)
-     */
+    
+    #[ORM\Column(name: 'is_course_associated', type: 'boolean', nullable: false)]
     private bool $isCourseAssociated = false;
 
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="Course", mappedBy="coursePrerequisites")
      *
      */
+    #[ORM\ManyToMany(targetEntity: Course::class, mappedBy: 'coursePrerequisites')]
     private $courses;
 
     /**
@@ -530,18 +515,11 @@ class CoursePrerequisite
         $this->courses = new ArrayCollection();
     }
 
-    /**
-     * @return null|string
-     */
     public function getId(): ?string
     {
         return $this->id;
     }
 
-    /**
-     * @param null|string $id
-     * @return CoursePrerequisite
-     */
     public function setId(?string $id): self
     {
         $this->id = $id;
@@ -549,18 +527,11 @@ class CoursePrerequisite
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    /**
-     * @param string|null $description
-     * @return CoursePrerequisite
-     */
     public function setDescription(?string $description): self
     {
         $this->description = $description;
@@ -576,10 +547,6 @@ class CoursePrerequisite
         return $this->position;
     }
 
-    /**
-     * @param int $position
-     * @return CoursePrerequisite
-     */
     public function setPosition(int $position): self
     {
         $this->position = $position;
@@ -587,18 +554,11 @@ class CoursePrerequisite
         return $this;
     }
 
-    /**
-     * @return CourseInfo|null
-     */
     public function getCourseInfo(): ?CourseInfo
     {
         return $this->courseInfo;
     }
 
-    /**
-     * @param CourseInfo|null $courseInfo
-     * @return CoursePrerequisite
-     */
     public function setCourseInfo(?CourseInfo $courseInfo): self
     {
         $this->courseInfo = $courseInfo;
@@ -606,18 +566,11 @@ class CoursePrerequisite
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isCourseAssociated(): bool
     {
         return $this->isCourseAssociated;
     }
 
-    /**
-     * @param bool $isCourseAssociated
-     * @return CoursePrerequisite
-     */
     public function setIsCourseAssociated(bool $isCourseAssociated): CoursePrerequisite
     {
         $this->isCourseAssociated = $isCourseAssociated;
@@ -632,20 +585,12 @@ class CoursePrerequisite
         return $this->courses;
     }
 
-    /**
-     * @param Collection|null $courses
-     * @return CoursePrerequisite
-     */
     public function setCourses(?Collection $courses): CoursePrerequisite
     {
         $this->courses = $courses;
         return $this;
     }
 
-    /**
-     * @param Course $course
-     * @return CoursePrerequisite
-     */
     public function addCourse(Course $course): self
     {
         if (!$this->courses->contains($course))
@@ -659,10 +604,6 @@ class CoursePrerequisite
         return $this;
     }
 
-    /**
-     * @param Course $course
-     * @return CoursePrerequisite
-     */
     public function removeCourse(Course $course): self
     {
         if ($this->courses->contains($course))

@@ -13,14 +13,13 @@ use ApiPlatform\Metadata\ApiFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Groups
  *
- * @ORM\Table(name="groups")
- * @ORM\Entity(repositoryClass="App\Syllabus\Repository\Doctrine\GroupsDoctrineRepository")
  * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\GroupsTranslation")
  */
 #[
@@ -35,48 +34,34 @@ use Gedmo\Mapping\Annotation as Gedmo;
         security: 'is_granted(\'ROLE_API_GROUPS\')'
     )
 ]
+#[ORM\Entity(repositoryClass: \App\Syllabus\Repository\Doctrine\GroupsDoctrineRepository::class)]
+#[ORM\Table(name: 'groups')]
 class Groups
 {
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(type="string", unique=true)
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
-     */
+    
+    #[ORM\Column(type: 'string', unique: true)]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?string $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="label", type="string", length=50, unique=true)
-     * @Assert\NotBlank()
      * @Gedmo\Translatable
      */
+    #[ORM\Column(name: 'label', type: 'string', length: 50, unique: true)]
+    #[Assert\NotBlank]
     private string $label;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="obsolete", type="boolean", nullable=false)
-     */
+    
+    #[ORM\Column(name: 'obsolete', type: 'boolean', nullable: false)]
     private bool $obsolete = false;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\User", mappedBy="groups")
-     */
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'groups')]
     private $users;
 
-    /**
-     * @var array
-     *
-     * @ORM\Column(name="roles", type="array", nullable=true)
-     * @Assert\Count(
-     *      min = 1,
-     *      minMessage = "Vous devez selectionner au moins un rôle",
-     * )
-     */
+    
+    #[ORM\Column(name: 'roles', type: 'array', nullable: true)]
+    #[Assert\Count(min: 1, minMessage: 'Vous devez selectionner au moins un rôle')]
     private array $roles = [];
 
     public function __construct()
@@ -84,9 +69,6 @@ class Groups
         $this->users = new ArrayCollection();
     }
 
-    /**
-     * @return string|null
-     */
     public function getId(): ?string
     {
         return $this->id;
@@ -94,7 +76,6 @@ class Groups
 
     /**
      * @param $label
-     * @return $this
      */
     public function setLabel($label): Groups
     {
@@ -103,56 +84,37 @@ class Groups
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getLabel(): string
     {
         return $this->label;
     }
 
-    /**
-     * @return array
-     */
     public function getRoles(): array
     {
         return $this->roles;
     }
 
-    /**
-     * @param array $roles
-     */
     public function setRoles(array $roles): void
     {
         $this->roles = $roles;
     }
 
-    /**
-     * @return bool
-     */
     public function isObsolete(): bool
     {
         return $this->obsolete;
     }
 
-    /**
-     * @param bool $obsolete
-     */
     public function setObsolete(bool $obsolete): void
     {
         $this->obsolete = $obsolete;
     }
 
-    /**
-     * @return null|Collection
-     */
     public function getUsers(): ?Collection
     {
         return $this->users;
     }
 
     /**
-     * @param null|Collection $users
      * @return $this
      */
     public function setUsers(?Collection $users): self
@@ -163,7 +125,6 @@ class Groups
     }
 
     /**
-     * @param User|null $user
      * @return $this
      */
     public function addUser(?User $user): self
@@ -178,7 +139,6 @@ class Groups
     }
 
     /**
-     * @param User $user
      * @return $this
      */
     public function removeUser(User $user): self

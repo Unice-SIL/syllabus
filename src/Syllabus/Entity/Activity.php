@@ -15,13 +15,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Activity
  *
- * @ORM\Table(name="activity")
- * @ORM\Entity(repositoryClass="App\Syllabus\Repository\Doctrine\ActivityDoctrineRepository")
  * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\ActivityTranslation")
  */
 #[
@@ -218,63 +217,46 @@ use Symfony\Component\Validator\Constraints as Assert;
         filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
     )
 ]
+#[ORM\Entity(repositoryClass: \App\Syllabus\Repository\Doctrine\ActivityDoctrineRepository::class)]
+#[ORM\Table(name: 'activity')]
 class Activity
 {
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=36, unique=true,options={"fixed"=true})
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
-     */
+    
+    #[ORM\Column(type: 'string', length: 36, unique: true, options: ['fixed' => true])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private string $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="label", type="string", length=100, nullable=false)
-     * @Assert\NotBlank()
      * @Gedmo\Translatable
      */
+    #[ORM\Column(name: 'label', type: 'string', length: 100, nullable: false)]
+    #[Assert\NotBlank]
     private string $label;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="description", type="string", length=400, nullable=true)
-     * @Assert\Length(max="200")
      * @Gedmo\Translatable
      */
+    #[ORM\Column(name: 'description', type: 'string', length: 400, nullable: true)]
+    #[Assert\Length(max: 200)]
     private ?string $description;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="label_visibility", type="boolean", nullable=false, options={"comment"="Témoin affichage de l'intitulé de l'activité"})
-     */
+    
+    #[ORM\Column(name: 'label_visibility', type: 'boolean', nullable: false, options: ['comment' => "Témoin affichage de l'intitulé de l'activité"])]
     private bool $labelVisibility = true;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="obsolete", type="boolean", nullable=false)
-     */
+    
+    #[ORM\Column(name: 'obsolete', type: 'boolean', nullable: false)]
     private bool $obsolete = false;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="position", type="integer", nullable=false)
-     */
+    
+    #[ORM\Column(name: 'position', type: 'integer', nullable: false)]
     private int $position = 0;
 
-    /**
-     * @var Collection
-     *
-     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\ActivityType", mappedBy="activities")
-     * @Assert\Count(min="1")
-     */
+    
+    #[ORM\ManyToMany(targetEntity: ActivityType::class, mappedBy: 'activities')]
+    #[Assert\Count(min: 1)]
     private Collection|ArrayCollection $activityTypes;
 
     /**
@@ -285,18 +267,11 @@ class Activity
         $this->activityTypes = new ArrayCollection();
     }
 
-    /**
-     * @return string|null
-     */
     public function getId(): ?string
     {
         return $this->id;
     }
 
-    /**
-     * @param null|string $id
-     * @return Activity
-     */
     public function setId(?string $id): self
     {
         $this->id = $id;
@@ -314,7 +289,6 @@ class Activity
 
     /**
      * @param string $label
-     * @return Activity
      */
     public function setLabel(?string $label): self
     {
@@ -323,18 +297,11 @@ class Activity
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isLabelVisibility(): bool
     {
         return $this->labelVisibility;
     }
 
-    /**
-     * @param bool $labelVisibility
-     * @return Activity
-     */
     public function setLabelVisibility(bool $labelVisibility): self
     {
         $this->labelVisibility = $labelVisibility;
@@ -342,18 +309,11 @@ class Activity
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isObsolete(): bool
     {
         return $this->obsolete;
     }
 
-    /**
-     * @param bool $obsolete
-     * @return Activity
-     */
     public function setObsolete(bool $obsolete): self
     {
         $this->obsolete = $obsolete;
@@ -361,18 +321,11 @@ class Activity
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getPosition(): int
     {
         return $this->position;
     }
 
-    /**
-     * @param int $position
-     * @return Activity
-     */
     public function setPosition(int $position): self
     {
         $this->position = $position;
@@ -380,18 +333,11 @@ class Activity
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    /**
-     * @param string|null $description
-     * @return Activity
-     */
     public function setDescription(?string $description): self
     {
         $this->description = $description;
@@ -407,20 +353,12 @@ class Activity
         return $this->activityTypes;
     }
 
-    /**
-     * @param Collection $activityTypes
-     * @return Activity
-     */
     public function setActivityTypes(Collection $activityTypes): self
     {
         $this->activityTypes = $activityTypes;
         return $this;
     }
 
-    /**
-     * @param ActivityType $activityType
-     * @return Activity
-     */
     public function addActivityType(ActivityType $activityType): self
     {
         if (!$this->activityTypes->contains($activityType))
@@ -434,10 +372,6 @@ class Activity
         return $this;
     }
 
-    /**
-     * @param ActivityType $activityType
-     * @return Activity
-     */
     public function removeActivityType(ActivityType $activityType): self
     {
         if ($this->activityTypes->contains($activityType))

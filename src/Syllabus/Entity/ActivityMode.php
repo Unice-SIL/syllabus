@@ -16,13 +16,12 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * ActivityMode
  *
- * @ORM\Table(name="activity_mode")
- * @ORM\Entity(repositoryClass="App\Syllabus\Repository\Doctrine\ActivityModeDoctrineRepository")
  * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\ActivityModeTranslation")
  */
 #[
@@ -953,40 +952,31 @@ use Symfony\Component\Validator\Constraints as Assert;
         filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
     )
 ]
+#[ORM\Entity(repositoryClass: \App\Syllabus\Repository\Doctrine\ActivityModeDoctrineRepository::class)]
+#[ORM\Table(name: 'activity_mode')]
 
 class ActivityMode
 {
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=36, unique=true, options={"fixed"=true})
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
-     */
+    
+    #[ORM\Column(type: 'string', length: 36, unique: true, options: ['fixed' => true])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private string $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="label", type="string", length=100, nullable=false)
-     * @Assert\NotBlank()
      * @Gedmo\Translatable
      */
+    #[ORM\Column(name: 'label', type: 'string', length: 100, nullable: false)]
+    #[Assert\NotBlank]
     private string $label;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="obsolete", type="boolean", nullable=false)
-     */
+    
+    #[ORM\Column(name: 'obsolete', type: 'boolean', nullable: false)]
     private bool $obsolete = false;
 
-    /**
-     * @var Collection
-     *
-     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\ActivityType", mappedBy="activityModes")
-     */
+    
+    #[ORM\ManyToMany(targetEntity: ActivityType::class, mappedBy: 'activityModes')]
     private Collection $activityTypes;
 
     /**
@@ -997,34 +987,23 @@ class ActivityMode
         $this->activityTypes = new ArrayCollection();
     }
 
-    /**
-     * @return string|null
-     */
     public function getId(): ?string
     {
         return $this->id;
     }
 
-    /**
-     * @param null|string $id
-     * @return ActivityMode
-     */
     public function setId(?string $id): self
     {
         $this->id = $id;
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getLabel(): ?string
     {
         return $this->label;
     }
 
     /**
-     * @param string|null $label
      * @return $this
      */
     public function setLabel(?string $label): self
@@ -1033,46 +1012,28 @@ class ActivityMode
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isObsolete(): bool
     {
         return $this->obsolete;
     }
 
-    /**
-     * @param bool $obsolete
-     * @return ActivityMode
-     */
     public function setObsolete(bool $obsolete): self
     {
         $this->obsolete = $obsolete;
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
     public function getActivityTypes(): Collection
     {
         return $this->activityTypes;
     }
 
-    /**
-     * @param Collection $activityTypes
-     * @return ActivityMode
-     */
     public function setActivityTypes(Collection $activityTypes): self
     {
         $this->activityTypes = $activityTypes;
         return $this;
     }
 
-    /**
-     * @param ActivityType $activityType
-     * @return ActivityMode
-     */
     public function addActivityType(ActivityType $activityType): self
     {
         if (!$this->activityTypes->contains($activityType))
@@ -1086,10 +1047,6 @@ class ActivityMode
         return $this;
     }
 
-    /**
-     * @param ActivityType $activityType
-     * @return ActivityMode
-     */
     public function removeActivityType(ActivityType $activityType): self
     {
         if ($this->activityTypes->contains($activityType))

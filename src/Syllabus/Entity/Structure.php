@@ -16,17 +16,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Structure
  *
- * @ORM\Table(name="structure", uniqueConstraints={
- *     @ORM\UniqueConstraint(name="code_source_on_structure_UNIQUE", columns={"code", "source"}),
- * })
- * @UniqueEntity(fields={"code", "source"}, message="La structure avec pour code établissement {{ value }} existe déjà pour cette source", errorPath="code")
- * @ORM\Entity(repositoryClass="App\Syllabus\Repository\Doctrine\StructureDoctrineRepository")
  * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\StructureTranslation")
  */
 #[
@@ -540,54 +536,41 @@ use Symfony\Component\Validator\Constraints as Assert;
         filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
     )
 ]
+#[UniqueEntity(fields: ['code', 'source'], message: 'La structure avec pour code établissement {{ value }} existe déjà pour cette source', errorPath: 'code')]
+#[ORM\Entity(repositoryClass: \App\Syllabus\Repository\Doctrine\StructureDoctrineRepository::class)]
+#[ORM\Table(name: 'structure')]
+#[ORM\UniqueConstraint(name: 'code_source_on_structure_UNIQUE', columns: ['code', 'source'])]
 class Structure
 {
     use Importable;
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(type="string", length=36, unique=true, options={"fixed"=true})
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
-     */
+    
+    #[ORM\Column(type: 'string', length: 36, unique: true, options: ['fixed' => true])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?string $id;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="label", type="string", length=100, nullable=true)
-     * @Assert\NotBlank()
      * @Gedmo\Translatable
      */
+    #[ORM\Column(name: 'label', type: 'string', length: 100, nullable: true)]
+    #[Assert\NotBlank]
     private ?string $label;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="obsolete", type="boolean", nullable=false)
-     */
+    
+    #[ORM\Column(name: 'obsolete', type: 'boolean', nullable: false)]
     private string|bool $obsolete = '0';
 
-    /**
-     * @var Collection
-     *
-     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Domain", mappedBy="structures")
-     */
+    
+    #[ORM\ManyToMany(targetEntity: Domain::class, mappedBy: 'structures')]
     private Collection $domains;
 
-    /**
-     * @var Collection
-     *
-     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Period", mappedBy="structures")
-     */
+    
+    #[ORM\ManyToMany(targetEntity: Period::class, mappedBy: 'structures')]
     private Collection $periods;
 
-    /**
-     * @var Collection
-     *
-     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Level", mappedBy="structures")
-     */
+    
+    #[ORM\ManyToMany(targetEntity: Level::class, mappedBy: 'structures')]
     private Collection $levels;
 
     /**
@@ -600,18 +583,11 @@ class Structure
         $this->levels = new ArrayCollection();
     }
 
-    /**
-     * @return string|null
-     */
     public function getId(): ?string
     {
         return $this->id;
     }
 
-    /**
-     * @param null|string $id
-     * @return Structure
-     */
     public function setId(?string $id): self
     {
         $this->id = $id;
@@ -619,18 +595,11 @@ class Structure
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getLabel(): ?string
     {
         return $this->label;
     }
 
-    /**
-     * @param null|string $label
-     * @return Structure
-     */
     public function setLabel(?string $label): self
     {
         $this->label = $label;
@@ -638,18 +607,11 @@ class Structure
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isObsolete(): bool
     {
         return $this->obsolete;
     }
 
-    /**
-     * @param bool $obsolete
-     * @return Structure
-     */
     public function setObsolete(bool $obsolete): self
     {
         $this->obsolete = $obsolete;
@@ -657,18 +619,11 @@ class Structure
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
     public function getDomains(): Collection
     {
         return $this->domains;
     }
 
-    /**
-     * @param Collection $domains
-     * @return Structure
-     */
     public function setDomains(Collection $domains): self
     {
         $this->domains = $domains;
@@ -676,10 +631,6 @@ class Structure
         return $this;
     }
 
-    /**
-     * @param Domain $domain
-     * @return Structure
-     */
     public function addDomain(Domain $domain): self
     {
         if (!$this->domains->contains($domain))
@@ -693,10 +644,6 @@ class Structure
         return $this;
     }
 
-    /**
-     * @param Domain $domain
-     * @return Structure
-     */
     public function removeDomain(Domain $domain): self
     {
         if ($this->domains->contains($domain))
@@ -710,18 +657,11 @@ class Structure
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
     public function getPeriods(): Collection
     {
         return $this->periods;
     }
 
-    /**
-     * @param Collection $periods
-     * @return Structure
-     */
     public function setPeriods(Collection $periods): self
     {
         $this->periods = $periods;
@@ -729,10 +669,6 @@ class Structure
         return $this;
     }
 
-    /**
-     * @param Period $period
-     * @return Structure
-     */
     public function addPeriod(Period $period): self
     {
         if (!$this->periods->contains($period))
@@ -746,10 +682,6 @@ class Structure
         return $this;
     }
 
-    /**
-     * @param Period $period
-     * @return Structure
-     */
     public function removePeriod(Period $period): self
     {
         if ($this->periods->contains($period))
@@ -763,28 +695,17 @@ class Structure
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
     public function getLevels(): Collection
     {
         return $this->levels;
     }
 
-    /**
-     * @param Collection $levels
-     * @return Structure
-     */
     public function setLevels(Collection $levels): self
     {
         $this->levels = $levels;
         return $this;
     }
 
-    /**
-     * @param Level $level
-     * @return Structure
-     */
     public function addLevel(Level $level): self
     {
         if (!$this->periods->contains($level))
@@ -798,10 +719,6 @@ class Structure
         return $this;
     }
 
-    /**
-     * @param Level $level
-     * @return Structure
-     */
     public function removeLevel(Level $level): self
     {
         if ($this->levels->contains($level))

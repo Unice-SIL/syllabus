@@ -18,13 +18,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Level
  * @package App\Syllabus\Entity
- * @ORM\Table(name="level")
- * @ORM\Entity(repositoryClass="App\Syllabus\Repository\Doctrine\LevelDoctrineRepository")
  */
 #[
     ApiResource(
@@ -732,44 +731,35 @@ use Symfony\Component\Validator\Constraints as Assert;
         filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter']
     )
 ]
+#[ORM\Entity(repositoryClass: \App\Syllabus\Repository\Doctrine\LevelDoctrineRepository::class)]
+#[ORM\Table(name: 'level')]
 class Level
 {
 
     use Importable;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=36, unique=true, options={"fixed"=true})
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
-     */
+    
+    #[ORM\Column(type: 'string', length: 36, unique: true, options: ['fixed' => true])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private string $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="label", type="string", length=100, nullable=false)
-     * @Assert\NotBlank()
-     * @Assert\Length(max="100")
      * @Gedmo\Translatable
      */
+    #[ORM\Column(name: 'label', type: 'string', length: 100, nullable: false)]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 100)]
     private string $label;
 
-    /**
-     * @var Collection
-     *
-     * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\Structure", inversedBy="levels")
-     * @ORM\OrderBy({"label" = "ASC"})
-     */
+    
+    #[ORM\ManyToMany(targetEntity: Structure::class, inversedBy: 'levels')]
+    #[ORM\OrderBy(['label' => 'ASC'])]
     private Collection $structures;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="obsolete", type="boolean", nullable=false)
-     */
+    
+    #[ORM\Column(name: 'obsolete', type: 'boolean', nullable: false)]
     private bool $obsolete = false;
 
     /**
@@ -781,18 +771,11 @@ class Level
     }
 
 
-    /**
-     * @return null|string
-     */
     public function getId(): ?string
     {
         return $this->id;
     }
 
-    /**
-     * @param null|string $id
-     * @return Level
-     */
     public function setId(?string $id): self
     {
         $this->id = $id;
@@ -800,18 +783,11 @@ class Level
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getLabel(): ?string
     {
         return $this->label;
     }
 
-    /**
-     * @param null|string $label
-     * @return Level
-     */
     public function setLabel(?string $label): self
     {
         $this->label = $label;
@@ -819,9 +795,6 @@ class Level
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isObsolete(): bool
     {
         return $this->obsolete;
@@ -829,7 +802,6 @@ class Level
 
     /**
      * @param $obsolete
-     * @return Level
      */
     public function setObsolete($obsolete): self
     {
@@ -855,20 +827,12 @@ class Level
         return $this->structures;
     }
 
-    /**
-     * @param Collection $structures
-     * @return Level
-     */
     public function setStructures(Collection $structures): Level
     {
         $this->structures = $structures;
         return $this;
     }
 
-    /**
-     * @param Structure $structure
-     * @return Level
-     */
     public function addStructure(Structure $structure): self
     {
         if (!$this->structures->contains($structure))
@@ -882,10 +846,6 @@ class Level
         return $this;
     }
 
-    /**
-     * @param Structure $structure
-     * @return Level
-     */
     public function removeStructure(Structure $structure): self
     {
         if ($this->structures->contains($structure))
