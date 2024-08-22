@@ -23,20 +23,15 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  * Class ActivityModeController
  * @package App\Syllabus\Controller
  *
- * @Route("/activity-mode", name="app.admin.activity_mode.")
  * @Security("is_granted('ROLE_ADMIN_ACTIVITYMODE')")
  */
+#[Route(path: '/activity-mode', name: 'app.admin.activity_mode.')]
 class ActivityModeController extends AbstractController
 {
     /**
-     * @Route("/", name="index", methods={"GET"})
      * @Security("is_granted('ROLE_ADMIN_ACTIVITYMODE_LIST')")
-     * @param Request $request
-     * @param ActivityModeDoctrineRepository $repository
-     * @param PaginatorInterface $paginator
-     * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
-     * @return Response
      */
+    #[Route(path: '/', name: 'index', methods: ['GET'])]
     public function indexAction(
         Request $request,
         ActivityModeDoctrineRepository $repository,
@@ -68,14 +63,10 @@ class ActivityModeController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="new", methods={"GET", "POST"})
      * @Security("is_granted('ROLE_ADMIN_ACTIVITYMODE_CREATE')")
      *
-     * @param Request $request
-     * @param ActivityModeManager $activityTypeManager
-     * @param TranslatorInterface $translator
-     * @return RedirectResponse|Response
      */
+    #[Route(path: '/new', name: 'new', methods: ['GET', 'POST'])]
     public function newAction(Request $request, ActivityModeManager $activityTypeManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $activityMode = $activityTypeManager->new();
@@ -97,15 +88,10 @@ class ActivityModeController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
      * @Security("is_granted('ROLE_ADMIN_ACTIVITYMODE_UPDATE')")
      *
-     * @param Request $request
-     * @param ActivityMode $activityMode
-     * @param ActivityModeManager $activityModeManager
-     * @param TranslatorInterface $translator
-     * @return RedirectResponse|Response
      */
+    #[Route(path: '/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function editAction(Request $request, ActivityMode $activityMode, ActivityModeManager $activityModeManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $form = $this->createForm(ActivityModeType::class, $activityMode);

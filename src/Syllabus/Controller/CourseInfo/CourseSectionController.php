@@ -27,24 +27,18 @@ use Twig\Error\SyntaxError;
 /**
  * Class CourseSectionController
  * @package App\Syllabus\Controller\CourseInfo
- * @Route("/course-info/section/{id}", name="app.course_info.section.")
  * @Security("is_granted('WRITE', section)")
  */
+#[Route(path: '/course-info/section/{id}', name: 'app.course_info.section.')]
 class CourseSectionController extends AbstractController
 {
     /**
-     * @Route("/edit", name="edit"))
      *
-     * @param Environment $twig
-     * @param CourseSection|null $section
-     * @param Request $request
-     * @param CourseSectionManager $courseSectionManager
-     * @param TranslatorInterface $translator
-     * @return Response
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
+    #[Route(path: '/edit', name: 'edit')]
     public function editSectionAction(Environment $twig, ?CourseSection $section, Request $request, CourseSectionManager $courseSectionManager, TranslatorInterface $translator): Response
     {
         $form = $this->createForm(SectionType::class, $section);
@@ -65,17 +59,12 @@ class CourseSectionController extends AbstractController
     }
 
     /**
-     * @Route("/delete", name="delete"))
      *
-     * @param CourseSection $section
-     * @param Request $request
-     * @param CourseSectionManager $courseSectionManager
-     * @param Environment $twig
-     * @return JsonResponse
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
+    #[Route(path: '/delete', name: 'delete')]
     public function removeSectionAction(
         CourseSection $section,
         Request $request,
@@ -105,22 +94,15 @@ class CourseSectionController extends AbstractController
     }
 
     /**
-     * @Route("/activity/{activityId}/activityType/{activityTypeId}/add", name="activity.add"))
      *
      * @param Environment $twig
-     * @param CourseSection $section
-     * @param Activity $activity
-     * @param ActivityType $activityType
-     * @param Request $request
-     * @param CourseSectionActivityManager $courseSectionActivityManager
-     * @param CourseSectionManager $courseSectionManager
-     * @return Response
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      * @ParamConverter("activity", options={"mapping": {"activityId": "id"}})
      * @ParamConverter("activityType", options={"mapping": {"activityTypeId": "id"}})
      */
+    #[Route(path: '/activity/{activityId}/activityType/{activityTypeId}/add', name: 'activity.add')] // @ParamConverter("activity", options={"mapping": {"activityId": "id"}})
     public function addCourseSectionActivityAction(Environment $twig, CourseSection $section, Activity $activity, ActivityType $activityType, Request $request,
                                                    CourseSectionActivityManager $courseSectionActivityManager, CourseSectionManager $courseSectionManager): Response
     {
@@ -165,14 +147,8 @@ class CourseSectionController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/activities/sort", name="activities.sort"))
-     *
-     * @param CourseSection $section
-     * @param Request $request
-     * @param CourseSectionManager $courseSectionManager
-     * @return JsonResponse
-     */
+    
+    #[Route(path: '/activities/sort', name: 'activities.sort')]
     public function sortCourseSectionActivitiesAction(CourseSection $section,
                                                       Request $request,
                                                       CourseSectionManager $courseSectionManager): JsonResponse

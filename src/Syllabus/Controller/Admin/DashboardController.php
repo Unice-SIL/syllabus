@@ -19,23 +19,17 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Class DashboardController
  * @package App\Syllabus\Controller
- *
- * @Route("/dashboard", name="app.admin.dashboard.")
  */
+#[Route(path: '/dashboard', name: 'app.admin.dashboard.')]
 class DashboardController extends AbstractController
 {
 
     /**
-     * @Route("/",name="index", methods={"POST", "GET"})
      *
-     * @param Request $request
-     * @param StatisticSyllabusManager $statisticSyllabusManager
-     * @param YearManager $yearManager
-     * @param AskAdviceDoctrineRepository $adviceDoctrineRepository
-     * @return Response
      * @throws NoResultException
      * @throws NonUniqueResultException
      */
+    #[Route(path: '/', name: 'index', methods: ['POST', 'GET'])]
     public function IndexAction(
         Request $request,
         StatisticSyllabusManager $statisticSyllabusManager,

@@ -23,21 +23,16 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  * Class LanguageController
  * @package App\Syllabus\Controller
  *
- * @Route("/language", name="app.admin.language.")
  * @Security("is_granted('ROLE_ADMIN_LANGUAGE')")
  */
+#[Route(path: '/language', name: 'app.admin.language.')]
 class LanguageController extends AbstractController
 {
     /**
-     * @Route("/",name="index", methods={"GET"})
      * @Security("is_granted('ROLE_ADMIN_LANGUAGE_LIST')")
      *
-     * @param Request $request
-     * @param LanguageDoctrineRepository $repository
-     * @param PaginatorInterface $paginator
-     * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
-     * @return Response
      */
+    #[Route(path: '/', name: 'index', methods: ['GET'])]
     public function IndexAction(
         Request $request,
         LanguageDoctrineRepository $repository,
@@ -70,13 +65,9 @@ class LanguageController extends AbstractController
 
     /**
      *
-     * @Route("/new", name="new", methods={"GET", "POST"})
      * @Security("is_granted('ROLE_ADMIN_LANGUAGE_CREATE')")
-     * @param Request $request
-     * @param LanguageManager $languageManager
-     * @param TranslatorInterface $translator
-     * @return RedirectResponse|Response
      */
+    #[Route(path: '/new', name: 'new', methods: ['GET', 'POST'])]
     public function newAction(Request $request, LanguageManager $languageManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $language = $languageManager->new();
@@ -98,14 +89,9 @@ class LanguageController extends AbstractController
     /**
      * Displays a form to edit an existing activity entity.
      *
-     * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
      * @Security("is_granted('ROLE_ADMIN_LANGUAGE_UPDATE')")
-     * @param Request $request
-     * @param Language $language
-     * @param LanguageManager $languageManager
-     * @param TranslatorInterface $translator
-     * @return RedirectResponse|Response
      */
+    #[Route(path: '/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function editAction(Request $request, Language $language, LanguageManager $languageManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $form = $this->createForm(LanguageType::class, $language);
@@ -125,13 +111,8 @@ class LanguageController extends AbstractController
         ));
     }
 
-    /**
-     * @Route("/autocompleteS2", name="autocompleteS2")
-     *
-     * @param LanguageDoctrineRepository $repository
-     * @param Request $request
-     * @return Response
-     */
+    
+    #[Route(path: '/autocompleteS2', name: 'autocompleteS2')]
     public function autocompleteS2(LanguageDoctrineRepository $repository, Request $request): Response
     {
         $parameters = $request->query->all();

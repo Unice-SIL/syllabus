@@ -23,22 +23,17 @@ use Twig\Error\SyntaxError;
  * Class TutoringController
  * @package App\Syllabus\Controller\CourseInfo
  *
- * @Route("/course-info/{id}/tutoring", name="app.course_info.tutoring.")
  * @Security("is_granted('WRITE', courseInfo)")
  */
+#[Route(path: '/course-info/{id}/tutoring', name: 'app.course_info.tutoring.')]
 class TutoringController extends AbstractController
 {
     /**
-     * @Route("/create", name="create"))
-     * @param CourseInfo $courseInfo
-     * @param CourseInfoManager $manager
-     * @param Request $request
-     * @param Environment $environment
-     * @return JsonResponse
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
+    #[Route(path: '/create', name: 'create')]
     public function addTutoringAction(
         CourseInfo $courseInfo,
         CourseInfoManager $manager,
@@ -73,16 +68,12 @@ class TutoringController extends AbstractController
     }
 
     /**
-     * @Route("/{action}", name="active"))
-     * @param CourseInfo $courseInfo
      * @param $action
-     * @param CourseInfoManager $manager
-     * @param Environment $environment
-     * @return JsonResponse
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
+    #[Route(path: '/{action}', name: 'active')]
     public function activeTutoringAction(
         CourseInfo $courseInfo,
         $action,

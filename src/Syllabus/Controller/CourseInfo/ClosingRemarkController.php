@@ -23,17 +23,13 @@ use Twig\Error\SyntaxError;
  * Class ClosingRemarkController
  * @package App\Syllabus\Controller\CourseInfo
  *
- * @Route("/course-info/{id}/closing-remarks", name="app.course_info.closing_remarks.")
  * @Security("is_granted('WRITE', courseInfo)")
  */
+#[Route(path: '/course-info/{id}/closing-remarks', name: 'app.course_info.closing_remarks.')]
 class ClosingRemarkController extends AbstractController
 {
-    /**
-     * @Route("/", name="index")
-     *
-     * @param CourseInfo $courseInfo
-     * @return Response
-     */
+    
+    #[Route(path: '/', name: 'index')]
     public function indexAction(CourseInfo $courseInfo): Response
     {
         return $this->render('course_info/closing_remarks/closing_remarks.html.twig', [
@@ -42,16 +38,12 @@ class ClosingRemarkController extends AbstractController
     }
 
     /**
-     * @Route("/closing-remarks", name="closing_remarks"))
      *
-     * @param CourseInfo $courseInfo
-     * @param Request $request
-     * @param Environment $twig
-     * @return Response
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
+    #[Route(path: '/closing-remarks', name: 'closing_remarks')]
     public function closingRemarksViewAction(CourseInfo $courseInfo, Request $request, Environment $twig): Response
     {
         $form = $this->createForm(Closing_remarksType::class, $courseInfo);
@@ -69,17 +61,12 @@ class ClosingRemarkController extends AbstractController
     }
 
     /**
-     * @Route("/edit", name="closing_remarks.edit"))
      *
-     * @param CourseInfo $courseInfo
-     * @param Request $request
-     * @param CourseInfoManager $manager
-     * @param Environment $twig
-     * @return Response
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
+    #[Route(path: '/edit', name: 'closing_remarks.edit')]
     public function closingRemarksFormAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager, Environment $twig): Response
     {
         $form = $this->createForm(Closing_remarksType::class, $courseInfo);

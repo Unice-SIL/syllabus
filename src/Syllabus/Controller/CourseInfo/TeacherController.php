@@ -20,22 +20,17 @@ use Twig\Error\SyntaxError;
 /**
  * Class TeachersController
  * @package App\Syllabus\Controller\CourseInfo
- * @Route("/course-info/teacher/{id}", name="app.course_info.teacher.")
  * @Security("is_granted('WRITE', teacher)")
  */
+#[Route(path: '/course-info/teacher/{id}', name: 'app.course_info.teacher.')]
 class TeacherController extends AbstractController
 {
     /**
-     * @Route("/edit", name="edit"))
-     * @param CourseTeacher $teacher
-     * @param Request $request
-     * @param CourseTeacherManager $courseTeacherManager
-     * @param Environment $twig
-     * @return JsonResponse
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
+    #[Route(path: '/edit', name: 'edit')]
     public function editTeacherAction(
         CourseTeacher $teacher,
         Request $request,
@@ -64,17 +59,12 @@ class TeacherController extends AbstractController
     }
 
     /**
-     * @Route("/delete", name="delete"))
      *
-     * @param CourseTeacher $teacher
-     * @param Request $request
-     * @param CourseTeacherManager $courseTeacherManager
-     * @param Environment $twig
-     * @return JsonResponse
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
+    #[Route(path: '/delete', name: 'delete')]
     public function removeTeacherAction(
         CourseTeacher $teacher,
         Request $request,

@@ -21,24 +21,19 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * Job controller.
  *
- * @Route("/job", name="app.admin.job.")
  * @Security("is_granted('ROLE_ADMIN_JOB')")
  *
  */
+#[Route(path: '/job', name: 'app.admin.job.')]
 class JobController extends AbstractController
 {
     /**
      * Lists all jobs entities.
      *
-     * @Route("/", name="index", methods={"GET"})
      * @Security("is_granted('ROLE_ADMIN_JOB_LIST')")
      *
-     * @param Request $request
-     * @param PaginatorInterface $paginator
-     * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
-     * @param JobDoctrineRepository $jobDoctrineRepository
-     * @return Response
      */
+    #[Route(path: '/', name: 'index', methods: ['GET'])]
     public function indexAction(
         Request $request,
         PaginatorInterface $paginator,
@@ -78,13 +73,10 @@ class JobController extends AbstractController
     /**
      * Creates a new job entity.
      *
-     * @Route("/new", name="new", methods={"GET", "POST"})
      * @Security("is_granted('ROLE_ADMIN_JOB_CREATE')")
      *
-     * @param Request $request
-     * @param EntityManagerInterface $em
-     * @return RedirectResponse|Response
      */
+    #[Route(path: '/new', name: 'new', methods: ['GET', 'POST'])]
     public function newAction(Request $request, EntityManagerInterface $em): RedirectResponse|Response
     {
         $job = new Job();
@@ -107,14 +99,10 @@ class JobController extends AbstractController
     /**
      * Displays a form to edit an existing job entity.
      *
-     * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
      * @Security("is_granted('ROLE_ADMIN_JOB_UPDATE')")
      *
-     * @param Request $request
-     * @param Job $job
-     * @param EntityManagerInterface $em
-     * @return RedirectResponse|Response
      */
+    #[Route(path: '/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function editAction(Request $request, Job $job, EntityManagerInterface $em): RedirectResponse|Response
     {
         $deleteForm = $this->createDeleteForm($job);
@@ -137,13 +125,10 @@ class JobController extends AbstractController
     /**
      * Displays the report for the given job entity.
      *
-     * @Route("/{id}/report", name="report", methods={"GET"})
      * @Security("is_granted('ROLE_ADMIN_JOB_REPORT')")
      *
-     * @param Request $request
-     * @param Job $job
-     * @return RedirectResponse|Response
      */
+    #[Route(path: '/{id}/report', name: 'report', methods: ['GET'])]
     public function reportAction(Request $request, Job $job): RedirectResponse|Response
     {
         if ($job->getLastStatus() === \App\Syllabus\Constant\Job::STATUS_IN_PROGRESS) {
@@ -169,15 +154,10 @@ class JobController extends AbstractController
     /**
      * Deletes a job entity.
      *
-     * @Route("/{id}", name="delete", methods={"DELETE"})
      * @Security("is_granted('ROLE_ADMIN_JOB_DELETE')")
      *
-     * @param Request $request
-     * @param Job $job
-     * @param TranslatorInterface $translator
-     * @param EntityManagerInterface $em
-     * @return RedirectResponse
      */
+    #[Route(path: '/{id}', name: 'delete', methods: ['DELETE'])]
     public function deleteAction(Request $request, Job $job, TranslatorInterface $translator, EntityManagerInterface $em): RedirectResponse
     {
         if ($job->getLastStatus() !== \App\Syllabus\Constant\Job::STATUS_IN_PROGRESS) {
@@ -197,10 +177,6 @@ class JobController extends AbstractController
 
     }
 
-    /**
-     * @param Job $job
-     * @return FormInterface
-     */
     private function createDeleteForm(Job $job): FormInterface
     {
         return $this->createFormBuilder()
@@ -211,14 +187,7 @@ class JobController extends AbstractController
     }
 
 
-    /**
-     * @Route("/run-command/{id}", name="run_command", methods={"POST"})
-     * @param Request $request
-     * @param Job $job
-     * @param EntityManagerInterface $em
-     * @param TranslatorInterface $translator
-     * @return Response
-     */
+    #[Route(path: '/run-command/{id}', name: 'run_command', methods: ['POST'])]
     public function runCommandAction(Request $request, Job $job, EntityManagerInterface $em, TranslatorInterface $translator): Response
     {
         if (!$this->isCsrfTokenValid('job' . $job->getId(), $request->request->all('_token'))) {

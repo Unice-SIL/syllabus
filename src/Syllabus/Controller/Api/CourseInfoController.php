@@ -18,16 +18,16 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
  * Class CourseInfoController
  * @package App\Syllabus\Controller\Api
  *
- * @Route("/course_infos", name="app.course_infos.api.")
  * @Security("is_granted('ROLE_API')")
  */
+#[Route(path: '/course_infos', name: 'app.course_infos.api.')]
 class CourseInfoController extends AbstractController
 {
     /**
-     * @Route("/duplicate/{code1}/{year1}/{code2}/{year2}", name="duplicate", methods={"GET"})
      * @Security("is_granted('ROLE_API_DUPLICATE_SYLLABUS')")
      * @throws Exception
      */
+    #[Route(path: '/duplicate/{code1}/{year1}/{code2}/{year2}', name: 'duplicate', methods: ['GET'])]
     public function duplicationCourseInfoAction(
         $code1, $year1, $code2, $year2,
         EntityManagerInterface $em,

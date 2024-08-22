@@ -23,19 +23,12 @@ use function Symfony\Component\DependencyInjection\Loader\Configurator\expr;
 /**
  * Class AutoCompleteController
  * @package App\Syllabus\Controller\Common
- *
- * @Route("common/autocomplete", name="app.common.autocomplete.")
  */
+#[Route(path: 'common/autocomplete', name: 'app.common.autocomplete.')]
 class AutoCompleteController extends AbstractController
 {
-    /**
-     * @Route("/generic/{entityName}", name="generic")
-     *
-     * @param string $entityName
-     * @param Request $request
-     * @param EntityManagerInterface $em
-     * @return JsonResponse
-     */
+    
+    #[Route(path: '/generic/{entityName}', name: 'generic')]
     public function autoComplete(string $entityName, Request $request, EntityManagerInterface $em): JsonResponse
     {
         $namespace = 'App\Syllabus\\Entity\\';
@@ -62,14 +55,8 @@ class AutoCompleteController extends AbstractController
         return $this->json(['query' => $query, 'suggestions' => $entities, 'data' => $entities]);
     }
 
-    /**
-     * @Route("/generic-s2/{entityName}", name="generic_s2")
-     *
-     * @param string $entityName
-     * @param Request $request
-     * @param EntityManagerInterface $em
-     * @return JsonResponse
-     */
+    
+    #[Route(path: '/generic-s2/{entityName}', name: 'generic_s2')]
     public function autoCompleteS2(string $entityName, Request $request, EntityManagerInterface $em): JsonResponse
     {
 
@@ -111,14 +98,8 @@ class AutoCompleteController extends AbstractController
         return $this->json(array_values($data));
     }
 
-    /**
-     * @Route("/generic-s2-courses/{entityName}", name="generic_s2_courses")
-     *
-     * @param string $entityName
-     * @param Request $request
-     * @param EntityManagerInterface $em
-     * @return JsonResponse
-     */
+    
+    #[Route(path: '/generic-s2-courses/{entityName}', name: 'generic_s2_courses')]
     public function autoCompleteS2Courses(string $entityName, Request $request, EntityManagerInterface $em): JsonResponse
     {
         $namespace = 'App\Syllabus\\Entity\\';
@@ -158,13 +139,8 @@ class AutoCompleteController extends AbstractController
         return $this->json(array_values($data));
     }
 
-    /**
-     * @Route("/s2-courseinfo-with-write-permission", name="s2_courseinfo_with_write_permission")
-     *
-     * @param Request $request
-     * @param EntityManagerInterface $em
-     * @return JsonResponse
-     */
+    
+    #[Route(path: '/s2-courseinfo-with-write-permission', name: 's2_courseinfo_with_write_permission')]
     public function autoCompleteS2CourseInfoWithWritePermission(Request $request, EntityManagerInterface $em): JsonResponse
     {
         $parameters = $request->query->all();
@@ -221,39 +197,26 @@ class AutoCompleteController extends AbstractController
         $findBy = $request->query->all('findBy', 'label');
         $property = $request->query->all('property', 'label');
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
-
+    
         $repository = $this->getDoctrine()->getRepository($entityName);
-
+    
         $entities = $repository->findLikeWithStructureQuery($query, $structure, $findBy);
-
+    
         $data = array_map(function ($e) use ($propertyAccessor, $property) {
             return ['id' => $e->getId(), 'text' => $propertyAccessor->getValue($e, $property)];
         }, $entities);
-
+    
         return $this->json($data);
     }
     */
-
-
-    /**
-     * @Route("/generic-s2-user", name="generic_s2_user")
-     *
-     * @param UserDoctrineRepository $userDoctrineRepository
-     * @param Request $request
-     * @return JsonResponse
-     */
+    
+    #[Route(path: '/generic-s2-user', name: 'generic_s2_user')]
     public function autocompleteS2User(UserDoctrineRepository $userDoctrineRepository, Request $request): JsonResponse
     {
 
         $allParameters = $request->query->all();
         $query = $allParameters['q'] ?? '';
-        $field = $allParameters['field_name'];
-
-        switch ($field) {
-            default:
-                $searchFields = ['u.firstname', 'u.lastname'];
-                break;
-        }
+        $searchFields = ['u.firstname', 'u.lastname'];
 
         $users = $userDoctrineRepository->findLikeQuery($query, $searchFields);
 

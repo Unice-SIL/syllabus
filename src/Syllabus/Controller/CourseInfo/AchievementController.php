@@ -26,23 +26,18 @@ use Twig\Error\SyntaxError;
  * Class AchievementController
  * @package App\Syllabus\Controller\CourseInfo
  *
- * @Route("/course-info/achievement/{id}", name="app.course_info.achievement.")
  * @Security("is_granted('WRITE', achievement)")
  */
+#[Route(path: '/course-info/achievement/{id}', name: 'app.course_info.achievement.')]
 class AchievementController extends AbstractController
 {
     /**
-     * @Route("/edit", name="edit"))
      *
-     * @param Environment $twig
-     * @param CourseAchievement $achievement
-     * @param Request $request
-     * @param CourseAchievementManager $courseAchievementManager
-     * @return JsonResponse
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
+    #[Route(path: '/edit', name: 'edit')]
     public function editAchievementAction(Environment $twig, CourseAchievement $achievement, Request $request, CourseAchievementManager $courseAchievementManager): JsonResponse
     {
         $form = $this->createForm(CourseAchievementType::class, $achievement);
@@ -66,15 +61,9 @@ class AchievementController extends AbstractController
     }
 
     /**
-     * @Route("/delete", name="delete"))
-     *
-     * @param Environment $twig
-     * @param CourseAchievement $achievement
-     * @param Request $request
-     * @param CourseAchievementManager $courseAchievementManager
-     * @return JsonResponse
      * @throws Exception
      */
+    #[Route(path: '/delete', name: 'delete')]
     public function deleteAchievementAction(Environment $twig, CourseAchievement $achievement, Request $request,
                                             CourseAchievementManager $courseAchievementManager): JsonResponse
     {

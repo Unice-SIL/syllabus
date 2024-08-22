@@ -23,21 +23,16 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  * Activity controller.
  *
  * @Security("is_granted('ROLE_ADMIN_ACTIVITY')")
- * @Route("/activity", name="app.admin.activity.")
  */
+#[Route(path: '/activity', name: 'app.admin.activity.')]
 class ActivityController extends AbstractController
 {
     /**
      * Lists all activity entities.
      *
-     * @Route("/", name="index", methods={"GET"})
      * @Security("is_granted('ROLE_ADMIN_ACTIVITY_LIST')")
-     * @param Request $request
-     * @param ActivityDoctrineRepository $repository
-     * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
-     * @param PaginatorInterface $paginator
-     * @return Response
      */
+    #[Route(path: '/', name: 'index', methods: ['GET'])]
     public function indexAction(
         Request $request,
         ActivityDoctrineRepository $repository,
@@ -69,13 +64,9 @@ class ActivityController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="new", methods={"GET", "POST"})
      * @Security("is_granted('ROLE_ADMIN_ACTIVITY_CREATE')")
-     * @param Request $request
-     * @param ActivityManager $activityManager
-     * @param TranslatorInterface $translator
-     * @return RedirectResponse|Response
      */
+    #[Route(path: '/new', name: 'new', methods: ['GET', 'POST'])]
     public function newAction(Request $request, ActivityManager $activityManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $activity = $activityManager->new();
@@ -97,14 +88,9 @@ class ActivityController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
      * @Security("is_granted('ROLE_ADMIN_ACTIVITY_UPDATE')")
-     * @param Request $request
-     * @param Activity $activity
-     * @param ActivityManager $activityManager
-     * @param TranslatorInterface $translator
-     * @return RedirectResponse|Response
      */
+    #[Route(path: '/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function editAction(Request $request, Activity $activity, ActivityManager $activityManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $form = $this->createForm(ActivityType::class, $activity);

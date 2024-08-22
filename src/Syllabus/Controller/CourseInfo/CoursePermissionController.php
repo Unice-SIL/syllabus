@@ -20,20 +20,13 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  * Class CoursePermissionController
  * @package App\Syllabus\Controller\CourseInfo
  *
- * @Route("/course-info/{id}/permissions", name="app.course_info.permission.")
  * @Security("is_granted('WRITE', courseInfo)")
  */
+#[Route(path: '/course-info/{id}/permissions', name: 'app.course_info.permission.')]
 class CoursePermissionController extends AbstractController
 {
-    /**
-     * @Route("/", name="index")
-     *
-     * @param CourseInfo $courseInfo
-     * @param Request $request
-     * @param CoursePermissionManager $coursePermissionManager
-     * @param TranslatorInterface $translator
-     * @return RedirectResponse|Response
-     */
+    
+    #[Route(path: '/', name: 'index')]
     public function indexAction(CourseInfo $courseInfo, Request $request, CoursePermissionManager $coursePermissionManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $coursePermission = $coursePermissionManager->new($courseInfo);

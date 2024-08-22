@@ -21,17 +21,13 @@ use Twig\Error\SyntaxError;
  * Class InfoController
  * @package App\Syllabus\Controller\CourseInfo
  *
- * @Route("/course-info/{id}/info", name="app.course_info.info.")
  * @Security("is_granted('WRITE', courseInfo)")
  */
+#[Route(path: '/course-info/{id}/info', name: 'app.course_info.info.')]
 class InfoController extends AbstractController
 {
-    /**
-     * @Route("/", name="index")
-     *
-     * @param CourseInfo $courseInfo
-     * @return Response
-     */
+    
+    #[Route(path: '/', name: 'index')]
     public function indexAction(CourseInfo $courseInfo): Response
     {
         return $this->render('course_info/info/info.html.twig', [
@@ -40,16 +36,12 @@ class InfoController extends AbstractController
     }
 
     /**
-     * @Route("/info", name="info")
      *
-     * @param CourseInfo $courseInfo
-     * @param Request $request
-     * @param Environment $twig
-     * @return Response
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
+    #[Route(path: '/info', name: 'info')]
     public function infoCourseViewAction(CourseInfo $courseInfo, Request $request, Environment $twig): Response
     {
         $form = $this->createForm(InfoType::class, $courseInfo);
@@ -66,15 +58,9 @@ class InfoController extends AbstractController
     }
 
     /**
-     * @Route("/info/edit", name="info.edit")
-     *
-     * @param CourseInfo $courseInfo
-     * @param Request $request
-     * @param Environment $twig
-     * @param CourseInfoManager $manager
-     * @return Response
      * @throws \Exception
      */
+    #[Route(path: '/info/edit', name: 'info.edit')]
     public function closingRemarksFormAction(
         CourseInfo $courseInfo,
         Request $request,

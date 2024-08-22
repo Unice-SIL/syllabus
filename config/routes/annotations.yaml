@@ -1,7 +1,7 @@
 ## L'ordre a une importance !!!!!!!!!!
 syllabus:
   resource: ../../src/Syllabus/Controller
-  type: annotation
+  type: attribute
   prefix: /{_locale}
   defaults:
     _locale: '%locale%'
@@ -10,7 +10,7 @@ syllabus:
 
 syllabus.admin:
   resource: ../../src/Syllabus/Controller/Admin
-  type: annotation
+  type: attribute
   prefix: /{_locale}/admin
   defaults:
     _locale: '%locale%'
@@ -26,7 +26,7 @@ syllabus.home:
 
 syllabus.api:
   resource: ../../src/Syllabus/Controller/Api
-  type: annotation
+  type: attribute
   prefix: /api
 
 lexik_translation_edition:

@@ -28,29 +28,20 @@ use Twig\Error\SyntaxError;
 /**
  * Class ActivitiesController
  * @package App\Syllabus\Controller\CourseInfo
- * @Route("/course-info/{id}/activities", name="app.course_info.activities.")
  * @Security("is_granted('WRITE', courseInfo)")
  */
+#[Route(path: '/course-info/{id}/activities', name: 'app.course_info.activities.')]
 class ActivitiesController extends AbstractController
 {
     /**
-     * @Route("/{sectionId}", name="index", defaults={"sectionId"=null})
-     *
-     * @param CourseInfo $courseInfo
-     * @param CourseSection|null $activeSection
-     * @param ActivityManager $activityManager
-     * @param ActivityTypeManager $activityTypeManager
-     * @return Response
      * @ParamConverter("activeSection", options={"mapping": {"sectionId": "id"}})
      */
+    #[Route(path: '/{sectionId}', name: 'index', defaults: ['sectionId' => null])]
     public function indexAction(CourseInfo $courseInfo, ?CourseSection $activeSection, ActivityManager $activityManager, ActivityTypeManager $activityTypeManager): Response
     {
-        if (!$activeSection)
+        if (!$activeSection instanceof \App\Syllabus\Entity\CourseSection && !$courseInfo->getCourseSections()->isEmpty())
         {
-            if (!$courseInfo->getCourseSections()->isEmpty())
-            {
-                $activeSection = $courseInfo->getCourseSections()->current();
-            }
+            $activeSection = $courseInfo->getCourseSections()->current();
         }
         $activities = $activityManager->findAllNotObsolete();
         $activityTypes = $activityTypeManager->findAllNotObsolete();
@@ -65,17 +56,9 @@ class ActivitiesController extends AbstractController
     }
 
     /**
-     * @Route("/section/add", name="section.add"))
-     *
-     * @param Environment $twig
-     * @param CourseInfo $courseInfo
-     * @param Request $request
-     * @param CourseInfoManager $manager
-     * @param CourseSectionManager $courseSectionManager
-     * @param TranslatorInterface $translator
-     * @return Response
      * @throws Exception
      */
+    #[Route(path: '/section/add', name: 'section.add')]
     public function addSectionAction(Environment $twig, CourseInfo $courseInfo, Request $request, CourseInfoManager $manager, CourseSectionManager $courseSectionManager, TranslatorInterface $translator): Response
     {
         $status = true;
@@ -115,20 +98,14 @@ class ActivitiesController extends AbstractController
     }
 
     /**
-     * @Route("/section/{sectionId}/duplicate", name="section.duplicate"))
      *
      * @param Environment $twig
-     * @param CourseInfo $courseInfo
-     * @param CourseSection $courseSection
-     * @param Request $request
-     * @param CourseInfoManager $manager
-     * @param TranslatorInterface $translator
-     * @return JsonResponse
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      * @ParamConverter("courseSection", options={"mapping": {"sectionId": "id"}})
      */
+    #[Route(path: '/section/{sectionId}/duplicate', name: 'section.duplicate')] // @ParamConverter("courseSection", options={"mapping": {"sectionId": "id"}})
     public function duplicateSectionAction(Environment $twig, CourseInfo $courseInfo, CourseSection $courseSection, Request $request, CourseInfoManager $manager, TranslatorInterface $translator): JsonResponse
     {
         $form = $this->createForm(DuplicateCourseSectionType::class, $courseSection);
@@ -139,8 +116,9 @@ class ActivitiesController extends AbstractController
             $newSection = clone $courseSection;
 
             foreach ($courseInfo->getCourseSections() as $section) {
-                if ($courseSection->getPosition() < $section->getPosition())
-                $section->setPosition($section->getPosition() + 1);
+                if ($courseSection->getPosition() < $section->getPosition()) {
+                    $section->setPosition($section->getPosition() + 1);
+                }
             }
             $newSection->setPosition($courseSection->getPosition() + 1);
             $courseInfo->addCourseSection($newSection);
@@ -165,14 +143,9 @@ class ActivitiesController extends AbstractController
     }
 
     /**
-     * @Route("/sections/sort", name="sections.sort"))
-     *
-     * @param CourseInfo $courseInfo
-     * @param Request $request
-     * @param CourseInfoManager $manager
-     * @return JsonResponse
      * @throws Exception
      */
+    #[Route(path: '/sections/sort', name: 'sections.sort')]
     public function sortSectionsAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager): JsonResponse
     {
         $sections = $courseInfo->getCourseSections();

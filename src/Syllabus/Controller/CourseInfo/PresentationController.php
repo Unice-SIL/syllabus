@@ -26,18 +26,15 @@ use Twig\Error\SyntaxError;
 /**
  * Class PresentationController
  * @package App\Syllabus\Controller\CourseInfo
- * @Route("/course-info/{id}/presentation", name="app.course_info.presentation.")
  * @Security("is_granted('WRITE', courseInfo)")
  */
+#[Route(path: '/course-info/{id}/presentation', name: 'app.course_info.presentation.')]
 class PresentationController extends AbstractController
 {
     /**
-     * @Route("/", name="index")
-     *
-     * @param CourseInfo $courseInfo
-     * @return Response
      * @throws Exception
      */
+    #[Route(path: '/', name: 'index')]
     public function indexAction(CourseInfo $courseInfo): Response
     {
         return $this->render('course_info/presentation/presentation.html.twig', [
@@ -46,15 +43,12 @@ class PresentationController extends AbstractController
     }
 
     /**
-     * @Route("/general", name="general"))
      *
-     * @param CourseInfo|null $courseInfo
-     * @param Environment $twig
-     * @return Response
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
+    #[Route(path: '/general', name: 'general')]
     public function generalViewAction(?CourseInfo $courseInfo, Environment $twig): Response
     {
         $render = $twig->render('course_info/presentation/view/general.html.twig', [
@@ -67,17 +61,12 @@ class PresentationController extends AbstractController
     }
 
     /**
-     * @Route("/general/edit", name="general.edit"))
      *
-     * @param CourseInfo $courseInfo
-     * @param Request $request
-     * @param CourseInfoManager $manager
-     * @param Environment $twig
-     * @return Response
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
+    #[Route(path: '/general/edit', name: 'general.edit')]
     public function generalFormAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager, Environment $twig): Response
     {
         $form = $this->createForm(GeneralType::class, $courseInfo, ['media' => $courseInfo->getMediaType()]);
@@ -106,15 +95,13 @@ class PresentationController extends AbstractController
     }
 
     /**
-     * @Route("/teachers", name="teachers"))
      *
-     * @param CourseInfo $courseInfo
      * @param Environment $twig )
-     * @return Response
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
+    #[Route(path: '/teachers', name: 'teachers')]
     public function teachersViewAction(CourseInfo $courseInfo, Environment $twig): Response
     {
         $teachers = $courseInfo->getCourseTeachers()->toArray();
@@ -134,16 +121,11 @@ class PresentationController extends AbstractController
     }
 
     /**
-     * @Route("/teachers/add", name="teachers.add"))
      *
-     * @param CourseInfo $courseInfo
-     * @param Request $request
-     * @param CourseTeacherManager $courseTeacherManager
-     * @param ImportCourseTeacherFactory $factory
      * @param Environment $twig )
-     * @return Response
      * @throws Exception
      */
+    #[Route(path: '/teachers/add', name: 'teachers.add')]
     public function addTeachersAction(CourseInfo                 $courseInfo,
                                       Request                    $request,
                                       CourseTeacherManager       $courseTeacherManager,
@@ -188,15 +170,13 @@ class PresentationController extends AbstractController
     }
 
     /**
-     * @Route("/teaching-mode", name="teaching_mode"))
      *
-     * @param CourseInfo $courseInfo
      * @param Environment $twig )
-     * @return Response
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
+    #[Route(path: '/teaching-mode', name: 'teaching_mode')]
     public function teachingModeViewAction(CourseInfo $courseInfo, Environment $twig): Response
     {
         $render = $twig->render('course_info/presentation/view/teaching_mode.html.twig', [
@@ -209,17 +189,12 @@ class PresentationController extends AbstractController
     }
 
     /**
-     * @Route("/teaching-mode/edit", name="teaching_mode.edit"))
      *
-     * @param CourseInfo $courseInfo
-     * @param Request $request
-     * @param CourseInfoManager $manager
-     * @param Environment $twig
-     * @return Response
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
+    #[Route(path: '/teaching-mode/edit', name: 'teaching_mode.edit')]
     public function teachingModeFormAction(
         CourseInfo  $courseInfo,
         Request $request,

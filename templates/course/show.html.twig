@@ -214,13 +214,12 @@
                             {{ course.type }}
                         </td>
                         <td>
-                            {% set removeForm = removeItemsForm.createView %}
-                            {{ form_start(removeForm) }}
-                            {{ form_widget(removeForm.id, {'attr' : {'value' : course.id}}) }}
+                            {{ form_start(removeItemsForm) }}
+                            {{ form_widget(removeItemsForm.id, {'attr' : {'value' : course.id}}) }}
                             <button type="button" class="btn btn-danger float-right warning-delete" data-toggle="modal" data-target="#warningDeleteModal">
                                 <i class="fas fa-trash"></i> {{ 'admin.button.unlink' | trans }}
                             </button>
-                            {{ form_end(removeForm) }}
+                            {{ form_end(removeItemsForm) }}
                         </td>
                     </tr>
                 {% endfor %}

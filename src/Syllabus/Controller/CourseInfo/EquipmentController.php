@@ -24,23 +24,18 @@ use Twig\Error\SyntaxError;
  * Class EquipmentController
  * @package App\Syllabus\Controller\CourseInfo
  *
- * @Route("/course-info/equipment/{id}", name="app.course_info.equipment.")
  * @Security("is_granted('WRITE', resourceEquipment)")
  */
+#[Route(path: '/course-info/equipment/{id}', name: 'app.course_info.equipment.')]
 class EquipmentController extends AbstractController
 {
     /**
-     * @Route("/edit", name="edit"))
      *
-     * @param CourseResourceEquipment $resourceEquipment
-     * @param Request $request
-     * @param CourseResourceEquipmentManager $courseResourceEquipmentManager
-     * @param Environment $twig
-     * @return JsonResponse
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
+    #[Route(path: '/edit', name: 'edit')]
     public function editDescriptionResourceEquipmentAction(
         CourseResourceEquipment $resourceEquipment,
         Request $request,
@@ -70,17 +65,12 @@ class EquipmentController extends AbstractController
     }
 
     /**
-     * @Route("/delete", name="delete"))
      *
-     * @param CourseResourceEquipment $resourceEquipment
-     * @param Environment $twig
-     * @param Request $request
-     * @param CourseResourceEquipmentManager $courseResourceEquipmentManager
-     * @return JsonResponse
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
+    #[Route(path: '/delete', name: 'delete')]
     public function removeResourceEquipmentAction(CourseResourceEquipment $resourceEquipment, Environment $twig,
                                                   Request $request, CourseResourceEquipmentManager $courseResourceEquipmentManager): JsonResponse
     {

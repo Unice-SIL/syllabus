@@ -24,21 +24,16 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * Activity controller.
  *
- * @Route("/critical-achievement", name="app.admin.critical_achievement.")
  * @Security("is_granted('ROLE_ADMIN_CRITICAL_ACHIEVEMENT')")
  */
+#[Route(path: '/critical-achievement', name: 'app.admin.critical_achievement.')]
 class CriticalAchievementController extends AbstractController
 {
     /**
-     * @Route("/", name="index" )
      * @Security("is_granted('ROLE_ADMIN_CRITICAL_ACHIEVEMENT_LIST')")
      *
-     * @param Request $request
-     * @param CriticalAchievementDoctrineRepository $repository
-     * @param PaginatorInterface $paginator
-     * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
-     * @return Response
      */
+    #[Route(path: '/', name: 'index')]
     public function indexAction(
         Request $request,
         CriticalAchievementDoctrineRepository $repository,
@@ -69,15 +64,8 @@ class CriticalAchievementController extends AbstractController
         ));
     }
 
-    /**
-     * @Route("/new", name="new"))
-     * @Security("is_granted('ROLE_ADMIN_CRITICAL_ACHIEVEMENT_CREATE')")
-     *
-     * @param Request $request
-     * @param CriticalAchievementManager $criticalAchievementManager
-     * @param TranslatorInterface $translator
-     * @return Response
-     */
+    
+    #[Route(path: '/new', name: 'new')] // @Security("is_granted('ROLE_ADMIN_CRITICAL_ACHIEVEMENT_CREATE')")
     public function newAction(Request $request, CriticalAchievementManager $criticalAchievementManager, TranslatorInterface $translator): Response
     {
         $criticalAchievement = $criticalAchievementManager->new();
@@ -95,16 +83,8 @@ class CriticalAchievementController extends AbstractController
         ));
     }
 
-    /**
-     * @Route("{id}/edit", name="edit"))
-     * @Security("is_granted('ROLE_ADMIN_CRITICAL_ACHIEVEMENT_UPDATE')")
-     *
-     * @param Request $request
-     * @param CriticalAchievement $criticalAchievement
-     * @param CriticalAchievementManager $criticalAchievementManager
-     * @param TranslatorInterface $translator
-     * @return RedirectResponse|Response
-     */
+    
+    #[Route(path: '{id}/edit', name: 'edit')] // @Security("is_granted('ROLE_ADMIN_CRITICAL_ACHIEVEMENT_UPDATE')")
     public function editAction(Request $request, CriticalAchievement $criticalAchievement, CriticalAchievementManager $criticalAchievementManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $form = $this->createForm(CriticalAchievementType::class, $criticalAchievement);
@@ -122,18 +102,12 @@ class CriticalAchievementController extends AbstractController
         ));
     }
 
-    /**
-     * @Route("/autocompleteByCourse/{courseInfo}", name="autocompleteByCourse", methods={"GET"})
-     *
-     * @param CriticalAchievementDoctrineRepository $criticalAchievementDoctrineRepository
-     * @param CourseInfo $courseInfo
-     * @param Request $request
-     * @return JsonResponse
-     */
+    
+    #[Route(path: '/autocompleteByCourse/{courseInfo}', name: 'autocompleteByCourse', methods: ['GET'])]
     public function autocompleteByCourse(CourseInfo $courseInfo, CriticalAchievementDoctrineRepository $criticalAchievementDoctrineRepository,
                                           Request $request): JsonResponse
     {
-        $query = $request->query->all('q', '');
+        $query = $request->query->all('q');
 
         $criticalAchievements = $criticalAchievementDoctrineRepository->findLikeQueryByCourse($query, $courseInfo->getCourse());
         $result = [];

@@ -23,22 +23,17 @@ use Twig\Error\SyntaxError;
  * Class TutoringResourceController
  * @package App\Syllabus\Controller\CourseInfo
  *
- * @Route("/course-info/tutoring-resource/{id}", name="app.course_info.tutoring_resource.")
  * @Security("is_granted('WRITE', tutoringResources)")
  */
+#[Route(path: '/course-info/tutoring-resource/{id}', name: 'app.course_info.tutoring_resource.')]
 class TutoringResourceController extends AbstractController
 {
     /**
-     * @Route("/edit", name="edit"))
-     * @param CourseTutoringResource $tutoringResources
-     * @param Request $request
-     * @param CourseTutoringResourceManager $courseTutoringResourceManager
-     * @param Environment $environment
-     * @return JsonResponse
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
+    #[Route(path: '/edit', name: 'edit')]
     public function editTutoringResourceAction(
         CourseTutoringResource $tutoringResources,
         Request $request,
@@ -68,16 +63,11 @@ class TutoringResourceController extends AbstractController
     }
 
     /**
-     * @Route("/delete", name="delete"))
-     * @param CourseTutoringResource $tutoringResources
-     * @param Request $request
-     * @param CourseTutoringResourceManager $courseTutoringResourceManager
-     * @param Environment $environment
-     * @return JsonResponse
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
+    #[Route(path: '/delete', name: 'delete')]
     public function deleteTutoringResourcesAction(
         CourseTutoringResource $tutoringResources,
         Request $request,

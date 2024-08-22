@@ -20,24 +20,17 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class SyllabusController
  * @package App\Syllabus\Controller\Admin
  *
- * @Route("syllabus", name="app.admin.syllabus.")
  * @Security("is_granted('ROLE_ADMIN_COURSE')")
  */
+#[Route(path: 'syllabus', name: 'app.admin.syllabus.')]
 class SyllabusController extends AbstractController
 {
 
     /**
-     * @Route("/list/{isExport}", name="index", methods={"GET"})
      * @Security("is_granted('ROLE_ADMIN_COURSE_LIST')")
      *
-     * @param Request $request
-     * @param CourseInfoDoctrineRepository $courseInfoDoctrineRepository
-     * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
-     * @param SyllabusExport $syllabusExport
-     * @param PaginatorInterface $paginator
-     * @param bool $isExport
-     * @return Response
      */
+    #[Route(path: '/list/{isExport}', name: 'index', methods: ['GET'])]
     public function indexAction(
         Request $request,
         CourseInfoDoctrineRepository $courseInfoDoctrineRepository,

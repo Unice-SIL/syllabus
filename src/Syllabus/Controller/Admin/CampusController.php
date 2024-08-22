@@ -24,21 +24,16 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  * Class CampusController
  * @package App\Syllabus\Controller\Admin
  *
- * @Route("/campus", name="app.admin.campus.")
  * @Security("is_granted('ROLE_ADMIN_CAMPUS')")
  */
+#[Route(path: '/campus', name: 'app.admin.campus.')]
 class CampusController extends AbstractController
 {
     /**
-     * @Route("/",name="index", methods={"GET"})
      * @Security("is_granted('ROLE_ADMIN_CAMPUS_LIST')")
      *
-     * @param Request $request
-     * @param CampusDoctrineRepository $repository
-     * @param PaginatorInterface $paginator
-     * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
-     * @return Response
      */
+    #[Route(path: '/', name: 'index', methods: ['GET'])]
     public function IndexAction(
         Request $request,
         CampusDoctrineRepository $repository,
@@ -70,14 +65,10 @@ class CampusController extends AbstractController
 
     /**
      *
-     * @Route("/new", name="new", methods={"GET", "POST"})
      * @Security("is_granted('ROLE_ADMIN_CAMPUS_CREATE')")
      *
-     * @param Request $request
-     * @param CampusManager $campusManager
-     * @param TranslatorInterface $translator
-     * @return RedirectResponse|Response
      */
+    #[Route(path: '/new', name: 'new', methods: ['GET', 'POST'])]
     public function newAction(Request $request, CampusManager $campusManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $campus = $campusManager->new();
@@ -100,15 +91,10 @@ class CampusController extends AbstractController
     /**
      * Displays a form to edit an existing activity entity.
      *
-     * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
      * @Security("is_granted('ROLE_ADMIN_CAMPUS_UPDATE')")
      *
-     * @param Request $request
-     * @param Campus $campus
-     * @param CampusManager $campusManager
-     * @param TranslatorInterface $translator
-     * @return RedirectResponse|Response
      */
+    #[Route(path: '/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function editAction(Request $request, Campus $campus, CampusManager $campusManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $form = $this->createForm(CampusType::class, $campus);
@@ -128,13 +114,8 @@ class CampusController extends AbstractController
         ));
     }
 
-    /**
-     * @Route("autocompleteS2", name="autocompleteS2", methods={"GET"})
-     *
-     * @param CampusDoctrineRepository $repository
-     * @param Request $request
-     * @return Response
-     */
+    
+    #[Route(path: 'autocompleteS2', name: 'autocompleteS2', methods: ['GET'])]
     public function autocompleteS2(CampusDoctrineRepository $repository, Request $request): Response
     {
         $parameters =  $request->query->all();

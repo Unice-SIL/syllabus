@@ -22,21 +22,16 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * @package App\Syllabus\Controller
  *
- * @Route("/period", name="app.admin.period.")
  * @Security("is_granted('ROLE_ADMIN_PERIOD')")
  */
+#[Route(path: '/period', name: 'app.admin.period.')]
 class PeriodController extends AbstractController
 {
     /**
-     * @Route("/",name="index", methods={"GET"})
      * @Security("is_granted('ROLE_ADMIN_PERIOD_LIST')")
      *
-     * @param Request $request
-     * @param PeriodDoctrineRepository $repository
-     * @param PaginatorInterface $paginator
-     * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
-     * @return Response
      */
+    #[Route(path: '/', name: 'index', methods: ['GET'])]
     public function indexAction(
         Request $request,
         PeriodDoctrineRepository $repository,
@@ -69,14 +64,10 @@ class PeriodController extends AbstractController
 
     /**
      *
-     * @Route("/new", name="new", methods={"GET", "POST"})
      * @Security("is_granted('ROLE_ADMIN_PERIOD_CREATE')")
      *
-     * @param Request $request
-     * @param PeriodManager $periodManager
-     * @param TranslatorInterface $translator
-     * @return RedirectResponse|Response
      */
+    #[Route(path: '/new', name: 'new', methods: ['GET', 'POST'])]
     public function newAction(Request $request, PeriodManager $periodManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $period = $periodManager->new();
@@ -99,15 +90,10 @@ class PeriodController extends AbstractController
     /**
      * Displays a form to edit an existing activity entity.
      *
-     * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
      * @Security("is_granted('ROLE_ADMIN_PERIOD_UPDATE')")
      *
-     * @param Request $request
-     * @param Period $period
-     * @param PeriodManager $periodManager
-     * @param TranslatorInterface $translator
-     * @return RedirectResponse|Response
      */
+    #[Route(path: '/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function editAction(Request $request, Period $period, PeriodManager $periodManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $form = $this->createForm(PeriodType::class, $period);

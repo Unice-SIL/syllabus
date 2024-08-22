@@ -26,22 +26,17 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * Class GroupsController
  * @package App\Syllabus\Controller
- * @Route("/groups", name="app.admin.groups.")
  * @Security("is_granted('ROLE_ADMIN_GROUPS')")
  */
+#[Route(path: '/groups', name: 'app.admin.groups.')]
 class GroupsController extends AbstractController
 {
     /**
      * Lists all groups entities.
      *
-     * @Route("/", name="index", methods={"GET"})
      * @Security("is_granted('ROLE_ADMIN_GROUPS_LIST')")
-     * @param Request $request
-     * @param GroupsDoctrineRepository $groupsDoctrineRepository
-     * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
-     * @param PaginatorInterface $paginator
-     * @return Response
      */
+    #[Route(path: '/', name: 'index', methods: ['GET'])]
     public function indexAction(
         Request $request,
         GroupsDoctrineRepository $groupsDoctrineRepository,
@@ -82,13 +77,9 @@ class GroupsController extends AbstractController
     /**
      * Creates a new groups entity.
      *
-     * @Route("/new", name="new", methods={"GET", "POST"})
      * @Security("is_granted('ROLE_ADMIN_GROUPS_CREATE')")
-     * @param Request $request
-     * @param GroupsManager $groupsManager
-     * @param TranslatorInterface $translator
-     * @return RedirectResponse|Response
      */
+    #[Route(path: '/new', name: 'new', methods: ['GET', 'POST'])]
     public function newAction(Request $request, GroupsManager $groupsManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $groups = $groupsManager->new();
@@ -112,14 +103,9 @@ class GroupsController extends AbstractController
     /**
      * Displays a form to edit an existing groups entity.
      *
-     * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
      * @Security("is_granted('ROLE_ADMIN_GROUPS_UPDATE')")
-     * @param Request $request
-     * @param Groups $groups
-     * @param GroupsManager $groupsManager
-     * @param TranslatorInterface $translator
-     * @return RedirectResponse|Response
      */
+    #[Route(path: '/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function editAction(Request $request, Groups $groups, GroupsManager $groupsManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $form = $this->createForm(GroupsType::class, $groups);
@@ -140,13 +126,9 @@ class GroupsController extends AbstractController
     }
 
     /**
-     * @Route("/autocomplete/{field}", name="autocomplete", methods={"GET"}, requirements={"field" = "label"})
-     *
-     * @param GroupsDoctrineRepository $groupsDoctrineRepository
-     * @param Request $request
      * @param $field
-     * @return JsonResponse
      */
+    #[Route(path: '/autocomplete/{field}', name: 'autocomplete', methods: ['GET'], requirements: ['field' => 'label'])]
     public function autocomplete(GroupsDoctrineRepository $groupsDoctrineRepository, Request $request, $field): JsonResponse
     {
         $parameters = $request->query->all();
@@ -168,13 +150,9 @@ class GroupsController extends AbstractController
     /**
      * Deletes a groups entity.
      *
-     * @Route("/delete/{id}", name="delete")
      * @Security("is_granted('ROLE_ADMIN_GROUPS_DELETE')")
-     * @param TranslatorInterface $translator
-     * @param Groups $groups
-     * @param GroupsManager $groupsManager
-     * @return RedirectResponse
      */
+    #[Route(path: '/delete/{id}', name: 'delete')]
     public function deleteAction(TranslatorInterface $translator, Groups $groups, GroupsManager $groupsManager): RedirectResponse
     {
         $groupsManager->delete($groups);
@@ -184,8 +162,6 @@ class GroupsController extends AbstractController
 
     /**
      * Creates a form to delete a groups entity.
-     * @param Groups $group
-     * @return FormInterface
      */
     private function createDeleteForm(Groups $group): FormInterface
     {

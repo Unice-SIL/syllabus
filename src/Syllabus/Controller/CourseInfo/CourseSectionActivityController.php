@@ -22,26 +22,20 @@ use Twig\Error\SyntaxError;
 /**
  * Class CourseSectionActivityController
  * @package App\Syllabus\Controller\CourseInfo
- * @Route("/course-info/section-activity/{id}", name="app.course_info.section_activity.")
  * @Security("is_granted('WRITE', courseSectionActivity)")
-
  */
+#[Route(path: '/course-info/section-activity/{id}', name: 'app.course_info.section_activity.')]
 class CourseSectionActivityController extends AbstractController
 {
     /**
-     * @Route("/activity/{activityId}/edit", name="edit"))
      *
      * @param Environment $twig
-     * @param CourseSectionActivity $courseSectionActivity
-     * @param Activity $activity
-     * @param Request $request
-     * @param CourseSectionActivityManager $manager
-     * @return JsonResponse
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      * @ParamConverter("activity", options={"mapping": {"activityId": "id"}})
      */
+    #[Route(path: '/activity/{activityId}/edit', name: 'edit')] // @ParamConverter("activity", options={"mapping": {"activityId": "id"}})
     public function editCourseSectionActivityAction(Environment $twig,  CourseSectionActivity $courseSectionActivity, Activity $activity,
                                                     Request $request, CourseSectionActivityManager $manager): JsonResponse
     {
@@ -77,18 +71,14 @@ class CourseSectionActivityController extends AbstractController
     }
 
     /**
-     * @Route("/delete", name="delete"))
      *
      * @param CourseSectionActivity $courseSectionActivity
-     * @param Request $request
-     * @param CourseSectionActivityManager $manager
-     * @param Environment $twig
-     * @return Response
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      * @ParamConverter("courseSection", options={"mapping": {"sectionId": "id"}})
      */
+    #[Route(path: '/delete', name: 'delete')] // @ParamConverter("courseSection", options={"mapping": {"sectionId": "id"}})
     public function removeCourseSectionActivityAction(
         CourseSectionActivity $courseSectionActivity,Request $request,
         CourseSectionActivityManager $manager,

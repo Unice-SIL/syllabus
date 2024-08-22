@@ -32,21 +32,16 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  * Class CourseController
  * @package App\Syllabus\Controller
  *
- * @Route("course", name="app.admin.course.")
  * @Security("is_granted('ROLE_ADMIN_COURSE')")
  */
+#[Route(path: 'course', name: 'app.admin.course.')]
 class CourseController extends AbstractController
 {
     /**
-     * @Route("/", name="index", methods={"GET"})
      * @Security("is_granted('ROLE_ADMIN_COURSE_LIST')")
      *
-     * @param Request $request
-     * @param CourseDoctrineRepository $courseDoctrineRepository
-     * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
-     * @param PaginatorInterface $paginator
-     * @return Response
      */
+    #[Route(path: '/', name: 'index', methods: ['GET'])]
     public function indexAction(
         Request $request,
         CourseDoctrineRepository $courseDoctrineRepository,
@@ -74,21 +69,17 @@ class CourseController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="new", methods={"GET", "POST"})
      * @Security("is_granted('ROLE_ADMIN_COURSE_CREATE')")
      *
-     * @param Request $request
-     * @param CourseManager $courseManager
-     * @param TranslatorInterface $translator
-     * @return RedirectResponse|Response
      */
+    #[Route(path: '/new', name: 'new', methods: ['GET', 'POST'])]
     public function newAction(Request $request, CourseManager $courseManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $course = $courseManager->new();
         $form = $this->createForm(CourseType::class, $course);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() and $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $courseManager->create($course);
 
             $this->addFlash('success', $translator->trans('admin.course.flashbag.new'));
@@ -101,15 +92,10 @@ class CourseController extends AbstractController
     /**
      * Displays a form to edit an existing course entity.
      *
-     * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
      * @Security("is_granted('ROLE_ADMIN_COURSE_UPDATE')")
      *
-     * @param Request $request
-     * @param Course $course
-     * @param CourseManager $courseManager
-     * @param TranslatorInterface $translator
-     * @return RedirectResponse|Response
      */
+    #[Route(path: '/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function editAction(Request $request, Course $course, CourseManager $courseManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $form = $this->createForm(CourseType::class, $course);
@@ -128,16 +114,9 @@ class CourseController extends AbstractController
 
     /**
      * List the piece of informations of an existing course including a table of associated CourseInfo
-     * @Route("/{id}/show", name="show", methods={"GET", "POST"})
      * @Entity("course", expr="repository.findCourseWithCourseInfoAndYear(id)")
-     * @param Course $course
-     * @param EntityManagerInterface $em
-     * @param Request $request
-     * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
-     * @param FormFactoryInterface $formFactory
-     * @param PaginatorInterface $paginator
-     * @return Response
      */
+    #[Route(path: '/{id}/show', name: 'show', methods: ['GET', 'POST'])]
     public function showAction(
         Course $course,
         EntityManagerInterface $em,
@@ -153,7 +132,7 @@ class CourseController extends AbstractController
         $removeParentCourseForm = $this->createForm(RemoveParentCourseType::class);
         $removeParentCourseForm->handleRequest($request);
 
-        if ($removeParentCourseForm->isSubmitted() and $removeParentCourseForm->isValid()) {
+        if ($removeParentCourseForm->isSubmitted() && $removeParentCourseForm->isValid()) {
 
             $courseToRemove = $em->getRepository(Course::class)->find($removeParentCourseForm->getData()['id']);
 
@@ -171,7 +150,7 @@ class CourseController extends AbstractController
         $removeChildrenCourseForm = $this->createForm(RemoveChildrenCourseType::class);
         $removeChildrenCourseForm->handleRequest($request);
 
-        if ($removeChildrenCourseForm->isSubmitted() and $removeChildrenCourseForm->isValid()) {
+        if ($removeChildrenCourseForm->isSubmitted() && $removeChildrenCourseForm->isValid()) {
 
             $courseToRemove = $em->getRepository(Course::class)->find($removeChildrenCourseForm->getData()['id']);
 
@@ -192,8 +171,7 @@ class CourseController extends AbstractController
         $addChildrenCourseForm->handleRequest($request);
 
         if (
-            ($addParentCourseForm->isSubmitted() and $addParentCourseForm->isValid())
-            or ($addChildrenCourseForm->isSubmitted() and $addChildrenCourseForm->isValid())
+            $addParentCourseForm->isSubmitted() && $addParentCourseForm->isValid() || $addChildrenCourseForm->isSubmitted() && $addChildrenCourseForm->isValid()
         ) {
 
             $em->flush();
@@ -241,8 +219,8 @@ class CourseController extends AbstractController
             'course' => $course,
             'addParentCourseForm' => $addParentCourseForm->createView(),
             'addChildrenCourseForm' => $addChildrenCourseForm->createView(),
-            'removeParentCourseForm' => $removeParentCourseForm,
-            'removeChildrenCourseForm' => $removeChildrenCourseForm,
+            'removeParentCourseForm' => $removeParentCourseForm->createView(),
+            'removeChildrenCourseForm' => $removeChildrenCourseForm->createView(),
             'parentPagination' => $parentPagination,
             'childrenPagination' => $childrenPagination,
             'filterParentForm' => $filterParentForm->createView(),
@@ -252,15 +230,10 @@ class CourseController extends AbstractController
 
     /**
      * Creates a course-info for the given course
-     * @Route("/{id}/new-course-info", name="new_course_info", methods={"GET", "POST"})
      * @Security("is_granted('ROLE_ADMIN_COURSE_INFO_CREATE')")
      *
-     * @param Course $course
-     * @param Request $request
-     * @param EntityManagerInterface $em
-     * @param TranslatorInterface $translator
-     * @return Response
      */
+    #[Route(path: '/{id}/new-course-info', name: 'new_course_info', methods: ['GET', 'POST'])]
     public function newCourseInfo(Course $course, Request $request, EntityManagerInterface $em, TranslatorInterface $translator): Response
     {
         $courseInfo = new CourseInfo();
@@ -269,7 +242,7 @@ class CourseController extends AbstractController
 
         $courseInfoForm->handleRequest($request);
 
-        if ($courseInfoForm->isSubmitted() and $courseInfoForm->isValid()) {
+        if ($courseInfoForm->isSubmitted() && $courseInfoForm->isValid()) {
             $course->addCourseInfo($courseInfo);
             $em->flush();
 
@@ -285,13 +258,9 @@ class CourseController extends AbstractController
     }
 
     /**
-     * @Route("/autocomplete/{field}", name="autocomplete", methods={"GET"}, requirements={"field" = "code|title"})
-     *
-     * @param CourseDoctrineRepository $courseDoctrineRepository
-     * @param Request $request
      * @param $field
-     * @return JsonResponse
      */
+    #[Route(path: '/autocomplete/{field}', name: 'autocomplete', methods: ['GET'], requirements: ['field' => 'code|title'])]
     public function autocomplete(CourseDoctrineRepository $courseDoctrineRepository, Request $request, $field): JsonResponse
     {
         $query = $request->query->get('query');
@@ -312,13 +281,8 @@ class CourseController extends AbstractController
         return $this->json(['query' =>  $query, 'suggestions' => $courses, 'data' => $courses]);
     }
 
-    /**
-     * @Route("/autocompleteS2", name="autocompleteS2", methods={"GET"})
-     *
-     * @param CourseDoctrineRepository $courseDoctrineRepository
-     * @param Request $request
-     * @return JsonResponse
-     */
+    
+    #[Route(path: '/autocompleteS2', name: 'autocompleteS2', methods: ['GET'])]
     public function autocompleteS2(CourseDoctrineRepository $courseDoctrineRepository, Request $request): JsonResponse
     {
         $parameters =  $request->query->all();
@@ -329,7 +293,7 @@ class CourseController extends AbstractController
             $parameters =  $request->query->all();
             $code =  $parameters['code'] ?? null;
 
-            if (strtolower($c->getCode()) == strtolower($code)) {
+            if (strtolower($c->getCode()) === strtolower($code)) {
                 return false;
             }
             return ['id' => $c->getId(), 'text' => $c->getCode()];
@@ -338,12 +302,8 @@ class CourseController extends AbstractController
         return $this->json($data);
     }
 
-    /**
-     * @Route("/autocompleteS3", name="autocompleteS3", methods={"GET"})
-     *
-     * @param CourseManager $courseManager
-     * @return JsonResponse
-     */
+    
+    #[Route(path: '/autocompleteS3', name: 'autocompleteS3', methods: ['GET'])]
     public function autocompleteS3(CourseManager $courseManager): JsonResponse
     {
         $results = $courseManager->findAll();

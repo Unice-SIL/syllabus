@@ -26,23 +26,18 @@ use Twig\Error\SyntaxError;
  * Class CourseCriticalAchievementController
  * @package App\Syllabus\Controller\CourseInfo
  *
- * @Route("/course-info/critical-achievement/{id}", name="app.course_info.critical_achievement.")
  * @Security("is_granted('WRITE', courseCriticalAchievement)")
  */
+#[Route(path: '/course-info/critical-achievement/{id}', name: 'app.course_info.critical_achievement.')]
 class CourseCriticalAchievementController extends AbstractController
 {
     /**
-     * @Route("/edit", name="edit"))
      *
-     * @param CourseCriticalAchievement $courseCriticalAchievement
-     * @param Request $request
-     * @param CourseCriticalAchievementManager $courseCriticalAchievementManager
-     * @param Environment $twig
-     * @return JsonResponse
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
+    #[Route(path: '/edit', name: 'edit')]
     public function editCriticalAchievementAction(CourseCriticalAchievement        $courseCriticalAchievement,
                                                   Request                          $request,
                                                   CourseCriticalAchievementManager $courseCriticalAchievementManager,
@@ -71,17 +66,12 @@ class CourseCriticalAchievementController extends AbstractController
     }
 
     /**
-     * @Route("/delete", name="delete"))
      *
-     * @param CourseCriticalAchievement $courseCriticalAchievement
-     * @param Request $request
-     * @param CourseCriticalAchievementManager $courseCriticalAchievementManager
-     * @param Environment $twig
-     * @return JsonResponse
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
+    #[Route(path: '/delete', name: 'delete')]
     public function deleteCriticalAchievementAction(CourseCriticalAchievement        $courseCriticalAchievement,
                                                     Request                          $request,
                                                     CourseCriticalAchievementManager $courseCriticalAchievementManager,
@@ -107,17 +97,12 @@ class CourseCriticalAchievementController extends AbstractController
     }
 
     /**
-     * @Route("/learning-achievement/add", name="learning_achievement.add"))
      *
-     * @param CourseCriticalAchievement $courseCriticalAchievement
-     * @param Request $request
-     * @param Environment $twig
-     * @param EntityManagerInterface $em
-     * @return Response
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
+    #[Route(path: '/learning-achievement/add', name: 'learning_achievement.add')]
     public function addLearningAchievementAction(CourseCriticalAchievement $courseCriticalAchievement,
                                                  Request                   $request,
                                                  Environment               $twig,

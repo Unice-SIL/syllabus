@@ -25,17 +25,13 @@ use Twig\Error\SyntaxError;
 /**
  * Class ObjectivesController
  * @package App\Syllabus\Controller\CourseInfo
- * @Route("/course-info/{id}/objectives", name="app.course_info.objectives.")
  * @Security("is_granted('WRITE', courseInfo)")
  */
+#[Route(path: '/course-info/{id}/objectives', name: 'app.course_info.objectives.')]
 class ObjectivesController extends AbstractController
 {
-    /**
-     * @Route("/", name="index")
-     *
-     * @param CourseInfo $courseInfo
-     * @return Response
-     */
+    
+    #[Route(path: '/', name: 'index')]
     public function indexAction(CourseInfo $courseInfo): Response
     {
         return $this->render('course_info/objectives_course/objectives_course.html.twig', [
@@ -44,15 +40,12 @@ class ObjectivesController extends AbstractController
     }
 
     /**
-     * @Route("/achievements", name="achievements"))
      *
-     * @param CourseInfo $courseInfo
-     * @param Environment $twig
-     * @return Response
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
+    #[Route(path: '/achievements', name: 'achievements')]
     public function achievementViewAction(CourseInfo $courseInfo, Environment $twig): Response
     {
         $render = $twig->render('course_info/objectives_course/view/achievement.html.twig', [
@@ -65,17 +58,12 @@ class ObjectivesController extends AbstractController
     }
 
     /**
-     * @Route("/achievement/add", name="achievement.add"))
      *
-     * @param CourseInfo $courseInfo
-     * @param Request $request
-     * @param CourseAchievementManager $courseAchievementManager
-     * @param Environment $twig
-     * @return Response
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
+    #[Route(path: '/achievement/add', name: 'achievement.add')]
     public function addAchievementAction(CourseInfo $courseInfo, Request $request, CourseAchievementManager $courseAchievementManager, Environment $twig): Response
     {
         $courseAchievement = $courseAchievementManager->new($courseInfo);
@@ -102,14 +90,9 @@ class ObjectivesController extends AbstractController
     }
 
     /**
-     * @Route("/achievements/sort", name="sort_achievements"))
-     *
-     * @param CourseInfo $courseInfo
-     * @param Request $request
-     * @param CourseInfoManager $manager
-     * @return JsonResponse
      * @throws \Exception
      */
+    #[Route(path: '/achievements/sort', name: 'sort_achievements')]
     public function sortAchievementsAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager): JsonResponse
     {
         $achievements = $courseInfo->getCourseAchievements();
@@ -130,33 +113,32 @@ class ObjectivesController extends AbstractController
      * @param Environment $twig
      * @return Response
      */
-   /* public function criticalAchievementViewAction(CourseInfo $courseInfo, Environment $twig)
-    {
-        $criticalAchievements = $courseInfo->getCourseCriticalAchievements();
-        $tabValideScore = [];
-        foreach ($criticalAchievements as $ca) {
-            $scoreTotal = 0;
-            $score = 0;
-            if ($ca->getRule() == 'Score') {
-                $scoreTotal = $ca->getScore();
-                foreach ($ca->getLearningAchievements() as $la) {
-                    $score += $la->getScore();
-                }
-            }
-            if ($score >= $scoreTotal) {
-                $tabValideScore[] = $ca->getId();
-            }
-        }
-        $render = $twig->render('course_info/objectives_course/view/critical_achievement.html.twig', [
-            'courseInfo' => $courseInfo,
-            'tabValideScore' => $tabValideScore
-        ]);
-        return $this->json([
-            'status' => true,
-            'content' => $render
-        ]);
-    }*/
-
+    /* public function criticalAchievementViewAction(CourseInfo $courseInfo, Environment $twig)
+       {
+           $criticalAchievements = $courseInfo->getCourseCriticalAchievements();
+           $tabValideScore = [];
+           foreach ($criticalAchievements as $ca) {
+               $scoreTotal = 0;
+               $score = 0;
+               if ($ca->getRule() == 'Score') {
+                   $scoreTotal = $ca->getScore();
+                   foreach ($ca->getLearningAchievements() as $la) {
+                       $score += $la->getScore();
+                   }
+               }
+               if ($score >= $scoreTotal) {
+                   $tabValideScore[] = $ca->getId();
+               }
+           }
+           $render = $twig->render('course_info/objectives_course/view/critical_achievement.html.twig', [
+               'courseInfo' => $courseInfo,
+               'tabValideScore' => $tabValideScore
+           ]);
+           return $this->json([
+               'status' => true,
+               'content' => $render
+           ]);
+       }*/
     /**
      * @Route("critical-achievement/add", name="critical_achievement.add"))
      *
@@ -167,36 +149,33 @@ class ObjectivesController extends AbstractController
      * @return Response
      */
     /*public function addCriticalAchievementAction(CourseInfo $courseInfo, Request $request,
-                                                 CourseCriticalAchievementManager $courseCriticalAchievementManager,
-                                                 Environment $twig
-    )
-    {
-        $courseCriticalAchievement = $courseCriticalAchievementManager->new($courseInfo);
-        $form = $this->createForm(CourseCriticalAchievementType::class, $courseCriticalAchievement);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $courseCriticalAchievementManager->create($courseCriticalAchievement);
+                                                     CourseCriticalAchievementManager $courseCriticalAchievementManager,
+                                                     Environment $twig
+        )
+        {
+            $courseCriticalAchievement = $courseCriticalAchievementManager->new($courseInfo);
+            $form = $this->createForm(CourseCriticalAchievementType::class, $courseCriticalAchievement);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $courseCriticalAchievementManager->create($courseCriticalAchievement);
+                return $this->json([
+                    'status' => true,
+                    'content' => null
+                ]);
+            }
+    
+            $render = $twig->render('course_info/objectives_course/form/critical_achievement.html.twig', [
+                'courseInfo' => $courseInfo,
+                'form' => $form->createView()
+            ]);
             return $this->json([
                 'status' => true,
-                'content' => null
+                'content' => $render
             ]);
-        }
-
-        $render = $twig->render('course_info/objectives_course/form/critical_achievement.html.twig', [
-            'courseInfo' => $courseInfo,
-            'form' => $form->createView()
-        ]);
-        return $this->json([
-            'status' => true,
-            'content' => $render
-        ]);
-    }*/
-
+        }*/
     /**
-     * @param CourseInfo $courseInfo
      * @param $courseInfoList
      * @param $data
-     * @param CourseInfoManager $manager
      * @throws Exception
      */
     private function sortList(CourseInfo $courseInfo, $courseInfoList, $data, CourseInfoManager $manager): void

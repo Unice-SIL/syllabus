@@ -21,26 +21,20 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * Class CourseInfoController
  * @package App\Syllabus\Controller
- * @Route("/syllabus", name="app.admin.course_info.")
  */
+#[Route(path: '/syllabus', name: 'app.admin.course_info.')]
 class CourseInfoController extends AbstractController
 {
     /**
      * Update an existing CourseInfo
-     *
-     * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
-     * @param CourseInfo $courseInfo
-     * @param Request $request
-     * @param EntityManagerInterface $em
-     * @param TranslatorInterface $translator
-     * @return RedirectResponse|Response
      */
+    #[Route(path: '/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(CourseInfo $courseInfo, Request $request, EntityManagerInterface $em, TranslatorInterface $translator): RedirectResponse|Response
     {
         $form = $this->createForm(CourseInfoType::class, $courseInfo);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() and $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $em->flush();
 
@@ -59,14 +53,9 @@ class CourseInfoController extends AbstractController
     /**
      * Course info published list
      *
-     * @Route("/published/{year}", name="published", methods={"GET", "POST"})
      *
-     * @param Year $year
-     * @param Request $request
-     * @param StatisticSyllabusManager $statisticSyllabusManager
-     * @param PaginatorInterface $paginator
-     * @return Response
      */
+    #[Route(path: '/published/{year}', name: 'published', methods: ['GET', 'POST'])]
     public function published(Year $year, Request $request,StatisticSyllabusManager $statisticSyllabusManager,
                               PaginatorInterface $paginator): Response
     {
@@ -85,14 +74,9 @@ class CourseInfoController extends AbstractController
     /**
      * Course info being filled list
      *
-     * @Route("/being-filled/{year}", name="being_filled", methods={"GET", "POST"})
      *
-     * @param Year $year
-     * @param Request $request
-     * @param StatisticSyllabusManager $statisticSyllabusManager
-     * @param PaginatorInterface $paginator
-     * @return Response
      */
+    #[Route(path: '/being-filled/{year}', name: 'being_filled', methods: ['GET', 'POST'])]
     public function beingFilled(Year $year, Request $request,StatisticSyllabusManager $statisticSyllabusManager,
                                 PaginatorInterface $paginator): Response
     {
@@ -109,12 +93,9 @@ class CourseInfoController extends AbstractController
     }
 
     /**
-     * @Route("/autocomplete/{field}", name="autocomplete", methods={"GET"}, requirements={"field" = "ci.title|c.code|c.type|y.label|s.label"})
-     * @param CourseInfoDoctrineRepository $courseInfoDoctrineRepository
-     * @param Request $request
      * @param $field
-     * @return JsonResponse
      */
+    #[Route(path: '/autocomplete/{field}', name: 'autocomplete', methods: ['GET'], requirements: ['field' => 'ci.title|c.code|c.type|y.label|s.label'])]
     public function autocomplete(CourseInfoDoctrineRepository $courseInfoDoctrineRepository, Request $request, $field): JsonResponse
     {
         $parameters = $request->query->all();
@@ -143,23 +124,12 @@ class CourseInfoController extends AbstractController
         return $this->json(['query' =>  $query, 'suggestions' => $suggestions, 'data' => $suggestions]);
     }
 
-    /**
-     * @Route("/autocompleteS2", name="autocompleteS2", methods={"GET"})
-     * @param CourseInfoDoctrineRepository $courseInfoDoctrineRepository
-     * @param Request $request
-     * @return JsonResponse
-     */
+    #[Route(path: '/autocompleteS2', name: 'autocompleteS2', methods: ['GET'])]
     public function autocompleteS2(CourseInfoDoctrineRepository $courseInfoDoctrineRepository, Request $request): JsonResponse
     {
         $parameters = $request->query->all();
         $query = $parameters['q'];
-        $field = $parameters['field_name'] ?? null;
-
-        switch ($field) {
-            default:
-                $searchField = 'c.code';
-                break;
-        }
+        $searchField = 'c.code';
 
         $courseInfos = $courseInfoDoctrineRepository->findLikeQuery($query, $searchField);
 
@@ -175,12 +145,8 @@ class CourseInfoController extends AbstractController
         return $this->json($data);
     }
 
-    /**
-     * @Route("/autocompleteS3", name="autocompleteS3", methods={"GET"})
-     *
-     * @param CourseDoctrineRepository $courseDoctrineRepository
-     * @return JsonResponse
-     */
+    
+    #[Route(path: '/autocompleteS3', name: 'autocompleteS3', methods: ['GET'])]
     public function autocompleteS3(CourseDoctrineRepository $courseDoctrineRepository): JsonResponse
     {
         $results = $courseDoctrineRepository->findAll();

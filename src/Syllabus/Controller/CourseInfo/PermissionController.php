@@ -21,23 +21,17 @@ use Twig\Error\SyntaxError;
 /**
  * Class PermissionController
  * @package App\Syllabus\Controller\CourseInfo
- *
- * @Route("/course-info/permissions/{id}", name="app.course_info.permission.")
  */
+#[Route(path: '/course-info/permissions/{id}', name: 'app.course_info.permission.')]
 class PermissionController extends AbstractController
 {
     /**
-     * @Route("/delete", name="delete")
      *
-     * @param CoursePermission $permission
-     * @param Request $request
-     * @param CoursePermissionManager $coursePermissionManager
-     * @param Environment $twig
-     * @return JsonResponse
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
+    #[Route(path: '/delete', name: 'delete')]
     public function deleteAction(CoursePermission        $permission,
                                  Request                 $request,
                                  CoursePermissionManager $coursePermissionManager,

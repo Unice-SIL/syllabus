@@ -22,23 +22,18 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * User controller.
  *
- * @Route("/user", name="app.admin.user.")
  * @Security("is_granted('ROLE_ADMIN_USER')")
  */
+#[Route(path: '/user', name: 'app.admin.user.')]
 class UserController extends AbstractController
 {
     /**
      * Lists all user entities.
      *
-     * @Route("/", name="index", methods={"GET"})
      * @Security("is_granted('ROLE_ADMIN_USER_LIST')")
      *
-     * @param Request $request
-     * @param PaginatorInterface $paginator
-     * @param UserDoctrineRepository $userDoctrineRepository
-     * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
-     * @return Response
      */
+    #[Route(path: '/', name: 'index', methods: ['GET'])]
     public function indexAction(
         Request $request,
         PaginatorInterface $paginator,
@@ -70,21 +65,17 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="new")
      * @Security("is_granted('ROLE_ADMIN_USER_CREATE')")
      *
-     * @param Request $request
-     * @param UserManager $userManager
-     * @param TranslatorInterface $translator
-     * @return RedirectResponse|Response
      */
+    #[Route(path: '/new', name: 'new')]
     public function newAction(Request $request, UserManager $userManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $user = $userManager->new();
         $form = $this->createForm(UserType::class, $user, ['context' => 'new']);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() and $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $userManager->create($user);
             $this->addFlash('success', $translator->trans('admin.user.flashbag.new'));
 
@@ -97,15 +88,10 @@ class UserController extends AbstractController
     /**
      * Displays a form to edit an existing user entity.
      *
-     * @Route("/{id}/edit", name="edit"), methods={"GET", "POST"}
      * @Security("is_granted('ROLE_ADMIN_USER_UPDATE')")
      *
-     * @param Request $request
-     * @param User $user
-     * @param UserManager $userManager
-     * @param TranslatorInterface $translator
-     * @return RedirectResponse|Response
      */
+    #[Route(path: '/{id}/edit', name: 'edit')] // , methods={"GET", "POST"}
     public function editAction(Request $request, User $user, UserManager $userManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $form = $this->createForm(UserType::class, $user);
@@ -124,14 +110,7 @@ class UserController extends AbstractController
         ));
     }
 
-    /**
-     * @Route("/{id}/send-password-token", name="send_password_token", methods={"GET"})
-     * @param User $user
-     * @param UserManager $userManager
-     * @param MailHelper $mailer
-     * @param TranslatorInterface $translator
-     * @return RedirectResponse
-     */
+    #[Route(path: '/{id}/send-password-token', name: 'send_password_token', methods: ['GET'])]
     public function sendPasswordToken(User $user, UserManager $userManager, MailHelper $mailer, TranslatorInterface $translator): RedirectResponse
     {
         $token = $userManager->setResetPasswordToken($user, ['flush' => true]);

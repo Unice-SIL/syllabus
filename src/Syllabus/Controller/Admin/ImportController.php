@@ -26,23 +26,15 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * Class ImportController
  * @package App\Syllabus\Controller
- * @Route("/import/csv", name="app.admin.import_csv.")
  */
+#[Route(path: '/import/csv', name: 'app.admin.import_csv.')]
 class ImportController extends AbstractController
 {
 
     /**
-     * @Route("/course-info", name="course_info", methods={"GET", "POST"})
-     *
-     * @param Request $request
-     * @param EntityManagerInterface $em
-     * @param CourseInfoManager $courseInfoManager
-     * @param ImportManager $importManager
-     * @param CourseInfoCsvConfiguration $courseInfoCsvConfiguration
-     * @param TranslatorInterface $translator
-     * @return RedirectResponse|Response
      * @throws Exception
      */
+    #[Route(path: '/course-info', name: 'course_info', methods: ['GET', 'POST'])]
     public function courseInfo(
         Request $request,
         EntityManagerInterface $em,
@@ -55,7 +47,7 @@ class ImportController extends AbstractController
         $form = $this->createForm(ImportType::class);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() and $form->isValid())
+        if ($form->isSubmitted() && $form->isValid())
         {
 
 
@@ -118,16 +110,9 @@ class ImportController extends AbstractController
 
 
     /**
-     * @Route("/permission", name="permission", methods={"GET", "POST"})
-     *
-     * @param Request $request
-     * @param CoursePermissionManager $coursePermissionManager
-     * @param ImportManager $importManager
-     * @param CoursePermissionCsvConfiguration $coursePermissionCsvConfiguration
-     * @param TranslatorInterface $translator
-     * @return RedirectResponse|Response
      * @throws Exception
      */
+    #[Route(path: '/permission', name: 'permission', methods: ['GET', 'POST'])]
     public function permission(
         Request $request,
         CoursePermissionManager $coursePermissionManager,
@@ -142,7 +127,7 @@ class ImportController extends AbstractController
 
         $fieldsAllowed = iterator_to_array($coursePermissionCsvConfiguration->getMatching()->getCompleteMatching());
 
-        if ($form->isSubmitted() and $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $coursePermissionCsvConfiguration->setPath($form->getData()['file']->getPathName());
             $parsingReport = ReportingHelper::createReport($translator->trans('admin.import.reporting_helper.parsing'));
@@ -183,16 +168,9 @@ class ImportController extends AbstractController
     }
 
     /**
-     * @Route("/user", name="user", methods={"GET", "POST"})
-     *
-     * @param Request $request
-     * @param UserManager $userManager
-     * @param ImportManager $importManager
-     * @param UserCsvConfiguration $userCsvConfiguration
-     * @param TranslatorInterface $translator
-     * @return RedirectResponse|Response
      * @throws Exception
      */
+    #[Route(path: '/user', name: 'user', methods: ['GET', 'POST'])]
     public function user(
         Request $request,
         UserManager $userManager,
@@ -207,7 +185,7 @@ class ImportController extends AbstractController
         $fieldsAllowed = iterator_to_array($userCsvConfiguration->getMatching()->getCompleteMatching());
         $fieldsToUpdate = array_keys($fieldsAllowed);
 
-        if ($form->isSubmitted() and $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $userCsvConfiguration->setPath($form->getData()['file']->getPathName());
             $parsingReport = ReportingHelper::createReport($translator->trans('admin.import.reporting_helper.parsing'));

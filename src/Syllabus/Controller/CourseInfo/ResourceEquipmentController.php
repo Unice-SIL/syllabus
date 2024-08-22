@@ -29,17 +29,13 @@ use Twig\Error\SyntaxError;
  * Class ResourceEquipmentController
  * @package App\Syllabus\Controller\CourseInfo
  *
- * @Route("/course-info/{id}/resource-equipment", name="app.course_info.resource_equipment.")
  * @Security("is_granted('WRITE', courseInfo)")
  */
+#[Route(path: '/course-info/{id}/resource-equipment', name: 'app.course_info.resource_equipment.')]
 class ResourceEquipmentController extends AbstractController
 {
-    /**
-     * @Route("/", name="index")
-     *
-     * @param CourseInfo $courseInfo
-     * @return Response
-     */
+    
+    #[Route(path: '/', name: 'index')]
     public function indexAction(CourseInfo $courseInfo): Response
     {
         return $this->render('course_info/equipment/equipment.html.twig', [
@@ -48,16 +44,12 @@ class ResourceEquipmentController extends AbstractController
     }
 
     /**
-     * @Route("/equipments", name="equipments"))
      *
-     * @param CourseInfo $courseInfo
-     * @param Environment $twig
-     * @param EntityManagerInterface $em
-     * @return Response
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
+    #[Route(path: '/equipments', name: 'equipments')]
     public function equipmentViewAction(CourseInfo $courseInfo, Environment $twig, EntityManagerInterface $em): Response
     {
         $equipments = $em->getRepository(Equipment::class)->findBy(['obsolete' => false], ['label' => 'ASC']);
@@ -74,19 +66,14 @@ class ResourceEquipmentController extends AbstractController
     }
 
     /**
-     * @Route("/equipment/add/{idEquipment}", name="equipment.add"))
      *
      * @param CourseInfo $courseInfo
-     * @param Equipment $equipment
-     * @param Request $request
-     * @param CourseResourceEquipmentManager $courseResourceEquipmentManager
-     * @param Environment $twig
-     * @return JsonResponse
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      * @ParamConverter("equipment", options={"mapping": {"idEquipment": "id"}})
      */
+    #[Route(path: '/equipment/add/{idEquipment}', name: 'equipment.add')] // @ParamConverter("equipment", options={"mapping": {"idEquipment": "id"}})
     public function addEquipmentAction(CourseInfo                     $courseInfo,
                                        Equipment $equipment,
                                        Request $request,
@@ -118,15 +105,12 @@ class ResourceEquipmentController extends AbstractController
     }
 
     /**
-     * @Route("/resources", name="resources"))
      *
-     * @param CourseInfo $courseInfo
-     * @param Environment $twig
-     * @return Response
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
+    #[Route(path: '/resources', name: 'resources')]
     public function resourceViewAction(CourseInfo $courseInfo, Environment $twig): Response
     {
         $render = $twig->render('course_info/equipment/view/resource.html.twig', [
@@ -140,17 +124,12 @@ class ResourceEquipmentController extends AbstractController
     }
 
     /**
-     * @Route("/resource/edit", name="resource.edit"))
      *
-     * @param CourseInfo $courseInfo
-     * @param Request $request
-     * @param CourseInfoManager $manager
-     * @param Environment $twig
-     * @return Response
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
+    #[Route(path: '/resource/edit', name: 'resource.edit')]
     public function resourceEditAction(CourseInfo        $courseInfo,
                                        Request           $request,
                                        CourseInfoManager $manager,

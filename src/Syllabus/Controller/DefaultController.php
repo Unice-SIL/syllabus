@@ -34,16 +34,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class DefaultController extends AbstractController
 {
     /**
-     * @Route("/course/router/{code}/{year}", name="app_router", defaults={"year"=null})
      * @param $code
-     * @param CourseInfoDoctrineRepository $repository
-     * @param YearManager $yearManager
      * @param string|null $year
-     * @param EntityManagerInterface $em
-     * @return RedirectResponse|Response
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
+    #[Route(path: '/course/router/{code}/{year}', name: 'app_router', defaults: ['year' => null])]
     public function routerAction($code,
                                  CourseInfoDoctrineRepository $repository,
                                  YearManager $yearManager,
@@ -51,7 +47,7 @@ class DefaultController extends AbstractController
                                  string $year = null
     ): RedirectResponse|Response
     {
-        if (empty($year)) {
+        if ($year === null || $year === '' || $year === '0') {
             $year = $yearManager->findCurrentYear();
         }
         /** @var CourseInfo $courseInfo */
@@ -70,14 +66,11 @@ class DefaultController extends AbstractController
     }
 
     /**
-     * @Route("/course/router-light/{code}/{year}", name="app_router_anon", defaults={"year"=null})
      * @param $code
      * @param $year
-     * @param CourseInfoDoctrineRepository $repository
-     * @param YearManager $yearManager
-     * @return RedirectResponse|Response
      * @throws Exception
      */
+    #[Route(path: '/course/router-light/{code}/{year}', name: 'app_router_anon', defaults: ['year' => null])]
     public function routerLightAction($code, $year, CourseInfoDoctrineRepository $repository, YearManager $yearManager): RedirectResponse|Response
     {
 
@@ -95,21 +88,14 @@ class DefaultController extends AbstractController
             return $this->render('error/courseNotFound.html.twig');
         }
 
-        if (!$this->getUser()) {
+        if (!$this->getUser() instanceof \Symfony\Component\Security\Core\User\UserInterface) {
             return $this->redirectToRoute('app.course_info.view.light_version', ['id' => $courseInfo->getId()]);
         }
 
         return $this->redirectToRoute('app_router', ['code' => $code, 'year' => $year]);
     }
 
-    /**
-     * @Route("/courses", name="app_index")
-     * @param Request $request
-     * @param CoursePermissionDoctrineRepository $coursePermissionRepository
-     * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
-     * @param PaginatorInterface $paginator
-     * @return Response
-     */
+    #[Route(path: '/courses', name: 'app_index')]
     public function indexAction(
         Request $request,
         CoursePermissionDoctrineRepository $coursePermissionRepository,
@@ -140,12 +126,7 @@ class DefaultController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/search-courses", name="app.search_courses")
-     * @param Request $request
-     * @param CourseInfoDoctrineRepository $courseInfoDoctrineRepository
-     * @return Response
-     */
+    #[Route(path: '/search-courses', name: 'app.search_courses')]
     public function searchCourses(Request $request, CourseInfoDoctrineRepository $courseInfoDoctrineRepository): Response
     {
         $courseInfosList = [];
@@ -170,9 +151,7 @@ class DefaultController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/credits", name="credits")
-     */
+    #[Route(path: '/credits', name: 'credits')]
     public function creditsAction(): Response
     {
         return $this->render('default/credits.html.twig');

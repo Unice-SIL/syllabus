@@ -22,21 +22,16 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  * Class StructureController
  * @package App\Syllabus\Controller
  *
- * @Route("/structure", name="app.admin.structure.")
  * @Security("is_granted('ROLE_ADMIN_STRUCTURE')")
  */
+#[Route(path: '/structure', name: 'app.admin.structure.')]
 class StructureController extends AbstractController
 {
     /**
-     * @Route("/", name="index")
      * @Security("is_granted('ROLE_ADMIN_STRUCTURE_LIST')")
      *
-     * @param Request $request
-     * @param PaginatorInterface $paginator
-     * @param StructureDoctrineRepository $structureDoctrineRepository
-     * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
-     * @return Response
      */
+    #[Route(path: '/', name: 'index')]
     public function indexAction(
         Request $request,
         PaginatorInterface $paginator,
@@ -70,21 +65,17 @@ class StructureController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="new")
      * @Security("is_granted('ROLE_ADMIN_STRUCTURE_CREATE')")
      *
-     * @param Request $request
-     * @param StructureManager $structureManager
-     * @param TranslatorInterface $translator
-     * @return RedirectResponse|Response
      */
+    #[Route(path: '/new', name: 'new')]
     public function newAction(Request $request, StructureManager $structureManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $structure = $structureManager->new();
         $form = $this->createForm(StructureType::class, $structure, ['context' => 'new']);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() and $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $structureManager->create($structure);
 
             $this->addFlash('success', $translator->trans('admin.structure.flashbag.new'));
@@ -97,15 +88,10 @@ class StructureController extends AbstractController
     /**
      * Displays a form to edit an existing structure entity.
      *
-     * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
      * @Security("is_granted('ROLE_ADMIN_STRUCTURE_UPDATE')")
      *
-     * @param Request $request
-     * @param Structure $structure
-     * @param StructureManager $structureManager
-     * @param TranslatorInterface $translator
-     * @return RedirectResponse|Response
      */
+    #[Route(path: '/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function editAction(Request $request, Structure $structure, StructureManager $structureManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $form = $this->createForm(StructureType::class, $structure);
@@ -124,12 +110,7 @@ class StructureController extends AbstractController
         ));
     }
 
-    /**
-     * @Route("/autocompleteS2", name="autocompleteS2", methods={"GET"})
-     * @param StructureDoctrineRepository $structureDoctrineRepository
-     * @param Request $request
-     * @return JsonResponse
-     */
+    #[Route(path: '/autocompleteS2', name: 'autocompleteS2', methods: ['GET'])]
     public function autocompleteS2(StructureDoctrineRepository $structureDoctrineRepository, Request $request): JsonResponse
     {
         $parameters = $request->query->all();

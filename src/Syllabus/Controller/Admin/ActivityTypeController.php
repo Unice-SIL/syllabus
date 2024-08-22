@@ -22,21 +22,16 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  * Class ActivityTypeController
  * @package App\Syllabus\Controller
  *
- * @Route("/activity-type", name="app.admin.activity_type.")
  * @Security("is_granted('ROLE_ADMIN_ACTIVITYTYPE')")
  */
+#[Route(path: '/activity-type', name: 'app.admin.activity_type.')]
 class ActivityTypeController extends AbstractController
 {
 
     /**
-     * @Route("/", name="index", methods={"GET"})
      * @Security("is_granted('ROLE_ADMIN_ACTIVITYTYPE_LIST')")
-     * @param Request $request
-     * @param ActivityTypeDoctrineRepository $repository
-     * @param PaginatorInterface $paginator
-     * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
-     * @return Response
      */
+    #[Route(path: '/', name: 'index', methods: ['GET'])]
     public function indexAction(
         Request $request,
         ActivityTypeDoctrineRepository $repository,
@@ -70,13 +65,9 @@ class ActivityTypeController extends AbstractController
     /**
      * Creates a new activity.
      *
-     * @Route("/new", name="new", methods={"GET", "POST"})
      * @Security("is_granted('ROLE_ADMIN_ACTIVITYTYPE_CREATE')")
-     * @param Request $request
-     * @param ActivityTypeManager $activityTypeManager
-     * @param TranslatorInterface $translator
-     * @return RedirectResponse|Response
      */
+    #[Route(path: '/new', name: 'new', methods: ['GET', 'POST'])]
     public function newAction(Request $request, ActivityTypeManager $activityTypeManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $activityType = $activityTypeManager->new();
@@ -99,14 +90,9 @@ class ActivityTypeController extends AbstractController
     /**
      * Displays a form to edit an existing activity entity.
      *
-     * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
      * @Security("is_granted('ROLE_ADMIN_ACTIVITYTYPE_UPDATE')")
-     * @param Request $request
-     * @param ActivityType $activityType
-     * @param ActivityTypeManager $activityTypeManager
-     * @param TranslatorInterface $translator
-     * @return RedirectResponse|Response
      */
+    #[Route(path: '/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function editAction(Request $request, ActivityType $activityType, ActivityTypeManager $activityTypeManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $icon = $activityType->getIcon();

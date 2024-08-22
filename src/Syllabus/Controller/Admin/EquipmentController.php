@@ -21,21 +21,16 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  * Class EquipmentController
  * @package App\Syllabus\Controller
  *
- * @Route("/equipment", name="app.admin.equipment.")
  * @Security("is_granted('ROLE_ADMIN_EQUIPMENT')")
  */
+#[Route(path: '/equipment', name: 'app.admin.equipment.')]
 class EquipmentController extends AbstractController
 {
     /**
-     * @Route("/", name="index")
      * @Security("is_granted('ROLE_ADMIN_EQUIPMENT_LIST')")
      *
-     * @param Request $request
-     * @param PaginatorInterface $paginator
-     * @param EquipmentDoctrineRepository $equipmentDoctrineRepository
-     * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
-     * @return Response
      */
+    #[Route(path: '/', name: 'index')]
     public function indexAction(
         Request $request,
         PaginatorInterface $paginator,
@@ -70,14 +65,10 @@ class EquipmentController extends AbstractController
     /**
      * Creates a new equipment.
      *
-     * @Route("/new", name="new", methods={"GET", "POST"})
      * @Security("is_granted('ROLE_ADMIN_EQUIPMENT_CREATE')")
      *
-     * @param Request $request
-     * @param EquipmentManager $equipmentManager
-     * @param TranslatorInterface $translator
-     * @return RedirectResponse|Response
      */
+    #[Route(path: '/new', name: 'new', methods: ['GET', 'POST'])]
     public function newAction(Request $request, EquipmentManager $equipmentManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $equipment = $equipmentManager->new();
@@ -101,15 +92,10 @@ class EquipmentController extends AbstractController
     /**
      * Displays a form to edit an existing equipment entity.
      *
-     * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
      * @Security("is_granted('ROLE_ADMIN_EQUIPMENT_UPDATE')")
      *
-     * @param Request $request
-     * @param Equipment $equipment
-     * @param EquipmentManager $equipmentManager
-     * @param TranslatorInterface $translator
-     * @return RedirectResponse|Response
      */
+    #[Route(path: '/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function editAction(Request $request, Equipment $equipment, EquipmentManager $equipmentManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $form = $this->createForm(EquipmentType::class, $equipment);

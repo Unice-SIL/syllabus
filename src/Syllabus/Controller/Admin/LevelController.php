@@ -24,21 +24,16 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  * Class LevelController
  * @package App\Syllabus\Controller
  *
- * @Route("/level", name="app.admin.level.")
  * @Security("is_granted('ROLE_ADMIN_LEVEL')")
  */
+#[Route(path: '/level', name: 'app.admin.level.')]
 class LevelController extends AbstractController
 {
     /**
-     * @Route("/",name="index", methods={"GET"})
      * @Security("is_granted('ROLE_ADMIN_LEVEL_LIST')")
      *
-     * @param Request $request
-     * @param LevelDoctrineRepository $repository
-     * @param PaginatorInterface $paginator
-     * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
-     * @return Response
      */
+    #[Route(path: '/', name: 'index', methods: ['GET'])]
     public function IndexAction(
         Request $request,
         LevelDoctrineRepository $repository,
@@ -71,13 +66,9 @@ class LevelController extends AbstractController
 
     /**
      *
-     * @Route("/new", name="new", methods={"GET", "POST"})
      * @Security("is_granted('ROLE_ADMIN_LEVEL_CREATE')")
-     * @param Request $request
-     * @param LevelManager $levelManager
-     * @param TranslatorInterface $translator
-     * @return RedirectResponse|Response
      */
+    #[Route(path: '/new', name: 'new', methods: ['GET', 'POST'])]
     public function newAction(Request $request, LevelManager $levelManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $level = $levelManager->new();
@@ -98,14 +89,9 @@ class LevelController extends AbstractController
 
     /**
      *
-     * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
      * @Security("is_granted('ROLE_ADMIN_LEVEL_UPDATE')")
-     * @param Request $request
-     * @param Level $level
-     * @param LevelManager $levelManager
-     * @param TranslatorInterface $translator
-     * @return RedirectResponse|Response
      */
+    #[Route(path: '/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function editAction(Request $request, Level $level, LevelManager $levelManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $form = $this->createForm(LevelType::class, $level);
@@ -125,12 +111,7 @@ class LevelController extends AbstractController
         ));
     }
 
-    /**
-     * @Route("/autocomplete", name="autocomplete", methods={"GET"})
-     * @param LevelDoctrineRepository $levelDoctrineRepository
-     * @param Request $request
-     * @return JsonResponse
-     */
+    #[Route(path: '/autocomplete', name: 'autocomplete', methods: ['GET'])]
     public function autocomplete(LevelDoctrineRepository $levelDoctrineRepository, Request $request): JsonResponse
     {
         $parameters = $request->query->all();

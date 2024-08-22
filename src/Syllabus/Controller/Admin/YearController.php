@@ -22,22 +22,18 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  * Class YearController
  * @package App\Syllabus\Controller\Admin
  *
- * @Route("/year", name="app.admin.year.")
  * @Security("is_granted('ROLE_ADMIN_YEAR')")
  */
+#[Route(path: '/year', name: 'app.admin.year.')]
 class YearController extends AbstractController
 {
     /**
      * Lists all year entities.
      *
-     * @Route("/", name="index", methods={"GET"})
      * @Security("is_granted('ROLE_ADMIN_YEAR_LIST')")
      *
-     * @param Request $request
-     * @param PaginatorInterface $paginator
-     * @param EntityManagerInterface $em
-     * @return Response
      */
+    #[Route(path: '/', name: 'index', methods: ['GET'])]
     public function indexAction(Request $request, PaginatorInterface $paginator, EntityManagerInterface $em): Response
     {
         $pagination = $paginator->paginate(
@@ -54,13 +50,9 @@ class YearController extends AbstractController
     /**
      * Creates a new year entity.
      *
-     * @Route("/new", name="new", methods={"GET", "POST"})
      * @Security("is_granted('ROLE_ADMIN_YEAR_CREATE')")
-     * @param Request $request
-     * @param YearManager $yearManager
-     * @param TranslatorInterface $translator
-     * @return RedirectResponse|Response
      */
+    #[Route(path: '/new', name: 'new', methods: ['GET', 'POST'])]
     public function newAction(Request $request, YearManager $yearManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $year = $yearManager->new();
@@ -84,14 +76,9 @@ class YearController extends AbstractController
     /**
      * Displays a form to edit an existing year entity.
      *
-     * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
      * @Security("is_granted('ROLE_ADMIN_YEAR_UPDATE')")
-     * @param Request $request
-     * @param Year $year
-     * @param YearManager $yearManager
-     * @param TranslatorInterface $translator
-     * @return RedirectResponse|Response
      */
+    #[Route(path: '/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function editAction(Request $request, Year $year, YearManager $yearManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $form = $this->createForm('App\Syllabus\Form\YearType', $year);
@@ -111,12 +98,7 @@ class YearController extends AbstractController
         ));
     }
 
-    /**
-     * @Route("/autocompleteS2", name="autocompleteS2", methods={"GET"})
-     * @param YearDoctrineRepository $yearDoctrineRepository
-     * @param Request $request
-     * @return JsonResponse
-     */
+    #[Route(path: '/autocompleteS2', name: 'autocompleteS2', methods: ['GET'])]
     public function autocompleteS2(YearDoctrineRepository $yearDoctrineRepository, Request $request): JsonResponse
     {
         $parameters = $request->query->all();

@@ -32,19 +32,15 @@ use Twig\Error\SyntaxError;
  * Class DashboardController
  * @package App\Syllabus\Controller\CourseInfo
  *
- * @Route("/course-info/{id}/dashboard", name="app.course_info.dashboard.")
  * @Security("is_granted('WRITE', courseInfo)")
  */
+#[Route(path: '/course-info/{id}/dashboard', name: 'app.course_info.dashboard.')]
 class DashboardController extends AbstractController
 {
-    /**
-     * @var ValidatorInterface
-     */
     private ValidatorInterface $validator;
 
     /**
      * DashboardController constructor.
-     * @param ValidatorInterface $validator
      */
     public function __construct(ValidatorInterface $validator)
     {
@@ -52,16 +48,9 @@ class DashboardController extends AbstractController
     }
 
     /**
-     * @Route("/", name="index")
-     *
-     * @param CourseInfo $courseInfo
-     * @param Request $request
-     * @param CourseInfoManager $courseInfoManager
-     * @param EntityManagerInterface $em
-     * @param TranslatorInterface $translator
-     * @return Response
      * @throws \Exception
      */
+    #[Route(path: '/', name: 'index')]
     public function indexAction(CourseInfo             $courseInfo, Request $request, CourseInfoManager $courseInfoManager,
                                 EntityManagerInterface $em, TranslatorInterface $translator): Response
     {
@@ -80,7 +69,7 @@ class DashboardController extends AbstractController
                 /** @var Report $report */
                 $report = $courseInfoManager->duplicate($from, $to, CourseInfoManager::DUPLICATION_CONTEXTE_MANUALLY);
 
-                if (!$report->hasMessages() and !$report->hasLines()) {
+                if (!$report->hasMessages() && !$report->hasLines()) {
                     $this->addFlash('success', $translator->trans('app.controller.dashboard.duplication_success'));
                     $em->flush();
 
@@ -110,15 +99,12 @@ class DashboardController extends AbstractController
     }
 
     /**
-     * @Route("/dashboard", name="dashboard"))
      *
-     * @param CourseInfo $courseInfo
-     * @param Environment $twig
-     * @return Response
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
+    #[Route(path: '/dashboard', name: 'dashboard')]
     public function dashboardViewAction(CourseInfo $courseInfo, Environment $twig): Response
     {
 
@@ -153,49 +139,42 @@ class DashboardController extends AbstractController
      * @return JsonResponse
      */
     /*   public function AskAdvice(CourseInfo $courseInfo, Request $request, Environment $twig, EntityManagerInterface $em)
-        {
-            $askAdvice = new AskAdvice();
-            $askAdvice->setUser($this->getUser())->setCourseInfo($courseInfo);
-            $form = $this->createForm(AskAdviceType::class, $askAdvice);
-            $form->handleRequest($request);
-
-            if ($form->isSubmitted() && $form->isValid()) {
-                $em->persist($askAdvice);
-                $em->flush();
+            {
+                $askAdvice = new AskAdvice();
+                $askAdvice->setUser($this->getUser())->setCourseInfo($courseInfo);
+                $form = $this->createForm(AskAdviceType::class, $askAdvice);
+                $form->handleRequest($request);
+    
+                if ($form->isSubmitted() && $form->isValid()) {
+                    $em->persist($askAdvice);
+                    $em->flush();
+                    return $this->json([
+                        'status' => true,
+                        'content' => null
+                    ]);
+                }
+                $render = $twig->render('course_info/dashboard/form/ask_advice.html.twig', [
+                    'courseInfo' => $courseInfo,
+                    'form' => $form->createView()
+                ]);
                 return $this->json([
                     'status' => true,
-                    'content' => null
+                    'content' => $render
                 ]);
-            }
-            $render = $twig->render('course_info/dashboard/form/ask_advice.html.twig', [
-                'courseInfo' => $courseInfo,
-                'form' => $form->createView()
-            ]);
-            return $this->json([
-                'status' => true,
-                'content' => $render
-            ]);
-        }*/
-
+            }*/
     /**
-     * @param CourseInfo $courseInfo
-     * @param Request $request
-     * @param CourseInfoManager $courseInfoManager
-     * @param TranslatorInterface $translator
-     * @param MailHelper $mailHelper
-     * @return JsonResponse
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
-     * @Route("/publish", name="publish", methods={"POST"} )
      */
+    #[Route(path: '/publish', name: 'publish', methods: ['POST'])]
     public function publishCourseInfo(CourseInfo $courseInfo, Request $request, CourseInfoManager $courseInfoManager, TranslatorInterface $translator, MailHelper $mailHelper): JsonResponse
     {
         $publishForm = $this->createForm(PublishCourseInfoType::class, $courseInfo);
         $publishForm->handleRequest($request);
 
 
-        if (!$publishForm->isSubmitted() or !$publishForm->isValid()) {
+        if (!$publishForm->isSubmitted() || !$publishForm->isValid()) {
             return $this->json(['status' => false, 'message' => $translator->trans('app.dashboard.message.publication.failed')]);
         };
 
@@ -209,7 +188,9 @@ class DashboardController extends AbstractController
         $violationsGroups = $this->getViolation($courseInfo);
         /** @var ConstraintViolationList $violationsGroup */
         foreach ($violationsGroups as $violationsGroup) {
-            if ($violationsGroup->count() > 0) return $this->json(['status' => false, 'message' => $translator->trans('app.dashboard.message.publication.cannot_published')]);
+            if ($violationsGroup->count() > 0) {
+                return $this->json(['status' => false, 'message' => $translator->trans('app.dashboard.message.publication.cannot_published')]);
+            }
         }
 
         $courseInfo->setPublisher($this->getUser())
@@ -224,13 +205,7 @@ class DashboardController extends AbstractController
 
     }
 
-    /**
-     * @param CourseInfo $courseInfo
-     * @param Request $request
-     * @param CourseInfoManager $courseInfoManager
-     * @return JsonResponse
-     * @Route("/publish-next-year", name="publishNextYear", methods={"POST"} )
-     */
+    #[Route(path: '/publish-next-year', name: 'publishNextYear', methods: ['POST'])]
     public function DuplicateCourseInfoNextYear(CourseInfo $courseInfo, Request $request, CourseInfoManager $courseInfoManager): JsonResponse
     {
         $parameters = $request->query->all();
@@ -239,10 +214,6 @@ class DashboardController extends AbstractController
         return $this->json(['status' => true]);
     }
 
-    /**
-     * @param CourseInfo $courseInfo
-     * @return array
-     */
     private function getViolation(CourseInfo $courseInfo): array
     {
         $validationsGroups = ['presentation', 'prerequisites', 'contentActivities', 'objectives', 'evaluation',

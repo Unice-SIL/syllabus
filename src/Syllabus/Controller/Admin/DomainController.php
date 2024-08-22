@@ -23,22 +23,17 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  * Class DomainController
  * @package App\Syllabus\Controller\Admin
  *
- * @Route("/domain", name="app.admin.domain.")
  * @Security("is_granted('ROLE_ADMIN_DOMAIN')")
  */
+#[Route(path: '/domain', name: 'app.admin.domain.')]
 class DomainController extends AbstractController
 {
 
     /**
-     * @Route("/",name="index", methods={"GET"})
      * @Security("is_granted('ROLE_ADMIN_DOMAIN_LIST')")
      *
-     * @param Request $request
-     * @param DomainDoctrineRepository $repository
-     * @param PaginatorInterface $paginator
-     * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
-     * @return Response
      */
+    #[Route(path: '/', name: 'index', methods: ['GET'])]
     public function indexAction(
         Request $request,
         DomainDoctrineRepository $repository,
@@ -70,14 +65,10 @@ class DomainController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="new", methods={"GET", "POST"})
      * @Security("is_granted('ROLE_ADMIN_DOMAIN_CREATE')")
      *
-     * @param Request $request
-     * @param DomainManager $domainManager
-     * @param TranslatorInterface $translator
-     * @return RedirectResponse|Response
      */
+    #[Route(path: '/new', name: 'new', methods: ['GET', 'POST'])]
     public function newAction(Request $request, DomainManager $domainManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $domain = $domainManager->new();
@@ -98,15 +89,10 @@ class DomainController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
      * @Security("is_granted('ROLE_ADMIN_DOMAIN_UPDATE')")
      *
-     * @param Request $request
-     * @param Domain $domain
-     * @param DomainManager $domainManager
-     * @param TranslatorInterface $translator
-     * @return RedirectResponse|Response
      */
+    #[Route(path: '/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function editAction(Request $request, Domain $domain, DomainManager $domainManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $form = $this->createForm(DomainType::class, $domain);

@@ -17,13 +17,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class Select2Controller extends AbstractController
 {
     /**
-     * @Route("/teachers/select2/list", name="teachers_select2_list")
-     *
-     * @param Request $request
-     * @param ImportCourseTeacherFactory $factory
-     * @return JsonResponse
      * @throws Exception
      */
+    #[Route(path: '/teachers/select2/list', name: 'teachers_select2_list')]
     public function listUsersFromExternalRepositoryAction(Request $request, ImportCourseTeacherFactory $factory): JsonResponse
     {
         $courseTeachersArray = [];

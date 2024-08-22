@@ -19,20 +19,14 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Class AskAdviceController
  * @package App\Syllabus\Controller
- *
- * @Route("/askAdvice", name="app.admin.ask_advice.")
  */
+#[Route(path: '/askAdvice', name: 'app.admin.ask_advice.')]
 class AskAdviceController extends AbstractController
 {
     /**
      * Lists all activity entities.
-     *
-     * @Route("/", name="index", methods={"GET"})
-     * @param Request $request
-     * @param AskAdviceManager $adviceManager
-     * @param PaginatorInterface $paginator
-     * @return Response
      */
+    #[Route(path: '/', name: 'index', methods: ['GET'])]
     public function indexAction(Request $request, AskAdviceManager $adviceManager, PaginatorInterface $paginator): Response
     {
         $pagination = $paginator->paginate(
@@ -46,15 +40,8 @@ class AskAdviceController extends AbstractController
         ));
     }
 
-    /**
-     * @Route("/{id}/view", name="view")
-     *
-     * @param Request $request
-     * @param AskAdvice $askAdvice
-     * @param AskAdviceManager $adviceManager
-     * @param CourseDoctrineRepository $courseDoctrineRepository
-     * @return JsonResponse|Response
-     */
+    
+    #[Route(path: '/{id}/view', name: 'view')]
     public function viewAction(
         Request $request,
         AskAdvice $askAdvice,

@@ -27,17 +27,13 @@ use Twig\Error\SyntaxError;
  * Class CoursePrerequisite
  * @package App\Syllabus\Controller\CourseInfo
  *
- * @Route("/course-info/{id}/prerequisite", name="app.course_info.prerequisite.")
  * @Security("is_granted('WRITE', courseInfo)")
  */
+#[Route(path: '/course-info/{id}/prerequisite', name: 'app.course_info.prerequisite.')]
 class CoursePrerequisiteController extends AbstractController
 {
-    /**
-     * @Route("/", name="index")
-     *
-     * @param CourseInfo $courseInfo
-     * @return Response
-     */
+    
+    #[Route(path: '/', name: 'index')]
     public function indexAction(CourseInfo $courseInfo): Response
     {
         return $this->render('course_info/prerequisite/prerequisite.html.twig', [
@@ -46,15 +42,12 @@ class CoursePrerequisiteController extends AbstractController
     }
 
     /**
-     * @Route("/prerequisites", name="prerequisites"))
      *
-     * @param CourseInfo $courseInfo
-     * @param Environment $twig
-     * @return Response
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
+    #[Route(path: '/prerequisites', name: 'prerequisites')]
     public function prerequisiteViewAction(CourseInfo $courseInfo, Environment $twig): Response
     {
         $render = $twig->render('course_info/prerequisite/view/prerequisite.html.twig', [
@@ -67,17 +60,12 @@ class CoursePrerequisiteController extends AbstractController
     }
 
     /**
-     * @Route("/prerequisite/add", name="add"))
      *
-     * @param CourseInfo $courseInfo
-     * @param Request $request
-     * @param CourseInfoManager $manager
-     * @param Environment $twig
-     * @return Response
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
+    #[Route(path: '/prerequisite/add', name: 'add')]
     public function addPrerequisiteAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager, Environment $twig): Response
     {
         $prerequisite = new CoursePrerequisite();
@@ -109,14 +97,9 @@ class CoursePrerequisiteController extends AbstractController
     }
 
     /**
-     * @Route("/prerequisite/sort", name="prerequisite.sort"))
-     *
-     * @param CourseInfo $courseInfo
-     * @param Request $request
-     * @param CourseInfoManager $manager
-     * @return JsonResponse
      * @throws Exception
      */
+    #[Route(path: '/prerequisite/sort', name: 'prerequisite.sort')]
     public function sortPrerequisitesAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager): JsonResponse
     {
         $prerequisites = $courseInfo->getCoursePrerequisites();
@@ -131,15 +114,12 @@ class CoursePrerequisiteController extends AbstractController
     }
 
     /**
-     * @Route("/tutoring-resources", name="tutoring_resources"))
      *
-     * @param CourseInfo $courseInfo
-     * @param Environment $twig
-     * @return Response
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
+    #[Route(path: '/tutoring-resources', name: 'tutoring_resources')]
     public function tutoringResourcesViewAction(CourseInfo $courseInfo, Environment $twig): Response
     {
         $render = $twig->render('course_info/prerequisite/view/tutoring_resources.html.twig', [
@@ -152,17 +132,12 @@ class CoursePrerequisiteController extends AbstractController
     }
 
     /**
-     * @Route("/tutoring-resource/add", name="tutoring_resource.add"))
      *
-     * @param CourseInfo $courseInfo
-     * @param Request $request
-     * @param CourseTutoringResourceManager $courseTutoringResourceManager
-     * @param Environment $twig
-     * @return Response
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
+    #[Route(path: '/tutoring-resource/add', name: 'tutoring_resource.add')]
     public function addTutoringResourceAction(CourseInfo                    $courseInfo, Request $request,
                                               CourseTutoringResourceManager $courseTutoringResourceManager,
                                               Environment                   $twig): Response
@@ -192,14 +167,9 @@ class CoursePrerequisiteController extends AbstractController
     }
 
     /**
-     * @Route("/tutoring-resources/sort", name="sort_tutoring_resources"))
-     *
-     * @param CourseInfo $courseInfo
-     * @param Request $request
-     * @param CourseInfoManager $manager
-     * @return JsonResponse
      * @throws Exception
      */
+    #[Route(path: '/tutoring-resources/sort', name: 'sort_tutoring_resources')]
     public function sortTutoringResourcesAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager): JsonResponse
     {
         $tutoringResources = $courseInfo->getCourseTutoringResources();
@@ -215,10 +185,8 @@ class CoursePrerequisiteController extends AbstractController
     }
 
     /**
-     * @param CourseInfo $courseInfo
      * @param $courseInfoList
      * @param $data
-     * @param CourseInfoManager $manager
      * @throws Exception
      */
     private function sortList(CourseInfo $courseInfo, $courseInfoList, $data, CourseInfoManager $manager): void

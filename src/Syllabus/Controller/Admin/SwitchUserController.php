@@ -14,16 +14,12 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class StructureController
  * @package App\Syllabus\Controller
  *
- * @Route("/switch-user", name="app.admin.switch_user.")
  * @Security("is_granted('ROLE_ALLOWED_TO_SWITCH')")
  */
+#[Route(path: '/switch-user', name: 'app.admin.switch_user.')]
 class SwitchUserController extends AbstractController
 {
-    /**
-     * @Route(path="/form", name="form")
-     * @param Request $request
-     * @return Response
-     */
+    #[Route(path: '/form', name: 'form')]
     public function form(Request $request): Response
     {
         $form = $this->createForm(SwitchUserType::class);

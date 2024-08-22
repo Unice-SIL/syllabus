@@ -22,23 +22,18 @@ use Twig\Error\SyntaxError;
  * Class LearningAchievement
  * @package App\Syllabus\Controller\CourseInfo
  *
- * @Route("/course-info/learning-achievement/{id}", name="app.course_info.learning_achievement.")
  * @Security("is_granted('WRITE', learningAchievement)")
  */
+#[Route(path: '/course-info/learning-achievement/{id}', name: 'app.course_info.learning_achievement.')]
 class LearningAchievementController extends AbstractController
 {
     /**
-     * @Route("/edit", name="edit"))
      *
-     * @param LearningAchievement $learningAchievement
-     * @param Request $request
-     * @param EntityManagerInterface $em
-     * @param Environment $twig
-     * @return JsonResponse
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
+    #[Route(path: '/edit', name: 'edit')]
     public function editLearningAchievementAction(
         LearningAchievement $learningAchievement,
         Request $request,
@@ -70,17 +65,12 @@ class LearningAchievementController extends AbstractController
     }
 
     /**
-     * @Route("/delete", name="delete"))
      *
-     * @param LearningAchievement $learningAchievement
-     * @param Request $request
-     * @param EntityManagerInterface $em
-     * @param Environment $twig
-     * @return JsonResponse
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
+    #[Route(path: '/delete', name: 'delete')]
     public function deleteLearningAchievementAction(
         LearningAchievement $learningAchievement,
         Request $request,

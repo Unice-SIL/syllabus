@@ -17,21 +17,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * Class SecurityController
  * @package App\Syllabus\Controller
- *
- * @Route(name="app.security.")
  */
+#[Route(name: 'app.security.')]
 class SecurityController extends AbstractController
 {
-    /**
-     * @param Request $request
-     * @param string $token
-     * @param UserPasswordHasherInterface $passwordEncoder
-     * @param EntityManagerInterface $manager
-     * @param TranslatorInterface $translator
-     * @return Response
-     *
-     * @Route("/reset-password/{token}", name="reset_password")
-     */
+    
+    #[Route(path: '/reset-password/{token}', name: 'reset_password')]
     public function resetPassword(
         Request $request,
         string $token,
@@ -44,7 +35,7 @@ class SecurityController extends AbstractController
         $form = $this->createForm(ResetPasswordType::class, $user);
         $form->handleRequest($request);
 
-        if ($request->isMethod('POST') and $form->isSubmitted() and $form->isValid()) {
+        if ($request->isMethod('POST') && $form->isSubmitted() && $form->isValid()) {
 
             $password = $user->getPassword();
             $user = $manager->getRepository(User::class)->findOneByResetPasswordToken($token);
@@ -68,10 +59,7 @@ class SecurityController extends AbstractController
 
     }
 
-    /**
-     * @return Response
-     * @Route("/reset-password-success", name="reset_password_success", methods={"GET"})
-     */
+    #[Route(path: '/reset-password-success', name: 'reset_password_success', methods: ['GET'])]
     public function resetPasswordSuccess(): Response
     {
         return $this->render('security/reset_password_success.html.twig');

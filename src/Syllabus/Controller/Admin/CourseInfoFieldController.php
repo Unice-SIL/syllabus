@@ -15,20 +15,15 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * CourseInfoField controller.
- *
- * @Route("/syllabus-import-field", name="app.admin.course_info_field.")
  */
+#[Route(path: '/syllabus-import-field', name: 'app.admin.course_info_field.')]
 class CourseInfoFieldController extends AbstractController
 {
     /**
      * Lists all CourseInfoField entities.
-     * @Route("/", name="index")
      *
-     * @param Request $request
-     * @param EntityManagerInterface $em
-     * @param TranslatorInterface $translator
-     * @return Response
      */
+    #[Route(path: '/', name: 'index')]
     public function indexAction(Request $request, EntityManagerInterface $em, TranslatorInterface $translator): Response
     {
         $form = $this->createForm(CourseInfoFieldDynamicType::class);
@@ -49,20 +44,15 @@ class CourseInfoFieldController extends AbstractController
 
     /**
      * Edit a CourseInfoField entity
-     *
-     * @Route("/{id}/edit", name="edit", methods={"POST"})
-     * @param EntityManagerInterface $entityManager
-     * @param CourseInfoField $courseInfoField
-     * @param Request $request
-     * @return JsonResponse
      */
+    #[Route(path: '/{id}/edit', name: 'edit', methods: ['POST'])]
     public function editAction(EntityManagerInterface $entityManager, CourseInfoField $courseInfoField, Request $request): JsonResponse
     {
         $form = $this->createForm(CourseInfoFieldType::class, $courseInfoField);
         $form->handleRequest($request);
 
 
-        if ($form->isSubmitted() and $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
             return $this->json(['success' => true]);

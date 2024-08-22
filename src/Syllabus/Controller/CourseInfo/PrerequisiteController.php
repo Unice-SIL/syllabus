@@ -22,23 +22,18 @@ use Twig\Error\SyntaxError;
  * Class PrerequisiteController
  * @package App\Syllabus\Controller\CourseInfo
  *
- * @Route("/course-info/prerequisite/{id}", name="app.course_info.prerequisite.")
  * @Security("is_granted('WRITE', prerequisite)")
  */
+#[Route(path: '/course-info/prerequisite/{id}', name: 'app.course_info.prerequisite.')]
 class PrerequisiteController extends AbstractController
 {
     /**
-     * @Route("/edit", name="edit"))
      *
-     * @param CoursePrerequisite $prerequisite
-     * @param Request $request
-     * @param CoursePrerequisiteManager $coursePrerequisiteManager
-     * @param Environment $twig
-     * @return JsonResponse
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
+    #[Route(path: '/edit', name: 'edit')]
     public function editPrerequisiteAction(
         CoursePrerequisite $prerequisite,
         Request $request,
@@ -68,17 +63,12 @@ class PrerequisiteController extends AbstractController
     }
 
     /**
-     * @Route("/delete", name="delete"))
      *
-     * @param CoursePrerequisite $prerequisite
-     * @param Request $request
-     * @param CoursePrerequisiteManager $coursePrerequisiteManager
-     * @param Environment $twig
-     * @return JsonResponse
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
+    #[Route(path: '/delete', name: 'delete')]
     public function deletePrerequisitesAction(
         CoursePrerequisite $prerequisite,
         Request $request,

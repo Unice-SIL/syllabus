@@ -22,18 +22,14 @@ use Twig\Error\SyntaxError;
  * Class EvaluationController
  * @package App\Syllabus\Controller\CourseInfo
  *
- * @Route("/course-info/{id}/evaluation", name="app.course_info.evaluation.")
  * @Security("is_granted('WRITE', courseInfo)")
  *
  */
+#[Route(path: '/course-info/{id}/evaluation', name: 'app.course_info.evaluation.')]
 class EvaluationController extends AbstractController
 {
-    /**
-     * @Route("/", name="index")
-     *
-     * @param CourseInfo $courseInfo
-     * @return Response
-     */
+    
+    #[Route(path: '/', name: 'index')]
     public function indexAction(CourseInfo $courseInfo): Response
     {
         return $this->render('course_info/evaluation/evaluation.html.twig', [
@@ -42,15 +38,12 @@ class EvaluationController extends AbstractController
     }
 
     /**
-     * @Route("/specifications", name="specifications"))
      *
-     * @param CourseInfo $courseInfo
-     * @param Environment $twig
-     * @return Response
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
+    #[Route(path: '/specifications', name: 'specifications')]
     public function generalViewAction(CourseInfo $courseInfo, Environment $twig): Response
     {
         $render = $twig->render('course_info/evaluation/view/specifications.html.twig', [
@@ -63,17 +56,12 @@ class EvaluationController extends AbstractController
     }
 
     /**
-     * @Route("/specifications/edit", name="specifications.edit"))
      *
-     * @param CourseInfo $courseInfo
-     * @param Request $request
-     * @param CourseInfoManager $manager
-     * @param Environment $twig
-     * @return Response
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
+    #[Route(path: '/specifications/edit', name: 'specifications.edit')]
     public function specificationsFormAction(CourseInfo $courseInfo, Request $request, CourseInfoManager $manager, Environment $twig): Response
     {
 

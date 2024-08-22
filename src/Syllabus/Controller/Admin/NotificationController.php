@@ -20,22 +20,18 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * Notification controller.
  *
- * @Route("admin/notification", name="app.admin.notification.")
  * @Security("is_granted('ROLE_ADMIN_NOTIFICATION')")
  */
+#[Route(path: 'admin/notification', name: 'app.admin.notification.')]
 class NotificationController extends AbstractController
 {
     /**
      * Lists all notification entities.
      *
-     * @Route("/", name="index", methods={"GET"})
      * @Security("is_granted('ROLE_ADMIN_NOTIFICATION_LIST')")
      *
-     * @param Request $request
-     * @param NotificationDoctrineRepository $repository
-     * @param PaginatorInterface $paginator
-     * @return Response
      */
+    #[Route(path: '/', name: 'index', methods: ['GET'])]
     public function indexAction(
         Request $request,
         NotificationDoctrineRepository $repository,
@@ -65,14 +61,10 @@ class NotificationController extends AbstractController
     /**
      * Creates a new notification entity.
      *
-     * @Route("/new", name="new", methods={"GET", "POST"})
      * @Security("is_granted('ROLE_ADMIN_NOTIFICATION_CREATE')")
      *
-     * @param Request $request
-     * @param NotificationManager $notificationManager
-     * @param TranslatorInterface $translator
-     * @return RedirectResponse|Response
      */
+    #[Route(path: '/new', name: 'new', methods: ['GET', 'POST'])]
     public function newAction(Request $request, NotificationManager $notificationManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $notification = $notificationManager->new();
@@ -96,15 +88,10 @@ class NotificationController extends AbstractController
     /**
      * Displays a form to edit an existing notification entity.
      *
-     * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
      * @Security("is_granted('ROLE_ADMIN_NOTIFICATION_UPDATE')")
      *
-     * @param Request $request
-     * @param Notification $notification
-     * @param NotificationManager $notificationManager
-     * @param TranslatorInterface $translator
-     * @return RedirectResponse|Response
      */
+    #[Route(path: '/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function editAction(Request $request, Notification $notification, NotificationManager $notificationManager, TranslatorInterface $translator): RedirectResponse|Response
     {
         $editForm = $this->createForm(NotificationType::class, $notification);
@@ -127,15 +114,10 @@ class NotificationController extends AbstractController
     /**
      * Deletes a notification entity.
      *
-     * @Route("/{id}", name="delete", methods={"DELETE"})
      * @Security("is_granted('ROLE_ADMIN_NOTIFICATION_DELETE')")
      *
-     * @param Request $request
-     * @param Notification $notification
-     * @param NotificationManager $notificationManager
-     * @param TranslatorInterface $translator
-     * @return RedirectResponse
      */
+    #[Route(path: '/{id}', name: 'delete', methods: ['DELETE'])]
     public function deleteAction(Request $request, Notification $notification, NotificationManager $notificationManager, TranslatorInterface $translator): RedirectResponse
     {
         $form = $this->createDeleteForm($notification);

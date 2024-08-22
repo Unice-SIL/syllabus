@@ -11,17 +11,12 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Notification controller.
- *
- * @Route("/notification", name="app.notification.")
  */
+#[Route(path: '/notification', name: 'app.notification.')]
 class NotificationController extends AbstractController
 {
 
-    /**
-     * @Route("/seen", name="seen", methods={"POST"})
-     * @param Request $request
-     * @return JsonResponse
-     */
+    #[Route(path: '/seen', name: 'seen', methods: ['POST'])]
     public function seenAction(Request $request): JsonResponse
     {
         if ($this->isCsrfTokenValid('notification-seen', $request->request->all('_token'))) {
@@ -41,12 +36,7 @@ class NotificationController extends AbstractController
         return $this->json(['success' => false]);
     }
 
-    /**
-     * @Route("/seen/{id}", name="seen_one", methods={"POST"})
-     * @param Request $request
-     * @param string $id
-     * @return JsonResponse
-     */
+    #[Route(path: '/seen/{id}', name: 'seen_one', methods: ['POST'])]
     public function seenOneAction(Request $request, string $id): JsonResponse
     {
 
@@ -64,11 +54,7 @@ class NotificationController extends AbstractController
         return $this->json(['success' => false]);
     }
 
-    /**
-     * @Route("/to-show", name="to_show", methods={"GET"})
-     * @param RequestStack $requestStack
-     * @return JsonResponse
-     */
+    #[Route(path: '/to-show', name: 'to_show', methods: ['GET'])]
     public function notificationToShowAction(RequestStack $requestStack): JsonResponse
     {
 
