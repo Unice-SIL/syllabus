@@ -213,7 +213,7 @@ class CourseTeacher
     
     #[ORM\ManyToOne(targetEntity: CourseInfo::class, inversedBy: 'courseTeachers')]
     #[ORM\JoinColumn(name: 'course_info_id', referencedColumnName: 'id', nullable: false)]
-    private CourseInfo $courseInfo;
+    private ?CourseInfo $courseInfo = null;
 
     public function getId(): ?string
     {
