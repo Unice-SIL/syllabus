@@ -112,6 +112,10 @@ class DuplicateCourseInfoOnOtherCourseInfo extends AbstractJob
             $newCourseInfo = $this->courseInfoDoctrineRepository->findByCodeAndYear($newCode, $newYear);
             if ($newCourseInfo instanceof CourseInfo && $newCourseInfo->getModificationDate() instanceof DateTime && $newCourseInfo->getModificationDate() !== $newCourseInfo->getCreationDate()) {
                 $output->writeln($this->formattedOutput('warning', 'Le syllabus ' . $newCode . ' ' . $newYear . ' existe déjà et a déjà été modifié'));
+                if (empty($newCourseInfo->getPublicationDate())) {
+                    $newCourseInfo->setPublicationDate(!empty($oldCourseInfo->getPublicationDate()) ? new DateTime() : null);
+                }
+                $this->em->flush();
                 continue;
             }
 
@@ -135,7 +139,8 @@ class DuplicateCourseInfoOnOtherCourseInfo extends AbstractJob
                 );
 
                 $newCourseInfo = $this->courseInfoDoctrineRepository->findByCodeAndYear($newCode, $newYear);
-                $newCourseInfo->setModificationDate(null);
+                $newCourseInfo->setModificationDate(null)
+                    ->setPublicationDate(!empty($oldCourseInfo->getPublicationDate()) ? new DateTime() : null);
 
                 if (!$report->hasMessages() && !$report->hasLines()) {
                     $this->em->flush();
