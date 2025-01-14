@@ -6,11 +6,12 @@ namespace App\Syllabus\Helper;
 
 use App\Syllabus\Entity\CourseInfo;
 use App\Syllabus\Entity\User;
-use Swift_Mailer;
-use Swift_Message;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
-use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
+use Symfony\Component\Mime\Part\DataPart;
+use Symfony\Component\Mime\Part\File;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Environment;
 use Twig\Error\LoaderError;
@@ -20,9 +21,9 @@ use Twig\Error\SyntaxError;
 class MailHelper
 {
     /**
-     * @var Mailer
+     * @var MailerInterface
      */
-    private Mailer $mailer;
+    private MailerInterface $mailer;
     /**
      * @var string
      */
@@ -48,7 +49,7 @@ class MailHelper
      * @param UrlGeneratorInterface $urlGenerator
      * @param Environment $twig
      */
-    public function __construct(Mailer $mailer, string $mailerSource, string $mailerTarget, UrlGeneratorInterface $urlGenerator, Environment $twig)
+    public function __construct(MailerInterface $mailer, string $mailerSource, string $mailerTarget, UrlGeneratorInterface $urlGenerator, Environment $twig)
     {
         $this->mailer = $mailer;
         $this->mailerSource = $mailerSource;
@@ -115,6 +116,29 @@ class MailHelper
             ->html($this->twig->render('email/publication_admin.html.twig', [
                     'courseInfo' => $courseInfo
                 ]));
+        $this->mailer->send($message);
+    }
+
+    /**
+     * @param string $mailerTarget
+     * @param StreamedResponse $report
+     * @return void
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     * @throws TransportExceptionInterface
+     */
+    public function sendWeeklyCSVReport(string $mailerTarget, string $filename): void
+    {
+        $date = date('d/m/Y');
+        $content = file_get_contents($filename);
+        $dataPart = new DataPart($content, 'Liste_Syllabus_' . $date, 'text/csv');
+        $message = (new Email())
+            ->from($this->mailerSource)
+            ->to($mailerTarget)
+            ->subject('[Syllabus] Rapport du ' . $date)
+            ->addPart($dataPart)
+            ->html($this->twig->render('email/weekly_csv_report.html.twig'));
         $this->mailer->send($message);
     }
 }

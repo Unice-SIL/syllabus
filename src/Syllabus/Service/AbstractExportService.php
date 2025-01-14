@@ -10,6 +10,20 @@ abstract class AbstractExportService
 
     abstract public function getEntityFields($entity): array;
 
+    public function generateCSV(string $filename, array $entities)
+    {
+        $handle = fopen($filename, 'w+');
+
+        fputcsv($handle, array_map('utf8_decode', $this->getHeaders()), ';');
+
+        foreach ($entities as $entity)
+        {
+            fputcsv($handle, array_map('utf8_decode', $this->getEntityFields($entity)), ';');
+        }
+
+        fclose($handle);
+    }
+
     public function export(string $fileName, array $entities): StreamedResponse
     {
         $fileName = $fileName.".csv";
@@ -17,16 +31,7 @@ abstract class AbstractExportService
         $response = new StreamedResponse();
 
         $response->setCallback(function () use ($entities) {
-            $handle = fopen('php://output', 'w+');
-
-            fputcsv($handle, array_map('utf8_decode', $this->getHeaders()), ';');
-
-            foreach ($entities as $entity)
-            {
-                fputcsv($handle, array_map('utf8_decode', $this->getEntityFields($entity)), ';');
-            }
-
-            fclose($handle);
+            $this->generateCSV('php://output', $entities);
         });
 
         $response->setStatusCode(200);

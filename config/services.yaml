@@ -56,6 +56,7 @@ services:
             $apogeeCourseNatureToImport: '%env(json:APOGEE_COURSE_NATURE_TO_IMPORT)%'
             $moodlePermissionApiImporterOptions: '%moodle_permission_api_importer_options%'
             $moodlePermissionDbImporterOptions: '%moodle_permission_db_importer_options%'
+            $mailerWeeklyReport: '%env(MAILER_WEEKLY_REPORT)%'
 
 
     App\Syllabus\:

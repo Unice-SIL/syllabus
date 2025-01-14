@@ -97,9 +97,9 @@ class CourseInfoDoctrineRepository  extends ServiceEntityRepository
             ->where(
                 $qb->expr()->andX(
                     $qb->expr()->eq('y.current', 1)),
-                    $qb->expr()->isNull('ch'),
-                    $qb->expr()->orX($ciTitleCondition, $cCodeCondition)
-                )
+                $qb->expr()->isNull('ch'),
+                $qb->expr()->orX($ciTitleCondition, $cCodeCondition)
+            )
             ->orderBy('ci.title', 'ASC');
 
         return $qb->getQuery()->getResult();
@@ -125,6 +125,18 @@ class CourseInfoDoctrineRepository  extends ServiceEntityRepository
     }
 
     /**
+     * @return array
+     */
+    public function findAllPublishedCurrentYear(): array
+    {
+        $qb = $this->getIndexQueryBuilder();
+        $qb->join('ci.year', 'ciy')
+            ->where($qb->expr()->isNotNull('ci.publicationDate'))
+            ->andWhere($qb->expr()->eq('ciy.current', 1));
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
      * @param string $query
      * @param string $field
      * @return array
@@ -135,7 +147,7 @@ class CourseInfoDoctrineRepository  extends ServiceEntityRepository
 
         if (in_array($field, ['c.code', 'c.type', 'ci.title', 'y.label', 's.label'])) {
             $qb->andWhere($field.' LIKE :query ')
-            ->setParameter('query', '%' . $query . '%');
+                ->setParameter('query', '%' . $query . '%');
         }
         return $qb->getQuery()->getResult();
     }
