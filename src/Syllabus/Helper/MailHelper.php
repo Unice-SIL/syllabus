@@ -132,7 +132,7 @@ class MailHelper
     {
         $date = date('d/m/Y');
         $content = file_get_contents($filename);
-        $dataPart = new DataPart($content, 'Liste_Syllabus_' . $date, 'text/csv');
+        $dataPart = new DataPart($content, 'Liste_Syllabus_' . $date . '.csv', 'text/csv');
         $message = (new Email())
             ->from($this->mailerSource)
             ->to($mailerTarget)
