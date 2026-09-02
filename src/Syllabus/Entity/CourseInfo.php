@@ -199,8 +199,7 @@ class CourseInfo
      *
      * @ORM\Column(name="ects", type="float", nullable=true)
      */
-    private ?float $ects;
-
+    private ?float $ects = null;
     /**
      * @var string
      *
@@ -215,16 +214,14 @@ class CourseInfo
      * @Assert\NotBlank(groups={"presentation"})
      * @Gedmo\Translatable
      */
-    private ?string $summary;
-
+    private ?string $summary = null;
     /**
      * @var string|null
      *
      * @ORM\Column(name="media_type", type="string", length=10, nullable=true)
      * @Gedmo\Translatable
      */
-    private ?string $mediaType;
-
+    private ?string $mediaType = null;
     /**
      * @var string|null
      *
@@ -234,15 +231,13 @@ class CourseInfo
      *     mimeTypes={ "image/jpeg", "image/png" }
      *     )
      */
-    private ?string $image;
-
+    private ?string $image = null;
     /**
      * @var string|null
      *
      * @ORM\Column(name="video", type="text", length=65535, nullable=true)
      */
-    private ?string $video;
-
+    private ?string $video = null;
     /**
      * @var string|null
      *
@@ -262,139 +257,120 @@ class CourseInfo
      *     groups={"presentation"})
      * @Gedmo\Translatable
      */
-    private ?string $teachingMode;
-
+    private ?string $teachingMode = null;
     /**
      * @var float|null
      *
      * @ORM\Column(name="teaching_cm_class", type="float", precision=10, scale=0, nullable=true)
      */
-    private ?float $teachingCmClass;
-
+    private ?float $teachingCmClass = null;
     /**
      * @var float|null
      *
      * @ORM\Column(name="teaching_td_class", type="float", precision=10, scale=0, nullable=true)
      */
-    private ?float $teachingTdClass;
-
+    private ?float $teachingTdClass = null;
     /**
      * @var float|null
      *
      * @ORM\Column(name="teaching_tp_class", type="float", precision=10, scale=0, nullable=true)
      */
-    private ?float $teachingTpClass;
-
+    private ?float $teachingTpClass = null;
     /**
      * @var float|null
      *
      * @ORM\Column(name="teaching_other_class", type="float", precision=10, scale=0, nullable=true)
      *
      */
-    private ?float $teachingOtherClass;
-
+    private ?float $teachingOtherClass = null;
     /**
      * @var string|null
      *
      * @ORM\Column(name="teaching_other_type_class", type="string", length=65, nullable=true)
      * @Gedmo\Translatable
      */
-    private ?string $teachingOtherTypeClass;
-
+    private ?string $teachingOtherTypeClass = null;
     /**
      * @var float|null
      *
      * @ORM\Column(name="teaching_cm_hybrid_class", type="float", precision=10, scale=0, nullable=true)
      */
-    private ?float $teachingCmHybridClass;
-
+    private ?float $teachingCmHybridClass = null;
     /**
      * @var float|null
      *
      * @ORM\Column(name="teaching_td_hybrid_class", type="float", precision=10, scale=0, nullable=true)
      */
-    private ?float $teachingTdHybridClass;
-
+    private ?float $teachingTdHybridClass = null;
     /**
      * @var float|null
      *
      * @ORM\Column(name="teaching_tp_hybrid_class", type="float", precision=10, scale=0, nullable=true)
      */
-    private ?float $teachingTpHybridClass;
-
+    private ?float $teachingTpHybridClass = null;
     /**
      * @var float|null
      *
      * @ORM\Column(name="teaching_other_hybrid_class", type="float", precision=10, scale=0, nullable=true)
      */
-    private ?float $teachingOtherHybridClass;
-
+    private ?float $teachingOtherHybridClass = null;
     /**
      * @var string|null
      *
      * @ORM\Column(name="teaching_other_type_hybrid_class", type="string", length=65, nullable=true)
      * @Gedmo\Translatable
      */
-    private ?string $teachingOtherTypeHybridClass;
-
+    private ?string $teachingOtherTypeHybridClass = null;
     /**
      * @var float|null
      *
      * @ORM\Column(name="teaching_cm_hybrid_dist", type="float", precision=10, scale=0, nullable=true)
      */
-    private ?float $teachingCmHybridDist;
-
+    private ?float $teachingCmHybridDist = null;
     /**
      * @var float|null
      *
      * @ORM\Column(name="teaching_td_hybrid_dist", type="float", precision=10, scale=0, nullable=true)
      */
-    private ?float $teachingTdHybridDist;
-
+    private ?float $teachingTdHybridDist = null;
     /**
      * @var float|null
      *
      * @ORM\Column(name="teaching_other_hybrid_dist", type="float", precision=10, scale=0, nullable=true)
      */
-    private ?float $teachingOtherHybridDist;
-
+    private ?float $teachingOtherHybridDist = null;
     /**
      * @var string|null
      *
      * @ORM\Column(name="teaching_other_type_hybrid_distant", type="string", length=65, nullable=true)
      * @Gedmo\Translatable
      */
-    private ?string $teachingOtherTypeHybridDistant;
-
+    private ?string $teachingOtherTypeHybridDistant = null;
     /**
      * @var float|null
      *
      * @ORM\Column(name="teaching_cm_dist", type="float", precision=10, scale=0, nullable=true)
      */
-    private ?float $teachingCmDist;
-
+    private ?float $teachingCmDist = null;
     /**
      * @var float|null
      *
      * @ORM\Column(name="teaching_td_dist", type="float", precision=10, scale=0, nullable=true)
      */
-    private ?float $teachingTdDist;
-
+    private ?float $teachingTdDist = null;
     /**
      * @var float|null
      *
      * @ORM\Column(name="teaching_other_dist", type="float", precision=10, scale=0, nullable=true)
      */
-    private ?float $teachingOtherDist;
-
+    private ?float $teachingOtherDist = null;
     /**
      * @var string|null
      *
      * @ORM\Column(name="teaching_other_type_distant", type="string", length=65, nullable=true)
      * @Gedmo\Translatable
      */
-    private ?string $teachingOtherTypeDist;
-
+    private ?string $teachingOtherTypeDist = null;
     /**
      * @var Collection
      *
@@ -408,8 +384,7 @@ class CourseInfo
      *
      * @ORM\Column(name="mcc_weight", type="float", precision=10, scale=0, nullable=true)
      */
-    private ?float $mccWeight;
-
+    private ?float $mccWeight = null;
     /**
      * @var bool
      *
@@ -430,62 +405,54 @@ class CourseInfo
      * @ORM\Column(name="mcc_cc_coeff_session_1", type="float", precision=10, scale=0, nullable=true)
      * @Assert\Blank(groups={"evaluation_empty"})
      */
-    private ?float $mccCcCoeffSession1;
-
+    private ?float $mccCcCoeffSession1 = null;
     /**
      * @var int|null
      *
      * @ORM\Column(name="mcc_cc_nb_eval_session_1", type="integer", nullable=true)
      */
-    private ?int $mccCcNbEvalSession1;
-
+    private ?int $mccCcNbEvalSession1 = null;
     /**
      * @var float|null
      *
      * @ORM\Column(name="mcc_ct_coeff_session_1", type="float", precision=10, scale=0, nullable=true)
      * @Assert\Blank(groups={"evaluation_empty"})
      */
-    private ?float $mccCtCoeffSession1;
-
+    private ?float $mccCtCoeffSession1 = null;
     /**
      * @var string|null
      *
      * @ORM\Column(name="mcc_ct_nat_session_1", type="string", length=100, nullable=true)
      * @Gedmo\Translatable
      */
-    private ?string $mccCtNatSession1;
-
+    private ?string $mccCtNatSession1 = null;
     /**
      * @var string|null
      *
      * @ORM\Column(name="mcc_ct_duration_session_1", type="string", length=100, nullable=true)
      * @Gedmo\Translatable
      */
-    private ?string $mccCtDurationSession1;
-
+    private ?string $mccCtDurationSession1 = null;
     /**
      * @var float|null
      *
      * @ORM\Column(name="mcc_ct_coeff_session_2", type="float", precision=10, scale=0, nullable=true)
      */
-    private ?float $mccCtCoeffSession2;
-
+    private ?float $mccCtCoeffSession2 = null;
     /**
      * @var string|null
      *
      * @ORM\Column(name="mcc_ct_nat_session_2", type="string", length=100, nullable=true)
      * @Gedmo\Translatable
      */
-    private ?string $mccCtNatSession2;
-
+    private ?string $mccCtNatSession2 = null;
     /**
      * @var string|null
      *
      * @ORM\Column(name="mcc_ct_duration_session_2", type="string", length=100, nullable=true)
      * @Gedmo\Translatable
      */
-    private ?string $mccCtDurationSession2;
-
+    private ?string $mccCtDurationSession2 = null;
 
     /**
      * @var string|null
@@ -494,8 +461,7 @@ class CourseInfo
      * @Assert\Blank(groups={"evaluation_empty"})
      * @Gedmo\Translatable
      */
-    private ?string $mccAdvice;
-
+    private ?string $mccAdvice = null;
     /**
      * @var bool
      *
@@ -523,8 +489,7 @@ class CourseInfo
      * @ORM\Column(name="tutoring_description", type="text", length=65535, nullable=true)
      * @Gedmo\Translatable
      */
-    private ?string $tutoringDescription;
-
+    private ?string $tutoringDescription = null;
     /**
      * @var string|null
      *
@@ -532,8 +497,7 @@ class CourseInfo
      * @Assert\Blank(groups={"equipments_empty"})
      * @Gedmo\Translatable
      */
-    private ?string $educationalResources;
-
+    private ?string $educationalResources = null;
     /**
      * @var string|null
      *
@@ -541,8 +505,7 @@ class CourseInfo
      * @Assert\Blank(groups={"equipments_empty"})
      * @Gedmo\Translatable
      */
-    private ?string $bibliographicResources;
-
+    private ?string $bibliographicResources = null;
     /**
      * @var string|null
      *
@@ -550,8 +513,7 @@ class CourseInfo
      * @Assert\Blank(groups={"info_empty"})
      * @Gedmo\Translatable
      */
-    private ?string $agenda;
-
+    private ?string $agenda = null;
     /**
      * @var string|null
      *
@@ -559,8 +521,7 @@ class CourseInfo
      * @Assert\Blank(groups={"info_empty"})
      * @Gedmo\Translatable
      */
-    private ?string $organization;
-
+    private ?string $organization = null;
     /**
      * @var string|null
      *
@@ -568,8 +529,7 @@ class CourseInfo
      * @Assert\Blank(groups={"closing_remarks_empty"})
      * @Gedmo\Translatable
      */
-    private ?string $closingRemarks;
-
+    private ?string $closingRemarks = null;
     /**
      * @var string|null
      *
@@ -577,29 +537,25 @@ class CourseInfo
      * @Assert\Blank(groups={"closing_remarks_empty"})
      * @Gedmo\Translatable
      */
-    private ?string $closingVideo;
-
+    private ?string $closingVideo = null;
     /**
      * @var DateTime|null
      *
      * @ORM\Column(name="creation_date", type="datetime", nullable=false)
      */
-    private ?DateTime $creationDate;
-
+    private ?DateTime $creationDate = null;
     /**
      * @var DateTime|null
      *
      * @ORM\Column(name="modification_date", type="datetime", nullable=true)
      */
-    private ?DateTime $modificationDate;
-
+    private ?DateTime $modificationDate = null;
     /**
      * @var DateTime|null
      *
      * @ORM\Column(name="publication_date", type="datetime", nullable=true)
      */
-    private ?DateTime $publicationDate;
-
+    private ?DateTime $publicationDate = null;
     /**
      * @var Course
      *
@@ -669,7 +625,7 @@ class CourseInfo
      * )
      * @Assert\Count(min="1", groups={"presentation"})
      */
-    private ArrayCollection $periods;
+    private Collection $periods;
 
 
     /**
@@ -680,8 +636,7 @@ class CourseInfo
      *   @ORM\JoinColumn(name="last_updater", referencedColumnName="id")
      * })
      */
-    private ?User $lastUpdater;
-
+    private ?User $lastUpdater = null;
     /**
      * @var User|null
      *
@@ -690,8 +645,7 @@ class CourseInfo
      *   @ORM\JoinColumn(name="publisher", referencedColumnName="id", nullable=true)
      * })
      */
-    private ?User $publisher;
-
+    private ?User $publisher = null;
     /**
      * @var Year
      *
@@ -745,7 +699,7 @@ class CourseInfo
      * @Assert\NotBlank(groups={"objectives"})
      * @AssertCustom\AchievementConstraintValidator
      */
-    private ArrayCollection $courseCriticalAchievements;
+    private Collection $courseCriticalAchievements;
 
     /**
      * @var Collection
@@ -783,7 +737,7 @@ class CourseInfo
      * )
      * @Assert\Count(min="1", groups={"presentation"})
      */
-    private ArrayCollection $levels;
+    private Collection $levels;
 
     /**
      * @var string|null

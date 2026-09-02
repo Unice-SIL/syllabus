@@ -370,7 +370,7 @@ class Course
      * @var string
      * @Gedmo\Locale
      */
-    private string $locale;
+    private string $locale = '';
 
     /**
      * @var Collection
@@ -387,14 +387,12 @@ class Course
      * @var float|null
      *
      */
-    private ?float $ects;
-
+    private ?float $ects = null;
     /**
      * @var string|null
      *
      */
-    private ?string $structureCode;
-
+    private ?string $structureCode = null;
     /**
      * Constructor
      */

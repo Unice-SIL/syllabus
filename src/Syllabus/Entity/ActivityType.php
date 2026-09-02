@@ -1267,8 +1267,7 @@ class ActivityType
      *     mimeTypes={ "image/jpeg", "image/png" }
      *     )
      */
-    private ?string $icon;
-
+    private ?string $icon = null;
     /**
      * @var string|null
      */

@@ -5,7 +5,7 @@ help:
 
 install: ## Install symfony project
 	composer install
-	build_assets
+	make build_assets
 	make build
 
 reinstall: ## Reinstall symfony project
