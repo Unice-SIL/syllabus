@@ -9,15 +9,7 @@ RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen  \
     &&  echo "fr_FR.UTF-8 UTF-8" >> /etc/locale.gen \
     &&  locale-gen
 
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - \
-    && apt install -y nodejs \
-    && mkdir ~/.npm-global \
-    && npm config set prefix '~/.npm-global' \
-    && export PATH=~/.npm-global/bin:$PATH \
-    && curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | tee /usr/share/keyrings/yarnkey.gpg >/dev/null \
-    && echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main" | tee /etc/apt/sources.list.d/yarn.list \
-    && apt update \
-    && apt install -y yarn
+RUN npm install --global yarn@1.22.19
 
 RUN curl -sS https://getcomposer.org/installer | php -- \
     &&  mv composer.phar /usr/local/bin/composer
@@ -63,6 +55,9 @@ RUN git config --global user.email "you@example.com" \
 
 RUN echo memory_limit = -1 >> /usr/local/etc/php/conf.d/docker-php-memlimit.ini
 
-CMD tail -f /dev/null
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 WORKDIR /web/app
+
+ENTRYPOINT ["/entrypoint.sh"]
