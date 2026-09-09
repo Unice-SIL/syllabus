@@ -9,12 +9,9 @@ RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen  \
     &&  echo "fr_FR.UTF-8 UTF-8" >> /etc/locale.gen \
     &&  locale-gen
 
-RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - \
-    && apt install -y nodejs \
-    && mkdir ~/.npm-global \
-    && npm config set prefix '~/.npm-global' \
-    && export PATH=~/.npm-global/bin:$PATH \
-    && npm install --global yarn
+RUN apt-get update \
+    && apt-get install -y npm \
+    && npm install --global yarn@1.22.19
 
 RUN curl -sS https://getcomposer.org/installer | php -- \
     &&  mv composer.phar /usr/local/bin/composer
@@ -46,7 +43,7 @@ RUN docker-php-ext-configure \
 RUN echo 'instantclient,/opt/oracle/instantclient/' | pecl install oci8-2.2.0
 
 RUN apt-get install libaio1 libaio-dev
-RUN ldd /usr/local/lib/php/extensions/no-debug-non-zts-20170718/oci8.so
+RUN ldd /usr/local/lib/php/extensions/no-debug-non-zts-20190902/oci8.so
 
 RUN docker-php-ext-install \
             pdo pdo_mysql pdo_pgsql pdo_oci opcache intl zip calendar dom mbstring gd xsl ldap
@@ -61,6 +58,9 @@ RUN git config --global user.email "you@example.com" \
 
 RUN echo memory_limit = -1 >> /usr/local/etc/php/conf.d/docker-php-memlimit.ini
 
-CMD tail -f /dev/null
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 WORKDIR /web/app
+
+ENTRYPOINT ["/entrypoint.sh"]

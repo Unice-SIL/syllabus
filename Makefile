@@ -4,12 +4,12 @@ help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 install: ## Install symfony project
-	composer install
-	build_assets
+	make composer_install
+	make build_assets
 	make build
 
 reinstall: ## Reinstall symfony project
-	composer install
+	make composer_install
 	make build_assets
 	make rebuild
 
@@ -17,12 +17,21 @@ rebuild: ## Rebuild database
 	php bin/console doctrine:database:drop --force
 	make build
 
-build: ## Build database
-	php bin/console doctrine:database:create
+composer_install: ## Install PHP dependencies
+	composer install
+
+db_migrate: ## Create database and run pending migrations
+	php bin/console doctrine:database:create --if-not-exists
 	php bin/console doctrine:migrations:migrate --no-interaction
+
+db_seed: ## Load fixtures and seed data
 	php bin/console doctrine:fixtures:load --no-interaction --append
 	php bin/console lexik:translations:import
 	php bin/console app:custom-db
+
+build: ## Build database
+	make db_migrate
+	make db_seed
 
 build_assets: ## build assets
 	yarn install
