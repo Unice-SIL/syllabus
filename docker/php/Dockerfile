@@ -1,15 +1,17 @@
-FROM php:8.2.14-cli
+FROM php:7.4.33-cli
 
 RUN apt-get update \
     &&  apt-get install -y --no-install-recommends \
-        locales apt-utils git libicu-dev g++ libpng-dev libxml2-dev libzip-dev libonig-dev libxslt-dev unzip libpq-dev nodejs npm wget \
+        locales apt-utils git libicu-dev g++ libpng-dev libxml2-dev libzip-dev libonig-dev libxslt-dev unzip libpq-dev nodejs wget \
         apt-transport-https lsb-release ca-certificates libldap2-dev
 
 RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen  \
     &&  echo "fr_FR.UTF-8 UTF-8" >> /etc/locale.gen \
     &&  locale-gen
 
-RUN npm install --global yarn@1.22.19
+RUN apt-get update \
+    && apt-get install -y npm \
+    && npm install --global yarn@1.22.19
 
 RUN curl -sS https://getcomposer.org/installer | php -- \
     &&  mv composer.phar /usr/local/bin/composer
@@ -38,9 +40,10 @@ RUN docker-php-ext-configure \
 RUN docker-php-ext-configure \
             pdo_oci --with-pdo-oci=instantclient,/opt/oracle/instantclient,21.1
 
-RUN echo 'instantclient,/opt/oracle/instantclient/' | pecl install oci8-3.3.0
+RUN echo 'instantclient,/opt/oracle/instantclient/' | pecl install oci8-2.2.0
+
 RUN apt-get install libaio1 libaio-dev
-RUN ldd /usr/local/lib/php/extensions/no-debug-non-zts-20220829/oci8.so
+RUN ldd /usr/local/lib/php/extensions/no-debug-non-zts-20190902/oci8.so
 
 RUN docker-php-ext-install \
             pdo pdo_mysql pdo_pgsql pdo_oci opcache intl zip calendar dom mbstring gd xsl ldap

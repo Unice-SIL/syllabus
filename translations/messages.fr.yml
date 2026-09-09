@@ -846,7 +846,7 @@ app:
     activities:
       description_empty: Aucune description
     presentation:
-      code_ecue: "Code de l'%type% : "
+      code_ecue: "Code de l'ECUE : "
       distant: Volume horaire à distance
       class: Volume horaire en présentiel
       teachers: Responsable(s) du cours
