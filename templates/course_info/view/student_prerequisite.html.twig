@@ -54,7 +54,7 @@
             {% endif %}
         </div>
         <div class="grid-element  grid-2-elements">
-            {% if courseInfo.courseTutoringResources is not empty %}
+            {% if courseInfo.courseTutoringResources is not empty or courseInfo.tutoring == true %}
                 <div class="student-subtitle">
                     <span class="text-bold">{{ 'app.view.student.prerequisites.tutoring_resources_description' | trans }}</span>
                 </div>

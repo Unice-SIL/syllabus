@@ -2,8 +2,14 @@
 
 namespace App\Syllabus\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Annotation\ApiSubresource;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -16,21 +22,19 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="groups")
  * @ORM\Entity(repositoryClass="App\Syllabus\Repository\Doctrine\GroupsDoctrineRepository")
  * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\GroupsTranslation")
- * @ApiResource(attributes={
- *     "filters"={"id.search_filter", "label.search_filter", "obsolete.boolean_filter"},
- *     "access_control"="is_granted('ROLE_API_GROUPS')",
- *     },
- *     collectionOperations={
- *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_GROUPS_GET')"},
- *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_GROUPS_POST')"}
- *     },
- *     itemOperations={
- *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_GROUPS_GET')"},
- *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_GROUPS_PUT')"},
- *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_GROUPS_DELETE')"},
- *     }
- * )
  */
+#[
+    ApiResource(
+        operations: [
+            new Get(security: 'is_granted(\'ROLE_API_GROUPS_GET\')'),
+            new Put(security: 'is_granted(\'ROLE_API_GROUPS_PUT\')'),
+            new Delete(security: 'is_granted(\'ROLE_API_GROUPS_DELETE\')'),
+            new GetCollection(security: 'is_granted(\'ROLE_API_GROUPS_GET\')'),
+            new Post(security: 'is_granted(\'ROLE_API_GROUPS_POST\')')],
+        filters: ['id.search_filter', 'label.search_filter', 'obsolete.boolean_filter'],
+        security: 'is_granted(\'ROLE_API_GROUPS\')'
+    )
+]
 class Groups
 {
     /**
@@ -60,7 +64,6 @@ class Groups
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Syllabus\Entity\User", mappedBy="groups")
-     * @ApiSubresource()
      */
     private $users;
 

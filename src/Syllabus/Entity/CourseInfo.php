@@ -2,8 +2,15 @@
 
 namespace App\Syllabus\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Annotation\ApiSubresource;
+use ApiPlatform\Metadata\Link;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiFilter;
 use App\Syllabus\Validator\Constraints as AssertCustom;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -24,26 +31,147 @@ use App\Syllabus\Controller\Api\CourseInfoController;
  * @ORM\Entity(repositoryClass="App\Syllabus\Repository\Doctrine\CourseInfoDoctrineRepository")
  * @UniqueEntity(fields={"year", "course"}, message="Le cours {{ value }} existe déjà pour cette année", errorPath="course")
  * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\CourseInfoTranslation")
- * @ApiResource(attributes={
- *     "filters"={"id.search_filter", "title.search_filter", "year.search_filter"},
- *     "access_control"="is_granted('ROLE_API_COURSE_INFO')",
- *     },
- *     collectionOperations={
- *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_COURSE_INFO_GET')"},
- *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_COURSE_INFO_POST')"}
- *     },
- *     itemOperations={
- *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_COURSE_INFO_GET')"},
- *          "get"={
- *              "method"="GET",
- *              "path"="/course_infos/duplicate/{code1}/{year1}/{code2}/{year2}",
- *              "controller"=CourseInfoController::class
- *          },
- *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_COURSE_INFO_PUT')"},
- *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_COURSE_INFO_DELETE')"},
- *     }
- * )
  */
+#[
+    ApiResource(
+        operations: [
+            new Get(uriTemplate: '/course_infos/duplicate/{code1}/{year1}/{code2}/{year2}', controller: CourseInfoController::class),
+            new Put(security: 'is_granted(\'ROLE_API_COURSE_INFO_PUT\')'),
+            new Delete(security: 'is_granted(\'ROLE_API_COURSE_INFO_DELETE\')'),
+            new GetCollection(security: 'is_granted(\'ROLE_API_COURSE_INFO_GET\')'),
+            new Post(security: 'is_granted(\'ROLE_API_COURSE_INFO_POST\')')
+        ],
+        filters: ['id.search_filter', 'title.search_filter', 'year.search_filter'],
+        security: 'is_granted(\'ROLE_API_COURSE_INFO\')'
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/parents/{parents}/childrens/{children}/course_infos.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'parents' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'children' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'title.search_filter', 'year.search_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/parents/{parents}/course_infos.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'parents' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'title.search_filter', 'year.search_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/childrens/{children}/parents/{parents}/course_infos.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'children' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'parents' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'title.search_filter', 'year.search_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/childrens/{children}/course_infos.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'children' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'title.search_filter', 'year.search_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/course_infos.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'title.search_filter', 'year.search_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/parents/{parents}/childrens/{children}/course_infos.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: self::class, identifiers: ['id']),
+            'course' => new Link(fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'parents' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'children' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'title.search_filter', 'year.search_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/parents/{parents}/course_infos.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: self::class, identifiers: ['id']),
+            'course' => new Link(fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'parents' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'title.search_filter', 'year.search_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/childrens/{children}/parents/{parents}/course_infos.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: self::class, identifiers: ['id']),
+            'course' => new Link(fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'children' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'parents' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'title.search_filter', 'year.search_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/childrens/{children}/course_infos.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: self::class, identifiers: ['id']),
+            'course' => new Link(fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'children' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'title.search_filter', 'year.search_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/course_infos.{_format}',
+        operations: [new GetCollection()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: self::class, identifiers: ['id']),
+            'course' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: [], expandedValue: 'course')
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'title.search_filter', 'year.search_filter']
+    )
+]
 class CourseInfo
 {
     /**
@@ -54,7 +182,7 @@ class CourseInfo
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="App\Syllabus\Doctrine\IdGenerator")
      */
-    private $id;
+    private string $id;
 
     /**
      * @var string
@@ -64,21 +192,20 @@ class CourseInfo
      * @Assert\Length(max=200, groups={"new", "edit"})
      * @Gedmo\Translatable
      */
-    private $title;
+    private string $title;
 
     /**
      * @var float|null
      *
      * @ORM\Column(name="ects", type="float", nullable=true)
      */
-    private $ects;
-
+    private ?float $ects = null;
     /**
      * @var string
      *
      * @ORM\Column(name="bak_languages", type="string", length=200, nullable=true)
      */
-    private $bakLanguages;
+    private string $bakLanguages;
 
     /**
      * @var string|null
@@ -87,16 +214,14 @@ class CourseInfo
      * @Assert\NotBlank(groups={"presentation"})
      * @Gedmo\Translatable
      */
-    private $summary;
-
+    private ?string $summary = null;
     /**
      * @var string|null
      *
      * @ORM\Column(name="media_type", type="string", length=10, nullable=true)
      * @Gedmo\Translatable
      */
-    private $mediaType;
-
+    private ?string $mediaType = null;
     /**
      * @var string|null
      *
@@ -106,15 +231,13 @@ class CourseInfo
      *     mimeTypes={ "image/jpeg", "image/png" }
      *     )
      */
-    private $image;
-
+    private ?string $image = null;
     /**
      * @var string|null
      *
      * @ORM\Column(name="video", type="text", length=65535, nullable=true)
      */
-    private $video;
-
+    private ?string $video = null;
     /**
      * @var string|null
      *
@@ -134,168 +257,147 @@ class CourseInfo
      *     groups={"presentation"})
      * @Gedmo\Translatable
      */
-    private $teachingMode;
-
+    private ?string $teachingMode = null;
     /**
      * @var float|null
      *
      * @ORM\Column(name="teaching_cm_class", type="float", precision=10, scale=0, nullable=true)
      */
-    private $teachingCmClass;
-
+    private ?float $teachingCmClass = null;
     /**
      * @var float|null
      *
      * @ORM\Column(name="teaching_td_class", type="float", precision=10, scale=0, nullable=true)
      */
-    private $teachingTdClass;
-
+    private ?float $teachingTdClass = null;
     /**
      * @var float|null
      *
      * @ORM\Column(name="teaching_tp_class", type="float", precision=10, scale=0, nullable=true)
      */
-    private $teachingTpClass;
-
+    private ?float $teachingTpClass = null;
     /**
      * @var float|null
      *
      * @ORM\Column(name="teaching_other_class", type="float", precision=10, scale=0, nullable=true)
      *
      */
-    private $teachingOtherClass;
-
+    private ?float $teachingOtherClass = null;
     /**
      * @var string|null
      *
      * @ORM\Column(name="teaching_other_type_class", type="string", length=65, nullable=true)
      * @Gedmo\Translatable
      */
-    private $teachingOtherTypeClass;
-
+    private ?string $teachingOtherTypeClass = null;
     /**
      * @var float|null
      *
      * @ORM\Column(name="teaching_cm_hybrid_class", type="float", precision=10, scale=0, nullable=true)
      */
-    private $teachingCmHybridClass;
-
+    private ?float $teachingCmHybridClass = null;
     /**
      * @var float|null
      *
      * @ORM\Column(name="teaching_td_hybrid_class", type="float", precision=10, scale=0, nullable=true)
      */
-    private $teachingTdHybridClass;
-
+    private ?float $teachingTdHybridClass = null;
     /**
      * @var float|null
      *
      * @ORM\Column(name="teaching_tp_hybrid_class", type="float", precision=10, scale=0, nullable=true)
      */
-    private $teachingTpHybridClass;
-
+    private ?float $teachingTpHybridClass = null;
     /**
      * @var float|null
      *
      * @ORM\Column(name="teaching_other_hybrid_class", type="float", precision=10, scale=0, nullable=true)
      */
-    private $teachingOtherHybridClass;
-
+    private ?float $teachingOtherHybridClass = null;
     /**
      * @var string|null
      *
      * @ORM\Column(name="teaching_other_type_hybrid_class", type="string", length=65, nullable=true)
      * @Gedmo\Translatable
      */
-    private $teachingOtherTypeHybridClass;
-
+    private ?string $teachingOtherTypeHybridClass = null;
     /**
      * @var float|null
      *
      * @ORM\Column(name="teaching_cm_hybrid_dist", type="float", precision=10, scale=0, nullable=true)
      */
-    private $teachingCmHybridDist;
-
+    private ?float $teachingCmHybridDist = null;
     /**
      * @var float|null
      *
      * @ORM\Column(name="teaching_td_hybrid_dist", type="float", precision=10, scale=0, nullable=true)
      */
-    private $teachingTdHybridDist;
-
+    private ?float $teachingTdHybridDist = null;
     /**
      * @var float|null
      *
      * @ORM\Column(name="teaching_other_hybrid_dist", type="float", precision=10, scale=0, nullable=true)
      */
-    private $teachingOtherHybridDist;
-
+    private ?float $teachingOtherHybridDist = null;
     /**
      * @var string|null
      *
      * @ORM\Column(name="teaching_other_type_hybrid_distant", type="string", length=65, nullable=true)
      * @Gedmo\Translatable
      */
-    private $teachingOtherTypeHybridDistant;
-
+    private ?string $teachingOtherTypeHybridDistant = null;
     /**
      * @var float|null
      *
      * @ORM\Column(name="teaching_cm_dist", type="float", precision=10, scale=0, nullable=true)
      */
-    private $teachingCmDist;
-
+    private ?float $teachingCmDist = null;
     /**
      * @var float|null
      *
      * @ORM\Column(name="teaching_td_dist", type="float", precision=10, scale=0, nullable=true)
      */
-    private $teachingTdDist;
-
+    private ?float $teachingTdDist = null;
     /**
      * @var float|null
      *
      * @ORM\Column(name="teaching_other_dist", type="float", precision=10, scale=0, nullable=true)
      */
-    private $teachingOtherDist;
-
+    private ?float $teachingOtherDist = null;
     /**
      * @var string|null
      *
      * @ORM\Column(name="teaching_other_type_distant", type="string", length=65, nullable=true)
      * @Gedmo\Translatable
      */
-    private $teachingOtherTypeDist;
-
+    private ?string $teachingOtherTypeDist = null;
     /**
      * @var Collection
      *
      * @ORM\OneToMany(targetEntity="App\Syllabus\Entity\Teaching", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @Assert\Valid()
-     * @ApiSubresource()
      */
-    private $teachings;
+    private Collection $teachings;
 
     /**
      * @var float|null
      *
      * @ORM\Column(name="mcc_weight", type="float", precision=10, scale=0, nullable=true)
      */
-    private $mccWeight;
-
+    private ?float $mccWeight = null;
     /**
      * @var bool
      *
      * @ORM\Column(name="mcc_compensable", type="boolean", nullable=false)
      */
-    private $mccCompensable = false;
+    private bool $mccCompensable = false;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="mcc_capitalizable", type="boolean", nullable=false)
      */
-    private $mccCapitalizable = false;
+    private bool $mccCapitalizable = false;
 
     /**
      * @var float|null
@@ -303,62 +405,54 @@ class CourseInfo
      * @ORM\Column(name="mcc_cc_coeff_session_1", type="float", precision=10, scale=0, nullable=true)
      * @Assert\Blank(groups={"evaluation_empty"})
      */
-    private $mccCcCoeffSession1;
-
+    private ?float $mccCcCoeffSession1 = null;
     /**
      * @var int|null
      *
      * @ORM\Column(name="mcc_cc_nb_eval_session_1", type="integer", nullable=true)
      */
-    private $mccCcNbEvalSession1;
-
+    private ?int $mccCcNbEvalSession1 = null;
     /**
      * @var float|null
      *
      * @ORM\Column(name="mcc_ct_coeff_session_1", type="float", precision=10, scale=0, nullable=true)
      * @Assert\Blank(groups={"evaluation_empty"})
      */
-    private $mccCtCoeffSession1;
-
+    private ?float $mccCtCoeffSession1 = null;
     /**
      * @var string|null
      *
      * @ORM\Column(name="mcc_ct_nat_session_1", type="string", length=100, nullable=true)
      * @Gedmo\Translatable
      */
-    private $mccCtNatSession1;
-
+    private ?string $mccCtNatSession1 = null;
     /**
      * @var string|null
      *
      * @ORM\Column(name="mcc_ct_duration_session_1", type="string", length=100, nullable=true)
      * @Gedmo\Translatable
      */
-    private $mccCtDurationSession1;
-
+    private ?string $mccCtDurationSession1 = null;
     /**
      * @var float|null
      *
      * @ORM\Column(name="mcc_ct_coeff_session_2", type="float", precision=10, scale=0, nullable=true)
      */
-    private $mccCtCoeffSession2;
-
+    private ?float $mccCtCoeffSession2 = null;
     /**
      * @var string|null
      *
      * @ORM\Column(name="mcc_ct_nat_session_2", type="string", length=100, nullable=true)
      * @Gedmo\Translatable
      */
-    private $mccCtNatSession2;
-
+    private ?string $mccCtNatSession2 = null;
     /**
      * @var string|null
      *
      * @ORM\Column(name="mcc_ct_duration_session_2", type="string", length=100, nullable=true)
      * @Gedmo\Translatable
      */
-    private $mccCtDurationSession2;
-
+    private ?string $mccCtDurationSession2 = null;
 
     /**
      * @var string|null
@@ -367,28 +461,27 @@ class CourseInfo
      * @Assert\Blank(groups={"evaluation_empty"})
      * @Gedmo\Translatable
      */
-    private $mccAdvice;
-
+    private ?string $mccAdvice = null;
     /**
      * @var bool
      *
      * @ORM\Column(name="tutoring", type="boolean", nullable=false)
      */
-    private $tutoring = false;
+    private bool $tutoring = false;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="tutoring_teacher", type="boolean", nullable=false)
      */
-    private $tutoringTeacher = false;
+    private bool $tutoringTeacher = false;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="tutoring_student", type="boolean", nullable=false)
      */
-    private $tutoringStudent = false;
+    private bool $tutoringStudent = false;
 
     /**
      * @var string|null
@@ -396,8 +489,7 @@ class CourseInfo
      * @ORM\Column(name="tutoring_description", type="text", length=65535, nullable=true)
      * @Gedmo\Translatable
      */
-    private $tutoringDescription;
-
+    private ?string $tutoringDescription = null;
     /**
      * @var string|null
      *
@@ -405,8 +497,7 @@ class CourseInfo
      * @Assert\Blank(groups={"equipments_empty"})
      * @Gedmo\Translatable
      */
-    private $educationalResources;
-
+    private ?string $educationalResources = null;
     /**
      * @var string|null
      *
@@ -414,8 +505,7 @@ class CourseInfo
      * @Assert\Blank(groups={"equipments_empty"})
      * @Gedmo\Translatable
      */
-    private $bibliographicResources;
-
+    private ?string $bibliographicResources = null;
     /**
      * @var string|null
      *
@@ -423,8 +513,7 @@ class CourseInfo
      * @Assert\Blank(groups={"info_empty"})
      * @Gedmo\Translatable
      */
-    private $agenda;
-
+    private ?string $agenda = null;
     /**
      * @var string|null
      *
@@ -432,8 +521,7 @@ class CourseInfo
      * @Assert\Blank(groups={"info_empty"})
      * @Gedmo\Translatable
      */
-    private $organization;
-
+    private ?string $organization = null;
     /**
      * @var string|null
      *
@@ -441,8 +529,7 @@ class CourseInfo
      * @Assert\Blank(groups={"closing_remarks_empty"})
      * @Gedmo\Translatable
      */
-    private $closingRemarks;
-
+    private ?string $closingRemarks = null;
     /**
      * @var string|null
      *
@@ -450,29 +537,25 @@ class CourseInfo
      * @Assert\Blank(groups={"closing_remarks_empty"})
      * @Gedmo\Translatable
      */
-    private $closingVideo;
-
+    private ?string $closingVideo = null;
     /**
      * @var DateTime|null
      *
      * @ORM\Column(name="creation_date", type="datetime", nullable=false)
      */
-    private $creationDate;
-
+    private ?DateTime $creationDate = null;
     /**
      * @var DateTime|null
      *
      * @ORM\Column(name="modification_date", type="datetime", nullable=true)
      */
-    private $modificationDate;
-
+    private ?DateTime $modificationDate = null;
     /**
      * @var DateTime|null
      *
      * @ORM\Column(name="publication_date", type="datetime", nullable=true)
      */
-    private $publicationDate;
-
+    private ?DateTime $publicationDate = null;
     /**
      * @var Course
      *
@@ -481,9 +564,8 @@ class CourseInfo
      *   @ORM\JoinColumn(name="course_id", referencedColumnName="id", nullable=false)
      * })
      * @Assert\NotBlank()
-     * @ApiSubresource()
      */
-    private $course;
+    private Course $course;
 
     /**
      * @var Structure
@@ -493,9 +575,8 @@ class CourseInfo
      *   @ORM\JoinColumn(name="structure_id", referencedColumnName="id", nullable=false)
      * })
      * @Assert\NotBlank(groups={"new", "edit"})
-     * @ApiSubresource()
      */
-    private $structure;
+    private Structure $structure;
 
     /**
      * @var Collection
@@ -506,9 +587,8 @@ class CourseInfo
      *     inverseJoinColumns={@ORM\JoinColumn(name="campus_id", referencedColumnName="id")}
      * )
      * @Assert\Count(min="1", groups={"presentation"})
-     * @ApiSubresource()
      */
-    private $campuses;
+    private Collection $campuses;
 
     /**
      * @var Collection
@@ -520,9 +600,8 @@ class CourseInfo
      * )
      * @Assert\Count(min="1", groups={"presentation"})
      * @ORM\OrderBy({"label" = "ASC"})
-     * @ApiSubresource()
      */
-    private $languages;
+    private Collection $languages;
 
     /**
      * @var Collection
@@ -533,9 +612,8 @@ class CourseInfo
      *     inverseJoinColumns={@ORM\JoinColumn(name="domain_id", referencedColumnName="id")}
      * )
      * @Assert\Count(min="1", groups={"presentation"})
-     * @ApiSubresource()
      */
-    private $domains;
+    private Collection $domains;
 
     /**
      * @var ArrayCollection
@@ -546,9 +624,8 @@ class CourseInfo
      *     inverseJoinColumns={@ORM\JoinColumn(name="period_id", referencedColumnName="id")}
      * )
      * @Assert\Count(min="1", groups={"presentation"})
-     * @ApiSubresource()
      */
-    private $periods;
+    private Collection $periods;
 
 
     /**
@@ -558,10 +635,8 @@ class CourseInfo
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="last_updater", referencedColumnName="id")
      * })
-     * @ApiSubresource()
      */
-    private $lastUpdater;
-
+    private ?User $lastUpdater = null;
     /**
      * @var User|null
      *
@@ -569,10 +644,8 @@ class CourseInfo
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="publisher", referencedColumnName="id", nullable=true)
      * })
-     * @ApiSubresource()
      */
-    private $publisher;
-
+    private ?User $publisher = null;
     /**
      * @var Year
      *
@@ -581,17 +654,15 @@ class CourseInfo
      *   @ORM\JoinColumn(name="year_id", referencedColumnName="id", nullable=false)
      * })
      * @Assert\NotBlank(groups={"new", "edit"})
-     * @ApiSubresource()
      */
-    private $year;
+    private Year $year;
 
     /**
      * @var Collection
      *
      * @ORM\OneToMany(targetEntity="CoursePermission", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
-     * @ApiSubresource()
      */
-    private $coursePermissions;
+    private Collection $coursePermissions;
 
     /**
      * @var Collection
@@ -599,9 +670,8 @@ class CourseInfo
      * @ORM\OneToMany(targetEntity="CourseTeacher", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"lastname" = "ASC"})
      * @Assert\Count(min="1", groups={"presentation"})
-     * @ApiSubresource()
      */
-    private $courseTeachers;
+    private Collection $courseTeachers;
 
     /**
      * @var Collection
@@ -610,9 +680,8 @@ class CourseInfo
      * @ORM\OrderBy({"position" = "ASC"})
      * @Assert\Count(min="1", groups={"contentActivities"})
      * @Assert\Valid
-     * @ApiSubresource()
      */
-    private $courseSections;
+    private Collection $courseSections;
 
     /**
      * @var Collection
@@ -622,35 +691,31 @@ class CourseInfo
      * @Assert\NotBlank
      * @Assert\Count(min="1", groups={"objectives"})
      * @AssertCustom\AchievementConstraintValidator
-     * @ApiSubresource()
      */
-    private $courseAchievements;
+    private Collection $courseAchievements;
 
     /**
      * @OneToMany(targetEntity="CourseCriticalAchievement", mappedBy="courseInfo")
      * @Assert\NotBlank(groups={"objectives"})
      * @AssertCustom\AchievementConstraintValidator
-     * @ApiSubresource()
      */
-    private $courseCriticalAchievements;
+    private Collection $courseCriticalAchievements;
 
     /**
      * @var Collection
      *
      * @ORM\OneToMany(targetEntity="CoursePrerequisite", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"position" = "ASC"})
-     * @ApiSubresource()
      */
-    private $coursePrerequisites;
+    private Collection $coursePrerequisites;
 
     /**
      * @var Collection
      *
      * @ORM\OneToMany(targetEntity="CourseTutoringResource", mappedBy="courseInfo", cascade={ "persist" }, orphanRemoval=true)
      * @ORM\OrderBy({"position" = "ASC"})
-     * @ApiSubresource()
      */
-    private $courseTutoringResources;
+    private Collection $courseTutoringResources;
 
     /**
      * @var Collection
@@ -659,9 +724,8 @@ class CourseInfo
      * @ORM\OrderBy({"position" = "ASC", "equipment" = "ASC"})
      * @Assert\Count(max="0", groups={"info_empty"})
      * @Assert\Valid
-     * @ApiSubresource()
      */
-    private $courseResourceEquipments;
+    private Collection $courseResourceEquipments;
 
     /**
      * @var ArrayCollection
@@ -672,21 +736,20 @@ class CourseInfo
      *     inverseJoinColumns={@ORM\JoinColumn(name="level_id", referencedColumnName="id")}
      * )
      * @Assert\Count(min="1", groups={"presentation"})
-     * @ApiSubresource()
      */
-    private $levels;
+    private Collection $levels;
 
     /**
      * @var string|null
      */
-    private $previousImage = null;
+    private ?string $previousImage = null;
 
     /**
      * @var
      *
      * @ORM\Column(name="duplicate_next_year", type="boolean", nullable=false)
      */
-    private $duplicateNextYear = true;
+    private bool $duplicateNextYear = true;
 
     /**
      * CourseInfo constructor.

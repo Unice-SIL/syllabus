@@ -2,7 +2,15 @@
 
 namespace App\Syllabus\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\Link;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -18,21 +26,166 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity("id")
  * @UniqueEntity("label")
  * @Gedmo\TranslationEntity(class="App\Syllabus\Entity\Translation\YearTranslation")
- * @ApiResource(attributes={
- *     "filters"={"id.search_filter", "label.search_filter"},
- *     "access_control"="is_granted('ROLE_API_YEAR')",
- *     },
- *     collectionOperations={
- *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_YEAR_GET')"},
- *          "post"={"method"="POST", "access_control"="is_granted('ROLE_API_YEAR_POST')"}
- *     },
- *     itemOperations={
- *          "get"={"method"="GET", "access_control"="is_granted('ROLE_API_YEAR_GET')"},
- *          "put"={"method"="PUT", "access_control"="is_granted('ROLE_API_YEAR_PUT')"},
- *          "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_API_YEAR_DELETE')"},
- *     }
- * )
  */
+#[
+    ApiResource(
+        operations: [
+            new Get(security: 'is_granted(\'ROLE_API_YEAR_GET\')'),
+            new Put(security: 'is_granted(\'ROLE_API_YEAR_PUT\')'),
+            new Delete(security: 'is_granted(\'ROLE_API_YEAR_DELETE\')'),
+            new GetCollection(security: 'is_granted(\'ROLE_API_YEAR_GET\')'),
+            new Post(security: 'is_granted(\'ROLE_API_YEAR_POST\')')
+        ],
+        filters: ['id.search_filter', 'label.search_filter'],
+        security: 'is_granted(\'ROLE_API_YEAR\')'
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/parents/{parents}/childrens/{children}/course_infos/{courseInfos}/year.{_format}',
+        operations: [new Get()],
+        uriVariables: [
+            'id' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'parents' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'children' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'year', fromClass: CourseInfo::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/parents/{parents}/course_infos/{courseInfos}/year.{_format}',
+        operations: [new Get()],
+        uriVariables: [
+            'id' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'parents' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'year', fromClass: CourseInfo::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/childrens/{children}/parents/{parents}/course_infos/{courseInfos}/year.{_format}',
+        operations: [new Get()],
+        uriVariables: [
+            'id' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'children' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'parents' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'year', fromClass: CourseInfo::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/childrens/{children}/course_infos/{courseInfos}/year.{_format}',
+        operations: [new Get()],
+        uriVariables: [
+            'id' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'children' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'year', fromClass: CourseInfo::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/courses/{id}/course_infos/{courseInfos}/year.{_format}',
+        operations: [new Get()],
+        uriVariables: [
+            'id' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'year', fromClass: CourseInfo::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/parents/{parents}/childrens/{children}/course_infos/{courseInfos}/year.{_format}',
+        operations: [new Get()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'parents' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'children' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'year', fromClass: CourseInfo::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/parents/{parents}/course_infos/{courseInfos}/year.{_format}',
+        operations: [new Get()],
+        uriVariables: ['id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'parents' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'year', fromClass: CourseInfo::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/childrens/{children}/parents/{parents}/course_infos/{courseInfos}/year.{_format}',
+        operations: [new Get()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'children' => new Link(fromClass: Course::class, identifiers: ['id']),
+            'parents' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'year', fromClass: CourseInfo::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/childrens/{children}/course_infos/{courseInfos}/year.{_format}',
+        operations: [new Get()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'children' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: ['id']),
+            'courseInfos' => new Link(fromProperty: 'year', fromClass: CourseInfo::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/course/course_infos/{courseInfos}/year.{_format}',
+        operations: [new Get()],
+        uriVariables: ['id' => new Link(fromProperty: 'course', fromClass: CourseInfo::class, identifiers: ['id']),
+            'course' => new Link(toProperty: 'course', fromClass: Course::class, identifiers: [], expandedValue: 'course'),
+            'courseInfos' => new Link(fromProperty: 'year', fromClass: CourseInfo::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter']
+    )
+]
+#[
+    ApiResource(
+        uriTemplate: '/course_infos/{id}/year.{_format}',
+        operations: [new Get()],
+        uriVariables: [
+            'id' => new Link(fromProperty: 'year', fromClass: CourseInfo::class, identifiers: ['id'])
+        ],
+        status: 200,
+        filters: ['id.search_filter', 'label.search_filter']
+    )
+]
 class Year
 {
     /**

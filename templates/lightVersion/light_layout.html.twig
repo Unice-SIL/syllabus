@@ -18,7 +18,7 @@
                 <div class="student-title">
                     <h1>{{ courseInfo.title }}</h1>
                     <h2>
-                        {{ 'app.light_version.presentation.code_ecue' | trans }} {{ courseInfo.course.code }}
+                        {{ 'app.light_version.presentation.code_ecue' | trans({'%type%' : courseInfo.course.type }) }} {{ courseInfo.course.code }}
                     </h2>
                 </div>
 
