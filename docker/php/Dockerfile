@@ -63,6 +63,9 @@ RUN git config --global user.email "you@example.com" \
 
 RUN echo memory_limit = -1 >> /usr/local/etc/php/conf.d/docker-php-memlimit.ini
 
-CMD tail -f /dev/null
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 WORKDIR /web/app
+
+ENTRYPOINT ["/entrypoint.sh"]
