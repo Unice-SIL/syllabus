@@ -114,7 +114,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
      *      minMessage = "Vous devez selectionner au moins un rôle",
      * )
      */
-    private $roles;
+    private $roles = [];
 
     /**
      * @var string|null
